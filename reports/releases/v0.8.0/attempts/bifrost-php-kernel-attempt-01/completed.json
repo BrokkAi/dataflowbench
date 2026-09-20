@@ -1,0 +1,777 @@
+{
+  "id": "bifrost-php-kernel-attempt-01",
+  "planned_id": "bifrost-php-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-bifrost-php-kernel",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-17T15:09:35.704673+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.1591796875,
+      3.609375,
+      4.23388671875
+    ],
+    "load_after": [
+      2.14599609375,
+      3.58251953125,
+      4.220703125
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-17T15:09:43.592849+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/stdout.txt",
+    "sha256": "42993a2f8e3df3165e81f51f3136f528dfe7f0f77167adfd8998d95f7f0ee526"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/bifrost-php-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/bifrost-php-kernel.json",
+      "sha256": "aaadb2814a7ac226da8ff6193c5ee5f26407de463ac11cd454712fd8679e21cc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-exception-persistence-negative.json",
+      "sha256": "5ec542899edc8b673e71962e06f7ad5dea81fd3144bcee652a506c842b7a26ba"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-computed-property-negative.json",
+      "sha256": "8025b16161adc1b3249586c46fc2ca5a56b96a750c55901437acd2223354e9f2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-local-overwrite-positive-timing.json",
+      "sha256": "33f4d62033f30265fc2d8b3a50721cabacf3674ea14bf95dd8357feb2c2e2dd9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-computed-property-positive-timing.json",
+      "sha256": "49053f3eff1647259d4908329e964462690351401a3b153e914c05c6781535f5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-object-separation-negative-timing.json",
+      "sha256": "141a69c71a394c428f3473a7ce7b586bf12b35b8d69022bd9897d2264558cc3d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-closure-capture-positive-timing.json",
+      "sha256": "8bf06a7fe4d6bd6aa589e6dee3c7c792a2fa8fb7c39d492c78785d97b86de55e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-dispatch-table-positive.json",
+      "sha256": "27e6edc8ee204f8d7f2cc1e86f4db14ee9dec8f32791b38919908c9844f1cd9b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-same-object-field-negative-timing.json",
+      "sha256": "6eabf1ba08b693a8a2b71ba66682294143ba111eb0d8ec894cfd24517dce4087"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-nested-access-path-positive.json",
+      "sha256": "3deac9b8e3b572c1fadd8c4073b7921bf26f521fe2d026d4c95c3f3aecd152ce"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-anonymous-implementation-positive-timing.json",
+      "sha256": "d3ec37cd1d6e8c5bf62cbcf4abf157f4302863b98d16ab0bcf724473ea9b586d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-payload-transform-negative.json",
+      "sha256": "514709ebec632cc53645c658c87388714917da7c0705a89b19fa890e12384de3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-expression-negative-timing.json",
+      "sha256": "ef75379dafba1765047955e8215866ea683980e67cc35a8dfc014d52ef4d2071"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-element-object-positive-timing.json",
+      "sha256": "849c0932db634330cafb4ae52bc0f47ace2fb3e345431e4175b9bf4c265dac32"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-context-pair-depth2-negative.json",
+      "sha256": "83ab02d27e4975f98342b20c451bb539c08f3fffa57eccd1f87d46d6ba151829"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-carry-negative.json",
+      "sha256": "3546b06523feaa1752fcc0a04b205bf232c6b488b6322c83789790dd6ce1996d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-closure-capture-negative-timing.json",
+      "sha256": "35298e733352c553ab323ce6b4c97cb2fa58ce6a3f45c9e90b247b7f176a8a16"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-computed-property-negative-timing.json",
+      "sha256": "64c5d8d88425fa2836a39fac14a8aed45c43052aa9a0a8312e4def3eba6efcbc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-object-separation-positive-timing.json",
+      "sha256": "ae05941650d7df53a963fce686a7591dd7fe4aded72e30e7fdce5fd220c48004"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-same-object-field-positive-timing.json",
+      "sha256": "e53aa60ecfabc93c5f4bfbebab8a3ee1bea945e9bb4658ca3aef09a5a7e951d3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-mutual-recursive-transform-negative.json",
+      "sha256": "452eeef80d8c3e821dab90c8da68b528db799321aa0caefd711e95c173f56b4e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-local-overwrite-negative-timing.json",
+      "sha256": "026e848114e2fe5dc2fb8b3a8059df03a5ee966ea5b9de93644624aada53647a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-element-object-positive.json",
+      "sha256": "bfbc60e9466cc3a02294f1eaa0345c9a465e28e3afa368c4af4934a09e3176b1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-expression-positive.json",
+      "sha256": "bf330d6626241737f719711a28b12fa24223aa9843b445c8e065d18722fade60"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-expression-positive-timing.json",
+      "sha256": "ff8a7fe45a692df06001cdcd337525f34240c166ded907637e64bec192d1fe04"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-element-object-negative-timing.json",
+      "sha256": "d0c98fbc4bd3ebe5928a9a6d08c191d4fe68b9d73012037b08bb1fc3ebd8fb99"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-anonymous-implementation-negative-timing.json",
+      "sha256": "d3913407004afbf02d7df9ccfd09810bb65f50fd714cd14bedd667c0033c9e74"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-alias-propagation-positive-timing.json",
+      "sha256": "57ad122475156ac3cbb3ad2c4b51afef5e3cc99cc281e31131a7bd6d28e85d85"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-carry-positive.json",
+      "sha256": "a796b774149f7caaf3359e1a17be1b6d32f153210fb129baa56b79b2a4d25e57"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-mutual-recursive-transform-positive.json",
+      "sha256": "785c9527335af77706ae428a8e448ca123adf25ee6fd6ce515109138ed3a1fd0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-context-pair-depth2-positive-timing.json",
+      "sha256": "c2a92489701e3d02657a56309b775d3be18bd6d8468f38ad62256d2f8b37ea60"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-carry-negative-timing.json",
+      "sha256": "10db1fda734ad02f398ffd7902e35ccb284a3f3a0c19b188643d32869652b9c9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-element-object-negative.json",
+      "sha256": "314918877fd8afc320a2d49e73b04e44bd3860c69ad6109920d7ce66ca4620e4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-two-hop-positive-timing.json",
+      "sha256": "3291be29d3ed56eb15a33e993d3d4fd8b3d0cc881c26b4836faa97abee8e4f19"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-nested-access-path-negative-timing.json",
+      "sha256": "bb4579f8fc53d78a6bd3accb40f9cc3cd71364dc3d1512765a5b323726bd656c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-expression-negative.json",
+      "sha256": "e913e58a8958abb9566089fa71b7f921f549a2bf9fedf9f391a0766a2b3cb3c7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-branch-join-negative-timing.json",
+      "sha256": "10eb03eb39e876c929c785e8853f80f054dd5d4979e4db47c2eaa3d6c3fe58db"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-computed-property-positive.json",
+      "sha256": "b686ca56c0c694bbfb70dc6e51dd4b164d15836cc5c63cc3b01fde7a204db172"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-exception-persistence-positive.json",
+      "sha256": "a5b0c94949d9d9f4bc16ebdbb12e8d62dc9987c37018547f69ab56fba146942f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-carry-positive-timing.json",
+      "sha256": "eecd6fd2b785a9199a1bdc30422d5ed541773e32424332f55252074fa80d5bc0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-dispatch-table-negative.json",
+      "sha256": "c3f4fabe8c7c2a6583beeab91a56319b3eec1385a19bd8671fdb68b02ef4b34f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-context-pair-depth2-negative-timing.json",
+      "sha256": "f8748ab61cddda9ac8f3659c2557952f39f7afaa9fabeeb73d98159ad45cebbc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-nested-access-path-negative.json",
+      "sha256": "979d7381d50258da6e39fa8fc9c66263a76aae48adfa3fe9902f431f1c7bc5d9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-alias-propagation-negative-timing.json",
+      "sha256": "cba6666ba5da055fe752945f16aff30d047e621c955125773d394f13938057de"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-payload-transform-positive.json",
+      "sha256": "f5f20cca180b3ccc676f78dbfeba6280f1366cf0d7f60bd8611518cbe384e8f1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-branch-join-positive-timing.json",
+      "sha256": "7e6e6eb01673021839b8a2db584e450d6ceac9b7b0705ba8af11df0f0f70a392"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-context-pair-depth2-positive.json",
+      "sha256": "d80f465616bc6141286c25ee242c0a12db7c4706e0036790239642341063055d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-nested-access-path-positive-timing.json",
+      "sha256": "4f9041f7bb49e6a6d9bf2f38e543a9abb286b92b6e907d245d72ed403873c724"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-two-hop-negative-timing.json",
+      "sha256": "bfa0541def58eae5ef844041417170a81d94a113c2fda98ced95573a455694ee"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-argument-position-positive-timing.json",
+      "sha256": "7b01399adfa2fd77b3839b93d8925d29c158ea951be7ee4658547506b9e1b151"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-reflective-invocation-positive-timing.json",
+      "sha256": "35eeaabb61b741a80c33ac19af27df8f7150f2f62a8d203e1f91a63fd12fa149"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-function-field-negative-timing.json",
+      "sha256": "56015a4f50749e545a33c19048752c16424f7da41df0c97be578ac028d05aeb9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-heap-unwind-positive-timing.json",
+      "sha256": "b7d2dd1eed35aa9328938a19a87d250df0596204ac6b37b80ab520675083777e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-call-context-negative.json",
+      "sha256": "2b53832ce7822c487317061e803a519f7450b6469573fb3af42b95575ecd35ef"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-dispatch-table-negative-timing.json",
+      "sha256": "39f6ad488939bc86891bdd0c9d99d1debfe03c4baae62d00a16a8d5a311c4e6b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-infeasible-branch-positive-timing.json",
+      "sha256": "4a362e6fc0c1f5e1789991df871152b84d6a89704ec3d370a6fd65311a478c74"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-two-hop-positive.json",
+      "sha256": "0606b53d46de97c8e27abe1e900d90d99c26710107c8c7073c853ad18884bc58"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-dispatch-table-positive-timing.json",
+      "sha256": "c00eb6e02de3da711e6258a6dcc14d8f04257d852e91332f9dd5409628f7ff19"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/run-environment.json",
+      "sha256": "d4babecb377b9876b9099a50f9f7b32816d367bd5f434a6e24b72917c19c0fd7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-alias-propagation-negative.json",
+      "sha256": "a3f1396602295671b137a4498e5069ccf30118e9f8bb34cfab25837abc1c410f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-heap-unwind-negative-timing.json",
+      "sha256": "3cd17a53c70c2aec5701eb3ba8f0dbf7da2c8c1b610a04952fc0f88b65e0dc04"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-argument-position-negative-timing.json",
+      "sha256": "b41aeed633d463b429d1e169af47861f5f41527979c76d93dad5f614a1d93579"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-reflective-invocation-negative-timing.json",
+      "sha256": "2da33a7be732992dfae854a30c729c134d1dbff7a1e69f2751d001be27a87ab0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-function-field-positive-timing.json",
+      "sha256": "ebac579f5e88c3ed5cc67801f853cc721341db8396f48d8afd0f585a33bf9c1b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-deep-relay-chain-negative.json",
+      "sha256": "f06c8a79bf70017ff1c647b55a2ba24d5895cf74bd0dda753f484cdb9c92b9a4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-closure-capture-negative.json",
+      "sha256": "1ca8660b454e1725b760df935c181e2a390810f7f2db1d68b5a6ef4039de5a54"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-infeasible-branch-negative-timing.json",
+      "sha256": "6545f14d541e43244a8b8d4d7df64dbe8a5113177562a6466715ed20018f6d21"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-map-iteration-negative-timing.json",
+      "sha256": "bfbd7f24ea6fbeeafa24f5882573a3e33b08fed656ffb029a96da9a97ae70702"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-alias-propagation-positive.json",
+      "sha256": "93cb03e09c4e1108adb01b51b9bdd3bcfbd74097256bfb061d46a463abfef37f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-payload-transform-negative-timing.json",
+      "sha256": "21de3a331ed73315bb4115016d40618173c91562783e159705b815564c95a333"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-callback-transform-negative-timing.json",
+      "sha256": "72297e410bf4dcf82c38cf6c579bd1578c23765676e676bb5cc4cefb5733b2db"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-loop-carried-negative-timing.json",
+      "sha256": "e07d6560c540781b27d78de155f07abc6d1142eaaf3ec22a695f2bda81f7ee3b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-deep-relay-chain-positive.json",
+      "sha256": "bf76386aa28617a1d437d4f971452db60b686d23b646209c6fff3970bbea5c3a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-deep-relay-chain-negative-timing.json",
+      "sha256": "840f52989c76793dbf9a886134625f8db9f8498d1837f707ad974d656c30c8bd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-closure-capture-positive.json",
+      "sha256": "eb6a55f58c7ada09b500cc2a2ba54da27c4b43684fccd9bec004c124d3a70c7b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-call-context-positive.json",
+      "sha256": "32a4f407df758e6ef8844526b735c19698023743cb081a8a267d197c2035335f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-payload-transform-positive-timing.json",
+      "sha256": "2a934cdbaeac45457324f98a7fc382ed2e2d9d39da0708c68d9ce2a636fc1539"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-map-iteration-positive-timing.json",
+      "sha256": "d3badffd85f163b9f8b9fc9e35467cdbab0cf6e779c6ad47823f5b2d9a10aad8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-deep-relay-chain-positive-timing.json",
+      "sha256": "ddbee0ca093a4ce10f3b64b6e1c55c2b82d2c1d5f50fd27ac7bdbcad92f8938f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-two-hop-negative.json",
+      "sha256": "027f2fdb612db5e56653f7d9d093b2beca58f185101b9b97741d1a0c869e0edf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-callback-transform-positive-timing.json",
+      "sha256": "4840e213e815fef3836a82050411bb73c229e02ebdee51610f9d5847dea856a4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-loop-carried-positive-timing.json",
+      "sha256": "14ee542745ede2422ba0f64871fd3bee32f256de1b04ae340f56c8f840fb35d5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-callback-registration-negative-timing.json",
+      "sha256": "d12f1141e44cc72d0894554de06f08d51e56496ac5fb96ab5ad60b742d00e0a3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-direct-positive-timing.json",
+      "sha256": "7a332ba492bf887c03baeac9e379b94f3faadbedae5ee9aa93dc0e1cf765d2b1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-same-object-field-negative.json",
+      "sha256": "712fe8f8c36b0ec2010e2edb3884fdcba674123d08d68a14f4162d9db082d7c5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-exception-catch-positive.json",
+      "sha256": "1fdba1973cac4d4c96816f28fcd9160135e112ef3d9bc268827891b7b4d9d26d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-local-chain-positive.json",
+      "sha256": "021837331ee97e6ada5b5fae7faa311e9a648ca3d58f94bf7d64bf00f93a9d88"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-heap-unwind-positive.json",
+      "sha256": "52108e71225bcc41f55fb8741b6240e2b99604ccc5e46d7a0ca23de19ed58b4f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-direct-negative.json",
+      "sha256": "a002a4cbf8ab05b88b346a8d82a93687baf52dace663c44d827001d6aaf004dc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-object-separation-negative.json",
+      "sha256": "b66219753fcf53bf07b20d70b8741441736168d2150f3563578f6ac50486ed3f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-one-hop-negative.json",
+      "sha256": "6db0c8dce8648c260cab6b15e0f0c04239a17b5eac98d2f8583422ad15f1a67b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-interprocedural-exception-persistence-negative.json",
+      "sha256": "ab9874ef682cc8fed60ca31b85c7c262c9f48d0efcf7bb2b00182996f7599caf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-branch-join-positive.json",
+      "sha256": "e7fc965bc72134942c870e22e98ac33f900ebb2d7e6f5fab499e165f8931d03f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-callback-registration-positive-timing.json",
+      "sha256": "69a770ba866ed0cb96c360a4170161d6e9a698d8b86b0f2f463f6f2bc59bd6cb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-direct-negative-timing.json",
+      "sha256": "2eb6dac47bf092f33a4d9457c44760f16a88c03a2438d11ef80e1637eb13e43a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-anonymous-implementation-negative.json",
+      "sha256": "7a65abd7b60c6be722f6740a6aed84b3c3fc871fbc158fb199182fd9be7af57f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-argument-position-positive.json",
+      "sha256": "fa65cf3d249d4d99d4dbe9a769de84bb895dbf5af286b67059b89ee5c3148d4f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-local-overwrite-negative.json",
+      "sha256": "c26cc5626d9dd60db4dd341641711f5a04a9c4ced395f68cc44bb93bec9610a5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-interprocedural-exception-persistence-positive.json",
+      "sha256": "9e641cb84a732ab86fb84c4a5e37b0a43c75e7c01bdbda94655926418912fbd8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-one-hop-positive.json",
+      "sha256": "8f0567938d6a9684b44607b0f05a5c4e5026c5714e077e7c47fcf3399846e569"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-branch-join-negative.json",
+      "sha256": "826518c4abf906ce894e00d581644a37e0a28aa4cca677c452172725dbf67901"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-one-hop-positive-timing.json",
+      "sha256": "630860ab60d9e0eb294d8a4ace742e55ce60f000708f7897560a70991c57cbb1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-argument-position-negative.json",
+      "sha256": "dddae0b4a1664072199502c8122a8f89d459b75563fa2fe365d80144c21cef19"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-anonymous-implementation-positive.json",
+      "sha256": "ebff8999331a8126ff2520a8871539f231b7821708ef872aacadc13621aa9d54"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-exception-catch-negative-timing.json",
+      "sha256": "ce0e0aec9896fa8338fdc229672c66c024b535bf6cfd8a72253dfb3c934ba51c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-local-overwrite-positive.json",
+      "sha256": "4462af50ea7381bebdb52d33567fad689cf61b1a5611effce991c7a910380f3a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-same-object-field-positive.json",
+      "sha256": "ce882232d5da52c8d5c3597c8baf05f1853c96ab38ff0a8ca6a8712c5f117e09"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-exception-catch-negative.json",
+      "sha256": "96197cb5b93ba51b25cfd96d23bf8168584f69519308e2b20b775b9b63a321d0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-local-chain-negative.json",
+      "sha256": "b8ce55c84be817c497755d5b44f236fd6a8851f30994a62c4d0fb735d405416d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-heap-unwind-negative.json",
+      "sha256": "168d91b050525096e8b3ecc1dfbc5e48b66c3c31add1472bedfaba0bfbb8f27d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-object-separation-positive.json",
+      "sha256": "742c3d035566befec60b414aa4d1ffbd818a99abf6f2b2698005e4a8c1f62cea"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-direct-positive.json",
+      "sha256": "c74fe42197d168e85afd1cd6f91d09628d0852ef46e549c00311bf892ba8a328"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-exception-catch-positive-timing.json",
+      "sha256": "3b79c1997a769f1299161f2357a649c71645be883bcfee6e4b636fb6a03268d9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-return-relay-one-hop-negative-timing.json",
+      "sha256": "8399ad4d71ddb7cf97d5380fd4e97b306d4cb73e268c5fdf079f9829ee4cf330"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-reflective-invocation-negative.json",
+      "sha256": "bbe33f82bf8636dc6a53316f1122b2fd95f8236b2179fb898f8f8005d5a913cf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-call-context-negative-timing.json",
+      "sha256": "38fdd9e378fc28fe57c014e3bb5a638b5c30ee013e5c2c8623b83fa39289c8ae"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-function-field-positive.json",
+      "sha256": "7796dbad916b9f74fe833184ab2e8c851b1cc36ab520d2f50c5178676255ec27"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-exception-persistence-positive-timing.json",
+      "sha256": "07894dc7459469ca6abcac23780074320659d5e773c4863104e191d757a668b1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-local-chain-negative-timing.json",
+      "sha256": "79d70472426fa1bb757bd2cabfa2c2392cab1bf1572a02932cf57344b6df391f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "3c908f179b56915f627cb90c62f92973d81633cef3a5c9fc92d0e02075d4cfdb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-array-element-negative.json",
+      "sha256": "c6663b425006044dfd3fef3c8b315d1a9c44f1ba6b23a88d98de9e8ff40a5619"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-call-context-positive-timing.json",
+      "sha256": "4a6c8b14bea0b827cbda2c6ec77bbdad559f76b7db276e1ec1c0fddeb474e297"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-map-iteration-positive.json",
+      "sha256": "43f42396738e1f26172460b09e80c820d2829c99ff988c2c7ab2215bc730cc1c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-infeasible-branch-positive.json",
+      "sha256": "1316559ac2a657d64204df544dd0b9ab0196238b491989f82ed82562b056960c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-callback-transform-negative.json",
+      "sha256": "11d05b718483ef1bb07e09055a805ca6961141397704ad55a590f579b1af66e7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-loop-carried-positive.json",
+      "sha256": "9033b4795ba5c32f052164ec9143230830390ec9d5601b52109635675500d43f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-callback-registration-negative.json",
+      "sha256": "529ce49220e6c5f74cf32f99af3a0c56582bc49412dd0ecf8876b02853f63df9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "705367beb1e68f6e3e07d47f1a39f453568dabc7802824c32c8d2505ecf058ea"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-exception-persistence-negative-timing.json",
+      "sha256": "a6f430189b398a46606650c34af71891782e90acb519603f3b145b0995073b18"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-local-chain-positive-timing.json",
+      "sha256": "f3550a95b1841d71439f286f84e1ffd04245f2da9739152d028fee974c3aaf9a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-array-element-positive.json",
+      "sha256": "15657d0918fa280f3131b12e851364a276c875b84c8fd7f94b3d704d2dbf1e08"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-map-iteration-negative.json",
+      "sha256": "ecebf5f9b87e034a7e448a61e507b192154f14a3877ff2ce0fb0265172b3dd6e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-infeasible-branch-negative.json",
+      "sha256": "6f2a68fc8c892ce3993a32a83140999242edd6b3283017cd42a6f6ba59a900e1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-array-element-negative-timing.json",
+      "sha256": "20c7aa13d5545f8e75fab3543cc68c2dd7d82eadc55308b2d17e5b774350046e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-loop-carried-negative.json",
+      "sha256": "0346bc29be7d1345a534de1fc4271a27eb0d7942d7870bfdb1d4099a22ca7cfc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-callback-registration-positive.json",
+      "sha256": "ae6a5e26c8d3f2e662977009cd5529cacecea8323dfa25f334000a88f31ac775"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-recursive-callback-transform-positive.json",
+      "sha256": "65d0f9d7b7a18210c681d3c2fd5ee35da2403208cfa7fe1578807086cab0d964"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-mutual-recursive-transform-negative-timing.json",
+      "sha256": "0ceb6e7819121cfbb9b63065f79d32d0e6f0a5deecfb79d905f38407531ad26a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-reflective-invocation-positive.json",
+      "sha256": "a5fef628ec38bf5f5ba20a9a910e0cb66cd67136c0980ba6bfe121a532684475"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-function-field-negative.json",
+      "sha256": "b5863b3af3bfb82191e0bdb17d7a27b42d56a555b50412cb4db286b27d11814b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-mutual-recursive-transform-positive-timing.json",
+      "sha256": "639a1c57633bef1894d3800e336fbfa4fddcd17ea8f38d25e84d29903eb6280f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-php-kernel/dfb-taint-php-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-php-kernel-attempt-01/outputs/reports/raw/bifrost-php-kernel/dfb-taint-php-array-element-positive-timing.json",
+      "sha256": "4579dccb8254663e0587a85a889c90b820a9d8ccf858df9b697a7c9a633d7c9e"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/bifrost-php-kernel.json",
+    "reports/raw/bifrost-php-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

@@ -1,0 +1,777 @@
+{
+  "id": "bifrost-scala-kernel-attempt-01",
+  "planned_id": "bifrost-scala-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-bifrost-scala-kernel",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-17T18:47:07.650382+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.78857421875,
+      4.80224609375,
+      5.943359375
+    ],
+    "load_after": [
+      6.60791015625,
+      5.78515625,
+      5.9248046875
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-17T18:53:21.553601+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/stdout.txt",
+    "sha256": "2897a4d15a8939642b01c074118c196a89a006782c1815854cab89438ff25061"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/bifrost-scala-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/bifrost-scala-kernel.json",
+      "sha256": "bd6d591df86b4380f88686d6d8ca398a80fa0fab1d2b73ae5048182b9eb2eb11"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-alias-propagation-negative.json",
+      "sha256": "90827087d6c254eb7ae7f92e2107062502903d3cb1d8ff22dd58f56e8109b6d6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-loop-carried-negative.json",
+      "sha256": "feb306b0e0e3b2f268c9892a80d29397a2221328117755346680337e0b26ecc8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-exception-persistence-positive-timing.json",
+      "sha256": "5bed4e9660522e6cc9932646a2db111ced6ea5c7a16c675ae65f379553647f07"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-expression-positive.json",
+      "sha256": "89b207e3ecbf4f19ae1a72f3b01d47ded9040e1e42251cd99198705a5afd2f51"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-function-field-negative-timing.json",
+      "sha256": "f8a3679f48bb9d14ef1840f0359aa4f2a3f73af23075726fd1a787804cceb63a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-branch-join-negative.json",
+      "sha256": "387579e5ca6b10cf7a7e7219e3b505a5f2a85c903210ec243cea28c724da3e9c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-dispatch-table-negative-timing.json",
+      "sha256": "fa262f634a7817351165ca8a6abcce2b79438900931c44779fd25c2327c18804"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-computed-property-positive-timing.json",
+      "sha256": "a9e2acd213d1d8b5ba04cc6e2c9375cef48dcd6cd671fbad04e6b90db346a99b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-object-separation-negative-timing.json",
+      "sha256": "17fdf48485247fc1fb71e0f4efab04df92ee5e585023f26a9be956e325110d79"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-same-object-field-negative-timing.json",
+      "sha256": "f887fce258f51dfa71e2ccfc36defcf14cc1519aceb59c334ba7ed104d554761"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-exception-persistence-negative-timing.json",
+      "sha256": "8dc72a222db822fabc134927aae8e03457b77333690895b605cf356747f548e3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-array-element-positive.json",
+      "sha256": "46433c9baeb1029e2100da046cb4d656a8ca93af4c3aa924a5b274d1dfaef059"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-map-iteration-negative.json",
+      "sha256": "0c44cfc8c8d0668290d6848de911eae5826f6c3d609ff3236ca7c8066fe2d18b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-chain-negative.json",
+      "sha256": "a5725d09e4849e89f0eece3dfd9e49bfb6b78b8a39c4461266ece1fea2744bc2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-computed-property-negative-timing.json",
+      "sha256": "985023b8060e7ed1f4adfb7eac56a409c977ea446e7f40304e76648f1e39bfd9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-object-separation-positive-timing.json",
+      "sha256": "cf56cbe877d1e5ac067f11fa5fea0c0df8155f82b971a85d56b297ad2b9c968d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-same-object-field-positive-timing.json",
+      "sha256": "408084e847dfb6f220fee82588704eda1450cb4760ddc263b6b2550d362470c5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-dispatch-table-positive-timing.json",
+      "sha256": "5ce6f66c54f8e8dbe1598116b6ddf4f94050b750a8f6426499865905159de56d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-function-field-positive-timing.json",
+      "sha256": "68d74b853e3848f08e8a47f64ff09fbaecb4e0d165822488ebd4f3c34881636d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-array-element-negative.json",
+      "sha256": "651a9b7a7d9ea5608899c33fbd8fd8c4dcd0e7d39c7afb8a874e4a5e577601df"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-map-iteration-positive.json",
+      "sha256": "bb2619d60e76722df53b54d217d02f2f264c1abcbaa39e55a3179aee5a79f6e9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-chain-positive.json",
+      "sha256": "27b9ec02d62fc97d765f4f3895558453444d312c9a20b0a259e7f6ebb1f5c8c4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-alias-propagation-positive-timing.json",
+      "sha256": "f635b9ad7db92f0e3874cba891fe743e46600cfa0f52a540e856b3d0355ce3a4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-callback-registration-negative-timing.json",
+      "sha256": "3c2b14e5b3d57b49becc032b74d25ffc209368a2537544fbc0a56bab9fe6b5a1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-alias-propagation-positive.json",
+      "sha256": "f6f712fa139d69970a959ee2d3ae673712960439148390805810efcb35d15188"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-loop-carried-positive.json",
+      "sha256": "650d12299f1481175111bd8ba924166444898eb65e9c65ef95866e0fbb4f40b4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-expression-negative.json",
+      "sha256": "f4ba92274d152a6681c3f53a80a03d5322eb15aef876c56d237041e54d97b7d6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-callback-registration-positive-timing.json",
+      "sha256": "a946b36a1b6d681bdf7e5af6fed576de55fa4aecb629ebfa06ca12d714c1a02f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-alias-propagation-negative-timing.json",
+      "sha256": "23f7345852a5e6b9451cfc7f587cf83ca417dcaccaa1a5044433a9094580bc29"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-branch-join-positive.json",
+      "sha256": "07ce1ef25fc251d0ad2e235b3b43e1e73458766e1eb568924382d9a73c1d854a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-element-object-positive-timing.json",
+      "sha256": "5d9d07b170fdc99222097718b12d58269c04fa75ea5749f79286c2385b0a9489"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-payload-transform-negative-timing.json",
+      "sha256": "2fce6a70db195e9be7bc09803f1d709da834a0a32dce73d4f9deb5ac8f052e4e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-overwrite-negative.json",
+      "sha256": "7ff1e3a9f1ec57b846616f2e9f02895d1c4598bac78567abbd019449ff62f350"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-infeasible-branch-positive-timing.json",
+      "sha256": "c2faecd02c67a89ad4f7f17803575f39dd7c43609f5cfdab90a157b2634b7ddf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-one-hop-negative-timing.json",
+      "sha256": "268304af10b439cf333c8c4c082487293ad4b580c914183f0dde89ad9060c0de"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-callback-transform-positive.json",
+      "sha256": "3899d8a7d352fb3db0034519c40bdc807127714a6b3962c389ac5acfdc3239a8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-dispatch-table-negative.json",
+      "sha256": "a7de00dd180643dfe40d68c197ba26389595f6c5a75c6e6a24fea6a56a33ee82"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-overwrite-positive-timing.json",
+      "sha256": "8c3ecd31131cd41d25bfd294563fac5f9ae053e2084b3f2dd95e4c606bac608d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-mutual-recursive-transform-negative-timing.json",
+      "sha256": "ea9e4eda462d3294d4623529e31517909551ea6122157e9f7f2e77ced88ab769"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-expression-positive-timing.json",
+      "sha256": "424f634b1f53c0e74213da5308f21f5532c8b909b074065dbba4d2a2f2702627"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-argument-position-positive-timing.json",
+      "sha256": "c104e378eefa8c88b8708836d8a1defd866c91721a0608e404a2e6b8d52d28dd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-call-context-negative-timing.json",
+      "sha256": "3d25d6d01f65d00bcc0b44050bff1a183e00a8431f9a43f414bea363bc7b0043"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-mutual-recursive-transform-negative.json",
+      "sha256": "97fd1c1b469b13273586c311777cabeda9bcaae5f5efb9d4c32c239290e7e4b0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-closure-capture-positive-timing.json",
+      "sha256": "71e6775d9bc8b758a8e629270df7f2ead78eadaf5319039b3713d929e0e4e2cb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-direct-positive.json",
+      "sha256": "b45ec136a22f3a571145e561b5934ec6e3f78ec9e232fbf9f64a2c855f611e9d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-one-hop-positive-timing.json",
+      "sha256": "8ec192d8ebb5cdd7e9042f231cb3db2841dc18e30196d1e7e5584d17ebdf93f3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-element-object-negative.json",
+      "sha256": "11c9387f16fd25a6403aff3bd769f2b6aa8f8bbf274d836d1d707403473be84c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/run-environment.json",
+      "sha256": "c04ac068622ca684f543e98941f2c53b667c4fb4510d4c57872433d3f8874a0d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-infeasible-branch-negative-timing.json",
+      "sha256": "ab61eee62e61cd28970926cc04053424d26d75d82141f92c09431485c12ae7a0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-element-object-negative-timing.json",
+      "sha256": "f90b9f723f5db2e3ccc1cbe77ca0d710212f1cae7e70caf122edbf5ae7514f62"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-payload-transform-positive-timing.json",
+      "sha256": "9b24d5f4e15007e6880b71e950f4406b2185b29c95c611a28e2cae99f3166610"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-computed-property-negative.json",
+      "sha256": "1453a39cb298427203a85e60a64285590263a652684bfe11f3021f408383c2a6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-interprocedural-exception-persistence-positive.json",
+      "sha256": "efea14733da4965ade27fe40f03bdad2ef97f97b2c0df675a7297b0f89475881"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-closure-capture-negative-timing.json",
+      "sha256": "4fdbad15cda284d997a1105c798ade74c09230d42a0c5adaf40ae2131488cb79"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-exception-catch-positive.json",
+      "sha256": "b56a81f8da08dfaa2b32e8a62b0080ece6e44ea565dd33391d942103fb3d4d08"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-argument-position-negative-timing.json",
+      "sha256": "3e46ddb7305228a8925bfaed013cfedbebaf44642c13d63d885e1b0c476d506e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-call-context-positive-timing.json",
+      "sha256": "9dbc361b53d82da094c1b5328b37157942b3e5c42574b91122b83e4961e8c2ed"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-two-hop-positive.json",
+      "sha256": "fb12f6ba9f2fad41cabc5c4a11d592efc9c1d6f92d295133a50d700f803fe487"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-overwrite-negative-timing.json",
+      "sha256": "f2d67fae1d64d9222589bae64b380f4e4ab03aebe75c350371457a5ec708b234"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-mutual-recursive-transform-positive-timing.json",
+      "sha256": "c49c73556b553d03fe019e6f8e0e1c64d9f3f33b8a84c0ef69041cd0133bdbf1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-expression-negative-timing.json",
+      "sha256": "d730da89190f1edf7a7abacc63f3214975654de5b665a683df63a3cf324822d0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-map-iteration-positive-timing.json",
+      "sha256": "7ced89988a610f26f435131924c3db8f10bb8211e779b5e405ed4f40cf8131f8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-direct-negative.json",
+      "sha256": "4b44ad7e55e070544369aec44fda331ebf433168ac391af78d9b80e6f14016d5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-chain-negative-timing.json",
+      "sha256": "56728325def264a4fcd4b6055b57a3aa8c20b49cbf8e60c5539bb5a49d71c77b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-direct-negative-timing.json",
+      "sha256": "65cc0c46f97f0792aa988d482465a3bce872806d8076f8373b4f957c4d66f782"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-element-object-positive.json",
+      "sha256": "3a35353d48b4abfad6d114e1b761b5817aa7635eb3e114bffd2a91c756777a2e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-computed-property-positive.json",
+      "sha256": "455a8116a4ffb4aff95bb68d86561e55b8fe2889a0ff4a83dc95e31e9d5e064e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-interprocedural-exception-persistence-negative.json",
+      "sha256": "d6a672565d3153de7042106a7f93c0b40c33b184fd88e9ad48fff51918bb7020"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-context-pair-depth2-negative-timing.json",
+      "sha256": "542c6d68b3f1dc6a05ee05042c2744159084b27ce92b6c8cfb98687bbd4c039c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-exception-catch-negative.json",
+      "sha256": "332880112cb692f9362207911788ab9fe30eb5a2f951b391b37701b4eef10de2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-carry-negative-timing.json",
+      "sha256": "408c0bf636d77a9f7bc3c6466f028de7b7e6e380ce003edcb42bc8e02121dfaa"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-two-hop-negative.json",
+      "sha256": "a03d75a73027ca7b70a1d69405b997e0edd4cacc6d7d5d78a58ce042494e28a6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-direct-positive-timing.json",
+      "sha256": "b7a6673c1e04d4cc89050ea3301b92ced65c17963cbaa6ea12a093f952a48750"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-overwrite-positive.json",
+      "sha256": "baef8100429190a166fae78e9afed3b57d137eced6413d7e92b1e0711faca36c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-local-chain-positive-timing.json",
+      "sha256": "c5cb54c171c4dc5ca9598c1b09f9e099b0c8fcc4822bd649b598f17c8c8d4e2b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-map-iteration-negative-timing.json",
+      "sha256": "88eae2c95c53bb53fd6167868b32047a89d9d20c8e3ead875df4a7648eeb2340"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-callback-transform-negative.json",
+      "sha256": "e9ac18f21f78e98016ca7f88face50327cbc16c70b0deaaa4546a9487f8fb283"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-carry-positive-timing.json",
+      "sha256": "384ff0ecc3d1975ada1f0dee8e1515d264d7fc497d65725a70a38fd39108d388"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-dispatch-table-positive.json",
+      "sha256": "d75dad5660f76e3e13cfdc62af3eed5749d179a03c2afc314583c33ce964403e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-mutual-recursive-transform-positive.json",
+      "sha256": "f055916c41fa7ae25cd47a4cfd12f1935a0a4d966d550e9a9fea3e986247c57f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-context-pair-depth2-positive-timing.json",
+      "sha256": "f3ede5b32f18385dcd41ea6c9fff4f160f2caf17e07db54174406ea70307c23d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-closure-capture-negative.json",
+      "sha256": "bf910ba2463166485c9208f9ce0d91075483731e8e6e2f9de965c66b60b8de96"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-branch-join-negative-timing.json",
+      "sha256": "445a4c46ae33ccb3ef53b69574589b9a848a52b2dad8385bba50f6fe136fee86"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-one-hop-negative.json",
+      "sha256": "dc3f684d3942667949264bfb8ef8b390fcb60aeece4262afdb5aac2ec2b71e22"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-context-pair-depth2-negative.json",
+      "sha256": "972b8d4e8f2e96bd48f14ad50a6e261dfc571a2bb42584a457d586547b9d711c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-function-field-negative.json",
+      "sha256": "8df88640edb2c2fbe7a08fa1f83845525fb0135e4dae0f424cdfa1d24ea47600"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-reflective-invocation-negative.json",
+      "sha256": "f05eb4544e6ddf32ef499064097e663506582473f9284cb632cca0b8e18a88b1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-infeasible-branch-positive.json",
+      "sha256": "e9cedca46eba72599d4e32a7b6ccaba5dd159d4449d7f1afc177fc226be68ed9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-anonymous-implementation-negative.json",
+      "sha256": "aa30cf4cb1bd8d4d0cc92263edfd448e9d3bd8ca5b4f3ddfe0485f00c39309c3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-callback-registration-negative.json",
+      "sha256": "92c9fa2f1fb7125e4b74a6c59e59c0a8966ac775c7db96a8897cff9d48a37901"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-branch-join-positive-timing.json",
+      "sha256": "986eb850b579f092823b5e2d046fb0fba7c5b8608ac8115b68f5ff4abe05f4ab"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-call-context-positive.json",
+      "sha256": "a64035cf94859857c7f3b98d96c935a86873973e505336b89b3bd7e8e6e9338e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-nested-access-path-negative.json",
+      "sha256": "b82acbbabd45e15bd78b4b48f43c212a64291351cab1d35e779c4eb29c2f3b32"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-callback-registration-positive.json",
+      "sha256": "3b81f9d2bc585b83a056f40a54fb98e3044bf36a1b5bb67b37e56a96f19f5709"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-anonymous-implementation-positive.json",
+      "sha256": "c799e8e7743c17b949a65eccfa5f02d31b6108d98eefdd6edadef26a6e102a1c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-nested-access-path-negative-timing.json",
+      "sha256": "0e4130544f43bb953bba4ff0da8b433787a583b3c1187cda2b22cdf985a31e85"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-callback-transform-negative-timing.json",
+      "sha256": "91337f4aa2be0b337871dbef8b0f08fa0d4cacfe024952bf754cd371975e97b3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-nested-access-path-positive.json",
+      "sha256": "3ce79c62d72d54a75525d6edeca4664a94274a2632f65ac441a6e356bdc26031"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-call-context-negative.json",
+      "sha256": "1930414251df321c083f350f7dff47d67e099c15c5fafda24b3cbd72071e6a13"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-nested-access-path-positive-timing.json",
+      "sha256": "0de8132fd231a9d14b84b4fba0b3b4e11d65d888a1a09313b8ec61f26cda9438"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-closure-capture-positive.json",
+      "sha256": "780e02be56f597f1286df86e63162c771951e0f6cedeee43c653b5a6822dbc1e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-one-hop-positive.json",
+      "sha256": "c95f12f58bc89cafa70ae8be645373f3604b13ab36c54698c7d19066788039b4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-context-pair-depth2-positive.json",
+      "sha256": "a61c6c26401c3088287c8e6c7201e97525a6c2d3785f86379688f906d6ed1cd5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-reflective-invocation-positive.json",
+      "sha256": "2a852b540660c4aeafc44037ca41f7cc463e2b9db93c9d0418b7a96124804639"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-function-field-positive.json",
+      "sha256": "3ee8d6883c2baffc550fc90d3900e6a16b26c62fa27eb91045f3c84377ac3536"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-callback-transform-positive-timing.json",
+      "sha256": "02a9eb62fee0c6d2b538dd8e8f6f3cc332c3159119bf0b11a97f5d6f993985cc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-infeasible-branch-negative.json",
+      "sha256": "c0bd35e990f9f0c51aad0d25d4838ec9163e4765f09b7b488f956271233bd4e3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-heap-unwind-positive.json",
+      "sha256": "1b55d06e33ba797380622f61ca56eb9fb8f709486861e29b6c38d1510eb9d488"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-payload-transform-positive.json",
+      "sha256": "412ad5c7cec9febf2d63d9182fead0c42e8725cfb1b5838c227b1a8be60a24a6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-two-hop-negative-timing.json",
+      "sha256": "4745c26d9da07b4a5734219ec64330768dbb6c02007bf9f8feaef31b063f73c7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-anonymous-implementation-negative-timing.json",
+      "sha256": "9f86d4e6e8f7b50d31c421ffea34abda19517413776d747cce8cbc70115394ba"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-deep-relay-chain-negative-timing.json",
+      "sha256": "2976963a6c859729a0ac560f71f291089dd42a952ef03372ec86ec418740dbc2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-carry-negative.json",
+      "sha256": "74c03f76fa7a419e065415b0004be77bd853c0cda6ff70c80b837a6819b89520"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-argument-position-positive.json",
+      "sha256": "a6fccb6d7916cdcf141dfe1b6b07ca62d98a036912f8ba384075074adacb5fd2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-same-object-field-negative.json",
+      "sha256": "64cbed23d343ef669b58e3ad7d79611bfacf915bc0a9cd85012596b300d88f85"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-deep-relay-chain-positive-timing.json",
+      "sha256": "4ac745157c89a26396c733a9e60ddf2e5a1604b57bf132b7e824dc382c25173d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-anonymous-implementation-positive-timing.json",
+      "sha256": "2d0dff49d6d75f7f2cfc26c22ef3b81b0cc65b37b9f3a3ce7ab8ac0cd1214f97"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-return-relay-two-hop-positive-timing.json",
+      "sha256": "00140daa7bb4730b992c934425d018504eeb046b536eeb7ac53b09fa5f28232a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-exception-persistence-negative.json",
+      "sha256": "700d53319780846970ef905f48d770e7c7029c04e3dc60d57bb7b08ee69f6565"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-object-separation-negative.json",
+      "sha256": "0ba1ab3d39f4e20ea4333a6f487bde031669a337c76e496a71842a470af2e38d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-deep-relay-chain-negative.json",
+      "sha256": "5914d2a389547ddf07a8fdb4a68aaf183b5ee98cdaf25373d61e8da2bd2052af"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-loop-carried-negative-timing.json",
+      "sha256": "bbb72d53913966b90be1250a123cc0eda4aa0de51550b3bd098bc20ba1139c9e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-same-object-field-positive.json",
+      "sha256": "3fa62c97f08c9422572e3bf3906b8686fccaaa62498a52564cc52bf9d00a5f31"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "b8f832ba5fba97eafcf859d988dc93f2bb0293f2c426d8d89b71d2438bdc3082"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-exception-catch-negative-timing.json",
+      "sha256": "d3282fe77dd64d83893b8ad23f5751567dbc85de44ae46da766c418e96291407"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-exception-persistence-positive.json",
+      "sha256": "1905fb417afa38032b893dd6f8fc21fc61c94658733e0b5585f82616a736afdd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-array-element-positive-timing.json",
+      "sha256": "0c64f6cb4b56e841301aa4bf60845cf163d9c7bf86672175adc877a739fc6d74"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-reflective-invocation-positive-timing.json",
+      "sha256": "7b50a2e2dd14182dd3811c76d6bbd4abfa8d82db6857fd32f53960f88ff4abfe"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-heap-unwind-positive-timing.json",
+      "sha256": "c7e106063c8ddfc863f4e25a985324da9373eeb3a54997d9d065144392f2d67a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-deep-relay-chain-positive.json",
+      "sha256": "2b4cb0524eb6efe311d4533a2f20cc1564caa9fb6b12d74424e6d105570ead2f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-object-separation-positive.json",
+      "sha256": "26c34ea10255e45206278dd9d1f4d3875bfae7adff15d8975ad68146fbe9cc29"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-exception-catch-positive-timing.json",
+      "sha256": "20202886fb1e0dcdc52bbd7afd753692ceb5bcd914ce11612c677ec843ea6b17"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-heap-unwind-negative.json",
+      "sha256": "078eabad50f16a5d1466a9e871668f9eeb8201908e7b22cbb459276d88041393"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-payload-transform-negative.json",
+      "sha256": "1d53ce207bdbb79fbb94f1513d98ada5319cca519f777e77c8530e08287b278c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "7e4d4ed3d6f2f6e678fc795b5fbfd83b91092145749fb361305a0bb14988ecf6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-loop-carried-positive-timing.json",
+      "sha256": "4ab565ebe56fe96a82815f1b62c6b9bd2f313f8af7bcd4aa6675483ccaa425d6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-heap-unwind-negative-timing.json",
+      "sha256": "b9ee44d1649aab12d23f00498d83edbbf96eebd35812b8dc2aa2436c7da572f4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-reflective-invocation-negative-timing.json",
+      "sha256": "54135167e01de5b1b2fa09a3995f5ba1b0faf2ef6c68888e67a87a60459980cc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-recursive-carry-positive.json",
+      "sha256": "9db64c5008122f59b53b075c95299288af1e5a79b3bb79bfacb0c2972a8fe6d0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-array-element-negative-timing.json",
+      "sha256": "afa46107048af98a8c6d03bac2f7d7173c193974d9cd51470f071f6bf8a982c2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-scala-kernel/dfb-taint-scala-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-scala-kernel-attempt-01/outputs/reports/raw/bifrost-scala-kernel/dfb-taint-scala-argument-position-negative.json",
+      "sha256": "339e40680c9bfdd855f58044bf6402191f5dd5060521474546a22ea458990d14"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/bifrost-scala-kernel.json",
+    "reports/raw/bifrost-scala-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

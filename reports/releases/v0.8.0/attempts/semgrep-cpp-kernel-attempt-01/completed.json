@@ -1,0 +1,557 @@
+{
+  "id": "semgrep-cpp-kernel-attempt-01",
+  "planned_id": "semgrep-cpp-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-semgrep-cpp-kernel",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T13:35:25.954522+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.3193359375,
+      2.7314453125,
+      3.8916015625
+    ],
+    "load_after": [
+      2.57080078125,
+      2.7724609375,
+      3.892578125
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T13:35:38.648932+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/stdout.txt",
+    "sha256": "26c8cffc0720cee2f9a9ac02be41fba04c31349bdebd061eca9f60540f654db1"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/semgrep-cpp-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/semgrep-cpp-kernel.json",
+      "sha256": "e534cce9f36340bbca6c42345d7dd4815179e5079a9f7281bd6fd4ac8f3e3bf4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-positive-timing.json",
+      "sha256": "d8f35497a5a8c8003f1ace93b041413ccd190f420cc0193c37c9f419e8885555"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-positive-timing.json",
+      "sha256": "547b45f6c350f295e9a1e4050674dea2ed4fe6c6511d4c024b29b905f8bc96fc"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive-unsupported.json",
+      "sha256": "869c5db68509580affcc1b393eea5c1a0ba4a4601159145ba8a9bae991acc18a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-computed-property-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-computed-property-negative-unsupported.json",
+      "sha256": "968fc52cf26f437ddaac62678e053f015ef6c34b260395186b4f063f5c05758c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-positive-timing.json",
+      "sha256": "23fae4fde6121b903c59d1a8253f0644fc2cf263ff4c15559ed17ab71966c5f0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-negative-unsupported.json",
+      "sha256": "9170a68276c2f79541411002805d063166f64421f984c619cdd4a569ff5ae616"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-negative.json",
+      "sha256": "511afce179d4f233d2ac267721fe88edcd85d50ecbcc06251cd708d17c29a1a0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-negative-timing.json",
+      "sha256": "86a0e01006ff2c28fbd921d9a6cda9ec631f3881c05c19881c1949548e6d4405"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-exception-catch-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-exception-catch-negative-unsupported.json",
+      "sha256": "2a749c55e51981fbc8e7af1e4868bc99066cba18e75b708033cf1e3d0060499f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative-unsupported.json",
+      "sha256": "d36f1290c7381b438ff9aa6617d2c5eeb3abc0961b453ba780c6f0be74c89bef"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-nested-access-path-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-nested-access-path-positive-unsupported.json",
+      "sha256": "49a9a44271458b1fecbeb1d6bae7e732283c2e1d5891846807b1f4e795c74a07"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-negative-timing.json",
+      "sha256": "a7b4a8cfe08c0f2122235a168e275ae62157519ee4a2b63adcaebc182b76e678"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-positive-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-positive.json",
+      "sha256": "cc4e40c4d5a4eff75a8b6d1cf2ae29f6e9ecd57b2c1d00438fe8f7c1d58aba9d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-positive-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-positive.json",
+      "sha256": "97b986f83520bb27aee57c6618ef10dbdc0cd4cddd98c7493351d0fc7850327b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-positive-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-closure-capture-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-closure-capture-positive-unsupported.json",
+      "sha256": "e7edb7b8af8fb19aecb6da486497b31e4d957646fc110674fd1a1d3ed14bc1ac"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-negative-timing.json",
+      "sha256": "ecd26565b02bcef5f93233243d40bba092ad4406c2c005981443f1f1c528b11e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-map-iteration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-map-iteration-negative-unsupported.json",
+      "sha256": "e651b39f03618dd646b8bb1debbea88bd312910df083c2b4c40a2b5ea251d3fa"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-callback-registration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-callback-registration-negative-unsupported.json",
+      "sha256": "5a5834ddc965f285cf53cdfc10ee640747fa22dc977f450049a164394b985f5f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-function-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-function-field-positive-unsupported.json",
+      "sha256": "05f4931c0b8bad8636df34250f328d1d4dcd5c70a54e1950fadad563b1f800bb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-negative.json",
+      "sha256": "4fa804a2c44e373e43b48218a8751aa1c77c5908dd4d20ecc9b8fb723f3d950d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-negative.json",
+      "sha256": "b866342cd5be6021ae1d68a0f554774f18c240efa98970f79bd996720505fea3"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-call-context-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-call-context-positive-unsupported.json",
+      "sha256": "d07b020c95f81d15e4b0b0f4f6868439d600aef91f91e707fd395eece2c0c484"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive-unsupported.json",
+      "sha256": "a0a2811602326f38e59d792fd46916d9be4cf7a8292f02eb2d8574c12507458d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative-unsupported.json",
+      "sha256": "466ece2d8a87402d9e5671415e3b0980f5141ef06a9f7442c4d64854aa300a07"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-negative-unsupported.json",
+      "sha256": "b24fbe2d3166960c1a04da1ba6e3b7add0e18e8df2fcfd11a8ea1308fb49f501"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-same-object-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-same-object-field-positive-unsupported.json",
+      "sha256": "e1242f94202566b663c3c04f068b5a562335fb95b92b9b062ba2c61da606fe90"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive-unsupported.json",
+      "sha256": "4a507761f5e142cfb10947177423be79c4fa2deb17999afe05d8168b037920e4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-positive.json",
+      "sha256": "37315add0abbc6d49603e7560c6d584e5772acec9d874310300c05ab8fee2214"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative-unsupported.json",
+      "sha256": "8585757f11a2ac95d9a4d26cc8177bc3020aab08132628cdf071cf03c9661a73"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-call-context-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-call-context-negative-unsupported.json",
+      "sha256": "9185fc304d9d7dd7c9a69dfc0ee50991989a4abdfb28d1c14db1bdbf8bda534e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-function-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-function-field-negative-unsupported.json",
+      "sha256": "5038db2d6c92548a8b682adc1d19e39fb2a32c78d4c261a97a2c42c6eaec0422"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-negative.json",
+      "sha256": "9d90aeb3921c01c081cf49ee93efb39f31096e8540b33c650559ed58aa48311c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-map-iteration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-map-iteration-positive-unsupported.json",
+      "sha256": "f6383ea874769888b013b5291d397a270c6945a45c7bbd704e52d4c2676af478"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-negative-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-callback-registration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-callback-registration-positive-unsupported.json",
+      "sha256": "7d13d69c867ce45f0f6bb2810c8bb4b6cbd1b3ff91125cf4a2dbbaed2b28d8bf"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-negative.json",
+      "sha256": "21edc487dc0ef7cd8fe4ec9dc8d07dfb23e67536f3b87a2cef150079ee0419b7"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/run-environment.json",
+      "sha256": "8e1862abc52e8d6984af0ecada29399935f563414ced2dc7fe257331cdd697c3"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-same-object-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-same-object-field-negative-unsupported.json",
+      "sha256": "4ff94e6d4c69b742fac3980943b7a4097b0e1289f79ef03b034a2dc7fc446dc0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative-unsupported.json",
+      "sha256": "1121feb5bb0529eb1d2e6c871a06161bb058c25a09e64c4fad65e6ce88930185"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive-unsupported.json",
+      "sha256": "64d26a4f179b6baa2a224a61ddd6f7b4e82e1419a3a9fe5469684e2c3a1be395"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-positive-unsupported.json",
+      "sha256": "7599545d8fafaccc8d65656838bf6a4224758aa9dd02e64db13f31d3f4d3c2ce"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-positive.json",
+      "sha256": "edcc6e71b83caaa9dc248ff866104135813e9bc43b45fc92377064f989116d49"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-positive-unsupported.json",
+      "sha256": "8ed63b12580fbbf50e8398c058721c56befe3de4ecea30ab2ccc7cb4744796b3"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-negative-timing.json",
+      "sha256": "d5296f579093674e96cc192601b4b7c4af23321dc229f0d675ab3781f0777c32"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-computed-property-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-computed-property-positive-unsupported.json",
+      "sha256": "a43bf580c63bbd60ec7c90b862127f8ed179c18f45587fc309e5149baec425ba"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative-unsupported.json",
+      "sha256": "6bfd4e149a5f7678dd17363830adb6052857bb01a7e74514f342a3b2d1e7d75d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-closure-capture-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-closure-capture-negative-unsupported.json",
+      "sha256": "46ccdf8c2a55e6ace5f46dcd73049567577272211fe4ab88cee699bd8eb486ca"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-positive-timing.json",
+      "sha256": "e0659607d70ec6c94e3ee69d4f4b02ea46646a1fc5aabb827e6ad0aa5d0968d9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-negative-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-nested-access-path-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-nested-access-path-negative-unsupported.json",
+      "sha256": "3a38eb567524f21ac9da2b81bf45c7342695cba51fb64289d15b9e767a46267f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-positive.json",
+      "sha256": "2ac54d2749dd9654a1da05e96c8a4063b036cb11f4870e0aa3677fc913882530"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-positive-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive-unsupported.json",
+      "sha256": "5c5ff6f9c2f6910013623114e0683837b721b926ec88205473078b610d4f381d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-exception-catch-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-exception-catch-positive-unsupported.json",
+      "sha256": "f3ba4f91f6043ed2000ba8869b2986667d460f7edce784bcd83b51f5e71abcf5"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-negative-timing.json",
+      "sha256": "c2f717447c07d752d66cadca5e4abf4f6c68d259114359cb8c43e625ffcbe2f3"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-carry-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-carry-negative-unsupported.json",
+      "sha256": "7268bb524f2dac56e5cc0d82f706a41c4d1749a3b409d6facc9893164fc6164f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative-timing.json",
+      "sha256": "a3759b3776dd12cbee4b06dd066b08f83f6c498f332846fc3a5cca595e59fdf7"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive-timing.json",
+      "sha256": "ec8c86e9d1c2d1f312b694b2be3fe628a27c7758bb41364d97087708b979edde"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-positive-timing.json",
+      "sha256": "aa69bb49ccef22c8632747cc6998764ff92d6ec9699fdfdb2ea95db3f74810c3"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-argument-position-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-argument-position-positive-unsupported.json",
+      "sha256": "fc014e41f442d4d3a28e71fc2903068f5e71c484dff92ab789fe9c46fa1aeeda"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-negative-unsupported.json",
+      "sha256": "3f0bdb364198e08c932fa8c5fcf698a8b0ae6163cc237d15d6b59704473d63f5"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-dispatch-table-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-dispatch-table-negative-unsupported.json",
+      "sha256": "8972e444cedeb6b1ce705808f8eddc535a20d2b2d0c5b0f1167f9252ef2060fa"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-negative-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-alias-propagation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-alias-propagation-positive-unsupported.json",
+      "sha256": "6e3c3840a2dd01638e47c1bbefa6801b35797caca2decf4e1a16527e52f7a56b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-positive-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-positive.json",
+      "sha256": "965864bacb758166f34ece35a46ae605865b658ae6f9fa05c76628efa8736123"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-object-separation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-object-separation-positive-unsupported.json",
+      "sha256": "6a4cf46873dfd5a4cbc9d267748d5c40a10cfd153f5265378d0f2c3e8e0bdc02"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-positive-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-element-object-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-element-object-positive-unsupported.json",
+      "sha256": "3e1d8e68911ddc27e863093a88d546f92fa0e4a0a9adfed815c7e3942ff32b95"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-negative-unsupported.json",
+      "sha256": "f89b44b068c4a8687031309409ab6dc7d069a4e098ca385e8a0874f6c7374d64"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-positive-unsupported.json",
+      "sha256": "b1549d24262027f01fa4ff45d10f81dde56ed473be389e3114e9c93093e78506"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-negative.json",
+      "sha256": "d7ebbb6f460349be36ce4642c7ded026531e582c58dc4195873eb45b7bb3856d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-array-element-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-array-element-negative-unsupported.json",
+      "sha256": "2d38ba1f1a1638fd78787fb4a951200c6cc0e23b568d0a36f2e8370ff8587586"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-positive-unsupported.json",
+      "sha256": "ede2998ff94192f211d0758beff3a163effa0d4ef63ac8404bf26ad39611a792"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-negative-unsupported.json",
+      "sha256": "c517b5a173b65d8d307c4977a59d90076a9e05ff851656f5cf2ed5d245319803"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive.json",
+      "sha256": "51c063bafc870080f64e62870fdc2c9da281161fb8f56dcf63187d22c82d783d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-positive-unsupported.json",
+      "sha256": "3b91f98fe497a53b066c5f55209aef98356cc52e9e1d37457b10b67926c27cbb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-element-object-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-element-object-negative-unsupported.json",
+      "sha256": "160506f0214ba3c8a67c0079e806b34c21cc380fb1515e99e5bafb2f79efe10a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-negative-timing.json",
+      "sha256": "154a966535e3b94230572e0ef4ffb069ad07588d081cd8a638e9eed64d0cb1f1"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-object-separation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-object-separation-negative-unsupported.json",
+      "sha256": "b8a954d3233dbf16d612840fbb7705011cae96acc3a8614a3beebf069e5ff3af"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-negative-unsupported.json",
+      "sha256": "00ecd202ac070c9236d4f871f37ca64d1f2c18f42d38f123022d518b988a85ed"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-array-element-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-array-element-positive-unsupported.json",
+      "sha256": "ac657e0a075603358a8a5994bf5f75157952dbb3ce02f1c4ee88880f922b7d67"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-positive-timing.json",
+      "sha256": "ad28a789b1efa0a2f6e0720b6a411f0004ac97dad21b05095ca90659d7c95a5b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-carry-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-carry-positive-unsupported.json",
+      "sha256": "566f0777ac78aa7d98fecb9d7f3b88c82c0d1d5754ba7865a589a85a371f6a2d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-negative-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative.json",
+      "sha256": "3cf14ec482f0457f5b4fa42968e125744d825c3ccb75b9b44db25a3d082309cd"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-dispatch-table-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-dispatch-table-positive-unsupported.json",
+      "sha256": "9c970bcf0ab1fc3694185953baa97ce210648ef4fdc0e65fa95ea1538f412f17"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-positive-unsupported.json",
+      "sha256": "a7a06c5c3d18a3ac37a654e562578a29c4e64663825581c1b4edd68a02c0fde3"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-argument-position-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-argument-position-negative-unsupported.json",
+      "sha256": "4e57b44b7353a279ad70e43d18bd7cb886fdb04e37608be94945f37e76a9b870"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-alias-propagation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-alias-propagation-negative-unsupported.json",
+      "sha256": "c803aba239b3ff4e2c0739f93bf1b1a19366106a3c2d56d839cb4e2b2b3706ac"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-negative-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    },
+    {
+      "original_path": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-cpp-kernel-attempt-01/outputs/reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-negative-rule.yaml",
+      "sha256": "53b63661d1516d5c467f1b88e99c691afe0c93b207b4ea4f7768042701896532"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/semgrep-cpp-kernel.json",
+    "reports/raw/semgrep-cpp-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

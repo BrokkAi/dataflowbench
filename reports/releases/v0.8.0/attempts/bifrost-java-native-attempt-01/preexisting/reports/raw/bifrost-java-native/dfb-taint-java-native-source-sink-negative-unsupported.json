@@ -1,0 +1,18 @@
+{
+  "activation_arguments": [
+    "--policy"
+  ],
+  "activation_identity": "bifrost 0.11.0 built-in policy packs",
+  "adapter": "bifrost",
+  "case_id": "dfb-taint-java-native-source-sink-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "S",
+  "modeling_category_label": "declared sources and sinks",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for bifrost 0.11.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): Current v0.7.1 evidence: reports/raw/amendment-a32-bifrost-scan-native/ retains the v0.11.0 binary identity, extracted shipped policy and catalog. The capability decision rests on the shipped selectors and catalog, not on the positive control, which was inconclusive with partial_discovery; native activation validation remains partial. The following A32/v0.10.9 rationale is historical context, including its activation wording and issue-status statements, which were not freshly verified: re-grounded by Amendment A32: the shipped catalog binds exactly two taint endpoints, both inside `bifrost.security.java.servlet-parameter-to-jdbc` — the source `ServletRequest.getParameter(String)` and the sink `Statement.execute(String)`, Java only — and this template reads `System.getenv` into `Runtime.exec` (with the `process.env` and `os.environ` equivalents), which no shipped selector names. Measured under the product's own zero-configuration `bifrost scan`: zero source and zero sink endpoints compile on every fixture, and the analyzer's own `empty_selection` note calls the resulting silence vacuous rather than a proof that no flow exists. Shipping endpoints that would reach these identities — whose candidate inventory names `System.getenv` and `Runtime.exec` — is BrokkAi/bifrost-dev #2620, still open. The preregistration declined this cell instead on \"no taint policy and no source or sink endpoint catalog\", read from a locally installed v0.9.5 and false at the pinned build",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-source-sink",
+  "witnessed_tool_identity": "bifrost 0.11.0"
+}

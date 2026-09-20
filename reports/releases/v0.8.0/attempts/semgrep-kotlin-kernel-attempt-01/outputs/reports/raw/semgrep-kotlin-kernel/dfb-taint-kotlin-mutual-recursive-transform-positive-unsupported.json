@@ -1,0 +1,18 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-kotlin-mutual-recursive-transform-positive",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "mutual-recursive-transform-taint"
+  },
+  "feature_tags": [
+    "recursive"
+  ],
+  "language": "kotlin",
+  "language_maturity": "beta",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
+  "reason": "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"mutual-recursive-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}

@@ -1,0 +1,1485 @@
+{
+  "id": "opentaint-kotlin-kernel-attempt-01",
+  "planned_id": "opentaint-kotlin-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-opentaint-kotlin-kernel",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--java",
+    "/usr/bin/java",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T10:14:50.877836+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.2587890625,
+      2.412109375,
+      2.38623046875
+    ],
+    "load_after": [
+      14.46044921875,
+      7.28369140625,
+      4.58056640625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T10:21:47.759284+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/stdout.txt",
+    "sha256": "3e37c8e36eb4cdaea5f6573d585f00eb236bc518aff59b44b43e16726b367c6a"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/opentaint-kotlin-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/opentaint-kotlin-kernel.json",
+      "sha256": "8bf36cd12fcddc0ee8326e892a02cbdd7cfc2523975c71e9c22eed58dc77cbf2"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-positive.json",
+      "sha256": "018c853ca20e3ee826b9c7d09f27d4408a58b292b544c75e20705c1921e104bc"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-timing.json",
+      "sha256": "c1b42e5332a363bbf8dd01f0ae3d8ba3d534d57a71cf2a97749b9c09049a8f6a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive.json",
+      "sha256": "d06b02b51bbdbcf8650c9325482352ddcd9d3df76dc25147ae99a97a780b0dfb"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-timing.json",
+      "sha256": "d4829ee7eb1872867ca1ff6cdfea0bfef8f19fe8e16d6919cbbd7cc4e5891c77"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative.json",
+      "sha256": "7426f600741dd66287752a5e7cc73d5aba16b112cef6992406b301856789dbe9"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative.json",
+      "sha256": "4d45787a27c80bc17bebc6b196cb82c6719f87aeb114a30cc36125e19666b916"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-positive.json",
+      "sha256": "6473b61deec2b42ce8024ce971b311af6c0e3f5e2268e9c9a570e7e433aaa5a8"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-negative.json",
+      "sha256": "ceaf6e76d829805be2ce55cf90ec186a3aa9fbe3174f8580f790b68ce87d5b78"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-negative-timing.json",
+      "sha256": "5fe5a9a99b950ce03736027741e6f8989108c13c5ac4cc2184bf964f334e4ec4"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-timing.json",
+      "sha256": "409675f25da043f748989de42fd4a9f0859ee3d3c313b1e4fcad4df6466bb4e9"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-positive.json",
+      "sha256": "11999b03b8eb94be185e093012645878d2dd26a2ce9406a1e95b7f46513f4bc4"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-timing.json",
+      "sha256": "ba0d472cc8c5b44e1b81d22f8e5abee7e77ff65636c7daa38662f35b7517066e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-negative-timing.json",
+      "sha256": "430c31e4470b5830480350c4d39b0c2cc80ad9e9fc7f74f623eebc198c019b76"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-timing.json",
+      "sha256": "61e9b4bf0ac709d84c776527be39c9138471230fb038d08a096b6bdb7be0cc65"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-timing.json",
+      "sha256": "f8dcfa5db36c76e65eea28bb3fc27bb965ce949b87b96b98b9838449355d764d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative.json",
+      "sha256": "433869f21c77e77476c07968f82c9149dc9bfe690a168920263073c6e41f5f6c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-positive-timing.json",
+      "sha256": "4d6775b0567ae39abeedb2b3ab68a56795da582f3671b970d25ffe604a436c26"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-timing.json",
+      "sha256": "fea280867e5b9285297ea9d17e15fd0cc351a065b27f1f6427c5bc60fed017d5"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-negative.json",
+      "sha256": "5d9fc7c80c2f5892298b3519a8e550954943d55387b13dc8c10693d5c5d38041"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-timing.json",
+      "sha256": "8aea1e8507ea36035a7341406038bc0338de8f650e5dd4874164c6620f207d31"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative.json",
+      "sha256": "6a8360f125197562a25732b3cbda663118f60e24c336886cab0b16fa31ac7df3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-negative-timing.json",
+      "sha256": "2b8978b6a36eb812e98c0a630947aaba4f587be15b53d4013e4bd42144ff364c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-timing.json",
+      "sha256": "c5985ef555adf7c6575b1bd5aa85a96f85cfb6efed42b1ca6e35f450ef9ade11"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-timing.json",
+      "sha256": "21a9724796a1e1469ed56fabc9f29460172e75a76c911d3f1497a57346d2bcb9"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-positive-timing.json",
+      "sha256": "4506324c65e74d042109a781a88dd557a7a0804dec8643a93f6e4399687d9585"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-timing.json",
+      "sha256": "0c9ff3eabb755f56844fd4467f5d0e3fef590d2130c1858b48449f07cb1ad04b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-positive-timing.json",
+      "sha256": "595acb205358760290abc677c6f8326ac6016cf1eabbd8f05f97697aa0ac8e6f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-timing.json",
+      "sha256": "58050415f3cdcb3843f978a771d461c5e4bee1e31c7f35a589d2c0e740826234"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-positive.json",
+      "sha256": "581db148a697225af917d2febf0317fdd36213509754b292db9e05392c58e462"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-timing.json",
+      "sha256": "ed73ceaffa215a7a57d33a5c6635579e93eacbbe0660d56b06aceb75204d756f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-positive-timing.json",
+      "sha256": "59351dc9c3540440d9548ecd792f0b5aa1ebcc87ff892e350215e7ad8c976a2b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive.json",
+      "sha256": "9b9f78daa02b5af3c0c58c50e245f8a8b031a6d456c2068b5a9a3706dd57924a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-timing.json",
+      "sha256": "a32f34e3fc3d33a473d2b5c8a15feaf58a4d25d4279ce2d46edd5f251af1c404"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-timing.json",
+      "sha256": "7aea94fa05329e21108475810d07bab603578cb60b2c7ee55ddbae9738770ae2"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-negative.json",
+      "sha256": "f53e98619b6e4902d08ca8a8a988aae2917c6be3525fa7b282fe613b7ca52e98"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative.json",
+      "sha256": "9eb4177e1082242e3304d4336c216c349bfd6e23539e0c1f066bc640440842e1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-negative-timing.json",
+      "sha256": "21bf843bbddb7f0560813dd4bcd302bd1ec0ffe5ae1e584f0b422f9d5e55dba6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive.json",
+      "sha256": "99a06fdd2a57907cfff2d7caeb80f2e5735faaa216fbe2a511460a7ed9b63f86"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive.json",
+      "sha256": "0dcc54480ea2ef7e27549f1bb8b6fd3dbeaaa7dcccee35bf0dc104641545d8b7"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-timing.json",
+      "sha256": "fcaa271d43f69269296089b1574be1739f34c2fe6352d238858ff0d71892e886"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-positive.json",
+      "sha256": "24c5db6c7f55b159a516863bdb33292ea26c8d5fccf697352a04b9ec6523eabf"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-negative.json",
+      "sha256": "aa17192fce7587c0117b97f61a8bfa6aa1b694ffd1d7e3ea9b49133f0edfce98"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-negative.json",
+      "sha256": "15ee341ec3bb9b71a30183b7ef61cf479b14b604fcbeab2b762be99139ad6fb6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-timing.json",
+      "sha256": "216fb363d4ab9a54e9c90c8f22e3cdd3ebdaad99318212010913bd0b9aae6b37"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive.json",
+      "sha256": "b1263cc80e07fd2a993f1076caf5b91a360fd30914f4d30a4cb03597a45c3cfc"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-timing.json",
+      "sha256": "8f7c33e5a74f76e6da8e8a11af73a78906af11107d5d3ac5c9aae217eba46997"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-negative.json",
+      "sha256": "863931abb671f8ede47969ce4d760c835473bfa397b1236b2843e576960d5ff1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-timing.json",
+      "sha256": "ddae63f414c9dc2a0ebbbdc8faee48010b9ee25562475dba024f86cc2a3f2457"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative.json",
+      "sha256": "8910542facbbc1095a125317ef12218721f1551bcd538751a3daaae5c7f8ed4d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-negative-timing.json",
+      "sha256": "44156e246518414f24a700459784f82020024d3e9497e282b367a6a933e956db"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive.json",
+      "sha256": "76a58760d83c3ab686417d5bebb5260e6e85186c390e359cc523254ff1f5e4a7"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-timing.json",
+      "sha256": "7a373cba1bc54113da8e57c1dc4457840ad0d07566e2571756cfec5665215444"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive.json",
+      "sha256": "fb5bc86f02334065da2a52fcc21a2363f61866430903cdc76bc0f28386303891"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive.json",
+      "sha256": "ba1c0e06d089b4bd4d879afc75f7fdd38445f5221ec1fd8c61dcb199098b1d40"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-negative.json",
+      "sha256": "68af17f6dd4325bd105b5d11bd9a62b44f7fab0d984a30fb0e13368b8d219b95"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive.json",
+      "sha256": "e3c6c5ab77700510db6f7c96e6f29c1b8f2ce66c72009c2ae7d6260e120572a1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-positive-timing.json",
+      "sha256": "0acc5c93847a663bb08bdbb7ae79e452674565a516a7a7ae33fa608f307f0b0a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/run-environment.json",
+      "sha256": "62a2776ca7726543e146d031afb3fa0c87497c2bf4314ab546408b639370398d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-timing.json",
+      "sha256": "942a272cfb2467fc4237b03242af8f56347c7adde716d98cc732b2d2613b8024"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-timing.json",
+      "sha256": "ee900dd6245585bfc26fc8250174d420b5953826ecd2a1ceefdb000130ab76df"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative.json",
+      "sha256": "c6fa59affe9911270f84e586657fce7a9b0c4fe58ab841189f8d6191f1ca316b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive.json",
+      "sha256": "ece60cf22e7fab51f9ddf335258c559b9b3fb75e3894c0a68a4d3857fda0a460"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative.json",
+      "sha256": "e8eb37b2d9b85ea5be0db9e34ca54ad424aa4b9a079a699df720c0bc9048827a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-timing.json",
+      "sha256": "b52bb539d3fd03d80d5096d88846cd0762b28203efbdb83d12cab399b3628ddb"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-timing.json",
+      "sha256": "bab39834295ce5acac01ea2dc85f7f297d0c6b0a539b13ecd987cb728726e1f1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive.json",
+      "sha256": "58e4bf8ab0151d738536798cd922e8700f123f949f199eae7276dcbaff2d5048"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive.json",
+      "sha256": "010a385dee01a4082036906fcf06b9aa84567c065698df9e50cb2a66e709c2c0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative.json",
+      "sha256": "bd26b2d9e0e0a37d4dc9d0066e50074276ff303c432f679d48ac2767f37e072e"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-positive.json",
+      "sha256": "08e93f607979b449b7a48397f559dfda20da6fb6c0f6f84c25c414edd1131be7"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-timing.json",
+      "sha256": "46da02ceaed8391214f2bab1ecefd03b96417a0696d2ee49e9dce6e8aafb0e4f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive.json",
+      "sha256": "eb02be09e455ce6c7a87b6bd072be537dcfc0a67b785501dc307659a8be3577d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-timing.json",
+      "sha256": "80fe007bd54627afb548cfd3c9f98ebe3c74ccc04cd7d6089727292f3c64738f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative.json",
+      "sha256": "8ec5b77ec8a484f76658274e13d8a1fb8d8aa0f8faebe628c18e18e6b48e96e6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative.json",
+      "sha256": "e5d433f19e0a0bfac50fd319791f01b81b53dd92fb87e25bde5156ba8dd12402"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative.json",
+      "sha256": "30a7968d0a4302c9b06c8d78b9a73c85f194ebdc92bb5b8f2875dd67a380a86d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative.json",
+      "sha256": "72b7871c8d36b8a1b11be2f389a34122bc5777dc372343f07f78c037b1406326"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-positive.json",
+      "sha256": "f3e7c938c73d36675b6665743d2c6228a378189a2451c557c502d1877924d981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-positive-timing.json",
+      "sha256": "5f7b359b36ca3536301343c8de155411ec2628292e2497c1053779d2f4d054af"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-positive.json",
+      "sha256": "70d8a8c907d2f92c3dc10c28cb70c7d1501fc0d7fc28bafb7ef0aeb5575a4437"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "da45ffa70c71437f387f2404c0916eca9cf7d8d531a8a0157a9dff8b0c6858fe"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-timing.json",
+      "sha256": "3da3b4fd8932267c382d6e507978cfd7ab5995ebc1b19da7f12913387b5eb4ca"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-timing.json",
+      "sha256": "875f7efc9f797350d72416a088c554f931b9c6a4cd2306e3d31dd59ad87641d6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive.json",
+      "sha256": "d7cf90b6dac4088edae172f7b8149b44ca41ee1ba59c2a15c2db9e97ba49e1f9"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-timing.json",
+      "sha256": "2bc34da97f90b1ba23ae3c3c8ec4a959577c62e7fae81ed346c644dc3006a4af"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive.json",
+      "sha256": "31e0cedb1bb8d55f7f8049a3d553cdd0f6dd74e8f36e6313e3b0c59539395be3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-timing.json",
+      "sha256": "e3a145599c10266c399e55d861f14b1cef9f617b2198505092ddb444349bd6e3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative.json",
+      "sha256": "c7df7fa135808ef2688a1e47ad1b85647e6ae697e29b9b227c16cc477ddefd88"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-negative.json",
+      "sha256": "d91436987ab4177d0e697fc5a5cc201d7680cb9634ff770d432861a341b52aee"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-timing.json",
+      "sha256": "2880c954017796c1a6a6597c379d51f8edafdbfde009e5c5c7a6cb022ab1f5ba"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "955c8e3ae1c2e812a5147409f06172f5385110b2554fe5bcd26577b7dcc3a92a"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-negative-timing.json",
+      "sha256": "ccb429e504da0e71ee63926882696292e688215e7a9e3bb505d5585067c2b684"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-timing.json",
+      "sha256": "1e9d6562ce07f7faad94bd9001937ba7fc79cd4e64218a4f58aa4aeaca77d1f0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-negative.json",
+      "sha256": "d2e616dec01beceac417adec95e9d48980ef6ecdde3ff4080bc1961dfebe15d7"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive.json",
+      "sha256": "bbbb5048626f14190b5a7c11bc79ca336a489318b22f2d6f1d3f91e5e088e858"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-timing.json",
+      "sha256": "4189b2c1e2e7c68aa2c0a86fe721344033df5c7f79ff485b17e7fe5ae6a06557"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-positive.json",
+      "sha256": "b5d0c0a143f191b4b326dad84443a337cd545e25376462be5b5a20b882b740a3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-array-element-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-timing.json",
+      "sha256": "e4b1b1c298f43c099e68cfec14e8ede21cbff345a7f64e68a22d1b326e2fbb25"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-timing.json",
+      "sha256": "1b0136e1d93ef2f766d683ad199e4de72f300310bcbfd1a38f8a6697ed8c53f0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-positive.json",
+      "sha256": "ddc5c40e77f1db601c09df549c0139c2ee15340cc688d9d7259a161b30c0226c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-timing.json",
+      "sha256": "cff49e2e231a7ec2b2d3b33092dbb808839d44b8e416e228e2b760bcb6e3011b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-negative.json",
+      "sha256": "96e229b19d919ec79784b16fe26f8bb99ea711e50db47fce0976c930c0c6260b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-timing.json",
+      "sha256": "2b9a58ace079515befea96c1159579c32d5d351828fbafa18c74472be54256a8"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-timing.json",
+      "sha256": "1ded2336aa50d3a410b105e49839740906616d4c017da8fa80cb7e8466feedb4"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative.json",
+      "sha256": "4f3eca490c9368667b63ec45db9ba06248e35e67326ba07e15f8639bc9773b81"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative.json",
+      "sha256": "b0b39845f3c9655c7b6ad23062968ef4e696fa1500fafe7d5247c2d0e03a1d66"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-timing.json",
+      "sha256": "1bf8368d419f17b2b5dd97520754763e9aed2d78d6aa8e7834ca842e33d94162"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive.json",
+      "sha256": "1484efcc44a91948a4430fa2edde41311112eb7b678d9e57b68e84e7b7263661"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-timing.json",
+      "sha256": "03f2ec4d5d28217590ef896711d5b359787d37204c41f78740cdb5815084834f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-timing.json",
+      "sha256": "4a959f8d0886c4bcfb849dff49e649cf13d6379ad40dff9bc90cf4c49df2958b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative.json",
+      "sha256": "403e5eabdb3c3be9c495fc56b7dd9cf22de2f23f858352a63bc90d831ab3a619"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative.json",
+      "sha256": "e22fe5e58bd9ce45ba5bdbf9b0f0b87804448a0c5fea051bfe4a91752ce9d0d0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-timing.json",
+      "sha256": "6fc4ee59439175bd25c540da6beb52174a04c453fb9a6b37d97cdaa1d4b8ff5d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-timing.json",
+      "sha256": "552eb77097bf32b801e6818d2997ef596c8f3708421c3be49c95dc5bddff78c9"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-timing.json",
+      "sha256": "0c6f7e5a56f9b3fe49c64c32299ca7b56b33d9aac69225ec4ba8866fb146ec08"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-timing.json",
+      "sha256": "532b9f4f1d532a3a662fbb592ffad3eceacb1ebbc9ea644e1d79e175c79a3e23"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative.json",
+      "sha256": "75cf1e7f3d0bae1e5da4185f575b34da798e3519bb4f96cf8ac8b7cb94b0e313"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-timing.json",
+      "sha256": "aa7094119db766be1fca94483634c38fc383844a6fa08c8f3c2558970cc00123"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-timing.json",
+      "sha256": "240fdfdf1a7b9cc8fb0850adfa625d8feb4e2cf0c13b4510ed49f0cf752134df"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-timing.json",
+      "sha256": "c31c73f1c0d0fa9bcdf408c1255c65912fddfd15279e7f2e661fd0afa444471f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative.json",
+      "sha256": "1e3d030af96075b2d6c5825a0d0b133da688f9ad9a785134cd1c8b694743e016"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-timing.json",
+      "sha256": "19131e6c2f56f807e6467b1241b5a4199706d3519bb41ea87916756b98a64e3d"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative.json",
+      "sha256": "71bc586032f7417098d4956646fc7b2f4b0f58d25f2e0f1babfb0b03c22ac292"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-timing.json",
+      "sha256": "fb75375770cff66ae2fe1571dd262a31db12224f03fe4328ca3704aa6ea06783"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-timing.json",
+      "sha256": "a4a39e1c29e2f49a247e0a6b5db36301d89afa6b6c60ab20ddedf8d6b0431f76"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive.json",
+      "sha256": "6a8f4609b670e5a2fc824eec1669fed4cb820f276b9f27ffc92e99b779ce45c4"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-timing.json",
+      "sha256": "ec1ad1631b47057f57cbbd3cae4db82d0568852a13d674e0442bcbe6ab696bd1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-negative.json",
+      "sha256": "840b591e4a56656e5e1d654a2f4527faa890cf54274850d8589dd9627c70beba"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative.json",
+      "sha256": "a2652418662b5a362d506e9c4df9237f209f023cd7ad0ea6e51b887905e9536c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive.json",
+      "sha256": "655c6dadcabc0618639dd937cb776f2a746aafdee366435f093efdabb4226656"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive.json",
+      "sha256": "96e090b8c5af564ca110d1e44d7531a16144d8d8fc466d99edb1ce8bb0c06988"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-timing.json",
+      "sha256": "601b5fb383b43baee22e70da6c87c4289cf2fa7e8f9e18b4f5a6474dc24a8946"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive.json",
+      "sha256": "50b06af1500ea0b43fea661cc442804c56d019928bfc8c5d243d5bdf89eb80a2"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-timing.json",
+      "sha256": "2f96d243ccd7377255799b4770aa3092b7dc28730815656640dba31a944d122f"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive.json",
+      "sha256": "5fdd77db5758fef11dd927a7724642fda4941aad8468ea27d75cacfc8445632c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative.json",
+      "sha256": "e5e680100af828a7e84c01295434d4ded3d7f74cbd14a8ae6ed72cf94dabb99b"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-positive.json",
+      "sha256": "3d74a5960e6457f55e43b12a3717377682b1fd3ac4e4ebb359dbeb385dac37a3"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-timing.json",
+      "sha256": "cebf45a4b13f8b4a71faa7690d6a8370a24188a00c5678f0c03f253e890b721c"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative.json",
+      "sha256": "c31c97a07e5589a1916be37b5685a6aaa7fd7706a252f04b2dabb735103dff96"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive.json",
+      "sha256": "5c39717ca89ebc02dd6497951e9bca07be517aeff28b5f4cd1a450d34c7da9e6"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive.json",
+      "sha256": "216edb5c27798831d23002cd151c18b9775a23cf1eaceefc05b1f999a884b851"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-expression-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-call-context-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-timing.json",
+      "sha256": "04ac07751d2b9dd0760f2cbcc6c27224746ff35c0629c3d097521218d7f8dab1"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "original_path": "reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-load-trace.json",
+      "path": "reports/releases/v0.8.0/attempts/opentaint-kotlin-kernel-attempt-01/outputs/reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/opentaint-kotlin-kernel.json",
+    "reports/raw/opentaint-kotlin-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

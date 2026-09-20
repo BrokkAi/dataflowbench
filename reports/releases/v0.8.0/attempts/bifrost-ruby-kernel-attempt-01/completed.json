@@ -1,0 +1,777 @@
+{
+  "id": "bifrost-ruby-kernel-attempt-01",
+  "planned_id": "bifrost-ruby-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-bifrost-ruby-kernel",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-17T16:42:38.111688+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      7.39501953125,
+      7.75341796875,
+      8.22802734375
+    ],
+    "load_after": [
+      7.0263671875,
+      7.662109375,
+      8.18994140625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-17T16:42:46.423898+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/stdout.txt",
+    "sha256": "e8079404d68f362eded03a2904b4c1abb5c5d2cc6a9c095847fded48bd7d9083"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/bifrost-ruby-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/bifrost-ruby-kernel.json",
+      "sha256": "0735867664a3cc287c7f16e331e5a0e3b76c36dba5aa4b999b8c253b0fce62ce"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-chain-negative.json",
+      "sha256": "e26377aa2a77652e3ade20d0882ba47f5e3e571202d7ea8796ab046cabcb5549"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-call-context-positive.json",
+      "sha256": "48efb0bc8dc33c8ceb21856833e9d06d11cdc13a72f7cc20ea91a93b6e9b3b88"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative.json",
+      "sha256": "6a326587e1d963eb987a4149431976c32d7e36a11aa15f025292cc7f0ba62399"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative.json",
+      "sha256": "ad75fe1c09a39b8b07dce89a7f68bb98a5008d9deac7caf5e2785e16bbbafa0f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-argument-position-positive-timing.json",
+      "sha256": "118c1ea52e60fa776340377835625d908829114d1d927ae27ece2d6f220b14a9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-map-iteration-positive-timing.json",
+      "sha256": "22e734f3e84f4a4e597dc687f20c42409e76a5b8c8f284eba1ca81577da05a29"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-timing.json",
+      "sha256": "ed24534945d6d851b5531c1de4c5dac917491c9c69555631fd871ccb5589a127"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-argument-position-negative-timing.json",
+      "sha256": "4b40b37ef83242862a0ac583fef1c4933af8b7816b6b271939414cec1002d8c1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-computed-property-negative.json",
+      "sha256": "2c0821381665de907207d5c41eba26d0d1607cd1ee64d7552833c3ae5d91e0db"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative.json",
+      "sha256": "4937e74cd625e595c6d2f7c4ab12da45f44c49368edb610282a8b76cb2ade7bb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive.json",
+      "sha256": "5562d2a75539ac90dd3af3b605a174641857e162e4368d6782913a5673192c11"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-timing.json",
+      "sha256": "8def65c4d5626759a873c9198393a7dc22fa530e618dcb3080379ee44183c96a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-nested-access-path-positive.json",
+      "sha256": "be2021de77866993d2964c16d8dc2b3606eb8fecee134710b4fa864b7facad17"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-branch-join-negative.json",
+      "sha256": "202234f8d28295b927c228028b724b7b7d6837ba90ddbcdd92a3c708b4d9e124"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-map-iteration-negative-timing.json",
+      "sha256": "9da17546885bb04c8b9adba312724eeaf7c7ead7626539c6228f10bbf183cf29"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-computed-property-positive.json",
+      "sha256": "1ee0061080e5d7a84ae0f783deb07a19837e61acc49340dc7c7491a1db4d2923"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-call-context-negative-timing.json",
+      "sha256": "3e39d27286bbfd14fe9dd048dcedde73c00c904f109341b811f3a26f847f5e3e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-exception-catch-negative-timing.json",
+      "sha256": "a0f636835d49eb3ad847907c6ef37a8201ab38c33dae9a7172e50df40b7b3059"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-branch-join-positive-timing.json",
+      "sha256": "3e7d97e19ba2cc9b769a36d7a15631a88fc2dcf72644eff3337aa3aaf48bdc71"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive.json",
+      "sha256": "0bd57ea62805c5a1da845dc4551ef9145daeb15683d7a7721be7a274a0f4862d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative.json",
+      "sha256": "c72dc855f7b431cd3d393e2753a94d74d7283cf96c18cd515f4e45262afb4b0e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "16fb178c619aae645cd5dafe02e4af30e73767ca35ed6918465eac456f0c7416"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-branch-join-positive.json",
+      "sha256": "a0894337be7cff58d131d51f26b57de7d7076c4d9d4aa469784edf2886449433"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-nested-access-path-negative.json",
+      "sha256": "63bd3df847cc5065b32f8c393d16332e7708ea7f1160936a920c4dd9b3bd3fbc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive-timing.json",
+      "sha256": "9f4316fe62b5d714edb1e2347201a472fc052938cd10cc045056251ed905f70e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "5b87d799f9850ee18d43ef2d915a908786bbd86fc95577008f3a923467be069d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-chain-positive.json",
+      "sha256": "7b5374ad50b11ea29693b65082af3dd064ebcafb676d8f54c139e71d5f421c71"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-call-context-negative.json",
+      "sha256": "cdb5e0e147142a59bbefcfba65986948b71de97d9617d259d6573c7e0cab012c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive.json",
+      "sha256": "ac0d85ffe5d7b6989a024926e090d1358b047263dbd2b28c8f3cf74e1c4ab3b8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-branch-join-negative-timing.json",
+      "sha256": "682b10ca0443a3754c453bc08acea5f709ac6a38b909850c6d31c27a921b600f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-call-context-positive-timing.json",
+      "sha256": "d70552e13af3bceecaca08743917391d99b4ec890a3425d10e3eba788f959768"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive.json",
+      "sha256": "8a3884164447a928e7cc1eab9552c71a65e8be724b83f2c28346b4e683c1e86b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-exception-catch-positive-timing.json",
+      "sha256": "4d1cc515c63359ff936228ee9b9f8c548b84e8d21e625ba1ffd3a3cc6a837d31"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative-timing.json",
+      "sha256": "4720dff0217119b30058db80ea2bf4be3081f99917dae0d77f0edc42404a241e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-same-object-field-negative-timing.json",
+      "sha256": "00f105ac1cc993fd30dfe250dcf6eea957860daf9f23b0b0893a5a3b6329f6b0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-nested-access-path-positive-timing.json",
+      "sha256": "fc40f9b3114bd3aabb50b1e975753b764c8b98853f57ab75a1607b5ab83a958f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-object-separation-negative-timing.json",
+      "sha256": "19651e0756ec572ef3f3220054fe836d3035e2f805d4f3c11cfdcd4a49835c7a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-computed-property-positive-timing.json",
+      "sha256": "2b777d95e2629ddaac3666cc63eba6e2b0363fd063986eedba8b66fc9d9867c5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-function-field-positive.json",
+      "sha256": "8adb3d1728691d4465bd2418c9a4ee9b611130f8961590a5689247872b5d1417"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative-timing.json",
+      "sha256": "bee158476c7539f120250bb606c8a0a78bb2b19b8d1848ea5beff191d4cfdc44"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-callback-registration-positive.json",
+      "sha256": "6b5a5293fd0ca50a6aaf218ea13523f470872785fe08a0788e85534fa3eda4fa"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative-timing.json",
+      "sha256": "64ca0c15671a288efc726d12e2a35b453173ae85f6dfb12a9a89b2ae49bf7e99"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-alias-propagation-negative.json",
+      "sha256": "4615a9d7792b8467d1cc75b60300d0895ed08e06e5840fe2ac2494af328511a9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-exception-catch-positive.json",
+      "sha256": "b295836f26b343580e9d441e452ecdcb0ea7ad191da1c5f0ea6376393bb4b121"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive-timing.json",
+      "sha256": "a9be134fd5551f1eeb2cdd9798ef9c263af84400c60eea18cd230f0173d40d33"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive-timing.json",
+      "sha256": "64b1411286119618e1ab31668c77dede309e1a73fa41590a885ee259b599a19a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-nested-access-path-negative-timing.json",
+      "sha256": "b44959890bc90fbb120e683667f95eadd2ca24c43afaea5b992e38d4816d42fc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-same-object-field-positive-timing.json",
+      "sha256": "2aa0d4ee87a24b2f6c927e9ac43f457e688f9ec4556fde10a5db7f9ffd2ace75"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/run-environment.json",
+      "sha256": "b9c5d882339bcc2bbac84413240719f8d99c6eec6209f1f9126806671198ce06"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-object-separation-positive-timing.json",
+      "sha256": "9312abc526e0b277f67ab794a7a93fcbdebb2b1cd8817c7aa9f323c3b19fdb91"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-computed-property-negative-timing.json",
+      "sha256": "9e0cad4a27d3d39fd87648edab7c3fba87a1077abd3db6b7cbb964263efebc04"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-overwrite-negative.json",
+      "sha256": "3a1c52e20a261755d3e58d1a0f28cd3617771b7b13bfed42ad9573a13a20ce29"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive.json",
+      "sha256": "a31dc2accd91211c39a7fa182e38a29b8d683ae2d1804b981249d8e7fcf3a965"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-overwrite-positive.json",
+      "sha256": "a951e3c51d5174ceb42b8775bd9fa66e3e1a701f1e76854cc662de5d1fa760af"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-alias-propagation-positive-timing.json",
+      "sha256": "ffca4358610e8ce61e8d31c48d7ec23a1476b50a01042217ed78434a8c1a6a46"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-callback-registration-positive-timing.json",
+      "sha256": "f27290b3aaee88778318ced9309701c6f0a22e1e3b0900ba34cc0fb6a3c37a09"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-timing.json",
+      "sha256": "421a08034c8762b5abb01f95c06f43ca9139d80129c3f844ea69e1628891b092"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative.json",
+      "sha256": "a31dc2accd91211c39a7fa182e38a29b8d683ae2d1804b981249d8e7fcf3a965"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-alias-propagation-negative-timing.json",
+      "sha256": "29594a411cac01df278b5d4e5e3f6cd3ee029191a4359c16d46ffd675a26d745"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-callback-registration-negative.json",
+      "sha256": "5373da92c0720e34f9a80889a3941dd2583689a32f4d04c739ea4f0685399adb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-function-field-negative.json",
+      "sha256": "12a0c5a975e551b20144547c817c96d95240b4639b8c6b1b7e4589c825798ba7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-alias-propagation-positive.json",
+      "sha256": "79bef81b764c44baa0aeee5dedab66bc0b456f898bf6f3fafc95e2af8f951698"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-timing.json",
+      "sha256": "5b17690edb0fe00aff9575367a5714547f8da36090427bb5f664a29bf836dcc4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-callback-registration-negative-timing.json",
+      "sha256": "4656a88ff9eb8bde025611adfa0e8bd23f8c60cfe2ec20c301e4ea65d69bb2b1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-exception-catch-negative.json",
+      "sha256": "ba40a11d6312b1c38198eb3b99f116ca071fa09c11a1bc1d86efa96ac4fc0b11"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-array-element-positive-timing.json",
+      "sha256": "3a6326e0ff819a8324a2e33ce0aaeccb4ea8897584a122a4d14ac0bdb1ff6a3a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive.json",
+      "sha256": "cb1e1bdcf3cba8ebab0fbe70c16b854eeb8eab4e2490e19bff74f349150d65d4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-dispatch-table-positive.json",
+      "sha256": "11dd33ebceeb5a1a8430dbca0c6ed756f9243c02a100fb582cb10f41b34ff9a8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive-timing.json",
+      "sha256": "473c82d7af2d75c1ce7552d9580ed6bf19b6fe7126a506407adf6bc5c01d413b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive.json",
+      "sha256": "f49d383a9dd4e064f092ba58073162e9d32a489a29beccc89aac24e477daff0b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-argument-position-positive.json",
+      "sha256": "59d2ce3104878b3fe17fdbc880eb074b8092455dc31f64f399c9774a72028f10"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-direct-negative-timing.json",
+      "sha256": "67468450a1fdf46f906d7148f32e86eeac417284bf8328dbfff83eca50b09d2e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative.json",
+      "sha256": "337c80958199354854ebcf04e5ae94b6c2fda61b99e56dea2962b191f8fb37fd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-loop-carried-negative-timing.json",
+      "sha256": "c3269610abdb1570d400c41edad06a9a4cc20b74d78c395ef491b3dc53bf2979"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive-timing.json",
+      "sha256": "8250d920934e0fd17c238b1431dedf1658f21f308b496348d4e88a7be23cf455"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-closure-capture-positive-timing.json",
+      "sha256": "f1b3c24776767c4888e9a4e41f5264688d6fb616c7a18acba876ff397a5d6a2b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-timing.json",
+      "sha256": "a1a72929fa7e5d7f9904f6eefa9aeb0ba7b8e3c222d36c29315650271f3d4d18"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative-timing.json",
+      "sha256": "34b91755c6dc1b4152684356c4d8742662e44b55716c615a8e7a77c47655c519"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-timing.json",
+      "sha256": "4980c2f4c5932e9f031d03b9dc15eee3744136eccf7baa41ce176580e8befa81"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-array-element-negative-timing.json",
+      "sha256": "c4e183686c33007230f37a2674e407d7650e557ac84076167c6902861514f94c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-closure-capture-negative.json",
+      "sha256": "849991c100a785506b880ed0a96e4bfe5d849caf32bb5365c3be466c855cfe66"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-same-object-field-negative.json",
+      "sha256": "0bcad7cbfe58fd1db10d6ad38f9debee9a13e624d7a9eb3aa99d0629fcb3b2f2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-loop-carried-negative.json",
+      "sha256": "b7f319928e5c810d6332e8e081f317d99cb37825e6e89c5000ff503734e7b1cf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-object-separation-negative.json",
+      "sha256": "4092ec1ed22b3dd419d1511068cd9650d3fcd17731633eeb19543b7ba06b7788"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-element-object-positive.json",
+      "sha256": "233d69226875a3fdb7f2d4506f9708a529cee3b76c08d27a42d1cfe1648e11b4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-timing.json",
+      "sha256": "d19d31b38a3475923cc5a1b82f8794d7cab3b4f2ce2b1a718706cd4556936e29"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive-timing.json",
+      "sha256": "9df5db08718aac46faa541f196735afc29a0c489783aea9928227b4666c3da46"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-closure-capture-negative-timing.json",
+      "sha256": "b4eadfbf679bc7bb9ef0e791937f131e23af4f7fc21042df7c69b543befdbf7d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative-timing.json",
+      "sha256": "4cb7dd90e14c9f71b59d738dd06e4b996aa213555af0f2674ec1033ed7d3a91b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-loop-carried-positive-timing.json",
+      "sha256": "a8231d7052e02a317a2ab756b9f3f5ea282214195c0bfcf64fc33e28422a8141"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-direct-positive-timing.json",
+      "sha256": "15fba0f04f8e7995bb6e102cfef29db73e4aadf397c26cb506f14d6a5eda1d2b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-element-object-positive-timing.json",
+      "sha256": "a6b1ec7048f07252397359d9ba89ac999f07044c49715a58a748652f88939ed0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-same-object-field-positive.json",
+      "sha256": "77be6f501e3f7cbfcc1027ed365d8dac32864c766be57bdb4086b1bec535fa48"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-closure-capture-positive.json",
+      "sha256": "b1ad298591d66eb4440aba75189dc9175e100a13da47d8c0ccfa17507ce69eff"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-object-separation-positive.json",
+      "sha256": "0ee268532ef84085bbbb3125433bee29b0bf66608d9a02956ade74e84aac3f1e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-loop-carried-positive.json",
+      "sha256": "fbbe98c8d6a4460117aee3ac359387b4abe9e53886366f50d271e7cb717d412c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative-timing.json",
+      "sha256": "ab5324c88750594df16fcd5e117346861b78ecb402c21126a841f914716833b3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative-timing.json",
+      "sha256": "ff017fb61c2d97f86e43e7232ec60538cbb17e9c88756f0b538c15b8334dd01e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-carry-negative-timing.json",
+      "sha256": "0f9d195c9a801d9825dde5b408801e150ab1c7c761e1c386d1a81f976b4df745"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative-timing.json",
+      "sha256": "79c04af10adaf7f779904b6fb9d690ab500f2949ff74d0b19a1080e2c5f6599b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-element-object-negative.json",
+      "sha256": "0d5b7a9882364989d1c019563771b323f771d1f87bd537dce6d7485dc7a6e906"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative-timing.json",
+      "sha256": "64666fabd2b771c26dc0295d218745b9d3b6345b8de2267722b3e0b4654b5be7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-element-object-negative-timing.json",
+      "sha256": "c40d59cd61271df70baf2adb807d5fdbd78e935bfb6eb8297a82acd729d09c22"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative.json",
+      "sha256": "41f4f78292298f74f8c22188d1b9f31e455c89d80d5a1aa69e9f760ef87de573"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative.json",
+      "sha256": "f6865ef7dfc95ac95c788e56fd9abae36ec828ed75c6a851a0ef5ecc6cd5f811"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-dispatch-table-negative.json",
+      "sha256": "11dd33ebceeb5a1a8430dbca0c6ed756f9243c02a100fb582cb10f41b34ff9a8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive.json",
+      "sha256": "76ca3d71b6a6ca1f1c67a12d1445003c60131503ed2492d889086d0af99f44a6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-argument-position-negative.json",
+      "sha256": "c5df2d698efca84ff8529d8fdad8660f482c0435a22b4a25c493f5f1529d5a8b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive-timing.json",
+      "sha256": "08393828341e1821d216643602816a6c804b3475ba8b9754b7786852b4c0d0ea"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive-timing.json",
+      "sha256": "3b3d1e67ccc642c18dd07a79553afa75b8c543aece45e4768daa779e6ce99ffc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-carry-positive-timing.json",
+      "sha256": "ac5f5380b9e8b76db31cd9de6ec9a011896d9675cfa022269128d31e71380f86"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive-timing.json",
+      "sha256": "70b66e0e1d3ddb32e1577a79501c2574310a20f5bcaed8e15315f38975055cc7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive-timing.json",
+      "sha256": "10b2a44c57a8cc9d1578fa131f2583be1879b64de62f45a75fea18f717ee8464"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-chain-positive-timing.json",
+      "sha256": "19a40fdb600d8fcbc3310becd5bdcbdb6c6c45cf936b0a6ebc01d0715e6a2a7f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive.json",
+      "sha256": "3d8be7684dc48848e5e798e726aa46160bb71ff79fb751838c292ab386ff200c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative-timing.json",
+      "sha256": "b02923910dfb7e45f0e5b70f0fffbaff69f2576dedd4d25ae89d2b402038715c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-map-iteration-positive.json",
+      "sha256": "63053e1a6e541be8cbe2571131efc87fa72da343181d15471401a0116e582cdc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive.json",
+      "sha256": "9bba80377bfab155b9e991d918ae3539fb123b9178a03c20908ac1d4c036158b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-array-element-negative.json",
+      "sha256": "66608cf0c876805c1391006af0131220aa40f0a42ecc0846ff9ae2af47af446f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive-timing.json",
+      "sha256": "3c68be001b62d39861ec8dd1dbc261fed25bca53a9117e57337512ff633d2c71"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-local-chain-negative-timing.json",
+      "sha256": "44c34f8e505930c2beb87b38bc8d991c0954a2c9d29787d019de9ec4a45710c5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-direct-negative.json",
+      "sha256": "e3434a323a223570d56f87b2da2086d1b0ee7f94381f1c663f1e69396e0c02ed"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-carry-negative.json",
+      "sha256": "b456f4331cd4f1aad36a6dccf6a67a12e9719df79a1d9b46c54da0f0b88307ae"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative.json",
+      "sha256": "27d6bcdb5fe104c2e510a9b7731eded368f47dfaef2dfdd6b07007f16d8cd4fa"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative.json",
+      "sha256": "ef9cf0a8190cd0e65fe5e47894fc1becbd96100758e87ef47c92002bc3303d08"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive.json",
+      "sha256": "7a7fbe431f6832c47128c6b272eee0dce576f4e30b2a5f3af3af5d2c421e9f28"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive.json",
+      "sha256": "d6cb61b172b0fa81350f89ffd06e30e51ef1ed5bc874259c6262a12c0d902547"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-direct-positive.json",
+      "sha256": "00198a72f98ec0a5fe7ea469fc1bab6fd7b82fff46ae907d9b6512b80bbbdad5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-carry-positive.json",
+      "sha256": "eca2dda826f4a278d12633b0c84989ff5b69405feec6b9ad0f43619fd8cf5505"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-dispatch-table-negative-timing.json",
+      "sha256": "a0980c08d1b9b54a85e736f68b50802a85b60157e0468aeab79cd61f5598d66e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive.json",
+      "sha256": "3fbb2b0956c9509a7bc5f1f6ebc7c54f64794a6511e160dccd73408c6c264861"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative.json",
+      "sha256": "b2e81563ade44a22be784d885e6731896baa506ec07377b142b25eb7ef2e9eb2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive.json",
+      "sha256": "ef9cf0a8190cd0e65fe5e47894fc1becbd96100758e87ef47c92002bc3303d08"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative.json",
+      "sha256": "c9608178be3ebff7146e4037ad03b6d2ddd10dbdfd83e0336a37e21231206d80"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-function-field-negative-timing.json",
+      "sha256": "796a35e44a1c2d008628029ec87c8a5e3327fe40e9e5d2f5c9511ae68a0925c8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative.json",
+      "sha256": "9ff7fb832aa1bff1ba73b9c7ad88bd0d54c2b48ed6b6024c8d7b4fc7c5529878"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-map-iteration-negative.json",
+      "sha256": "c0a055781979d45b78022d359a9f20a7aca1a396f2bc60dcdd2fe88ef789d1a7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-function-field-positive-timing.json",
+      "sha256": "cfb05225010b8dbf5d2358339f0a78c5c5830405eb18c47b1f1946312906800d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative.json",
+      "sha256": "f93b608cb187c384fec65b38dff8a62a1d14bdba3255bb1fee665e98f0ab1dcf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-array-element-positive.json",
+      "sha256": "af20242daa4ca9d72389309bba3da7f0c61c1fbe5cd25c1732043183b34f8627"
+    },
+    {
+      "original_path": "reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-ruby-kernel-attempt-01/outputs/reports/raw/bifrost-ruby-kernel/dfb-taint-ruby-dispatch-table-positive-timing.json",
+      "sha256": "f92c52b2e751e0306d4fe2982d51f66aeaa35d103bc03e916dca05db01e1fac9"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/bifrost-ruby-kernel.json",
+    "reports/raw/bifrost-ruby-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

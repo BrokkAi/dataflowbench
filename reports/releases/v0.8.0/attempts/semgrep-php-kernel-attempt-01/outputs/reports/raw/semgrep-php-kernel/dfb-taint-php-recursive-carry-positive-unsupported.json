@@ -1,0 +1,18 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-php-recursive-carry-positive",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "recursive-carry-taint"
+  },
+  "feature_tags": [
+    "recursive"
+  ],
+  "language": "php",
+  "language_maturity": "ga",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
+  "reason": "outside the bounded Semgrep CE profile: the carried value crosses a self-recursive call boundary five times; a recursive summary is interprocedural, and CE has no interprocedural taint. The case requires \"recursive-carry-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}

@@ -111,11 +111,8 @@ for language in java javascript python; do
   for case_dir in "$ROOT"/cases/taint/$language/native-*; do
     fixture="$(basename "$case_dir")"
     args=("$case_dir" --overwrite)
-    # Measured product defect, retained separately below: on this pin the
-    # Python auto-detection emits `importCode.pythonsrc(...)`, which does not
-    # compile against the product's own console. The documented explicit
-    # `--language python` runs; the probe uses it so a crash cannot be
-    # mistaken for a silence.
+    # Keep the measured sweep explicit and stable across product releases;
+    # auto-detection is exercised and retained separately below.
     [ "$language" = "python" ] && args+=(--language python)
     status=0
     (cd "$run_dir" && scan "${args[@]}") \
@@ -126,15 +123,23 @@ for language in java javascript python; do
   done
 done
 
-# Retain the auto-detection failure itself, once.
+# Retain the auto-detection result itself, once. Older Joern pins failed this
+# path; the current pin may succeed, and either substantive result is evidence.
 autodetect_status=0
 (cd "$SCRATCH/run-python" && scan "$ROOT/cases/taint/python/native-source-sink-positive" --overwrite) \
   > "$SCRATCH/python-autodetect.txt" 2>&1 || autodetect_status=$?
 {
   echo "exit status: $autodetect_status"
-  grep -E 'E008|pythonsrc|error during script execution' "$SCRATCH/python-autodetect.txt" \
-    | sed 's/\x1b\[[0-9;]*m//g' | head -8
-} > "$OUT/python-autodetect-failure.txt"
+  if [ "$autodetect_status" -eq 0 ]; then
+    echo "auto-detection succeeded"
+    grep -E 'pysrc2cpg|ScanPass completed' "$SCRATCH/python-autodetect.txt" \
+      | sed 's/\x1b\[[0-9;]*m//g' | head -8 || true
+  else
+    echo "auto-detection failed"
+    grep -E 'E008|pythonsrc|error during script execution' "$SCRATCH/python-autodetect.txt" \
+      | sed 's/\x1b\[[0-9;]*m//g' | head -8 || true
+  fi
+} > "$OUT/python-autodetect-result.txt"
 
 # The binding check: on the Java source-sink positive's own CPG, the bundle's
 # `call-to-exec` pattern matches zero methods while the call it is aimed at

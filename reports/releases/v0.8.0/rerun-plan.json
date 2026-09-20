@@ -6434,7 +6434,7 @@
         "reports/raw/amendment-a32-bifrost-scan-native"
       ],
       "script": "scripts/probe-bifrost-scan-native.sh",
-      "script_sha256": "0222ba6cee8838bf172f745938bd2dc440d5bbd81320419d9df7265f60c12c89",
+      "script_sha256": "40c95ed69d820c624e6524a200684544ef99f70d65b65a1c043071e94c38e312",
       "accepted_flags": [
         "--bifrost"
       ],
@@ -6569,10 +6569,11 @@
         "reports/raw/load-bearing-java-modeling"
       ],
       "script": "scripts/probe-java-modeling-load-bearing.sh",
-      "script_sha256": "90d5e7243045687a0b1e7247ea346cd6fcba0b8f26facd1c6a7f8de40a47dcef",
+      "script_sha256": "635fcfa58241a83ddd2afd349f1fd1ba40c5f875bffe2d1a72585ff9a66a7724",
       "accepted_flags": [
         "--bifrost",
         "--codeql",
+        "--codeql-packs",
         "--joern",
         "--semgrep"
       ],
@@ -6596,10 +6597,11 @@
         "reports/raw/load-bearing-javascript-modeling"
       ],
       "script": "scripts/probe-javascript-modeling-load-bearing.sh",
-      "script_sha256": "f7ea542c5fc3c07c418d6fa5cc3eef737e7661de0f932dcd4d7658cf598f89a1",
+      "script_sha256": "e3611a71a410db0bd44c90277c29bfa8db7acd72d5248f239fc510679930314c",
       "accepted_flags": [
         "--bifrost",
         "--codeql",
+        "--codeql-packs",
         "--joern",
         "--semgrep"
       ],
@@ -6623,7 +6625,7 @@
         "reports/raw/amendment-a26-joern-scan-native"
       ],
       "script": "scripts/probe-joern-scan-native.sh",
-      "script_sha256": "6d20bc2d1ed9eb107055739a486292ca0469446a9ff27e82136e69e96eadede4",
+      "script_sha256": "f2584fa97d92bc932dbc514e84db6c89db7da8630effea92d8f244cab9bed3d5",
       "accepted_flags": [
         "--dbversion",
         "--joern-dist"
@@ -6848,7 +6850,7 @@
         "reports/raw/amendment-a27-semgrep-jsjava-native"
       ],
       "script": "scripts/probe-semgrep-jsjava-native.sh",
-      "script_sha256": "466c8ee84b05015d8b6cb9c7c9cf45a01a9a58a0e07a71a1a3def879e0326752",
+      "script_sha256": "d09e3bab859030d4679af455a341e7a155119fd48cba248abdc11b0fdf8d44f2",
       "accepted_flags": [
         "--archive",
         "--semgrep"
@@ -6908,7 +6910,7 @@
         "--language",
         "java",
         "--batch-sizes",
-        "1,2,4,8,16"
+        "1,2,4,8,12"
       ],
       "repeats": 2,
       "argv": [
@@ -6919,7 +6921,7 @@
         "--language",
         "java",
         "--batch-sizes",
-        "1,2,4,8,16",
+        "1,2,4,8,12",
         "--joern",
         "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
         "--semgrep",
@@ -6959,7 +6961,7 @@
         "--codeql",
         "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
         "--codeql-packs",
-        "/Users/dave/.codeql/packages",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
         "--infer",
         "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
         "--analyzer-jar",
@@ -7019,7 +7021,7 @@
         "--codeql",
         "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
         "--codeql-packs",
-        "/Users/dave/.codeql/packages",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
         "--infer",
         "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
         "--analyzer-jar",
@@ -7079,7 +7081,7 @@
         "--codeql",
         "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
         "--codeql-packs",
-        "/Users/dave/.codeql/packages",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
         "--infer",
         "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
         "--analyzer-jar",
@@ -7139,7 +7141,7 @@
         "--codeql",
         "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
         "--codeql-packs",
-        "/Users/dave/.codeql/packages",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
         "--infer",
         "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
         "--analyzer-jar",
@@ -7199,7 +7201,7 @@
         "--codeql",
         "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
         "--codeql-packs",
-        "/Users/dave/.codeql/packages",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
         "--infer",
         "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
         "--analyzer-jar",
@@ -7259,7 +7261,7 @@
         "--codeql",
         "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
         "--codeql-packs",
-        "/Users/dave/.codeql/packages",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
         "--infer",
         "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
         "--analyzer-jar",
@@ -7319,7 +7321,7 @@
         "--codeql",
         "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
         "--codeql-packs",
-        "/Users/dave/.codeql/packages",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
         "--infer",
         "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
         "--analyzer-jar",
@@ -7379,7 +7381,7 @@
         "--codeql",
         "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
         "--codeql-packs",
-        "/Users/dave/.codeql/packages",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
         "--infer",
         "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
         "--analyzer-jar",
@@ -7439,7 +7441,7 @@
         "--codeql",
         "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
         "--codeql-packs",
-        "/Users/dave/.codeql/packages",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
         "--infer",
         "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
         "--analyzer-jar",

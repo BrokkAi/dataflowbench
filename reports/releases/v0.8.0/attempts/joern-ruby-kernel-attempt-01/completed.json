@@ -1,0 +1,777 @@
+{
+  "id": "joern-ruby-kernel-attempt-01",
+  "planned_id": "joern-ruby-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-joern-ruby-kernel",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T07:57:17.758687+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      3.6767578125,
+      14.02392578125,
+      13.9716796875
+    ],
+    "load_after": [
+      9.98583984375,
+      10.4033203125,
+      11.88037109375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T08:05:43.559287+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/stdout.txt",
+    "sha256": "01d901a35c83842bea1c7b4452906f400cb8204761fe79d96a6c87d9efc63305"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/joern-ruby-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/joern-ruby-kernel.json",
+      "sha256": "2ea6f41c0383889782aab14f5e524256774bef13c08826d7afb7cbb7e47a00e1"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-chain-negative.json",
+      "sha256": "61849ffad1f249c550b1d7fc0b43ba91fb7eae1aabf46280968e71c2af04a5cd"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-call-context-positive.json",
+      "sha256": "c3bc906f83c0d6f92ecb14d77be498e534aca107834db38740ea2d855e52ed76"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative.json",
+      "sha256": "2f4cd078a9b49b8288a4ad8b67e15fb640506ccccc75cae8d1f4ccd0e7f5bb96"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative.json",
+      "sha256": "596dce07c5f4912fc86554139fcfa223943f71833338e9998d72a46ab0752f71"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-argument-position-positive-timing.json",
+      "sha256": "fd5d998004457efa8279111054863f6beb6328ed8fedb58f2ace4fe9a8db3e8e"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-map-iteration-positive-timing.json",
+      "sha256": "9b36e44f96092ae5de8295f3e404f69f9d471c27cba68c027a6cd2b9aef2fb7f"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-timing.json",
+      "sha256": "4bd71aa4765cd9f3d45c5fb510339940a15e63f36147a24ed2f1e2fd6adafb5b"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-argument-position-negative-timing.json",
+      "sha256": "74934cf78564c5dad32849671661d482b2f43417bfe3793d751ec2bf018188ef"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-computed-property-negative.json",
+      "sha256": "0cf6ff7c3e839483d6ee155314447345ef57abef5debd2d762f8e39ca59e4753"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative.json",
+      "sha256": "e789b3694133e632b6de69cb12f5eb88320d530790d10eb1fa13bfa8cc22b997"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive.json",
+      "sha256": "1e193225a382486c62ab3fa880a0f351f5f8f3d199baa6cf2c48215132201a7a"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-timing.json",
+      "sha256": "c4951a46fb1572588292016eddf2b84f30f879894294f856f374227b4dbe4dba"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-nested-access-path-positive.json",
+      "sha256": "59fa194382432df28e2f6e27d051c02f2bcc871c7f8df50d103351c1dc9defee"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-branch-join-negative.json",
+      "sha256": "f6634ae812cd151803c457f0d33f87b2651546d0389bafa8294f6e6baa4c6676"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-map-iteration-negative-timing.json",
+      "sha256": "ea0ce9eda4738166b88fb7bd91c45aa299ec33420a7b83f1682b2caaaac8fb56"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-computed-property-positive.json",
+      "sha256": "df1a75da425ef1632b270a2ba1f9813de21d98b022de9f8feef027a06ab86cbf"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-call-context-negative-timing.json",
+      "sha256": "0b96befe7150449f4da0db0997596c11b6f3381d7c135eabe4e4c72f3a696fbc"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-exception-catch-negative-timing.json",
+      "sha256": "d3b880ca09e09c84e2159124aa377dcac8faac29daf9f5b36b3e2b364141c8ef"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-branch-join-positive-timing.json",
+      "sha256": "ca1cd70ae3d5d99340616f9e3abf584410943f16e17e09e2932ff30f7a5e36a2"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive.json",
+      "sha256": "385d863d2be92bb876a34aedc1794596732742c99960f6885bbeb0e3b874f8dd"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative.json",
+      "sha256": "b71cccfb57076af6a748a3f0acd2f75c7eda2f4a910176c1aae943859d33efd8"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "d8fdad86da1217546d5c8ba3e93b1fc006156d3a5f0dd1a5c5ddb450a65520e0"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-branch-join-positive.json",
+      "sha256": "510e18d6931aae825346ce433e3e2b310d5744955f6f537b10f7e1d673ebef80"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-nested-access-path-negative.json",
+      "sha256": "0d701c5b843fe726d938f612f0e06e2354005a9bec077d301d37de739ac3be11"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive-timing.json",
+      "sha256": "b790c7f93c33026de9d615e9151967276aa6087abda79e535c8be89a677bbbd0"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "1ff8498fd169c94ad30007293283a3ad34bd6b5f12256b11b1b47aab98aa7a39"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-chain-positive.json",
+      "sha256": "e140f232bd65019f8d75b7197ea622ecbaaa5df1fca5b4825e9762dcf2211add"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-call-context-negative.json",
+      "sha256": "792fc2863fcfedb2afbc9b32bd640303a0d22860341377fe87d6fc7cb481aeb7"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive.json",
+      "sha256": "acdcc01c0549a975170b97d0a0396eabd9afc6c17003d48f673515c09b065cac"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-branch-join-negative-timing.json",
+      "sha256": "4dd6159ec560e43e2550fd493478af10b356c0d6b5bd5d21aee780d7d5bda92d"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-call-context-positive-timing.json",
+      "sha256": "931f43382ab6c1a81697a1c7057a84a3e0c2d6c803aa3ee6928a8a65826306d2"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive.json",
+      "sha256": "0c65b9ad6b0db8d8e34e757fb84650be2b6ebb0a065d94cebe97be4d4c4a836f"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-exception-catch-positive-timing.json",
+      "sha256": "a7249305505926d1cbbcd1bbdb3a0063c74db7470d07a1e479ceffc144595522"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative-timing.json",
+      "sha256": "2405ce3d1c53385d452722645593a12f3b97dab56887c4073ab44afbe7403480"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-same-object-field-negative-timing.json",
+      "sha256": "a58ad22f0f28d6439f20f295b38b2b4eb9e90cc5031db25b72ed1bd3be36210e"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-nested-access-path-positive-timing.json",
+      "sha256": "a45178d8f5d36d2a51e1f111cc33330c8fd4624fe7e2fa765e774fbf85783136"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-object-separation-negative-timing.json",
+      "sha256": "fe334e99c02c9c1f454691aafcae55921e3095aea1018810ad4f537b074a9e5a"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-computed-property-positive-timing.json",
+      "sha256": "6f68a75372765758b8f585a528c889ae3ca45bf1a231772a871495fbe4d79191"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-function-field-positive.json",
+      "sha256": "2556c4fb00f03bc82f9f64f54f6653f94bb65de78f1d95eb8f993420b1eaa610"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative-timing.json",
+      "sha256": "81b88da04547e0c34564f03d21ce11ab3f069866a2c32e325dc13565494af994"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-callback-registration-positive.json",
+      "sha256": "01b26932e83b13c6c5943a326ae331d9dc55a62e7389090a8ccb52901cb8f02c"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative-timing.json",
+      "sha256": "0541645d20584f058b67e6ac3c98b5ffc819de52f6d9b14b0a20ec459a91d2ca"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-alias-propagation-negative.json",
+      "sha256": "541a46571a3cda77a03f708608974370fbbe01434ed26b283066b32ff4b20aae"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-exception-catch-positive.json",
+      "sha256": "99d3081b30ae1b641b37d4cd0cfd1cc655150cc3418eed44a6590ffd9034ee2b"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive-timing.json",
+      "sha256": "2422842d46e000c0a1e7a0430a58156070a493ca18b4f0f5c3ae0da30adbada4"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive-timing.json",
+      "sha256": "351fb5b631aeb38aee3b04810eaa46174fa10dc2a2be046d1cc53b52de33df77"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-nested-access-path-negative-timing.json",
+      "sha256": "09415f044bc382ad9cd7bd870a8b6b5436815fd1a342756dce6782a7d17bd77c"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-same-object-field-positive-timing.json",
+      "sha256": "51ec61bb0023519595b9946fa750646a014eefebefe5e17e8cb7936120330a23"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/run-environment.json",
+      "sha256": "d40ec38cd85d5c01c55e73f5311ea3fb8566fad27d2e43147b8d47c62553eae4"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-object-separation-positive-timing.json",
+      "sha256": "a74ba69dd3d91c96be497d747b936e8d90b7781a47905ac38621a82e7a93fbd3"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-computed-property-negative-timing.json",
+      "sha256": "fee7df427777906e03f23f4a6b035f3a9233210a4797b8da71319e714c14236d"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-overwrite-negative.json",
+      "sha256": "c40b1c5b9b499a106231337ca3e36c0f0a6c5be26d4a2f26d3849a15c2a1347a"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive.json",
+      "sha256": "6088a6195ea798d7e33c206236b788a24c64f6dfdd3eae7303c1cc2e7a3fedd2"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-overwrite-positive.json",
+      "sha256": "62e8c221e4499dc96863b7bbf607369d6b9d1dd00587ce5289bb5a3ed1c66280"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-alias-propagation-positive-timing.json",
+      "sha256": "6f6faabed7a1a66dffe7d12964409f16a6ad0ec24c7f9dac9443fb5b5edb5da2"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-callback-registration-positive-timing.json",
+      "sha256": "20ec1e446051475f8ee609d468c6f0022ccb7a2e68d4aa269090797262497cf8"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-timing.json",
+      "sha256": "7d05f49e9b87bcc13396f28f0dbe4de0ba00dfe5c89dc2c5916e7c511aaae1a5"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative.json",
+      "sha256": "c883704c85955682c56fdbfe5e9e108283bb7bb0f37899182bee9ab546e7bb7f"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-alias-propagation-negative-timing.json",
+      "sha256": "2ee8cbf89141aa8b2a173d773ceeaad65349c7bf742751e0088b9328bf1fa2cd"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-callback-registration-negative.json",
+      "sha256": "c224f7258a7362aab06f99551d5e86a122288733d5bc9fa243e01d7fa3929ee2"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-function-field-negative.json",
+      "sha256": "93ca58eff9f435044199a6326e39e100dcca083c4bc08c9fa6d938fde4607abf"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-alias-propagation-positive.json",
+      "sha256": "4cfd993583611d40bb54cd461de98a6604406c76121a3ddfaa859ea9c1d1578b"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-timing.json",
+      "sha256": "e3d1082607debaaa794cfe53cceb7984d005b9ed2b9e67eeeb7ce026e286acf2"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-callback-registration-negative-timing.json",
+      "sha256": "931560b2fb38d1f1a1dec2b87277050daffe39b516b124893a5555d37e03935a"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-exception-catch-negative.json",
+      "sha256": "d8e169383999dc88d834808da6d8a30a7b91e538050a6664a2d5ac12dcc0a9b1"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-array-element-positive-timing.json",
+      "sha256": "02a6df636185790625e1d23ff9757b4b6764fe4554be593d0b85f71f269fadd0"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive.json",
+      "sha256": "29fc2bde739220a2eabf7f20307c682e19625903060e110f324540c45dfefc68"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-dispatch-table-positive.json",
+      "sha256": "0085f5f1146b125d12769db294e3bba64eece23725ab811e301a9def27d5621f"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive-timing.json",
+      "sha256": "3d8cdb44fd8afe661dca63bf98d38b564e8fe5ba8692412472496ff2ca34bbaf"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive.json",
+      "sha256": "a99fa7f08c3313293684348af832c8b3892d4d9aeda9ae0fa6d36d502e2c4bbf"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-argument-position-positive.json",
+      "sha256": "002f161dafe332158d8ba0e250021cbd223c42f7a239433af6021cb14bd7b14a"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-direct-negative-timing.json",
+      "sha256": "81873bc30ca47309aa9f2f03476491b8165fffc81121c2f89b0756e33339aac6"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative.json",
+      "sha256": "c76e268a9b9ca11b46b61a2a8df9ea0c174a60c3777c3ec6f2202c96d35c1257"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-loop-carried-negative-timing.json",
+      "sha256": "3e36f06276b8bb349fcc7a4177cf95936c859252d58340a5d2e1960aa58a1a7e"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive-timing.json",
+      "sha256": "d28f9357bff1b63ff83269038072d82bc013871633ec295c25deb8ae3c43f3c2"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-closure-capture-positive-timing.json",
+      "sha256": "2c278701aeedb1da97d222acb613fea76c7f0abcfb8051dcd9f28a70e70e02ab"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-timing.json",
+      "sha256": "7cd77d2875ef460de67505cabfafa2f36098bb6a7e0aaa0186de829aa1bd0ca0"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative-timing.json",
+      "sha256": "438951210c204dd12a970d0872d68106bb7062aac1d9b32787b7ac00313cc958"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-timing.json",
+      "sha256": "ad647a0dc213b87c40863ac0a8f636d90294ebcfc6f3bc8d1848ee4c8a76eb42"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-array-element-negative-timing.json",
+      "sha256": "417258a397a65b233cdd2921f854ac6c97456c41c7edbeaa72cb6335345857c6"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-closure-capture-negative.json",
+      "sha256": "334e018bddfbd1b49d783ab37635260af2a8e3d947ac92e8db0fb48f640b8b8a"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-same-object-field-negative.json",
+      "sha256": "d852070142ec05edc3991f832f0e24232a217b572d18bdac4bbd160a757dcb60"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-loop-carried-negative.json",
+      "sha256": "8ec113cad9c9066c3ca5d20bc50ec9c4e850d032c3eab425b0a5a622ae5a8425"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-object-separation-negative.json",
+      "sha256": "b2ef4d4cb23c6858728e75b97e17bb0409504a51678330dcc2594a69d26ea1c0"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-element-object-positive.json",
+      "sha256": "81dd4514c133a4bdb1fb6ae4e954b581870e6d63fc1c8e057491dc94003fbfeb"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-timing.json",
+      "sha256": "ad051f4ccb17f1003388818237123b54bb14db839a1767e08f129ea873f0220f"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive-timing.json",
+      "sha256": "dab8950d124354139fbccede3866e8cf9ad9a885d0a1d0acc8692b5a2bb73189"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-closure-capture-negative-timing.json",
+      "sha256": "8cddbcbd19c5c3ef0b1b2429ba11cb3c7f8286d966a6b93e12aa9faa854f9bbc"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative-timing.json",
+      "sha256": "79c7c23a44ad242cfaf76129b0f00572602b68aeea15940de9da749d4ddfc196"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-loop-carried-positive-timing.json",
+      "sha256": "4947047a2f3d9ebc421a50a9fd0f345b83d80546239b728d60d88ee825849322"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-direct-positive-timing.json",
+      "sha256": "58f10c13148713a6ac2f261ae23b28d8aced9835519d6596d87ee10a1d8ace8c"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-element-object-positive-timing.json",
+      "sha256": "e6fcfde59ecfbf83035d7da1e5c9ea47bca6c439acdc2fae5044ce00e1350e00"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-same-object-field-positive.json",
+      "sha256": "1b8ce16a23b5d514a852226d2dd4537e4857550862cf0b08aa160f29d2659ef0"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-closure-capture-positive.json",
+      "sha256": "b28ed4fbfa0906092859e10d6f785851e7ac0cac92bf3e68983b218c98e98564"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-object-separation-positive.json",
+      "sha256": "e0bca14ed16ea3ab991f9428c91be25875d84f8b3bdbf439a5d4cc2a46a9f988"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-loop-carried-positive.json",
+      "sha256": "63c7729ec7605380420dadf128d985db124df9394a4a34fde48cb70bf8a02706"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative-timing.json",
+      "sha256": "14d400aa6554f631ba072c0893ed85134d8f6e721be2c050ae069d660aa8d3dd"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative-timing.json",
+      "sha256": "e031eb47bc86a5570b3a247909c1768d4784b2d8dcf4981dbfb07a89b343d733"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-carry-negative-timing.json",
+      "sha256": "15630181c361e843fe96f6ca34343c884e847877a824b85bbe537027b1e441cd"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative-timing.json",
+      "sha256": "ca23468fbb44d2de5ecebadcf730369389f4e16d37c2a717e3175a3584cb6e4e"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-element-object-negative.json",
+      "sha256": "142018cf2d5ece57575dcddc6b436abf80f8ebb920e8fa67af6ed79eeedc5803"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative-timing.json",
+      "sha256": "0e97310eed96e0f6bef48c6eebdc07e90a1f5237d65cfa379d99ab65eefbec83"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-element-object-negative-timing.json",
+      "sha256": "a79375380cb49b0b0b09cc311953383b5c5ecbe11368d5213d6323a2bb7544f7"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative.json",
+      "sha256": "9f98e350cc9915fe2b4089c2ca3ca05c90a443920566f8a7821dec5b6fa4d1b6"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative.json",
+      "sha256": "c0c9b2948b7c6870b0f5e5346e174073b447d4bf5935b57f9f4e93fe64aa6aab"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-dispatch-table-negative.json",
+      "sha256": "a47b871a16477f1eac88904d2e404e15d096d7afa614aa43c829097ca1f8d219"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive.json",
+      "sha256": "2ed294c571e5328b820ddbbad19edf0299e16de3c72c645d488a364befbefaf4"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-argument-position-negative.json",
+      "sha256": "6bf0339b353fc61e8ffb002e1f67bbdc726e32ce31508d3151bba4c469943141"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive-timing.json",
+      "sha256": "3b99a51652487b1563756ea5d752850d877c260123c80b766abade399cc0eaf0"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive-timing.json",
+      "sha256": "0531b179daf824644d98df02f701ea1be8fb54c4f3ac109a28914af73b28efd1"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-carry-positive-timing.json",
+      "sha256": "f4b73575a9a43fca9b29e0fa83af1fb2fb74d01c7012b58b22c5c37adcf5e762"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive-timing.json",
+      "sha256": "2db3a93450fb54517137537dd0aef92febb37ac3b4941c8919ba52a75e27288c"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive-timing.json",
+      "sha256": "632d50704818d0959811411b0b4fbdd254201353864ed227119764c4e42bb96a"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-chain-positive-timing.json",
+      "sha256": "a825383730bb158042f825bd1555cdeff9dff8685797151d43cafe526dfe7830"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive.json",
+      "sha256": "5b8f9fd5f6792b31d83c7136bc146579faa754997d2a5e62dc1a01e0651af336"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative-timing.json",
+      "sha256": "152ac2f9c19144d54af91e3f2d8855fab2b9623cc7790554760fda30b0d1a7b4"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-map-iteration-positive.json",
+      "sha256": "472fd633990b8f73e63f43fbb20c1278c208bed8c117ca8a1ccb3cd7bfe4660d"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive.json",
+      "sha256": "a8b83a3148481889d47b48192c25207cf756f90867c8ae35befdf52499524e4a"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-array-element-negative.json",
+      "sha256": "66e822c0ed7d6259235f650b9126923e04bd6dcdffa067db187aa5ec153baab8"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive-timing.json",
+      "sha256": "c5b996bd49693f3eaa84cd86e459dbea26d452866a796d6495d1fb4a4bf129bc"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-local-chain-negative-timing.json",
+      "sha256": "0f1c3ea1704f4ae493dcbd48eea14319c9fe93c99d2b3a71647bd47b14106564"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-direct-negative.json",
+      "sha256": "5674ea4a6e161e09ff3e14a4c442aca0bd63c536080547d3a713874b5b8baa73"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-carry-negative.json",
+      "sha256": "8927744c28354e9b40708713c2b6b7586bf9b4bd33ed4aa747aa826c2e4d20f6"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative.json",
+      "sha256": "c91783e139bbf1414a169f1cecb8af2169e35a3770367e9a3a2cc3310dd281b5"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative.json",
+      "sha256": "3f4a376ada5433da617e0d0165a8cdcf473f80ff3521003d3acd5b26b3cab4d5"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive.json",
+      "sha256": "6ee49c243e2fd6ff96bc7ce5825cc5b08d295391e0bb3f30858ba9d04d27831f"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive.json",
+      "sha256": "da70fdf7354c4851ac3edc6c2d27cf301190d2f2e9bd99b09f3113fc75370776"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-direct-positive.json",
+      "sha256": "b244065ed0217cff5c6aa17e6cb0def091b678cc16e4fec0133a35e1c8928def"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-carry-positive.json",
+      "sha256": "4a588b235fab50a3490a002851300ab6d3b58678aa2c475bcf6b9f8ac908989e"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-dispatch-table-negative-timing.json",
+      "sha256": "bdb54294f50e1746906cf4ffc0fd1ebcd91a367095842759bbc11eeed0378606"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive.json",
+      "sha256": "464e932668d518f9a4528882975464bbe07da49be388592db0eaff864072e0b3"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative.json",
+      "sha256": "b879b59c312e552c35ad5d0f85f8234f3abffe210cc1ad49916343ddf632415d"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive.json",
+      "sha256": "66ccb397609d12b11f4eb4d4c375fda77381628ff9cef968286e72d63d5d932b"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative.json",
+      "sha256": "7835bef1d4d884f3bd6fda20415e85325526e99415eae90ecb8864afde5cbeaa"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-function-field-negative-timing.json",
+      "sha256": "7e3813ed3b14123bd34c49893b104baa1ec5025ec7b09b6a229f3b07f0b1d26e"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative.json",
+      "sha256": "af60927a0bc193cc5f1027f4596fc4b1e2615ec34aacd90d69088db831f1bb3d"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-map-iteration-negative.json",
+      "sha256": "b816b13c3a192674445b30bdd69f24de221c0626430351f6281d369f16a7d986"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-function-field-positive-timing.json",
+      "sha256": "5449592a2ccc9f6f2b178614d47b481255b7fd6b9b539d3da7a69c2dc6fe7d82"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative.json",
+      "sha256": "aa169ab71cd7dae9aa3f4bc5fd16d246a9d535ae5b448f3402e9923b321597c6"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-array-element-positive.json",
+      "sha256": "14faf53224f148993588d76e4badfed8e2f23aa2a4d9f5ad1ad4110dac84b624"
+    },
+    {
+      "original_path": "reports/raw/joern-ruby-kernel/dfb-taint-ruby-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-ruby-kernel-attempt-01/outputs/reports/raw/joern-ruby-kernel/dfb-taint-ruby-dispatch-table-positive-timing.json",
+      "sha256": "804c5c4e75bec3f548be95afc235b0c0236572eedeee5c2201dd1b403fba634e"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/joern-ruby-kernel.json",
+    "reports/raw/joern-ruby-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

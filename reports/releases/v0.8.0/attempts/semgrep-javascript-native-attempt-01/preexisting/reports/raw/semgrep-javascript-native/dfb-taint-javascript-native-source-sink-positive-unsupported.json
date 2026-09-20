@@ -1,0 +1,19 @@
+{
+  "activation_arguments": [
+    "--oss-only",
+    "--config=adapters/semgrep/native/javascript"
+  ],
+  "activation_identity": "1.176.0 over the pinned snapshot vendored from https://github.com/semgrep/semgrep-rules into adapters/semgrep/native/javascript",
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-javascript-native-source-sink-positive",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "S",
+  "modeling_category_label": "declared sources and sinks",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 1.176.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): no shipped platform-source model: the snapshot's two rules binding `child_process.execSync` (`detect-child-process.yaml`, `audit/dangerous-spawn-shell.yaml`) source only from an enclosing function's parameter, and `process.env` occurs in no rule of the snapshot — nor anywhere in the upstream `javascript/` or `typescript/` trees at the pinned commit — and the pinned engine over every fixture with the snapshot emits zero findings (Amendments A6/A27, reports/raw/amendment-a27-semgrep-jsjava-native/)",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-source-sink",
+  "witnessed_tool_identity": "1.176.0"
+}

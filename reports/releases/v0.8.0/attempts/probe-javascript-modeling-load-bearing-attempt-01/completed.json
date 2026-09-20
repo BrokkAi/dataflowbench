@@ -1,0 +1,119 @@
+{
+  "id": "probe-javascript-modeling-load-bearing-attempt-01",
+  "planned_id": "probe-javascript-modeling-load-bearing",
+  "release": "v0.8.0",
+  "argv": [
+    "bash",
+    "scripts/probe-javascript-modeling-load-bearing.sh",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "6ff42fefbdba4e2abeac08cee72899b7afe860ab50c9af947d340e6fb17ded19"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-19T07:55:41.225115+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.28125,
+      3.18603515625,
+      3.63916015625
+    ],
+    "load_after": [
+      4.06884765625,
+      3.6103515625,
+      3.76416015625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-19T07:56:58.695411+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/probe-javascript-modeling-load-bearing-attempt-01/stdout.txt",
+    "sha256": "047b0926293a6fa16f66f390c2553de9c1c643846609416c10804211735792a3"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/probe-javascript-modeling-load-bearing-attempt-01/stderr.txt",
+    "sha256": "1bb1af06b793aef4eb1673ade4205e396774456cacaded20375f0156bb2c5a31"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/load-bearing-javascript-modeling/codeql-opaque-propagator-with-model.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-javascript-modeling-load-bearing-attempt-01/outputs/reports/raw/load-bearing-javascript-modeling/codeql-opaque-propagator-with-model.sarif.json",
+      "sha256": "d22dc110578a627c7b088bdb11eea13e5852de98adbf5392d251ca24b84cc8e4"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-javascript-modeling/codeql-opaque-propagator-without-model.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-javascript-modeling-load-bearing-attempt-01/outputs/reports/raw/load-bearing-javascript-modeling/codeql-opaque-propagator-without-model.sarif.json",
+      "sha256": "7bf0e4646ec640b353f51def3d00f464347f509678f6ff6fc0482312a4fe615e"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-javascript-modeling/bifrost-declared-source-with-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-javascript-modeling-load-bearing-attempt-01/outputs/reports/raw/load-bearing-javascript-modeling/bifrost-declared-source-with-model.json",
+      "sha256": "9561d0cf765422b5f15ab0ba1125624cbdd3940433fbf10fd9fb3cfdcfdbb48b"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-javascript-modeling/bifrost-declared-source-without-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-javascript-modeling-load-bearing-attempt-01/outputs/reports/raw/load-bearing-javascript-modeling/bifrost-declared-source-without-model.json",
+      "sha256": "1b00526b424fec34d4ada35822de981d1d2b406349ffdb538f8fbdfb3cec1636"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-javascript-modeling/joern-sanitizer-kill-with-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-javascript-modeling-load-bearing-attempt-01/outputs/reports/raw/load-bearing-javascript-modeling/joern-sanitizer-kill-with-model.json",
+      "sha256": "e2070b4a9cf0f37b2e822af89cf9aaa8fc319127f7ca6b68fc833263daa37f68"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-javascript-modeling/semgrep-declared-sink-without-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-javascript-modeling-load-bearing-attempt-01/outputs/reports/raw/load-bearing-javascript-modeling/semgrep-declared-sink-without-model.json",
+      "sha256": "c18d9bebe5f86f499dc4a61e34df5f56dbb7f63db4fb9a564de23e5267ae8966"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-javascript-modeling/joern-sanitizer-kill-without-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-javascript-modeling-load-bearing-attempt-01/outputs/reports/raw/load-bearing-javascript-modeling/joern-sanitizer-kill-without-model.json",
+      "sha256": "9f3737e1a2cc4cb17c71aa4b22c62c7bdaa50231160e564ae6a0a7d7657e4e22"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-javascript-modeling/semgrep-declared-sink-with-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-javascript-modeling-load-bearing-attempt-01/outputs/reports/raw/load-bearing-javascript-modeling/semgrep-declared-sink-with-model.json",
+      "sha256": "bc881a2e12cb34b77669cc65d41a450670e46d90a2adc7471fa13acb5043500d"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-javascript-modeling/joern-opaque-propagator-unmodeled.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-javascript-modeling-load-bearing-attempt-01/outputs/reports/raw/load-bearing-javascript-modeling/joern-opaque-propagator-unmodeled.json",
+      "sha256": "e7792c416e3e332e9799c3f541e6cb61e10d28b85b23b6cd235d93e636a3ec4e"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/load-bearing-javascript-modeling"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

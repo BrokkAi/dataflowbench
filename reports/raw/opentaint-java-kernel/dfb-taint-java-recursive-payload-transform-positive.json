@@ -1,0 +1,284 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-opentaint-java/dfb-taint-java-recursive-payload-transform-positive/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "DataFlowBench benchmark-controlled endpoint flow",
+                                "text": "DataFlowBench benchmark-controlled endpoint flow"
+                            },
+                            "id": ":dfb-opentaint-kernel",
+                            "name": ":dfb-opentaint-kernel",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :dfb-opentaint-kernel"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursivePayloadTransformPositive#run():0:(%0 = dataflowbench.taint.RecursivePayloadTransformPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursivePayloadTransformPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursivePayloadTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 35,
+                                                        "endLine": 20,
+                                                        "startColumn": 23,
+                                                        "startLine": 20
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursivePayloadTransformPositive#run():1:(%1 = dataflowbench.taint.RecursivePayloadTransformPositive.walk(%0, 3))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursivePayloadTransformPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"walk\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursivePayloadTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 39,
+                                                        "endLine": 20,
+                                                        "startColumn": 18,
+                                                        "startLine": 20
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursivePayloadTransformPositive#walk(int, int):0:(if (arg$1 != 0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursivePayloadTransformPositive#walk"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"walk\" with marked data at the 1st argument of \"walk\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursivePayloadTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 42,
+                                                        "endLine": 10,
+                                                        "startColumn": 12,
+                                                        "startLine": 10
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursivePayloadTransformPositive#walk(int, int):1:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursivePayloadTransformPositive#walk"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursivePayloadTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 25,
+                                                        "endLine": 12,
+                                                        "startColumn": 13,
+                                                        "startLine": 12
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursivePayloadTransformPositive#walk(int, int):1:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursivePayloadTransformPositive#walk"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"walk\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursivePayloadTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 17,
+                                                        "startColumn": 5,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursivePayloadTransformPositive#run():1:(%1 = dataflowbench.taint.RecursivePayloadTransformPositive.walk(%0, 3))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursivePayloadTransformPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"walk\" propagates marked data from a local variable to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursivePayloadTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 39,
+                                                        "endLine": 20,
+                                                        "startColumn": 18,
+                                                        "startLine": 20
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursivePayloadTransformPositive#run():2:(dataflowbench.taint.RecursivePayloadTransformPositive.dfb_sink(%1))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursivePayloadTransformPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursivePayloadTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 40,
+                                                        "endLine": 20,
+                                                        "startColumn": 9,
+                                                        "startLine": 20
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.RecursivePayloadTransformPositive#run():2:(dataflowbench.taint.RecursivePayloadTransformPositive.dfb_sink(%1))",
+                                    "fullyQualifiedName": "dataflowbench.taint.RecursivePayloadTransformPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/RecursivePayloadTransformPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 40,
+                                    "endLine": 20,
+                                    "startColumn": 9,
+                                    "startLine": 20
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
+        }
+    ]
+}

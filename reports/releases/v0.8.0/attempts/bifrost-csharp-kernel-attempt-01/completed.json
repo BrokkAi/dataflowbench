@@ -1,0 +1,777 @@
+{
+  "id": "bifrost-csharp-kernel-attempt-01",
+  "planned_id": "bifrost-csharp-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-bifrost-csharp-kernel",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-17T11:16:38.625273+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      3.43408203125,
+      3.5302734375,
+      8.88134765625
+    ],
+    "load_after": [
+      3.23876953125,
+      3.48779296875,
+      8.8349609375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-17T11:16:47.002430+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/stdout.txt",
+    "sha256": "17016930c00743de2b905d75160e7321cb414930ff5a6e5dbcc08d2bc3a34a0d"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/bifrost-csharp-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/bifrost-csharp-kernel.json",
+      "sha256": "14fe93453fd6c9a46027622ba17bf22027f9e5af6cc849c88b25806b6c6a9755"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-context-pair-depth2-negative-timing.json",
+      "sha256": "06c8374a8c55564c67aaf370591f97e68aaa81c4d66de83b6842da5a680055df"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-alias-propagation-negative.json",
+      "sha256": "3665caba1a5f7c31dabd1939304ba948160dda9268347f13652361b1b2c047f5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-call-context-positive.json",
+      "sha256": "faf6cf9b28d7aefaf24babd80630a5f0bc899551a967842339a84b1c14a2a1e3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-carry-negative-timing.json",
+      "sha256": "73785837b48ac290890119770e0f48e78a73daa49ee6c7f9ba9bcc2dca912d82"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-branch-join-positive-timing.json",
+      "sha256": "057f6ace82851b59f274771dd0a608eb1121ff54a13eccf4656a9b2426f5d222"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-call-context-negative-timing.json",
+      "sha256": "0d722fbc9f10f06385964e791030b312c990cf97bb870185b38762651683c8b4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-nested-access-path-negative.json",
+      "sha256": "f7a423f7b06a8778e713b86c2a88b672f571d7851fa8a38f58c6c0f1a27e801c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-closure-capture-positive.json",
+      "sha256": "6d77b8b0242d883b6235d863eb533bcb5f5246da9bed8a72be09368b6f150457"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-dispatch-table-negative-timing.json",
+      "sha256": "f38e6041156e13f362236f5c3066096a43a1885687af3798c5d56b661afcf329"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-array-element-positive.json",
+      "sha256": "37b0a585caae36e35e0901b75462a35e1be72d0fd9bf108bce0edc00b9fbb78b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-function-field-negative-timing.json",
+      "sha256": "8a3c7518c548dd8262643663449b8a2bc1ea2e76f5582c30f6a4e0d04b972c49"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-map-iteration-negative-timing.json",
+      "sha256": "80dcef55945f6bcd84ed3971f3454c050a5ec2663c4f7216db13ebd71fede54f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-map-iteration-negative.json",
+      "sha256": "4cf66b7b980352813d6b27da7e2a178c83a23b2f4f88ab509b7d873af8bc20c6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-branch-join-negative-timing.json",
+      "sha256": "6371c55202a7de2fafd674669f1664d888babbd8f230f16655bc896600621feb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-call-context-positive-timing.json",
+      "sha256": "97b681afc709d8ec540455a8af69ed1a16f8a926a52aac72bc91df92c4f895f2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-carry-positive-timing.json",
+      "sha256": "6799e90587a641053424444b88b943b72f0d3bbf7fbc7a7dadc811084a76e2ff"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-two-hop-negative.json",
+      "sha256": "a3ced457d00d9af3068b50ff2614ee647c3f5b133fb7e9a9f27cebff4c35640f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-mutual-recursive-transform-positive.json",
+      "sha256": "449e2a29a0c2079d2b1408e101caf4c8e14bf356627cfae3de4cc188641e016f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-context-pair-depth2-positive-timing.json",
+      "sha256": "afa22ce9b23f2228850bbf0da5f45d2ff267b545f4baac0772eeb448b243e021"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-expression-negative.json",
+      "sha256": "6f306fdbaa51192c2d43a40682e681e59b505fe55d2d0e1d0c3360509de6f06a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-map-iteration-positive-timing.json",
+      "sha256": "da9c6ff383ad6451d5dbd3cde251ec56868567eb54c326e2638bdfa355b7389c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-function-field-positive-timing.json",
+      "sha256": "8b919a685d84bcbb0e80c88c6e1469245a4a17b2aa5ea2866b00bf52a1a0ab9c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-dispatch-table-positive-timing.json",
+      "sha256": "622fe9abd30d7b0e8fc9a4c40366c015f690a2666ee58e733abb7ff29676629d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-overwrite-positive-timing.json",
+      "sha256": "82d41f1fc748f553da59ee137c6b3b52a52f6c60323fa3b109eeeb19de3d53a5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-closure-capture-positive-timing.json",
+      "sha256": "d50662685da4b2d5a231c655404df497e5efc682f35f5d838a258dde386ed2af"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-mutual-recursive-transform-negative.json",
+      "sha256": "0f4ca21bcdfa5fdab82b6bd9df6893fd6069a5751264900c60c514623581932b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-two-hop-positive.json",
+      "sha256": "2b37ed0a885ca09cec5f0a6eeeaa22791dde137c2347cc4bd8cf670f4cebfe28"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-expression-positive.json",
+      "sha256": "31b03972dc962e30b6790c8b014733d802070f95ee7060ab3176e76a0a85f830"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-closure-capture-negative-timing.json",
+      "sha256": "a3c68c7f552a8244bf5c84456bffc06d769d4f02e8c46a6ea2d43fcba07c51b4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-call-context-negative.json",
+      "sha256": "19bc01a7419d07f4e28c047bc5809ae54be9bc0c690d80680bed3e21b8da7fe4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-alias-propagation-positive.json",
+      "sha256": "15507d93d49a7d2b6d9d4ea1cc096d4ae77af4f5c4cbb8efab187ad81b7e98eb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-overwrite-negative-timing.json",
+      "sha256": "a1dc9c116b04a244cf79914f1cb31715602ac126144cfbfc00bddb38588df49f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-closure-capture-negative.json",
+      "sha256": "7185e781285e0a91fccba00c2785fc255c8e054d693557712bc6519ad269ab34"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-nested-access-path-positive.json",
+      "sha256": "46909e0ab6000300c32951494b72d27c5fbfee64a1ecb6328aa42a830662e3ef"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-array-element-negative.json",
+      "sha256": "cc1679473fd1e5f63410134113f584f1e166ee550cea30c2f45ce6971212d348"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-map-iteration-positive.json",
+      "sha256": "cf4115a39580f71c69e64abc8f14df8f189e133e8818ed14c34b8b7f7d3a1602"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-anonymous-implementation-negative.json",
+      "sha256": "d88a4393aff424a6c912726779baa4cbf8d607ed21d3388e1a3df77a66e95071"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-element-object-positive-timing.json",
+      "sha256": "6d357549b3ef47433b0698f36ec8a1dc89fcba99c6e43a0e8939f0fd97d35e15"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-carry-positive.json",
+      "sha256": "1868cedd773c542f1a3518551900579a49203447dc1101ccfeba6707b3b3b06c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-exception-persistence-negative-timing.json",
+      "sha256": "d9636b9657346ef4b8eeb8166be5236de292984b8690454bb28aefee05ed7c78"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-reflective-invocation-positive-timing.json",
+      "sha256": "721393b46950c21ec1edfa90abd8e36cb156fbdc8bbde1ff2e876dd7ce7484f4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-chain-negative.json",
+      "sha256": "2957ca344dc7cef3ba0e1dc42310b1d4b7e56e29a95df76b3d1e3656385bd224"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-heap-unwind-positive-timing.json",
+      "sha256": "54b388244312d2bf64fef2f6ae40c41f1b086af66544700107c406698a16f44a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-expression-positive-timing.json",
+      "sha256": "9ca0e14a1ae35a87134e56fa3dd0f0b43ae6b954435d10a49b150cc23d39d3b7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-function-field-positive.json",
+      "sha256": "976df7878659db9c33257a5f2d8306e3aef60ea5853a9d910660cad0e6d84e97"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-element-object-negative-timing.json",
+      "sha256": "78a45c2f238ec79f21b1792f35544278ac0788ff56f4192bf27f2eff061763e4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-exception-persistence-positive-timing.json",
+      "sha256": "5862bf1a9c0ae133390cf9a5d3272c5c10a24c293d0f4de59a9f6c032082b5fa"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-computed-property-negative.json",
+      "sha256": "6767d2d9709fef4485fdb09fb2ab8b96c76b4640e6f95a5380053ed3ddf055a6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-branch-join-negative.json",
+      "sha256": "421e5c95af63d8fc8e8f0f30c1ea39718f06ea199132a0afbd7fb5e88bcecad1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/run-environment.json",
+      "sha256": "c9ae84f772cc447fa0a9b6871b5541f2e89e5c47ad9ee16f2f0b5432f416e391"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-expression-negative-timing.json",
+      "sha256": "16eab9208f749294b015eadc51fa8bcda0a96071b6e4671d9f0266efafffb64c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-heap-unwind-negative-timing.json",
+      "sha256": "8f8ed986c22e13bc3b0ab6e2ad9a01d0df4e9cb31af5dfed45b65672009785a4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-reflective-invocation-negative-timing.json",
+      "sha256": "7df67233d86f458199f2bebaa4d0849ca4c32c329f9e81c2dfce1945c26c623b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-one-hop-negative-timing.json",
+      "sha256": "f04e3d670b620062b2f8aef88fa4802f717f5145b399c7221ff005201bda3678"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-branch-join-positive.json",
+      "sha256": "f281d56423c556551350a8ff7efd9b68191f7b8d2ddca9398626a7970abe4cb9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-computed-property-positive.json",
+      "sha256": "fd6a43dfdb483f8dfbc1284015541c4e818778d8c6ff4c8bcefc5f18f78f5076"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "6529bab60cc5d506d10cbfd254691b3a2e072eccb4400b8c33a7d1d0d66dd82e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-direct-positive-timing.json",
+      "sha256": "acad05ff0f45c823ad36ee792f2f0a124b3126cc3456787313f4ca670b15efdc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-mutual-recursive-transform-positive-timing.json",
+      "sha256": "9cb9b5fbbc4cc2986b91b78568afee28b06186e5dc0486ebe262af00425293bf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-anonymous-implementation-positive.json",
+      "sha256": "2284d2f433f3ca2a8acc4a6b926dd845dd8a21450af64bb6f5ce5748d62be68a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-carry-negative.json",
+      "sha256": "156e5bfd724d013bfe8962b8f6e680df5d82257e2a24f5c80ec9f63f0f6f32af"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-one-hop-positive-timing.json",
+      "sha256": "c9784086fd67644b927a920ddecd2a81f18e3f8478b1a8692768bcaf50e48185"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-chain-positive.json",
+      "sha256": "f8702e943a2ed5271cc00ed633ae14493dc371e518d404687dd867e0ae632270"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-mutual-recursive-transform-negative-timing.json",
+      "sha256": "85e986f8e349d1225f28fff76cae82e783fc20b7b947ca3db8c1cf58f3b7bf9c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-function-field-negative.json",
+      "sha256": "8a057892eec5e380e90d895c32c6aec5ddc18001594a9906aa372d41540da878"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "4afdd0453f8d96d1bcaf5f51dfbf4fe71f06d277aaa5da4e01e675bf3cfc36d8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-direct-negative-timing.json",
+      "sha256": "72913882ce2aa454e5ebddab9fa6e304a8c034a6389d353c4c733ac78081665d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-array-element-negative-timing.json",
+      "sha256": "be21bab207d2d80fc4fc0f6482fc317d8eaff047964748fb9630a6673569593d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-infeasible-branch-negative-timing.json",
+      "sha256": "042cb391dccb46ca6524ab7e7add2756f6ffbfd4a274e3d0e2d651b63bfb0633"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-infeasible-branch-positive.json",
+      "sha256": "22fb0b8f5fd058e2cd28b60fe8e6525154e7bc57f1ce3b267a8a269b81821ab1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-exception-persistence-positive.json",
+      "sha256": "2e6896b503b5699d8b438f9eb371592df781949216d715ceb95737cf8ecbc3f9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-callback-registration-negative-timing.json",
+      "sha256": "b60faddc0f099ece7e3924b2e9bf6c047adbb67743bc644eec814d0304b554e3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-exception-catch-negative-timing.json",
+      "sha256": "88357b2f04f2a8cb3ec75006aa7f67e1f25d7be4f83cc911af38ffe8ee9edb48"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-dispatch-table-positive.json",
+      "sha256": "2c75b024e47ff545517793868ef948e44b82b1de25daf2b221f268091ea5bfcd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-reflective-invocation-negative.json",
+      "sha256": "3796ce219f912be1c603c9bbc02afc42636284b5052887eff87ef89e5dc9f1be"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-argument-position-negative-timing.json",
+      "sha256": "a18a1067a33fc146951bc19adc3625b219f4827fed65a634d9d4b724485bd4e9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-infeasible-branch-positive-timing.json",
+      "sha256": "e366231507813130b2948e3483056c045e413c36d5c3f74fe13aa87b960068f3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-array-element-positive-timing.json",
+      "sha256": "be53dc0d4b5b38f4fa73fdba4ae764ae2810941287e98de0ef290822d6f7531b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-element-object-positive.json",
+      "sha256": "168d9e2796bbd3cd80a564c2fb5bd829c2a3e2730aeceff06e701b8e44496fae"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-callback-registration-negative.json",
+      "sha256": "216b2b92f9d7e3ab49793f3c6a49caf6adf37b4df64ead7983a06a3dfed47f03"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-argument-position-positive-timing.json",
+      "sha256": "fea0cdacf6dc1a4eb8cacec1cc704e4db89f52a8e5f456c8bc07f415a1fab81d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-interprocedural-exception-persistence-negative.json",
+      "sha256": "685653bbc43e7b1f304c0400dd9512b816b7ba2156270fd47c7584b9719b6e70"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-exception-catch-positive-timing.json",
+      "sha256": "a09b2f04312aa35e40c6b7d959304e316d361fca0bef38df891c4aca4015e058"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-callback-registration-positive-timing.json",
+      "sha256": "0b8b229fc2b6b1c27d174ecb696079df20c81f0ba28b9099aa3b566243d89039"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-deep-relay-chain-negative.json",
+      "sha256": "8e734a47675863b4515664cea00b38f02fd8f5075983ee6791ec4a61477a19a7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-loop-carried-negative.json",
+      "sha256": "fa877ecbcabd74b4de3d0f0aec5b6a1e5fa1341b8413fd853a2d976bf2694902"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-element-object-negative.json",
+      "sha256": "1ec7da0b97b79f5429066b81e22a1afee0142a11676117fa3a3e097c5159a39a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-anonymous-implementation-negative-timing.json",
+      "sha256": "57e6b853f613e4ba1dd5347bbe121ab6fdbc92ccc987ce9f2d36178f4d9d4f5f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-callback-registration-positive.json",
+      "sha256": "7917053d1457a3d1af29de6fd7eb279085c62b18396aadeb04c3be2cacd3a016"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-interprocedural-exception-persistence-positive.json",
+      "sha256": "e45516081e1708121ae52f87f12e2942207426f44d64eab69ed06ef86a92411f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-deep-relay-chain-positive.json",
+      "sha256": "d75e04058a1e5e53de471aa75f60d831a003d404d44be790f448a97bdf0fa702"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-loop-carried-positive.json",
+      "sha256": "fcd207b27f42599827ff3d7d54019f33742849336ca2311e5ea47f3327cb6fcc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-loop-carried-negative-timing.json",
+      "sha256": "ccb8ca91dee1ea1a510ba1f67ded7d5d3c1a68af3645e3031932fd232841f352"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-anonymous-implementation-positive-timing.json",
+      "sha256": "a79d862456c144a7652f1c640fd7671a1d614a2d17ab84be034485462a9f1e54"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-exception-persistence-negative.json",
+      "sha256": "583f0ddb8714807fd02b5e9e8851c72ac8bf10bdf27f9e11979eeab47452434a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-infeasible-branch-negative.json",
+      "sha256": "1ebb5d85c159b95255def4764d4c72d5694367b7a76c623deb231620435da2d5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-loop-carried-positive-timing.json",
+      "sha256": "4fd4a2af162e046932c4ffb5ec4bf5d68822e5688705a0c33a6d5b49def97fbf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-reflective-invocation-positive.json",
+      "sha256": "32dd7cacde76cf6c4cd6030a84557d65d21c2125f657c54530ebfcec4ad4e0b5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-dispatch-table-negative.json",
+      "sha256": "7a550bdaee2b6d8ecbf4f4288b1bdde1d6960180dd695e5ebe40a3a244f7f07c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-nested-access-path-positive-timing.json",
+      "sha256": "1b558f8d220b99448984f23b2ce9038d6dcc3b8557bfb17e8c5c401d582fdb71"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-heap-unwind-positive.json",
+      "sha256": "f97ba97a9392589457e88e36245f6d4a177756fe6abf1bc9d250c4b9890a3d34"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-payload-transform-negative-timing.json",
+      "sha256": "f577d40797cd112f8562d66fb360c84aafe8d38e13990004e21517945d8aaed0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-deep-relay-chain-negative-timing.json",
+      "sha256": "b0fb87d5bfa7df09d674c17ab11792035d81e1175fc55e61587c3bf76e215320"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-context-pair-depth2-negative.json",
+      "sha256": "31b95b843c0c327c482626dcc8a46c2f5349e059098f5f6ae4a6d29c85f1d62e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-callback-transform-positive-timing.json",
+      "sha256": "8ef9f5df7ee85df43ba3b2aea4989c52318b1b3a6b74f70c73016814acbb9feb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-overwrite-positive.json",
+      "sha256": "86b829c9cce280c62639dad20e0aafd546936c911bbdca56a1af409d196d2096"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-same-object-field-positive-timing.json",
+      "sha256": "a4f84fd0c2e3c3aef776143df618b2e1dbd74cc72b05183ceb4cc364c8aba662"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-object-separation-positive-timing.json",
+      "sha256": "a0093b293aeaca8475c6243770e0ca37f5ad49c110a8c9746a3a8aedda1d1dbb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-argument-position-positive.json",
+      "sha256": "e052ebe913cc1fdc16fc89c0f689ca313e8ec788e6a8034707b09fddb1532968"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-computed-property-negative-timing.json",
+      "sha256": "4ada84c8f9d9223c7a08b3dfc2c9770aae97edc2d44e2778a202aaa2f42d5cc4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-one-hop-positive.json",
+      "sha256": "ddccb473f1f4dba268829ec921ad823ed6035472e0c081b622a898da252d58ec"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-direct-negative.json",
+      "sha256": "565e520a0e5de38d345a36ce0fa2a5acf0bbc377a327d8f0b8f5e58d22b1deca"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-payload-transform-positive-timing.json",
+      "sha256": "ec808256dcb5cb09c6fb78b127201237ab0e7af29365c74a34d5905f34e778eb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-exception-catch-negative.json",
+      "sha256": "2ed2676e0fb3a564fb70cf7944cfe7923748d53d7e2aa1d3c35ce205ac665c00"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-deep-relay-chain-positive-timing.json",
+      "sha256": "5ed86c48e63e17a33a1ccdc54d4785e90a23964c2df15d52965787181d647fe6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-callback-transform-negative.json",
+      "sha256": "d409eb412e132641521ce426b775031e4c319fb8b28850fbf7983157512a1fdd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-nested-access-path-negative-timing.json",
+      "sha256": "1f3713232b5d5cef564d141ed8eaa8b87caba7d4268600d8aa86f9c79d6ed39c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-same-object-field-negative.json",
+      "sha256": "115ce140c3df8a83d116e201a78471aba323c8c7feacaa62e1c0d2d715b73a10"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-payload-transform-negative.json",
+      "sha256": "be08b1fb0a550c53ff8af6137b8f7cc7a6e4208ee5c5fe85215d955cc8ae7207"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-object-separation-negative.json",
+      "sha256": "17f86e7b34a42c10ffa703a512ef014ee642e38fb0d438cfc3c2b4fe06eef9e7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-same-object-field-negative-timing.json",
+      "sha256": "d960be38f2108987546bb5eca197ab13c66683722ec6df4b1097b1d573f4bf48"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-object-separation-negative-timing.json",
+      "sha256": "fcff69582d5dc67b29061c7114a501653036cb7da5a8596524369a02a09c200e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-computed-property-positive-timing.json",
+      "sha256": "5cd177560e8eefd2d036701bffc43be8b8184215b4b8d74b7d2193e691de4236"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-callback-transform-negative-timing.json",
+      "sha256": "c849aad5a9bd6f64cb18aa2cf0a0f87e9b81b4e236a9da15820dc0526d99febe"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-exception-catch-positive.json",
+      "sha256": "68939462327b7845c4d7bd1e72435c6b0a57e1b06d8863ad03c6fc7f37418571"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-chain-positive-timing.json",
+      "sha256": "7969d0931ebe755d561065efd6deb44df30cad2caa8b0e33305f2320066f3211"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-two-hop-negative-timing.json",
+      "sha256": "df918c34ff95e650aa2b0be6ae9059109efecead48aebea89c6261dfbd954a95"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-callback-transform-positive.json",
+      "sha256": "f3ba0283acbc3103e928a98a0b1f600a5e4f9d5c0ccd0ab3231aac789f8b2ccb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-same-object-field-positive.json",
+      "sha256": "2116e282b89dbcb41a612517885dbe2d4058f7228211f84dfbf7deb920e6cd0c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-payload-transform-positive.json",
+      "sha256": "79b078f239a132ec41b3181f037d340ac885adc6593af6652f3f9a2f170a5e93"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-object-separation-positive.json",
+      "sha256": "e57280bc6baa9ada20920b81ffe33a6f9f5d03af5f3eccf7b764109e49f9aa7f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-alias-propagation-negative-timing.json",
+      "sha256": "0d29365fb0d08242083708be1bd01c43c2cadd9f45332fe9775b1604ece4f4aa"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-two-hop-positive-timing.json",
+      "sha256": "10dbbe883a2d80c950bdb89fd77b4249319334cff08e62a4e6dd4005ffb963af"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-chain-negative-timing.json",
+      "sha256": "1181a657ec220b91371d21424a59ecb0d19c8832a7070f274e2a19ce71513e18"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-recursive-heap-unwind-negative.json",
+      "sha256": "32e1714eec0812f9faa57a0528808049f7af0022d7782ee9cd872064d66afc0f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-local-overwrite-negative.json",
+      "sha256": "95e2f15e2cf5a62ea237dd758fb5937e22294718e07d165f7fa7a52c7f064666"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-context-pair-depth2-positive.json",
+      "sha256": "9ea158c1de77688197660cc8f0bd475c29867173d51d1d3b48993aaacfa0d5fd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-alias-propagation-positive-timing.json",
+      "sha256": "0fc80f68d287768a6e83c4ae81ca346c06ecbfa913892061fe631073c8570947"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-argument-position-negative.json",
+      "sha256": "d9087eb697015c0993293967ac1434714a68cb025120e7270f1866bf415b27b5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-direct-positive.json",
+      "sha256": "09e72d5dbc73743c1a903f7e61d95cfd41191dcb9a3ba5f189620b6eaf34216b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-csharp-kernel-attempt-01/outputs/reports/raw/bifrost-csharp-kernel/dfb-taint-csharp-return-relay-one-hop-negative.json",
+      "sha256": "a7f6dfd1d66208a1a34cfddedd442dfa02b734ee6e1c84f7267dc6a3f3e498dc"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/bifrost-csharp-kernel.json",
+    "reports/raw/bifrost-csharp-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

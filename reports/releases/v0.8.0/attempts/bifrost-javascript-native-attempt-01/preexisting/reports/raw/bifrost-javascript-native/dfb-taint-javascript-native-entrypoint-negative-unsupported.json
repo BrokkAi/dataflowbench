@@ -1,0 +1,18 @@
+{
+  "activation_arguments": [
+    "--policy"
+  ],
+  "activation_identity": "bifrost 0.11.0 built-in policy packs",
+  "adapter": "bifrost",
+  "case_id": "dfb-taint-javascript-native-entrypoint-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "E",
+  "modeling_category_label": "framework entry points",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for bifrost 0.11.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): Current v0.7.1 evidence: reports/raw/amendment-a32-bifrost-scan-native/ retains the v0.11.0 binary identity, extracted shipped policy and catalog. The capability decision rests on the shipped selectors and catalog, not on the positive control, which was inconclusive with partial_discovery; native activation validation remains partial. The following A32/v0.10.9 rationale is historical context, including its activation wording and issue-status statements, which were not freshly verified: preregistered as to be verified — unsupported until shown; Amendment A32 is the verification and retains the decline. The shipped catalog's only source is a call-shaped selector on `getParameter`, so nothing in the product treats a `main(String[])` parameter, `process.argv`, or `sys.argv` as an entry root, and the scan surface carries no threat-model switch to turn one on. Measured: zero source endpoints compile on all six entry-point fixtures in each language",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-entrypoint",
+  "witnessed_tool_identity": "bifrost 0.11.0"
+}

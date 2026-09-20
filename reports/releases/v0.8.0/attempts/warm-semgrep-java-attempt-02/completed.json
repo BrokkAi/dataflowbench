@@ -1,0 +1,134 @@
+{
+  "id": "warm-semgrep-java-attempt-02",
+  "planned_id": "warm-semgrep-java",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "measure-warm-latency",
+    "--tool",
+    "semgrep",
+    "--language",
+    "java",
+    "--batch-sizes",
+    "1,2,4,8,12",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "3951cf19d74fb20cbab1759f87835df5715612c1c5d963fb85dcf66ee75d3f81"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-19T16:07:21.245528+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.08984375,
+      2.01416015625,
+      2.16162109375
+    ],
+    "load_after": [
+      2.0693359375,
+      2.0126953125,
+      2.15869140625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": "warm-semgrep-java-attempt-01",
+  "exit_code": 0,
+  "end_utc": "2026-09-19T16:07:34.787060+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/stdout.txt",
+    "sha256": "9fd4e83aef546a90ea2f812d4776fd63eb6893ec0580f0628da51ad9ea6b5955"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-1-findings.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-1-findings.json",
+      "sha256": "0731b6499ba92c774fc23db128bc82e30fca36ca46006f68329f0eaf0effe2bc"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-2-findings.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-2-findings.json",
+      "sha256": "462ed55e45ac18f4b45cf3937669990aee8d7c0c4a391c610e74e6920170febf"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-4-findings.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-4-findings.json",
+      "sha256": "095e83ee3c50e7031e8707df86dbfa4c04689c75dad44c005f1c4d9a1892bf42"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-8-findings.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-8-findings.json",
+      "sha256": "f3332c9b49361a08c32515c751d5724884dc67762479944a457499ae7747b608"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/run-environment.json",
+      "sha256": "7f66f14fc9e0cc48606b577208c9473a8ff8c2184d6a9eb00dbbe6c4586fe6e7"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-2-findings.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-2-findings.json",
+      "sha256": "73170cdf163b826cec9c0ef9815b080aca50d388d9d41ad5de069ee4db983f73"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-1-findings.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-1-findings.json",
+      "sha256": "a6a4ff02ab2e81cd175b1c8bd71f4eadb792be3110388b78da470496364f2ea9"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/warm-latency.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/warm-latency.json",
+      "sha256": "53c7769e6e431e699c65b5a36d73031cc6364bf983924621fb360f540791773e"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-12-findings.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-12-findings.json",
+      "sha256": "e71ed28e32148814fcb29b0af7885ce6eafa006d371f657a5adf2f586f6e8ef6"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-8-findings.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-8-findings.json",
+      "sha256": "62f0cfa4bd130c96052c05425e95303285f14eb9b910e92eac32567062b83c46"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-12-findings.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-12-findings.json",
+      "sha256": "2e369057cd7655f625496579663c90346b82b10a1e648b67f23c0680352d596d"
+    },
+    {
+      "original_path": "reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-4-findings.json",
+      "path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/outputs/reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-4-findings.json",
+      "sha256": "19f2787854fabf215a71002257d0102b1e4b099ddae59647a8eb8bfff342fb7f"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/warm-latency/semgrep-java-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

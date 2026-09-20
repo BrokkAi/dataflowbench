@@ -1,0 +1,70 @@
+{
+  "adapter": "codeql",
+  "amendment": "A24",
+  "clock": "monotonic",
+  "ended_at_unix_seconds": 1788852034,
+  "estimate_bias": "upper bound on start-up and warm-up: it contains the trivial fixture's own near-zero analysis, and it is a cold single-shot execution — the same posture the cold rows are measured in, and not a steady-state one",
+  "estimated_overhead_ms": {
+    "high": 3791,
+    "low": 3501
+  },
+  "estimator": "one complete adapter invocation over a trivial no-flow fixture",
+  "evidence_kind": "retained-invocation-overhead-estimate",
+  "fixture_file": "fixture/dfb_trivial.rb",
+  "fixture_sha256": "aff8dce380e5b54990302a18e09f1420f11e670f1bc9bc6e06b1895fc966a889",
+  "language": "ruby",
+  "measured_boundary": "the adapter's own subprocess boundaries; the estimate is the sum of its declared phases, as the cold whole-invocation figure is",
+  "publication": "range over every repeat; never a mean, never a chosen repeat, and never gated on the repeats agreeing — the width is the precision",
+  "repeats": 3,
+  "runs": [
+    {
+      "load_average_1m_before": 2.88,
+      "phases": [
+        {
+          "phase": "database-create",
+          "wall_ms": 1165
+        },
+        {
+          "phase": "database-analyze",
+          "wall_ms": 2626
+        }
+      ],
+      "repeat": 1,
+      "wall_ms": 3791
+    },
+    {
+      "load_average_1m_before": 2.81,
+      "phases": [
+        {
+          "phase": "database-create",
+          "wall_ms": 1052
+        },
+        {
+          "phase": "database-analyze",
+          "wall_ms": 2449
+        }
+      ],
+      "repeat": 2,
+      "wall_ms": 3501
+    },
+    {
+      "load_average_1m_before": 2.81,
+      "phases": [
+        {
+          "phase": "database-create",
+          "wall_ms": 1066
+        },
+        {
+          "phase": "database-analyze",
+          "wall_ms": 2481
+        }
+      ],
+      "repeat": 3,
+      "wall_ms": 3547
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1788852023,
+  "tool_build_identity": "codeql-cli:6b1e4dee94adb20f90a671f3fc9e04be32eecf65",
+  "tool_version": "2.26.4"
+}

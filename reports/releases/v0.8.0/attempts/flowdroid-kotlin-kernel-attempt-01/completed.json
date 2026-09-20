@@ -1,0 +1,1667 @@
+{
+  "id": "flowdroid-kotlin-kernel-attempt-01",
+  "planned_id": "flowdroid-kotlin-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-flowdroid-kotlin-kernel",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/usr/bin/java",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T00:58:06.467406+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      1.5478515625,
+      1.73583984375,
+      1.61181640625
+    ],
+    "load_after": [
+      4.736328125,
+      4.2158203125,
+      3.01025390625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T01:06:13.563055+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/stdout.txt",
+    "sha256": "66d98074a1c96e44f74c47f9c45ababcc0780270decb02a6077b633f0b87a4c9"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/flowdroid-kotlin-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/flowdroid-kotlin-kernel.json",
+      "sha256": "efa07c7d2c1140799e8a15810e5704d0f1e0462807c7cbec942bcd7d27eb9fc8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-positive.json",
+      "sha256": "0f82440780f5f77e40f3019c3babbb9e76baf2fdae079609ddb4536496f7dcb6"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-sources-sinks.txt",
+      "sha256": "e0e37c674c16a52f667cf100693e693326fb92fb97c1a69a7a069c161e8f2438"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-timing.json",
+      "sha256": "bc7214332469917cb298a5f1cad9ffd055f9f078bcb66b9e264027900f262d04"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-negative-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-negative-results.xml",
+      "sha256": "4854019ede7f8dad0230b1e615c3ab886a27b44e8153adae36fca6298417c4b5"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive.json",
+      "sha256": "3cdf272d2899434c5a1eac3fa0daebcf5ebaacd50cddd776366eb5b038df2ddd"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-timing.json",
+      "sha256": "923a1ad357ef45540b7a1ec79212f8dd5da043cc1d3ade4779b30901dc8a5c0a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-positive-results.xml",
+      "sha256": "e5d55ecc20fa8f1fb870b4cedc45d21d7455a9d81028c5668c9c9565e41c20ac"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative.json",
+      "sha256": "bdc42110740a5696be3d86ada48d346df81c8f4e88c44985f6b2f7bae379e66b"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative.json",
+      "sha256": "4e959a71ab653ec30a8ba6def015f317fab7455d47dd80491bb61ce2e1f68a8f"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-positive-results.xml",
+      "sha256": "76d9cd375694047f50fdf11bd8a0f75ac208b0d73de07be47ce1483a99a36ebe"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-sources-sinks.txt",
+      "sha256": "ec89e429d95b835517b39bfea31c4d35474941dce5b578209dd9075119c74c9c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-wrapper.kt",
+      "sha256": "6587eab16baa07dfa1dd05dda131872c421d93f49e1f64c0a936d74dadbaca50"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-sources-sinks.txt",
+      "sha256": "e81df59ae0c7a51aab26934bbbf13af9dc7e7c6579eb7ad95b6e59811a606f35"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-sources-sinks.txt",
+      "sha256": "4538eb442255824db2dab79466da24c9ad453bd14502f40e2aa799699e66c3fd"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-wrapper.kt",
+      "sha256": "7f91c3a053265d972c9cc27a111c11e0d3d2cab6b282ddc02dfaee8e13e77e09"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-sources-sinks.txt",
+      "sha256": "d5708d553f06c86bddad914b9aad28c2d9316b6a610d30eb0a6c1cec6dbe46f0"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-positive.json",
+      "sha256": "ed7d89898e39ed152d00aa74d60fb1fe1aa0bf6e77a33b5ed87152ff1d697927"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-negative.json",
+      "sha256": "a87bf4f33f05e273bd07411bdacda5c1ffb435a66b188aed96d36dd600a11ba3"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-negative-timing.json",
+      "sha256": "bf7bce508be6c3aec657955046405b3bddf77fa5a1c1db432ad61360989d3c71"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-timing.json",
+      "sha256": "3ef2039785ec85f9527ceedde99efb64dced9895d774dad4b0d76be162c321b4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-results.xml",
+      "sha256": "a27499466d7db727d0b9a02b1e29a7a1ed3035be60f50dd5ea925db76a4f6028"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-positive.json",
+      "sha256": "e35b6910c8339599aa4e5d85549b68e407b367fd60059a8ab6700b40a4bb80c4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-timing.json",
+      "sha256": "c780d5444bfb87fc1479478e402c8c93a80b492c1716794ce9c555df1903d53b"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-negative-timing.json",
+      "sha256": "15f953845a8ad2ffd62b5ef334d10b5a5821c5de67435685034d906f6328f3f2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-timing.json",
+      "sha256": "63ff528af9ed7357e7ba4909e6cdb19600dcecd756041ac2b0fc41f07b1e0fed"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-timing.json",
+      "sha256": "4bebb4dccdb82759c7278d5fc36f59aeef1676504f2fa8a922a5eede8946ff35"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-wrapper.kt",
+      "sha256": "6c79a25073c96f1c244f8555c380b2ea06170d5e0f9113cd4eac6d092a0b1537"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative.json",
+      "sha256": "43844df264f088f4aabdeccb59cd7e349f57b5fa4468fb111630cf54348b375e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-results.xml",
+      "sha256": "639dbdbb4e39d288593c35e61ab94e764d1e6477b28f653e8a854a288b1b4235"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-positive-timing.json",
+      "sha256": "6dfadd7f46c554b7f4e70ca64423c3ae2ee4372440dcf5938156cccff878d6f5"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-timing.json",
+      "sha256": "30d5cf4537b2e4ac0bf2329a6e7a96f1531d55e2ec817f8b2f777b0703d215fb"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-results.xml",
+      "sha256": "f9c3b1e641903751bb737014a611b9503b7be4b3fe62de2811e621119dd5066a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-results.xml",
+      "sha256": "9cc86900de2fb84178f80f4b4a5a80a1b59a79ee4acc6abf1d4ae9abed244843"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-negative.json",
+      "sha256": "9e0e4d63ae78f0487fa366c06abbc3daa6c93967920423b3379ab06d6ac3a2ad"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-results.xml",
+      "sha256": "2aef51ae11cec08d3f6e90463cde2d714616e5228627097deb92eec439cb92af"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-sources-sinks.txt",
+      "sha256": "36bbf2ab89b0c4ff387d01ddb0416d67dbe4228277dc7399736052ab06c28c8d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-timing.json",
+      "sha256": "cd2295cc7d1c18be438451cbf1f964c75858aae54eed2551b6b44fc51a602dc8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-wrapper.kt",
+      "sha256": "37b2e4202ff8d5f1555eb5e3c7b6e52b594f7d009dce085cca9039dc94234087"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-wrapper.kt",
+      "sha256": "dbb323b2c587e9229f9844b367a06407642f0b2db89a846f8820a198594e4f47"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-wrapper.kt",
+      "sha256": "c39509b8a085c6fd241a7d9ce9b8ee9c09e6b79611dbe2169ed174e3c882cd72"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-positive-results.xml",
+      "sha256": "32d7839e69c28ec02e292971f2adad13c6e481267a7b50820c893b86d76589fa"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative.json",
+      "sha256": "90ad5e4f09ec465a1ec9013d7e9c5fc1b40060e22f696257790691353583806c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-negative-timing.json",
+      "sha256": "db93af412b03e3fc21c2fc79eb11437582968218f5166ff559bc24b59910b2a6"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-timing.json",
+      "sha256": "206066b44494c67a1f5cb48b5299bce9b87a16fc95a32175510cbc4ab9f123ee"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-results.xml",
+      "sha256": "2b1aff4a5c0b503b56702be97e58a1440f073f46899cbb0ddec9f25935bb74dd"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-timing.json",
+      "sha256": "313cc435d22158962e65b437bb519881f2931e14b776c41cef095eca29743da1"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-sources-sinks.txt",
+      "sha256": "3383903ba6b60054b9dc43bf8d3e72f252b82a9f7c029c9b531cf5a3d03cb140"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-positive-timing.json",
+      "sha256": "f44f5024f86f75f650c38fe737e245d4a2711d6f6393d0c418baea835ef1177c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-timing.json",
+      "sha256": "9693f5ffc56098e2045ed8a2e1189edeb685db3de254f3334fd0d5a2ffc9c687"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-negative-sources-sinks.txt",
+      "sha256": "99907ba672f677927c0f941cf3bc017f8854f5d7f2f071be44ff62942322ef1e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-positive-timing.json",
+      "sha256": "fbd10d13816798392e1a3f38ce4649f085f23c2ee1f275b2d8fa82bd8501ea75"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-timing.json",
+      "sha256": "ea9cabdf7edc69db629c5ff0fc84e69167cdeea395620e651062a3a12a343805"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-sources-sinks.txt",
+      "sha256": "bfa4012576ed4dc6a0a816f4d7e54453dc41195f066f4274259cf71084321bb3"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-positive.json",
+      "sha256": "a53a297e363cb2fff333fb46539ddc6d98e0b797df7185695b9994ddccdc341a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-negative-sources-sinks.txt",
+      "sha256": "cbcf5639ce9cf3fc31047576bb95854f5ee63a214b9a4a3b88e42beb96c56d2f"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-sources-sinks.txt",
+      "sha256": "00e2b37973561f9672b442069f4f48b1112d02cd9e2baf8095cf6ee7ab2c4a75"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-timing.json",
+      "sha256": "0382f3c18087f95efab75cc36a2d94b641ba84a61449352be06cc72e21b3cfbd"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-positive-timing.json",
+      "sha256": "831e225d413657fbef21971023bc87eb6ffdc2a4c467bd8a64fc630db6821381"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-results.xml",
+      "sha256": "0935cbd223c035bf7c9014eb6e7e6fec974c7849892e429a3bdfd206c266824d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-results.xml",
+      "sha256": "163d0d469e13f123fe486ef2ed6aa7d3211f3fe4dad599dbff8d61550025f0f1"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-wrapper.kt",
+      "sha256": "1e901db73345b5908aac69829116c2a080b1b5200e2b4309e412f8ab35c387d8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-wrapper.kt",
+      "sha256": "f67b5179019aad4cab2974d47e050add245db5a4ed2dce78a374c0f385e97d69"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-wrapper.kt",
+      "sha256": "80a272245aadda9629f62160bf32e8e52d427104e3e7090dca18520e4f6dc428"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-sources-sinks.txt",
+      "sha256": "010cc4f378f71868e60c65e30d05921fc11c5d9b9d4d82204b5c5e4b29758278"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive.json",
+      "sha256": "56e3a0cdfb5bb974d2cb7b0e84aa4d6fda78c162aeed6f7ac652272799beabd5"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-timing.json",
+      "sha256": "b134d4b184f1a6bad70d280b32d6192a772fbf5813ae48e3f7290dfd22bce2cb"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-timing.json",
+      "sha256": "eaedeea15c60987534d0a4c66adfa8b2dafe29be666c4dcb17faa85f4608d4ed"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-results.xml",
+      "sha256": "532290934acc1e8f98304dfdb0705122366d51612ebb6b8b63cd408c8e399915"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-sources-sinks.txt",
+      "sha256": "7296ed823e458602909bc4ae0da28d242e10a126ea25b423f4a3b33278d55f94"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-sources-sinks.txt",
+      "sha256": "ec83f262cd023da3124e5c464aee65b40b3985836c5be6f3f5fd8c58ddd49ffa"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-sources-sinks.txt",
+      "sha256": "0e2834eb3cc3bef41d3acd9f47d62f505356bdda76c360c492547585ee8c996d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-negative.json",
+      "sha256": "fafaf4864152f1a6bde2c82197b0542db31b076d5a5c5915923301e83aeba6b4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-sources-sinks.txt",
+      "sha256": "4ed99781ee3eb9319d6196174c66efcb4d9a46a9db21b681fa3845ed62e3f5b1"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative.json",
+      "sha256": "f35fd0773e662be703d51444d0f652830a229b4bb8f8995c05c8985495c963ea"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-negative-timing.json",
+      "sha256": "0a12ea6240a39a9e28174716c7929656194ee3d3235af62c28e717063038e142"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive.json",
+      "sha256": "7f350da89319310e86f2741fa9a7f7f0f8a966f446243fec6af56ad2566339d0"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-wrapper.kt",
+      "sha256": "00c75f79ec58489cbbf719c75aae44b1d33e76a8ef370dd414be7960427ed1f9"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive.json",
+      "sha256": "a9d4e1db68e0a3e9cf6369b31a2941efc153678a7dea2e4ec13e5d3394dc6c62"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-timing.json",
+      "sha256": "c9ef8dd50844eada5c6216ff4efaf34db0b36fbb42d873ccb6ca2390c2263855"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-negative-sources-sinks.txt",
+      "sha256": "38e094b4f517008397ae1b14a64b58f01ef178de23af6cceb84048bc50dc72ee"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-positive.json",
+      "sha256": "501ed75568dcee7e25df694f710263f0623531dbb0349983c779d5ba3dc9bbda"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-negative.json",
+      "sha256": "bc3ee8f7e4941b35fd32230ef2fef64e003b659040d479819f364a8b4f3a9871"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-negative.json",
+      "sha256": "d23fdd245ee17aae449f0336d4c496e26571352f629b83cd9dd940315727e24d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-wrapper.kt",
+      "sha256": "15873969725119491bc5281dbd398a46f3f6afb82340daead75899d7a613eb05"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-sources-sinks.txt",
+      "sha256": "9ac3731cab364b393b91ebd8551d975f19209d2ae0bb81a9e9df0f9e98232394"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-timing.json",
+      "sha256": "af2eb0ed387d5f96b3b180efc2133b34adf89739e1fa0e3cb9d726fa81fb57ab"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-positive-results.xml",
+      "sha256": "4e7f714891ff086b39ffba8615cda173dd8a24766838717f0d86aed94a1514fb"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive.json",
+      "sha256": "0eef7538b7b57bc8dd7ac9289f88b41f5b4125c5e0e5a29606651844bc69a5f0"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-timing.json",
+      "sha256": "c0c18b8d1442f4fc9569e71c89612a5818ac1e0232763ef740e9bd743ced48a8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-wrapper.kt",
+      "sha256": "f6b671d4f83d636196d884f52f323c18858f0eeab944ac2eaca1d102656ffddd"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-sources-sinks.txt",
+      "sha256": "e0137eac62c83f7ae1b0744d72b6637fb6316714955f15ec0c42e05f08709c67"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-negative.json",
+      "sha256": "0d9392560cd46c6a932cd81e5f1dcdbae7cbd140657f784b40b6beb2b77738e2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-timing.json",
+      "sha256": "248ec512e1207b77bd18b70b3683e97bf2b301410be8afc2b326385f7b09ce04"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-wrapper.kt",
+      "sha256": "37996488f2a80576f7db045128d5cd76ba733e14d2cd06424f3df76061f9af67"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-results.xml",
+      "sha256": "f321ae713f59f3f4c38017f17bacac7358518e63c9d33e5a44ecf151bfbf2bf4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative.json",
+      "sha256": "66d4195a080ad6f49fffa2ad3801b6dc38298db71f539112e53f3f20f3554ec3"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-negative-timing.json",
+      "sha256": "b2a62ef82516232666e289a2250518bbc261262807fb2b08681ff60758aa567c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-wrapper.kt",
+      "sha256": "34c0a5daa4a5b930e4d4e83c030e1bce98231b53337f3730eb5c6969a0d8c3f8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-sources-sinks.txt",
+      "sha256": "6bed0b7c1c73f381c457b2ab64ae8469cc6484a5c1a246fe7c5cdb5c35e47e76"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-wrapper.kt",
+      "sha256": "b2ffb32dff84e7ca2e2aa0342993b3373a26939f2723df00fc6111e78997c97f"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive.json",
+      "sha256": "89695bd96480154a35a1189e1752ca780996342b47e4b6d0456dedafb01c2b16"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-timing.json",
+      "sha256": "83d0679d9845c17b9c748fbf6cafbe1255c4ac109ca1696d25e3ed3bf45d2746"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-positive-results.xml",
+      "sha256": "93a383bfde5b974f3c541bed43fc80ebb421c617f99191843fd8cafb4a0d1058"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-sources-sinks.txt",
+      "sha256": "f8064ccbdbc99f2edec43dc6751e1f6a3259eba4403736cf93e1027dd5759d9b"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-negative-sources-sinks.txt",
+      "sha256": "c6bcc855377d410079b5ba092e7d2f62862ced62abcd845a4d8caad7dc2c11fd"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive.json",
+      "sha256": "85120773e80dc975e8667d854f146b996b63499c5bfcdf391da68fb15a5b5968"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-wrapper.kt",
+      "sha256": "fd93f4e8c547e7bd34e662db4a1e82cf2d6746b6e7cefa5150275d4bd054f973"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive.json",
+      "sha256": "939b012d4a80282fecc1825c6b83b434c8c6f221cfecdfda278aab44ee657785"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-wrapper.kt",
+      "sha256": "7189b054e3173d5b1cf48ec403e32c4bb4f5b7061ed1304bc0c3b94fb10a878c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-negative.json",
+      "sha256": "9593f43ae4c98e6b61e2e23f56578a524d078a0c941359745576c9a4249d003d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive.json",
+      "sha256": "9bb7c6d12a061a3db18b284a430dfdbd8bd6be516012bd58cb4bf74e620154cf"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-positive-timing.json",
+      "sha256": "fbc4944ca10e3194c27e69c00fb6205143d9d38a305d0ac09921c2cfd3d21861"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/run-environment.json",
+      "sha256": "6882579fb0bc646204fc76612e8c6fc7598f0d8d96b1fe54d9d7040f97cef11c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-timing.json",
+      "sha256": "4080a8bbaf7944367e6966c04fa73036b0af554ec89cba6bb98d0d76ba768737"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-wrapper.kt",
+      "sha256": "67bafe491916dbf21d92ee767db5bffceab99c195eb44528f47276833351de1d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-timing.json",
+      "sha256": "110f427f34ae4d077a1dec450b1ebce9811bdd0f349af21a25008663794c1dce"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative.json",
+      "sha256": "710a9781d2b390869ffbedc626b51765fcf11548e2f7fb51d0ee078b0066d24f"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive.json",
+      "sha256": "0e7451ab4dbef282075ca5e4f761a59d38a306b7a1f3cff203569c7a145b9465"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-negative-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-negative-results.xml",
+      "sha256": "594dd9aaaa9c130431ddeee3032c6c00f1d487e82f9beaf989d5a8b2dc1d23d6"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative.json",
+      "sha256": "8b6d799fc7bcb1265b89420a7bb7612acc16d4201930af0965a7ddae5a1fa3cf"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-sources-sinks.txt",
+      "sha256": "92ba6bc6e2fdeb940c2bb89f19fd4388688cf7921139a6141119fb930adc9538"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-timing.json",
+      "sha256": "9bca9f4aa09b9aa4b29bd03c1a4ab579f174d1733b5d180e05fa23849202c015"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-sources-sinks.txt",
+      "sha256": "902f374fc5e2feb79c869eb19d980d9caca4e259eb54c3be165bee679c323397"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-positive-sources-sinks.txt",
+      "sha256": "c7fc2d97c41c305a7f521b5134ab116b82fce86d237510dee5c677bee6f75408"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-sources-sinks.txt",
+      "sha256": "3fcb8a33c50a7e957cb59375698790bef83c48235b3e104f68293d0c586d502b"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-timing.json",
+      "sha256": "80245983a7cd8aefa1464213b4a1f60f1e8cc79872f21e3458cffcc393c314fb"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-positive-sources-sinks.txt",
+      "sha256": "9797230c71ec541fb7248740ded7262bebede2db8a60a4fdd2e0a2b9f234d4e0"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-sources-sinks.txt",
+      "sha256": "f6e45e28531931c33da6a2b26aed3f064ecba7a0938bbb9b46c0f6d793b9cac0"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-results.xml",
+      "sha256": "7bb708c11bdefdd8364605166c61c6c39e4460beb9a8ae5369f31647cf330942"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-wrapper.kt",
+      "sha256": "f264c025eee88572a5f5ceeb934f14bdb8902ecc273a1b42578cbc1e69098495"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-sources-sinks.txt",
+      "sha256": "d1c7e82702702bae698cdde110f57c3235cec6c317170ba27ef39cb21dc035d7"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive.json",
+      "sha256": "664582c263703fc40ceb67f7718f93fad64c9d056f0fcda13df7a407f8ffea88"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive.json",
+      "sha256": "4849aaa5900f6ffeb50734d4b689d890e9981ae86914729e9e741b26ca368903"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative.json",
+      "sha256": "2edde25dd35bfd190503eb00782060fe83fd1b1d0e42d412c797a30d0aa4de26"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-sources-sinks.txt",
+      "sha256": "12693b5ddc252c7d00173445e5aa0201e29b85fb74513f63c713ad86d9a2190e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-wrapper.kt",
+      "sha256": "425d1778a28b381ca20d518bc661154c845ac5d1217c527d396811fe82e3d9f8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-positive.json",
+      "sha256": "421dd8794474aeaa174ef0dc3248e8ce19de1d6b7f4ccfaa6ec3546eedb2a65e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-timing.json",
+      "sha256": "b103d9bfe32eb1ec334c1867b7b1164c091455ff7452f300f262b8a46a4b69f3"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-sources-sinks.txt",
+      "sha256": "853dd06129ee80383b139cebfb999b31167e6218d209fd15478792aea2c58b00"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-sources-sinks.txt",
+      "sha256": "d8b491aac6693479b64ace65bcd4834634d9c033ec59a5cecde8c292ad4b9960"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-wrapper.kt",
+      "sha256": "0f58b03a6027d261b7c3421310d3c9a7b12f05fae8d9e198bef23571e59e47a7"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-sources-sinks.txt",
+      "sha256": "a1c03932015d0c36520050d0998c11bb7b9bf94d2533696aa19d1a9b326c7901"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-wrapper.kt",
+      "sha256": "524d274118cf7c4e503586869237b5b376fcb21315f6ef5b893a855fc8abac5a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive.json",
+      "sha256": "d55ff6ef163f884082b97b2cbf9b119b808764bef69285d8eaac250c6398b8bd"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-timing.json",
+      "sha256": "7af6fa18a13edc8288e8ff3df1792b76b981a05bf750be80d283987ba531ef25"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-results.xml",
+      "sha256": "79e5eb56db7745695b51e5b54e89eab76bc44112e0a74e9ecf467637234cb0c4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-sources-sinks.txt",
+      "sha256": "30a45999c5064cbb7a3de092c865df0dd63274b4ba7435534df0780496efe530"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative.json",
+      "sha256": "e310efe545a2d4f97450cf16fa5f04acf1b76400d64222059f34fb94d3040269"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-wrapper.kt",
+      "sha256": "7cc0bd97837172b9319148be0b634d427d8983266d95225a5a14ae5b5d02d095"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative.json",
+      "sha256": "0e0069424a6ddd7e0e31f6a2ee827a1bdbb3095792ea5f15f77c448c50e2dfb7"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative.json",
+      "sha256": "88192cfa319630af2672a2a67f7ea388bba5846843fcdffcf98d94e8cf7777d8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative.json",
+      "sha256": "0717e7e3fb3eecbb96a51fafa137140f34ce16c261413fb13bb1da2a94c3b107"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-positive.json",
+      "sha256": "1b36503a7de73c533283053390bfee0d993fdc84d8d716c2487483284befb26e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-wrapper.kt",
+      "sha256": "470d1f3a7eea4228b5dfc8fea4941aa64752ca09bf8ed85652dd73aec92910b8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-sources-sinks.txt",
+      "sha256": "7ebdcb35d54b3930a4dccea31f3665c19cd729bea98933befa38c0a4dd4e6262"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-positive-timing.json",
+      "sha256": "baeb303acd99acd214413fd3091e044cba20e74eee77d26bd16d7b969e895f48"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-negative-wrapper.kt",
+      "sha256": "05923bc1fb3e09515c2c50a206070e4b74a0f946a8db864fec7c05fc0d58cc08"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-positive-wrapper.kt",
+      "sha256": "06e02effa84880cb1841b78295fab9c5ced031b582ad6bd98198cbb5369110f3"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-positive.json",
+      "sha256": "82d1f8556effc9beaa3938fac357bea4877dfa27626abe917aadabead45f73c2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-positive-wrapper.kt",
+      "sha256": "24b43e6f4daaf3be8939c16c932537fa2dd1f7f4e63e6c1b8322d6292c4e365d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "b5201152d4ae42132e03706f6ade5d5574617008d988181cf7fbb8ab477e1798"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-timing.json",
+      "sha256": "8de6b8c311d9d86adbb437bebf079b639a6884b6bba1e58216829cac9dc8bf46"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-positive-wrapper.kt",
+      "sha256": "5a2fea776b11f9160ea9de8ecb7014cda981f629d8c00ded6d6b5ffcb8990860"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-timing.json",
+      "sha256": "10a3c7bd1c48919d90acf63f1bae93fd20ae8acef6e586a2ac15a298cbe2bf56"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-wrapper.kt",
+      "sha256": "b7eb2f5b524e1a3ec8b070d3cdfd76e765a7109df4a6056736d9f1e7ca86cf1a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive.json",
+      "sha256": "c28cb8cf78332b0ae54f4de81186e3f72ee2457686cc17fe021fe3641fdf4256"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-wrapper.kt",
+      "sha256": "16645e291a7dc5577c2cc0cc903993af51c119ec4681bc519c79b55ae6af0c7c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-timing.json",
+      "sha256": "f8b78c4029e2d102c156532986d46786f78a5ce3a1856ed4ddc43ef9b93f2b3e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-wrapper.kt",
+      "sha256": "28d4c855b8b3a9b130ace80c6c89f96a32883d12b75f5ee70a37df98459ef4e9"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive.json",
+      "sha256": "7a77927f304dae119f5bbfc5c90251479d1ea257a507fe0758f8c9f661f68f80"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-negative-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-negative-results.xml",
+      "sha256": "2e1676bef79984cc96b0786f20309efe0797d4e47c1aeace17d52fc4a7ab94e2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-sources-sinks.txt",
+      "sha256": "4a90e7fa35d75edb63587a70a8e61b06f7e13adb8c87d03009600ede2a76dcbd"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-sources-sinks.txt",
+      "sha256": "eaa9ae927071d7f868653013eb176447ffd696a3766d43b2be62f098a86fdf31"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-timing.json",
+      "sha256": "65b4706325c9836f1df7b43fb64e145a38fbccaff7857df491e1071fe9c893a2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-wrapper.kt",
+      "sha256": "bf9b2b3550d00e0a1e95e34a514271d309830f19ff74198d79fed09a2d2af620"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative.json",
+      "sha256": "13e5838ad2053d201873e9f283b5e42c61f04af969a195cb83d056ed1313c8b9"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-wrapper.kt",
+      "sha256": "89a6655380a66037362875768b89ee02e69875f99387fd07d22776f9b39f3aff"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-negative.json",
+      "sha256": "0035efb0c77b9389e7ce7549221c7cf8918c765b1af5ac21fec872c2701d1cc0"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-wrapper.kt",
+      "sha256": "abc39c584e6d0b5b2850ee89d2687c76314793daf2d09d6f51946cd074efdc37"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-timing.json",
+      "sha256": "f5698c99dc47e5e71c1b6ffb7df98d1584e929f926314514c58ad0f3c66fa122"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-wrapper.kt",
+      "sha256": "84f33c8bc6847faf641bf335eb59496faba1ee93d667380b3dd873fa2661becb"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "dfe8c1ac1baddcabd462640678b9c4e492fca296d2855b7bbaf926dfd78bfa8a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-sources-sinks.txt",
+      "sha256": "4cdd97d0401cfbf32c39fb0d849bd6692ff5fcdd131ea6179c0bb7296556a663"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-results.xml",
+      "sha256": "aa1ad13e21041e6549ea840d4bf4bd3b0876439386bc3dc1f7fd3f35e6b995bc"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-negative-timing.json",
+      "sha256": "9f16b7dff8bcaf299dcb94cf0be5a7fefc5a978d1275497bddcac0004c7b3a06"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-timing.json",
+      "sha256": "d139e6b995c6ef5bb9f6b4778231db01efb189ec9410ede2db29e85f9d468c87"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-positive-results.xml",
+      "sha256": "3a0421888d0dad08daf48393caa874b071dcc323bad8660df618587bfee04b3c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-wrapper.kt",
+      "sha256": "08fdfb23e6def54dd3b2e00c2fa9b65307b3942758d8b01a742e8bacef0d4426"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-wrapper.kt",
+      "sha256": "c9429107142c7946f9d7a318d3c6d83967c0c9aa7d2fb038f03732a82732521b"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-results.xml",
+      "sha256": "d41799acf7c7228a454bfc00bcf6c6322961cc7caaa3caf2d7c9c8131df7cf76"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-wrapper.kt",
+      "sha256": "e06e67b4a6339f537881aa011c8918c84f4d633ee9f243d06d0bbab62fa68053"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-sources-sinks.txt",
+      "sha256": "4aed88dac1773ca73aa9ee09201bcb16a883235d28571238684f0b3a9becc5d1"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-results.xml",
+      "sha256": "8d8dba4d2f832195ddcd364b67149b70326849d9459b96a8abf7a1f8fde68997"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-positive-sources-sinks.txt",
+      "sha256": "45a1ce4c466421208466b1be36ba366199f1cfdc416282990cdbe5a87917b5a9"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-negative.json",
+      "sha256": "46c4e012cbeddbafaa3f677d4822489e537af2d6739f07137b3ae966615fed13"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-results.xml",
+      "sha256": "54e3e2572fa208698c7d3620116611895a76e24620bb04182112da8e470b26b6"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive.json",
+      "sha256": "84a94b02899e3c17b26063e2db55c168cfee9a0a67169dccfc0aa4d852083113"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-timing.json",
+      "sha256": "d324553fe2f3a79d94eab5d908bc7c8cf99222fad13546fcb8f3d237159d4f61"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-wrapper.kt",
+      "sha256": "336e5716a6f92369bc1697c7d039c8f697742e731b3b9e68e285e6eb494e9058"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-sources-sinks.txt",
+      "sha256": "bcbc67102394d4870824e2c7fb444e0a6e0ce3a1277e091ca615af9b61eb9120"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-argument-position-positive.json",
+      "sha256": "ae8375c722335e432af03ed15a9f6ca628d7a5471463ba351d6d878c6ebfd47a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-wrapper.kt",
+      "sha256": "415a87d099a902c9d3d6088ff8ef48a9a66d0a21ab03a5d4898aa60889e87de7"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-timing.json",
+      "sha256": "fecf4165f47946f28db39a53498af88b7e2243822ae16b4d558248047d722e0f"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-sources-sinks.txt",
+      "sha256": "2882e12784591100c3a031ebfd9bbe9cf13cf41671ae299ea7097d6103dd99be"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-wrapper.kt",
+      "sha256": "adcbb4c519aa269eb9fa267f1ef088bab426ca8080645b7d829ea698b8769ee2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-sources-sinks.txt",
+      "sha256": "7db85ef50ca95ae365e86e69eef8b43bb74684be5f2f1299e0acc90997f62314"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-timing.json",
+      "sha256": "f6da53cb0801cb31a6a1bd9b2b2d574af145327833742270cc7cfa0a800d7c0c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-wrapper.kt",
+      "sha256": "c019015b703d6e9461b372613d98523568f14e71df3126ce561bb2534e5ca182"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-sources-sinks.txt",
+      "sha256": "4b12d72a1360384adcae563b8be162dc95a09c62b8bb3febfc2d49bae3d086e7"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-results.xml",
+      "sha256": "607d0dfe899c733227d2fe1c5783244817c0df6fd38875507fb03280db3ff695"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-wrapper.kt",
+      "sha256": "f6849d28c5a3139acd9015073e0c00678e03defad1b75a0d168989c8856c0dc1"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-wrapper.kt",
+      "sha256": "3109a39e6342c1d928b0d6d1daf14e86ded657c5845531659104dd18b0ff4eb2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-results.xml",
+      "sha256": "a3aca5994e45a8c82630ba6f3bba7f63ff3a60dda98a4c7d26bc6fdc3e331986"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-wrapper.kt",
+      "sha256": "e75bb1f296c673934e18ed5413ce7f431aaad9ce9717e1ee9ee4b4f93f0ebc93"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-results.xml",
+      "sha256": "cd6e01ece02ca362aa0d59fe0795d170e0c33ddc51a2711481b7176adb653848"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-positive.json",
+      "sha256": "f620e8af3ae3c46b0b205d6be2c95a8f3d9a33c2029ec3740e0be592f0d2470f"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-sources-sinks.txt",
+      "sha256": "49a0f42d6285ed4cf66ff3b87f43f44d6944ec05afb9f67d09271c34a96ec257"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-negative-wrapper.kt",
+      "sha256": "c80f18286414c7962567f1141da1c95f0f751e82a494037abd3b8245e573c196"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-negative-wrapper.kt",
+      "sha256": "24b43e6f4daaf3be8939c16c932537fa2dd1f7f4e63e6c1b8322d6292c4e365d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-timing.json",
+      "sha256": "f0616459b04cad9bc98a04a238f933f34e660cfe052d2a60d454f7e5bd8ffae4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-negative.json",
+      "sha256": "bca3e7b69b2e0da3bf2967c9170f076a0e297c27b04a8bd9acb08444198a8e7a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-positive-wrapper.kt",
+      "sha256": "2e187f7feb986ba1a28f9d17483192707d05822074e3ad722aa05f964d3c8843"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-sources-sinks.txt",
+      "sha256": "42084237727f29b73922ad254e53bee514975123bb0f408a19e1f48ab1af3ad2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-timing.json",
+      "sha256": "c2005b1cd374173f3775e3f6f7c2103da50afd5670df4cb7a3858c53bb5045e2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-negative-sources-sinks.txt",
+      "sha256": "82d5bc03c3190341a220516c515a68fa1368dc4090bc2c4669157418339ba30f"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-timing.json",
+      "sha256": "63a06b95ac6f971e250f68c001c69a259dca8bfb765cab8047388a14fb8b9bb0"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-call-context-negative-wrapper.kt",
+      "sha256": "bfe0158ee020487e0eb36c174864aa74a86265b76baa62646a9ef03447496f02"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-sources-sinks.txt",
+      "sha256": "dce527a64bc8b641767f9bd42f652cc9a2111ac50b721e1bf6fad23ceeac2e2e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-results.xml",
+      "sha256": "b04ab6d33bbad79ee290cdb0d19eda889b4b0b3294e8915530b08531da33077b"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-wrapper.kt",
+      "sha256": "6cc4e39376c56d1901990b7da4b2012d5b04b95839274387c8dc350ed0951b7e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-sources-sinks.txt",
+      "sha256": "ca2575e1259a7b44bd0759c88ec674234e8c9105576b795c2909e104608c03a8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-element-object-negative-sources-sinks.txt",
+      "sha256": "aa8b5e7762c8824066bf793484f2036f2215ed77614032dac5addb1181510da2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-sources-sinks.txt",
+      "sha256": "03fe723603725d7e1e0fc4392d86bdf73b36e6df32d8a8681f725202e5750efa"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-wrapper.kt",
+      "sha256": "87b5da5a223500f080177c4c035c19ab710197d934167e7150fb177c4d3d1079"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-wrapper.kt",
+      "sha256": "2f3b37c042fdd917b317192d8fd0c4a50f6a14060e67b7968fddf189473b5637"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative.json",
+      "sha256": "78fef21855d8cb532fb1078a134cd0d78f5c1c02cb24871b107156a522311eee"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative.json",
+      "sha256": "081fc67500cbfd00bb69543a0b716a528c845b03fc5861dcd3ba1f0f33a9e1fb"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-sources-sinks.txt",
+      "sha256": "a9dc8d7ac855685ed6daf6924be4c6ec82042e3ec27e3ba16cdfad318416308f"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-wrapper.kt",
+      "sha256": "c3c547be310876e6c20cdbb968fdf1f22292d94db311f8dbb5f4d61956bc26e7"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-timing.json",
+      "sha256": "731d678084aaef2148d8786dded9b27eb5799508689b06d3ac494c95ac791768"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive.json",
+      "sha256": "a7abd4a2fe7423be7ff604f9d79a54e412259f1fad4abf24e552d55acfc62784"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-wrapper.kt",
+      "sha256": "d3b57c88a0661f77e31441236050ab45d9b6c5ab5ed3f4706d808ee392ebc913"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-timing.json",
+      "sha256": "778f659aa5cb0190d7ad8ae89fac694d19dfca76ba6cedce21fb9fa330caaafa"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-timing.json",
+      "sha256": "ffd353f8fa8744a1e44797e3a672355d285bd85f8bd3fd1d80346deb7b35e1e9"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-results.xml",
+      "sha256": "87116ae97e58f069e0baafb24a2a301ce1dfe2226e93760a16c888318b161754"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative.json",
+      "sha256": "e039f26b6731cccc9b4b2d26e4996f4298a4bb916a13f0a1a924041f52f3ed75"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-sources-sinks.txt",
+      "sha256": "5dc08c2a8866a915e5a7e6121fbd1e46de88c0e53ab2b3d61996d1e13d2574ba"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative.json",
+      "sha256": "cb8a3c29bc88a2fbfc6115a7bbd9e96ea0c7fcb019f64b2c0cbedbc408d120c1"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-results.xml",
+      "sha256": "06f68e635f10271409960244b11069aa8e1e67bdece7f6d455ca07776aadb1b1"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-timing.json",
+      "sha256": "5285ab5441cf87e4dc97fd3531997089dcf56773c66405580f279270dee0a25c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-wrapper.kt",
+      "sha256": "ecaf2911899fd706ecd7ebd757481380673eab669c165a031d10a092a984b14a"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-timing.json",
+      "sha256": "eb566f9fc1c497d037397eb0b900652563e4a66e0729618b45e9da4c41e39a36"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-timing.json",
+      "sha256": "94c1c9a0590860cbfe93ea1f516f582bf7ceff1247b0ff5241b96fe34b1b26b2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-results.xml",
+      "sha256": "586fe6d38ba7e06f73fce697000a7dc0ca46c4d91fbe1911fb7a8f807a6728ee"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-wrapper.kt",
+      "sha256": "40598b7c913878eb3b4815bfe6f7de0dd3ab8823445198b0d282afee8cf86df0"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-sources-sinks.txt",
+      "sha256": "efecfd630a43525f205876e8b4dabdd5c4fbeb59639b9b79dd7bcfc25337c7d1"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-positive-wrapper.kt",
+      "sha256": "15bd2fe014d826301eb111070bda3821c82a6fc0a5ad31140e66fee932a67520"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-direct-positive-sources-sinks.txt",
+      "sha256": "99907ba672f677927c0f941cf3bc017f8854f5d7f2f071be44ff62942322ef1e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-results.xml",
+      "sha256": "5ff884343550eb056eb388ef2b421281073c38127eaf7d5341777f6d406a0468"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-timing.json",
+      "sha256": "af36fea0bf5eddced66a0f13fe38c171d8ee196a50059f30effa2b8a1ef9395d"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-sources-sinks.txt",
+      "sha256": "d45af67048821a7fd392473a76e78acfabd29cd9c43fc218bf18f293aebd0a71"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative.json",
+      "sha256": "144371913cb7d0e006e7c1cd9eb0b9d10b52f1b4ba4c5b105e2a29386f8308f0"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-wrapper.kt",
+      "sha256": "fc007f4130a2dbd8947584bb0c15feb375b7ec7420ea1bfcec27f66254a41492"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-sources-sinks.txt",
+      "sha256": "1f13ceeb311911bcb276aa40abbcca7baf24488812def250fb7b194f73e6e290"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-negative-wrapper.kt",
+      "sha256": "38e1e800f2c00c02e8c24d5a4b46b90ea43480e8d678c7923c3872c0402ac848"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-timing.json",
+      "sha256": "406a05c390a214a3439121fd437a57d4d264bdde9b24e3a62a02d7efd4448397"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-timing.json",
+      "sha256": "20cd47934247ff59cfd5b199e541c8ed4f49174abc0f5e30cf12e1b74c421254"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-timing.json",
+      "sha256": "daa6193a5a0cb5a646184557bcb40adb2642db9e3ef2e24ed1604f0215578bc2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-wrapper.kt",
+      "sha256": "36bec5f899a4334c7fb014ae109ae6514fb992bff2b183fe3da9fb37c19b4430"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-results.xml",
+      "sha256": "3362922e0f01c519813e47ddd4dc6963a2c87485c77c7efd6281f44fa0b54f12"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-sources-sinks.txt",
+      "sha256": "4a23faff43a7962bc95443b009ab574236e1b38d9db2cb79c7858f9afc9fb2e3"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-sources-sinks.txt",
+      "sha256": "bdbe18e4a7f7c85a5b5e3e7e3449fe5097d9835cb440a0df6678366d0c5bafa4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative.json",
+      "sha256": "a3c89e4e2a301dd00810e4e5aaa9c77dbe060b804a71d0e564e1a5ae5b1390b6"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-sources-sinks.txt",
+      "sha256": "2b674659bfb7f209aa5c17e77d22f2ed3e1585795b76b748ac45b9ca4c3b22d5"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-timing.json",
+      "sha256": "e5719a4be0118dbbb7cb16679c78faedd3b8e6402d3c5e625cce50e7ba4536d1"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-wrapper.kt",
+      "sha256": "668f668c6a808b6c6dac64e3fc8a473c35b305774ef086e8092dbb4357a905ee"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-sources-sinks.txt",
+      "sha256": "6f4f0c6cc18b5a82e38e26518e52ec3fc6fb9c1947ce756e78d2fb677b25a5d8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative.json",
+      "sha256": "ef41183505a500982c8329c2207533d6251a698568687d360e87f3ce1ace4a95"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-timing.json",
+      "sha256": "ad1b6e6e2bf968225b3f81d997c4af331e59e7a4eb3d96178884843ab0526752"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-timing.json",
+      "sha256": "351b189af46c55399918c9a8afb70a3faf0086f64e6156cf4accca25fae963f6"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive.json",
+      "sha256": "e9146015e334c26e79dd5179173b1717c5984aec25e1557e2e8c2f70e422b31b"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-timing.json",
+      "sha256": "e88d58b72c360f46d852092493724005bc4baafabfb6b4fa801780e7a92fa981"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-negative.json",
+      "sha256": "d75caa3497bd77ec3536dd3f9a6991065a71013f063438d4b361f74f0d65582c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative.json",
+      "sha256": "663a6d48414d1eb0e4873544868028dba1cc8f8d6ab51d9d57d70ffd1e74c957"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-array-element-positive-wrapper.kt",
+      "sha256": "95cc807fcc540f930c10ba3c0b685bbe546f9e9bbb956ec23c14a899229cca56"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-sources-sinks.txt",
+      "sha256": "35d8583f1c64fa5f05b50bccffaafd35f5698c302461872b791243f4d6dd7c17"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive.json",
+      "sha256": "7020a5dd7df3cbba73ce2ef92caed70f15d187f01c358d506642af3f87be5f03"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-sources-sinks.txt",
+      "sha256": "284af7904d0206cf2296e290e02e798f803ab511b69442bf5d17c3981a6cd1cb"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-sources-sinks.txt",
+      "sha256": "3462e37240d11d278dba46a3e2cb6b2725ee092c1b8cf0110ae50ba8a7d01a18"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-wrapper.kt",
+      "sha256": "988ebc3d0bd46b37dcbcc011412fc7234c060d57a2ecb5cd509d480b52d68a2c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-wrapper.kt",
+      "sha256": "c76dab0928bbb8740f6b6f453c2bf0373bc9670d0202b023d3d4ac5c2295a17c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive.json",
+      "sha256": "64473d1b03f896f2987f4e104688f97e932904654b9e63b6d05c81ed42936a4b"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-positive-sources-sinks.txt",
+      "sha256": "8661d0158cc7eab913be707794346052c026a6f631184fff65976ac6e51b0ad8"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-timing.json",
+      "sha256": "c692aa6a8ff9f2c7f742e19804c7d850acd4dd063e21955b7d0af7f7139f4121"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-wrapper.kt",
+      "sha256": "52ccb1538725350332bf35abc144e7fa4cfb27cb1c38823fe7c4cea0bc5a1dc2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive.json",
+      "sha256": "22df0e16151837267515ce512b11a7c694966976c50e5fcaf617cd2e08e49559"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-timing.json",
+      "sha256": "ece93b39b7882da51072e56274318e1572698860a57bbd2e43adb832c8cc81fe"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-sources-sinks.txt",
+      "sha256": "38d7900e8c4900666c49dc34bf17d86158662cf70ea578b225c3c3e374cf1570"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive.json",
+      "sha256": "b552315ecfabab85db43f30be941a24f4d7a84efb7ac1da2e859e18a2f120f6b"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative.json",
+      "sha256": "ca0ab603f2cdf2f20bf8169109254e48c047eaee440271fe1722ba70bf65155c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-positive.json",
+      "sha256": "6503e25b937f6ebc4fc44b4ac23c2e60f82331341fbb3f7e87fa07a6538471c3"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-timing.json",
+      "sha256": "85c78584f641b99047c6a9eefb843062fb8ec7b9a28a21230a0d6816abe23ee6"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-wrapper.kt",
+      "sha256": "31fd5f30164557d87b301b247a9784d8006e5dfd47b445d66a531ccc53aeea7c"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-sources-sinks.txt",
+      "sha256": "7f2df4cbc2f4ae4c0501c53df9c152e8e5d2b910870e46873ca9b7cb3b3bed2f"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative.json",
+      "sha256": "3e3262f91dbb18bf6c11d922d3bf3ea1c3a13eae093f81c715baeb72ee7d8caa"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-positive-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-function-field-positive-sources-sinks.txt",
+      "sha256": "3587690afbf0e5cb3d649a9385541cbe84c17a27fe030222eaeb7993e3ab43e9"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-wrapper.kt",
+      "sha256": "5ecdc2821abb9a77d872ee80cb1540f7a49cbb566762bd935025d5ef7df925e2"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive.json",
+      "sha256": "f1846aaebdc3b0b185de8b0ecd8bad594b138943d4b3548671cbabde6517f8b1"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-results.xml",
+      "sha256": "9cab32ca00269531db95e5407cee8f59db05eb70f2ec10826e9a1c4dfdc21087"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive.json",
+      "sha256": "0e9c645bcc8e5d74237a4d561e459382a747a0bf2fdc33988a2927267d77207e"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-sources-sinks.txt",
+      "sha256": "f12962ecea7c61d86322bd92b7e626d2acda514ebe7301721e98d583b9855978"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-timing.json",
+      "sha256": "1be6c1577db18aadd24b4b803fe72d2961cf5184f28591d980985bfa088e3b09"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-wrapper.kt",
+      "sha256": "849164803c14b77745b0c8873c5ed13cc82d302c36f205c8307388a7bc3d7741"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-wrapper.kt",
+      "sha256": "d4c911a2063661b61e50523b4534a62232acaccc8f8d451d3fda8f67853c18ad"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-negative-wrapper.kt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-expression-negative-wrapper.kt",
+      "sha256": "b237762266e21e5f18a5503fb63e6cc5407979852df9fc17273dec046f5cd345"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-sources-sinks.txt",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-sources-sinks.txt",
+      "sha256": "957b880353d144830ec58a9f8bf635755239283a93baa70b653a174a930af8e4"
+    },
+    {
+      "original_path": "reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-results.xml",
+      "path": "reports/releases/v0.8.0/attempts/flowdroid-kotlin-kernel-attempt-01/outputs/reports/raw/flowdroid-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-results.xml",
+      "sha256": "1a1eeecf89c1e500e0d77b7440ec67a7dd6af40f510c263ee4c37da48a2bb300"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/flowdroid-kotlin-kernel.json",
+    "reports/raw/flowdroid-kotlin-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

@@ -1,0 +1,13 @@
+{
+  "adapter": "infer",
+  "case_id": "dfb-taint-java-model-store-separation-positive",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "B",
+  "modeling_category_label": "persistence boundaries",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "reason": "category B — persistence boundaries — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the pulse-taint configuration surface defines sources, sinks, sanitizers, propagators, policies, and data-flow kinds and nothing else — no store-write/store-read vocabulary and no key discrimination (the binary's own enumeration is retained as amendment A13 evidence) — and `Store.put`/`Store.get` have empty bodies, so nothing else can carry the roundtrip",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-store-separation",
+  "witnessed_tool_identity": "v1.3.0"
+}

@@ -1,0 +1,136 @@
+{
+  "id": "probe-java-modeling-load-bearing-attempt-02",
+  "planned_id": "probe-java-modeling-load-bearing",
+  "release": "v0.8.0",
+  "argv": [
+    "bash",
+    "scripts/probe-java-modeling-load-bearing.sh",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "ac696f356078db8ce990feb41be46b47236d069ec9012729aa426bf8fdf0dcd0"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-19T07:21:06.614392+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      14.01806640625,
+      6.40380859375,
+      3.77099609375
+    ],
+    "load_after": [
+      4.7001953125,
+      5.1455078125,
+      3.63818359375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": "probe-java-modeling-load-bearing-attempt-01",
+  "exit_code": 0,
+  "end_utc": "2026-09-19T07:23:29.869714+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/stdout.txt",
+    "sha256": "7ddae0f3e878aa135cd14b7e98ad14dc3713481cf6975224f82b5f6981f74e5d"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/stderr.txt",
+    "sha256": "ba318683de6f21e456b2cc927546771ab102ebcbcbd38c8fd0a18b65c611e593"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/load-bearing-java-modeling/codeql-opaque-propagator-with-model.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/outputs/reports/raw/load-bearing-java-modeling/codeql-opaque-propagator-with-model.sarif.json",
+      "sha256": "eda4276e2ff446f6fe7dbcafa1f028682b20078447e321880d6d95f7716b352d"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-java-modeling/codeql-opaque-propagator-without-model.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/outputs/reports/raw/load-bearing-java-modeling/codeql-opaque-propagator-without-model.sarif.json",
+      "sha256": "fb92cf9ece2dd0fa621a1f0cfe186870823d1a994aaffddbf4911645e7060864"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-java-modeling/bifrost-declared-source-with-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/outputs/reports/raw/load-bearing-java-modeling/bifrost-declared-source-with-model.json",
+      "sha256": "ef2bf965a0571a8ce01110ecba772059ea56615bcbac12cb54add979e54ec386"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-java-modeling/bifrost-declared-source-without-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/outputs/reports/raw/load-bearing-java-modeling/bifrost-declared-source-without-model.json",
+      "sha256": "1da9cdc528189498bd44b8ecbeafd845563408289e84a326c1fb1c0cbd3d64e3"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-java-modeling/joern-sanitizer-kill-with-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/outputs/reports/raw/load-bearing-java-modeling/joern-sanitizer-kill-with-model.json",
+      "sha256": "7a5e283f7146066eabe35ee5b0f78636245757fa9b49a232453050027e1683be"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-java-modeling/semgrep-declared-sink-without-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/outputs/reports/raw/load-bearing-java-modeling/semgrep-declared-sink-without-model.json",
+      "sha256": "912e7be8646ed8f8188f4037d1a5de315e104d019d71594e8fe7027cc8ab6d33"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-java-modeling/joern-sanitizer-kill-without-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/outputs/reports/raw/load-bearing-java-modeling/joern-sanitizer-kill-without-model.json",
+      "sha256": "7570ff98e1c7cd50169982e5caf526cb118ebdab1ab78e33f0c9a1e9146357b3"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-java-modeling/bifrost-require-model-accepted.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/outputs/reports/raw/load-bearing-java-modeling/bifrost-require-model-accepted.json",
+      "sha256": "ef2bf965a0571a8ce01110ecba772059ea56615bcbac12cb54add979e54ec386"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-java-modeling/semgrep-declared-sink-with-model.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/outputs/reports/raw/load-bearing-java-modeling/semgrep-declared-sink-with-model.json",
+      "sha256": "2fad1afe74e7791411e1cb016e83878da02a7cef80ec19a5860d02f401ac68a1"
+    },
+    {
+      "original_path": "reports/raw/load-bearing-java-modeling/joern-opaque-propagator-unmodeled.json",
+      "path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/outputs/reports/raw/load-bearing-java-modeling/joern-opaque-propagator-unmodeled.json",
+      "sha256": "03627f25d6ea34913f61899a10e42c59884540d0b316d3f697ee9dcce641986a"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/load-bearing-java-modeling"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": [
+    "reports/raw/load-bearing-java-modeling/flowdroid-entrypoint-parameter-undeclarable.json",
+    "reports/raw/load-bearing-java-modeling/flowdroid-opaque-propagator-with-model.json",
+    "reports/raw/load-bearing-java-modeling/flowdroid-opaque-propagator-without-model.json",
+    "reports/raw/load-bearing-java-modeling/flowdroid-propagator-position-declared-position.json",
+    "reports/raw/load-bearing-java-modeling/flowdroid-propagator-position-undeclared-position.json",
+    "reports/raw/load-bearing-java-modeling/flowdroid-sanitizer-kill-with-model.json",
+    "reports/raw/load-bearing-java-modeling/flowdroid-sanitizer-kill-without-model.json",
+    "reports/raw/load-bearing-java-modeling/flowdroid-sanitizer-selectivity-undecidable.json",
+    "reports/raw/load-bearing-java-modeling/flowdroid-summary-field-sibling.json",
+    "reports/raw/load-bearing-java-modeling/flowdroid-summary-field-with-model.json",
+    "reports/raw/load-bearing-java-modeling/flowdroid-summary-field-without-model.json"
+  ]
+}

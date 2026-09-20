@@ -1,0 +1,284 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-opentaint-java/dfb-taint-java-mutual-recursive-transform-positive/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "DataFlowBench benchmark-controlled endpoint flow",
+                                "text": "DataFlowBench benchmark-controlled endpoint flow"
+                            },
+                            "id": ":dfb-opentaint-kernel",
+                            "name": ":dfb-opentaint-kernel",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :dfb-opentaint-kernel"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.MutualRecursiveTransformPositive#run():0:(%0 = dataflowbench.taint.MutualRecursiveTransformPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.MutualRecursiveTransformPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/MutualRecursiveTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 36,
+                                                        "endLine": 29,
+                                                        "startColumn": 24,
+                                                        "startLine": 29
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.MutualRecursiveTransformPositive#run():1:(%1 = dataflowbench.taint.MutualRecursiveTransformPositive.walkA(%0, 3))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.MutualRecursiveTransformPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"walkA\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/MutualRecursiveTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 40,
+                                                        "endLine": 29,
+                                                        "startColumn": 18,
+                                                        "startLine": 29
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.MutualRecursiveTransformPositive#walkA(int, int):0:(if (arg$1 != 0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.MutualRecursiveTransformPositive#walkA"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"walkA\" with marked data at the 1st argument of \"walkA\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/MutualRecursiveTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 43,
+                                                        "endLine": 10,
+                                                        "startColumn": 12,
+                                                        "startLine": 10
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.MutualRecursiveTransformPositive#walkA(int, int):1:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.MutualRecursiveTransformPositive#walkA"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/MutualRecursiveTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 25,
+                                                        "endLine": 12,
+                                                        "startColumn": 13,
+                                                        "startLine": 12
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.MutualRecursiveTransformPositive#walkA(int, int):1:(return arg$0)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.MutualRecursiveTransformPositive#walkA"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"walkA\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/MutualRecursiveTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 17,
+                                                        "startColumn": 5,
+                                                        "startLine": 17
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.MutualRecursiveTransformPositive#run():1:(%1 = dataflowbench.taint.MutualRecursiveTransformPositive.walkA(%0, 3))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.MutualRecursiveTransformPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"walkA\" propagates marked data from a local variable to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/MutualRecursiveTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 40,
+                                                        "endLine": 29,
+                                                        "startColumn": 18,
+                                                        "startLine": 29
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.MutualRecursiveTransformPositive#run():2:(dataflowbench.taint.MutualRecursiveTransformPositive.dfb_sink(%1))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.MutualRecursiveTransformPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/MutualRecursiveTransformPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 41,
+                                                        "endLine": 29,
+                                                        "startColumn": 9,
+                                                        "startLine": 29
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.MutualRecursiveTransformPositive#run():2:(dataflowbench.taint.MutualRecursiveTransformPositive.dfb_sink(%1))",
+                                    "fullyQualifiedName": "dataflowbench.taint.MutualRecursiveTransformPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/MutualRecursiveTransformPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 41,
+                                    "endLine": 29,
+                                    "startColumn": 9,
+                                    "startLine": 29
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
+        }
+    ]
+}

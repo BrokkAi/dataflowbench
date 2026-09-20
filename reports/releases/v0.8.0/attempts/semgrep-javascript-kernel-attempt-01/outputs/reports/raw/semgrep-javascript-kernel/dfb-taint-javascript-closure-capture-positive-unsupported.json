@@ -1,0 +1,18 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-javascript-closure-capture-positive",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "closure-capture-taint"
+  },
+  "feature_tags": [
+    "higher-order"
+  ],
+  "language": "javascript",
+  "language_maturity": "ga",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
+  "reason": "outside the bounded Semgrep CE profile: the sink is inside a closure body invoked from a different function than the one that captured the tainted local; CE has no interprocedural taint. The case requires \"closure-capture-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}

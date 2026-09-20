@@ -1,0 +1,777 @@
+{
+  "id": "bifrost-javascript-kernel-attempt-01",
+  "planned_id": "bifrost-javascript-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-bifrost-javascript-kernel",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-17T13:29:55.350442+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      6.35107421875,
+      5.91162109375,
+      8.60546875
+    ],
+    "load_after": [
+      10.1787109375,
+      6.765625,
+      8.87744140625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-17T13:30:07.069865+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/stdout.txt",
+    "sha256": "c54fb96c15db5741c61f0391b1a6fbaf0c079d2a322fdb81938cb49323be2056"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/bifrost-javascript-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/bifrost-javascript-kernel.json",
+      "sha256": "f882345ed20b74b649d983852400d44c2d9fe0acf9cd3a6c28faec9f568c6527"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-map-iteration-negative-timing.json",
+      "sha256": "7f027b3db485381305e8a04f2b17e0024b688c3174e27506de3e6a2dd7345e45"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-same-object-field-positive-timing.json",
+      "sha256": "afc4c6e4a1784e6a036e2555e3fa9bb1a85ae855c7b16a907a5e4f289e32681f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-object-separation-positive-timing.json",
+      "sha256": "add00725e84cf845708586b49ceef2975bf2ea576c1b778836c1fb2b7ab6172f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-computed-property-negative-timing.json",
+      "sha256": "0419e93b827de8a5edb7d73480389b06849882f9ba9c406a09ff7950445aed61"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-same-object-field-negative.json",
+      "sha256": "f65f256da06d80e0f6c5f8638e8fb04eadc8db7b76ca766f9089dc9d83255337"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-loop-carried-negative.json",
+      "sha256": "e16350ec456109e5b213a98c68b48622929fb26da9217658bf93f3c5e949521b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-direct-positive-timing.json",
+      "sha256": "edbef1bd6d4d21329fcb3e32a1cbda54881086c3a21b8459af47bdeaaea44bbd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-object-separation-negative.json",
+      "sha256": "45eb6d3d80c99df27eef201ae0c60d84c5aaf02403b6aa07c1a3a3de5faca904"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-carry-negative.json",
+      "sha256": "085de020d7bcd5324006f9a0e7b31cf5d75bc6ed5c3e2cc753e27ece85ec6ebc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-heap-unwind-negative.json",
+      "sha256": "c06f15d43d6f47fef966b1e2d0d0fe82903171fb9742eaf927b334be5cc11727"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-same-object-field-negative-timing.json",
+      "sha256": "a2b139c2da60e3650d6234c2c7ef68f3eeacb322d781a99a81b33d37eea3aa22"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-object-separation-negative-timing.json",
+      "sha256": "6b68fae10b3ee72052a24c430840a31ab78b23d7680978878351462fd281c87a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-computed-property-positive-timing.json",
+      "sha256": "de7cd31060ac7229eb15598401316709218c19a8fe08f6973daf55c7a98c5cb4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-map-iteration-positive-timing.json",
+      "sha256": "de97be1c6915e7a40df235720cb259e2c30a63c0acb46c283add5b51fba0d990"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-two-hop-negative.json",
+      "sha256": "3b389bdfc57fb4f090a00d3967a02f3481d6396f9f1dd5247cdb64fdb807be64"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-argument-position-positive.json",
+      "sha256": "90e9edcb103da14802282d083c3edeb496d2fc14880ee214d5df7ae0606c2de4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-callback-transform-negative.json",
+      "sha256": "9e83933676a63d42ea7baea47f999bd909c30bae3d570d1cdf87c3b01da2338d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-interprocedural-exception-persistence-positive.json",
+      "sha256": "009084486e9fa6bc1ef57efff24042824f49afb3ef0fc5f03f28594268e5edaa"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-direct-negative-timing.json",
+      "sha256": "e6296b55d20c11f40733a3fe423c060cecf443d9e9583118e4a7b91d4b08d0b1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-exception-catch-positive-timing.json",
+      "sha256": "e06a7ca83c90786a3ae22d5df0fd13bff456b70c56cda28477f5750e67178a57"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-heap-unwind-positive.json",
+      "sha256": "3ace5eaf97aee78039c1d5b5f287938aa18ee6579fe7eb68f5a57d00cf10b40c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-alias-propagation-negative-timing.json",
+      "sha256": "b2cdc6e35130c36b3b13ccd7276148d84e5c036f79613ef0fd68aed5533b5f93"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-two-hop-positive.json",
+      "sha256": "c8ed8c9836ff9c66fd4e4594abeb7426ad8d0ebd331d5af619a9ad86cdc7d81d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-argument-position-negative.json",
+      "sha256": "0cfdeb3a747a1c630dc394cde49d98008e5b7c0004eb002e2ef0580edfeebe74"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "1307e08ac53a05c1b7a8b017ae4ce70cb5567b640518ab5d0f90166e035a2f51"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-call-context-positive-timing.json",
+      "sha256": "0074ba47ae4f1b39ac126a6c9b68c369b11882e9e0bf9cc4dcd81418deae704d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-callback-transform-positive.json",
+      "sha256": "eb1ac8b3336a94841666fbc00a5f89e61fbd54b9fe60137aa04b8aeae350ca0e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-deep-relay-chain-negative-timing.json",
+      "sha256": "68732fbb03dc4e9737a1eb0d9852ee8ed724bd0ec3416502194fe538eb1dd8bc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-interprocedural-exception-persistence-negative.json",
+      "sha256": "0f3494c83a7d79bf8b3753d3fe7e6549b2386231c008e42c9adc75cb690e6943"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-alias-propagation-positive-timing.json",
+      "sha256": "eeb8ede2d4aafd941f69f760c02f366d8789ab36baa8a5c99c3c12ba2a96a644"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-same-object-field-positive.json",
+      "sha256": "834fc917520fed3fe0ab9958f8ce7c2ea7df7cb140be61ae900c9410964566c2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-exception-catch-negative-timing.json",
+      "sha256": "51edebb52ae26bc9acdcb6af683e028b6591051162deba6193a29979c653cc04"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-loop-carried-positive.json",
+      "sha256": "75c750cd6b1cb767cf27d63fc0182b0fd8504466f711205c0959cde5ed523482"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-call-context-negative-timing.json",
+      "sha256": "7e44fb62453244c7904f3fa2e781b2bc5dbbc3162ae2ea340289980895e6e2e2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "b04f0aecf52a7347cd780186a2c589330749d6b9ca0b313f9f1fe1ccd680ab6c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-deep-relay-chain-positive-timing.json",
+      "sha256": "3386095b7aa2e03f3846693a8ef9e70a363914805277039f4b9e32c6122e7376"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-object-separation-positive.json",
+      "sha256": "82fc21fb539f1e3f74020e0266c0a3c799fa46e92948eeb2aa5187ebf2313cbe"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-carry-positive.json",
+      "sha256": "3bb7dc0c98a80bb4959d844433020c694f65a28e89e05769dec578b6f618cf31"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-callback-registration-positive.json",
+      "sha256": "a68f5248b86f938dfd54dc0e59f2f4df5b2b59d4dc241726a74fb087812a94a0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-payload-transform-positive.json",
+      "sha256": "0e20f72e3c0056c1a283aeb85c1e0822d67f9640254f21c19483fbc77816acaf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-closure-capture-negative.json",
+      "sha256": "4975fbc239524f198a24d0b5665896fb7a3bac4d4e7511a5668628da77397c6f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-callback-registration-negative-timing.json",
+      "sha256": "3acb11b3f135cd9f57d7513d0243aa403fad3af0962f22b578b48df91b881342"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-two-hop-negative-timing.json",
+      "sha256": "c64b7259a247bca3d7d042824e01fba90b88d99aa1b41004fe2f30eb793b03ba"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-argument-position-negative-timing.json",
+      "sha256": "7642b1ceefb17e3d13ef5380e146d8fbf6df717648da8885f56d919df14ae644"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-element-object-positive.json",
+      "sha256": "899d7325ce819a2c6da4998739b7b61a1648bcf803a2f29d46a72588280d6ae8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-infeasible-branch-negative-timing.json",
+      "sha256": "118a8f4bd3bd3591041c7c466d16a182ac1143073f65a52982d98f7e82ca476e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-argument-position-positive-timing.json",
+      "sha256": "7ae268dff225f523798a694573668f9c14426cd2f453825f2c41f762a0566570"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-callback-registration-positive-timing.json",
+      "sha256": "62317c2db780a76c60e07e809392aaa9e9f86756c76b45bb05838b61bbfdcbb6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-two-hop-positive-timing.json",
+      "sha256": "a7733ed9629d015d6c4784a746168b00c8f4483ae729e6f837d1484c13392ef4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/run-environment.json",
+      "sha256": "2bf0821aa29d58d68ca04889739b722672c2054251887350eb130ec024e85402"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-dispatch-table-positive.json",
+      "sha256": "712d9993ef4294572ce31b275c0883fd3c656027243ca30abef94f0d3192c2a5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-infeasible-branch-positive.json",
+      "sha256": "ffd441cda9c573aa0dc72bd27ee01c541fe0b02f10d38e092ede1cbbbadbe85a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-infeasible-branch-positive-timing.json",
+      "sha256": "958a6106327d7cb3e7f39c68da40d32c97a06559082bd715be16df300b42bf4b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-reflective-invocation-positive.json",
+      "sha256": "dffb0981f48cbb8b9a326d76d52e2e0084b2cb5d8d6dc165ae74b8aca3183c6f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-array-element-negative.json",
+      "sha256": "3b729c01920efca0fb3f2aa48aa10f875e567bc801693a3c8818f5b2234ede47"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-map-iteration-positive.json",
+      "sha256": "b14b9cb3fd33f4b7e1caa73a718021c86819d8ae75aa7af48f6d43f196da3891"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-payload-transform-positive-timing.json",
+      "sha256": "fd6fcdb2d33ee6bdbe33d1b325b819d5c981df2dfa5d4f24889e24aa2042c043"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-callback-transform-positive-timing.json",
+      "sha256": "94af6249381c6bcb383fee41e40ff654cdf9df0293030fc3442b0660859f448f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-dispatch-table-negative.json",
+      "sha256": "9c6f8ca1752c69fd95cd0f8569851edacb25194c7af66df2fce7e9402024402e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-reflective-invocation-negative.json",
+      "sha256": "f49b078eec0bd2c134f006ff37a3c9739dee08967e56952f171ea3668c704493"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-infeasible-branch-negative.json",
+      "sha256": "d937cde88e681de774a364a056314b7df96d93f0e03bf4a9ef5662da58261b49"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-array-element-positive.json",
+      "sha256": "40ecfd5fd1e3f54bf957d409d307dea4b0f735adefe99cbda9801411694d511f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-chain-positive-timing.json",
+      "sha256": "8ca0fdd6b98bcf26ec12134fd39942f2c555be69a7a739f21966e0f0ff276f78"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-map-iteration-negative.json",
+      "sha256": "82f941a792abddb92ea54016e33caed0bff724b593971743d76d8521bd0dcb13"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-closure-capture-positive.json",
+      "sha256": "6946c2ec37e1d3ed9b3ca313c4612e3981ef5cbf12a9632f3cc79e21804a77db"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-callback-transform-negative-timing.json",
+      "sha256": "c0716d9a8869da35b324981ad1173e3b1fa2f981695f7af17638435db6e0e4d3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-callback-registration-negative.json",
+      "sha256": "974e0cb4297169a8cfc632fa5169576c3efee89d7c259a4643ce3e5debd56a41"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-payload-transform-negative.json",
+      "sha256": "708596f29d716c8475dd9cf7f8f80cdf87871a086503719b159a9699538b9ba1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-payload-transform-negative-timing.json",
+      "sha256": "dcce18c6c4acbfebef2dd23ce99e4454aea0089fc9c11799587f7c2055b1be9b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-element-object-negative.json",
+      "sha256": "6caea82c000be0d15057f33cf541c06faa121eb7ff5c30291081ad88ff0940fc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-chain-negative-timing.json",
+      "sha256": "06b02dfd452d8fb6d156f2deddd05710602538ac52375cd1a95114ee8b96b5b7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-computed-property-negative.json",
+      "sha256": "650b851c3bd87f3e94c1cdd264d78a57f34379f2058b61e007b474961d1e9565"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-nested-access-path-negative.json",
+      "sha256": "53683d60bc6846dcbb41f1a6c696f6941d4510931d6f224b0f3a242601b9caa0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-overwrite-negative.json",
+      "sha256": "0aacad40f077603de163be8c24a241d87a58b7c9ac15b91d5ce172b55f9d9cbb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-heap-unwind-positive-timing.json",
+      "sha256": "24079259f2774566becca3056bca1cd1af5bc5dc39c7352f65ead25abbb1774e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-reflective-invocation-positive-timing.json",
+      "sha256": "3df99dcec8cc525b749de41b8471dfca74658ccfd898cbd70d98e2344d19915d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-loop-carried-positive-timing.json",
+      "sha256": "78ed42d948b9ac422d065eb563c9de99d91206409049e3703443ade6c135a1c7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-chain-positive.json",
+      "sha256": "645463d97712d2eb7f8ae06300a11eac090fc8055c77fffce92d16fae06d72d3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-closure-capture-negative-timing.json",
+      "sha256": "0096da204ea491cfca09bf45b8428342c8818ab69d920f40f2c275ed2ee2f91c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-expression-negative-timing.json",
+      "sha256": "a8f3b04ff394a7c1df92656892e3a1911907d00e105587d16e5a4b65875c475f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-array-element-negative-timing.json",
+      "sha256": "814590a383b980eff4ea8cede68d870647ee91570248d427a61fd91bade63ea2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-anonymous-implementation-negative.json",
+      "sha256": "3d1655db7b4ddfdae036d3d038ebac9dab871f73578919d3631f1b87d312176c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-deep-relay-chain-positive.json",
+      "sha256": "4189171e06c2351b203a46f34fab23c2623fac32a6f78cede9d45ca8cdc6e37e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-branch-join-positive-timing.json",
+      "sha256": "e5dd96decd33238f89489aecb97d0658dbc991529f1eea48c6bb4421ab790a60"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-expression-negative.json",
+      "sha256": "8bbfc890d7caf1d5802a4674bf28118c76039f1b92e07923d784dac6ec9bfff3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-overwrite-negative-timing.json",
+      "sha256": "f0a80dd5ef11ba88bc7589e7d44fa6df820d6cd460cad7d9523b384bcd45b9f8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-call-context-positive.json",
+      "sha256": "c661736289490722ce5e7c7a9fb040b63bc65f5ee42d48f99348715fbb5c1a75"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-reflective-invocation-negative-timing.json",
+      "sha256": "55cc89cb89fa9d3c4e8fb947a44538b9a425e601f0f6f5bddfee0b3f6245c351"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-loop-carried-negative-timing.json",
+      "sha256": "4f10a5c19866ee357b21ce0f196047281d3443cfef0478684bd78d7a7b2ebf8c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-branch-join-positive.json",
+      "sha256": "9898ff3d8eae25a2bdb81161cd2a935e0fbfd2da07c764182de792c34c5a7d6d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-heap-unwind-negative-timing.json",
+      "sha256": "5ada0d26bb119c29fe99de1354708319bff1962dfe058db95824c26b250fcdab"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-function-field-positive.json",
+      "sha256": "fe5b8a8a61f4a1182d3152a6827e0209d51e13b5b83c677eb5beaa4c2a02ff0a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-overwrite-positive-timing.json",
+      "sha256": "ce4e51e6a25f8e0d6a450cc2e699b2ed238fac330b60fa13a56c2a7ffd32b876"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-exception-catch-positive.json",
+      "sha256": "e2229ce93ebfe620eda709c035aaee1bd68ce1e10436e421b0bbc57c0384068c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-branch-join-negative-timing.json",
+      "sha256": "44f06e129afbe731f7313f9e61dcc53cd8c98da8f2ebc1c4a75132f6325bc03b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-expression-positive-timing.json",
+      "sha256": "2cbbc091df349636cf754c94159dfd018903ae7f0c37a7557d3dee41a3b3ca59"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-array-element-positive-timing.json",
+      "sha256": "3b8d33d36b2b2c2661392299a9ed089b45105ed98c1a6435c5172b24e588e9e2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-closure-capture-positive-timing.json",
+      "sha256": "b1faabe9a91b87360ce26f360fbc1117f52df1c4fec818743731c820f3bfae8c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-call-context-negative.json",
+      "sha256": "7a674b4c63d782d1a9dfda401c785c06bd26caf8c7e65cf6f32ad403539d9850"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-branch-join-negative.json",
+      "sha256": "b98397674b812bc80ee63142e7a9bada4e53950227472d388960aae3b4176e89"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-mutual-recursive-transform-positive-timing.json",
+      "sha256": "0aa5e690e52a53993d1f29b569ba94224935898f40d8499429ddcee90372c592"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-element-object-positive-timing.json",
+      "sha256": "79da9ef3947c0cb95e958243f74120d73ceaed1d9fd5550b76f14521689e6da2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-function-field-negative.json",
+      "sha256": "ba1ff16e398eb487fd03a3fcc455fe3735dda12c70bdbc4715d8bbc21583cb2a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-carry-positive-timing.json",
+      "sha256": "3c799f3d01662064d6744d1e4ea7ae4018b6f1ff7a4cc587bc1fb7c5ce4e20fc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-exception-catch-negative.json",
+      "sha256": "9f014c78b806f9594dcd577b72305ff9a8437a37f187a972ad73126f229970ce"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-overwrite-positive.json",
+      "sha256": "13bf7e9c8a96a9cc65c8cc871b38e38e1e78df2911d991572090bfdf1bb62a71"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-nested-access-path-positive.json",
+      "sha256": "c2637306bffd3edb358199a1e9db59be6485f762fa2686f64153bd28375d88f1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-computed-property-positive.json",
+      "sha256": "39cd7c7c092c54ad5c892a3fd4f625443018dfaa36d4606524491d931c4a044c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-mutual-recursive-transform-negative-timing.json",
+      "sha256": "13c1948be1474c9f6ab158269e7f668888078d0c515478c1431d6aeeb30ebd28"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-element-object-negative-timing.json",
+      "sha256": "08899e75de91a3dd15c66849b41c00a021396d547192eb68240b78a7e0a6f31c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-local-chain-negative.json",
+      "sha256": "f1427ca4c6f4d9340d22113230b1e3153caf48202cd0223e8cdbdb9ffb46dd8f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-anonymous-implementation-positive.json",
+      "sha256": "b3589b20cbc16a1434e193012dccf7a651872ca8ff5374756d54048ab53da611"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-expression-positive.json",
+      "sha256": "af3cc1e1ec4d290a46c7a9af5d7dd393901762631f2c691f234454c5cc3b226c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-deep-relay-chain-negative.json",
+      "sha256": "3a4d1dc480dc0ed0bbd99b979e897bf2ed5b80d3aef5488a341a447f459ab9db"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-carry-negative-timing.json",
+      "sha256": "5600a85985c450ab8595305759485e331ee6b8d65336a2b4fa8cd2a71b013881"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-one-hop-positive.json",
+      "sha256": "656f16384c9a109d2532f8defeec60ed0687a2ea97c8af02f9cda003a3380630"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-context-pair-depth2-positive.json",
+      "sha256": "3f96b6c92c7ec803df3a2ee10b86fd27e6f8e7cd0a89a9775f2f647bc41d454c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-one-hop-negative-timing.json",
+      "sha256": "319151eba204324bce58fbd9182f2035caa001e91256490b26877dae101dda96"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-context-pair-depth2-negative-timing.json",
+      "sha256": "cfe9374203f7c064bfd110b4b684802dbb40bf0d7555939101a38ed80ce171f8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-anonymous-implementation-negative-timing.json",
+      "sha256": "fa77bf68a7ee8b7e7b4aecae17f90ef900f14ec94ad5582f5d1d089c4b8bcaf9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-nested-access-path-negative-timing.json",
+      "sha256": "4dd89cae84e7a2e98b0b5140c2069cb8703b88838953a7327fa6a7ab80a0221b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-exception-persistence-positive-timing.json",
+      "sha256": "08e055fec29e301d8f6e5820a791d04e379949077ff7c073124a97ce75aeb9b5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-exception-persistence-negative.json",
+      "sha256": "e6c96830f43d4ce2881273e8e3aae3db9b16db7c9ca032d8f2c18fd2709ff598"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-one-hop-positive-timing.json",
+      "sha256": "2dc43bc76beaded75298bb84a0b27483b73b21d018d5c0a200d9db496551fac3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-alias-propagation-negative.json",
+      "sha256": "30b905f5ac724779311b8026985f1917a42f45d8ee3378399701ae8aa92c88b4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-nested-access-path-positive-timing.json",
+      "sha256": "6cfd05548f03f51fecfb8a9286837201a1118a17c17159e473004a9db45cfdb4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-exception-persistence-negative-timing.json",
+      "sha256": "56086b9ff200e39978d9488bdcfc1cb686801576d5eb47aa620a6ff0e05dcb26"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-anonymous-implementation-positive-timing.json",
+      "sha256": "e8b465d7226121f0790da3f42809345d133ff68d28492c707a39fa6ae855ce27"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-direct-negative.json",
+      "sha256": "81e90d8b880ef1d84568081f50cffd530d753a398ef543f1eec1ce9e5769078f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-context-pair-depth2-positive-timing.json",
+      "sha256": "eff4c3207e5094a31deccb2967f4b573d99478f93140b34321590e730a1ab7da"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-mutual-recursive-transform-positive.json",
+      "sha256": "a9b366224bfccbb865daef76e921693cb882e6f0b54c2f12ba5cd21ee36e508f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-recursive-exception-persistence-positive.json",
+      "sha256": "2d25e1d3cd8084e67a6e3dd6551fffd825db8912f8a1c3ea483c3a622102a34d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-alias-propagation-positive.json",
+      "sha256": "cc0388b0b0cd1b200b7719512e08c17dea7ff5ef71f73e5f85d416ed27b2ad3f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-function-field-negative-timing.json",
+      "sha256": "f7072522b20cf3b0e90a8e5d2ada0decc6b29cded81659e9de21b9dca7691ba5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-direct-positive.json",
+      "sha256": "2f06e231bb75e3fa72ea6551b48b492437a117b5d0331d7858eeafbd82aec8c6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-mutual-recursive-transform-negative.json",
+      "sha256": "f76bd8f8aa7fcb13b5d8153425fdc0b9fa86f25d68474b7f5537566e8a5a8461"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-dispatch-table-negative-timing.json",
+      "sha256": "c3e05afac21bf98cde7231c5ef569601fc1599d829f5fd74c1c0fb926be8ee71"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-return-relay-one-hop-negative.json",
+      "sha256": "723753839b5bbe49995dfcbc7a7c75c86fd3385d7992dff3fd285c525a5c73d0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-context-pair-depth2-negative.json",
+      "sha256": "ed972f12fc36970923a78ef86b17930e51eebbe922d6dd08a0520b0b0b7081ae"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-dispatch-table-positive-timing.json",
+      "sha256": "045b69308cb7ca5261682b1bc724fbd9f3669166aa5e01079249faa4a78bc552"
+    },
+    {
+      "original_path": "reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-javascript-kernel-attempt-01/outputs/reports/raw/bifrost-javascript-kernel/dfb-taint-javascript-function-field-positive-timing.json",
+      "sha256": "427441633cfd92717e2a528d536aea29837f38c748f56668648f9dbdc88c0b86"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/bifrost-javascript-kernel.json",
+    "reports/raw/bifrost-javascript-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

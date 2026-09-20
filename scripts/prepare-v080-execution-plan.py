@@ -46,6 +46,7 @@ GO = Path("/usr/local/go/bin/go")
 PATH_REPLACEMENTS = {
     "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.0/bifrost-v0.11.0-universal-apple-darwin/bifrost": str(BIFROST),
     "/opt/homebrew/bin/codeql": str(CODEQL),
+    "/Users/dave/.codeql/packages": str(CODEQL_PACKS),
     "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli/joern": str(JOERN),
     "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.621/joern-cli-macos-arm64/joern-cli": str(JOERN.parent),
     "/opt/homebrew/bin/semgrep": str(SEMGREP),
@@ -213,6 +214,16 @@ def updated_auxiliary_argv(argv: list[str]) -> list[str]:
     return updated
 
 
+def correct_auxiliary_row(row: dict) -> None:
+    """Apply release-specific corrections that path replacement cannot express."""
+    if row["id"] != "warm-semgrep-java":
+        return
+    for key in ("command_template", "argv"):
+        values = row[key]
+        index = values.index("--batch-sizes")
+        values[index + 1] = "1,2,4,8,12"
+
+
 def resolved_plan() -> tuple[dict, dict]:
     plan = copy.deepcopy(load_json(PLAN_PATH))
     population_bytes = POPULATION_PATH.read_bytes()
@@ -255,6 +266,7 @@ def resolved_plan() -> tuple[dict, dict]:
         old_rows = {row["id"]: row for row in previous[group]}
         for row in plan[group]:
             row["argv"] = updated_auxiliary_argv(old_rows[row["id"]]["argv"])
+            correct_auxiliary_row(row)
             row["status"] = "executable"
             if "script" in row:
                 row["script_sha256"] = digest_bytes((ROOT / row["script"]).read_bytes())

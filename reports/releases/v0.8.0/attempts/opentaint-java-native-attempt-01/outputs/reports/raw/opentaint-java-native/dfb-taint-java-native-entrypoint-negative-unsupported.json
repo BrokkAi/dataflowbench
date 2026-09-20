@@ -1,0 +1,22 @@
+{
+  "activation_arguments": [
+    "--project-kind=unknown",
+    "--debug-run-analysis-on-selected-entry-points=*",
+    "--passthrough-approximations=opentaint-models.tar.gz!/java/accumulated-fields.yaml",
+    "--passthrough-approximations=opentaint-models.tar.gz!/java/config",
+    "--java-dataflow-approximations=opentaint-models.tar.gz!/java/dataflow/build/classes/java/main"
+  ],
+  "activation_identity": "v0.4.6 shipped models archive only — no rule set",
+  "adapter": "opentaint",
+  "case_id": "dfb-taint-java-native-entrypoint-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "E",
+  "modeling_category_label": "framework entry points",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-entrypoint (category E — framework entry points) is unsupported for v0.4.6 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): Current v0.7.1 evidence: reports/releases/v0.7.1/opentaint-native-category-audit.json and opentaint-native-catalog-index.json retain the per-category source identities and full v0.4.6 shipped selector bytes/hashes. The shipped os-command-injection rule joins only servlet-untrusted-data-source or spring-untrusted-data-source to command-injection-sink, which covers Runtime.exec. Neither source selector matches these fixtures' System.getenv(String) source or main(String[]) argument vector: they contain none of the servlet/Spring entrypoint, MessageBodyReader, upload/Part, or cookie source shapes selected by those rules. This source-activation barrier retains the decline; it does not establish absence of propagator, sanitizer, summary, or store-link capabilities behind that barrier. The full-product positive/negative control is retained in reports/releases/v0.7.1/opentaint-product-functional-audit.json. The following A23 rationale is superseded historical context, including its obsolete claims that no endpoint catalog or rules ship: entry-point *selection* exists (`--debug-run-analysis-on-selected-entry-points`) but selecting a method analyzes it rather than tainting its parameters; sources live in the rule set, and the pinned release ships none (Amendment A23)",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-entrypoint",
+  "witnessed_tool_identity": "v0.4.6"
+}

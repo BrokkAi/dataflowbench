@@ -1,0 +1,777 @@
+{
+  "id": "bifrost-kotlin-kernel-attempt-01",
+  "planned_id": "bifrost-kotlin-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-bifrost-kotlin-kernel",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-17T14:32:04.173685+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      3.19287109375,
+      3.75439453125,
+      4.10986328125
+    ],
+    "load_after": [
+      6.1220703125,
+      5.12158203125,
+      4.54248046875
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-17T14:38:23.993495+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/stdout.txt",
+    "sha256": "004001e7d02c88a77300dc761f66a78059a073099df6c0fb8f665ecb22842afc"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/bifrost-kotlin-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/bifrost-kotlin-kernel.json",
+      "sha256": "736f93afb9c3459fb51f65a45b699a273b908599724d719c048449b5e2af6d51"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-direct-positive.json",
+      "sha256": "fa3ce8b4c510c02d7125f2d86bf44e9753d1355dc83b717e04c8dceeebcc9568"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-timing.json",
+      "sha256": "903a32105ea5a9c2939e457daf475452b85d90a9f838488146ca41cfb870d6b4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive.json",
+      "sha256": "3375b1534f26892c8e3390f7b918ac103213a5958745124dc35fe1165eec2c8f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-timing.json",
+      "sha256": "67c9527821957f5811c8eeb2de9e49b488d0d426d290e3f1e3ea89dc79be7f97"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative.json",
+      "sha256": "09273e432717144ac9f110ee643c847743ba58bc3ebef08c9db1b6848d19df0d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative.json",
+      "sha256": "5c0c872d451969017a72793d17d085d0696d257333b752bb75183fe76fe8352b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-call-context-positive.json",
+      "sha256": "db7f37f5d86a1a56b96ece45ab4adeb53a8499e450a381475cf38642a408a75d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-chain-negative.json",
+      "sha256": "a83e32743deda12a1e21de041053bbf54d06c0fbeadb5c05af7aa2c439df06f9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-direct-negative-timing.json",
+      "sha256": "2704612a300b6f25d82f938ab276e2dac491c200f744032f3a2eec7fb0bb2215"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-timing.json",
+      "sha256": "3450af15d7b048e4f0c159f78954adbe0ad24dbe1c23812574379735921200a5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-computed-property-positive.json",
+      "sha256": "1e11fef88be0cd86eb8a953069754c7971d96a0125a92882cc4df41b52986d2b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-timing.json",
+      "sha256": "a549baf91cef3073c4fd00bfd3eab5ae69997522d18b169767a745176b451f8f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-call-context-negative-timing.json",
+      "sha256": "0c023747d442b691ce051b82707ad76a00428569aadc709f15f78ec2f7bddc9b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-timing.json",
+      "sha256": "6f7737104a2801d6fb93a5df57d30a0cc31f55ad33a56dc5e5d3ade2e5572dc8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-timing.json",
+      "sha256": "50269c40cde5bdc5355dc856b0e592abf3196afd14526e974fd4f1a30767dab0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative.json",
+      "sha256": "2d6c530dfd6468236b4689da72b6e7be0045285bd830adaa2d62da431c462a21"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-element-object-positive-timing.json",
+      "sha256": "9585b02d531d7f08d7dcdad8cf3e4d85167824812badb4bf8bd630973e0318d2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-timing.json",
+      "sha256": "50800ea0542df75c6272d91edcdf9ce3d14a3a3c7bb9838afd984898c70068f3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-branch-join-negative.json",
+      "sha256": "f5009bccd1d1bfa00853bfe3355eaaf7615c205f478574c3d410ebea706eb73e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-timing.json",
+      "sha256": "5d527f04409b644bda1872e591b4d65018b0177206001cd04a96dae794abbab0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative.json",
+      "sha256": "d55e70ea25609f31ef16cf6503e3bfd6443db8a6634328c5388afe7298fdf531"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-element-object-negative-timing.json",
+      "sha256": "fcd2b84248a3c651ad04fccc1c55c14c45d9fa7879d6072447db9663160c6c1e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-timing.json",
+      "sha256": "3983f5eab7a971d5756f0ae2ddd1de52b27b0002a4879711bd8b02c8db7ba994"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-timing.json",
+      "sha256": "37f53b2ce5970047c777bbd5aa8553cc841811c41ec31e4cbdd229a2b97040f3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-direct-positive-timing.json",
+      "sha256": "6b5cde87badf12e0e2ebc69885171195e68edf0603eedc846a09e886c7d2bdaf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-timing.json",
+      "sha256": "b8a1b9b47923b98081724cccda20ab55bedc2440e287ce80c67889582455185d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-call-context-positive-timing.json",
+      "sha256": "756670f5d8671ad7cfadf20f561e6612bfa800961aad11e1a40ab7416a316106"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-timing.json",
+      "sha256": "67716bbb9f80936fddc3d20c82152ab896d382166226aa91e9ba49d229da243b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-branch-join-positive.json",
+      "sha256": "e84f964a22b0d185198a7a773a528c51a6f894d7d6d193ec010d59d963229a1e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-timing.json",
+      "sha256": "a9e327b5195dbe29c773eafb8ece7502baa26d0114c6a28530501aa1c245bc4a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-expression-positive-timing.json",
+      "sha256": "6cfb3b78ff2aaff708953db99a3f91f6ae6ade2d31d99b094cda827dfcc7280f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive.json",
+      "sha256": "a9bc43858f249552117cc941f8c2edf41db096362330f45e215b29c6aa7e8be1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-timing.json",
+      "sha256": "b1047d500878c49789af50aa5a56d4384fefecb15c70b8b5831ed17f6ec4d5c4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-timing.json",
+      "sha256": "58a98f4da47a479c221afe641d8b6737117eabfd4165df3e5584db8361bde819"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-direct-negative.json",
+      "sha256": "2efba60e153962fa6396dae8764d47d0d38f9f93cfb859e25191b45aab25f2aa"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative.json",
+      "sha256": "4dff549799e42be4684fae397f95cfe7a854049557a1f31af34f71bc2321f9cd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-expression-negative-timing.json",
+      "sha256": "403e7348855db1cbca30e4dbfc7ac3ab16092a3081daaf980d2cca05bb6dc3df"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive.json",
+      "sha256": "88a9699ac739bf4b3ce8feac67f1f03075762876c6ecb587c05078428f94af0b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive.json",
+      "sha256": "dfc71abf1edf570f94d35891fe9469ae7303aba8349e71d2f789fe4428c79509"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-timing.json",
+      "sha256": "b7445f71b64359e39759ab9991cd8320f7efe81b673d81c8dc3409aa537ebd9b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-chain-positive.json",
+      "sha256": "b765f9a2283badf293eaab7b2478a00a393a9cf042dae4de0ca459aa7b29a362"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-call-context-negative.json",
+      "sha256": "8d439f9c924cf58263e62ee0306e4e8ec3035f8663fbaae6f7a29058a98ef60a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-computed-property-negative.json",
+      "sha256": "58df22990f0c4a067b4727cc5f4cdfd9454c0f8c4637bdd1634d3821a93c7122"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-timing.json",
+      "sha256": "b430bb0898887137a9f0c64ae3d550cda0679f1bd95cd6f28e7f9926b36dbb3b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive.json",
+      "sha256": "ed81e9cfa7e8788ed396da7a8daeec652ebe6fe35dbd4c64e5b5e6fba3ce3d13"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-timing.json",
+      "sha256": "5560678ecfd753d80c9c2813ad706a4815d3f5628fccaadd4195e0190836eb92"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-element-object-negative.json",
+      "sha256": "69675f98e793c3f22566c11cc05ecf67629cef2517cf299d31f76be1328a14a7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-timing.json",
+      "sha256": "06d6ae36ea41c8ea64c99f0e0352bea8cdccd83ad3028f2b4359235a6f0d3db4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative.json",
+      "sha256": "33728ea0378899321ae2b6a1575cc478f4fbedc4a5f09e325ce096730d2bc905"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-function-field-negative-timing.json",
+      "sha256": "59c41d531cf745750546d075996511af9bb1426ff4ab73a325b72a3f35deb2b0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive.json",
+      "sha256": "8dc778ea12b2a495f48cad5223f7cd28913a99dfc39b228795372ab1d164ac8d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-timing.json",
+      "sha256": "6469a608a4a09aab4447a7e950b436fb87372680b30b49f5fe04a6b437fc3d22"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive.json",
+      "sha256": "b911e60fe6d4b866f96e079562af2269c64a0405d4e631b82d6583c986274d2a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive.json",
+      "sha256": "004d304eeadbbead9a1ddfebccdf641046ee11f37ddfd838e347953c2b37674b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-array-element-negative.json",
+      "sha256": "491b74261ff9d91396a7feb7c644d9e0b89711563b929baf60571c99f7a35b42"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive.json",
+      "sha256": "26b3d2c572ada71fc7b3f9b0da2c1b275a04ba761e0cf144a7b91206e48215b5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-function-field-positive-timing.json",
+      "sha256": "a681919750a188fec7fb1ee2301d41f79f6ad8f6b94e6c4c4684065fd9230a16"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/run-environment.json",
+      "sha256": "a6d25774fc84971f5d0a995d019cb1037fa77a29bf5f94b15e64d95961285121"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-timing.json",
+      "sha256": "6b9c071f49707683f608186c161f37c15e9bb210e522cf767ddc395f93a282dc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-timing.json",
+      "sha256": "880e2ed850c1384a21532b0c33f3530b20cbedbd5b6900261207d81c91a3dd60"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative.json",
+      "sha256": "ccda935537f5321e67f9cb1469cc46028db70030da9fa25ad225ca49154d1c90"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive.json",
+      "sha256": "da699795c93ac8bbe44c76c39743051a4033b5e35381b09edae923d820fa1ebf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative.json",
+      "sha256": "5feee73aa9dfa16604d023e2905b799518292edaaa6486dacd15caea37f44661"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-timing.json",
+      "sha256": "5cbe44fb3aae095f154781a0f75ce188e79e20c4d98c13d6e0553f7432803eba"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-timing.json",
+      "sha256": "42190f4a84ed1675140b34c1654fb71454ff459f13d819077468edfd7ea5132a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive.json",
+      "sha256": "e5bf8ff2c9794d7e3c4b845802c3b78841f4084f9fe91fd50ccee1a8bec2dd1d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive.json",
+      "sha256": "cc66b47727a7c56ef489431dd6a46c3019d97f71c0f069c9e9298e47a06ffdab"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative.json",
+      "sha256": "1dbdf2019fbc6898c24098ba971a093550b99ec978c7b8bd1488dd1ed46175e0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-element-object-positive.json",
+      "sha256": "eabdda07b700b45affd6495f7216c95f5ab6205ce674ee52682d65fa1d4514a7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-timing.json",
+      "sha256": "3511491b757a55edd0a164e7b0fad4ceda4cda28e1e392dc5b9146fd98cf6a1c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive.json",
+      "sha256": "1571f2f188c03b14fbfe82578a17cfd684a337652300c5ae77d7cc90f40fd191"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-timing.json",
+      "sha256": "6548266690c69a23f5e6b5b76989c18a6fe9aa9a2bb91eac0973d6b28cf2ad87"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative.json",
+      "sha256": "abbc91a07afd31349b814cb7cdd44c8cdddf575d69c9562997dece3b8a377ce1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative.json",
+      "sha256": "51c806bbafa489bed557fac27d0b7957897a88cdae3181375eecf649d5a34705"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative.json",
+      "sha256": "9245c9969c44ba509a0e5e44fb7649b87bf5de49ae18646af6ae8b3a266f8fd6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative.json",
+      "sha256": "1db18d90d7a6c21d9e60d5fb53202e503f900245e87d8bddcef4356dcae84303"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-array-element-positive.json",
+      "sha256": "b01d4c6be731e37a4f6f7d9a239bc1f1816b44f16032733e83d70ba2c6979a16"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-array-element-positive-timing.json",
+      "sha256": "a705d5d8abb5e3cf041864889d5ccc4bc5c244e6bb9ce2747baf1fc911014ca6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-object-separation-positive.json",
+      "sha256": "ebd7ea98c27fce6369a51a8a65bbe1b8f61938f71b5c62d7b0c4098c00a77d52"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "41ecf0dd81f5b9550bac17d6b31be9129b5bde4774b438e75d9743aa7b782165"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-timing.json",
+      "sha256": "0ad455eebfaaf2d8cd1cc85033c9ee722e6923723f816820da2c0d4b2fc1388a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-timing.json",
+      "sha256": "bad9564e1b3a33d2042e1bf01b21899d9d8a4cdcc5d43d4916d3ec4b0ead446f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive.json",
+      "sha256": "7ce85dde1fa11df722a4ff7089f92203c9e647e62080927bffe7ba27bd4c12ee"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-timing.json",
+      "sha256": "2d825ad309c6a73ac8126e02775aecbbbed85a5415455e2e010614d1e2765d0c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive.json",
+      "sha256": "f474f666b257755a354af151acd9c3edf7e91927e9950cf8237c97e1101e24b1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-timing.json",
+      "sha256": "16ac67b3435fb6cda2faf861fdc8a64d4a41fdfae502811affda93859f67e8b9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative.json",
+      "sha256": "560fe38230b30b408605e4dd3f25492a6f3c3fa80958c46034958be71ef33617"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-argument-position-negative.json",
+      "sha256": "83165747fc06550e09b8a75fd2fad4298214fe13ffa4fb5ae5e8997c6491f21f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-timing.json",
+      "sha256": "8a7cf234071272d7e4e395ff9f87313135606a49322b84afb9b120efd6a4bf1f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "1f747fe69c2eddb2a53a694f3bd0cedd5d7d59c36f96f981976c0825696e08c4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-array-element-negative-timing.json",
+      "sha256": "6caee14a12cd69676eeba7d4adb04fec8d6d3e8b2704191bb4c97d12cbdf2fe2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-timing.json",
+      "sha256": "d2a7ea0c853c8171060a5747dcad34022444e7102c1cc01bd5a5baafa6447d16"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-function-field-negative.json",
+      "sha256": "4e732be65a6cc6c320122a605a81ec6e4c297194f38a53f999b12be02e4435a3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive.json",
+      "sha256": "602919f729835ceb35467e75a6a3148571ddcc92e2236afde7b49dc4ef1955d5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-timing.json",
+      "sha256": "ebafe9841fee4827db39760b9fd274b7a6bb71bfe275f1cbbe64d1ea01902b6b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-argument-position-positive.json",
+      "sha256": "dd80ac8ca08f132f385a1af687ba71cb89c6d921741a8b0ae70454a36b4cf42d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-timing.json",
+      "sha256": "c135583ccba826f03bbcaeaa734cc8dc2b8ebe229b85709c6baec93b7b50cb32"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-timing.json",
+      "sha256": "00f48f9ceb1cdcc1da7d8ed487ee7f4f82b64b82e499d7b0af249ebbb3aa60cb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-function-field-positive.json",
+      "sha256": "16ee94a0e8e8ed3fa07c42e16ae6bc7416855916a5f48fc0b825957dc5b3ab16"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-timing.json",
+      "sha256": "a48d9d449287356395175b7b0e1020bd35d79c890994a810171492ae3abd7303"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-object-separation-negative.json",
+      "sha256": "0cbfc929c186658cc049b8426b566164507edcc9e50ccc50f335abac021a789e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-timing.json",
+      "sha256": "d3bad08042eb4e56738cbcbcd65b1ed29ae6f0d04e0b39bdce31b41a323b706e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-timing.json",
+      "sha256": "a47eac331a78a982e0d9a74ea294f89fa763a0d6e56b5b003527b0b75db62970"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative.json",
+      "sha256": "1ed4e5af17c072510c88b80bd2ff2aa8159d03c36274249604a6e192f5e0bdaf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative.json",
+      "sha256": "431c72cd3d16f93160a758686d8752d2750bb381fac7b0441e4fdeaec1d553b4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-timing.json",
+      "sha256": "15096d4e7c6ca38e9a31ef653c701447f2809a3701d08ade0eaa18828bb9a9e2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive.json",
+      "sha256": "5b39907bdfbbaac130b7ab4146e7471431deacfffbe73da714d375f52f3ac066"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-timing.json",
+      "sha256": "d49716ee13827841c69d650898bec46f475ea7c5400907f0a2b7dd3c089ff4cf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-timing.json",
+      "sha256": "8fd3abc7fffd7bd3ba8331636d576aebbb1cbe8bc25c65970c38794de22dd3c9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative.json",
+      "sha256": "208e7972b5d38cb0c329df0b13b328f54688ea72461f1aaf2b51f7413d8ddb80"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative.json",
+      "sha256": "0db89dfce8a834056c443385f59075467a13c616f605d080212bd3553d9b05ed"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-timing.json",
+      "sha256": "69fd3da7ac646d44b5e7195a61c6af8616e5349dc531834a81aaae92066a6f91"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-timing.json",
+      "sha256": "d8fcf94d3df9728ecc1be90361dc78d0dcac5fde411b954eea080daaf81a8b03"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-timing.json",
+      "sha256": "42b4b5f19eb10fe5e95a393aafdb1945f1648373cda6e8cece7ffc781a286e3c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-timing.json",
+      "sha256": "bf6d03de877e0822fc612fdbc701455f3d4e5397f51015fe7caabe5390da6ce9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative.json",
+      "sha256": "78b2fb9f383214bafd1c7444d3ce7523aceb416b4af159d96e47769f5c3c53db"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-timing.json",
+      "sha256": "b9864840436bb88b82b537b8750e31d4cc6a4c84d33951897210f406ff5a1309"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-timing.json",
+      "sha256": "15831911287c4424a65c3538338e8b24074f319a82e6bb411d73df2a5e07a2cf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-timing.json",
+      "sha256": "319316b0a2f782f6f0b1f90dac3f9279e528b83b60cb0b1476d206e6284c0110"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative.json",
+      "sha256": "c187b959f794f3b5230fd5cc6f5b193612dd735d8eba75c44ad0b9cc57f691a3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-timing.json",
+      "sha256": "5d46ff11e54def577a027433d3af40ccd552a20aafb20431746ae35788d09e29"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative.json",
+      "sha256": "c1e5af9b08707cbdaf7001b14647bd4d356175d4ce41b1c95add9ff255599092"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-timing.json",
+      "sha256": "7f5f56319e2a0749f5778e4700f925871b7f8ad5d5fc2cfdeeaf78d6929fe781"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-timing.json",
+      "sha256": "ff471708e6f9f4d869783b660fa4075d1c2c4265e6c58be44821692bdcdc761e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive.json",
+      "sha256": "d11e4d6d51b068f40ffae1eccf7278545519a41d4c37b4f844295e0c0d9953a1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-timing.json",
+      "sha256": "869600fc5afce2a137bdc7f249ae3d4270be9c7562ed7dfc183965ccea9438e8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-expression-negative.json",
+      "sha256": "5f4b5c0f4db86573642cbe09645d333ec80600d9e8d52d225e3745cbe5224837"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative.json",
+      "sha256": "c5c63776e3405ed7dcf1c9fd41f1d1c305a551466506511de98013bddaa453b4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive.json",
+      "sha256": "b3f128175a18c7076fbe02ac18d587c0b1971f2a00df0c2c846357c756fbdec0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive.json",
+      "sha256": "42546676376bd1b10df80644fc4939d80aafcf861e888d54d67a050744a7519d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-timing.json",
+      "sha256": "2f08463c1cc232adc9801c29026032988b3f4631f14d0b2e97083780629b28c8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive.json",
+      "sha256": "1050ef329dc332460c9665a17c5f9af7d6d1e257a4a7a800c0e1999588a5702b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-timing.json",
+      "sha256": "cbc2f9fef9011e34a4e46cec88f4d68262f2cbb587a949349765659bf6f9a140"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive.json",
+      "sha256": "b262b7ca0f0f4feeac5984119fb33c898ab90f62c9e159306920b8a3d0baf703"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative.json",
+      "sha256": "65809a5121c48d0252b2c362fc2ffdec7041f2da9a87c37effa22f8d45bf3eb6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-expression-positive.json",
+      "sha256": "b23e68cd2f722061191ea17ac58ee6ac85591a5e02e354c33d6a5f3bce408159"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-timing.json",
+      "sha256": "435a1c47e80dc034804933b4ebfae177ac46fc6d2d0be4a20be5c26b06cacc08"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative.json",
+      "sha256": "f1c6926d5f009b7c7b0afdf78149b38bc53dcb28ebe0019267bff45544f886f7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive.json",
+      "sha256": "7d1d80895d617fe707ae939e6557c6d48550e9adf54406d4fbfd677530f0e3c1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive.json",
+      "sha256": "fa422cee482c38da2d4fa70e6ec9a121efeb190fc337bd9f455e585cbeb91401"
+    },
+    {
+      "original_path": "reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-kotlin-kernel-attempt-01/outputs/reports/raw/bifrost-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-timing.json",
+      "sha256": "da1e5024a076a27afb166a9a625ea89d6fa4f712ab8eb964babc055af0504e56"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/bifrost-kotlin-kernel.json",
+    "reports/raw/bifrost-kotlin-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

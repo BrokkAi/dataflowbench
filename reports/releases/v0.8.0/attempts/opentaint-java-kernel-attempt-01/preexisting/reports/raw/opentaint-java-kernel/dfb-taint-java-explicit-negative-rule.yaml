@@ -1,0 +1,37 @@
+# DataFlowBench benchmark-controlled endpoint rule for the OpenTaint Java
+# kernel. The runner resolves explicitNegativeUntrustedInput and recordExplicitNegative per case from the
+# fixture's own DFB-SOURCE:/DFB-SINK: marker lines, exactly as the Joern and
+# Semgrep kernels resolve theirs, and retains the resolved copy beside each
+# case's raw evidence.
+#
+# Both callsite spellings are declared because the engine matches its patterns
+# against the JVM IR it lifts from bytecode: a static endpoint called bare from
+# its own class matches the receiverless form, while an endpoint reached
+# through a receiver (every Kotlin `object` member is, after lowering) matches
+# the receiver form. This was verified against the pinned analyzer rather than
+# assumed.
+#
+# `primitive-tracking: true` is Amendment A11 (docs/adapters.md#amendments):
+# the engine disables taint through primitive values by default and enables it
+# per rule, which the benchmark's int-encoded endpoint contracts require. The
+# shipped ruleset uses the same option; the retained primitive-tracking probe
+# verified it against the pinned analyzer in both directions.
+rules:
+  - id: dfb-opentaint-kernel
+    severity: ERROR
+    message: DataFlowBench benchmark-controlled endpoint flow
+    languages:
+      - java
+    mode: taint
+    options:
+      primitive-tracking: true
+    pattern-sources:
+      - pattern-either:
+          - pattern: explicitNegativeUntrustedInput()
+          - pattern: $DFBRECV.explicitNegativeUntrustedInput()
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: recordExplicitNegative($DFBVAL);
+              - pattern: $DFBSINKRECV.recordExplicitNegative($DFBVAL);
+          - focus-metavariable: $DFBVAL

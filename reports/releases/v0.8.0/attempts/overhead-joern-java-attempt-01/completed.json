@@ -1,0 +1,168 @@
+{
+  "id": "overhead-joern-java-attempt-01",
+  "planned_id": "overhead-joern-java",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "estimate-invocation-overhead",
+    "--tool",
+    "joern",
+    "--language",
+    "java",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+    "--pyre",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre",
+    "--pyre-binary",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre.bin",
+    "--pyrefly",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "3951cf19d74fb20cbab1759f87835df5715612c1c5d963fb85dcf66ee75d3f81"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-19T19:52:32.689185+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      1.771484375,
+      1.8916015625,
+      2.240234375
+    ],
+    "load_after": [
+      2.3994140625,
+      2.02783203125,
+      2.2783203125
+    ]
+  },
+  "settle_observations": [
+    {
+      "utc": "2026-09-19T19:51:32.610115+00:00",
+      "load": [
+        2.03662109375,
+        1.97802734375,
+        2.296875
+      ]
+    },
+    {
+      "utc": "2026-09-19T19:51:42.620334+00:00",
+      "load": [
+        1.9501953125,
+        1.96142578125,
+        2.287109375
+      ]
+    },
+    {
+      "utc": "2026-09-19T19:51:52.623738+00:00",
+      "load": [
+        1.8037109375,
+        1.92919921875,
+        2.271484375
+      ]
+    },
+    {
+      "utc": "2026-09-19T19:52:02.633805+00:00",
+      "load": [
+        1.6796875,
+        1.89794921875,
+        2.255859375
+      ]
+    },
+    {
+      "utc": "2026-09-19T19:52:12.643852+00:00",
+      "load": [
+        1.6484375,
+        1.88427734375,
+        2.24609375
+      ]
+    },
+    {
+      "utc": "2026-09-19T19:52:22.649000+00:00",
+      "load": [
+        1.62841796875,
+        1.87109375,
+        2.2373046875
+      ]
+    }
+  ],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-19T19:52:59.470779+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/overhead-joern-java-attempt-01/stdout.txt",
+    "sha256": "f88aae29193e9f587bc95131753712e1da9e10424a9e7ce56e01000a0a66a6a8"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/overhead-joern-java-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/invocation-overhead/joern-java/invocation-overhead.json",
+      "path": "reports/releases/v0.8.0/attempts/overhead-joern-java-attempt-01/outputs/reports/raw/invocation-overhead/joern-java/invocation-overhead.json",
+      "sha256": "99bf500158ae1e7e69223cf6fe51f2ff21f747787ebf852a177ea4eaa2cafbe7"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/joern-java/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/overhead-joern-java-attempt-01/outputs/reports/raw/invocation-overhead/joern-java/run-environment.json",
+      "sha256": "40e384ccbb39a003e04e7572d236ce3e7a26fc3c9c975c8bae9af05d6678611c"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/joern-java/fixture/DfbTrivial.java",
+      "path": "reports/releases/v0.8.0/attempts/overhead-joern-java-attempt-01/outputs/reports/raw/invocation-overhead/joern-java/fixture/DfbTrivial.java",
+      "sha256": "b1f8f5f67249ca905ca44eb0971d9d40eaf0c588f8765f8c31e8bf6fec9b4e08"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/invocation-overhead/joern-java"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

@@ -50,7 +50,7 @@ COMMIT="40b8c63f75dc7c22c8a77482d73bfb864b146f7e"
 # (adapters/semgrep/native/python/provenance.json → retrieval.archive_sha256):
 # the probe re-fetches the same bytes or refuses to enumerate.
 EXPECTED_ARCHIVE_SHA256="b7e483abf001c405a3e908251ff66cb198a26702aff5fe4c5f0c4b2fffec4919"
-EXPECTED_VERSION="1.176.0"
+EXPECTED_VERSION="1.177.0"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/reports/raw/amendment-a27-semgrep-jsjava-native"
@@ -59,7 +59,7 @@ trap 'probe_status=$?; if [ "$probe_status" -eq 0 ]; then rm -rf "$SCRATCH"; els
 rm -rf "$OUT"
 mkdir -p "$OUT"
 
-VERSION="$("$SEMGREP" --version)"
+VERSION="$("$SEMGREP" --legacy --version)"
 if [ "$VERSION" != "$EXPECTED_VERSION" ]; then
   echo "refusing to probe: semgrep --version is '$VERSION', the pin is $EXPECTED_VERSION" >&2
   exit 1
@@ -171,14 +171,14 @@ scan() {
   local json_out="$OUT/scan-$lang-$case_name.json"
   local txt_out="$OUT/scan-$lang-$case_name.txt"
   local status=0
-  "$SEMGREP" scan --metrics=off --oss-only --disable-version-check \
+  "$SEMGREP" --legacy scan --metrics=off --oss-only --disable-version-check \
     --no-git-ignore --quiet --json --config="$rules" "$case_dir" \
     > "$json_out" 2> "$SCRATCH/stderr.txt" || status=$?
   local results errors
   results="$(python3 -c 'import json,sys; print(len(json.load(open(sys.argv[1]))["results"]))' "$json_out")"
   errors="$(python3 -c 'import json,sys; print(len(json.load(open(sys.argv[1]))["errors"]))' "$json_out")"
   {
-    echo "argv: $SEMGREP scan --metrics=off --oss-only --disable-version-check --no-git-ignore --quiet --json --config=adapters/semgrep/native/$lang/rules $case_dir"
+    echo "argv: $SEMGREP --legacy scan --metrics=off --oss-only --disable-version-check --no-git-ignore --quiet --json --config=adapters/semgrep/native/$lang/rules $case_dir"
     echo "exit_status: $status"
     echo "findings: $results"
     echo "errors: $errors"

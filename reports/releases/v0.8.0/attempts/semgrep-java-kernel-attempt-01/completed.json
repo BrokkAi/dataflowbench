@@ -1,0 +1,567 @@
+{
+  "id": "semgrep-java-kernel-attempt-01",
+  "planned_id": "semgrep-java-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-semgrep-java-kernel",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T14:38:23.113357+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      3.66064453125,
+      3.330078125,
+      3.50830078125
+    ],
+    "load_after": [
+      3.7666015625,
+      3.37646484375,
+      3.521484375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T14:38:36.482170+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/stdout.txt",
+    "sha256": "48fc0a30d2b7ecabedfc802c364c9e975492e9d342c9ee6528e634e8146255c9"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/semgrep-java-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/semgrep-java-kernel.json",
+      "sha256": "b9535716ec3434bcd41ff3007e3fe5dbdabf38c2f1062d447502a2f9c9db2dcd"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-nested-access-path-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-nested-access-path-negative-unsupported.json",
+      "sha256": "c551aa92a5d165eaeb10a47aef2500e15341347d879c059828ac5bd5df6ef479"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-same-object-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-same-object-field-negative-unsupported.json",
+      "sha256": "15a8fafcc825de020600465916de8961702076221471fb85707fe02f6f73e018"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-expression-negative-timing.json",
+      "sha256": "3519be75a3a4d987f6082bbb210aa8b3b0dc469fc0ced17c861a7cac964d17eb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-explicit-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-explicit-negative-timing.json",
+      "sha256": "26ec2ce63b2b9b4ca1392b81c3487a4770c6b88090d1687f740c46a7fae5f7a1"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-expression-positive-timing.json",
+      "sha256": "11898ef3a5700113cbbc7df9805453ac470785495760f9bbeec83ed901f81500"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-array-element-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-array-element-negative-unsupported.json",
+      "sha256": "503c22dfbbc6fc49515cb6b492b3a2ddfc6a1dc3103a8d54662b74f0f606b0dd"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-anonymous-implementation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-anonymous-implementation-negative-unsupported.json",
+      "sha256": "faa1df2a3a5f291da0a6ae4633975a2b6776d1f803252dabbd7be3478d3f83f0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-exception-catch-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-exception-catch-negative-unsupported.json",
+      "sha256": "230e2b6c046f5fa11c78c7318ffef28bee5ddc4a1f0dcb893a0181dcd3633171"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-reflective-invocation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-reflective-invocation-positive-unsupported.json",
+      "sha256": "941f92bd516cb32b53d3dcd8eb8e5bb40b3669a20650fd2a7128219c6a22df0d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-deep-relay-chain-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-deep-relay-chain-negative-unsupported.json",
+      "sha256": "f13c667b4393f184322664e33b77c58c458c3bba0dbc2c534d0f37876e77e204"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-mutual-recursive-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-mutual-recursive-transform-positive-unsupported.json",
+      "sha256": "6c0674ffbab8166e8167ac2fc3edd0599b3c3782b75c6fd3ee3a6d7243cabd28"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative-unsupported.json",
+      "sha256": "5155ba67a807627103deb8aee44ddc19e3bff392a5c240316cc98db00cd87494"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-expression-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-closure-capture-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-closure-capture-positive-unsupported.json",
+      "sha256": "89b15bbdd65224a38739d851bb39dd2d77250730e1773900c967b522516d5deb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-computed-property-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-computed-property-positive-unsupported.json",
+      "sha256": "0eab33e4ec1707bc01f14bf318a86e4e58853eaa7409fdde98759cb316aee512"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-exception-persistence-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-exception-persistence-negative-unsupported.json",
+      "sha256": "cff74b7469fc70f6679b30cb924c231911964f22e36d364848f21f69ed9a7205"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-context-pair-depth2-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-context-pair-depth2-positive-unsupported.json",
+      "sha256": "6a649cc60e613968d2f348e73436a48fbe58f8914c3361cfe104049ce7404454"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-function-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-function-field-positive-unsupported.json",
+      "sha256": "c8e1e24901d28268df0fb6eacd24fe0ad1f6e334e3f4726d5fa30d8fd07ef2bf"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-closure-capture-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-closure-capture-negative-unsupported.json",
+      "sha256": "3bffa1b7c99bf9b6a48c5dc381c8834a495af87db4c87dba9e1bb2a55ced406f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-negative.json",
+      "sha256": "8957bc1fcda2eb4083e0f765707f4b6ad2fd5ab32b6363408e3cb4cc019343f6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive-unsupported.json",
+      "sha256": "4cf3b5f91b8bce2a90f359a70cd1cf91ce9180911c6c0f3280995b22a33ac9bf"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-deep-relay-chain-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-deep-relay-chain-positive-unsupported.json",
+      "sha256": "9025bf6f37f8f707590c102fec864a6236faf47b111ad2ef4e65f5977054d9db"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-mutual-recursive-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-mutual-recursive-transform-negative-unsupported.json",
+      "sha256": "28741179f9befa6fc90f10ce8e727006a1dd72744718f751606d86194911bfdf"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-negative.json",
+      "sha256": "9716c0f6eb12194329ce0ea66b620cc222c67f573d147cfa32ed7911643fdd63"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-negative-timing.json",
+      "sha256": "df9bfc3fd9baa96f4b53fa522cd1b854f05e16897f79f695b0fe5a446c6a417c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-negative-timing.json",
+      "sha256": "28b520071deeff8e5d8ad8afa763e9c0715bf0b00c6e4723f633880a1ca065f7"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-reflective-invocation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-reflective-invocation-negative-unsupported.json",
+      "sha256": "d5cffee586bc721f2c5f545f7d95180f26dbf60cdd1a014e6457e079098506d4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-exception-catch-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-exception-catch-positive-unsupported.json",
+      "sha256": "db238f2cf8b65118251211e5e977e321611bd509faad5deba8a6a8e333706f40"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-function-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-function-field-negative-unsupported.json",
+      "sha256": "4a66063d6e21df98c9be5f8c83b3e0798d8d4ae51d664e2a3f7e93c7bd5f527d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/run-environment.json",
+      "sha256": "3426d0d542651e3b50af9afadc06996df81c9d2f2956c3a8eeab8ab43d7f1a17"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-context-pair-depth2-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-context-pair-depth2-negative-unsupported.json",
+      "sha256": "55275474fcdc83bde3832d9b8c9dc4e5039628be4f83e9d34bbc87c77eaf5767"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-computed-property-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-computed-property-negative-unsupported.json",
+      "sha256": "ce0bbc0e9d9ec08aa2d9d57c9d8e768d46fd59178417c27a10804ebb9cb6b71b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-positive-timing.json",
+      "sha256": "44adae600977b87f19717a5c8dd9c11e7ef65668103053cf59bd395950d7266c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-exception-persistence-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-exception-persistence-positive-unsupported.json",
+      "sha256": "04a039ca0aed6ea645340d70a10673b97c65b4db46cbb8dbf22a5c1f5126ed5f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-negative.json",
+      "sha256": "b24e24633becf137ed8f81c4b7e632834f7333a9063b678d3d9ec13240ea576d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-positive-timing.json",
+      "sha256": "436ed4ab7e7b562b4b7901c0d3e73530a0e2d959b627c0b9e484e54b571005db"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-direct-positive-timing.json",
+      "sha256": "9bb0058f016971619485c4a3afc80e2a0bb5a74433ad08b2ae25ff66f13d73e1"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-same-object-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-same-object-field-positive-unsupported.json",
+      "sha256": "a055729e50ee733ab6b18b094d9b99b2ee970190664232bd8f506f9c7654631a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-negative-timing.json",
+      "sha256": "aa90f71adde2e547d716f28697e70bcf20188cdf0550d5f5879c50b899771871"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-nested-access-path-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-nested-access-path-positive-unsupported.json",
+      "sha256": "a21b31a1e04bd2035e3f0938b166e7ed7f08cb18f563a282ba7cc1e7172b3246"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-positive.json",
+      "sha256": "16fb880f53408f09914393b892d191bedc6ce2322a171700de8c0c0ae4e9ab54"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-positive-timing.json",
+      "sha256": "183c8f470bd1d11ddb6b056705badd318a28ff8f6597a62be5911fa663ad8076"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-array-element-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-array-element-positive-unsupported.json",
+      "sha256": "4e93ac323b013fead3c746f49039d27930d11506d4c7d909819365871f88da5c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-anonymous-implementation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-anonymous-implementation-positive-unsupported.json",
+      "sha256": "51bf82153f7f8d94d1f13d337befc315807dcd6686cce34351a40f3bf362c46a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-explicit-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-explicit-negative.json",
+      "sha256": "2ed3964fee5e645a09f3302d5cf1fc3aa1597ba2623b103ca42d6da971838e4a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-positive.json",
+      "sha256": "eae18ebd2823a5310adce0fa79a1a929db12b9d542326a5f2d7d578a9967bb9e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-positive.json",
+      "sha256": "4069f524b6a7856f12c8ef596bd69e75c68751f6ab8e0d3513342ef7939fb8a0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-negative-timing.json",
+      "sha256": "6cc0df2afd1a17b9f842527924ea95e3da0555dd6266de5fcadfdc9af34ea753"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-dispatch-table-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-dispatch-table-negative-unsupported.json",
+      "sha256": "7c9b3a09f02fc4197fafb595661bf0b0775be829b61cee42661d391ab9b12787"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-map-iteration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-map-iteration-negative-unsupported.json",
+      "sha256": "04991d518e80ad7e67255e5a52b24bfd8131851688084a226760745ca619455b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-explicit-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-explicit-negative-rule.yaml",
+      "sha256": "7c4bd79e4724304c6beed891a9a5db2a254cd867adf74b29b475882eabe22438"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-direct-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-direct-positive-rule.yaml",
+      "sha256": "67f79e425edfbf8f346fa6c8d0c9c40582455a7738ce3dfd4865261fad3dd0c0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-call-context-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-call-context-negative-unsupported.json",
+      "sha256": "62b87ffe81b4ec05c815a7152b7002cb487c31c18560587b98fde9ae1eda9a2b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-two-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-two-hop-positive-unsupported.json",
+      "sha256": "b035bd0895c18dcc5bc1c6edff83e8121f50a5fd3025174370953d44a6124b60"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-object-separation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-object-separation-negative-unsupported.json",
+      "sha256": "33e11c0947622630cf6f85d7b2fdf151c2ab426989bce28510d2f394d735c1df"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-callback-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-callback-transform-negative-unsupported.json",
+      "sha256": "f4418f550fd17ff933697af738540bf6498d1e6b7f6d400dca5d0519ee6dd18a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-callback-registration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-callback-registration-negative-unsupported.json",
+      "sha256": "3ea0e7395f0dcd2c2ca55d761bbac4fb76d70aa10c7ddb5a4bee8b6eab5793cc"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-positive-timing.json",
+      "sha256": "44ed5696cb58301a09089a102e7fdb8e74aa26054f503f0b285a22c8e85ee80f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-direct-positive.json",
+      "sha256": "249b4e2538606c2f33e6d034c7791a6cf8a366c621b6beb25be28ccfc4e9618b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-alias-propagation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-alias-propagation-negative-unsupported.json",
+      "sha256": "55b5fcb28f175cebd2d7f5dc1cd6eeaf0ad36a461fc93eb88f5c30f98f462056"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-argument-position-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-argument-position-negative-unsupported.json",
+      "sha256": "046a448c9c956b850ae570c20791458e5a61b52869063aa2f0ebf6f60b3c011b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-one-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-one-hop-negative-unsupported.json",
+      "sha256": "39626cf3d131a82357be56b6d583b5e2d801d883a2121cb74116b21cf1386747"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-element-object-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-element-object-positive-unsupported.json",
+      "sha256": "07feb5202d846f0b21d938d36f76dd59d1b21b1748b8f0aa719a35e1d8f1e0fe"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-carry-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-carry-negative-unsupported.json",
+      "sha256": "5dc5689edfcbc62fc09817ee074f1b77933afd2d6958002c8b00ad3cb16b8f91"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-heap-unwind-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-heap-unwind-negative-unsupported.json",
+      "sha256": "5f4b153ffd3fb7108f6399b22c16449a045a542287b4697b24f62e378b3c9d58"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-payload-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-payload-transform-negative-unsupported.json",
+      "sha256": "28e5a0c9be110bce8473ba9ec4aa9b8bb737cd3ced1c1b4b4ceaaa29e97c8515"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-positive.json",
+      "sha256": "78920d36d9108e514ca13627c6a5dceeeb07bca8d89c5629eb7a60e868e86c47"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-alias-propagation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-alias-propagation-positive-unsupported.json",
+      "sha256": "d310dceec513db994cf3560ce77b2d031df652fcbd40022bd79ddd7cd792928d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-argument-position-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-argument-position-positive-unsupported.json",
+      "sha256": "2915851bc95de8c19456ee2a6d96d3e4cf3ad79ac4b9b04c8d3fe264b44b111c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-negative-timing.json",
+      "sha256": "3b991aac1a927a39988e2fc4e52b2c558aa43918ebae869a053b0c931078c5e7"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-expression-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-payload-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-payload-transform-positive-unsupported.json",
+      "sha256": "abfd05f0b4785e90929b57de626db958d15a759a1bb280d92c0eb889d52fa46f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-expression-positive.json",
+      "sha256": "01f08c974851b53930d27363835b107f9161205efea40253418c791ff12dafdd"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-heap-unwind-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-heap-unwind-positive-unsupported.json",
+      "sha256": "1530793f3fcf7eaf51e57ec9af95136555132f6d34c632340afb87360922e4c0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-positive.json",
+      "sha256": "33f8128fb3bc1133583c08de7fb14d85ccd0ca3b5c427fa07370536ad8631c71"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-one-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-one-hop-positive-unsupported.json",
+      "sha256": "c784ff72c53d7724778138f9b093ed39245650745e7a5cc7c958933022221e7a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-positive-timing.json",
+      "sha256": "e804a61b4ebf88ed27445b32f2da01692f4e9c368143a4e1a11c8e595757cca7"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-element-object-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-element-object-negative-unsupported.json",
+      "sha256": "1c1fb5efe4f25e113be78f43241461684eccb7b4033adeddbb52822f6961b958"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-carry-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-carry-positive-unsupported.json",
+      "sha256": "796658a8f78573203d92e26c81d2c0f8a4c534c59f474444592e1f434ce58ef4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-two-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-two-hop-negative-unsupported.json",
+      "sha256": "9bb8e3cd5bd56da113d7571bdfc54bebf3a180e88be6c1a8230e1ca11292b67b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-expression-negative.json",
+      "sha256": "6385b8c55e272fa8d0bc7821490fa0f46a15c0482afa51286463c998c8ccb0bb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-call-context-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-call-context-positive-unsupported.json",
+      "sha256": "c808cb04c0cd3bc22065128e3833fabb631e9a55367002282cff5263694af984"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-map-iteration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-map-iteration-positive-unsupported.json",
+      "sha256": "65c9225da356eea063075509d7e24b2d02113447a2ef1e3702a907c410fcd977"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-dispatch-table-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-dispatch-table-positive-unsupported.json",
+      "sha256": "45e5e843282525f42539d4173f2ecd157529391d391712895183ae6a9b8305c4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-negative.json",
+      "sha256": "7d2b3a133983a543106700c82baded3cde5977895747845bc6bb800185bafdc4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-negative.json",
+      "sha256": "df7ae247a80e63dc27e8645a6a9c79236ea6665f2d6890e0e905ea03a1dadca8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-callback-registration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-callback-registration-positive-unsupported.json",
+      "sha256": "2b064521fd8cf1d15d42ec4f7f433d8b072b9d9f9ce1dd600001310c02bd1ac4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-callback-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-callback-transform-positive-unsupported.json",
+      "sha256": "b5e6c128cf99a8b2ffaedd5e29bb8c79eb3b9631c67d9aaa5504adfd7633e248"
+    },
+    {
+      "original_path": "reports/raw/semgrep-java-kernel/dfb-taint-java-object-separation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-java-kernel-attempt-01/outputs/reports/raw/semgrep-java-kernel/dfb-taint-java-object-separation-positive-unsupported.json",
+      "sha256": "04bc97c6a2861b37d6fa64108ffae7bac218419912d4407c1f3a16603a2f6dfb"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/semgrep-java-kernel.json",
+    "reports/raw/semgrep-java-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}
