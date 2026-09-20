@@ -1,0 +1,516 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-opentaint-kotlin/dfb-taint-kotlin-recursive-heap-unwind-positive/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "DataFlowBench benchmark-controlled endpoint flow",
+                                "text": "DataFlowBench benchmark-controlled endpoint flow"
+                            },
+                            "id": ":dfb-opentaint-kernel",
+                            "name": ":dfb-opentaint-kernel",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :dfb-opentaint-kernel"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive#run():2:(%2 = this.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 31,
+                                                        "endLine": 23,
+                                                        "startColumn": 19,
+                                                        "startLine": 23
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive#run():3:(this.walk(box, %2, 3))",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"walk\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 35,
+                                                        "endLine": 23,
+                                                        "startColumn": 9,
+                                                        "startLine": 23
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive#walk(dataflowbench.RecursiveHeapUnwindPositive$Box, int, int):0:(kotlin.jvm.internal.Intrinsics.checkNotNullParameter(box, \"box\"))",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive#walk"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"walk\" with marked data at \"value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 47,
+                                                        "endLine": 12,
+                                                        "startColumn": 5,
+                                                        "startLine": 12
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive#walk(dataflowbench.RecursiveHeapUnwindPositive$Box, int, int):2:(box.setValue(value))",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive#walk"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"setValue\" with marked data at \"value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 30,
+                                                        "endLine": 14,
+                                                        "startColumn": 13,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive$Box#setValue(int):0:(this.value = <set-?>)",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive$Box#setValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"setValue\" with marked data at the 1st argument of \"setValue\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 4,
+                                                        "startColumn": 5,
+                                                        "startLine": 4
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive$Box#setValue(int):0:(this.value = <set-?>)",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive$Box#setValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "\"this.value\" is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 33,
+                                                        "endLine": 4,
+                                                        "startColumn": 15,
+                                                        "startLine": 4
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive$Box#setValue(int):1:(return)",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive$Box#setValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"setValue\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 4,
+                                                        "startColumn": 5,
+                                                        "startLine": 4
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 7,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive#walk(dataflowbench.RecursiveHeapUnwindPositive$Box, int, int):2:(box.setValue(value))",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive#walk"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"setValue\" propagates marked data from \"value\" to \"box\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 30,
+                                                        "endLine": 14,
+                                                        "startColumn": 13,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 8,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive#walk(dataflowbench.RecursiveHeapUnwindPositive$Box, int, int):3:(return)",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive#walk"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"walk\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 19,
+                                                        "startColumn": 5,
+                                                        "startLine": 19
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 9,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive#run():3:(this.walk(box, %2, 3))",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"walk\" propagates marked data from a local variable to \"box\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 35,
+                                                        "endLine": 23,
+                                                        "startColumn": 9,
+                                                        "startLine": 23
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 10,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive#run():4:(%3 = box.getValue())",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"getValue\" with marked data at \"box\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 24,
+                                                        "startColumn": 9,
+                                                        "startLine": 24
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 11,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive$Box#getValue():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive$Box#getValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "The returning value is assigned marked data from \"this.value\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 4,
+                                                        "startColumn": 5,
+                                                        "startLine": 4
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 12,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive$Box#getValue():1:(return %0)",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive$Box#getValue"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"getValue\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 34,
+                                                        "endLine": 4,
+                                                        "startColumn": 5,
+                                                        "startLine": 4
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 13,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive#run():4:(%3 = box.getValue())",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"getValue\" propagates marked data from \"box\" to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 24,
+                                                        "startColumn": 9,
+                                                        "startLine": 24
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 14,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive#run():5:(this.dfb_sink(%3))",
+                                                        "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 24,
+                                                        "startColumn": 9,
+                                                        "startLine": 24
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.RecursiveHeapUnwindPositive#run():5:(this.dfb_sink(%3))",
+                                    "fullyQualifiedName": "dataflowbench.RecursiveHeapUnwindPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/RecursiveHeapUnwindPositive.kt",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 28,
+                                    "endLine": 24,
+                                    "startColumn": 9,
+                                    "startLine": 24
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
+        }
+    ]
+}

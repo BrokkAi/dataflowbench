@@ -1,0 +1,777 @@
+{
+  "id": "bifrost-python-kernel-attempt-01",
+  "planned_id": "bifrost-python-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-bifrost-python-kernel",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-17T15:40:36.164661+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      5.09521484375,
+      11.06201171875,
+      10.91845703125
+    ],
+    "load_after": [
+      7.00927734375,
+      11.359375,
+      11.02392578125
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-17T15:40:43.918368+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/stdout.txt",
+    "sha256": "41569fd89f865041f9c70c1be5db62d89ccdc66f5e2ea6abfd176c1b40690c2a"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/bifrost-python-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/bifrost-python-kernel.json",
+      "sha256": "b7a84985c7374b5bd016418c4a1e2b78a9bd47b652011c0f66d4a2504f8b5de1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-callback-transform-positive.json",
+      "sha256": "f193cb213bcaa46cbddc5e295ff1b71385548da04338a3a18ebfdaa628cb1118"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-callback-registration-negative.json",
+      "sha256": "7bf21ca186e721a4ee0292fc640f3a299679292c6a8e230e7e72e202c3977824"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-argument-position-negative.json",
+      "sha256": "ac99c84de9994e66819f4c4a648f3567e1e8e8f60f253b949ef3669f4d949679"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-two-hop-positive.json",
+      "sha256": "fc2313d9d1917e3f2a2feca2ee1a4448487dc77c6a494a2adeed7ec4fc020cb9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-function-field-negative.json",
+      "sha256": "35bffece9a742515e8000a39108fb24c99bfa3d16b12d4c90284322c14c46d89"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-deep-relay-chain-negative-timing.json",
+      "sha256": "d9f31006501555d3dd4460a6e2d685fe470a599b9f8b23403f3456d29e0bd9c0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-exception-persistence-positive.json",
+      "sha256": "cfede5c9ac9ad674aedd39832d7659611ec48f677d9d5f703c61c802c7cbe1f2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-anonymous-implementation-negative.json",
+      "sha256": "659762c5c93bd96828f99dce89c24de93486d5755bbba45b90c0074889d0fc72"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-object-separation-positive.json",
+      "sha256": "efbd6e1f161999a0a72c0c342bd77e7dbb4806bf3181cca1f7729140fddbc0c2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-closure-capture-negative.json",
+      "sha256": "4101453f33da3afec77a788c5ddd321525383904a0fcd6a038e6749d409adea5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-reflective-invocation-negative.json",
+      "sha256": "37e6d1545c4d1585a7a0004415f8c51da6162a7ada7f797787289f7d51a5099a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-same-object-field-positive.json",
+      "sha256": "e241b94de77c8045515120f15df11e3adfbf52ac322ca4907f24f914d825ed33"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-deep-relay-chain-positive-timing.json",
+      "sha256": "e3107491a004d687c85aa4237f13ec88bb18cb8823388ed9034963f061a19776"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-exception-persistence-negative.json",
+      "sha256": "e0ae3efdce6958418efed9bff335a584f2e7842a574dd58b920c3e7a3d97631a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-call-context-positive-timing.json",
+      "sha256": "29d25fb74ace2a912e0dfee3dd06a7fa36469333807cc1a6ab6aa1d4cb8f78ed"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-anonymous-implementation-positive.json",
+      "sha256": "659762c5c93bd96828f99dce89c24de93486d5755bbba45b90c0074889d0fc72"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-object-separation-negative.json",
+      "sha256": "ff963fc6a1090a40f4cc820a0bedb85e64cdfbe3d372d8b505e73924d79eb392"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-closure-capture-positive.json",
+      "sha256": "ac34f23ae8352bcc93feaadc19d1ff22a20dfa87dbf1091074911e7ecb9aaf0e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-reflective-invocation-positive.json",
+      "sha256": "37e6d1545c4d1585a7a0004415f8c51da6162a7ada7f797787289f7d51a5099a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-one-hop-positive-timing.json",
+      "sha256": "977b08fabbff76781b9bb5f3b5b6beda8162746f666634acc7d78da8c2c45523"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-same-object-field-negative.json",
+      "sha256": "8f2e437b3f1bdc60e047c5368666a068106769374509e05dc84dc18dd770fe0c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-anonymous-implementation-positive-timing.json",
+      "sha256": "65888f047be7b2d761810543b41df7fca06171707c35982046b073735b266ba4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-map-iteration-negative-timing.json",
+      "sha256": "f8d0366abc71ccfdf94be911d5d7ca5d13f6769670ee04148ed6407d46ccfdd5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-callback-transform-negative.json",
+      "sha256": "ed355a23135a8c2353691cfd6ffcd84275a8418c18332b0aced8dd258bc34305"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-callback-registration-positive.json",
+      "sha256": "216a1cd479fcd56abe04d3890f931244e5f4edcf68dfc59e01dc95ae3cd4b8fd"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-call-context-negative-timing.json",
+      "sha256": "cacd2e4ca1f8c2e5eae75cc2bb09f23e6880575a7d2070457f374a8676140a68"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-argument-position-positive.json",
+      "sha256": "2879dae1527cd3eba09ce69e6ae21fcdcffc07532269fa87bb0e520540491d2f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-two-hop-negative.json",
+      "sha256": "47a81666b0acce5cdf7a59212acd9f41307aa10b7f12236ad606f5320ef20eb7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-function-field-positive.json",
+      "sha256": "f025150249c5b9953d7ae546806b91023835756f7b92ae2c58310238fb4b66ae"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-map-iteration-positive-timing.json",
+      "sha256": "f66770eb6d2dadf9e099177f39bb55807cf85f875d8d2bdd2dcc9e741340bc8f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-one-hop-negative-timing.json",
+      "sha256": "6c2d29c4f92b8efa841a5c02a53a8b51b1dce7c4c6a9b52cb76d52ff8a141e7f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-anonymous-implementation-negative-timing.json",
+      "sha256": "960571f575f77cbd789184cf9ec003efafc9918bd686682bea63c74302d81c09"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-arithmetic-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-arithmetic-expression-positive.json",
+      "sha256": "e1831df8dbdb0dec48b3ff620ca55535d1d0ff7a0b18526e2cd8237da9dc16dc"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-nested-access-path-positive-timing.json",
+      "sha256": "cad516fd91df81d337dd77b42334a3a8050f2a09f05221adf57099e3b19dd52e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-infeasible-branch-negative.json",
+      "sha256": "58511aee657598e65dacc0732980681b6662e7beb6d5aef18ed8f7fabde60d8e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-call-context-positive.json",
+      "sha256": "62aade7ce688f1a2dc7750d0219aeeb25712f9e489e12155907ede2176e4e52a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-context-pair-depth2-negative-timing.json",
+      "sha256": "05b66b897220931bcb08780762fcb7db86f87096e4cb23359b69affd8cc4dafa"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-interprocedural-exception-persistence-negative.json",
+      "sha256": "131f35339ce1857f6070c9df3729f70d95d007e8a8f453e4e2dc7b2137fc4b93"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-closure-capture-positive-timing.json",
+      "sha256": "090e790fee1922dcfde42cdd13a275a7bf3085862e13ec601f118edfa420bdd7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-local-overwrite-positive-timing.json",
+      "sha256": "3ca5055cd87512cdf2194e827666c88458f3d81770dd5907e88786be76249724"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-deep-relay-chain-negative.json",
+      "sha256": "3820e14ed0c9163a26613630a1249c32dabfcd2b1d1c2c08c1c9e914a38bafbb"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-branch-join-negative-timing.json",
+      "sha256": "1039192e7793d836296616b85c9aa424c8478c895fe7813444e1dc770a83a4b6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-nested-access-path-negative-timing.json",
+      "sha256": "bf4a64443781f8201d6457e5784a105c859ed5b7d3feb111f9fda27afff2ca0c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-heap-unwind-positive.json",
+      "sha256": "3460e876087a0b2d8c0f1ca5fc0643bf10822ed7e9841ac2dac547f7b2a28a2d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/run-environment.json",
+      "sha256": "642c06a4b5206783fa627e6f18496c2c4c17d803ac49979f22763f815d0dfed2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-nested-access-path-negative.json",
+      "sha256": "509b477b49b05e4cac2e9c4a9c1b48c4950c68bf4d75bd90a8837bb1ca3a78d0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-carry-negative.json",
+      "sha256": "c7169d1bacf0f696fdcfb2010d8099ff85dc08c284ecb3f88f7bdf77186ee45c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-local-overwrite-negative-timing.json",
+      "sha256": "950bbc125157c2b198dd5fb10643cfe3b8dcabc2e75c2918d749794b5d5bf4f7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-branch-join-positive-timing.json",
+      "sha256": "2928792e831baa8aad8eeacef7aef40b69c0b01f46db89fb248de9806c4692b6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-closure-capture-negative-timing.json",
+      "sha256": "e4419325f578aaea9e39d718d7c7428379da964df63977bda5b5776e202f676e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-context-pair-depth2-positive-timing.json",
+      "sha256": "9dd81b25121de3f3a35838ab38df0f8db99037c9a36937baaaa34a1e6ade5970"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-mutual-recursive-transform-positive.json",
+      "sha256": "67fa3a716596764c37063101b5d9c9e8ff375289925476256aa7ae574a7825ca"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-exception-persistence-negative-timing.json",
+      "sha256": "6f179a0b10449dca422a935465b27874de939519eb5aad788daf26cfe295b12e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-heap-unwind-negative.json",
+      "sha256": "58f0e33cb152527fd1b579053c3d9928797f554bc81bb6e48ed5ad54d610d74b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-nested-access-path-positive.json",
+      "sha256": "0bbd38e1db9b83ea148af372ed14e0583323daf1ce012a55830bfc6e5a2d117a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-carry-positive.json",
+      "sha256": "b40342fc784cfe8060388ff0c1754d0b39c11a4d79b8c078aec725d41a113f4e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-callback-registration-negative-timing.json",
+      "sha256": "285dba8ab8395538c63feea6196f4c5d951e811ef595174fa7e76c07bd4faaab"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-carry-negative-timing.json",
+      "sha256": "84be304f9fe48daac5f43c6af7908c92a3b96bd7288d7c9d767df13a9180868c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-arithmetic-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-arithmetic-expression-positive-timing.json",
+      "sha256": "bce532fd25eeca1be828dd3315b8318ae4a90adf4b0659e6b559e775beb3a31e"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-mutual-recursive-transform-negative.json",
+      "sha256": "77158280a1bf38f58fb79f8d533e28607454d7ef7e93e659ea1dca378de94be6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-arithmetic-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-arithmetic-expression-negative.json",
+      "sha256": "a5ab229bc4de0f441d8d9950beb860a158ff2b0f8f6d19e6a79939af581e1469"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-exception-persistence-positive-timing.json",
+      "sha256": "e0a1ae5769366079cf2fb75c1b34ca5aac386ee2edab54a21ca3435fe5ad8d98"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-infeasible-branch-positive.json",
+      "sha256": "9fbfa9e06c7c2b4682cec8642da3c45a70aa90c295e8ed6eb72ec20ddd5474c1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-call-context-negative.json",
+      "sha256": "77f0dfada88c40bffae0530a2c268e288e142f3cac0d0474cb26155ffc368010"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-interprocedural-exception-persistence-positive.json",
+      "sha256": "50c411063253d87a4c4423de0260dc0e8a7091bc9f3ae465ca7e2ca0a4f0dff9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-arithmetic-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-arithmetic-expression-negative-timing.json",
+      "sha256": "a802267f782b3a59f0f8be3a0d9cf2528f44e4d8894890b8a3a2d0efd11f625c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-carry-positive-timing.json",
+      "sha256": "c5c76b3ea0ef6d7cb80cd876496d7b4c4d99a42210a13815902be5bfa6ef3f56"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-deep-relay-chain-positive.json",
+      "sha256": "4f96e9d6629308b20fff6897c1dcfb84df5926686784080a3e493d2638c50f4a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-callback-registration-positive-timing.json",
+      "sha256": "bcdd812cbb9e28bc7da427e9639aad57d69323775e7ff83cd13c3ebf6a74438d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-direct-negative.json",
+      "sha256": "5a9d83cd3bda980ac23e41be984f6d8ac9fc8c44442cae2bdccd520c116e5c79"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-dispatch-table-positive-timing.json",
+      "sha256": "f79d034140c27d83c7869e7f4515aec176b0ab6c0587e7e1abc515655a332e06"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-payload-transform-negative.json",
+      "sha256": "516ea1482dfb5c94ba7e3bcaabdc94663ff9da5fa55d887e37c87873d09e2cc3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-same-object-field-negative-timing.json",
+      "sha256": "48d8faabadc1b1f239d215f41820473c4c9e642f695e4552f70b5d9ed9f994a2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-computed-property-positive-timing.json",
+      "sha256": "9cf8d07c9ebc068d74aea12f09ca686e05c47e35ca7a9cc1fa2067fe75ef71e3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-object-separation-negative-timing.json",
+      "sha256": "177ff8a21513b28197006923677eb641ab9db5602e6f7bec03bbbf84a6d53925"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "7bc88877f554c12b50fb909d7c7a5f6e56d33d0cf7373df01a00548bd6e6c1f3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-loop-carried-positive-timing.json",
+      "sha256": "3900dc375e7cec0243b8e3d427dc0dc8a3d83a8392c4a0181ecbcef916b1a3c9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-function-field-positive-timing.json",
+      "sha256": "ea39ecc82e384a20b33b55662c765c9c5b8eb90ff68d065b76cfa559f7ec596d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "e6448904862d178b0a67e34717d96225567dd72288db662bce275be9b7f0bca4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-function-field-negative-timing.json",
+      "sha256": "2a6113959dc34dd2379cf0814df3668b1a9c1a2f5c7c9139775ba95234f7d02f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-loop-carried-negative-timing.json",
+      "sha256": "e6d222a6368be71bbca6728bd5d43e7c72b048726cc33850b54c784f6c45c411"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-same-object-field-positive-timing.json",
+      "sha256": "e35ed792ada75037b0c2baf6d92db9b3c9bd3f8970b26b40e81049c3ed2e7fd1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-computed-property-positive.json",
+      "sha256": "7f1c97b10198c449e84ea0648deefeeb552687a0bd9e2b6e2f1d2e69a3f2973d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-computed-property-negative-timing.json",
+      "sha256": "2725027fe1a72a37b2bf655bf773ebab7f4d46289c40c2aad8017a6b8ef2136d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-object-separation-positive-timing.json",
+      "sha256": "625d522c0026d283e8a94f9767913564d11d41d8bc7584567a124ad15c2a67b3"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-dispatch-table-negative-timing.json",
+      "sha256": "32d005eb5f85b9f4126a196a4bf0185844a2b0fa01d9651eda304d8f348ae203"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-array-element-negative-timing.json",
+      "sha256": "4dc2db7b6687c2c8079446132036c5d5f53522df49d98c4df91cdfd3c5352bb8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-direct-positive-timing.json",
+      "sha256": "5c1cda1e8962222e7f45775f79da0875452a9d55c4d7dfa6db9f639dd759c584"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-heap-unwind-positive-timing.json",
+      "sha256": "4eae546536171d0d88afd8031182149f1d7c289ef630fd18df21010efed5b396"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-local-chain-negative-timing.json",
+      "sha256": "5dbb43dd14f22be8cda0230a954f2dda2d2c0b19765768dc059b7d6380b920ab"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-two-hop-positive-timing.json",
+      "sha256": "eff4dcf5165966367b1a37ce5ff34b704034c14faee2be0dfbf9441caeebfe40"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-reflective-invocation-positive-timing.json",
+      "sha256": "b76969c96532d740eaa0fe05866ab9bf19459513e388a5a75d250b48aa2b9dc9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-payload-transform-positive-timing.json",
+      "sha256": "24735ab70258ce9fddcca29b2828f26b9b72bc9fa2e1e646333efc5c7055aeb2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-computed-property-negative.json",
+      "sha256": "e71497cc2da2eac649ec0d3fb16e243690f46abd93b7adbe66321ecb5958b336"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-alias-propagation-positive-timing.json",
+      "sha256": "515366b196874ac9eab803dd72b34f7f7acea7281ca5bd68fee2d5a4bc9503d9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-direct-negative-timing.json",
+      "sha256": "837dd2180f5bda938b957714652a6d8dacd2f76e6d78e4565d6734c4e803faa7"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-array-element-positive-timing.json",
+      "sha256": "83993d943f9a19cab90c4d1b6212462533c80003a8b1c55d58868d12161349f6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-alias-propagation-negative-timing.json",
+      "sha256": "7d5b6be02728b65f8d83823df8c982d025b3f6d50ce9f8eb1a6df7f9f40e7e3b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-direct-positive.json",
+      "sha256": "4118e0efcb3396481386a9b9496ca23f98f59651318b7a656290160b7b5d63fa"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-payload-transform-positive.json",
+      "sha256": "db33b94ad8979d68eb06969668dd730a1e6c9ec6e1b25e6d3519906fac667f5c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-reflective-invocation-negative-timing.json",
+      "sha256": "e28741ce042f2b14e5934639e7348542f1bff4b0f3b95bd398f699ea12ad7195"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-two-hop-negative-timing.json",
+      "sha256": "a72eb654f091b5beb53922412d6728abb619af301dd2d301585083b3a74a05d0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-local-chain-positive-timing.json",
+      "sha256": "58e331199312835c5b78847c31ba93e3489a9ba8bd90e7281b3e92d0894fcfc8"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-payload-transform-negative-timing.json",
+      "sha256": "9bb39802729a22824b61c491d3b3af69bf813ec26dbf210865513ecf5b3e8160"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-heap-unwind-negative-timing.json",
+      "sha256": "0a5b1680b17da713ddc0cb76882232139ab5450468bd62f98c654f52b4f65f8d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-map-iteration-negative.json",
+      "sha256": "7ff9a7389da13ef5fa43f7e3338cd3fd29cc166724cb19021b654e7a2f798e39"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-mutual-recursive-transform-positive-timing.json",
+      "sha256": "3a59584af64d711e41fe34f16b54575b4abe18de6fb591d3da7c6c9e6623eb81"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-exception-catch-positive.json",
+      "sha256": "57959522e87fcf2136f9842b8fe6a3154d5b6843b3fcc3388c0d4641f8574c40"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-array-element-positive.json",
+      "sha256": "66abef07a9a870db15ca6028cb8b46bbb5c93a8d57320c1147a437c7bc71456d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-dispatch-table-negative.json",
+      "sha256": "fff7da305a9aa3276e7a13b76f4881d9f4742b2828cf980ee355a7aa6d761d8a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-element-object-negative-timing.json",
+      "sha256": "39494bd5b056a774498e54c7c3a5d42d319bba22064140b56ec58f6969de0345"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-infeasible-branch-positive-timing.json",
+      "sha256": "73bc74a871ed5349f59d8ba8e71837d11ffd7b89d1b676645d9fbe705fda2731"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-alias-propagation-positive.json",
+      "sha256": "47db524ceedde996947471d5252c489a02ae5122bd56deecdd56024f6602c5e1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-context-pair-depth2-positive.json",
+      "sha256": "c8f8b58e1eb083f95633e2272e6674633eb9b6f57fb9423f792fc0f4ae3df854"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-callback-transform-positive-timing.json",
+      "sha256": "64e6d799551ae2ad02d6896d50cb5f8f378aa983f977989320e1abeaa1f264a6"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-local-chain-positive.json",
+      "sha256": "50772bf643b33df63a9599476d29f7d7a85a6de9357c518d090ba9cfb742c6c5"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-argument-position-positive-timing.json",
+      "sha256": "b022f3c18483b9c5526e17b7985d0661dc3f082fb01c5e7b68c5bf56d1a2220c"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-loop-carried-negative.json",
+      "sha256": "793c5535d14fde212f44cd851f339ab5411b65b08e66d39af8b07820085c7c00"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-infeasible-branch-negative-timing.json",
+      "sha256": "e17ea0329d08d371ec86839bc2ff524094fde0599ff4e6d47950ed8974399fa0"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-element-object-positive-timing.json",
+      "sha256": "0b444911d30e523919d49d1e36a15f31ad9e0c68fc85c6d441d082741cbabf2a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-branch-join-positive.json",
+      "sha256": "2ab4344423db1b30c9ce62cc2074c2e4634e29a01b2f9566aa908d99442b89b9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-mutual-recursive-transform-negative-timing.json",
+      "sha256": "63be4632b843de56dc2a9adfdcf80c8dbfa92b79cbaf6a6ab4addfe09839f152"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-recursive-callback-transform-negative-timing.json",
+      "sha256": "3f9299276102bfb2bc7742c8dacbc3755a7dc200cffd215042bf84838b873727"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-local-overwrite-negative.json",
+      "sha256": "0ef8751cce61c0e81f7e14e828eaed5abd71118ae374765c0690b1fbe809da89"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-argument-position-negative-timing.json",
+      "sha256": "d641b009e6ca4859a566f0eb1624e5842f3981ad71404b39590a5f45f4e85ccf"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-element-object-negative.json",
+      "sha256": "5782e562439dc6a89012797f0b4e495adc4f03963c65bbd08183a08120befc8b"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-one-hop-negative.json",
+      "sha256": "67fe4c8296ebaa4027dd3adfe89d202f106d97f55fb30ea2b9298c9dca6315e1"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-loop-carried-positive.json",
+      "sha256": "f5320cb178651352c844a9427b7b4b6826399c6881a4a2b866f740dcf9c2ab20"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-exception-catch-negative-timing.json",
+      "sha256": "07e4f33b0a1b482bf46dbfb4ceb30ab79948b3e422416ee9819885d42d3f97f2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-branch-join-negative.json",
+      "sha256": "c811100bdecbde657e4b0324eb3897e2d18e5b7cb0607f40b3d4b52efa6efa5f"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-element-object-positive.json",
+      "sha256": "1afed9258efe79fd0985a578382d821a928053896877427ce4c0249d9b4e9840"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-local-overwrite-positive.json",
+      "sha256": "ac9ef2c9c10a8d9f5ae9a24983e960445f510450994ade8318eb874f27b8e957"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-return-relay-one-hop-positive.json",
+      "sha256": "183a8c108a3bc445af298374d29fa750858f7b7f40ce62de5cb3aef17467c436"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-exception-catch-negative.json",
+      "sha256": "5de17e68e5da4e5fb8955a2b2805684adeae6079e7b3923d2549ddfd3e043dfe"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-map-iteration-positive.json",
+      "sha256": "1edb8fa5269838b438e35439fa5c5dde1cddd484f84e0e9a832534c06ed4d3b2"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-dispatch-table-positive.json",
+      "sha256": "fff7da305a9aa3276e7a13b76f4881d9f4742b2828cf980ee355a7aa6d761d8a"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-array-element-negative.json",
+      "sha256": "124b0d0b8bf3bcb884a55ff34a613f04c8a32121c573bfc6c292edc0b1153a43"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-exception-catch-positive-timing.json",
+      "sha256": "3174d3c827b312554edf83722326e42921096977f46d14b260e36a71a884b7e9"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-alias-propagation-negative.json",
+      "sha256": "0f9f2293228b489811196754d1354b4827a7bc155d51b044fb8796863073700d"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-context-pair-depth2-negative.json",
+      "sha256": "81e0c5850e91ca631402515974c1d11027af77a5aa0e84938825e420fb4c74f4"
+    },
+    {
+      "original_path": "reports/raw/bifrost-python-kernel/dfb-taint-python-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/bifrost-python-kernel-attempt-01/outputs/reports/raw/bifrost-python-kernel/dfb-taint-python-local-chain-negative.json",
+      "sha256": "cb65788126d9dcd4059c1d5fdc21da993359d078d7619f9f3064c8e82bcc86ad"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/bifrost-python-kernel.json",
+    "reports/raw/bifrost-python-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

@@ -1,0 +1,168 @@
+{
+  "id": "overhead-codeql-ruby-attempt-01",
+  "planned_id": "overhead-codeql-ruby",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "estimate-invocation-overhead",
+    "--tool",
+    "codeql",
+    "--language",
+    "ruby",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+    "--pyre",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre",
+    "--pyre-binary",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre.bin",
+    "--pyrefly",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "3951cf19d74fb20cbab1759f87835df5715612c1c5d963fb85dcf66ee75d3f81"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-19T16:41:15.719156+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      1.87060546875,
+      2.044921875,
+      2.1943359375
+    ],
+    "load_after": [
+      3.11669921875,
+      2.3662109375,
+      2.3017578125
+    ]
+  },
+  "settle_observations": [
+    {
+      "utc": "2026-09-19T16:40:15.643753+00:00",
+      "load": [
+        1.85595703125,
+        2.0771484375,
+        2.2177734375
+      ]
+    },
+    {
+      "utc": "2026-09-19T16:40:25.654187+00:00",
+      "load": [
+        1.8037109375,
+        2.0576171875,
+        2.208984375
+      ]
+    },
+    {
+      "utc": "2026-09-19T16:40:35.656530+00:00",
+      "load": [
+        1.8271484375,
+        2.05517578125,
+        2.2060546875
+      ]
+    },
+    {
+      "utc": "2026-09-19T16:40:45.661018+00:00",
+      "load": [
+        2.013671875,
+        2.08642578125,
+        2.21484375
+      ]
+    },
+    {
+      "utc": "2026-09-19T16:40:55.669091+00:00",
+      "load": [
+        2.0107421875,
+        2.08349609375,
+        2.2119140625
+      ]
+    },
+    {
+      "utc": "2026-09-19T16:41:05.677907+00:00",
+      "load": [
+        1.93505859375,
+        2.06396484375,
+        2.203125
+      ]
+    }
+  ],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-19T16:42:17.582504+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/overhead-codeql-ruby-attempt-01/stdout.txt",
+    "sha256": "399770611eb8a335ab64a3026e4a87f9809c1241b167305c7f72ddce18ec5100"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/overhead-codeql-ruby-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/raw/invocation-overhead/codeql-ruby/invocation-overhead.json",
+      "path": "reports/releases/v0.8.0/attempts/overhead-codeql-ruby-attempt-01/outputs/reports/raw/invocation-overhead/codeql-ruby/invocation-overhead.json",
+      "sha256": "cb85e76a8272c9d34ccede57a9f5c6928b223d1d3be9320dea96abb28aa361b2"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/codeql-ruby/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/overhead-codeql-ruby-attempt-01/outputs/reports/raw/invocation-overhead/codeql-ruby/run-environment.json",
+      "sha256": "f596b66dbb9061834619cbca38cb35b0dc2db661c31d7404b126d03ab1da52e5"
+    },
+    {
+      "original_path": "reports/raw/invocation-overhead/codeql-ruby/fixture/dfb_trivial.rb",
+      "path": "reports/releases/v0.8.0/attempts/overhead-codeql-ruby-attempt-01/outputs/reports/raw/invocation-overhead/codeql-ruby/fixture/dfb_trivial.rb",
+      "sha256": "aff8dce380e5b54990302a18e09f1420f11e670f1bc9bc6e06b1895fc966a889"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/raw/invocation-overhead/codeql-ruby"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

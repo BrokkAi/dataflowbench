@@ -1,0 +1,284 @@
+{
+    "$schema": "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version": "2.1.0",
+    "runs": [
+        {
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dataflowbench-opentaint-java/dfb-taint-java-recursive-heap-unwind-positive/source"
+                }
+            },
+            "tool": {
+                "driver": {
+                    "name": "OpenTaint",
+                    "organization": "Seqra",
+                    "rules": [
+                        {
+                            "defaultConfiguration": {
+                                "level": "error"
+                            },
+                            "fullDescription": {
+                                "markdown": "DataFlowBench benchmark-controlled endpoint flow",
+                                "text": "DataFlowBench benchmark-controlled endpoint flow"
+                            },
+                            "id": ":dfb-opentaint-kernel",
+                            "name": ":dfb-opentaint-kernel",
+                            "properties": {
+                                "tags": []
+                            },
+                            "shortDescription": {
+                                "text": "OpenTaint Finding: :dfb-opentaint-kernel"
+                            }
+                        }
+                    ],
+                    "semanticVersion": "latest",
+                    "version": "latest"
+                }
+            },
+            "results": [
+                {
+                    "codeFlows": [
+                        {
+                            "threadFlows": [
+                                {
+                                    "locations": [
+                                        {
+                                            "executionOrder": 0,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#run():2:(%2 = dataflowbench.taint.RecursiveHeapUnwindPositive.dfb_source())",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Call to \"dfb_source\" puts marked data to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveHeapUnwindPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 31,
+                                                        "endLine": 25,
+                                                        "startColumn": 19,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 1,
+                                            "kinds": [
+                                                "call"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#run():3:(dataflowbench.taint.RecursiveHeapUnwindPositive.walk(%0, %2, 3))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Calling \"walk\" with marked data at a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveHeapUnwindPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 35,
+                                                        "endLine": 25,
+                                                        "startColumn": 9,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 2,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#walk(dataflowbench.taint.RecursiveHeapUnwindPositive$Box, int, int):0:(if (arg$2 != 0))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#walk"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Entering \"walk\" with marked data at the 2nd argument of \"walk\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveHeapUnwindPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 52,
+                                                        "endLine": 14,
+                                                        "startColumn": 12,
+                                                        "startLine": 14
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 3,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#walk(dataflowbench.taint.RecursiveHeapUnwindPositive$Box, int, int):1:(arg$0.value = arg$1)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#walk"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "\"arg$0.value\" is assigned a value with marked data"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveHeapUnwindPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 22,
+                                                        "endLine": 16,
+                                                        "startColumn": 13,
+                                                        "startLine": 16
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 4,
+                                            "kinds": [
+                                                "unknown"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#walk(dataflowbench.taint.RecursiveHeapUnwindPositive$Box, int, int):2:(return)",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#walk"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Exiting \"walk\""
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveHeapUnwindPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 6,
+                                                        "endLine": 21,
+                                                        "startColumn": 5,
+                                                        "startLine": 21
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 5,
+                                            "kinds": [
+                                                "return"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#run():3:(dataflowbench.taint.RecursiveHeapUnwindPositive.walk(%0, %2, 3))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "Method \"walk\" propagates marked data from a local variable to a local variable"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveHeapUnwindPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 35,
+                                                        "endLine": 25,
+                                                        "startColumn": 9,
+                                                        "startLine": 25
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "executionOrder": 6,
+                                            "kinds": [
+                                                "taint"
+                                            ],
+                                            "location": {
+                                                "logicalLocations": [
+                                                    {
+                                                        "decoratedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#run():5:(dataflowbench.taint.RecursiveHeapUnwindPositive.dfb_sink(%3))",
+                                                        "fullyQualifiedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#run"
+                                                    }
+                                                ],
+                                                "message": {
+                                                    "text": "DataFlowBench benchmark-controlled endpoint flow"
+                                                },
+                                                "physicalLocation": {
+                                                    "artifactLocation": {
+                                                        "uri": "dataflowbench/taint/RecursiveHeapUnwindPositive.java",
+                                                        "uriBaseId": "%SRCROOT%"
+                                                    },
+                                                    "region": {
+                                                        "endColumn": 28,
+                                                        "endLine": 26,
+                                                        "startColumn": 9,
+                                                        "startLine": 26
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "level": "error",
+                    "locations": [
+                        {
+                            "logicalLocations": [
+                                {
+                                    "decoratedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#run():5:(dataflowbench.taint.RecursiveHeapUnwindPositive.dfb_sink(%3))",
+                                    "fullyQualifiedName": "dataflowbench.taint.RecursiveHeapUnwindPositive#run"
+                                }
+                            ],
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "dataflowbench/taint/RecursiveHeapUnwindPositive.java",
+                                    "uriBaseId": "%SRCROOT%"
+                                },
+                                "region": {
+                                    "endColumn": 28,
+                                    "endLine": 26,
+                                    "startColumn": 9,
+                                    "startLine": 26
+                                }
+                            }
+                        }
+                    ],
+                    "message": {
+                        "text": "DataFlowBench benchmark-controlled endpoint flow"
+                    },
+                    "ruleId": ":dfb-opentaint-kernel"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+  "activation_arguments": [
+    "--policy"
+  ],
+  "activation_identity": "bifrost 0.11.0 built-in policy packs",
+  "adapter": "bifrost",
+  "case_id": "dfb-taint-java-native-sanitizer-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "Z",
+  "modeling_category_label": "declared sanitizers",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for bifrost 0.11.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): Current v0.7.1 evidence: reports/raw/amendment-a32-bifrost-scan-native/ retains the v0.11.0 binary identity, extracted shipped policy and catalog. The capability decision rests on the shipped selectors and catalog, not on the positive control, which was inconclusive with partial_discovery; native activation validation remains partial. The following A32/v0.10.9 rationale is historical context, including its activation wording and issue-status statements, which were not freshly verified: restated by Amendment A10 and re-grounded by Amendment A32: a sanitizer declaration arrives only through `--policy-file`, which this profile's activation contract forbids; the activated built-in catalog, enumerated from the pinned binary, declares no sanitizer at all; and the flow a barrier would interrupt cannot start, because the two endpoints the product does ship are a servlet parameter and a JDBC statement rather than this template's identities. A barrier on a flow that cannot start is unobservable in either direction. The preregistration declined this cell instead on the adapter README's \"Sanitizer lowering is a future Bifrost CLI capability\", which Amendment A9 measured false and withdrew",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-sanitizer",
+  "witnessed_tool_identity": "bifrost 0.11.0"
+}

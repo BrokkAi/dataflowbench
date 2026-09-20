@@ -1,0 +1,13 @@
+{
+  "adapter": "bifrost",
+  "case_id": "dfb-taint-java-model-sanitizer-selectivity-positive",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "Z",
+  "modeling_category_label": "declared sanitizers",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "pinned_tool_identity": "Bifrost v0.10.6",
+  "reason": "category Z — declared sanitizers — is unsupported for Bifrost v0.10.6 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the adapter README states it directly: \"Sanitizer lowering is a future Bifrost CLI capability.\" (`adapters/bifrost/README.md`). The matrix surfaces this rather than hiding it. DataFlowBench is published by Bifrost's vendor, and a partition that quietly granted its own engine a category its own documentation says is unimplemented would be the single most damaging thing this document could do",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-sanitizer-selectivity"
+}

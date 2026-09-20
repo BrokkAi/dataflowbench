@@ -1,0 +1,567 @@
+{
+  "id": "semgrep-ruby-kernel-attempt-01",
+  "planned_id": "semgrep-ruby-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-semgrep-ruby-kernel",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T19:20:57.024543+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      1.5234375,
+      1.95458984375,
+      2.2939453125
+    ],
+    "load_after": [
+      1.49951171875,
+      1.92431640625,
+      2.2763671875
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T19:21:09.676006+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/stdout.txt",
+    "sha256": "8a1e0e05ff4e4b5c7ca50975dcfd5a4b8f6608c39ec0c48fbfa437ae37d27e19"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/semgrep-ruby-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/semgrep-ruby-kernel.json",
+      "sha256": "d516a6c31277ef82d72d937057b022f94ad6c65abc393d19f9ba22c2cd3b937c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-array-element-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-array-element-positive-unsupported.json",
+      "sha256": "470755c2eaa25bb22db48e97f328041f7cc8d958b5bef3c2015c2b88c110d5cb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-negative.json",
+      "sha256": "ae8fc6c1f18efc19dc3bc452a3d50b37bbfefae01ceb9cb8e909742e3f15d9b0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative.json",
+      "sha256": "56bfdca6fae5e023d970648ef45f6243ded7dd79697bbe716ff1491774c831b8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive-unsupported.json",
+      "sha256": "774febbc4562c5994c1a24cddb90c1f050c19c1a9fa053bc28fd4373a41c5288"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-unsupported.json",
+      "sha256": "3a3e79e9a862f4dc13f0ff84baee18efb06f8b908ac9f8e88b08d87e5cc86408"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-carry-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-carry-positive-unsupported.json",
+      "sha256": "ccdab8f109bf98adebdf56ebf8b56f3e8bba0d319efc6681daa1ca1b232a43ac"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-timing.json",
+      "sha256": "306b01ccead14d28f680905d10f2ee9dabef9609346fbc030ec75218e4be271c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-alias-propagation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-alias-propagation-positive-unsupported.json",
+      "sha256": "343635a6ec1f1282ed59fbed08cae64fac24f779fae494ae71a585301fc325b1"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-argument-position-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-argument-position-positive-unsupported.json",
+      "sha256": "41c694d28edbc5a31b42da504290b94686bc73559062924b6cd08e468e92d956"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-timing.json",
+      "sha256": "60335bd99b23fc924e6811b8c5d37a2fe44a0533c8219e6df2926d0e0a9dafc8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-negative.json",
+      "sha256": "149740fd0aa87167e2d499c742608db83b7718f4ba8e734e5016df4ec6c63caf"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive-unsupported.json",
+      "sha256": "1783239278036bb604d9e7ec34382cbe6ce03998a0d75b385e758bc1c117974d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-element-object-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-element-object-negative-unsupported.json",
+      "sha256": "a36017b2ad6a4f7ee5f19e353722f0b8e6b11f6d63ab35415264617316121f3b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive-unsupported.json",
+      "sha256": "fd9672b6357da1ef7efe3ef31fb02d5a9da16e7031bc8437839c089d7120b520"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-positive-timing.json",
+      "sha256": "4d6cde5412cb1c3ae12b28becda1c227a5852fae9ac259ee933ca7bc85fcd87f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-positive.json",
+      "sha256": "580b20664d31ca7f3e34947839cba843cabe0756dad537d418ba4e646909d5c1"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-object-separation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-object-separation-positive-unsupported.json",
+      "sha256": "c4f3a6cb2bf7e833b7ff3c974d5ff8100d7e630e30e130326a8024b798339246"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-dispatch-table-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-dispatch-table-positive-unsupported.json",
+      "sha256": "c69b047bd0ba8a92b9314cd8314f9ba4226c6b865d5a03054b0dfafb9d5aa0d4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-positive.json",
+      "sha256": "e4db7167595ec6431432e6291241fd2283ebeeb389be2c59fb301f78d7d6f043"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive.json",
+      "sha256": "021658afb27b90d85db9813cf91fc5b713662405fd4e9a9dac2036c97a1c118a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-negative-timing.json",
+      "sha256": "e2266e02fb1717c79c53c4d6937834af56ae924031e2731ada5905499f277ca9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative-unsupported.json",
+      "sha256": "f250d9454bf11b0570f096a3cf80737512b75a581baf91ae2ae5b7f321cc252d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive-unsupported.json",
+      "sha256": "1d10e79b311a7e0ad42ee08efc1550344e1f41bf21bb673d772e1a9251b12080"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-object-separation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-object-separation-negative-unsupported.json",
+      "sha256": "0545b6436dff9b48cdbd9f2c2654941eb1268d7ad8df7efba9db2a7445c00489"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-dispatch-table-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-dispatch-table-negative-unsupported.json",
+      "sha256": "c663a6294fc060e90c85cf3a93112b6295049c38d58865be019687506484d10f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/run-environment.json",
+      "sha256": "fc7d65206cb73a4634423a3d73faea1cc596be3373b8f884eb0968399b847396"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative-unsupported.json",
+      "sha256": "da678ae15d8c5128439e6afa5b44ccf6f9cac549129ea717e6a80294c46467d1"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-negative.json",
+      "sha256": "5e5f977a46b0d4437f3b34119192eef6bde568e22cf2bcb642f59b77f39fbde3"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive-unsupported.json",
+      "sha256": "d432db03eaabcd8174e1996cd05c7867ec363b5eacdcfc1688004988681ac25f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-carry-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-carry-negative-unsupported.json",
+      "sha256": "38d07f3833ca5b8e54b0b9a30b2dc803395ea3fb420b7b1568fde48b9f7b1702"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-positive.json",
+      "sha256": "56610a68558ad917bcfb66a4a7bae2c1839bf681d6db322b87ed4c6a245a3f06"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive-unsupported.json",
+      "sha256": "264532ba737442424edefd49be640689932ddbc6b0132f36bf9b4cbec6596248"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative-unsupported.json",
+      "sha256": "745412971f70f2386c7e6115e13cac7c3ec6007f807b9cade327f8e8a24f70ea"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-timing.json",
+      "sha256": "34220f1ce70488088cc168ff0726dca0e74de4dd30de2f8ed7d77b34d12ff0a7"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-array-element-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-array-element-negative-unsupported.json",
+      "sha256": "6681214c30dbffecf9fb219ead5251f130134a4f954cd157e40dbf0951ea6439"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative-unsupported.json",
+      "sha256": "a657054b104ef7f9dcff37cf5414d90296575b5cb7b54b2fb0eec1c4ddcb4fd8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative-unsupported.json",
+      "sha256": "3fb3ea1028cd2cc147580c0fe06a9819f6018139c1acd9efc219b8887e9efe91"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-element-object-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-element-object-positive-unsupported.json",
+      "sha256": "e6049f1bfe2e36d286bf08b9efb9833cb2ae438ceee7a4ca6ddb3f16be1eabe4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-alias-propagation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-alias-propagation-negative-unsupported.json",
+      "sha256": "3f14c0005e6544cb099aec5bd564060fbc70d43895eb6637ff85952d9e6ab185"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-argument-position-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-argument-position-negative-unsupported.json",
+      "sha256": "10f47b512cf95fbddb34ef2684aed981cd34e1710b99eb215a8eff991a43a42c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-timing.json",
+      "sha256": "ab942e14626cd2333c5972f7521738bb650e634335e78c08b4b80b65e8a733ee"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-computed-property-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-computed-property-negative-unsupported.json",
+      "sha256": "6e1ecab69ebefd8166b6627a04771d27736902d5d2fb726aef2fb5c28b980afe"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-negative-timing.json",
+      "sha256": "cc529493991a2064dbb7584579b0626d905386034eda2005168ee27f40472ed9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-negative-timing.json",
+      "sha256": "80eeb5f9355b0e8da8027e16cc3b3f37b519407a8c2078d15c86057a44fd6e0e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative-unsupported.json",
+      "sha256": "87a19ba00f7884b9eb46b6082815a71e008cd918cd7ce266513ae06a4ca723bb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-timing.json",
+      "sha256": "3f4b6762f8c052235ea36a38af272a895f15f3ca13bb0b37a6c723da803bbd87"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-function-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-function-field-negative-unsupported.json",
+      "sha256": "2ae6f84b4de3670a92832deb0a046963328498fdcac6a5ac70403b620c908a65"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-closure-capture-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-closure-capture-negative-unsupported.json",
+      "sha256": "2322fe5daacb5bd58c7eecaa26e9bd157748e37ef77d4ed5bdd578cb3e83e92d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative-unsupported.json",
+      "sha256": "c12d5bd44e62f3fadc2e9efd1392d6771ca9254ecd62cdafceb42f6715179599"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-negative.json",
+      "sha256": "57bb9a9a6df75deb956273c25653dcaa9eb1e7f9a3fb56974118d2ad3dca1d38"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-map-iteration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-map-iteration-positive-unsupported.json",
+      "sha256": "6f3eff512acc144543861ccb72ae5ad35326903e93d802df895cbaf46da3ff2e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-timing.json",
+      "sha256": "d4d7a9f5a6c667135456fa417ba56bc65150fc1a020cacfdff75d00ddbeabb76"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative-unsupported.json",
+      "sha256": "5e5d83315a595e96a3dfef408507fcc66e84360c766361a1ce787acf089f1f6f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-exception-catch-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-exception-catch-positive-unsupported.json",
+      "sha256": "3eab47923829a768cc85990b7e432651a635f99b4854a0a9ef055466f84afa88"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative-unsupported.json",
+      "sha256": "4f1f86c9e1cc37eb5ab728713ea58083ce725985cd5a00f4f22e55e521eafa3e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-positive-timing.json",
+      "sha256": "0cf5e7221e0881cb17c249cfdd68983b8e2b4ceaedd5d93d3a3d1e8066333b67"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-positive-timing.json",
+      "sha256": "8b456d7cc28944eccd61a9329e2254176b46c1f1f3b3ae232ae09f1cc126a2e8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive-unsupported.json",
+      "sha256": "9d33dcde8d07bff5ba6f73f1d71698235dc0dd3f2775b7444f135a0da4c0a9e9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-positive.json",
+      "sha256": "138493851133dcaeda3b6a2ed923e47ea45a2ad08edf9df361933c983bc3cbab"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive-unsupported.json",
+      "sha256": "1ba368de2537e869bf0d21c0a4a2b80f2d77d1c3f8c23d76efe5c8d339584677"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-call-context-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-call-context-positive-unsupported.json",
+      "sha256": "a684b07081777ef9c98a02a4ab6f3de5f856c3fcc2ae8fc3441f3cc859c1cf7a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-callback-registration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-callback-registration-negative-unsupported.json",
+      "sha256": "c589d9126b23c8bd5c6da69de6e56b0c9fb30f1ac7769fcb566367782176161b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-same-object-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-same-object-field-positive-unsupported.json",
+      "sha256": "96662510076d577af72216762891e2cc938e702a541b31cf800c2f0d3d7ab1e9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-nested-access-path-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-nested-access-path-negative-unsupported.json",
+      "sha256": "639c843539ce523ff9864edc7f3837f58b11b9f441765f215c0f06b5bc53bda7"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-positive-timing.json",
+      "sha256": "d4411ff81676d60988f43f7c9892242a04361d5319b6b732b42b4d45261d3359"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive.json",
+      "sha256": "6bb487ae96bfee91b4b54e5749db43f3b5f0bbea4630bdb69a7319ccbfec2a01"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative-unsupported.json",
+      "sha256": "4392e94fed993d816a945864866a7b729ceb6e02f4072112cb02cda0aff0bc59"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-nested-access-path-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-nested-access-path-positive-unsupported.json",
+      "sha256": "b656aa4f10c54f73b2731616e781424ae8145b356bf0f250600bd56f579ad36d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-negative-timing.json",
+      "sha256": "6eca8bd6299035ae5a324987671d8009d380cde800861d17b9c00ff5264be618"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-negative.json",
+      "sha256": "735a464cb0b44a989606acd26b89df3438b6f4dc30d06bcadd9fe60b35707086"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-same-object-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-same-object-field-negative-unsupported.json",
+      "sha256": "0b5754797ab50640946c5a668937dec9f69982be7c7ae45519889af463872f1d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative-unsupported.json",
+      "sha256": "7fad2dc85006d3c4f4555fcf303fb7bf8f0f040bcdd9d5e3d072dadb5723148a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-call-context-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-call-context-negative-unsupported.json",
+      "sha256": "c7f6d62f852d4af55896d84e9c8231b5b5fa0be900ae4795d9e45949eaf2c41f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-callback-registration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-callback-registration-positive-unsupported.json",
+      "sha256": "4e804f09c9315d5586ada8cacafd14982c50072c1080b4106a671cad700e4817"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive-unsupported.json",
+      "sha256": "da76ce7a7e26f69c1f5af1429f0bb23d4eb00e91cd1159c26dd3a140cda187c1"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-computed-property-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-computed-property-positive-unsupported.json",
+      "sha256": "22242324fa3a1fd400a05a68f2e8b83f4a89b8472a9f8cbdd625e7d2a1b260f9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-positive.json",
+      "sha256": "ec4aef1787507422d4b2c059aa22bc25ffc131d5f93195b4ce2b3a8da071c81b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-exception-catch-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-exception-catch-negative-unsupported.json",
+      "sha256": "e1508bfecfd9b803c2aa3a125f604b840334490eeab3630243c6e48c057e3400"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive-unsupported.json",
+      "sha256": "ac487cd070ea2019e14ad7461f6cff3d0840899e2f5b1593589a463ca8063d17"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-map-iteration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-map-iteration-negative-unsupported.json",
+      "sha256": "3d27252b8ce6c69536e32c52ab86ef3bd1302da42fe4bb819f480eb7857caea4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive-unsupported.json",
+      "sha256": "68617f283e8accb60c6096e66c9033b41e03cb681f065bca10c9848fe7c79763"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative.json",
+      "sha256": "af6c9943b3512becf4e98addc1cb2b95cbeaff9bf2730b6eed9628d1a657d6d5"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive-unsupported.json",
+      "sha256": "3007cc0c0b69e15df0ad49eedcb09af1a689ff1b3bcdeee5a640a87035af44d4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-closure-capture-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-closure-capture-positive-unsupported.json",
+      "sha256": "76a2f29889b9221ae1bc718ec591dc5121e2b0d5d6d35153abd2d4761c46e8d9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-function-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-ruby-kernel-attempt-01/outputs/reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-function-field-positive-unsupported.json",
+      "sha256": "ef6598f5249d2dae627e8a38d9d73c816008555b78ea074908f8ec0e468e923c"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/semgrep-ruby-kernel.json",
+    "reports/raw/semgrep-ruby-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

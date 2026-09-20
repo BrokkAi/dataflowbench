@@ -1,0 +1,567 @@
+{
+  "id": "semgrep-python-kernel-attempt-01",
+  "planned_id": "semgrep-python-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-semgrep-python-kernel",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T18:17:52.370318+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.78564453125,
+      2.94677734375,
+      2.64990234375
+    ],
+    "load_after": [
+      2.771484375,
+      2.9326171875,
+      2.64990234375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T18:18:07.149958+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/stdout.txt",
+    "sha256": "fba76a28d435d89a8cfcaa2002fd8fbba84f3858d05aee5da6c2003b5c987e4e"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/semgrep-python-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/semgrep-python-kernel.json",
+      "sha256": "9da217953be50c394e46940897c1f8aa2b16d7172c0f9c0050365198675b0543"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-anonymous-implementation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-anonymous-implementation-negative-unsupported.json",
+      "sha256": "491667ac0b17e97c93d58fcfd865d619baaf593a7de5f9775cfdf1b348ecb856"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-array-element-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-array-element-positive-unsupported.json",
+      "sha256": "84e6cab74ad794141593f0e9d8205a4bdcc89f0c5eb9cb08975bc46ddd18ea8e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-deep-relay-chain-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-deep-relay-chain-positive-unsupported.json",
+      "sha256": "189f11d47fd122612bf5df25f57ccb4e4e167ec6586bc195d22ae138df7e355e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-interprocedural-exception-persistence-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-interprocedural-exception-persistence-negative-unsupported.json",
+      "sha256": "a39988cac5974725bf7f60b612decf68b35fb6a5f50c0d2dd898c7e5cf928078"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-two-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-two-hop-negative-unsupported.json",
+      "sha256": "3bdcde55d5ab0193838cfd36364b1c2ba4aafb1ad0a82afb783a17665d240b01"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-computed-property-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-computed-property-negative-unsupported.json",
+      "sha256": "e1e634a6696c30b8c67ba68e241ab97298106d8dba865c68cb7ce29ba06300eb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-exception-persistence-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-exception-persistence-positive-unsupported.json",
+      "sha256": "92f1dfa2c750cd6883b0f6d35dfd300641f5189bc0212751c74e78e1e92ef905"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-call-context-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-call-context-negative-unsupported.json",
+      "sha256": "43866b8002babfacb05512ca98d7b5043efc5c0281b971d835356935618f1996"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-carry-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-carry-negative-unsupported.json",
+      "sha256": "fea2fc2094e15524bc7226c581e399141c6df7f69251e280a1bea0d51fc3326d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-reflective-invocation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-reflective-invocation-negative-unsupported.json",
+      "sha256": "466a7d45d8042dc493d7e712c56ebf73514b5dc4b5cb5dda2022f393a43bbf0d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-function-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-function-field-positive-unsupported.json",
+      "sha256": "47b3af02a8591148948b96cd2ad11f71b54fba042cfe6a93a4b2723a62064ff6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-payload-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-payload-transform-negative-unsupported.json",
+      "sha256": "beace322e24ea0a9c5ef7856c2fd2325b1557c5cbe8bd1d176196088937963ac"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-one-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-one-hop-positive-unsupported.json",
+      "sha256": "8d738c07d0ce9c1006fc6dc09a661ed9dabb1f8c87c1ea3d1245e8183a544412"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-same-object-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-same-object-field-positive-unsupported.json",
+      "sha256": "0a8ad70ee4567d803cca0aca520ccbf3daf66932d4f9874652cac4c6065e2c8a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-direct-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-one-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-one-hop-negative-unsupported.json",
+      "sha256": "52d1a50b14449de668c6407696e28bda3485ad10b07cbffe2c0482e0345ae680"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-same-object-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-same-object-field-negative-unsupported.json",
+      "sha256": "2ccf425ec56723d2be22b298d63cf08c9d6d2fc580d79836cf82024d9e9a9129"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-positive.json",
+      "sha256": "65b3ace2fe338befb74c380fd95b41ee1a638e05e021544ee92bd8495cde8324"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-payload-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-payload-transform-positive-unsupported.json",
+      "sha256": "93bf9adb6e6693d99b824432b365c937efbbdb6e9de00b6113b1676cf1a7cf08"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-negative.json",
+      "sha256": "24c166474de3a81f2e4f0350f69a258de050dc82527b852f67ad4a119db99df0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-function-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-function-field-negative-unsupported.json",
+      "sha256": "0398cd23f5281ab53e38c964b56e25ded1e6b0314bc5b371029aeefe0811c0a0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-positive-timing.json",
+      "sha256": "0ef62fec352834fbbdfe233eced4b9d0796375f7185008962aef02d1a2c1511a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-negative-timing.json",
+      "sha256": "aa7b58f1105191d8775620b54e563207fa1db2596d3c27480ecffc7ae2ea33d0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-reflective-invocation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-reflective-invocation-positive-unsupported.json",
+      "sha256": "8f6fdfa46bbacbdef5b0dd69430a4cab052bdb366a7188210b843b72201ea152"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/run-environment.json",
+      "sha256": "0fd17e5d393b298cbe4eed8668e08b03758e17668028250b880b98f13340e742"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-negative-timing.json",
+      "sha256": "b0a516b21a1809ae6e4ff354115ecc90be6bb29cc36cc2b289d44b1d7d97cda0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-positive-timing.json",
+      "sha256": "4a8da4e2852e681517449ed890579cf7d1b242346da049da0b54a5a320a003b0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-deep-relay-chain-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-deep-relay-chain-negative-unsupported.json",
+      "sha256": "ce4b261c1e4858ac698ec10dc98dcdf61f72b995d868669c7dcae32c6aa8bf96"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-interprocedural-exception-persistence-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-interprocedural-exception-persistence-positive-unsupported.json",
+      "sha256": "15587544839fcf2729a2ef4dc1c432fdec175c1fe50fc5f8291698587fa0fe82"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-array-element-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-array-element-negative-unsupported.json",
+      "sha256": "b3adde333a93170972c242dadb525de236b755991483d0839577f6298cc4c06b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-positive-timing.json",
+      "sha256": "05d5c480904d238f5a11fcaf16f97ae150086e7fdca0bcf45380941e60a68573"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-anonymous-implementation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-anonymous-implementation-positive-unsupported.json",
+      "sha256": "176907230bcb6279cc5b2f6a48c506f3e7af0262cc744993e5917e8832a6721f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-negative.json",
+      "sha256": "bfc731b4d395aae583a2aac11d565d25a39254c9ea1215ada341cbfed63e5cdb"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-positive.json",
+      "sha256": "92ab962a6c7a2479c29af7274d10e629ea1272e3b98922217d2ee26605fe1d50"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-carry-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-carry-positive-unsupported.json",
+      "sha256": "8efd66d1d7ec9c9b05e39825c86c66635d5cbfb96bbbab33ff83d0f8855c54ce"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-call-context-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-call-context-positive-unsupported.json",
+      "sha256": "ca4a3244e12452de444497c0e026a3271bac8f8f1d34804ee172283590483285"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-exception-persistence-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-exception-persistence-negative-unsupported.json",
+      "sha256": "c3afe63d6ec5c68f8608bcc87ccc2b35132322d3fd641e868f09ee55fc0ef399"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-two-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-two-hop-positive-unsupported.json",
+      "sha256": "2c1547d4c53f51e82d7892690345dfa85e4a460c20a933952789fa8999e88fd8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-negative-timing.json",
+      "sha256": "65f9532afcdb400e128a31b23f86cd332c563c2a4b18f087d9965270504507d5"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-computed-property-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-computed-property-positive-unsupported.json",
+      "sha256": "a7198c1ada2e89d59e68a7cd4caa7ae1c9778e0ef1308c08280ca8beef986d2b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-closure-capture-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-closure-capture-positive-unsupported.json",
+      "sha256": "9628d43d66f124731af7376d3d1c06dcec69e76acac499999e213d60d97741a3"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-direct-negative.json",
+      "sha256": "a155b1c539e3bfa31dded7647e1f3dbca6d34b4384a4119546148203d2f3dbc2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-exception-catch-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-exception-catch-negative-unsupported.json",
+      "sha256": "ac86ea9d3222a67a4ddd6d41e26fa4496fee1aeef127b7132043c627e3e21d4b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-argument-position-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-argument-position-positive-unsupported.json",
+      "sha256": "2ca81b3d8e3065e351aef3557ce69d549a5046b2edf9ce83acd8ad9f617104c2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-alias-propagation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-alias-propagation-positive-unsupported.json",
+      "sha256": "86fabea094165f19716fe7b74acca0cedf93fbf614365f68581b96e83705ef4b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-positive-timing.json",
+      "sha256": "2b8c9b04ea35a07cd0e2e2c3711e9910d28e2b6da51ba3c06706862005b76245"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-callback-registration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-callback-registration-positive-unsupported.json",
+      "sha256": "b1d1227ef8ec21a21d58da0e795346d7a4552da3355e91da303f87413a24cde0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-dispatch-table-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-dispatch-table-negative-unsupported.json",
+      "sha256": "548333ac896c6482fc3146ba99c8c8bb0832be08c267e49fce948d341dfbc00d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-negative-timing.json",
+      "sha256": "fdc8c0bc0a10e952c066471320833055a6d3820afe9e95ebbf05b9adfe326f2c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-nested-access-path-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-nested-access-path-positive-unsupported.json",
+      "sha256": "4f65e678bfc3e22268b42d70546877bda16f723536a362daa393cf3d52d58a8c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-map-iteration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-map-iteration-positive-unsupported.json",
+      "sha256": "109d9a108afa25630b2ba2dbd2a438e2ff2184fdaace3fef5525d1b37a6e61d6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-context-pair-depth2-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-context-pair-depth2-negative-unsupported.json",
+      "sha256": "3c9ba5c86d096bcfb33eb26fdfa55f523c41115ff9776237a7153f46c0e13f10"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-direct-positive-timing.json",
+      "sha256": "02e1ace2f9842c899678f87edb8c99acb7d4c7f411149a07f3743884a28a0bad"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-negative-timing.json",
+      "sha256": "53afa837775f26538a1fc3cfabc1a8a04e51026f83559cdee6e0a23be3b59036"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-element-object-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-element-object-positive-unsupported.json",
+      "sha256": "f753d9bd34876364607f1a12f54bb071f7bebb18bd43e2993410d998b8b468ec"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-mutual-recursive-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-mutual-recursive-transform-positive-unsupported.json",
+      "sha256": "26d3f9990f097799cbe9c4ff9a02248f5647bea5c71f0e95bde8f61c33314bf9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-direct-negative-timing.json",
+      "sha256": "58a0170fafedcb203cd5eaef8718d98bf7e5608c7b63cfc450a3fea94238e5b2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-object-separation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-object-separation-positive-unsupported.json",
+      "sha256": "95bd7a40225591b0edfa9cf787b6608b632945427b012c16e8647cb6d34b2435"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-direct-positive.json",
+      "sha256": "7577d749efa8814ed4eeb41d6090f6022a62e8726c31b15515678bf091251102"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-heap-unwind-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-heap-unwind-positive-unsupported.json",
+      "sha256": "ac9ef6d9fc9565d1755796cbfab8e41d90bd50db3374bb3a5cfc9d271b3a3100"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-positive-timing.json",
+      "sha256": "791f0d9a133278330e550cbddacc3835c64d4b9d132f514c6e61dcf5a5d4cb18"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-callback-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-callback-transform-negative-unsupported.json",
+      "sha256": "943c432e1fcc03ef3fc1f05088c2c49c4545e3515003589d5faa6f20bf086bf4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-mutual-recursive-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-mutual-recursive-transform-negative-unsupported.json",
+      "sha256": "0bb629fda2ec3e5096dbd386db843b91fdb7593cbaf114ade5675b077a402821"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-positive-timing.json",
+      "sha256": "509cc899d6d8ece2b2f9494f562f40fb3a47511be595c22c538b4d36d6baa6de"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-element-object-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-element-object-negative-unsupported.json",
+      "sha256": "f4769d697d85c3e34b9f60bc3687149650ae576543bb05a2c43e865fa4b3297e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-positive.json",
+      "sha256": "e6fb06d1fa9f1a90992e0fbffc9b6eb9dec20298450d96081e5e0290425fe279"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-negative.json",
+      "sha256": "59a609ff0cda184ca169e7ba768883f786f9a5762705dd77898961259d1d64bf"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-negative-timing.json",
+      "sha256": "ee0585b8959c1e3ee0ef2dcffc585083b64c851c6b5e3775eebf7c2ce90e16e1"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-callback-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-callback-transform-positive-unsupported.json",
+      "sha256": "fa61d971f24d629484b7a043ef220bb1a69bc5a64170e1caf01a9df7035dacea"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-heap-unwind-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-heap-unwind-negative-unsupported.json",
+      "sha256": "01641535f18a266458170e3a65229630b60ddaf83524281a56fe15d0d52bd560"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-positive.json",
+      "sha256": "13a42569f1807907c012539dc9acc344fb38695b364df7ed6fd51faeb02ce448"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-direct-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-negative.json",
+      "sha256": "b1bf167f1f2b8f7d55ad1eb8e301b06eb1b918a6086e688efd11c0f84feab387"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-object-separation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-object-separation-negative-unsupported.json",
+      "sha256": "6c8fa9601b1562a23dc4cdfd7132b7ad13d618fb89f8372edad29bcb2d589b56"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-positive.json",
+      "sha256": "901c08bf3c50ea136baa7ab824731b81924079be8d66938b86aa24e57d5073d4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-argument-position-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-argument-position-negative-unsupported.json",
+      "sha256": "23f00fc918b549bfd0017dc891e03e1cfa9ef2812efe1d6f1c6a06a8d2f0ba0b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-alias-propagation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-alias-propagation-negative-unsupported.json",
+      "sha256": "1ec0b5729794b199deb13e75bf156d7ef298149a742918b7da9707d4f1d44f2e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-negative.json",
+      "sha256": "e09ec77a03458b0c24c0871162d64d4017b942dc9425dba292cc34086b4c39d8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-exception-catch-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-exception-catch-positive-unsupported.json",
+      "sha256": "454ec9a902be0638189b45361281db54aa852c305a4cd0d0f16a61c3dab55128"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-closure-capture-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-closure-capture-negative-unsupported.json",
+      "sha256": "66bdf58835b8990e0eab7f044e34be31969e3ea4a02d09a6c67a9735b14d106a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-positive.json",
+      "sha256": "34f792b1d8c14d68cc9e11d699d7f00f23cb42294ba31eec968c9b64ea6aca59"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-nested-access-path-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-nested-access-path-negative-unsupported.json",
+      "sha256": "5f922d06dac61fe8d7571ef90b1976ce6ff4b90883f80eeb35619cb7442ba964"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-map-iteration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-map-iteration-negative-unsupported.json",
+      "sha256": "7cc5b55e8a7685e969f1c46af4c2cf88ca44a932ebf5b616b540c6c57089b136"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-context-pair-depth2-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-context-pair-depth2-positive-unsupported.json",
+      "sha256": "4d328d030822c1c6469b30c7498ed34bd8576bb9f0ec137c1fd941573705a422"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-dispatch-table-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-dispatch-table-positive-unsupported.json",
+      "sha256": "6fac4fb712f6c378feafbd60b0faa7cf5e0474a23e604b9963407f8d9471df65"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-callback-registration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-callback-registration-negative-unsupported.json",
+      "sha256": "1f37629b8abc7684b256cb366193f00dc7c17f24481118fdb2761d2075203087"
+    },
+    {
+      "original_path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-python-kernel-attempt-01/outputs/reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-negative.json",
+      "sha256": "22668284b5bea14f310799afd81b429cb0c28666f3321d07986e074bee47de62"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/semgrep-python-kernel.json",
+    "reports/raw/semgrep-python-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

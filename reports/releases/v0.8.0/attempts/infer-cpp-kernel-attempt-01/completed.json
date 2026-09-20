@@ -1,0 +1,1097 @@
+{
+  "id": "infer-cpp-kernel-attempt-01",
+  "planned_id": "infer-cpp-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-infer-cpp-kernel",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T02:08:07.014292+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      1.4814453125,
+      1.87890625,
+      1.94140625
+    ],
+    "load_after": [
+      1.64111328125,
+      1.86279296875,
+      1.9296875
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T02:08:49.722828+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/stdout.txt",
+    "sha256": "391612b2bbfb923b07d495675f44c59e7bd39e2d8f9aaefc97564be7a41019af"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/infer-cpp-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/infer-cpp-kernel.json",
+      "sha256": "ca7ccf79c7b1be85caf5ce9b111f8df45a47c67edebeb575448f74b2fdb5eaf0"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-positive-timing.json",
+      "sha256": "16c2881b570c1698bbe98ea437c945bed4394ee982e8a4452e1b1b219cf571de"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-positive-timing.json",
+      "sha256": "fbeb6687736728af23c834e30b825662c17cd66dc3d148ebac07921a7233558f"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive-timing.json",
+      "sha256": "9da619beba78b275130f0af306036cb7b5164dfb9eeab6507a1cc1a6b756bc80"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-positive-timing.json",
+      "sha256": "f31ea9378da6f5cba43e183626e1704bb8003541dc152a587f93ef585800d6c3"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-negative-timing.json",
+      "sha256": "b00c51b53b69ca5886ab430f8bc3b41653ec8fcf07288b3778bbf5a6d535875c"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-negative-timing.json",
+      "sha256": "7a06da2e8c93a974dfb47c6633ba49a5f7398e3d0138eda64ad0c7d5a114eb5f"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-negative-timing.json",
+      "sha256": "40ff06fd8d249f0f7a70afc385415bcd6f8d979bce70707b86d2e6b9d3482482"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative-timing.json",
+      "sha256": "58a848c299121ee8ee761a0e4ccf9c44a2b06ceaf7708e14be39e3c91aaec5eb"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-negative-timing.json",
+      "sha256": "b456788c26aa5392d3c9458f56ef2e8a4c1a757ac1159552711e00977fc6f6ed"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive.json",
+      "sha256": "31e30c4fe24879ed994609b2a64dc78023614a25f7d19bb6810e15129dde9ef3"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-positive.json",
+      "sha256": "6b5c2d5a3b76e0d938208783c262eefc29fc6a70eca68ef179247a00e6642ef6"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-positive-timing.json",
+      "sha256": "466c4831dc321b350a18e0a310017cd830fcee6e3a6fa4225c614a95475cd9de"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-positive-timing.json",
+      "sha256": "f4cf73fba6e4447140ade0f94b678d8eaafc174780fbb2a73f5468ee885d108d"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-negative-timing.json",
+      "sha256": "08274325ea58e04eea67dc13b17e35df2c775ff3d350e2b0e437dd03e0d94904"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-negative-timing.json",
+      "sha256": "b57cd904c81167acb638b1092ed7dfa0a4794955b604ae8a912b6fc47a4186b9"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-negative-timing.json",
+      "sha256": "65395b780ebc93853a8028a56a6c0cda4e90e15b06ad790cd742ad8225dc496f"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative-timing.json",
+      "sha256": "4686609538cfcaca672f6e05c172b5205300ba3f2a72afda23906ca9fbc17661"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive-timing.json",
+      "sha256": "7859f501b5715103d8a4187896ee2e4598dec9b3423f9b16ae2630e4e78f60b6"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-positive-timing.json",
+      "sha256": "f0365debe493c79f441006fe14e2c3d431da018b23355b68c38405ffd8bbf783"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-positive-timing.json",
+      "sha256": "6479abf884d82603400e1c17fef65afb2adeb5e7034dbd851ea9e1ff8f26423d"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-positive.json",
+      "sha256": "b8797bb6042008bf10f1f08924767254ccbbb385d2d32b7b745ef74897b75ec7"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive.json",
+      "sha256": "7211ac57cbcd92d28e5f4b8b5b78e7a635ed97f4e9b54a77d521b78a485cfc77"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative-timing.json",
+      "sha256": "786a7e83e477b20cbdd43111d5d30d3047f362e7a03fd674ca60e2d5af28676e"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive.json",
+      "sha256": "182b4184152288c4cbfbf135336d27688d615ab24c684667c9064eda473e2001"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-positive.json",
+      "sha256": "daf9868da69bba5cecf95fd5f3c110d44a38a904c1e66165a789c33702436310"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/run-environment.json",
+      "sha256": "3eb7af13ff659d87731b560f0799590da68286f68b3347a800d8ef9d4bdf1d8f"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive-timing.json",
+      "sha256": "6b015129cf8b6ddf8a0b0decd1b62be069480084af6fb235c6341ece5434fc45"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-positive.json",
+      "sha256": "6937f52fc357678cb3e2207045037d7fbd7f7c46c6a67637f5432cd3e5ef6f17"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-positive.json",
+      "sha256": "b1f5dd125a53992e14e4e647d1805dfc4fe15a263617ea71801a46c4e850b671"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-negative-timing.json",
+      "sha256": "b04ef37a690f24a0c12f743c115e67b90379edb069f6c34ccbe608274e4cda84"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-positive-timing.json",
+      "sha256": "3e7068fe8848f02d53d430cfc84406aa9ecd9c2aaa18e31657ce45dc5e7fb5ad"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-negative-timing.json",
+      "sha256": "e9daee5bed20e945b8b61943fba22a068390b725104979a7c7c6ab5f8583d31d"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-negative-timing.json",
+      "sha256": "e4bd8ca4e8660d4e6e7cc4f1b50c7cacb8e601d87cec5473f2a48267cd89361e"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-positive-timing.json",
+      "sha256": "6f46d70ed739b846353c193f0b851af8aa0741f859181e82a6a95e323699356c"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-positive-timing.json",
+      "sha256": "ba849b7f219015db37e4e878d43609391fdfa527acaf72f624eb313d19f738fb"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-positive-timing.json",
+      "sha256": "ca9e9ca15ef87df00b4a799e1657cdd505bca240feb1ab1c2cd63c5a1d08841a"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-negative-timing.json",
+      "sha256": "7433b2104bb1df3de89073761f7fa77eee1a3c3578645c50837bcdfcd49065bf"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-positive-timing.json",
+      "sha256": "1a0e34be8b97723cfc0a91aa4c883b057fd13b4fa8a1be0185eed66ca4eb35a9"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-positive-timing.json",
+      "sha256": "71b20524f291d6df1563087f84c4cd99108e4b09f679639a88cf7450d8fcd70a"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-positive-timing.json",
+      "sha256": "86a427e95fc079a37926b4360720980a0832b9df497cc9a6bbac0fb3f7c5f0a5"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive.json",
+      "sha256": "c86e22f2d6a5e6aaf69d5709720fa76edf1a949b6ec3c138b769b01e2b30d456"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-negative-timing.json",
+      "sha256": "f6a4d2a61d5eed6251962e6b11c64941c208c329d94786e459c7a7366038a99f"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-positive.json",
+      "sha256": "c46f35bb99d00d25f746c4f5b270a90b4a3f25478718a0d3b47df34723ea6266"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-positive.json",
+      "sha256": "5f3feda6dfb406454b0a6fcd3072ca4675309ef497377efc7489f39439c71643"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-negative-timing.json",
+      "sha256": "9747a7446e6ca05eb26be9381a160880baa43f48e3ca0c64ba42611375477939"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-negative-timing.json",
+      "sha256": "72fe86541f453b293570c51193c0ad302d97643277a648a6b9f3c2b9a5052e60"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-negative-timing.json",
+      "sha256": "df09e66470dbd7f930dc1a0a7d495cdee29bc0e49c95ca4bc643e4681220894e"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-negative-timing.json",
+      "sha256": "5be7a271d7e161fddc4a22b505da6ef92a7f1f2b595b60026b6e9accca898ce9"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-positive.json",
+      "sha256": "9df3ef8759ee63414e9e2ad59c080569610879ff9599880e0b1276fe57b39aba"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative-timing.json",
+      "sha256": "e6da810bade0d576e609cf6eb253c01907a88bd06cb8f98dcc27599614423c8e"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-deep-relay-chain-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-negative-timing.json",
+      "sha256": "e7f8eaee62a43f2c965709db580ac904b0f31db5487dab2ebd73d34170fc80ba"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-expression-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive-timing.json",
+      "sha256": "deaafd16fda25f5bdd38fe104267403dbf3e1c624105b21476106dab9cbeccab"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-positive-timing.json",
+      "sha256": "84367e1083cb1540779c869273406906be769235ad0204c526b8d0950c187e1d"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-positive-timing.json",
+      "sha256": "a7c7c5c0b3a822683e75b7705b05352cd1af19b8d07ed15341f87f1e1ce0e1b6"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-positive-timing.json",
+      "sha256": "e84487d60a74acad3ea83c49e93699ada8c2bb65a4f43e0a71a6956572eaa399"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-positive.json",
+      "sha256": "fff2b7fd04ed65f2afa4e82fc9e092eb0dd331a59b1095f248bcd8eda129d512"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-positive.json",
+      "sha256": "6bae753b4ce9325ddbef1a17922f2aafee84a56c4bc91184e79b05c6da7b3e29"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-positive-timing.json",
+      "sha256": "fde15232a223523237bc71cd62e73339a7b9298afb17a848e7e7c9e91d97a052"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative-timing.json",
+      "sha256": "a241bc3ab135f5bf16ea4f5a069db26ec0522bae341fd3e4e17ba9036d07a015"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-positive-timing.json",
+      "sha256": "9a87f72d5cbf594d10fff221396f01ae89660a55c8557428be00ccebd018155a"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-positive.json",
+      "sha256": "d7025b6fa95ba03cdf9e8e6fac96ab037b51201647886d9e5d8535a599e44711"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-direct-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-negative-timing.json",
+      "sha256": "fc79000da403336c9748738fd854475c647faf7029b4d39fad22ab582b1ee277"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-argument-position-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-positive-timing.json",
+      "sha256": "6fecc0abd92e75ed80a2e2ff077d91ba84bddf0a334708b085cb83d3d852cfec"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-context-pair-depth2-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-negative-timing.json",
+      "sha256": "7be2f1fcc4ca6184b105bd9d3fa4c58c242b7508256f7dcd7cd9ff950d90e5b3"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-exception-catch-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-call-context-positive.json",
+      "sha256": "5a59f12b25cf214192bdbd6884ccaab1c04b45cbbc3ab3642dda5d95dd378845"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive.json",
+      "sha256": "9ce5615a495932c4a55614dd7077f9f430b984ea93169075bed70c7cb45762c1"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-negative-timing.json",
+      "sha256": "d9f8cc7e6741a01a33039e3708e36bde3b2c99191a84f8c1ed0c48060356aaf6"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-branch-join-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-negative-timing.json",
+      "sha256": "b61193572337e357b7c516552bae4b8d67d28f32e77a55014804d012a8608194"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-negative-timing.json",
+      "sha256": "4d4fcfbb2999b8ecb5ee32ae3774a64297c2645a17b0f1c347aa8afc22edc684"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-positive-timing.json",
+      "sha256": "76ce1a2796fa33e4f89f1b672ad390261f024f2bc8481aae63616c1be6a601b2"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-positive-timing.json",
+      "sha256": "a046d7041e0ec62b9e5a89c7a26c1d846b5d2546d2f10e7594fb33559ebbac1b"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-element-object-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-chain-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-computed-property-positive-timing.json",
+      "sha256": "5f504a11286baeb48ffa100a4884b695352eb0257e901572361097db748d0fbe"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-positive-timing.json",
+      "sha256": "d24063f46ad76d95d07105ed3f5c54923c5f4a210d8b7766a4992430d78ebb2c"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-object-separation-negative-timing.json",
+      "sha256": "3bec8e443981940ec78953c3c644328da973bdf27f7d90ee17e0845a0a55725c"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-same-object-field-negative-timing.json",
+      "sha256": "7589eb79df429979b251b40f47d527c1c6990bfa85df7760d26f91bae0b8b35d"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-positive.json",
+      "sha256": "505b08590b549b75129f01c4cd7285d9164a8317d534d2ad35fb3e4988854424"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-local-overwrite-positive-timing.json",
+      "sha256": "bbaabab91ef8ac5130b76e5d04a40d62b081fb35af33c8bc52b471a8ce83138e"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-positive-timing.json",
+      "sha256": "2ad14a1acd4b82627a8739849611cb0d1e17036d803155d808db2dbe93a2f300"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-positive-timing.json",
+      "sha256": "0491504268fd2c0740521a832c2c6885730e81152e9cb307eab34f4c805401b0"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "8eb8920e2f4efe97881a6209a3a0959b0694acf1e58236681f45b43d3bbeffd8"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-callback-registration-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-closure-capture-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-negative-timing.json",
+      "sha256": "ced2036fa4c50640f8fca38f6c3c2a94a572f994a7f12cfe8bc31dc717905bb1"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-two-hop-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-function-field-positive.json",
+      "sha256": "d50082fe205e46d50fb49e163a9bd2bb5ff0d102e7a8813ee8a21dbff47cf531"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-positive-timing.json",
+      "sha256": "7b434b084497c0d861a25881808b46d9c99cd0b0507904d3697e2c7126f1a86a"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-dispatch-table-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "2d504089cf4dc4ff957b6ca1879b30467ef448a7e5f004a2ff53604601a99e06"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-loop-carried-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-anonymous-implementation-negative-timing.json",
+      "sha256": "5983c09b93e2ed4795fb9d09449d8e33054cde86c283a3e5764f8013094d6cbd"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-negative-timing.json",
+      "sha256": "0fbad9756f490c2479f032fa85e1584f6245a2f8dd3af8af4f79795cdd6d8f32"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-map-iteration-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-recursive-carry-negative-timing.json",
+      "sha256": "16c7384c02251705c2b3862b596f58226646b06729787cf58e84410062c13ed2"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-nested-access-path-positive-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-alias-propagation-positive-timing.json",
+      "sha256": "be7fb09aca771f314106c4eb568494886cab8cde2f939b60c23ade32655b83ba"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-array-element-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    },
+    {
+      "original_path": "reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-cpp-kernel-attempt-01/outputs/reports/raw/infer-cpp-kernel/dfb-taint-cpp-return-relay-one-hop-negative-taint-config.json",
+      "sha256": "fa5348e3a698b6933f4305a7fe78d3abbbbfff2e42ee2420b938496595ad4618"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/infer-cpp-kernel.json",
+    "reports/raw/infer-cpp-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

@@ -1,0 +1,18 @@
+{
+  "activation_arguments": [
+    "--policy"
+  ],
+  "activation_identity": "bifrost 0.11.0 built-in policy packs",
+  "adapter": "bifrost",
+  "case_id": "dfb-taint-javascript-native-propagator-positive",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "P",
+  "modeling_category_label": "declared propagators",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-propagator (category P — declared propagators) is unsupported for bifrost 0.11.0 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): Current v0.7.1 evidence: reports/raw/amendment-a32-bifrost-scan-native/ retains the v0.11.0 binary identity, extracted shipped policy and catalog. The capability decision rests on the shipped selectors and catalog, not on the positive control, which was inconclusive with partial_discovery; native activation validation remains partial. The following A32/v0.10.9 rationale is historical context, including its activation wording and issue-status statements, which were not freshly verified: re-grounded by Amendment A32: the one shipped taint policy declares `:sources` and `:sinks` and no propagator or summary stanza of any kind, and its activated built-in policy's `:call-modeling :unmodeled require-model` disposition makes an unmodeled platform call a stop rather than a pass-through — so `String.concat`, `path.join`, and `os.path.join` carry nothing even in principle. Procedure-summary packs (#1871) are absent from the activated built-in catalog. And the endpoints this template would propagate between are the ones template 1 records as unbound, so the cell is undecidable twice over",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-propagator",
+  "witnessed_tool_identity": "bifrost 0.11.0"
+}

@@ -1,0 +1,777 @@
+{
+  "id": "joern-php-kernel-attempt-01",
+  "planned_id": "joern-php-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-joern-php-kernel",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T06:08:12.867926+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.25927734375,
+      2.00390625,
+      1.7275390625
+    ],
+    "load_after": [
+      4.419921875,
+      3.69091796875,
+      2.59521484375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T06:12:45.737325+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/stdout.txt",
+    "sha256": "3e98e2b528b818eb463a2fa931134cbf5cab976451ef587d0dd38922146e5d43"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/joern-php-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/joern-php-kernel.json",
+      "sha256": "7549768d8dd4e165d311e38045871d38c311c0a21014ea3d35f3c4cc1199e16e"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-exception-persistence-negative.json",
+      "sha256": "76f3145f9eabd51611b9f11a804a9c79a987cb95902cc9dd2fafb18a592fb305"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-computed-property-negative.json",
+      "sha256": "e12f342fcb153e271cb26f50c65ffcc9c52339fd713b38a719ebd3e63000d459"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-local-overwrite-positive-timing.json",
+      "sha256": "e2f7ff871d09cf30cffba472a11f1e40bb0cdfbc8a884f83ea5aa12bb0fe3eaf"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-computed-property-positive-timing.json",
+      "sha256": "854a09cfecfe7878c2e41b2847bfaebbb94d8fa947246de2a42b06e322cd534d"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-object-separation-negative-timing.json",
+      "sha256": "8c6b286bc1d3f1c41a2585a5db5a77987793759c20628346541e4e1599af121d"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-closure-capture-positive-timing.json",
+      "sha256": "93bbf5c9958f4e6038e3bbf6fa51bc2d8d18a716523bba3aeff6a774daa18099"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-dispatch-table-positive.json",
+      "sha256": "95f17b6e2cf639710dce14bf177b57ae9a1f2a54f48a09f70ab45bc5961500fa"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-same-object-field-negative-timing.json",
+      "sha256": "41f0fb683a4cf0750eb6c981b1d1f318d4e354de386b270a00bcff8d9b1ad4d9"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-positive.json",
+      "sha256": "7250b87f5e1cff7742dfa9ac15e20ed8e3c92540ab8388104356d36584d2e894"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-anonymous-implementation-positive-timing.json",
+      "sha256": "fa7e5f93d9353193cc3b6c5ad1407284162eb4f1a4c7e1d6ea3e44944969a592"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-payload-transform-negative.json",
+      "sha256": "cf232fb227acac46677666981a4207e427b80e20d75e6626ab7f351a3e1a3175"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-expression-negative-timing.json",
+      "sha256": "71a99be2cdf2c9602ac4e128ab609b98bfc18f67b14abf7997bbc34972fe0632"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-element-object-positive-timing.json",
+      "sha256": "6698fb9028c2d59a53c922c2ca2163fa2629fe7c014106dd3426fb3d7d7b3caa"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-context-pair-depth2-negative.json",
+      "sha256": "029e57b49d4a1b56b6c082d4915a291f95ddf87f07a0ba07df2a750b997d9835"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-negative.json",
+      "sha256": "1988d4a58e46daded150556f5785e18dfb738334f456c2868586f56fb65ed381"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-closure-capture-negative-timing.json",
+      "sha256": "c53622944bd4d6a7704d0c061c4238e3d20402092334cba8524aae85d32081e0"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-computed-property-negative-timing.json",
+      "sha256": "f1dd272adb31a96335205f16dad32fbc5ca755545519a7eed9ed468675010b87"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-object-separation-positive-timing.json",
+      "sha256": "e1e4dc9aaa0ee91b2ea4aa13c03bac26f483e1737f658b086dc8fd948b3aecbd"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-same-object-field-positive-timing.json",
+      "sha256": "0aa8f6438ec936516219ee6975fe528bc85c5804362c49c0a32160a5776c9c72"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-mutual-recursive-transform-negative.json",
+      "sha256": "e0e243734d4113cce9e1d124f309c12137e942c79f2435cb3705147f0eacb8b6"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-local-overwrite-negative-timing.json",
+      "sha256": "676069c165b9d43d434ba30357426373aedafb46618b9a1c3701434193bd7531"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-element-object-positive.json",
+      "sha256": "2d05354c014984bdc04bb5e650e6b8421719f5101ed7e0eb65a81b3eed2a1767"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-expression-positive.json",
+      "sha256": "bf21d753408584a5a6fee9aa67180307886b07c1553205d94872827392f5fb1b"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-expression-positive-timing.json",
+      "sha256": "2b7e04843fa4d0689e90e04b572f1b0e94efad79501e7788550ea9d41f9362fc"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-element-object-negative-timing.json",
+      "sha256": "701136d374c8e610119dd74f1b6b06e81c0b933a8263f67643e08ff8387e5265"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-anonymous-implementation-negative-timing.json",
+      "sha256": "4107db5967fc50c749f96c510ab0d3529ecba23897bf5d5b1935201036cb910d"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-alias-propagation-positive-timing.json",
+      "sha256": "6b691b5c1348ec3f3b518e4983ff40d2db2d4abc8b132173c3b4994a42a9c770"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-positive.json",
+      "sha256": "bec9e0ae055a74e3ab1c061dc1a9f7613d93ac6def93b961de0606d0f150e32d"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-mutual-recursive-transform-positive.json",
+      "sha256": "48362a0d9b967a3cf3f02e992004abd6c8e7fa444f02c3dfe432430d6060e515"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-context-pair-depth2-positive-timing.json",
+      "sha256": "c0ec8a420b11751774cee3b5dd3a2c879a19b639e66af9a0ea729b93228eb534"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-negative-timing.json",
+      "sha256": "830777659d846632f924ee5c0a9cb413dcdf11e3c7406434650f6f63f8105b99"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-element-object-negative.json",
+      "sha256": "f046ea0b6bf28fff6b0d38afdc57ede82ca90e49ba303db6492922e10a44b6b6"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-return-relay-two-hop-positive-timing.json",
+      "sha256": "0fd9809557672ce0619a029f0bd92754efcfd582e0d16909a0cb41724fc0a28c"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-negative-timing.json",
+      "sha256": "0b2cdd90957e55de8186727dbb2d6f34aeff0fa49aea2cba720bed127e5b6caf"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-expression-negative.json",
+      "sha256": "a5aec2c66eb457006f40f17f826ac8697961514f3b04e0b723e72cc172e46307"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-branch-join-negative-timing.json",
+      "sha256": "26a5abace399b73fb61a39fa1604f13a5bfdbbd233269bf58dbe8d084d300c17"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-computed-property-positive.json",
+      "sha256": "96933eecc92132a1bf4d7ba290171da067f7b17eb66af49b1925833566d47697"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-exception-persistence-positive.json",
+      "sha256": "3e730c5a119c852275e0dc91f4bd775d5f41cf1163c381434ea3745e45484530"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-carry-positive-timing.json",
+      "sha256": "a064471c509a4c2926b64577d87b3f7ccaffd18ce2ab8b7f0e90665df6c42750"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-dispatch-table-negative.json",
+      "sha256": "9ecd8f26183eae352debad6aa21b5668fac2d6d657dbd990d52bd686ba3dd54f"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-context-pair-depth2-negative-timing.json",
+      "sha256": "c2ebd90ac9335f03dfb983e12fbe20e55f8df470d546cb054fdd1431e58f1fca"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-negative.json",
+      "sha256": "70735bceb62f9b96e9a9ca00bc0bc02516d940ce3768b93ace60296c724b3181"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-alias-propagation-negative-timing.json",
+      "sha256": "042c231c9f44d40f37e3c4549c04c348b1b47e2ac293b2c6f5ecec2cc5a276c1"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-payload-transform-positive.json",
+      "sha256": "ecd3b1a2e982cbde03bd97762a6e4426d1a6d9dbd8fa1d9a1a65d3226b3836a0"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-branch-join-positive-timing.json",
+      "sha256": "828d2e974bae9387ceef74da9eb2a5f3de69fbcc5f51a8fd3264fdf1c29cefe2"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-context-pair-depth2-positive.json",
+      "sha256": "17080444d352300341072526303515358cd7564b4c1eda111a903bde5d5bf3c1"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-nested-access-path-positive-timing.json",
+      "sha256": "58603e274440293d7525d9f972c4116565090b677fafd80e932050628a594b02"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-return-relay-two-hop-negative-timing.json",
+      "sha256": "52df635bb9b1918b42a3213ea661397ffb4be699396769aa2d1d5d91ca9827b2"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-argument-position-positive-timing.json",
+      "sha256": "91b65da78262d6657592ec7d1b88fb9466dc40c8639eb81efd1c802fc47ecc1b"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-positive-timing.json",
+      "sha256": "3af7f58160347cb1abe0141e54365133f5ab043e355483fd1ec220536da436dd"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-function-field-negative-timing.json",
+      "sha256": "8f325f23936d1056d89e513ceda6ad31d441c283eb69fed167b0bf60d1b04e47"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-heap-unwind-positive-timing.json",
+      "sha256": "251d322aca89f720681a4ef530ce803b5bc0a0e7e76d5ede829be8d0d3b50414"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-call-context-negative.json",
+      "sha256": "ef971612c093e116d3c39f95fb7d8f3593fe2a39d6b46aa3083e2e0fa17fa618"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-dispatch-table-negative-timing.json",
+      "sha256": "225b305a34fb6a5477f60e45c71b513bb8e2b72ba1cad152294b50ffed649c60"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-infeasible-branch-positive-timing.json",
+      "sha256": "c9911150f4012b4ab039a20262b4c5d184af2953bfb6fe8927448dc474e1e668"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-return-relay-two-hop-positive.json",
+      "sha256": "f41438039bf88bcd692c217f9229a24bb8ef01d097c4ca3d95b92113e29d1ce9"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-dispatch-table-positive-timing.json",
+      "sha256": "de5e32b9531147ebbff8f81cff1600144a4908cb64a8e420407aa157f75f678f"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/run-environment.json",
+      "sha256": "68ea5b45fa55d3afbb8d3c62ba1bbcfda96b092c5d07d6301e75a06136bf5cb1"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-alias-propagation-negative.json",
+      "sha256": "b3c9555dd2347613b57ca43afaff462ea67fd37189e3e6ff3a67478de568e7ee"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-heap-unwind-negative-timing.json",
+      "sha256": "fdf76fd98049766408a007548c14bdd8a2f707c8025bdbddeed54f6e70ee3334"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-argument-position-negative-timing.json",
+      "sha256": "5d5541947d954b516475e97cf14f62678128023ba313aebdf7147a88ae390206"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-negative-timing.json",
+      "sha256": "9138027a13a7d435160cc50d140485c9c7c819c8c7a3248f0e275f655c4e1797"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-function-field-positive-timing.json",
+      "sha256": "baa8aa40cc0df98bbbf381af6cb1dcd0d0a07f7eddf70cf00968936c88a0efee"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-deep-relay-chain-negative.json",
+      "sha256": "0a228a52b29afbdc3275e9aa24bdbf78bdf14d2719494852704f2b62e5727d82"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-closure-capture-negative.json",
+      "sha256": "196a5d1fc9e4972bebe64b5d8ac7fc6a4661ae8a1643e78d229ab9ca3ee7143f"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-infeasible-branch-negative-timing.json",
+      "sha256": "33952a082ecf09613f3da3c5e39a6b0e6204f57ef9cb075eecb5b326a579b24f"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-negative-timing.json",
+      "sha256": "9297312ae28104f4d97e1444eab111cf11d6e37f6f0f1c1c709f60690366edd1"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-alias-propagation-positive.json",
+      "sha256": "bbb435e079e2d8380bd081d8f8aca0e1f714103998f5cf4672c97d15293f0a9b"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-payload-transform-negative-timing.json",
+      "sha256": "ab43da0b9a4528fb58ac0bc137f640f45101b70918fac0ea3e8e8a4f95d67c9c"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-callback-transform-negative-timing.json",
+      "sha256": "5d0612a297f5495888439cf384e8dff20d88fcb9e02e27c02f26a0e4d0bb9c6c"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-loop-carried-negative-timing.json",
+      "sha256": "06fa344f0295f051c47306a24e76602690199b7c04a61393a779651e13effad5"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-deep-relay-chain-positive.json",
+      "sha256": "452083b47bb057500921f9adf83c3be6eaaa5afc1e776333e9656bcbca22a385"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-deep-relay-chain-negative-timing.json",
+      "sha256": "c99edcec758115c5941cd9306d31ab7226c0f3590eca9519ce8381a96a551f3b"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-closure-capture-positive.json",
+      "sha256": "629046e12cfb07ab9765ec3828826f0d8674c7f14a954f5af77ec19764bdf75c"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-call-context-positive.json",
+      "sha256": "862990282e9711d64348de2ae4c18fd28b522e577293aa6da3c9cdccd2c16404"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-payload-transform-positive-timing.json",
+      "sha256": "c44622c63c945ffe4a193cdc57b0e5b921f7b4cc005e4904940d1821c3e0edfa"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-positive-timing.json",
+      "sha256": "69ba7de8db75982e17ff8b6352159f5f3ff45b9f3542852bec9a91c9749dc259"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-deep-relay-chain-positive-timing.json",
+      "sha256": "09fc2534c0bc378e40ae60d370c15d445e415b185a8c840a02fe21c316f53579"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-return-relay-two-hop-negative.json",
+      "sha256": "4bd2211abbc57129a581ab02522a0319c9f463ec63fd483ecd3a73dcb6de14c8"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-callback-transform-positive-timing.json",
+      "sha256": "f84da30248dbf31931dccdffce096ab76977a6fddcf4343a1d33dc7f0071af69"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-loop-carried-positive-timing.json",
+      "sha256": "830fb614ac3fa643aa15ef9c92baa4affd9706782b9b62e3e9ce7b12f0aa8955"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-callback-registration-negative-timing.json",
+      "sha256": "aab109bf4aa205246183e484081b1c82ede0ee4a98d4e0d1bf51081871de8840"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-direct-positive-timing.json",
+      "sha256": "7c343b975195e6720c9802f8501438555d2226a60c56b7207dd4d951457d7c3a"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-same-object-field-negative.json",
+      "sha256": "0a9a2a65bb28474f49534782a004c1831c6c2ebaadf8337ce6f4e8c15bc0f4d6"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-exception-catch-positive.json",
+      "sha256": "a13fc433aaa4e64eaa574d923f0320bb30a0a068f1ed080a7b40854805c9a975"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-local-chain-positive.json",
+      "sha256": "47a22d5d05f2af766b6918b497fe83daf7ba167d10e8b0726fcae4cd9833312c"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-heap-unwind-positive.json",
+      "sha256": "219642bb3a32148aa8acec76f05abf891bdb4b40bdaa1c503ce0176e86d58522"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-direct-negative.json",
+      "sha256": "e36b4a7652dbd726f3ea62736604d72319fac0c6637d15a57de173e2c868d23e"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-object-separation-negative.json",
+      "sha256": "3133b2d36cda7b8b74da6ecef61e72b98e95d26f24c727f7286157647093db82"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-return-relay-one-hop-negative.json",
+      "sha256": "cd446055e6512facfc799817f466395f3aac6aad23ebba9ed40665c1c2f25a05"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-interprocedural-exception-persistence-negative.json",
+      "sha256": "6bb0e64b36202a58980dd79e432411509701799ace30bc162bf4a38357688eb7"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-branch-join-positive.json",
+      "sha256": "d2e7fb1323dc61cbe6cf6b99342df323e59dcddb8c6af5aed4c98062bbc8e19b"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-callback-registration-positive-timing.json",
+      "sha256": "a9c0b806ebe77bc19f655573b561101599c2b953806992cfb817457bbf8364a4"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-direct-negative-timing.json",
+      "sha256": "aef1ebfadaaac599f200e47887bf19583ca80cb591a8e66f4f36c86e2b1c5f1a"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-anonymous-implementation-negative.json",
+      "sha256": "2fcccf4998002216414566e57355509860f914a069751434511ef6679ccec7c7"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-argument-position-positive.json",
+      "sha256": "4885ce82467cd96cb51badd36b39815953e7cd9c421ee65c6fbb402a6f97b249"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-local-overwrite-negative.json",
+      "sha256": "dac17660e6f362648dfa90b65628c93ef02b3d56e358a9575e3fb9e634899084"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-interprocedural-exception-persistence-positive.json",
+      "sha256": "f80be0bac82b6d645149bce1b008a5cd5cb2cbcaab23468e0fdf13870d8206fe"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-return-relay-one-hop-positive.json",
+      "sha256": "0337553694e98aa92c742075e286680f45fc658c12afb7f3750288269753667e"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-branch-join-negative.json",
+      "sha256": "e130d167f51e6ed2c35609f7824f0383097e8832ea2cd727e27a5238c3604a71"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-return-relay-one-hop-positive-timing.json",
+      "sha256": "38a1002533db86c248402a073a468a434c5566ebd340c0f9c6abc303c24cae9e"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-argument-position-negative.json",
+      "sha256": "d7ac8568ebca6fb7f070c7099549ef52130429cfcf738a09264a29acfdfb40df"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-anonymous-implementation-positive.json",
+      "sha256": "a4c88fccce959abbfa3d53bb17b8fef2635eae50d80003f47925aec977817c0a"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-exception-catch-negative-timing.json",
+      "sha256": "cf32f3e94ec6b305cbc67ca5bc355c1df348103a82108cd329e3f361c3d8507f"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-local-overwrite-positive.json",
+      "sha256": "6667b48906e6b82d47974705d5484a8ef33b65e5e62868780c235b31bd5f0f8c"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-same-object-field-positive.json",
+      "sha256": "3cc41c9bcbb49233a13583ad4d97b33ab9bfd7444060c0f492ec88101d03a42a"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-exception-catch-negative.json",
+      "sha256": "1eb59acb997a97b49fd0d5988f759c548553ef7eae2b8a643d398c686848daaa"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-local-chain-negative.json",
+      "sha256": "8cb00320c61fbe784cbf2afaa549f379fa6f60acf23bdacb424271d1c48d370b"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-heap-unwind-negative.json",
+      "sha256": "fea30abddf64701ce2db0c4f1cd277e369cbd8bc954f99ba1a2e92e25e855a46"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-object-separation-positive.json",
+      "sha256": "2924b8fa076a39f04b91f7426e725ce7537767980782793f49b99393cc9249a5"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-direct-positive.json",
+      "sha256": "db1bda420992c4aef97f9fc54c33a7c912b0fa4b1c4c7cd3562ac938aa8681aa"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-exception-catch-positive-timing.json",
+      "sha256": "183c537aa45da20d639a79543f660e24ea50f0b42927586746f0a9e49930b376"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-return-relay-one-hop-negative-timing.json",
+      "sha256": "ec5c9a6013f262cba1cf92e711f62a2b7cac0a287b5a6499ec53c066c239190c"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-negative.json",
+      "sha256": "829e712005f2db00cd793a96b010d634cd06b0020c16785611074237dea28450"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-call-context-negative-timing.json",
+      "sha256": "cf664a00eec02da811e461159bf39f46ea93e89ab2f12a9f9fe8dba6503b1918"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-function-field-positive.json",
+      "sha256": "1353341be0e36c67b5176a18bb9a165c729cd7aaa3df9c3fd6bb128f3b099b28"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-exception-persistence-positive-timing.json",
+      "sha256": "d533188626bc2683c5ccc8a312034a15d4f2a27df89041dfd1c5bd6fbab0fae3"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-local-chain-negative-timing.json",
+      "sha256": "afe772dbcd94fe61caf59582c0e7ebd0b78a86be3d60a45b5298fa488c004b88"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "8279527fcc18d6e4d082a74ecf67c6713cb613ee07960ef0f499a605eb62cf50"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-array-element-negative.json",
+      "sha256": "b48c8b046792fe338dd57abb44cfb61f6c8a1afd4ec972f426ca69722538e6ea"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-call-context-positive-timing.json",
+      "sha256": "0f508648059d1fba4547a40fca17e042beda7acbd7bd698d85b9d29a74f974d2"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-positive.json",
+      "sha256": "db5f0cdee7efe61d2842c16f2282bf9fbbac177a527b5635a45063abdccd6149"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-infeasible-branch-positive.json",
+      "sha256": "1768825a614e714c8e06ff35680e32ac1e1f1fa52fa9aef0663e1b18e94d681b"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-callback-transform-negative.json",
+      "sha256": "593b26afa7d3ee007dea8a9635127374c033de5dbde64597975b7d6cddf46d5a"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-loop-carried-positive.json",
+      "sha256": "5989ed4022f2d27ad7653123a06604076c49e0f604173998f2fe4266a230aa66"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-callback-registration-negative.json",
+      "sha256": "3e312b22312ef6c8173d70d3aed516996d50202e0c97a9f0196f39e22dff6105"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "627f07e346305889b50765b59306018ad7e923ec7ae7f609500cc016b69598ae"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-exception-persistence-negative-timing.json",
+      "sha256": "353a1398c7e8d7e7aad1e091e025833c4f40b629be6ee40b89317aa11f8bd8b1"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-local-chain-positive-timing.json",
+      "sha256": "06214d223b98a68e2dd337a2033081b82325fc6059e91294809cac0e198b5432"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-array-element-positive.json",
+      "sha256": "d44598b530e56e1ce1e08a5b4485c45807ed33aeb74c7f9958a3090304eed326"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-map-iteration-negative.json",
+      "sha256": "4e6bf2c7b874b16030020172987137b36ce2fe0074ccdeacc11bccfc39aaefa3"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-infeasible-branch-negative.json",
+      "sha256": "6c5a13987674606724254bcba7bedff938680f50512171158e3ec091ee355d4e"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-array-element-negative-timing.json",
+      "sha256": "5f14a45349febd686fe48b5561bb31a88a94701f416fc10ed3c0033a6fe52fd8"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-loop-carried-negative.json",
+      "sha256": "c6e8c5563d3f28a60ef19dc8e41ec446bdfe831f6d048a8d3101b6bbaa376099"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-callback-registration-positive.json",
+      "sha256": "8cab2b92a89d7e027fdb6bd9005d9a3bb407f649886fc8983f00b91edf711a2d"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-recursive-callback-transform-positive.json",
+      "sha256": "54e0e6e5956e7c98b7807c57be440d3174388587b9e724d0dbf85a9cb8fbc7f2"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-mutual-recursive-transform-negative-timing.json",
+      "sha256": "340083d4de66eeee31ed5dadab537a9ec014b8cda5e492f8fb86bb26067c0623"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-reflective-invocation-positive.json",
+      "sha256": "0f0bf3e9e93f1622db3c3bad881741f22313dbd7e43936a08bba5d1bbe953ef6"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-function-field-negative.json",
+      "sha256": "1b4db3a0b5b4e45d93eb339197f0a87e69b91b86af6688083d42f3289e230f61"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-mutual-recursive-transform-positive-timing.json",
+      "sha256": "3b14e19591ea3de3bf25e217816f40c5fc568706a53ebb74ec5804c0d637f4b8"
+    },
+    {
+      "original_path": "reports/raw/joern-php-kernel/dfb-taint-php-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/joern-php-kernel-attempt-01/outputs/reports/raw/joern-php-kernel/dfb-taint-php-array-element-positive-timing.json",
+      "sha256": "aeb4a0b3c3018eaeb17ad1675513137db322348d03a1972edcf573683a1f2adc"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/joern-php-kernel.json",
+    "reports/raw/joern-php-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

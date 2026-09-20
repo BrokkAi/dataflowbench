@@ -1,0 +1,497 @@
+{
+  "id": "semgrep-c-kernel-attempt-02",
+  "planned_id": "semgrep-c-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-semgrep-c-kernel",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T13:34:38.502449+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      3.4765625,
+      2.9755859375,
+      4.044921875
+    ],
+    "load_after": [
+      3.0751953125,
+      2.91064453125,
+      4.00244140625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": "semgrep-c-kernel-attempt-01",
+  "exit_code": 0,
+  "end_utc": "2026-09-18T13:34:51.503247+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/stdout.txt",
+    "sha256": "fd97321a238c9fee243e235c43e409d433ef0ae7e1af5af2b9e6e04e86fb4ad9"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/semgrep-c-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/semgrep-c-kernel.json",
+      "sha256": "4c63e7cd8beba3fe83e3151df0a892934920ffd4426df79e2682ed526a0400ef"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-mutual-recursive-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-mutual-recursive-transform-positive-unsupported.json",
+      "sha256": "8b0b838ee310ba306a1aa094eb3c319614cdf8f4b31e23d01f82f92e05792974"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-negative-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-callback-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-callback-transform-negative-unsupported.json",
+      "sha256": "047bdb80e70aad5ebf787fba2d3aaf11340d8b9bc5d9e5ede7af318fc9cf1f9c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-array-element-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-array-element-negative-unsupported.json",
+      "sha256": "daadb8492497376f5a8752219f6523b43ebfb99209fc00675364f8ade3206263"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-direct-positive-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-callback-registration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-callback-registration-positive-unsupported.json",
+      "sha256": "15605f64cc8c917fa3fde6b4b489051b0e4bbafc03db94b38efd56777076334d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-negative-timing.json",
+      "sha256": "58fd1b3dd915544c520e09884b3357ed388e2c72225ffc37e9d1e13ab7a05062"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-deep-relay-chain-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-deep-relay-chain-negative-unsupported.json",
+      "sha256": "44788ac8a38600c14189fdd8857cc3ed09b687a56328a882b9403604f44351ff"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-call-context-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-call-context-negative-unsupported.json",
+      "sha256": "3bc51eac7ff4d3d07f082265847fff5aff2a7c0556bdd62518221a7e51d1f47f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-same-object-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-same-object-field-negative-unsupported.json",
+      "sha256": "863e198ceed7756f597700da4c1305ae36709ca53676ed151a96cb93c21553ff"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-payload-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-payload-transform-negative-unsupported.json",
+      "sha256": "8ce82d94580409ca2003528fe6d24f61cd6155c44d3afa51a4d33240cba2781b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-positive-timing.json",
+      "sha256": "a9381231650c5e605b53d95b8fd3d2f451dcae3a321b7b85c3e122195008b36a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-positive-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-heap-unwind-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-heap-unwind-positive-unsupported.json",
+      "sha256": "9f6dc2116aa419d13ff3f5dde593c3ee16ed15e6cf32095f1ae5ff190d225070"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-nested-access-path-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-nested-access-path-positive-unsupported.json",
+      "sha256": "5ecc7b1529c8ed4b294756f3dc39e81872f8b4f82faca3e14e699e372d82a3ae"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-negative-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-function-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-function-field-negative-unsupported.json",
+      "sha256": "8e829f8fa946b6f20adec38f79bcff40d84623716dfe135e25cd4c8d20e84996"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-call-context-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-call-context-positive-unsupported.json",
+      "sha256": "a0f6148f2c745d15a43cbb9f92052c1cb288f1630e49b96297fcd22fdd650259"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-same-object-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-same-object-field-positive-unsupported.json",
+      "sha256": "49741f60a69ec573a427fb890edd490cef7bb73757d89dff0fb449a39f211291"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-expression-positive-timing.json",
+      "sha256": "c74a1668ee66a34a5b75d1ae38b9f9cbe832c13347c164451411d12d964d81c2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-deep-relay-chain-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-deep-relay-chain-positive-unsupported.json",
+      "sha256": "128c4c70e0659c39dde7f278ed487b9c8750a77e3082bc953932519d5f978c14"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-function-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-function-field-positive-unsupported.json",
+      "sha256": "1687a9f24244cfe8a5b5fc1ac646960b4db35d9438022abc30d2469b623ff5b5"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-nested-access-path-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-nested-access-path-negative-unsupported.json",
+      "sha256": "35e3d568b102ed4e95a9828ad08cfb764817aa84e608e89a1b86e1cf0b5de892"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/run-environment.json",
+      "sha256": "f4c7ad099ac64e4df340b508b71a73cb12a20e238b5d41916eb046254ed4206a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-positive-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-heap-unwind-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-heap-unwind-negative-unsupported.json",
+      "sha256": "6d44bca2edfdb6dd8d914d7321d9819de5acc8f024aef681c96847665890cf61"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-payload-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-payload-transform-positive-unsupported.json",
+      "sha256": "b22144182855d6fcc0f39ee3dc867b36a8a18af02af90c95111004a890fe5a5b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-expression-negative-timing.json",
+      "sha256": "435d1e13d315780fd0b60cb07c5f41d6e54a04b1831809eb748c722fb628af85"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-mutual-recursive-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-mutual-recursive-transform-negative-unsupported.json",
+      "sha256": "1b22781d97c6ec42c89bbccfe23a6ca70ec93f4f09f389b4780c6027875f433d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-expression-negative-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-negative-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-callback-registration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-callback-registration-negative-unsupported.json",
+      "sha256": "ce954d503f16c6ec3555b41c65ef47df696c52314561ce579b056942585da8cc"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-callback-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-callback-transform-positive-unsupported.json",
+      "sha256": "4807a921c5a34e6e5fe389e216718a7c80255785bd095b8604eb6b774827c563"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-array-element-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-array-element-positive-unsupported.json",
+      "sha256": "e34842d933b123c91821a6bed41a63d55515e625c9e9d6ec000297ccc441576c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-dispatch-table-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-dispatch-table-positive-unsupported.json",
+      "sha256": "42e695dc4d337043634db821b9f96757ef2882560243b8744d0e6d6c8db6e731"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-positive.json",
+      "sha256": "c7f72fa8b2a943ddfadce0239eb85b4704dd5037924187cd72884b086fc46d1e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-direct-negative.json",
+      "sha256": "c96e707e86bfabf915e2f25ed7e25eec4d76c3d6e2b5f332723f809026c182cd"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-alias-propagation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-alias-propagation-negative-unsupported.json",
+      "sha256": "c401c8d4682f9bb60d1911e337ace09358fdb06eed1c5b77ca01b4e5a3fc722a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-argument-position-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-argument-position-negative-unsupported.json",
+      "sha256": "d10b40361f25d828e3ceebd895b2707e2329cb80749a3dca333c02eca093b963"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-positive.json",
+      "sha256": "f057d1289141d9c86b932e5cda55b696eedb8109233b084c1697c314810b83c7"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-map-iteration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-map-iteration-negative-unsupported.json",
+      "sha256": "6c47b2e88084ae76d9006c2ebcb4696ce7a94d7f6ce19e7f579feb168f3da143"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-expression-positive.json",
+      "sha256": "868f1183bf176873620dc1dc31efa42e66bed6c770a1354ae0621cdefe750903"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-positive-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-expression-positive-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-context-pair-depth2-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-context-pair-depth2-negative-unsupported.json",
+      "sha256": "d5484967afb4e59d4848f318fd58b53238495b67d9d58258eb3336e7fbe1c2fd"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-two-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-two-hop-negative-unsupported.json",
+      "sha256": "3499826b732de831f38a3152cf34e656f4355e80fee98fb5214eb5f86af85426"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-positive.json",
+      "sha256": "237d8723635611c47895cb8cef4b4cbabb7e9c22875ee3ba9265829f9275f510"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-negative.json",
+      "sha256": "22497bbb5b44c1d166352970bd8277f10774a67a654bda91572c4bd7b1b0e8c7"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-one-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-one-hop-positive-unsupported.json",
+      "sha256": "318df048c44ee1cdbef9829b87751e836e78324872dfeefa697a29c3d1049e6b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-negative-timing.json",
+      "sha256": "34dff0ed019775de9a8a39d62687ca4ce96bddabaa5f6df92b04b4d7c8cd25b8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-element-object-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-element-object-negative-unsupported.json",
+      "sha256": "bd72b6782cc440b766e8d17d266148450efcc4f48b897bd21af5b2ece36e7615"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-carry-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-carry-negative-unsupported.json",
+      "sha256": "09c05f27efcf29d1e41b0d62e18510da479b300b3cb0389f2a431e8a223c958e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-object-separation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-object-separation-negative-unsupported.json",
+      "sha256": "20ce69dab214f3eb86cb375834adad41ce185d6a842e0092485ebf42d3ee0e7a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-negative.json",
+      "sha256": "aed5808c2a0b17218c0a5fe3e396020268a6f1e9552c7f63b28e55784442f24e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-direct-positive.json",
+      "sha256": "412d1c0a8cf1dc63fe4e0610075550ef45e234e5aff01ca1fb99aa48a6dbb54e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-positive-timing.json",
+      "sha256": "209920fde9a26992b3117e594cfdbd0518aba86f057919b2aebee8e8d6a90340"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-negative.json",
+      "sha256": "6332fb3925c8b29a37eae47ae46b67ec70456fd0c00f5e2e57eed238042ae1f0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-expression-negative.json",
+      "sha256": "ecc26d755f54e856ba4ef980f182a2ee7fbf738efb0e10818c858fbb204bf26f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-negative-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-negative-timing.json",
+      "sha256": "c1b96e679afdb742e4b5126e0c07c0cff8ab0f8c45143680ec93b7e206544733"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-one-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-one-hop-negative-unsupported.json",
+      "sha256": "d5d942949884c402cc96284101dee93d3b9a74e56131f989b99ea1688a8186fa"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-negative.json",
+      "sha256": "bae59b20f7dc87210df9ce1f78983990ee607b2feaad8363ecdba7399a222a48"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-positive-timing.json",
+      "sha256": "cba111000c985ee41bec5317ec92a859cc0e7d9db19d5347bb94117d17422272"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-negative.json",
+      "sha256": "760cbc99362ade3e099c33391a694a1ea53c4d67a532d756dee4b4a3ef0b5c52"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-negative-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-positive-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-object-separation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-object-separation-positive-unsupported.json",
+      "sha256": "7a95e8945251e6edebc950cc25552ea8241fc0a503e46c860f9d23ab2cfb6d79"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-carry-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-carry-positive-unsupported.json",
+      "sha256": "c2b49cb98d8722b7229373dd8ab977b88469d6c880a28be819ee0697ab9b4f82"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-element-object-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-element-object-positive-unsupported.json",
+      "sha256": "db4f67fe4ef5133af22a39fa849e73fee560a738a90d7d087501fd8b7c27d779"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-map-iteration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-map-iteration-positive-unsupported.json",
+      "sha256": "ffd37b6acbf4a1766440a506db78b94f6fd911c6237f3a2967c4bcfee6975d34"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-positive.json",
+      "sha256": "ea65ea1fb6dfa254d5295cbc38605120d78956d2a06f1e20aa13efa6145e1204"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-alias-propagation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-alias-propagation-positive-unsupported.json",
+      "sha256": "4cad0deec7933d47f999bfbc8298d8eab5e429e0860eb310de76c3d511e0ec7c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-positive-timing.json",
+      "sha256": "cdcfe559365947dfadcb7a77e3762453f16218cebf10b68514fba138b6c5c8ee"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-argument-position-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-argument-position-positive-unsupported.json",
+      "sha256": "0ce809439d98a122235c927f630debe92ed4275bf9767b1fd3f0f5d8f267e81b"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-positive-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-direct-negative-timing.json",
+      "sha256": "9ba2de68ab6f69fd5b159bbf5c5fc7a1fc1fb229d42996d03516ccf63a0ea497"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-dispatch-table-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-dispatch-table-negative-unsupported.json",
+      "sha256": "e6afd79548e136d2bb5d30ec0758a24172032cc32b9c04e7e259be29c6eb1723"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-negative-timing.json",
+      "sha256": "06e3f3e2d821ed2a26da38bd3d64a06ad22baf0e7658222f5748a1af8f2172e1"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-negative-timing.json",
+      "sha256": "1a1cfa2945fe74f03f83b5dc2477d11b8324eba8b72f16068071757beae32777"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-context-pair-depth2-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-context-pair-depth2-positive-unsupported.json",
+      "sha256": "c7939fa8ee6145dac155689ea958b3467f897c74fc77afe4e5217c53826ae575"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-positive-timing.json",
+      "sha256": "76431669252b0a9d382e3d54980a86f8975ea58a04bffe684bf4bef757f2c3cf"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-two-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-two-hop-positive-unsupported.json",
+      "sha256": "5dbf7dca24d4ff27c08de96b073dde41353dfbed4f14addb9142735f64c36c5f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-direct-negative-rule.yaml",
+      "sha256": "f80bfcfe85cadc07e9f8bb92c4e3292e15ad7acd024bc49a68a8a198ee0f430c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-positive.json",
+      "sha256": "c67b4924739b102a2cd8f9a3e42a9ed3b81748c749be0baae16873766925747c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-02/outputs/reports/raw/semgrep-c-kernel/dfb-taint-c-direct-positive-timing.json",
+      "sha256": "b08f57518e6a5e9e347c04077dd3cd73207ee8127524be79d17ffcc0f0f91c9f"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/semgrep-c-kernel.json",
+    "reports/raw/semgrep-c-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

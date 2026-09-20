@@ -1,0 +1,131 @@
+{
+  "id": "overhead-opentaint-kotlin-attempt-01",
+  "planned_id": "overhead-opentaint-kotlin",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "estimate-invocation-overhead",
+    "--tool",
+    "opentaint",
+    "--language",
+    "kotlin",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep",
+    "--bifrost",
+    "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+    "--pyre",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre",
+    "--pyre-binary",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre.bin",
+    "--pyrefly",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "3951cf19d74fb20cbab1759f87835df5715612c1c5d963fb85dcf66ee75d3f81"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "require_escalated",
+  "start_utc": "2026-09-19T20:25:06.340829+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      8.30224609375,
+      3.42919921875,
+      2.4072265625
+    ]
+  },
+  "settle_observations": [
+    {
+      "utc": "2026-09-19T20:24:06.280203+00:00",
+      "load": [
+        2.10546875,
+        1.7001953125,
+        1.7783203125
+      ]
+    },
+    {
+      "utc": "2026-09-19T20:24:16.290549+00:00",
+      "load": [
+        1.93505859375,
+        1.6767578125,
+        1.7685546875
+      ]
+    },
+    {
+      "utc": "2026-09-19T20:24:26.290700+00:00",
+      "load": [
+        1.79052734375,
+        1.65380859375,
+        1.7587890625
+      ]
+    },
+    {
+      "utc": "2026-09-19T20:24:36.295669+00:00",
+      "load": [
+        2.2099609375,
+        1.7470703125,
+        1.7900390625
+      ]
+    },
+    {
+      "utc": "2026-09-19T20:24:46.305700+00:00",
+      "load": [
+        10.19091796875,
+        3.5205078125,
+        2.42138671875
+      ]
+    },
+    {
+      "utc": "2026-09-19T20:24:56.307320+00:00",
+      "load": [
+        8.85107421875,
+        3.45361328125,
+        2.40966796875
+      ]
+    }
+  ],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null
+}

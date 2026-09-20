@@ -1,0 +1,321 @@
+{
+  "id": "codeql-javascript-modeling-attempt-01",
+  "planned_id": "codeql-javascript-modeling",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-codeql-modeling",
+    "--language",
+    "javascript",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-17T22:17:10.633057+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      11.68798828125,
+      9.162109375,
+      5.69775390625
+    ],
+    "load_after": [
+      5.33447265625,
+      9.53271484375,
+      12.80029296875
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-17T22:43:50.950109+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/stdout.txt",
+    "sha256": "20877eb3f99341edc982ab3ba4de80e030cd5a56c5be5b5c600c3d231e4d768d"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-javascript-modeling.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/codeql-javascript-modeling.json",
+      "sha256": "8a2e516b91eb6b9753d970b60cbfdb75e3894822358a6e7da6b8524baf27c5d6"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-roundtrip-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-roundtrip-negative-timing.json",
+      "sha256": "575d24ae4b668e822df141be0c5810f1b3918c3ef5071d11292a4feb7a71d14c"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-propagator-position-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-propagator-position-positive.sarif.json",
+      "sha256": "99314c083b95d8ad59195b2b34334b7fa60181fcc10075b4d8326ef62c592cf3"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-parameter-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-parameter-positive.sarif.json",
+      "sha256": "5ab93cc8fbdb9768e595a8babfb6162b09f684d14fc2b76b2134aff28271c1aa"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-roundtrip-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-roundtrip-positive-timing.json",
+      "sha256": "f78fe460196fb26987eb5a43cd1e86a7ef8a2bdeb354007305f835a216a095a2"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-negative.sarif.json",
+      "sha256": "72efb1178dceb7d870e6182d999ed9ff6c7172864e4b2449afbc8747f9ad50a8"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-field-negative-timing.json",
+      "sha256": "5b1b34e5846a539bad86cbc1044c3fd8c56f6e734b9c4c78b0b04b7be0873771"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-positive.sarif.json",
+      "sha256": "0d033cf7d07ff08a4e9d21af15a1f14fa50b3dd68cba12957156a26d57e87b49"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-opaque-propagator-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-opaque-propagator-negative-timing.json",
+      "sha256": "2901f7a4996dd8f8667c0f1b79c923fdb30e921d9a04adb948b8bc38cbbde122"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-field-positive-timing.json",
+      "sha256": "6bda2b39ece49a47a41266d2a63e385d38e19a201ebe614a300ce109160148eb"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-propagator-position-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-propagator-position-negative.sarif.json",
+      "sha256": "df55cd050eb6f353dca3c93d1a9a0f20449dc5efc90cbe8ef81df8a69fbbb681"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-parameter-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-parameter-negative.sarif.json",
+      "sha256": "e6eb4120459dc514a1da3ea5a6797e4cf71b59b22244b1b547aa1999bb66a7f3"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-opaque-propagator-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-opaque-propagator-positive-timing.json",
+      "sha256": "132e2a6e7e058f0ffdc44cdfabd3204ad9ea52cf6b295ee9f63db40e34df3666"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-roundtrip-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-roundtrip-positive.sarif.json",
+      "sha256": "a0bc7f0fdedffa2b839c128daaebe165bb915b5eb520ef02c64c9fb159bdfe80"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-opaque-propagator-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-opaque-propagator-positive.sarif.json",
+      "sha256": "da77fb031545ba1f2707bf9a04ed42a290638d9af9a9eda3ba4175c615468c0e"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-field-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-field-negative.sarif.json",
+      "sha256": "4c810e78912cac5fe700943d5713c684c9397954968e1fb7d15d4882fcb36efe"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-source-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-source-positive-timing.json",
+      "sha256": "f3a5a3256059e19cd3b40459f405f4f4b035f384b60271d56be0b906e198d6f5"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/run-environment.json",
+      "sha256": "d86819023afd796635b677c545e7b56dc6e81a90636ec8b21b49f5f67ea13b38"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-source-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-source-negative-timing.json",
+      "sha256": "76c8f58f862048cd947c18c7005ad7afa9d9987c7f2ca813e57f1b193b45478b"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-through-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-through-negative-timing.json",
+      "sha256": "de4b61dfd3f771ef2c0a9d319515dab3cc6becb6f6d1dd8c7e4316cd41e632a7"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-roundtrip-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-roundtrip-negative.sarif.json",
+      "sha256": "3e188043ba04c77e6944b194097a9ef9f29f01137ce1b474080cdf5b7d9ede5d"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-opaque-propagator-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-opaque-propagator-negative.sarif.json",
+      "sha256": "113ac10c9b5655cdde5582fd13b0e10c6b507f5c4fe390007839b03b5fa64a29"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-through-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-through-positive-timing.json",
+      "sha256": "3c077be5e6ad05f8c1168766969ec7e91db114e2a33a5d4f62c2530c671442db"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-field-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-field-positive.sarif.json",
+      "sha256": "639f232755a0f9b7f83b2a0d735ea82317509ae0878c05ebb6edcd13fdd57b42"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-sink-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-sink-negative.sarif.json",
+      "sha256": "061e323bb265b4d509f077c60cf329f292775efab2b59b0a595ff1f77650c109"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-negative-timing.json",
+      "sha256": "3ace6b4c76fdf932f1d7dd5bb3ed4986285b5369b01f369979c2713594c6026f"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-parameter-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-parameter-negative-timing.json",
+      "sha256": "bf284dd19a0e06a331fff066aaeef78747d0aa473842ad8a26d7491cec314554"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-source-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-source-negative.sarif.json",
+      "sha256": "b8372ca0fc27f3b04e1851b0c9bf2b29948d78023e9db1958b918c531cdbaeef"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-parameter-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-parameter-positive-timing.json",
+      "sha256": "3ba4ef85080427383fb7b89dd6a54d692ff7d597df662a26e9cf4784e5deda1b"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-entrypoint-selectivity-positive-timing.json",
+      "sha256": "42105550f1625cb13fb0cbc46aba36ef4181a9b97cd0454c17002f8bfdeb6d3d"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-sink-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-sink-negative-timing.json",
+      "sha256": "8a55d3e09e57090a61f4a7beef526b1ea18400e8bc9453ffebecde6e63e95e65"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-negative-timing.json",
+      "sha256": "fb2a06f6d3cd3b2131ca4fab25ff8e7496a9789c79a8a4b4da0be6aa4f07a023"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-sink-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-sink-positive.sarif.json",
+      "sha256": "6c73fb70c31012c2ad324b887135211105e439d76564e68dd3cf9e35fe206d6a"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-positive-timing.json",
+      "sha256": "9a99e5de006996b31ca94cb3924c570f9cfcfe919cac8f4850e54bbe2cd12a7a"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-sink-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-sink-positive-timing.json",
+      "sha256": "85a33fe17262f3654ca788229e6f6cac064faa113dc92159165fb2f1be448096"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-source-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-declared-source-positive.sarif.json",
+      "sha256": "52203d1bbb682244a00f84f3cfa2ecb76f423965d8f2eeb6c76a1185d5a0defc"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-separation-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-separation-positive.sarif.json",
+      "sha256": "1d18a77081029fa361762c41c6e1b899160a35dedf094c22ebc5eda2a3da7ace"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-separation-positive-timing.json",
+      "sha256": "5aa457b046403d2824c5e162b954328928e2ab0862e216c71e1151e4b5266d82"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-negative.sarif.json",
+      "sha256": "7fae78509324f7865640b988f1eb42cd3988c96695b3f3468a870fd2c6271669"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-separation-negative-timing.json",
+      "sha256": "1894ad6d255b611cf4a979aed19005e3568431b41e2f34e50ec13da857d34c0b"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-negative.sarif.json",
+      "sha256": "72491795c6f5cfc06864e049eb0d35aa667f063186999ecddc2453bed0949f22"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-through-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-through-negative.sarif.json",
+      "sha256": "b1b485379d43005ec1d523ec297e3ec6d0da67b68fe3eafdf63b38e5a8eda885"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-negative-timing.json",
+      "sha256": "6c94f32e8fafa021f1c4e60ee143f96e4a06f0a73a4f308374c07afb98986f0e"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-propagator-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-propagator-position-positive-timing.json",
+      "sha256": "119331b7c055a7b637aa1b5eefb13c9eabbf80faa4617bb6abd8999611c65c67"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-selectivity-positive.sarif.json",
+      "sha256": "1916b034920b906701d99e4f86ea4720f6201e16e6896e8de0529f35dd6e8a86"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-through-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-summary-through-positive.sarif.json",
+      "sha256": "3f68aa208971801bb693e59cc597a23093fc801e93eb22e36ad70e27d0fbc7fd"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-separation-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-store-separation-negative.sarif.json",
+      "sha256": "304b3f5a57c2e1af84c13e291721067183159aac41b2cf1d4e7bd73ac24eacbb"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-positive-timing.json",
+      "sha256": "787da55035deee5caead8fc9a04f7b34ca75c514da184ad178e7da92695cc2ed"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-sanitizer-kill-positive.sarif.json",
+      "sha256": "6101ef98d456bc6f71d73980843df78a0ec6f3bb3045bb2e6d847b52ae6bf8a4"
+    },
+    {
+      "original_path": "reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-propagator-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-javascript-modeling-attempt-01/outputs/reports/raw/codeql-javascript-modeling/dfb-taint-javascript-model-propagator-position-negative-timing.json",
+      "sha256": "a3df1df89acb9659585eb5ffd83f00faecb047a84b3d66aa2eab3da2c63842bb"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-javascript-modeling.json",
+    "reports/raw/codeql-javascript-modeling"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

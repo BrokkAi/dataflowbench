@@ -1,0 +1,148 @@
+{
+  "id": "semgrep-c-kernel-attempt-01",
+  "planned_id": "semgrep-c-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-semgrep-c-kernel",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T11:59:46.678588+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      1.91552734375,
+      3.01806640625,
+      4.8193359375
+    ],
+    "load_after": [
+      1.841796875,
+      2.984375,
+      4.796875
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 1,
+  "end_utc": "2026-09-18T11:59:47.885433+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-01/stdout.txt",
+    "sha256": "8640cbc0ead7e33ea9daffe20f1b124e557f8f09d8641aa26076556d7f18d36d"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-c-kernel-attempt-01/stderr.txt",
+    "sha256": "6f1c13a343d53d410ee40f79176a8f6b75392033872330221db7b204056714d2"
+  },
+  "outputs": [],
+  "expected_output_roots": [
+    "reports/semgrep-c-kernel.json",
+    "reports/raw/semgrep-c-kernel"
+  ],
+  "missing_fresh_output_roots": [
+    "reports/semgrep-c-kernel.json",
+    "reports/raw/semgrep-c-kernel"
+  ],
+  "removed_paths": [
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-alias-propagation-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-alias-propagation-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-argument-position-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-argument-position-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-array-element-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-array-element-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-negative-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-negative-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-negative.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-positive-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-positive-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-branch-join-positive.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-call-context-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-call-context-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-callback-registration-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-callback-registration-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-context-pair-depth2-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-context-pair-depth2-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-deep-relay-chain-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-deep-relay-chain-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-negative-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-negative-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-negative.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-positive-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-positive-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-direct-positive.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-dispatch-table-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-dispatch-table-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-element-object-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-element-object-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-negative-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-negative-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-negative.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-positive-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-positive-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-expression-positive.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-function-field-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-function-field-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-negative-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-negative-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-negative.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-positive-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-positive-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-infeasible-branch-positive.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-negative-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-negative-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-negative.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-positive-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-positive-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-chain-positive.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-negative-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-negative-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-negative.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-positive-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-positive-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-local-overwrite-positive.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-negative-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-negative-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-negative.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-positive-rule.yaml",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-positive-timing.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-loop-carried-positive.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-map-iteration-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-map-iteration-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-nested-access-path-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-nested-access-path-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-object-separation-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-object-separation-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-carry-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-recursive-carry-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-one-hop-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-one-hop-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-two-hop-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-return-relay-two-hop-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-same-object-field-negative-unsupported.json",
+    "reports/raw/semgrep-c-kernel/dfb-taint-c-same-object-field-positive-unsupported.json",
+    "reports/raw/semgrep-c-kernel/run-environment.json",
+    "reports/semgrep-c-kernel.json"
+  ]
+}

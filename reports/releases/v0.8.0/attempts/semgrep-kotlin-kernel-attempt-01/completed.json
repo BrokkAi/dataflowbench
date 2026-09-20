@@ -1,0 +1,567 @@
+{
+  "id": "semgrep-kotlin-kernel-attempt-01",
+  "planned_id": "semgrep-kotlin-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-semgrep-kotlin-kernel",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T17:14:51.157844+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      2.94873046875,
+      1.978515625,
+      1.85205078125
+    ],
+    "load_after": [
+      2.73779296875,
+      1.978515625,
+      1.853515625
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T17:15:04.157739+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/stdout.txt",
+    "sha256": "a66f68927659d93c5d8f52654b905284d48bc673321991b2d52e7b12e9d593e5"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/semgrep-kotlin-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/semgrep-kotlin-kernel.json",
+      "sha256": "1106051ae1612c492559a6842488d34b86cfd037499a06ff32883a8ec2b2c444"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-positive.json",
+      "sha256": "2e79be88a97f85e23fbe6968e49ce0c8de9356ef40080e51cef15ae676092058"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive-unsupported.json",
+      "sha256": "35a009fb1a7b33b842ce45e4c844caeec2cf1459e335fca65690f545907ad334"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-callback-registration-negative-unsupported.json",
+      "sha256": "6cf6711c0889f543eca4414f48556a0dbf79773276681497c81e27ef850f0d77"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-negative.json",
+      "sha256": "9556fa0c639ef5b275cabe7d99f6125831d4c6c74e231a58811039b064f4c481"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-negative-timing.json",
+      "sha256": "667e16160fa0d5354e5a594820a11985e23bc204ba2a6ae97333812cfc7a1cbf"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-timing.json",
+      "sha256": "8951d5a54fb82f34a4895bd8e96910be6cf273bc1d82d5eac554844b0260dfb8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-negative-unsupported.json",
+      "sha256": "6578d4339ef4bfde91d30a28d46c418f40012e691c10c634834238521f5b4534"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-exception-catch-positive-unsupported.json",
+      "sha256": "5f8d62cc3a78d30e5fbfe4170f3e561b0b3d9bf7a5f9ce6f96cf7e940bfa158d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-negative.json",
+      "sha256": "575fc296166422b393c3b36ac4067bf5a15cd56facdf3ce40ad9a2fe5f35319f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive-unsupported.json",
+      "sha256": "dd74decc116fa880b167f58d093f08533065b791db2966d9ceb748280e9b567c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-positive-timing.json",
+      "sha256": "a870e58b78e96fcf16ccd952915fafb1363d64fbe02a31ddb35ba5599cf8217f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-timing.json",
+      "sha256": "e442855e6f461f4cab80cf2089ebfbdfd90b0310398381666d5fcdd688428146"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-closure-capture-negative-unsupported.json",
+      "sha256": "a064db3da71e428bbd104bc68343d036875d0874432268fc0f4cc6d441191e19"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-same-object-field-positive-unsupported.json",
+      "sha256": "a8769e587962f4b3f9d89e426e589952dd48aafa1f514d6ebddca7f31b9dd5c6"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-negative-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-computed-property-negative-unsupported.json",
+      "sha256": "87e8d123bd921b1951862d1886e285085e71ba007a8db29717d1e51ae1c586c0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-positive.json",
+      "sha256": "a59bab31435aa07d6a7797997f57d485e2cad879070d419c22599a7bc033dd9e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-array-element-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-array-element-positive-unsupported.json",
+      "sha256": "5dfd73a8d408518b59a4c5e93810e50f852c773a5776524388adccab60f1cf31"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-negative-unsupported.json",
+      "sha256": "8fde7b4947f7cc17f635b1201219a9bef562139f219eecc861cd87162cd30bf4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-positive-timing.json",
+      "sha256": "45c84a3652155528f12d593605f240cc1939582e4c6127e356fdf077c5d09a57"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative-unsupported.json",
+      "sha256": "47aafd25cf8df08e7c1b07f0a330284d40c4076913984cce0913142d6f851be0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-function-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-function-field-negative-unsupported.json",
+      "sha256": "6ef94de32d5c06dff807454978318b380da8b10227d7efa694fea9ae1bc34f7a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-negative-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative-unsupported.json",
+      "sha256": "39cbed9ca87db9e90b7ebcb93f844d0d9f2abf6d12a5f27f77c445fc9bb0119a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-negative.json",
+      "sha256": "f38a7544c54846c864827b15257238489ed4e02f9ab8b79b6bf51b7c2ee10545"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-call-context-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-call-context-positive-unsupported.json",
+      "sha256": "fe625ff71863ba909275c5df8f567c6ee27dfaaa665efa0f4c3a176dc7dc6501"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-negative-timing.json",
+      "sha256": "5f5e0a5ea18b896eddfa9f64b56713a44e4def57a55aa9910be1055512d9c0e0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-positive.json",
+      "sha256": "c973fee0d96e776ae6358bec77b0752c08c5f3c0203ab1a1e8937b70f8b666f0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-positive-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive-unsupported.json",
+      "sha256": "4081e261391000d4a040f2f7913a39681d73bc0465d397c2d35c2330ca1f3b60"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive-unsupported.json",
+      "sha256": "6e4ba1981b7caa8324e8f2a769828dd45de940862bfbf3f27dda6c88f6277e80"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-function-field-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-function-field-positive-unsupported.json",
+      "sha256": "0f1a0312455633d1b2806a4400ced3b850990cd4b8b8b21e7e9e56173ed57c53"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-computed-property-positive-unsupported.json",
+      "sha256": "3f27dbab27812eb03153d458abca98e590ef2e7508ea447e7371c7de147c9d02"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-anonymous-implementation-positive-unsupported.json",
+      "sha256": "f4e85c851e17ecad8846e6d4a20c4f034ec13d63da2fdc5d0f79127a3613fce8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-array-element-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-array-element-negative-unsupported.json",
+      "sha256": "3ac34f9dc0d703a0208c9ca5e0cbfa67b2ba735079e53b87004854e74115c5e4"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/run-environment.json",
+      "sha256": "3a5ebe9fca8cfdc83632a6fa26fb54986d5106cd3af2fd74987209b7b8cefbe9"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-call-context-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-call-context-negative-unsupported.json",
+      "sha256": "b8a5f4f5a19f9670e2ef72a49ce2a0de32c5d12bbe38e0ab8b5c88f0f72728a0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-callback-registration-positive-unsupported.json",
+      "sha256": "d7b2b24f1ba90daa3bd894ae317b7627add4fd9528d5914e69526236de225919"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative-unsupported.json",
+      "sha256": "77e52db81dba0569ce774c696cb8903ba9812c08ac169ff23b4deff08aa2e97d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-same-object-field-negative-unsupported.json",
+      "sha256": "7d5d4d9b7627ef8578eea2213a4b9d2da96e4087a4d502e2b6c8746d6db86c5a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-closure-capture-positive-unsupported.json",
+      "sha256": "7722db0821dae352794da164b1b2afece4220381934952698d24f87bec311258"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative-unsupported.json",
+      "sha256": "d28615cbeee3424b84a2cae7cf355087954951bd2865cacdc29f5d33bf9a194c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-exception-catch-negative-unsupported.json",
+      "sha256": "3c0894540131ba0f4fcf6547485efad9f1c57d63e7385b5f24fb0218e5a2d81c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-deep-relay-chain-positive-unsupported.json",
+      "sha256": "44e00671353ae40cdfa23070653544f9a76c24e049bc9a5d1b3ac5f0b0f65e95"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive-unsupported.json",
+      "sha256": "d3b96eec30d29178f87e7fce1be80923d3fd1ede94a0d449261da2a58cfd8eb2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-object-separation-positive-unsupported.json",
+      "sha256": "92968a4051d68217d7c0e41ee81230a1c704deb77ad66fe2afdd378dd9e55f6f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-negative-unsupported.json",
+      "sha256": "20bcfb086aa0abecf61bdad68616a2d519f18f0d6f64016ff6d248a38bda0a63"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive-timing.json",
+      "sha256": "45125116b47a6671528d93c158b185f5e92835071f841366722b40fb2068d2e2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative.json",
+      "sha256": "51f69a54e1cf8be3eff2581620a68d9153527c901e2524f54599f3c07aec24d3"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative-unsupported.json",
+      "sha256": "7ca7a2adcea072aa3ad1415b00d3ae7c5d2b5d9e1424137f7e6c6bbf982ed33a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-dispatch-table-positive-unsupported.json",
+      "sha256": "daf550dcd085dfde6e6b22a8bb632f4fbfbea3484065ec9faf876d4d5a5d11b2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative-timing.json",
+      "sha256": "ce5ed620d304fd6bda1fe5b91a4ee63c9a0840f39b8b6f02e22d422ea50b806d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive.json",
+      "sha256": "14c31432f02c1e71e3e9a7b2b919518b138d691f5d724ff4862edd2bfae035ce"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-timing.json",
+      "sha256": "ad83b298b55a5d08c0697fd29eec7be96e01446d354ff85b6f0a9ab009d61829"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative-unsupported.json",
+      "sha256": "7c0c0a09171d0ce46bb2a1309e2217019f4d2b8806a4ae62c58ab791a8db36af"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative-timing.json",
+      "sha256": "1f04188b5002be6485c95504af2cb9c2edb5d1c844251821ba2a7294e6603e99"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-branch-join-negative-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-element-object-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-element-object-negative-unsupported.json",
+      "sha256": "0ba8d294e1d8d5ab5dbd980575216de8b9902a41c20a9892ed18d4a3d527b2ba"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-negative-unsupported.json",
+      "sha256": "edf95e969d0dab0f3be1e61d27a8d111c6d13799507fed428e930534a642a89f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive-unsupported.json",
+      "sha256": "f8e41d369488ec2e60d7a8f471c741b6b1bfa533030227126a339dcd7f4d603e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-timing.json",
+      "sha256": "e07d95926ef184e5a2b64dcdc591466dc3d026ea9be44cb0fb2ae17dfa3b6651"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-positive-timing.json",
+      "sha256": "ab9e919028fcba9d2a5d244a3b284317d62cde76b5ce1d3bab91a5d846e9d689"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-loop-carried-negative-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-positive-unsupported.json",
+      "sha256": "b615958f2abdf5e8c95fc2d8ace0cbb42c5b474dbdc1d453495ccc947890dfb1"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive-unsupported.json",
+      "sha256": "41c58db95ba2e10cab7f81c2be1c0579a37882f91b157573bd18d874cafb36ec"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-alias-propagation-positive-unsupported.json",
+      "sha256": "f15ddbe8ed88384bca21f3ebe0711c70f10cfa98b661f16ae6f4b6893e0495f2"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative-unsupported.json",
+      "sha256": "c2f355ba312cc005f6ef7870400b04f37600e64f828d8f32dad694f7dfe97b22"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-argument-position-positive-unsupported.json",
+      "sha256": "a5bbbbc2373f5d657f4720a7c4f9fa54b4afcafeb97201291dc55cc0b961befe"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive.json",
+      "sha256": "4e168ed7a33a27ff0697498c4b1d19091e8b8d7570a6efc0cfaef857e2eabe48"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-direct-positive-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-element-object-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-element-object-positive-unsupported.json",
+      "sha256": "29b7b9f9427117137c9a05d12661ac74149566ae4c112a6987b555f46d6a2a88"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-context-pair-depth2-positive-unsupported.json",
+      "sha256": "49ae00f1cee1219bc49bfb67ae86ea9c53edc9813856b803e7373fdd1e1ee3c1"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive-unsupported.json",
+      "sha256": "18d11d0bf38514f6fead4d2888cd3fdfc18ab2f6354cedbe5b9081a227200b33"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-positive-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-alias-propagation-negative-unsupported.json",
+      "sha256": "05737b0440e8a33947b8eba2641de34a84ca7895f8f915e425e236e004eac3ee"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-negative.json",
+      "sha256": "2fe15b3a788b3fb86529696377d0c3f39aa830fd7e2766b4a60b30ef22a41f0a"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-argument-position-negative-unsupported.json",
+      "sha256": "a04113dc07822e00c12f2a94a8c73c376776877dfbee26ba8aeb9ca8a409784f"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive-unsupported.json",
+      "sha256": "5fd562767f0c234cdb80ce28e316fa1480d4a910a78408fac83c8081d0ebf153"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-return-relay-one-hop-negative-unsupported.json",
+      "sha256": "90ff0124f84eddfc1f3f2420d18659a9d5bc309fa55f2e46a910020001e3dae0"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative-unsupported.json",
+      "sha256": "8b9bcd3303bc52975a25b18575bb196b54c422fe7de1d78022d2338e30bf4aaf"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-negative.json",
+      "sha256": "9e99263c12653aa9127e020c874ce987e1e280644c81972272a6757e349e8f36"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative-unsupported.json",
+      "sha256": "465193cc3b03c18edba8c5a363183e2797568282bab58ead361e164d79efd245"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-infeasible-branch-positive.json",
+      "sha256": "53a60fe1f8c458432c386f7815080644325c5ee04f53d18fccfbc65575866349"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-object-separation-negative-unsupported.json",
+      "sha256": "eef08cf90986e269279ff23fafd895f266554accc30fec035d24d2bb793297df"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-return-relay-two-hop-positive-unsupported.json",
+      "sha256": "7cf54604520114ac9f7c824dde29e7b99abcda8309e6f5779330d033377a8a63"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-timing.json",
+      "sha256": "d2c311980a070b70abc27ce4f1725367e88e43a79c991b4391231683b9beb849"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative-unsupported.json",
+      "sha256": "db288a7cdb6dd7c0222916a60eec322e0dcd10908881ff73b7b8b94f889a8e3e"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-expression-positive.json",
+      "sha256": "66a0501fc01448848255730408d7a51805c0d97c87198b3bf5dc3586ce916558"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-positive-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-overwrite-negative.json",
+      "sha256": "b6dfa5d1b0333b69816b80018f9982b840e1a07f3b7c9fcef621c6f03ec6007d"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-rule.yaml",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-positive-rule.yaml",
+      "sha256": "a31a7aa14af183199d35907d3abb877f25478449f83c50720866b57e5628e4f8"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-dispatch-table-negative-unsupported.json",
+      "sha256": "7541c33aea508561bb553aea3730fb32a104c702cf296518e31c75cf3385870c"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-local-chain-negative-timing.json",
+      "sha256": "187a479c425335cd9360b0392101bc95536b11d5e96c9c3968f1eaf85b026945"
+    },
+    {
+      "original_path": "reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-unsupported.json",
+      "path": "reports/releases/v0.8.0/attempts/semgrep-kotlin-kernel-attempt-01/outputs/reports/raw/semgrep-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive-unsupported.json",
+      "sha256": "21dff386173738e60bcf682eeb595fde9a99ed4c4a590536adfdc24fb0f8a10c"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/semgrep-kotlin-kernel.json",
+    "reports/raw/semgrep-kotlin-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

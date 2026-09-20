@@ -1,0 +1,20 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-typescript-interprocedural-exception-persistence-positive",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "exception-sensitive-interprocedural-heap-taint"
+  },
+  "feature_tags": [
+    "interprocedural-one-hop",
+    "heap-access-path",
+    "exceptional"
+  ],
+  "language": "typescript",
+  "language_maturity": "ga",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
+  "reason": "outside the bounded Semgrep CE profile: the case requires a heap side effect to survive an exceptional callee exit and return through its caller; CE has no interprocedural taint. The case requires \"exception-sensitive-interprocedural-heap-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}

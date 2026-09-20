@@ -1,0 +1,18 @@
+{
+  "activation_arguments": [
+    "--policy"
+  ],
+  "activation_identity": "bifrost 0.11.0 built-in policy packs",
+  "adapter": "bifrost",
+  "case_id": "dfb-taint-java-native-summary-positive",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "O",
+  "modeling_category_label": "opaque procedure summaries",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-summary (category O — opaque procedure summaries) is unsupported for bifrost 0.11.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): Current v0.7.1 evidence: reports/raw/amendment-a32-bifrost-scan-native/ retains the v0.11.0 binary identity, extracted shipped policy and catalog. The capability decision rests on the shipped selectors and catalog, not on the positive control, which was inconclusive with partial_discovery; native activation validation remains partial. The following A32/v0.10.9 rationale is historical context, including its activation wording and issue-status statements, which were not freshly verified: the adapter README: \"External semantic-model activation requires an embedding with an explicit catalog, so the modeled-external case is reported as `unsupported` by this CLI adapter with an explicit retained reason. It is not a negative result.\" Activating a catalog from the standalone CLI is BrokkAi/bifrost-dev #2691, still open. Amendment A32 adds the measurement the preregistration asserted from documentation: the activated built-in catalog declares zero procedure summaries, so neither half of a Base64 round trip is modeled, and `:call-modeling :unmodeled require-model` is the activated policy's disposition and stops the value at the encoder rather than passing it through. The half-modeled hazard this template exists to expose cannot arise where neither half is modeled",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-summary",
+  "witnessed_tool_identity": "bifrost 0.11.0"
+}

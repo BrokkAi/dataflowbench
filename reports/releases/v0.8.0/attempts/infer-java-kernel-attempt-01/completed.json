@@ -1,0 +1,1129 @@
+{
+  "id": "infer-java-kernel-attempt-01",
+  "planned_id": "infer-java-kernel",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-infer-java-kernel",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "--javac",
+    "/usr/bin/javac"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T02:39:38.790813+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      1.041015625,
+      1.19580078125,
+      1.36279296875
+    ],
+    "load_after": [
+      3.5546875,
+      2.7802734375,
+      2.03662109375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T02:43:55.827617+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/stdout.txt",
+    "sha256": "398694b9bdcdf24012ece7d6078336e68a4f6231d35eab60f711141934974b8d"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/infer-java-kernel.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/infer-java-kernel.json",
+      "sha256": "86fb25a6358f98e2bee16aabf119878fc89ae548135c262fbe6322d0565c9fe3"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-positive-timing.json",
+      "sha256": "65432096d55b074f9fd58f5b4eb9cb6b7cd45736e97a85150ae5d9fe071a6836"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-object-separation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-object-separation-positive-timing.json",
+      "sha256": "34633c839ba8f97404a97c005f0ffa1ca96b0dff88dc949e382065f9eadc566a"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-computed-property-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-computed-property-negative-timing.json",
+      "sha256": "8472e540281581dcd6782a1ce4b970b40aaed1a05a24e8a26f045dd071548a52"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-positive-timing.json",
+      "sha256": "138aa202ef391aeb95e38860647c06bc603fa14f676ed8dbc8e4bfe6f0ca1a9e"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-positive.json",
+      "sha256": "338b9096e3b25cc693bfea693b07839c858079ffede3ab3a5075e9cd98313122"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-branch-join-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-branch-join-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-computed-property-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-computed-property-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-function-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-function-field-positive.json",
+      "sha256": "cb2338e5da7788084e7dc615c360828a17bb35ab363f7d1f5d90fede81bdb17c"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-array-element-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-array-element-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-negative-timing.json",
+      "sha256": "fd5321840a8c950e6dbc7e5b49bb2f4dd57dd184ea2ba8ae8f5d30b48b7f1162"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-expression-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-expression-negative-timing.json",
+      "sha256": "1df7fbb6d255852cb26a46cfdc8e0e5419647894956c645e8a61360c376064b4"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-object-separation-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-object-separation-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-negative-timing.json",
+      "sha256": "fd44398fb0101ffb0b71e503bef107fd5074bde3003546d8555ad7fd53ce4fac"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-explicit-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-explicit-negative-timing.json",
+      "sha256": "62846482916029c783a2bb947b621f5cc3e6b9023830187cafe39b5274a6b237"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-negative-timing.json",
+      "sha256": "52eef79ce3f60f77b25e07d9b3650703b705eb5884d7c7b0f5eac35f5616b1e2"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-object-separation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-object-separation-negative-timing.json",
+      "sha256": "39e12861fb9cd76dfc5bdd3593194187968f5095081c62905ecb9815f37223ee"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-computed-property-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-computed-property-positive-timing.json",
+      "sha256": "ba2051920deb637d6e4868bb47638930fe6b666d1560523e918be5e8ba563f97"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive.json",
+      "sha256": "324dac159754cbdcd7c3272f90a22531aaa8fec75c058c357a65830e1be20b6b"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-positive-timing.json",
+      "sha256": "259eb6d35c1007416754df68aaf997b1b2fb5fc5a536dd87c5c316a1cf43bd86"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-expression-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-expression-positive-timing.json",
+      "sha256": "f5bd9200cd9c31352f2e3bfbba0378c1cff2aeebe3321fe3efa9fea3644d878a"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-computed-property-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-computed-property-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-chain-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-chain-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-positive.json",
+      "sha256": "c00579f5823654bf54dd9d5e20263f3e357aaa7858563e6e9675ac57f93ae88f"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-positive.json",
+      "sha256": "4c4db8c216d29eccc07cec2200f34cc2ad0e81a5191c27006cc919b018a1a8e0"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-negative-timing.json",
+      "sha256": "326cc42ee9b9bbafbb1861a310a7bb5ad49a6951739a5dcc33aa55e8851a40fa"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-negative-timing.json",
+      "sha256": "8093adc8633e220583a800c956d1a5010deb5d71081aa52d86b3f77b5cd67efd"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-negative-timing.json",
+      "sha256": "e3c62642b1442c3d25c6c3f4721a7270bc14a5e5a6104008eb4e3f5d174ffe05"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "b21f399ab5857da5a8d566279b45dad38150b73dd06ecb0368c99d7ce0520a26"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-negative-timing.json",
+      "sha256": "e8240049298c47bc8a4f5df1bf86503906d16a04a39b851ee9af27bd7e374044"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-positive-timing.json",
+      "sha256": "9548cd107d8f8d1c71acc875d7ec7bd9be8d6e00743a1815f8f8bf03d7429629"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-positive-timing.json",
+      "sha256": "f5ed15ecdec12b1ec879e56d260075e4349dcccf28b6774eefa8cfaf1653266b"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-argument-position-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-argument-position-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-positive-timing.json",
+      "sha256": "4c9c06dc883fa2e7917a84f67ada33051cf1816720e6c1fb6d739e6f439a8dcc"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-array-element-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-array-element-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-call-context-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-call-context-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-element-object-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-element-object-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-function-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-function-field-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-computed-property-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-computed-property-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-array-element-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-array-element-positive.json",
+      "sha256": "07ddf0a54d22699841f3f5d077ea94a21cc01793316da89fa78cd70e716199ec"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "e8c10ff19242adac4c97962f787ab99b4c660c54ef1f7fdebb502b1635cc3c67"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-positive-timing.json",
+      "sha256": "0de8fb656850fb4bb79745bcc8ca4b459ada592e301dbff14c58c513c2a7c6f3"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-positive-timing.json",
+      "sha256": "5bec65ca3e8297bdf9a9344bb71f519515e02b9a689ec0a80265ceaf6dbd3340"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-argument-position-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-argument-position-negative-timing.json",
+      "sha256": "375cdd6346cb5a0325499a85f1d549b0324daee21d63e5b37dfc81655cce26d4"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-chain-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-chain-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-positive-timing.json",
+      "sha256": "944d93c471235275e62d61bb16776b157a020dcb4c47e4bed9db718fb949ac1c"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-negative-timing.json",
+      "sha256": "e081748693cdc21d8ae1e80889b9d6a0d465347e427e54e65e62213c96c45ced"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-positive-timing.json",
+      "sha256": "298697def282cf0e1630bf331d9b55b7949d5426a99fd2d028747dd2522d0add"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-negative-timing.json",
+      "sha256": "21fd1dec38fa1c2ac622c570659b663fa712490d9eec3ab1eb2ee7d36ff8399e"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-positive.json",
+      "sha256": "29ed7de280a260c17adea9a878d3e9b1b18b1f6d3e66de065155dcab1c388499"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-negative-timing.json",
+      "sha256": "85afcffb477fe0832460bfcaff3b462bce13abf626d8aa56d41a553056212eba"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-argument-position-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-argument-position-positive-timing.json",
+      "sha256": "ce49180de9b55e4422d13ef9d7c3548a20f15584bd04aff0816d916ca131f118"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-negative-timing.json",
+      "sha256": "3d22fcb39f34052fbea52f5b97d59da0aa51cd8d963403fae9e6f127f0bc1e01"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/run-environment.json",
+      "sha256": "c78ff0837306d666ef3f42b3957d3829a3722dd4ee791dd17005cd2edea208b8"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-positive-timing.json",
+      "sha256": "93802702374dfe19c53d0d7eff5cfd39a4345f4b90ed58e7410f8c8e98827616"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-expression-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-expression-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-branch-join-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-branch-join-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-positive-timing.json",
+      "sha256": "c8bb55782a7bff2f60fb2821b5e1844a4bce582749bea2c0a0520c946282ea7b"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-negative-timing.json",
+      "sha256": "dc0b4fed8fdb5c922ed46bea6f4026fef19bdbee846e8085a658dcb7d9481f0b"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-direct-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-direct-positive-timing.json",
+      "sha256": "5edb08e581083d787d1c1843bf3ec8f176e7d6f2ea5a3744333628051af5b54c"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-positive.json",
+      "sha256": "e2307746f44dd6ddfa0507ad4070296b68525e7f6ad7e9f8dedd8eeec26cd94d"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-positive-timing.json",
+      "sha256": "a1e962549daa7ba3afe24814652d3bc1c3677e54f53f901549b802f02cfae448"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-branch-join-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-branch-join-negative-timing.json",
+      "sha256": "f0b19c89e8d10d718302135bd8a2d6bc66f6c0919f2f47756ad56322fed9a6cd"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-branch-join-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-branch-join-positive.json",
+      "sha256": "511589ba4d4b25fa09de5578a74b422fdec641cffbc3a6c36e8ae529dbcafeef"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-negative-timing.json",
+      "sha256": "cd6dc5623dfefddce9e04c9eb439208033b0791145cda349d8732f238f8d06a2"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-branch-join-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-branch-join-positive-timing.json",
+      "sha256": "8d7903e80b5f36abfc504435cc0daf6208374f89f42be634077c143f759b858a"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-explicit-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-explicit-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-chain-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-chain-positive.json",
+      "sha256": "52c2b013a54760316c7b3e4e9756582b8f5294bf3bad436fce8e1cf8266fa9d6"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-positive.json",
+      "sha256": "e8da882cfcec967441c20a5d5153676d3b8ea77284c20bb519ee3eab2b86c686"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-function-field-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-function-field-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-function-field-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-function-field-negative-timing.json",
+      "sha256": "3a27fb6c1b1871577c4f25481706d2af637b269c77b6c06e1a6ea63aa0f90fd9"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-chain-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-chain-negative-timing.json",
+      "sha256": "691def2f6b4b222c36a4c4ea4da38b0935374c72709df32a93c855455eccdf7f"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-positive-timing.json",
+      "sha256": "76c3d921bbd3d1de7c36f2d0ac698a888aa2dba518d1e1697e7e96c1cb729bb3"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-negative-timing.json",
+      "sha256": "5d4220677f581fda63903ec27546b45d4d51ac0e90af5cee33441100dd400416"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-expression-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-expression-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-object-separation-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-object-separation-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-positive-timing.json",
+      "sha256": "165fd333809bff5eda4077bbd43d32864f0ca7c7addd0a4b9958e8baf8bc59fb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-negative-timing.json",
+      "sha256": "9fc7dd62611b7ac3ca24997c76989e11972d4d1c2d50a167c290c75df3f34e31"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-chain-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-chain-positive-timing.json",
+      "sha256": "b4f2b484900c89f78f80c2fe7a3b6a8acf05ba3f02020138908806e02b90b470"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-function-field-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-function-field-positive-timing.json",
+      "sha256": "cfc65fc9af73233c8565647d911136866c476db88a55c9167d410936613a2007"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-positive.json",
+      "sha256": "b2c179b2c3b851cce0e4808cc1d67058e5639598840f6ad3a254a0db0b54deb4"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-argument-position-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-argument-position-positive.json",
+      "sha256": "f3b713d240d7570dca4f290165b65af75af6b305e9d8c4e09387abf686afc169"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-direct-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-direct-positive.json",
+      "sha256": "25c87ed29038a545acc2acb1bfc459fc6fc3340bfe31aa76e3679c8f8520ecf4"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-positive-timing.json",
+      "sha256": "d752f31710aeacae79b7e756334d2c12d73239f1af885929d990d908341cd836"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-function-field-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-function-field-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-argument-position-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-argument-position-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-positive.json",
+      "sha256": "9285b2fd03bc78491a850b348128198111a9f15763b801d2eb5a6e23505ee2c3"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-positive.json",
+      "sha256": "9f8f1850158138811afc254786308a9ff1161eb7869fa47ea67bf57f15674cd9"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-negative-timing.json",
+      "sha256": "af83d654e2bc02a403a3154b43c05ab5ce25f25e02fb5ef5a6c7649e5930127a"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-object-separation-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-object-separation-positive.json",
+      "sha256": "5e6ab0167ed1b4f21000580c667182ec8e2086c1170eaa39019bfdbb56a09beb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-positive.json",
+      "sha256": "fb09ae06e477c927721e70ca850ebfcfa26efdae84f9826739b6111a66d5f4fc"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-object-separation-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-object-separation-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-explicit-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-explicit-negative-taint-config.json",
+      "sha256": "4d8476ce0dd73a6472075ebc23730e66170ff0d1c9b2d9dc5cd75458ffd079c0"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-array-element-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-array-element-positive-timing.json",
+      "sha256": "1067d93b0e288b28d1b602c8608f40931b94141fec21c95fb10f82be4c7e8b68"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-negative-timing.json",
+      "sha256": "fb3a6d659e627bb8005816e2e0374360d0d76541b03dbd37f13761b0736a1116"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-computed-property-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-computed-property-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-element-object-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-element-object-positive-timing.json",
+      "sha256": "d01eb97f88d75a50fdd50743a3f834429502d863b892a2dd64272e427b640e4f"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-chain-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-chain-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-negative-timing.json",
+      "sha256": "01c0eadccc2da325ca6baa0e744abbe4a2d57806903c1ffe16b3de584bbab472"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-expression-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-expression-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-call-context-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-call-context-positive.json",
+      "sha256": "b80d66172d5cf406522f4e0fee656b14315838d6766d0c524f49d2a1c0f2cd0f"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-branch-join-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-branch-join-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-positive-timing.json",
+      "sha256": "1340659518e651712799cdd37cd1525012aee1fcd64496b6ec76ee884cf1e8a5"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-element-object-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-element-object-positive.json",
+      "sha256": "d5e0f47fb45cc5c0e10c0d69fc6cc6a12f9710a0f44bf3ee6e909317463eaeef"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-positive.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-element-object-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-element-object-negative-timing.json",
+      "sha256": "d92b35a79b2ce45598a61165316a3314d70398c46750b9a278b435e02ee7aa47"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-positive.json",
+      "sha256": "ae2c5f53a821b4c3eb0a49d0b00a6cddd929682e7eaa838c409bf7ead9875570"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-array-element-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-array-element-negative-timing.json",
+      "sha256": "0eb63561e71c0c53ff1c87872db6f57262eab3a2f0f71a0106783cb66801bc35"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-positive-timing.json",
+      "sha256": "814da6cfe7fd3adb916f651c130f9589bb911d2848096183ec7adc87336f65a0"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-call-context-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-call-context-negative-timing.json",
+      "sha256": "1625807c167b0885745bb0cde26fe15b397495076309c7e1d10d76d8cfa84c67"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-call-context-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-call-context-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-positive-timing.json",
+      "sha256": "ca8d81adc77b48868f9b521432884230fab03fe90674de8067841e0b33ecd0c9"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-expression-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-expression-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-argument-position-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-argument-position-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-call-context-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-call-context-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-array-element-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-array-element-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-element-object-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-element-object-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-element-object-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-element-object-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-positive-timing.json",
+      "sha256": "cab0bf10193b4497681f4ea6b2593cccfdb065c8c9acfcab523189ff2d7192ab"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-positive-timing.json",
+      "sha256": "7ebdaee85b156306709ab0b881bb65d397ef8c9f60cdfec4f954501ab504c783"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-positive.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-positive.json",
+      "sha256": "1761bf6fc9eaa73e7c1d86edb58d7abf7a79780927e3f162dc9f4c7d9b635284"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-negative-timing.json",
+      "sha256": "6b0bb01565e46c871ae5f21582ce7f10175e43f3e031a92fadc806c597b6030f"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-positive-timing.json",
+      "sha256": "836345fdacfcab805bd8cf6fd36c55fd2f8d2df1ec6517c2ad42fe76cc4a60eb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-direct-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-direct-positive-taint-config.json",
+      "sha256": "604a0cf736a7fa23e99821880e3970879f5eb39e298f08db62cd5de5c020b36c"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-negative.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-negative.json",
+      "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-negative-timing.json",
+      "sha256": "d75ffe468ee690ab7b775ed28d4ce767b120c53a80e3b71a8cac7fc8d65b25f1"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-call-context-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-call-context-positive-timing.json",
+      "sha256": "d87985de8186a38f1ec1ff613038cf449fbca9482ab6c93e8d53526e91f4492c"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-negative-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-negative-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-negative-timing.json",
+      "sha256": "c0ee0e09350351b3f1de97b6277e86127ed29bac0f6e6aa133e6f00ddcf9e60f"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-positive-taint-config.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-positive-taint-config.json",
+      "sha256": "7563a3418a7a3add38f53235407c969af639097640e4ebbace7e05648a7fa3bb"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-negative-timing.json",
+      "sha256": "a66d9a15ff9496ddf836bab0d9a189a9c174cda30e6eec80856dc6109cf3fc4e"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-positive-timing.json",
+      "sha256": "b978464f971e570f474dda8fe365df28a62e14ee8fb4697b3a510f4129c08916"
+    },
+    {
+      "original_path": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/infer-java-kernel-attempt-01/outputs/reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-negative-timing.json",
+      "sha256": "6e57b049853792acee661c5aeaafffb7496ccba7d2a053b3990fae676126953a"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/infer-java-kernel.json",
+    "reports/raw/infer-java-kernel"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

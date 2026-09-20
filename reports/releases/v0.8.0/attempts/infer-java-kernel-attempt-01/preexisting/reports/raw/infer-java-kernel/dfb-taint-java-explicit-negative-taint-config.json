@@ -1,0 +1,19 @@
+{
+  "pulse-taint-sources": [
+    { "procedure_regex": "\\.explicitNegativeUntrustedInput(", "kinds": ["DataFlowBenchSource"] }
+  ],
+  "pulse-taint-sinks": [
+    { "procedure_regex": "\\.recordExplicitNegative(", "kinds": ["DataFlowBenchSink"] }
+  ],
+  "pulse-taint-policies": [
+    {
+      "short_description": "DataFlowBench benchmark-controlled source-to-sink flow",
+      "taint_flows": [
+        {
+          "source_kinds": ["DataFlowBenchSource"],
+          "sink_kinds": ["DataFlowBenchSink"]
+        }
+      ]
+    }
+  ]
+}

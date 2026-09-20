@@ -1,0 +1,23 @@
+Initializing database at /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.Ii7DkImE1r/codeql-db.
+Running build command: [javac, -d, classes, ./ModelOpaquePropagatorPositive.java]
+Running command in /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.Ii7DkImE1r/codeql-source: [javac, -d, classes, ./ModelOpaquePropagatorPositive.java]
+Finalizing database at /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.Ii7DkImE1r/codeql-db.
+Running pre-finalize script /Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/java/tools/pre-finalize.sh in /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.Ii7DkImE1r/codeql-source.
+Running command in /private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.Ii7DkImE1r/codeql-source: [/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/java/tools/pre-finalize.sh]
+Pre-finalize script /Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/java/tools/pre-finalize.sh completed in 981 ms.
+Running TRAP import for CodeQL database at /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.Ii7DkImE1r/codeql-db...
+Importing TRAP files
+Merging relations
+Finished writing database (relations: 407.64 KiB; string pool: 2.41 MiB).
+TRAP import complete (658ms).
+Finished zipping source archive (692.00 B).
+Successfully created database at /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.Ii7DkImE1r/codeql-db.
+Running queries.
+Resolving data extensions.
+ERROR: Pack 'codeql/controlflow@2.0.41' was not found in the pack download cache. Run 'codeql pack install' to download the dependencies. (/Users/dave/.codex/worktrees/38c5/dataflowbench/adapters/codeql/qlpack.yml:1,1-1)
+ERROR: No valid pack solution found:
+Because 'codeql/java-all' depends on 'codeql/controlflow@2.0.41', but pack 'codeql/controlflow' was not found, 'codeql/java-all' is forbidden.
+So, because 'dataflowbench/codeql-java' depends on 'codeql/java-all@*', version solving failed.
+ (/Users/dave/.codex/worktrees/38c5/dataflowbench/adapters/codeql/qlpack.yml:1,1-1)
+A fatal error occurred: A 'codeql resolve extensions-by-pack' operation failed with error code 2
+retained failed probe scratch: /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmp.Ii7DkImE1r

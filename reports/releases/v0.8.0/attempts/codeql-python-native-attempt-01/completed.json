@@ -1,0 +1,201 @@
+{
+  "id": "codeql-python-native-attempt-01",
+  "planned_id": "codeql-python-native",
+  "release": "v0.8.0",
+  "argv": [
+    "target/release/dataflowbench",
+    "run-codeql-native",
+    "--language",
+    "python",
+    "--codeql",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/38c5/dataflowbench",
+  "input_commits": {
+    "corpus": "52db1bf46f0880c271b97b0df0f3e1d40d01fc0a",
+    "execution_harness": "1efb718e8a2f0445276471b6f8a6f0472faffbd8"
+  },
+  "execution_revision": "8e3db5e359d53ba42c4eb37a3eaf5e2a7da5bca3",
+  "population": {
+    "path": "reports/releases/v0.8.0/population.json",
+    "sha256": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d"
+  },
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+  "plan": {
+    "path": "reports/releases/v0.8.0/rerun-plan.json",
+    "sha256": "8a842f3fc564d6a3979ff3b54c3b64e7a2f5d508d3f53f9513b853f2af679b7f"
+  },
+  "identities": {
+    "path": "reports/releases/v0.8.0/identities.json",
+    "sha256": "1414e289cc53565c881b3edaa22820e626982e051d4b2f48468c9fed3e0d54e5"
+  },
+  "execution_access": "unspecified",
+  "start_utc": "2026-09-18T21:56:55.405600+00:00",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "cpu_count": 10,
+    "load_before": [
+      1.43505859375,
+      1.5830078125,
+      1.71044921875
+    ],
+    "load_after": [
+      5.037109375,
+      2.61083984375,
+      2.083984375
+    ]
+  },
+  "settle_observations": [],
+  "cache_posture": "isolated case workspaces; local distributions and prefetched CodeQL packs; OS page cache uncontrolled; warm only for explicit warm series",
+  "supersedes": null,
+  "exit_code": 0,
+  "end_utc": "2026-09-18T21:58:11.840457+00:00",
+  "stdout": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/stdout.txt",
+    "sha256": "4c62a3d4a46c5ac69c01417857f10d2778b05d9b57898153c2b4c05188126627"
+  },
+  "stderr": {
+    "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "outputs": [
+    {
+      "original_path": "reports/codeql-python-native.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/codeql-python-native.json",
+      "sha256": "22e0792a471bbf1d54a6d7b9fc737d5cd205aadd141fe1eb8148dc7119edf35d"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-propagator-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-propagator-negative.sarif.json",
+      "sha256": "264af4b8d40878f96b6d38b17afc2c2579bc6b359da36fdc908267fc2e866527"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-summary-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-summary-negative.sarif.json",
+      "sha256": "325d151a239c6f5cd9ac1721b2b0f34a7c2472830a2aabd562776095bb1a6382"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-persistence-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-persistence-positive.sarif.json",
+      "sha256": "38435eb4f868a84ba2fd26864e657bb44ada45a12eacc51e707ca376f6c18a31"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-summary-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-summary-positive-timing.json",
+      "sha256": "a9c6db70e0c2b28f6e6b6b9ffda3fb1993ee59a3463d5316f50d8ebd8a1c4b86"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-persistence-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-persistence-negative.sarif.json",
+      "sha256": "6dd8c114cf557bffbd95eb96c9c1a098020b198b83f0b044d715f3b70f7ef11e"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-summary-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-summary-negative-timing.json",
+      "sha256": "3eb9f0ae092e82b5c4c750b805303288e394eea793dfd19d363add5b1bb8c392"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-propagator-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-propagator-positive.sarif.json",
+      "sha256": "3f75eb5a86dc37d5c0ac0d33bdd2f92067e3fbbdf06ffea468c186c0af955218"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-summary-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-summary-positive.sarif.json",
+      "sha256": "0153a574f2dc1c0ae85784b96f61e473b1c9f5e9385075d4d14e200f08640e38"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-negative.sarif.json",
+      "sha256": "858f983ac38632606dc12af45a0eb17d3d6b9a963169ca6457a9fb8c062dc188"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-positive.sarif.json",
+      "sha256": "1d4e6365292b541ddaa335cb817e1ba0ea0b559afb8fc0a43ccfdc5aa11abb7b"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-negative-timing.json",
+      "sha256": "8e31541a2c571a7bb792104fa2df00ae43cefa16a90451f7202ae1f08c26782b"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-persistence-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-persistence-negative-timing.json",
+      "sha256": "89b7d91adc874b537b2cf2e7575218e53b6de2d14924cadf67a3b56ce67ab8bd"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-positive-timing.json",
+      "sha256": "eba653896510b0ed8cc6e20444609d9b9ea937cd0a9e63c20ba4ebbda13db447"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/run-environment.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/run-environment.json",
+      "sha256": "66d3a408d7c7648faa14ff8a7ef60d71ccc12e670666b3db198b95bf433d78dc"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-persistence-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-persistence-positive-timing.json",
+      "sha256": "a5ba2fff5941404648ee38558b260eb3e32bc451c682419684863d6b0eacde93"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-positive.sarif.json",
+      "sha256": "d5b61e0a6a56219509e8ba897c50b73aa9fa47aafd94e84a14528e84aedfbf13"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-negative.sarif.json",
+      "sha256": "8e23496283a6dceffd0e75fdc3229117e0a1e55985467dbefbe222eded8673c8"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-positive.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-positive.sarif.json",
+      "sha256": "08336c55f1181767565a6da3962bcfcf3b1b3b4a57a278a18efcc138d55a0e6b"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-negative.sarif.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-negative.sarif.json",
+      "sha256": "fe72ebffc6e92b5fc948c3fa924a686a905513d326536b3583b9a2aa9d8381c6"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-negative-timing.json",
+      "sha256": "f525d2f9e383a752fa78371d5814bb6ef15c206be9b4cfad641eed9f74439ad3"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-propagator-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-propagator-positive-timing.json",
+      "sha256": "d5c634931c9450ec9e15a3b8c4700e5770f6627c752c2c2414b38f1a27c46c67"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-positive-timing.json",
+      "sha256": "dac4c5eb18d6dd8c174f0aab313db6046081bfa67c667166f68a87eb17e5e596"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-propagator-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-propagator-negative-timing.json",
+      "sha256": "0699ecf40f3213b53ab612b356ae1c06839e1f9fd5cb5ebee31e88fa21c8281a"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-negative-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-negative-timing.json",
+      "sha256": "70697e90e44d77bb7dc7db896f69640ba88dba22219b938bd95625447ecc3ad3"
+    },
+    {
+      "original_path": "reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-positive-timing.json",
+      "path": "reports/releases/v0.8.0/attempts/codeql-python-native-attempt-01/outputs/reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-positive-timing.json",
+      "sha256": "ce77b74d563a66181001d36c2e7022c2e9552721303e1b57824e79f06bddeeae"
+    }
+  ],
+  "expected_output_roots": [
+    "reports/codeql-python-native.json",
+    "reports/raw/codeql-python-native"
+  ],
+  "missing_fresh_output_roots": [],
+  "removed_paths": []
+}

@@ -1,0 +1,72 @@
+{
+  "probe": "native-source-sink-positive",
+  "language": "java",
+  "invocation": [
+    "bifrost",
+    "scan",
+    "<fixture>",
+    "--format",
+    "json",
+    "--evaluation-date",
+    "2026-09-04"
+  ],
+  "scan_exit_status": 0,
+  "activated_packs": [
+    {
+      "id": "bifrost.code-smells",
+      "version": "2.10.0",
+      "policies": 16
+    },
+    {
+      "id": "bifrost.security",
+      "version": "1.0.0",
+      "policies": 1
+    }
+  ],
+  "policies_evaluated": 17,
+  "policy_completions": [
+    "bifrost.correctness.dynamic-evaluation=complete",
+    "bifrost.correctness.go-data-race=complete",
+    "bifrost.correctness.go-nil-dereference=complete",
+    "bifrost.correctness.go-wrong-error-on-failure-path=complete",
+    "bifrost.correctness.rayon-in-blocking-lazy-init=complete",
+    "bifrost.correctness.unsafe-deserialization=complete",
+    "bifrost.performance.database-call-in-loop=complete",
+    "bifrost.performance.expensive-operation-in-nested-loop=complete",
+    "bifrost.performance.file-read-in-loop=complete",
+    "bifrost.performance.loop-invariant-sort=complete",
+    "bifrost.performance.network-call-in-loop=complete",
+    "bifrost.performance.parsing-in-loop=complete",
+    "bifrost.performance.regex-compile-in-loop=complete",
+    "bifrost.performance.serialization-in-loop=complete",
+    "bifrost.performance.sleep-in-loop=complete",
+    "bifrost.performance.subprocess-in-loop=complete",
+    "bifrost.security.java.servlet-parameter-to-jdbc=complete"
+  ],
+  "total_findings": 0,
+  "findings_by_policy": {},
+  "security_policy": {
+    "policy_id": "bifrost.security.java.servlet-parameter-to-jdbc",
+    "analysis_type": "taint",
+    "completion": {
+      "type": "complete"
+    },
+    "findings": 0,
+    "compiled_source_endpoints": 0,
+    "compiled_sink_endpoints": 0,
+    "selector_scans": 2,
+    "diagnostics": [
+      {
+        "severity": "note",
+        "family": "empty_selection",
+        "message": "taint policy `bifrost.security.java.servlet-parameter-to-jdbc` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists"
+      },
+      {
+        "severity": "note",
+        "family": "empty_selection",
+        "message": "taint policy `bifrost.security.java.servlet-parameter-to-jdbc` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists"
+      }
+    ]
+  },
+  "evidence_kind": "retained-shipped-scan-probe"
+}

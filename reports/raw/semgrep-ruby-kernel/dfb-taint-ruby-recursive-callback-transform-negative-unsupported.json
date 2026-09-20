@@ -1,0 +1,19 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-ruby-recursive-callback-transform-negative",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "recursive-callback-transform-taint"
+  },
+  "feature_tags": [
+    "recursive",
+    "higher-order"
+  ],
+  "language": "ruby",
+  "language_maturity": "ga",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
+  "reason": "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-callback-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}

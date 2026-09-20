@@ -1,0 +1,13 @@
+{
+  "adapter": "infer",
+  "case_id": "dfb-taint-java-model-summary-through-positive",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "O",
+  "modeling_category_label": "opaque procedure summaries",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "reason": "category O — opaque procedure summaries — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): measured on the pinned v1.3.0 (Amendment A13): template 7's identity bodies are captured and Pulse reads them — both cells report with no declaration at all, so the cells are decided by body analysis rather than by a summary, and the release has no surface that makes a captured body ignored (`--pulse-taint-opaque-files` is accepted and measured inert for Java). Template 8's `FieldsOfValue` destination is not field-precise: the declared `1.payload` summary taints the sibling field too, so the field-separation negative is decided by the heap approximation rather than by the summary",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-summary-through",
+  "witnessed_tool_identity": "v1.3.0"
+}
