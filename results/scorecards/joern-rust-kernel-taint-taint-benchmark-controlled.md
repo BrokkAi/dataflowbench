@@ -1,14 +1,14 @@
 # Scorecard `joern-rust-kernel-taint-taint-benchmark-controlled`
 
-Adapter `joern-rust-kernel`: `joern` `4.0.621` (build `joern-cli:4.0.621`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
+Adapter `joern-rust-kernel`: `joern` `4.0.628` (build `joern-cli:4.0.628`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-rust-kernel.json` (`sha256:567b0fb00d022102f785fd5eb6d6efefdc13c77828ab088b86987db42cbc47fe`, normalized `sha256:567b0fb00d022102f785fd5eb6d6efefdc13c77828ab088b86987db42cbc47fe`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/joern-rust-kernel.json` (`sha256:154cfb92070c4dc545cc4882977967bc18c477f4a17aa52ea18cbcc3e93de9b0`, normalized `sha256:154cfb92070c4dc545cc4882977967bc18c477f4a17aa52ea18cbcc3e93de9b0`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `rust`, tier `core`
 
-Outcome coverage: `reached` 20, `not-reached` 34, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 54. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 24, `not-reached` 38, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 62. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
@@ -16,15 +16,15 @@ Outcome coverage: `reached` 20, `not-reached` 34, `inconclusive` 0, `unsupported
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 3 | 2 | 0 | 5 | 0 | 0 | 0 | 60.0% | 0.0% |
 | `dynamic-dispatch` | 0 | 5 | 0 | 5 | 0 | 0 | 0 | 0.0% | 0.0% |
-| `flow-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `heap-field-sensitivity` | 5 | 3 | 0 | 8 | 0 | 0 | 0 | 62.5% | 0.0% |
-| `interprocedural-flow` | 6 | 4 | 0 | 10 | 0 | 0 | 0 | 60.0% | 0.0% |
+| `flow-sensitivity` | 6 | 1 | 2 | 5 | 0 | 0 | 0 | 85.7% | 28.6% |
+| `heap-field-sensitivity` | 5 | 4 | 0 | 9 | 0 | 0 | 0 | 55.6% | 0.0% |
+| `interprocedural-flow` | 9 | 5 | 1 | 13 | 0 | 0 | 0 | 64.3% | 7.1% |
 | `local-flow` | 7 | 0 | 2 | 5 | 0 | 0 | 0 | 100.0% | 28.6% |
 | `object-sensitivity` | 3 | 3 | 0 | 6 | 0 | 0 | 0 | 50.0% | 0.0% |
 | `path-sensitivity` | 3 | 0 | 2 | 1 | 0 | 0 | 0 | 100.0% | 66.7% |
-| `recursion` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
+| `recursion` | 4 | 1 | 1 | 4 | 0 | 0 | 0 | 80.0% | 20.0% |
 
-Macro-average over semantic dimensions: TPR 70.3%, FPR 14.3%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 66.2%, FPR 16.8%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
@@ -64,10 +64,18 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-function-field` | `dfb-taint-rust-function-field-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-rust-kernel/dfb-taint-rust-function-field-positive.json` | `cf74d184c4aeb6853986ea5d970c93b8ce9b8ce9456a71901a3b2545c07f1ba5` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-rust-map-iteration-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-rust-kernel/dfb-taint-rust-map-iteration-negative.json` | `b65e1176d7aa47990be58a6a24ba518ae795dc525b6314e8b723165d7eb8ec2c` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-rust-map-iteration-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-rust-kernel/dfb-taint-rust-map-iteration-positive.json` | `9bdb46a82f9aed64f6eb8ca8c8884ce46627af5f432138e18574c1e32bcf1554` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-rust-mutual-recursive-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-rust-kernel/dfb-taint-rust-mutual-recursive-transform-negative.json` | `13697b36f9f2e10549db1106ad8f97c9399c3f334f640b87a746fa4f4709fe0a` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-rust-mutual-recursive-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-rust-kernel/dfb-taint-rust-mutual-recursive-transform-positive.json` | `e73cfccdbcc87457c7904416e679236f9a03997d37886dcd1f810616b2a31dfa` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-rust-nested-access-path-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-rust-kernel/dfb-taint-rust-nested-access-path-negative.json` | `baf1f084bb4c6b7ee9d1eb6477566bbec9a4c91f1392855547c404df06873df0` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-rust-nested-access-path-positive` | positive | `reached` | true-positive | `reports/raw/joern-rust-kernel/dfb-taint-rust-nested-access-path-positive.json` | `af6456fb6a433f231b4e1b3de5f6766757ddf949c5a8616fb93b2383d737a4fd` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-rust-recursive-callback-transform-negative` | negative | `reached` | false-positive | `reports/raw/joern-rust-kernel/dfb-taint-rust-recursive-callback-transform-negative.json` | `40390e988b37da35cdbf3c54e28e2376ffd265dfd1dda0a78e8d2a0d887722b3` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-rust-recursive-callback-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-rust-kernel/dfb-taint-rust-recursive-callback-transform-positive.json` | `40d76bc740cce404b7c63ff9cf5bb83a8741f13fa94811796a52aedc937eaf9b` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-rust-recursive-carry-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-rust-kernel/dfb-taint-rust-recursive-carry-negative.json` | `f589dac7c7fa505bf7c345d66af29fcff2ea079c129b190f48b920a8a3aeb6ff` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-rust-recursive-carry-positive` | positive | `reached` | true-positive | `reports/raw/joern-rust-kernel/dfb-taint-rust-recursive-carry-positive.json` | `cc68aae43ca76c2116e55f71fcac376b2efbb1e8d85a03818400677941e3a1ac` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-rust-recursive-heap-unwind-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-rust-kernel/dfb-taint-rust-recursive-heap-unwind-negative.json` | `e6c4c200a6c6915de2f7c0f7872bc7df5eacbcb9e7922395641f382396e3de5e` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-rust-recursive-heap-unwind-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-rust-kernel/dfb-taint-rust-recursive-heap-unwind-positive.json` | `ca01f76e371346ec8fde6c8370e8e1c0a3fd811a44a6f2c782e7b8f5eae51d3d` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-rust-recursive-payload-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-rust-kernel/dfb-taint-rust-recursive-payload-transform-negative.json` | `c40b6bc1ab1361c11f5a5a69f5f950996822c6208eb9d085a5b9ddb1e66d5208` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-rust-recursive-payload-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-rust-kernel/dfb-taint-rust-recursive-payload-transform-positive.json` | `17fab939a9f32117c93b0e8a42330d7e086f244c116123596a03417aada203df` |
 | `dfb-template-direct-propagation` | `dfb-taint-rust-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-rust-kernel/dfb-taint-rust-direct-negative.json` | `74155b5736f40139e35827e6d919460d58ea5855eb8d03dc951d967f8a9b85f4` |
 | `dfb-template-direct-propagation` | `dfb-taint-rust-direct-positive` | positive | `reached` | true-positive | `reports/raw/joern-rust-kernel/dfb-taint-rust-direct-positive.json` | `e6bd86f9d349ddf488e184721441cef939fe91bfbe487f878945149c49b8c8b1` |
 | `dfb-template-infeasible-branch` | `dfb-taint-rust-infeasible-branch-negative` | negative | `reached` | false-positive | `reports/raw/joern-rust-kernel/dfb-taint-rust-infeasible-branch-negative.json` | `72e2949d3c4c902c31e02121653f9385dfc3bf084011ba3ab71d11d7e9f89f51` |

@@ -1,0 +1,21 @@
+---
+title: Languages — v0.8.0
+description: Per-language coverage and rates across the freshly rerun v0.8.0 scorecards.
+---
+
+import LanguageMatrix from '../../../../components/LanguageMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.8.0');
+
+Rows are `(language, scorecard, tier)` partitions. They share a table for
+navigation, not a denominator. *Definitive* counts `reached` and `not-reached`;
+*incomplete* counts `inconclusive`, `unsupported`, and `runner-error`, which
+remain capability coverage and are never scored as negatives.
+
+The v0.8.0 population expands to 1,000 cases with recursive-composition
+fixtures across the supported kernel languages. All 82 reports were freshly
+rerun. Languages with more rows have broader analyzer coverage; row count is
+not a quality score, and model profiles remain separate populations.
+
+<LanguageMatrix snapshot={snapshot} />

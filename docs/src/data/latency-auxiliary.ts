@@ -1,3 +1,4 @@
+import v080Evidence from './archive/v0-8-0-latency-auxiliary-evidence.json';
 import v071Evidence from './archive/v0-7-1-latency-auxiliary-evidence.json';
 import { boundEvidence } from './evidence-binding';
 import v060AuxiliaryEvidence from './archive/v0-6-0-latency-auxiliary-evidence.json';
@@ -17,6 +18,10 @@ const evidenceByRelease: Record<
   string,
   { evidenceRef: string; evidence: AuxiliaryEvidence }
 > = {
+  'v0.8.0': {
+    evidenceRef: '80d4f01bb189d530849f9ceb5d775680fcedfb52',
+    evidence: v080Evidence as AuxiliaryEvidence,
+  },
   'v0.7.1': {
     evidenceRef: '2007f15d687e0081c948e55bba39c952d248ee0f',
     evidence: v071Evidence as AuxiliaryEvidence,

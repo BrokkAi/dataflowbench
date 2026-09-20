@@ -3,6 +3,7 @@
 // `cargo run -- generate-results` from a validated immutable freeze — never
 // from hand-authored prose. CI proves the checked-in model is current.
 import currentResults from '../../../results/results.json';
+import v071Results from './archive/v0-7-1-results.json';
 import v070Results from './archive/v0-7-0-results.json';
 import v061Results from './archive/v0-6-1-results.json';
 import v060Results from './archive/v0-6-0-results.json';
@@ -138,6 +139,15 @@ export const repository = 'https://github.com/BrokkAi/dataflowbench';
 
 export const snapshots: Snapshot[] = [
   {
+    version: 'v0.8.0',
+    publicationRef: 'v0.8.0',
+    slug: 'v0-8-0',
+    evidenceRef: '80d4f01bb189d530849f9ceb5d775680fcedfb52',
+    latencyEvidenceRelease: latencyEvidenceRelease('v0.8.0'),
+    current: true,
+    results: currentResults as unknown as ResultsModel,
+  },
+  {
     version: 'v0.7.1',
     publicationRef: 'v0.7.1',
     slug: 'v0-7-1',
@@ -145,8 +155,8 @@ export const snapshots: Snapshot[] = [
     // link is handled separately because it lands in the release commit.
     evidenceRef: '2007f15d687e0081c948e55bba39c952d248ee0f',
     latencyEvidenceRelease: latencyEvidenceRelease('v0.7.1'),
-    current: true,
-    results: currentResults as unknown as ResultsModel,
+    current: false,
+    results: v071Results as unknown as ResultsModel,
   },
   {
     version: 'v0.7.0',
@@ -280,8 +290,9 @@ export function snapshotScale(results: ResultsModel): SnapshotScale {
 /** Link into the repository tree that holds this snapshot's frozen evidence. */
 export function evidenceUrl(snapshot: Snapshot, path: string): string {
   const downstream = path === snapshot.results.manifest.path ||
-    path === 'reports/releases/v0.7.1/inventory.json' ||
-    path.startsWith('results/') || path === 'docs/releases/v0.7.1.md';
+    (path.startsWith('reports/releases/') && path.endsWith('/inventory.json')) ||
+    path.startsWith('results/') ||
+    path === `docs/releases/${snapshot.version}.md`;
   const ref = downstream && snapshot.publicationRef ? snapshot.publicationRef : snapshot.evidenceRef;
   return `${repository}/blob/${ref}/${path}`;
 }
