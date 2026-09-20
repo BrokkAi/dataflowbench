@@ -4,11 +4,11 @@ Adapter `infer-c-kernel`: `infer` `v1.3.0` (build `infer:v1.3.0 bin-sha256:17ed4
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/infer-c-kernel.json` (`sha256:6486e611e6b766c952ed8eaf3dbad1d8d3493af5784d9d6bc1aba0f78feae5b4`, normalized `sha256:6486e611e6b766c952ed8eaf3dbad1d8d3493af5784d9d6bc1aba0f78feae5b4`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/infer-c-kernel.json` (`sha256:e241db2aace984672f636499d8de8b6c827da8153685e0d268f3856ce3e715c6`, normalized `sha256:e241db2aace984672f636499d8de8b6c827da8153685e0d268f3856ce3e715c6`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `c`, tier `core`
 
-Outcome coverage: `reached` 21, `not-reached` 27, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 48. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 21, `not-reached` 35, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 56. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
@@ -16,15 +16,15 @@ Outcome coverage: `reached` 21, `not-reached` 27, `inconclusive` 0, `unsupported
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 4 | 0 | 1 | 3 | 0 | 0 | 0 | 100.0% | 25.0% |
 | `dynamic-dispatch` | 2 | 1 | 1 | 2 | 0 | 0 | 0 | 66.7% | 33.3% |
-| `flow-sensitivity` | 2 | 1 | 0 | 3 | 0 | 0 | 0 | 66.7% | 0.0% |
-| `heap-field-sensitivity` | 8 | 0 | 0 | 8 | 0 | 0 | 0 | 100.0% | 0.0% |
-| `interprocedural-flow` | 8 | 2 | 1 | 9 | 0 | 0 | 0 | 80.0% | 10.0% |
+| `flow-sensitivity` | 2 | 5 | 0 | 7 | 0 | 0 | 0 | 28.6% | 0.0% |
+| `heap-field-sensitivity` | 8 | 1 | 0 | 9 | 0 | 0 | 0 | 88.9% | 0.0% |
+| `interprocedural-flow` | 8 | 6 | 1 | 13 | 0 | 0 | 0 | 57.1% | 7.1% |
 | `local-flow` | 5 | 2 | 0 | 7 | 0 | 0 | 0 | 71.4% | 0.0% |
 | `object-sensitivity` | 5 | 0 | 0 | 5 | 0 | 0 | 0 | 100.0% | 0.0% |
 | `path-sensitivity` | 2 | 1 | 0 | 3 | 0 | 0 | 0 | 66.7% | 0.0% |
-| `recursion` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
+| `recursion` | 0 | 5 | 0 | 5 | 0 | 0 | 0 | 0.0% | 0.0% |
 
-Macro-average over semantic dimensions: TPR 72.4%, FPR 7.6%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 64.4%, FPR 7.3%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
@@ -58,10 +58,18 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-function-field` | `dfb-taint-c-function-field-positive` | positive | `reached` | true-positive | `reports/raw/infer-c-kernel/dfb-taint-c-function-field-positive.json` | `75db72185d8dfab64e78d6e5aab0d94bb538cdf22a2cc1abdd5ea04359182575` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-c-map-iteration-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-c-map-iteration-positive` | positive | `reached` | true-positive | `reports/raw/infer-c-kernel/dfb-taint-c-map-iteration-positive.json` | `055631f5438eb198ffcb36597f80b3caf62585d81ced352e91a629121780621b` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-c-mutual-recursive-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-c-kernel/dfb-taint-c-mutual-recursive-transform-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-c-mutual-recursive-transform-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-c-kernel/dfb-taint-c-mutual-recursive-transform-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-c-nested-access-path-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-c-nested-access-path-positive` | positive | `reached` | true-positive | `reports/raw/infer-c-kernel/dfb-taint-c-nested-access-path-positive.json` | `9bf111ba7e40d732fe076500dfdb789234bcf149ff0c03017789df4746ed4b87` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-c-recursive-callback-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-c-kernel/dfb-taint-c-recursive-callback-transform-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-c-recursive-callback-transform-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-c-kernel/dfb-taint-c-recursive-callback-transform-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-c-recursive-carry-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-c-recursive-carry-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-c-kernel/dfb-taint-c-recursive-carry-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-c-recursive-heap-unwind-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-c-kernel/dfb-taint-c-recursive-heap-unwind-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-c-recursive-heap-unwind-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-c-kernel/dfb-taint-c-recursive-heap-unwind-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-c-recursive-payload-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-c-kernel/dfb-taint-c-recursive-payload-transform-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-c-recursive-payload-transform-positive` | positive | `not-reached` | false-negative | `reports/raw/infer-c-kernel/dfb-taint-c-recursive-payload-transform-positive.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-direct-propagation` | `dfb-taint-c-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-c-kernel/dfb-taint-c-direct-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |
 | `dfb-template-direct-propagation` | `dfb-taint-c-direct-positive` | positive | `reached` | true-positive | `reports/raw/infer-c-kernel/dfb-taint-c-direct-positive.json` | `72187de570b36757c0fdfe035f93c5c48ae50c3c92912859310adc9e62526781` |
 | `dfb-template-infeasible-branch` | `dfb-taint-c-infeasible-branch-negative` | negative | `not-reached` | true-negative | `reports/raw/infer-c-kernel/dfb-taint-c-infeasible-branch-negative.json` | `49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811` |

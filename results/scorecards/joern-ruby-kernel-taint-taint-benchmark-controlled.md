@@ -1,14 +1,14 @@
 # Scorecard `joern-ruby-kernel-taint-taint-benchmark-controlled`
 
-Adapter `joern-ruby-kernel`: `joern` `4.0.621` (build `joern-cli:4.0.621`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
+Adapter `joern-ruby-kernel`: `joern` `4.0.628` (build `joern-cli:4.0.628`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-ruby-kernel.json` (`sha256:4984f62f0b2bbd3ad0b8ca740e831ef014eb994b4cd90890312e674ea19275fd`, normalized `sha256:4984f62f0b2bbd3ad0b8ca740e831ef014eb994b4cd90890312e674ea19275fd`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/joern-ruby-kernel.json` (`sha256:2ea6f41c0383889782aab14f5e524256774bef13c08826d7afb7cbb7e47a00e1`, normalized `sha256:2ea6f41c0383889782aab14f5e524256774bef13c08826d7afb7cbb7e47a00e1`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `ruby`, tier `core`
 
-Outcome coverage: `reached` 23, `not-reached` 35, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 35, `not-reached` 35, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 70. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
@@ -16,16 +16,16 @@ Outcome coverage: `reached` 23, `not-reached` 35, `inconclusive` 0, `unsupported
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 2 | 3 | 2 | 3 | 0 | 0 | 0 | 40.0% | 40.0% |
 | `dynamic-dispatch` | 1 | 6 | 1 | 6 | 0 | 0 | 0 | 14.3% | 14.3% |
-| `exceptional-flow` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
-| `flow-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `heap-field-sensitivity` | 4 | 6 | 1 | 9 | 0 | 0 | 0 | 40.0% | 10.0% |
-| `interprocedural-flow` | 6 | 7 | 3 | 10 | 0 | 0 | 0 | 46.2% | 23.1% |
+| `exceptional-flow` | 2 | 1 | 2 | 1 | 0 | 0 | 0 | 66.7% | 66.7% |
+| `flow-sensitivity` | 9 | 0 | 7 | 2 | 0 | 0 | 0 | 100.0% | 77.8% |
+| `heap-field-sensitivity` | 7 | 6 | 4 | 9 | 0 | 0 | 0 | 53.8% | 30.8% |
+| `interprocedural-flow` | 12 | 7 | 9 | 10 | 0 | 0 | 0 | 63.2% | 47.4% |
 | `local-flow` | 7 | 1 | 2 | 6 | 0 | 0 | 0 | 87.5% | 25.0% |
 | `object-sensitivity` | 1 | 4 | 0 | 5 | 0 | 0 | 0 | 20.0% | 0.0% |
 | `path-sensitivity` | 3 | 0 | 2 | 1 | 0 | 0 | 0 | 100.0% | 66.7% |
-| `recursion` | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 100.0% | 100.0% |
+| `recursion` | 6 | 0 | 6 | 0 | 0 | 0 | 0 | 100.0% | 100.0% |
 
-Macro-average over semantic dimensions: TPR 54.8%, FPR 31.2%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 64.5%, FPR 46.9%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
@@ -63,12 +63,24 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-element-object` | `dfb-taint-ruby-element-object-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-element-object-positive.json` | `81dd4514c133a4bdb1fb6ae4e954b581870e6d63fc1c8e057491dc94003fbfeb` |
 | `dfb-template-chal-function-field` | `dfb-taint-ruby-function-field-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-function-field-negative.json` | `93ca58eff9f435044199a6326e39e100dcca083c4bc08c9fa6d938fde4607abf` |
 | `dfb-template-chal-function-field` | `dfb-taint-ruby-function-field-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-function-field-positive.json` | `2556c4fb00f03bc82f9f64f54f6653f94bb65de78f1d95eb8f993420b1eaa610` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-ruby-interprocedural-exception-persistence-negative` | negative | `reached` | false-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative.json` | `c76e268a9b9ca11b46b61a2a8df9ea0c174a60c3777c3ec6f2202c96d35c1257` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-ruby-interprocedural-exception-persistence-positive` | positive | `reached` | true-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive.json` | `2ed294c571e5328b820ddbbad19edf0299e16de3c72c645d488a364befbefaf4` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-ruby-map-iteration-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-map-iteration-negative.json` | `b816b13c3a192674445b30bdd69f24de221c0626430351f6281d369f16a7d986` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-ruby-map-iteration-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-map-iteration-positive.json` | `472fd633990b8f73e63f43fbb20c1278c208bed8c117ca8a1ccb3cd7bfe4660d` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-ruby-mutual-recursive-transform-negative` | negative | `reached` | false-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative.json` | `c0c9b2948b7c6870b0f5e5346e174073b447d4bf5935b57f9f4e93fe64aa6aab` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-ruby-mutual-recursive-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive.json` | `a99fa7f08c3313293684348af832c8b3892d4d9aeda9ae0fa6d36d502e2c4bbf` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-ruby-nested-access-path-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-nested-access-path-negative.json` | `0d701c5b843fe726d938f612f0e06e2354005a9bec077d301d37de739ac3be11` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-ruby-nested-access-path-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-nested-access-path-positive.json` | `59fa194382432df28e2f6e27d051c02f2bcc871c7f8df50d103351c1dc9defee` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-ruby-recursive-callback-transform-negative` | negative | `reached` | false-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative.json` | `b71cccfb57076af6a748a3f0acd2f75c7eda2f4a910176c1aae943859d33efd8` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-ruby-recursive-callback-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive.json` | `1e193225a382486c62ab3fa880a0f351f5f8f3d199baa6cf2c48215132201a7a` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-ruby-recursive-carry-negative` | negative | `reached` | false-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-carry-negative.json` | `8927744c28354e9b40708713c2b6b7586bf9b4bd33ed4aa747aa826c2e4d20f6` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-ruby-recursive-carry-positive` | positive | `reached` | true-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-carry-positive.json` | `4a588b235fab50a3490a002851300ab6d3b58678aa2c475bcf6b9f8ac908989e` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-ruby-recursive-exception-persistence-negative` | negative | `reached` | false-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative.json` | `9f98e350cc9915fe2b4089c2ca3ca05c90a443920566f8a7821dec5b6fa4d1b6` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-ruby-recursive-exception-persistence-positive` | positive | `reached` | true-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive.json` | `29fc2bde739220a2eabf7f20307c682e19625903060e110f324540c45dfefc68` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-ruby-recursive-heap-unwind-negative` | negative | `reached` | false-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative.json` | `e789b3694133e632b6de69cb12f5eb88320d530790d10eb1fa13bfa8cc22b997` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-ruby-recursive-heap-unwind-positive` | positive | `reached` | true-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive.json` | `385d863d2be92bb876a34aedc1794596732742c99960f6885bbeb0e3b874f8dd` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-ruby-recursive-payload-transform-negative` | negative | `reached` | false-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative.json` | `af60927a0bc193cc5f1027f4596fc4b1e2615ec34aacd90d69088db831f1bb3d` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-ruby-recursive-payload-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive.json` | `5b8f9fd5f6792b31d83c7136bc146579faa754997d2a5e62dc1a01e0651af336` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-ruby-reflective-invocation-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative.json` | `c883704c85955682c56fdbfe5e9e108283bb7bb0f37899182bee9ab546e7bb7f` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-ruby-reflective-invocation-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive.json` | `6088a6195ea798d7e33c206236b788a24c64f6dfdd3eae7303c1cc2e7a3fedd2` |
 | `dfb-template-direct-propagation` | `dfb-taint-ruby-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-ruby-kernel/dfb-taint-ruby-direct-negative.json` | `5674ea4a6e161e09ff3e14a4c442aca0bd63c536080547d3a713874b5b8baa73` |

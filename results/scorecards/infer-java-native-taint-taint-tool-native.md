@@ -4,7 +4,7 @@ Adapter `infer-java-native`: `infer` `v1.3.0` (build `infer:v1.3.0 bin-sha256:17
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/infer-java-native.json` (`sha256:13e3be0fab60b02426efc4113446f6277c4a141c43029be50d078b8ec87531ac`, normalized `sha256:13e3be0fab60b02426efc4113446f6277c4a141c43029be50d078b8ec87531ac`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/infer-java-native.json` (`sha256:c5d70401f1845400b4cbb36e54cc9e24c8373d2145a12a6c469ad5d65a319fac`, normalized `sha256:c5d70401f1845400b4cbb36e54cc9e24c8373d2145a12a6c469ad5d65a319fac`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `java`, tier `modeling`
 

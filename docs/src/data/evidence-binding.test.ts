@@ -55,8 +55,7 @@ test('v0.7.1 fresh latency binds its own manifest and actual warm batch sizes', 
   const read = (path: string) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url), 'utf8'));
   const cold = read('./archive/v0-7-1-latency-evidence.json');
   const aux = read('./archive/v0-7-1-latency-auxiliary-evidence.json');
-  const manifest = fs.readFileSync(new URL('../../../reports/freeze.json', import.meta.url));
-  assert.equal(cold.manifest_sha256, createHash('sha256').update(manifest).digest('hex'));
+  assert.equal(cold.manifest_sha256, 'f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d');
   assert.equal(cold.release, 'v0.7.1');
   assert.equal(cold.evidence_ref, '2007f15d687e0081c948e55bba39c952d248ee0f');
   assert.equal(aux.evidence_ref, cold.evidence_ref);
@@ -67,4 +66,21 @@ test('v0.7.1 fresh latency binds its own manifest and actual warm batch sizes', 
   assert.equal(warm.runs.length, 2);
   for (const run of warm.runs) assert.deepEqual(run.batches.map((b: any) => b.k), [1, 2, 4, 8, 12]);
   assert.equal(Object.keys(aux.artifacts).some((p) => p.includes('superseded')), false);
+});
+
+test('v0.8.0 fresh latency binds its own manifest and actual warm batch sizes', () => {
+  const read = (path: string) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url), 'utf8'));
+  const cold = read('./archive/v0-8-0-latency-evidence.json');
+  const aux = read('./archive/v0-8-0-latency-auxiliary-evidence.json');
+  const manifest = fs.readFileSync(new URL('../../../reports/freeze.json', import.meta.url));
+  assert.equal(cold.manifest_sha256, createHash('sha256').update(manifest).digest('hex'));
+  assert.equal(cold.release, 'v0.8.0');
+  assert.equal(cold.evidence_ref, '80d4f01bb189d530849f9ceb5d775680fcedfb52');
+  assert.equal(aux.evidence_ref, cold.evidence_ref);
+  assert.equal(Object.keys(cold.timings).length, 3157);
+  assert.equal(Object.keys(cold.environments).length, 82);
+  assert.equal(Object.keys(aux.artifacts).length, 22);
+  const warm = aux.artifacts['reports/raw/warm-latency/semgrep-java-kernel/warm-latency.json'];
+  assert.equal(warm.runs.length, 2);
+  for (const run of warm.runs) assert.deepEqual(run.batches.map((b: any) => b.k), [1, 2, 4, 8, 12]);
 });

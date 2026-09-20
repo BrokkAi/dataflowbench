@@ -1,0 +1,34 @@
+---
+title: Analyzers — v0.8.0
+description: One scorecard per freshly rerun report across eight analyzers on the expanded v0.8.0 population.
+---
+
+import ScorecardSummary from '../../../../components/ScorecardSummary.astro';
+import DimensionRates from '../../../../components/DimensionRates.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.8.0');
+
+Each scorecard is one frozen report: one analyzer, one track, one score
+dimension, and one model profile. Scorecards remain independent populations.
+`TPR` and `FPR` are macro-averages over templates and semantic dimensions;
+`inconclusive`, `unsupported`, and `runner-error` remain coverage outcomes.
+
+All **82 reports** were rerun over the expanded 1,000-case corpus. The result
+set contains 4,036 cells, including 556 cells introduced by the new kernels.
+The tables below are the authority for each analyzer's rates, denominators,
+and capability boundaries.
+
+{snapshot.results.scorecards.map((scorecard) => (
+  <ScorecardSummary snapshot={snapshot} scorecard={scorecard} />
+))}
+
+## Semantic dimension detail
+
+{snapshot.results.scorecards.map((scorecard) =>
+  scorecard.languages.map((language) =>
+    language.score_tiers.filter((tier) => tier.scored).map((tier) => (
+      <><h3><code>{scorecard.id}</code> — <code>{language.language}</code>, {tier.score_tier}</h3><DimensionRates tier={tier} /></>
+    )),
+  ),
+)}

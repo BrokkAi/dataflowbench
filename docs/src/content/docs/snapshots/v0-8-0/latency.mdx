@@ -1,0 +1,50 @@
+---
+title: Latency — v0.8.0
+description: v0.8.0 cold, warm, and invocation-overhead characterization with explicit boundaries.
+---
+
+import LatencyTier from '../../../../components/LatencyTier.astro';
+
+The latency-characterization tier stands beside correctness and never becomes
+a scorecard column. This release retains **3,157 cold timings**. The 879
+unsupported outcomes have no invented timing.
+
+:::note[Recorded quiet-host windows]
+The warm and invocation-overhead stages ran only after repeated low-load
+observations recorded in the v0.8.0 ledger. OS caches remained uncontrolled,
+so the figures characterize those runs and do not establish causal speedups.
+:::
+
+Joern Java batches `1, 2, 4, 8, 16` and Semgrep Java batches `1, 2, 4, 8, 12`
+were each repeated twice. Nine overhead groups were measured three times each.
+The full retained ranges are published; repeats are not averaged or selected.
+
+## What these numbers are, and what they are not \{#scope\}
+<LatencyTier snapshotVersion="v0.8.0" section="scope" />
+
+## Environment stamp \{#environment\}
+<LatencyTier snapshotVersion="v0.8.0" section="environment" />
+
+## The granularity is unequal, and that is the point \{#granularity\}
+<LatencyTier snapshotVersion="v0.8.0" section="granularity" />
+
+## Analyzer-invocation wall-clock, per adapter \{#cross-adapter\}
+<LatencyTier snapshotVersion="v0.8.0" section="cross-adapter" />
+
+## Phase decomposition, within each adapter that has one \{#phases\}
+<LatencyTier snapshotVersion="v0.8.0" section="phases" />
+
+## Warm marginal cost, measured separately \{#warm-marginal\}
+<LatencyTier snapshotVersion="v0.8.0" section="warm-marginal" />
+
+## Estimated per-invocation overhead \{#invocation-overhead\}
+<LatencyTier snapshotVersion="v0.8.0" section="invocation-overhead" />
+
+## Per-slice medians \{#slices\}
+<LatencyTier snapshotVersion="v0.8.0" section="slices" />
+
+## Cases with no latency number \{#untimed\}
+<LatencyTier snapshotVersion="v0.8.0" section="untimed" />
+
+## Provenance and freeze guarantees \{#provenance\}
+<LatencyTier snapshotVersion="v0.8.0" section="provenance" />

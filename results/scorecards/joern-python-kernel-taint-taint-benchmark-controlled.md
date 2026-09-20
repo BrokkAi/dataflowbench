@@ -1,14 +1,14 @@
 # Scorecard `joern-python-kernel-taint-taint-benchmark-controlled`
 
-Adapter `joern-python-kernel`: `joern` `4.0.621` (build `joern-cli:4.0.621`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
+Adapter `joern-python-kernel`: `joern` `4.0.628` (build `joern-cli:4.0.628`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-python-kernel.json` (`sha256:838b2a50df7af22b799170b23db1cbb29215cb484af2dd7a2f1a06b8d5bfc32e`, normalized `sha256:838b2a50df7af22b799170b23db1cbb29215cb484af2dd7a2f1a06b8d5bfc32e`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/joern-python-kernel.json` (`sha256:b63865c1aeb299594e0d69645e16ee8e0d55850a94edf92badbea61bd9a2e23f`, normalized `sha256:b63865c1aeb299594e0d69645e16ee8e0d55850a94edf92badbea61bd9a2e23f`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `python`, tier `core`
 
-Outcome coverage: `reached` 25, `not-reached` 33, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 29, `not-reached` 41, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 70. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
@@ -16,16 +16,16 @@ Outcome coverage: `reached` 25, `not-reached` 33, `inconclusive` 0, `unsupported
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 4 | 1 | 0 | 5 | 0 | 0 | 0 | 80.0% | 0.0% |
 | `dynamic-dispatch` | 3 | 4 | 1 | 6 | 0 | 0 | 0 | 42.9% | 14.3% |
-| `exceptional-flow` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
-| `flow-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `heap-field-sensitivity` | 7 | 3 | 1 | 9 | 0 | 0 | 0 | 70.0% | 10.0% |
-| `interprocedural-flow` | 8 | 5 | 0 | 13 | 0 | 0 | 0 | 61.5% | 0.0% |
+| `exceptional-flow` | 0 | 3 | 0 | 3 | 0 | 0 | 0 | 0.0% | 0.0% |
+| `flow-sensitivity` | 7 | 2 | 1 | 8 | 0 | 0 | 0 | 77.8% | 11.1% |
+| `heap-field-sensitivity` | 8 | 5 | 1 | 12 | 0 | 0 | 0 | 61.5% | 7.7% |
+| `interprocedural-flow` | 12 | 7 | 0 | 19 | 0 | 0 | 0 | 63.2% | 0.0% |
 | `local-flow` | 7 | 1 | 2 | 6 | 0 | 0 | 0 | 87.5% | 25.0% |
 | `object-sensitivity` | 3 | 2 | 0 | 5 | 0 | 0 | 0 | 60.0% | 0.0% |
 | `path-sensitivity` | 3 | 0 | 2 | 1 | 0 | 0 | 0 | 100.0% | 66.7% |
-| `recursion` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
+| `recursion` | 5 | 1 | 0 | 6 | 0 | 0 | 0 | 83.3% | 0.0% |
 
-Macro-average over semantic dimensions: TPR 70.2%, FPR 14.9%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 65.6%, FPR 12.5%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
@@ -63,12 +63,24 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-element-object` | `dfb-taint-python-element-object-positive` | positive | `reached` | true-positive | `reports/raw/joern-python-kernel/dfb-taint-python-element-object-positive.json` | `d1c0b45bbcfbd55c2d22c75a301b7b25758b688dd82ae9ee7bce02f0e85dc456` |
 | `dfb-template-chal-function-field` | `dfb-taint-python-function-field-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-function-field-negative.json` | `c9315bb8da5a191cfbacea581d90e7c79b520563162ef2aa61541d0f77220d6d` |
 | `dfb-template-chal-function-field` | `dfb-taint-python-function-field-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-python-kernel/dfb-taint-python-function-field-positive.json` | `889f44d900306f0d986afc6ff6b9d942e39bcc05537c9c35540092803c88f41f` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-python-interprocedural-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-interprocedural-exception-persistence-negative.json` | `22957a75c3662d9f936ac42796db5d742c6c20c1f2695289c01700675f66e7c0` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-python-interprocedural-exception-persistence-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-python-kernel/dfb-taint-python-interprocedural-exception-persistence-positive.json` | `dfa86cdacd9a8124f97f38cd2f35c50c910f87f20610d50a0d07f8d514d32ade` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-python-map-iteration-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-map-iteration-negative.json` | `b7f1f92d68706390d760590f7017079a05512f655a2c7a355cc3fd16b93b407f` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-python-map-iteration-positive` | positive | `reached` | true-positive | `reports/raw/joern-python-kernel/dfb-taint-python-map-iteration-positive.json` | `f5a93071532578597cfef77149895ed0202dc0878712ab00124e09783fd137a1` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-python-mutual-recursive-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-mutual-recursive-transform-negative.json` | `7ef3b43b41ae5b8a2b1ce8f1d03ac47f76a7bc9cb9cc12de574a27a072542f93` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-python-mutual-recursive-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-python-kernel/dfb-taint-python-mutual-recursive-transform-positive.json` | `45494c54b1e932b47619b55e9c206063a24f5832906aba02978d48e260058e86` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-python-nested-access-path-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-nested-access-path-negative.json` | `34b922151f9cfaccf5c38804c61c87a56f15aafa6ae3bddb36453de7a275d2cd` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-python-nested-access-path-positive` | positive | `reached` | true-positive | `reports/raw/joern-python-kernel/dfb-taint-python-nested-access-path-positive.json` | `8cd83cf8dff8fbc2da335f178af5ce05c0e343ab17288905308f0702fd050cad` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-python-recursive-callback-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-recursive-callback-transform-negative.json` | `0f1391570ba77c96310f9037148eb66fac61e10e27e83c84205cdfd6a789ea89` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-python-recursive-callback-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-python-kernel/dfb-taint-python-recursive-callback-transform-positive.json` | `30662eaad4289e1c47ff4cf3f71f7fc76062db955acdbb492d1a122fc9f838ff` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-python-recursive-carry-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-recursive-carry-negative.json` | `cd9a48dc33d21aa1ceeb5865bc5bf2fe2560fa8742c825f5acae9fce3228b90e` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-python-recursive-carry-positive` | positive | `reached` | true-positive | `reports/raw/joern-python-kernel/dfb-taint-python-recursive-carry-positive.json` | `26c58ff5becdeaeb5c50b61a4044604f0d04d4c03bcca5c1a2aa693ed6dd965f` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-python-recursive-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-recursive-exception-persistence-negative.json` | `2ad356b7dfcf5364e2facccd162a6d1f2758fa7877104f492a2a46deb2bd72e2` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-python-recursive-exception-persistence-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-python-kernel/dfb-taint-python-recursive-exception-persistence-positive.json` | `78fc0b19f01c739ca53b36c49649e58f157f2d2fabbab42baa72e0bd9fc9626a` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-python-recursive-heap-unwind-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-recursive-heap-unwind-negative.json` | `5b154ebac3c78bc91d7167669410c1d274346c3e374cd6badfb35f1e1492f6d9` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-python-recursive-heap-unwind-positive` | positive | `reached` | true-positive | `reports/raw/joern-python-kernel/dfb-taint-python-recursive-heap-unwind-positive.json` | `64661df3388a809dfdbdfdb7b4fed445f6a1050dcf2f00ad9bcb0dbeb86965d9` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-python-recursive-payload-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-recursive-payload-transform-negative.json` | `e89603ac3eb7dfdfe4335521d4f556abc581da0da912e204861058f8eb7d5f8e` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-python-recursive-payload-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-python-kernel/dfb-taint-python-recursive-payload-transform-positive.json` | `300edb1f6c801740485add7cee4c9d7b016ed49c6f1a880689eb08e9c25e2c7f` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-python-reflective-invocation-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-reflective-invocation-negative.json` | `8ec52012094653dcd9183ffaff021e2945da4f80808ab26446d8d78dd52747ce` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-python-reflective-invocation-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-python-kernel/dfb-taint-python-reflective-invocation-positive.json` | `bad7ad8321eb66ecd524ade7a4259d329daee08b2ed81e5a786a99bc3876dc01` |
 | `dfb-template-direct-propagation` | `dfb-taint-python-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-python-kernel/dfb-taint-python-direct-negative.json` | `defb57a342822abc424171303da919e3a4e005e80575d3230e460445a3d94d6c` |

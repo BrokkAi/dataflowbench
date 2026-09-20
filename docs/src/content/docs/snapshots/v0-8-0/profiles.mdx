@@ -1,0 +1,23 @@
+---
+title: Analyzer profiles — v0.8.0
+description: Four-axis exploratory profiles for the v0.8.0 core kernels, without a composite score.
+---
+
+import AnalyzerProfiles from '../../../../components/AnalyzerProfiles.astro';
+
+This exploratory view draws one small radar per analyzer over the
+benchmark-controlled core populations. It combines no axes into a score and
+makes no dominance claim.
+
+The correctness axes use v0.8.0's freshly rerun evidence. The latency axis
+uses this release's separately qualified characterization data. Their
+denominators remain different, and no calculation on this page combines them.
+
+<AnalyzerProfiles snapshotVersion="v0.8.0" />
+
+## Where these numbers come from
+
+Correctness comes from the frozen `results/results.json` core population.
+Latency comes from the v0.8.0 timing evidence under
+[`docs/latency-tier.md`](https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md).
+No correctness outcome is conditioned on or tie-broken by timing.

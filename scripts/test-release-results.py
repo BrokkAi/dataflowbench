@@ -75,7 +75,7 @@ class ReleaseGateTests(unittest.TestCase):
         (source / "README").write_text("tiny repository\n", encoding="utf-8")
         evidence = self.commit(source, "evidence")
         manifest = {
-            "benchmark": {"release": "v0.7.1", "revision": evidence},
+            "benchmark": {"release": GATE.RELEASE, "revision": evidence},
             "claim": {"scope": "release"},
         }
         (source / "reports").mkdir()
@@ -195,7 +195,17 @@ class ReleaseGateTests(unittest.TestCase):
         with mock.patch.object(GATE, '_run_binary', side_effect=lambda binary, args, clone: calls.append(args)):
             GATE.run_gate(source, binary=self.stub_binary(), git_remote=str(remote))
         self.assertIn('--check', calls[-1])
-        self.assertNotEqual(run_git(source, 'show-ref', '--verify', '--quiet', 'refs/tags/v0.7.1', check=False).returncode, 0)
+        self.assertNotEqual(
+            run_git(
+                source,
+                "show-ref",
+                "--verify",
+                "--quiet",
+                f"refs/tags/{GATE.RELEASE}",
+                check=False,
+            ).returncode,
+            0,
+        )
 
     def test_unknown_tag_state_refuses_bootstrap(self) -> None:
         with mock.patch.object(GATE, '_git', return_value=subprocess.CompletedProcess([], 128, '', 'network failed')):

@@ -1,14 +1,14 @@
 # Scorecard `joern-javascript-kernel-taint-taint-benchmark-controlled`
 
-Adapter `joern-javascript-kernel`: `joern` `4.0.621` (build `joern-cli:4.0.621`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
+Adapter `joern-javascript-kernel`: `joern` `4.0.628` (build `joern-cli:4.0.628`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-javascript-kernel.json` (`sha256:ae36a638903587e818e3c03219d8df2c1aa8b1d1c0be4ef5395f232786a1e42e`, normalized `sha256:ae36a638903587e818e3c03219d8df2c1aa8b1d1c0be4ef5395f232786a1e42e`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/joern-javascript-kernel.json` (`sha256:401fdd7bfe2fe2dbab48a03444d86ce61156a4dd523a9d27aae72aac882b5ec6`, normalized `sha256:401fdd7bfe2fe2dbab48a03444d86ce61156a4dd523a9d27aae72aac882b5ec6`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `javascript`, tier `core`
 
-Outcome coverage: `reached` 27, `not-reached` 31, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 32, `not-reached` 38, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 70. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
@@ -16,16 +16,16 @@ Outcome coverage: `reached` 27, `not-reached` 31, `inconclusive` 0, `unsupported
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 4 | 1 | 0 | 5 | 0 | 0 | 0 | 80.0% | 0.0% |
 | `dynamic-dispatch` | 2 | 4 | 0 | 6 | 0 | 0 | 0 | 33.3% | 0.0% |
-| `exceptional-flow` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
-| `flow-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `heap-field-sensitivity` | 6 | 3 | 4 | 5 | 0 | 0 | 0 | 66.7% | 44.4% |
-| `interprocedural-flow` | 7 | 4 | 0 | 11 | 0 | 0 | 0 | 63.6% | 0.0% |
+| `exceptional-flow` | 1 | 2 | 0 | 3 | 0 | 0 | 0 | 33.3% | 0.0% |
+| `flow-sensitivity` | 8 | 1 | 1 | 8 | 0 | 0 | 0 | 88.9% | 11.1% |
+| `heap-field-sensitivity` | 8 | 4 | 4 | 8 | 0 | 0 | 0 | 66.7% | 33.3% |
+| `interprocedural-flow` | 12 | 5 | 0 | 17 | 0 | 0 | 0 | 70.6% | 0.0% |
 | `local-flow` | 7 | 1 | 2 | 6 | 0 | 0 | 0 | 87.5% | 25.0% |
 | `object-sensitivity` | 3 | 3 | 1 | 5 | 0 | 0 | 0 | 50.0% | 16.7% |
 | `path-sensitivity` | 3 | 0 | 2 | 1 | 0 | 0 | 0 | 100.0% | 66.7% |
-| `recursion` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
+| `recursion` | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 100.0% | 0.0% |
 
-Macro-average over semantic dimensions: TPR 68.1%, FPR 18.6%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 71.0%, FPR 15.3%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
@@ -63,12 +63,24 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-element-object` | `dfb-taint-javascript-element-object-positive` | positive | `reached` | true-positive | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-element-object-positive.json` | `06ed33d02ef1af80e39b4348a6f3dfbf83d09546c71ac46f4be0e44bc79c930b` |
 | `dfb-template-chal-function-field` | `dfb-taint-javascript-function-field-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-function-field-negative.json` | `104adb5d53e6b822f50ebbff1ddee0272f7a8ac7e836e0c0b74847787afb0d3d` |
 | `dfb-template-chal-function-field` | `dfb-taint-javascript-function-field-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-function-field-positive.json` | `4c4201b4003f00b25bf75a81b3e9e1e221626707f0a062931fdb89de79720ddf` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-javascript-interprocedural-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-interprocedural-exception-persistence-negative.json` | `200fb000a5d1f8df9720e9a2a14873c17fd33c7b1be1edb37c021a9d30f0c8e7` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-javascript-interprocedural-exception-persistence-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-interprocedural-exception-persistence-positive.json` | `1e731dcf55c38c0a893a949bb76cc2fecf9fa0de87bce7b6e23d35f7f98ab97f` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-javascript-map-iteration-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-map-iteration-negative.json` | `295fe16a76ca803bd468706175da6d2581d171343fe91298a16106c44a675379` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-javascript-map-iteration-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-map-iteration-positive.json` | `53cae0a080d832d465d98eb63e8fc9d3abeef33e847fda1fac7b3a023add43d9` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-javascript-mutual-recursive-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-mutual-recursive-transform-negative.json` | `002e3b2f0013adc832d0ffe4c751b3f3006085f07ed9c852729277da4c17d4a6` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-javascript-mutual-recursive-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-mutual-recursive-transform-positive.json` | `810d8b8b99f36b3a7030fce116eb1c5bc0d2a2b418dee1c8b5ba67313768399f` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-javascript-nested-access-path-negative` | negative | `reached` | false-positive | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-nested-access-path-negative.json` | `d6363fe6e375dcaaa325a938c82e05e30bc6c1c00507c484248638439e58aefb` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-javascript-nested-access-path-positive` | positive | `reached` | true-positive | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-nested-access-path-positive.json` | `578b0b5538ce24c5cc2a25e5f9950cf913a41c8031cd9f82d8d1a6e2f3c8601d` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-javascript-recursive-callback-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-recursive-callback-transform-negative.json` | `e5cdc338233806c4c54b7741b9e7402b41619b930763e67126d5cf9c684da17b` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-javascript-recursive-callback-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-recursive-callback-transform-positive.json` | `8391fbdd9269f253d5949746475aa145d9dffb733d56e62add0ad6e33de4e860` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-javascript-recursive-carry-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-recursive-carry-negative.json` | `c83876cde9d555b21b0d7e5c8a964f465a178b0b75466d978c5d67216462445e` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-javascript-recursive-carry-positive` | positive | `reached` | true-positive | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-recursive-carry-positive.json` | `c1a8a3057d7378c845b959c39b99396d5e870aef0f44c390877160c6dd9c9fd0` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-javascript-recursive-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-recursive-exception-persistence-negative.json` | `37267542be74affc5185f3c479c814dd6aecc3bf2510a47f33f42de1d1dda8a4` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-javascript-recursive-exception-persistence-positive` | positive | `reached` | true-positive | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-recursive-exception-persistence-positive.json` | `7ebb0ec98f8cf856fa03d07fcff56e338a059a043be8c20bd2b029ed1ae5d9a9` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-javascript-recursive-heap-unwind-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-recursive-heap-unwind-negative.json` | `f2e340905c32d9c177254dcfa3a3997e455b63ef6210144c8086b426fa30dcf1` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-javascript-recursive-heap-unwind-positive` | positive | `reached` | true-positive | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-recursive-heap-unwind-positive.json` | `e1b9b6c777dce780ee23659bd3a7f1d40484f609209baa5c8f48fec7ae963358` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-javascript-recursive-payload-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-recursive-payload-transform-negative.json` | `bb86adeb2924d318bc2fe3a33126c4f950353ca358dc62a697ffe99a7db1cefd` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-javascript-recursive-payload-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-recursive-payload-transform-positive.json` | `68059cf2cb200e3cd6805d7e6fe87514eb3bddd0e69202339361121abf8ea3f3` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-javascript-reflective-invocation-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-reflective-invocation-negative.json` | `83695ce4368db18ee721368bb81acd6595e23eda06f3c16899f58cae6bda7f5e` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-javascript-reflective-invocation-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-reflective-invocation-positive.json` | `0eda293ef4b8b5e105459ed194e44bea84448c81a915ee7bb2d35c97797f657a` |
 | `dfb-template-direct-propagation` | `dfb-taint-javascript-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-javascript-kernel/dfb-taint-javascript-direct-negative.json` | `1e1fb7e1e24a8d17b0f28c9d152c7da471c4f2a182f285b1237993a2470fc5a5` |

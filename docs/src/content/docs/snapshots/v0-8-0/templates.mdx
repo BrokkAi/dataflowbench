@@ -1,0 +1,21 @@
+---
+title: Semantic templates — v0.8.0
+description: Per-template positive and negative outcomes for every freshly rerun v0.8.0 scorecard.
+---
+
+import TemplateMatrix from '../../../../components/TemplateMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.8.0');
+
+Each scored template is a balanced pair: one positive case where flow exists
+and one minimally different negative case where it does not. `inconclusive`
+preserves incomplete proof; `unsupported` records a declared capability
+boundary.
+
+v0.8.0 adds the recursive callback, payload, heap-unwind, mutual-recursion,
+and applicable exceptional-persistence pairs. The table renders all 4,036
+cells directly from the generated release model. Kernel, modeling, and native
+profiles remain separate populations.
+
+<TemplateMatrix snapshot={snapshot} />

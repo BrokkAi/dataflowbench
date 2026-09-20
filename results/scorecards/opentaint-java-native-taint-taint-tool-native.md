@@ -4,7 +4,7 @@ Adapter `opentaint-java-native`: `opentaint` `v0.4.6` (build `opentaint-project-
 
 Track `taint`, score dimension `taint`, model profile `tool-native`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/opentaint-java-native.json` (`sha256:e3456ec9661c5aa7f63e53649caaf50dd69168bb8061f1473dc3f67128446a17`, normalized `sha256:e3456ec9661c5aa7f63e53649caaf50dd69168bb8061f1473dc3f67128446a17`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/opentaint-java-native.json` (`sha256:2078837d5b4a0bcf87b97984370f69f543855e16baf0bb06c9752a69480bdbaf`, normalized `sha256:2078837d5b4a0bcf87b97984370f69f543855e16baf0bb06c9752a69480bdbaf`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `java`, tier `modeling`
 

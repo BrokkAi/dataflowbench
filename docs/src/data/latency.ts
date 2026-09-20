@@ -1,3 +1,4 @@
+import v080Evidence from './archive/v0-8-0-latency-evidence.json';
 import v071Evidence from './archive/v0-7-1-latency-evidence.json';
 import { boundEvidence } from './evidence-binding';
 // Build-time derivation of the latency-characterization tier.
@@ -124,6 +125,10 @@ const latencyEvidenceByRelease: Record<
   string,
   { evidenceRef: string; evidence: ArchivedLatencyEvidence }
 > = {
+  'v0.8.0': {
+    evidenceRef: '80d4f01bb189d530849f9ceb5d775680fcedfb52',
+    evidence: v080Evidence as ArchivedLatencyEvidence,
+  },
   'v0.7.1': {
     evidenceRef: '2007f15d687e0081c948e55bba39c952d248ee0f',
     evidence: v071Evidence as ArchivedLatencyEvidence,

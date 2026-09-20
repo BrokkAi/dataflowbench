@@ -4,11 +4,11 @@ Adapter `opentaint-kotlin-kernel`: `opentaint` `v0.4.6` (build `opentaint-projec
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/opentaint-kotlin-kernel.json` (`sha256:2904ae19a176f5e218c354028b18dcc21d641523efa732f0cbb0e8550890ac4d`, normalized `sha256:2904ae19a176f5e218c354028b18dcc21d641523efa732f0cbb0e8550890ac4d`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/opentaint-kotlin-kernel.json` (`sha256:8bf36cd12fcddc0ee8326e892a02cbdd7cfc2523975c71e9c22eed58dc77cbf2`, normalized `sha256:8bf36cd12fcddc0ee8326e892a02cbdd7cfc2523975c71e9c22eed58dc77cbf2`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `kotlin`, tier `core`
 
-Outcome coverage: `reached` 33, `not-reached` 25, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 37, `not-reached` 33, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 70. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
@@ -16,16 +16,16 @@ Outcome coverage: `reached` 33, `not-reached` 25, `inconclusive` 0, `unsupported
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 5 | 0 | 1 | 4 | 0 | 0 | 0 | 100.0% | 20.0% |
 | `dynamic-dispatch` | 6 | 1 | 3 | 4 | 0 | 0 | 0 | 85.7% | 42.9% |
-| `exceptional-flow` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
-| `flow-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `heap-field-sensitivity` | 9 | 1 | 4 | 6 | 0 | 0 | 0 | 90.0% | 40.0% |
-| `interprocedural-flow` | 12 | 1 | 2 | 11 | 0 | 0 | 0 | 92.3% | 15.4% |
+| `exceptional-flow` | 0 | 3 | 0 | 3 | 0 | 0 | 0 | 0.0% | 0.0% |
+| `flow-sensitivity` | 7 | 2 | 1 | 8 | 0 | 0 | 0 | 77.8% | 11.1% |
+| `heap-field-sensitivity` | 10 | 3 | 4 | 9 | 0 | 0 | 0 | 76.9% | 30.8% |
+| `interprocedural-flow` | 16 | 3 | 2 | 17 | 0 | 0 | 0 | 84.2% | 10.5% |
 | `local-flow` | 7 | 1 | 1 | 7 | 0 | 0 | 0 | 87.5% | 12.5% |
 | `object-sensitivity` | 5 | 0 | 2 | 3 | 0 | 0 | 0 | 100.0% | 40.0% |
 | `path-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `recursion` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
+| `recursion` | 5 | 1 | 0 | 6 | 0 | 0 | 0 | 83.3% | 0.0% |
 
-Macro-average over semantic dimensions: TPR 85.5%, FPR 23.7%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 79.5%, FPR 20.1%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
@@ -63,12 +63,24 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-element-object` | `dfb-taint-kotlin-element-object-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-element-object-positive.json` | `08e93f607979b449b7a48397f559dfda20da6fb6c0f6f84c25c414edd1131be7` |
 | `dfb-template-chal-function-field` | `dfb-taint-kotlin-function-field-negative` | negative | `reached` | false-positive | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-negative.json` | `d2e616dec01beceac417adec95e9d48980ef6ecdde3ff4080bc1961dfebe15d7` |
 | `dfb-template-chal-function-field` | `dfb-taint-kotlin-function-field-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-function-field-positive.json` | `ddc5c40e77f1db601c09df549c0139c2ee15340cc688d9d7259a161b30c0226c` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-kotlin-interprocedural-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-negative.json` | `1e3d030af96075b2d6c5825a0d0b133da688f9ad9a785134cd1c8b694743e016` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-kotlin-interprocedural-exception-persistence-positive` | positive | `not-reached` | false-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-interprocedural-exception-persistence-positive.json` | `96e090b8c5af564ca110d1e44d7531a16144d8d8fc466d99edb1ce8bb0c06988` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-kotlin-map-iteration-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-negative.json` | `8ec5b77ec8a484f76658274e13d8a1fb8d8aa0f8faebe628c18e18e6b48e96e6` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-kotlin-map-iteration-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-map-iteration-positive.json` | `76a58760d83c3ab686417d5bebb5260e6e85186c390e359cc523254ff1f5e4a7` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-kotlin-mutual-recursive-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-negative.json` | `433869f21c77e77476c07968f82c9149dc9bfe690a168920263073c6e41f5f6c` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-kotlin-mutual-recursive-transform-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-mutual-recursive-transform-positive.json` | `b1263cc80e07fd2a993f1076caf5b91a360fd30914f4d30a4cb03597a45c3cfc` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-kotlin-nested-access-path-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-negative.json` | `7426f600741dd66287752a5e7cc73d5aba16b112cef6992406b301856789dbe9` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-kotlin-nested-access-path-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-nested-access-path-positive.json` | `0dcc54480ea2ef7e27549f1bb8b6fd3dbeaaa7dcccee35bf0dc104641545d8b7` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-kotlin-recursive-callback-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-negative.json` | `8910542facbbc1095a125317ef12218721f1551bcd538751a3daaae5c7f8ed4d` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-kotlin-recursive-callback-transform-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-callback-transform-positive.json` | `eb02be09e455ce6c7a87b6bd072be537dcfc0a67b785501dc307659a8be3577d` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-kotlin-recursive-carry-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-negative.json` | `30a7968d0a4302c9b06c8d78b9a73c85f194ebdc92bb5b8f2875dd67a380a86d` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-kotlin-recursive-carry-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-carry-positive.json` | `fb5bc86f02334065da2a52fcc21a2363f61866430903cdc76bc0f28386303891` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-kotlin-recursive-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-negative.json` | `6a8360f125197562a25732b3cbda663118f60e24c336886cab0b16fa31ac7df3` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-kotlin-recursive-exception-persistence-positive` | positive | `not-reached` | false-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-exception-persistence-positive.json` | `9b9f78daa02b5af3c0c58c50e245f8a8b031a6d456c2068b5a9a3706dd57924a` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-kotlin-recursive-heap-unwind-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-negative.json` | `b0b39845f3c9655c7b6ad23062968ef4e696fa1500fafe7d5247c2d0e03a1d66` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-kotlin-recursive-heap-unwind-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-heap-unwind-positive.json` | `31e0cedb1bb8d55f7f8049a3d553cdd0f6dd74e8f36e6313e3b0c59539395be3` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-kotlin-recursive-payload-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-negative.json` | `e5d433f19e0a0bfac50fd319791f01b81b53dd92fb87e25bde5156ba8dd12402` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-kotlin-recursive-payload-transform-positive` | positive | `reached` | true-positive | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-recursive-payload-transform-positive.json` | `ba1c0e06d089b4bd4d879afc75f7fdd38445f5221ec1fd8c61dcb199098b1d40` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-kotlin-reflective-invocation-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-negative.json` | `403e5eabdb3c3be9c495fc56b7dd9cf22de2f23f858352a63bc90d831ab3a619` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-kotlin-reflective-invocation-positive` | positive | `not-reached` | false-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-reflective-invocation-positive.json` | `216edb5c27798831d23002cd151c18b9775a23cf1eaceefc05b1f999a884b851` |
 | `dfb-template-direct-propagation` | `dfb-taint-kotlin-direct-negative` | negative | `not-reached` | true-negative | `reports/raw/opentaint-kotlin-kernel/dfb-taint-kotlin-direct-negative.json` | `f53e98619b6e4902d08ca8a8a988aae2917c6be3525fa7b282fe613b7ca52e98` |

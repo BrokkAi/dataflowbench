@@ -16,6 +16,7 @@ export const LATENCY_EVIDENCE_RELEASE_BY_SNAPSHOT: Readonly<
   'v0.6.1': 'v0.6.0',
   'v0.7.0': 'v0.6.0',
   'v0.7.1': 'v0.7.1',
+  'v0.8.0': 'v0.8.0',
 };
 
 export function latencyEvidenceRelease(snapshotVersion: string): string {

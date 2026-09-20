@@ -1,14 +1,14 @@
 # Scorecard `joern-java-kernel-taint-taint-benchmark-controlled`
 
-Adapter `joern-java-kernel`: `joern` `4.0.621` (build `joern-cli:4.0.621`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
+Adapter `joern-java-kernel`: `joern` `4.0.628` (build `joern-cli:4.0.628`, adapter version `0.1.0`, configuration `ab10e81860305e492a930e2c2691873b23be25e97e5b354ca785058e09a20025`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/joern-java-kernel.json` (`sha256:cc6cd2b96e558ff954d3209b4a661fce0d6fd8cc20a1eb03b6d1fedc8da212a8`, normalized `sha256:cc6cd2b96e558ff954d3209b4a661fce0d6fd8cc20a1eb03b6d1fedc8da212a8`). Generated from freeze manifest `reports/freeze.json` (`sha256:f5416cded5891c92418d23ec5e2c638eb73f86695255cd5ea5f818b10f6c9e1d`).
+Normalized report: `reports/joern-java-kernel.json` (`sha256:56a37aad5051c926cc20d3c1f6de381ff413a6b342cbaaae351634a7f35295a1`, normalized `sha256:56a37aad5051c926cc20d3c1f6de381ff413a6b342cbaaae351634a7f35295a1`). Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`).
 
 ## Language `java`, tier `core`
 
-Outcome coverage: `reached` 26, `not-reached` 32, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 58. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
+Outcome coverage: `reached` 32, `not-reached` 38, `inconclusive` 0, `unsupported` 0, `runner-error` 0, total 70. `inconclusive`, `unsupported`, and `runner-error` are capability and execution coverage; they are never counted as clean negatives.
 
 ### Semantic dimension rates
 
@@ -16,16 +16,16 @@ Outcome coverage: `reached` 26, `not-reached` 32, `inconclusive` 0, `unsupported
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `context-sensitivity` | 4 | 1 | 1 | 4 | 0 | 0 | 0 | 80.0% | 20.0% |
 | `dynamic-dispatch` | 3 | 4 | 2 | 5 | 0 | 0 | 0 | 42.9% | 28.6% |
-| `exceptional-flow` | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0.0% | 0.0% |
-| `flow-sensitivity` | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.0% | 33.3% |
-| `heap-field-sensitivity` | 7 | 3 | 1 | 9 | 0 | 0 | 0 | 70.0% | 10.0% |
-| `interprocedural-flow` | 7 | 2 | 0 | 9 | 0 | 0 | 0 | 77.8% | 0.0% |
+| `exceptional-flow` | 1 | 2 | 0 | 3 | 0 | 0 | 0 | 33.3% | 0.0% |
+| `flow-sensitivity` | 8 | 1 | 2 | 7 | 0 | 0 | 0 | 88.9% | 22.2% |
+| `heap-field-sensitivity` | 9 | 4 | 1 | 12 | 0 | 0 | 0 | 69.2% | 7.7% |
+| `interprocedural-flow` | 12 | 3 | 1 | 14 | 0 | 0 | 0 | 80.0% | 6.7% |
 | `local-flow` | 7 | 1 | 2 | 6 | 0 | 0 | 0 | 87.5% | 25.0% |
 | `object-sensitivity` | 3 | 2 | 0 | 5 | 0 | 0 | 0 | 60.0% | 0.0% |
 | `path-sensitivity` | 3 | 0 | 2 | 1 | 0 | 0 | 0 | 100.0% | 66.7% |
-| `recursion` | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 100.0% | 0.0% |
+| `recursion` | 6 | 0 | 1 | 5 | 0 | 0 | 0 | 100.0% | 16.7% |
 
-Macro-average over semantic dimensions: TPR 71.8%, FPR 18.4%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
+Macro-average over semantic dimensions: TPR 74.2%, FPR 19.4%. Macro-averages pool templates first, then semantic dimensions; raw case counts are shown for audit only.
 
 Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator above, so the rates cover only the conclusive subset of this population. This population records 0 `inconclusive` outcome(s). Compare rate columns across adapters with that exclusion in mind: an adapter that self-reports uncertainty is not penalized in its rates for the cases it declined to decide.
 
@@ -63,12 +63,24 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 | `dfb-template-chal-element-object` | `dfb-taint-java-element-object-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-kernel/dfb-taint-java-element-object-positive.json` | `64e1836851ce086f03a17a6ba6c1d411ea6fe32590ba590511084d45a92e0e34` |
 | `dfb-template-chal-function-field` | `dfb-taint-java-function-field-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-kernel/dfb-taint-java-function-field-negative.json` | `07ae16bb20921da652f0d9fb5ec0980ffa495bb8452083258e9145f682d0334a` |
 | `dfb-template-chal-function-field` | `dfb-taint-java-function-field-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-java-kernel/dfb-taint-java-function-field-positive.json` | `4d8c62ad110afd565ab7cc97b1d729e6041b94008f777ba0e3353e9e7647ce24` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-java-interprocedural-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative.json` | `8f5aa73ff811bfd38416c6c556e6f56551952863fc58a8e1db0d394e2cf6b96d` |
+| `dfb-template-chal-interprocedural-exception-persistence` | `dfb-taint-java-interprocedural-exception-persistence-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive.json` | `c576f65c2eeafce0b118c5204cd472ad610c99e7143044fc6b608d944bb620d9` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-java-map-iteration-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-kernel/dfb-taint-java-map-iteration-negative.json` | `a385bb9022ecb11919d4b0141bb502044bc19edce90373d0720fc2d0565a81d0` |
 | `dfb-template-chal-map-iteration` | `dfb-taint-java-map-iteration-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-kernel/dfb-taint-java-map-iteration-positive.json` | `a300cca36a85d3ff334257adaf601cf89348fd2a25142d14fb8498875a8004a2` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-java-mutual-recursive-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-kernel/dfb-taint-java-mutual-recursive-transform-negative.json` | `012cda6ad52e506c017e450d75e4a0f67a71a419822bee2a10904a8d68f5d30d` |
+| `dfb-template-chal-mutual-recursive-transform` | `dfb-taint-java-mutual-recursive-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-kernel/dfb-taint-java-mutual-recursive-transform-positive.json` | `7dc5c2c30cb5e53e919d0c834167543068e6d53182cbd0d8628a1632a14d43a8` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-java-nested-access-path-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-kernel/dfb-taint-java-nested-access-path-negative.json` | `c52fc52a40ef63bc6b8664ffd21df2e3f53ede1a2bcf6f1a4ff46e4a1bdfe829` |
 | `dfb-template-chal-nested-access-path` | `dfb-taint-java-nested-access-path-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-kernel/dfb-taint-java-nested-access-path-positive.json` | `c683db87ffd0d10da82198bca3c5d4ef223b23ba620a1279b586106803133047` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-java-recursive-callback-transform-negative` | negative | `reached` | false-positive | `reports/raw/joern-java-kernel/dfb-taint-java-recursive-callback-transform-negative.json` | `f8d3b8d14e13deea7f2f3dd460b3e00d1c98ee478f6d32447e7e5f0046a89073` |
+| `dfb-template-chal-recursive-callback-transform` | `dfb-taint-java-recursive-callback-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-kernel/dfb-taint-java-recursive-callback-transform-positive.json` | `fea8a481afe03af8d752b736133360100f5e541a611a392879514f59867fbfd6` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-java-recursive-carry-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-kernel/dfb-taint-java-recursive-carry-negative.json` | `7b7a287bff8028cd2976cdb5b56c83d796450c579555afb606946c9e5cf03a1d` |
 | `dfb-template-chal-recursive-carry` | `dfb-taint-java-recursive-carry-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-kernel/dfb-taint-java-recursive-carry-positive.json` | `d47c84aba6326e6a6dbe5e9d04d557c931183b5dbc9010b7b5fa4e800086f27f` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-java-recursive-exception-persistence-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-kernel/dfb-taint-java-recursive-exception-persistence-negative.json` | `aa9c5662baebae0095a2f363fd150d01ee39919e4d2918d8f8d859dbc2086c54` |
+| `dfb-template-chal-recursive-exception-persistence` | `dfb-taint-java-recursive-exception-persistence-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-kernel/dfb-taint-java-recursive-exception-persistence-positive.json` | `1332ce915ce9769d1b1ab72c4271ee9edce5caaa1bc977832d4e9576357d9976` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-java-recursive-heap-unwind-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-kernel/dfb-taint-java-recursive-heap-unwind-negative.json` | `547fb3b34ffe78206b5655be2881434e96e4270bbeb7f5d0d100b50041e4a01d` |
+| `dfb-template-chal-recursive-heap-unwind` | `dfb-taint-java-recursive-heap-unwind-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-kernel/dfb-taint-java-recursive-heap-unwind-positive.json` | `aee53c46fc0e2952cb22c5df141d329d5f73f4e7dae947124925513f62537ca5` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-java-recursive-payload-transform-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-kernel/dfb-taint-java-recursive-payload-transform-negative.json` | `63d068ec00ce4a3d417d6ba8104004209e94e46ca3e55f6851638577fd27fc3d` |
+| `dfb-template-chal-recursive-payload-transform` | `dfb-taint-java-recursive-payload-transform-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-kernel/dfb-taint-java-recursive-payload-transform-positive.json` | `588b4426bc16987168ccc10587bde171deb253cfe753915e514742e7b06ae3a6` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-java-reflective-invocation-negative` | negative | `not-reached` | true-negative | `reports/raw/joern-java-kernel/dfb-taint-java-reflective-invocation-negative.json` | `e5796eecd58d00d2645ebcf009e9b0554c7ea124a623625efda5116002d90745` |
 | `dfb-template-chal-reflective-invocation` | `dfb-taint-java-reflective-invocation-positive` | positive | `not-reached` | false-negative | `reports/raw/joern-java-kernel/dfb-taint-java-reflective-invocation-positive.json` | `25809cddc968726666c1779393c9248430c14b65675bbd995c74fc88fa5e61b5` |
 | `dfb-template-direct-propagation` | `dfb-taint-java-direct-positive` | positive | `reached` | true-positive | `reports/raw/joern-java-kernel/dfb-taint-java-direct-positive.json` | `3e7989f312010f3e193db486af48c288a16743ddc32be212d513316697221082` |
