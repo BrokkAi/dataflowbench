@@ -35,22 +35,30 @@
 #
 # Usage:
 #   scripts/probe-java-modeling-load-bearing.sh \
-#     --bifrost <path> --codeql <path> --joern <path> --semgrep <path>
+#     --bifrost <path> --codeql <path> --codeql-packs <path> \
+#     --joern <path> --semgrep <path>
 set -euo pipefail
 
 BIFROST=bifrost
 CODEQL=codeql
+CODEQL_PACKS=
 JOERN=joern
 SEMGREP=semgrep
 while [ $# -gt 0 ]; do
   case "$1" in
     --bifrost) BIFROST="$2"; shift 2 ;;
     --codeql) CODEQL="$2"; shift 2 ;;
+    --codeql-packs) CODEQL_PACKS="$2"; shift 2 ;;
     --joern) JOERN="$2"; shift 2 ;;
     --semgrep) SEMGREP="$2"; shift 2 ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
 done
+
+test -n "$CODEQL_PACKS" || {
+  echo "--codeql-packs is required so the probe uses the release-pinned pack tree" >&2
+  exit 2
+}
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/reports/raw/load-bearing-java-modeling"
@@ -135,7 +143,8 @@ for variant in with without; do
     QUERY="$SCRATCH/codeql-pack/queries/JavaModeling.ql"
   fi
   "$CODEQL" database analyze "$SCRATCH/codeql-db" "$QUERY" --format=sarif-latest \
-    --output="$OUT/codeql-opaque-propagator-$variant-model.sarif.json" --rerun > /dev/null
+    --output="$OUT/codeql-opaque-propagator-$variant-model.sarif.json" --rerun \
+    --additional-packs="$CODEQL_PACKS" > /dev/null
 done
 
 # ---------------------------------------------------------------------------

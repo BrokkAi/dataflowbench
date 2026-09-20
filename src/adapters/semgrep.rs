@@ -508,10 +508,14 @@ pub(crate) fn semgrep_rule_paths() -> Result<BTreeSet<PathBuf>> {
 /// The exact Semgrep version every normalized Semgrep report records. The
 /// pinned CE distribution reports no build SHA separate from its released
 /// version, so the released version *is* the build identity, recorded
-/// literally rather than padded with a synthetic identifier. `semgrep
-/// --version` needs no `--metrics` flag: it performs no scan.
+/// literally rather than padded with a synthetic identifier. `--legacy`
+/// selects the packaged Python dispatcher directly. Semgrep 1.177's native
+/// dispatcher initializes its network stack even for `--version`, which can
+/// fail before reporting the locally installed version when macOS trust
+/// anchors are unavailable to the process.
 pub(crate) fn semgrep_version_identity(binary: &Path) -> Result<ToolIdentity> {
     let output = Command::new(binary)
+        .arg("--legacy")
         .arg("--version")
         .stdin(std::process::Stdio::null())
         .output()
@@ -627,6 +631,7 @@ pub(crate) fn run_semgrep_case(
         let mut command = Command::new(binary);
         command
             .current_dir(&scratch)
+            .arg("--legacy")
             .arg("scan")
             // Never report usage metrics, and never let the Pro engine or the
             // registry enter the run: this population is CE-only by contract.
@@ -908,6 +913,7 @@ pub(crate) fn run_semgrep_modeling_case(
         let mut command = Command::new(binary);
         command
             .current_dir(&scratch)
+            .arg("--legacy")
             .arg("scan")
             .arg("--metrics=off")
             .arg("--oss-only")
@@ -1016,6 +1022,7 @@ pub(crate) fn run_semgrep_native_case(
         let mut command = Command::new(binary);
         command
             .current_dir(&scratch)
+            .arg("--legacy")
             .arg("scan")
             .arg("--metrics=off")
             .arg("--oss-only")
@@ -1268,6 +1275,7 @@ pub(crate) fn measure_semgrep_warm_batch(
     let mut command = Command::new(binary);
     command
         .current_dir(&scratch)
+        .arg("--legacy")
         .arg("scan")
         .arg("--metrics=off")
         .arg("--oss-only")
@@ -1343,6 +1351,7 @@ pub(crate) fn overhead_run_semgrep(
     let mut command = Command::new(binary);
     command
         .current_dir(&scratch)
+        .arg("--legacy")
         .arg("scan")
         .arg("--metrics=off")
         .arg("--oss-only")

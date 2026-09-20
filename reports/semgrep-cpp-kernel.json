@@ -2,8 +2,8 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100",
-  "ended_at_unix_seconds": 1788815753,
-  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "ended_at_unix_seconds": 1789738538,
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
   "results": [
     {
       "case_id": "dfb-taint-cpp-alias-propagation-negative",
@@ -154,7 +154,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1134,
+      "duration_ms": 794,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-negative.json",
@@ -171,7 +171,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1131,
+      "duration_ms": 804,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-branch-join-positive.json",
@@ -404,7 +404,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1155,
+      "duration_ms": 801,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-negative.json",
@@ -421,7 +421,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1332,
+      "duration_ms": 848,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-direct-positive.json",
@@ -546,7 +546,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1193,
+      "duration_ms": 806,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-negative.json",
@@ -563,7 +563,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1192,
+      "duration_ms": 873,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-expression-positive.json",
@@ -616,7 +616,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1221,
+      "duration_ms": 812,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-negative.json",
@@ -633,7 +633,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1491,
+      "duration_ms": 794,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-infeasible-branch-positive.json",
@@ -646,11 +646,47 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-interprocedural-exception-persistence-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case requires a heap side effect to survive an exceptional callee exit and return through its caller; CE has no interprocedural taint. The case requires \"exception-sensitive-interprocedural-heap-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: exception-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: exception-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-interprocedural-exception-persistence-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case requires a heap side effect to survive an exceptional callee exit and return through its caller; CE has no interprocedural taint. The case requires \"exception-sensitive-interprocedural-heap-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-interprocedural-exception-persistence-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: exception-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: exception-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-local-chain-negative",
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1165,
+      "duration_ms": 794,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-negative.json",
@@ -667,7 +703,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1137,
+      "duration_ms": 791,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-chain-positive.json",
@@ -684,7 +720,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1286,
+      "duration_ms": 810,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-negative.json",
@@ -701,7 +737,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1397,
+      "duration_ms": 800,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-local-overwrite-positive.json",
@@ -718,7 +754,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1364,
+      "duration_ms": 800,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-negative.json",
@@ -735,7 +771,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1274,
+      "duration_ms": 939,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-loop-carried-positive.json",
@@ -780,6 +816,42 @@
       ],
       "source_anchors": [
         "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-mutual-recursive-transform-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"mutual-recursive-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: mutual-recursive-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: mutual-recursive-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-mutual-recursive-transform-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"mutual-recursive-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-mutual-recursive-transform-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: mutual-recursive-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: mutual-recursive-transform-input"
       ],
       "witness_checkpoints": []
     },
@@ -856,6 +928,42 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-cpp-recursive-callback-transform-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-callback-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-callback-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-callback-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-recursive-callback-transform-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-callback-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-callback-transform-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-callback-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-callback-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-cpp-recursive-carry-negative",
       "diagnostics": [
         "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
@@ -888,6 +996,114 @@
       ],
       "source_anchors": [
         "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-recursive-exception-persistence-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-exception-persistence-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-exception-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-exception-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-recursive-exception-persistence-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-exception-persistence-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-exception-persistence-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-exception-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-exception-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-recursive-heap-unwind-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-heap-unwind-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-heap-unwind-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-heap-unwind-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-recursive-heap-unwind-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-heap-unwind-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-heap-unwind-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-heap-unwind-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-heap-unwind-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-recursive-payload-transform-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-payload-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-payload-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-payload-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-cpp-recursive-payload-transform-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the C++ front end's maturity as \"alpha\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-payload-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-cpp-kernel/dfb-taint-cpp-recursive-payload-transform-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-payload-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-payload-transform-input"
       ],
       "witness_checkpoints": []
     },
@@ -1001,8 +1217,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1788815735,
+  "started_at_unix_seconds": 1789738526,
   "tool": "semgrep",
-  "tool_build_identity": "semgrep-oss:1.176.0",
-  "tool_version": "1.176.0"
+  "tool_build_identity": "semgrep-oss:1.177.0",
+  "tool_version": "1.177.0"
 }

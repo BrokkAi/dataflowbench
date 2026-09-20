@@ -2,8 +2,8 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100",
-  "ended_at_unix_seconds": 1788816005,
-  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "ended_at_unix_seconds": 1789763044,
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
   "results": [
     {
       "case_id": "dfb-taint-typescript-alias-propagation-negative",
@@ -154,7 +154,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1594,
+      "duration_ms": 1008,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-branch-join-negative.json",
@@ -171,7 +171,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1486,
+      "duration_ms": 788,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-branch-join-positive.json",
@@ -404,7 +404,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1487,
+      "duration_ms": 775,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-direct-negative.json",
@@ -421,7 +421,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1501,
+      "duration_ms": 785,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-direct-positive.json",
@@ -546,7 +546,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1500,
+      "duration_ms": 771,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-expression-negative.json",
@@ -563,7 +563,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1667,
+      "duration_ms": 772,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-expression-positive.json",
@@ -616,7 +616,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1461,
+      "duration_ms": 770,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-infeasible-branch-negative.json",
@@ -633,7 +633,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1488,
+      "duration_ms": 770,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-infeasible-branch-positive.json",
@@ -646,11 +646,47 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-typescript-interprocedural-exception-persistence-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case requires a heap side effect to survive an exceptional callee exit and return through its caller; CE has no interprocedural taint. The case requires \"exception-sensitive-interprocedural-heap-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-interprocedural-exception-persistence-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: exception-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: exception-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-typescript-interprocedural-exception-persistence-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: the case requires a heap side effect to survive an exceptional callee exit and return through its caller; CE has no interprocedural taint. The case requires \"exception-sensitive-interprocedural-heap-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-interprocedural-exception-persistence-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: exception-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: exception-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-typescript-local-chain-negative",
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1441,
+      "duration_ms": 770,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-local-chain-negative.json",
@@ -667,7 +703,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1474,
+      "duration_ms": 781,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-local-chain-positive.json",
@@ -684,7 +720,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1571,
+      "duration_ms": 865,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-local-overwrite-negative.json",
@@ -701,7 +737,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1587,
+      "duration_ms": 779,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-local-overwrite-positive.json",
@@ -718,7 +754,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1481,
+      "duration_ms": 773,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-loop-carried-negative.json",
@@ -735,7 +771,7 @@
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition"
       ],
-      "duration_ms": 1487,
+      "duration_ms": 774,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-loop-carried-positive.json",
@@ -780,6 +816,42 @@
       ],
       "source_anchors": [
         "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-typescript-mutual-recursive-transform-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"mutual-recursive-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-mutual-recursive-transform-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: mutual-recursive-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: mutual-recursive-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-typescript-mutual-recursive-transform-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"mutual-recursive-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-mutual-recursive-transform-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: mutual-recursive-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: mutual-recursive-transform-input"
       ],
       "witness_checkpoints": []
     },
@@ -856,6 +928,42 @@
       "witness_checkpoints": []
     },
     {
+      "case_id": "dfb-taint-typescript-recursive-callback-transform-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-callback-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-recursive-callback-transform-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-callback-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-callback-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-typescript-recursive-callback-transform-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-callback-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-recursive-callback-transform-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-callback-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-callback-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
       "case_id": "dfb-taint-typescript-recursive-carry-negative",
       "diagnostics": [
         "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
@@ -888,6 +996,114 @@
       ],
       "source_anchors": [
         "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-typescript-recursive-exception-persistence-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-exception-persistence-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-recursive-exception-persistence-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-exception-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-exception-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-typescript-recursive-exception-persistence-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-exception-persistence-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-recursive-exception-persistence-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-exception-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-exception-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-typescript-recursive-heap-unwind-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-heap-unwind-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-recursive-heap-unwind-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-heap-unwind-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-heap-unwind-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-typescript-recursive-heap-unwind-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-heap-unwind-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-recursive-heap-unwind-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-heap-unwind-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-heap-unwind-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-typescript-recursive-payload-transform-negative",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-payload-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-recursive-payload-transform-negative-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-payload-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-payload-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-typescript-recursive-payload-transform-positive",
+      "diagnostics": [
+        "pinned Semgrep CE records the TypeScript front end's maturity as \"ga\" (semgrep_interfaces/lang.json `maturity`); the label describes the parser, not the scored partition",
+        "outside the bounded Semgrep CE profile: recursive payload or heap flow crosses procedure boundaries; CE has no interprocedural taint. The case requires \"recursive-payload-transform-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only."
+      ],
+      "duration_ms": 0,
+      "outcome": "unsupported",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/semgrep-typescript-kernel/dfb-taint-typescript-recursive-payload-transform-positive-unsupported.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-payload-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-payload-transform-input"
       ],
       "witness_checkpoints": []
     },
@@ -1037,8 +1253,8 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1788815983,
+  "started_at_unix_seconds": 1789763032,
   "tool": "semgrep",
-  "tool_build_identity": "semgrep-oss:1.176.0",
-  "tool_version": "1.176.0"
+  "tool_build_identity": "semgrep-oss:1.177.0",
+  "tool_version": "1.177.0"
 }

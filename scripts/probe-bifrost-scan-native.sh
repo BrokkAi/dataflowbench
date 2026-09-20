@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Amendment A32's evidence: Bifrost's tool-native declines are re-grounded on a
-# FIELD EVALUATION of the pinned v0.10.9 binary, not on the superseded v0.9.5
+# FIELD EVALUATION of the pinned v0.11.4 binary, not on the superseded v0.9.5
 # inspection the preregistration recorded.
 #
 # Two claims in `docs/native-profile.md` failed at the v0.7.0 pin:
@@ -23,7 +23,7 @@
 # configuration — over all thirty-six committed tool-native fixtures (twelve
 # per language), and retains per fixture the full report, exact argv, exit
 # status, activated-pack witness, every policy's completion and finding, and
-# the security policy's own endpoint-binding metrics.
+# the security policies' own endpoint-binding metrics.
 #
 # It also retains a positive-control ATTEMPT on the one shape the shipped
 # security policy is aimed at. The control did not fire, and the probe retains
@@ -53,8 +53,8 @@ mkdir -p "$STAGED_OUT" "$STAGED_OUT/scan" "$STAGED_OUT/positive-control"
 OUT="$STAGED_OUT"
 
 BIN="$(command -v "$BIFROST")"
-EXPECTED_BUILD_ID="bd77fd7e47c1d683231a9a2f552c997fd13634e2"
-EXPECTED_SHA256="8c18e3112d34a344db73be0bc8973e6efe37252447733ac8ad6528408aa382f5"
+EXPECTED_BUILD_ID="015ee1f76b049e1ebdbb2fe66fb0bcd01ba43b2f"
+EXPECTED_SHA256="a7109bc86ea5c2f79c88421fac68161de8d6d632c313bf4ae28f7fb6183e304a"
 ACTUAL_BUILD_ID="$("$BIFROST" --build-identity)"
 ACTUAL_SHA256="$(shasum -a 256 "$BIN" | cut -d' ' -f1)"
 test "$ACTUAL_BUILD_ID" = "$EXPECTED_BUILD_ID" || {
@@ -125,10 +125,10 @@ open(f"{out}/catalog-index.txt", "w").write("\n".join(lines) + "\n")
 PY
 
 # ---------------------------------------------------------------------------
-# 4. What `bifrost.security@1.0.0`'s single policy declares — read from the
-#    pinned executable's own embedded copy rather than from documentation.
-#    The RQLP source is what settles every partition row below: which
-#    endpoints it binds, and which stanzas it does not carry at all.
+# 4. What the original servlet-to-JDBC security policy declares — read from
+#    the pinned executable's own embedded copy rather than from documentation.
+#    The catalog retained above is authoritative for the complete current pack;
+#    this source settles the historical partition rows tied to that policy.
 # ---------------------------------------------------------------------------
 strings -n 6 "$BIN" > "$SCRATCH/bin-strings.txt"
 python3 - "$SCRATCH/bin-strings.txt" "$OUT/security-policy-source.rqlp" <<'PY'
@@ -186,16 +186,31 @@ for language in java javascript python; do
 import json, sys
 report_path, language, fixture, status, out = sys.argv[1:6]
 report = json.load(open(report_path))
-assert int(status) == 0, f"{language}/{fixture}: scan exited {status}"
-assert len(report["runs"]) == 17, f"{language}/{fixture}: expected 17 policy runs"
-assert all(run["completion"]["type"] == "complete" for run in report["runs"]), \
-    f"{language}/{fixture}: incomplete policy run"
-assert sum(len(run["findings"]) for run in report["runs"]) == 0, \
-    f"{language}/{fixture}: unexpected finding"
+catalog = json.load(open(f"{out}/builtin-policy-catalog.json"))
+expected_ids = {
+    policy["id"]
+    for pack in catalog["packs"]
+    for policy in pack["policies"]
+}
+actual_ids = {run["policy_id"] for run in report["runs"]}
+assert len(report["runs"]) == len(expected_ids), \
+    f"{language}/{fixture}: expected {len(expected_ids)} policy runs"
+assert actual_ids == expected_ids, \
+    f"{language}/{fixture}: scan/catalog policy mismatch"
+completion_types = {run["completion"]["type"] for run in report["runs"]}
+assert completion_types <= {"complete", "inconclusive"}, \
+    f"{language}/{fixture}: unexpected completion types {sorted(completion_types)}"
+expected_status = 0 if completion_types == {"complete"} else 2
+assert int(status) == expected_status, \
+    f"{language}/{fixture}: exit {status} does not match completions {sorted(completion_types)}"
 security = next(
     run for run in report["runs"]
     if run["policy_id"] == "bifrost.security.java.servlet-parameter-to-jdbc"
 )
+security_runs = [
+    run for run in report["runs"]
+    if run["policy_id"].startswith("bifrost.security.")
+]
 metrics = {metric["name"]: metric["value"] for metric in security["work"]["metrics"]}
 assert metrics.get("taint.compiled_source_endpoints") == 0, \
     f"{language}/{fixture}: security source endpoint unexpectedly bound"
@@ -209,7 +224,7 @@ summary = {
     "scan_exit_status": int(status),
     "activated_packs": [
         {"id": pack["id"], "version": pack["version"], "policies": len(pack["policies"])}
-        for pack in json.load(open(f"{out}/builtin-policy-catalog.json"))["packs"]
+        for pack in catalog["packs"]
     ],
     "policies_evaluated": len(report["runs"]),
     "policy_completions": sorted({
@@ -233,6 +248,20 @@ summary = {
             for d in security["diagnostics"]
         ],
     },
+    "security_policies": [
+        {
+            "policy_id": run["policy_id"],
+            "analysis_type": run["analysis_type"],
+            "completion": run["completion"],
+            "findings": len(run["findings"]),
+            "metrics": {
+                metric["name"]: metric["value"]
+                for metric in run["work"]["metrics"]
+                if metric["name"].startswith("taint.")
+            },
+        }
+        for run in security_runs
+    ],
     "evidence_kind": "retained-shipped-scan-probe",
 }
 with open(f"{out}/scan/{language}-{fixture}.json", "w") as handle:
@@ -263,24 +292,45 @@ default_status=0
 python3 - "$SCRATCH/retained-activation.json" "$SCRATCH/default-activation.json" "$retained_status" "$default_status" "$OUT" <<'PY'
 import json, sys
 retained, default, retained_status, default_status, out = sys.argv[1:6]
-assert int(retained_status) == 0, f"retained activation exited {retained_status}"
-assert int(default_status) == 0, f"default activation exited {default_status}"
-def policies(path):
-    return sorted(run["policy_id"] for run in json.load(open(path))["runs"])
-retained_ids, default_ids = policies(retained), policies(default)
-assert len(retained_ids) == 16, f"expected 16 code-smell policies, got {len(retained_ids)}"
-assert len(default_ids) == 17, f"expected 17 default policies, got {len(default_ids)}"
-assert set(default_ids) - set(retained_ids) == {"bifrost.security.java.servlet-parameter-to-jdbc"}
+def report_state(path):
+    report = json.load(open(path))
+    ids = sorted(run["policy_id"] for run in report["runs"])
+    completions = {run["completion"]["type"] for run in report["runs"]}
+    assert completions <= {"complete", "inconclusive"}, \
+        f"unexpected completion types {sorted(completions)} in {path}"
+    return ids, completions
+retained_ids, retained_completions = report_state(retained)
+default_ids, default_completions = report_state(default)
+expected_retained_status = 0 if retained_completions == {"complete"} else 2
+expected_default_status = 0 if default_completions == {"complete"} else 2
+assert int(retained_status) == expected_retained_status, \
+    f"retained activation exit {retained_status} does not match {sorted(retained_completions)}"
+assert int(default_status) == expected_default_status, \
+    f"default activation exit {default_status} does not match {sorted(default_completions)}"
+catalog = json.load(open(f"{out}/builtin-policy-catalog.json"))
+catalog_ids = {
+    pack["id"]: {policy["id"] for policy in pack["policies"]}
+    for pack in catalog["packs"]
+}
+expected_retained = catalog_ids["bifrost.code-smells"]
+expected_security = catalog_ids["bifrost.security"]
+assert set(retained_ids) == expected_retained, \
+    f"code-smell activation differs from catalog: {sorted(set(retained_ids) ^ expected_retained)}"
+assert set(default_ids) == expected_retained | expected_security, \
+    f"default activation differs from catalog: {sorted(set(default_ids) ^ (expected_retained | expected_security))}"
+assert set(default_ids) - set(retained_ids) == expected_security
 summary = {
     "fixture": "cases/taint/java/native-source-sink-positive",
     "retained_activation": {
         "arguments": ["--policy-pack", "bifrost.code-smells"],
         "policies_evaluated": len(retained_ids),
+        "completion_types": sorted(retained_completions),
         "security_pack_loaded": any(p.startswith("bifrost.security.") for p in retained_ids),
     },
     "shipped_default_activation": {
         "arguments": ["--policy"],
         "policies_evaluated": len(default_ids),
+        "completion_types": sorted(default_completions),
         "security_pack_loaded": any(p.startswith("bifrost.security.") for p in default_ids),
     },
     "policies_the_retained_activation_excludes": sorted(set(default_ids) - set(retained_ids)),

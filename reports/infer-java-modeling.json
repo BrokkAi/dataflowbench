@@ -2,13 +2,13 @@
   "adapter_version": "0.1.0",
   "cold_or_warm": "cold",
   "configuration_hash": "dbaf52e6df1492a80324e8da387d463a12d584160a04bc8c668ee49f0a39c758",
-  "ended_at_unix_seconds": 1788812328,
-  "fixture_revision": "sha256:9df209ed3d7723a3ee33f2b289cf2afe34a3add781bdf2a2ac445de42b8d0151",
+  "ended_at_unix_seconds": 1789701330,
+  "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
   "results": [
     {
       "case_id": "dfb-taint-java-model-declared-sink-negative",
       "diagnostics": [],
-      "duration_ms": 3918,
+      "duration_ms": 3561,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-declared-sink-negative.json",
@@ -25,7 +25,7 @@
       "diagnostics": [
         "DataFlowBench benchmark-controlled modeling flow. `String ModelDeclaredSinkPositive.dfb_source()` is tainted by value returned from `String ModelDeclaredSinkPositive.dfb_source()` with kind `DataFlowBenchModelSource` and flows to value passed as argument `#0` to `void Audit.record(String)` with kind `DataFlowBenchModelSink`."
       ],
-      "duration_ms": 3840,
+      "duration_ms": 3552,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-declared-sink-positive.json",
@@ -40,7 +40,7 @@
     {
       "case_id": "dfb-taint-java-model-declared-source-negative",
       "diagnostics": [],
-      "duration_ms": 3921,
+      "duration_ms": 3726,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-declared-source-negative.json",
@@ -57,7 +57,7 @@
       "diagnostics": [
         "DataFlowBench benchmark-controlled modeling flow. `String Config.fetchRemote()` is tainted by value returned from `String Config.fetchRemote()` with kind `DataFlowBenchModelSource` and flows to value passed as argument `#0` to `void ModelDeclaredSourcePositive.dfb_sink(String)` with kind `DataFlowBenchModelSink`."
       ],
-      "duration_ms": 3992,
+      "duration_ms": 3494,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-declared-source-positive.json",
@@ -140,7 +140,7 @@
     {
       "case_id": "dfb-taint-java-model-opaque-propagator-negative",
       "diagnostics": [],
-      "duration_ms": 3941,
+      "duration_ms": 3590,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-opaque-propagator-negative.json",
@@ -157,7 +157,7 @@
       "diagnostics": [
         "DataFlowBench benchmark-controlled modeling flow. `String Opaque.carry(String)` is tainted by value returned from `String ModelOpaquePropagatorPositive.dfb_source()` with kind `DataFlowBenchModelSource` and flows to value passed as argument `#0` to `void ModelOpaquePropagatorPositive.dfb_sink(String)` with kind `DataFlowBenchModelSink`."
       ],
-      "duration_ms": 4060,
+      "duration_ms": 3607,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-opaque-propagator-positive.json",
@@ -206,7 +206,7 @@
     {
       "case_id": "dfb-taint-java-model-sanitizer-kill-negative",
       "diagnostics": [],
-      "duration_ms": 4064,
+      "duration_ms": 3528,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-sanitizer-kill-negative.json",
@@ -223,7 +223,7 @@
       "diagnostics": [
         "DataFlowBench benchmark-controlled modeling flow. `String ModelSanitizerKillPositive.dfb_source()` is tainted by value returned from `String ModelSanitizerKillPositive.dfb_source()` with kind `DataFlowBenchModelSource` and flows to value passed as argument `#0` to `void ModelSanitizerKillPositive.dfb_sink(String)` with kind `DataFlowBenchModelSink`."
       ],
-      "duration_ms": 3990,
+      "duration_ms": 3493,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-sanitizer-kill-positive.json",
@@ -238,7 +238,7 @@
     {
       "case_id": "dfb-taint-java-model-sanitizer-selectivity-negative",
       "diagnostics": [],
-      "duration_ms": 3972,
+      "duration_ms": 3537,
       "outcome": "not-reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-sanitizer-selectivity-negative.json",
@@ -255,7 +255,7 @@
       "diagnostics": [
         "DataFlowBench benchmark-controlled modeling flow. `String Clean.sanitize(String)` is tainted by value returned from `String ModelSanitizerSelectivityPositive.dfb_source()` with kind `DataFlowBenchModelSource` and flows to value passed as argument `#0` to `void ModelSanitizerSelectivityPositive.dfb_sink(String)` with kind `DataFlowBenchModelSink`."
       ],
-      "duration_ms": 4212,
+      "duration_ms": 3523,
       "outcome": "reached",
       "peak_memory_mb": null,
       "raw_output": "reports/raw/infer-java-modeling/dfb-taint-java-model-sanitizer-selectivity-positive.json",
@@ -405,7 +405,7 @@
     }
   ],
   "schema_version": 1,
-  "started_at_unix_seconds": 1788812284,
+  "started_at_unix_seconds": 1789701294,
   "tool": "infer",
   "tool_build_identity": "infer:v1.3.0 bin-sha256:17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62",
   "tool_version": "v1.3.0"
