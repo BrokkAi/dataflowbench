@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the v0.7.1 release manifest and generated result artifacts.
+"""Check the v0.8.0 release manifest and generated result artifacts.
 
 The release check deliberately runs in a disposable, full-history clone.  The
 checkout containing this script must be clean; the clone is the only place in
@@ -20,8 +20,8 @@ from pathlib import Path
 from typing import Sequence
 
 
-EXPECTED_REVISION = "2007f15d687e0081c948e55bba39c952d248ee0f"
-RELEASE = "v0.7.1"
+EXPECTED_REVISION = "80d4f01bb189d530849f9ceb5d775680fcedfb52"
+RELEASE = "v0.8.0"
 REQUIRED_REMOTE = "https://github.com/BrokkAi/dataflowbench.git"
 REMOTE_NAME = "release-github"
 
@@ -325,7 +325,7 @@ def _parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--generate-output",
         type=Path,
-        help="copy generated results here when the v0.7.1 tag is absent",
+        help="copy generated results here when the v0.8.0 tag is absent",
     )
     return parser.parse_args(argv)
 
