@@ -1,0 +1,667 @@
+{
+  "baseline": {
+    "aggregate_sha256": "f3b049e5365e2bef21eb679fd7b20485deb6acdb39d1bfdb10b2c8c9af325950",
+    "argument": "reports/codeql-cpp-kernel.json",
+    "case_count": 68,
+    "reports": [
+      {
+        "case_count": 68,
+        "path": "reports/codeql-cpp-kernel.json",
+        "sha256": "f3b049e5365e2bef21eb679fd7b20485deb6acdb39d1bfdb10b2c8c9af325950"
+      }
+    ]
+  },
+  "current": {
+    "aggregate_sha256": "5fc22165d01b99a84998b15dc828c2f9866695e261ce4365799d144ce7c39af4",
+    "argument": "reports/issues/213/rerun/reports/codeql-cpp-kernel.json",
+    "case_count": 68,
+    "reports": [
+      {
+        "case_count": 68,
+        "path": "reports/issues/213/rerun/reports/codeql-cpp-kernel.json",
+        "sha256": "5fc22165d01b99a84998b15dc828c2f9866695e261ce4365799d144ce7c39af4"
+      }
+    ]
+  },
+  "groups": [
+    {
+      "added_cases": [],
+      "assertions": {
+        "added": 0,
+        "removed": 0,
+        "retained": 68
+      },
+      "baseline_identity": {
+        "adapter_version": "0.1.0",
+        "cold_or_warm": "cold",
+        "configuration_hash": "e15980546f619ed9dd014a2dcc9442dba1a7ef721d6281103c3472548155c82e",
+        "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+        "languages": [
+          "cpp"
+        ],
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_build_identity": "codeql-cli:b47b3e59262c95aff4eeb84ac72d09e25a9c37e9",
+        "tool_version": "2.27.0"
+      },
+      "cold_or_warm": "cold",
+      "current_identity": {
+        "adapter_version": "0.1.0",
+        "cold_or_warm": "cold",
+        "configuration_hash": "e15980546f619ed9dd014a2dcc9442dba1a7ef721d6281103c3472548155c82e",
+        "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+        "languages": [
+          "cpp"
+        ],
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_build_identity": "codeql-cli:b47b3e59262c95aff4eeb84ac72d09e25a9c37e9",
+        "tool_version": "2.27.0"
+      },
+      "material_identity_differences": {},
+      "outcome_partitions": {
+        "negative": {
+          "baseline_counts": {
+            "inconclusive": 33,
+            "not-reached": 0,
+            "reached": 0,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "current_counts": {
+            "inconclusive": 0,
+            "not-reached": 29,
+            "reached": 4,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "transitions": {
+            "inconclusive -> not-reached": 29,
+            "inconclusive -> reached": 4
+          }
+        },
+        "positive": {
+          "baseline_counts": {
+            "inconclusive": 34,
+            "not-reached": 0,
+            "reached": 0,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "current_counts": {
+            "inconclusive": 0,
+            "not-reached": 13,
+            "reached": 21,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "transitions": {
+            "inconclusive -> not-reached": 13,
+            "inconclusive -> reached": 21
+          }
+        },
+        "unclassified": {
+          "baseline_counts": {
+            "inconclusive": 0,
+            "not-reached": 0,
+            "reached": 0,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "current_counts": {
+            "inconclusive": 0,
+            "not-reached": 0,
+            "reached": 0,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "transitions": {}
+        }
+      },
+      "removed_cases": [],
+      "retained_transitions": [
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-alias-propagation-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-alias-propagation-separation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-alias-propagation-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-alias-propagation-separation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-anonymous-implementation-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-anonymous-implementation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-anonymous-implementation-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-anonymous-implementation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-argument-position-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-argument-position-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-argument-position-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-argument-position-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-array-element-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-array-element-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-array-element-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-array-element-separation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-branch-join-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-branch-join"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-branch-join-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-branch-join"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-call-context-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-call-context-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-call-context-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-call-context-separation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-callback-registration-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-callback-registration"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-callback-registration-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-callback-registration"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-closure-capture-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-closure-capture"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-closure-capture-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-closure-capture"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-computed-property-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-computed-property"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-computed-property-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-computed-property"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-context-pair-depth2-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-context-pair-depth2"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-context-pair-depth2-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-context-pair-depth2"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-deep-relay-chain-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-deep-relay-chain"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-deep-relay-chain-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-deep-relay-chain"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-direct-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-direct-propagation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-direct-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-direct-propagation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-dispatch-table-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-dispatch-table"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-dispatch-table-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-dispatch-table"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-element-object-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-element-object"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-element-object-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-element-object"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-exception-catch-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-exception-catch"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-exception-catch-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-exception-catch"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-expression-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-arithmetic-expression-propagation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-expression-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-arithmetic-expression-propagation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-function-field-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-function-field"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-function-field-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-function-field"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-infeasible-branch-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-infeasible-branch"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-interprocedural-exception-persistence-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-interprocedural-exception-persistence"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-interprocedural-exception-persistence-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-interprocedural-exception-persistence"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-local-chain-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-local-multi-step-chain"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-local-chain-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-local-multi-step-chain"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-local-overwrite-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-local-overwrite-kill"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-local-overwrite-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-local-overwrite-kill"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-loop-carried-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-loop-carried-kill"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-loop-carried-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-loop-carried-kill"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-map-iteration-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-map-iteration"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-map-iteration-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-map-iteration"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-mutual-recursive-transform-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-mutual-recursive-transform"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-mutual-recursive-transform-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-mutual-recursive-transform"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-nested-access-path-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-nested-access-path"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-nested-access-path-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-nested-access-path"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-object-separation-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-object-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-object-separation-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-object-separation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-recursive-callback-transform-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-recursive-callback-transform"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-recursive-callback-transform-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-recursive-callback-transform"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-recursive-carry-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-recursive-carry"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-recursive-carry-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-recursive-carry"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-recursive-exception-persistence-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-recursive-exception-persistence"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-recursive-exception-persistence-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-recursive-exception-persistence"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-recursive-heap-unwind-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-recursive-heap-unwind"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-recursive-heap-unwind-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-recursive-heap-unwind"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-recursive-payload-transform-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-recursive-payload-transform"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-recursive-payload-transform-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-recursive-payload-transform"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-return-relay-one-hop-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-return-relay-one-hop"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-return-relay-one-hop-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-return-relay-one-hop"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-return-relay-two-hop-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-return-relay-two-hop"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-return-relay-two-hop-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-return-relay-two-hop"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-same-object-field-negative",
+          "language": "cpp",
+          "polarity": "negative",
+          "template_id": "dfb-template-same-object-field-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-cpp-same-object-field-positive",
+          "language": "cpp",
+          "polarity": "positive",
+          "template_id": "dfb-template-same-object-field-separation"
+        }
+      ],
+      "tool": "codeql"
+    }
+  ],
+  "pooled_score": null,
+  "pooled_score_policy": "Never emitted. Counts are partitioned by identity and stable case ID.",
+  "populations_equal": true,
+  "schema_version": 1
+}

@@ -1,0 +1,177 @@
+{
+  "base_commit": "9c0916338abc42ab13565b5d9e6f310d46134afc",
+  "command": "cargo clippy --locked --all-targets -- -D warnings",
+  "base_errors": [
+    [
+      "clippy::assertions_on_constants",
+      "this assertion has a constant value",
+      [
+        "src/tests/latency.rs"
+      ]
+    ],
+    [
+      "clippy::cloned_ref_to_slice_refs",
+      "unnecessary use of `clone` to create a slice from a reference",
+      [
+        "src/adapters/flowdroid.rs"
+      ]
+    ],
+    [
+      "clippy::collapsible_if",
+      "this `if` statement can be collapsed",
+      [
+        "src/real_project.rs"
+      ]
+    ],
+    [
+      "clippy::field_reassign_with_default",
+      "field assignment outside of initializer for an instance created with Default::default()",
+      [
+        "src/report_diff.rs"
+      ]
+    ],
+    [
+      "clippy::iter_kv_map",
+      "iterating on a map's values",
+      [
+        "src/report_diff.rs"
+      ]
+    ],
+    [
+      "clippy::large_enum_variant",
+      "large size difference between variants",
+      [
+        "src/main.rs"
+      ]
+    ],
+    [
+      "clippy::needless_range_loop",
+      "the loop variable `index` is used to index `expected`",
+      [
+        "src/tests/adapters/codeql.rs"
+      ]
+    ],
+    [
+      "clippy::only_used_in_recursion",
+      "parameter is only used in recursion",
+      [
+        "src/adapters/pysa.rs"
+      ]
+    ],
+    [
+      "clippy::unnecessary_get_then_check",
+      "unnecessary use of `get(\"reached -> inconclusive\")\n            .is_none()`",
+      [
+        "src/tests/report_diff.rs"
+      ]
+    ],
+    [
+      "clippy::unnecessary_get_then_check",
+      "unnecessary use of `get(\"reached -> not-reached\")\n            .is_none()`",
+      [
+        "src/tests/report_diff.rs"
+      ]
+    ],
+    [
+      "clippy::unnecessary_map_or",
+      "this `map_or` can be simplified",
+      [
+        "src/real_project.rs"
+      ]
+    ],
+    [
+      "dead_code",
+      "constant `WARM_SUPERSEDED_ROOT` is never used",
+      [
+        "src/latency.rs"
+      ]
+    ]
+  ],
+  "branch_errors": [
+    [
+      "clippy::assertions_on_constants",
+      "this assertion has a constant value",
+      [
+        "src/tests/latency.rs"
+      ]
+    ],
+    [
+      "clippy::cloned_ref_to_slice_refs",
+      "unnecessary use of `clone` to create a slice from a reference",
+      [
+        "src/adapters/flowdroid.rs"
+      ]
+    ],
+    [
+      "clippy::collapsible_if",
+      "this `if` statement can be collapsed",
+      [
+        "src/real_project.rs"
+      ]
+    ],
+    [
+      "clippy::field_reassign_with_default",
+      "field assignment outside of initializer for an instance created with Default::default()",
+      [
+        "src/report_diff.rs"
+      ]
+    ],
+    [
+      "clippy::iter_kv_map",
+      "iterating on a map's values",
+      [
+        "src/report_diff.rs"
+      ]
+    ],
+    [
+      "clippy::large_enum_variant",
+      "large size difference between variants",
+      [
+        "src/main.rs"
+      ]
+    ],
+    [
+      "clippy::needless_range_loop",
+      "the loop variable `index` is used to index `expected`",
+      [
+        "src/tests/adapters/codeql.rs"
+      ]
+    ],
+    [
+      "clippy::only_used_in_recursion",
+      "parameter is only used in recursion",
+      [
+        "src/adapters/pysa.rs"
+      ]
+    ],
+    [
+      "clippy::unnecessary_get_then_check",
+      "unnecessary use of `get(\"reached -> inconclusive\")\n            .is_none()`",
+      [
+        "src/tests/report_diff.rs"
+      ]
+    ],
+    [
+      "clippy::unnecessary_get_then_check",
+      "unnecessary use of `get(\"reached -> not-reached\")\n            .is_none()`",
+      [
+        "src/tests/report_diff.rs"
+      ]
+    ],
+    [
+      "clippy::unnecessary_map_or",
+      "this `map_or` can be simplified",
+      [
+        "src/real_project.rs"
+      ]
+    ],
+    [
+      "dead_code",
+      "constant `WARM_SUPERSEDED_ROOT` is never used",
+      [
+        "src/latency.rs"
+      ]
+    ]
+  ],
+  "new_errors": []
+}

@@ -1,0 +1,18 @@
+{
+  "fixture": "cases/taint/cpp/closure-capture-positive/closure_capture_positive.cpp",
+  "fixture_sha256": "927820ba572defcef742bb12ee1d999b8ce5487e99a1eef18480428cc9239f45",
+  "environment": {
+    "SDKROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk"
+  },
+  "expected_extraction": {
+    "success": 1,
+    "partial": 0,
+    "errors": 0
+  },
+  "query_files": [
+    "adapters/codeql/cpp/queries/CppKernel.ql",
+    "adapters/codeql/cpp/queries/CppKernelEndpointProbe.ql"
+  ],
+  "comparison": "../cpp-partial-attempt/closure-capture-create.log",
+  "new_sarif_sha256": "369a069e09afbd7dd2c350cd4a034408091977cb6e651f1faaf66636b989a72b"
+}

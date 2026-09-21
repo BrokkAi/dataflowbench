@@ -1,0 +1,68 @@
+{
+  "baseline_commit": "9c0916338abc42ab13565b5d9e6f310d46134afc",
+  "execution_access": "host execution outside Codex filesystem sandbox",
+  "measurement_scope": "correctness only; no latency claim",
+  "cli_version": "2.27.0",
+  "cli_build_sha": "b47b3e59262c95aff4eeb84ac72d09e25a9c37e9",
+  "cli_archive_sha256": "95e96dce9eff1c626e4da1f30d6dda00a893ee5015037045bf142947a8578781",
+  "cpp_all": "12.1.0+c6baf479093fafc81d4655dc2014dc583360308e",
+  "runners": {
+    "c": {
+      "source_commit": "9c0916338abc42ab13565b5d9e6f310d46134afc",
+      "binary_sha256": "d0d897a4f49e8b4d8041a39a1145515e2f8fecd38fa89fe83a9758b0cb54a810",
+      "note": "Host-extraction C sweep began before diagnostic decoder patch; retained SARIF is also tested against the corrected decoder."
+    },
+    "cpp": {
+      "source_commit": "9c0916338abc42ab13565b5d9e6f310d46134afc",
+      "binary_sha256": "697fda4a0e8e9b6c57a1a0cd4922e4df2f4b18ebf5b60233ba465324a8e81a83",
+      "decoder_source_sha256": "6d2209fd7b83db34760772aa4e5e9d4882c636dcbfbfdb27f2df121207f3d3e0",
+      "note": "Built from baseline_commit with the src/evidence.rs decoder correction; query and pack inputs unchanged.",
+      "sdk": {
+        "path": "/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk",
+        "version": "15.2",
+        "SDKSettings.json_sha256": "2fa5c0ce1bbcd261b132b572b1a9eece3b5905b04640a44deae1a6a8812928fb",
+        "clang_version": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+        "libcxx_tree_sha256": "71e22a7682c64e00f527875f57db74c73ce800a2765118f7dd7534b072f4b675",
+        "libcxx_files": 1019,
+        "libcxx_hash_method": "sorted relative UTF-8 path, NUL, file bytes, NUL for each regular file beneath usr/include/c++/v1"
+      }
+    }
+  },
+  "runner_commands": {
+    "c": {
+      "cwd": "/private/tmp/dfb-213/rerun",
+      "argv": [
+        "/private/tmp/dfb-213/target/debug/dataflowbench",
+        "run-codeql-c-kernel",
+        "--codeql",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+        "--codeql-packs",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs"
+      ]
+    },
+    "cpp": {
+      "cwd": "/private/tmp/dfb-213/rerun",
+      "argv": [
+        "/private/tmp/dfb-213/target/debug/dataflowbench",
+        "run-codeql-cpp-kernel",
+        "--codeql",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+        "--codeql-packs",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs"
+      ],
+      "environment": {
+        "SDKROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk"
+      }
+    }
+  },
+  "baseline_input_sha256": {
+    "src/evidence.rs": "6227a30d402dd9720dfcb3a7b6e96fe173aee448cf02e4fd19cd71121706c6c4",
+    "src/adapters/codeql.rs": "f53f06820272f1298a611dfee997105a89229dc5525995bd27ef8fb409232151",
+    "adapters/codeql/cpp/queries/CKernel.ql": "9e272e01f0a0354f29061340c5e421e39f0e92b5a079f87f3adb0067d63f7cae",
+    "adapters/codeql/cpp/queries/CKernelEndpointProbe.ql": "13f35362a5ed3f33026c197af708ae7e3ac2dd64dfe1431f635ab19fd11f9051",
+    "adapters/codeql/cpp/queries/CppKernel.ql": "6d1b22aaf3b4432148e703b9c38f38d8dd55741be797c96bf96de315ea4d6a03",
+    "adapters/codeql/cpp/queries/CppKernelEndpointProbe.ql": "b9301bf46d2e092661b9e8e0949ab9fa078ab3f726a934628c0c30a7877b95ec",
+    "adapters/codeql/cpp/qlpack.yml": "0a48cf6dbc761823b4a339a9b08dee6c5f2d17fa010ed00bed2e078c0e14df42",
+    "adapters/codeql/cpp/codeql-pack.lock.yml": "3e200cd17e35458ffda6123f5eab41ad733d4a52952b6e9ffc0ea68a6795ae40"
+  }
+}
