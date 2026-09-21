@@ -691,6 +691,99 @@ pub(crate) fn sarif_execution_errors(sarif: &Value) -> Vec<String> {
     errors
 }
 
+/// Current CodeQL execution qualification, in addition to explicit SARIF
+/// execution errors. Keep this out of freeze/v1's historical raw-error check:
+/// extractor telemetry was not a declared runner-error in those frozen reports.
+pub(crate) fn codeql_execution_errors(sarif: &Value) -> Vec<String> {
+    let mut errors = sarif_execution_errors(sarif);
+    for invocation in sarif["runs"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .flat_map(|run| run["invocations"].as_array().into_iter().flatten())
+    {
+        errors.extend(codeql_extraction_errors(invocation));
+    }
+    errors.sort();
+    errors.dedup();
+    errors
+}
+
+const CODEQL_EXTRACTION_INFORMATION: &str = "cpp/bmn/extraction-information";
+const CODEQL_EXTRACTOR_SUMMARY: &str = "cpp/extractor/summary";
+
+fn codeql_count(attributes: &Value, field: &str, errors: &mut Vec<String>) -> Option<u64> {
+    match &attributes[field] {
+        Value::Null => None,
+        count @ Value::Number(_) => count.as_u64().or_else(|| {
+            errors.push(format!("CodeQL extraction count {field} is not unsigned"));
+            None
+        }),
+        _ => {
+            errors.push(format!("CodeQL extraction count {field} is not a number"));
+            None
+        }
+    }
+}
+
+// Buildless C/C++ extraction can exit successfully after every translation
+// failed. CodeQL emits these counters as note-level telemetry, so invocation
+// success and notification severity alone do not establish usable extraction.
+fn codeql_extraction_errors(invocation: &Value) -> Vec<String> {
+    let mut errors = Vec::new();
+    for notification in invocation["toolExecutionNotifications"]
+        .as_array()
+        .into_iter()
+        .flatten()
+    {
+        let descriptor = notification["descriptor"]["id"].as_str();
+        let attributes = &notification["properties"]["attributes"];
+        match descriptor {
+            Some(CODEQL_EXTRACTION_INFORMATION) => {
+                let error_count =
+                    codeql_count(&attributes["extraction_status"], "#errors", &mut errors);
+                let partial_count =
+                    codeql_count(&attributes["extraction_status"], "#partial", &mut errors);
+                if error_count.unwrap_or(0) > 0 || partial_count.unwrap_or(0) > 0 {
+                    errors.push(format!(
+                        "CodeQL extraction status: {} error(s), {} partial extraction(s)",
+                        error_count.unwrap_or(0),
+                        partial_count.unwrap_or(0)
+                    ));
+                }
+                match &attributes["extraction_errors"] {
+                    Value::Null => {}
+                    Value::Array(details) => {
+                        for detail in details {
+                            match detail["failure_reason"].as_str() {
+                                Some(reason) => {
+                                    errors.push(format!("CodeQL extraction failure: {reason}"))
+                                }
+                                None => errors.push(
+                                    "CodeQL extraction failure is missing failure_reason"
+                                        .to_string(),
+                                ),
+                            }
+                        }
+                    }
+                    _ => errors.push("CodeQL extraction_errors is not an array".to_string()),
+                }
+            }
+            Some(CODEQL_EXTRACTOR_SUMMARY) => {
+                if let Some(failures) = codeql_count(attributes, "extractor-failures", &mut errors)
+                    && failures > 0
+                {
+                    errors.push(format!(
+                        "CodeQL extractor summary reports {failures} failure(s)"
+                    ));
+                }
+            }
+            _ => {}
+        }
+    }
+    errors
+}
+
 /// The two benchmark-controlled endpoint identifiers of one case, read out of
 /// the fixture's own marker lines.
 #[derive(Clone, Debug, PartialEq, Eq)]
