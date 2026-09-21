@@ -671,7 +671,6 @@ pub(crate) fn sarif_execution_errors(sarif: &Value) -> Vec<String> {
         if invocation["executionSuccessful"] == false {
             errors.push("CodeQL SARIF reports unsuccessful execution".to_string());
         }
-        errors.extend(codeql_extraction_errors(invocation));
         for notification in invocation["toolExecutionNotifications"]
             .as_array()
             .into_iter()
@@ -686,6 +685,24 @@ pub(crate) fn sarif_execution_errors(sarif: &Value) -> Vec<String> {
                 );
             }
         }
+    }
+    errors.sort();
+    errors.dedup();
+    errors
+}
+
+/// Current CodeQL execution qualification, in addition to explicit SARIF
+/// execution errors. Keep this out of freeze/v1's historical raw-error check:
+/// extractor telemetry was not a declared runner-error in those frozen reports.
+pub(crate) fn codeql_execution_errors(sarif: &Value) -> Vec<String> {
+    let mut errors = sarif_execution_errors(sarif);
+    for invocation in sarif["runs"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .flat_map(|run| run["invocations"].as_array().into_iter().flatten())
+    {
+        errors.extend(codeql_extraction_errors(invocation));
     }
     errors.sort();
     errors.dedup();

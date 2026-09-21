@@ -1,9 +1,9 @@
 //! Regression tests for `crate::evidence`.
 
 use crate::evidence::{
-    AnchorDialect, callsite_anchored_outcome, cpp_function_call, evidence_path_matches_file,
-    parameter_list_function_call, parameter_list_function_name, rust_function_call,
-    sarif_execution_errors, sarif_messages, sarif_result_count,
+    AnchorDialect, callsite_anchored_outcome, codeql_execution_errors, cpp_function_call,
+    evidence_path_matches_file, parameter_list_function_call, parameter_list_function_name,
+    rust_function_call, sarif_execution_errors, sarif_messages, sarif_result_count,
 };
 use crate::tests::support::unique_test_dir;
 use serde_json::{Value, json};
@@ -82,8 +82,11 @@ pub(crate) fn codeql_successful_invocation_with_failed_extraction_fails_closed()
             }]
         }]
     });
+    // freeze/v1 validates the explicit execution declaration under its
+    // historical contract; new execution qualification rejects the telemetry.
+    assert!(sarif_execution_errors(&sarif).is_empty());
     assert_eq!(
-        sarif_execution_errors(&sarif),
+        codeql_execution_errors(&sarif),
         vec![
             "CodeQL extraction failure: Signalled",
             "CodeQL extraction status: 1 error(s), 0 partial extraction(s)"
@@ -122,7 +125,7 @@ pub(crate) fn codeql_partial_extraction_and_extractor_summary_failures_fail_clos
         }]
     });
     assert_eq!(
-        sarif_execution_errors(&sarif),
+        codeql_execution_errors(&sarif),
         vec![
             "CodeQL extraction status: 0 error(s), 1 partial extraction(s)",
             "CodeQL extractor summary reports 1 failure(s)"
@@ -153,7 +156,7 @@ pub(crate) fn codeql_unrelated_extraction_note_attributes_remain_non_errors() {
             }]
         }]
     });
-    assert!(sarif_execution_errors(&sarif).is_empty());
+    assert!(codeql_execution_errors(&sarif).is_empty());
 }
 
 #[test]
@@ -187,7 +190,7 @@ pub(crate) fn codeql_successful_extraction_remains_clean() {
             }]
         }]
     });
-    assert!(sarif_execution_errors(&sarif).is_empty());
+    assert!(codeql_execution_errors(&sarif).is_empty());
 }
 
 #[test]
@@ -204,14 +207,18 @@ fn codeql_213_retained_extraction_controls_and_frozen_failures() {
         ("reports/issues/213/sdk-control/partial-sdk15.sarif", false),
     ] {
         let sarif: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
-        assert_eq!(!sarif_execution_errors(&sarif).is_empty(), failed, "{path}");
+        assert_eq!(
+            !codeql_execution_errors(&sarif).is_empty(),
+            failed,
+            "{path}"
+        );
     }
 
     for language in ["c", "cpp"] {
         for access in ["sandbox", "host"] {
             let path = format!("reports/issues/213/reproduction/{language}-{access}.sarif");
             let sarif: Value = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
-            let errors = sarif_execution_errors(&sarif);
+            let errors = codeql_execution_errors(&sarif);
             let (_, observed) = split_codeql_endpoint_probe(&sarif);
             if access == "host" {
                 assert!(errors.is_empty(), "{language}: {errors:?}");
@@ -245,7 +252,7 @@ fn codeql_213_retained_extraction_controls_and_frozen_failures() {
             let sarif: Value =
                 serde_json::from_str(&fs::read_to_string(format!("{root}/{raw}")).unwrap())
                     .unwrap();
-            assert!(!sarif_execution_errors(&sarif).is_empty(), "{raw}");
+            assert!(!codeql_execution_errors(&sarif).is_empty(), "{raw}");
         }
     }
 }
@@ -278,7 +285,7 @@ fn codeql_213_rerun_evidence_reconciles_with_the_corrected_decoder() {
                 serde_json::from_str(&fs::read_to_string(format!("{root}/{raw}")).unwrap())
                     .unwrap();
             assert!(!sarif["runs"].as_array().unwrap().is_empty());
-            assert!(sarif_execution_errors(&sarif).is_empty(), "{raw}");
+            assert!(codeql_execution_errors(&sarif).is_empty(), "{raw}");
             let (findings, observed) = split_codeql_endpoint_probe(&sarif);
             let (outcome, _) = unobserved_codeql_endpoint_outcome(observed).unwrap_or_else(|| {
                 callsite_anchored_outcome(&path, &case, &findings, AnchorDialect::Cpp)

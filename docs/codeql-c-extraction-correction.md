@@ -56,6 +56,13 @@ successful execution. It uses notification identifiers and structured
 attributes, without parsing prose, source text, display strings, or filenames.
 Other informational notifications remain non-errors.
 
+These stricter checks qualify current CodeQL execution. The generic SARIF
+explicit-error check used by `freeze/v1` keeps its historical behavior: it
+checks unsuccessful invocations and error-level notifications. Applying new
+extractor-telemetry interpretation retrospectively would invalidate the
+unchanged v0.8.0 freeze. Both current CodeQL execution paths use the stricter
+check, and retained-evidence regressions exercise that distinction.
+
 `BothMustBeObserved` remains unchanged. Successful extraction without both
 endpoints is still `inconclusive`; missing endpoints never become a clean
 negative. The production queries, pack locks, population, and scoring contract

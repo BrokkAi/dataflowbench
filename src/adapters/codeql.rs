@@ -16,7 +16,7 @@ use crate::cases::{
     ruby_core_case, validate_cases, validate_kernel_population_with,
 };
 use crate::evidence::{
-    AnchorDialect, callsite_anchored_outcome, sarif_anchor_outcome, sarif_execution_errors,
+    AnchorDialect, callsite_anchored_outcome, codeql_execution_errors, sarif_anchor_outcome,
     sarif_messages, sarif_result_count, sink_anchor_file_matches,
 };
 use crate::latency::{
@@ -1602,7 +1602,7 @@ pub(crate) fn run_codeql_ecma_case(
                 ));
             }
         };
-        let execution_errors = sarif_execution_errors(&sarif);
+        let execution_errors = codeql_execution_errors(&sarif);
         if !execution_errors.is_empty() {
             return Ok(("runner-error", execution_errors, raw_path));
         }
@@ -2043,7 +2043,7 @@ pub(crate) fn codeql_sarif_for_case(
             )));
         }
     };
-    let execution_errors = sarif_execution_errors(&sarif);
+    let execution_errors = codeql_execution_errors(&sarif);
     if !execution_errors.is_empty() {
         clear_codeql_case_artifacts(&workspace, &database)?;
         return Ok(CodeqlSarif::Failed((
