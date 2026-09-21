@@ -1,0 +1,587 @@
+{
+  "baseline": {
+    "aggregate_sha256": "e12a3deb6c98e283fdcde57a2f1e301821457843f6c063025ffeb9f40f4b56a0",
+    "argument": "reports/codeql-c-kernel.json",
+    "case_count": 58,
+    "reports": [
+      {
+        "case_count": 58,
+        "path": "reports/codeql-c-kernel.json",
+        "sha256": "e12a3deb6c98e283fdcde57a2f1e301821457843f6c063025ffeb9f40f4b56a0"
+      }
+    ]
+  },
+  "current": {
+    "aggregate_sha256": "c3b792d2aed64d7b9ae3e579e75fe4c546bf5108fc32a7cedff7e7819652d225",
+    "argument": "reports/issues/213/rerun/reports/codeql-c-kernel.json",
+    "case_count": 58,
+    "reports": [
+      {
+        "case_count": 58,
+        "path": "reports/issues/213/rerun/reports/codeql-c-kernel.json",
+        "sha256": "c3b792d2aed64d7b9ae3e579e75fe4c546bf5108fc32a7cedff7e7819652d225"
+      }
+    ]
+  },
+  "groups": [
+    {
+      "added_cases": [],
+      "assertions": {
+        "added": 0,
+        "removed": 0,
+        "retained": 58
+      },
+      "baseline_identity": {
+        "adapter_version": "0.1.0",
+        "cold_or_warm": "cold",
+        "configuration_hash": "d7cfd19102253acf18f8a79cfd1dcef55d4f19574c543bfc379c96ac49fb904c",
+        "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+        "languages": [
+          "c"
+        ],
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_build_identity": "codeql-cli:b47b3e59262c95aff4eeb84ac72d09e25a9c37e9",
+        "tool_version": "2.27.0"
+      },
+      "cold_or_warm": "cold",
+      "current_identity": {
+        "adapter_version": "0.1.0",
+        "cold_or_warm": "cold",
+        "configuration_hash": "d7cfd19102253acf18f8a79cfd1dcef55d4f19574c543bfc379c96ac49fb904c",
+        "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+        "languages": [
+          "c"
+        ],
+        "schema_version": 1,
+        "tool": "codeql",
+        "tool_build_identity": "codeql-cli:b47b3e59262c95aff4eeb84ac72d09e25a9c37e9",
+        "tool_version": "2.27.0"
+      },
+      "material_identity_differences": {},
+      "outcome_partitions": {
+        "negative": {
+          "baseline_counts": {
+            "inconclusive": 27,
+            "not-reached": 0,
+            "reached": 0,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "current_counts": {
+            "inconclusive": 0,
+            "not-reached": 23,
+            "reached": 4,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "transitions": {
+            "inconclusive -> not-reached": 23,
+            "inconclusive -> reached": 4
+          }
+        },
+        "positive": {
+          "baseline_counts": {
+            "inconclusive": 30,
+            "not-reached": 0,
+            "reached": 0,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "current_counts": {
+            "inconclusive": 0,
+            "not-reached": 4,
+            "reached": 26,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "transitions": {
+            "inconclusive -> not-reached": 4,
+            "inconclusive -> reached": 26
+          }
+        },
+        "unclassified": {
+          "baseline_counts": {
+            "inconclusive": 0,
+            "not-reached": 0,
+            "reached": 0,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "current_counts": {
+            "inconclusive": 0,
+            "not-reached": 0,
+            "reached": 0,
+            "runner-error": 0,
+            "unsupported": 0
+          },
+          "transitions": {}
+        }
+      },
+      "removed_cases": [],
+      "retained_transitions": [
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-alias-propagation-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-alias-propagation-separation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-alias-propagation-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-alias-propagation-separation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-argument-position-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-argument-position-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-argument-position-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-argument-position-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-array-element-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-array-element-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-array-element-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-array-element-separation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-branch-join-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-branch-join"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-branch-join-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-branch-join"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-call-context-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-call-context-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-call-context-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-call-context-separation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-callback-registration-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-callback-registration"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-callback-registration-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-callback-registration"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-context-pair-depth2-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-context-pair-depth2"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-context-pair-depth2-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-context-pair-depth2"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-deep-relay-chain-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-deep-relay-chain"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-deep-relay-chain-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-deep-relay-chain"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-direct-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-direct-propagation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-direct-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-direct-propagation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-dispatch-table-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-dispatch-table"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-dispatch-table-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-dispatch-table"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-element-object-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-element-object"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-element-object-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-element-object"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-error-code-return-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-c-error-code-return-path"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-expression-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-arithmetic-expression-propagation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-expression-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-arithmetic-expression-propagation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-function-field-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-function-field"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-function-field-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-function-field"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-goto-cleanup-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-c-goto-cleanup-carry"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-infeasible-branch-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-infeasible-branch"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-local-chain-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-local-multi-step-chain"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-local-chain-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-local-multi-step-chain"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-local-overwrite-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-local-overwrite-kill"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-local-overwrite-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-local-overwrite-kill"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-loop-carried-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-loop-carried-kill"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-loop-carried-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-loop-carried-kill"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-map-iteration-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-map-iteration"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-map-iteration-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-map-iteration"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-mutual-recursive-transform-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-mutual-recursive-transform"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-mutual-recursive-transform-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-mutual-recursive-transform"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-nested-access-path-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-nested-access-path"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-nested-access-path-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-nested-access-path"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-object-separation-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-object-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-object-separation-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-object-separation"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-recursive-callback-transform-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-recursive-callback-transform"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-recursive-callback-transform-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-recursive-callback-transform"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-recursive-carry-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-recursive-carry"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-recursive-carry-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-recursive-carry"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-recursive-heap-unwind-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-recursive-heap-unwind"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-recursive-heap-unwind-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-recursive-heap-unwind"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-recursive-payload-transform-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-chal-recursive-payload-transform"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-recursive-payload-transform-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-chal-recursive-payload-transform"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-return-relay-one-hop-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-return-relay-one-hop"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-return-relay-one-hop-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-return-relay-one-hop"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-return-relay-two-hop-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-return-relay-two-hop"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-return-relay-two-hop-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-return-relay-two-hop"
+        },
+        {
+          "after": "not-reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-same-object-field-negative",
+          "language": "c",
+          "polarity": "negative",
+          "template_id": "dfb-template-same-object-field-separation"
+        },
+        {
+          "after": "reached",
+          "before": "inconclusive",
+          "case_id": "dfb-taint-c-same-object-field-positive",
+          "language": "c",
+          "polarity": "positive",
+          "template_id": "dfb-template-same-object-field-separation"
+        }
+      ],
+      "tool": "codeql"
+    }
+  ],
+  "pooled_score": null,
+  "pooled_score_policy": "Never emitted. Counts are partitioned by identity and stable case ID.",
+  "populations_equal": true,
+  "schema_version": 1
+}
