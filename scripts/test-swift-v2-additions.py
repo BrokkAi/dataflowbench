@@ -23,6 +23,16 @@ SPEC.loader.exec_module(runner)
 
 
 class SwiftV2RunnerTests(unittest.TestCase):
+    def test_short_child_keeps_a_known_root_identity(self):
+        with tempfile.TemporaryDirectory() as directory:
+            result = runner.process.run(
+                [sys.executable, "-c", "print('short-child')"],
+                Path(directory) / "phase", "short", 5, measure=False)
+            self.assertEqual(result["exit_status"], 0)
+            self.assertEqual(result["cleanup_status"], "tracked-processes-stopped")
+            self.assertFalse(result["discovery_complete"])
+            self.assertFalse(result["scratch_cleanup_authorized"])
+
     def _base_tree(self, root, manifest_entries=None):
         for relative in (
             "adapters/codeql/swift-v2",
@@ -71,7 +81,7 @@ class SwiftV2RunnerTests(unittest.TestCase):
                 first = runner.configuration_hash(paths)
                 # Rust hashes sorted path bytes followed immediately by file bytes.
                 expected = hashlib.sha256(
-                    b"".join(path.encode() + (root / path).read_bytes() for path in sorted(paths))
+                    b"".join(path.encode() + (root / path).read_bytes() for path in sorted(paths, key=lambda value: Path(value).parts))
                 ).hexdigest()
                 self.assertEqual(first, expected)
                 (root / "adapters/codeql/swift-v2/input.txt").write_bytes(b"bound-mutated\n")

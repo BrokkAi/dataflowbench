@@ -66,10 +66,18 @@ def verify(configuration_only=False):
         require(isinstance(files, list) and len(files) == len(set(files)), 'configuration duplicates')
         bound = set(files) | {base+'configuration-files.json', 'scripts/run-swift-v2-additions.py', 'src/adapters/swift_v2.rs'}
         digest = hashlib.sha256()
-        for path in sorted(bound):
+        for path in sorted(bound, key=lambda value: Path(value).parts):
             digest.update(path.encode()); digest.update(safe_path(path).read_bytes())
         if configuration_only:
             continue
+        raw_root = ROOT / f'reports/raw/{tool}-swift-v2-additions'
+        raw_manifest = read(str(raw_root.relative_to(ROOT)) + '/manifest.json')
+        observed = {str(p.relative_to(raw_root)):sha(p) for p in raw_root.rglob('*')
+                    if p.is_file() and p != raw_root/'manifest.json'}
+        require(raw_manifest == observed, 'raw attempt membership/digests changed')
+        run = read(str(raw_root.relative_to(ROOT)) + '/run.json')
+        require(run['configuration_hash'] == digest.hexdigest(), 'run/config mismatch')
+        require(run['fixture_revision'] == population['fixture_revision'], 'run population mismatch')
         counts = []
         for suffix, profile, tier in [('native','tool-native','modeling'), ('result','benchmark-controlled','language-extension')]:
             report = read(f'reports/{tool}-swift-v2-{suffix}.json')
@@ -82,7 +90,19 @@ def verify(configuration_only=False):
                 raw = read(row['raw_output'])
                 require(row['outcome'] in ('unsupported','inconclusive','runner-error'), 'uncertified correctness result')
                 if suffix == 'native':
-                    require(row['outcome'] == 'unsupported', 'native scoped decision changed')
+                    require(row['outcome'] == 'unsupported' and raw['analyzer_invoked'] is False, 'native scoped decision changed')
+                else:
+                    require(raw['budget'] == {'peak_memory_mb':512, 'wall_clock_seconds':60}, 'raw case budget')
+                    require(raw['memory_compliance'] in ('unproven', 'exceeded'), 'uncertified memory promotion')
+                    for name, phase in raw['phases'].items():
+                        require(0 < phase['deadline_seconds'] <= 60, 'scored phase deadline drift')
+                        require(phase['descendant_containment'] == 'unproven' and not phase['scratch_cleanup_authorized'], 'cleanup certainty promotion')
+                    if 'analysis' in raw['phases']:
+                        phase = raw['phases']['analysis']
+                        if tool == 'codeql':
+                            require('--ram=512' in phase['argv'] and '--timeout=60' in phase['argv'], 'CodeQL query budget')
+                        else:
+                            require(phase['environment']['_JAVA_OPTIONS'] == '-Xmx512m', 'Joern query budget')
                 require(bool(row['diagnostics']) and bool(raw), 'missing retained typed evidence')
             counts.append(len(rows))
         require(counts == [12,2], '14 addition coverage')

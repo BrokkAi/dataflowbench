@@ -685,6 +685,25 @@ mod tests {
     }
 
     #[test]
+    fn python_and_rust_hash_the_actual_configuration_identically() {
+        let output = Command::new("python3")
+            .args(["-c", "import sys,importlib.util;sys.path.insert(0,'scripts');s=importlib.util.spec_from_file_location('v','scripts/run-swift-v2-additions.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m);print(m.configuration_hash(m.configuration_paths('codeql')));print(m.configuration_hash(m.configuration_paths('joern')))"])
+            .output().unwrap();
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let actual = String::from_utf8(output.stdout).unwrap();
+        let expected = [SwiftV2Tool::Codeql, SwiftV2Tool::Joern]
+            .map(|tool| hash_paths(&configuration_paths(tool).unwrap()).unwrap());
+        assert_eq!(
+            actual.lines().collect::<Vec<_>>(),
+            expected.iter().map(String::as_str).collect::<Vec<_>>()
+        );
+    }
+
+    #[test]
     fn configuration_hash_binds_file_contents_not_only_paths() {
         let root = std::env::temp_dir().join(format!("dfb-v2-hash-{}", std::process::id()));
         fs::create_dir(&root).unwrap();

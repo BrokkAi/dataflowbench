@@ -59,7 +59,7 @@ def configuration_paths(tool):
 
 def configuration_hash(paths):
     h = hashlib.sha256()
-    for path in sorted(paths):
+    for path in sorted(paths, key=lambda value: Path(value).parts):
         h.update(path.encode()); h.update(safe_path(path).read_bytes())
     return h.hexdigest()
 
@@ -241,6 +241,10 @@ def execute_result(args,path,case,out):
             stderr=out/name/(name+'.stderr')
             match=re.search(r'^\s*(\d+)\s+maximum resident set size\s*$',stderr.read_text(errors='replace'),re.M) if stderr.exists() else None
             r['individual_maxrss_mb']=(int(match.group(1))+1048575)//1048576 if match else None
+        analysis_rss = phases.get('analysis',{}).get('individual_maxrss_mb')
+        if analysis_rss is not None and analysis_rss > case['execution_budget']['peak_memory_mb']:
+            execution['memory_compliance'] = 'exceeded'
+            execution['diagnostics'].append(f'Observed analysis process maximum RSS {analysis_rss} MiB exceeds the 512 MiB contract; aggregate compliance is therefore impossible for this attempt.')
         process.compress_logs(out)
         execution['duration_ms']=int((time.monotonic()-started)*1000)
         write(out/'execution.json',execution)

@@ -1,0 +1,58 @@
+{
+  "argv": [
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+    "database",
+    "analyze",
+    "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-co0yhsjo/db",
+    "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/codeql/swift-v2/queries/flow.ql",
+    "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/codeql/swift-v2/queries/endpoints.ql",
+    "--rerun",
+    "--format=sarif-latest",
+    "--output=/Users/dave/.codex/worktrees/1ba0/dataflowbench/reports/raw/codeql-swift-v2-additions/dfb-taint-swift-result-error-propagation-positive/results.sarif.json",
+    "--additional-packs=/private/tmp/dfb-codeql-swift-218-packs/packages",
+    "--threads=2",
+    "--ram=512",
+    "--timeout=60"
+  ],
+  "measurement_wrapper": [
+    "/usr/bin/time",
+    "-l"
+  ],
+  "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+  "environment": null,
+  "elapsed_seconds": 4.46817412499999,
+  "deadline_seconds": 60,
+  "deadline_scope": "scored analysis phase",
+  "exit_status": 0,
+  "timed_out": false,
+  "tracked_descendants": [
+    {
+      "pid": 22141,
+      "start_identity": "1790116748:78584"
+    },
+    {
+      "pid": 22143,
+      "start_identity": "1790116748:80695"
+    },
+    {
+      "pid": 22149,
+      "start_identity": "1790116748:92352"
+    },
+    {
+      "pid": 22154,
+      "start_identity": "1790116748:467045"
+    },
+    {
+      "pid": 22225,
+      "start_identity": "1790116751:847762"
+    }
+  ],
+  "cleanup_signaled": [],
+  "cleanup_status": "tracked-processes-stopped",
+  "discovery_complete": false,
+  "descendant_containment": "unproven",
+  "scratch_cleanup_authorized": false,
+  "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not atomic.",
+  "cleanup_error": null,
+  "memory_compliance": "unproven"
+}
