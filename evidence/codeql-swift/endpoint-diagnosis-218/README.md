@@ -21,6 +21,13 @@ semantic dimensions. These are diagnostic groups, not revised score partitions:
 | Interprocedural exception persistence | 2 |
 | Calls, return relays, callbacks, closures, properties and context | 18 |
 
+The SARIF classification directly inspects all 54 rows. The CFG/node mechanism
+is directly inspected only in the two unchanged positive registry representatives
+and one independent function-body control below. Extending that mechanism to
+other affected constructs is a supported inference, not a claim of native AST
+inspection for every fixture. Construct families summarize registered semantic
+dimensions; the exact 27-template enumeration is authoritative.
+
 An anchor-normalization error cannot explain the 52 empty native probe result
 sets: there is no native endpoint location for normalization to discard. The
 callback sink observation already matches canonical line 13 exactly.
@@ -56,6 +63,8 @@ query recognizes the closure and function-body expressions.
 SHA-256 identities from the actual `codeql/swift-all@6.8.3` package, whose entire
 byte tree is already bound by activation. The corresponding CodeQL source pin is
 c6baf479093fafc81d4655dc2014dc583360308e.
+`github-primary-source-verification.json` records immutable GitHub source URLs
+and blob identities; downloaded source bytes match each installed pack file hash.
 
 - `controlflow/internal/Scope.qll` restricts callable/scope ranges to functions,
   key paths and closures, and discovers enclosing scopes through AST parents.
