@@ -208,12 +208,13 @@ fn joern_swift_identity(
 ) -> Result<(ToolIdentity, std::process::Output)> {
     let output = Command::new(joern)
         .env("JAVA_HOME", java_home)
-        .arg("--help")
+        .arg("--nocolors")
+        .stdin(std::process::Stdio::null())
         .output()
-        .with_context(|| format!("run {} --help", joern.display()))?;
+        .with_context(|| format!("run {} --nocolors", joern.display()))?;
     if !output.status.success() {
         bail!(
-            "{} --help failed with status {}",
+            "{} --nocolors failed with status {}",
             joern.display(),
             output.status
         );
@@ -360,7 +361,7 @@ pub(crate) fn run_joern_swift_kernel(joern: &Path, java_home: &Path, tier: &str)
     fs::write(
         raw_dir.join("version-command.json"),
         serde_json::to_vec_pretty(&json!({
-            "argv": [joern.to_string_lossy().to_string(), "--help".to_string()], "JAVA_HOME": java_home,
+            "argv": [joern.to_string_lossy().to_string(), "--nocolors".to_string()], "JAVA_HOME": java_home,
             "exit_status": version_output.status.code()
         }))?,
     )?;
