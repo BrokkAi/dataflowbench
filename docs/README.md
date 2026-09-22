@@ -192,3 +192,5 @@ other by `model_profile` and never pooled:
 - [Swift v2 addition partitions (A40)](swift-v2-partitions.md) — prospective native decisions and separate Result execution.
 
 - [Swift release preparation, 2026-09-23](releases/swift-preparation-2026-09-23.md) — dated pin audit and blocked common-revision plan; opaque-template choice pending.
+
+- [Swift candidate compatibility](swift-candidate-qualification.md) — isolated proposed-runtime identity and non-scored controls; no active pin promotion.

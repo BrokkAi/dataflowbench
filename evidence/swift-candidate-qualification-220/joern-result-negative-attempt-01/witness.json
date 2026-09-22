@@ -1,0 +1,186 @@
+{
+  "status": "unqualified",
+  "scope": "Result language-extension feasibility only; not tool-native",
+  "case_id": "control-candidate-swift-result-negative",
+  "population": null,
+  "fixture_revision": null,
+  "population_member": false,
+  "retained_scratch": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-result-joern-audaxeig",
+  "query_deadline_seconds": 60,
+  "extraction_deadline_seconds": 180,
+  "budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "memory_compliance": "unproven",
+  "phases": {
+    "typecheck": {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-result-joern-audaxeig/cache",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-result-joern-audaxeig/DataFlowBenchTaintSwift/main.swift",
+        "-typecheck"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-result-joern-audaxeig",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/private/tmp/dfb-220-candidate-assets/joern/extracted/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "_JAVA_OPTIONS": "-Xmx512m",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts"
+      },
+      "elapsed_seconds": 0.2613265,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 42507,
+          "start_identity": "1790120499:758908"
+        },
+        {
+          "pid": 42509,
+          "start_identity": "1790120499:761555"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "frontend": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/joern/extracted/joern-cli/frontends/swiftsrc2cpg/bin/swiftsrc2cpg",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-result-joern-audaxeig/DataFlowBenchTaintSwift",
+        "--build-log-path",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-candidate-qualification-220/joern-result-negative-attempt-01/build.log",
+        "--output",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-result-joern-audaxeig/cpg.bin"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-result-joern-audaxeig",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/private/tmp/dfb-220-candidate-assets/joern/extracted/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "_JAVA_OPTIONS": "-Xmx512m",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts"
+      },
+      "elapsed_seconds": 1.463500125,
+      "deadline_seconds": 180,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 42516,
+          "start_identity": "1790120500:20464"
+        },
+        {
+          "pid": 42518,
+          "start_identity": "1790120500:22382"
+        },
+        {
+          "pid": 42561,
+          "start_identity": "1790120500:535278"
+        },
+        {
+          "pid": 42566,
+          "start_identity": "1790120500:643505"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "query": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/joern/extracted/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-candidate-qualification-220/joern-result-negative-attempt-01/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-result-joern-audaxeig/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-candidate-qualification-220/joern-result-negative-attempt-01/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-candidate-qualification-220/joern-result-negative-attempt-01/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-result-joern-audaxeig",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/private/tmp/dfb-220-candidate-assets/joern/extracted/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "_JAVA_OPTIONS": "-Xmx512m",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts"
+      },
+      "elapsed_seconds": 3.481932958,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 42579,
+          "start_identity": "1790120501:484341"
+        },
+        {
+          "pid": 42581,
+          "start_identity": "1790120501:486374"
+        },
+        {
+          "pid": 42585,
+          "start_identity": "1790120501:497402"
+        },
+        {
+          "pid": 42625,
+          "start_identity": "1790120501:897874"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    }
+  },
+  "assets": {
+    "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+    "/private/tmp/dfb-220-candidate-assets/joern/extracted/joern-cli/joern": "0df7e8db4282ef2c6fc37998917aca694176e23192de5f0c631511d993e99736",
+    "/private/tmp/dfb-220-candidate-assets/joern/extracted/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac": "af6c202b40247bbd8bd50dd15d9f8c635290227af3dabff96c743ffc63c19374"
+  },
+  "native_observation": [
+    "not-reached",
+    []
+  ]
+}
