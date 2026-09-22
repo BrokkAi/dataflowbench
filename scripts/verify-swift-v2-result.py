@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Verify independent Result observations without creating scored outcomes."""
 import json
+import gzip
 from collections import Counter
 from pathlib import Path
 import re
@@ -25,6 +26,12 @@ def verify(base=BASE):
     actual = {str(p.relative_to(base)) for p in base.rglob('*') if p.is_file() and p != base / 'manifest.json'}
     require(set(manifest) == actual, 'evidence membership')
     for name, digest in manifest.items(): require(sha(base / name) == digest, 'evidence digest: ' + name)
+    diagnosis = json.loads((base / 'foundation-diagnosis/retained-log-observations.json').read_text())
+    for observation in diagnosis['observations']:
+        source = ROOT / observation['source']
+        require(sha(source) == observation['sha256'], 'historical Foundation log digest')
+        lines = gzip.decompress(source.read_bytes()).decode(errors='replace').splitlines()
+        require(all(lines[row['line'] - 1] == row['text'] for row in observation['selected_lines']), 'historical Foundation excerpt')
     population, additions = audit()
     selected = {c['polarity']: (p, c) for p, c in additions if c['template_id'] == 'dfb-template-result-error-propagation'}
     for polarity, (path, case) in selected.items():
