@@ -58,7 +58,9 @@ unresolved deferrals. Swift fixtures add 33 core pairs, two calibration pairs,
 and ten controlled modeling pairs as a separate prospective input population.
 The [coverage audit](swift-coverage-audit.md) joins all registry identities to
 examples and independent CodeQL/Joern execution evidence. It does not change
-historical frozen populations or accept unresolved scope as completed.
+historical frozen populations or accept unresolved scope as completed. The
+[completion and release plan](swift-completion-plan.md) records the remaining
+implementation, semantic choices, and provenance gates.
 
 ## Per-language modeling and native rows
 
