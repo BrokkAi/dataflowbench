@@ -1,0 +1,23 @@
+{"#select":{"columns":[
+   {"kind":"Integer"}
+  ,{"kind":"Integer"}
+  ,{"kind":"String"}
+  ,{"kind":"Entity"}
+  ,{"kind":"String"}]
+ ,"tuples":[
+   [8,17,"DataFlowBenchTaintSwift",{"label":"dfb_source()"},"() -> Int"]
+  ,[9,13,"Swift",{"label":"failure"},"<Success, Failure where Failure : Error, Success : ~Copyable, Success : ~Escapable> (Result<Success, Failure>.Type) -> (Failure) -> Result<Success, Failure>"]
+  ,[9,21,"DataFlowBenchTaintSwift",{"label":"FlowError.init(value:)"},"(FlowError.Type) -> (Int) -> FlowError"]
+  ,[9,38,"DataFlowBenchTaintSwift",{"label":"input"},"Int"]
+  ,[13,12,"DataFlowBenchTaintSwift",{"label":"produce()"},"() -> Result<Int, FlowError>"]
+  ,[15,17,"Swift",{"label":"failure"},"<Success, Failure where Failure : Error, Success : ~Copyable, Success : ~Escapable> (Result<Success, Failure>.Type) -> (Failure) -> Result<Success, Failure>"]
+  ,[15,25,"DataFlowBenchTaintSwift",{"label":"error"},"FlowError"]
+  ,[17,17,"Swift",{"label":"success"},"<Success, Failure where Failure : Error, Success : ~Copyable, Success : ~Escapable> (Result<Success, Failure>.Type) -> (Success) -> Result<Success, Failure>"]
+  ,[17,25,"DataFlowBenchTaintSwift",{"label":"value"},"Int"]
+  ,[25,12,"DataFlowBenchTaintSwift",{"label":"relay()"},"() -> Result<Int, FlowError>"]
+  ,[27,23,"DataFlowBenchTaintSwift",{"label":"error"},"FlowError"]
+  ,[28,9,"DataFlowBenchTaintSwift",{"label":"dfb_sink(_:)"},"(Int) -> ()"]
+  ,[28,18,"DataFlowBenchTaintSwift",{"label":"clean"},"Int"]
+  ,[29,13,"DataFlowBenchTaintSwift",{"label":"payload"},"Int"]
+  ,[35,1,"DataFlowBenchTaintSwift",{"label":"probe()"},"() -> ()"]]
+ }}

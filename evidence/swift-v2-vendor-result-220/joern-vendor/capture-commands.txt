@@ -1,0 +1,17 @@
+# Exact release and isolated-bundle capture commands
+pwd
+mktemp -d /private/tmp/dfb-joern-vendor-220.XXXXXX
+curl -fL --retry 2 --connect-timeout 20 --max-time 180 https://api.github.com/repos/joernio/joern/releases/tags/v4.0.628 -o release.json
+curl -fsSI --retry 2 --connect-timeout 20 --max-time 60 https://github.com/joernio/joern/releases/download/v4.0.628/querydb.zip
+curl -fL --retry 2 --connect-timeout 20 --max-time 240 -D querydb.headers.txt https://github.com/joernio/joern/releases/download/v4.0.628/querydb.zip -o querydb.zip
+shasum -a 256 querydb.zip
+shasum -a 512 querydb.zip
+stat -f '%z' querydb.zip
+unzip -tqq querydb.zip
+unzip -q querydb.zip -d extracted
+unzip -Z1 querydb.zip | sort
+bash extracted/querydb/bin/querydb --help
+java -cp '<extracted vendor jars>:<pinned installation jars>' io.joern.dumpq.Main
+vendor_cp=$(find extracted/querydb/lib -maxdepth 1 -type f -name '*.jar' -print | sort | paste -sd: -); install_cp=$(find /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/lib -maxdepth 1 -type f -name '*.jar' -print | sort | paste -sd: -); java -Djava.io.tmpdir="$PWD/java-tmp" -cp "$vendor_cp:$install_cp" io.joern.dumpq.Main > vendor-loader-local.stdout 2> vendor-loader-local.stderr
+javap -classpath extracted/querydb/lib/io.joern.querydb-4.0.628.jar -public -s io.joern.dumpq.Main io.joern.dumpq.Main$ io.joern.scanners.Crew io.joern.scanners.QueryTags
+# No joern updater, querydb installation, source, CPG, fixture, native API, shell, UserDefaults, scoring, or unsupported partition command was run.

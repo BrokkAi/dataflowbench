@@ -185,3 +185,6 @@ other by `model_profile` and never pooled:
 - [Swift v2 qualification sequence](swift-v2-qualification-plan.md) — prospective independent controls and partition order.
 - [CodeQL v2 preflight](codeql-swift-v2-preflight.md) — compiler identities, shipped query pack, and retained resource/extraction failures.
 - [Joern v2 catalog inventory](joern-swift-v2-catalog.md) — installed catalog and frontend/service surfaces; no native activation.
+
+- [Swift Result feasibility and vendor follow-up](swift-v2-result-qualification.md) — independent observations with unresolved completeness and budget limits.
+- [Joern versioned vendor bundle](joern-swift-v2-vendor.md) — exact shipped catalog census, separate from native activation.
