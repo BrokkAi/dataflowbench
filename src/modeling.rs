@@ -63,6 +63,29 @@ pub(crate) const MODELING_TEMPLATE_IDS: [&str; 12] = [
 /// assertions for a language whose modeling population exists at all.
 pub(crate) const MODELING_CASE_COUNT: usize = 2 * MODELING_TEMPLATE_IDS.len();
 
+/// The ten Swift-applicable benchmark-controlled modeling identities. The two
+/// opaque propagator identities remain deferred by docs/swift-kernel.md and do
+/// not enter Swift's denominator.
+pub(crate) const SWIFT_MODELING_TEMPLATE_IDS: [&str; 10] = [
+    "dfb-template-model-declared-source",
+    "dfb-template-model-declared-sink",
+    "dfb-template-model-sanitizer-kill",
+    "dfb-template-model-sanitizer-selectivity",
+    "dfb-template-model-summary-through",
+    "dfb-template-model-summary-field",
+    "dfb-template-model-entrypoint-parameter",
+    "dfb-template-model-entrypoint-selectivity",
+    "dfb-template-model-store-roundtrip",
+    "dfb-template-model-store-separation",
+];
+
+/// Unresolved Swift language-body contracts; a prospective opacity amendment
+/// is required before fixture implementation or analyzer activation.
+pub(crate) const SWIFT_DEFERRED_MODELING_TEMPLATE_IDS: [&str; 2] = [
+    "dfb-template-model-opaque-propagator",
+    "dfb-template-model-propagator-position",
+];
+
 /// Every modeling case is `benchmark-controlled`: the models come from
 /// DataFlowBench and are supplied equally to every tool. The counterpart
 /// `tool-native` profile (issue #16) supplies no models and is never pooled
@@ -710,17 +733,41 @@ pub(crate) fn validate_modeling_cases(cases: &[(PathBuf, Value)]) -> Result<()> 
         if native_template {
             continue;
         }
-        if !MODELING_TEMPLATE_IDS.contains(&template) {
-            bail!(
-                "{}: {template:?} is not one of the twelve preregistered modeling templates (docs/modeling-matrix.md#the-twelve-templates)",
-                path.display()
-            );
+        let language = case["language"].as_str();
+        let expected_templates = if language == Some("swift") {
+            &SWIFT_MODELING_TEMPLATE_IDS[..]
+        } else {
+            &MODELING_TEMPLATE_IDS[..]
+        };
+        if !expected_templates.contains(&template) {
+            if language == Some("swift") {
+                let scope = if SWIFT_DEFERRED_MODELING_TEMPLATE_IDS.contains(&template) {
+                    "deferred pending opacity contract"
+                } else {
+                    "unregistered"
+                };
+                bail!(
+                    "{}: {template:?} is {scope}, not one of the ten preregistered Swift modeling templates",
+                    path.display()
+                );
+            } else {
+                bail!(
+                    "{}: {template:?} is not one of the twelve preregistered modeling templates (docs/modeling-matrix.md#the-twelve-templates)",
+                    path.display()
+                );
+            }
         }
         if case["model_profile"] != MODELING_MODEL_PROFILE {
             bail!(
                 "{}: modeling cases are `model_profile: {MODELING_MODEL_PROFILE:?}`; the tool-native profile supplies no models and is never pooled with this matrix",
                 path.display()
             );
+        }
+        // Swift is registered for applicability only. Its per-analyzer
+        // activation and capability partitions are pending #218/#219, so it
+        // must not inherit the historical M1 adapter decisions below.
+        if language == Some("swift") {
+            continue;
         }
         // Half of "a missing model is a benchmark defect, never a result": no
         // modeling case may exist whose template has no preregistered decision
@@ -751,7 +798,16 @@ pub(crate) fn validate_modeling_cases(cases: &[(PathBuf, Value)]) -> Result<()> 
             })
             .cloned()
             .collect();
-        validate_modeling_population(&population, &format!("{language} modeling population"))?;
+        let templates = if language == "swift" {
+            &SWIFT_MODELING_TEMPLATE_IDS[..]
+        } else {
+            &MODELING_TEMPLATE_IDS[..]
+        };
+        crate::cases::validate_fixture_population_with(
+            &population,
+            &format!("{language} modeling population"),
+            templates,
+        )?;
     }
     Ok(())
 }
@@ -773,7 +829,16 @@ pub(crate) fn validate_modeling_population(cases: &[(PathBuf, Value)], label: &s
     if cases.is_empty() {
         return Ok(());
     }
-    validate_kernel_population_with(cases, label, &MODELING_TEMPLATE_IDS)
+    let expected = if cases
+        .first()
+        .and_then(|(_, case)| case["language"].as_str())
+        == Some("swift")
+    {
+        &SWIFT_MODELING_TEMPLATE_IDS[..]
+    } else {
+        &MODELING_TEMPLATE_IDS[..]
+    };
+    validate_kernel_population_with(cases, label, expected)
 }
 
 // ---------------------------------------------------------------------------

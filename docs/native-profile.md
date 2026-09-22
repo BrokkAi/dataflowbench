@@ -1,5 +1,10 @@
 # Tool-native model profile
 
+Swift has a separate [applicability and implementation contract](swift-kernel.md).
+Its new fixtures do not alter historical populations or establish analyzer
+activation. Modeling/native deferrals remain unresolved, and Bifrost Swift
+support is not claimed.
+
 This document is the **preregistration artifact** for the `tool-native` model
 profile: six templates over platform-native APIs, in the same six categories the
 [benchmark-controlled modeling matrix](modeling-matrix.md) fixes, scored on

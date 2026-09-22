@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-model-sanitizer-selectivity-positive",
+  "template_id": "dfb-template-model-sanitizer-selectivity",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "sanitizer"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "sanitized"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModelSanitizerSelectivityPositive.swift",
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-sanitizer-selectivity-input",
+      "file": "ModelSanitizerSelectivityPositive.swift",
+      "line_hint": 10
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-sanitizer-selectivity-sink",
+      "file": "ModelSanitizerSelectivityPositive.swift",
+      "line_hint": 11
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: model-sanitizer-selectivity-input",
+      "sink": "DFB-SINK: model-sanitizer-selectivity-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "sanitizer-identity-binding",
+    "notes": "DataFlowBenchTaintSwift.Clean.scrub(_ value: Swift.String) -> Swift.String is the declared sanitizer at parameter position 0; DataFlowBenchTaintSwift.Clean.sanitize(_ value: Swift.String) -> Swift.String is the undeclared sanitizer-looking sibling."
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

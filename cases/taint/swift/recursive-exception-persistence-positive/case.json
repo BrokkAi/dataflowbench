@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-recursive-exception-persistence-positive",
+  "template_id": "dfb-template-chal-recursive-exception-persistence",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "recursion",
+    "interprocedural-flow",
+    "flow-sensitivity",
+    "heap-field-sensitivity",
+    "exceptional-flow"
+  ],
+  "feature_tags": [
+    "recursive",
+    "heap-access-path",
+    "exceptional"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: recursive-exception-persistence-input",
+      "file": "main.swift",
+      "line_hint": 13
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: recursive-exception-persistence-sink",
+      "file": "main.swift",
+      "line_hint": 18
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: recursive-exception-persistence-input",
+      "sink": "DFB-SINK: recursive-exception-persistence-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-WITNESS: recursive-exception-persistence-base",
+    "DFB-WITNESS: recursive-exception-persistence-throw",
+    "DFB-WITNESS: recursive-exception-persistence-recursive-transfer",
+    "DFB-SOURCE: recursive-exception-persistence-input",
+    "DFB-WITNESS: recursive-exception-persistence-compose",
+    "DFB-SINK: recursive-exception-persistence-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "recursive-exception-persistence-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

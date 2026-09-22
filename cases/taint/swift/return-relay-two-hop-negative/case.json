@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-return-relay-two-hop-negative",
+  "template_id": "dfb-template-return-relay-two-hop",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-deep"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: return-relay-two-hop-input",
+      "file": "main.swift",
+      "line_hint": 6
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: return-relay-two-hop-sink",
+      "file": "main.swift",
+      "line_hint": 8
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: return-relay-two-hop-input",
+      "sink": "DFB-SINK: return-relay-two-hop-sink"
+    }
+  ],
+  "witness_checkpoints": [
+    "DFB-SOURCE: return-relay-two-hop-input",
+    "DFB-WITNESS: return-relay-two-hop-return",
+    "DFB-SINK: return-relay-two-hop-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "two-hop-interprocedural-return-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

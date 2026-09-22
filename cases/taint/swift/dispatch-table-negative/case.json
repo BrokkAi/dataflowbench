@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-dispatch-table-negative",
+  "template_id": "dfb-template-chal-dispatch-table",
+  "polarity": "negative",
+  "negative_mechanism": "call-context-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "context-sensitivity",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "higher-order",
+    "ambiguous-dispatch"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: dispatch-table-input",
+      "file": "main.swift",
+      "line_hint": 8
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: dispatch-table-sink",
+      "file": "main.swift",
+      "line_hint": 11
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: dispatch-table-input",
+      "sink": "DFB-SINK: dispatch-table-sink"
+    }
+  ],
+  "witness_checkpoints": [
+    "DFB-SOURCE: dispatch-table-input",
+    "DFB-WITNESS: dispatch-table-invoke",
+    "DFB-SINK: dispatch-table-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "indirect-callee-resolution-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

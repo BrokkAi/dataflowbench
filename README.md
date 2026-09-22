@@ -4,6 +4,12 @@ DataFlowBench is an analyzer-neutral benchmark for value flow, taint tracking,
 typestate, witness quality, and data-flow performance across languages and
 static-analysis tools. It is an experimental first version, not a leaderboard.
 
+Swift fixture participation is tracked separately in the [Swift contract](docs/swift-kernel.md):
+33 core pairs, two calibration pairs, and ten controlled modeling pairs.
+These fixtures do not establish analyzer activation or published Swift results.
+Opaque modeling, native APIs, and other documented deferrals remain unresolved;
+Bifrost Swift support is not claimed.
+
 The current scored slice carries one executable track, `taint`. The
 `value-flow`, `typestate`, and `performance` tracks are reserved dimensions
 with no executable cases yet — each track directory (for example

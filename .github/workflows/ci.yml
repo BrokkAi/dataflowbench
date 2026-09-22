@@ -36,6 +36,8 @@ jobs:
       - run: cargo test
       - run: cargo run -- validate
       - run: cargo run -- validate-reports
+      - name: Test Swift fixture validation controls
+        run: python3 scripts/test-swift-fixtures.py
       - name: Test isolated release validation gate
         run: python3 scripts/test-release-results.py
       - name: Test versioned release execution guard
@@ -61,3 +63,20 @@ jobs:
       - run: npm test
       - run: npm run check
       - run: npm run build
+
+  swift-fixtures:
+    runs-on: xcode-27
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_27.0.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile, link, and exercise Swift fixtures under witnessed CI profile
+        run: python3 scripts/validate-swift-fixtures.py --profile github-xcode27 --output "$RUNNER_TEMP/swift-fixture-evidence"
+      - name: Retain compilation identity and all attempted controls
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swift-fixture-evidence
+          path: ${{ runner.temp }}/swift-fixture-evidence
+          if-no-files-found: error

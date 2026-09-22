@@ -2,10 +2,11 @@
 
 use crate::cases::{case_paths, core_templates_for_language};
 use crate::templates::{
-    CHALLENGE_ROLLOUT, CHALLENGE_TEMPLATE_IDS, CHALLENGE_TEMPLATE_PREFIX, KERNEL_TEMPLATE_IDS,
-    KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH, RECURSIVE_COMPOSITION_TEMPLATE_IDS,
-    challenge_rolled_out, challenge_rollout, challenge_template_case, expected_core_case_count,
-    expected_core_templates, recursive_composition_templates,
+    CHALLENGE_ROLLOUT, CHALLENGE_TEMPLATE_IDS, CHALLENGE_TEMPLATE_IDS_SWIFT,
+    CHALLENGE_TEMPLATE_PREFIX, KERNEL_TEMPLATE_IDS, KERNEL_TEMPLATE_IDS_WITHOUT_EXCEPTION_CATCH,
+    RECURSIVE_COMPOSITION_TEMPLATE_IDS, SWIFT_CALIBRATION_TEMPLATE_IDS, challenge_rolled_out,
+    challenge_rollout, challenge_template_case, expected_core_case_count, expected_core_templates,
+    recursive_composition_templates,
 };
 use serde_json::Value;
 use std::{collections::BTreeMap, collections::BTreeSet, fs};
@@ -142,6 +143,7 @@ pub(crate) fn the_rollout_table_matches_the_preregistered_denominators() {
         ("cpp", (16, 13)),
         ("c", (15, 9)),
         ("rust", (15, 12)),
+        ("swift", (16, 12)),
     ]);
     assert_eq!(CHALLENGE_ROLLOUT.len(), expanded.len());
     for row in &CHALLENGE_ROLLOUT {
@@ -159,7 +161,7 @@ pub(crate) fn the_rollout_table_matches_the_preregistered_denominators() {
             assert!(template.starts_with(CHALLENGE_TEMPLATE_PREFIX));
         }
         // The rollout is complete: Ruby was the last wave, so every one of
-        // the thirteen rows is flipped and no language validates against
+        // the fourteen rows is flipped and no language validates against
         // its classic set alone any more. This is the assertion that would
         // catch a row being silently un-flipped.
         assert!(row.rolled_out, "{} rollout state", row.language);
@@ -191,4 +193,35 @@ pub(crate) fn the_rollout_table_matches_the_preregistered_denominators() {
     ] {
         assert!(!c.contains(&excluded), "C must exclude {excluded}");
     }
+}
+
+/// Swift registers applicability for exactly 33 core templates while keeping
+/// its two calibration identities outside the scored denominator. The two
+/// reflective/anonymous challenge identities remain excluded.
+#[test]
+pub(crate) fn swift_registry_has_the_preregistered_core_and_calibration_sets() {
+    let row = challenge_rollout("swift").expect("Swift rollout row");
+    assert_eq!(row.classic, &KERNEL_TEMPLATE_IDS[..]);
+    assert_eq!(row.challenge, &CHALLENGE_TEMPLATE_IDS_SWIFT[..]);
+    assert_eq!(row.expected_templates().len(), 33);
+    assert_eq!(expected_core_case_count("swift"), 66);
+    assert!(
+        !row.challenge
+            .contains(&"dfb-template-chal-reflective-invocation")
+    );
+    assert!(
+        !row.challenge
+            .contains(&"dfb-template-chal-anonymous-implementation")
+    );
+    assert_eq!(
+        SWIFT_CALIBRATION_TEMPLATE_IDS,
+        [
+            "dfb-template-one-hop-relay",
+            "dfb-template-modeled-external-summary"
+        ]
+    );
+    let unique = SWIFT_CALIBRATION_TEMPLATE_IDS
+        .into_iter()
+        .collect::<BTreeSet<_>>();
+    assert_eq!(unique.len(), 2);
 }
