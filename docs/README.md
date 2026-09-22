@@ -53,6 +53,10 @@ adaptation tables bind, the dated results sections record.
 [php-kernel.md](php-kernel.md) ·
 [scala-kernel.md](scala-kernel.md)
 
+The prospective [Swift registry contract](swift-kernel.md) covers every family,
+including exclusions and deferrals. It does not activate fixtures or analyzer
+support and does not change the thirteen implemented language populations.
+
 ## Per-language modeling and native rows
 
 Two smaller families on the `modeling` score tier, separated from each
