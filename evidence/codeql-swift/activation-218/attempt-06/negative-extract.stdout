@@ -1,0 +1,8 @@
+[2026-09-22 18:38:29] [build-stderr] /Users/dave/.codex/worktrees/739a/dataflowbench/evidence/codeql-swift/activation-218/attempt-06/controls/negative/main.swift:4:5: warning: initialization of immutable value 'source' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+[2026-09-22 18:38:29] [build-stderr] 2 | func dfb_sink(_ value: Int) { print(value) }
+[2026-09-22 18:38:29] [build-stderr] 3 | func runActivation() {
+[2026-09-22 18:38:29] [build-stderr] 4 | let source = dfb_source()
+[2026-09-22 18:38:29] [build-stderr]   |     `- warning: initialization of immutable value 'source' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+[2026-09-22 18:38:29] [build-stderr] 5 | dfb_sink(17)
+[2026-09-22 18:38:29] [build-stderr] 6 | }
+[2026-09-22 18:38:29] [build-stderr] [#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>

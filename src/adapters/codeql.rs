@@ -5,6 +5,9 @@
 //! See adapters/codeql/README.md for the published capability record, and
 //! docs/adding-an-adapter.md for the shape every adapter follows.
 
+mod swift;
+pub(crate) use swift::{codeql_swift_configuration_paths, run_codeql_swift_kernel};
+
 use crate::adapters::KernelPopulation;
 use crate::adapters::ModelingLanguage;
 use crate::adapters::ToolIdentity;

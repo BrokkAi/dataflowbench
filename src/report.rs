@@ -14,6 +14,7 @@ use crate::adapters::codeql::{
     codeql_go_configuration_paths, codeql_java_kernel_configuration_paths,
     codeql_kotlin_configuration_paths, codeql_python_kernel_configuration_paths,
     codeql_ruby_configuration_paths, codeql_rust_configuration_paths,
+    codeql_swift_configuration_paths,
 };
 use crate::adapters::flowdroid::flowdroid_template_paths;
 use crate::adapters::infer::infer_config_paths;
@@ -22,13 +23,30 @@ use crate::adapters::opentaint::opentaint_rule_paths;
 use crate::adapters::pysa::pysa_configuration_paths;
 use crate::adapters::semgrep::semgrep_rule_paths;
 use crate::adapters::{ModelingLanguage, ModelingTool};
-use crate::cases::{LoadedCases, cached_case_scan, schema, validate_value};
+use crate::cases::{LoadedCases, all_case_paths, schema, validate_value};
 use crate::freeze::required_string;
 use crate::modeling::modeling_configuration_paths;
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::{collections::BTreeSet, fs, path::Path, path::PathBuf};
+
+// Report sweeps validate all retained populations, independently of the active
+// execution population. A Swift run must still derive historical Java policies.
+fn cached_report_cases(scan: &mut Option<LoadedCases>) -> Result<&LoadedCases> {
+    if scan.is_none() {
+        *scan = Some(
+            all_case_paths()
+                .into_iter()
+                .map(|path| {
+                    let case = serde_json::from_str(&fs::read_to_string(&path)?)?;
+                    Ok((path, case))
+                })
+                .collect::<Result<_>>()?,
+        );
+    }
+    Ok(scan.as_ref().expect("filled above"))
+}
 
 pub(crate) const ADAPTER_VERSION: &str = env!("CARGO_PKG_VERSION");
 pub(crate) fn validate_reports() -> Result<()> {
@@ -193,10 +211,19 @@ pub(crate) fn current_configuration_paths(
     stem: &str,
     case_scan: &mut Option<LoadedCases>,
 ) -> Result<Option<BTreeSet<PathBuf>>> {
+    if [
+        "codeql-swift-kernel",
+        "codeql-swift-modeling",
+        "codeql-swift-calibration",
+    ]
+    .contains(&stem)
+    {
+        return Ok(Some(codeql_swift_configuration_paths()));
+    }
     if stem == "bifrost-smoke" {
         return Ok(Some(bifrost_policy_paths(
             BifrostRun::Smoke,
-            cached_case_scan(case_scan)?,
+            cached_report_cases(case_scan)?,
         )?));
     }
     let Some((tool, rest)) = stem.split_once('-') else {
@@ -238,23 +265,23 @@ pub(crate) fn current_configuration_paths(
                 "php" => BifrostRun::PhpKernel,
                 _ => return Ok(None),
             };
-            Some(bifrost_policy_paths(run, cached_case_scan(case_scan)?)?)
+            Some(bifrost_policy_paths(run, cached_report_cases(case_scan)?)?)
         }
         "codeql" => match language {
-            "java" => Some(codeql_java_kernel_configuration_paths(cached_case_scan(
-                case_scan,
-            )?)?),
+            "java" => Some(codeql_java_kernel_configuration_paths(
+                cached_report_cases(case_scan)?,
+            )?),
             "javascript" => Some(codeql_ecma_kernel_configuration_paths(
                 EcmaKernel::JavaScript,
-                cached_case_scan(case_scan)?,
+                cached_report_cases(case_scan)?,
             )),
             "typescript" => Some(codeql_ecma_kernel_configuration_paths(
                 EcmaKernel::TypeScript,
-                cached_case_scan(case_scan)?,
+                cached_report_cases(case_scan)?,
             )),
-            "python" => Some(codeql_python_kernel_configuration_paths(cached_case_scan(
-                case_scan,
-            )?)?),
+            "python" => Some(codeql_python_kernel_configuration_paths(
+                cached_report_cases(case_scan)?,
+            )?),
             "kotlin" => Some(codeql_kotlin_configuration_paths()),
             "csharp" => Some(codeql_csharp_configuration_paths()),
             "go" => Some(codeql_go_configuration_paths()),
@@ -262,6 +289,7 @@ pub(crate) fn current_configuration_paths(
             "cpp" => Some(codeql_c_family_configuration_paths(CFamilyKernel::Cpp)),
             "rust" => Some(codeql_rust_configuration_paths()),
             "ruby" => Some(codeql_ruby_configuration_paths()),
+            "swift" => Some(codeql_swift_configuration_paths()),
             _ => None,
         },
         "joern" => Some(BTreeSet::from([PathBuf::from(JOERN_KERNEL_SCRIPT)])),

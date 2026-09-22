@@ -169,3 +169,5 @@ other by `model_profile` and never pooled:
   frame it consumed, and the ordered walk over each stratum with a disposition
   for every candidate the walk reached. It is what makes "analyzer outcomes did
   not influence selection" a checkable claim instead of an assurance.
+
+- [Swift CodeQL activation and execution (A35)](codeql-swift.md) — independent pins, controls, per-template partition and budget limitations for #218.
