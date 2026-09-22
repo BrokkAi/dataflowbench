@@ -1972,3 +1972,39 @@ on the main line moves to a new **development-scope** freeze over the same
 superseded ones, the movement A30 made for CodeQL. No release or website
 claim is made from the development freeze; with this amendment both halves
 of #138 are re-run, and the next release freeze binds the whole set.
+
+
+### A34 — 2026-09-22: separate hosted Swift fixture compilation profile
+
+Before Swift fixture validation, #217 preregisters an additional compilation-only
+profile alongside the unchanged local identity in [swift-kernel.md](swift-kernel.md).
+The official [runner inventory at revision 5257d1b466f9b19d009114c096e17e963f8f1b6c](https://github.com/actions/runner-images/blob/5257d1b466f9b19d009114c096e17e963f8f1b6c/images/macos/xcode-27-arm64-Readme.md)
+lists the `xcode-27` ARM64 public-preview hosted runner, Xcode 27.0 build
+`27A266a`, `/Applications/Xcode_27.0.app`, and macOS SDK 27.0. GitHub's
+[runner-label documentation](https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job)
+lists that hosted label. The published inventory's OS is macOS 27.0 build
+`26A5406e`; it is distinct from the local host build `26A428`.
+
+The `github-xcode27` validation profile selects that Xcode path and requires
+Apple Swift 6.4 (`swiftlang-6.4.0.34.1`, `clang-2100.3.34.1`, driver `1.168.6`),
+Xcode 27.0 build `27A266a`, SDK 27.0 build `26A425`, ARM64 macOS 27.x, and the
+explicit target `arm64-apple-macosx27.0.0`. It requires the GitHub Actions
+identity variables and retains actual `ImageOS`, `ImageVersion`, exact OS
+version/build, compiler path/digest/full version, SDK path/version/build,
+commands, selected environment, outputs, and exit statuses. Mismatched compiler,
+Xcode, SDK, architecture, or OS major fails before fixture execution.
+
+The runner label and Xcode selection are controls, **not an immutable hosted
+image pin**. Host patch/build updates within macOS 27 are accepted and witnessed;
+compiler/SDK changes require another prospective amendment. Public-preview
+availability is an operational dependency; unavailable or mismatched images
+fail CI and cannot be replaced with a green metadata-only result. No self-hosted
+runner is required or registered by this work.
+
+Both profiles compile/link all fixture inputs with Swift language mode 6,
+`-Onone`, explicit SDK/target, and isolated caches. They apply the same bounded
+concrete source-dependence controls, with modeling expectations remaining
+abstract and unverified by concrete execution. This amendment changes only the
+permitted compilation host, preserves fixture semantics and all exclusions and
+deferrals, and does not qualify CodeQL or Joern compatibility. #218/#219 must
+perform independent analyzer activation. No existing freeze is invalidated.
