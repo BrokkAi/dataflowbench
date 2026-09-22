@@ -1,0 +1,50 @@
+{
+  "schema": "dfb-220-joern-native-mechanisms/v1",
+  "date": "2026-09-23",
+  "pin": {
+    "tool": "Joern",
+    "version": "4.0.628",
+    "installation": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli",
+    "upstream_tag": "v4.0.628",
+    "upstream_tag_object": "c2ad491932291cf67a80f64c15ec94a874d28ef9",
+    "upstream_commit": "0b81c759a38b98b3abb4c90406818a90d6b299c1"
+  },
+  "scope": {
+    "families": [
+      "dfb-template-native-source-sink",
+      "dfb-template-native-propagator",
+      "dfb-template-native-sanitizer",
+      "dfb-template-native-summary",
+      "dfb-template-native-entrypoint",
+      "dfb-template-native-persistence"
+    ],
+    "cells": 12,
+    "execution": "none",
+    "native_fixture_execution": false,
+    "custom_models": false,
+    "repository_edits": false
+  },
+  "proposal": {
+    "state": "scoped-unsupported",
+    "cells": 12,
+    "reason": "The exact pinned distribution has no shipped native catalog entry, resource, or loader binding for the six required Swift A38 endpoint contracts; Swift parsing/type recovery and generic data-flow semantics are present but do not establish a native endpoint catalog.",
+    "parent_owns_final_decision": true
+  },
+  "bounded_limitations": [
+    "This is a pinned shipped-surface audit, not an execution result.",
+    "Generic caller-supplied FullNameSemantics can express some argument/return mappings, but that is not native Swift model provenance.",
+    "The conclusion does not claim absence from every future Joern release or every externally supplied model pack.",
+    "No native fixture, CPG query, scored run, or custom model was executed."
+  ],
+  "evidence": {
+    "root": "/private/tmp/dfb-220-joern-native-mechanisms",
+    "prior_vendor_catalog": "prior-vendor-evidence/structural-catalog.json",
+    "installation_inventory": "pinned-file-inventory.json",
+    "jar_inventory": "jar-inventory.json",
+    "class_inventory": "first-party-class-inventory.json",
+    "resource_inventory": "resource-inventory.json",
+    "default_semantics_bytecode": "javap-DefaultSemantics-object-bytecode.txt",
+    "semantics_api": "javap-Semantics.txt",
+    "upstream_source_manifest": "upstream-source-manifest.json"
+  }
+}

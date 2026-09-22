@@ -1,0 +1,26 @@
+{
+  "tool": "codeql",
+  "version": "2.27.0",
+  "swift_all": "6.8.3",
+  "swift_queries": "1.3.10",
+  "decision": "unsupported",
+  "scope": "A38 native cells requiring ProcessInfo.environment or CommandLine.arguments as a shipped command-injection source",
+  "basis": [
+    "Finalized Foundation and entrypoint databases resolve environment:[String:String] and Swift arguments:[String] at source anchors.",
+    "Full catalog contains 876 model rows including 45 source rows; none declares either native source family.",
+    "Concrete FlowSource subclasses outside CSV are contentsOf initializers, web/navigation/JS-export sources, and UIApplication launch-option URL sources; their declared shapes do not match either source family.",
+    "Customizations.qll contains no custom model definitions. No benchmark native model is loaded."
+  ],
+  "limitations": [
+    "No complete static Process.run target or instantiated command-injection sink was observed in the diagnostic databases, despite a shipped Process.run sink catalog row. This is not claimed as a qualified sink.",
+    "This decision is based on missing required native source surface, not empty flow, failed extraction, absent summaries, or inability of all future models.",
+    "Some shipped summaries and numeric barriers exist; no blanket claim that Swift modeling is absent.",
+    "All diagnostics remain unqualified and outside scored reports."
+  ],
+  "evidence": [
+    "evidence/swift-v2-decisions-220/codeql-native-feasibility-attempt-01/catalog.json",
+    "evidence/swift-v2-decisions-220/codeql-native-roles/rolesCalls.json",
+    "evidence/swift-v2-decisions-220/codeql-entrypoint-feasibility-attempt-01/rolesCalls.json",
+    "evidence/swift-v2-decisions-220/codeql-shipped-sources/qll-inventory.json"
+  ]
+}

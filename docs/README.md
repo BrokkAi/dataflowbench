@@ -188,3 +188,5 @@ other by `model_profile` and never pooled:
 
 - [Swift Result feasibility and vendor follow-up](swift-v2-result-qualification.md) — independent observations with unresolved completeness and budget limits.
 - [Joern versioned vendor bundle](joern-swift-v2-vendor.md) — exact shipped catalog census, separate from native activation.
+
+- [Swift v2 addition partitions (A40)](swift-v2-partitions.md) — prospective native decisions and separate Result execution.
