@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Execute one Swift case with retained commands and no shared mutable workspaces."""
 import argparse
+import gzip
 import hashlib
 import json
 import os
@@ -20,6 +21,7 @@ def sha(path):
 
 def run(argv, directory, name, timeout, measure=False):
     start = time.time()
+    monotonic_start = time.monotonic()
     with (directory / (name + '.stdout')).open('wb') as stdout, (directory / (name + '.stderr')).open('wb') as stderr:
         process = subprocess.Popen((["/usr/bin/time", "-l"] if measure else []) + argv, stdout=stdout, stderr=stderr, start_new_session=True)
         timed_out = False
@@ -30,7 +32,7 @@ def run(argv, directory, name, timeout, measure=False):
             os.killpg(process.pid, signal.SIGKILL)
             status = process.wait()
     record = dict(argv=argv, measurement_wrapper=['/usr/bin/time','-l'] if measure else [], cwd=os.getcwd(), started_unix=start,
-                  elapsed_seconds=time.time()-start, exit_status=status, timed_out=timed_out)
+                  elapsed_seconds=time.monotonic()-monotonic_start, exit_status=status, timed_out=timed_out)
     if measure:
         match = re.search(r'^\s*(\d+)\s+maximum resident set size\s*$', (directory / (name + '.stderr')).read_text(), re.MULTILINE)
         record['time_maxrss_mb'] = (int(match.group(1)) + 1048575) // 1048576 if match else None
@@ -128,7 +130,12 @@ def main():
             for folder in ('log','diagnostic','results'):
                 if (db/folder).exists():shutil.copytree(db/folder,args.output/folder)
             if (db/'codeql-database.yml').exists():shutil.copyfile(db/'codeql-database.yml',args.output/'codeql-database.yml')
-        for log in args.output.rglob('*.log'):log.rename(log.with_suffix('.log.txt'))
+        for log in args.output.rglob('*.log'):
+            payload = log.read_bytes()
+            compressed = gzip.compress(payload, mtime=0)
+            assert gzip.decompress(compressed) == payload
+            log.with_suffix('.log.txt.gz').write_bytes(compressed)
+            log.unlink()
         result.write_text(json.dumps(summary,indent=2)+'\n')
         shutil.rmtree(scratch)
     return 0

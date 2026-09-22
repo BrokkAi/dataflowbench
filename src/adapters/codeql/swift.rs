@@ -273,6 +273,16 @@ pub(crate) fn run_codeql_swift_kernel(binary: &Path, packs: &Path, tier: &str) -
         }
         let execution: Value =
             serde_json::from_str(&fs::read_to_string(output.join("execution.json"))?)?;
+        let phases: Vec<(&str, Duration)> = execution["phases"]
+            .as_object()
+            .context("execution phases")?
+            .iter()
+            .map(|(name, seconds)| {
+                let seconds = seconds.as_f64().context("phase duration")?;
+                Ok((name.as_str(), Duration::try_from_secs_f64(seconds)?))
+            })
+            .collect::<Result<_>>()?;
+        write_case_phase_timings(raw_dir, "codeql", id, &phases)?;
         let raw = output.join(if execution["outcome"] == "analyzed" {
             "results.sarif.json"
         } else {

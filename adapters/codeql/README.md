@@ -1137,13 +1137,3 @@ the persistence negative's distinct key is never looked at.
 This is coverage, not accuracy, and it is never pooled with the
 benchmark-controlled Python row above. See
 [the Python tool-native probe set](../../docs/python-native.md).
-
-
-## Swift (#218)
-
-Swift uses independent local activation and separate core, controlled-modeling,
-and calibration runs. See [A35](../../docs/codeql-swift.md) for immutable pins,
-per-template partition, probe evidence, declaration identity, reproduction, and
-resource limits. Fixture compilation alone is not CodeQL activation. Native,
-opaque, extension and real-project deferrals remain explicit. Budget uncertainty
-is inconclusive; no 512 MiB compliance is inferred from CodeQL's `--ram` option.

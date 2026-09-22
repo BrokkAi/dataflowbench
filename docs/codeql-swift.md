@@ -126,3 +126,6 @@ in a separate immutable location before a new independently identified run; neve
 remove a failed attempt to make the new result appear to be the first. Reports
 are `reports/codeql-swift-{kernel,modeling,calibration}.json`, with corresponding
 raw directories. This command does not publish or rewrite a release freeze.
+
+Registry execution retains verbose extractor logs as lossless `.log.txt.gz` files.
+Phase durations use a monotonic clock and are also exported in standard case timing sidecars.
