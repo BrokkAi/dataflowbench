@@ -50,7 +50,8 @@ def main():
    rec=runner.run(compile_args,concrete,'compile-'+value,180)
    if rec['exit_status']!=0:raise RuntimeError('concrete compile failed')
    executed=runner.run([str(scratch/'fixture')],concrete,'execute-'+value,10)
-   if executed['exit_status']!=0:raise RuntimeError('concrete behavior failed: '+value)
+   result['concrete-'+value]=executed
+   # Continue independent native diagnostics after failure, never certify fidelity.
   (source/'main.swift').write_text(combined)
   import shlex
   cq=out/'codeql';cq.mkdir();db=scratch/'db'
