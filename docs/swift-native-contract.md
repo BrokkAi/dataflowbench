@@ -33,7 +33,7 @@ extraction and non-scored identity/model probes.
   with `URL(fileURLWithPath: "/bin/sh")` and `arguments: ["-c", command]`.
 - **Positive:** the environment value reaches `command` and then that exact
   `Process.run` call.
-- **Negative:** the same sink call receives a clean constant command;
+- **Negative:** retain the environment read; the same sink call receives a clean constant command;
   `negative_mechanism: unrelated-value`.
 - **Capability:** `native-source-sink-coverage`.
 
@@ -43,9 +43,9 @@ extraction and non-scored identity/model probes.
   `String` command initialized to `"echo "` before the sink.
 - **Positive:** the environment value is appended to the command that reaches
   the exact `/bin/sh`, `-c` `Process.run` sink.
-- **Negative:** the same environment value is appended with the same
-  `String.append` operation to a dead local; a clean command reaches the same
-  sink; `negative_mechanism: unrelated-value`.
+- **Negative:** retain the environment read, but append a clean literal to
+  the same initialized command using the identical `String.append` operation;
+  that transformed command reaches the same sink; `negative_mechanism: unrelated-value`.
 - **Capability:** `native-propagator-coverage`.
 
 ### 3. `dfb-template-native-sanitizer` — Z
@@ -67,8 +67,8 @@ extraction and non-scored identity/model probes.
   options:)`, then `String(data: decoded, encoding: .utf8)`.
 - **Positive:** the environment value survives encode/decode and reaches the
   exact shell sink.
-- **Negative:** a clean constant makes the identical Base64 round trip into the
-  same sink; `negative_mechanism: unrelated-value`.
+- **Negative:** retain the environment read; a clean constant makes the
+  identical Base64 round trip into the same sink; `negative_mechanism: unrelated-value`.
 - **Capability:** `native-summary-coverage`.
 
 ### 5. `dfb-template-native-entrypoint` — E
