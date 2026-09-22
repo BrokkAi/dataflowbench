@@ -1,0 +1,79 @@
+$ javap -classpath /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/lib/io.joern.dataflowengineoss-4.0.628.jar -private -c -p io.joern.dataflowengineoss.semanticsloader.FlowPath
+Compiled from "Semantics.scala"
+public abstract class io.joern.dataflowengineoss.semanticsloader.FlowPath implements scala.Product,scala.reflect.Enum {
+  public io.joern.dataflowengineoss.semanticsloader.FlowPath();
+    Code:
+       0: aload_0
+       1: invokespecial #19                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public scala.collection.Iterator<java.lang.Object> productIterator();
+    Code:
+       0: aload_0
+       1: invokestatic  #28                 // InterfaceMethod scala/Product.productIterator$:(Lscala/Product;)Lscala/collection/Iterator;
+       4: areturn
+
+  public java.lang.String productPrefix();
+    Code:
+       0: aload_0
+       1: invokestatic  #34                 // InterfaceMethod scala/Product.productPrefix$:(Lscala/Product;)Ljava/lang/String;
+       4: areturn
+
+  public java.lang.String productElementName(int);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: invokestatic  #41                 // InterfaceMethod scala/Product.productElementName$:(Lscala/Product;I)Ljava/lang/String;
+       5: areturn
+
+  public scala.collection.Iterator<java.lang.String> productElementNames();
+    Code:
+       0: aload_0
+       1: invokestatic  #47                 // InterfaceMethod scala/Product.productElementNames$:(Lscala/Product;)Lscala/collection/Iterator;
+       4: areturn
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowPath FlowMapping(int, int);
+    Code:
+       0: getstatic     #54                 // Field io/joern/dataflowengineoss/semanticsloader/FlowPath$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowPath$;
+       3: iload_0
+       4: iload_1
+       5: invokevirtual #56                 // Method io/joern/dataflowengineoss/semanticsloader/FlowPath$.FlowMapping:(II)Lio/joern/dataflowengineoss/semanticsloader/FlowPath;
+       8: areturn
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowPath FlowMapping(int, int, java.lang.String);
+    Code:
+       0: getstatic     #54                 // Field io/joern/dataflowengineoss/semanticsloader/FlowPath$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowPath$;
+       3: iload_0
+       4: iload_1
+       5: aload_2
+       6: invokevirtual #59                 // Method io/joern/dataflowengineoss/semanticsloader/FlowPath$.FlowMapping:(IILjava/lang/String;)Lio/joern/dataflowengineoss/semanticsloader/FlowPath;
+       9: areturn
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowPath FlowMapping(int, java.lang.String, int);
+    Code:
+       0: getstatic     #54                 // Field io/joern/dataflowengineoss/semanticsloader/FlowPath$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowPath$;
+       3: iload_0
+       4: aload_1
+       5: iload_2
+       6: invokevirtual #62                 // Method io/joern/dataflowengineoss/semanticsloader/FlowPath$.FlowMapping:(ILjava/lang/String;I)Lio/joern/dataflowengineoss/semanticsloader/FlowPath;
+       9: areturn
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowPath FlowMapping(int, java.lang.String, int, java.lang.String);
+    Code:
+       0: getstatic     #54                 // Field io/joern/dataflowengineoss/semanticsloader/FlowPath$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowPath$;
+       3: iload_0
+       4: aload_1
+       5: iload_2
+       6: aload_3
+       7: invokevirtual #65                 // Method io/joern/dataflowengineoss/semanticsloader/FlowPath$.FlowMapping:(ILjava/lang/String;ILjava/lang/String;)Lio/joern/dataflowengineoss/semanticsloader/FlowPath;
+      10: areturn
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowPath fromOrdinal(int);
+    Code:
+       0: getstatic     #54                 // Field io/joern/dataflowengineoss/semanticsloader/FlowPath$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowPath$;
+       3: iload_0
+       4: invokevirtual #69                 // Method io/joern/dataflowengineoss/semanticsloader/FlowPath$.fromOrdinal:(I)Lio/joern/dataflowengineoss/semanticsloader/FlowPath;
+       7: areturn
+}
+
+[exit 0]

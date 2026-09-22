@@ -1,0 +1,28 @@
+{
+  "source_root": "/private/tmp/dfb-codeql-swift-218-packs/packages/codeql/swift-all/6.8.3",
+  "scope": "Pinned shipped source-role subclass implementations and complete qll digest inventory; catalog enumeration separate",
+  "files": [
+    "codeql/swift/dataflow/FlowSources.qll",
+    "codeql/swift/frameworks/Heuristic.qll",
+    "codeql/swift/frameworks/StandardLibrary/WebView.qll",
+    "codeql/swift/frameworks/StandardLibrary/CustomUrlSchemes.qll",
+    "codeql/swift/security/CommandInjectionExtensions.qll",
+    "codeql/swift/security/CommandInjectionQuery.qll"
+  ],
+  "source_class_audit": {
+    "csv": "45 source rows retained in full catalog; neither environment nor CommandLine source family present",
+    "concrete_subclasses": [
+      "ExternalLocalFlowSource",
+      "ExternalRemoteFlowSource",
+      "InitializerContentsOfLocalSource",
+      "InitializerContentsOfRemoteSource",
+      "WKNavigationDelegateSource",
+      "JsExportedSource",
+      "UrlLaunchOptionsRemoteFlowSource"
+    ],
+    "enumeration_command": "rg -n \"extends (FlowSource|RemoteFlowSource|LocalFlowSource)\" <pinned-pack>/codeql/swift --glob \"*.qll\"",
+    "interpretation": "CSV local/remote role dispatch plus exact concrete subclass predicates were inspected; relevant implementation copies retained. None defines the required native source families."
+  },
+  "upstream": "github/codeql@c6baf479093fafc81d4655dc2014dc583360308e",
+  "license_command": "gh api 'repos/github/codeql/contents/LICENSE?ref=c6baf479093fafc81d4655dc2014dc583360308e' -H 'Accept: application/vnd.github.raw'"
+}

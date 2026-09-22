@@ -1,0 +1,50 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "8e015d9c168f25b1d45a8578a1ab65f94d1a48a22d737d7fdb1cb6ac424c5d2a",
+  "ended_at_unix_seconds": 1790117095,
+  "fixture_revision": "sha256:2dc97bb29cdba04c900308be9e3aef016a5a00d2ac11f2bcaa2ac39d9d2484ff",
+  "results": [
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-negative",
+      "diagnostics": [
+        "Aggregate process-tree memory compliance is unproven at the unchanged 512 MiB analysis budget; native observations are not certified correctness outcomes.",
+        "Native reachableByFlows does not prove semantic completeness or expose all exhaustion; missing flow is not a certified negative."
+      ],
+      "duration_ms": 5075,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-swift-v2-additions/dfb-taint-swift-result-error-propagation-negative/execution.json",
+      "sink_anchors": [
+        "DFB-SINK: result-error-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: result-error-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-positive",
+      "diagnostics": [
+        "Aggregate process-tree memory compliance is unproven at the unchanged 512 MiB analysis budget; native observations are not certified correctness outcomes.",
+        "Native reachableByFlows does not prove semantic completeness or expose all exhaustion; missing flow is not a certified negative."
+      ],
+      "duration_ms": 5240,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-swift-v2-additions/dfb-taint-swift-result-error-propagation-positive/execution.json",
+      "sink_anchors": [
+        "DFB-SINK: result-error-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: result-error-input"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1790117077,
+  "tool": "joern",
+  "tool_build_identity": "joern-cli:4.0.628",
+  "tool_version": "4.0.628"
+}

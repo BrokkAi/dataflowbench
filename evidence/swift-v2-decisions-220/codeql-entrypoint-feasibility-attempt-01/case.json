@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-native-entrypoint-positive",
+  "template_id": "dfb-template-native-entrypoint",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "intraprocedural"
+  ],
+  "model_profile": "tool-native",
+  "fixture_files": [
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: native-entrypoint-argv",
+      "file": "main.swift",
+      "line_hint": 5
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: native-entrypoint-exec",
+      "file": "main.swift",
+      "line_hint": 6
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: native-entrypoint-argv",
+      "sink": "DFB-SINK: native-entrypoint-exec"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "native-entrypoint-convention"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-220",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

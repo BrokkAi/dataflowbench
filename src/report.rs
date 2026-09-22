@@ -22,6 +22,7 @@ use crate::adapters::joern::{JOERN_KERNEL_SCRIPT, joern_swift_configuration_path
 use crate::adapters::opentaint::opentaint_rule_paths;
 use crate::adapters::pysa::pysa_configuration_paths;
 use crate::adapters::semgrep::semgrep_rule_paths;
+use crate::adapters::swift_v2::{SwiftV2Tool, configuration_paths as swift_v2_configuration_paths};
 use crate::adapters::{ModelingLanguage, ModelingTool};
 use crate::cases::{LoadedCases, all_case_paths, schema, validate_value};
 use crate::freeze::required_string;
@@ -228,6 +229,12 @@ pub(crate) fn current_configuration_paths(
     .contains(&stem)
     {
         return Ok(Some(joern_swift_configuration_paths()));
+    }
+    if ["codeql-swift-v2-native", "codeql-swift-v2-result"].contains(&stem) {
+        return Ok(Some(swift_v2_configuration_paths(SwiftV2Tool::Codeql)?));
+    }
+    if ["joern-swift-v2-native", "joern-swift-v2-result"].contains(&stem) {
+        return Ok(Some(swift_v2_configuration_paths(SwiftV2Tool::Joern)?));
     }
     if stem == "bifrost-smoke" {
         return Ok(Some(bifrost_policy_paths(

@@ -1,0 +1,3032 @@
+Compiled from "DefaultSemantics.scala"
+public final class io.joern.dataflowengineoss.DefaultSemantics$ implements java.io.Serializable {
+  public static final io.joern.dataflowengineoss.DefaultSemantics$ MODULE$;
+
+  private io.joern.dataflowengineoss.DefaultSemantics$();
+    Code:
+       0: aload_0
+       1: invokespecial #18                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class io/joern/dataflowengineoss/DefaultSemantics$
+       3: dup
+       4: invokespecial #21                 // Method "<init>":()V
+       7: putstatic     #23                 // Field MODULE$:Lio/joern/dataflowengineoss/DefaultSemantics$;
+      10: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #27                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class io/joern/dataflowengineoss/DefaultSemantics$
+       6: invokespecial #30                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public io.joern.dataflowengineoss.semanticsloader.FullNameSemantics apply();
+    Code:
+       0: aload_0
+       1: invokevirtual #36                 // Method operatorFlows:()Lscala/collection/immutable/List;
+       4: aload_0
+       5: invokevirtual #39                 // Method cFlows:()Lscala/collection/immutable/List;
+       8: invokevirtual #45                 // Method scala/collection/immutable/List.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+      11: checkcast     #47                 // class scala/collection/IterableOps
+      14: aload_0
+      15: invokevirtual #50                 // Method javaFlows:()Lscala/collection/immutable/List;
+      18: invokeinterface #51,  2           // InterfaceMethod scala/collection/IterableOps.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+      23: checkcast     #41                 // class scala/collection/immutable/List
+      26: astore_1
+      27: getstatic     #56                 // Field io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics$;
+      30: aload_1
+      31: invokevirtual #60                 // Method io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$.fromList:(Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;
+      34: areturn
+
+  private scala.Function2<java.lang.String, scala.collection.immutable.List<scala.Tuple2<java.lang.Object, java.lang.Object>>, io.joern.dataflowengineoss.semanticsloader.FlowSemantic> F();
+    Code:
+       0: invokedynamic #84,  0             // InvokeDynamic #0:apply:()Lscala/Function2;
+       5: areturn
+
+  private io.joern.dataflowengineoss.semanticsloader.FlowSemantic PTF(java.lang.String, scala.collection.immutable.List<scala.Tuple2<java.lang.Object, java.lang.Object>>);
+    Code:
+       0: getstatic     #93                 // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+       3: aload_1
+       4: getstatic     #93                 // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+       7: invokevirtual #96                 // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.$lessinit$greater$default$2:()Lscala/collection/immutable/List;
+      10: getstatic     #93                 // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+      13: invokevirtual #100                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.$lessinit$greater$default$3:()Z
+      16: invokevirtual #103                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.apply:(Ljava/lang/String;Lscala/collection/immutable/List;Z)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+      19: astore_3
+      20: getstatic     #93                 // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+      23: aload_1
+      24: aload_2
+      25: getstatic     #93                 // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+      28: invokevirtual #106                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.from$default$3:()Z
+      31: invokevirtual #109                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.from:(Ljava/lang/String;Lscala/collection/immutable/List;Z)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+      34: invokevirtual #114                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic.mappings:()Lscala/collection/immutable/List;
+      37: getstatic     #120                // Field io/joern/dataflowengineoss/semanticsloader/FlowPath$.PassThroughMapping:Lio/joern/dataflowengineoss/semanticsloader/FlowPath;
+      40: invokevirtual #124                // Method scala/collection/immutable/List.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      43: checkcast     #41                 // class scala/collection/immutable/List
+      46: astore        4
+      48: aload_3
+      49: invokevirtual #128                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic.copy$default$1:()Ljava/lang/String;
+      52: astore        5
+      54: aload_3
+      55: invokevirtual #131                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic.copy$default$3:()Z
+      58: istore        6
+      60: aload_3
+      61: aload         5
+      63: aload         4
+      65: iload         6
+      67: invokevirtual #134                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic.copy:(Ljava/lang/String;Lscala/collection/immutable/List;Z)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+      70: areturn
+
+  private scala.collection.immutable.List<scala.Tuple2<java.lang.Object, java.lang.Object>> PTF$default$2();
+    Code:
+       0: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+       3: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+       6: invokevirtual #151                // Method scala/collection/immutable/List$.empty:()Lscala/collection/immutable/List;
+       9: areturn
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> operatorFlows();
+    Code:
+       0: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+       3: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+       6: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       9: bipush        42
+      11: anewarray     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+      14: dup
+      15: iconst_0
+      16: aload_0
+      17: invokespecial #159                // Method F:()Lscala/Function2;
+      20: ldc           #161                // String <operator>.addition
+      22: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+      25: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+      28: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      31: iconst_2
+      32: anewarray     #163                // class scala/Tuple2
+      35: dup
+      36: iconst_0
+      37: new           #165                // class scala/Tuple2$mcII$sp
+      40: dup
+      41: iconst_1
+      42: iconst_m1
+      43: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+      46: aastore
+      47: dup
+      48: iconst_1
+      49: new           #165                // class scala/Tuple2$mcII$sp
+      52: dup
+      53: iconst_2
+      54: iconst_m1
+      55: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+      58: aastore
+      59: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      62: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+      65: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      70: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+      73: aastore
+      74: dup
+      75: iconst_1
+      76: aload_0
+      77: invokespecial #159                // Method F:()Lscala/Function2;
+      80: ldc           #181                // String <operator>.addressOf
+      82: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+      85: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+      88: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      91: iconst_1
+      92: anewarray     #163                // class scala/Tuple2
+      95: dup
+      96: iconst_0
+      97: new           #165                // class scala/Tuple2$mcII$sp
+     100: dup
+     101: iconst_1
+     102: iconst_m1
+     103: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     106: aastore
+     107: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     110: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     113: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     118: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     121: aastore
+     122: dup
+     123: iconst_2
+     124: aload_0
+     125: invokespecial #159                // Method F:()Lscala/Function2;
+     128: ldc           #183                // String <operator>.assignment
+     130: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     133: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     136: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     139: iconst_2
+     140: anewarray     #163                // class scala/Tuple2
+     143: dup
+     144: iconst_0
+     145: new           #165                // class scala/Tuple2$mcII$sp
+     148: dup
+     149: iconst_2
+     150: iconst_1
+     151: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     154: aastore
+     155: dup
+     156: iconst_1
+     157: new           #165                // class scala/Tuple2$mcII$sp
+     160: dup
+     161: iconst_2
+     162: iconst_m1
+     163: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     166: aastore
+     167: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     170: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     173: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     178: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     181: aastore
+     182: dup
+     183: iconst_3
+     184: aload_0
+     185: invokespecial #159                // Method F:()Lscala/Function2;
+     188: ldc           #185                // String <operators>.assignmentAnd
+     190: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     193: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     196: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     199: iconst_3
+     200: anewarray     #163                // class scala/Tuple2
+     203: dup
+     204: iconst_0
+     205: new           #165                // class scala/Tuple2$mcII$sp
+     208: dup
+     209: iconst_2
+     210: iconst_1
+     211: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     214: aastore
+     215: dup
+     216: iconst_1
+     217: new           #165                // class scala/Tuple2$mcII$sp
+     220: dup
+     221: iconst_1
+     222: iconst_1
+     223: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     226: aastore
+     227: dup
+     228: iconst_2
+     229: new           #165                // class scala/Tuple2$mcII$sp
+     232: dup
+     233: iconst_2
+     234: iconst_m1
+     235: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     238: aastore
+     239: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     242: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     245: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     250: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     253: aastore
+     254: dup
+     255: iconst_4
+     256: aload_0
+     257: invokespecial #159                // Method F:()Lscala/Function2;
+     260: ldc           #187                // String <operators>.assignmentArithmeticShiftRight
+     262: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     265: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     268: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     271: iconst_3
+     272: anewarray     #163                // class scala/Tuple2
+     275: dup
+     276: iconst_0
+     277: new           #165                // class scala/Tuple2$mcII$sp
+     280: dup
+     281: iconst_2
+     282: iconst_1
+     283: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     286: aastore
+     287: dup
+     288: iconst_1
+     289: new           #165                // class scala/Tuple2$mcII$sp
+     292: dup
+     293: iconst_1
+     294: iconst_1
+     295: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     298: aastore
+     299: dup
+     300: iconst_2
+     301: new           #165                // class scala/Tuple2$mcII$sp
+     304: dup
+     305: iconst_2
+     306: iconst_m1
+     307: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     310: aastore
+     311: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     314: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     317: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     322: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     325: aastore
+     326: dup
+     327: iconst_5
+     328: aload_0
+     329: invokespecial #159                // Method F:()Lscala/Function2;
+     332: ldc           #189                // String <operator>.assignmentDivision
+     334: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     337: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     340: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     343: iconst_3
+     344: anewarray     #163                // class scala/Tuple2
+     347: dup
+     348: iconst_0
+     349: new           #165                // class scala/Tuple2$mcII$sp
+     352: dup
+     353: iconst_2
+     354: iconst_1
+     355: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     358: aastore
+     359: dup
+     360: iconst_1
+     361: new           #165                // class scala/Tuple2$mcII$sp
+     364: dup
+     365: iconst_1
+     366: iconst_1
+     367: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     370: aastore
+     371: dup
+     372: iconst_2
+     373: new           #165                // class scala/Tuple2$mcII$sp
+     376: dup
+     377: iconst_2
+     378: iconst_m1
+     379: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     382: aastore
+     383: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     386: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     389: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     394: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     397: aastore
+     398: dup
+     399: bipush        6
+     401: aload_0
+     402: invokespecial #159                // Method F:()Lscala/Function2;
+     405: ldc           #191                // String <operators>.assignmentExponentiation
+     407: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     410: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     413: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     416: iconst_3
+     417: anewarray     #163                // class scala/Tuple2
+     420: dup
+     421: iconst_0
+     422: new           #165                // class scala/Tuple2$mcII$sp
+     425: dup
+     426: iconst_2
+     427: iconst_1
+     428: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     431: aastore
+     432: dup
+     433: iconst_1
+     434: new           #165                // class scala/Tuple2$mcII$sp
+     437: dup
+     438: iconst_1
+     439: iconst_1
+     440: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     443: aastore
+     444: dup
+     445: iconst_2
+     446: new           #165                // class scala/Tuple2$mcII$sp
+     449: dup
+     450: iconst_2
+     451: iconst_m1
+     452: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     455: aastore
+     456: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     459: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     462: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     467: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     470: aastore
+     471: dup
+     472: bipush        7
+     474: aload_0
+     475: invokespecial #159                // Method F:()Lscala/Function2;
+     478: ldc           #193                // String <operators>.assignmentLogicalShiftRight
+     480: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     483: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     486: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     489: iconst_3
+     490: anewarray     #163                // class scala/Tuple2
+     493: dup
+     494: iconst_0
+     495: new           #165                // class scala/Tuple2$mcII$sp
+     498: dup
+     499: iconst_2
+     500: iconst_1
+     501: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     504: aastore
+     505: dup
+     506: iconst_1
+     507: new           #165                // class scala/Tuple2$mcII$sp
+     510: dup
+     511: iconst_1
+     512: iconst_1
+     513: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     516: aastore
+     517: dup
+     518: iconst_2
+     519: new           #165                // class scala/Tuple2$mcII$sp
+     522: dup
+     523: iconst_2
+     524: iconst_m1
+     525: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     528: aastore
+     529: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     532: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     535: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     540: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     543: aastore
+     544: dup
+     545: bipush        8
+     547: aload_0
+     548: invokespecial #159                // Method F:()Lscala/Function2;
+     551: ldc           #195                // String <operator>.assignmentMinus
+     553: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     556: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     559: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     562: iconst_3
+     563: anewarray     #163                // class scala/Tuple2
+     566: dup
+     567: iconst_0
+     568: new           #165                // class scala/Tuple2$mcII$sp
+     571: dup
+     572: iconst_2
+     573: iconst_1
+     574: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     577: aastore
+     578: dup
+     579: iconst_1
+     580: new           #165                // class scala/Tuple2$mcII$sp
+     583: dup
+     584: iconst_1
+     585: iconst_1
+     586: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     589: aastore
+     590: dup
+     591: iconst_2
+     592: new           #165                // class scala/Tuple2$mcII$sp
+     595: dup
+     596: iconst_2
+     597: iconst_m1
+     598: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     601: aastore
+     602: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     605: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     608: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     613: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     616: aastore
+     617: dup
+     618: bipush        9
+     620: aload_0
+     621: invokespecial #159                // Method F:()Lscala/Function2;
+     624: ldc           #197                // String <operators>.assignmentModulo
+     626: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     629: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     632: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     635: iconst_3
+     636: anewarray     #163                // class scala/Tuple2
+     639: dup
+     640: iconst_0
+     641: new           #165                // class scala/Tuple2$mcII$sp
+     644: dup
+     645: iconst_2
+     646: iconst_1
+     647: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     650: aastore
+     651: dup
+     652: iconst_1
+     653: new           #165                // class scala/Tuple2$mcII$sp
+     656: dup
+     657: iconst_1
+     658: iconst_1
+     659: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     662: aastore
+     663: dup
+     664: iconst_2
+     665: new           #165                // class scala/Tuple2$mcII$sp
+     668: dup
+     669: iconst_2
+     670: iconst_m1
+     671: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     674: aastore
+     675: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     678: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     681: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     686: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     689: aastore
+     690: dup
+     691: bipush        10
+     693: aload_0
+     694: invokespecial #159                // Method F:()Lscala/Function2;
+     697: ldc           #199                // String <operator>.assignmentMultiplication
+     699: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     702: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     705: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     708: iconst_3
+     709: anewarray     #163                // class scala/Tuple2
+     712: dup
+     713: iconst_0
+     714: new           #165                // class scala/Tuple2$mcII$sp
+     717: dup
+     718: iconst_2
+     719: iconst_1
+     720: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     723: aastore
+     724: dup
+     725: iconst_1
+     726: new           #165                // class scala/Tuple2$mcII$sp
+     729: dup
+     730: iconst_1
+     731: iconst_1
+     732: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     735: aastore
+     736: dup
+     737: iconst_2
+     738: new           #165                // class scala/Tuple2$mcII$sp
+     741: dup
+     742: iconst_2
+     743: iconst_m1
+     744: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     747: aastore
+     748: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     751: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     754: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     759: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     762: aastore
+     763: dup
+     764: bipush        11
+     766: aload_0
+     767: invokespecial #159                // Method F:()Lscala/Function2;
+     770: ldc           #201                // String <operators>.assignmentOr
+     772: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     775: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     778: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     781: iconst_3
+     782: anewarray     #163                // class scala/Tuple2
+     785: dup
+     786: iconst_0
+     787: new           #165                // class scala/Tuple2$mcII$sp
+     790: dup
+     791: iconst_2
+     792: iconst_1
+     793: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     796: aastore
+     797: dup
+     798: iconst_1
+     799: new           #165                // class scala/Tuple2$mcII$sp
+     802: dup
+     803: iconst_1
+     804: iconst_1
+     805: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     808: aastore
+     809: dup
+     810: iconst_2
+     811: new           #165                // class scala/Tuple2$mcII$sp
+     814: dup
+     815: iconst_2
+     816: iconst_m1
+     817: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     820: aastore
+     821: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     824: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     827: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     832: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     835: aastore
+     836: dup
+     837: bipush        12
+     839: aload_0
+     840: invokespecial #159                // Method F:()Lscala/Function2;
+     843: ldc           #203                // String <operator>.assignmentPlus
+     845: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     848: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     851: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     854: iconst_3
+     855: anewarray     #163                // class scala/Tuple2
+     858: dup
+     859: iconst_0
+     860: new           #165                // class scala/Tuple2$mcII$sp
+     863: dup
+     864: iconst_2
+     865: iconst_1
+     866: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     869: aastore
+     870: dup
+     871: iconst_1
+     872: new           #165                // class scala/Tuple2$mcII$sp
+     875: dup
+     876: iconst_1
+     877: iconst_1
+     878: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     881: aastore
+     882: dup
+     883: iconst_2
+     884: new           #165                // class scala/Tuple2$mcII$sp
+     887: dup
+     888: iconst_2
+     889: iconst_m1
+     890: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     893: aastore
+     894: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     897: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     900: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     905: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     908: aastore
+     909: dup
+     910: bipush        13
+     912: aload_0
+     913: invokespecial #159                // Method F:()Lscala/Function2;
+     916: ldc           #205                // String <operators>.assignmentShiftLeft
+     918: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     921: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     924: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     927: iconst_3
+     928: anewarray     #163                // class scala/Tuple2
+     931: dup
+     932: iconst_0
+     933: new           #165                // class scala/Tuple2$mcII$sp
+     936: dup
+     937: iconst_2
+     938: iconst_1
+     939: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     942: aastore
+     943: dup
+     944: iconst_1
+     945: new           #165                // class scala/Tuple2$mcII$sp
+     948: dup
+     949: iconst_1
+     950: iconst_1
+     951: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     954: aastore
+     955: dup
+     956: iconst_2
+     957: new           #165                // class scala/Tuple2$mcII$sp
+     960: dup
+     961: iconst_2
+     962: iconst_m1
+     963: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     966: aastore
+     967: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     970: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     973: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     978: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     981: aastore
+     982: dup
+     983: bipush        14
+     985: aload_0
+     986: invokespecial #159                // Method F:()Lscala/Function2;
+     989: ldc           #207                // String <operators>.assignmentXor
+     991: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     994: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     997: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1000: iconst_3
+    1001: anewarray     #163                // class scala/Tuple2
+    1004: dup
+    1005: iconst_0
+    1006: new           #165                // class scala/Tuple2$mcII$sp
+    1009: dup
+    1010: iconst_2
+    1011: iconst_1
+    1012: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1015: aastore
+    1016: dup
+    1017: iconst_1
+    1018: new           #165                // class scala/Tuple2$mcII$sp
+    1021: dup
+    1022: iconst_1
+    1023: iconst_1
+    1024: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1027: aastore
+    1028: dup
+    1029: iconst_2
+    1030: new           #165                // class scala/Tuple2$mcII$sp
+    1033: dup
+    1034: iconst_2
+    1035: iconst_m1
+    1036: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1039: aastore
+    1040: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1043: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1046: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1051: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1054: aastore
+    1055: dup
+    1056: bipush        15
+    1058: aload_0
+    1059: invokespecial #159                // Method F:()Lscala/Function2;
+    1062: ldc           #209                // String <operator>.cast
+    1064: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1067: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1070: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1073: iconst_2
+    1074: anewarray     #163                // class scala/Tuple2
+    1077: dup
+    1078: iconst_0
+    1079: new           #165                // class scala/Tuple2$mcII$sp
+    1082: dup
+    1083: iconst_1
+    1084: iconst_m1
+    1085: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1088: aastore
+    1089: dup
+    1090: iconst_1
+    1091: new           #165                // class scala/Tuple2$mcII$sp
+    1094: dup
+    1095: iconst_2
+    1096: iconst_m1
+    1097: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1100: aastore
+    1101: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1104: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1107: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1112: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1115: aastore
+    1116: dup
+    1117: bipush        16
+    1119: aload_0
+    1120: invokespecial #159                // Method F:()Lscala/Function2;
+    1123: ldc           #211                // String <operator>.computedMemberAccess
+    1125: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1128: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1131: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1134: iconst_1
+    1135: anewarray     #163                // class scala/Tuple2
+    1138: dup
+    1139: iconst_0
+    1140: new           #165                // class scala/Tuple2$mcII$sp
+    1143: dup
+    1144: iconst_1
+    1145: iconst_m1
+    1146: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1149: aastore
+    1150: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1153: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1156: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1161: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1164: aastore
+    1165: dup
+    1166: bipush        17
+    1168: aload_0
+    1169: invokespecial #159                // Method F:()Lscala/Function2;
+    1172: ldc           #213                // String <operator>.conditional
+    1174: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1177: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1180: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1183: iconst_2
+    1184: anewarray     #163                // class scala/Tuple2
+    1187: dup
+    1188: iconst_0
+    1189: new           #165                // class scala/Tuple2$mcII$sp
+    1192: dup
+    1193: iconst_2
+    1194: iconst_m1
+    1195: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1198: aastore
+    1199: dup
+    1200: iconst_1
+    1201: new           #165                // class scala/Tuple2$mcII$sp
+    1204: dup
+    1205: iconst_3
+    1206: iconst_m1
+    1207: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1210: aastore
+    1211: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1214: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1217: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1222: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1225: aastore
+    1226: dup
+    1227: bipush        18
+    1229: aload_0
+    1230: invokespecial #159                // Method F:()Lscala/Function2;
+    1233: ldc           #215                // String <operator>.elvis
+    1235: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1238: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1241: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1244: iconst_2
+    1245: anewarray     #163                // class scala/Tuple2
+    1248: dup
+    1249: iconst_0
+    1250: new           #165                // class scala/Tuple2$mcII$sp
+    1253: dup
+    1254: iconst_1
+    1255: iconst_m1
+    1256: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1259: aastore
+    1260: dup
+    1261: iconst_1
+    1262: new           #165                // class scala/Tuple2$mcII$sp
+    1265: dup
+    1266: iconst_2
+    1267: iconst_m1
+    1268: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1271: aastore
+    1272: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1275: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1278: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1283: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1286: aastore
+    1287: dup
+    1288: bipush        19
+    1290: aload_0
+    1291: invokespecial #159                // Method F:()Lscala/Function2;
+    1294: ldc           #217                // String <operator>.notNullAssert
+    1296: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1299: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1302: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1305: iconst_1
+    1306: anewarray     #163                // class scala/Tuple2
+    1309: dup
+    1310: iconst_0
+    1311: new           #165                // class scala/Tuple2$mcII$sp
+    1314: dup
+    1315: iconst_1
+    1316: iconst_m1
+    1317: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1320: aastore
+    1321: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1324: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1327: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1332: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1335: aastore
+    1336: dup
+    1337: bipush        20
+    1339: aload_0
+    1340: invokespecial #159                // Method F:()Lscala/Function2;
+    1343: ldc           #219                // String <operator>.fieldAccess
+    1345: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1348: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1351: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1354: iconst_1
+    1355: anewarray     #163                // class scala/Tuple2
+    1358: dup
+    1359: iconst_0
+    1360: new           #165                // class scala/Tuple2$mcII$sp
+    1363: dup
+    1364: iconst_1
+    1365: iconst_m1
+    1366: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1369: aastore
+    1370: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1373: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1376: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1381: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1384: aastore
+    1385: dup
+    1386: bipush        21
+    1388: aload_0
+    1389: invokespecial #159                // Method F:()Lscala/Function2;
+    1392: ldc           #221                // String <operator>.getElementPtr
+    1394: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1397: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1400: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1403: iconst_1
+    1404: anewarray     #163                // class scala/Tuple2
+    1407: dup
+    1408: iconst_0
+    1409: new           #165                // class scala/Tuple2$mcII$sp
+    1412: dup
+    1413: iconst_1
+    1414: iconst_m1
+    1415: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1418: aastore
+    1419: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1422: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1425: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1430: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1433: aastore
+    1434: dup
+    1435: bipush        22
+    1437: aload_0
+    1438: ldc           #223                // String <operator>.modulo
+    1440: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1443: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1446: invokevirtual #151                // Method scala/collection/immutable/List$.empty:()Lscala/collection/immutable/List;
+    1449: invokespecial #225                // Method PTF:(Ljava/lang/String;Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+    1452: aastore
+    1453: dup
+    1454: bipush        23
+    1456: aload_0
+    1457: ldc           #227                // String <operator>.arrayInitializer
+    1459: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1462: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1465: invokevirtual #151                // Method scala/collection/immutable/List$.empty:()Lscala/collection/immutable/List;
+    1468: invokespecial #225                // Method PTF:(Ljava/lang/String;Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+    1471: aastore
+    1472: dup
+    1473: bipush        24
+    1475: aload_0
+    1476: invokespecial #159                // Method F:()Lscala/Function2;
+    1479: ldc           #229                // String <operator>.incBy
+    1481: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1484: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1487: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1490: iconst_4
+    1491: anewarray     #163                // class scala/Tuple2
+    1494: dup
+    1495: iconst_0
+    1496: new           #165                // class scala/Tuple2$mcII$sp
+    1499: dup
+    1500: iconst_1
+    1501: iconst_1
+    1502: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1505: aastore
+    1506: dup
+    1507: iconst_1
+    1508: new           #165                // class scala/Tuple2$mcII$sp
+    1511: dup
+    1512: iconst_2
+    1513: iconst_1
+    1514: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1517: aastore
+    1518: dup
+    1519: iconst_2
+    1520: new           #165                // class scala/Tuple2$mcII$sp
+    1523: dup
+    1524: iconst_3
+    1525: iconst_1
+    1526: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1529: aastore
+    1530: dup
+    1531: iconst_3
+    1532: new           #165                // class scala/Tuple2$mcII$sp
+    1535: dup
+    1536: iconst_4
+    1537: iconst_1
+    1538: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1541: aastore
+    1542: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1545: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1548: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1553: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1556: aastore
+    1557: dup
+    1558: bipush        25
+    1560: aload_0
+    1561: invokespecial #159                // Method F:()Lscala/Function2;
+    1564: ldc           #231                // String <operator>.indexAccess
+    1566: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1569: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1572: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1575: iconst_1
+    1576: anewarray     #163                // class scala/Tuple2
+    1579: dup
+    1580: iconst_0
+    1581: new           #165                // class scala/Tuple2$mcII$sp
+    1584: dup
+    1585: iconst_1
+    1586: iconst_m1
+    1587: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1590: aastore
+    1591: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1594: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1597: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1602: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1605: aastore
+    1606: dup
+    1607: bipush        26
+    1609: aload_0
+    1610: invokespecial #159                // Method F:()Lscala/Function2;
+    1613: ldc           #233                // String <operator>.indirectComputedMemberAccess
+    1615: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1618: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1621: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1624: iconst_1
+    1625: anewarray     #163                // class scala/Tuple2
+    1628: dup
+    1629: iconst_0
+    1630: new           #165                // class scala/Tuple2$mcII$sp
+    1633: dup
+    1634: iconst_1
+    1635: iconst_m1
+    1636: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1639: aastore
+    1640: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1643: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1646: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1651: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1654: aastore
+    1655: dup
+    1656: bipush        27
+    1658: aload_0
+    1659: invokespecial #159                // Method F:()Lscala/Function2;
+    1662: ldc           #235                // String <operator>.indirectFieldAccess
+    1664: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1667: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1670: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1673: iconst_1
+    1674: anewarray     #163                // class scala/Tuple2
+    1677: dup
+    1678: iconst_0
+    1679: new           #165                // class scala/Tuple2$mcII$sp
+    1682: dup
+    1683: iconst_1
+    1684: iconst_m1
+    1685: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1688: aastore
+    1689: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1692: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1695: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1700: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1703: aastore
+    1704: dup
+    1705: bipush        28
+    1707: aload_0
+    1708: invokespecial #159                // Method F:()Lscala/Function2;
+    1711: ldc           #237                // String <operator>.indirectIndexAccess
+    1713: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1716: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1719: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1722: iconst_2
+    1723: anewarray     #163                // class scala/Tuple2
+    1726: dup
+    1727: iconst_0
+    1728: new           #165                // class scala/Tuple2$mcII$sp
+    1731: dup
+    1732: iconst_1
+    1733: iconst_m1
+    1734: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1737: aastore
+    1738: dup
+    1739: iconst_1
+    1740: new           #165                // class scala/Tuple2$mcII$sp
+    1743: dup
+    1744: iconst_2
+    1745: iconst_1
+    1746: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1749: aastore
+    1750: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1753: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1756: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1761: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1764: aastore
+    1765: dup
+    1766: bipush        29
+    1768: aload_0
+    1769: invokespecial #159                // Method F:()Lscala/Function2;
+    1772: ldc           #239                // String <operator>.indirectMemberAccess
+    1774: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1777: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1780: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1783: iconst_1
+    1784: anewarray     #163                // class scala/Tuple2
+    1787: dup
+    1788: iconst_0
+    1789: new           #165                // class scala/Tuple2$mcII$sp
+    1792: dup
+    1793: iconst_1
+    1794: iconst_m1
+    1795: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1798: aastore
+    1799: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1802: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1805: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1810: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1813: aastore
+    1814: dup
+    1815: bipush        30
+    1817: aload_0
+    1818: invokespecial #159                // Method F:()Lscala/Function2;
+    1821: ldc           #241                // String <operator>.indirection
+    1823: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1826: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1829: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1832: iconst_1
+    1833: anewarray     #163                // class scala/Tuple2
+    1836: dup
+    1837: iconst_0
+    1838: new           #165                // class scala/Tuple2$mcII$sp
+    1841: dup
+    1842: iconst_1
+    1843: iconst_m1
+    1844: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1847: aastore
+    1848: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1851: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1854: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1859: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1862: aastore
+    1863: dup
+    1864: bipush        31
+    1866: aload_0
+    1867: invokespecial #159                // Method F:()Lscala/Function2;
+    1870: ldc           #243                // String <operator>.memberAccess
+    1872: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1875: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1878: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1881: iconst_1
+    1882: anewarray     #163                // class scala/Tuple2
+    1885: dup
+    1886: iconst_0
+    1887: new           #165                // class scala/Tuple2$mcII$sp
+    1890: dup
+    1891: iconst_1
+    1892: iconst_m1
+    1893: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1896: aastore
+    1897: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1900: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1903: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1908: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1911: aastore
+    1912: dup
+    1913: bipush        32
+    1915: aload_0
+    1916: invokespecial #159                // Method F:()Lscala/Function2;
+    1919: ldc           #245                // String <operator>.pointerShift
+    1921: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1924: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1927: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1930: iconst_1
+    1931: anewarray     #163                // class scala/Tuple2
+    1934: dup
+    1935: iconst_0
+    1936: new           #165                // class scala/Tuple2$mcII$sp
+    1939: dup
+    1940: iconst_1
+    1941: iconst_m1
+    1942: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1945: aastore
+    1946: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1949: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1952: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1957: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1960: aastore
+    1961: dup
+    1962: bipush        33
+    1964: aload_0
+    1965: invokespecial #159                // Method F:()Lscala/Function2;
+    1968: ldc           #247                // String <operator>.postDecrement
+    1970: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1973: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1976: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1979: iconst_2
+    1980: anewarray     #163                // class scala/Tuple2
+    1983: dup
+    1984: iconst_0
+    1985: new           #165                // class scala/Tuple2$mcII$sp
+    1988: dup
+    1989: iconst_1
+    1990: iconst_1
+    1991: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1994: aastore
+    1995: dup
+    1996: iconst_1
+    1997: new           #165                // class scala/Tuple2$mcII$sp
+    2000: dup
+    2001: iconst_1
+    2002: iconst_m1
+    2003: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    2006: aastore
+    2007: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    2010: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    2013: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    2018: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    2021: aastore
+    2022: dup
+    2023: bipush        34
+    2025: aload_0
+    2026: invokespecial #159                // Method F:()Lscala/Function2;
+    2029: ldc           #249                // String <operator>.postIncrement
+    2031: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    2034: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    2037: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    2040: iconst_2
+    2041: anewarray     #163                // class scala/Tuple2
+    2044: dup
+    2045: iconst_0
+    2046: new           #165                // class scala/Tuple2$mcII$sp
+    2049: dup
+    2050: iconst_1
+    2051: iconst_1
+    2052: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    2055: aastore
+    2056: dup
+    2057: iconst_1
+    2058: new           #165                // class scala/Tuple2$mcII$sp
+    2061: dup
+    2062: iconst_1
+    2063: iconst_m1
+    2064: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    2067: aastore
+    2068: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    2071: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    2074: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    2079: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    2082: aastore
+    2083: dup
+    2084: bipush        35
+    2086: aload_0
+    2087: invokespecial #159                // Method F:()Lscala/Function2;
+    2090: ldc           #251                // String <operator>.preDecrement
+    2092: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    2095: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    2098: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    2101: iconst_2
+    2102: anewarray     #163                // class scala/Tuple2
+    2105: dup
+    2106: iconst_0
+    2107: new           #165                // class scala/Tuple2$mcII$sp
+    2110: dup
+    2111: iconst_1
+    2112: iconst_1
+    2113: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    2116: aastore
+    2117: dup
+    2118: iconst_1
+    2119: new           #165                // class scala/Tuple2$mcII$sp
+    2122: dup
+    2123: iconst_1
+    2124: iconst_m1
+    2125: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    2128: aastore
+    2129: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    2132: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    2135: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    2140: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    2143: aastore
+    2144: dup
+    2145: bipush        36
+    2147: aload_0
+    2148: invokespecial #159                // Method F:()Lscala/Function2;
+    2151: ldc           #253                // String <operator>.preIncrement
+    2153: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    2156: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    2159: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    2162: iconst_2
+    2163: anewarray     #163                // class scala/Tuple2
+    2166: dup
+    2167: iconst_0
+    2168: new           #165                // class scala/Tuple2$mcII$sp
+    2171: dup
+    2172: iconst_1
+    2173: iconst_1
+    2174: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    2177: aastore
+    2178: dup
+    2179: iconst_1
+    2180: new           #165                // class scala/Tuple2$mcII$sp
+    2183: dup
+    2184: iconst_1
+    2185: iconst_m1
+    2186: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    2189: aastore
+    2190: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    2193: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    2196: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    2201: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    2204: aastore
+    2205: dup
+    2206: bipush        37
+    2208: aload_0
+    2209: invokespecial #159                // Method F:()Lscala/Function2;
+    2212: ldc           #255                // String <operator>.sizeOf
+    2214: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    2217: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    2220: invokevirtual #151                // Method scala/collection/immutable/List$.empty:()Lscala/collection/immutable/List;
+    2223: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    2228: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    2231: aastore
+    2232: dup
+    2233: bipush        38
+    2235: aload_0
+    2236: ldc_w         #257                // String <operator>.tupleLiteral
+    2239: aload_0
+    2240: invokespecial #259                // Method PTF$default$2:()Lscala/collection/immutable/List;
+    2243: invokespecial #225                // Method PTF:(Ljava/lang/String;Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+    2246: aastore
+    2247: dup
+    2248: bipush        39
+    2250: aload_0
+    2251: ldc_w         #261                // String <operator>.dictLiteral
+    2254: aload_0
+    2255: invokespecial #259                // Method PTF$default$2:()Lscala/collection/immutable/List;
+    2258: invokespecial #225                // Method PTF:(Ljava/lang/String;Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+    2261: aastore
+    2262: dup
+    2263: bipush        40
+    2265: aload_0
+    2266: ldc_w         #263                // String <operator>.setLiteral
+    2269: aload_0
+    2270: invokespecial #259                // Method PTF$default$2:()Lscala/collection/immutable/List;
+    2273: invokespecial #225                // Method PTF:(Ljava/lang/String;Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+    2276: aastore
+    2277: dup
+    2278: bipush        41
+    2280: aload_0
+    2281: ldc_w         #265                // String <operator>.listLiteral
+    2284: aload_0
+    2285: invokespecial #259                // Method PTF$default$2:()Lscala/collection/immutable/List;
+    2288: invokespecial #225                // Method PTF:(Ljava/lang/String;Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+    2291: aastore
+    2292: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    2295: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    2298: checkcast     #41                 // class scala/collection/immutable/List
+    2301: areturn
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> cFlows();
+    Code:
+       0: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+       3: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+       6: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       9: bipush        34
+      11: anewarray     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+      14: dup
+      15: iconst_0
+      16: aload_0
+      17: invokespecial #159                // Method F:()Lscala/Function2;
+      20: ldc_w         #267                // String abs
+      23: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+      26: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+      29: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      32: iconst_2
+      33: anewarray     #163                // class scala/Tuple2
+      36: dup
+      37: iconst_0
+      38: new           #165                // class scala/Tuple2$mcII$sp
+      41: dup
+      42: iconst_1
+      43: iconst_1
+      44: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+      47: aastore
+      48: dup
+      49: iconst_1
+      50: new           #165                // class scala/Tuple2$mcII$sp
+      53: dup
+      54: iconst_1
+      55: iconst_m1
+      56: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+      59: aastore
+      60: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      63: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+      66: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      71: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+      74: aastore
+      75: dup
+      76: iconst_1
+      77: aload_0
+      78: invokespecial #159                // Method F:()Lscala/Function2;
+      81: ldc_w         #269                // String abort
+      84: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+      87: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+      90: invokevirtual #151                // Method scala/collection/immutable/List$.empty:()Lscala/collection/immutable/List;
+      93: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      98: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     101: aastore
+     102: dup
+     103: iconst_2
+     104: aload_0
+     105: invokespecial #159                // Method F:()Lscala/Function2;
+     108: ldc_w         #271                // String asctime
+     111: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     114: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     117: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     120: iconst_2
+     121: anewarray     #163                // class scala/Tuple2
+     124: dup
+     125: iconst_0
+     126: new           #165                // class scala/Tuple2$mcII$sp
+     129: dup
+     130: iconst_1
+     131: iconst_1
+     132: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     135: aastore
+     136: dup
+     137: iconst_1
+     138: new           #165                // class scala/Tuple2$mcII$sp
+     141: dup
+     142: iconst_1
+     143: iconst_m1
+     144: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     147: aastore
+     148: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     151: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     154: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     159: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     162: aastore
+     163: dup
+     164: iconst_3
+     165: aload_0
+     166: invokespecial #159                // Method F:()Lscala/Function2;
+     169: ldc_w         #273                // String asctime_r
+     172: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     175: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     178: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     181: iconst_2
+     182: anewarray     #163                // class scala/Tuple2
+     185: dup
+     186: iconst_0
+     187: new           #165                // class scala/Tuple2$mcII$sp
+     190: dup
+     191: iconst_1
+     192: iconst_1
+     193: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     196: aastore
+     197: dup
+     198: iconst_1
+     199: new           #165                // class scala/Tuple2$mcII$sp
+     202: dup
+     203: iconst_1
+     204: iconst_m1
+     205: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     208: aastore
+     209: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     212: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     215: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     220: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     223: aastore
+     224: dup
+     225: iconst_4
+     226: aload_0
+     227: invokespecial #159                // Method F:()Lscala/Function2;
+     230: ldc_w         #275                // String atof
+     233: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     236: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     239: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     242: iconst_2
+     243: anewarray     #163                // class scala/Tuple2
+     246: dup
+     247: iconst_0
+     248: new           #165                // class scala/Tuple2$mcII$sp
+     251: dup
+     252: iconst_1
+     253: iconst_1
+     254: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     257: aastore
+     258: dup
+     259: iconst_1
+     260: new           #165                // class scala/Tuple2$mcII$sp
+     263: dup
+     264: iconst_1
+     265: iconst_m1
+     266: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     269: aastore
+     270: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     273: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     276: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     281: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     284: aastore
+     285: dup
+     286: iconst_5
+     287: aload_0
+     288: invokespecial #159                // Method F:()Lscala/Function2;
+     291: ldc_w         #277                // String atoi
+     294: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     297: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     300: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     303: iconst_2
+     304: anewarray     #163                // class scala/Tuple2
+     307: dup
+     308: iconst_0
+     309: new           #165                // class scala/Tuple2$mcII$sp
+     312: dup
+     313: iconst_1
+     314: iconst_1
+     315: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     318: aastore
+     319: dup
+     320: iconst_1
+     321: new           #165                // class scala/Tuple2$mcII$sp
+     324: dup
+     325: iconst_1
+     326: iconst_m1
+     327: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     330: aastore
+     331: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     334: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     337: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     342: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     345: aastore
+     346: dup
+     347: bipush        6
+     349: aload_0
+     350: invokespecial #159                // Method F:()Lscala/Function2;
+     353: ldc_w         #279                // String atol
+     356: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     359: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     362: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     365: iconst_2
+     366: anewarray     #163                // class scala/Tuple2
+     369: dup
+     370: iconst_0
+     371: new           #165                // class scala/Tuple2$mcII$sp
+     374: dup
+     375: iconst_1
+     376: iconst_1
+     377: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     380: aastore
+     381: dup
+     382: iconst_1
+     383: new           #165                // class scala/Tuple2$mcII$sp
+     386: dup
+     387: iconst_1
+     388: iconst_m1
+     389: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     392: aastore
+     393: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     396: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     399: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     404: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     407: aastore
+     408: dup
+     409: bipush        7
+     411: aload_0
+     412: invokespecial #159                // Method F:()Lscala/Function2;
+     415: ldc_w         #281                // String calloc
+     418: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     421: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     424: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     427: iconst_2
+     428: anewarray     #163                // class scala/Tuple2
+     431: dup
+     432: iconst_0
+     433: new           #165                // class scala/Tuple2$mcII$sp
+     436: dup
+     437: iconst_1
+     438: iconst_m1
+     439: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     442: aastore
+     443: dup
+     444: iconst_1
+     445: new           #165                // class scala/Tuple2$mcII$sp
+     448: dup
+     449: iconst_2
+     450: iconst_m1
+     451: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     454: aastore
+     455: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     458: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     461: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     466: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     469: aastore
+     470: dup
+     471: bipush        8
+     473: aload_0
+     474: invokespecial #159                // Method F:()Lscala/Function2;
+     477: ldc_w         #283                // String ceil
+     480: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     483: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     486: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     489: iconst_2
+     490: anewarray     #163                // class scala/Tuple2
+     493: dup
+     494: iconst_0
+     495: new           #165                // class scala/Tuple2$mcII$sp
+     498: dup
+     499: iconst_1
+     500: iconst_1
+     501: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     504: aastore
+     505: dup
+     506: iconst_1
+     507: new           #165                // class scala/Tuple2$mcII$sp
+     510: dup
+     511: iconst_1
+     512: iconst_1
+     513: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     516: aastore
+     517: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     520: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     523: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     528: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     531: aastore
+     532: dup
+     533: bipush        9
+     535: aload_0
+     536: invokespecial #159                // Method F:()Lscala/Function2;
+     539: ldc_w         #285                // String clock
+     542: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     545: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     548: invokevirtual #151                // Method scala/collection/immutable/List$.empty:()Lscala/collection/immutable/List;
+     551: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     556: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     559: aastore
+     560: dup
+     561: bipush        10
+     563: aload_0
+     564: invokespecial #159                // Method F:()Lscala/Function2;
+     567: ldc_w         #287                // String ctime
+     570: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     573: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     576: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     579: iconst_1
+     580: anewarray     #163                // class scala/Tuple2
+     583: dup
+     584: iconst_0
+     585: new           #165                // class scala/Tuple2$mcII$sp
+     588: dup
+     589: iconst_1
+     590: iconst_m1
+     591: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     594: aastore
+     595: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     598: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     601: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     606: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     609: aastore
+     610: dup
+     611: bipush        11
+     613: aload_0
+     614: invokespecial #159                // Method F:()Lscala/Function2;
+     617: ldc_w         #289                // String ctime64
+     620: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     623: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     626: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     629: iconst_1
+     630: anewarray     #163                // class scala/Tuple2
+     633: dup
+     634: iconst_0
+     635: new           #165                // class scala/Tuple2$mcII$sp
+     638: dup
+     639: iconst_1
+     640: iconst_m1
+     641: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     644: aastore
+     645: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     648: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     651: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     656: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     659: aastore
+     660: dup
+     661: bipush        12
+     663: aload_0
+     664: invokespecial #159                // Method F:()Lscala/Function2;
+     667: ldc_w         #291                // String ctime_r
+     670: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     673: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     676: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     679: iconst_1
+     680: anewarray     #163                // class scala/Tuple2
+     683: dup
+     684: iconst_0
+     685: new           #165                // class scala/Tuple2$mcII$sp
+     688: dup
+     689: iconst_1
+     690: iconst_m1
+     691: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     694: aastore
+     695: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     698: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     701: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     706: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     709: aastore
+     710: dup
+     711: bipush        13
+     713: aload_0
+     714: invokespecial #159                // Method F:()Lscala/Function2;
+     717: ldc_w         #293                // String ctime64_r
+     720: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     723: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     726: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     729: iconst_1
+     730: anewarray     #163                // class scala/Tuple2
+     733: dup
+     734: iconst_0
+     735: new           #165                // class scala/Tuple2$mcII$sp
+     738: dup
+     739: iconst_1
+     740: iconst_m1
+     741: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     744: aastore
+     745: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     748: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     751: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     756: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     759: aastore
+     760: dup
+     761: bipush        14
+     763: aload_0
+     764: invokespecial #159                // Method F:()Lscala/Function2;
+     767: ldc_w         #295                // String difftime
+     770: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     773: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     776: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     779: iconst_2
+     780: anewarray     #163                // class scala/Tuple2
+     783: dup
+     784: iconst_0
+     785: new           #165                // class scala/Tuple2$mcII$sp
+     788: dup
+     789: iconst_1
+     790: iconst_m1
+     791: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     794: aastore
+     795: dup
+     796: iconst_1
+     797: new           #165                // class scala/Tuple2$mcII$sp
+     800: dup
+     801: iconst_2
+     802: iconst_m1
+     803: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     806: aastore
+     807: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     810: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     813: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     818: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     821: aastore
+     822: dup
+     823: bipush        15
+     825: aload_0
+     826: invokespecial #159                // Method F:()Lscala/Function2;
+     829: ldc_w         #297                // String difftime64
+     832: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     835: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     838: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     841: iconst_2
+     842: anewarray     #163                // class scala/Tuple2
+     845: dup
+     846: iconst_0
+     847: new           #165                // class scala/Tuple2$mcII$sp
+     850: dup
+     851: iconst_1
+     852: iconst_m1
+     853: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     856: aastore
+     857: dup
+     858: iconst_1
+     859: new           #165                // class scala/Tuple2$mcII$sp
+     862: dup
+     863: iconst_2
+     864: iconst_m1
+     865: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     868: aastore
+     869: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     872: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     875: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     880: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     883: aastore
+     884: dup
+     885: bipush        16
+     887: aload_0
+     888: ldc_w         #299                // String div
+     891: aload_0
+     892: invokespecial #259                // Method PTF$default$2:()Lscala/collection/immutable/List;
+     895: invokespecial #225                // Method PTF:(Ljava/lang/String;Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+     898: aastore
+     899: dup
+     900: bipush        17
+     902: aload_0
+     903: invokespecial #159                // Method F:()Lscala/Function2;
+     906: ldc_w         #301                // String exit
+     909: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     912: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     915: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     918: iconst_1
+     919: anewarray     #163                // class scala/Tuple2
+     922: dup
+     923: iconst_0
+     924: new           #165                // class scala/Tuple2$mcII$sp
+     927: dup
+     928: iconst_1
+     929: iconst_1
+     930: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     933: aastore
+     934: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     937: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     940: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     945: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     948: aastore
+     949: dup
+     950: bipush        18
+     952: aload_0
+     953: invokespecial #159                // Method F:()Lscala/Function2;
+     956: ldc_w         #303                // String exp
+     959: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     962: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     965: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     968: iconst_1
+     969: anewarray     #163                // class scala/Tuple2
+     972: dup
+     973: iconst_0
+     974: new           #165                // class scala/Tuple2$mcII$sp
+     977: dup
+     978: iconst_1
+     979: iconst_m1
+     980: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     983: aastore
+     984: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     987: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     990: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     995: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     998: aastore
+     999: dup
+    1000: bipush        19
+    1002: aload_0
+    1003: invokespecial #159                // Method F:()Lscala/Function2;
+    1006: ldc_w         #305                // String fabs
+    1009: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1012: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1015: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1018: iconst_1
+    1019: anewarray     #163                // class scala/Tuple2
+    1022: dup
+    1023: iconst_0
+    1024: new           #165                // class scala/Tuple2$mcII$sp
+    1027: dup
+    1028: iconst_1
+    1029: iconst_m1
+    1030: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1033: aastore
+    1034: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1037: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1040: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1045: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1048: aastore
+    1049: dup
+    1050: bipush        20
+    1052: aload_0
+    1053: invokespecial #159                // Method F:()Lscala/Function2;
+    1056: ldc_w         #307                // String fclose
+    1059: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1062: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1065: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1068: iconst_2
+    1069: anewarray     #163                // class scala/Tuple2
+    1072: dup
+    1073: iconst_0
+    1074: new           #165                // class scala/Tuple2$mcII$sp
+    1077: dup
+    1078: iconst_1
+    1079: iconst_1
+    1080: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1083: aastore
+    1084: dup
+    1085: iconst_1
+    1086: new           #165                // class scala/Tuple2$mcII$sp
+    1089: dup
+    1090: iconst_1
+    1091: iconst_m1
+    1092: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1095: aastore
+    1096: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1099: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1102: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1107: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1110: aastore
+    1111: dup
+    1112: bipush        21
+    1114: aload_0
+    1115: invokespecial #159                // Method F:()Lscala/Function2;
+    1118: ldc_w         #309                // String fdopen
+    1121: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1124: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1127: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1130: iconst_2
+    1131: anewarray     #163                // class scala/Tuple2
+    1134: dup
+    1135: iconst_0
+    1136: new           #165                // class scala/Tuple2$mcII$sp
+    1139: dup
+    1140: iconst_1
+    1141: iconst_m1
+    1142: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1145: aastore
+    1146: dup
+    1147: iconst_1
+    1148: new           #165                // class scala/Tuple2$mcII$sp
+    1151: dup
+    1152: iconst_2
+    1153: iconst_m1
+    1154: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1157: aastore
+    1158: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1161: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1164: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1169: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1172: aastore
+    1173: dup
+    1174: bipush        22
+    1176: aload_0
+    1177: invokespecial #159                // Method F:()Lscala/Function2;
+    1180: ldc_w         #311                // String feof
+    1183: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1186: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1189: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1192: iconst_2
+    1193: anewarray     #163                // class scala/Tuple2
+    1196: dup
+    1197: iconst_0
+    1198: new           #165                // class scala/Tuple2$mcII$sp
+    1201: dup
+    1202: iconst_1
+    1203: iconst_1
+    1204: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1207: aastore
+    1208: dup
+    1209: iconst_1
+    1210: new           #165                // class scala/Tuple2$mcII$sp
+    1213: dup
+    1214: iconst_1
+    1215: iconst_m1
+    1216: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1219: aastore
+    1220: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1223: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1226: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1231: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1234: aastore
+    1235: dup
+    1236: bipush        23
+    1238: aload_0
+    1239: invokespecial #159                // Method F:()Lscala/Function2;
+    1242: ldc_w         #313                // String ferror
+    1245: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1248: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1251: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1254: iconst_2
+    1255: anewarray     #163                // class scala/Tuple2
+    1258: dup
+    1259: iconst_0
+    1260: new           #165                // class scala/Tuple2$mcII$sp
+    1263: dup
+    1264: iconst_1
+    1265: iconst_1
+    1266: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1269: aastore
+    1270: dup
+    1271: iconst_1
+    1272: new           #165                // class scala/Tuple2$mcII$sp
+    1275: dup
+    1276: iconst_1
+    1277: iconst_m1
+    1278: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1281: aastore
+    1282: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1285: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1288: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1293: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1296: aastore
+    1297: dup
+    1298: bipush        24
+    1300: aload_0
+    1301: invokespecial #159                // Method F:()Lscala/Function2;
+    1304: ldc_w         #315                // String fflush
+    1307: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1310: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1313: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1316: iconst_2
+    1317: anewarray     #163                // class scala/Tuple2
+    1320: dup
+    1321: iconst_0
+    1322: new           #165                // class scala/Tuple2$mcII$sp
+    1325: dup
+    1326: iconst_1
+    1327: iconst_1
+    1328: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1331: aastore
+    1332: dup
+    1333: iconst_1
+    1334: new           #165                // class scala/Tuple2$mcII$sp
+    1337: dup
+    1338: iconst_1
+    1339: iconst_m1
+    1340: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1343: aastore
+    1344: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1347: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1350: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1355: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1358: aastore
+    1359: dup
+    1360: bipush        25
+    1362: aload_0
+    1363: invokespecial #159                // Method F:()Lscala/Function2;
+    1366: ldc_w         #317                // String fgetc
+    1369: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1372: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1375: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1378: iconst_2
+    1379: anewarray     #163                // class scala/Tuple2
+    1382: dup
+    1383: iconst_0
+    1384: new           #165                // class scala/Tuple2$mcII$sp
+    1387: dup
+    1388: iconst_1
+    1389: iconst_1
+    1390: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1393: aastore
+    1394: dup
+    1395: iconst_1
+    1396: new           #165                // class scala/Tuple2$mcII$sp
+    1399: dup
+    1400: iconst_1
+    1401: iconst_m1
+    1402: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1405: aastore
+    1406: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1409: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1412: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1417: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1420: aastore
+    1421: dup
+    1422: bipush        26
+    1424: aload_0
+    1425: invokespecial #159                // Method F:()Lscala/Function2;
+    1428: ldc_w         #319                // String fwrite
+    1431: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1434: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1437: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1440: iconst_5
+    1441: anewarray     #163                // class scala/Tuple2
+    1444: dup
+    1445: iconst_0
+    1446: new           #165                // class scala/Tuple2$mcII$sp
+    1449: dup
+    1450: iconst_1
+    1451: iconst_1
+    1452: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1455: aastore
+    1456: dup
+    1457: iconst_1
+    1458: new           #165                // class scala/Tuple2$mcII$sp
+    1461: dup
+    1462: iconst_1
+    1463: iconst_m1
+    1464: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1467: aastore
+    1468: dup
+    1469: iconst_2
+    1470: new           #165                // class scala/Tuple2$mcII$sp
+    1473: dup
+    1474: iconst_2
+    1475: iconst_m1
+    1476: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1479: aastore
+    1480: dup
+    1481: iconst_3
+    1482: new           #165                // class scala/Tuple2$mcII$sp
+    1485: dup
+    1486: iconst_3
+    1487: iconst_m1
+    1488: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1491: aastore
+    1492: dup
+    1493: iconst_4
+    1494: new           #165                // class scala/Tuple2$mcII$sp
+    1497: dup
+    1498: iconst_4
+    1499: iconst_m1
+    1500: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1503: aastore
+    1504: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1507: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1510: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1515: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1518: aastore
+    1519: dup
+    1520: bipush        27
+    1522: aload_0
+    1523: invokespecial #159                // Method F:()Lscala/Function2;
+    1526: ldc_w         #321                // String free
+    1529: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1532: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1535: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1538: iconst_1
+    1539: anewarray     #163                // class scala/Tuple2
+    1542: dup
+    1543: iconst_0
+    1544: new           #165                // class scala/Tuple2$mcII$sp
+    1547: dup
+    1548: iconst_1
+    1549: iconst_1
+    1550: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1553: aastore
+    1554: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1557: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1560: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1565: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1568: aastore
+    1569: dup
+    1570: bipush        28
+    1572: aload_0
+    1573: invokespecial #159                // Method F:()Lscala/Function2;
+    1576: ldc_w         #323                // String getc
+    1579: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1582: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1585: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1588: iconst_1
+    1589: anewarray     #163                // class scala/Tuple2
+    1592: dup
+    1593: iconst_0
+    1594: new           #165                // class scala/Tuple2$mcII$sp
+    1597: dup
+    1598: iconst_1
+    1599: iconst_1
+    1600: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1603: aastore
+    1604: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1607: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1610: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1615: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1618: aastore
+    1619: dup
+    1620: bipush        29
+    1622: aload_0
+    1623: invokespecial #159                // Method F:()Lscala/Function2;
+    1626: ldc_w         #325                // String scanf
+    1629: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1632: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1635: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1638: iconst_1
+    1639: anewarray     #163                // class scala/Tuple2
+    1642: dup
+    1643: iconst_0
+    1644: new           #165                // class scala/Tuple2$mcII$sp
+    1647: dup
+    1648: iconst_2
+    1649: iconst_2
+    1650: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1653: aastore
+    1654: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1657: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1660: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1665: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1668: aastore
+    1669: dup
+    1670: bipush        30
+    1672: aload_0
+    1673: invokespecial #159                // Method F:()Lscala/Function2;
+    1676: ldc_w         #327                // String strcmp
+    1679: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1682: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1685: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1688: iconst_4
+    1689: anewarray     #163                // class scala/Tuple2
+    1692: dup
+    1693: iconst_0
+    1694: new           #165                // class scala/Tuple2$mcII$sp
+    1697: dup
+    1698: iconst_1
+    1699: iconst_1
+    1700: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1703: aastore
+    1704: dup
+    1705: iconst_1
+    1706: new           #165                // class scala/Tuple2$mcII$sp
+    1709: dup
+    1710: iconst_1
+    1711: iconst_m1
+    1712: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1715: aastore
+    1716: dup
+    1717: iconst_2
+    1718: new           #165                // class scala/Tuple2$mcII$sp
+    1721: dup
+    1722: iconst_2
+    1723: iconst_2
+    1724: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1727: aastore
+    1728: dup
+    1729: iconst_3
+    1730: new           #165                // class scala/Tuple2$mcII$sp
+    1733: dup
+    1734: iconst_2
+    1735: iconst_m1
+    1736: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1739: aastore
+    1740: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1743: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1746: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1751: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1754: aastore
+    1755: dup
+    1756: bipush        31
+    1758: aload_0
+    1759: invokespecial #159                // Method F:()Lscala/Function2;
+    1762: ldc_w         #329                // String strlen
+    1765: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1768: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1771: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1774: iconst_2
+    1775: anewarray     #163                // class scala/Tuple2
+    1778: dup
+    1779: iconst_0
+    1780: new           #165                // class scala/Tuple2$mcII$sp
+    1783: dup
+    1784: iconst_1
+    1785: iconst_1
+    1786: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1789: aastore
+    1790: dup
+    1791: iconst_1
+    1792: new           #165                // class scala/Tuple2$mcII$sp
+    1795: dup
+    1796: iconst_1
+    1797: iconst_m1
+    1798: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1801: aastore
+    1802: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1805: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1808: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1813: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1816: aastore
+    1817: dup
+    1818: bipush        32
+    1820: aload_0
+    1821: invokespecial #159                // Method F:()Lscala/Function2;
+    1824: ldc_w         #331                // String strncpy
+    1827: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1830: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1833: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1836: iconst_5
+    1837: anewarray     #163                // class scala/Tuple2
+    1840: dup
+    1841: iconst_0
+    1842: new           #165                // class scala/Tuple2$mcII$sp
+    1845: dup
+    1846: iconst_1
+    1847: iconst_1
+    1848: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1851: aastore
+    1852: dup
+    1853: iconst_1
+    1854: new           #165                // class scala/Tuple2$mcII$sp
+    1857: dup
+    1858: iconst_2
+    1859: iconst_2
+    1860: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1863: aastore
+    1864: dup
+    1865: iconst_2
+    1866: new           #165                // class scala/Tuple2$mcII$sp
+    1869: dup
+    1870: iconst_3
+    1871: iconst_3
+    1872: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1875: aastore
+    1876: dup
+    1877: iconst_3
+    1878: new           #165                // class scala/Tuple2$mcII$sp
+    1881: dup
+    1882: iconst_1
+    1883: iconst_m1
+    1884: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1887: aastore
+    1888: dup
+    1889: iconst_4
+    1890: new           #165                // class scala/Tuple2$mcII$sp
+    1893: dup
+    1894: iconst_2
+    1895: iconst_m1
+    1896: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1899: aastore
+    1900: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1903: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1906: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1911: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1914: aastore
+    1915: dup
+    1916: bipush        33
+    1918: aload_0
+    1919: invokespecial #159                // Method F:()Lscala/Function2;
+    1922: ldc_w         #333                // String strncat
+    1925: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1928: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1931: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1934: iconst_5
+    1935: anewarray     #163                // class scala/Tuple2
+    1938: dup
+    1939: iconst_0
+    1940: new           #165                // class scala/Tuple2$mcII$sp
+    1943: dup
+    1944: iconst_1
+    1945: iconst_1
+    1946: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1949: aastore
+    1950: dup
+    1951: iconst_1
+    1952: new           #165                // class scala/Tuple2$mcII$sp
+    1955: dup
+    1956: iconst_2
+    1957: iconst_2
+    1958: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1961: aastore
+    1962: dup
+    1963: iconst_2
+    1964: new           #165                // class scala/Tuple2$mcII$sp
+    1967: dup
+    1968: iconst_3
+    1969: iconst_3
+    1970: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1973: aastore
+    1974: dup
+    1975: iconst_3
+    1976: new           #165                // class scala/Tuple2$mcII$sp
+    1979: dup
+    1980: iconst_1
+    1981: iconst_m1
+    1982: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1985: aastore
+    1986: dup
+    1987: iconst_4
+    1988: new           #165                // class scala/Tuple2$mcII$sp
+    1991: dup
+    1992: iconst_2
+    1993: iconst_m1
+    1994: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1997: aastore
+    1998: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    2001: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    2004: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    2009: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    2012: aastore
+    2013: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    2016: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    2019: checkcast     #41                 // class scala/collection/immutable/List
+    2022: areturn
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> javaFlows();
+    Code:
+       0: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+       3: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+       6: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       9: bipush        23
+      11: anewarray     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+      14: dup
+      15: iconst_0
+      16: aload_0
+      17: ldc_w         #335                // String java.lang.String.split:java.lang.String[](java.lang.String)
+      20: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+      23: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+      26: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      29: iconst_1
+      30: anewarray     #163                // class scala/Tuple2
+      33: dup
+      34: iconst_0
+      35: new           #165                // class scala/Tuple2$mcII$sp
+      38: dup
+      39: iconst_0
+      40: iconst_0
+      41: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+      44: aastore
+      45: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      48: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+      51: checkcast     #41                 // class scala/collection/immutable/List
+      54: invokespecial #225                // Method PTF:(Ljava/lang/String;Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+      57: aastore
+      58: dup
+      59: iconst_1
+      60: aload_0
+      61: ldc_w         #337                // String java.lang.String.split:java.lang.String[](java.lang.String,int)
+      64: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+      67: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+      70: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      73: iconst_1
+      74: anewarray     #163                // class scala/Tuple2
+      77: dup
+      78: iconst_0
+      79: new           #165                // class scala/Tuple2$mcII$sp
+      82: dup
+      83: iconst_0
+      84: iconst_0
+      85: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+      88: aastore
+      89: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      92: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+      95: checkcast     #41                 // class scala/collection/immutable/List
+      98: invokespecial #225                // Method PTF:(Ljava/lang/String;Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+     101: aastore
+     102: dup
+     103: iconst_2
+     104: aload_0
+     105: ldc_w         #339                // String java.lang.String.compareTo:int(java.lang.String)
+     108: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     111: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     114: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     117: iconst_1
+     118: anewarray     #163                // class scala/Tuple2
+     121: dup
+     122: iconst_0
+     123: new           #165                // class scala/Tuple2$mcII$sp
+     126: dup
+     127: iconst_0
+     128: iconst_0
+     129: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     132: aastore
+     133: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     136: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     139: checkcast     #41                 // class scala/collection/immutable/List
+     142: invokespecial #225                // Method PTF:(Ljava/lang/String;Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+     145: aastore
+     146: dup
+     147: iconst_3
+     148: aload_0
+     149: invokespecial #159                // Method F:()Lscala/Function2;
+     152: ldc_w         #341                // String java.io.PrintWriter.print:void(java.lang.String)
+     155: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     158: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     161: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     164: iconst_2
+     165: anewarray     #163                // class scala/Tuple2
+     168: dup
+     169: iconst_0
+     170: new           #165                // class scala/Tuple2$mcII$sp
+     173: dup
+     174: iconst_0
+     175: iconst_0
+     176: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     179: aastore
+     180: dup
+     181: iconst_1
+     182: new           #165                // class scala/Tuple2$mcII$sp
+     185: dup
+     186: iconst_1
+     187: iconst_1
+     188: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     191: aastore
+     192: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     195: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     198: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     203: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     206: aastore
+     207: dup
+     208: iconst_4
+     209: aload_0
+     210: invokespecial #159                // Method F:()Lscala/Function2;
+     213: ldc_w         #343                // String java.io.PrintWriter.println:void(java.lang.String)
+     216: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     219: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     222: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     225: iconst_2
+     226: anewarray     #163                // class scala/Tuple2
+     229: dup
+     230: iconst_0
+     231: new           #165                // class scala/Tuple2$mcII$sp
+     234: dup
+     235: iconst_0
+     236: iconst_0
+     237: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     240: aastore
+     241: dup
+     242: iconst_1
+     243: new           #165                // class scala/Tuple2$mcII$sp
+     246: dup
+     247: iconst_1
+     248: iconst_1
+     249: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     252: aastore
+     253: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     256: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     259: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     264: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     267: aastore
+     268: dup
+     269: iconst_5
+     270: aload_0
+     271: invokespecial #159                // Method F:()Lscala/Function2;
+     274: ldc_w         #345                // String java.io.PrintStream.println:void(java.lang.String)
+     277: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     280: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     283: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     286: iconst_2
+     287: anewarray     #163                // class scala/Tuple2
+     290: dup
+     291: iconst_0
+     292: new           #165                // class scala/Tuple2$mcII$sp
+     295: dup
+     296: iconst_0
+     297: iconst_0
+     298: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     301: aastore
+     302: dup
+     303: iconst_1
+     304: new           #165                // class scala/Tuple2$mcII$sp
+     307: dup
+     308: iconst_1
+     309: iconst_1
+     310: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     313: aastore
+     314: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     317: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     320: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     325: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     328: aastore
+     329: dup
+     330: bipush        6
+     332: aload_0
+     333: ldc_w         #347                // String java.io.PrintStream.print:void(java.lang.String)
+     336: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     339: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     342: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     345: iconst_1
+     346: anewarray     #163                // class scala/Tuple2
+     349: dup
+     350: iconst_0
+     351: new           #165                // class scala/Tuple2$mcII$sp
+     354: dup
+     355: iconst_0
+     356: iconst_0
+     357: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     360: aastore
+     361: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     364: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     367: checkcast     #41                 // class scala/collection/immutable/List
+     370: invokespecial #225                // Method PTF:(Ljava/lang/String;Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+     373: aastore
+     374: dup
+     375: bipush        7
+     377: aload_0
+     378: invokespecial #159                // Method F:()Lscala/Function2;
+     381: ldc_w         #349                // String android.text.TextUtils.isEmpty:boolean(java.lang.String)
+     384: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     387: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     390: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     393: iconst_2
+     394: anewarray     #163                // class scala/Tuple2
+     397: dup
+     398: iconst_0
+     399: new           #165                // class scala/Tuple2$mcII$sp
+     402: dup
+     403: iconst_0
+     404: iconst_m1
+     405: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     408: aastore
+     409: dup
+     410: iconst_1
+     411: new           #165                // class scala/Tuple2$mcII$sp
+     414: dup
+     415: iconst_1
+     416: iconst_m1
+     417: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     420: aastore
+     421: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     424: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     427: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     432: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     435: aastore
+     436: dup
+     437: bipush        8
+     439: aload_0
+     440: invokespecial #159                // Method F:()Lscala/Function2;
+     443: ldc_w         #351                // String java.sql.PreparedStatement.prepareStatement:java.sql.PreparedStatement(java.lang.String)
+     446: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     449: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     452: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     455: iconst_1
+     456: anewarray     #163                // class scala/Tuple2
+     459: dup
+     460: iconst_0
+     461: new           #165                // class scala/Tuple2$mcII$sp
+     464: dup
+     465: iconst_1
+     466: iconst_m1
+     467: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     470: aastore
+     471: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     474: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     477: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     482: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     485: aastore
+     486: dup
+     487: bipush        9
+     489: aload_0
+     490: invokespecial #159                // Method F:()Lscala/Function2;
+     493: ldc_w         #353                // String java.sql.PreparedStatement.prepareStatement:setDouble(int,double)
+     496: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     499: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     502: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     505: iconst_2
+     506: anewarray     #163                // class scala/Tuple2
+     509: dup
+     510: iconst_0
+     511: new           #165                // class scala/Tuple2$mcII$sp
+     514: dup
+     515: iconst_1
+     516: iconst_1
+     517: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     520: aastore
+     521: dup
+     522: iconst_1
+     523: new           #165                // class scala/Tuple2$mcII$sp
+     526: dup
+     527: iconst_2
+     528: iconst_2
+     529: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     532: aastore
+     533: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     536: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     539: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     544: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     547: aastore
+     548: dup
+     549: bipush        10
+     551: aload_0
+     552: invokespecial #159                // Method F:()Lscala/Function2;
+     555: ldc_w         #355                // String java.sql.PreparedStatement.prepareStatement:setFloat(int,float)
+     558: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     561: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     564: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     567: iconst_2
+     568: anewarray     #163                // class scala/Tuple2
+     571: dup
+     572: iconst_0
+     573: new           #165                // class scala/Tuple2$mcII$sp
+     576: dup
+     577: iconst_1
+     578: iconst_1
+     579: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     582: aastore
+     583: dup
+     584: iconst_1
+     585: new           #165                // class scala/Tuple2$mcII$sp
+     588: dup
+     589: iconst_2
+     590: iconst_2
+     591: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     594: aastore
+     595: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     598: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     601: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     606: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     609: aastore
+     610: dup
+     611: bipush        11
+     613: aload_0
+     614: invokespecial #159                // Method F:()Lscala/Function2;
+     617: ldc_w         #357                // String java.sql.PreparedStatement.prepareStatement:setInt(int,int)
+     620: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     623: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     626: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     629: iconst_2
+     630: anewarray     #163                // class scala/Tuple2
+     633: dup
+     634: iconst_0
+     635: new           #165                // class scala/Tuple2$mcII$sp
+     638: dup
+     639: iconst_1
+     640: iconst_1
+     641: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     644: aastore
+     645: dup
+     646: iconst_1
+     647: new           #165                // class scala/Tuple2$mcII$sp
+     650: dup
+     651: iconst_2
+     652: iconst_2
+     653: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     656: aastore
+     657: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     660: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     663: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     668: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     671: aastore
+     672: dup
+     673: bipush        12
+     675: aload_0
+     676: invokespecial #159                // Method F:()Lscala/Function2;
+     679: ldc_w         #359                // String java.sql.PreparedStatement.prepareStatement:setLong(int,long)
+     682: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     685: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     688: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     691: iconst_2
+     692: anewarray     #163                // class scala/Tuple2
+     695: dup
+     696: iconst_0
+     697: new           #165                // class scala/Tuple2$mcII$sp
+     700: dup
+     701: iconst_1
+     702: iconst_1
+     703: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     706: aastore
+     707: dup
+     708: iconst_1
+     709: new           #165                // class scala/Tuple2$mcII$sp
+     712: dup
+     713: iconst_2
+     714: iconst_2
+     715: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     718: aastore
+     719: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     722: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     725: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     730: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     733: aastore
+     734: dup
+     735: bipush        13
+     737: aload_0
+     738: invokespecial #159                // Method F:()Lscala/Function2;
+     741: ldc_w         #361                // String java.sql.PreparedStatement.prepareStatement:setShort(int,short)
+     744: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     747: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     750: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     753: iconst_2
+     754: anewarray     #163                // class scala/Tuple2
+     757: dup
+     758: iconst_0
+     759: new           #165                // class scala/Tuple2$mcII$sp
+     762: dup
+     763: iconst_1
+     764: iconst_1
+     765: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     768: aastore
+     769: dup
+     770: iconst_1
+     771: new           #165                // class scala/Tuple2$mcII$sp
+     774: dup
+     775: iconst_2
+     776: iconst_2
+     777: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     780: aastore
+     781: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     784: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     787: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     792: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     795: aastore
+     796: dup
+     797: bipush        14
+     799: aload_0
+     800: invokespecial #159                // Method F:()Lscala/Function2;
+     803: ldc_w         #363                // String java.sql.PreparedStatement.prepareStatement:setString(int,java.lang.String)
+     806: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     809: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     812: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     815: iconst_2
+     816: anewarray     #163                // class scala/Tuple2
+     819: dup
+     820: iconst_0
+     821: new           #165                // class scala/Tuple2$mcII$sp
+     824: dup
+     825: iconst_1
+     826: iconst_1
+     827: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     830: aastore
+     831: dup
+     832: iconst_1
+     833: new           #165                // class scala/Tuple2$mcII$sp
+     836: dup
+     837: iconst_2
+     838: iconst_2
+     839: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     842: aastore
+     843: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     846: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     849: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     854: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     857: aastore
+     858: dup
+     859: bipush        15
+     861: aload_0
+     862: invokespecial #159                // Method F:()Lscala/Function2;
+     865: ldc_w         #365                // String org.apache.http.HttpRequest.<init>:void(org.apache.http.RequestLine)
+     868: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     871: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     874: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     877: iconst_2
+     878: anewarray     #163                // class scala/Tuple2
+     881: dup
+     882: iconst_0
+     883: new           #165                // class scala/Tuple2$mcII$sp
+     886: dup
+     887: iconst_1
+     888: iconst_1
+     889: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     892: aastore
+     893: dup
+     894: iconst_1
+     895: new           #165                // class scala/Tuple2$mcII$sp
+     898: dup
+     899: iconst_1
+     900: iconst_0
+     901: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     904: aastore
+     905: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     908: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     911: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     916: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     919: aastore
+     920: dup
+     921: bipush        16
+     923: aload_0
+     924: invokespecial #159                // Method F:()Lscala/Function2;
+     927: ldc_w         #367                // String org.apache.http.HttpRequest.<init>:void(java.lang.String,java.lang.String)
+     930: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+     933: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+     936: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     939: iconst_3
+     940: anewarray     #163                // class scala/Tuple2
+     943: dup
+     944: iconst_0
+     945: new           #165                // class scala/Tuple2$mcII$sp
+     948: dup
+     949: iconst_1
+     950: iconst_1
+     951: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     954: aastore
+     955: dup
+     956: iconst_1
+     957: new           #165                // class scala/Tuple2$mcII$sp
+     960: dup
+     961: iconst_1
+     962: iconst_0
+     963: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     966: aastore
+     967: dup
+     968: iconst_2
+     969: new           #165                // class scala/Tuple2$mcII$sp
+     972: dup
+     973: iconst_2
+     974: iconst_0
+     975: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+     978: aastore
+     979: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     982: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     985: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     990: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+     993: aastore
+     994: dup
+     995: bipush        17
+     997: aload_0
+     998: invokespecial #159                // Method F:()Lscala/Function2;
+    1001: ldc_w         #369                // String org.apache.http.HttpRequest.<init>:void(java.lang.String,java.lang.String,org.apache.http.ProtocolVersion)
+    1004: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1007: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1010: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1013: bipush        6
+    1015: anewarray     #163                // class scala/Tuple2
+    1018: dup
+    1019: iconst_0
+    1020: new           #165                // class scala/Tuple2$mcII$sp
+    1023: dup
+    1024: iconst_1
+    1025: iconst_1
+    1026: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1029: aastore
+    1030: dup
+    1031: iconst_1
+    1032: new           #165                // class scala/Tuple2$mcII$sp
+    1035: dup
+    1036: iconst_1
+    1037: iconst_0
+    1038: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1041: aastore
+    1042: dup
+    1043: iconst_2
+    1044: new           #165                // class scala/Tuple2$mcII$sp
+    1047: dup
+    1048: iconst_2
+    1049: iconst_2
+    1050: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1053: aastore
+    1054: dup
+    1055: iconst_3
+    1056: new           #165                // class scala/Tuple2$mcII$sp
+    1059: dup
+    1060: iconst_2
+    1061: iconst_0
+    1062: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1065: aastore
+    1066: dup
+    1067: iconst_4
+    1068: new           #165                // class scala/Tuple2$mcII$sp
+    1071: dup
+    1072: iconst_3
+    1073: iconst_3
+    1074: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1077: aastore
+    1078: dup
+    1079: iconst_5
+    1080: new           #165                // class scala/Tuple2$mcII$sp
+    1083: dup
+    1084: iconst_3
+    1085: iconst_0
+    1086: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1089: aastore
+    1090: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1093: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1096: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1101: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1104: aastore
+    1105: dup
+    1106: bipush        18
+    1108: aload_0
+    1109: invokespecial #159                // Method F:()Lscala/Function2;
+    1112: ldc_w         #371                // String org.apache.http.HttpResponse.getStatusLine:org.apache.http.StatusLine()
+    1115: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1118: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1121: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1124: iconst_1
+    1125: anewarray     #163                // class scala/Tuple2
+    1128: dup
+    1129: iconst_0
+    1130: new           #165                // class scala/Tuple2$mcII$sp
+    1133: dup
+    1134: iconst_0
+    1135: iconst_m1
+    1136: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1139: aastore
+    1140: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1143: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1146: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1151: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1154: aastore
+    1155: dup
+    1156: bipush        19
+    1158: aload_0
+    1159: invokespecial #159                // Method F:()Lscala/Function2;
+    1162: ldc_w         #373                // String org.apache.http.HttpResponse.setStatusLine:void(org.apache.http.StatusLine)
+    1165: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1168: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1171: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1174: iconst_3
+    1175: anewarray     #163                // class scala/Tuple2
+    1178: dup
+    1179: iconst_0
+    1180: new           #165                // class scala/Tuple2$mcII$sp
+    1183: dup
+    1184: iconst_1
+    1185: iconst_0
+    1186: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1189: aastore
+    1190: dup
+    1191: iconst_1
+    1192: new           #165                // class scala/Tuple2$mcII$sp
+    1195: dup
+    1196: iconst_1
+    1197: iconst_1
+    1198: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1201: aastore
+    1202: dup
+    1203: iconst_2
+    1204: new           #165                // class scala/Tuple2$mcII$sp
+    1207: dup
+    1208: iconst_0
+    1209: iconst_m1
+    1210: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1213: aastore
+    1214: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1217: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1220: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1225: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1228: aastore
+    1229: dup
+    1230: bipush        20
+    1232: aload_0
+    1233: invokespecial #159                // Method F:()Lscala/Function2;
+    1236: ldc_w         #375                // String org.apache.http.HttpResponse.setReasonPhrase:void(java.lang.String)
+    1239: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1242: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1245: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1248: iconst_3
+    1249: anewarray     #163                // class scala/Tuple2
+    1252: dup
+    1253: iconst_0
+    1254: new           #165                // class scala/Tuple2$mcII$sp
+    1257: dup
+    1258: iconst_1
+    1259: iconst_0
+    1260: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1263: aastore
+    1264: dup
+    1265: iconst_1
+    1266: new           #165                // class scala/Tuple2$mcII$sp
+    1269: dup
+    1270: iconst_1
+    1271: iconst_1
+    1272: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1275: aastore
+    1276: dup
+    1277: iconst_2
+    1278: new           #165                // class scala/Tuple2$mcII$sp
+    1281: dup
+    1282: iconst_0
+    1283: iconst_m1
+    1284: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1287: aastore
+    1288: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1291: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1294: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1299: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1302: aastore
+    1303: dup
+    1304: bipush        21
+    1306: aload_0
+    1307: invokespecial #159                // Method F:()Lscala/Function2;
+    1310: ldc_w         #377                // String org.apache.http.HttpResponse.getEntity:org.apache.http.HttpEntity()
+    1313: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1316: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1319: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1322: iconst_1
+    1323: anewarray     #163                // class scala/Tuple2
+    1326: dup
+    1327: iconst_0
+    1328: new           #165                // class scala/Tuple2$mcII$sp
+    1331: dup
+    1332: iconst_0
+    1333: iconst_m1
+    1334: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1337: aastore
+    1338: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1341: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1344: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1349: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1352: aastore
+    1353: dup
+    1354: bipush        22
+    1356: aload_0
+    1357: invokespecial #159                // Method F:()Lscala/Function2;
+    1360: ldc_w         #379                // String org.apache.http.HttpResponse.setEntity:void(org.apache.http.HttpEntity)
+    1363: getstatic     #142                // Field scala/package$.MODULE$:Lscala/package$;
+    1366: invokevirtual #146                // Method scala/package$.List:()Lscala/collection/immutable/List$;
+    1369: getstatic     #157                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+    1372: iconst_3
+    1373: anewarray     #163                // class scala/Tuple2
+    1376: dup
+    1377: iconst_0
+    1378: new           #165                // class scala/Tuple2$mcII$sp
+    1381: dup
+    1382: iconst_1
+    1383: iconst_0
+    1384: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1387: aastore
+    1388: dup
+    1389: iconst_1
+    1390: new           #165                // class scala/Tuple2$mcII$sp
+    1393: dup
+    1394: iconst_1
+    1395: iconst_1
+    1396: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1399: aastore
+    1400: dup
+    1401: iconst_2
+    1402: new           #165                // class scala/Tuple2$mcII$sp
+    1405: dup
+    1406: iconst_1
+    1407: iconst_0
+    1408: invokespecial #168                // Method scala/Tuple2$mcII$sp."<init>":(II)V
+    1411: aastore
+    1412: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1415: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1418: invokeinterface #179,  3          // InterfaceMethod scala/Function2.apply:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    1423: checkcast     #111                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+    1426: aastore
+    1427: invokevirtual #172                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+    1430: invokevirtual #175                // Method scala/collection/immutable/List$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+    1433: checkcast     #41                 // class scala/collection/immutable/List
+    1436: areturn
+
+  public io.joern.dataflowengineoss.semanticsloader.FullNameSemantics javaSemantics();
+    Code:
+       0: getstatic     #56                 // Field io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics$;
+       3: aload_0
+       4: invokevirtual #36                 // Method operatorFlows:()Lscala/collection/immutable/List;
+       7: aload_0
+       8: invokevirtual #50                 // Method javaFlows:()Lscala/collection/immutable/List;
+      11: invokevirtual #45                 // Method scala/collection/immutable/List.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+      14: checkcast     #41                 // class scala/collection/immutable/List
+      17: invokevirtual #60                 // Method io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$.fromList:(Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;
+      20: areturn
+
+  private static final io.joern.dataflowengineoss.semanticsloader.FlowSemantic F$$anonfun$1(java.lang.String, scala.collection.immutable.List);
+    Code:
+       0: getstatic     #93                 // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+       3: aload_0
+       4: aload_1
+       5: getstatic     #93                 // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+       8: invokevirtual #106                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.from$default$3:()Z
+      11: invokevirtual #109                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.from:(Ljava/lang/String;Lscala/collection/immutable/List;Z)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+      14: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #393,  0            // InvokeDynamic #1:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

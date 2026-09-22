@@ -1,0 +1,327 @@
+$ javap -classpath /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/lib/io.joern.dataflowengineoss-4.0.628.jar -private -c -p io.joern.dataflowengineoss.semanticsloader.FlowSemantic
+Compiled from "Semantics.scala"
+public class io.joern.dataflowengineoss.semanticsloader.FlowSemantic implements scala.Product,java.io.Serializable {
+  private final java.lang.String methodFullName;
+
+  private final scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath> mappings;
+
+  private final boolean regex;
+
+  public io.joern.dataflowengineoss.semanticsloader.FlowSemantic(java.lang.String, scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath>, boolean);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #21                 // Field methodFullName:Ljava/lang/String;
+       5: aload_0
+       6: aload_2
+       7: putfield      #23                 // Field mappings:Lscala/collection/immutable/List;
+      10: aload_0
+      11: iload_3
+      12: putfield      #25                 // Field regex:Z
+      15: aload_0
+      16: invokespecial #28                 // Method java/lang/Object."<init>":()V
+      19: return
+
+  public scala.collection.Iterator<java.lang.Object> productIterator();
+    Code:
+       0: aload_0
+       1: invokestatic  #37                 // InterfaceMethod scala/Product.productIterator$:(Lscala/Product;)Lscala/collection/Iterator;
+       4: areturn
+
+  public scala.collection.Iterator<java.lang.String> productElementNames();
+    Code:
+       0: aload_0
+       1: invokestatic  #42                 // InterfaceMethod scala/Product.productElementNames$:(Lscala/Product;)Lscala/collection/Iterator;
+       4: areturn
+
+  public int hashCode();
+    Code:
+       0: ldc           #45                 // int -889275714
+       2: istore_1
+       3: iload_1
+       4: ldc           #46                 // int 253237556
+       6: invokestatic  #52                 // Method scala/runtime/Statics.mix:(II)I
+       9: istore_1
+      10: iload_1
+      11: aload_0
+      12: invokevirtual #55                 // Method methodFullName:()Ljava/lang/String;
+      15: invokestatic  #59                 // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+      18: invokestatic  #52                 // Method scala/runtime/Statics.mix:(II)I
+      21: istore_1
+      22: iload_1
+      23: aload_0
+      24: invokevirtual #62                 // Method mappings:()Lscala/collection/immutable/List;
+      27: invokestatic  #59                 // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+      30: invokestatic  #52                 // Method scala/runtime/Statics.mix:(II)I
+      33: istore_1
+      34: iload_1
+      35: aload_0
+      36: invokevirtual #65                 // Method regex:()Z
+      39: ifeq          48
+      42: sipush        1231
+      45: goto          51
+      48: sipush        1237
+      51: invokestatic  #52                 // Method scala/runtime/Statics.mix:(II)I
+      54: istore_1
+      55: iload_1
+      56: iconst_3
+      57: invokestatic  #68                 // Method scala/runtime/Statics.finalizeHash:(II)I
+      60: ireturn
+
+  public boolean equals(java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: if_acmpeq     122
+       5: aload_1
+       6: astore_2
+       7: aload_2
+       8: instanceof    #2                  // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+      11: ifeq          115
+      14: aload_2
+      15: checkcast     #2                  // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+      18: astore_3
+      19: aload_3
+      20: astore        4
+      22: aload_0
+      23: invokevirtual #65                 // Method regex:()Z
+      26: aload         4
+      28: invokevirtual #65                 // Method regex:()Z
+      31: if_icmpne     111
+      34: aload_0
+      35: invokevirtual #55                 // Method methodFullName:()Ljava/lang/String;
+      38: aload         4
+      40: invokevirtual #55                 // Method methodFullName:()Ljava/lang/String;
+      43: astore        5
+      45: dup
+      46: ifnonnull     58
+      49: pop
+      50: aload         5
+      52: ifnull        66
+      55: goto          111
+      58: aload         5
+      60: invokevirtual #73                 // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      63: ifeq          111
+      66: aload_0
+      67: invokevirtual #62                 // Method mappings:()Lscala/collection/immutable/List;
+      70: aload         4
+      72: invokevirtual #62                 // Method mappings:()Lscala/collection/immutable/List;
+      75: astore        6
+      77: dup
+      78: ifnonnull     90
+      81: pop
+      82: aload         6
+      84: ifnull        98
+      87: goto          111
+      90: aload         6
+      92: invokevirtual #73                 // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      95: ifeq          111
+      98: aload         4
+     100: aload_0
+     101: invokevirtual #76                 // Method canEqual:(Ljava/lang/Object;)Z
+     104: ifeq          111
+     107: iconst_1
+     108: goto          112
+     111: iconst_0
+     112: goto          119
+     115: iconst_0
+     116: goto          119
+     119: ifeq          126
+     122: iconst_1
+     123: goto          127
+     126: iconst_0
+     127: ireturn
+
+  public java.lang.String toString();
+    Code:
+       0: getstatic     #88                 // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       3: aload_0
+       4: invokevirtual #92                 // Method scala/runtime/ScalaRunTime$._toString:(Lscala/Product;)Ljava/lang/String;
+       7: areturn
+
+  public boolean canEqual(java.lang.Object);
+    Code:
+       0: aload_1
+       1: instanceof    #2                  // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+       4: ireturn
+
+  public int productArity();
+    Code:
+       0: iconst_3
+       1: ireturn
+
+  public java.lang.String productPrefix();
+    Code:
+       0: ldc           #97                 // String FlowSemantic
+       2: areturn
+
+  public java.lang.Object productElement(int);
+    Code:
+       0: iload_1
+       1: istore_2
+       2: iload_2
+       3: tableswitch   { // 0 to 2
+                     0: 28
+                     1: 33
+                     2: 38
+               default: 46
+          }
+      28: aload_0
+      29: invokevirtual #103                // Method _1:()Ljava/lang/String;
+      32: areturn
+      33: aload_0
+      34: invokevirtual #106                // Method _2:()Lscala/collection/immutable/List;
+      37: areturn
+      38: aload_0
+      39: invokevirtual #109                // Method _3:()Z
+      42: invokestatic  #115                // Method scala/runtime/BoxesRunTime.boxToBoolean:(Z)Ljava/lang/Boolean;
+      45: areturn
+      46: new           #117                // class java/lang/IndexOutOfBoundsException
+      49: dup
+      50: iload_1
+      51: invokestatic  #121                // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+      54: invokevirtual #125                // Method java/lang/Integer.toString:()Ljava/lang/String;
+      57: invokespecial #128                // Method java/lang/IndexOutOfBoundsException."<init>":(Ljava/lang/String;)V
+      60: athrow
+
+  public java.lang.String productElementName(int);
+    Code:
+       0: iload_1
+       1: istore_2
+       2: iload_2
+       3: tableswitch   { // 0 to 2
+                     0: 28
+                     1: 31
+                     2: 34
+               default: 37
+          }
+      28: ldc           #132                // String methodFullName
+      30: areturn
+      31: ldc           #133                // String mappings
+      33: areturn
+      34: ldc           #134                // String regex
+      36: areturn
+      37: new           #117                // class java/lang/IndexOutOfBoundsException
+      40: dup
+      41: iload_1
+      42: invokestatic  #121                // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+      45: invokevirtual #125                // Method java/lang/Integer.toString:()Ljava/lang/String;
+      48: invokespecial #128                // Method java/lang/IndexOutOfBoundsException."<init>":(Ljava/lang/String;)V
+      51: athrow
+
+  public java.lang.String methodFullName();
+    Code:
+       0: aload_0
+       1: getfield      #21                 // Field methodFullName:Ljava/lang/String;
+       4: areturn
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath> mappings();
+    Code:
+       0: aload_0
+       1: getfield      #23                 // Field mappings:Lscala/collection/immutable/List;
+       4: areturn
+
+  public boolean regex();
+    Code:
+       0: aload_0
+       1: getfield      #25                 // Field regex:Z
+       4: ireturn
+
+  public io.joern.dataflowengineoss.semanticsloader.FlowSemantic copy(java.lang.String, scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath>, boolean);
+    Code:
+       0: new           #2                  // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+       3: dup
+       4: aload_1
+       5: aload_2
+       6: iload_3
+       7: invokespecial #140                // Method "<init>":(Ljava/lang/String;Lscala/collection/immutable/List;Z)V
+      10: areturn
+
+  public java.lang.String copy$default$1();
+    Code:
+       0: aload_0
+       1: invokevirtual #55                 // Method methodFullName:()Ljava/lang/String;
+       4: areturn
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath> copy$default$2();
+    Code:
+       0: aload_0
+       1: invokevirtual #62                 // Method mappings:()Lscala/collection/immutable/List;
+       4: areturn
+
+  public boolean copy$default$3();
+    Code:
+       0: aload_0
+       1: invokevirtual #65                 // Method regex:()Z
+       4: ireturn
+
+  public java.lang.String _1();
+    Code:
+       0: aload_0
+       1: invokevirtual #55                 // Method methodFullName:()Ljava/lang/String;
+       4: areturn
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath> _2();
+    Code:
+       0: aload_0
+       1: invokevirtual #62                 // Method mappings:()Lscala/collection/immutable/List;
+       4: areturn
+
+  public boolean _3();
+    Code:
+       0: aload_0
+       1: invokevirtual #65                 // Method regex:()Z
+       4: ireturn
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowSemantic apply(java.lang.String, scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath>, boolean);
+    Code:
+       0: getstatic     #149                // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+       3: aload_0
+       4: aload_1
+       5: iload_2
+       6: invokevirtual #151                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.apply:(Ljava/lang/String;Lscala/collection/immutable/List;Z)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+       9: areturn
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowSemantic from(java.lang.String, scala.collection.immutable.List<?>, boolean);
+    Code:
+       0: getstatic     #149                // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+       3: aload_0
+       4: aload_1
+       5: iload_2
+       6: invokevirtual #155                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.from:(Ljava/lang/String;Lscala/collection/immutable/List;Z)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+       9: areturn
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowSemantic fromProduct(scala.Product);
+    Code:
+       0: getstatic     #149                // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+       3: aload_0
+       4: invokevirtual #159                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.fromProduct:(Lscala/Product;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+       7: areturn
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowSemantic unapply(io.joern.dataflowengineoss.semanticsloader.FlowSemantic);
+    Code:
+       0: getstatic     #149                // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+       3: aload_0
+       4: invokevirtual #163                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.unapply:(Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+       7: areturn
+
+  public static scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath> $lessinit$greater$default$2();
+    Code:
+       0: getstatic     #149                // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+       3: invokevirtual #166                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.$lessinit$greater$default$2:()Lscala/collection/immutable/List;
+       6: areturn
+
+  public static boolean $lessinit$greater$default$3();
+    Code:
+       0: getstatic     #149                // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+       3: invokevirtual #169                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.$lessinit$greater$default$3:()Z
+       6: ireturn
+
+  public static boolean from$default$3();
+    Code:
+       0: getstatic     #149                // Field io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+       3: invokevirtual #172                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic$.from$default$3:()Z
+       6: ireturn
+}
+
+[exit 0]

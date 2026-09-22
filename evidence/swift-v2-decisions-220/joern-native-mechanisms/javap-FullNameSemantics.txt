@@ -1,0 +1,24 @@
+$ javap -classpath /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/lib/io.joern.dataflowengineoss-4.0.628.jar -private -p io.joern.dataflowengineoss.semanticsloader.FullNameSemantics
+Compiled from "FullNameSemantics.scala"
+public class io.joern.dataflowengineoss.semanticsloader.FullNameSemantics implements io.joern.dataflowengineoss.semanticsloader.Semantics {
+  private final scala.collection.immutable.Map<java.lang.String, io.joern.dataflowengineoss.semanticsloader.FlowSemantic> methodToSemantic;
+  private final scala.collection.mutable.HashMap<java.lang.String, java.lang.String> regexMatchedFullNames;
+  public io.joern.dataflowengineoss.semanticsloader.FullNameSemantics(scala.collection.immutable.Map<java.lang.String, io.joern.dataflowengineoss.semanticsloader.FlowSemantic>);
+  public io.joern.dataflowengineoss.semanticsloader.Semantics after(io.joern.dataflowengineoss.semanticsloader.Semantics);
+  public void initialize(io.shiftleft.codepropertygraph.generated.Cpg);
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> elements();
+  private scala.Option<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> forMethod(java.lang.String);
+  public scala.Option<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> forMethod(io.shiftleft.codepropertygraph.generated.nodes.Method);
+  public java.lang.String serialize();
+  public io.joern.dataflowengineoss.semanticsloader.FullNameSemantics plus(scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic>);
+  private static final boolean initialize$$anonfun$1(scala.Tuple2);
+  private final scala.Option initialize$$anonfun$2$$anonfun$1(java.lang.String, java.lang.String);
+  private final void initialize$$anonfun$2(io.shiftleft.codepropertygraph.generated.Cpg, scala.Tuple2);
+  private static final java.lang.String serialize$$anonfun$1(io.joern.dataflowengineoss.semanticsloader.FlowSemantic);
+  private static final java.lang.String serialize$$anonfun$2(io.joern.dataflowengineoss.semanticsloader.FlowSemantic);
+  public static io.joern.dataflowengineoss.semanticsloader.FullNameSemantics empty();
+  public static io.joern.dataflowengineoss.semanticsloader.FullNameSemantics fromList(scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic>);
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+}
+
+[exit 0]

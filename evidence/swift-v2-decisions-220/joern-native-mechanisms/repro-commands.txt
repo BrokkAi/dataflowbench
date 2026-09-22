@@ -1,0 +1,46 @@
+# SAME220 bounded Joern native mechanism audit reproduction record
+# Read-only inspection of the pinned installation; do not run a heavy analyzer.
+# The commands below are the retained audit commands and final verification.
+
+cd /Users/dave/.codex/worktrees/1ba0/dataflowbench
+pwd
+git status --short --branch
+git rev-parse HEAD
+git branch --show-current
+python3 /private/tmp/dfb-220-joern-native-mechanisms/audit.py
+find /private/tmp/dfb-220-joern-native-mechanisms -type f -print | sort
+shasum -a 256 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/lib/io.joern.swiftsrc2cpg-4.0.628.jar
+shasum -a 256 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/lib/io.joern.x2cpg-4.0.628.jar
+shasum -a 256 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/lib/io.joern.semanticcpg-4.0.628.jar
+shasum -a 256 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/lib/io.joern.dataflowengineoss-4.0.628.jar
+jar tf /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/lib/io.joern.dataflowengineoss-4.0.628.jar
+jar tf /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/lib/io.joern.joern-cli-4.0.628.jar
+jar tf /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/lib/io.joern.swiftsrc2cpg-4.0.628.jar
+unzip -Z1 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/lib/io.joern.dataflowengineoss-4.0.628.jar
+unzip -Z1 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/lib/io.joern.swiftsrc2cpg-4.0.628.jar
+javap -private -classpath /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/lib/io.joern.dataflowengineoss-4.0.628.jar io.joern.dataflowengineoss.DefaultSemantics
+javap -private -c -classpath /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/lib/io.joern.dataflowengineoss-4.0.628.jar io.joern.dataflowengineoss.DefaultSemantics\$
+
+# Final sidecar verification (writes only under /private/tmp).
+python3 - <<'PY'
+import hashlib, json, pathlib
+root = pathlib.Path('/private/tmp/dfb-220-joern-native-mechanisms')
+files = []
+for p in sorted(root.rglob('*')):
+    if p.is_file() and p.name != 'evidence-manifest.json':
+        h = hashlib.sha256(); size = 0
+        with p.open('rb') as f:
+            for chunk in iter(lambda: f.read(1024 * 1024), b''):
+                size += len(chunk); h.update(chunk)
+        files.append({'path': str(p.relative_to(root)), 'bytes': size, 'sha256': h.hexdigest()})
+manifest = {'schema': 'dfb-220-joern-native-mechanisms/file-manifest/v1', 'root': str(root), 'self_excluded': True, 'files': files}
+(root / 'evidence-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
+print(json.dumps({'files': len(files), 'manifest': str(root / 'evidence-manifest.json')}, indent=2))
+PY
+python3 - <<'PY'
+import json, pathlib
+p=pathlib.Path('/private/tmp/dfb-220-joern-native-mechanisms/evidence-manifest.json')
+m=json.loads(p.read_text())
+print('manifest_files=', len(m['files']))
+print('manifest_self_excluded=', m['self_excluded'])
+PY

@@ -1,0 +1,11 @@
+$ javap -classpath /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/lib/io.joern.dataflowengineoss-4.0.628.jar -private -p io.joern.dataflowengineoss.semanticsloader.Semantics
+Compiled from "Semantics.scala"
+public interface io.joern.dataflowengineoss.semanticsloader.Semantics {
+  public static void initialize$(io.joern.dataflowengineoss.semanticsloader.Semantics, io.shiftleft.codepropertygraph.generated.Cpg);
+  public default void initialize(io.shiftleft.codepropertygraph.generated.Cpg);
+  public abstract scala.Option<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> forMethod(io.shiftleft.codepropertygraph.generated.nodes.Method);
+  public static io.joern.dataflowengineoss.semanticsloader.Semantics after$(io.joern.dataflowengineoss.semanticsloader.Semantics, io.joern.dataflowengineoss.semanticsloader.Semantics);
+  public default io.joern.dataflowengineoss.semanticsloader.Semantics after(io.joern.dataflowengineoss.semanticsloader.Semantics);
+}
+
+[exit 0]

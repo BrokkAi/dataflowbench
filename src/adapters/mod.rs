@@ -30,6 +30,7 @@ pub(crate) mod joern;
 pub(crate) mod opentaint;
 pub(crate) mod pysa;
 pub(crate) mod semgrep;
+pub(crate) mod swift_v2;
 
 use crate::adapters::codeql::codeql_version_identity;
 use crate::adapters::flowdroid::FLOWDROID_MODELING_SUMMARIES_DIR;
