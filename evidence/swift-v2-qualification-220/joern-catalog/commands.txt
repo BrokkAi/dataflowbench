@@ -1,0 +1,15 @@
+# All commands were read-only with respect to the pinned installation and used no source or CPG input.
+find /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli -type f -print | sed 's#^/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/##' | sort
+shasum -a 256 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli-macos-arm64.zip
+shasum -a 512 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli-macos-arm64.zip
+stat -f '%z' /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli-macos-arm64.zip
+du -sk /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli
+unzip -Z1 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli-macos-arm64.zip | sort
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern --help
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern --plugins
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern-scan --help
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern-scan --list-query-names
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern-scan --dump-to evidence/swift-v2-qualification-220/joern-catalog/querydb.json
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/swiftsrc2cpg.sh --help
+unzip -Z1 <selected Swift/dataflow JARs> | rg '<catalog/model/query/semantic/resource patterns>'
+javap -classpath '<selected frontend/dataflow JARs>' -public -s <selected public classes>

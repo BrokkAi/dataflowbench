@@ -1,0 +1,14 @@
+Usage: swiftsrc2cpg [options] input-dir
+
+  input-dir                source directory
+  -o, --output <value>     output filename
+  --exclude <file1>        files or folders to exclude during CPG generation (paths relative to <input-dir> or absolute paths)
+  --exclude-regex <value>  a regex specifying files to exclude during CPG generation (paths relative to <input-dir> are matched)
+  --enable-early-schema-checking
+                           enables early schema validation during AST creation (disabled by default)
+  --enable-file-content    add the raw source code to the content field of FILE nodes to allow for method source retrieval via offset fields (disabled by default)
+  --help                   display this help message
+  --define <value>         define a name
+  --swift-build            build the project to retrieve full Swift compiler type information (requires Swift > 6.1)
+  --build-log-path <value>
+                           the path to the compiler debug output log file (this enables --swift-build; requires Swift > 6.1)

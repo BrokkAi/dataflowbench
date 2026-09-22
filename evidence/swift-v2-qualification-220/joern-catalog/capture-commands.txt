@@ -1,0 +1,17 @@
+# Read-only bounded Joern 4.0.628 catalog capture; no source, CPG, analyzer, or fixture was supplied.
+# The commands below were run against the pinned installation and their retained outputs are named.
+find /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli -type f -print | sed 's#^/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/##' | sort > installation-files.txt
+shasum -a 256 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli-macos-arm64.zip > artifact-identity.txt
+shasum -a 512 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli-macos-arm64.zip >> artifact-identity.txt
+unzip -Z1 /Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli-macos-arm64.zip | sort > archive-members.txt
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern --help > joern-help.txt
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern --plugins > joern-plugins.txt
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern-scan --help > joern-scan-help.txt
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern-scan --list-query-names > joern-scan-query-names.txt
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern-scan --dump-to querydb.json > joern-scan-dump.stdout 2> joern-scan-dump.stderr; echo exit=$? > joern-scan-dump.exit
+/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/swiftsrc2cpg.sh --help > swiftsrc2cpg-help.txt
+unzip -Z1 <selected Swift/dataflow JARs> > *jar-members.txt
+unzip -p <Swift JAR> application.conf > swift-frontend-application.conf
+javap -classpath <selected frontend/dataflow JARs> -public -s <selected public classes> > javap-catalog-interfaces.txt
+unzip -p <selected JAR> META-INF/MANIFEST.MF > selected-artifact-manifests.txt
+shasum -a 256 <selected JARs and executables> > executable-sha256.txt
