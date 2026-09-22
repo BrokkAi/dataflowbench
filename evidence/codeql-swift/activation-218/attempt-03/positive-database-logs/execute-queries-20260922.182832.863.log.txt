@@ -1,0 +1,61 @@
+[2026-09-22 18:28:32] This is codeql execute queries -J-Xmx1355M --verbosity=progress --logdir=/private/tmp/dfb-codeql-swift-218-wrapped-positive/db/log --common-caches=/private/tmp/dfb-codeql-swift-218-wrapped-packs --evaluator-log-level=5 --threads=2 --warnings=show --qlconfig-file=/Users/dave/.codex/worktrees/739a/dataflowbench/qlconfig.yml --dynamic-join-order-mode=none --output=/Users/dave/.codex/worktrees/739a/dataflowbench/evidence/codeql-swift/activation-218/attempt-03/positive-flow.bqrs -- /private/tmp/dfb-codeql-swift-218-wrapped-positive/db/db-swift path:/Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift/ActivationFlow.ql
+[2026-09-22 18:28:32] Calling plumbing command: codeql resolve queries --qlconfig-file=/Users/dave/.codex/worktrees/739a/dataflowbench/qlconfig.yml --format=json -- path:/Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift/ActivationFlow.ql
+[2026-09-22 18:28:32] [PROGRESS] resolve queries> Recording pack reference dataflowbench/codeql-swift at /Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift.
+[2026-09-22 18:28:32] Plumbing command codeql resolve queries completed:
+                      [
+                        "/Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift/ActivationFlow.ql"
+                      ]
+[2026-09-22 18:28:32] Refusing fancy output: The terminal is not an xterm: dumb
+[2026-09-22 18:28:32] Creating executor with 2 threads.
+[2026-09-22 18:28:33] [PROGRESS] execute queries> Resolving data extensions.
+[2026-09-22 18:28:33] Calling plumbing command: codeql resolve extensions --qlconfig-file=/Users/dave/.codex/worktrees/739a/dataflowbench/qlconfig.yml --include-extension-row-locations path:/Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift/ActivationFlow.ql
+[2026-09-22 18:28:33] Calling plumbing command: codeql resolve queries --qlconfig-file=/Users/dave/.codex/worktrees/739a/dataflowbench/qlconfig.yml --allow-library-packs --format startingpacks -- path:/Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift/ActivationFlow.ql
+[2026-09-22 18:28:33] [PROGRESS] resolve queries> Recording pack reference dataflowbench/codeql-swift at /Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift.
+[2026-09-22 18:28:33] Plumbing command codeql resolve queries completed:
+                      [
+                        "/Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift"
+                      ]
+[2026-09-22 18:28:33] Calling plumbing command: codeql resolve extensions-by-pack --qlconfig-file=/Users/dave/.codex/worktrees/739a/dataflowbench/qlconfig.yml --include-extension-row-locations -- /Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack> [INCOMPATIBILITY] dataflowbench/codeql-swift: not 0.0.1 {root: dataflowbench/codeql-swift@0.0.1}
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack> [DERIVATION] dataflowbench/codeql-swift: 0.0.1 {dataflowbench/codeql-swift: not 0.0.1 {root: dataflowbench/codeql-swift@0.0.1}}
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack> [INCOMPATIBILITY] dataflowbench/codeql-swift: * [*], codeql/swift-all: not 6.8.3 {dependency: dataflowbench/codeql-swift@* [*] requires codeql/swift-all@6.8.3}
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack> [DECISION 1] dataflowbench/codeql-swift: 0.0.1
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack> [DERIVATION] codeql/swift-all: 6.8.3 {dataflowbench/codeql-swift: * [*], codeql/swift-all: not 6.8.3 {dependency: dataflowbench/codeql-swift@* [*] requires codeql/swift-all@6.8.3}}
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack> [INCOMPATIBILITY] codeql/swift-all: * [*] {pack not found: codeql/swift-all}
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack> [CONFLICT] codeql/swift-all: * [*] {pack not found: codeql/swift-all}
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack>   [CONSTRAINT] codeql/swift-all: 6.8.3
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack>   [CONSTRAINT] dataflowbench/codeql-swift: 0.0.1
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack>   [SATISFIER] derivation: codeql/swift-all: 6.8.3
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack>   [ALMOST_SATISFIER] <none>
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack> [INCOMPATIBILITY] dataflowbench/codeql-swift: * [*] {conflict}
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack> [FAILURE]
+[2026-09-22 18:28:33] [SPAMMY] resolve extensions-by-pack>   Because 'dataflowbench/codeql-swift' depends on 'codeql/swift-all@6.8.3', but pack 'codeql/swift-all' was not found, version solving failed.
+[2026-09-22 18:28:33] [ERROR] resolve extensions-by-pack> ERROR: Pack 'codeql/swift-all@6.8.3' was not found in the pack download cache. Run 'codeql pack install' to download the dependencies. (/Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift/qlpack.yml:1,1-1)
+[2026-09-22 18:28:33] [ERROR] resolve extensions-by-pack> ERROR: No valid pack solution found:
+                              Because 'dataflowbench/codeql-swift' depends on 'codeql/swift-all@6.8.3', but pack 'codeql/swift-all' was not found, version solving failed.
+                               (/Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift/qlpack.yml:1,1-1)
+[2026-09-22 18:28:33] Sequence stamp origin is -5865488603801425499
+[2026-09-22 18:28:33] Pausing evaluation to close the cache at sequence stamp o+0
+[2026-09-22 18:28:33] The disk cache is freshly trimmed; leave it be.
+[2026-09-22 18:28:33] Unpausing evaluation
+[2026-09-22 18:28:33] Exception caught at top level: A 'codeql resolve extensions-by-pack' operation failed with error code 2
+                      com.semmle.cli2.picocli.PlumbingRunner.call(PlumbingRunner.java:75)
+                      com.semmle.cli2.picocli.SubcommandCommon.callPlumbingInProcess(SubcommandCommon.java:171)
+                      com.semmle.cli2.resolve.ResolveExtensionsCommand.executeJSON(ResolveExtensionsCommand.java:59)
+                      com.semmle.cli2.resolve.ResolveExtensionsCommand.executeJSON(ResolveExtensionsCommand.java:18)
+                      com.semmle.cli2.picocli.SimpleJsonSubcommand.executeInsistingOnJSONWithExistingMessages(SimpleJsonSubcommand.java:121)
+                      com.semmle.cli2.picocli.SubcommandCommon.withCompilationMessages(SubcommandCommon.java:450)
+                      com.semmle.cli2.picocli.SimpleJsonSubcommand.executeInsistingOnJSON(SimpleJsonSubcommand.java:110)
+                      com.semmle.cli2.picocli.PlumbingRunner.call(PlumbingRunner.java:61)
+                      com.semmle.cli2.picocli.SubcommandCommon.callPlumbingInProcess(SubcommandCommon.java:171)
+                      com.semmle.cli2.execute.ExecuteQueriesCommand.resolveExtensions(ExecuteQueriesCommand.java:938)
+                      com.semmle.cli2.execute.ExecuteQueriesCommand.executeSubcommand(ExecuteQueriesCommand.java:498)
+                      com.semmle.cli2.picocli.SubcommandCommon.lambda$executeSubcommandWithMessages$5(SubcommandCommon.java:893)
+                      com.semmle.cli2.picocli.SubcommandCommon.withCompilationMessages(SubcommandCommon.java:450)
+                      com.semmle.cli2.picocli.SubcommandCommon.executeSubcommandWithMessages(SubcommandCommon.java:891)
+                      com.semmle.cli2.picocli.SubcommandCommon.toplevelMain(SubcommandCommon.java:784)
+                      com.semmle.cli2.picocli.SubcommandCommon.call(SubcommandCommon.java:763)
+                      com.semmle.cli2.picocli.SubcommandMaker.runMain(SubcommandMaker.java:238)
+                      com.semmle.cli2.picocli.SubcommandMaker.runMain(SubcommandMaker.java:259)
+                      com.semmle.cli2.CodeQL.main(CodeQL.java:113)
+[2026-09-22 18:28:33] [SPAMMY] execute queries> Failed to write 1 diagnostics for execute queries since this subcommand could not determine its diagnostic directory.

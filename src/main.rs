@@ -41,6 +41,7 @@ use crate::adapters::codeql::{
     CFamilyKernel, EcmaKernel, run_codeql_c_family_kernel, run_codeql_csharp_kernel,
     run_codeql_ecma_kernel, run_codeql_go_kernel, run_codeql_java_kernel, run_codeql_kotlin_kernel,
     run_codeql_python_kernel, run_codeql_ruby_kernel, run_codeql_rust_kernel,
+    run_codeql_swift_kernel,
 };
 use crate::adapters::flowdroid::{
     FlowdroidKernel, FlowdroidTools, run_flowdroid_kernel, run_flowdroid_modeling,
@@ -341,6 +342,14 @@ enum Commands {
     /// Run the Ruby propagation kernel through the CodeQL Ruby extractor. Ruby
     /// is buildless, so each fixture is extracted standalone and findings are
     /// reconciled against the case's `DFB-SINK:` method callsites.
+    RunCodeqlSwiftKernel {
+        #[arg(long)]
+        codeql: PathBuf,
+        #[arg(long)]
+        codeql_packs: PathBuf,
+        #[arg(long, default_value = "core", value_parser = ["core", "calibration", "modeling"])]
+        tier: String,
+    },
     RunCodeqlRubyKernel {
         #[arg(long, default_value = "codeql")]
         codeql: PathBuf,
@@ -1058,6 +1067,11 @@ fn main() -> Result<()> {
             codeql,
             codeql_packs,
         } => run_codeql_rust_kernel(&codeql, codeql_packs.as_deref()),
+        Commands::RunCodeqlSwiftKernel {
+            codeql,
+            codeql_packs,
+            tier,
+        } => run_codeql_swift_kernel(&codeql, &codeql_packs, &tier),
         Commands::RunCodeqlRubyKernel {
             codeql,
             codeql_packs,

@@ -1,0 +1,20 @@
+[2026-09-22 18:31:02] This is codeql database analyze /private/tmp/dfb-codeql-swift-218-production-negative/db adapters/codeql/swift/queries/SwiftKernel.ql adapters/codeql/swift/queries/SwiftKernelEndpointProbe.ql --format=sarif-latest --output=/Users/dave/.codex/worktrees/739a/dataflowbench/evidence/codeql-swift/activation-218/attempt-04/negative.sarif --common-caches=/private/tmp/dfb-codeql-swift-218-packs --threads=2 --ram=2048
+[2026-09-22 18:31:02] Log file was started late.
+[2026-09-22 18:31:02] [PROGRESS] database analyze> Running queries.
+[2026-09-22 18:31:02] Running plumbing command: codeql database run-queries --evaluator-log-level=5 --threads=2 --ram=2048 --warnings=show --qlconfig-file=/Users/dave/.codex/worktrees/739a/dataflowbench/qlconfig.yml --dynamic-join-order-mode=none --no-rerun --interpret-passthrough=2048,--format=sarif-latest,-o=/Users/dave/.codex/worktrees/739a/dataflowbench/evidence/codeql-swift/activation-218/attempt-04/negative.sarif,--max-paths=4,--csv-location-format=line-column,--print-diagnostics-summary,--print-metrics-summary,--threads=2,--qlconfig-file=/Users/dave/.codex/worktrees/739a/dataflowbench/qlconfig.yml,--,/private/tmp/dfb-codeql-swift-218-production-negative/db,adapters/codeql/swift/queries/SwiftKernel.ql,adapters/codeql/swift/queries/SwiftKernelEndpointProbe.ql -- /private/tmp/dfb-codeql-swift-218-production-negative/db adapters/codeql/swift/queries/SwiftKernel.ql adapters/codeql/swift/queries/SwiftKernelEndpointProbe.ql
+[2026-09-22 18:31:02] Exception caught at top level: Database at /private/tmp/dfb-codeql-swift-218-production-negative/db needs to be finalized before running queries; please run codeql database finalize
+                      com.semmle.cli2.database.RunQueriesCommand.executeSubcommand(RunQueriesCommand.java:251)
+                      com.semmle.cli2.picocli.SubcommandCommon.lambda$executeSubcommandWithMessages$5(SubcommandCommon.java:893)
+                      com.semmle.cli2.picocli.SubcommandCommon.withCompilationMessages(SubcommandCommon.java:450)
+                      com.semmle.cli2.picocli.SubcommandCommon.executeSubcommandWithMessages(SubcommandCommon.java:891)
+                      com.semmle.cli2.picocli.PlumbingRunner.run(PlumbingRunner.java:123)
+                      com.semmle.cli2.picocli.SubcommandCommon.execPlumbingInProcess(SubcommandCommon.java:230)
+                      com.semmle.cli2.database.AnalyzeCommand.executeSubcommand(AnalyzeCommand.java:167)
+                      com.semmle.cli2.picocli.SubcommandCommon.lambda$executeSubcommandWithMessages$5(SubcommandCommon.java:893)
+                      com.semmle.cli2.picocli.SubcommandCommon.withCompilationMessages(SubcommandCommon.java:450)
+                      com.semmle.cli2.picocli.SubcommandCommon.executeSubcommandWithMessages(SubcommandCommon.java:891)
+                      com.semmle.cli2.picocli.SubcommandCommon.toplevelMain(SubcommandCommon.java:784)
+                      com.semmle.cli2.picocli.SubcommandCommon.call(SubcommandCommon.java:763)
+                      com.semmle.cli2.picocli.SubcommandMaker.runMain(SubcommandMaker.java:238)
+                      com.semmle.cli2.picocli.SubcommandMaker.runMain(SubcommandMaker.java:259)
+                      com.semmle.cli2.CodeQL.main(CodeQL.java:113)

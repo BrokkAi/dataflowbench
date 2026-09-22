@@ -14,6 +14,7 @@ use crate::adapters::codeql::{
     codeql_go_configuration_paths, codeql_java_kernel_configuration_paths,
     codeql_kotlin_configuration_paths, codeql_python_kernel_configuration_paths,
     codeql_ruby_configuration_paths, codeql_rust_configuration_paths,
+    codeql_swift_configuration_paths,
 };
 use crate::adapters::flowdroid::flowdroid_template_paths;
 use crate::adapters::infer::infer_config_paths;
@@ -193,6 +194,15 @@ pub(crate) fn current_configuration_paths(
     stem: &str,
     case_scan: &mut Option<LoadedCases>,
 ) -> Result<Option<BTreeSet<PathBuf>>> {
+    if [
+        "codeql-swift-kernel",
+        "codeql-swift-modeling",
+        "codeql-swift-calibration",
+    ]
+    .contains(&stem)
+    {
+        return Ok(Some(codeql_swift_configuration_paths()));
+    }
     if stem == "bifrost-smoke" {
         return Ok(Some(bifrost_policy_paths(
             BifrostRun::Smoke,
@@ -262,6 +272,7 @@ pub(crate) fn current_configuration_paths(
             "cpp" => Some(codeql_c_family_configuration_paths(CFamilyKernel::Cpp)),
             "rust" => Some(codeql_rust_configuration_paths()),
             "ruby" => Some(codeql_ruby_configuration_paths()),
+            "swift" => Some(codeql_swift_configuration_paths()),
             _ => None,
         },
         "joern" => Some(BTreeSet::from([PathBuf::from(JOERN_KERNEL_SCRIPT)])),
