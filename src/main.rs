@@ -56,6 +56,7 @@ use crate::adapters::pysa::{
     PysaTools, run_pysa_modeling, run_pysa_native, run_pysa_python_kernel,
 };
 use crate::adapters::semgrep::{SemgrepKernel, run_semgrep_kernel};
+use crate::adapters::swift_v2::{SwiftV2Tool, run_swift_v2_additions};
 use crate::adapters::{ModelingLanguage, ModelingTool};
 use crate::cases::validate_cases;
 use crate::freeze::{create_freeze, validate_freeze};
@@ -349,6 +350,22 @@ enum Commands {
         codeql_packs: PathBuf,
         #[arg(long, default_value = "core", value_parser = ["core", "calibration", "modeling"])]
         tier: String,
+    },
+    /// Run the immutable Swift v2 additions once through one analyzer and
+    /// publish separate native-capability and Result-extension reports.
+    /// Native rows are committed capability decisions; only the Result tier
+    /// is executable under this activation scope.
+    RunSwiftV2Additions {
+        #[arg(long, value_enum)]
+        tool: SwiftV2Tool,
+        #[arg(long, default_value = "codeql")]
+        codeql: PathBuf,
+        #[arg(long)]
+        packs: Option<PathBuf>,
+        #[arg(long, default_value = "joern")]
+        joern: PathBuf,
+        #[arg(long)]
+        java_home: Option<PathBuf>,
     },
     RunCodeqlRubyKernel {
         #[arg(long, default_value = "codeql")]
@@ -963,6 +980,7 @@ enum Commands {
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
+    let explicit_swift_v2_population = cli.population.as_deref() == Some("swift-synthetic-v2");
     population::initialize(cli.population.as_deref())?;
     match cli.command {
         Commands::Validate => validate_cases(),
@@ -1083,6 +1101,26 @@ fn main() -> Result<()> {
             codeql_packs,
             tier,
         } => run_codeql_swift_kernel(&codeql, &codeql_packs, &tier),
+        Commands::RunSwiftV2Additions {
+            tool,
+            codeql,
+            packs,
+            joern,
+            java_home,
+        } => {
+            if !explicit_swift_v2_population {
+                anyhow::bail!(
+                    "run-swift-v2-additions requires explicit --population swift-synthetic-v2"
+                );
+            }
+            run_swift_v2_additions(
+                tool,
+                &codeql,
+                packs.as_deref(),
+                &joern,
+                java_home.as_deref(),
+            )
+        }
         Commands::RunCodeqlRubyKernel {
             codeql,
             codeql_packs,

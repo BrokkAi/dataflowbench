@@ -1,0 +1,259 @@
+{
+  "case_id": "dfb-taint-swift-result-error-propagation-negative",
+  "outcome": "inconclusive",
+  "diagnostics": [
+    "Aggregate process-tree memory compliance is unproven at the unchanged 512 MiB analysis budget; native observations are not certified correctness outcomes.",
+    "Observed analysis process maximum RSS 654 MiB exceeds the 512 MiB contract; aggregate compliance is therefore impossible for this attempt."
+  ],
+  "phases": {
+    "extract": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+        "database",
+        "create",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-zib_qshg/db",
+        "--language=swift",
+        "--source-root=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-zib_qshg/DataFlowBenchTaintSwift",
+        "--threads=2",
+        "--ram=512",
+        "--command=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -swift-version 6 -Onone -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -target arm64-apple-macosx27.0.0 -module-name DataFlowBenchTaintSwift -module-cache-path /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-zib_qshg/cache /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-zib_qshg/DataFlowBenchTaintSwift/main.swift -o /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-zib_qshg/never-executed"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "environment": null,
+      "elapsed_seconds": 32.895159458,
+      "deadline_seconds": 60,
+      "deadline_scope": "scored extraction phase; 60-second operational cap",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 22519,
+          "start_identity": "1790116929:855719"
+        },
+        {
+          "pid": 22521,
+          "start_identity": "1790116929:857621"
+        },
+        {
+          "pid": 22527,
+          "start_identity": "1790116929:868411"
+        },
+        {
+          "pid": 22537,
+          "start_identity": "1790116930:405457"
+        },
+        {
+          "pid": 22538,
+          "start_identity": "1790116930:415963"
+        },
+        {
+          "pid": 22546,
+          "start_identity": "1790116930:938576"
+        },
+        {
+          "pid": 22565,
+          "start_identity": "1790116932:359751"
+        },
+        {
+          "pid": 22573,
+          "start_identity": "1790116932:484145"
+        },
+        {
+          "pid": 22574,
+          "start_identity": "1790116932:509434"
+        },
+        {
+          "pid": 22576,
+          "start_identity": "1790116932:563599"
+        },
+        {
+          "pid": 22593,
+          "start_identity": "1790116933:191908"
+        },
+        {
+          "pid": 22594,
+          "start_identity": "1790116933:194591"
+        },
+        {
+          "pid": 22596,
+          "start_identity": "1790116933:219815"
+        },
+        {
+          "pid": 22605,
+          "start_identity": "1790116933:686932"
+        },
+        {
+          "pid": 22616,
+          "start_identity": "1790116934:142068"
+        },
+        {
+          "pid": 22625,
+          "start_identity": "1790116934:665407"
+        },
+        {
+          "pid": 22630,
+          "start_identity": "1790116935:30836"
+        },
+        {
+          "pid": 22635,
+          "start_identity": "1790116935:402202"
+        },
+        {
+          "pid": 22641,
+          "start_identity": "1790116935:798671"
+        },
+        {
+          "pid": 23007,
+          "start_identity": "1790116959:993062"
+        },
+        {
+          "pid": 23012,
+          "start_identity": "1790116960:350252"
+        },
+        {
+          "pid": 23014,
+          "start_identity": "1790116960:391923"
+        },
+        {
+          "pid": 23021,
+          "start_identity": "1790116960:753874"
+        },
+        {
+          "pid": 23040,
+          "start_identity": "1790116961:522720"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not atomic.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven",
+      "individual_maxrss_mb": 365
+    },
+    "resolve": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+        "resolve",
+        "database",
+        "--format=json",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-zib_qshg/db"
+      ],
+      "measurement_wrapper": [],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "environment": null,
+      "elapsed_seconds": 0.4859473329999986,
+      "deadline_seconds": 60,
+      "deadline_scope": "finalized-database metadata gate",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 23060,
+          "start_identity": "1790116962:751385"
+        },
+        {
+          "pid": 23068,
+          "start_identity": "1790116962:764247"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not atomic.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven",
+      "individual_maxrss_mb": null
+    },
+    "analysis": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+        "database",
+        "analyze",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-zib_qshg/db",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/codeql/swift-v2/queries/flow.ql",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/codeql/swift-v2/queries/endpoints.ql",
+        "--rerun",
+        "--format=sarif-latest",
+        "--output=/Users/dave/.codex/worktrees/1ba0/dataflowbench/reports/raw/codeql-swift-v2-additions/dfb-taint-swift-result-error-propagation-negative/results.sarif.json",
+        "--additional-packs=/private/tmp/dfb-codeql-swift-218-packs/packages",
+        "--threads=2",
+        "--ram=512",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "environment": null,
+      "elapsed_seconds": 4.623418291999997,
+      "deadline_seconds": 60,
+      "deadline_scope": "scored analysis phase",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 23077,
+          "start_identity": "1790116963:237912"
+        },
+        {
+          "pid": 23079,
+          "start_identity": "1790116963:239964"
+        },
+        {
+          "pid": 23085,
+          "start_identity": "1790116963:251580"
+        },
+        {
+          "pid": 23090,
+          "start_identity": "1790116963:630168"
+        },
+        {
+          "pid": 23160,
+          "start_identity": "1790116967:75372"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not atomic.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven",
+      "individual_maxrss_mb": 654
+    }
+  },
+  "retained_scratch": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-zib_qshg",
+  "memory_compliance": "exceeded",
+  "descendant_containment": "unproven",
+  "budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_sha256": {
+    "main.swift": "75b163cc160bbfffba860abc358536d0ed65dad7a5f954e29d8e1f5a66eadd05"
+  },
+  "native_observation": {
+    "flow_observed": false,
+    "flow_sink_lines": [],
+    "endpoints": {
+      "source": [
+        8
+      ],
+      "sink": [
+        28
+      ]
+    }
+  },
+  "duration_ms": 38042
+}

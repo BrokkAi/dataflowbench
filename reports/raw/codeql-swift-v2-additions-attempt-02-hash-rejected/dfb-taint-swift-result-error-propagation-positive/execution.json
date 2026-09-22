@@ -1,0 +1,258 @@
+{
+  "case_id": "dfb-taint-swift-result-error-propagation-positive",
+  "outcome": "inconclusive",
+  "diagnostics": [
+    "Aggregate process-tree memory compliance is unproven at the unchanged 512 MiB analysis budget; native observations are not certified correctness outcomes."
+  ],
+  "phases": {
+    "extract": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+        "database",
+        "create",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-co0yhsjo/db",
+        "--language=swift",
+        "--source-root=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-co0yhsjo/DataFlowBenchTaintSwift",
+        "--threads=2",
+        "--ram=512",
+        "--command=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -swift-version 6 -Onone -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -target arm64-apple-macosx27.0.0 -module-name DataFlowBenchTaintSwift -module-cache-path /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-co0yhsjo/cache /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-co0yhsjo/DataFlowBenchTaintSwift/main.swift -o /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-co0yhsjo/never-executed"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "environment": null,
+      "elapsed_seconds": 34.196054541,
+      "deadline_seconds": 60,
+      "deadline_scope": "scored extraction phase; 60-second operational cap",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 21626,
+          "start_identity": "1790116713:496871"
+        },
+        {
+          "pid": 21628,
+          "start_identity": "1790116713:498664"
+        },
+        {
+          "pid": 21634,
+          "start_identity": "1790116713:509645"
+        },
+        {
+          "pid": 21643,
+          "start_identity": "1790116714:63368"
+        },
+        {
+          "pid": 21644,
+          "start_identity": "1790116714:73857"
+        },
+        {
+          "pid": 21651,
+          "start_identity": "1790116714:582591"
+        },
+        {
+          "pid": 21653,
+          "start_identity": "1790116714:637523"
+        },
+        {
+          "pid": 21660,
+          "start_identity": "1790116715:81407"
+        },
+        {
+          "pid": 21682,
+          "start_identity": "1790116716:248655"
+        },
+        {
+          "pid": 21683,
+          "start_identity": "1790116716:275491"
+        },
+        {
+          "pid": 21685,
+          "start_identity": "1790116716:331399"
+        },
+        {
+          "pid": 21698,
+          "start_identity": "1790116716:871692"
+        },
+        {
+          "pid": 21699,
+          "start_identity": "1790116716:874219"
+        },
+        {
+          "pid": 21710,
+          "start_identity": "1790116717:334808"
+        },
+        {
+          "pid": 21721,
+          "start_identity": "1790116717:802829"
+        },
+        {
+          "pid": 21730,
+          "start_identity": "1790116718:341722"
+        },
+        {
+          "pid": 21735,
+          "start_identity": "1790116718:716290"
+        },
+        {
+          "pid": 21741,
+          "start_identity": "1790116719:80540"
+        },
+        {
+          "pid": 21750,
+          "start_identity": "1790116719:441771"
+        },
+        {
+          "pid": 22079,
+          "start_identity": "1790116744:911625"
+        },
+        {
+          "pid": 22086,
+          "start_identity": "1790116745:319822"
+        },
+        {
+          "pid": 22092,
+          "start_identity": "1790116745:671871"
+        },
+        {
+          "pid": 22101,
+          "start_identity": "1790116746:342188"
+        },
+        {
+          "pid": 22109,
+          "start_identity": "1790116746:469604"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not atomic.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven",
+      "individual_maxrss_mb": 368
+    },
+    "resolve": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+        "resolve",
+        "database",
+        "--format=json",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-co0yhsjo/db"
+      ],
+      "measurement_wrapper": [],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "environment": null,
+      "elapsed_seconds": 0.3847916670000018,
+      "deadline_seconds": 60,
+      "deadline_scope": "finalized-database metadata gate",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 22127,
+          "start_identity": "1790116747:693250"
+        },
+        {
+          "pid": 22134,
+          "start_identity": "1790116747:705868"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not atomic.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven",
+      "individual_maxrss_mb": null
+    },
+    "analysis": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+        "database",
+        "analyze",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-co0yhsjo/db",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/codeql/swift-v2/queries/flow.ql",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/codeql/swift-v2/queries/endpoints.ql",
+        "--rerun",
+        "--format=sarif-latest",
+        "--output=/Users/dave/.codex/worktrees/1ba0/dataflowbench/reports/raw/codeql-swift-v2-additions/dfb-taint-swift-result-error-propagation-positive/results.sarif.json",
+        "--additional-packs=/private/tmp/dfb-codeql-swift-218-packs/packages",
+        "--threads=2",
+        "--ram=512",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "environment": null,
+      "elapsed_seconds": 4.46817412499999,
+      "deadline_seconds": 60,
+      "deadline_scope": "scored analysis phase",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 22141,
+          "start_identity": "1790116748:78584"
+        },
+        {
+          "pid": 22143,
+          "start_identity": "1790116748:80695"
+        },
+        {
+          "pid": 22149,
+          "start_identity": "1790116748:92352"
+        },
+        {
+          "pid": 22154,
+          "start_identity": "1790116748:467045"
+        },
+        {
+          "pid": 22225,
+          "start_identity": "1790116751:847762"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not atomic.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven",
+      "individual_maxrss_mb": 686
+    }
+  },
+  "retained_scratch": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-scored-codeql-co0yhsjo",
+  "memory_compliance": "unproven",
+  "descendant_containment": "unproven",
+  "budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_sha256": {
+    "main.swift": "a2a73ad810ec5bd3388d0f13604487b5a1442a14a1a2c165facd6f04aabe3bcd"
+  },
+  "native_observation": {
+    "flow_observed": false,
+    "flow_sink_lines": [],
+    "endpoints": {
+      "source": [
+        8
+      ],
+      "sink": [
+        27
+      ]
+    }
+  },
+  "duration_ms": 39088
+}
