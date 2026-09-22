@@ -1,0 +1,2473 @@
+{
+  "state": "analyzed",
+  "frontend": "SWIFTSRC",
+  "metadata": [
+    {
+      "language": "SWIFTSRC",
+      "overlays": [
+        "base",
+        "controlflow",
+        "typerel",
+        "callgraph",
+        "dataflowOss"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "107374182400",
+      "full_name": "main.swift:<global>",
+      "external": false,
+      "node": {
+        "id": "107374182400",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 1,
+        "code": "<global>"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182401",
+      "full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182401",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 1,
+        "code": "func dfb_source() -> String { \"SOURCE\" }"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182402",
+      "full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+      "external": false,
+      "node": {
+        "id": "107374182402",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 2,
+        "code": "func dfb_sink(_ value: String) { print(value) }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149696",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 2,
+            "code": "_ value: String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182403",
+      "full_name": "DataFlowBenchTaintSwift.Implementation.init:()->DataFlowBenchTaintSwift.Implementation",
+      "external": false,
+      "node": {
+        "id": "107374182403",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 3,
+        "code": "init"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Implementation",
+          "node": {
+            "id": "111669149700",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 3,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182404",
+      "full_name": "main.swift:<global>.Implementation.init.<lambda>0:(Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182404",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 4,
+        "code": "{ value in value }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149697",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 4,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182405",
+      "full_name": "main.swift:<global>.Implementation.init.<lambda>1:(Swift.String,Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182405",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 5,
+        "code": "{ first, second in second }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149698",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 5,
+            "code": "first"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149699",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 5,
+            "code": "second"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182406",
+      "full_name": "DataFlowBenchTaintSwift.Opaque.init:()->DataFlowBenchTaintSwift.Opaque",
+      "external": false,
+      "node": {
+        "id": "107374182406",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 7,
+        "code": "init"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Opaque",
+          "node": {
+            "id": "111669149701",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 7,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182407",
+      "full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182407",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 8,
+        "code": "static func carry(_ value: String) -> String {\n  let name = \"identity\"\n  let target = Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String) -> String\n  return target(value)\n }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149702",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 8,
+            "code": "_ value: String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182408",
+      "full_name": "main.swift:<global>.Opaque.carry.<lambda>2:((label:Swift.Optional,value:Any))->Swift.Bool",
+      "external": false,
+      "node": {
+        "id": "107374182408",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 10,
+        "code": "{ $0.label == name }"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182409",
+      "full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182409",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 13,
+        "code": "static func block(_ value: String) -> String {\n  let name = \"identity\"\n  let target = Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String) -> String\n  return target(value)\n }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149703",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 13,
+            "code": "_ value: String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182410",
+      "full_name": "main.swift:<global>.Opaque.block.<lambda>3:((label:Swift.Optional,value:Any))->Swift.Bool",
+      "external": false,
+      "node": {
+        "id": "107374182410",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 15,
+        "code": "{ $0.label == name }"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182411",
+      "full_name": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182411",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 18,
+        "code": "static func select(_ first: String, _ second: String) -> String {\n  let name = \"second\"\n  let target = Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String, String) -> String\n  return target(first, second)\n }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149704",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 18,
+            "code": "_ first: String"
+          }
+        },
+        {
+          "index": 2,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149705",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 18,
+            "code": "_ second: String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182412",
+      "full_name": "main.swift:<global>.Opaque.select.<lambda>4:((label:Swift.Optional,value:Any))->Swift.Bool",
+      "external": false,
+      "node": {
+        "id": "107374182412",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 20,
+        "code": "{ $0.label == name }"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182413",
+      "full_name": "DataFlowBenchTaintSwift.probe:()->()",
+      "external": false,
+      "node": {
+        "id": "107374182413",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 24,
+        "code": "func probe() { dfb_sink(Opaque.block(dfb_source())) }"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182414",
+      "full_name": "Swift.Function<(Swift.String)->Swift.String>.single_apply:(Swift.String)->Swift.String",
+      "external": true,
+      "node": {
+        "id": "107374182414",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149706",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149707",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182415",
+      "full_name": "Swift.Function<(Swift.String,Swift.String)->Swift.String>.single_apply:(Swift.String,Swift.String)->Swift.String",
+      "external": true,
+      "node": {
+        "id": "107374182415",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149708",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149709",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 3,
+          "type": "ANY",
+          "node": {
+            "id": "111669149710",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182416",
+      "full_name": "Swift.Function<((label:Swift.Optional,value:Any))->Swift.Bool>.single_apply:((label:Swift.Optional,value:Any))->Swift.Bool",
+      "external": true,
+      "node": {
+        "id": "107374182416",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149711",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182417",
+      "full_name": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "external": true,
+      "node": {
+        "id": "107374182417",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149712",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182418",
+      "full_name": "<operator>.assignment",
+      "external": true,
+      "node": {
+        "id": "107374182418",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149713",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149714",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182419",
+      "full_name": "<operator>.fieldAccess",
+      "external": true,
+      "node": {
+        "id": "107374182419",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149715",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149716",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182420",
+      "full_name": "<operator>.equals",
+      "external": true,
+      "node": {
+        "id": "107374182420",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149717",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149718",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182421",
+      "full_name": "<operator>.cast",
+      "external": true,
+      "node": {
+        "id": "107374182421",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149719",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149720",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182422",
+      "full_name": "Swift.Sequence<extension>.first:(where:(A.Element)throws->Swift.Bool)throws->Swift.Optional<A.Element>",
+      "external": true,
+      "node": {
+        "id": "107374182422",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149721",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149722",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182423",
+      "full_name": "<operator>.alloc",
+      "external": true,
+      "node": {
+        "id": "107374182423",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149723",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182424",
+      "full_name": "Swift.Mirror.init:(reflecting:Any)->Swift.Mirror",
+      "external": true,
+      "node": {
+        "id": "107374182424",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149724",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149725",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ]
+    }
+  ],
+  "calls": [
+    {
+      "node": {
+        "id": "30064771072",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 2,
+        "code": "print(value)"
+      },
+      "method_full_name": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "callee_ids": [
+        "107374182417"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476736",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 2,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771073",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 4,
+        "code": "let identity: (String) -> String = { value in value }"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771074",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 4,
+            "code": "self.identity"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "120259084288",
+            "label": "METHOD_REF",
+            "file": "main.swift",
+            "line": 4,
+            "code": "<lambda>0"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771074",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 4,
+        "code": "self.identity"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476739",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 4,
+            "code": "self"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574848",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 4,
+            "code": "identity"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771075",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 5,
+        "code": "let second: (String, String) -> String = { first, second in second }"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771076",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 5,
+            "code": "self.second"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "120259084289",
+            "label": "METHOD_REF",
+            "file": "main.swift",
+            "line": 5,
+            "code": "<lambda>1"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771076",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 5,
+        "code": "self.second"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476740",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 5,
+            "code": "self"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574849",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 5,
+            "code": "second"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771077",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "$0.label == name"
+      },
+      "method_full_name": "<operator>.equals",
+      "callee_ids": [
+        "107374182420"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771078",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 10,
+            "code": "$0.label"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "68719476742",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "name"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771078",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "$0.label"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476741",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "$0"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574850",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "label"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771079",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 9,
+        "code": "let name = \"identity\""
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476743",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 9,
+            "code": "name"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "90194313217",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 9,
+            "code": "\"identity\""
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771080",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "let target = Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String) -> String"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476744",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "target"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771081",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 10,
+            "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String) -> String"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771081",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String) -> String"
+      },
+      "method_full_name": "<operator>.cast",
+      "callee_ids": [
+        "107374182421"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "176093659136",
+            "label": "TYPE_REF",
+            "file": "main.swift",
+            "line": 10,
+            "code": "(String) -> String"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771082",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 10,
+            "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }.value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771082",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }.value"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771083",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 10,
+            "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574852",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771083",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }"
+      },
+      "method_full_name": "Swift.Sequence<extension>.first:(where:(A.Element)throws->Swift.Bool)throws->Swift.Optional<A.Element>",
+      "callee_ids": [
+        "107374182422"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "30064771084",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 10,
+            "code": "Mirror(reflecting: Implementation()).children"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "120259084290",
+            "label": "METHOD_REF",
+            "file": "main.swift",
+            "line": 10,
+            "code": "<lambda>2"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771084",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "Mirror(reflecting: Implementation()).children"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "25769803783",
+            "label": "BLOCK",
+            "file": "main.swift",
+            "line": 10,
+            "code": "Mirror(reflecting: Implementation())"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574851",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "children"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771085",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "<tmp>0 = <operator>.alloc"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476745",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "<tmp>0"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771086",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 10,
+            "code": "<operator>.alloc"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771086",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "<operator>.alloc"
+      },
+      "method_full_name": "<operator>.alloc",
+      "callee_ids": [
+        "107374182423"
+      ],
+      "arguments": []
+    },
+    {
+      "node": {
+        "id": "30064771087",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "Mirror(reflecting: Implementation())"
+      },
+      "method_full_name": "Swift.Mirror.init:(reflecting:Any)->Swift.Mirror",
+      "callee_ids": [
+        "107374182424"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476746",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "<tmp>0"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "25769803784",
+            "label": "BLOCK",
+            "file": "main.swift",
+            "line": 10,
+            "code": "Implementation()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771088",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "<tmp>1 = <operator>.alloc"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476747",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "<tmp>1"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771089",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 10,
+            "code": "<operator>.alloc"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771089",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "<operator>.alloc"
+      },
+      "method_full_name": "<operator>.alloc",
+      "callee_ids": [
+        "107374182423"
+      ],
+      "arguments": []
+    },
+    {
+      "node": {
+        "id": "30064771090",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "Implementation()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.Implementation.init:()->DataFlowBenchTaintSwift.Implementation",
+      "callee_ids": [
+        "107374182403"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476748",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "<tmp>1"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771091",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 11,
+        "code": "target(value)"
+      },
+      "method_full_name": "Swift.Function<(Swift.String)->Swift.String>.single_apply:(Swift.String)->Swift.String",
+      "callee_ids": [
+        "107374182414"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476751",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 11,
+            "code": "target"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476752",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 11,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771092",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "$0.label == name"
+      },
+      "method_full_name": "<operator>.equals",
+      "callee_ids": [
+        "107374182420"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771093",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 15,
+            "code": "$0.label"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "68719476754",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "name"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771093",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "$0.label"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476753",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "$0"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574853",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "label"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771094",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 14,
+        "code": "let name = \"identity\""
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476755",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 14,
+            "code": "name"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "90194313218",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 14,
+            "code": "\"identity\""
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771095",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "let target = Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String) -> String"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476756",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "target"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771096",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 15,
+            "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String) -> String"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771096",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String) -> String"
+      },
+      "method_full_name": "<operator>.cast",
+      "callee_ids": [
+        "107374182421"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "176093659137",
+            "label": "TYPE_REF",
+            "file": "main.swift",
+            "line": 15,
+            "code": "(String) -> String"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771097",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 15,
+            "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }.value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771097",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }.value"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771098",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 15,
+            "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574855",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771098",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }"
+      },
+      "method_full_name": "Swift.Sequence<extension>.first:(where:(A.Element)throws->Swift.Bool)throws->Swift.Optional<A.Element>",
+      "callee_ids": [
+        "107374182422"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "30064771099",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 15,
+            "code": "Mirror(reflecting: Implementation()).children"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "120259084291",
+            "label": "METHOD_REF",
+            "file": "main.swift",
+            "line": 15,
+            "code": "<lambda>3"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771099",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "Mirror(reflecting: Implementation()).children"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "25769803787",
+            "label": "BLOCK",
+            "file": "main.swift",
+            "line": 15,
+            "code": "Mirror(reflecting: Implementation())"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574854",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "children"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771100",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "<tmp>0 = <operator>.alloc"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476757",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "<tmp>0"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771101",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 15,
+            "code": "<operator>.alloc"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771101",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "<operator>.alloc"
+      },
+      "method_full_name": "<operator>.alloc",
+      "callee_ids": [
+        "107374182423"
+      ],
+      "arguments": []
+    },
+    {
+      "node": {
+        "id": "30064771102",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "Mirror(reflecting: Implementation())"
+      },
+      "method_full_name": "Swift.Mirror.init:(reflecting:Any)->Swift.Mirror",
+      "callee_ids": [
+        "107374182424"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476758",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "<tmp>0"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "25769803788",
+            "label": "BLOCK",
+            "file": "main.swift",
+            "line": 15,
+            "code": "Implementation()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771103",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "<tmp>1 = <operator>.alloc"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476759",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "<tmp>1"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771104",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 15,
+            "code": "<operator>.alloc"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771104",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "<operator>.alloc"
+      },
+      "method_full_name": "<operator>.alloc",
+      "callee_ids": [
+        "107374182423"
+      ],
+      "arguments": []
+    },
+    {
+      "node": {
+        "id": "30064771105",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "Implementation()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.Implementation.init:()->DataFlowBenchTaintSwift.Implementation",
+      "callee_ids": [
+        "107374182403"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476760",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "<tmp>1"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771106",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 16,
+        "code": "target(value)"
+      },
+      "method_full_name": "Swift.Function<(Swift.String)->Swift.String>.single_apply:(Swift.String)->Swift.String",
+      "callee_ids": [
+        "107374182414"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476763",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 16,
+            "code": "target"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476764",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 16,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771107",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "$0.label == name"
+      },
+      "method_full_name": "<operator>.equals",
+      "callee_ids": [
+        "107374182420"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771108",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 20,
+            "code": "$0.label"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "68719476766",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 20,
+            "code": "name"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771108",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "$0.label"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476765",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 20,
+            "code": "$0"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574856",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 20,
+            "code": "label"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771109",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 19,
+        "code": "let name = \"second\""
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476767",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 19,
+            "code": "name"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "90194313219",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 19,
+            "code": "\"second\""
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771110",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "let target = Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String, String) -> String"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476768",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 20,
+            "code": "target"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771111",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 20,
+            "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String, String) -> String"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771111",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }!.value as! (String, String) -> String"
+      },
+      "method_full_name": "<operator>.cast",
+      "callee_ids": [
+        "107374182421"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "176093659138",
+            "label": "TYPE_REF",
+            "file": "main.swift",
+            "line": 20,
+            "code": "(String, String) -> String"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771112",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 20,
+            "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }.value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771112",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }.value"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771113",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 20,
+            "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574858",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 20,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771113",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "Mirror(reflecting: Implementation()).children.first { $0.label == name }"
+      },
+      "method_full_name": "Swift.Sequence<extension>.first:(where:(A.Element)throws->Swift.Bool)throws->Swift.Optional<A.Element>",
+      "callee_ids": [
+        "107374182422"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "30064771114",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 20,
+            "code": "Mirror(reflecting: Implementation()).children"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "120259084292",
+            "label": "METHOD_REF",
+            "file": "main.swift",
+            "line": 20,
+            "code": "<lambda>4"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771114",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "Mirror(reflecting: Implementation()).children"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "25769803791",
+            "label": "BLOCK",
+            "file": "main.swift",
+            "line": 20,
+            "code": "Mirror(reflecting: Implementation())"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574857",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 20,
+            "code": "children"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771115",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "<tmp>0 = <operator>.alloc"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476769",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 20,
+            "code": "<tmp>0"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771116",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 20,
+            "code": "<operator>.alloc"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771116",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "<operator>.alloc"
+      },
+      "method_full_name": "<operator>.alloc",
+      "callee_ids": [
+        "107374182423"
+      ],
+      "arguments": []
+    },
+    {
+      "node": {
+        "id": "30064771117",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "Mirror(reflecting: Implementation())"
+      },
+      "method_full_name": "Swift.Mirror.init:(reflecting:Any)->Swift.Mirror",
+      "callee_ids": [
+        "107374182424"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476770",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 20,
+            "code": "<tmp>0"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "25769803792",
+            "label": "BLOCK",
+            "file": "main.swift",
+            "line": 20,
+            "code": "Implementation()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771118",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "<tmp>1 = <operator>.alloc"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476771",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 20,
+            "code": "<tmp>1"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771119",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 20,
+            "code": "<operator>.alloc"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771119",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "<operator>.alloc"
+      },
+      "method_full_name": "<operator>.alloc",
+      "callee_ids": [
+        "107374182423"
+      ],
+      "arguments": []
+    },
+    {
+      "node": {
+        "id": "30064771120",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "Implementation()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.Implementation.init:()->DataFlowBenchTaintSwift.Implementation",
+      "callee_ids": [
+        "107374182403"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476772",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 20,
+            "code": "<tmp>1"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771121",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 21,
+        "code": "target(first, second)"
+      },
+      "method_full_name": "Swift.Function<(Swift.String,Swift.String)->Swift.String>.single_apply:(Swift.String,Swift.String)->Swift.String",
+      "callee_ids": [
+        "107374182415"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476775",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 21,
+            "code": "target"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476776",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 21,
+            "code": "first"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "68719476777",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 21,
+            "code": "second"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771122",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 24,
+        "code": "dfb_sink(Opaque.block(dfb_source()))"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+      "callee_ids": [
+        "107374182402"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476778",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 24,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771123",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 24,
+            "code": "Opaque.block(dfb_source())"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771123",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 24,
+        "code": "Opaque.block(dfb_source())"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+      "callee_ids": [
+        "107374182409"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771124",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 24,
+            "code": "dfb_source()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771124",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 24,
+        "code": "dfb_source()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+      "callee_ids": [
+        "107374182401"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476779",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 24,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771125",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 25,
+        "code": "probe()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.probe:()->()",
+      "callee_ids": [
+        "107374182413"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476780",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 25,
+            "code": "self"
+          }
+        }
+      ]
+    }
+  ],
+  "source_method_ids": [
+    "107374182401"
+  ],
+  "sink_method_ids": [
+    "107374182402"
+  ],
+  "source_nodes": [
+    {
+      "id": "30064771124",
+      "label": "CALL",
+      "file": "main.swift",
+      "line": 24,
+      "code": "dfb_source()"
+    }
+  ],
+  "sink_nodes": [
+    {
+      "id": "30064771123",
+      "label": "CALL",
+      "file": "main.swift",
+      "line": 24,
+      "code": "Opaque.block(dfb_source())"
+    }
+  ],
+  "source_observations": [
+    {
+      "id": "30064771124",
+      "label": "CALL",
+      "file": "main.swift",
+      "line": 24,
+      "code": "dfb_source()"
+    }
+  ],
+  "sink_observations": [
+    {
+      "id": "30064771122",
+      "label": "CALL",
+      "file": "main.swift",
+      "line": 24,
+      "code": "dfb_sink(Opaque.block(dfb_source()))"
+    }
+  ],
+  "semantics": [
+    {
+      "method": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+      "flows": [
+        [
+          1,
+          -1
+        ]
+      ]
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+      "flows": []
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+      "flows": [
+        [
+          2,
+          -1
+        ]
+      ]
+    }
+  ],
+  "flows": [],
+  "query_completed": true,
+  "analysis_completeness": {
+    "status": "unproven",
+    "exhaustion_observable": false,
+    "max_call_depth": 4,
+    "max_args_to_allow": 1000,
+    "max_output_args_expansion": 1000
+  }
+}

@@ -175,3 +175,7 @@ other by `model_profile` and never pooled:
   not influence selection" a checkable claim instead of an assurance.
 
 - [Swift CodeQL activation and execution (A35)](codeql-swift.md) — independent pins, controls, per-template partition and budget limitations for #218.
+
+- [Swift native API contracts (A38)](swift-native-contract.md) — prospective six-family semantics; no native outcomes.
+- [Swift Result extension (A39)](swift-result-contract.md) — explicit failure-payload adaptation.
+- [Non-scored reflection investigation](../evidence/swift-reflection-220/README.md) — retained failures and independent controls; candidate remains unqualified.
