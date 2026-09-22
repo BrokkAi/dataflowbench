@@ -1273,6 +1273,20 @@ pub(crate) fn validate_native_cases(cases: &[(PathBuf, Value)]) -> Result<()> {
         // adapter would leave that adapter's cell to be decided by a run, which
         // is the one thing the partition exists to prevent.
         let key = required_string(case, "language", &path.display().to_string())?;
+        // A38 registers fixtures only. Swift has no native execution route or
+        // inherited Java/JS/Python partition; qualification is a separate tranche.
+        if key == "swift" {
+            if case["tool_model_references"]
+                .as_object()
+                .is_none_or(|refs| !refs.is_empty())
+            {
+                bail!(
+                    "{}: prospective Swift native fixtures cannot activate adapter models",
+                    path.display()
+                );
+            }
+            continue;
+        }
         let language = ModelingLanguage::from_key(key).with_context(|| {
             format!(
                 "{}: the tool-native profile covers Java, JavaScript, and Python in v1 (docs/native-profile.md#initial-languages); {key:?} has no native denominator",

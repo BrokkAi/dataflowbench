@@ -147,11 +147,15 @@ pub(crate) fn validate_swift_metadata(cases: &[(PathBuf, Value)]) -> Result<()> 
     let expected_modeling = crate::modeling::SWIFT_MODELING_TEMPLATE_IDS
         .into_iter()
         .collect::<BTreeSet<_>>();
-    let expected_case_count =
-        2 * (expected_core.len() + expected_calibration.len() + expected_modeling.len());
+    let expected_case_count = 2
+        * (expected_core.len()
+            + expected_calibration.len()
+            + expected_modeling.len()
+            + crate::native::NATIVE_TEMPLATE_IDS.len()
+            + 1);
     if swift.len() != expected_case_count {
         bail!(
-            "Swift population must contain exactly {expected_case_count} assertions (33 core + 2 calibration + 10 modeling pairs); found {}",
+            "Swift population must contain exactly {expected_case_count} assertions (33 core + 2 calibration + 10 controlled modeling + 6 native + 1 extension pairs); found {}",
             swift.len()
         );
     }
@@ -160,6 +164,8 @@ pub(crate) fn validate_swift_metadata(cases: &[(PathBuf, Value)]) -> Result<()> 
     let mut core = BTreeMap::<&str, (usize, usize)>::new();
     let mut calibration = BTreeMap::<&str, (usize, usize)>::new();
     let mut modeling = BTreeMap::<&str, (usize, usize)>::new();
+    let mut native = BTreeMap::<&str, (usize, usize)>::new();
+    let mut extension = BTreeMap::<&str, (usize, usize)>::new();
     for (path, case) in &swift {
         let id = case["id"]
             .as_str()
@@ -182,23 +188,15 @@ pub(crate) fn validate_swift_metadata(cases: &[(PathBuf, Value)]) -> Result<()> 
         let profile = case["model_profile"]
             .as_str()
             .with_context(|| format!("{} lacks model_profile", path.display()))?;
-        if !matches!(tier, "core" | "calibration" | "modeling") {
-            bail!(
-                "{}: Swift case uses reserved, extension, native, or otherwise unsupported score tier {tier:?}",
-                path.display()
-            );
-        }
-        if profile == "tool-native" {
-            bail!(
-                "{}: Swift tool-native profile is deferred and has no registered population",
-                path.display()
-            );
-        }
-        if profile != "benchmark-controlled" {
-            bail!(
-                "{}: Swift cases must use the benchmark-controlled profile; found {profile:?}",
-                path.display()
-            );
+        let is_native = crate::native::NATIVE_TEMPLATE_IDS.contains(&template);
+        if profile
+            != if is_native {
+                "tool-native"
+            } else {
+                "benchmark-controlled"
+            }
+        {
+            bail!("{}: Swift template/profile mismatch", path.display());
         }
         if case["track"] != "taint" {
             bail!(
@@ -226,6 +224,10 @@ pub(crate) fn validate_swift_metadata(cases: &[(PathBuf, Value)]) -> Result<()> 
                 }
                 &mut calibration
             }
+            "modeling" if is_native => &mut native,
+            "language-extension" if template == "dfb-template-result-error-propagation" => {
+                &mut extension
+            }
             "modeling" => {
                 if !expected_modeling.contains(template) {
                     bail!(
@@ -235,7 +237,7 @@ pub(crate) fn validate_swift_metadata(cases: &[(PathBuf, Value)]) -> Result<()> 
                 }
                 &mut modeling
             }
-            _ => unreachable!(),
+            _ => bail!("{}: unregistered Swift tier/template", path.display()),
         };
         let entry = target.entry(template).or_default();
         match case["polarity"].as_str() {
@@ -304,6 +306,26 @@ pub(crate) fn validate_swift_metadata(cases: &[(PathBuf, Value)]) -> Result<()> 
         .any(|(positive, negative)| *positive != 1 || *negative != 1)
     {
         bail!("Swift modeling requires one positive and one negative per template");
+    }
+    for (name, entries, expected) in [
+        (
+            "native",
+            &native,
+            crate::native::NATIVE_TEMPLATE_IDS
+                .into_iter()
+                .collect::<BTreeSet<_>>(),
+        ),
+        (
+            "extension",
+            &extension,
+            BTreeSet::from(["dfb-template-result-error-propagation"]),
+        ),
+    ] {
+        if entries.keys().copied().collect::<BTreeSet<_>>() != expected
+            || entries.values().any(|pair| *pair != (1, 1))
+        {
+            bail!("Swift {name} requires the complete balanced preregistered template set");
+        }
     }
     Ok(())
 }

@@ -7,10 +7,11 @@ static-analysis tools. It is an experimental first version, not a leaderboard.
 Swift fixture participation is tracked separately in the [Swift contract](docs/swift-kernel.md):
 33 core pairs, two calibration pairs, and ten controlled modeling pairs.
 Independent [CodeQL](docs/codeql-swift.md) and [Joern](docs/joern-swift.md)
-execution evidence is retained. The [full coverage audit](docs/swift-coverage-audit.md)
+execution evidence for those original 90 inputs is retained. The [v1 coverage audit](docs/swift-coverage-audit.md)
 joins every registry identity to examples and outcomes; it is not a published freeze.
-Opaque modeling, native APIs, and other documented deferrals remain unresolved;
-Bifrost Swift support is not claimed.
+The [v2 fixture population](docs/swift-v2-coverage.md) adds six native pairs and
+one Result extension pair, with analyzer qualification and execution pending.
+Two opaque modeling identities remain unresolved; Bifrost Swift support is not claimed.
 
 The current scored slice carries one executable track, `taint`. The
 `value-flow`, `typestate`, and `performance` tracks are reserved dimensions

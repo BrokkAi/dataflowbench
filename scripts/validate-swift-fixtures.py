@@ -810,8 +810,8 @@ def validate_case_metadata(case_path: Path, metadata: dict[str, Any], metadata_d
     return SwiftCase(case_directory, metadata, metadata_digest, tuple(declared), tuple(source_records))
 
 
-def load_inventory(cases_root: Path, evidence: Evidence | None = None) -> list[SwiftCase]:
-    paths = sorted(cases_root.rglob("case.json")) if cases_root.is_dir() else []
+def load_inventory(cases_root: Path, evidence: Evidence | None = None, *, selected_paths: list[Path] | None = None) -> list[SwiftCase]:
+    paths = sorted(selected_paths) if selected_paths is not None else (sorted(cases_root.rglob("case.json")) if cases_root.is_dir() else [])
     if not paths:
         raise ValidationError(f"no Swift case.json files found beneath {cases_root}")
     metadata_records: list[dict[str, Any]] = []
@@ -1087,7 +1087,11 @@ def validate(
         child_env=child_env,
     )
     fixture_root = cases_root or root / "cases" / "taint" / "swift"
-    cases = load_inventory(fixture_root, evidence)
+    # This validator retains v1's 90-case compilation/control contract. New
+    # immutable populations have separate validation, never widen historical runs.
+    selected = None if cases_root else [root / entry["path"] for entry in
+        json.loads((root / "populations/swift-synthetic-v1.json").read_text())["cases"]]
+    cases = load_inventory(fixture_root, evidence, selected_paths=selected)
     evidence.data["policy"] = {
         "compile": "all 90 cases, all declared .swift inputs, -swift-version 6 -Onone explicit SDK and target",
         "controls": "core plus dfb-template-one-hop-relay only; source values 7 and 19",
