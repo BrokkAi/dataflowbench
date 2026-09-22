@@ -106,6 +106,17 @@ def verify(configuration_only=False):
                 require(bool(row['diagnostics']) and bool(raw), 'missing retained typed evidence')
             counts.append(len(rows))
         require(counts == [12,2], '14 addition coverage')
+    if not configuration_only:
+        summary = read('evidence/swift-v2-execution-220/summary.json')
+        require(summary['status'] == 'unfrozen-typed-outcomes' and summary['opaque_modeling_identities_unresolved'] == 2, 'scope promotion')
+        expected_reports = {f'reports/{t}-swift-v2-{s}.json' for t in ('codeql','joern') for s in ('native','result')}
+        require({r['path'] for r in summary['reports']} == expected_reports and len(summary['reports']) == 4, 'summary report coverage')
+        for report in summary['reports']:
+            require(sha(safe_path(report['path'])) == report['sha256'], 'summary report digest')
+        rejected = ROOT/'reports/raw/codeql-swift-v2-additions-attempt-02-hash-rejected'
+        retained = read(str(rejected.relative_to(ROOT))+'/manifest.json')
+        require(retained == {str(p.relative_to(rejected)):sha(p) for p in rejected.rglob('*')
+                            if p.is_file() and p != rejected/'manifest.json'}, 'rejected attempt changed')
     print('Swift v2 A40 configuration' + (' verified' if configuration_only else ' and 28 typed outcomes verified'))
 
 

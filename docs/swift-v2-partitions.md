@@ -79,3 +79,47 @@ barriers, and does not claim absence in future releases or external model
 packs. No benchmark-authored native semantics are supplied. The exact source,
 bytecode, resource inventories and bounded audit remain retained separately
 from the scored Result attempts.
+
+## Retained runner attempts
+
+The first CodeQL attempt stopped during the SDK pin witness, before any case
+was attempted: the initial process-table scan missed the already-completed
+short child. The recorder now captures the known child's kernel start identity
+before scanning descendants. A short-child regression preserves the same
+unproved containment boundary.
+
+A second attempt produced native capability records and two Result
+observations, but Rust rejected report publication because Python sorted full
+path strings while `BTreeSet<PathBuf>` sorts path components. Its raw records
+and original `run.json` remain unchanged under the rejected-attempt directory;
+the original recorded paths are historical. The corrected runner uses component
+ordering, with a test comparing Python against Rust on both actual
+configuration sets. File-content mutation is tested separately. Only fresh
+attempts under the committed correction can produce the four final reports.
+
+## Retained outcomes
+
+Fresh execution at `70e6eb761` produces 14 typed rows per tool, in four
+profile-separated reports:
+
+| Tool | Native cells | Result cells |
+| --- | --- | --- |
+| CodeQL 2.27.0 | 12 unsupported | 2 inconclusive |
+| Joern 4.0.628 | 12 unsupported | 2 inconclusive |
+
+Both tools observe no Result flow for either polarity with exact controlled
+endpoints. CodeQL's measured analysis-process maximum RSS is 654 MiB for the
+negative and 674 MiB for the positive, exceeding 512 MiB; the records explicitly
+mark memory compliance `exceeded`. Joern observes `not-reached` internally,
+but the reports remain inconclusive: aggregate memory compliance and semantic
+completeness are unproved, and native expansion-bound exhaustion is not fully
+observable. Individual Joern analysis RSS was 425/418 MiB; those observations
+do not certify aggregate compliance. These timings and resource observations
+are diagnostic, not performance comparisons.
+
+The [execution summary](../evidence/swift-v2-execution-220/summary.json) binds all
+four report digests and the full v2 fixture identity. The
+[participation table](swift-v2-coverage.md) links the 14 canonical inputs and
+shows both tools' typed coverage. The previous 90-cell reports remain v1
+results, not a fresh 104-cell run. Two opaque identities remain unresolved;
+there is no new freeze, release-wide run, tag or publication.
