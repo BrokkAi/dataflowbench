@@ -1,0 +1,1060 @@
+{
+  "dfb-taint-swift-native-entrypoint-negative": [
+    {
+      "ast_line": 11,
+      "type": "(Int.Type) -> (Int, Int) -> Bool",
+      "decl": "Swift.(file).Int extension.>"
+    },
+    {
+      "ast_line": 17,
+      "type": "Int",
+      "decl": "Swift.(file).Array extension.count [with (substitution_map generic_signature=<Element where Element : Copyable, Element : Escapable> Element -> String)]"
+    },
+    {
+      "ast_line": 19,
+      "type": "@lvalue [String]",
+      "decl": "Swift.(file).CommandLine extension.arguments"
+    },
+    {
+      "ast_line": 29,
+      "type": "@lvalue [String]",
+      "decl": "Swift.(file).CommandLine extension.arguments"
+    },
+    {
+      "ast_line": 35,
+      "type": "@lvalue String",
+      "decl": "Swift.(file).Array extension.subscript(_:) [with (substitution_map generic_signature=<Element where Element : Copyable, Element : Escapable> Element -> String)]"
+    },
+    {
+      "ast_line": 37,
+      "type": "@lvalue [String]",
+      "decl": "Swift.(file).CommandLine extension.arguments"
+    },
+    {
+      "ast_line": 56,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 64,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 74,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-entrypoint-negative/main.swift:6:9"
+    },
+    {
+      "ast_line": 79,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().fromArgv@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-entrypoint-negative/main.swift:5:9"
+    }
+  ],
+  "dfb-taint-swift-native-entrypoint-positive": [
+    {
+      "ast_line": 11,
+      "type": "(Int.Type) -> (Int, Int) -> Bool",
+      "decl": "Swift.(file).Int extension.>"
+    },
+    {
+      "ast_line": 17,
+      "type": "Int",
+      "decl": "Swift.(file).Array extension.count [with (substitution_map generic_signature=<Element where Element : Copyable, Element : Escapable> Element -> String)]"
+    },
+    {
+      "ast_line": 19,
+      "type": "@lvalue [String]",
+      "decl": "Swift.(file).CommandLine extension.arguments"
+    },
+    {
+      "ast_line": 29,
+      "type": "@lvalue [String]",
+      "decl": "Swift.(file).CommandLine extension.arguments"
+    },
+    {
+      "ast_line": 35,
+      "type": "@lvalue String",
+      "decl": "Swift.(file).Array extension.subscript(_:) [with (substitution_map generic_signature=<Element where Element : Copyable, Element : Escapable> Element -> String)]"
+    },
+    {
+      "ast_line": 37,
+      "type": "@lvalue [String]",
+      "decl": "Swift.(file).CommandLine extension.arguments"
+    },
+    {
+      "ast_line": 48,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 56,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 66,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-entrypoint-positive/main.swift:5:9"
+    }
+  ],
+  "dfb-taint-swift-native-persistence-negative": [
+    {
+      "ast_line": 12,
+      "type": "(UserDefaults.Type) -> (String?) -> UserDefaults?",
+      "decl": "Foundation.(file).UserDefaults.init(suiteName:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:166:1"
+    },
+    {
+      "ast_line": 23,
+      "type": "(UserDefaults.Type) -> (String?) -> UserDefaults?",
+      "decl": "Foundation.(file).UserDefaults.init(suiteName:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:166:1"
+    },
+    {
+      "ast_line": 36,
+      "type": "(UserDefaults) -> (Any?, String) -> Void",
+      "decl": "Foundation.(file).UserDefaults.set(_:forKey:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:190:1"
+    },
+    {
+      "ast_line": 39,
+      "type": "UserDefaults",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().defaults@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-negative/main.swift:4:9"
+    },
+    {
+      "ast_line": 51,
+      "type": "(UserDefaults) -> (Any?, String) -> Void",
+      "decl": "Foundation.(file).UserDefaults.set(_:forKey:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:190:1"
+    },
+    {
+      "ast_line": 54,
+      "type": "UserDefaults",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().defaults@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-negative/main.swift:4:9"
+    },
+    {
+      "ast_line": 70,
+      "type": "String?",
+      "decl": "Swift.(file).Dictionary extension.subscript(_:) [with (substitution_map generic_signature=<Key, Value where Key : Copyable, Key : Escapable, Key : Hashable, Value : Copyable, Value : Escapable> Key -> String Value -> String)]"
+    },
+    {
+      "ast_line": 71,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 72,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 81,
+      "type": "(UserDefaults) -> (Any?, String) -> Void",
+      "decl": "Foundation.(file).UserDefaults.set(_:forKey:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:190:1"
+    },
+    {
+      "ast_line": 84,
+      "type": "UserDefaults",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().defaults@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-negative/main.swift:4:9"
+    },
+    {
+      "ast_line": 91,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().raw@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-negative/main.swift:7:15"
+    },
+    {
+      "ast_line": 100,
+      "type": "(UserDefaults) -> (String) -> String?",
+      "decl": "Foundation.(file).UserDefaults.string(forKey:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:203:1"
+    },
+    {
+      "ast_line": 103,
+      "type": "UserDefaults",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().defaults@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-negative/main.swift:4:9"
+    },
+    {
+      "ast_line": 111,
+      "type": "(consuming String?, @autoclosure () throws -> String) throws -> String",
+      "decl": "Swift.(file).?? [with (substitution_map generic_signature=<T where T : Escapable> T -> String)]"
+    },
+    {
+      "ast_line": 116,
+      "type": "(UserDefaults) -> (String) -> String?",
+      "decl": "Foundation.(file).UserDefaults.string(forKey:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:203:1"
+    },
+    {
+      "ast_line": 119,
+      "type": "UserDefaults",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().defaults@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-negative/main.swift:4:9"
+    },
+    {
+      "ast_line": 133,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 141,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 151,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-negative/main.swift:9:9"
+    }
+  ],
+  "dfb-taint-swift-native-persistence-positive": [
+    {
+      "ast_line": 12,
+      "type": "(UserDefaults.Type) -> (String?) -> UserDefaults?",
+      "decl": "Foundation.(file).UserDefaults.init(suiteName:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:166:1"
+    },
+    {
+      "ast_line": 23,
+      "type": "(UserDefaults.Type) -> (String?) -> UserDefaults?",
+      "decl": "Foundation.(file).UserDefaults.init(suiteName:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:166:1"
+    },
+    {
+      "ast_line": 36,
+      "type": "(UserDefaults) -> (Any?, String) -> Void",
+      "decl": "Foundation.(file).UserDefaults.set(_:forKey:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:190:1"
+    },
+    {
+      "ast_line": 39,
+      "type": "UserDefaults",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().defaults@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-positive/main.swift:4:9"
+    },
+    {
+      "ast_line": 51,
+      "type": "(UserDefaults) -> (Any?, String) -> Void",
+      "decl": "Foundation.(file).UserDefaults.set(_:forKey:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:190:1"
+    },
+    {
+      "ast_line": 54,
+      "type": "UserDefaults",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().defaults@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-positive/main.swift:4:9"
+    },
+    {
+      "ast_line": 70,
+      "type": "String?",
+      "decl": "Swift.(file).Dictionary extension.subscript(_:) [with (substitution_map generic_signature=<Key, Value where Key : Copyable, Key : Escapable, Key : Hashable, Value : Copyable, Value : Escapable> Key -> String Value -> String)]"
+    },
+    {
+      "ast_line": 71,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 72,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 81,
+      "type": "(UserDefaults) -> (Any?, String) -> Void",
+      "decl": "Foundation.(file).UserDefaults.set(_:forKey:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:190:1"
+    },
+    {
+      "ast_line": 84,
+      "type": "UserDefaults",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().defaults@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-positive/main.swift:4:9"
+    },
+    {
+      "ast_line": 91,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().raw@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-positive/main.swift:7:15"
+    },
+    {
+      "ast_line": 100,
+      "type": "(UserDefaults) -> (String) -> String?",
+      "decl": "Foundation.(file).UserDefaults.string(forKey:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:203:1"
+    },
+    {
+      "ast_line": 103,
+      "type": "UserDefaults",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().defaults@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-positive/main.swift:4:9"
+    },
+    {
+      "ast_line": 111,
+      "type": "(consuming String?, @autoclosure () throws -> String) throws -> String",
+      "decl": "Swift.(file).?? [with (substitution_map generic_signature=<T where T : Escapable> T -> String)]"
+    },
+    {
+      "ast_line": 116,
+      "type": "(UserDefaults) -> (String) -> String?",
+      "decl": "Foundation.(file).UserDefaults.string(forKey:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSUserDefaults.h:203:1"
+    },
+    {
+      "ast_line": 119,
+      "type": "UserDefaults",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().defaults@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-positive/main.swift:4:9"
+    },
+    {
+      "ast_line": 133,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 141,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 151,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-persistence-positive/main.swift:9:9"
+    }
+  ],
+  "dfb-taint-swift-native-propagator-negative": [
+    {
+      "ast_line": 11,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 12,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 21,
+      "type": "(consuming String?, @autoclosure () throws -> String) throws -> String",
+      "decl": "Swift.(file).?? [with (substitution_map generic_signature=<T where T : Escapable> T -> String)]"
+    },
+    {
+      "ast_line": 24,
+      "type": "String?",
+      "decl": "Swift.(file).Dictionary extension.subscript(_:) [with (substitution_map generic_signature=<Key, Value where Key : Copyable, Key : Escapable, Key : Hashable, Value : Copyable, Value : Escapable> Key -> String Value -> String)]"
+    },
+    {
+      "ast_line": 25,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 26,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 48,
+      "type": "(inout String) -> (String) -> ()",
+      "decl": "Swift.(file).String extension.append"
+    },
+    {
+      "ast_line": 52,
+      "type": "@lvalue String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-propagator-negative/main.swift:5:9"
+    },
+    {
+      "ast_line": 59,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 67,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 78,
+      "type": "@lvalue String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-propagator-negative/main.swift:5:9"
+    },
+    {
+      "ast_line": 83,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().raw@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-propagator-negative/main.swift:4:9"
+    }
+  ],
+  "dfb-taint-swift-native-propagator-positive": [
+    {
+      "ast_line": 11,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 12,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 21,
+      "type": "(consuming String?, @autoclosure () throws -> String) throws -> String",
+      "decl": "Swift.(file).?? [with (substitution_map generic_signature=<T where T : Escapable> T -> String)]"
+    },
+    {
+      "ast_line": 24,
+      "type": "String?",
+      "decl": "Swift.(file).Dictionary extension.subscript(_:) [with (substitution_map generic_signature=<Key, Value where Key : Copyable, Key : Escapable, Key : Hashable, Value : Copyable, Value : Escapable> Key -> String Value -> String)]"
+    },
+    {
+      "ast_line": 25,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 26,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 48,
+      "type": "(inout String) -> (String) -> ()",
+      "decl": "Swift.(file).String extension.append"
+    },
+    {
+      "ast_line": 52,
+      "type": "@lvalue String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-propagator-positive/main.swift:5:9"
+    },
+    {
+      "ast_line": 55,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().raw@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-propagator-positive/main.swift:4:9"
+    },
+    {
+      "ast_line": 59,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 67,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 78,
+      "type": "@lvalue String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-propagator-positive/main.swift:5:9"
+    }
+  ],
+  "dfb-taint-swift-native-sanitizer-negative": [
+    {
+      "ast_line": 12,
+      "type": "String?",
+      "decl": "Swift.(file).Dictionary extension.subscript(_:) [with (substitution_map generic_signature=<Key, Value where Key : Copyable, Key : Escapable, Key : Hashable, Value : Copyable, Value : Escapable> Key -> String Value -> String)]"
+    },
+    {
+      "ast_line": 13,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 14,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 29,
+      "type": "(Int.Type) -> (String, Int) -> Int?",
+      "decl": "Swift.(file).FixedWidthInteger extension.init(_:radix:) [with (substitution_map generic_signature=<Self, S where Self : FixedWidthInteger, S : StringProtocol> Self -> Int S -> String)]"
+    },
+    {
+      "ast_line": 35,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().raw@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-sanitizer-negative/main.swift:4:15"
+    },
+    {
+      "ast_line": 45,
+      "type": "(String.Type) -> (Int, Int, Bool) -> String",
+      "decl": "Swift.(file).String extension.init(_:radix:uppercase:) [with (substitution_map generic_signature=<T where T : BinaryInteger> T -> Int)]"
+    },
+    {
+      "ast_line": 51,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().parsed@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-sanitizer-negative/main.swift:5:15"
+    },
+    {
+      "ast_line": 58,
+      "type": "(String.Type) -> (Int, Int, Bool) -> String",
+      "decl": "Swift.(file).String extension.init(_:radix:uppercase:) [with (substitution_map generic_signature=<T where T : BinaryInteger> T -> Int)]"
+    },
+    {
+      "ast_line": 64,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().parsed@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-sanitizer-negative/main.swift:5:15"
+    },
+    {
+      "ast_line": 82,
+      "type": "(String.Type) -> (String, String) -> String",
+      "decl": "Swift.(file).String extension.+"
+    },
+    {
+      "ast_line": 90,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().rendered@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-sanitizer-negative/main.swift:6:9"
+    },
+    {
+      "ast_line": 97,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 105,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 115,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-sanitizer-negative/main.swift:7:9"
+    }
+  ],
+  "dfb-taint-swift-native-sanitizer-positive": [
+    {
+      "ast_line": 12,
+      "type": "String?",
+      "decl": "Swift.(file).Dictionary extension.subscript(_:) [with (substitution_map generic_signature=<Key, Value where Key : Copyable, Key : Escapable, Key : Hashable, Value : Copyable, Value : Escapable> Key -> String Value -> String)]"
+    },
+    {
+      "ast_line": 13,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 14,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 31,
+      "type": "(String.Type) -> (String, String) -> String",
+      "decl": "Swift.(file).String extension.+"
+    },
+    {
+      "ast_line": 39,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().raw@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-sanitizer-positive/main.swift:4:15"
+    },
+    {
+      "ast_line": 46,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 54,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 64,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-sanitizer-positive/main.swift:5:9"
+    }
+  ],
+  "dfb-taint-swift-native-source-sink-negative": [
+    {
+      "ast_line": 10,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 11,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 16,
+      "type": "String?",
+      "decl": "Swift.(file).Dictionary extension.subscript(_:) [with (substitution_map generic_signature=<Key, Value where Key : Copyable, Key : Escapable, Key : Hashable, Value : Copyable, Value : Escapable> Key -> String Value -> String)]"
+    },
+    {
+      "ast_line": 17,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 18,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 37,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 45,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 55,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-source-sink-negative/main.swift:5:9"
+    },
+    {
+      "ast_line": 60,
+      "type": "String?",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().raw@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-source-sink-negative/main.swift:4:9"
+    }
+  ],
+  "dfb-taint-swift-native-source-sink-positive": [
+    {
+      "ast_line": 10,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 11,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 16,
+      "type": "String?",
+      "decl": "Swift.(file).Dictionary extension.subscript(_:) [with (substitution_map generic_signature=<Key, Value where Key : Copyable, Key : Escapable, Key : Hashable, Value : Copyable, Value : Escapable> Key -> String Value -> String)]"
+    },
+    {
+      "ast_line": 17,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 18,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 35,
+      "type": "(consuming String?, @autoclosure () throws -> String) throws -> String",
+      "decl": "Swift.(file).?? [with (substitution_map generic_signature=<T where T : Escapable> T -> String)]"
+    },
+    {
+      "ast_line": 38,
+      "type": "String?",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().raw@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-source-sink-positive/main.swift:4:9"
+    },
+    {
+      "ast_line": 49,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 57,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 67,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-source-sink-positive/main.swift:5:9"
+    }
+  ],
+  "dfb-taint-swift-native-summary-negative": [
+    {
+      "ast_line": 11,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 12,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 21,
+      "type": "(consuming String?, @autoclosure () throws -> String) throws -> String",
+      "decl": "Swift.(file).?? [with (substitution_map generic_signature=<T where T : Escapable> T -> String)]"
+    },
+    {
+      "ast_line": 24,
+      "type": "String?",
+      "decl": "Swift.(file).Dictionary extension.subscript(_:) [with (substitution_map generic_signature=<Key, Value where Key : Copyable, Key : Escapable, Key : Hashable, Value : Copyable, Value : Escapable> Key -> String Value -> String)]"
+    },
+    {
+      "ast_line": 25,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 26,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 43,
+      "type": "(Data) -> (Data.Base64EncodingOptions) -> String",
+      "decl": "Foundation.(file).Data extension.base64EncodedString(options:)"
+    },
+    {
+      "ast_line": 48,
+      "type": "(Data.Type) -> (String.UTF8View) -> Data",
+      "decl": "Foundation.(file).Data.init(_:) [with (substitution_map generic_signature= some Sequence<UInt8> -> String.UTF8View)]"
+    },
+    {
+      "ast_line": 54,
+      "type": "String.UTF8View",
+      "decl": "Swift.(file).String extension.utf8"
+    },
+    {
+      "ast_line": 61,
+      "type": "(Data) -> (Data.Base64EncodingOptions) -> String",
+      "decl": "Foundation.(file).Data extension.base64EncodedString(options:)"
+    },
+    {
+      "ast_line": 66,
+      "type": "(Data.Type) -> (String.UTF8View) -> Data",
+      "decl": "Foundation.(file).Data.init(_:) [with (substitution_map generic_signature= some Sequence<UInt8> -> String.UTF8View)]"
+    },
+    {
+      "ast_line": 72,
+      "type": "String.UTF8View",
+      "decl": "Swift.(file).String extension.utf8"
+    },
+    {
+      "ast_line": 88,
+      "type": "(Data.Type) -> (__shared String, Data.Base64DecodingOptions) -> Data?",
+      "decl": "Foundation.(file).Data extension.init(base64Encoded:options:)"
+    },
+    {
+      "ast_line": 94,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().encoded@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-summary-negative/main.swift:5:9"
+    },
+    {
+      "ast_line": 107,
+      "type": "(String.Type) -> (__shared Data, String.Encoding) -> String?",
+      "decl": "Foundation.(file).String extension.init(data:encoding:)"
+    },
+    {
+      "ast_line": 113,
+      "type": "Data",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().decoded@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-summary-negative/main.swift:6:15"
+    },
+    {
+      "ast_line": 115,
+      "type": "String.Encoding",
+      "decl": "Foundation.(file).String extension.Encoding.utf8"
+    },
+    {
+      "ast_line": 122,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 130,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 140,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-summary-negative/main.swift:7:15"
+    },
+    {
+      "ast_line": 145,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().raw@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-summary-negative/main.swift:4:9"
+    }
+  ],
+  "dfb-taint-swift-native-summary-positive": [
+    {
+      "ast_line": 11,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 12,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 21,
+      "type": "(consuming String?, @autoclosure () throws -> String) throws -> String",
+      "decl": "Swift.(file).?? [with (substitution_map generic_signature=<T where T : Escapable> T -> String)]"
+    },
+    {
+      "ast_line": 24,
+      "type": "String?",
+      "decl": "Swift.(file).Dictionary extension.subscript(_:) [with (substitution_map generic_signature=<Key, Value where Key : Copyable, Key : Escapable, Key : Hashable, Value : Copyable, Value : Escapable> Key -> String Value -> String)]"
+    },
+    {
+      "ast_line": 25,
+      "type": "[String : String]",
+      "decl": "Foundation.(file).ProcessInfo.environment@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:184:66"
+    },
+    {
+      "ast_line": 26,
+      "type": "ProcessInfo",
+      "decl": "Foundation.(file).ProcessInfo.processInfo@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSProcessInfo.h:181:52"
+    },
+    {
+      "ast_line": 43,
+      "type": "(Data) -> (Data.Base64EncodingOptions) -> String",
+      "decl": "Foundation.(file).Data extension.base64EncodedString(options:)"
+    },
+    {
+      "ast_line": 48,
+      "type": "(Data.Type) -> (String.UTF8View) -> Data",
+      "decl": "Foundation.(file).Data.init(_:) [with (substitution_map generic_signature= some Sequence<UInt8> -> String.UTF8View)]"
+    },
+    {
+      "ast_line": 54,
+      "type": "String.UTF8View",
+      "decl": "Swift.(file).String extension.utf8"
+    },
+    {
+      "ast_line": 55,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().raw@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-summary-positive/main.swift:4:9"
+    },
+    {
+      "ast_line": 61,
+      "type": "(Data) -> (Data.Base64EncodingOptions) -> String",
+      "decl": "Foundation.(file).Data extension.base64EncodedString(options:)"
+    },
+    {
+      "ast_line": 66,
+      "type": "(Data.Type) -> (String.UTF8View) -> Data",
+      "decl": "Foundation.(file).Data.init(_:) [with (substitution_map generic_signature= some Sequence<UInt8> -> String.UTF8View)]"
+    },
+    {
+      "ast_line": 72,
+      "type": "String.UTF8View",
+      "decl": "Swift.(file).String extension.utf8"
+    },
+    {
+      "ast_line": 73,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().raw@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-summary-positive/main.swift:4:9"
+    },
+    {
+      "ast_line": 88,
+      "type": "(Data.Type) -> (__shared String, Data.Base64DecodingOptions) -> Data?",
+      "decl": "Foundation.(file).Data extension.init(base64Encoded:options:)"
+    },
+    {
+      "ast_line": 94,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().encoded@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-summary-positive/main.swift:5:9"
+    },
+    {
+      "ast_line": 107,
+      "type": "(String.Type) -> (__shared Data, String.Encoding) -> String?",
+      "decl": "Foundation.(file).String extension.init(data:encoding:)"
+    },
+    {
+      "ast_line": 113,
+      "type": "Data",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().decoded@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-summary-positive/main.swift:6:15"
+    },
+    {
+      "ast_line": 115,
+      "type": "String.Encoding",
+      "decl": "Foundation.(file).String extension.Encoding.utf8"
+    },
+    {
+      "ast_line": 122,
+      "type": "(Process.Type) -> (URL, [String], (@Sendable (Process) -> Void)?) throws -> Process",
+      "decl": "Foundation.(file).Process extension.run(_:arguments:terminationHandler:)@/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSTask.h:153:1"
+    },
+    {
+      "ast_line": 130,
+      "type": "(URL.Type) -> (__shared String) -> URL",
+      "decl": "Foundation.(file).URL.init(fileURLWithPath:)"
+    },
+    {
+      "ast_line": 140,
+      "type": "String",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().command@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-native-summary-positive/main.swift:7:15"
+    }
+  ],
+  "dfb-taint-swift-result-error-propagation-negative": [
+    {
+      "ast_line": 15,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).FlowError.value@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:2:9"
+    },
+    {
+      "ast_line": 16,
+      "type": "FlowError",
+      "decl": "DataFlowBenchTaintSwift.(file).FlowError.<anonymous>.self@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:2:9"
+    },
+    {
+      "ast_line": 34,
+      "type": "() -> Int",
+      "decl": "DataFlowBenchTaintSwift.(file).dfb_source()@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:5:6"
+    },
+    {
+      "ast_line": 38,
+      "type": "() -> Int",
+      "decl": "DataFlowBenchTaintSwift.(file).dfb_source()@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:5:6"
+    },
+    {
+      "ast_line": 46,
+      "type": "(Result<Int, FlowError>.Type) -> (FlowError) -> Result<Int, FlowError>",
+      "decl": "Swift.(file).Result.failure [with (substitution_map generic_signature=<Success, Failure where Failure : Error> Success -> Int Failure -> FlowError)]"
+    },
+    {
+      "ast_line": 54,
+      "type": "(FlowError.Type) -> (Int) -> FlowError",
+      "decl": "DataFlowBenchTaintSwift.(file).FlowError.init(value:)@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:1:8"
+    },
+    {
+      "ast_line": 60,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).produce().input@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:8:9"
+    },
+    {
+      "ast_line": 67,
+      "type": "() -> Result<Int, FlowError>",
+      "decl": "DataFlowBenchTaintSwift.(file).produce()@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:7:6"
+    },
+    {
+      "ast_line": 82,
+      "type": "(Result<Int, FlowError>.Type) -> (FlowError) -> Result<Int, FlowError>",
+      "decl": "Swift.(file).Result.failure [with (substitution_map generic_signature=<Success, Failure where Failure : Error> Success -> Int Failure -> FlowError)]"
+    },
+    {
+      "ast_line": 88,
+      "type": "FlowError",
+      "decl": "DataFlowBenchTaintSwift.(file).relay().error@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:14:23"
+    },
+    {
+      "ast_line": 102,
+      "type": "(Result<Int, FlowError>.Type) -> (Int) -> Result<Int, FlowError>",
+      "decl": "Swift.(file).Result.success [with (substitution_map generic_signature=<Success, Failure where Failure : Error> Success -> Int Failure -> FlowError)]"
+    },
+    {
+      "ast_line": 108,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).relay().value@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:16:23"
+    },
+    {
+      "ast_line": 127,
+      "type": "() -> Result<Int, FlowError>",
+      "decl": "DataFlowBenchTaintSwift.(file).relay()@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:12:6"
+    },
+    {
+      "ast_line": 143,
+      "type": "FlowError",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().error@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:26:23"
+    },
+    {
+      "ast_line": 144,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).FlowError.value@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:2:9"
+    },
+    {
+      "ast_line": 145,
+      "type": "FlowError",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().error@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:26:23"
+    },
+    {
+      "ast_line": 151,
+      "type": "(Int) -> ()",
+      "decl": "DataFlowBenchTaintSwift.(file).dfb_sink@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:21:6"
+    },
+    {
+      "ast_line": 154,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().clean@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:24:9"
+    },
+    {
+      "ast_line": 157,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().payload@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:27:13"
+    },
+    {
+      "ast_line": 169,
+      "type": "() -> ()",
+      "decl": "DataFlowBenchTaintSwift.(file).probe()@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-negative/main.swift:23:6"
+    }
+  ],
+  "dfb-taint-swift-result-error-propagation-positive": [
+    {
+      "ast_line": 15,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).FlowError.value@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:2:9"
+    },
+    {
+      "ast_line": 16,
+      "type": "FlowError",
+      "decl": "DataFlowBenchTaintSwift.(file).FlowError.<anonymous>.self@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:2:9"
+    },
+    {
+      "ast_line": 34,
+      "type": "() -> Int",
+      "decl": "DataFlowBenchTaintSwift.(file).dfb_source()@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:5:6"
+    },
+    {
+      "ast_line": 38,
+      "type": "() -> Int",
+      "decl": "DataFlowBenchTaintSwift.(file).dfb_source()@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:5:6"
+    },
+    {
+      "ast_line": 46,
+      "type": "(Result<Int, FlowError>.Type) -> (FlowError) -> Result<Int, FlowError>",
+      "decl": "Swift.(file).Result.failure [with (substitution_map generic_signature=<Success, Failure where Failure : Error> Success -> Int Failure -> FlowError)]"
+    },
+    {
+      "ast_line": 54,
+      "type": "(FlowError.Type) -> (Int) -> FlowError",
+      "decl": "DataFlowBenchTaintSwift.(file).FlowError.init(value:)@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:1:8"
+    },
+    {
+      "ast_line": 60,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).produce().input@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:8:9"
+    },
+    {
+      "ast_line": 67,
+      "type": "() -> Result<Int, FlowError>",
+      "decl": "DataFlowBenchTaintSwift.(file).produce()@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:7:6"
+    },
+    {
+      "ast_line": 82,
+      "type": "(Result<Int, FlowError>.Type) -> (FlowError) -> Result<Int, FlowError>",
+      "decl": "Swift.(file).Result.failure [with (substitution_map generic_signature=<Success, Failure where Failure : Error> Success -> Int Failure -> FlowError)]"
+    },
+    {
+      "ast_line": 88,
+      "type": "FlowError",
+      "decl": "DataFlowBenchTaintSwift.(file).relay().error@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:14:23"
+    },
+    {
+      "ast_line": 102,
+      "type": "(Result<Int, FlowError>.Type) -> (Int) -> Result<Int, FlowError>",
+      "decl": "Swift.(file).Result.success [with (substitution_map generic_signature=<Success, Failure where Failure : Error> Success -> Int Failure -> FlowError)]"
+    },
+    {
+      "ast_line": 108,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).relay().value@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:16:23"
+    },
+    {
+      "ast_line": 119,
+      "type": "() -> Result<Int, FlowError>",
+      "decl": "DataFlowBenchTaintSwift.(file).relay()@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:12:6"
+    },
+    {
+      "ast_line": 135,
+      "type": "FlowError",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().error@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:25:23"
+    },
+    {
+      "ast_line": 136,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).FlowError.value@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:2:9"
+    },
+    {
+      "ast_line": 137,
+      "type": "FlowError",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().error@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:25:23"
+    },
+    {
+      "ast_line": 143,
+      "type": "(Int) -> ()",
+      "decl": "DataFlowBenchTaintSwift.(file).dfb_sink@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:21:6"
+    },
+    {
+      "ast_line": 146,
+      "type": "Int",
+      "decl": "DataFlowBenchTaintSwift.(file).probe().payload@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:26:13"
+    },
+    {
+      "ast_line": 158,
+      "type": "() -> ()",
+      "decl": "DataFlowBenchTaintSwift.(file).probe()@/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-v2-qualification-220/compiler-attempt-01/dfb-taint-swift-result-error-propagation-positive/main.swift:23:6"
+    }
+  ]
+}

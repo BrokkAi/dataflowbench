@@ -1,0 +1,796 @@
+=== io.joern.swiftsrc2cpg.Main
+Compiled from "Main.scala"
+public final class io.joern.swiftsrc2cpg.Main {
+  public static scopt.OParser<scala.runtime.BoxedUnit, io.joern.x2cpg.X2CpgConfig> cmdLineParser();
+    descriptor: ()Lscopt/OParser;
+
+  public static io.joern.x2cpg.X2CpgFrontend frontend();
+    descriptor: ()Lio/joern/x2cpg/X2CpgFrontend;
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+
+  public static void run(io.joern.x2cpg.X2CpgConfig);
+    descriptor: (Lio/joern/x2cpg/X2CpgConfig;)V
+
+  public static io.joern.x2cpg.utils.server.FrontendHTTPServer server();
+    descriptor: ()Lio/joern/x2cpg/utils/server/FrontendHTTPServer;
+}
+=== io.joern.swiftsrc2cpg.Config
+Compiled from "Main.scala"
+public final class io.joern.swiftsrc2cpg.Config implements io.joern.x2cpg.X2CpgConfig<io.joern.swiftsrc2cpg.Config>, io.joern.x2cpg.passes.frontend.TypeRecoveryParserConfig, scala.Product, java.io.Serializable {
+  public io.joern.swiftsrc2cpg.Config(scala.collection.immutable.Set<java.lang.String>, boolean, scala.Option<java.nio.file.Path>, io.joern.x2cpg.X2CpgConfig$GenericConfig, io.joern.x2cpg.passes.frontend.TypeRecoveryParserConfig$Config);
+    descriptor: (Lscala/collection/immutable/Set;ZLscala/Option;Lio/joern/x2cpg/X2CpgConfig$GenericConfig;Lio/joern/x2cpg/passes/frontend/TypeRecoveryParserConfig$Config;)V
+
+  public final java.lang.String inputPath();
+    descriptor: ()Ljava/lang/String;
+
+  public final java.lang.String outputPath();
+    descriptor: ()Ljava/lang/String;
+
+  public final boolean serverMode();
+    descriptor: ()Z
+
+  public final scala.Option<java.lang.Object> serverTimeoutSeconds();
+    descriptor: ()Lscala/Option;
+
+  public final scala.collection.immutable.Seq<scala.util.matching.Regex> defaultIgnoredFilesRegex();
+    descriptor: ()Lscala/collection/immutable/Seq;
+
+  public final scala.util.matching.Regex ignoredFilesRegex();
+    descriptor: ()Lscala/util/matching/Regex;
+
+  public final scala.collection.immutable.Seq<java.lang.String> ignoredFiles();
+    descriptor: ()Lscala/collection/immutable/Seq;
+
+  public final io.joern.x2cpg.ValidationMode schemaValidation();
+    descriptor: ()Lio/joern/x2cpg/ValidationMode;
+
+  public final boolean disableFileContent();
+    descriptor: ()Z
+
+  public final io.joern.x2cpg.X2CpgConfig withInputPath(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lio/joern/x2cpg/X2CpgConfig;
+
+  public final io.joern.x2cpg.X2CpgConfig withOutputPath(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lio/joern/x2cpg/X2CpgConfig;
+
+  public final io.joern.x2cpg.X2CpgConfig withServerMode(boolean);
+    descriptor: (Z)Lio/joern/x2cpg/X2CpgConfig;
+
+  public final io.joern.x2cpg.X2CpgConfig withServerTimeoutSeconds(long);
+    descriptor: (J)Lio/joern/x2cpg/X2CpgConfig;
+
+  public final io.joern.x2cpg.X2CpgConfig withDefaultIgnoredFilesRegex(scala.collection.immutable.Seq);
+    descriptor: (Lscala/collection/immutable/Seq;)Lio/joern/x2cpg/X2CpgConfig;
+
+  public final io.joern.x2cpg.X2CpgConfig withIgnoredFilesRegex(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lio/joern/x2cpg/X2CpgConfig;
+
+  public final io.joern.x2cpg.X2CpgConfig withIgnoredFiles(scala.collection.immutable.Seq);
+    descriptor: (Lscala/collection/immutable/Seq;)Lio/joern/x2cpg/X2CpgConfig;
+
+  public final io.joern.x2cpg.X2CpgConfig withSchemaValidation(io.joern.x2cpg.ValidationMode);
+    descriptor: (Lio/joern/x2cpg/ValidationMode;)Lio/joern/x2cpg/X2CpgConfig;
+
+  public final io.joern.x2cpg.X2CpgConfig withDisableFileContent(boolean);
+    descriptor: (Z)Lio/joern/x2cpg/X2CpgConfig;
+
+  public final boolean disableDummyTypes();
+    descriptor: ()Z
+
+  public final int typePropagationIterations();
+    descriptor: ()I
+
+  public final io.joern.x2cpg.X2CpgConfig withDisableDummyTypes(boolean);
+    descriptor: (Z)Lio/joern/x2cpg/X2CpgConfig;
+
+  public final io.joern.x2cpg.X2CpgConfig withTypePropagationIterations(int);
+    descriptor: (I)Lio/joern/x2cpg/X2CpgConfig;
+
+  public scala.collection.Iterator<java.lang.Object> productIterator();
+    descriptor: ()Lscala/collection/Iterator;
+
+  public scala.collection.Iterator<java.lang.String> productElementNames();
+    descriptor: ()Lscala/collection/Iterator;
+
+  public int hashCode();
+    descriptor: ()I
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public boolean canEqual(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public int productArity();
+    descriptor: ()I
+
+  public java.lang.String productPrefix();
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.Object productElement(int);
+    descriptor: (I)Ljava/lang/Object;
+
+  public java.lang.String productElementName(int);
+    descriptor: (I)Ljava/lang/String;
+
+  public scala.collection.immutable.Set<java.lang.String> defines();
+    descriptor: ()Lscala/collection/immutable/Set;
+
+  public boolean swiftBuild();
+    descriptor: ()Z
+
+  public scala.Option<java.nio.file.Path> buildLogPath();
+    descriptor: ()Lscala/Option;
+
+  public io.joern.x2cpg.X2CpgConfig$GenericConfig genericConfig();
+    descriptor: ()Lio/joern/x2cpg/X2CpgConfig$GenericConfig;
+
+  public io.joern.x2cpg.passes.frontend.TypeRecoveryParserConfig$Config typeRecoveryParserConfig();
+    descriptor: ()Lio/joern/x2cpg/passes/frontend/TypeRecoveryParserConfig$Config;
+
+  public io.joern.swiftsrc2cpg.Config withGenericConfig(io.joern.x2cpg.X2CpgConfig$GenericConfig);
+    descriptor: (Lio/joern/x2cpg/X2CpgConfig$GenericConfig;)Lio/joern/swiftsrc2cpg/Config;
+
+  public io.joern.swiftsrc2cpg.Config withTypeRecoveryParserConfig(io.joern.x2cpg.passes.frontend.TypeRecoveryParserConfig$Config);
+    descriptor: (Lio/joern/x2cpg/passes/frontend/TypeRecoveryParserConfig$Config;)Lio/joern/swiftsrc2cpg/Config;
+
+  public io.joern.swiftsrc2cpg.Config withDefines(scala.collection.immutable.Set<java.lang.String>);
+    descriptor: (Lscala/collection/immutable/Set;)Lio/joern/swiftsrc2cpg/Config;
+
+  public io.joern.swiftsrc2cpg.Config withSwiftBuild(boolean);
+    descriptor: (Z)Lio/joern/swiftsrc2cpg/Config;
+
+  public io.joern.swiftsrc2cpg.Config withBuildLogPath(java.nio.file.Path);
+    descriptor: (Ljava/nio/file/Path;)Lio/joern/swiftsrc2cpg/Config;
+
+  public io.joern.swiftsrc2cpg.Config copy(scala.collection.immutable.Set<java.lang.String>, boolean, scala.Option<java.nio.file.Path>, io.joern.x2cpg.X2CpgConfig$GenericConfig, io.joern.x2cpg.passes.frontend.TypeRecoveryParserConfig$Config);
+    descriptor: (Lscala/collection/immutable/Set;ZLscala/Option;Lio/joern/x2cpg/X2CpgConfig$GenericConfig;Lio/joern/x2cpg/passes/frontend/TypeRecoveryParserConfig$Config;)Lio/joern/swiftsrc2cpg/Config;
+
+  public scala.collection.immutable.Set<java.lang.String> copy$default$1();
+    descriptor: ()Lscala/collection/immutable/Set;
+
+  public boolean copy$default$2();
+    descriptor: ()Z
+
+  public scala.Option<java.nio.file.Path> copy$default$3();
+    descriptor: ()Lscala/Option;
+
+  public io.joern.x2cpg.X2CpgConfig$GenericConfig copy$default$4();
+    descriptor: ()Lio/joern/x2cpg/X2CpgConfig$GenericConfig;
+
+  public io.joern.x2cpg.passes.frontend.TypeRecoveryParserConfig$Config copy$default$5();
+    descriptor: ()Lio/joern/x2cpg/passes/frontend/TypeRecoveryParserConfig$Config;
+
+  public scala.collection.immutable.Set<java.lang.String> _1();
+    descriptor: ()Lscala/collection/immutable/Set;
+
+  public boolean _2();
+    descriptor: ()Z
+
+  public scala.Option<java.nio.file.Path> _3();
+    descriptor: ()Lscala/Option;
+
+  public io.joern.x2cpg.X2CpgConfig$GenericConfig _4();
+    descriptor: ()Lio/joern/x2cpg/X2CpgConfig$GenericConfig;
+
+  public io.joern.x2cpg.passes.frontend.TypeRecoveryParserConfig$Config _5();
+    descriptor: ()Lio/joern/x2cpg/passes/frontend/TypeRecoveryParserConfig$Config;
+
+  public io.joern.x2cpg.X2CpgConfig withGenericConfig(io.joern.x2cpg.X2CpgConfig$GenericConfig);
+    descriptor: (Lio/joern/x2cpg/X2CpgConfig$GenericConfig;)Lio/joern/x2cpg/X2CpgConfig;
+
+  public io.joern.x2cpg.X2CpgConfig withTypeRecoveryParserConfig(io.joern.x2cpg.passes.frontend.TypeRecoveryParserConfig$Config);
+    descriptor: (Lio/joern/x2cpg/passes/frontend/TypeRecoveryParserConfig$Config;)Lio/joern/x2cpg/X2CpgConfig;
+
+  public static io.joern.swiftsrc2cpg.Config apply(scala.collection.immutable.Set<java.lang.String>, boolean, scala.Option<java.nio.file.Path>, io.joern.x2cpg.X2CpgConfig$GenericConfig, io.joern.x2cpg.passes.frontend.TypeRecoveryParserConfig$Config);
+    descriptor: (Lscala/collection/immutable/Set;ZLscala/Option;Lio/joern/x2cpg/X2CpgConfig$GenericConfig;Lio/joern/x2cpg/passes/frontend/TypeRecoveryParserConfig$Config;)Lio/joern/swiftsrc2cpg/Config;
+
+  public static io.joern.swiftsrc2cpg.Config fromProduct(scala.Product);
+    descriptor: (Lscala/Product;)Lio/joern/swiftsrc2cpg/Config;
+
+  public static io.joern.swiftsrc2cpg.Config unapply(io.joern.swiftsrc2cpg.Config);
+    descriptor: (Lio/joern/swiftsrc2cpg/Config;)Lio/joern/swiftsrc2cpg/Config;
+
+  public static scala.collection.immutable.Set<java.lang.String> $lessinit$greater$default$1();
+    descriptor: ()Lscala/collection/immutable/Set;
+
+  public static boolean $lessinit$greater$default$2();
+    descriptor: ()Z
+
+  public static scala.Option<java.nio.file.Path> $lessinit$greater$default$3();
+    descriptor: ()Lscala/Option;
+
+  public static io.joern.x2cpg.X2CpgConfig$GenericConfig $lessinit$greater$default$4();
+    descriptor: ()Lio/joern/x2cpg/X2CpgConfig$GenericConfig;
+
+  public static io.joern.x2cpg.passes.frontend.TypeRecoveryParserConfig$Config $lessinit$greater$default$5();
+    descriptor: ()Lio/joern/x2cpg/passes/frontend/TypeRecoveryParserConfig$Config;
+}
+=== io.joern.swiftsrc2cpg.Frontend
+Compiled from "Main.scala"
+public final class io.joern.swiftsrc2cpg.Frontend {
+  public static scopt.OParser<scala.runtime.BoxedUnit, io.joern.swiftsrc2cpg.Config> cmdLineParser();
+    descriptor: ()Lscopt/OParser;
+
+  public static io.joern.swiftsrc2cpg.Config defaultConfig();
+    descriptor: ()Lio/joern/swiftsrc2cpg/Config;
+}
+=== io.joern.swiftsrc2cpg.SwiftSrc2Cpg
+Compiled from "SwiftSrc2Cpg.scala"
+public class io.joern.swiftsrc2cpg.SwiftSrc2Cpg implements io.joern.x2cpg.X2CpgFrontend {
+  public io.joern.swiftsrc2cpg.SwiftSrc2Cpg();
+    descriptor: ()V
+
+  public void run(io.joern.x2cpg.X2CpgConfig) throws java/lang/Throwable;
+    descriptor: (Lio/joern/x2cpg/X2CpgConfig;)V
+
+  public scala.util.Try createCpgWithOverlays(io.joern.x2cpg.X2CpgConfig);
+    descriptor: (Lio/joern/x2cpg/X2CpgConfig;)Lscala/util/Try;
+
+  public void close();
+    descriptor: ()V
+
+  public io.joern.swiftsrc2cpg.Config defaultConfig();
+    descriptor: ()Lio/joern/swiftsrc2cpg/Config;
+
+  public scala.util.Try<io.shiftleft.codepropertygraph.generated.Cpg> createCpg(io.joern.swiftsrc2cpg.Config);
+    descriptor: (Lio/joern/swiftsrc2cpg/Config;)Lscala/util/Try;
+
+  public io.joern.x2cpg.X2CpgConfig defaultConfig();
+    descriptor: ()Lio/joern/x2cpg/X2CpgConfig;
+
+  public scala.util.Try createCpg(io.joern.x2cpg.X2CpgConfig);
+    descriptor: (Lio/joern/x2cpg/X2CpgConfig;)Lscala/util/Try;
+}
+=== io.joern.swiftsrc2cpg.utils.AstGenRunner
+Compiled from "AstGenRunner.scala"
+public class io.joern.swiftsrc2cpg.utils.AstGenRunner extends io.joern.x2cpg.astgen.AstGenRunner {
+  public final org.slf4j.Logger io$joern$swiftsrc2cpg$utils$AstGenRunner$$logger;
+    descriptor: Lorg/slf4j/Logger;
+  public io.joern.swiftsrc2cpg.utils.AstGenRunner(io.joern.swiftsrc2cpg.Config);
+    descriptor: (Lio/joern/swiftsrc2cpg/Config;)V
+
+  public java.lang.String MacX86();
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.String MacArm();
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.String LinuxArm();
+    descriptor: ()Ljava/lang/String;
+
+  public scala.collection.immutable.Map<scala.Tuple2<io.joern.x2cpg.utils.Environment$OperatingSystemType, io.joern.x2cpg.utils.Environment$ArchitectureType>, java.lang.String> bazelRuleSuffixes();
+    descriptor: ()Lscala/collection/immutable/Map;
+
+  public scala.collection.immutable.List<java.lang.String> skippedFiles(java.nio.file.Path, scala.collection.immutable.List<java.lang.String>);
+    descriptor: (Ljava/nio/file/Path;Lscala/collection/immutable/List;)Lscala/collection/immutable/List;
+
+  public scala.util.Try<scala.collection.immutable.Seq<java.lang.String>> runAstGenNative(java.lang.String, java.nio.file.Path, java.lang.String, java.lang.String);
+    descriptor: (Ljava/lang/String;Ljava/nio/file/Path;Ljava/lang/String;Ljava/lang/String;)Lscala/util/Try;
+
+  public static scala.collection.immutable.Seq<scala.util.matching.Regex> AstGenDefaultIgnoreRegex();
+    descriptor: ()Lscala/collection/immutable/Seq;
+}
+=== io.joern.swiftsrc2cpg.utils.ExternalCommand
+Compiled from "ExternalCommand.scala"
+public final class io.joern.swiftsrc2cpg.utils.ExternalCommand {
+  public static scala.Option<java.lang.String> findInStdOut(scala.collection.immutable.Seq<java.lang.String>, scala.Function1<java.lang.String, java.lang.Object>);
+    descriptor: (Lscala/collection/immutable/Seq;Lscala/Function1;)Lscala/Option;
+
+  public static java.lang.Process processFromCommand(scala.collection.immutable.Seq<java.lang.String>, java.lang.String);
+    descriptor: (Lscala/collection/immutable/Seq;Ljava/lang/String;)Ljava/lang/Process;
+
+  public static scala.util.Try<scala.collection.immutable.Seq<java.lang.String>> run(scala.collection.immutable.Seq<java.lang.String>, java.lang.String);
+    descriptor: (Lscala/collection/immutable/Seq;Ljava/lang/String;)Lscala/util/Try;
+
+  public static scala.Function1<java.lang.String, java.lang.Object> findInStdOut$default$2();
+    descriptor: ()Lscala/Function1;
+}
+=== io.joern.swiftsrc2cpg.utils.SwiftTypesProvider
+Compiled from "SwiftTypesProvider.scala"
+public class io.joern.swiftsrc2cpg.utils.SwiftTypesProvider implements scala.Product,java.io.Serializable {
+  public final java.util.concurrent.ConcurrentHashMap<java.lang.String, scala.Option<java.lang.String>> io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$mangledNameCache;
+    descriptor: Ljava/util/concurrent/ConcurrentHashMap;
+  public io.joern.swiftsrc2cpg.utils.SwiftTypesProvider(io.joern.swiftsrc2cpg.Config, scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>>);
+    descriptor: (Lio/joern/swiftsrc2cpg/Config;Lscala/collection/immutable/Seq;)V
+
+  public scala.collection.Iterator<java.lang.Object> productIterator();
+    descriptor: ()Lscala/collection/Iterator;
+
+  public scala.collection.Iterator<java.lang.String> productElementNames();
+    descriptor: ()Lscala/collection/Iterator;
+
+  public int hashCode();
+    descriptor: ()I
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public boolean canEqual(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public int productArity();
+    descriptor: ()I
+
+  public java.lang.String productPrefix();
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.Object productElement(int);
+    descriptor: (I)Ljava/lang/Object;
+
+  public java.lang.String productElementName(int);
+    descriptor: (I)Ljava/lang/String;
+
+  public io.joern.swiftsrc2cpg.Config config();
+    descriptor: ()Lio/joern/swiftsrc2cpg/Config;
+
+  public scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>> parsedSwiftInvocations();
+    descriptor: ()Lscala/collection/immutable/Seq;
+
+  public java.lang.String io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$postProcessDemangled(java.lang.String);
+    descriptor: (Ljava/lang/String;)Ljava/lang/String;
+
+  public final java.lang.String replaceExtensionInSignature(java.lang.String);
+    descriptor: (Ljava/lang/String;)Ljava/lang/String;
+
+  public final java.lang.String replaceInQualifierInSignature(java.lang.String);
+    descriptor: (Ljava/lang/String;)Ljava/lang/String;
+
+  public void io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$collectTypeInfoFromJson(java.lang.String, scala.Function1<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$TypeInfo, scala.runtime.BoxedUnit>);
+    descriptor: (Ljava/lang/String;Lscala/Function1;)V
+
+  public void mappingFromJson(java.lang.String, java.util.concurrent.ConcurrentHashMap<java.lang.String, java.util.concurrent.ConcurrentHashMap<scala.Tuple2<java.lang.Object, java.lang.Object>, scala.collection.mutable.HashSet<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$ResolvedTypeInfo>>>);
+    descriptor: (Ljava/lang/String;Ljava/util/concurrent/ConcurrentHashMap;)V
+
+  public java.util.concurrent.ConcurrentHashMap<java.lang.String, java.util.concurrent.ConcurrentHashMap<scala.Tuple2<java.lang.Object, java.lang.Object>, scala.collection.mutable.HashSet<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$ResolvedTypeInfo>>> retrieveMappings();
+    descriptor: ()Ljava/util/concurrent/ConcurrentHashMap;
+
+  public io.joern.swiftsrc2cpg.utils.SwiftTypesProvider copy(io.joern.swiftsrc2cpg.Config, scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>>);
+    descriptor: (Lio/joern/swiftsrc2cpg/Config;Lscala/collection/immutable/Seq;)Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;
+
+  public io.joern.swiftsrc2cpg.Config copy$default$1();
+    descriptor: ()Lio/joern/swiftsrc2cpg/Config;
+
+  public scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>> copy$default$2();
+    descriptor: ()Lscala/collection/immutable/Seq;
+
+  public io.joern.swiftsrc2cpg.Config _1();
+    descriptor: ()Lio/joern/swiftsrc2cpg/Config;
+
+  public scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>> _2();
+    descriptor: ()Lscala/collection/immutable/Seq;
+
+  public static final boolean io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$anon$2$$_$call$$anonfun$2$$anonfun$1(java.lang.String);
+    descriptor: (Ljava/lang/String;)Z
+
+  public static scala.Option<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider> apply(io.joern.swiftsrc2cpg.Config);
+    descriptor: (Lio/joern/swiftsrc2cpg/Config;)Lscala/Option;
+
+  public static io.joern.swiftsrc2cpg.utils.SwiftTypesProvider apply(io.joern.swiftsrc2cpg.Config, scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>>);
+    descriptor: (Lio/joern/swiftsrc2cpg/Config;Lscala/collection/immutable/Seq;)Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;
+
+  public static io.joern.swiftsrc2cpg.utils.SwiftTypesProvider build(io.joern.swiftsrc2cpg.Config, scala.collection.immutable.Seq<java.lang.String>);
+    descriptor: (Lio/joern/swiftsrc2cpg/Config;Lscala/collection/immutable/Seq;)Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;
+
+  public static io.joern.swiftsrc2cpg.utils.SwiftTypesProvider fromProduct(scala.Product);
+    descriptor: (Lscala/Product;)Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;
+
+  public static io.joern.swiftsrc2cpg.utils.SwiftTypesProvider unapply(io.joern.swiftsrc2cpg.utils.SwiftTypesProvider);
+    descriptor: (Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;)Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;
+}
+=== io.joern.swiftsrc2cpg.utils.GsonTypeInfoReader
+Compiled from "GsonTypeInfoReader.scala"
+public final class io.joern.swiftsrc2cpg.utils.GsonTypeInfoReader {
+  public static void collectTypeInfo(java.io.Reader, scala.Function1<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$TypeInfo, scala.runtime.BoxedUnit>);
+    descriptor: (Ljava/io/Reader;Lscala/Function1;)V
+}
+=== io.joern.dataflowengineoss.DefaultSemantics
+Compiled from "DefaultSemantics.scala"
+public final class io.joern.dataflowengineoss.DefaultSemantics {
+  public static io.joern.dataflowengineoss.semanticsloader.FullNameSemantics apply();
+    descriptor: ()Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;
+
+  public static scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> cFlows();
+    descriptor: ()Lscala/collection/immutable/List;
+
+  public static scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> javaFlows();
+    descriptor: ()Lscala/collection/immutable/List;
+
+  public static io.joern.dataflowengineoss.semanticsloader.FullNameSemantics javaSemantics();
+    descriptor: ()Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;
+
+  public static scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> operatorFlows();
+    descriptor: ()Lscala/collection/immutable/List;
+}
+=== io.joern.dataflowengineoss.semanticsloader.Semantics
+Compiled from "Semantics.scala"
+public interface io.joern.dataflowengineoss.semanticsloader.Semantics {
+  public static void initialize$(io.joern.dataflowengineoss.semanticsloader.Semantics, io.shiftleft.codepropertygraph.generated.Cpg);
+    descriptor: (Lio/joern/dataflowengineoss/semanticsloader/Semantics;Lio/shiftleft/codepropertygraph/generated/Cpg;)V
+
+  public default void initialize(io.shiftleft.codepropertygraph.generated.Cpg);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/Cpg;)V
+
+  public abstract scala.Option<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> forMethod(io.shiftleft.codepropertygraph.generated.nodes.Method);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/nodes/Method;)Lscala/Option;
+
+  public static io.joern.dataflowengineoss.semanticsloader.Semantics after$(io.joern.dataflowengineoss.semanticsloader.Semantics, io.joern.dataflowengineoss.semanticsloader.Semantics);
+    descriptor: (Lio/joern/dataflowengineoss/semanticsloader/Semantics;Lio/joern/dataflowengineoss/semanticsloader/Semantics;)Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+
+  public default io.joern.dataflowengineoss.semanticsloader.Semantics after(io.joern.dataflowengineoss.semanticsloader.Semantics);
+    descriptor: (Lio/joern/dataflowengineoss/semanticsloader/Semantics;)Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+}
+=== io.joern.dataflowengineoss.semanticsloader.FlowSemantic
+Compiled from "Semantics.scala"
+public class io.joern.dataflowengineoss.semanticsloader.FlowSemantic implements scala.Product,java.io.Serializable {
+  public io.joern.dataflowengineoss.semanticsloader.FlowSemantic(java.lang.String, scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath>, boolean);
+    descriptor: (Ljava/lang/String;Lscala/collection/immutable/List;Z)V
+
+  public scala.collection.Iterator<java.lang.Object> productIterator();
+    descriptor: ()Lscala/collection/Iterator;
+
+  public scala.collection.Iterator<java.lang.String> productElementNames();
+    descriptor: ()Lscala/collection/Iterator;
+
+  public int hashCode();
+    descriptor: ()I
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public boolean canEqual(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public int productArity();
+    descriptor: ()I
+
+  public java.lang.String productPrefix();
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.Object productElement(int);
+    descriptor: (I)Ljava/lang/Object;
+
+  public java.lang.String productElementName(int);
+    descriptor: (I)Ljava/lang/String;
+
+  public java.lang.String methodFullName();
+    descriptor: ()Ljava/lang/String;
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath> mappings();
+    descriptor: ()Lscala/collection/immutable/List;
+
+  public boolean regex();
+    descriptor: ()Z
+
+  public io.joern.dataflowengineoss.semanticsloader.FlowSemantic copy(java.lang.String, scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath>, boolean);
+    descriptor: (Ljava/lang/String;Lscala/collection/immutable/List;Z)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+
+  public java.lang.String copy$default$1();
+    descriptor: ()Ljava/lang/String;
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath> copy$default$2();
+    descriptor: ()Lscala/collection/immutable/List;
+
+  public boolean copy$default$3();
+    descriptor: ()Z
+
+  public java.lang.String _1();
+    descriptor: ()Ljava/lang/String;
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath> _2();
+    descriptor: ()Lscala/collection/immutable/List;
+
+  public boolean _3();
+    descriptor: ()Z
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowSemantic apply(java.lang.String, scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath>, boolean);
+    descriptor: (Ljava/lang/String;Lscala/collection/immutable/List;Z)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowSemantic from(java.lang.String, scala.collection.immutable.List<?>, boolean);
+    descriptor: (Ljava/lang/String;Lscala/collection/immutable/List;Z)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowSemantic fromProduct(scala.Product);
+    descriptor: (Lscala/Product;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+
+  public static io.joern.dataflowengineoss.semanticsloader.FlowSemantic unapply(io.joern.dataflowengineoss.semanticsloader.FlowSemantic);
+    descriptor: (Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+
+  public static scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath> $lessinit$greater$default$2();
+    descriptor: ()Lscala/collection/immutable/List;
+
+  public static boolean $lessinit$greater$default$3();
+    descriptor: ()Z
+
+  public static boolean from$default$3();
+    descriptor: ()Z
+}
+=== io.joern.dataflowengineoss.semanticsloader.FullNameSemantics
+Compiled from "FullNameSemantics.scala"
+public class io.joern.dataflowengineoss.semanticsloader.FullNameSemantics implements io.joern.dataflowengineoss.semanticsloader.Semantics {
+  public io.joern.dataflowengineoss.semanticsloader.FullNameSemantics(scala.collection.immutable.Map<java.lang.String, io.joern.dataflowengineoss.semanticsloader.FlowSemantic>);
+    descriptor: (Lscala/collection/immutable/Map;)V
+
+  public io.joern.dataflowengineoss.semanticsloader.Semantics after(io.joern.dataflowengineoss.semanticsloader.Semantics);
+    descriptor: (Lio/joern/dataflowengineoss/semanticsloader/Semantics;)Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+
+  public void initialize(io.shiftleft.codepropertygraph.generated.Cpg);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/Cpg;)V
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> elements();
+    descriptor: ()Lscala/collection/immutable/List;
+
+  public scala.Option<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> forMethod(io.shiftleft.codepropertygraph.generated.nodes.Method);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/nodes/Method;)Lscala/Option;
+
+  public java.lang.String serialize();
+    descriptor: ()Ljava/lang/String;
+
+  public io.joern.dataflowengineoss.semanticsloader.FullNameSemantics plus(scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic>);
+    descriptor: (Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;
+
+  public static io.joern.dataflowengineoss.semanticsloader.FullNameSemantics empty();
+    descriptor: ()Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;
+
+  public static io.joern.dataflowengineoss.semanticsloader.FullNameSemantics fromList(scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic>);
+    descriptor: (Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;
+}
+=== io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser
+Compiled from "FullNameSemanticsParser.scala"
+public class io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser {
+  public io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser();
+    descriptor: ()V
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> parse(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lscala/collection/immutable/List;
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> parseFile(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lscala/collection/immutable/List;
+
+  public final io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser$AntlrFlowExtensions AntlrFlowExtensions(io.joern.dataflowengineoss.SemanticsParser$MappingContext);
+    descriptor: (Lio/joern/dataflowengineoss/SemanticsParser$MappingContext;)Lio/joern/dataflowengineoss/semanticsloader/FullNameSemanticsParser$AntlrFlowExtensions;
+
+  public static final java.lang.String io$joern$dataflowengineoss$semanticsloader$FullNameSemanticsParser$AntlrFlowExtensions$$_$srcArgName$$anonfun$1(io.joern.dataflowengineoss.SemanticsParser$ArgNameContext);
+    descriptor: (Lio/joern/dataflowengineoss/SemanticsParser$ArgNameContext;)Ljava/lang/String;
+
+  public static final java.lang.String io$joern$dataflowengineoss$semanticsloader$FullNameSemanticsParser$AntlrFlowExtensions$$_$dstArgName$$anonfun$1(io.joern.dataflowengineoss.SemanticsParser$ArgNameContext);
+    descriptor: (Lio/joern/dataflowengineoss/SemanticsParser$ArgNameContext;)Ljava/lang/String;
+}
+=== io.joern.dataflowengineoss.semanticsloader.ParamOrRetNode
+Compiled from "Semantics.scala"
+public interface io.joern.dataflowengineoss.semanticsloader.ParamOrRetNode {
+  public abstract int index();
+    descriptor: ()I
+}
+=== io.joern.dataflowengineoss.semanticsloader.ParameterNode
+Compiled from "Semantics.scala"
+public class io.joern.dataflowengineoss.semanticsloader.ParameterNode extends io.joern.dataflowengineoss.semanticsloader.FlowNode implements io.joern.dataflowengineoss.semanticsloader.ParamOrRetNode,scala.Product,java.io.Serializable {
+  public io.joern.dataflowengineoss.semanticsloader.ParameterNode(int, scala.Option<java.lang.String>);
+    descriptor: (ILscala/Option;)V
+
+  public scala.collection.Iterator<java.lang.Object> productIterator();
+    descriptor: ()Lscala/collection/Iterator;
+
+  public scala.collection.Iterator<java.lang.String> productElementNames();
+    descriptor: ()Lscala/collection/Iterator;
+
+  public int hashCode();
+    descriptor: ()I
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public boolean canEqual(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public int productArity();
+    descriptor: ()I
+
+  public java.lang.String productPrefix();
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.Object productElement(int);
+    descriptor: (I)Ljava/lang/Object;
+
+  public java.lang.String productElementName(int);
+    descriptor: (I)Ljava/lang/String;
+
+  public int index();
+    descriptor: ()I
+
+  public scala.Option<java.lang.String> name();
+    descriptor: ()Lscala/Option;
+
+  public io.joern.dataflowengineoss.semanticsloader.ParameterNode copy(int, scala.Option<java.lang.String>);
+    descriptor: (ILscala/Option;)Lio/joern/dataflowengineoss/semanticsloader/ParameterNode;
+
+  public int copy$default$1();
+    descriptor: ()I
+
+  public scala.Option<java.lang.String> copy$default$2();
+    descriptor: ()Lscala/Option;
+
+  public int _1();
+    descriptor: ()I
+
+  public scala.Option<java.lang.String> _2();
+    descriptor: ()Lscala/Option;
+
+  public static io.joern.dataflowengineoss.semanticsloader.ParameterNode apply(int, scala.Option<java.lang.String>);
+    descriptor: (ILscala/Option;)Lio/joern/dataflowengineoss/semanticsloader/ParameterNode;
+
+  public static io.joern.dataflowengineoss.semanticsloader.ParameterNode apply(int, java.lang.String);
+    descriptor: (ILjava/lang/String;)Lio/joern/dataflowengineoss/semanticsloader/ParameterNode;
+
+  public static io.joern.dataflowengineoss.semanticsloader.ParameterNode fromProduct(scala.Product);
+    descriptor: (Lscala/Product;)Lio/joern/dataflowengineoss/semanticsloader/ParameterNode;
+
+  public static io.joern.dataflowengineoss.semanticsloader.ParameterNode unapply(io.joern.dataflowengineoss.semanticsloader.ParameterNode);
+    descriptor: (Lio/joern/dataflowengineoss/semanticsloader/ParameterNode;)Lio/joern/dataflowengineoss/semanticsloader/ParameterNode;
+
+  public static scala.Option<java.lang.String> $lessinit$greater$default$2();
+    descriptor: ()Lscala/Option;
+}
+=== io.joern.dataflowengineoss.queryengine.Engine
+Compiled from "Engine.scala"
+public class io.joern.dataflowengineoss.queryengine.Engine {
+  public io.joern.dataflowengineoss.queryengine.Engine(io.joern.dataflowengineoss.queryengine.EngineContext);
+    descriptor: (Lio/joern/dataflowengineoss/queryengine/EngineContext;)V
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.queryengine.package$TableEntry> backwards(scala.collection.immutable.List<io.shiftleft.codepropertygraph.generated.nodes.CfgNode>, scala.collection.immutable.List<io.shiftleft.codepropertygraph.generated.nodes.CfgNode>);
+    descriptor: (Lscala/collection/immutable/List;Lscala/collection/immutable/List;)Lscala/collection/immutable/List;
+
+  public void shutdown();
+    descriptor: ()V
+
+  public static scala.collection.immutable.List<io.shiftleft.codepropertygraph.generated.nodes.Method> argToMethods(io.shiftleft.codepropertygraph.generated.nodes.Expression);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/nodes/Expression;)Lscala/collection/immutable/List;
+
+  public static scala.collection.Iterator<io.shiftleft.codepropertygraph.generated.nodes.MethodParameterOut> argToOutputParams(io.shiftleft.codepropertygraph.generated.nodes.Expression);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/nodes/Expression;)Lscala/collection/Iterator;
+
+  public static scala.collection.immutable.Vector<io.joern.dataflowengineoss.queryengine.package$PathElement> expandIn(io.shiftleft.codepropertygraph.generated.nodes.CfgNode, scala.collection.immutable.Vector<io.joern.dataflowengineoss.queryengine.package$PathElement>, scala.collection.immutable.List<io.shiftleft.codepropertygraph.generated.nodes.Call>, io.joern.dataflowengineoss.semanticsloader.Semantics);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/nodes/CfgNode;Lscala/collection/immutable/Vector;Lscala/collection/immutable/List;Lio/joern/dataflowengineoss/semanticsloader/Semantics;)Lscala/collection/immutable/Vector;
+
+  public static boolean isCallToInternalMethod(io.shiftleft.codepropertygraph.generated.nodes.Call);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/nodes/Call;)Z
+
+  public static boolean isCallToInternalMethodWithoutSemantic(io.shiftleft.codepropertygraph.generated.nodes.Call, io.joern.dataflowengineoss.semanticsloader.Semantics);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/nodes/Call;Lio/joern/dataflowengineoss/semanticsloader/Semantics;)Z
+
+  public static boolean isOutputArgOfInternalMethod(io.shiftleft.codepropertygraph.generated.nodes.Expression, io.joern.dataflowengineoss.semanticsloader.Semantics);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/nodes/Expression;Lio/joern/dataflowengineoss/semanticsloader/Semantics;)Z
+
+  public static scala.collection.immutable.List<io.shiftleft.codepropertygraph.generated.nodes.Method> methodsForCall(io.shiftleft.codepropertygraph.generated.nodes.Call);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/nodes/Call;)Lscala/collection/immutable/List;
+
+  public static scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> semanticsForCall(io.shiftleft.codepropertygraph.generated.nodes.Call, io.joern.dataflowengineoss.semanticsloader.Semantics);
+    descriptor: (Lio/shiftleft/codepropertygraph/generated/nodes/Call;Lio/joern/dataflowengineoss/semanticsloader/Semantics;)Lscala/collection/immutable/List;
+
+  public static scala.collection.immutable.List<io.shiftleft.codepropertygraph.generated.nodes.Call> expandIn$default$3();
+    descriptor: ()Lscala/collection/immutable/List;
+}
+=== io.joern.dataflowengineoss.queryengine.EngineConfig
+Compiled from "Engine.scala"
+public class io.joern.dataflowengineoss.queryengine.EngineConfig implements scala.Product,java.io.Serializable {
+  public io.joern.dataflowengineoss.queryengine.EngineConfig(int, scala.Option<scala.collection.mutable.Map<io.joern.dataflowengineoss.queryengine.package$TaskFingerprint, scala.collection.immutable.Vector<io.joern.dataflowengineoss.queryengine.package$ReachableByResult>>>, boolean, int, int);
+    descriptor: (ILscala/Option;ZII)V
+
+  public scala.collection.Iterator<java.lang.Object> productIterator();
+    descriptor: ()Lscala/collection/Iterator;
+
+  public scala.collection.Iterator<java.lang.String> productElementNames();
+    descriptor: ()Lscala/collection/Iterator;
+
+  public int hashCode();
+    descriptor: ()I
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public boolean canEqual(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+
+  public int productArity();
+    descriptor: ()I
+
+  public java.lang.String productPrefix();
+    descriptor: ()Ljava/lang/String;
+
+  public java.lang.Object productElement(int);
+    descriptor: (I)Ljava/lang/Object;
+
+  public java.lang.String productElementName(int);
+    descriptor: (I)Ljava/lang/String;
+
+  public int maxCallDepth();
+    descriptor: ()I
+
+  public void maxCallDepth_$eq(int);
+    descriptor: (I)V
+
+  public scala.Option<scala.collection.mutable.Map<io.joern.dataflowengineoss.queryengine.package$TaskFingerprint, scala.collection.immutable.Vector<io.joern.dataflowengineoss.queryengine.package$ReachableByResult>>> initialTable();
+    descriptor: ()Lscala/Option;
+
+  public boolean shareCacheBetweenTasks();
+    descriptor: ()Z
+
+  public int maxArgsToAllow();
+    descriptor: ()I
+
+  public int maxOutputArgsExpansion();
+    descriptor: ()I
+
+  public io.joern.dataflowengineoss.queryengine.EngineConfig copy(int, scala.Option<scala.collection.mutable.Map<io.joern.dataflowengineoss.queryengine.package$TaskFingerprint, scala.collection.immutable.Vector<io.joern.dataflowengineoss.queryengine.package$ReachableByResult>>>, boolean, int, int);
+    descriptor: (ILscala/Option;ZII)Lio/joern/dataflowengineoss/queryengine/EngineConfig;
+
+  public int copy$default$1();
+    descriptor: ()I
+
+  public scala.Option<scala.collection.mutable.Map<io.joern.dataflowengineoss.queryengine.package$TaskFingerprint, scala.collection.immutable.Vector<io.joern.dataflowengineoss.queryengine.package$ReachableByResult>>> copy$default$2();
+    descriptor: ()Lscala/Option;
+
+  public boolean copy$default$3();
+    descriptor: ()Z
+
+  public int copy$default$4();
+    descriptor: ()I
+
+  public int copy$default$5();
+    descriptor: ()I
+
+  public int _1();
+    descriptor: ()I
+
+  public scala.Option<scala.collection.mutable.Map<io.joern.dataflowengineoss.queryengine.package$TaskFingerprint, scala.collection.immutable.Vector<io.joern.dataflowengineoss.queryengine.package$ReachableByResult>>> _2();
+    descriptor: ()Lscala/Option;
+
+  public boolean _3();
+    descriptor: ()Z
+
+  public int _4();
+    descriptor: ()I
+
+  public int _5();
+    descriptor: ()I
+
+  public static io.joern.dataflowengineoss.queryengine.EngineConfig apply(int, scala.Option<scala.collection.mutable.Map<io.joern.dataflowengineoss.queryengine.package$TaskFingerprint, scala.collection.immutable.Vector<io.joern.dataflowengineoss.queryengine.package$ReachableByResult>>>, boolean, int, int);
+    descriptor: (ILscala/Option;ZII)Lio/joern/dataflowengineoss/queryengine/EngineConfig;
+
+  public static io.joern.dataflowengineoss.queryengine.EngineConfig fromProduct(scala.Product);
+    descriptor: (Lscala/Product;)Lio/joern/dataflowengineoss/queryengine/EngineConfig;
+
+  public static io.joern.dataflowengineoss.queryengine.EngineConfig unapply(io.joern.dataflowengineoss.queryengine.EngineConfig);
+    descriptor: (Lio/joern/dataflowengineoss/queryengine/EngineConfig;)Lio/joern/dataflowengineoss/queryengine/EngineConfig;
+
+  public static int $lessinit$greater$default$1();
+    descriptor: ()I
+
+  public static scala.Option<scala.collection.mutable.Map<io.joern.dataflowengineoss.queryengine.package$TaskFingerprint, scala.collection.immutable.Vector<io.joern.dataflowengineoss.queryengine.package$ReachableByResult>>> $lessinit$greater$default$2();
+    descriptor: ()Lscala/Option;
+
+  public static boolean $lessinit$greater$default$3();
+    descriptor: ()Z
+
+  public static int $lessinit$greater$default$4();
+    descriptor: ()I
+
+  public static int $lessinit$greater$default$5();
+    descriptor: ()I
+}

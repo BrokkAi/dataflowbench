@@ -1,0 +1,20 @@
+Writing logs to: /tmp/joern-scan-log.txt
+Creates a code property graph and scans it with queries from installed bundles.
+Version: `4.0.628`
+Usage: joern-scan [options] [src]
+
+  --help               Prints this usage text
+  src                  source code directory to scan
+  --overwrite          Overwrite CPG if it already exists
+  --store              Store graph changes made by scanner
+  --dump               Dump available queries to a file at `/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/querydb.json`
+  --dump-to <value>    Dump available queries to a specific file
+  --list-query-names   Print a list of available query names
+  --updatedb           Update query database
+  --dbversion <value>  Version of query database `updatedb`-operation installs
+  --names <value>      Filter queries used for scanning by name, comma-separated string
+  --tags <value>       Filter queries used for scanning by tags, comma-separated string
+  --depth <value>      Set call depth for interprocedural analysis
+  --language <value>   Source language
+  --list-languages     List available language options
+Args specified after the --frontend-args separator will be passed to the front-end verbatim
