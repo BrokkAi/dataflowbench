@@ -52,9 +52,17 @@ production name-based model matcher or proof of analyzer endpoint resolution.
   alive; temporary-directory cleanup raised `OSError: [Errno 66] Directory not
   empty: lazy_decls`. The subsequent process check confirmed it had exited.
   The second attempt uses the new invocation-owned process-tree runner and
-  records `verified-stopped` before scratch cleanup. It retains parent lineage,
-  PID/start identities, TERM/grace/KILL actions, and explicit uncertain-cleanup
-  errors. The old v1 runner and all hash-bound configurations remain unchanged.
+  records `verified-stopped` before scratch cleanup. That historical label
+  overstates the proof: only observed descendants were verified stopped. The
+  raw record is retained unchanged, and does not establish complete containment.
+  The reviewed runner now reports `tracked-processes-stopped`, always records
+  `discovery_complete: false`, and never authorizes scratch deletion or a retry
+  from polling alone. It fails loudly if the root identity was not captured.
+  It retains parent lineage, kernel PID/start identities, TERM/grace/KILL
+  actions, and explicit uncertain-cleanup errors; identity is rechecked before
+  each signal, but that check is not an atomic signal handle. Fast double-fork
+  regressions demonstrate the conservative boundary. The probe retains scratch
+  and stops before later queries when containment is unproven. The old v1 runner and all hash-bound configurations remain unchanged.
 
 The next qualification work must independently resolve analyzer endpoints,
 shipped model roles, and separating controls, including the Result extension.

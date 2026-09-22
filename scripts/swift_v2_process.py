@@ -76,7 +76,10 @@ def run(argv, directory, name, timeout, measure=False):
         process = subprocess.Popen(wrapped, stdout=stdout, stderr=stderr, start_new_session=True)
         try:
             table = process_table()
-            if process.pid in table: tracked[process.pid] = table[process.pid][1]
+            if process.pid in table:
+                tracked[process.pid] = table[process.pid][1]
+            else:
+                raise RuntimeError('invocation root start identity was never captured')
             while process.poll() is None:
                 tracked = descendants(process_table(), tracked)
                 if time.monotonic() - start >= timeout:
@@ -95,6 +98,11 @@ def run(argv, directory, name, timeout, measure=False):
                         if not alive: break
                         for pid in reversed(alive):
                             try:
+                                # Recheck immediately before each signal; this
+                                # narrows but does not eliminate the PID race.
+                                current = process_table()
+                                if pid not in active(current, tracked):
+                                    continue
                                 os.kill(pid, sig)
                                 cleanup.append({'pid': pid, 'start_identity': tracked[pid], 'signal': sig.name})
                             except ProcessLookupError: pass
@@ -114,7 +122,10 @@ def run(argv, directory, name, timeout, measure=False):
               'deadline_seconds': timeout, 'deadline_scope': 'non-scored probe phase; not a scored analysis outcome',
               'exit_status': status, 'timed_out': timed_out,
               'tracked_descendants': [{'pid': p, 'start_identity': birth} for p, birth in sorted(tracked.items())],
-              'cleanup_signaled': cleanup, 'cleanup_status': 'uncertain' if cleanup_error else 'verified-stopped',
+              'cleanup_signaled': cleanup, 'cleanup_status': 'uncertain' if cleanup_error else 'tracked-processes-stopped',
+              'discovery_complete': False, 'descendant_containment': 'unproven',
+              'scratch_cleanup_authorized': False,
+              'limitations': 'Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.',
               'cleanup_error': cleanup_error, 'memory_compliance': 'unproven'}
     (directory / (name + '.command.json')).write_text(json.dumps(record, indent=2) + '\n')
     if cleanup_error: raise ProcessCleanupError(cleanup_error)

@@ -48,6 +48,8 @@ def main():
             argv = [str(args.codeql), 'database', 'create', str(db), '--language=swift', '--source-root=' + str(source), '--threads=2', '--ram=512', '--command=' + shlex.join(compile_argv)]
             record = commands.run(argv, output, 'database-create', 60, measure=True)
             witness['phases']['database-create'] = record
+            if not record['scratch_cleanup_authorized']:
+                raise commands.ProcessCleanupError('descendant containment unproven; retain scratch and stop before subsequent queries')
             if record['exit_status'] == 0 and not record['timed_out']:
                 for name in ['declarations', 'catalog']:
                     bqrs = output / (name + '.bqrs')

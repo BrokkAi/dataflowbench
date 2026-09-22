@@ -33,6 +33,7 @@ def verify(base=BASE):
     population, additions = audit()
     summary = json.loads((base / 'summary.json').read_text())
     require(summary['status'] == 'unqualified-preflight' and summary['scored_partitions'] == [], 'no qualification or partition promotion')
+    require(summary['descendant_containment'] == 'unproven', 'polling cannot certify complete descendant containment')
     require(summary['fixture_revision'] == population['fixture_revision'], 'population revision')
     expected = {case['id']: (path, case) for path, case in additions}
     index = declaration_index(base)
