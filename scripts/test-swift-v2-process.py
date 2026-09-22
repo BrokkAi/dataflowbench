@@ -102,6 +102,15 @@ class ProcessTests(unittest.TestCase):
             self.assertFalse(probe.database_ready(record, metadata + 'inProgress:\n', resolved, db))
             self.assertFalse(probe.database_ready(record, metadata, {'languages': ['swift'], 'datasetFolder': '/unrelated'}, db))
 
+    def test_longer_extraction_requires_explicit_unqualified_scope(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / 'must-not-exist'
+            command = [sys.executable, str(Path(__file__).with_name('probe-swift-v2-codeql.py')), '--output', str(output), '--codeql', '/not-executed', '--packs', '/not-read', '--case-id', 'not-selected', '--extraction-timeout', '180']
+            result = subprocess.run(command, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 2)
+            self.assertIn('explicit unqualified feasibility', result.stderr)
+            self.assertFalse(output.exists())
+
     def test_success_keeps_exit_and_output(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

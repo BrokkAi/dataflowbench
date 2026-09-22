@@ -1,0 +1,59 @@
+name	language	tags	title
+Spring-Expression-Language-Injection	java	badfn,default	Spring-Expression-Language-Injection: The value is taken from user input and passed to ExpressionParser!!
+broadcast-to-file-write	android	android	Data from a broadcast ends up in a file write operation.
+call-to-exec	java	badfn,default	Dangerous function 'java.lang.Runtime.exec:java.lang.Process(java.lang.String)' used
+call-to-gets	c	badfn,default	Dangerous function gets() used
+call-to-getwd	c	badfn,default	Dangerous function getwd() used
+call-to-scanf	c	badfn	Insecure function scanf() used
+call-to-strcat	c	badfn	Dangerous functions `strcat` or `strncat` used
+call-to-strcpy	c	badfn	Dangerous functions `strcpy` or `strncpy` used
+call-to-strcpy-ghidra	ghidra	badfn	Dangerous functions `strcpy` or `strncpy` used
+call-to-strtok	c	badfn,default	Dangerous function strtok() used
+constant-array-access-no-check	c	default	Array access at fixed offset but sufficient length check not determined
+copy-loop	c	default	Copy loop detected
+external-storage-to-dex-classloader	android	android	Data from external storage ends up in dex classloader, leading to code execution.
+file-operation-race	c	race-condition,default	Two file operations on the same path can act on different files
+format-controlled-printf	c	badfn,default	Non-constant format string passed to printf/sprintf/vsprintf
+fragment-injection	android	android	Attackers can load fragments that should be private
+free-field-no-reassign	c	uaf,default	A field of a parameter is free'd and not reassigned on all paths
+free-follows-value-reuse	c	uaf	A value that is free'd is reused without reassignment.
+free-returned-value	c	uaf	A value that is returned through a parameter is free'd in a path
+getenv-to-strcpy	ghidra	badfn	`getenv` fn arguments used in strcpy source buffer
+ineffective-certificate-check	java	badimpl,default	Ineffective Certificate Validation: The validation result is always positive
+insecure-load-url-to-exec	android	android	Data from an insecure url load reaches `Runtime.getRuntime.exec` via JavaScript bridge.
+intent-redirection	android	android	Intent redirected without validation
+intent-to-runtime-exec	android	android	Data from an intent reaches `Runtime.getRuntime.exec`.
+low-pbe-key-iterations	java	cryptography,default	Low number of iterations detected for password-based encryption.
+magic-hash	php	magic-hash,default	Magic Hash: A parameter is used to compute a hash and then loosely compared (`==`) with another value.
+malloc-memcpy-int-overflow	c	integers,default	Dangerous copy-operation into heap-allocated buffer
+manifest-backup-enabled	android	android,misconfiguration	Backups enabled in Android Manifest File
+multiple-returns	c	metrics	Multiple returns
+php-sql-injection	php	remote-code-execution,default	SQL injection: A parameter is used in an insecure database API call.
+phpjoern_cmdi	php	xss,default	CWE-77(Command Injection): A parameter is used in an insecure cmdi related func call.
+phpjoern_codei	php	remote-code-execution,default	CWE-94(Code Injection): A parameter is used in an insecure codei related func call.
+phpjoern_sqli	php	sql-injection,default	CWE-89(SQL Injection): A parameter is used in an insecure sqli related func call.
+phpjoern_uuf	php	default	CWE-434(Unrestricted Upload of File): A parameter is used in an insecure uuf related func call.
+phpjoern_xss	php	xss,default	CWE-79(Cross-site Scripting): A parameter is used in an insecure xss related func call.
+root-detection-via-file-checks	android	android	App attempts to detect rooting via file checks
+setgid-without-setgroups	c	setxid,default	Process group membership is changed without setting ancillary groups first
+setuid-without-setgid	c	setxid,default	Process user ID is changed without changing groups first
+shell-exec	php	remote-code-execution,default	Shell exec: A parameter is used in an insecure `shell-exec` call.
+signed-left-shift	c	integers,default	Signed Shift May Cause Undefined Behavior
+socket-send	c	default,posix	Unchecked call to send
+sql-injection	java	sql-injection,default	SQL injection: A parameter is used in an insecure database API call.
+strlen-truncation	c	integers,default	Truncation in assignment involving `strlen` call
+strncpy-no-null-term	c	strings,default	strncpy is used and no null termination is nearby
+tap-jacking	android	android,misconfiguration	Tap Jacking: target SDK <23 specified in `build.gradle` 
+too-high-complexity	c	metrics	Cyclomatic complexity higher than 4
+too-long	c	metrics	More than 1000 lines
+too-many-loops	c	metrics	More than 4 loops
+too-many-params	c	metrics	Number of parameters larger than 4
+too-nested	c	metrics	Nesting level higher than 3
+twig-template-injection	php	remote-code-execution,default	Twig-Template-Injection: A parameter controlled by the user is rendered within a Twig template.
+unchecked-read-recv-malloc	c	default	Unchecked read/recv/malloc
+unsafe-crypto-hash-algo	java	cryptography,default	Unsafe cryptographic hash algorithm used.
+unzip-directory-traversal	kotlin	path-traversal,android	Zip entries not checked before unzipping
+usage-of-insecure-protocol	kotlin	insecure-network-traffic,android	Insecure Protocol used
+usage-of-nop-trust-manager	kotlin	android,insecure-network-traffic	NOP trust manager used to initialize SSL context
+vuln-prng-android-v16_18	android	android,cryptography,misconfiguration	Vulnerable underlying PRNG used on currently set version of Android
+xss-servlet	java	xss,default	Reflected Cross-Site Scripting: Servlet Returns HTTP Input in Response

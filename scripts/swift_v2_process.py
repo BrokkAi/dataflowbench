@@ -64,7 +64,7 @@ def active(table, tracked):
     return [pid for pid, birth in tracked.items() if pid in table and table[pid][1] == birth and not table[pid][2].startswith('Z')]
 
 
-def run(argv, directory, name, timeout, measure=False):
+def run(argv, directory, name, timeout, measure=False, env=None, cwd=None):
     start = time.monotonic()
     tracked = {}
     timed_out = False
@@ -73,7 +73,7 @@ def run(argv, directory, name, timeout, measure=False):
     status = None
     with (directory / (name + '.stdout')).open('wb') as stdout, (directory / (name + '.stderr')).open('wb') as stderr:
         wrapped = ['/usr/bin/time', '-l'] + argv if measure else argv
-        process = subprocess.Popen(wrapped, stdout=stdout, stderr=stderr, start_new_session=True)
+        process = subprocess.Popen(wrapped, stdout=stdout, stderr=stderr, start_new_session=True, env=env, cwd=cwd)
         try:
             table = process_table()
             if process.pid in table:
@@ -118,7 +118,8 @@ def run(argv, directory, name, timeout, measure=False):
             except Exception as error:
                 cleanup_error = 'cleanup verification failed: ' + str(error)
     record = {'argv': argv, 'measurement_wrapper': ['/usr/bin/time', '-l'] if measure else [],
-              'cwd': os.getcwd(), 'elapsed_seconds': time.monotonic() - start,
+              'cwd': str(cwd) if cwd is not None else os.getcwd(),
+              'environment': {key: env.get(key) for key in ['JAVA_HOME', 'SWIFTASTGEN_BIN', '_JAVA_OPTIONS', 'PATH'] } if env is not None else None, 'elapsed_seconds': time.monotonic() - start,
               'deadline_seconds': timeout, 'deadline_scope': 'non-scored probe phase; not a scored analysis outcome',
               'exit_status': status, 'timed_out': timed_out,
               'tracked_descendants': [{'pid': p, 'start_identity': birth} for p, birth in sorted(tracked.items())],
