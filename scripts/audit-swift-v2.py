@@ -29,7 +29,10 @@ def render():
               'compile/control the new tranche with `python3 scripts/validate-swift-v2.py --output <fresh-directory>`. '
               'The existing Swift fixture validator continues to validate v1 independently. '
               'Prospective independent native API/model qualification and extension partitions must precede '
-              'fresh analyzer execution; neither existing adapter configuration is modified here.', '']
+              'fresh analyzer execution; neither existing adapter configuration is modified here. '
+              'Historical CI certificate checks select v1 explicitly. The old Joern runtime verifier still '
+              'requires its original complete 90-case checkout; running it against the expanded checkout '
+              'fails closed pending the versioned activation tranche.', '']
     return '\n'.join(lines)
 
 if __name__=='__main__':
