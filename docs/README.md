@@ -181,3 +181,7 @@ other by `model_profile` and never pooled:
 - [Swift native API contracts (A38)](swift-native-contract.md) — prospective six-family semantics; no native outcomes.
 - [Swift Result extension (A39)](swift-result-contract.md) — explicit failure-payload adaptation.
 - [Non-scored reflection investigation](../evidence/swift-reflection-220/README.md) — retained failures and independent controls; candidate remains unqualified.
+
+- [Swift v2 qualification sequence](swift-v2-qualification-plan.md) — prospective independent controls and partition order.
+- [CodeQL v2 preflight](codeql-swift-v2-preflight.md) — compiler identities, shipped query pack, and retained resource/extraction failures.
+- [Joern v2 catalog inventory](joern-swift-v2-catalog.md) — installed catalog and frontend/service surfaces; no native activation.

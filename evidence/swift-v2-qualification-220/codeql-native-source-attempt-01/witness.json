@@ -1,0 +1,42 @@
+{
+  "scope": "non-scored structural observations; no flow or unsupported qualification",
+  "case_id": "dfb-taint-swift-native-source-sink-positive",
+  "population": "swift-synthetic-v2",
+  "fixture_revision": "sha256:2dc97bb29cdba04c900308be9e3aef016a5a00d2ac11f2bcaa2ac39d9d2484ff",
+  "case_sha256": "bf3a6227cef7366ef28e0104e71d2286207afebc1014daaf9c55594e73d781dc",
+  "compiler_sha256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+  "extractor_sha256": "680adbee37bdbfc5fe0a4b6d63c45bdae23fcf3bb2210530a7b751b58f319530",
+  "source_commit": "6290338514f5347d307869866d991b7bd8dcc020",
+  "budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "memory_compliance": "unproven",
+  "phases": {
+    "database-create": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+        "database",
+        "create",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-gz92ydbg/db",
+        "--language=swift",
+        "--source-root=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-gz92ydbg/source",
+        "--threads=2",
+        "--ram=512",
+        "--command=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -swift-version 6 -Onone -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -target arm64-apple-macosx27.0.0 -module-name DataFlowBenchTaintSwift -module-cache-path /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-gz92ydbg/cache /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-gz92ydbg/source/main.swift -o /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-gz92ydbg/never-executed"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "started_unix": 1790111673.833098,
+      "elapsed_seconds": 60.004900582999994,
+      "exit_status": -9,
+      "timed_out": true,
+      "time_maxrss_mb": null
+    }
+  },
+  "status": "unqualified",
+  "failure": "Extraction exceeded60s; separate-process-group extractor briefly survived parent kill; TemporaryDirectory cleanup raised OSError66 DirectoryNotEmpty lazy_decls. Subsequent ps confirmed PID84917/parent84915 gone. No query executed."
+}
