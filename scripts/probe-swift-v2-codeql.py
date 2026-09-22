@@ -3,6 +3,7 @@
 import argparse
 import gzip
 import json
+import re
 from pathlib import Path
 import shlex
 import shutil
@@ -11,6 +12,17 @@ import tempfile
 from swift_population_v2 import ROOT, audit, sha
 
 import swift_v2_process as commands
+
+
+def database_ready(record, metadata, resolved, database):
+    """Gate query progress on successful command and finalized artifact, not containment."""
+    return (record['exit_status'] == 0 and not record['timed_out']
+            and record['cleanup_status'] == 'tracked-processes-stopped'
+            and len(re.findall(r'^finalised: true$', metadata, re.MULTILINE)) == 1
+            and not re.search(r'^inProgress:', metadata, re.MULTILINE)
+            and resolved.get('languages') == ['swift']
+            and Path(resolved.get('datasetFolder', '')).resolve() == (database / 'db-swift').resolve()
+            and (database / 'db-swift').is_dir())
 
 
 def main():
@@ -39,7 +51,7 @@ def main():
                'budget': case['execution_budget'], 'memory_compliance': 'unproven', 'phases': {}}
     (output / 'witness.json').write_text(json.dumps(witness, indent=2) + '\n')
     scratch = Path(tempfile.mkdtemp(prefix='dfb-v2-codeql-'))
-    cleanup_safe = True
+    witness['retained_scratch'] = str(scratch)
     try:
         source = scratch / 'source'; source.mkdir(); db = scratch / 'db'
         for name in case['fixture_files']: shutil.copyfile(path.parent / name, source / name)
@@ -48,36 +60,36 @@ def main():
             argv = [str(args.codeql), 'database', 'create', str(db), '--language=swift', '--source-root=' + str(source), '--threads=2', '--ram=512', '--command=' + shlex.join(compile_argv)]
             record = commands.run(argv, output, 'database-create', 60, measure=True)
             witness['phases']['database-create'] = record
-            if not record['scratch_cleanup_authorized']:
-                raise commands.ProcessCleanupError('descendant containment unproven; retain scratch and stop before subsequent queries')
-            if record['exit_status'] == 0 and not record['timed_out']:
-                for name in ['declarations', 'catalog']:
-                    bqrs = output / (name + '.bqrs')
-                    argv = [str(args.codeql), 'query', 'run', str(output / 'queries' / (name + '.ql')), '--database=' + str(db), '--output=' + str(bqrs), '--additional-packs=' + str(args.packs), '--threads=2', '--ram=512', '--timeout=60']
-                    result = commands.run(argv, output, name, 60, measure=True)
-                    witness['phases'][name] = result
-                    if result['exit_status'] == 0 and not result['timed_out']:
-                        commands.run([str(args.codeql), 'bqrs', 'decode', str(bqrs), '--format=json', '--output=' + str(output / (name + '.json'))], output, name + '-decode', 60)
+            if record['exit_status'] != 0 or record['timed_out']:
+                raise RuntimeError('extraction did not complete normally; stop and retain scratch for reconciliation')
+            resolved_record = commands.run([str(args.codeql), 'resolve', 'database', '--format=json', str(db)], output, 'database-resolve', 60)
+            witness['phases']['database-resolve'] = resolved_record
+            if resolved_record['exit_status'] != 0 or resolved_record['timed_out']:
+                raise RuntimeError('database metadata resolution failed')
+            resolved = json.loads((output / 'database-resolve.stdout').read_text())
+            if not database_ready(record, (db / 'codeql-database.yml').read_text(), resolved, db):
+                raise RuntimeError('database is not a finalized Swift artifact from this invocation')
+            witness['database_validation'] = 'finalized-swift-artifact; no containment claim'
+            for name in ['declarations', 'catalog']:
+                bqrs = output / (name + '.bqrs')
+                argv = [str(args.codeql), 'query', 'run', str(output / 'queries' / (name + '.ql')), '--database=' + str(db), '--output=' + str(bqrs), '--additional-packs=' + str(args.packs), '--threads=2', '--ram=512', '--timeout=60']
+                result = commands.run(argv, output, name, 60, measure=True)
+                witness['phases'][name] = result
+                if result['exit_status'] != 0 or result['timed_out']:
+                    raise RuntimeError('query failed or timed out; stop and retain scratch')
+                if result['exit_status'] == 0 and not result['timed_out']:
+                    commands.run([str(args.codeql), 'bqrs', 'decode', str(bqrs), '--format=json', '--output=' + str(output / (name + '.json'))], output, name + '-decode', 60)
         finally:
             if db.exists():
                 for name in ['log', 'diagnostic']:
                     if (db / name).exists(): shutil.copytree(db / name, output / name)
                 if (db / 'codeql-database.yml').exists(): shutil.copyfile(db / 'codeql-database.yml', output / 'codeql-database.yml')
     except commands.ProcessCleanupError as error:
-        cleanup_safe = False
         witness['cleanup_error'] = str(error)
         witness['retained_scratch'] = str(scratch)
     except Exception as error:
         witness['probe_error'] = str(error)
-        cleanup_safe = False
         witness['retained_scratch'] = str(scratch)
-    finally:
-        if cleanup_safe:
-            try:
-                shutil.rmtree(scratch)
-            except OSError as error:
-                witness['cleanup_error'] = str(error)
-                witness['retained_scratch'] = str(scratch)
     witness['status'] = 'unqualified'
     (output / 'witness.json').write_text(json.dumps(witness, indent=2) + '\n')
     for log in output.rglob('*.log'):

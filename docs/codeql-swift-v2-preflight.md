@@ -61,9 +61,26 @@ production name-based model matcher or proof of analyzer endpoint resolution.
   It retains parent lineage, kernel PID/start identities, TERM/grace/KILL
   actions, and explicit uncertain-cleanup errors; identity is rechecked before
   each signal, but that check is not an atomic signal handle. Fast double-fork
-  regressions demonstrate the conservative boundary. The probe retains scratch
-  and stops before later queries when containment is unproven. The old v1 runner and all hash-bound configurations remain unchanged.
+  regressions demonstrate the conservative boundary. The probe always retains scratch. Timeout, abnormal exit, or uncertain
+  tracked-process cleanup stops subsequent queries and requires reconciliation.
+  A successful extraction can progress after CodeQL resolves its database and
+  the gate verifies `finalised: true`, no `inProgress` state, Swift language,
+  and the invocation-owned dataset path. Artifact readiness does not imply
+  descendant containment. The positive/near-miss gate tests exercise this
+  route without requiring another expensive extraction. The old v1 runner and all hash-bound configurations remain unchanged.
 
 The next qualification work must independently resolve analyzer endpoints,
 shipped model roles, and separating controls, including the Result extension.
 No v2 prospective scored partition or report is created by this preflight.
+
+
+## Bounded next qualification step
+
+Inspect Joern's exact versioned vendor query bundle separately. For CodeQL,
+keep the Foundation timeout unresolved and inspect the retained extraction
+logs/compiler workload before another native attempt. The smaller Result
+extension can independently use the successful-extraction/finalized-database
+route above; the current two native attempts supply no such finalized artifact.
+A timeout requires owned-process reconciliation before a new attempt, and no
+budget is increased. Only completed exact endpoint and model controls can
+support the later prospective partition; this preflight supplies none.

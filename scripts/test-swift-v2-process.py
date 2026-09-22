@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import importlib.util
 import os
 import signal
 import time
@@ -84,6 +85,22 @@ class ProcessTests(unittest.TestCase):
             record = json.loads((root / 'uncertain.command.json').read_text())
             self.assertEqual(record['cleanup_status'], 'uncertain')
             self.assertIn('ps unavailable', record['cleanup_error'])
+
+    def test_finalized_database_progress_is_separate_from_containment(self):
+        spec = importlib.util.spec_from_file_location('v2_probe', Path(__file__).with_name('probe-swift-v2-codeql.py'))
+        probe = importlib.util.module_from_spec(spec); spec.loader.exec_module(probe)
+        with tempfile.TemporaryDirectory() as temporary:
+            db = Path(temporary); (db / 'db-swift').mkdir()
+            record = {'exit_status': 0, 'timed_out': False, 'cleanup_status': 'tracked-processes-stopped', 'discovery_complete': False, 'scratch_cleanup_authorized': False}
+            metadata = '---\nfinalised: true\n'
+            resolved = {'languages': ['swift'], 'datasetFolder': str(db / 'db-swift')}
+            self.assertTrue(probe.database_ready(record, metadata, resolved, db))
+            for field, value in [('exit_status', 1), ('timed_out', True), ('cleanup_status', 'uncertain')]:
+                changed = dict(record); changed[field] = value
+                self.assertFalse(probe.database_ready(changed, metadata, resolved, db))
+            self.assertFalse(probe.database_ready(record, 'finalised: false\n', resolved, db))
+            self.assertFalse(probe.database_ready(record, metadata + 'inProgress:\n', resolved, db))
+            self.assertFalse(probe.database_ready(record, metadata, {'languages': ['swift'], 'datasetFolder': '/unrelated'}, db))
 
     def test_success_keeps_exit_and_output(self):
         with tempfile.TemporaryDirectory() as temporary:
