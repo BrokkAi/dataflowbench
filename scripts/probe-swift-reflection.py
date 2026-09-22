@@ -41,6 +41,7 @@ def main():
   source=scratch/MODULE;source.mkdir();template=(probe/'template.swift').read_text()
   combined=template
   for i,(label,expression) in enumerate(CONTROLS.items()):combined+=f'func probe{i}() {{ {expression} }}\nprobe{i}()\n'
+  combined += 'precondition(Opaque.carry(dfb_source()) == dfb_source())\nprecondition(Opaque.block(dfb_source()) == dfb_source())\nprecondition(Opaque.select("clean", dfb_source()) == dfb_source())\nprecondition(Opaque.select(dfb_source(), "clean") == "clean")\n'
   (source/'main.swift').write_text(combined);(out/'combined.swift').write_text(combined)
   compile_args=[compiler,'-swift-version','6','-Onone','-sdk',sdk,'-target','arm64-apple-macosx27.0.0','-module-name',MODULE,'-module-cache-path',str(scratch/'cache'),str(source/'main.swift'),'-o',str(scratch/'fixture')]
   concrete=out/'concrete';concrete.mkdir()
@@ -48,7 +49,8 @@ def main():
    (source/'main.swift').write_text(combined.replace('"SOURCE"',json.dumps(value)))
    rec=runner.run(compile_args,concrete,'compile-'+value,180)
    if rec['exit_status']!=0:raise RuntimeError('concrete compile failed')
-   runner.run([str(scratch/'fixture')],concrete,'execute-'+value,10)
+   executed=runner.run([str(scratch/'fixture')],concrete,'execute-'+value,10)
+   if executed['exit_status']!=0:raise RuntimeError('concrete behavior failed: '+value)
   (source/'main.swift').write_text(combined)
   import shlex
   cq=out/'codeql';cq.mkdir();db=scratch/'db'

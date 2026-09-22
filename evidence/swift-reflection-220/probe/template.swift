@@ -1,5 +1,5 @@
 func dfb_source() -> String { "SOURCE" }
-func dfb_sink(_ value: String) { print(value) }
+func dfb_sink(_ value: String) {}
 struct Implementation {
  let identity: (String) -> String = { value in value }
  let second: (String, String) -> String = { first, second in second }

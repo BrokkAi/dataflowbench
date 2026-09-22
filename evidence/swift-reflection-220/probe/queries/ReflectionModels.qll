@@ -9,8 +9,8 @@ predicate barrier(DataFlow::Node n) {
  exists(CallExpr c, Method f | c.getStaticTarget() = f and exactOpaque(f,"block(_:)",1)
   and n.asExpr() = c.getArgument(0).getExpr())
 }
-predicate step(DataFlow::Node from, DataFlow::Node to) {
+predicate step(DataFlow::Node predecessor, DataFlow::Node to) {
  exists(CallExpr c, Method f, int position | c.getStaticTarget() = f and
   (exactOpaque(f,"carry(_:)",1) and position = 0 or exactOpaque(f,"select(_:_:)",2) and position = 1) and
-  from.asExpr() = c.getArgument(position).getExpr() and to.asExpr() = c)
+  predecessor.asExpr() = c.getArgument(position).getExpr() and to.asExpr() = c)
 }
