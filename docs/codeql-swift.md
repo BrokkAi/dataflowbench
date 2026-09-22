@@ -161,3 +161,9 @@ A validation-only population-sweep correction is proved separately in
 Swift execution configuration hashes remain identical, and original report bytes
 pass the corrected sweep. Runner population selection and interpretation did not
 change. This is not a rerun or a new score.
+
+A [bounded native-node diagnosis](../evidence/codeql-swift/endpoint-diagnosis-218/README.md)
+separates 52 absent-endpoint rows from the sink-only callback pair. Exact resolved
+identity succeeds in the minimal reproductions, while top-level expressions have
+no native callable/CFG/dataflow nodes in the pinned library; closure/function-body
+controls do. This does not revise outcomes or partitions.

@@ -28,4 +28,17 @@ assert len(rows)==90 and set(rows)==set(cases)
 assert len(config)==1
 summary={'source':'retained native evidence; no qualified score or performance claim','launched_runner_source_commit':'f51cb4c9d8d716710812af26725eed83fbf1bb61','configuration_hash':config.pop(),'tiers':tiers,'total_assertions':len(rows),'report_sha256':report_hashes,'case_evidence':resource,'contention':'Core/modeling overlapped with at most two sequential CodeQL runners, each threads=2. Local tests/site checks also overlapped. All timings are descriptive.'}
 summary['raw_evidence_sha256']={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for tier in ['kernel','modeling','calibration'] for p in sorted(Path('reports/raw/codeql-swift-'+tier).rglob('*')) if p.is_file()}
+diagnosis=Path('evidence/codeql-swift/endpoint-diagnosis-218')
+for relative,digest in json.loads((diagnosis/'evidence-sha256.json').read_text()).items():
+ assert hashlib.sha256((diagnosis/relative).read_bytes()).hexdigest()==digest
+for path,digest in json.loads((diagnosis/'query-sha256.json').read_text()).items():
+ assert hashlib.sha256(Path(path).read_bytes()).hexdigest()==digest
+expected={
+ 'array-element-positive':[['dfb_source()',5,1,0,0,0],['dfb_sink(_:)',7,1,0,0,0]],
+ 'callback-registration-positive':[['dfb_source()',15,1,0,0,0],['dfb_sink(_:)',13,1,1,1,1]],
+ 'function-body-positive-control':[['dfb_source()',4,1,1,1,0],['dfb_sink(_:)',5,1,1,1,1]],
+}
+for name,tuples in expected.items():
+ assert json.loads((diagnosis/(name+'-decode.stdout')).read_text())['#select']['tuples']==tuples
+ assert json.loads((diagnosis/(name+'-query.command.json')).read_text())['exit_status']==0
 print(json.dumps(summary,indent=2))
