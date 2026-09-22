@@ -1,0 +1,9 @@
+/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-result-220/attempt-01/negative-19.swift:18:20: warning: immutable value 'error' was never used; consider replacing with '_' or removing it [#NoUsage]
+16 |  let clean = 0
+17 |  switch relay() {
+18 |  case .failure(let error):
+   |                    `- warning: immutable value 'error' was never used; consider replacing with '_' or removing it [#NoUsage]
+19 |   dfb_sink(clean)
+20 |  case .success: break
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>

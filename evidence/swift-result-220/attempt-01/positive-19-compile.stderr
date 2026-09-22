@@ -1,0 +1,9 @@
+/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-result-220/attempt-01/positive-19.swift:16:6: warning: initialization of immutable value 'clean' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+14 | func dfb_sink(_ value: Int) { precondition(value == 19) } // DFB-SINK: result-error-sink
+15 | func probe() {
+16 |  let clean = 0
+   |      `- warning: initialization of immutable value 'clean' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+17 |  switch relay() {
+18 |  case .failure(let error):
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>

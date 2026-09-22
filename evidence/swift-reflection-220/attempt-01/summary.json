@@ -1,0 +1,488 @@
+{
+  "codeql-off": {
+    "argv": [
+      "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+      "database",
+      "analyze",
+      "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/db",
+      "/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/probe/queries/off.ql",
+      "/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/probe/queries/endpoints.ql",
+      "--rerun",
+      "--format=sarif-latest",
+      "--output=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/codeql/off/results.sarif.json",
+      "--additional-packs=/private/tmp/dfb-codeql-swift-218-packs/packages",
+      "--threads=2",
+      "--ram=512",
+      "--timeout=180"
+    ],
+    "measurement_wrapper": [
+      "/usr/bin/time",
+      "-l"
+    ],
+    "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+    "started_unix": 1790108266.147821,
+    "elapsed_seconds": 5.535471084000001,
+    "exit_status": 2,
+    "timed_out": false,
+    "time_maxrss_mb": 1237
+  },
+  "codeql-on": {
+    "argv": [
+      "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0/codeql/codeql",
+      "database",
+      "analyze",
+      "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/db",
+      "/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/probe/queries/on.ql",
+      "/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/probe/queries/endpoints.ql",
+      "--rerun",
+      "--format=sarif-latest",
+      "--output=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/codeql/on/results.sarif.json",
+      "--additional-packs=/private/tmp/dfb-codeql-swift-218-packs/packages",
+      "--threads=2",
+      "--ram=512",
+      "--timeout=180"
+    ],
+    "measurement_wrapper": [
+      "/usr/bin/time",
+      "-l"
+    ],
+    "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+    "started_unix": 1790108271.6839402,
+    "elapsed_seconds": 5.311427583000004,
+    "exit_status": 2,
+    "timed_out": false,
+    "time_maxrss_mb": 1249
+  },
+  "joern-direct-positive-off": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/direct-positive/off/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/direct-positive/off/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 4.052727208,
+      "timeout_seconds": 179.999768125,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 428.28125
+    },
+    "native": [
+      "reached",
+      []
+    ]
+  },
+  "joern-direct-positive-on": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/direct-positive/on/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/direct-positive/on/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 3.671386208999998,
+      "timeout_seconds": 179.999863916,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 448.75
+    },
+    "native": [
+      "reached",
+      []
+    ]
+  },
+  "joern-direct-negative-off": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/direct-negative/off/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/direct-negative/off/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 3.3575955419999985,
+      "timeout_seconds": 179.9998955,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 448.4375
+    },
+    "native": [
+      "not-reached",
+      []
+    ]
+  },
+  "joern-direct-negative-on": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/direct-negative/on/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/direct-negative/on/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 3.293656165999998,
+      "timeout_seconds": 179.999630375,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 440.109375
+    },
+    "native": [
+      "not-reached",
+      []
+    ]
+  },
+  "joern-carry-off": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/carry/off/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/carry/off/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 3.3865380000000016,
+      "timeout_seconds": 179.999889375,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 450.15625
+    },
+    "native": [
+      "reached",
+      []
+    ]
+  },
+  "joern-carry-on": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/carry/on/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/carry/on/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 3.309619208000001,
+      "timeout_seconds": 179.999861334,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 452.578125
+    },
+    "native": [
+      "reached",
+      []
+    ]
+  },
+  "joern-block-off": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/block/off/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/block/off/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 3.281963665999996,
+      "timeout_seconds": 179.99984979099997,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 440.328125
+    },
+    "native": [
+      "reached",
+      []
+    ]
+  },
+  "joern-block-on": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/block/on/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/block/on/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 3.5651560839999945,
+      "timeout_seconds": 179.99986929199997,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 448.875
+    },
+    "native": [
+      "not-reached",
+      []
+    ]
+  },
+  "joern-select-positive-off": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/select-positive/off/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/select-positive/off/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 3.364084292000001,
+      "timeout_seconds": 179.99987162499997,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 445.65625
+    },
+    "native": [
+      "reached",
+      []
+    ]
+  },
+  "joern-select-positive-on": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/select-positive/on/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/select-positive/on/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 3.368898208999994,
+      "timeout_seconds": 179.999695584,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 448.75
+    },
+    "native": [
+      "reached",
+      []
+    ]
+  },
+  "joern-select-negative-off": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/select-negative/off/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/select-negative/off/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 3.7250860829999937,
+      "timeout_seconds": 179.999873,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 446.828125
+    },
+    "native": [
+      "reached",
+      []
+    ]
+  },
+  "joern-select-negative-on": {
+    "command": {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/adapters/joern/swift/query.sc",
+        "--param",
+        "cpgPath=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/select-negative/on/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-reflection-220/attempt-01/joern/select-negative/on/graph.json"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-xqat6167",
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "SWIFTASTGEN_BIN": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8"
+      },
+      "elapsed_seconds": 3.3894202500000006,
+      "timeout_seconds": 179.99984729100004,
+      "timed_out": false,
+      "exit_status": 0,
+      "time_maxrss_mb": 467.671875
+    },
+    "native": [
+      "reached",
+      []
+    ]
+  }
+}
