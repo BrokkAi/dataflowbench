@@ -170,3 +170,36 @@ manifest, remains byte-for-byte under
 not relabelled. Revised activation and fresh registry execution use a separately
 committed configuration; no result is reinterpreted as if it had used that query.
 The prospective per-template partition remains unchanged.
+
+## Final retained execution
+
+The corrected query was committed before the fresh run at
+`90ca24eaf9f1a96aaebe8d35485db4ff5f92e0a1`. Configuration hash:
+`41741ba370001c1b7ccb03a87cf41b8d3839c6fb770adefd011aed9214aa2527`.
+All 90 applicable assertions are represented:
+
+| Tier | Inconclusive | Unsupported | Runner error | Qualified reached/not-reached |
+| --- | ---: | ---: | ---: | ---: |
+| Core | 66 | 0 | 0 | 0 |
+| Controlled modeling | 14 | 6 | 0 | 0 |
+| Calibration (unscored) | 4 | 0 | 0 | 0 |
+
+The 84 executed assertions completed within the unchanged wall-clock budget.
+Individual maximum RSS readings range from 397.55 to 481.08 MiB; these do not
+certify the aggregate peak. Core descriptive totals range from 4.75 to 10.75
+seconds, including setup. No new performance-track qualification is claimed.
+Native path observations are retained separately (25 core, six modeling and one
+calibration observation of a path); they are not promoted into qualified scored
+outcomes. Empty native sets retain the explicit bounded-completeness diagnostic.
+
+The supplemental `label-control-219` positive/near-miss retains same-type
+`dfb_sink(_:)` and `dfb_sink(label:)` overloads and confirms distinct native
+identities under the unchanged query. It adds assurance without changing the
+partition, query, or already-executed configuration.
+
+`python3 scripts/audit-joern-swift.py` checks every report row, source/metadata
+hash, native result and raw command manifest, as well as archived-attempt
+manifests. Its exact output is retained in
+`evidence/joern-swift/execution-219/summary.json` and replayed in CI. This is
+adapter-execution evidence for #219; #220 owns later
+coverage publication, and deferred epic scope remains explicit.

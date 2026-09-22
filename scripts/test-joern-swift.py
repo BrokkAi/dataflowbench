@@ -74,6 +74,14 @@ class NativeGuards(unittest.TestCase):
         outcome,diagnostics=normalize(graph,config)
         self.assertEqual(outcome,'runner-error');self.assertIn('outside the exact source anchor',diagnostics[0])
 
+    def test_same_type_argument_labels_keep_distinct_native_identity(self):
+        for polarity,expected in [('positive','reached'),('negative','not-reached')]:
+            root=ROOT/'evidence/joern-swift/label-control-219'/polarity
+            graph=json.loads((root/'graph.json').read_text());config=json.loads((root/'config.json').read_text())
+            self.assertEqual(normalize(graph,config),(expected,[]))
+            decoy=next(m for m in graph['methods'] if m['full_name']=='DataFlowBenchTaintSwift.dfb_sink:(label:Swift.Int)->()')
+            self.assertNotIn(decoy['id'],graph['sink_method_ids'])
+
     def test_model_mismatch_is_rejected(self):
         graph=copy.deepcopy(self.graph);graph['semantics']=[];self.check_bad(graph)
 
