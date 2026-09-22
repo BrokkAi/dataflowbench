@@ -1,0 +1,513 @@
+{
+  "state": "analyzed",
+  "frontend": "SWIFTSRC",
+  "metadata": [
+    {
+      "language": "SWIFTSRC",
+      "overlays": [
+        "base",
+        "controlflow",
+        "typerel",
+        "callgraph",
+        "dataflowOss"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "107374182400",
+      "full_name": "OneHopRelayNegative.swift:<global>",
+      "external": false,
+      "node": {
+        "id": "107374182400",
+        "label": "METHOD",
+        "file": "OneHopRelayNegative.swift",
+        "line": 1,
+        "code": "<global>"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182401",
+      "full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.Int",
+      "external": false,
+      "node": {
+        "id": "107374182401",
+        "label": "METHOD",
+        "file": "OneHopRelayNegative.swift",
+        "line": 1,
+        "code": "func dfb_source() -> Int { 7 }"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182402",
+      "full_name": "DataFlowBenchTaintSwift.relay:(Swift.Int)->Swift.Int",
+      "external": false,
+      "node": {
+        "id": "107374182402",
+        "label": "METHOD",
+        "file": "OneHopRelayNegative.swift",
+        "line": 2,
+        "code": "func relay(_ value: Int) -> Int { value }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.Int",
+          "node": {
+            "id": "111669149696",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "OneHopRelayNegative.swift",
+            "line": 2,
+            "code": "_ value: Int"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182403",
+      "full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.Int)->()",
+      "external": false,
+      "node": {
+        "id": "107374182403",
+        "label": "METHOD",
+        "file": "OneHopRelayNegative.swift",
+        "line": 3,
+        "code": "func dfb_sink(_ value: Int) { print(value) }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.Int",
+          "node": {
+            "id": "111669149697",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "OneHopRelayNegative.swift",
+            "line": 3,
+            "code": "_ value: Int"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182404",
+      "full_name": "DataFlowBenchTaintSwift.run:()->()",
+      "external": false,
+      "node": {
+        "id": "107374182404",
+        "label": "METHOD",
+        "file": "OneHopRelayNegative.swift",
+        "line": 5,
+        "code": "func run() {\n    let sourceResult = relay(dfb_source()) // DFB-SOURCE: one-hop-input\n    let cleanResult = relay(0)\n    _ = sourceResult\n    dfb_sink(cleanResult) // DFB-SINK: one-hop-sink\n}"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182405",
+      "full_name": "main.swift:<global>",
+      "external": false,
+      "node": {
+        "id": "107374182405",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 1,
+        "code": "<global>"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182406",
+      "full_name": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "external": true,
+      "node": {
+        "id": "107374182406",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149698",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182407",
+      "full_name": "<operator>.assignment",
+      "external": true,
+      "node": {
+        "id": "107374182407",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149699",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149700",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        }
+      ]
+    }
+  ],
+  "calls": [
+    {
+      "node": {
+        "id": "30064771072",
+        "label": "CALL",
+        "file": "OneHopRelayNegative.swift",
+        "line": 3,
+        "code": "print(value)"
+      },
+      "method_full_name": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "callee_ids": [
+        "107374182406"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476737",
+            "label": "IDENTIFIER",
+            "file": "OneHopRelayNegative.swift",
+            "line": 3,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771073",
+        "label": "CALL",
+        "file": "OneHopRelayNegative.swift",
+        "line": 6,
+        "code": "let sourceResult = relay(dfb_source())"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182407"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476738",
+            "label": "IDENTIFIER",
+            "file": "OneHopRelayNegative.swift",
+            "line": 6,
+            "code": "sourceResult"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771074",
+            "label": "CALL",
+            "file": "OneHopRelayNegative.swift",
+            "line": 6,
+            "code": "relay(dfb_source())"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771074",
+        "label": "CALL",
+        "file": "OneHopRelayNegative.swift",
+        "line": 6,
+        "code": "relay(dfb_source())"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.relay:(Swift.Int)->Swift.Int",
+      "callee_ids": [
+        "107374182402"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476739",
+            "label": "IDENTIFIER",
+            "file": "OneHopRelayNegative.swift",
+            "line": 6,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771075",
+            "label": "CALL",
+            "file": "OneHopRelayNegative.swift",
+            "line": 6,
+            "code": "dfb_source()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771075",
+        "label": "CALL",
+        "file": "OneHopRelayNegative.swift",
+        "line": 6,
+        "code": "dfb_source()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.Int",
+      "callee_ids": [
+        "107374182401"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476740",
+            "label": "IDENTIFIER",
+            "file": "OneHopRelayNegative.swift",
+            "line": 6,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771076",
+        "label": "CALL",
+        "file": "OneHopRelayNegative.swift",
+        "line": 7,
+        "code": "let cleanResult = relay(0)"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182407"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476741",
+            "label": "IDENTIFIER",
+            "file": "OneHopRelayNegative.swift",
+            "line": 7,
+            "code": "cleanResult"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771077",
+            "label": "CALL",
+            "file": "OneHopRelayNegative.swift",
+            "line": 7,
+            "code": "relay(0)"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771077",
+        "label": "CALL",
+        "file": "OneHopRelayNegative.swift",
+        "line": 7,
+        "code": "relay(0)"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.relay:(Swift.Int)->Swift.Int",
+      "callee_ids": [
+        "107374182402"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476742",
+            "label": "IDENTIFIER",
+            "file": "OneHopRelayNegative.swift",
+            "line": 7,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "90194313217",
+            "label": "LITERAL",
+            "file": "OneHopRelayNegative.swift",
+            "line": 7,
+            "code": "0"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771078",
+        "label": "CALL",
+        "file": "OneHopRelayNegative.swift",
+        "line": 8,
+        "code": "_ = sourceResult"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182407"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476743",
+            "label": "IDENTIFIER",
+            "file": "OneHopRelayNegative.swift",
+            "line": 8,
+            "code": "<wildcard>0"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "68719476744",
+            "label": "IDENTIFIER",
+            "file": "OneHopRelayNegative.swift",
+            "line": 8,
+            "code": "sourceResult"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771079",
+        "label": "CALL",
+        "file": "OneHopRelayNegative.swift",
+        "line": 9,
+        "code": "dfb_sink(cleanResult)"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.Int)->()",
+      "callee_ids": [
+        "107374182403"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476745",
+            "label": "IDENTIFIER",
+            "file": "OneHopRelayNegative.swift",
+            "line": 9,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476746",
+            "label": "IDENTIFIER",
+            "file": "OneHopRelayNegative.swift",
+            "line": 9,
+            "code": "cleanResult"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771080",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 1,
+        "code": "run()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.run:()->()",
+      "callee_ids": [
+        "107374182404"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476747",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 1,
+            "code": "self"
+          }
+        }
+      ]
+    }
+  ],
+  "source_method_ids": [
+    "107374182401"
+  ],
+  "sink_method_ids": [
+    "107374182403"
+  ],
+  "source_nodes": [
+    {
+      "id": "30064771075",
+      "label": "CALL",
+      "file": "OneHopRelayNegative.swift",
+      "line": 6,
+      "code": "dfb_source()"
+    }
+  ],
+  "sink_nodes": [
+    {
+      "id": "68719476746",
+      "label": "IDENTIFIER",
+      "file": "OneHopRelayNegative.swift",
+      "line": 9,
+      "code": "cleanResult"
+    }
+  ],
+  "source_observations": [
+    {
+      "id": "30064771075",
+      "label": "CALL",
+      "file": "OneHopRelayNegative.swift",
+      "line": 6,
+      "code": "dfb_source()"
+    }
+  ],
+  "sink_observations": [
+    {
+      "id": "30064771079",
+      "label": "CALL",
+      "file": "OneHopRelayNegative.swift",
+      "line": 9,
+      "code": "dfb_sink(cleanResult)"
+    }
+  ],
+  "semantics": [],
+  "flows": [],
+  "complete": true
+}

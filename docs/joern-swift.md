@@ -44,7 +44,10 @@ those bounded searches do not prove that no other upstream issue exists.
 identities and single-target native callee edges, then selects the declared
 argument or parameter node. File/line anchors constrain which native calls may
 supply the benchmark endpoints. They never repair a missing or wrong callee.
-Source text and bare function names never infer semantic identity.
+Source text and bare function names never infer semantic identity. Each exact
+configured identity must resolve to one native declaration. Parameter sources
+are anchored at that declaration before index 1 is selected; an otherwise valid
+observation cannot admit a second unanchored root or an ambiguous declaration.
 
 ## Model declarations and prospective partitions
 
@@ -114,9 +117,11 @@ certificate. There is no clean budget-compliance claim.
 The pinned `EngineConfig` also defaults to call/field depth 4 and argument
 expansion caps of 1,000. `reachableByFlows` supplies paths but no exhaustion
 certificate. The recorder retains these bounds; an empty native path set is a
-provisional observation, never proof of unbounded completeness. Native query
-`complete` means the query returned, not that these bounds were never reached.
-Even without a memory budget, such an absence remains `inconclusive`.
+provisional observation, never proof of unbounded completeness. Native output separates `query_completed: true` from
+`analysis_completeness.status: unproven`, with the actual engine limits included.
+Consumers reject the legacy `complete` field and any unsupported semantic
+completeness claim. Even without a memory budget, an absence remains
+`inconclusive`.
 
 Raw graph/query JSON, argv, stdout/stderr, exit statuses, source and binary
 hashes, environment and per-case manifests are retained. The native query result
@@ -148,3 +153,20 @@ configuration bytes to match their committed preregistration. Reports use new
 `joern-swift-{kernel,modeling,calibration}` names. Repository report, evidence,
 site and isolated historical release checks remain required. No release,
 publication or complete-epic claim follows from adapter implementation.
+
+## Review correction and retained attempts
+
+The original configuration was committed before execution at `126c17c3`, with
+the version-witness preflight corrected at `233e9402`. The preflight failure is
+retained separately; no fixture was invoked by it. The first complete registry
+run produced 66 core inconclusive, 14 modeling inconclusive, six modeling
+unsupported, and four calibration inconclusive results.
+
+Independent review required the explicit completion/uncertainty fields and
+unique anchored parameter roots described above. That entire original run,
+including configuration snapshots, reports, raw outputs, command logs and
+manifest, remains byte-for-byte under
+`evidence/joern-swift/execution-219/attempt-02`. Its original `complete` field is
+not relabelled. Revised activation and fresh registry execution use a separately
+committed configuration; no result is reinterpreted as if it had used that query.
+The prospective per-template partition remains unchanged.
