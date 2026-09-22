@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "status": "partial_checkpoint",
+  "scope": "DataFlowBench #220 bounded read-only resource audit; no builds, benchmarks, cleanup, or mutations",
+  "observed_at": "2026-09-23",
+  "worktree": {
+    "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+    "branch": "dave/swift-release-preparation-220",
+    "head": "c155aab98da74e4299d8e38404c1342d41783d4b",
+    "upstream": "origin/main",
+    "dirty_preexisting": true,
+    "note": "Shared worktree changed during audit; no checkout files were edited."
+  },
+  "planning_scope_observed_only": {
+    "inputs": 1104,
+    "lanes": 92,
+    "rows": 4244,
+    "breakdown": "1000 existing + 90 Swift v1 + 14 A40/Swift v2; 82 old lanes + 6 Swift v1 lanes + 4 A40 lanes",
+    "approved_population": false,
+    "common_revision_rerun": "blocked",
+    "opaque_modeling_identities": 2,
+    "opaque_scope_decision": "pending; no acceptance or exclusion"
+  },
+  "historical_duration_seconds": {
+    "v0_8_selected_latest_completed_per_82_report_lanes": 56614.757,
+    "v0_8_selected_hours": 15.726,
+    "v0_8_all_completed_main_plan_attempts": 56997.107,
+    "v0_8_main_plan_attempts_started": 90,
+    "v0_8_main_plan_attempts_completed": 89,
+    "v0_8_main_plan_attempts_missing_completion": 1,
+    "v0_8_missing_attempt": "codeql-go-kernel-attempt-02",
+    "v0_8_all_retained_ledger_attempts_completed": 127,
+    "v0_8_all_retained_ledger_attempts_started": 128,
+    "v0_8_all_retained_ledger_elapsed_seconds": 59971.9,
+    "swift_v1_codeql_seconds": 3755.344,
+    "swift_v1_joern_seconds": 480.328,
+    "swift_v2_codeql_seconds": 76.739,
+    "swift_v2_joern_seconds": 10.315,
+    "swift_v1_v2_combined_seconds": 4322.726,
+    "serial_observed_sum_seconds": 60937.483,
+    "serial_observed_sum_hours": 16.927,
+    "duration_note": "Observed sums are serial wall-clock observations from retained records; they are not a performance certification and do not prove a future run will complete."
+  },
+  "stage_tool_observations": {
+    "v0_8_selected_latest_completed_seconds": {
+      "kernel": {"bifrost": 1286.96, "codeql": 46791.664, "flowdroid": 587.971, "infer": 315.218, "joern": 2360.893, "opentaint": 714.707, "pysa": 185.745, "semgrep": 147.137},
+      "modeling": {"bifrost": 50.437, "codeql": 3002.362, "flowdroid": 18.733, "infer": 36.554, "joern": 259.449, "opentaint": 47.609, "pysa": 88.921, "semgrep": 30.448},
+      "native": {"bifrost": 4.775, "codeql": 397.88, "flowdroid": 0.958, "infer": 1.663, "joern": 12.157, "opentaint": 0.96, "pysa": 32.246, "semgrep": 35.775},
+      "smoke": {"bifrost": 203.534}
+    },
+    "warm_seconds": {"joern": 344.0, "semgrep": 13.542, "coverage": "only Joern Java and Semgrep Java warm series; not a complete warm matrix"},
+    "overhead_seconds": {"bifrost": 0.5, "codeql": 61.9, "flowdroid": 4.3, "infer": 1.9, "joern": 42.5, "opentaint": 37.2, "pysa": 8.0, "semgrep": 3.6, "attempts": 10, "coverage": "nine planned overhead groups, one OpenTaint retry"},
+    "swift_v1": {
+      "codeql": {"core_66_seconds": 2677.113, "modeling_20_seconds": 874.457, "calibration_4_seconds": 203.774, "total_seconds": 3755.344},
+      "joern": {"core_66_seconds": 384.777, "modeling_20_seconds": 74.625, "calibration_4_seconds": 20.926, "total_seconds": 480.328},
+      "coverage": "90 cases per tool across six lanes; cold observations only"
+    },
+    "swift_v2_a40": {
+      "codeql": {"native_12_unsupported_seconds": 0, "result_2_inconclusive_seconds": 76.739},
+      "joern": {"native_12_unsupported_seconds": 0, "result_2_inconclusive_seconds": 10.315},
+      "coverage": "14 cases per tool across four lanes; 12 immediate unsupported decisions plus two inconclusive Result executions per tool"
+    }
+  },
+  "scoped_resources_observed": {
+    "disk_free": "140 GiB",
+    "host": "Apple M4, 10 cores, 32 GB RAM",
+    "v0_8_release_tree": "163464 KiB (~159.6 MiB)",
+    "relevant_evidence": "70012 KiB (~68.4 MiB)",
+    "swift_v2_codeql_raw": "840 KiB",
+    "swift_v1_codeql_raw_kernel": "23784 KiB",
+    "swift_v1_joern_raw_kernel": "12832 KiB",
+    "current_worktree_target": "0 KiB",
+    "shared_dataflowbench_target": "1262912 KiB (~1.20 GiB); shared, do not clean",
+    "dataflowbench_tool_cache": "16066912 KiB (~15.32 GiB); observed only, do not clean"
+  },
+  "input_hashes_sha256": {
+    "reports/releases/v0.8.0/rerun-plan.json": "3951cf19d74fb20cbab1759f87835df5715612c1c5d963fb85dcf66ee75d3f81",
+    "reports/releases/v0.8.0/population.json": "2b9dc814a889a2420eb2952e522041ad7c7e62ba9a42a81ccaf47a8ec188f66d",
+    "reports/releases/v0.8.0/ledger.jsonl": "da6eeac637aafd93350265a84acd1817212c2030294f9fcd7e470e5e347f6ef4",
+    "reports/releases/v0.8.0/quiet-lane-observations.jsonl": "4505c720c02da5ab614290e8d692aa172341148b2c50dc5ee78eb20d4406960e",
+    "populations/swift-synthetic-v1.json": "95e3075b26ebd55cff6dc5fa0fc413ed15733c2ae9d8e21014f80395ca24c4f5",
+    "populations/swift-synthetic-v2.json": "b6c29ff47942c73c34bd479c7ce1137b5bf97d0fbede1204f8eae16aa32007bb",
+    "reports/codeql-swift-v2-result.json": "b7f675372a5eb2d4eef237990b7b3020ed18e2afb4e2ffd10dda7d06052bd193",
+    "reports/joern-swift-v2-result.json": "52819f9b68e6f1f1b315f117950785b0fe21e3d58368f7d0af81b90a2d19d353",
+    "reports/codeql-swift-v2-native.json": "2fb50edb3821b524a5c490911c39aaea4736a466783fa30b9efc87bd90da74e6",
+    "reports/joern-swift-v2-native.json": "09ee85b276c0b1fa90b0bafff50c7b8bc3bb2a8ca132c87420d4b16e4b966325",
+    "reports/raw/swift-v2-rejected-attempts.json": "66368a58f893bfad911e10f5f9db85e9bc0eb2bc2f6b6e28f1a09ca28bb4b989"
+  },
+  "read_only_commands": [
+    "git status --short --branch; git rev-parse HEAD; git rev-parse origin/main",
+    "shasum -a 256 <listed input files>",
+    "df -h . /private/tmp",
+    "system_profiler SPHardwareDataType",
+    "du -sk reports/releases/v0.8.0 reports/raw/codeql-swift-* reports/raw/joern-swift-* evidence /Users/dave/Workspace/BrokkAi/dataflowbench/target /Users/dave/.cache/dataflowbench-tools",
+    "read-only JSONL aggregation of reports/releases/v0.8.0/ledger.jsonl and attempt started/completed records",
+    "read-only aggregation of per-case duration_ms in the six Swift v1 reports and four A40 reports"
+  ],
+  "next_planning_boundary": "Use 16.927 observed serial hours as the baseline for 1104-input/92-lane planning only; apply an explicitly labelled contingency separately. No population approval, opaque acceptance/exclusion, build, benchmark, cleanup, or rerun was performed."
+}

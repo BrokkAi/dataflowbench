@@ -1,0 +1,35 @@
+[
+  {
+    "name": "merge-ci",
+    "argv": [
+      "gh",
+      "run",
+      "view",
+      "35794645205",
+      "--json",
+      "status,conclusion,headSha,url"
+    ],
+    "observed_at_utc": "2026-09-22T23:00:22.379333+00:00",
+    "exit_status": 0
+  },
+  {
+    "name": "tag",
+    "argv": [
+      "git",
+      "rev-parse",
+      "v0.8.0^{}"
+    ],
+    "observed_at_utc": "2026-09-22T23:00:22.405572+00:00",
+    "exit_status": 0
+  },
+  {
+    "name": "github-release-object",
+    "argv": [
+      "gh",
+      "api",
+      "repos/BrokkAi/dataflowbench/releases/tags/v0.8.0"
+    ],
+    "observed_at_utc": "2026-09-22T23:00:23.096502+00:00",
+    "exit_status": 1
+  }
+]
