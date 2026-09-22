@@ -1,0 +1,29 @@
+---
+library: true
+warnOnImplicitThis: true
+compileForOverlayEval: true
+name: codeql/cpp-all
+version: 12.1.1
+buildMetadata:
+  sha: 6e9f9e38390175c41b99070a423c875f450759ca
+  cliVersion: 2.27.1
+dependencies:
+  codeql/dataflow: 2.1.14
+  codeql/mad: 1.0.58
+  codeql/quantum: 0.0.36
+  codeql/rangeanalysis: 1.0.58
+  codeql/ssa: 2.0.34
+  codeql/tutorial: 1.0.58
+  codeql/typeflow: 1.0.58
+  codeql/util: 2.0.45
+  codeql/xml: 1.0.58
+dbscheme: semmlecode.cpp.dbscheme
+extractor: cpp
+upgrades: upgrades
+groups:
+ - cpp
+dataExtensions:
+ - ext/*.model.yml
+ - ext/generated/**/*.model.yml
+ - ext/deallocation/*.model.yml
+ - ext/allocation/*.model.yml

@@ -1,0 +1,103 @@
+{
+  "name": "main",
+  "commit": {
+    "sha": "311ca4e9ba59d700624539bf658e3d29b134ee77",
+    "node_id": "C_kwDODgjvq9oAKDMxMWNhNGU5YmE1OWQ3MDA2MjQ1MzliZjY1OGUzZDI5YjEzNGVlNzc",
+    "commit": {
+      "author": {
+        "name": "Matthew Gamble",
+        "email": "git@matthewgamble.net",
+        "date": "2022-05-11T02:26:38Z"
+      },
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2022-05-11T02:26:38Z"
+      },
+      "message": "Improve docker socket volume exposed rule for docker-compose files (#2079)\n\n* Improve docker socket volume exposed rule for docker-compose files\r\n\r\nPreviously, the rule would not match unless the offending volume was the\r\nlast volume in the list of volumes. Now, it will match.\r\n\r\nAlso, on most modern Linux systems, /var/run is just a symlink to /run.\r\nUsers could therefore have avoided detection by just using\r\n/run/docker.sock instead of /var/run/docker.sock. This loophole is now\r\nhopefully closed.\r\n\r\n* Detect cases where custom volume paths inside container are omitted\r\n\r\nIt isn't compulsory to specify a custom path inside the container if\r\nboth paths match. Previously, users could have avoided detection by\r\nsimply ommitting the custom path inside the container.\r\n\r\n* Detect usages of long-form volume syntax in docker-compose files\r\n\r\nThe docker-compose file format supports several different approachs for\r\nspecifying volumes. Previously, users could have avoided detection by\r\nusing the long-form syntax.\r\n\r\n* Add some more regression tests for docker-compose socket volume rule",
+      "tree": {
+        "sha": "312bc25630c4de12137e1b2775799df6b80f505d",
+        "url": "https://api.github.com/repos/semgrep/semgrep-rules/git/trees/312bc25630c4de12137e1b2775799df6b80f505d"
+      },
+      "url": "https://api.github.com/repos/semgrep/semgrep-rules/git/commits/311ca4e9ba59d700624539bf658e3d29b134ee77",
+      "comment_count": 0,
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJiex7eCRBK7hj4Ov3rIwAALLAIAE6RFLBWX3mhobJgBTpZfG11\npmoZauqY4NZKQaxnDd1QexH6YqGwOW9KJ9twoEvbGsc6nPiH0E0faOK84pAidI4G\nJ8VDI8lqnApVGsAOcH2HmStTmxHgqzyH92QtVo0dIW7EqWy0rBVo4oDdwEXov+rZ\nH3oyNuOroZnf+ify2ExOOomTf3wOn8ejMag8uyz+gTmOsLoTekwemG/NKkp2AWGL\naD086sJdFluJKaKPjicwzkIPpMKzBGOu+ZsiFKOnFlz3Vz1Orb0Bn88t2DQQ75lA\nW0FbmDeuZcVBhf9U/inueqXKxZodvO6/Qkq8cieb6YfJGkdPYtwd8xupc1NGBkY=\n=c1dI\n-----END PGP SIGNATURE-----\n",
+        "payload": "tree 312bc25630c4de12137e1b2775799df6b80f505d\nparent dc00ebb1d967ca679121e719d278a39d92f6126b\nauthor Matthew Gamble <git@matthewgamble.net> 1652235998 +1000\ncommitter GitHub <noreply@github.com> 1652235998 -0500\n\nImprove docker socket volume exposed rule for docker-compose files (#2079)\n\n* Improve docker socket volume exposed rule for docker-compose files\r\n\r\nPreviously, the rule would not match unless the offending volume was the\r\nlast volume in the list of volumes. Now, it will match.\r\n\r\nAlso, on most modern Linux systems, /var/run is just a symlink to /run.\r\nUsers could therefore have avoided detection by just using\r\n/run/docker.sock instead of /var/run/docker.sock. This loophole is now\r\nhopefully closed.\r\n\r\n* Detect cases where custom volume paths inside container are omitted\r\n\r\nIt isn't compulsory to specify a custom path inside the container if\r\nboth paths match. Previously, users could have avoided detection by\r\nsimply ommitting the custom path inside the container.\r\n\r\n* Detect usages of long-form volume syntax in docker-compose files\r\n\r\nThe docker-compose file format supports several different approachs for\r\nspecifying volumes. Previously, users could have avoided detection by\r\nusing the long-form syntax.\r\n\r\n* Add some more regression tests for docker-compose socket volume rule",
+        "verified_at": "2024-01-16T19:59:59Z"
+      }
+    },
+    "url": "https://api.github.com/repos/semgrep/semgrep-rules/commits/311ca4e9ba59d700624539bf658e3d29b134ee77",
+    "html_url": "https://github.com/semgrep/semgrep-rules/commit/311ca4e9ba59d700624539bf658e3d29b134ee77",
+    "comments_url": "https://api.github.com/repos/semgrep/semgrep-rules/commits/311ca4e9ba59d700624539bf658e3d29b134ee77/comments",
+    "author": {
+      "login": "djmattyg007",
+      "id": 489338,
+      "node_id": "MDQ6VXNlcjQ4OTMzOA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/489338?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/djmattyg007",
+      "html_url": "https://github.com/djmattyg007",
+      "followers_url": "https://api.github.com/users/djmattyg007/followers",
+      "following_url": "https://api.github.com/users/djmattyg007/following{/other_user}",
+      "gists_url": "https://api.github.com/users/djmattyg007/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/djmattyg007/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/djmattyg007/subscriptions",
+      "organizations_url": "https://api.github.com/users/djmattyg007/orgs",
+      "repos_url": "https://api.github.com/users/djmattyg007/repos",
+      "events_url": "https://api.github.com/users/djmattyg007/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/djmattyg007/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "web-flow",
+      "id": 19864447,
+      "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/web-flow",
+      "html_url": "https://github.com/web-flow",
+      "followers_url": "https://api.github.com/users/web-flow/followers",
+      "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+      "organizations_url": "https://api.github.com/users/web-flow/orgs",
+      "repos_url": "https://api.github.com/users/web-flow/repos",
+      "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/web-flow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "dc00ebb1d967ca679121e719d278a39d92f6126b",
+        "url": "https://api.github.com/repos/semgrep/semgrep-rules/commits/dc00ebb1d967ca679121e719d278a39d92f6126b",
+        "html_url": "https://github.com/semgrep/semgrep-rules/commit/dc00ebb1d967ca679121e719d278a39d92f6126b"
+      }
+    ]
+  },
+  "_links": {
+    "self": "https://api.github.com/repos/semgrep/semgrep-rules/branches/main",
+    "html": "https://github.com/semgrep/semgrep-rules/tree/main"
+  },
+  "protected": false,
+  "protection": {
+    "enabled": false,
+    "required_status_checks": {
+      "enforcement_level": "off",
+      "contexts": [
+
+      ],
+      "checks": [
+
+      ]
+    }
+  },
+  "protection_url": "https://api.github.com/repos/semgrep/semgrep-rules/branches/main/protection"
+}

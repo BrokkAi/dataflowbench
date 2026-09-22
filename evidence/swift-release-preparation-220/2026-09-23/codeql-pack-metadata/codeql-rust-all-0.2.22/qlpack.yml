@@ -1,0 +1,27 @@
+---
+library: true
+warnOnImplicitThis: true
+name: codeql/rust-all
+version: 0.2.22
+buildMetadata:
+  sha: 6e9f9e38390175c41b99070a423c875f450759ca
+  cliVersion: 2.27.1
+dependencies:
+  codeql/concepts: 0.0.32
+  codeql/controlflow: 2.0.42
+  codeql/dataflow: 2.1.14
+  codeql/mad: 1.0.58
+  codeql/namebinding: 0.0.7
+  codeql/regex: 1.0.58
+  codeql/ssa: 2.0.34
+  codeql/threat-models: 1.0.58
+  codeql/tutorial: 1.0.58
+  codeql/typeinference: 0.0.39
+  codeql/util: 2.0.45
+dbscheme: rust.dbscheme
+extractor: rust
+upgrades: upgrades
+groups:
+ - rust
+dataExtensions:
+ - /**/*.model.yml

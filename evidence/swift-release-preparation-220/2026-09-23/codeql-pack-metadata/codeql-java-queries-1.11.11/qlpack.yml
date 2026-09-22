@@ -1,0 +1,20 @@
+---
+library: false
+warnOnImplicitThis: true
+name: codeql/java-queries
+version: 1.11.11
+buildMetadata:
+  sha: 6e9f9e38390175c41b99070a423c875f450759ca
+  cliVersion: 2.27.1
+dependencies:
+  codeql/java-all: 9.3.1
+  codeql/suite-helpers: 1.0.58
+  codeql/util: 2.0.45
+suites: codeql-suites
+extractor: java
+groups:
+ - java
+ - queries
+defaultSuiteFile: codeql-suites/java-code-scanning.qls
+dataExtensions:
+ - Telemetry/ExtractorInformation.yml

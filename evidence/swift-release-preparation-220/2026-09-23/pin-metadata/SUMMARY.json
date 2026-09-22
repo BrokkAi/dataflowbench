@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "kind": "dataflowbench-next-pin-summary",
+  "finalized_at_utc": "2026-09-22T23:12:00Z",
+  "manifest": "next-pin-manifest.json",
+  "audit": {
+    "captured_at_utc": "2026-09-22T23:00:06Z",
+    "collection_finished_at_utc": "2026-09-22T23:00:33Z",
+    "last_api_capture_at_utc": "2026-09-22T23:04:43Z",
+    "request_count": 49,
+    "http_status_counts": {
+      "200": 47,
+      "404": 2
+    },
+    "worktree": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+    "branch": "dave/swift-release-preparation-220",
+    "head": "c155aab98da74e4299d8e38404c1342d41783d4b",
+    "worktree_status": "dirty_shared_preexisting",
+    "worktree_status_observed_at_utc": "2026-09-22T23:10:58Z",
+    "measured_release": "v0.8.0",
+    "measured_revision": "80d4f01bb189d530849f9ceb5d775680fcedfb52",
+    "fixture_revision": "sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9",
+    "evidence_root": ".",
+    "no_runtime_work": true
+  },
+  "recommendation": {
+    "propose_bumps": [
+      "bifrost:v0.11.5",
+      "codeql-cli:v2.27.1",
+      "joern:v4.0.633"
+    ],
+    "hold_current": [
+      "semgrep:1.177.0",
+      "opentaint:semantic-v0.4.6/analyzer-2026.09.04.c51dc3e/rules-v0.3.0",
+      "infer:v1.3.0",
+      "flowdroid:v2.15.1",
+      "pyre-check:0.10.0",
+      "pyrefly:1.3.1"
+    ],
+    "manual_review": [
+      "semgrep-rules:develop@a84ff9cc2453ca91d581380de4b8b3f272f6f4be"
+    ]
+  },
+  "targets": [
+    {
+      "name": "bifrost",
+      "measured": "0.11.4",
+      "candidate": "v0.11.5",
+      "decision": "propose-bump",
+      "published_at": "2026-09-19T17:45:27Z",
+      "tag_commit": "4ec4489e850b809c9cc7750e4c450c7560c45de0",
+      "release_url": "https://github.com/BrokkAi/bifrost/releases/tag/v0.11.5",
+      "macos_asset": {
+        "name": "bifrost-v0.11.5-universal-apple-darwin.tar.gz",
+        "digest": "sha256:8e7c925e178aec27d5851f0cf589bd1d2bb7964e6e51b90e7efdad52caf58c69",
+        "url": "https://github.com/BrokkAi/bifrost/releases/download/v0.11.5/bifrost-v0.11.5-universal-apple-darwin.tar.gz"
+      },
+      "evidence": [
+        "raw/bifrost_latest_alias.json",
+        "raw/bifrost_releases.json",
+        "raw/ref_bifrost_v0_11_5.json"
+      ]
+    },
+    {
+      "name": "codeql-cli",
+      "measured": "2.27.0",
+      "candidate": "v2.27.1",
+      "decision": "propose-bump",
+      "published_at": "2026-09-22T18:05:08Z",
+      "tag_commit": "778dd2254be47d7d9e039a8c412032ad18126941",
+      "release_url": "https://github.com/github/codeql-cli-binaries/releases/tag/v2.27.1",
+      "macos_asset": {
+        "name": "codeql-osx64.zip",
+        "digest": "sha256:412c600764a7835f9548af120d0bdadea1040c6f68b8f6bf04ec72a664891f63",
+        "url": "https://github.com/github/codeql-cli-binaries/releases/download/v2.27.1/codeql-osx64.zip"
+      },
+      "evidence": [
+        "raw/codeql_cli_latest_alias.json",
+        "raw/codeql_cli_releases.json",
+        "raw/ref_codeql_v2_27_1.json"
+      ]
+    },
+    {
+      "name": "semgrep",
+      "measured": "1.177.0",
+      "candidate": "1.177.0",
+      "decision": "hold-current",
+      "published_at": "2026-09-10T19:37:56Z",
+      "tag_commit": "e279a884ad6f16b050de690bdfdc26e921c364dc",
+      "github_release_url": "https://github.com/semgrep/semgrep/releases/tag/v1.177.0",
+      "pypi": {
+        "version": "1.177.0",
+        "release_url": "https://pypi.org/project/semgrep/1.177.0/",
+        "macos_arm64_wheel": {
+          "name": "semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314.py310.py311.py312.py313.py314-none-macosx_11_0_arm64.whl",
+          "uploaded_at": "2026-09-10T19:45:40.811222Z",
+          "digest": "sha256:5e3bcc4053843272f1604b9dc022f9eef1b0e824fdec901d6b979b2806566283",
+          "url": "https://files.pythonhosted.org/packages/5d/a3/cdc5929d9809ddc12623e512ac01502b3f2505a90a330add1fa6c37960cc/semgrep-1.177.0-cp310.cp311.cp312.cp313.cp314-none-macosx_11_0_arm64.whl"
+        }
+      },
+      "evidence": [
+        "raw/semgrep_latest_alias.json",
+        "raw/semgrep_releases.json",
+        "raw/tag_semgrep_v1_1770.json",
+        "raw/pypi_semgrep.json"
+      ]
+    },
+    {
+      "name": "joern",
+      "measured": "4.0.628",
+      "candidate": "v4.0.633",
+      "decision": "propose-bump",
+      "published_at": "2026-09-22T09:18:15Z",
+      "tag_commit": "a7c4aa366081960ab2e54b8f0e163bc7d40fc5dc",
+      "release_url": "https://github.com/joernio/joern/releases/tag/v4.0.633",
+      "macos_asset": {
+        "name": "joern-cli-macos-arm64.zip",
+        "digest": "sha256:e11563c7cf4797db76655524398f108c3469a518fa3ed823de0aac2a1155aec6",
+        "url": "https://github.com/joernio/joern/releases/download/v4.0.633/joern-cli-macos-arm64.zip"
+      },
+      "evidence": [
+        "raw/joern_latest_alias.json",
+        "raw/joern_releases.json",
+        "raw/tag_joern_v4_0_633.json"
+      ]
+    },
+    {
+      "name": "opentaint",
+      "decision": "hold-current",
+      "channels": {
+        "semantic": {
+          "measured": "v0.4.6",
+          "candidate": "v0.4.6",
+          "published_at": "2026-09-04T14:02:49Z",
+          "tag_commit": "5265b34fc02d2eb1bc4f5bf1a80b4f4990e31098",
+          "macos_asset": {
+            "name": "opentaint-full_darwin_arm64.tar.gz",
+            "digest": "sha256:95c14073cb94b3a942488531c74d7812653bc7f684d1efa53f422d5ba22d3d92",
+            "url": "https://github.com/seqra/opentaint/releases/download/v0.4.6/opentaint-full_darwin_arm64.tar.gz"
+          }
+        },
+        "analyzer": {
+          "measured": "analyzer/2026.09.04.c51dc3e",
+          "candidate": "analyzer/2026.09.04.c51dc3e",
+          "published_at": "2026-09-04T13:48:42Z",
+          "tag_commit": "c51dc3ecc4054e6f5a2cdb29cbdf9941288fd921",
+          "assets": [
+            {
+              "name": "opentaint-project-analyzer.jar",
+              "digest": "sha256:2ca93b6c33462bdbc23ceccdc5375e1a900682b33371cd906e5214dc7c48f569"
+            },
+            {
+              "name": "opentaint-models.tar.gz",
+              "digest": "sha256:20a96a50fba9ab6f6e98e8562019e5ecbe2a77de7947981eaf6e379f04065329"
+            }
+          ],
+          "latest_alias": "analyzer/latest"
+        },
+        "rules": {
+          "measured": "rules/v0.3.0",
+          "candidate": "rules/v0.3.0",
+          "published_at": "2026-07-30T06:11:05Z",
+          "tag_commit": "37b0a21f0a8b9f6095a8ad2830ab5954dee52d76",
+          "asset": {
+            "name": "opentaint-rules.tar.gz",
+            "digest": "sha256:3d789c9986479fec792333329abe737eccb15bc06fc59a978a58810118ca1d21",
+            "url": "https://github.com/seqra/opentaint/releases/download/rules/v0.3.0/opentaint-rules.tar.gz"
+          },
+          "latest_alias": "rules/latest (404)"
+        }
+      },
+      "evidence": [
+        "raw/opentaint_releases.json",
+        "raw/opentaint_latest_analyzer_alias.json",
+        "raw/opentaint_latest_rules_alias.json",
+        "reports/releases/v0.8.0/pins.json (worktree)"
+      ]
+    },
+    {
+      "name": "infer",
+      "measured": "v1.3.0",
+      "candidate": "v1.3.0",
+      "decision": "hold-current",
+      "published_at": "2026-05-12T15:44:13Z",
+      "tag_commit": "410a6d9394b9c9794bf9469ee0e1aa8d3ae91031",
+      "release_url": "https://github.com/facebook/infer/releases/tag/v1.3.0",
+      "macos_asset": {
+        "name": "infer-osx-arm64-v1.3.0.tar.xz",
+        "digest": "sha256:60eccd231e27f2a3d65947ef75b9adcd1983528296bd1da6f67a6da02e22a96e",
+        "url": "https://github.com/facebook/infer/releases/download/v1.3.0/infer-osx-arm64-v1.3.0.tar.xz"
+      },
+      "evidence": [
+        "raw/infer_latest_alias.json",
+        "raw/infer_releases.json",
+        "raw/ref_infer_v1_3_0.json"
+      ]
+    },
+    {
+      "name": "flowdroid",
+      "measured": "v2.15.1",
+      "candidate": "v2.15.1",
+      "decision": "hold-current",
+      "published_at": "2026-02-23T09:59:11Z",
+      "tag_commit": "4d8702611abf64b12a6c7c5e662c201add748bd9",
+      "release_url": "https://github.com/secure-software-engineering/FlowDroid/releases/tag/v2.15.1",
+      "maven_artifact": {
+        "name": "soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+        "measured_digest": "sha256:51dadead47a173c494c2fa4855b1e8bd3b54e702a2c4b5ed58e60153009ae218",
+        "qualification": "metadata unknown; not downloaded"
+      },
+      "evidence": [
+        "raw/flowdroid_latest_alias.json",
+        "raw/flowdroid_releases.json",
+        "raw/ref_flowdroid_v2_15_1.json",
+        "reports/releases/v0.8.0/pins.json (worktree)"
+      ]
+    },
+    {
+      "name": "pyre-check",
+      "measured": "0.10.0",
+      "candidate": "0.10.0",
+      "decision": "hold-current",
+      "pypi_release_url": "https://pypi.org/project/pyre-check/0.10.0/",
+      "macos_arm64_wheel": {
+        "name": "pyre_check-0.10.0-py3-none-macosx_11_0_arm64.whl",
+        "digest": "sha256:e458fa2926f462971016a421a22d0ab7658222cfc5c455d39df9ddfd85f242e1",
+        "url": "https://files.pythonhosted.org/packages/a7/5b/7921b13e19ff33efee2853536d4dfdbb6d95ecb806e27edc7d28e5bb7570/pyre_check-0.10.0-py3-none-macosx_11_0_arm64.whl"
+      },
+      "evidence": [
+        "raw/pypi_pyre_check.json"
+      ]
+    },
+    {
+      "name": "pyrefly",
+      "measured": "1.3.1",
+      "candidate": "1.3.1",
+      "decision": "hold-current",
+      "pypi_release_url": "https://pypi.org/project/pyrefly/1.3.1/",
+      "macos_arm64_wheel": {
+        "name": "pyrefly-1.3.1-py3-none-macosx_11_0_arm64.whl",
+        "digest": "sha256:37a1a1fb41e7190fe3964a877875dd809d6ee2887809e2c3d6e5f25a69805bfd",
+        "url": "https://files.pythonhosted.org/packages/78/24/a31e7de8e0f310c9f0753826d0df8b6a8ff86793941a6bd88ba24b735633/pyrefly-1.3.1-py3-none-macosx_11_0_arm64.whl"
+      },
+      "evidence": [
+        "raw/pypi_pyrefly.json"
+      ]
+    },
+    {
+      "name": "semgrep-rules",
+      "measured": "40b8c63f75dc7c22c8a77482d73bfb864b146f7e",
+      "candidate": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+      "decision": "manual-review-required",
+      "default_branch": "develop",
+      "prior_main_query": {
+        "sha": "311ca4e9ba59d700624539bf658e3d29b134ee77",
+        "observed_at": "2022-05-11T02:26:38Z",
+        "meaning": "old main branch head; not the repository default branch"
+      },
+      "current_default_query": {
+        "sha": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be",
+        "observed_at": "2026-09-22T15:34:05Z",
+        "meaning": "current develop default-branch head"
+      },
+      "compare": {
+        "status": "ahead",
+        "ahead_by": 3,
+        "behind_by": 0,
+        "base": "40b8c63f75dc7c22c8a77482d73bfb864b146f7e",
+        "head": "a84ff9cc2453ca91d581380de4b8b3f272f6f4be"
+      },
+      "evidence": [
+        "raw/repo_semgrep_rules.json",
+        "raw/semgrep_rules_default_branch.json",
+        "raw/semgrep_rules_default_branch_actual.json",
+        "raw/semgrep_rules_compare.json"
+      ]
+    }
+  ],
+  "codeql_pack_registry": {
+    "status": "resource-agent-complete",
+    "raw_registry_requests": "excluded-by-scope",
+    "root_count": 13,
+    "all_new": true,
+    "roots": [
+      {
+        "name": "codeql/java-all",
+        "candidate": "9.3.1"
+      },
+      {
+        "name": "codeql/javascript-all",
+        "candidate": "2.10.2"
+      },
+      {
+        "name": "codeql/python-all",
+        "candidate": "7.2.6"
+      },
+      {
+        "name": "codeql/csharp-all",
+        "candidate": "7.3.1"
+      },
+      {
+        "name": "codeql/go-all",
+        "candidate": "7.3.2"
+      },
+      {
+        "name": "codeql/cpp-all",
+        "candidate": "12.1.1"
+      },
+      {
+        "name": "codeql/ruby-all",
+        "candidate": "7.0.1"
+      },
+      {
+        "name": "codeql/rust-all",
+        "candidate": "0.2.22"
+      },
+      {
+        "name": "codeql/java-queries",
+        "candidate": "1.11.11"
+      },
+      {
+        "name": "codeql/javascript-queries",
+        "candidate": "2.4.6"
+      },
+      {
+        "name": "codeql/python-queries",
+        "candidate": "1.8.11"
+      },
+      {
+        "name": "codeql/swift-all",
+        "candidate": "6.8.4"
+      },
+      {
+        "name": "codeql/swift-queries",
+        "candidate": "1.3.11"
+      }
+    ],
+    "qualification": "Separate isolated downloaded-pack audit; no runtime qualification. See ../codeql-packs.json and its retained metadata/file manifests."
+  },
+  "verification": {
+    "script": "verify-audit.sh",
+    "checks": [
+      "manifest and summary JSON parse",
+      "49 request records",
+      "47 HTTP 200 and 2 HTTP 404 statuses",
+      "all raw body/header SHA-256 digests",
+      "all raw JSON bodies parse",
+      "target assertions and evidence references"
+    ],
+    "expected_result": "PASS"
+  }
+}

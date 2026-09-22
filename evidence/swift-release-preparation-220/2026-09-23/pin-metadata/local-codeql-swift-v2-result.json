@@ -1,0 +1,50 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "24baee5f4422e62e85b06f4cc62359f670accd2553998063ae961d6ca4124815",
+  "ended_at_unix_seconds": 1790117008,
+  "fixture_revision": "sha256:2dc97bb29cdba04c900308be9e3aef016a5a00d2ac11f2bcaa2ac39d9d2484ff",
+  "results": [
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-negative",
+      "diagnostics": [
+        "Aggregate process-tree memory compliance is unproven at the unchanged 512 MiB analysis budget; native observations are not certified correctness outcomes.",
+        "Observed analysis process maximum RSS 654 MiB exceeds the 512 MiB contract; aggregate compliance is therefore impossible for this attempt."
+      ],
+      "duration_ms": 38042,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-swift-v2-additions/dfb-taint-swift-result-error-propagation-negative/execution.json",
+      "sink_anchors": [
+        "DFB-SINK: result-error-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: result-error-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-positive",
+      "diagnostics": [
+        "Aggregate process-tree memory compliance is unproven at the unchanged 512 MiB analysis budget; native observations are not certified correctness outcomes.",
+        "Observed analysis process maximum RSS 674 MiB exceeds the 512 MiB contract; aggregate compliance is therefore impossible for this attempt."
+      ],
+      "duration_ms": 38697,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/codeql-swift-v2-additions/dfb-taint-swift-result-error-propagation-positive/execution.json",
+      "sink_anchors": [
+        "DFB-SINK: result-error-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: result-error-input"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1790116928,
+  "tool": "codeql",
+  "tool_build_identity": "b47b3e59262c95aff4eeb84ac72d09e25a9c37e9",
+  "tool_version": "2.27.0"
+}
