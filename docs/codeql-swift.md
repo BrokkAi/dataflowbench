@@ -24,13 +24,17 @@ The independent local compilation/extraction profile is Apple Swift 6.4
 build `27A266a`, macOS 27.0 build `26A428` ARM64, SDK 27.0 build `26A425`, target
 `arm64-apple-macosx27.0.0`. Compiler SHA-256:
 `cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717`.
-This does not transfer activation to the hosted A34 fixture-validation profile.
+The distribution's Swift extractor and Java runtime are x86_64 Mach-O executables;
+this ARM64 host therefore requires working Rosetta translation. Their architecture
+inspection is retained alongside the digest evidence. This does not transfer
+activation to the hosted A34 fixture-validation profile.
 
 Separate non-scored controls are retained under
 `evidence/codeql-swift/activation-218`, including failed authoring, extraction-order,
 cache-resolution and stale-query attempts. Top-level expressions had resolved
-AST calls but no dataflow endpoints; fresh function-wrapped controls matched the
-fixture construction and activated. A premature query left a historical error
+AST calls but no dataflow endpoints; fresh function-wrapped controls
+activated function-body extraction. That control does not establish dataflow
+availability for top-level registry expressions. A premature query left a historical error
 notification in later SARIF despite exit 0; the verifier rejected it and a fresh
 database supplied the near-miss evidence. Query import edits require `--rerun`:
 reinterpreting cached BQRS is not fresh query evaluation.
@@ -129,3 +133,31 @@ raw directories. This command does not publish or rewrite a release freeze.
 
 Registry execution retains verbose extractor logs as lossless `.log.txt.gz` files.
 Phase durations use a monotonic clock and are also exported in standard case timing sidecars.
+
+The current Swift queries emit problem findings and exact endpoint observations,
+not path explanations. Normalization reconciles native sink locations with the
+canonical file/line anchors; model sink declarations retain the underlying call
+as a SARIF related location. `witness_checkpoints` remains empty because these
+queries supply no checkpoint path. No witness-track coverage is claimed.
+
+## Retained execution and remaining limitations
+
+All 90 declared assertions were attempted once. Core retained **12 inconclusive
+and 54 runner-error** outcomes; controlled modeling retained **20 inconclusive**;
+calibration retained **4 inconclusive**. Native create/analyze commands succeeded,
+but every measured individual RSS exceeded 512 MiB (645–1,664 MiB). The core
+runner errors additionally failed exact endpoint observations. There are **zero
+qualified reached/not-reached results** and no successful budget-coverage claim.
+
+[Execution evidence](../evidence/codeql-swift/execution-218/README.md) binds exact
+reports, per-case identities and budgets. The array-element pair demonstrates a
+top-level endpoint gap; other missing-endpoint rows remain individually visible
+without a retrospective unsupported partition. Resource and endpoint capability
+gaps remain open. Fixtures, thresholds, deferrals and historical freezes are
+unchanged. No Swift scored release is published by this change.
+
+A validation-only population-sweep correction is proved separately in
+`evidence/codeql-swift/report-sweep-fix`: historical JSON bytes match the base,
+Swift execution configuration hashes remain identical, and original report bytes
+pass the corrected sweep. Runner population selection and interpretation did not
+change. This is not a rerun or a new score.

@@ -1,0 +1,43 @@
+---
+queries:
+ -
+  pack: dataflowbench/codeql-swift#0
+  relativeQueryPath: queries/SwiftModeling.ql
+  relativeBqrsPath: dataflowbench/codeql-swift/queries/SwiftModeling.bqrs
+  metadata:
+    name: DataFlowBench Swift controlled modeling
+    description: "Exact declared source, sink, entrypoint and sanitizer semantics."
+    kind: problem
+    problem.severity: warning
+    precision: high
+    id: dfb/swift-modeling
+ -
+  pack: dataflowbench/codeql-swift#0
+  relativeQueryPath: queries/SwiftModelingEndpointProbe.ql
+  relativeBqrsPath: dataflowbench/codeql-swift/queries/SwiftModelingEndpointProbe.bqrs
+  metadata:
+    name: Swift controlled-model endpoint identity observation
+    description: "Observe exact declared and undeclared sibling identities, independently\
+      \ of model activation."
+    kind: problem
+    problem.severity: warning
+    id: dfb/swift-modeling-endpoint-probe
+extensionPacks: []
+packs:
+  codeql/util#1:
+    name: codeql/util
+    version: 2.0.44
+    isLibrary: true
+    isExtensionPack: false
+    localPath: file:///private/tmp/dfb-codeql-swift-218-packs/packages/codeql/util/2.0.44/
+    localPackDefinitionFile: file:///private/tmp/dfb-codeql-swift-218-packs/packages/codeql/util/2.0.44/qlpack.yml
+    headSha: c6baf479093fafc81d4655dc2014dc583360308e
+    runDataExtensions: []
+  dataflowbench/codeql-swift#0:
+    name: dataflowbench/codeql-swift
+    version: 0.0.1
+    isLibrary: false
+    isExtensionPack: false
+    localPath: file:///Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift/
+    localPackDefinitionFile: file:///Users/dave/.codex/worktrees/739a/dataflowbench/adapters/codeql/swift/qlpack.yml
+    runDataExtensions: []
