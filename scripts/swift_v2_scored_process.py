@@ -89,10 +89,12 @@ def run(argv, directory, name, timeout, *, measure=True, env=None, cwd=None,
         process = subprocess.Popen(wrapped, stdout=stdout, stderr=stderr,
                                    start_new_session=True, env=env, cwd=cwd, stdin=subprocess.DEVNULL)
         try:
-            table = _process_table()
-            if process.pid not in table:
+            # Capture the known child directly before scanning the whole host.
+            # A fast pin command can finish during a full process-table scan.
+            identity = _start_identity(process.pid)
+            if identity is None:
                 raise RuntimeError("invocation root start identity was never captured")
-            tracked[process.pid] = table[process.pid][1]
+            tracked[process.pid] = identity
             while process.poll() is None:
                 tracked = _descendants(_process_table(), tracked)
                 if time.monotonic() - started >= timeout:
