@@ -1,0 +1,602 @@
+{
+  "state": "analyzed",
+  "frontend": "SWIFTSRC",
+  "metadata": [
+    {
+      "language": "SWIFTSRC",
+      "overlays": [
+        "base",
+        "controlflow",
+        "typerel",
+        "callgraph",
+        "dataflowOss"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "107374182400",
+      "full_name": "main.swift:<global>",
+      "external": false,
+      "node": {
+        "id": "107374182400",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 1,
+        "code": "<global>"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182401",
+      "full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182401",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 1,
+        "code": "func dfb_source() -> String { \"tainted\" }"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182402",
+      "full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+      "external": false,
+      "node": {
+        "id": "107374182402",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 2,
+        "code": "func dfb_sink(_ value: String) { print(value) }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149696",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 2,
+            "code": "_ value: String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182403",
+      "full_name": "DataFlowBenchTaintSwift.Clean.init:()->DataFlowBenchTaintSwift.Clean",
+      "external": false,
+      "node": {
+        "id": "107374182403",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 3,
+        "code": "init"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Clean",
+          "node": {
+            "id": "111669149697",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 3,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182404",
+      "full_name": "DataFlowBenchTaintSwift.Clean.scrub:(Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182404",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 4,
+        "code": "static func scrub(_ value: String) -> String { return value }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149698",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 4,
+            "code": "_ value: String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182405",
+      "full_name": "DataFlowBenchTaintSwift.Clean.sanitize:(Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182405",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 5,
+        "code": "static func sanitize(_ value: String) -> String { return value }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149699",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 5,
+            "code": "_ value: String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182406",
+      "full_name": "DataFlowBenchTaintSwift.Config.init:()->DataFlowBenchTaintSwift.Config",
+      "external": false,
+      "node": {
+        "id": "107374182406",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 7,
+        "code": "init"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Config",
+          "node": {
+            "id": "111669149700",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 7,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182407",
+      "full_name": "DataFlowBenchTaintSwift.Config.fetchRemote:()->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182407",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 8,
+        "code": "static func fetchRemote() -> String { \"remote\" }"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182408",
+      "full_name": "DataFlowBenchTaintSwift.Config.fetchLocal:()->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182408",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 9,
+        "code": "static func fetchLocal() -> String { \"local\" }"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182409",
+      "full_name": "DataFlowBenchTaintSwift.Audit.init:()->DataFlowBenchTaintSwift.Audit",
+      "external": false,
+      "node": {
+        "id": "107374182409",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 11,
+        "code": "init"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Audit",
+          "node": {
+            "id": "111669149701",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 11,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182410",
+      "full_name": "DataFlowBenchTaintSwift.Audit.record:(Swift.String)->()",
+      "external": false,
+      "node": {
+        "id": "107374182410",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 12,
+        "code": "static func record(_ value: String) { print(\"audit\") }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149702",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 12,
+            "code": "_ value: String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182411",
+      "full_name": "DataFlowBenchTaintSwift.Audit.discard:(Swift.String)->()",
+      "external": false,
+      "node": {
+        "id": "107374182411",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 13,
+        "code": "static func discard(_ value: String) { print(\"audit\") }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149703",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 13,
+            "code": "_ value: String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182412",
+      "full_name": "DataFlowBenchTaintSwift.Bridge.init:()->DataFlowBenchTaintSwift.Bridge",
+      "external": false,
+      "node": {
+        "id": "107374182412",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 15,
+        "code": "init"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Bridge",
+          "node": {
+            "id": "111669149704",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 15,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182413",
+      "full_name": "DataFlowBenchTaintSwift.Bridge.pass:(Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182413",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 16,
+        "code": "static func `pass`(_ value: String) -> String { return \"opaque\" }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149705",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 16,
+            "code": "_ value: String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182414",
+      "full_name": "DataFlowBenchTaintSwift.Bridge.hold:(Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182414",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 17,
+        "code": "static func hold(_ value: String) -> String { return value }"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149706",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 17,
+            "code": "_ value: String"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182415",
+      "full_name": "DataFlowBenchTaintSwift.probe:()->()",
+      "external": false,
+      "node": {
+        "id": "107374182415",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 19,
+        "code": "func probe() { dfb_sink(Config.fetchLocal()) }"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182416",
+      "full_name": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "external": true,
+      "node": {
+        "id": "107374182416",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149707",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ]
+    }
+  ],
+  "calls": [
+    {
+      "node": {
+        "id": "30064771072",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 2,
+        "code": "print(value)"
+      },
+      "method_full_name": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "callee_ids": [
+        "107374182416"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476736",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 2,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771073",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 12,
+        "code": "print(\"audit\")"
+      },
+      "method_full_name": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "callee_ids": [
+        "107374182416"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "90194313219",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 12,
+            "code": "\"audit\""
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771074",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 13,
+        "code": "print(\"audit\")"
+      },
+      "method_full_name": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "callee_ids": [
+        "107374182416"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "90194313220",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 13,
+            "code": "\"audit\""
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771075",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 19,
+        "code": "dfb_sink(Config.fetchLocal())"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+      "callee_ids": [
+        "107374182402"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476740",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 19,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771076",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 19,
+            "code": "Config.fetchLocal()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771076",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 19,
+        "code": "Config.fetchLocal()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.Config.fetchLocal:()->Swift.String",
+      "callee_ids": [
+        "107374182408"
+      ],
+      "arguments": []
+    },
+    {
+      "node": {
+        "id": "30064771077",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 20,
+        "code": "probe()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.probe:()->()",
+      "callee_ids": [
+        "107374182415"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476741",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 20,
+            "code": "self"
+          }
+        }
+      ]
+    }
+  ],
+  "source_method_ids": [
+    "107374182407"
+  ],
+  "sink_method_ids": [
+    "107374182402"
+  ],
+  "source_nodes": [],
+  "sink_nodes": [
+    {
+      "id": "30064771076",
+      "label": "CALL",
+      "file": "main.swift",
+      "line": 19,
+      "code": "Config.fetchLocal()"
+    }
+  ],
+  "source_observations": [
+    {
+      "id": "107374182407",
+      "label": "METHOD",
+      "file": "main.swift",
+      "line": 8,
+      "code": "static func fetchRemote() -> String { \"remote\" }"
+    }
+  ],
+  "sink_observations": [
+    {
+      "id": "30064771075",
+      "label": "CALL",
+      "file": "main.swift",
+      "line": 19,
+      "code": "dfb_sink(Config.fetchLocal())"
+    }
+  ],
+  "semantics": [
+    {
+      "method": "DataFlowBenchTaintSwift.Clean.scrub:(Swift.String)->Swift.String",
+      "flows": []
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.Bridge.pass:(Swift.String)->Swift.String",
+      "flows": [
+        [
+          1,
+          -1
+        ]
+      ]
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.Bridge.hold:(Swift.String)->Swift.String",
+      "flows": []
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.ThirdPartyBridge.passThrough:(Swift.Int)->Swift.Int",
+      "flows": [
+        [
+          1,
+          -1
+        ]
+      ]
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.ThirdPartyBridge.hold:(Swift.Int)->Swift.Int",
+      "flows": []
+    }
+  ],
+  "flows": [],
+  "complete": true
+}

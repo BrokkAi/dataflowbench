@@ -5,6 +5,9 @@
 //! See adapters/joern/README.md for the published capability record, and
 //! docs/adding-an-adapter.md for the shape every adapter follows.
 
+pub(crate) mod swift;
+pub(crate) use swift::{joern_swift_configuration_paths, run_joern_swift_kernel};
+
 use crate::adapters::ToolIdentity;
 use crate::adapters::codeql::write_rust_cargo_manifest;
 use crate::adapters::normalized_report;

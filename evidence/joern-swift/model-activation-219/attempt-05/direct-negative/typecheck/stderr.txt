@@ -1,0 +1,27 @@
+/Users/dave/.codex/worktrees/9bab/dataflowbench/evidence/joern-swift/model-activation-219/attempt-05/direct-negative/DataFlowBenchTaintSwift/main.swift:19:20: warning: initialization of immutable value 'value' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+17 |  static func hold(_ value: String) -> String { return value }
+18 | }
+19 | func probe() { let value = dfb_source(); dfb_sink("clean") }
+   |                    `- warning: initialization of immutable value 'value' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+20 | probe()
+21 | 
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+        0.11 real         0.08 user         0.02 sys
+            69976064  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                9794  page reclaims
+                 253  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   0  voluntary context switches
+                  60  involuntary context switches
+          1587403128  instructions retired
+           423305688  cycles elapsed
+            15581664  peak memory footprint

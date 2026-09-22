@@ -1,0 +1,40 @@
+{
+  "source_methods": [
+    "DataFlowBenchTaintSwift.dfb_source:()->Swift.Int"
+  ],
+  "sink_methods": [
+    "DataFlowBenchTaintSwift.dfb_sink:(Swift.Int)->()"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: modeled-external-input",
+      "file": "ModeledExternalSummaryPositive.swift",
+      "line_hint": 5
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: modeled-external-sink",
+      "file": "ModeledExternalSummaryPositive.swift",
+      "line_hint": 6
+    }
+  ],
+  "source_kind": "call",
+  "semantics": [
+    {
+      "method": "DataFlowBenchTaintSwift.ThirdPartyBridge.passThrough:(Swift.Int)->Swift.Int",
+      "flows": [
+        [
+          1,
+          -1
+        ]
+      ]
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.ThirdPartyBridge.hold:(Swift.Int)->Swift.Int",
+      "flows": []
+    }
+  ],
+  "source_enabled": true,
+  "sink_enabled": true
+}

@@ -1,0 +1,31 @@
+{
+  "source_methods": [
+    "DataFlowBenchTaintSwift.dfb_source:()->Swift.String"
+  ],
+  "sink_methods": [
+    "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-sanitizer-selectivity-input",
+      "file": "ModelSanitizerSelectivityNegative.swift",
+      "line_hint": 10
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-sanitizer-selectivity-sink",
+      "file": "ModelSanitizerSelectivityNegative.swift",
+      "line_hint": 11
+    }
+  ],
+  "source_kind": "call",
+  "semantics": [
+    {
+      "method": "DataFlowBenchTaintSwift.Clean.scrub:(Swift.String)->Swift.String",
+      "flows": []
+    }
+  ],
+  "source_enabled": true,
+  "sink_enabled": true
+}

@@ -42,6 +42,11 @@ jobs:
           python3 scripts/verify-codeql-swift-activation.py
           python3 scripts/verify-codeql-swift-models.py
           python3 evidence/codeql-swift/execution-218/audit.py | diff - evidence/codeql-swift/execution-218/summary.json
+      - name: Verify independent Joern Swift activation and native identity guards
+        run: |
+          python3 scripts/test-joern-swift.py
+          python3 scripts/verify-joern-swift-activation.py
+          python3 scripts/audit-joern-swift.py | diff - evidence/joern-swift/execution-219/summary.json
       - name: Test Swift fixture validation controls
         run: python3 scripts/test-swift-fixtures.py
       - name: Test isolated release validation gate

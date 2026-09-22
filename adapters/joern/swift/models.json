@@ -1,0 +1,11 @@
+{
+  "schema": "joern-swift-models/v1",
+  "module": "DataFlowBenchTaintSwift",
+  "semantics": [
+    {"method":"DataFlowBenchTaintSwift.Clean.scrub:(Swift.String)->Swift.String","flows":[]},
+    {"method":"DataFlowBenchTaintSwift.Bridge.pass:(Swift.String)->Swift.String","flows":[[1,-1]]},
+    {"method":"DataFlowBenchTaintSwift.Bridge.hold:(Swift.String)->Swift.String","flows":[]},
+    {"method":"DataFlowBenchTaintSwift.ThirdPartyBridge.passThrough:(Swift.Int)->Swift.Int","flows":[[1,-1]]},
+    {"method":"DataFlowBenchTaintSwift.ThirdPartyBridge.hold:(Swift.Int)->Swift.Int","flows":[]}
+  ]
+}

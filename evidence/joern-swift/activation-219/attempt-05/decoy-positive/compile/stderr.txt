@@ -1,0 +1,9 @@
+/Users/dave/.codex/worktrees/9bab/dataflowbench/evidence/joern-swift/activation-219/attempt-05/decoy-positive/controls/main.swift:9:6: warning: initialization of immutable value 'clean' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+ 7 | func probe() {
+ 8 |  let tainted = probeSource()
+ 9 |  let clean = 0
+   |      `- warning: initialization of immutable value 'clean' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+10 |  probeSink(tainted)
+11 |  Decoy.probeSink(Decoy.probeSource())
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>

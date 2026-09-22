@@ -1,0 +1,26 @@
+{
+  "source_methods": [
+    "DataFlowBenchTaintSwift.dfb_source:()->Swift.String"
+  ],
+  "sink_methods": [
+    "DataFlowBenchTaintSwift.Audit.record:(Swift.String)->()"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-declared-sink-input",
+      "file": "ModelDeclaredSinkPositive.swift",
+      "line_hint": 9
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-declared-sink-sink",
+      "file": "ModelDeclaredSinkPositive.swift",
+      "line_hint": 2
+    }
+  ],
+  "source_kind": "call",
+  "semantics": [],
+  "source_enabled": true,
+  "sink_enabled": true
+}

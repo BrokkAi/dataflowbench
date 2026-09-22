@@ -1,0 +1,85 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "ca210fc2e1f60a19fa97925ea35b07b6d459917cb56aa291a0180a805f3a8feb",
+  "ended_at_unix_seconds": 1790104440,
+  "fixture_revision": "sha256:dcde04f2df2c2c1370241c95bd7cca6984229c33abe6db6db138ca31e557c840",
+  "results": [
+    {
+      "case_id": "dfb-taint-swift-modeled-external-summary-negative",
+      "diagnostics": [
+        "aggregate process-tree memory compliance unavailable: individual max 409.5 MiB, budget 512 MiB",
+        "native engine uses k=4 call/field and 1000 argument expansion bounds; exhaustion is not exposed by reachableByFlows, so absence is not a completeness proof"
+      ],
+      "duration_ms": 5570,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-swift-calibration/dfb-taint-swift-modeled-external-summary-negative/execution.json",
+      "sink_anchors": [
+        "DFB-SINK: modeled-external-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: modeled-external-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-swift-modeled-external-summary-positive",
+      "diagnostics": [
+        "aggregate process-tree memory compliance unavailable: individual max 436.078125 MiB, budget 512 MiB"
+      ],
+      "duration_ms": 4846,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-swift-calibration/dfb-taint-swift-modeled-external-summary-positive/execution.json",
+      "sink_anchors": [
+        "DFB-SINK: modeled-external-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: modeled-external-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-swift-one-hop-relay-negative",
+      "diagnostics": [
+        "aggregate process-tree memory compliance unavailable: individual max 445.515625 MiB, budget 512 MiB",
+        "native engine uses k=4 call/field and 1000 argument expansion bounds; exhaustion is not exposed by reachableByFlows, so absence is not a completeness proof"
+      ],
+      "duration_ms": 4684,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-swift-calibration/dfb-taint-swift-one-hop-relay-negative/execution.json",
+      "sink_anchors": [
+        "DFB-SINK: one-hop-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: one-hop-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-swift-one-hop-relay-positive",
+      "diagnostics": [
+        "aggregate process-tree memory compliance unavailable: individual max 451.25 MiB, budget 512 MiB",
+        "native engine uses k=4 call/field and 1000 argument expansion bounds; exhaustion is not exposed by reachableByFlows, so absence is not a completeness proof"
+      ],
+      "duration_ms": 4887,
+      "outcome": "inconclusive",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/joern-swift-calibration/dfb-taint-swift-one-hop-relay-positive/execution.json",
+      "sink_anchors": [
+        "DFB-SINK: one-hop-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: one-hop-input"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1790104420,
+  "tool": "joern",
+  "tool_build_identity": "joern-cli:4.0.628",
+  "tool_version": "4.0.628"
+}

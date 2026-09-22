@@ -1,0 +1,26 @@
+{
+  "source_methods": [
+    "DataFlowBenchTaintSwift.Config.fetchRemote:()->Swift.String"
+  ],
+  "sink_methods": [
+    "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-declared-source-input",
+      "file": "ModelDeclaredSourceNegative.swift",
+      "line_hint": 2
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-declared-source-sink",
+      "file": "ModelDeclaredSourceNegative.swift",
+      "line_hint": 9
+    }
+  ],
+  "source_kind": "call",
+  "semantics": [],
+  "source_enabled": true,
+  "sink_enabled": true
+}

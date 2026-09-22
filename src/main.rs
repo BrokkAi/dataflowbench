@@ -48,7 +48,7 @@ use crate::adapters::flowdroid::{
     run_flowdroid_native,
 };
 use crate::adapters::infer::{InferKernel, run_infer_kernel};
-use crate::adapters::joern::{JoernKernel, run_joern_kernel};
+use crate::adapters::joern::{JoernKernel, run_joern_kernel, run_joern_swift_kernel};
 use crate::adapters::opentaint::{
     OpentaintKernel, run_opentaint_kernel, run_opentaint_modeling, run_opentaint_native,
 };
@@ -397,6 +397,17 @@ enum Commands {
     RunJoernRustKernel {
         #[arg(long, default_value = "joern")]
         joern: PathBuf,
+    },
+    /// Run the compiler-backed Swift propagation population through Joern's
+    /// pinned Swift frontend. The activation verifier runs once before any
+    /// case; the tier keeps core, modeling, and calibration reports separate.
+    RunJoernSwiftKernel {
+        #[arg(long, required = true)]
+        joern: PathBuf,
+        #[arg(long, required = true)]
+        java_home: PathBuf,
+        #[arg(long, default_value = "core", value_parser = ["core", "modeling", "calibration"])]
+        tier: String,
     },
     /// Run the Java propagation kernel through the Semgrep CE (OSS) taint
     /// engine, scoring only the intraprocedural partition of the kernel. Every
@@ -1084,6 +1095,11 @@ fn main() -> Result<()> {
         Commands::RunJoernRubyKernel { joern } => run_joern_kernel(&joern, JoernKernel::Ruby),
         Commands::RunJoernPhpKernel { joern } => run_joern_kernel(&joern, JoernKernel::Php),
         Commands::RunJoernRustKernel { joern } => run_joern_kernel(&joern, JoernKernel::Rust),
+        Commands::RunJoernSwiftKernel {
+            joern,
+            java_home,
+            tier,
+        } => run_joern_swift_kernel(&joern, &java_home, &tier),
         Commands::RunSemgrepJavaKernel { semgrep } => {
             run_semgrep_kernel(&semgrep, SemgrepKernel::Java)
         }
