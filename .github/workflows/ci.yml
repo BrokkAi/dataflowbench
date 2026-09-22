@@ -51,6 +51,7 @@ jobs:
         run: |
           python3 scripts/test-swift-coverage.py
           python3 scripts/audit-swift-coverage.py --check
+          python3 scripts/test-swift-v1-snapshot.py
           python3 scripts/test-swift-v2.py
           python3 scripts/audit-swift-v2.py --check
           python3 scripts/verify-swift-v2-evidence.py
@@ -93,14 +94,15 @@ jobs:
       - name: Compile, link, and exercise Swift fixtures under witnessed CI profile
         run: python3 scripts/validate-swift-fixtures.py --profile github-xcode27 --output "$RUNNER_TEMP/swift-fixture-evidence"
       - name: Compile Swift v2 additions and exercise only Result controls
+        id: swift-v2
         run: python3 scripts/validate-swift-v2.py --profile github-xcode27 --output "$RUNNER_TEMP/swift-v2-evidence"
       - name: Retain v2 compiler evidence without native execution
-        if: always()
+        if: always() && steps.swift-v2.outcome != 'skipped'
         uses: actions/upload-artifact@v4
         with:
           name: swift-v2-evidence
           path: ${{ runner.temp }}/swift-v2-evidence
-          if-no-files-found: warn
+          if-no-files-found: error
       - name: Retain compilation identity and all attempted controls
         if: always()
         uses: actions/upload-artifact@v4

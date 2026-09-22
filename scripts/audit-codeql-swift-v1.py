@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
-"""Replay the unchanged CodeQL v1 audit against its immutable population."""
-import json
+"""Replay the unchanged CodeQL audit on an explicit immutable v1 input view."""
 from pathlib import Path
-from unittest.mock import patch
-import runpy
+import subprocess
+import sys
+import tempfile
+from swift_v1_snapshot import materialize
 
 ROOT = Path(__file__).resolve().parents[1]
-original_glob = Path.glob
-paths = [Path(entry['path']) for entry in json.loads((ROOT/'populations/swift-synthetic-v1.json').read_text())['cases']]
-
-def scoped_glob(self, pattern):
-    if self == Path('.') and pattern == 'cases/taint/swift/*/case.json':
-        return iter(paths)
-    return original_glob(self, pattern)
-
-with patch.object(Path, 'glob', scoped_glob):
-    runpy.run_path(str(ROOT/'evidence/codeql-swift/execution-218/audit.py'), run_name='__main__')
+with tempfile.TemporaryDirectory(prefix='dfb-codeql-historical-v1-') as temporary:
+    snapshot = materialize(ROOT, Path(temporary))
+    subprocess.run([sys.executable, str(ROOT / 'evidence/codeql-swift/execution-218/audit.py')], cwd=snapshot, check=True)
