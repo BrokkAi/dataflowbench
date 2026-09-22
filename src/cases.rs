@@ -10,7 +10,7 @@ use crate::real_project::{
     validate_real_project_r2_selection_at, validate_real_project_r2_snapshot_at,
     validate_real_project_r2_walk_at, validate_real_project_slice,
 };
-use crate::templates::CHALLENGE_ROLLOUT;
+use crate::templates::{CHALLENGE_ROLLOUT, SWIFT_CALIBRATION_TEMPLATE_IDS, challenge_rollout};
 use anyhow::{Context, Result, bail};
 use jsonschema::JSONSchema;
 use serde_json::Value;
@@ -71,8 +71,13 @@ pub(crate) fn validate_cases() -> Result<()> {
         validate_case_contract(path, &value)?;
         validate_markers(path, &value)?;
         validate_fixture_files(path, &value)?;
+        if value["language"] == "swift" {
+            validate_swift_anchors(path, &value)?;
+        }
         cases.push((path.clone(), value));
     }
+    validate_swift_metadata(&cases)?;
+    crate::population::validate_swift_population(Path::new("."))?;
     validate_balanced_core_pairs(&cases)?;
     // Every language is checked against its own row in the challenge rollout
     // table, which is the one place a denominator is stated. Before this table
@@ -119,6 +124,187 @@ pub(crate) fn validate_cases() -> Result<()> {
     println!("validated {r2_walk} real-project R2 selected repositories");
     println!("validated {r2_pins} real-project R2 pin records");
     println!("validated {r2_review_artifacts} real-project R2 review-packet artifacts");
+    Ok(())
+}
+
+/// Swift's population is prospective and independently digest-bound. Keep its
+/// registry contract in this shared validation pass so a partial fixture wave
+/// cannot look like a smaller denominator, while leaving all historical
+/// populations selected exactly as before.
+pub(crate) fn validate_swift_metadata(cases: &[(PathBuf, Value)]) -> Result<()> {
+    let swift: Vec<_> = cases
+        .iter()
+        .filter(|(_, case)| case["language"] == "swift")
+        .collect();
+    let expected_core = challenge_rollout("swift")
+        .expect("Swift has a preregistered rollout row")
+        .expected_templates()
+        .into_iter()
+        .collect::<BTreeSet<_>>();
+    let expected_calibration = SWIFT_CALIBRATION_TEMPLATE_IDS
+        .into_iter()
+        .collect::<BTreeSet<_>>();
+    let expected_modeling = crate::modeling::SWIFT_MODELING_TEMPLATE_IDS
+        .into_iter()
+        .collect::<BTreeSet<_>>();
+    let expected_case_count =
+        2 * (expected_core.len() + expected_calibration.len() + expected_modeling.len());
+    if swift.len() != expected_case_count {
+        bail!(
+            "Swift population must contain exactly {expected_case_count} assertions (33 core + 2 calibration + 10 modeling pairs); found {}",
+            swift.len()
+        );
+    }
+
+    let mut ids = BTreeSet::new();
+    let mut core = BTreeMap::<&str, (usize, usize)>::new();
+    let mut calibration = BTreeMap::<&str, (usize, usize)>::new();
+    let mut modeling = BTreeMap::<&str, (usize, usize)>::new();
+    for (path, case) in &swift {
+        let id = case["id"]
+            .as_str()
+            .with_context(|| format!("{} lacks id", path.display()))?;
+        if !id.starts_with("dfb-taint-swift-") {
+            bail!(
+                "{}: Swift case ID {id:?} must use the dfb-taint-swift- prefix",
+                path.display()
+            );
+        }
+        if !ids.insert(id) {
+            bail!("{}: duplicate Swift case ID {id:?}", path.display());
+        }
+        let template = case["template_id"]
+            .as_str()
+            .with_context(|| format!("{} lacks template_id", path.display()))?;
+        let tier = case["score_tier"]
+            .as_str()
+            .with_context(|| format!("{} lacks score_tier", path.display()))?;
+        let profile = case["model_profile"]
+            .as_str()
+            .with_context(|| format!("{} lacks model_profile", path.display()))?;
+        if !matches!(tier, "core" | "calibration" | "modeling") {
+            bail!(
+                "{}: Swift case uses reserved, extension, native, or otherwise unsupported score tier {tier:?}",
+                path.display()
+            );
+        }
+        if profile == "tool-native" {
+            bail!(
+                "{}: Swift tool-native profile is deferred and has no registered population",
+                path.display()
+            );
+        }
+        if profile != "benchmark-controlled" {
+            bail!(
+                "{}: Swift cases must use the benchmark-controlled profile; found {profile:?}",
+                path.display()
+            );
+        }
+        if case["track"] != "taint" {
+            bail!(
+                "{}: Swift cases must use the taint track; found {:?}",
+                path.display(),
+                case["track"]
+            );
+        }
+        let target = match tier {
+            "core" => {
+                if !expected_core.contains(template) {
+                    bail!(
+                        "{}: Swift core template {template:?} is excluded or unregistered",
+                        path.display()
+                    );
+                }
+                &mut core
+            }
+            "calibration" => {
+                if !SWIFT_CALIBRATION_TEMPLATE_IDS.contains(&template) {
+                    bail!(
+                        "{}: Swift calibration template {template:?} is unregistered",
+                        path.display()
+                    );
+                }
+                &mut calibration
+            }
+            "modeling" => {
+                if !expected_modeling.contains(template) {
+                    bail!(
+                        "{}: Swift modeling template {template:?} is deferred or unregistered",
+                        path.display()
+                    );
+                }
+                &mut modeling
+            }
+            _ => unreachable!(),
+        };
+        let entry = target.entry(template).or_default();
+        match case["polarity"].as_str() {
+            Some("positive") => entry.0 += 1,
+            Some("negative") => entry.1 += 1,
+            Some(other) => bail!("{}: unsupported Swift polarity {other:?}", path.display()),
+            None => bail!("{}: Swift case lacks polarity", path.display()),
+        }
+    }
+    let actual = core.keys().copied().collect::<BTreeSet<_>>();
+    if actual != expected_core {
+        bail!(
+            "Swift core template set mismatch (missing={:?}, unexpected={:?})",
+            expected_core
+                .difference(&actual)
+                .copied()
+                .collect::<Vec<_>>(),
+            actual
+                .difference(&expected_core)
+                .copied()
+                .collect::<Vec<_>>()
+        );
+    }
+    if core
+        .values()
+        .any(|(positive, negative)| *positive != 1 || *negative != 1)
+    {
+        bail!("Swift core requires one positive and one negative per template");
+    }
+    let actual_calibration = calibration.keys().copied().collect::<BTreeSet<_>>();
+    if actual_calibration != expected_calibration {
+        bail!(
+            "Swift calibration template set mismatch (missing={:?}, unexpected={:?})",
+            expected_calibration
+                .difference(&actual_calibration)
+                .copied()
+                .collect::<Vec<_>>(),
+            actual_calibration
+                .difference(&expected_calibration)
+                .copied()
+                .collect::<Vec<_>>()
+        );
+    }
+    if calibration
+        .values()
+        .any(|(positive, negative)| *positive != 1 || *negative != 1)
+    {
+        bail!("Swift calibration requires one positive and one negative per template");
+    }
+    let actual = modeling.keys().copied().collect::<BTreeSet<_>>();
+    if actual != expected_modeling {
+        bail!(
+            "Swift modeling template set mismatch (missing={:?}, unexpected={:?})",
+            expected_modeling
+                .difference(&actual)
+                .copied()
+                .collect::<Vec<_>>(),
+            actual
+                .difference(&expected_modeling)
+                .copied()
+                .collect::<Vec<_>>()
+        );
+    }
+    if modeling
+        .values()
+        .any(|(positive, negative)| *positive != 1 || *negative != 1)
+    {
+        bail!("Swift modeling requires one positive and one negative per template");
+    }
     Ok(())
 }
 
@@ -294,6 +480,68 @@ pub(crate) fn validate_markers(path: &Path, value: &Value) -> Result<()> {
     Ok(())
 }
 
+/// Swift fixtures carry exact source locations because this prospective
+/// tranche has no analyzer adapter to resolve or reconcile them yet. Keep the
+/// stronger invariant scoped to Swift so historical fixture metadata retains
+/// its existing optional-line-hint semantics.
+pub(crate) fn validate_swift_anchors(path: &Path, value: &Value) -> Result<()> {
+    let parent = path.parent().expect("case path has parent");
+    let fixtures = value["fixture_files"].as_array().expect("schema validated");
+    let mut fixture_names = BTreeSet::new();
+    for fixture in fixtures {
+        let fixture = fixture.as_str().expect("schema validated");
+        if !fixture.ends_with(".swift") {
+            bail!(
+                "{}: Swift fixture {fixture:?} does not have a .swift extension",
+                path.display()
+            );
+        }
+        if !fixture_names.insert(fixture) {
+            bail!(
+                "{}: Swift fixture_files contains duplicate {fixture:?}",
+                path.display()
+            );
+        }
+    }
+
+    let mut markers = BTreeSet::new();
+    for field in ["source_anchors", "sink_anchors"] {
+        for anchor in value[field].as_array().expect("schema validated") {
+            let file = anchor["file"].as_str().expect("schema validated");
+            let marker = anchor["marker"].as_str().expect("schema validated");
+            let line_hint = anchor["line_hint"].as_u64().with_context(|| {
+                format!(
+                    "{}: Swift anchor {marker:?} lacks an exact line_hint",
+                    path.display()
+                )
+            })?;
+            if !markers.insert(marker) {
+                bail!(
+                    "{}: Swift source/sink anchor marker {marker:?} is not unique",
+                    path.display()
+                );
+            }
+            let body = fs::read_to_string(parent.join(file))
+                .with_context(|| format!("read Swift fixture {file}"))?;
+            let occurrences = body.matches(marker).count();
+            if occurrences != 1 {
+                bail!(
+                    "{}: Swift anchor {marker:?} must occur exactly once in {file}; found {occurrences}",
+                    path.display()
+                );
+            }
+            let line = body.lines().nth(line_hint.saturating_sub(1) as usize);
+            if !line.is_some_and(|line| line.contains(marker)) {
+                bail!(
+                    "{}: Swift anchor {marker:?} is not on exact line {line_hint} in {file}",
+                    path.display()
+                );
+            }
+        }
+    }
+    Ok(())
+}
+
 /// Every case file in the repository, parsed once and shared across the
 /// per-report configuration derivations that select from it.
 pub(crate) type LoadedCases = Vec<(PathBuf, Value)>;
@@ -369,6 +617,16 @@ pub(crate) fn validate_kernel_population_with(
     if let Some(population) = crate::population::active() {
         population.validate_members(cases)?;
     }
+    validate_fixture_population_with(cases, label, expected_templates)
+}
+
+/// Validate corpus structure independently from an optional runner input selection.
+/// Full-corpus validation must still inspect new fixtures outside a released population.
+pub(crate) fn validate_fixture_population_with(
+    cases: &[(PathBuf, Value)],
+    label: &str,
+    expected_templates: &[&str],
+) -> Result<()> {
     let expected_case_count = 2 * expected_templates.len();
     if cases.len() != expected_case_count {
         bail!(

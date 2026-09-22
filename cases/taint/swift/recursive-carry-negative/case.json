@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-recursive-carry-negative",
+  "template_id": "dfb-template-chal-recursive-carry",
+  "polarity": "negative",
+  "negative_mechanism": "overwrite-kill",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "recursion"
+  ],
+  "feature_tags": [
+    "recursive"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: recursive-carry-input",
+      "file": "main.swift",
+      "line_hint": 12
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: recursive-carry-sink",
+      "file": "main.swift",
+      "line_hint": 13
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: recursive-carry-input",
+      "sink": "DFB-SINK: recursive-carry-sink"
+    }
+  ],
+  "witness_checkpoints": [
+    "DFB-KILL: recursive-carry-base-clean",
+    "DFB-WITNESS: recursive-carry-base",
+    "DFB-WITNESS: recursive-carry-transfer",
+    "DFB-SOURCE: recursive-carry-input",
+    "DFB-SINK: recursive-carry-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "recursive-carry-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

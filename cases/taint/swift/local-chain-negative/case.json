@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-local-chain-negative",
+  "template_id": "dfb-template-local-multi-step-chain",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: local-chain-input",
+      "file": "main.swift",
+      "line_hint": 4
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: local-chain-sink",
+      "file": "main.swift",
+      "line_hint": 8
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: local-chain-input",
+      "sink": "DFB-SINK: local-chain-sink"
+    }
+  ],
+  "witness_checkpoints": [
+    "DFB-SOURCE: local-chain-input",
+    "DFB-WITNESS: local-chain-third",
+    "DFB-SINK: local-chain-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "intraprocedural-multi-step-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

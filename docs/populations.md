@@ -52,3 +52,19 @@ revision requirement remains in force. Commit the new manifest, then run
 so newer cases on main do not alter the published population. Follow the
 [freeze lifecycle](freeze.md) for publication and retain the prior release's
 manifest and evidence for audit.
+
+## Prospective Swift inputs
+
+`--population swift-synthetic-v1` selects the new 90 Swift fixtures: 66 core,
+four calibration, and 20 benchmark-controlled modeling assertions. The
+embedded `populations/swift-synthetic-v1.json` binds case and source bytes,
+and global case validation checks its complete file set. This is a prospective
+fixture selection, not a released freeze, analyzer activation, or a pooled
+scored denominator. Core, calibration, and modeling remain distinct.
+
+The existing `v0.7.0` manifest and its 852 inputs are unchanged. No Swift native,
+opaque-propagator, language-extension, real-project, or reserved-track case is
+implied by this selection; the [Swift contract](swift-kernel.md) records the
+unresolved scope. `scripts/write-swift-population.py` authors the initial
+manifest and refuses to overwrite one. Future published fixture changes need a
+new population identity and explicit review.

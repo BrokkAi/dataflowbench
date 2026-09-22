@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-modeled-external-summary-negative",
+  "template_id": "dfb-template-modeled-external-summary",
+  "polarity": "negative",
+  "negative_mechanism": "call-context-separation",
+  "score_tier": "calibration",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "external-summary"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "summary-required"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModeledExternalSummaryNegative.swift",
+    "ThirdPartyBridge.swift",
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: modeled-external-input",
+      "file": "ModeledExternalSummaryNegative.swift",
+      "line_hint": 5
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: modeled-external-sink",
+      "file": "ModeledExternalSummaryNegative.swift",
+      "line_hint": 6
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: modeled-external-input",
+      "sink": "DFB-SINK: modeled-external-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "external-summary-activation",
+    "notes": "DataFlowBenchTaintSwift.ThirdPartyBridge.passThrough(_ value: Swift.Int) -> Swift.Int is the declared input-0-to-return summary; DataFlowBenchTaintSwift.ThirdPartyBridge.hold(_ value: Swift.Int) -> Swift.Int is the sibling with an explicit no-flow summary."
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

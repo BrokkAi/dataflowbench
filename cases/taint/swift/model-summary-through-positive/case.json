@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-model-summary-through-positive",
+  "template_id": "dfb-template-model-summary-through",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "external-summary",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "summary-required"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModelSummaryThroughPositive.swift",
+    "Bridge.swift",
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-summary-through-input",
+      "file": "ModelSummaryThroughPositive.swift",
+      "line_hint": 5
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-summary-through-sink",
+      "file": "ModelSummaryThroughPositive.swift",
+      "line_hint": 6
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: model-summary-through-input",
+      "sink": "DFB-SINK: model-summary-through-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "procedure-summary-activation",
+    "notes": "DataFlowBenchTaintSwift.Bridge.`pass`(_ value: Swift.String) -> Swift.String has the declared summary input-0-to-return binding; DataFlowBenchTaintSwift.Bridge.hold(_ value: Swift.String) -> Swift.String has the explicit no-flow summary. Both identity bodies are in separate Bridge.swift."
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

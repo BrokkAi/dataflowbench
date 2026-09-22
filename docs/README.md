@@ -53,9 +53,10 @@ adaptation tables bind, the dated results sections record.
 [php-kernel.md](php-kernel.md) ·
 [scala-kernel.md](scala-kernel.md)
 
-The prospective [Swift registry contract](swift-kernel.md) covers every family,
-including exclusions and deferrals. It does not activate fixtures or analyzer
-support and does not change the thirteen implemented language populations.
+The [Swift registry contract](swift-kernel.md) covers all families, including
+unresolved deferrals. Swift fixtures add 33 core pairs, two calibration pairs,
+and ten controlled modeling pairs as a separate prospective input population.
+They do not activate analyzer support or change historical frozen populations.
 
 ## Per-language modeling and native rows
 
@@ -127,12 +128,13 @@ other by `model_profile` and never pooled:
   stating what changed, why, and which freezes it invalidates, in a
   separate commit from any fixture or result change. Numbering is a single
   repository-wide sequence (A1, A2, …); the authoritative index is the set
-  of amendment headings across the six amendment-bearing documents
+  of amendment headings across the amendment-bearing documents
   ([challenge-tier.md](challenge-tier.md),
   [modeling-matrix.md](modeling-matrix.md),
   [native-profile.md](native-profile.md), [adapters.md](adapters.md),
   [latency-tier.md](latency-tier.md),
-  [real-project-preregistration.md](real-project-preregistration.md)), so each
+  [real-project-preregistration.md](real-project-preregistration.md), and
+  [swift-kernel.md](swift-kernel.md)), so each
   document's own numbering is deliberately gappy.
 - **Freeze-bound** — a report whose bytes are digest-bound by a published
   `freeze/v1` manifest and may not be overwritten. A freeze-bound report is
