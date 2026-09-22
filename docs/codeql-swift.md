@@ -116,9 +116,9 @@ configuration and partition before running:
 ```sh
 python3 scripts/verify-codeql-swift-activation.py
 python3 scripts/verify-codeql-swift-models.py
-cargo run -- --population populations/swift-synthetic-v1.json run-codeql-swift-kernel --codeql /exact/codeql --codeql-packs /exact/cache/packages --tier core
-cargo run -- --population populations/swift-synthetic-v1.json run-codeql-swift-kernel --codeql /exact/codeql --codeql-packs /exact/cache/packages --tier modeling
-cargo run -- --population populations/swift-synthetic-v1.json run-codeql-swift-kernel --codeql /exact/codeql --codeql-packs /exact/cache/packages --tier calibration
+cargo run -- --population swift-synthetic-v1 run-codeql-swift-kernel --codeql /exact/codeql --codeql-packs /exact/cache/packages --tier core
+cargo run -- --population swift-synthetic-v1 run-codeql-swift-kernel --codeql /exact/codeql --codeql-packs /exact/cache/packages --tier modeling
+cargo run -- --population swift-synthetic-v1 run-codeql-swift-kernel --codeql /exact/codeql --codeql-packs /exact/cache/packages --tier calibration
 ```
 
 Each command refuses an existing evidence directory. Preserve previous attempts

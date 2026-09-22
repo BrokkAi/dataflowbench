@@ -383,6 +383,26 @@ mod tests {
         initialize(Some("swift-synthetic-v1")).unwrap();
         assert_eq!(crate::cases::case_paths().len(), 90);
         crate::cases::validate_cases().unwrap();
+        // A selected execution population must not narrow the retained-report
+        // sweep's configuration derivation for older language populations.
+        for stem in [
+            "bifrost-java-kernel",
+            "codeql-java-kernel",
+            "codeql-python-kernel",
+        ] {
+            let report: Value =
+                serde_json::from_str(&fs::read_to_string(format!("reports/{stem}.json")).unwrap())
+                    .unwrap();
+            assert_eq!(
+                crate::report::configuration_hash_state(
+                    stem,
+                    report["configuration_hash"].as_str().unwrap(),
+                    &mut None,
+                )
+                .unwrap(),
+                crate::report::ConfigurationHashState::Current,
+            );
+        }
         let baseline = Population::load(Path::new(".")).unwrap();
         let outside = baseline.cases.values().next().unwrap().clone();
         assert!(active().unwrap().validate_members(&[outside]).is_err());

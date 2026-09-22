@@ -28,8 +28,7 @@ b47b3e59262c95aff4eeb84ac72d09e25a9c37e9. Its exact source tag manifest
 compiler, Xcode, SDK, host, binary hashes, argv, exit status and elapsed time.
 
 Raw BQRS and SARIF, standard output/error, extractor logs, and database metadata
-are retained. `.log.txt` preserves logs despite the repository's `*.log` ignore
-rule. Complete databases remain in task-owned `/private/tmp/dfb-codeql-swift-218-*`
+are retained. `.log.txt.gz` preserves logs losslessly despite the repository's `*.log` ignore rule. `compressed-log-manifest.json` binds original and compressed bytes. Complete databases remain in task-owned `/private/tmp/dfb-codeql-swift-218-*`
 directories; these are not portable evidence paths. Probe scripts record the
 original absolute commands. Timings are descriptive, under host contention.
 
