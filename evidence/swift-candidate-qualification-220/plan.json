@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "status": "prospective-non-scored-candidate-controls",
+  "source_base": "a3f22c8325b2cbbafe27823f439b9c32083482a9",
+  "release_population_approved": false,
+  "opaque_choice": "pending",
+  "active_pin_mutation": false,
+  "candidate_versions": {
+    "codeql-cli": "2.27.1",
+    "codeql/swift-all": "6.8.4",
+    "codeql/swift-queries": "1.3.11",
+    "joern": "4.0.633",
+    "bifrost": "0.11.5"
+  },
+  "controls": [
+    "endpoint-identity",
+    "result-positive",
+    "result-negative"
+  ],
+  "identity_acceptance": "exact source lines9,11; sink lines9,10; only flow sinkline9; wrongarity/type/declaration-kind remain near misses",
+  "result_acceptance": "retain observations and typed limitations; neither polarity is a scored report or a replacement for canonical requirements",
+  "execution": "serialize analyzer processes; reuse existing bounded process runner; never execute compiled fixture binary",
+  "phase_limits": {
+    "codeql_extraction_seconds": 60,
+    "codeql_query_seconds": 60,
+    "joern_frontend_seconds": 180,
+    "joern_query_seconds": 60,
+    "requested_memory_mb": 512
+  },
+  "limits": "Joern180secondfrontend is explicitly non-scored feasibility. Phase deadlines and requested512MiB do not establish aggregate scored compliance. Retain failure/timeout and scratch; no unsupported capability decision automatically carries from oldpins.",
+  "bifrost_scope": "publisher asset digest and executable identity/version only; no scans",
+  "files": {
+    "evidence/swift-candidate-qualification-220/codeql-probes/SwiftEndpoints.qll": "83a2cb2a11a208262ce0b0f11f3f602b585db0a18c84fce65ef23efbd063151f",
+    "evidence/swift-candidate-qualification-220/codeql-probes/checkpoints.ql": "10e8e2db627d67f1c8c5a5dbca6b2c1187f80f602b800756bbe9c6f4f557735a",
+    "evidence/swift-candidate-qualification-220/codeql-probes/codeql-pack.lock.yml": "fceb4b22c946b8a06e7895799cd997580c2f8b64cb871014cfaf62f66f962f17",
+    "evidence/swift-candidate-qualification-220/codeql-probes/declarations.ql": "1a4910aea0a7705201a66b6815426f77d1bf77e78214c9b812ae848cb552b7e1",
+    "evidence/swift-candidate-qualification-220/codeql-probes/endpoints.ql": "53525494630e0082e9274e44fc256d08bcd9f239b45fa0dda3add13e7cf5054b",
+    "evidence/swift-candidate-qualification-220/codeql-probes/flow.ql": "a0c0111835bcdec6ecc433a8d38f32e1e7952443197cd5cf66b33457e78bc5bf",
+    "evidence/swift-candidate-qualification-220/codeql-probes/qlpack.yml": "75b6865ba09f91a798bb4ecafac2d8058a70ab98e8fecb9cb0e0a958b0cc6224",
+    "evidence/swift-candidate-qualification-220/controls/endpoint-identity/control.json": "880fc8604e1c4409872bb1139ccde1b3a9f61d1e25a1c7369274858b5cbc6ad7",
+    "evidence/swift-candidate-qualification-220/controls/endpoint-identity/main.swift": "566e9d11b844bf77bf010e5e05d8b76e7cbfc85956981cf1bd58d5f36752d609",
+    "evidence/swift-candidate-qualification-220/controls/result-negative/control.json": "989f30b6f2f7c59e156b78eda43cb5bc548091bcd5ff0c8f8fd32d9d4f900eba",
+    "evidence/swift-candidate-qualification-220/controls/result-negative/main.swift": "75b163cc160bbfffba860abc358536d0ed65dad7a5f954e29d8e1f5a66eadd05",
+    "evidence/swift-candidate-qualification-220/controls/result-positive/control.json": "55834c5155835f4a2828bab80bb7700e46630a5f5d2153bd9ce30ef99e363080",
+    "evidence/swift-candidate-qualification-220/controls/result-positive/main.swift": "a2a73ad810ec5bd3388d0f13604487b5a1442a14a1a2c165facd6f04aabe3bcd"
+  }
+}

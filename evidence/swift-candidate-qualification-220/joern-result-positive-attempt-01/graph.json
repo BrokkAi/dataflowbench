@@ -1,0 +1,896 @@
+{
+  "state": "analyzed",
+  "frontend": "SWIFTSRC",
+  "metadata": [
+    {
+      "language": "SWIFTSRC",
+      "overlays": [
+        "base",
+        "controlflow",
+        "typerel",
+        "callgraph",
+        "dataflowOss"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "107374182400",
+      "full_name": "DataFlowBenchTaintSwift.FlowError.init:()->DataFlowBenchTaintSwift.FlowError",
+      "external": false,
+      "node": {
+        "id": "107374182400",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 1,
+        "code": "init"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.FlowError",
+          "node": {
+            "id": "111669149696",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 1,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182401",
+      "full_name": "main.swift:<global>",
+      "external": false,
+      "node": {
+        "id": "107374182401",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 1,
+        "code": "<global>"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182402",
+      "full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.Int",
+      "external": false,
+      "node": {
+        "id": "107374182402",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 5,
+        "code": "func dfb_source() -> Int { 7 }"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182403",
+      "full_name": "DataFlowBenchTaintSwift.produce:()->Swift.Result",
+      "external": false,
+      "node": {
+        "id": "107374182403",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 7,
+        "code": "func produce() -> Result<Int, FlowError> {\n    let input = dfb_source() // DFB-SOURCE: result-error-input\n    return .failure(FlowError(value: input)) // DFB-WITNESS: result-error-raise\n}"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182404",
+      "full_name": "DataFlowBenchTaintSwift.relay:()->Swift.Result",
+      "external": false,
+      "node": {
+        "id": "107374182404",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 12,
+        "code": "func relay() -> Result<Int, FlowError> {\n    switch produce() {\n    case .failure(let error):\n        return .failure(error) // DFB-WITNESS: result-error-relay\n    case .success(let value):\n        return .success(value)\n    }\n}"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182405",
+      "full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.Int)->()",
+      "external": false,
+      "node": {
+        "id": "107374182405",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 21,
+        "code": "func dfb_sink(_ value: Int) {}"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.Int",
+          "node": {
+            "id": "111669149697",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 21,
+            "code": "_ value: Int"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182406",
+      "full_name": "DataFlowBenchTaintSwift.probe:()->()",
+      "external": false,
+      "node": {
+        "id": "107374182406",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 23,
+        "code": "func probe() {\n    switch relay() {\n    case .failure(let error):\n        let payload = error.value // DFB-WITNESS: result-error-payload\n        dfb_sink(payload) // DFB-SINK: result-error-sink\n    case .success:\n        break\n    }\n}"
+      },
+      "parameters": []
+    },
+    {
+      "id": "107374182407",
+      "full_name": "<operator>.assignment",
+      "external": true,
+      "node": {
+        "id": "107374182407",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149698",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149699",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182408",
+      "full_name": "Swift.Result.failure:(Swift.Result.Type)->(B)->Swift.Result",
+      "external": true,
+      "node": {
+        "id": "107374182408",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149700",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149701",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182409",
+      "full_name": "<operator>.alloc",
+      "external": true,
+      "node": {
+        "id": "107374182409",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149702",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182410",
+      "full_name": "DataFlowBenchTaintSwift.FlowError.init:(value:Swift.Int)->DataFlowBenchTaintSwift.FlowError",
+      "external": true,
+      "node": {
+        "id": "107374182410",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149703",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149704",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182411",
+      "full_name": "Swift.Result.success:(Swift.Result.Type)->(A)->Swift.Result",
+      "external": true,
+      "node": {
+        "id": "107374182411",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149705",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149706",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "107374182412",
+      "full_name": "<operator>.fieldAccess",
+      "external": true,
+      "node": {
+        "id": "107374182412",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149707",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149708",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        }
+      ]
+    }
+  ],
+  "calls": [
+    {
+      "node": {
+        "id": "30064771072",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 8,
+        "code": "let input = dfb_source()"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182407"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476736",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 8,
+            "code": "input"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771073",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 8,
+            "code": "dfb_source()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771073",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 8,
+        "code": "dfb_source()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.Int",
+      "callee_ids": [
+        "107374182402"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476737",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 8,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771074",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 9,
+        "code": "self.failure(FlowError(value: input))"
+      },
+      "method_full_name": "Swift.Result.failure:(Swift.Result.Type)->(B)->Swift.Result",
+      "callee_ids": [
+        "107374182408"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476738",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 9,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "25769803779",
+            "label": "BLOCK",
+            "file": "main.swift",
+            "line": 9,
+            "code": "FlowError(value: input)"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771075",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 9,
+        "code": "<tmp>0 = <operator>.alloc"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182407"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476739",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 9,
+            "code": "<tmp>0"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771076",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 9,
+            "code": "<operator>.alloc"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771076",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 9,
+        "code": "<operator>.alloc"
+      },
+      "method_full_name": "<operator>.alloc",
+      "callee_ids": [
+        "107374182409"
+      ],
+      "arguments": []
+    },
+    {
+      "node": {
+        "id": "30064771077",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 9,
+        "code": "FlowError(value: input)"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.FlowError.init:(value:Swift.Int)->DataFlowBenchTaintSwift.FlowError",
+      "callee_ids": [
+        "107374182410"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476740",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 9,
+            "code": "<tmp>0"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476741",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 9,
+            "code": "input"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771078",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 13,
+        "code": "produce()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.produce:()->Swift.Result",
+      "callee_ids": [
+        "107374182403"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476743",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 13,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771079",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 14,
+        "code": "self.failure(let error)"
+      },
+      "method_full_name": "Swift.Result.failure:(Swift.Result.Type)->(B)->Swift.Result",
+      "callee_ids": [
+        "107374182408"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476744",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 14,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771080",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 15,
+        "code": "self.failure(error)"
+      },
+      "method_full_name": "Swift.Result.failure:(Swift.Result.Type)->(B)->Swift.Result",
+      "callee_ids": [
+        "107374182408"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476745",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476746",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 15,
+            "code": "error"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771081",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 16,
+        "code": "self.success(let value)"
+      },
+      "method_full_name": "Swift.Result.success:(Swift.Result.Type)->(A)->Swift.Result",
+      "callee_ids": [
+        "107374182411"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476747",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 16,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771082",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 17,
+        "code": "self.success(value)"
+      },
+      "method_full_name": "Swift.Result.success:(Swift.Result.Type)->(A)->Swift.Result",
+      "callee_ids": [
+        "107374182411"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476748",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 17,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476749",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 17,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771083",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 24,
+        "code": "relay()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.relay:()->Swift.Result",
+      "callee_ids": [
+        "107374182404"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476750",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 24,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771084",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 25,
+        "code": "self.failure(let error)"
+      },
+      "method_full_name": "Swift.Result.failure:(Swift.Result.Type)->(B)->Swift.Result",
+      "callee_ids": [
+        "107374182408"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476751",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 25,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771085",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 26,
+        "code": "let payload = error.value"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182407"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476752",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 26,
+            "code": "payload"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771086",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 26,
+            "code": "error.value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771086",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 26,
+        "code": "error.value"
+      },
+      "method_full_name": "<operator>.fieldAccess",
+      "callee_ids": [
+        "107374182412"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476753",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 26,
+            "code": "error"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "55834574848",
+            "label": "FIELD_IDENTIFIER",
+            "file": "main.swift",
+            "line": 26,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771087",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 27,
+        "code": "dfb_sink(payload)"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.Int)->()",
+      "callee_ids": [
+        "107374182405"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476754",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 27,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476755",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 27,
+            "code": "payload"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771088",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 33,
+        "code": "probe()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.probe:()->()",
+      "callee_ids": [
+        "107374182406"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476756",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 33,
+            "code": "self"
+          }
+        }
+      ]
+    }
+  ],
+  "source_method_ids": [
+    "107374182402"
+  ],
+  "sink_method_ids": [
+    "107374182405"
+  ],
+  "source_nodes": [
+    {
+      "id": "30064771073",
+      "label": "CALL",
+      "file": "main.swift",
+      "line": 8,
+      "code": "dfb_source()"
+    }
+  ],
+  "sink_nodes": [
+    {
+      "id": "68719476755",
+      "label": "IDENTIFIER",
+      "file": "main.swift",
+      "line": 27,
+      "code": "payload"
+    }
+  ],
+  "source_observations": [
+    {
+      "id": "30064771073",
+      "label": "CALL",
+      "file": "main.swift",
+      "line": 8,
+      "code": "dfb_source()"
+    }
+  ],
+  "sink_observations": [
+    {
+      "id": "30064771087",
+      "label": "CALL",
+      "file": "main.swift",
+      "line": 27,
+      "code": "dfb_sink(payload)"
+    }
+  ],
+  "semantics": [],
+  "flows": [],
+  "query_completed": true,
+  "analysis_completeness": {
+    "status": "unproven",
+    "exhaustion_observable": false,
+    "max_call_depth": 4,
+    "max_args_to_allow": 1000,
+    "max_output_args_expansion": 1000
+  }
+}

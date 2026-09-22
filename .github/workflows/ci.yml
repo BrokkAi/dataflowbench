@@ -65,6 +65,8 @@ jobs:
           python3 scripts/prepare-swift-release-220.py
           python3 scripts/test-swift-release-preparation.py
           python3 scripts/verify-swift-release-preparation.py
+          python3 scripts/audit-swift-candidates.py
+          python3 scripts/test-swift-candidates.py
           python3 scripts/verify-swift-followup-probes.py
       - name: Test Swift fixture validation controls
         run: python3 scripts/test-swift-fixtures.py
