@@ -20,10 +20,12 @@ def render():
            'plus 12 native assertions and two Result extension assertions. The original reports still '
            'bind v1 and do not acquire rows for these additions.', '',
            'The [v1 outcome reconciliation](swift-coverage-audit.md) retains all prior results. '
-           'Seven formerly deferred families now have canonical pairs. The separately versioned A40 '
+           'Seven formerly deferred families now have canonical pairs and complete typed coverage. The separately versioned A40 '
            'reports below retain actual capability decisions and execution outcomes. The two opaque modeling identities remain unresolved. '
            'Unsupported rows are prospective capability decisions, while inconclusive/error rows retain actual attempts. '
-           'Bifrost Swift remains unsupported; no Bifrost result rows are invented.', '',
+           'Bifrost Swift remains unsupported; no Bifrost result rows are invented. '
+           'The [dated successor coverage and blocked release plan](releases/swift-preparation-2026-09-23.md) '
+           'retains exactly two pending opaque-template choices without modifying the historical v1 audit.', '',
            '| Template | Polarity | Example | Profile | Validation policy | Analyzer results |',
            '| --- | --- | --- | --- | --- | --- |']
     for path,case in additions:

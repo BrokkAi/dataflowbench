@@ -190,3 +190,5 @@ other by `model_profile` and never pooled:
 - [Joern versioned vendor bundle](joern-swift-v2-vendor.md) — exact shipped catalog census, separate from native activation.
 
 - [Swift v2 addition partitions (A40)](swift-v2-partitions.md) — prospective native decisions and separate Result execution.
+
+- [Swift release preparation, 2026-09-23](releases/swift-preparation-2026-09-23.md) — dated pin audit and blocked common-revision plan; opaque-template choice pending.
