@@ -6,7 +6,9 @@ static-analysis tools. It is an experimental first version, not a leaderboard.
 
 Swift fixture participation is tracked separately in the [Swift contract](docs/swift-kernel.md):
 33 core pairs, two calibration pairs, and ten controlled modeling pairs.
-These fixtures do not establish analyzer activation or published Swift results.
+Independent [CodeQL](docs/codeql-swift.md) and [Joern](docs/joern-swift.md)
+execution evidence is retained. The [full coverage audit](docs/swift-coverage-audit.md)
+joins every registry identity to examples and outcomes; it is not a published freeze.
 Opaque modeling, native APIs, and other documented deferrals remain unresolved;
 Bifrost Swift support is not claimed.
 
