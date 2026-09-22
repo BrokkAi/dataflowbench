@@ -49,7 +49,7 @@ def audit(root=ROOT):
     entries = {c['id']: c for c in population['cases']}
     require(len(entries) == len(population['cases']), 'duplicate population entry')
     actual = {p.relative_to(root).as_posix() for p in (root / 'cases/taint/swift').glob('*/case.json')}
-    require(actual == {e['path'] for e in entries.values()}, 'population file set differs')
+    require({e['path'] for e in entries.values()} <= actual, 'v1 population file set missing; additional fixtures are audited separately by v2')
     cases = {}
     revision = hashlib.sha256()
     for entry in sorted(entries.values(), key=lambda e: e['path']):

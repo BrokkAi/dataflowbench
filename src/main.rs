@@ -75,7 +75,7 @@ use std::path::{Path, PathBuf};
 #[derive(Parser)]
 #[command(name = "dataflowbench")]
 struct Cli {
-    /// Select pinned inputs: v0.7.0 or prospective swift-synthetic-v1.
+    /// Select pinned inputs: v0.7.0, swift-synthetic-v1, or prospective swift-synthetic-v2.
     #[arg(long, global = true)]
     population: Option<String>,
     #[command(subcommand)]
