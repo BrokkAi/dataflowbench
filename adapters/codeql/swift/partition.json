@@ -1,0 +1,408 @@
+{
+  "schema_version": 1,
+  "status": "resolved",
+  "date": "2026-09-22",
+  "amendment": "A35",
+  "fixture_base_commit": "f3794bb7bb2136d7e1bf8a63a92f2ea3f18620b5",
+  "tool": "codeql",
+  "language": "swift",
+  "codeql_version": "2.27.0",
+  "swift_pack": "6.8.3",
+  "analysis_wall_seconds": "case.execution_budget.wall_clock_seconds (includes query compilation and interpretation)",
+  "analysis_memory_mb": "case.execution_budget.peak_memory_mb; uncertified aggregate compliance is inconclusive",
+  "extraction_operational_timeout_seconds": 180,
+  "templates": {
+    "dfb-template-alias-propagation-separation": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-argument-position-separation": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-array-element-separation": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-branch-join": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-call-context-separation": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-callback-registration": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-closure-capture": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-computed-property": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-context-pair-depth2": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-deep-relay-chain": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-direct-propagation": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-dispatch-table": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-element-object": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-exception-catch": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-arithmetic-expression-propagation": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-function-field": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-infeasible-branch": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-interprocedural-exception-persistence": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-local-multi-step-chain": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-local-overwrite-kill": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-loop-carried-kill": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-map-iteration": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-model-declared-sink": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-model-declared-source": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-model-entrypoint-parameter": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-model-entrypoint-selectivity": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-model-sanitizer-kill": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-model-sanitizer-selectivity": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-model-store-roundtrip": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-model-store-separation": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-model-summary-field": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-model-summary-through": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-modeled-external-summary": {
+      "tier": "calibration",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-chal-mutual-recursive-transform": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-nested-access-path": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-object-separation": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-one-hop-relay": {
+      "tier": "calibration",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "modeling-and-calibration",
+      "assertions": 2
+    },
+    "dfb-template-chal-recursive-callback-transform": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-recursive-carry": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-recursive-exception-persistence": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-recursive-heap-unwind": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-chal-recursive-payload-transform": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-return-relay-one-hop": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-return-relay-two-hop": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-same-object-field-separation": {
+      "tier": "core",
+      "profile": "benchmark-controlled",
+      "decision": "execute",
+      "activation": "core",
+      "assertions": 2
+    },
+    "dfb-template-model-opaque-propagator": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "deferred",
+      "reason": "Unresolved Swift opacity-preserving body contract; no fixture or denominator."
+    },
+    "dfb-template-model-propagator-position": {
+      "tier": "modeling",
+      "profile": "benchmark-controlled",
+      "decision": "deferred",
+      "reason": "Unresolved Swift opacity-preserving body contract; no fixture or denominator."
+    },
+    "dfb-template-native-source-sink": {
+      "tier": "modeling",
+      "profile": "tool-native",
+      "decision": "deferred",
+      "reason": "Unresolved real Swift API and independently pinned shipped-model contract."
+    },
+    "dfb-template-native-propagator": {
+      "tier": "modeling",
+      "profile": "tool-native",
+      "decision": "deferred",
+      "reason": "Unresolved real Swift API and independently pinned shipped-model contract."
+    },
+    "dfb-template-native-sanitizer": {
+      "tier": "modeling",
+      "profile": "tool-native",
+      "decision": "deferred",
+      "reason": "Unresolved real Swift API and independently pinned shipped-model contract."
+    },
+    "dfb-template-native-summary": {
+      "tier": "modeling",
+      "profile": "tool-native",
+      "decision": "deferred",
+      "reason": "Unresolved real Swift API and independently pinned shipped-model contract."
+    },
+    "dfb-template-native-entrypoint": {
+      "tier": "modeling",
+      "profile": "tool-native",
+      "decision": "deferred",
+      "reason": "Unresolved real Swift API and independently pinned shipped-model contract."
+    },
+    "dfb-template-native-persistence": {
+      "tier": "modeling",
+      "profile": "tool-native",
+      "decision": "deferred",
+      "reason": "Unresolved real Swift API and independently pinned shipped-model contract."
+    },
+    "dfb-template-result-error-propagation": {
+      "tier": "language-extension",
+      "decision": "deferred",
+      "reason": "Swift Result adaptation not yet preregistered."
+    },
+    "dfb-template-chal-reflective-invocation": {
+      "decision": "inapplicable",
+      "reason": "Explicit language/identity exclusion in docs/swift-kernel.md; not an analyzer outcome."
+    },
+    "dfb-template-chal-anonymous-implementation": {
+      "decision": "inapplicable",
+      "reason": "Explicit language/identity exclusion in docs/swift-kernel.md; not an analyzer outcome."
+    },
+    "dfb-template-c-error-code-return-path": {
+      "decision": "inapplicable",
+      "reason": "Explicit language/identity exclusion in docs/swift-kernel.md; not an analyzer outcome."
+    },
+    "dfb-template-c-goto-cleanup-carry": {
+      "decision": "inapplicable",
+      "reason": "Explicit language/identity exclusion in docs/swift-kernel.md; not an analyzer outcome."
+    }
+  },
+  "real_project": "deferred: no Swift study commissioned",
+  "reserved_tracks": [
+    "value-flow",
+    "typestate",
+    "witness",
+    "performance"
+  ],
+  "bifrost_swift": "unsupported"
+}

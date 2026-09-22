@@ -36,6 +36,12 @@ jobs:
       - run: cargo test
       - run: cargo run -- validate
       - run: cargo run -- validate-reports
+      - name: Verify retained Swift CodeQL activation and fail-closed controls
+        run: |
+          python3 scripts/test-codeql-swift-activation.py
+          python3 scripts/verify-codeql-swift-activation.py
+          python3 scripts/verify-codeql-swift-models.py
+          python3 evidence/codeql-swift/execution-218/audit.py | diff - evidence/codeql-swift/execution-218/summary.json
       - name: Test Swift fixture validation controls
         run: python3 scripts/test-swift-fixtures.py
       - name: Test isolated release validation gate

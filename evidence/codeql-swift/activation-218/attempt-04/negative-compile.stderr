@@ -1,0 +1,9 @@
+/Users/dave/.codex/worktrees/739a/dataflowbench/evidence/codeql-swift/activation-218/attempt-04/controls/negative/main.swift:4:5: warning: initialization of immutable value 'source' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+2 | func dfb_sink(_ value: Int) { print(value) }
+3 | func runActivation() {
+4 | let source = dfb_source()
+  |     `- warning: initialization of immutable value 'source' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+5 | dfb_sink(17)
+6 | }
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
