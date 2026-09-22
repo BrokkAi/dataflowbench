@@ -1,0 +1,47 @@
+{
+  "source_methods": [
+    "DataFlowBenchTaintSwift.dfb_source:()->Swift.String"
+  ],
+  "sink_methods": [
+    "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()"
+  ],
+  "source_anchors": [
+    {
+      "file": "main.swift",
+      "line_hint": 24
+    }
+  ],
+  "sink_anchors": [
+    {
+      "file": "main.swift",
+      "line_hint": 24
+    }
+  ],
+  "source_kind": "call",
+  "semantics": [
+    {
+      "method": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+      "flows": [
+        [
+          1,
+          -1
+        ]
+      ]
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+      "flows": []
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+      "flows": [
+        [
+          2,
+          -1
+        ]
+      ]
+    }
+  ],
+  "source_enabled": true,
+  "sink_enabled": true
+}

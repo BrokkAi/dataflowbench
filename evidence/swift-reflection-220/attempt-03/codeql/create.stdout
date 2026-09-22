@@ -1,0 +1,8 @@
+[2026-09-22 22:20:59] [build-stderr] /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-reflection220-ncu_yxpm/DataFlowBenchTaintSwift/main.swift:26:21: warning: initialization of immutable value 'value' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+[2026-09-22 22:20:59] [build-stderr] 24 | func probe0() { dfb_sink(dfb_source()) }
+[2026-09-22 22:20:59] [build-stderr] 25 | probe0()
+[2026-09-22 22:20:59] [build-stderr] 26 | func probe1() { let value = dfb_source(); dfb_sink("clean") }
+[2026-09-22 22:20:59] [build-stderr]    |                     `- warning: initialization of immutable value 'value' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+[2026-09-22 22:20:59] [build-stderr] 27 | probe1()
+[2026-09-22 22:20:59] [build-stderr] 28 | func probe2() { dfb_sink(Opaque.carry(dfb_source())) }
+[2026-09-22 22:20:59] [build-stderr] [#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
