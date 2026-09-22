@@ -1,5 +1,10 @@
 # Remaining-language applicability matrix
 
+Swift has a separate [applicability and implementation contract](swift-kernel.md).
+Its new fixtures do not alter historical populations or establish analyzer
+activation. Modeling/native deferrals remain unresolved, and Bifrost Swift
+support is not claimed.
+
 Issue #13 fixes, before any fixture is written, how the sixteen scored
 propagation templates port to the remaining ten languages: C, C++, C#, Go,
 Kotlin, PHP, Ruby, Rust, Scala, and TypeScript. The matrix is a contract, not

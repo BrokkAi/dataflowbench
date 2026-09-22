@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-model-summary-field-positive",
+  "template_id": "dfb-template-model-summary-field",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "external-summary",
+    "interprocedural-flow",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "summary-required",
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModelSummaryFieldPositive.swift",
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-summary-field-input",
+      "file": "ModelSummaryFieldPositive.swift",
+      "line_hint": 15
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-summary-field-sink",
+      "file": "ModelSummaryFieldPositive.swift",
+      "line_hint": 17
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: model-summary-field-input",
+      "sink": "DFB-SINK: model-summary-field-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "store-through-summary-activation",
+    "notes": "DataFlowBenchTaintSwift.Bridge.deposit(_ value: Swift.String, _ box: DataFlowBenchTaintSwift.Box) -> Swift.Void has the declared summary input-0-to-argument-1.payload binding; the negative reads the sibling field argument-1.spare."
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

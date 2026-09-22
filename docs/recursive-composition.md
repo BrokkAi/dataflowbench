@@ -1,5 +1,10 @@
 # Recursive composition preregistration
 
+Swift has a separate [applicability and implementation contract](swift-kernel.md).
+Its new fixtures do not alter historical populations or establish analyzer
+activation. Modeling/native deferrals remain unresolved, and Bifrost Swift
+support is not claimed.
+
 Issue #168; preregistered 2026-09-09 before fixture results. These additive
 identities are eligible only for a future freeze (v0.8.0 or later). Existing
 population manifests, fixtures, reports, and frozen denominators are immutable.

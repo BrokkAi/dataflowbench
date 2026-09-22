@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-context-pair-depth2-positive",
+  "template_id": "dfb-template-chal-context-pair-depth2",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "context-sensitivity"
+  ],
+  "feature_tags": [
+    "interprocedural-deep"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: context-pair-depth2-input",
+      "file": "main.swift",
+      "line_hint": 8
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: context-pair-depth2-sink",
+      "file": "main.swift",
+      "line_hint": 11
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: context-pair-depth2-input",
+      "sink": "DFB-SINK: context-pair-depth2-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: context-pair-depth2-input",
+    "DFB-WITNESS: context-pair-depth2-source-context",
+    "DFB-WITNESS: context-pair-depth2-clean-context",
+    "DFB-SINK: context-pair-depth2-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "two-level-context-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

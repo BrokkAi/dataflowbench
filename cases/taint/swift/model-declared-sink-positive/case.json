@@ -1,0 +1,58 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-model-declared-sink-positive",
+  "template_id": "dfb-template-model-declared-sink",
+  "polarity": "positive",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "local-flow"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModelDeclaredSinkPositive.swift",
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-declared-sink-input",
+      "file": "ModelDeclaredSinkPositive.swift",
+      "line_hint": 9
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-declared-sink-sink",
+      "file": "ModelDeclaredSinkPositive.swift",
+      "line_hint": 2
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: model-declared-sink-input",
+      "sink": "DFB-SINK: model-declared-sink-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "declared-sink-activation",
+    "notes": "DataFlowBenchTaintSwift.Audit.record(_ value: Swift.String) -> Swift.Void is the declared sink at parameter position 0; DataFlowBenchTaintSwift.Audit.discard(_ value: Swift.String) -> Swift.Void is the undeclared same-signature sibling."
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

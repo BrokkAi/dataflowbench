@@ -1,5 +1,10 @@
 # Benchmark-controlled taint-modeling matrix
 
+Swift has a separate [applicability and implementation contract](swift-kernel.md).
+Its new fixtures do not alter historical populations or establish analyzer
+activation. Modeling/native deferrals remain unresolved, and Bifrost Swift
+support is not claimed.
+
 This document is the **preregistration artifact** for twelve taint-modeling
 templates, in six balanced categories. It merges before any modeling fixture
 exists, before any model file is authored for any analyzer, and before any

@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-closure-capture-negative",
+  "template_id": "dfb-template-chal-closure-capture",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "dynamic-dispatch",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "higher-order"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: closure-capture-input",
+      "file": "main.swift",
+      "line_hint": 8
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: closure-capture-sink",
+      "file": "main.swift",
+      "line_hint": 11
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: closure-capture-input",
+      "sink": "DFB-SINK: closure-capture-sink"
+    }
+  ],
+  "witness_checkpoints": [
+    "DFB-WITNESS: closure-capture-captured",
+    "DFB-SOURCE: closure-capture-input",
+    "DFB-WITNESS: closure-capture-invoke",
+    "DFB-SINK: closure-capture-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "closure-capture-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

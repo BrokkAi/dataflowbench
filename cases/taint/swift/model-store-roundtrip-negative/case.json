@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-model-store-roundtrip-negative",
+  "template_id": "dfb-template-model-store-roundtrip",
+  "polarity": "negative",
+  "negative_mechanism": "field-separation",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModelStoreRoundtripNegative.swift",
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-store-roundtrip-input",
+      "file": "ModelStoreRoundtripNegative.swift",
+      "line_hint": 10
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-store-roundtrip-sink",
+      "file": "ModelStoreRoundtripNegative.swift",
+      "line_hint": 15
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: model-store-roundtrip-input",
+      "sink": "DFB-SINK: model-store-roundtrip-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "persistence-boundary-activation",
+    "notes": "DataFlowBenchTaintSwift.Store.put(_ key: Swift.String, _ value: Swift.String) -> Swift.Void is the primary store-write binding (value position 1, key position 0); DataFlowBenchTaintSwift.Store.get(_ key: Swift.String) -> Swift.String is the primary store-read binding (return, key position 0)."
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-one-hop-relay-positive",
+  "template_id": "dfb-template-one-hop-relay",
+  "polarity": "positive",
+  "score_tier": "calibration",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "OneHopRelayPositive.swift",
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: one-hop-input",
+      "file": "OneHopRelayPositive.swift",
+      "line_hint": 6
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: one-hop-sink",
+      "file": "OneHopRelayPositive.swift",
+      "line_hint": 9
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: one-hop-input",
+      "sink": "DFB-SINK: one-hop-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "bounded-interprocedural-taint",
+    "notes": "DataFlowBenchTaintSwift.dfb_source() -> Swift.Int returns 7; DataFlowBenchTaintSwift.relay(_ value: Swift.Int) -> Swift.Int returns its argument; DataFlowBenchTaintSwift.dfb_sink(_ value: Swift.Int) -> Swift.Void prints the selected result."
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

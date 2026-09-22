@@ -159,6 +159,31 @@ pub(crate) const CHALLENGE_TEMPLATE_IDS_C: [&str; 9] = [
     "dfb-template-chal-recursive-carry",
 ];
 
+/// Swift has no standard-library equivalent for reflective invocation or an
+/// anonymous protocol implementation. Its other twelve challenge identities
+/// are applicable under docs/swift-kernel.md and join the core denominator.
+pub(crate) const CHALLENGE_TEMPLATE_IDS_SWIFT: [&str; 12] = [
+    "dfb-template-chal-callback-registration",
+    "dfb-template-chal-closure-capture",
+    "dfb-template-chal-computed-property",
+    "dfb-template-chal-context-pair-depth2",
+    "dfb-template-chal-deep-relay-chain",
+    "dfb-template-chal-dispatch-table",
+    "dfb-template-chal-element-object",
+    "dfb-template-chal-function-field",
+    "dfb-template-chal-interprocedural-exception-persistence",
+    "dfb-template-chal-map-iteration",
+    "dfb-template-chal-nested-access-path",
+    "dfb-template-chal-recursive-carry",
+];
+
+/// Swift's two calibration identities. They exercise adapter plumbing but
+/// remain outside every correctness denominator.
+pub(crate) const SWIFT_CALIBRATION_TEMPLATE_IDS: [&str; 2] = [
+    "dfb-template-one-hop-relay",
+    "dfb-template-modeled-external-summary",
+];
+
 /// Prospective recursive compositions; frozen populations resolve their own IDs.
 /// See docs/recursive-composition.md. The exception cell is absent in C/Rust.
 pub(crate) const RECURSIVE_COMPOSITION_TEMPLATE_IDS: [&str; 5] = [
@@ -170,7 +195,7 @@ pub(crate) const RECURSIVE_COMPOSITION_TEMPLATE_IDS: [&str; 5] = [
 ];
 
 /// Explicit delivery ledger: add a language only with its complete fixture pairs.
-pub(crate) const RECURSIVE_COMPOSITION_LANGUAGES: [&str; 13] = [
+pub(crate) const RECURSIVE_COMPOSITION_LANGUAGES: [&str; 14] = [
     "java",
     "python",
     "javascript",
@@ -184,6 +209,7 @@ pub(crate) const RECURSIVE_COMPOSITION_LANGUAGES: [&str; 13] = [
     "ruby",
     "rust",
     "scala",
+    "swift",
 ];
 
 pub(crate) fn recursive_composition_templates(language: &str) -> Vec<&'static str> {
@@ -247,7 +273,7 @@ impl ChallengeRollout {
 /// wave 4 (analyzer-coverage-gated). The applicable challenge sets are fixed by
 /// the preregistration's applicability matrix and are not a wave's to change;
 /// only `rolled_out` moves.
-pub(crate) const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
+pub(crate) const CHALLENGE_ROLLOUT: [ChallengeRollout; 14] = [
     ChallengeRollout {
         language: "java",
         display: "Java",
@@ -337,6 +363,13 @@ pub(crate) const CHALLENGE_ROLLOUT: [ChallengeRollout; 13] = [
         display: "Ruby",
         classic: &KERNEL_TEMPLATE_IDS,
         challenge: &CHALLENGE_TEMPLATE_IDS,
+        rolled_out: true,
+    },
+    ChallengeRollout {
+        language: "swift",
+        display: "Swift",
+        classic: &KERNEL_TEMPLATE_IDS,
+        challenge: &CHALLENGE_TEMPLATE_IDS_SWIFT,
         rolled_out: true,
     },
 ];

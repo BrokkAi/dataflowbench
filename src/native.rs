@@ -1302,7 +1302,11 @@ pub(crate) fn validate_native_cases(cases: &[(PathBuf, Value)]) -> Result<()> {
             })
             .cloned()
             .collect();
-        validate_native_population(&population, &format!("{language} tool-native population"))?;
+        crate::cases::validate_fixture_population_with(
+            &population,
+            &format!("{language} tool-native population"),
+            &NATIVE_TEMPLATE_IDS,
+        )?;
     }
     Ok(())
 }

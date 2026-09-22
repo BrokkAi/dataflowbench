@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-model-sanitizer-kill-negative",
+  "template_id": "dfb-template-model-sanitizer-kill",
+  "polarity": "negative",
+  "negative_mechanism": "sanitizer",
+  "score_tier": "modeling",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "sanitizer"
+  ],
+  "feature_tags": [
+    "modeled-external",
+    "sanitized"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "ModelSanitizerKillNegative.swift",
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: model-sanitizer-kill-input",
+      "file": "ModelSanitizerKillNegative.swift",
+      "line_hint": 9
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: model-sanitizer-kill-sink",
+      "file": "ModelSanitizerKillNegative.swift",
+      "line_hint": 10
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: model-sanitizer-kill-input",
+      "sink": "DFB-SINK: model-sanitizer-kill-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "declared-sanitizer-activation",
+    "notes": "DataFlowBenchTaintSwift.Clean.scrub(_ value: Swift.String) -> Swift.String is the declared sanitizer at parameter position 0; its identity body must be ignored for the model assertion."
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

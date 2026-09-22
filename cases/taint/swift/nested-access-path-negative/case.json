@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-nested-access-path-negative",
+  "template_id": "dfb-template-chal-nested-access-path",
+  "polarity": "negative",
+  "negative_mechanism": "field-separation",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: nested-access-path-input",
+      "file": "main.swift",
+      "line_hint": 8
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: nested-access-path-sink",
+      "file": "main.swift",
+      "line_hint": 10
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: nested-access-path-input",
+      "sink": "DFB-SINK: nested-access-path-sink"
+    }
+  ],
+  "witness_checkpoints": [
+    "DFB-SOURCE: nested-access-path-input",
+    "DFB-WITNESS: nested-access-path-write",
+    "DFB-SINK: nested-access-path-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "deep-access-path-sensitive-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-217",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}

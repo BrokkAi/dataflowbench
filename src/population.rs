@@ -1,4 +1,4 @@
-//! Exact released input populations, independent of moving main's corpus.
+//! Exact released and prospective input populations, independent of moving main.
 use crate::freeze::{
     fixture_revision_for_manifest_cases, repository_path, require_digest, validate_fixture_digests,
 };
@@ -13,9 +13,12 @@ use std::{
 
 const BASELINE: &str = include_str!("../populations/v0.7.0.json");
 const BASELINE_SHA256: &str = "6323c36ef5790e447b8f0990ac5670a619165ea40fd56adda20d3fff3bd54519";
+const SWIFT: &str = include_str!("../populations/swift-synthetic-v1.json");
+const SWIFT_SHA256: &str = "95e3075b26ebd55cff6dc5fa0fc413ed15733c2ae9d8e21014f80395ca24c4f5";
 static ACTIVE: OnceLock<Population> = OnceLock::new();
 
 pub(crate) struct Population {
+    name: &'static str,
     cases: BTreeMap<String, (PathBuf, Value)>,
 }
 
@@ -27,10 +30,11 @@ pub(crate) fn initialize(name: Option<&str>) -> Result<()> {
     let Some(name) = name else {
         return Ok(());
     };
-    if name != "v0.7.0" {
-        bail!("unknown population {name:?}; supported: v0.7.0");
-    }
-    let population = Population::load(Path::new("."))?;
+    let population = match name {
+        "v0.7.0" => Population::load(Path::new("."))?,
+        "swift-synthetic-v1" => Population::load_swift(Path::new("."))?,
+        _ => bail!("unknown population {name:?}; supported: v0.7.0, swift-synthetic-v1"),
+    };
     ACTIVE
         .set(population)
         .map_err(|_| anyhow::anyhow!("population already initialized"))?;
@@ -39,12 +43,20 @@ pub(crate) fn initialize(name: Option<&str>) -> Result<()> {
 
 impl Population {
     pub(crate) fn load(root: &Path) -> Result<Self> {
+        Self::load_manifest(root, "v0.7.0", BASELINE, BASELINE_SHA256)
+    }
+
+    fn load_swift(root: &Path) -> Result<Self> {
+        Self::load_manifest(root, "swift-synthetic-v1", SWIFT, SWIFT_SHA256)
+    }
+
+    fn load_manifest(root: &Path, name: &'static str, bytes: &str, digest: &str) -> Result<Self> {
         require_digest(
-            BASELINE_SHA256,
-            BASELINE.as_bytes(),
-            "pinned v0.7.0 population manifest",
+            digest,
+            bytes.as_bytes(),
+            &format!("pinned {name} population manifest"),
         )?;
-        let manifest: Value = serde_json::from_str(BASELINE)?;
+        let manifest: Value = serde_json::from_str(bytes)?;
         let mut cases = BTreeMap::new();
         let mut paths = BTreeSet::new();
         let mut revision_paths = Vec::new();
@@ -62,6 +74,17 @@ impl Population {
             if case["id"].as_str() != Some(id) {
                 bail!("population case ID mismatch: {id}");
             }
+            for field in [
+                "template_id",
+                "polarity",
+                "score_tier",
+                "track",
+                "model_profile",
+            ] {
+                if selected[field] != case[field] {
+                    bail!("population case {id} has mismatched {field}");
+                }
+            }
             validate_fixture_digests(root, relative, selected, &case)?;
             if !paths.insert(relative.to_string())
                 || cases
@@ -76,7 +99,7 @@ impl Population {
         if Some(revision.as_str()) != manifest["fixture_revision"].as_str() {
             bail!("population fixture revision mismatch");
         }
-        Ok(Self { cases })
+        Ok(Self { name, cases })
     }
 
     pub(crate) fn paths(&self) -> Vec<PathBuf> {
@@ -103,7 +126,8 @@ impl Population {
         let expected: BTreeSet<_> = self.cases.keys().cloned().collect();
         if &expected != actual {
             bail!(
-                "v0.7.0 population mismatch: missing={:?}, unexpected={:?}",
+                "{} population mismatch: missing={:?}, unexpected={:?}",
+                self.name,
                 expected.difference(actual).collect::<Vec<_>>(),
                 actual.difference(&expected).collect::<Vec<_>>()
             );
@@ -115,16 +139,116 @@ impl Population {
         for (path, case) in cases {
             let id = case["id"].as_str().context("selected case id")?;
             if self.cases.get(id) != Some(&(path.clone(), case.clone())) {
-                bail!("selected case {id} is outside or differs from pinned v0.7.0 population");
+                bail!(
+                    "selected case {id} is outside or differs from pinned {} population",
+                    self.name
+                );
             }
         }
         Ok(())
     }
 }
 
+/// Validate the prospective Swift fixture inventory, without activating any analyzer.
+pub(crate) fn validate_swift_population(root: &Path) -> Result<()> {
+    let population = Population::load_swift(root)?;
+    let actual: BTreeSet<_> = walkdir::WalkDir::new(root.join("cases/taint/swift"))
+        .into_iter()
+        .collect::<std::result::Result<Vec<_>, _>>()?
+        .into_iter()
+        .filter(|entry| entry.file_type().is_file() && entry.file_name() == "case.json")
+        .map(|entry| entry.path().strip_prefix(root).map(Path::to_path_buf))
+        .collect::<std::result::Result<_, _>>()?;
+    let expected: BTreeSet<_> = population.paths().into_iter().collect();
+    if actual != expected {
+        bail!("Swift prospective population file set differs from manifest");
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn swift_prospective_population_is_separate_and_complete() {
+        let swift = Population::load_swift(Path::new(".")).unwrap();
+        let baseline = Population::load(Path::new(".")).unwrap();
+        assert_eq!(swift.paths().len(), 90);
+        assert_eq!(swift.core_templates("swift").len(), 33);
+        assert!(swift.core_templates("java").is_empty());
+        assert!(
+            swift
+                .cases
+                .keys()
+                .all(|id| !baseline.cases.contains_key(id))
+        );
+        let mut tiers = BTreeMap::new();
+        for (_, case) in swift.cases.values() {
+            assert_eq!(case["language"], "swift");
+            assert_eq!(case["model_profile"], "benchmark-controlled");
+            *tiers
+                .entry(case["score_tier"].as_str().unwrap())
+                .or_insert(0) += 1;
+        }
+        assert_eq!(
+            tiers,
+            BTreeMap::from([("calibration", 4), ("core", 66), ("modeling", 20)])
+        );
+        validate_swift_population(Path::new(".")).unwrap();
+    }
+
+    #[test]
+    fn swift_manifest_rejects_missing_extra_and_changed_inputs() {
+        let root = std::env::temp_dir().join(format!(
+            "dfb-swift-population-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let manifest: Value = serde_json::from_str(SWIFT).unwrap();
+        for case in manifest["cases"].as_array().unwrap() {
+            for relative in std::iter::once(case["path"].as_str().unwrap()).chain(
+                case["fixture_digests"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .map(|f| f["path"].as_str().unwrap()),
+            ) {
+                let dest = root.join(relative);
+                fs::create_dir_all(dest.parent().unwrap()).unwrap();
+                fs::copy(relative, dest).unwrap();
+            }
+        }
+        validate_swift_population(&root).unwrap();
+        let first = &manifest["cases"][0];
+        for relative in [
+            first["path"].as_str().unwrap(),
+            first["fixture_digests"][0]["path"].as_str().unwrap(),
+        ] {
+            let path = root.join(relative);
+            let original = fs::read(&path).unwrap();
+            let mut changed = original.clone();
+            changed.push(b' ');
+            fs::write(&path, changed).unwrap();
+            assert!(validate_swift_population(&root).is_err());
+            fs::remove_file(&path).unwrap();
+            assert!(validate_swift_population(&root).is_err());
+            fs::write(&path, original).unwrap();
+        }
+        let extra = root.join("cases/taint/swift/unregistered-positive/case.json");
+        fs::create_dir_all(extra.parent().unwrap()).unwrap();
+        fs::copy(root.join(first["path"].as_str().unwrap()), &extra).unwrap();
+        assert!(
+            validate_swift_population(&root)
+                .unwrap_err()
+                .to_string()
+                .contains("file set")
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
 
     #[test]
     fn baseline_exact_bytes_and_new_kernels_are_separate() {
@@ -244,6 +368,24 @@ mod tests {
             assert!(!warm.cases.is_empty());
             active().unwrap().validate_members(&warm.cases).unwrap();
         }
+    }
+
+    #[test]
+    fn active_swift_selection_preserves_full_validation_and_rejects_other_inputs() {
+        const CHILD: &str = "DFB_SWIFT_POPULATION_TEST_CHILD";
+        if std::env::var_os(CHILD).is_none() {
+            let status = std::process::Command::new(std::env::current_exe().unwrap())
+                .args(["--exact", "population::tests::active_swift_selection_preserves_full_validation_and_rejects_other_inputs"])
+                .env(CHILD, "1").status().unwrap();
+            assert!(status.success());
+            return;
+        }
+        initialize(Some("swift-synthetic-v1")).unwrap();
+        assert_eq!(crate::cases::case_paths().len(), 90);
+        crate::cases::validate_cases().unwrap();
+        let baseline = Population::load(Path::new(".")).unwrap();
+        let outside = baseline.cases.values().next().unwrap().clone();
+        assert!(active().unwrap().validate_members(&[outside]).is_err());
     }
 
     #[test]

@@ -68,7 +68,8 @@
     "language": {
       "type": "string",
       "minLength": 1,
-      "description": "The fixture language. Each language is a separate result population with its own core denominator; a runner never mixes two."
+      "description": "The fixture language, including prospective languages such as Swift. Each language is a separate result population with its own core denominator; a runner never mixes two. The schema intentionally accepts future nonempty language keys; analyzer support is registered separately.",
+      "examples": ["java", "swift"]
     },
     "semantic_dimensions": {
       "type": "array",
