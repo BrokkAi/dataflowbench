@@ -15,6 +15,8 @@ const BASELINE: &str = include_str!("../populations/v0.7.0.json");
 const BASELINE_SHA256: &str = "6323c36ef5790e447b8f0990ac5670a619165ea40fd56adda20d3fff3bd54519";
 const SWIFT: &str = include_str!("../populations/swift-synthetic-v1.json");
 const SWIFT_SHA256: &str = "95e3075b26ebd55cff6dc5fa0fc413ed15733c2ae9d8e21014f80395ca24c4f5";
+const SWIFT_V2: &str = include_str!("../populations/swift-synthetic-v2.json");
+const SWIFT_V2_SHA256: &str = "b6c29ff47942c73c34bd479c7ce1137b5bf97d0fbede1204f8eae16aa32007bb";
 static ACTIVE: OnceLock<Population> = OnceLock::new();
 
 pub(crate) struct Population {
@@ -33,7 +35,10 @@ pub(crate) fn initialize(name: Option<&str>) -> Result<()> {
     let population = match name {
         "v0.7.0" => Population::load(Path::new("."))?,
         "swift-synthetic-v1" => Population::load_swift(Path::new("."))?,
-        _ => bail!("unknown population {name:?}; supported: v0.7.0, swift-synthetic-v1"),
+        "swift-synthetic-v2" => Population::load_swift_v2(Path::new("."))?,
+        _ => bail!(
+            "unknown population {name:?}; supported: v0.7.0, swift-synthetic-v1, swift-synthetic-v2"
+        ),
     };
     ACTIVE
         .set(population)
@@ -48,6 +53,10 @@ impl Population {
 
     fn load_swift(root: &Path) -> Result<Self> {
         Self::load_manifest(root, "swift-synthetic-v1", SWIFT, SWIFT_SHA256)
+    }
+
+    fn load_swift_v2(root: &Path) -> Result<Self> {
+        Self::load_manifest(root, "swift-synthetic-v2", SWIFT_V2, SWIFT_V2_SHA256)
     }
 
     fn load_manifest(root: &Path, name: &'static str, bytes: &str, digest: &str) -> Result<Self> {
@@ -151,7 +160,13 @@ impl Population {
 
 /// Validate the prospective Swift fixture inventory, without activating any analyzer.
 pub(crate) fn validate_swift_population(root: &Path) -> Result<()> {
-    let population = Population::load_swift(root)?;
+    let previous = Population::load_swift(root)?;
+    let population = Population::load_swift_v2(root)?;
+    for (id, original) in &previous.cases {
+        if population.cases.get(id) != Some(original) {
+            bail!("Swift v2 changed immutable v1 member {id}");
+        }
+    }
     let actual: BTreeSet<_> = walkdir::WalkDir::new(root.join("cases/taint/swift"))
         .into_iter()
         .collect::<std::result::Result<Vec<_>, _>>()?
@@ -199,6 +214,38 @@ mod tests {
     }
 
     #[test]
+    fn swift_v2_extends_v1_without_profile_or_byte_drift() {
+        let v1 = Population::load_swift(Path::new(".")).unwrap();
+        let v2 = Population::load_swift_v2(Path::new(".")).unwrap();
+        assert_eq!(v2.cases.len(), 104);
+        for (id, entry) in &v1.cases {
+            assert_eq!(v2.cases.get(id), Some(entry));
+        }
+        let additions: Vec<_> = v2
+            .cases
+            .iter()
+            .filter(|(id, _)| !v1.cases.contains_key(*id))
+            .collect();
+        assert_eq!(additions.len(), 14);
+        assert_eq!(
+            additions
+                .iter()
+                .filter(|(_, (_, c))| c["model_profile"] == "tool-native")
+                .count(),
+            12
+        );
+        assert_eq!(
+            additions
+                .iter()
+                .filter(|(_, (_, c))| c["score_tier"] == "language-extension")
+                .count(),
+            2
+        );
+        assert!(v1.validate_members(&[additions[0].1.clone()]).is_err());
+        assert_eq!(v2.core_templates("swift"), v1.core_templates("swift"));
+    }
+
+    #[test]
     fn swift_manifest_rejects_missing_extra_and_changed_inputs() {
         let root = std::env::temp_dir().join(format!(
             "dfb-swift-population-{}-{}",
@@ -208,7 +255,7 @@ mod tests {
                 .unwrap()
                 .as_nanos()
         ));
-        let manifest: Value = serde_json::from_str(SWIFT).unwrap();
+        let manifest: Value = serde_json::from_str(SWIFT_V2).unwrap();
         for case in manifest["cases"].as_array().unwrap() {
             for relative in std::iter::once(case["path"].as_str().unwrap()).chain(
                 case["fixture_digests"]
@@ -406,6 +453,71 @@ mod tests {
         let baseline = Population::load(Path::new(".")).unwrap();
         let outside = baseline.cases.values().next().unwrap().clone();
         assert!(active().unwrap().validate_members(&[outside]).is_err());
+    }
+
+    #[test]
+    fn active_swift_v2_selection_keeps_v1_modeling_disjoint() {
+        const CHILD: &str = "DFB_SWIFT_V2_POPULATION_TEST_CHILD";
+        if std::env::var_os(CHILD).is_none() {
+            let status = std::process::Command::new(std::env::current_exe().unwrap())
+                .args([
+                    "--exact",
+                    "population::tests::active_swift_v2_selection_keeps_v1_modeling_disjoint",
+                ])
+                .env(CHILD, "1")
+                .status()
+                .unwrap();
+            assert!(status.success());
+            return;
+        }
+        initialize(Some("swift-synthetic-v2")).unwrap();
+        assert_eq!(crate::cases::case_paths().len(), 104);
+        crate::cases::validate_cases().unwrap();
+        let cases = &active().unwrap().cases;
+        assert_eq!(
+            cases
+                .values()
+                .filter(|(_, c)| c["model_profile"] == "tool-native")
+                .count(),
+            12
+        );
+        assert_eq!(
+            cases
+                .values()
+                .filter(|(_, c)| c["score_tier"] == "modeling"
+                    && c["model_profile"] == "benchmark-controlled")
+                .count(),
+            20
+        );
+        let manifest: Value = serde_json::from_str(SWIFT_V2).unwrap();
+        assert_eq!(
+            crate::cases::fixture_revision().unwrap(),
+            manifest["fixture_revision"].as_str().unwrap()
+        );
+        for (_, case) in cases
+            .values()
+            .filter(|(_, c)| c["model_profile"] == "tool-native")
+        {
+            for language in [
+                crate::adapters::ModelingLanguage::Java,
+                crate::adapters::ModelingLanguage::Javascript,
+                crate::adapters::ModelingLanguage::Python,
+            ] {
+                assert!(!crate::native::native_case(case, language));
+            }
+        }
+        let mut native = cases
+            .values()
+            .filter(|(_, c)| c["model_profile"] == "tool-native")
+            .cloned()
+            .collect::<Vec<_>>();
+        native[0].1["tool_model_references"] = serde_json::json!({"codeql":"unqualified"});
+        assert!(
+            crate::native::validate_native_cases(&native)
+                .unwrap_err()
+                .to_string()
+                .contains("cannot activate")
+        );
     }
 
     #[test]

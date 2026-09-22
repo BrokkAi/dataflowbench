@@ -13,7 +13,8 @@ def audit():
         for name,digest in entries.items():
             assert sha(manifest_path.parent/name)==digest,('archived evidence digest',str(manifest_path),name)
     cases={}
-    for path in (ROOT/'cases/taint/swift').glob('*/case.json'):
+    for entry in json.loads((ROOT/'populations/swift-synthetic-v1.json').read_text())['cases']:
+        path=ROOT/entry['path']
         case=json.loads(path.read_text());cases[case['id']]=(path,case)
     summary={}
     for tier,suffix in [('core','kernel'),('modeling','modeling'),('calibration','calibration')]:

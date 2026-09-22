@@ -113,7 +113,7 @@ pub(crate) fn swift_registry_rejects_incomplete_duplicate_and_excluded_templates
         })
         .collect();
     validate_swift_metadata(&cases).unwrap();
-    for tier in ["core", "calibration", "modeling"] {
+    for tier in ["core", "calibration", "modeling", "language-extension"] {
         let without_tier: Vec<_> = cases
             .iter()
             .filter(|(_, c)| c["score_tier"] != tier)

@@ -1,0 +1,1517 @@
+{
+  "cases": [
+    {
+      "case_id": "dfb-taint-swift-native-entrypoint-negative",
+      "fixture_files": [
+        {
+          "bytes": 407,
+          "path": "main.swift",
+          "sha256": "dee46617fcaccbeaceaa538f64a5a803ddfa42207ceac045b7ce5c7776992dbd"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-entrypoint-positive",
+      "fixture_files": [
+        {
+          "bytes": 358,
+          "path": "main.swift",
+          "sha256": "bbf6b74602115619d05fcbb3b1e4ab09f934ea2356787a96872d7a257f3dde8b"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-persistence-negative",
+      "fixture_files": [
+        {
+          "bytes": 642,
+          "path": "main.swift",
+          "sha256": "cf8e0098a59e97b26c562ceced7fc6cb399688be6c02cb329d7fe646e922c6b9"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-persistence-positive",
+      "fixture_files": [
+        {
+          "bytes": 644,
+          "path": "main.swift",
+          "sha256": "25394bf472f7b31b9652adfbf6db45b72986cf79e76f8651c21dbf4448361b1a"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-propagator-negative",
+      "fixture_files": [
+        {
+          "bytes": 397,
+          "path": "main.swift",
+          "sha256": "f32ed5bf15ea5491e0b80b4f721b4d90e71d89ac3811b6a119da1c3028de026a"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-propagator-positive",
+      "fixture_files": [
+        {
+          "bytes": 381,
+          "path": "main.swift",
+          "sha256": "098d9b92ae36469f75f4fabc368b2dedc9fb3176e788c086605d29b4ebb2387a"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-sanitizer-negative",
+      "fixture_files": [
+        {
+          "bytes": 486,
+          "path": "main.swift",
+          "sha256": "c9a1a164422b9a32ed4dd8c760cb70c79e999833fe0516b25f0e764224ab978e"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-sanitizer-positive",
+      "fixture_files": [
+        {
+          "bytes": 377,
+          "path": "main.swift",
+          "sha256": "13eebec155377719a2aa844627e4a2b23dfc7d16a2ad643878335a547b3a442f"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-source-sink-negative",
+      "fixture_files": [
+        {
+          "bytes": 370,
+          "path": "main.swift",
+          "sha256": "73b9d645cc7138c1654fbc51044595f684e63f26704a1c5b217fc301fafcf37a"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-source-sink-positive",
+      "fixture_files": [
+        {
+          "bytes": 365,
+          "path": "main.swift",
+          "sha256": "66eb76bda1e6980765f6b7821795c4e4f2597952f5aa3db101e48c51320e8e9f"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-summary-negative",
+      "fixture_files": [
+        {
+          "bytes": 595,
+          "path": "main.swift",
+          "sha256": "af6368fb72193b65ef12914e7bc2dca28dc2157b9ee3a78ec4f1041afcb479d0"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-summary-positive",
+      "fixture_files": [
+        {
+          "bytes": 574,
+          "path": "main.swift",
+          "sha256": "652cd447d4bd47fe589852eb9e70fd8a20a9a53160f281aae4a1d21fbee31c94"
+        }
+      ],
+      "policy": "compile-only"
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-negative",
+      "fixture_files": [
+        {
+          "bytes": 856,
+          "path": "main.swift",
+          "sha256": "75b163cc160bbfffba860abc358536d0ed65dad7a5f954e29d8e1f5a66eadd05"
+        }
+      ],
+      "policy": "concrete-control"
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-positive",
+      "fixture_files": [
+        {
+          "bytes": 775,
+          "path": "main.swift",
+          "sha256": "a2a73ad810ec5bd3388d0f13604487b5a1442a14a1a2c165facd6f04aabe3bcd"
+        }
+      ],
+      "policy": "concrete-control"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "--find",
+        "swiftc"
+      ],
+      "cwd": null,
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc\n"
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "--version"
+      ],
+      "cwd": null,
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "swift-driver version: 1.168.6 ",
+      "stdout": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/xcodebuild",
+        "-version"
+      ],
+      "cwd": null,
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "Xcode 27.0\nBuild version 27A266a\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/sw_vers"
+      ],
+      "cwd": null,
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0\nBuildVersion:\t\t26A428\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/uname",
+        "-m"
+      ],
+      "cwd": null,
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "arm64\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "--sdk",
+        "macosx",
+        "--show-sdk-path"
+      ],
+      "cwd": null,
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "--sdk",
+        "macosx",
+        "--show-sdk-version"
+      ],
+      "cwd": null,
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "27.0\n"
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "--sdk",
+        "macosx",
+        "--show-sdk-build-version"
+      ],
+      "cwd": null,
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "26A425\n"
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-print-target-info"
+      ],
+      "cwd": null,
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\n  \"compilerVersion\": \"Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\",\n  \"swiftCompilerTag\": \"swiftlang-6.4.0.34.1\",\n  \"target\": {\n    \"triple\": \"arm64-apple-macosx27.0.0\",\n    \"unversionedTriple\": \"arm64-apple-macosx\",\n    \"moduleTriple\": \"arm64-apple-macos\",\n    \"platform\": \"macosx\",\n    \"arch\": \"arm64\",\n    \"pointerWidthInBits\": 64,\n    \"pointerWidthInBytes\": 8,\n    \"swiftRuntimeCompatibilityVersion\": \"6.4\",\n    \"compatibilityLibraries\": [ ],\n    \"openbsdBTCFIEnabled\": false,\n    \"librariesRequireRPath\": false\n  },\n  \"paths\": {\n    \"runtimeLibraryPaths\": [\n      \"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx\",\n      \"/usr/lib/swift\"\n    ],\n    \"runtimeLibraryImportPaths\": [\n      \"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx\"\n    ],\n    \"runtimeResourcePath\": \"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift\"\n  }\n}\n"
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-vjr7mujd/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-vjr7mujd/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-entrypoint-negative/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-entrypoint-negative",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-7f38ip5e/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-7f38ip5e/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-entrypoint-positive/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-entrypoint-positive",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-ahtaxgso/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-ahtaxgso/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-persistence-negative/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-persistence-negative",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-0kk0nrlf/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-0kk0nrlf/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-persistence-positive/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-persistence-positive",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-bq5387db/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-bq5387db/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-propagator-negative/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-propagator-negative",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-6ye2bdzd/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-6ye2bdzd/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-propagator-positive/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-propagator-positive",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-_u48euad/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-_u48euad/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-sanitizer-negative/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-sanitizer-negative",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-enbp9t60/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-enbp9t60/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-sanitizer-positive/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-sanitizer-positive",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-0jziujfb/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-0jziujfb/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-source-sink-negative/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-source-sink-negative",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-djbcu95w/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-djbcu95w/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-source-sink-positive/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-source-sink-positive",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-y6u21mk3/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-y6u21mk3/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-summary-negative/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-summary-negative",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-8art2jhp/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-8art2jhp/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-summary-positive/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/native-summary-positive",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-ni3bpgmu/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-ni3bpgmu/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/result-error-propagation-negative/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/result-error-propagation-negative",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/7/build/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/7/build/fixture",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/7/main.swift"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/7",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/7/build/fixture"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/7",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "0\n"
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/19/build/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/19/build/fixture",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/19/main.swift"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/19",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/19/build/fixture"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/19",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "0\n"
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-yiggtsd2/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-yiggtsd2/fixture",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/result-error-propagation-positive/main.swift"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/cases/taint/swift/result-error-propagation-positive",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/7/build/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/7/build/fixture",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/7/main.swift"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/7",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/7/build/fixture"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/7",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "7\n"
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-module-cache-path",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/19/build/module-cache",
+        "-o",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/19/build/fixture",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/19/main.swift"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/19",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "argv": [
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/19/build/fixture"
+      ],
+      "cwd": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/19",
+      "env": {
+        "HOME": "/Users/dave",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+        "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+        "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+      },
+      "exit": 0,
+      "stderr": "",
+      "stdout": "19\n"
+    }
+  ],
+  "events": [
+    {
+      "case_id": "dfb-taint-swift-native-entrypoint-negative",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-vjr7mujd/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-vjr7mujd/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-entrypoint-negative",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-entrypoint-positive",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-7f38ip5e/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-7f38ip5e/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-entrypoint-positive",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-persistence-negative",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-ahtaxgso/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-ahtaxgso/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-persistence-negative",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-persistence-positive",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-0kk0nrlf/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-0kk0nrlf/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-persistence-positive",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-propagator-negative",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-bq5387db/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-bq5387db/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-propagator-negative",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-propagator-positive",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-6ye2bdzd/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-6ye2bdzd/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-propagator-positive",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-sanitizer-negative",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-_u48euad/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-_u48euad/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-sanitizer-negative",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-sanitizer-positive",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-enbp9t60/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-enbp9t60/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-sanitizer-positive",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-source-sink-negative",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-0jziujfb/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-0jziujfb/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-source-sink-negative",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-source-sink-positive",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-djbcu95w/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-djbcu95w/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-source-sink-positive",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-summary-negative",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-y6u21mk3/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-y6u21mk3/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-summary-negative",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-summary-positive",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-8art2jhp/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-8art2jhp/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-native-summary-positive",
+      "kind": "control-skipped",
+      "reason": "tool-native compile-only; must not invoke shell or mutate platform store"
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-negative",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-ni3bpgmu/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-ni3bpgmu/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-negative",
+      "kind": "probe-convention",
+      "sink": {
+        "file": "main.swift",
+        "line": 21
+      },
+      "source": {
+        "file": "main.swift",
+        "line": 5,
+        "value_line": 5
+      }
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-negative",
+      "convention": {
+        "sink": {
+          "file": "main.swift",
+          "line": 21
+        },
+        "source": {
+          "file": "main.swift",
+          "line": 5,
+          "value_line": 5
+        }
+      },
+      "differences": [
+        {
+          "after_sha256": "927b8c0e807b902f56e349de42d7daba1b3ed1c9ac5ab19473bbae24a1047871",
+          "before_sha256": "75b163cc160bbfffba860abc358536d0ed65dad7a5f954e29d8e1f5a66eadd05",
+          "diff": "--- main.swift\n+++ main.swift\n@@ -18,7 +18,9 @@\n     }\n }\n \n-func dfb_sink(_ value: Int) {}\n+func dfb_sink(_ value: Int) {\n+    print(value)\n+}\n \n func probe() {\n     let clean = 0\n",
+          "path": "main.swift"
+        }
+      ],
+      "kind": "instrumentation",
+      "source_value": 7
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-negative",
+      "exit": 0,
+      "instrumented": true,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/7/build/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/7/build/fixture",
+      "source_value": 7
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-negative",
+      "convention": {
+        "sink": {
+          "file": "main.swift",
+          "line": 21
+        },
+        "source": {
+          "file": "main.swift",
+          "line": 5,
+          "value_line": 5
+        }
+      },
+      "differences": [
+        {
+          "after_sha256": "885773c7fc857ca99b4368a767e1d1cfa6a964c7b8b8c4cda8bd4ab537b77cef",
+          "before_sha256": "75b163cc160bbfffba860abc358536d0ed65dad7a5f954e29d8e1f5a66eadd05",
+          "diff": "--- main.swift\n+++ main.swift\n@@ -2,7 +2,7 @@\n     let value: Int\n }\n \n-func dfb_source() -> Int { 7 }\n+func dfb_source() -> Int { 19 }\n \n func produce() -> Result<Int, FlowError> {\n     let input = dfb_source() // DFB-SOURCE: result-error-negative-input\n@@ -18,7 +18,9 @@\n     }\n }\n \n-func dfb_sink(_ value: Int) {}\n+func dfb_sink(_ value: Int) {\n+    print(value)\n+}\n \n func probe() {\n     let clean = 0\n",
+          "path": "main.swift"
+        }
+      ],
+      "kind": "instrumentation",
+      "source_value": 19
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-negative",
+      "exit": 0,
+      "instrumented": true,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/19/build/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-xc13e33f/19/build/fixture",
+      "source_value": 19
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-negative",
+      "expected": "independence",
+      "kind": "control-result",
+      "observed": {
+        "7": 0,
+        "19": 0
+      }
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-positive",
+      "exit": 0,
+      "instrumented": false,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-yiggtsd2/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-v2-compile-yiggtsd2/fixture",
+      "source_value": null
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-positive",
+      "kind": "probe-convention",
+      "sink": {
+        "file": "main.swift",
+        "line": 21
+      },
+      "source": {
+        "file": "main.swift",
+        "line": 5,
+        "value_line": 5
+      }
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-positive",
+      "convention": {
+        "sink": {
+          "file": "main.swift",
+          "line": 21
+        },
+        "source": {
+          "file": "main.swift",
+          "line": 5,
+          "value_line": 5
+        }
+      },
+      "differences": [
+        {
+          "after_sha256": "a1049d1315d8a7a7a1ffdbae027f235f02a1751ebde4465d5feabc126091f8ca",
+          "before_sha256": "a2a73ad810ec5bd3388d0f13604487b5a1442a14a1a2c165facd6f04aabe3bcd",
+          "diff": "--- main.swift\n+++ main.swift\n@@ -18,7 +18,9 @@\n     }\n }\n \n-func dfb_sink(_ value: Int) {}\n+func dfb_sink(_ value: Int) {\n+    print(value)\n+}\n \n func probe() {\n     switch relay() {\n",
+          "path": "main.swift"
+        }
+      ],
+      "kind": "instrumentation",
+      "source_value": 7
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-positive",
+      "exit": 0,
+      "instrumented": true,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/7/build/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/7/build/fixture",
+      "source_value": 7
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-positive",
+      "convention": {
+        "sink": {
+          "file": "main.swift",
+          "line": 21
+        },
+        "source": {
+          "file": "main.swift",
+          "line": 5,
+          "value_line": 5
+        }
+      },
+      "differences": [
+        {
+          "after_sha256": "1e85ef5757c46eb1d30478f8bffc56ea7e6bffc91390ae157051a3eb1af3f43e",
+          "before_sha256": "a2a73ad810ec5bd3388d0f13604487b5a1442a14a1a2c165facd6f04aabe3bcd",
+          "diff": "--- main.swift\n+++ main.swift\n@@ -2,7 +2,7 @@\n     let value: Int\n }\n \n-func dfb_source() -> Int { 7 }\n+func dfb_source() -> Int { 19 }\n \n func produce() -> Result<Int, FlowError> {\n     let input = dfb_source() // DFB-SOURCE: result-error-input\n@@ -18,7 +18,9 @@\n     }\n }\n \n-func dfb_sink(_ value: Int) {}\n+func dfb_sink(_ value: Int) {\n+    print(value)\n+}\n \n func probe() {\n     switch relay() {\n",
+          "path": "main.swift"
+        }
+      ],
+      "kind": "instrumentation",
+      "source_value": 19
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-positive",
+      "exit": 0,
+      "instrumented": true,
+      "kind": "compile",
+      "module_cache": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/19/build/module-cache",
+      "output": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-swift-control-ydf3j38v/19/build/fixture",
+      "source_value": 19
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-positive",
+      "expected": "dependence",
+      "kind": "control-result",
+      "observed": {
+        "7": 7,
+        "19": 19
+      }
+    }
+  ],
+  "execution_environment": {
+    "allowlist": [
+      "CI",
+      "CLANG_MODULE_CACHE_PATH",
+      "DEVELOPER_DIR",
+      "GCC_PRECOMPILE_PREFIX_HEADER",
+      "GITHUB_ACTIONS",
+      "GITHUB_JOB",
+      "GITHUB_REF",
+      "GITHUB_REF_NAME",
+      "GITHUB_REPOSITORY",
+      "GITHUB_RUN_ATTEMPT",
+      "GITHUB_RUN_ID",
+      "GITHUB_SERVER_URL",
+      "GITHUB_SHA",
+      "GITHUB_WORKFLOW",
+      "GITHUB_WORKSPACE",
+      "HOME",
+      "ImageOS",
+      "ImageVersion",
+      "LANG",
+      "LC_ALL",
+      "LC_CTYPE",
+      "LLVM_MODULE_CACHE_PATH",
+      "PATH",
+      "SDKROOT",
+      "SWIFT_MODULECACHE_PATH",
+      "TMPDIR",
+      "XDG_CACHE_HOME"
+    ],
+    "sanitized": {
+      "HOME": "/Users/dave",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
+      "LC_CTYPE": "C.UTF-8",
+      "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.codex/tmp/arg0/codex-arg0jdJGYv:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cargo/bin:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+      "SDKROOT": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+      "TMPDIR": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/"
+    }
+  },
+  "format": "dataflowbench.swift-fixture-validation.v1",
+  "metadata_digests": [
+    {
+      "case_id": "dfb-taint-swift-native-entrypoint-negative",
+      "sha256": "562d35278332486b30d4efdf6247bc84e2d9da9f814ef25138b78d971cfcad58"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-entrypoint-positive",
+      "sha256": "1ade47d725563efbafd95fbff261cb850eb320d964da4443be6bed31d80ec23f"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-persistence-negative",
+      "sha256": "42ce79ef630f1af8beb858812ce97864f028328278c70c5880262788b587405d"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-persistence-positive",
+      "sha256": "3ca7a3d3ee196ea04e0fb747e2d886054e8e1397098690a81e886b5f04dca033"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-propagator-negative",
+      "sha256": "0ad539fdca3e389289cbbd5b0cb013f5b76280fe7c3ded43fd77a7eb51042e02"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-propagator-positive",
+      "sha256": "8b191cdab61fe8a5d79c07c389dcb7d1322326e6e5999f88bfe6529ea67bf7bc"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-sanitizer-negative",
+      "sha256": "74d0f88c160ceca94f9abb4a380f4285413938b926d6cc1b9e3e10bd4518347c"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-sanitizer-positive",
+      "sha256": "019ae4ec6946609a12834f487d566bae889b30446fafabba1ea244e541a98ca2"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-source-sink-negative",
+      "sha256": "f201a8774364fb6953f38b5c8f92c7925035b35ce4068358256c11da6f37f7ea"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-source-sink-positive",
+      "sha256": "bf3a6227cef7366ef28e0104e71d2286207afebc1014daaf9c55594e73d781dc"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-summary-negative",
+      "sha256": "6cffbd0378affd2a6616b85d4fee8f179624c9354e82e451333da498ee23833f"
+    },
+    {
+      "case_id": "dfb-taint-swift-native-summary-positive",
+      "sha256": "3d9616998df9cb9b5e2a1afd88471300b8979904fb8e351fc84406d5dedce845"
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-negative",
+      "sha256": "25d289e03928a0b71bf8485dbf4512b5f0d5b51e3ee62d877986068b19e9104a"
+    },
+    {
+      "case_id": "dfb-taint-swift-result-error-propagation-positive",
+      "sha256": "e44aa454b4b782f9258a8c29b185d8f4f82949e34818c893e6da6f79ced1cebe"
+    }
+  ],
+  "policy": {
+    "compile_only": "all 12 tool-native additions; no shell or store execution",
+    "concrete_controls": "only two Result extension cases; source values 7 and 19",
+    "prior_population": "v1 validated independently and unchanged"
+  },
+  "population": {
+    "fixture_revision": "sha256:2dc97bb29cdba04c900308be9e3aef016a5a00d2ac11f2bcaa2ac39d9d2484ff",
+    "id": "swift-synthetic-v2",
+    "manifest_sha256": "b6c29ff47942c73c34bd479c7ce1137b5bf97d0fbede1204f8eae16aa32007bb"
+  },
+  "profile": "local",
+  "started_at": "2026-09-22T20:52:16.865065Z",
+  "status": "passed",
+  "updated_at": "2026-09-22T20:52:35.140422Z",
+  "validator": {
+    "path": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/scripts/validate-swift-v2.py",
+    "sha256": "65b7fe76f15a05d223fe65e974c8dede67b62f68819bb31d47236cc08190100c"
+  },
+  "witness": {
+    "command_paths": {
+      "sw_vers": "/usr/bin/sw_vers",
+      "uname": "/usr/bin/uname",
+      "xcodebuild": "/usr/bin/xcodebuild",
+      "xcrun": "/usr/bin/xcrun"
+    },
+    "compiler_path": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+    "compiler_resolved_path": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend",
+    "compiler_sha256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+    "expected": {
+      "host_architecture": "arm64",
+      "host_sw_vers_parts": [
+        "ProductName:\tmacOS",
+        "ProductVersion:\t27.0",
+        "BuildVersion:\t26A428"
+      ],
+      "sdk_build": "26A425",
+      "sdk_version": "27.0",
+      "swiftc_version_parts": [
+        "Apple Swift version 6.4",
+        "swiftlang-6.4.0.34.1",
+        "clang-2100.3.34.1",
+        "swift-driver version: 1.168.6"
+      ],
+      "target": "arm64-apple-macosx27.0.0",
+      "xcode_parts": [
+        "Xcode 27.0",
+        "Build version 27A266a"
+      ]
+    },
+    "github_identity": {},
+    "host_architecture": "arm64\n",
+    "host_os": "macOS",
+    "host_os_build": "26A428",
+    "host_os_version": "27.0",
+    "profile": "local",
+    "sdk_build": "26A425",
+    "sdk_path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+    "sdk_version": "27.0",
+    "sw_vers": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0\nBuildVersion:\t\t26A428\n",
+    "swiftc_resolution": [
+      "/usr/bin/xcrun",
+      "--find",
+      "swiftc"
+    ],
+    "swiftc_version": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0\n",
+    "swiftc_version_stderr": "swift-driver version: 1.168.6 ",
+    "target": "arm64-apple-macosx27.0.0",
+    "xcodebuild_version": "Xcode 27.0\nBuild version 27A266a\n"
+  }
+}

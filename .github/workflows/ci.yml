@@ -41,16 +41,20 @@ jobs:
           python3 scripts/test-codeql-swift-activation.py
           python3 scripts/verify-codeql-swift-activation.py
           python3 scripts/verify-codeql-swift-models.py
-          python3 evidence/codeql-swift/execution-218/audit.py | diff - evidence/codeql-swift/execution-218/summary.json
+          python3 scripts/audit-codeql-swift-v1.py | diff - evidence/codeql-swift/execution-218/summary.json
       - name: Verify independent Joern Swift activation and native identity guards
         run: |
           python3 scripts/test-joern-swift.py
-          python3 scripts/verify-joern-swift-activation.py
+          python3 scripts/verify-joern-swift-v1.py
           python3 scripts/audit-joern-swift.py | diff - evidence/joern-swift/execution-219/summary.json
       - name: Reconcile every Swift registry identity and retained outcome
         run: |
           python3 scripts/test-swift-coverage.py
           python3 scripts/audit-swift-coverage.py --check
+          python3 scripts/test-swift-v1-snapshot.py
+          python3 scripts/test-swift-v2.py
+          python3 scripts/audit-swift-v2.py --check
+          python3 scripts/verify-swift-v2-evidence.py
           python3 scripts/verify-swift-followup-probes.py
       - name: Test Swift fixture validation controls
         run: python3 scripts/test-swift-fixtures.py
@@ -89,6 +93,16 @@ jobs:
       - uses: actions/checkout@v4
       - name: Compile, link, and exercise Swift fixtures under witnessed CI profile
         run: python3 scripts/validate-swift-fixtures.py --profile github-xcode27 --output "$RUNNER_TEMP/swift-fixture-evidence"
+      - name: Compile Swift v2 additions and exercise only Result controls
+        id: swift-v2
+        run: python3 scripts/validate-swift-v2.py --profile github-xcode27 --output "$RUNNER_TEMP/swift-v2-evidence"
+      - name: Retain v2 compiler evidence without native execution
+        if: always() && steps.swift-v2.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: swift-v2-evidence
+          path: ${{ runner.temp }}/swift-v2-evidence
+          if-no-files-found: error
       - name: Retain compilation identity and all attempted controls
         if: always()
         uses: actions/upload-artifact@v4

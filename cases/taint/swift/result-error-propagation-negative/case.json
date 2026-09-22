@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-result-error-propagation-negative",
+  "template_id": "dfb-template-result-error-propagation",
+  "polarity": "negative",
+  "negative_mechanism": "unrelated-value",
+  "score_tier": "language-extension",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "interprocedural-flow",
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "interprocedural-one-hop",
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: result-error-negative-input",
+      "file": "main.swift",
+      "line_hint": 8
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: result-error-negative-sink",
+      "file": "main.swift",
+      "line_hint": 28
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: result-error-negative-input",
+      "sink": "DFB-SINK: result-error-negative-sink"
+    }
+  ],
+  "witness_checkpoints": [
+    "DFB-WITNESS: result-error-negative-raise",
+    "DFB-WITNESS: result-error-negative-relay",
+    "DFB-WITNESS: result-error-negative-payload"
+  ],
+  "expected_analysis_capability": {
+    "kind": "result-error-path-interprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "swift-fixtures-220",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}
