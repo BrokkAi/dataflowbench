@@ -18,7 +18,7 @@ use crate::adapters::codeql::{
 };
 use crate::adapters::flowdroid::flowdroid_template_paths;
 use crate::adapters::infer::infer_config_paths;
-use crate::adapters::joern::JOERN_KERNEL_SCRIPT;
+use crate::adapters::joern::{JOERN_KERNEL_SCRIPT, joern_swift_configuration_paths};
 use crate::adapters::opentaint::opentaint_rule_paths;
 use crate::adapters::pysa::pysa_configuration_paths;
 use crate::adapters::semgrep::semgrep_rule_paths;
@@ -219,6 +219,15 @@ pub(crate) fn current_configuration_paths(
     .contains(&stem)
     {
         return Ok(Some(codeql_swift_configuration_paths()));
+    }
+    if [
+        "joern-swift-kernel",
+        "joern-swift-modeling",
+        "joern-swift-calibration",
+    ]
+    .contains(&stem)
+    {
+        return Ok(Some(joern_swift_configuration_paths()));
     }
     if stem == "bifrost-smoke" {
         return Ok(Some(bifrost_policy_paths(

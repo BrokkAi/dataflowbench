@@ -1,0 +1,56 @@
+{
+  "source_methods": [
+    "DataFlowBenchTaintSwift.Config.fetchRemote:()->Swift.String",
+    "DataFlowBenchTaintSwift.Config.fetchLocal:()->Swift.String"
+  ],
+  "sink_methods": [
+    "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()"
+  ],
+  "source_anchors": [
+    {
+      "file": "main.swift",
+      "line_hint": 19
+    }
+  ],
+  "sink_anchors": [
+    {
+      "file": "main.swift",
+      "line_hint": 19
+    }
+  ],
+  "source_kind": "call",
+  "semantics": [
+    {
+      "method": "DataFlowBenchTaintSwift.Clean.scrub:(Swift.String)->Swift.String",
+      "flows": []
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.Bridge.pass:(Swift.String)->Swift.String",
+      "flows": [
+        [
+          1,
+          -1
+        ]
+      ]
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.Bridge.hold:(Swift.String)->Swift.String",
+      "flows": []
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.ThirdPartyBridge.passThrough:(Swift.Int)->Swift.Int",
+      "flows": [
+        [
+          1,
+          -1
+        ]
+      ]
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.ThirdPartyBridge.hold:(Swift.Int)->Swift.Int",
+      "flows": []
+    }
+  ],
+  "source_enabled": false,
+  "sink_enabled": true
+}

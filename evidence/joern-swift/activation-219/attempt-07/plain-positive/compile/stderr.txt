@@ -1,0 +1,9 @@
+/Users/dave/.codex/worktrees/9bab/dataflowbench/evidence/joern-swift/activation-219/attempt-07/plain-positive/DataFlowBenchTaintSwift/main.swift:5:6: warning: initialization of immutable value 'clean' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+3 | func probe() {
+4 |  let tainted = probeSource()
+5 |  let clean = 0
+  |      `- warning: initialization of immutable value 'clean' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+6 |  probeSink(tainted)
+7 | }
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>

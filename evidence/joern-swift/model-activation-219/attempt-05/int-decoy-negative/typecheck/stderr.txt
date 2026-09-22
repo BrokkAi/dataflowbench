@@ -1,0 +1,27 @@
+/Users/dave/.codex/worktrees/9bab/dataflowbench/evidence/joern-swift/model-activation-219/attempt-05/int-decoy-negative/DataFlowBenchTaintSwift/main.swift:10:6: warning: initialization of immutable value 'input' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+ 8 | func dfb_sink(_ value: String) { print(value) }
+ 9 | func probe() {
+10 |  let input = dfb_source()
+   |      `- warning: initialization of immutable value 'input' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+11 |  dfb_sink(0)
+12 |  Decoy.dfb_sink(Decoy.dfb_source())
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+        0.11 real         0.08 user         0.02 sys
+            70418432  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                9826  page reclaims
+                 253  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   0  voluntary context switches
+                  63  involuntary context switches
+          1584619290  instructions retired
+           426764233  cycles elapsed
+            15598048  peak memory footprint

@@ -1,0 +1,55 @@
+{
+  "source_methods": [
+    "DataFlowBenchTaintSwift.Handler.onDeclared:(Swift.String)->()"
+  ],
+  "sink_methods": [
+    "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()"
+  ],
+  "source_anchors": [
+    {
+      "file": "main.swift",
+      "line_hint": 20
+    }
+  ],
+  "sink_anchors": [
+    {
+      "file": "main.swift",
+      "line_hint": 21
+    }
+  ],
+  "source_kind": "parameter",
+  "semantics": [
+    {
+      "method": "DataFlowBenchTaintSwift.Clean.scrub:(Swift.String)->Swift.String",
+      "flows": []
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.Bridge.pass:(Swift.String)->Swift.String",
+      "flows": [
+        [
+          1,
+          -1
+        ]
+      ]
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.Bridge.hold:(Swift.String)->Swift.String",
+      "flows": []
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.ThirdPartyBridge.passThrough:(Swift.Int)->Swift.Int",
+      "flows": [
+        [
+          1,
+          -1
+        ]
+      ]
+    },
+    {
+      "method": "DataFlowBenchTaintSwift.ThirdPartyBridge.hold:(Swift.Int)->Swift.Int",
+      "flows": []
+    }
+  ],
+  "source_enabled": true,
+  "sink_enabled": true
+}

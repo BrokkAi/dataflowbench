@@ -1,0 +1,382 @@
+{
+  "source_method_ids": [
+    "107374182401"
+  ],
+  "sink_method_ids": [
+    "107374182402"
+  ],
+  "source_call_ids": [],
+  "sink_argument_ids": [],
+  "flows": [],
+  "metadata": [
+    {
+      "language": "SWIFTSRC",
+      "overlays": [
+        "base",
+        "controlflow",
+        "typerel",
+        "callgraph",
+        "dataflowOss"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "107374182400",
+      "name": "<global>",
+      "fullName": "main.swift:<global>",
+      "signature": "",
+      "file": "main.swift",
+      "external": false,
+      "line": 1,
+      "parameters": []
+    },
+    {
+      "id": "107374182401",
+      "name": "probeSource",
+      "fullName": "main.swift:<global>.probeSource:()->Swift.Int",
+      "signature": "()->Swift.Int",
+      "file": "main.swift",
+      "external": false,
+      "line": 1,
+      "parameters": []
+    },
+    {
+      "id": "107374182402",
+      "name": "probeSink",
+      "fullName": "main.swift:<global>.probeSink:(_:Swift.Int)->ANY",
+      "signature": "(_:Swift.Int)->ANY",
+      "file": "main.swift",
+      "external": false,
+      "line": 2,
+      "parameters": [
+        {
+          "name": "value",
+          "type": "Swift.Int",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "107374182403",
+      "name": "init",
+      "fullName": "main.swift:<global>.Decoy.init:()->main.swift:<global>.Decoy",
+      "signature": "()->main.swift:<global>.Decoy",
+      "file": "main.swift",
+      "external": false,
+      "line": 3,
+      "parameters": [
+        {
+          "name": "self",
+          "type": "main.swift:<global>.Decoy",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "107374182404",
+      "name": "probeSource",
+      "fullName": "main.swift:<global>.Decoy.probeSource:()->Swift.Int",
+      "signature": "()->Swift.Int",
+      "file": "main.swift",
+      "external": false,
+      "line": 4,
+      "parameters": []
+    },
+    {
+      "id": "107374182405",
+      "name": "probeSink",
+      "fullName": "main.swift:<global>.Decoy.probeSink:(_:Swift.Int)->ANY",
+      "signature": "(_:Swift.Int)->ANY",
+      "file": "main.swift",
+      "external": false,
+      "line": 5,
+      "parameters": [
+        {
+          "name": "value",
+          "type": "Swift.Int",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "107374182406",
+      "name": "probe",
+      "fullName": "main.swift:<global>.probe:()->ANY",
+      "signature": "()->ANY",
+      "file": "main.swift",
+      "external": false,
+      "line": 7,
+      "parameters": []
+    },
+    {
+      "id": "107374182407",
+      "name": "print",
+      "fullName": "print",
+      "signature": "",
+      "file": "<empty>",
+      "external": true,
+      "line": -1,
+      "parameters": [
+        {
+          "name": "p1",
+          "type": "ANY",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "107374182408",
+      "name": "<operator>.assignment",
+      "fullName": "<operator>.assignment",
+      "signature": "",
+      "file": "<empty>",
+      "external": true,
+      "line": -1,
+      "parameters": [
+        {
+          "name": "p1",
+          "type": "ANY",
+          "index": 1
+        },
+        {
+          "name": "p2",
+          "type": "ANY",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "id": "107374182409",
+      "name": "probeSink",
+      "fullName": "Decoy.probeSink",
+      "signature": "",
+      "file": "<empty>",
+      "external": true,
+      "line": -1,
+      "parameters": [
+        {
+          "name": "p1",
+          "type": "ANY",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "107374182410",
+      "name": "probeSource",
+      "fullName": "Decoy.probeSource",
+      "signature": "",
+      "file": "<empty>",
+      "external": true,
+      "line": -1,
+      "parameters": [
+        {
+          "name": "p0",
+          "type": "ANY",
+          "index": 0
+        }
+      ]
+    }
+  ],
+  "calls": [
+    {
+      "id": "30064771072",
+      "name": "print",
+      "methodFullName": "print",
+      "signature": "",
+      "line": 2,
+      "file": "main.swift",
+      "callees": [
+        "print"
+      ],
+      "callee_ids": [
+        "107374182407"
+      ],
+      "arguments": [
+        {
+          "id": "68719476736",
+          "code": "value",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "30064771073",
+      "name": "print",
+      "methodFullName": "print",
+      "signature": "",
+      "line": 5,
+      "file": "main.swift",
+      "callees": [
+        "print"
+      ],
+      "callee_ids": [
+        "107374182407"
+      ],
+      "arguments": [
+        {
+          "id": "68719476737",
+          "code": "value",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "30064771074",
+      "name": "<operator>.assignment",
+      "methodFullName": "<operator>.assignment",
+      "signature": "",
+      "line": 8,
+      "file": "main.swift",
+      "callees": [
+        "<operator>.assignment"
+      ],
+      "callee_ids": [
+        "107374182408"
+      ],
+      "arguments": [
+        {
+          "id": "68719476738",
+          "code": "tainted",
+          "index": 1
+        },
+        {
+          "id": "30064771075",
+          "code": "probeSource()",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "id": "30064771075",
+      "name": "probeSource",
+      "methodFullName": "main.swift:<global>.Decoy.probeSource:()->Swift.Int",
+      "signature": "",
+      "line": 8,
+      "file": "main.swift",
+      "callees": [
+        "main.swift:<global>.Decoy.probeSource:()->Swift.Int"
+      ],
+      "callee_ids": [
+        "107374182404"
+      ],
+      "arguments": [
+        {
+          "id": "68719476739",
+          "code": "self",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "30064771076",
+      "name": "<operator>.assignment",
+      "methodFullName": "<operator>.assignment",
+      "signature": "",
+      "line": 9,
+      "file": "main.swift",
+      "callees": [
+        "<operator>.assignment"
+      ],
+      "callee_ids": [
+        "107374182408"
+      ],
+      "arguments": [
+        {
+          "id": "68719476740",
+          "code": "clean",
+          "index": 1
+        },
+        {
+          "id": "90194313218",
+          "code": "0",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "id": "30064771077",
+      "name": "probeSink",
+      "methodFullName": "main.swift:<global>.Decoy.probeSink:(_:Swift.Int)->ANY",
+      "signature": "",
+      "line": 10,
+      "file": "main.swift",
+      "callees": [
+        "main.swift:<global>.Decoy.probeSink:(_:Swift.Int)->ANY"
+      ],
+      "callee_ids": [
+        "107374182405"
+      ],
+      "arguments": [
+        {
+          "id": "68719476741",
+          "code": "self",
+          "index": 0
+        },
+        {
+          "id": "68719476742",
+          "code": "clean",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "30064771078",
+      "name": "probeSink",
+      "methodFullName": "Decoy.probeSink",
+      "signature": "",
+      "line": 11,
+      "file": "main.swift",
+      "callees": [
+        "Decoy.probeSink"
+      ],
+      "callee_ids": [
+        "107374182409"
+      ],
+      "arguments": [
+        {
+          "id": "30064771079",
+          "code": "Decoy.probeSource()",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "30064771079",
+      "name": "probeSource",
+      "methodFullName": "Decoy.probeSource",
+      "signature": "",
+      "line": 11,
+      "file": "main.swift",
+      "callees": [
+        "Decoy.probeSource"
+      ],
+      "callee_ids": [
+        "107374182410"
+      ],
+      "arguments": []
+    },
+    {
+      "id": "30064771080",
+      "name": "probe",
+      "methodFullName": "main.swift:<global>.probe:()->ANY",
+      "signature": "",
+      "line": 13,
+      "file": "main.swift",
+      "callees": [
+        "main.swift:<global>.probe:()->ANY"
+      ],
+      "callee_ids": [
+        "107374182406"
+      ],
+      "arguments": [
+        {
+          "id": "68719476743",
+          "code": "self",
+          "index": 0
+        }
+      ]
+    }
+  ]
+}

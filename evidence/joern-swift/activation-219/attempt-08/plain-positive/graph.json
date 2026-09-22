@@ -1,0 +1,279 @@
+{
+  "source_method_ids": [
+    "107374182401"
+  ],
+  "sink_method_ids": [
+    "107374182402"
+  ],
+  "source_call_ids": [
+    "30064771074"
+  ],
+  "sink_argument_ids": [
+    "68719476741"
+  ],
+  "flows": [
+    [
+      {
+        "id": "30064771074",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 4,
+        "code": "probeSource()"
+      },
+      {
+        "id": "68719476737",
+        "label": "IDENTIFIER",
+        "file": "main.swift",
+        "line": 4,
+        "code": "tainted"
+      },
+      {
+        "id": "68719476741",
+        "label": "IDENTIFIER",
+        "file": "main.swift",
+        "line": 6,
+        "code": "tainted"
+      }
+    ]
+  ],
+  "metadata": [
+    {
+      "language": "SWIFTSRC",
+      "overlays": [
+        "base",
+        "controlflow",
+        "typerel",
+        "callgraph",
+        "dataflowOss"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "107374182400",
+      "name": "<global>",
+      "fullName": "main.swift:<global>",
+      "signature": "",
+      "file": "main.swift",
+      "external": false,
+      "line": 1,
+      "parameters": []
+    },
+    {
+      "id": "107374182401",
+      "name": "probeSource",
+      "fullName": "DataFlowBenchTaintSwift.probeSource:()->Swift.Int",
+      "signature": "()->Swift.Int",
+      "file": "main.swift",
+      "external": false,
+      "line": 1,
+      "parameters": []
+    },
+    {
+      "id": "107374182402",
+      "name": "probeSink",
+      "fullName": "DataFlowBenchTaintSwift.probeSink:(Swift.Int)->()",
+      "signature": "(Swift.Int)->()",
+      "file": "main.swift",
+      "external": false,
+      "line": 2,
+      "parameters": [
+        {
+          "name": "value",
+          "type": "Swift.Int",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "107374182403",
+      "name": "probe",
+      "fullName": "DataFlowBenchTaintSwift.probe:()->()",
+      "signature": "()->()",
+      "file": "main.swift",
+      "external": false,
+      "line": 3,
+      "parameters": []
+    },
+    {
+      "id": "107374182404",
+      "name": "print",
+      "fullName": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "signature": "(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "file": "<empty>",
+      "external": true,
+      "line": -1,
+      "parameters": [
+        {
+          "name": "p1",
+          "type": "ANY",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "107374182405",
+      "name": "<operator>.assignment",
+      "fullName": "<operator>.assignment",
+      "signature": "",
+      "file": "<empty>",
+      "external": true,
+      "line": -1,
+      "parameters": [
+        {
+          "name": "p1",
+          "type": "ANY",
+          "index": 1
+        },
+        {
+          "name": "p2",
+          "type": "ANY",
+          "index": 2
+        }
+      ]
+    }
+  ],
+  "calls": [
+    {
+      "id": "30064771072",
+      "name": "print",
+      "methodFullName": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "signature": "(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "line": 2,
+      "file": "main.swift",
+      "callees": [
+        "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()"
+      ],
+      "callee_ids": [
+        "107374182404"
+      ],
+      "arguments": [
+        {
+          "id": "68719476736",
+          "code": "value",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "30064771073",
+      "name": "<operator>.assignment",
+      "methodFullName": "<operator>.assignment",
+      "signature": "",
+      "line": 4,
+      "file": "main.swift",
+      "callees": [
+        "<operator>.assignment"
+      ],
+      "callee_ids": [
+        "107374182405"
+      ],
+      "arguments": [
+        {
+          "id": "68719476737",
+          "code": "tainted",
+          "index": 1
+        },
+        {
+          "id": "30064771074",
+          "code": "probeSource()",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "id": "30064771074",
+      "name": "probeSource",
+      "methodFullName": "DataFlowBenchTaintSwift.probeSource:()->Swift.Int",
+      "signature": "()->Swift.Int",
+      "line": 4,
+      "file": "main.swift",
+      "callees": [
+        "DataFlowBenchTaintSwift.probeSource:()->Swift.Int"
+      ],
+      "callee_ids": [
+        "107374182401"
+      ],
+      "arguments": [
+        {
+          "id": "68719476738",
+          "code": "self",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "30064771075",
+      "name": "<operator>.assignment",
+      "methodFullName": "<operator>.assignment",
+      "signature": "",
+      "line": 5,
+      "file": "main.swift",
+      "callees": [
+        "<operator>.assignment"
+      ],
+      "callee_ids": [
+        "107374182405"
+      ],
+      "arguments": [
+        {
+          "id": "68719476739",
+          "code": "clean",
+          "index": 1
+        },
+        {
+          "id": "90194313217",
+          "code": "0",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "id": "30064771076",
+      "name": "probeSink",
+      "methodFullName": "DataFlowBenchTaintSwift.probeSink:(Swift.Int)->()",
+      "signature": "(Swift.Int)->()",
+      "line": 6,
+      "file": "main.swift",
+      "callees": [
+        "DataFlowBenchTaintSwift.probeSink:(Swift.Int)->()"
+      ],
+      "callee_ids": [
+        "107374182402"
+      ],
+      "arguments": [
+        {
+          "id": "68719476740",
+          "code": "self",
+          "index": 0
+        },
+        {
+          "id": "68719476741",
+          "code": "tainted",
+          "index": 1
+        }
+      ]
+    },
+    {
+      "id": "30064771077",
+      "name": "probe",
+      "methodFullName": "DataFlowBenchTaintSwift.probe:()->()",
+      "signature": "()->()",
+      "line": 8,
+      "file": "main.swift",
+      "callees": [
+        "DataFlowBenchTaintSwift.probe:()->()"
+      ],
+      "callee_ids": [
+        "107374182403"
+      ],
+      "arguments": [
+        {
+          "id": "68719476742",
+          "code": "self",
+          "index": 0
+        }
+      ]
+    }
+  ]
+}
