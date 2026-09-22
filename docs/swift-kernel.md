@@ -161,7 +161,7 @@ shipped-model inventory before implementation/scoring:
 | `dfb-template-native-propagator` | deferred: select real platform transformation between those endpoints, with a clean-input near miss; no mock opaque helper. |
 | `dfb-template-native-sanitizer` | deferred: select real sanitizer with documented safety for the chosen sink context and matching shipped model; a similarly named escaping API is insufficient. |
 | `dfb-template-native-summary` | deferred: select exact platform boundary and shipped summary with a separating negative; no benchmark-supplied model. |
-| `dfb-template-native-entrypoint` | deferred: select real platform lifecycle/request callback and undeclared sibling, plus build/runtime identity proving signature binding; invented handler names do not qualify. |
+| `dfb-template-native-entrypoint` | deferred pending implementation: use the canonical process-entry argument vector (`Swift.CommandLine.arguments`); positive passes an argument to the platform sink, negative retains the argument read but passes a clean local to the same sink. Pin the process-entry and shipped threat-model identities; see A37 below. |
 | `dfb-template-native-persistence` | deferred: select real platform write/read pair with exact receiver/key semantics and near miss; no local dictionary presented as persistence. |
 
 These are missing API/model preregistrations, **not language impossibility**.
@@ -394,3 +394,30 @@ abstract and unverified by concrete execution. This amendment changes only the
 permitted compilation host, preserves fixture semantics and all exclusions and
 deferrals, and does not qualify CodeQL or Joern compatibility. #218/#219 must
 perform independent analyzer activation. No existing freeze is invalidated.
+
+
+### A37 — 2026-09-22: preserve the native process-entry contract for Swift
+
+Prospective fidelity correction for #220, before any Swift native fixture,
+partition or result exists. The native-entrypoint row previously requested a
+lifecycle/request callback and an undeclared sibling. That construction does
+not match [native-profile.md category E](native-profile.md#5-dfb-template-native-entrypoint--category-e),
+which tests the platform process-entry argument vector and keeps its read in
+both polarities. The row is corrected to that canonical contract.
+
+Swift uses [`CommandLine.arguments`](https://developer.apple.com/documentation/swift/commandline/arguments),
+with a fixed non-program-name argument position and a bounded availability
+guard. The positive passes the selected argument to the preregistered platform
+command sink. The negative reads the same argument but passes an unrelated clean
+local to the identical sink. The negative mechanism remains `unrelated-value`;
+no callback, invented lifecycle method, framework registration or undeclared
+sibling substitutes for the process-entry convention.
+
+The future native contract must pin the exact sink, argument-vector binding,
+compiler/SDK, shipped-model inventory and threat-model activation independently
+for CodeQL and Joern. This amendment supplies no benchmark model, qualifies no
+analyzer, changes no budget, and creates no fixture or denominator. The identity
+remains unresolved until implementation and validation. No existing freeze is
+invalidated: all published freezes lack Swift native cases, and all existing
+Swift inputs, reports and raw attempts remain unchanged. This amendment is
+committed separately from fixture/model/result changes.

@@ -94,6 +94,7 @@ export default defineConfig({
         { label: 'Methodology', slug: 'methodology' },
         { label: 'Scoring', slug: 'scoring' },
         { label: 'Reproduction', slug: 'reproduction' },
+        { label: 'Swift implementation status', slug: 'swift' },
         {
           label: 'Snapshots',
           items: [
