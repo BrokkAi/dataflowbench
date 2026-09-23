@@ -12,6 +12,7 @@ import tempfile
 from swift_population_v2 import ROOT, audit, sha
 
 import swift_v2_process as commands
+from swift_extraction_integrity import inspect_logs
 
 
 def database_ready(record, metadata, resolved, database):
@@ -57,6 +58,7 @@ def main():
     shutil.copytree(queries, output / 'queries')
     shutil.copyfile(__file__, output / 'probe.py')
     shutil.copyfile(ROOT / 'scripts/swift_v2_process.py', output / 'process-runner.py')
+    shutil.copyfile(ROOT / 'scripts/swift_extraction_integrity.py', output / 'swift_extraction_integrity.py')
     shutil.copyfile(path, output / 'case.json')
     for name in case['fixture_files']: shutil.copyfile(path.parent / name, output / name)
     witness = {'scope': 'non-scored structural observations; no flow or unsupported qualification',
@@ -89,6 +91,10 @@ def main():
             if not database_ready(record, (db / 'codeql-database.yml').read_text(), resolved, db):
                 raise RuntimeError('database is not a finalized Swift artifact from this invocation')
             witness['database_validation'] = 'finalized-swift-artifact; no containment claim'
+            integrity = inspect_logs(db / 'log/swift/extractor')
+            witness['extraction_integrity'] = integrity
+            if not integrity['ready_for_observation']:
+                raise RuntimeError('extractor logs missing or contain errors; finalized database is insufficient')
             for name in args.probe_queries:
                 bqrs = output / (name + '.bqrs')
                 argv = [str(args.codeql), 'query', 'run', str(output / 'queries' / (name + '.ql')), '--database=' + str(db), '--output=' + str(bqrs), '--additional-packs=' + str(args.packs), '--threads=2', '--ram=512', '--timeout=60']
