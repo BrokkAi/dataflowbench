@@ -5,6 +5,21 @@ This is non-scored diagnostic evidence for CodeQL 2.27.1 with `swift-all`
 and the pending opaque decision are unchanged. Candidate native admission
 remains blocked; no capability partition is emitted.
 
+## Extraction-integrity correction
+
+The finalized retry databases contain extractor compiler errors in their retained
+compressed logs: unknown `-target-arch-variant`, an invalid known-source call,
+and missing `URL`. The earlier `role_observation_complete` field records successful
+query completion only; it does not establish complete extraction. Neither the
+missing positive nor real endpoint absence can qualify a native model decision.
+The lookalike sink remains an observed result, but a compatible-toolchain
+reproduction is required before attributing a qualified vendor defect.
+
+`scripts/verify-swift-extraction-integrity.py` reconciles the exact errors and
+log hashes into `evidence/swift-extraction-integrity-220.json`. Original records
+remain unchanged. Resolve SDK/extractor compatibility before another attempt;
+the 60-second / 512-MiB qualification budget remains unchanged.
+
 ## CodeQL controls
 
 The preregistered environment, argv, and benchmark-owned near-miss controls
