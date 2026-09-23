@@ -16,6 +16,11 @@ import swift_v2_process as commands
 from swift_extraction_integrity import inspect_logs
 
 DEFAULT_TARGET = 'arm64-apple-macosx27.0.0'
+EXTRACTION_POLICY_PATH = ROOT / 'adapters/codeql/swift-extraction-v1/policy.json'
+EXTRACTION_POLICY = json.loads(EXTRACTION_POLICY_PATH.read_text())
+DEFAULT_EXTRACTION_TIMEOUT = EXTRACTION_POLICY['extraction_wall_clock_seconds']
+ANALYSIS_TIMEOUT = EXTRACTION_POLICY['analysis_wall_clock_seconds']
+ANALYSIS_MEMORY_MB = EXTRACTION_POLICY['analysis_peak_memory_mb']
 VERSION_TIMEOUT_SECONDS = 5
 VERSION_OUTPUT_LIMIT = 4096
 
@@ -106,6 +111,14 @@ def database_ready(record, metadata, resolved, database):
             and (database / 'db-swift').is_dir())
 
 
+def run_extraction(argv, output, timeout=DEFAULT_EXTRACTION_TIMEOUT):
+    return commands.run(argv, output, 'database-create', timeout, measure=True)
+
+
+def run_analysis_query(argv, output, name):
+    return commands.run(argv, output, name, ANALYSIS_TIMEOUT, measure=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
@@ -119,10 +132,11 @@ def main():
     selection.add_argument('--control-directory', type=Path)
     parser.add_argument('--query-directory', type=Path, default=ROOT / 'evidence/swift-v2-qualification-220/codeql-probes')
     parser.add_argument('--probe-queries', nargs='+', default=['declarations', 'catalog'])
-    parser.add_argument('--extraction-timeout', type=int, default=60)
+    parser.add_argument('--extraction-timeout', type=int, default=DEFAULT_EXTRACTION_TIMEOUT,
+                        help='database creation cutoff in seconds (default: %(default)s); analysis remains 60 seconds')
     parser.add_argument('--unqualified-feasibility', action='store_true')
     args = parser.parse_args()
-    if not 1 <= args.extraction_timeout <= 300 or (args.extraction_timeout != 60 and not args.unqualified_feasibility):
+    if not 1 <= args.extraction_timeout <= 300 or (args.extraction_timeout != DEFAULT_EXTRACTION_TIMEOUT and not args.unqualified_feasibility):
         parser.error('a non-default extraction deadline requires explicit unqualified feasibility scope (maximum300s)')
     if any(not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', name) for name in args.probe_queries):
         parser.error('probe query names must be simple identifiers')
@@ -145,6 +159,7 @@ def main():
     queries = args.query_directory.resolve()
     shutil.copytree(queries, output / 'queries')
     shutil.copyfile(__file__, output / 'probe.py')
+    shutil.copyfile(EXTRACTION_POLICY_PATH, output / 'extraction-policy.json')
     shutil.copyfile(ROOT / 'scripts/swift_v2_process.py', output / 'process-runner.py')
     shutil.copyfile(ROOT / 'scripts/swift_extraction_integrity.py', output / 'swift_extraction_integrity.py')
     shutil.copyfile(path, output / 'case.json')
@@ -159,7 +174,10 @@ def main():
                'extractor_sha256': sha(args.codeql.parent / 'swift/tools/osx64/extractor.real'),
                'source_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
                'budget': case['execution_budget'], 'extraction_phase_deadline_seconds': args.extraction_timeout,
-               'unqualified_feasibility': args.unqualified_feasibility, 'query_phase_deadline_seconds': 60, 'memory_compliance': 'unproven', 'phases': {}}
+               'extraction_policy_id': EXTRACTION_POLICY['policy_id'],
+               'extraction_policy_sha256': sha(EXTRACTION_POLICY_PATH),
+               'extraction_memory_is_analysis_budget': False,
+               'unqualified_feasibility': args.unqualified_feasibility, 'query_phase_deadline_seconds': ANALYSIS_TIMEOUT, 'memory_compliance': 'unproven', 'phases': {}}
     (output / 'witness.json').write_text(json.dumps(witness, indent=2) + '\n')
     scratch = Path(tempfile.mkdtemp(prefix='dfb-v2-codeql-'))
     witness['retained_scratch'] = str(scratch)
@@ -172,7 +190,7 @@ def main():
             scratch / 'never-executed')
         try:
             argv = [str(args.codeql), 'database', 'create', str(db), '--language=swift', '--source-root=' + str(source), '--threads=2', '--ram=512', '--command=' + shlex.join(compile_argv)]
-            record = commands.run(argv, output, 'database-create', args.extraction_timeout, measure=True)
+            record = run_extraction(argv, output, args.extraction_timeout)
             witness['phases']['database-create'] = record
             if record['exit_status'] != 0 or record['timed_out']:
                 raise RuntimeError('extraction did not complete normally; stop and retain scratch for reconciliation')
@@ -190,8 +208,8 @@ def main():
                 raise RuntimeError('extractor logs missing or contain errors; finalized database is insufficient')
             for name in args.probe_queries:
                 bqrs = output / (name + '.bqrs')
-                argv = [str(args.codeql), 'query', 'run', str(output / 'queries' / (name + '.ql')), '--database=' + str(db), '--output=' + str(bqrs), '--additional-packs=' + str(args.packs), '--threads=2', '--ram=512', '--timeout=60']
-                result = commands.run(argv, output, name, 60, measure=True)
+                argv = [str(args.codeql), 'query', 'run', str(output / 'queries' / (name + '.ql')), '--database=' + str(db), '--output=' + str(bqrs), '--additional-packs=' + str(args.packs), '--threads=2', '--ram=' + str(ANALYSIS_MEMORY_MB), '--timeout=' + str(ANALYSIS_TIMEOUT)]
+                result = run_analysis_query(argv, output, name)
                 witness['phases'][name] = result
                 if result['exit_status'] != 0 or result['timed_out']:
                     raise RuntimeError('query failed or timed out; stop and retain scratch')

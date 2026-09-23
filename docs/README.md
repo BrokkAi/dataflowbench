@@ -199,3 +199,5 @@ other by `model_profile` and never pooled:
 - [Swift candidate native controls](swift-candidate-native-controls.md) — fresh declaration/role observations, near-miss blocker, and complete Joern inventory; no capability promotion.
 
 - [Isolated Swift toolchain compatibility](swift-toolchain-compatibility.md) — signed Swift 6.3.3 compiler control and retained bounded CodeQL timeout.
+
+- [Swift CodeQL extraction cutoff](swift-codeql-extraction-cutoff.md) — approved prospective 150-second extraction; analysis remains 60 seconds / 512 MiB.
