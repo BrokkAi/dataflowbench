@@ -1,0 +1,612 @@
+{
+  "scope": "non-scored structural observations; no flow or unsupported qualification",
+  "case_id": "control-swift-userdefaults-persistence",
+  "population": null,
+  "fixture_revision": null,
+  "population_member": false,
+  "case_sha256": "1973bc3aa75ad7332cf7fd41d0078d44714a5042abd86e1867f3a2c3ef8cf201",
+  "compiler": "/private/tmp/dfb-220-candidate-assets/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc",
+  "sdk": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+  "target": "arm64-apple-macosx26.5",
+  "compiler_version": {
+    "argv": [
+      "/private/tmp/dfb-220-candidate-assets/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc",
+      "--version"
+    ],
+    "exit_status": 0,
+    "timed_out": false,
+    "stdout": "Apple Swift version 6.3.3 (swift-6.3.3-RELEASE)\nTarget: arm64-apple-macosx28.0\n",
+    "stderr": "",
+    "timeout_seconds": 5
+  },
+  "compiler_sha256": "3d13e20b1504d7d30038fcd2201b9d0a8ead5c09eea752a5da223453b3ae0c6f",
+  "extractor_sha256": "680adbee37bdbfc5fe0a4b6d63c45bdae23fcf3bb2210530a7b751b58f319530",
+  "source_commit": "6f78755a0688631eee82d1a8fe53a2d6e9cbe103",
+  "budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "extraction_phase_deadline_seconds": 150,
+  "extraction_policy_id": "swift-codeql-extraction150-analysis2048-v2",
+  "extraction_policy_sha256": "e4f590a6bf6ee93e0299caa945ef93bdaee2abc562bf64fa979d7fbd748ae0e5",
+  "extraction_memory_is_analysis_budget": false,
+  "analysis_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 2048
+  },
+  "unqualified_feasibility": false,
+  "query_phase_deadline_seconds": 60,
+  "memory_compliance": "unproven",
+  "phases": {
+    "database-create": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "database",
+        "create",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/db",
+        "--language=swift",
+        "--source-root=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/source",
+        "--threads=2",
+        "--ram=512",
+        "--command=/private/tmp/dfb-220-candidate-assets/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc -swift-version 6 -Onone -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk -target arm64-apple-macosx26.5 -module-name DataFlowBenchTaintSwift -module-cache-path /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/cache /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/source/main.swift -o /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/never-executed"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/private/tmp/dfb-220-extraction150",
+      "environment": null,
+      "elapsed_seconds": 89.670236417,
+      "deadline_seconds": 150,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 14822,
+          "start_identity": "1790183976:159931"
+        },
+        {
+          "pid": 14824,
+          "start_identity": "1790183976:163866"
+        },
+        {
+          "pid": 14832,
+          "start_identity": "1790183976:212196"
+        },
+        {
+          "pid": 14849,
+          "start_identity": "1790183976:919609"
+        },
+        {
+          "pid": 14853,
+          "start_identity": "1790183977:42249"
+        },
+        {
+          "pid": 14866,
+          "start_identity": "1790183977:605792"
+        },
+        {
+          "pid": 14873,
+          "start_identity": "1790183978:169497"
+        },
+        {
+          "pid": 14875,
+          "start_identity": "1790183978:266799"
+        },
+        {
+          "pid": 14892,
+          "start_identity": "1790183979:538870"
+        },
+        {
+          "pid": 14900,
+          "start_identity": "1790183980:87390"
+        },
+        {
+          "pid": 14903,
+          "start_identity": "1790183980:289113"
+        },
+        {
+          "pid": 14936,
+          "start_identity": "1790183982:550035"
+        },
+        {
+          "pid": 15022,
+          "start_identity": "1790183988:903908"
+        },
+        {
+          "pid": 15045,
+          "start_identity": "1790183990:320834"
+        },
+        {
+          "pid": 15047,
+          "start_identity": "1790183990:327874"
+        },
+        {
+          "pid": 15049,
+          "start_identity": "1790183990:474538"
+        },
+        {
+          "pid": 15061,
+          "start_identity": "1790183991:150781"
+        },
+        {
+          "pid": 15072,
+          "start_identity": "1790183991:608349"
+        },
+        {
+          "pid": 15083,
+          "start_identity": "1790183992:307763"
+        },
+        {
+          "pid": 15085,
+          "start_identity": "1790183992:449556"
+        },
+        {
+          "pid": 15091,
+          "start_identity": "1790183992:898140"
+        },
+        {
+          "pid": 15099,
+          "start_identity": "1790183993:416678"
+        },
+        {
+          "pid": 15105,
+          "start_identity": "1790183993:843942"
+        },
+        {
+          "pid": 16220,
+          "start_identity": "1790184056:552073"
+        },
+        {
+          "pid": 16229,
+          "start_identity": "1790184057:15257"
+        },
+        {
+          "pid": 16231,
+          "start_identity": "1790184057:96957"
+        },
+        {
+          "pid": 16251,
+          "start_identity": "1790184058:170595"
+        },
+        {
+          "pid": 16257,
+          "start_identity": "1790184058:651181"
+        },
+        {
+          "pid": 16259,
+          "start_identity": "1790184058:750637"
+        },
+        {
+          "pid": 16288,
+          "start_identity": "1790184060:776113"
+        },
+        {
+          "pid": 16296,
+          "start_identity": "1790184061:176485"
+        },
+        {
+          "pid": 16304,
+          "start_identity": "1790184061:487994"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "database-resolve": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "resolve",
+        "database",
+        "--format=json",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/db"
+      ],
+      "measurement_wrapper": [],
+      "cwd": "/private/tmp/dfb-220-extraction150",
+      "environment": null,
+      "elapsed_seconds": 0.448881957999987,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 16359,
+          "start_identity": "1790184065:830633"
+        },
+        {
+          "pid": 16366,
+          "start_identity": "1790184065:843410"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "roles": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "query",
+        "run",
+        "/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/queries/roles.ql",
+        "--database=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/db",
+        "--output=/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/roles.bqrs",
+        "--additional-packs=/private/tmp/dfb-220-candidate-assets/codeql-cli/packs",
+        "--threads=2",
+        "--ram=2048",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/private/tmp/dfb-220-extraction150",
+      "environment": null,
+      "elapsed_seconds": 13.32373554099999,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 16374,
+          "start_identity": "1790184066:280338"
+        },
+        {
+          "pid": 16376,
+          "start_identity": "1790184066:282599"
+        },
+        {
+          "pid": 16382,
+          "start_identity": "1790184066:293914"
+        },
+        {
+          "pid": 16388,
+          "start_identity": "1790184066:671850"
+        },
+        {
+          "pid": 16396,
+          "start_identity": "1790184067:274440"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "flow": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "query",
+        "run",
+        "/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/queries/flow.ql",
+        "--database=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/db",
+        "--output=/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/flow.bqrs",
+        "--additional-packs=/private/tmp/dfb-220-candidate-assets/codeql-cli/packs",
+        "--threads=2",
+        "--ram=2048",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/private/tmp/dfb-220-extraction150",
+      "environment": null,
+      "elapsed_seconds": 11.229070042000004,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 16663,
+          "start_identity": "1790184079:945770"
+        },
+        {
+          "pid": 16665,
+          "start_identity": "1790184079:947569"
+        },
+        {
+          "pid": 16671,
+          "start_identity": "1790184079:958965"
+        },
+        {
+          "pid": 16676,
+          "start_identity": "1790184080:325980"
+        },
+        {
+          "pid": 16784,
+          "start_identity": "1790184080:972465"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "identity": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "query",
+        "run",
+        "/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/queries/identity.ql",
+        "--database=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/db",
+        "--output=/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/identity.bqrs",
+        "--additional-packs=/private/tmp/dfb-220-candidate-assets/codeql-cli/packs",
+        "--threads=2",
+        "--ram=2048",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/private/tmp/dfb-220-extraction150",
+      "environment": null,
+      "elapsed_seconds": 2.1858747089999895,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 16955,
+          "start_identity": "1790184091:514156"
+        },
+        {
+          "pid": 16957,
+          "start_identity": "1790184091:516066"
+        },
+        {
+          "pid": 16963,
+          "start_identity": "1790184091:527716"
+        },
+        {
+          "pid": 16968,
+          "start_identity": "1790184091:893008"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "persistence-identity": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "query",
+        "run",
+        "/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/queries/persistence-identity.ql",
+        "--database=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/db",
+        "--output=/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/persistence-identity.bqrs",
+        "--additional-packs=/private/tmp/dfb-220-candidate-assets/codeql-cli/packs",
+        "--threads=2",
+        "--ram=2048",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/private/tmp/dfb-220-extraction150",
+      "environment": null,
+      "elapsed_seconds": 10.517187125000007,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 17034,
+          "start_identity": "1790184094:55187"
+        },
+        {
+          "pid": 17036,
+          "start_identity": "1790184094:56973"
+        },
+        {
+          "pid": 17042,
+          "start_identity": "1790184094:68086"
+        },
+        {
+          "pid": 17047,
+          "start_identity": "1790184094:435475"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "persistence-keys": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "query",
+        "run",
+        "/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/queries/persistence-keys.ql",
+        "--database=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/db",
+        "--output=/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/persistence-keys.bqrs",
+        "--additional-packs=/private/tmp/dfb-220-candidate-assets/codeql-cli/packs",
+        "--threads=2",
+        "--ram=2048",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/private/tmp/dfb-220-extraction150",
+      "environment": null,
+      "elapsed_seconds": 13.989959874999983,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 17215,
+          "start_identity": "1790184104:914691"
+        },
+        {
+          "pid": 17217,
+          "start_identity": "1790184104:916549"
+        },
+        {
+          "pid": 17223,
+          "start_identity": "1790184104:928329"
+        },
+        {
+          "pid": 17241,
+          "start_identity": "1790184105:306895"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "persistence-ports": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "query",
+        "run",
+        "/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/queries/persistence-ports.ql",
+        "--database=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/db",
+        "--output=/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/persistence-ports.bqrs",
+        "--additional-packs=/private/tmp/dfb-220-candidate-assets/codeql-cli/packs",
+        "--threads=2",
+        "--ram=2048",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/private/tmp/dfb-220-extraction150",
+      "environment": null,
+      "elapsed_seconds": 15.40240729200002,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 19273,
+          "start_identity": "1790184119:261373"
+        },
+        {
+          "pid": 19275,
+          "start_identity": "1790184119:263751"
+        },
+        {
+          "pid": 19281,
+          "start_identity": "1790184119:276203"
+        },
+        {
+          "pid": 19289,
+          "start_identity": "1790184120:183022"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "persistence-edges": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "query",
+        "run",
+        "/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/queries/persistence-edges.ql",
+        "--database=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp/db",
+        "--output=/private/tmp/dfb-220-extraction150/evidence/swift-persistence-qualification-v1/control-attempt-01/probe/persistence-edges.bqrs",
+        "--additional-packs=/private/tmp/dfb-220-candidate-assets/codeql-cli/packs",
+        "--threads=2",
+        "--ram=2048",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/private/tmp/dfb-220-extraction150",
+      "environment": null,
+      "elapsed_seconds": 12.397775667000019,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 19639,
+          "start_identity": "1790184135:29561"
+        },
+        {
+          "pid": 19641,
+          "start_identity": "1790184135:31689"
+        },
+        {
+          "pid": 19647,
+          "start_identity": "1790184135:43771"
+        },
+        {
+          "pid": 19654,
+          "start_identity": "1790184135:425237"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    }
+  },
+  "retained_scratch": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-16db6ccp",
+  "database_validation": "finalized-swift-artifact; no containment claim",
+  "extraction_integrity": {
+    "logs_checked": 1,
+    "errors": [],
+    "ready_for_observation": true
+  },
+  "status": "unqualified"
+}
