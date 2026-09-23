@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "scope": "non-scored-canonical-qualification",
+  "configuration_hash": "sha256:da43ec1b71221425085646fb89470ac180893e2cb32a3bca75351f8f339fa035",
+  "cases": [
+    "dfb-taint-swift-native-source-sink-positive",
+    "dfb-taint-swift-native-source-sink-negative"
+  ],
+  "runner_files": {
+    "scripts/run-swift-native-qualification.py": "d614586f9749ea33bc578c162c4ee159ad0032464ed6d9a7ce1864f83d5f9623",
+    "scripts/probe-swift-v2-codeql.py": "a7ca82dd685a378dca56d14ec0edcbed27fc657c7bde68de9c8c2e95f4aae8e6",
+    "scripts/swift_v2_process.py": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd",
+    "scripts/swift_extraction_integrity.py": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156",
+    "scripts/swift_population_v2.py": "3ba357b0be10408b3e43b6713b7b161f9fb6676ff8a78f01228191bac64ad899",
+    "scripts/verify-swift-native-integration.py": "266ea1e217889bca001dda509ed13161052bcf41a5e571714f320612c21b5277"
+  },
+  "sdk_settings_sha256": "f8d005f09381389167f9e0aeaa169bc9e7dff162ef22ca2fd8e98df7ff1acafe",
+  "extraction_seconds": 150,
+  "analysis_seconds": 60,
+  "analysis_memory_mb": 2048,
+  "scored_activation": false,
+  "expectations": {
+    "adapter-assisted-positive": "environment getter to canonical command argument",
+    "adapter-assisted-negative": "same recognized source and sink; no connecting flow",
+    "vendor-native": "retain actual rows separately; do not infer unsupported from silence"
+  },
+  "uncertainty": "All observations remain non-scored; aggregate memory and semantic completeness unproven."
+}
