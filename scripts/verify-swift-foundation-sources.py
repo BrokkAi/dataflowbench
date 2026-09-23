@@ -46,6 +46,24 @@ def verify_semantics(roles, flows, plan):
                 assert any(r[0] == sink_line and r[1] == column for r in sinks)
 
 
+def verify_identities(rows, plan):
+    labels = plan['labels']
+    expected = {
+        'SOURCE_ENV': ('Foundation', 'ProcessInfo', 'environment'),
+        'SOURCE_ARGV': ('Swift', 'CommandLine', 'arguments'),
+        'LOCAL_ENV': ('DataFlowBenchTaintSwift', 'ProcessInfo', 'environment'),
+        'LOCAL_ARGV': ('DataFlowBenchTaintSwift', 'CommandLine', 'arguments'),
+        'OTHER_ENV': ('DataFlowBenchTaintSwift', 'OtherOwner', 'environment'),
+        'OTHER_ARGV': ('DataFlowBenchTaintSwift', 'OtherOwner', 'arguments'),
+        'WRONG_ENV': ('DataFlowBenchTaintSwift', 'ProcessInfo', 'environment'),
+        'WRONG_ARGV': ('DataFlowBenchTaintSwift', 'CommandLine', 'arguments'),
+    }
+    for label, (module, owner, field) in expected.items():
+        matches = [r for r in rows if r[0] == labels[label]]
+        assert len(matches) == 1, label
+        assert matches[0][1:5] == [module, module, owner, field], label
+
+
 def verify():
     manifest = read(EVIDENCE / 'manifest.json')['files']
     for name, expected in manifest.items():
@@ -90,6 +108,7 @@ def verify():
             assert rss and int(rss[1]) <= 2048 * 1024 ** 2
     archive = read(EVIDENCE / 'source-archive-check.json')
     assert archive['member_sha256'] == plan['source_sha256'] and archive['matches_control']
+    verify_identities(read(attempt / 'identity.json')['#select']['tuples'], plan)
     verify_semantics(read(attempt / 'roles.json')['#select']['tuples'], read(attempt / 'flow.json')['#select']['tuples'], plan)
     print('Verified 4 corrected environment/argv flows and recognized nonflow sinks; vendor output separate. Non-scored; aggregate memory and completeness unproven.')
 
