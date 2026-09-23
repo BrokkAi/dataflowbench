@@ -1,0 +1,295 @@
+{
+  "scope": "non-scored structural observations; no flow or unsupported qualification",
+  "case_id": "control-candidate-native-environment",
+  "population": null,
+  "fixture_revision": null,
+  "population_member": false,
+  "case_sha256": "e846f73649123b0411fca2f310590ffc652b033bc4908f1df09e951b034ab100",
+  "compiler_sha256": "cf81104bf554eef05e28a8bb5285c763f1323b4511b944d755d8bdd6cb8db717",
+  "extractor_sha256": "680adbee37bdbfc5fe0a4b6d63c45bdae23fcf3bb2210530a7b751b58f319530",
+  "source_commit": "f1d7dc8834f33cc00d56590bb1be7e17ac020a11",
+  "budget": {
+    "peak_memory_mb": 512,
+    "wall_clock_seconds": 60
+  },
+  "extraction_phase_deadline_seconds": 180,
+  "unqualified_feasibility": true,
+  "query_phase_deadline_seconds": 60,
+  "memory_compliance": "unproven",
+  "phases": {
+    "database-create": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "database",
+        "create",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-251bj5ol/db",
+        "--language=swift",
+        "--source-root=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-251bj5ol/source",
+        "--threads=2",
+        "--ram=512",
+        "--command=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -swift-version 6 -Onone -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -target arm64-apple-macosx27.0.0 -module-name DataFlowBenchTaintSwift -module-cache-path /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-251bj5ol/cache /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-251bj5ol/source/main.swift -o /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-251bj5ol/never-executed"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "environment": null,
+      "elapsed_seconds": 66.28130512499999,
+      "deadline_seconds": 180,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 63641,
+          "start_identity": "1790123268:745753"
+        },
+        {
+          "pid": 63643,
+          "start_identity": "1790123268:747758"
+        },
+        {
+          "pid": 63649,
+          "start_identity": "1790123268:759310"
+        },
+        {
+          "pid": 63659,
+          "start_identity": "1790123269:314593"
+        },
+        {
+          "pid": 63660,
+          "start_identity": "1790123269:325485"
+        },
+        {
+          "pid": 63667,
+          "start_identity": "1790123269:840099"
+        },
+        {
+          "pid": 63669,
+          "start_identity": "1790123269:939325"
+        },
+        {
+          "pid": 63677,
+          "start_identity": "1790123270:507350"
+        },
+        {
+          "pid": 63700,
+          "start_identity": "1790123271:785891"
+        },
+        {
+          "pid": 63702,
+          "start_identity": "1790123271:812235"
+        },
+        {
+          "pid": 63716,
+          "start_identity": "1790123272:860864"
+        },
+        {
+          "pid": 63730,
+          "start_identity": "1790123273:526510"
+        },
+        {
+          "pid": 63742,
+          "start_identity": "1790123274:62633"
+        },
+        {
+          "pid": 63753,
+          "start_identity": "1790123274:523094"
+        },
+        {
+          "pid": 63763,
+          "start_identity": "1790123275:208869"
+        },
+        {
+          "pid": 63769,
+          "start_identity": "1790123275:575206"
+        },
+        {
+          "pid": 63774,
+          "start_identity": "1790123275:963235"
+        },
+        {
+          "pid": 63779,
+          "start_identity": "1790123276:336063"
+        },
+        {
+          "pid": 63792,
+          "start_identity": "1790123277:320008"
+        },
+        {
+          "pid": 64427,
+          "start_identity": "1790123328:902400"
+        },
+        {
+          "pid": 64434,
+          "start_identity": "1790123329:340033"
+        },
+        {
+          "pid": 64444,
+          "start_identity": "1790123329:759160"
+        },
+        {
+          "pid": 64447,
+          "start_identity": "1790123329:912431"
+        },
+        {
+          "pid": 64464,
+          "start_identity": "1790123330:776617"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "database-resolve": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "resolve",
+        "database",
+        "--format=json",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-251bj5ol/db"
+      ],
+      "measurement_wrapper": [],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "environment": null,
+      "elapsed_seconds": 0.4600791670000035,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 64519,
+          "start_identity": "1790123335:27292"
+        },
+        {
+          "pid": 64526,
+          "start_identity": "1790123335:39650"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "rolesCalls": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "query",
+        "run",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-candidate-native-controls-220/codeql-environment-attempt-02/queries/rolesCalls.ql",
+        "--database=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-251bj5ol/db",
+        "--output=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-candidate-native-controls-220/codeql-environment-attempt-02/rolesCalls.bqrs",
+        "--additional-packs=/private/tmp/dfb-220-candidate-assets/codeql-cli/packs",
+        "--threads=2",
+        "--ram=512",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "environment": null,
+      "elapsed_seconds": 5.5685497500000025,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 64537,
+          "start_identity": "1790123335:487998"
+        },
+        {
+          "pid": 64539,
+          "start_identity": "1790123335:490271"
+        },
+        {
+          "pid": 64545,
+          "start_identity": "1790123335:509004"
+        },
+        {
+          "pid": 64552,
+          "start_identity": "1790123335:913353"
+        },
+        {
+          "pid": 64561,
+          "start_identity": "1790123336:565167"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    },
+    "roleNodes": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "query",
+        "run",
+        "/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-candidate-native-controls-220/codeql-environment-attempt-02/queries/roleNodes.ql",
+        "--database=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-251bj5ol/db",
+        "--output=/Users/dave/.codex/worktrees/1ba0/dataflowbench/evidence/swift-candidate-native-controls-220/codeql-environment-attempt-02/roleNodes.bqrs",
+        "--additional-packs=/private/tmp/dfb-220-candidate-assets/codeql-cli/packs",
+        "--threads=2",
+        "--ram=512",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "environment": null,
+      "elapsed_seconds": 18.942622625,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 0,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 64655,
+          "start_identity": "1790123341:410817"
+        },
+        {
+          "pid": 64657,
+          "start_identity": "1790123341:413163"
+        },
+        {
+          "pid": 64663,
+          "start_identity": "1790123341:424803"
+        },
+        {
+          "pid": 64669,
+          "start_identity": "1790123341:818723"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    }
+  },
+  "retained_scratch": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-251bj5ol",
+  "database_validation": "finalized-swift-artifact; no containment claim",
+  "status": "unqualified"
+}

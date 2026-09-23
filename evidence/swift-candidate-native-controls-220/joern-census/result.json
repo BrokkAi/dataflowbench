@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "status": "complete-bounded-sidecar",
+  "repository_edits": false,
+  "joern_runtime_launched": false,
+  "candidate_archive_sha256": "e11563c7cf4797db76655524398f108c3469a518fa3ed823de0aac2a1155aec6",
+  "counts": {
+    "extracted_files": 1349,
+    "jar_paths": 1191,
+    "unique_jar_sha256_contents": 220,
+    "duplicate_jar_path_mappings": 971,
+    "unique_content_jar_members": 179468,
+    "unique_content_non_class_non_tasty_resources": 15482,
+    "unique_content_class_members": 147755,
+    "exact_first_party_package_class_rows": 53859,
+    "keyword_navigation_rows": 152434
+  },
+  "coverage": {
+    "all_files_hash_size": "all-files.jsonl",
+    "jar_path_to_sha256": "jars.jsonl",
+    "unique_jar_sha256_denominator": "unique-jars.jsonl",
+    "all_unique_content_members_hashes": "all-jar-members.jsonl",
+    "all_unique_content_resource_hashes": "all-jar-resources.jsonl",
+    "first_party_classes": "first-party-classes.jsonl",
+    "keyword_navigation_only": "keyword-navigation-hits.jsonl"
+  },
+  "api_observation": "api-observation.json",
+  "conclusion": "Concrete qualification blocker: shipped Joern exposes generic FlowSemantic exact/regex method-full-name matching and generic c/java/operator mappings (including atoi), but API inspection found no typed Swift Foundation native source/sink role-binding mechanism. No Joern runtime claim, native unsupported result, or name-only absence claim is made."
+}

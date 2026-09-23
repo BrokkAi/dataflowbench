@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "inspection_mode": "read-only javap/source evidence; no Joern JVM runtime launched",
+  "observed_types": {
+    "default_semantics_apply": "io.joern.dataflowengineoss.DefaultSemantics.apply() -> io.joern.dataflowengineoss.semanticsloader.FullNameSemantics",
+    "default_semantics_c_flows": "DefaultSemantics.cFlows() -> List[FlowSemantic]",
+    "semantics_lookup": "Semantics.forMethod(io.shiftleft.codepropertygraph.generated.nodes.Method) -> Option[FlowSemantic]",
+    "full_name_lookup": "FullNameSemantics.forMethod(Method) reads Method.fullName; regex entries are initialized by matching CPG method.fullName",
+    "mapping_parser": "FullNameSemanticsParser.parse/parseFile parse shipped flow mappings into FlowSemantic",
+    "known_generic_mapping": "DefaultSemantics.scala contains c-flow atoi mapping (argument 1 -> return / argument 1)"
+  },
+  "observed_role_surface": {
+    "native_swift_foundation_role_binding_api": false,
+    "typed_source_sink_role_api": false,
+    "exact_method_matching_api": true,
+    "exact_method_matching_scope": "generic shipped FlowSemantic method-full-name lookup; not a Swift Foundation native-role classifier"
+  },
+  "known_positive_context": {
+    "codeql_environment_foundation_contentsOf": "finalized zero role nodes despite the known contentsOf positive",
+    "joern_runtime_observation": "not run by this bounded sidecar"
+  },
+  "qualification_blocker": "The shipped Joern API exposes generic semantic flow mappings and exact/regex method-full-name lookup, but no shipped typed mechanism that binds Swift Foundation native candidate identities (including contentsOf, ProcessInfo, CommandLine, or candidate sinks) to source/sink roles. Therefore this artifact cannot qualify Joern native role capability from API inspection alone. The CodeQL zero-role observation and the Joern census are retained as evidence; no native unsupported or absence result is inferred.",
+  "evidence": [
+    "evidence/swift-candidate-native-audit-220/joern-mechanisms/javap/DefaultSemantics.txt",
+    "evidence/swift-candidate-native-audit-220/joern-mechanisms/javap/Semantics.txt",
+    "evidence/swift-candidate-native-audit-220/joern-mechanisms/javap/FullNameSemantics.txt",
+    "evidence/swift-candidate-native-audit-220/joern-mechanisms/javap/FullNameSemanticsParser.txt",
+    "evidence/swift-candidate-native-audit-220/joern-mechanisms/source-files/DefaultSemantics.scala",
+    "evidence/swift-candidate-native-audit-220/joern-mechanisms/source-files/FullNameSemantics.scala",
+    "evidence/swift-candidate-native-audit-220/joern-mechanisms/source-files/FullNameSemanticsParser.scala"
+  ]
+}

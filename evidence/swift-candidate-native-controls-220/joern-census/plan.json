@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "task": "bounded-execution-sidecar-same-220",
+  "source_preregistration": "dataflowbench b38d6ec12318262c86464f03cf9f8d1ec478b45a evidence/swift-candidate-native-controls-220/plan.json",
+  "ownership": "Only /private/tmp/dfb-220-joern-complete-census may be written by this sidecar; no repository edits.",
+  "candidate": {
+    "path": "/private/tmp/dfb-220-candidate-assets/joern/extracted/joern-cli",
+    "archive": "/private/tmp/dfb-220-candidate-assets/joern/joern-cli-macos-arm64.zip"
+  },
+  "checks": [
+    "Record candidate path, archive metadata, tool version, Java identity, and command provenance.",
+    "Hash and size every filesystem file under the extracted candidate with stable relative paths.",
+    "Enumerate every JAR, hash and size each JAR, and enumerate every archive member including class, TASTy, non-class, and non-keyword resources with member sizes and hashes.",
+    "Identify exact first-party classes by package/name provenance from all shipped JARs; separately retain generic transport and dependency classes.",
+    "Search all candidate files and all JAR members for native/role/model/semantics terms only as navigation, retaining complete coverage and no absence inference from keywords.",
+    "Inspect shipped DefaultSemantics and adjacent role/model loader APIs with javap and/or class strings; record actual signatures and owning JARs.",
+    "If the shipped API exposes bounded exact method matching, run only a known C-positive atoi method, a near miss, and Swift A38 candidate identities through the existing lightweight JVM path if feasible; preserve raw runtime output and exit status.",
+    "Keep CodeQL controls serial and do not start Joern JVM diagnostics until the concurrent CodeQL work is reported clear; javap is allowed only after that coordination point.",
+    "Conclude only from observed shipped mechanisms and exact runtime/API evidence; otherwise state the precise capability or qualification blocker."
+  ],
+  "exclusions": [
+    "No repository writes, source clone, network download, frontend/native fixture, CPG scoring, custom endpoint roles, approximate production rule, or full corpus rerun.",
+    "No name-only absence proof; keyword hits are navigation evidence only."
+  ],
+  "status": "preregistered"
+}

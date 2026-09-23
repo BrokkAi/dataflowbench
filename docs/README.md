@@ -196,3 +196,4 @@ other by `model_profile` and never pooled:
 - [Swift candidate compatibility](swift-candidate-qualification.md) — isolated proposed-runtime identity and non-scored controls; no active pin promotion.
 
 - [Swift candidate native audit](swift-candidate-native-audit.md) — current shipped model/catalog evidence and explicit omissions; no capability promotion.
+- [Swift candidate native controls](swift-candidate-native-controls.md) — fresh declaration/role observations, near-miss blocker, and complete Joern inventory; no capability promotion.

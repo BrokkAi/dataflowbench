@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "status": "preregistered-non-scored",
+  "base_revision": "0cea89fc648c9534534614330161003dfd0bfc0b",
+  "candidate_versions": {
+    "codeql": "2.27.1",
+    "swift_all": "6.8.4",
+    "joern": "4.0.633"
+  },
+  "codeql_controls": [
+    "environment",
+    "argv",
+    "near-misses"
+  ],
+  "native_binary_execution": false,
+  "active_pin_mutation": false,
+  "opaque_choice": "pending",
+  "limits": {
+    "codeql_extraction_phase_seconds": 60,
+    "query_phase_seconds": 60,
+    "requested_memory_mb": 512,
+    "feasibility_retry_max_extraction_seconds": 180,
+    "maximum_attempts_per_control": 2
+  },
+  "acceptance": [
+    "Each candidate database must finalize successfully and resolve to Swift before query observations are interpreted.",
+    "Known shipped contentsOf initializer source must instantiate; lookalike declarations must resolve to the benchmark module and not acquire native roles by spelling.",
+    "Environment and argv declaration observations must resolve to Foundation/Swift identity before their missing source role can contribute to a scoped capability decision.",
+    "Process sink absence or unresolved dispatch is a concrete blocker, never inferred native sink support.",
+    "Joern census must cover all candidate files and every JAR member/resource; keyword locations are navigation only. Shipped DefaultSemantics role matching may be inspected or executed only through shipped APIs without custom endpoint rules.",
+    "If no proven native role mechanism is discoverable, record exact inspected coverage and a concrete capability/qualification blocker; do not reuse old unsupported partitions."
+  ],
+  "scope": "No scored results, corpus rerun, new canonical identity, opaque decision or publication. At most one explicitly unqualified extraction retry after a failed60s attempt; preserve every attempt and scratch.",
+  "files": {
+    "evidence/swift-candidate-native-controls-220/controls/argv/control.json": "b72e1f2a3c6d068c103726168a7b098690ea15249c8b866b0c1d969846b6b742",
+    "evidence/swift-candidate-native-controls-220/controls/argv/main.swift": "08b70a4fd67c9da64953b96bbde9b15d0624fe2b9aff3559d4c51484f1c0afca",
+    "evidence/swift-candidate-native-controls-220/controls/environment/control.json": "e846f73649123b0411fca2f310590ffc652b033bc4908f1df09e951b034ab100",
+    "evidence/swift-candidate-native-controls-220/controls/environment/main.swift": "bcc2ceafba72a00115607c68c7a9aeca00ab66eaff98e4057e8a8d836be854a7",
+    "evidence/swift-candidate-native-controls-220/controls/near-misses/control.json": "8dab9106de6497828bf4a914ec649514af10419ddd3ce25cac1c594731ea2ff4",
+    "evidence/swift-candidate-native-controls-220/controls/near-misses/main.swift": "79509e756d40a9ae22d2158334f676a5a3fa3102e7fa283c687277a27f8a8c70",
+    "evidence/swift-candidate-native-controls-220/queries/codeql-pack.lock.yml": "fceb4b22c946b8a06e7895799cd997580c2f8b64cb871014cfaf62f66f962f17",
+    "evidence/swift-candidate-native-controls-220/queries/qlpack.yml": "75b6865ba09f91a798bb4ecafac2d8058a70ab98e8fecb9cb0e0a958b0cc6224",
+    "evidence/swift-candidate-native-controls-220/queries/rolesCalls.ql": "b1a2bedff51ec1561b39b84b12aa364dd4fcd1d73370d72a1761bc3e1e48d86a"
+  }
+}
