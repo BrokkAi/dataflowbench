@@ -1,0 +1,73 @@
+/private/tmp/dfb-220-joern-native-candidate/source-files/DefaultSemantics.scala:3:import io.joern.dataflowengineoss.semanticsloader.{FlowSemantic, FullNameSemantics}
+/private/tmp/dfb-220-joern-native-candidate/source-files/DefaultSemantics.scala:4:import io.joern.dataflowengineoss.semanticsloader.FlowPath.{FlowMapping, PassThroughMapping}
+/private/tmp/dfb-220-joern-native-candidate/source-files/DefaultSemantics.scala:9:object DefaultSemantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/DefaultSemantics.scala:14:  def apply(): FullNameSemantics = {
+/private/tmp/dfb-220-joern-native-candidate/source-files/DefaultSemantics.scala:16:    FullNameSemantics.fromList(list)
+/private/tmp/dfb-220-joern-native-candidate/source-files/DefaultSemantics.scala:148:    *   procedure semantics for operators and common external Java calls only.
+/private/tmp/dfb-220-joern-native-candidate/source-files/DefaultSemantics.scala:151:  def javaSemantics(): FullNameSemantics = FullNameSemantics.fromList(operatorFlows ++ javaFlows)
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:1:package io.joern.dataflowengineoss.semanticsloader
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:3:import io.joern.dataflowengineoss.semanticsloader.FlowPath.{FlowMapping, PassThroughMapping}
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:8:trait Semantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:10:  /** Useful for `Semantics` that benefit from having some kind of internal state tailored to the current CPG.
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:16:  /** Builds a new `Semantics` whose `forMethod` behaviour first lookups in `other` and only if it fails (i.e. returns
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:19:  def after(other: Semantics): Semantics = Semantics.compose(this, other)
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:22:object Semantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:24:  private def compose(first: Semantics, second: Semantics): Semantics = new Semantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:36:/** The empty Semantics, whose `forMethod` always fails, i.e. the identity under `Semantics.after`. */
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:37:object NoSemantics extends Semantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:42:/** The nil Semantics, whose `forMethod` always succeeds but returns the empty (nil) mapping. */
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:43:object NilSemantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:45:  /** Builds a universal nil semantics. Beware this is right-absorbing under `Semantics.after`. */
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:46:  def apply(): Semantics = new Semantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:50:  /** Extensionally builds a nil semantics. */
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:51:  def where(methodFullNames: List[String], regex: Boolean = false): Semantics =
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:52:    FullNameSemantics.fromList(methodFullNames.map {
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:56:  /** Intensionally builds a nil semantics. */
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:57:  def where(predicate: Method => Boolean): Semantics = new Semantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:64:/** Semantics whose mappings are: 0->0, PassThroughMapping. */
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:65:object NoCrossTaintSemantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:67:  /** Builds a universal no-cross-taint semantics. Beware this is right-absorbing under `Semantics.after`. */
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:68:  def apply(): Semantics = new Semantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:74:  /** Extensionally builds a no-cross-taint semantics. */
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:75:  def where(methodFullNames: List[String], regex: Boolean = false): Semantics =
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:76:    FullNameSemantics.fromList(methodFullNames.map {
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:80:  /** Intensionally builds a no-cross-taint semantics. */
+/private/tmp/dfb-220-joern-native-candidate/source-files/Semantics.scala:81:  def where(predicate: Method => Boolean): Semantics = new Semantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemanticsParser.scala:1:package io.joern.dataflowengineoss.semanticsloader
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemanticsParser.scala:3:import io.joern.dataflowengineoss.SemanticsParser.MappingContext
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemanticsParser.scala:4:import io.joern.dataflowengineoss.{SemanticsBaseListener, SemanticsLexer, SemanticsParser}
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemanticsParser.scala:5:import io.joern.dataflowengineoss.semanticsloader.FlowPath.{FlowMapping, PassThroughMapping}
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemanticsParser.scala:12:class FullNameSemanticsParser {
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemanticsParser.scala:25:    val lexer       = new SemanticsLexer(charStream)
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemanticsParser.scala:27:    val parser      = new SemanticsParser(tokenStream)
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemanticsParser.scala:30:    val tree     = parser.taintSemantics()
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemanticsParser.scala:50:  private class Listener extends SemanticsBaseListener {
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemanticsParser.scala:54:    override def enterTaintSemantics(ctx: SemanticsParser.TaintSemanticsContext): Unit = {
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:1:package io.joern.dataflowengineoss.semanticsloader
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:3:import io.joern.dataflowengineoss.semanticsloader.FlowPath.{FlowMapping, PassThroughMapping}
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:11:object FullNameSemantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:15:  /** Builds FullNameSemantics given their constituent FlowSemantics. Same methodFullNamed FlowSemantic elements are
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:18:  def fromList(elements: List[FlowSemantic]): FullNameSemantics = FullNameSemantics(
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:19:    elements.groupBy(_.methodFullName).map { (fullName, semantics) =>
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:20:      val howMany = semantics.length
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:22:        logger.warn(s"$howMany competing FlowSemantics found for $fullName, merging them")
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:26:        mappings = semantics.flatMap(_.mappings),
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:27:        regex = semantics.exists(_.regex)
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:32:  def empty: FullNameSemantics = fromList(List())
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:36:class FullNameSemantics private (methodToSemantic: Map[String, FlowSemantic]) extends Semantics {
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:44:  /** Initialize all the method semantics that use regex with all their regex results before query time.
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:76:  /** Immutably extends the current `FullNameSemantics` with `extraFlows`.
+/private/tmp/dfb-220-joern-native-candidate/source-files/FullNameSemantics.scala:78:  def plus(extraFlows: List[FlowSemantic]): FullNameSemantics = FullNameSemantics.fromList(elements ++ extraFlows)
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:6:import io.joern.x2cpg.utils.Environment
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:100:    *   - TrieMap lacks equivalent APIs with the same per-key atomicity semantics; achieving the same would require
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:199:    *   Some(SwiftTypesProvider) if Swift environment is valid, None otherwise
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:208:    if (!isValidEnvironment(config)) {
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:210:        "No valid Swift environment found (swift and swiftc executables). CPG will not contain any type information from the Swift compiler."
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:228:    val osSpecificCommand = Environment.operatingSystem match {
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:229:      case io.joern.x2cpg.utils.Environment.OperatingSystemType.Windows =>
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:232:      case io.joern.x2cpg.utils.Environment.OperatingSystemType.Linux =>
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:239:      case io.joern.x2cpg.utils.Environment.OperatingSystemType.Mac =>
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:242:      case io.joern.x2cpg.utils.Environment.OperatingSystemType.Unknown =>
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:274:  /** Checks if the current environment has all the required tools to perform Swift type extraction.
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:284:    *   true if the environment has all required tools with compatible versions, false otherwise
+/private/tmp/dfb-220-joern-native-candidate/source-files/SwiftTypesProvider.scala:286:  private def isValidEnvironment(config: Config): Boolean = {
