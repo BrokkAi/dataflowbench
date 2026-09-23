@@ -1,0 +1,273 @@
+{
+  "lanes": {
+    "adapter-patched-resolved-sanitizer": {
+      "source_rows": [
+        [
+          4,
+          21,
+          "adapter-patched-resolved-sanitizer",
+          "environment"
+        ]
+      ],
+      "sink_rows": [
+        [
+          8,
+          32,
+          "adapter-patched-resolved-sanitizer",
+          "sink"
+        ],
+        [
+          8,
+          87,
+          "adapter-patched-resolved-sanitizer",
+          "sink"
+        ]
+      ],
+      "flow_rows": [],
+      "source_anchor_recognized": true,
+      "sink_anchor_recognized": true,
+      "observed_anchor_flow": false,
+      "matches_case_expectation": true
+    }
+  },
+  "sanitizer_observations": {
+    "barriers": {
+      "row_count": 17,
+      "rows": [
+        [
+          4,
+          21,
+          "Foundation",
+          "ProcessInfo",
+          false,
+          "MemberRefExpr"
+        ],
+        [
+          4,
+          68,
+          "Swift",
+          "String",
+          false,
+          "StringLiteralExpr"
+        ],
+        [
+          5,
+          28,
+          "Swift",
+          "String",
+          false,
+          "DeclRefExpr"
+        ],
+        [
+          5,
+          40,
+          "Swift",
+          "Int",
+          true,
+          "IntegerLiteralExpr"
+        ],
+        [
+          6,
+          20,
+          "Swift",
+          "String",
+          false,
+          "CallExpr"
+        ],
+        [
+          6,
+          26,
+          "Swift",
+          "Bool",
+          false,
+          "DefaultArgumentExpr"
+        ],
+        [
+          6,
+          27,
+          "Swift",
+          "Int",
+          true,
+          "DeclRefExpr"
+        ],
+        [
+          6,
+          42,
+          "Swift",
+          "Int",
+          true,
+          "IntegerLiteralExpr"
+        ],
+        [
+          7,
+          19,
+          "Swift",
+          "String",
+          false,
+          "BinaryExpr"
+        ],
+        [
+          7,
+          19,
+          "Swift",
+          "String",
+          false,
+          "StringLiteralExpr"
+        ],
+        [
+          7,
+          29,
+          "Swift",
+          "String",
+          false,
+          "DeclRefExpr"
+        ],
+        [
+          8,
+          5,
+          "Foundation",
+          "Process",
+          false,
+          "TryExpr"
+        ],
+        [
+          8,
+          9,
+          "Foundation",
+          "Process",
+          false,
+          "CallExpr"
+        ],
+        [
+          8,
+          32,
+          "Foundation",
+          "URL",
+          false,
+          "CallExpr"
+        ],
+        [
+          8,
+          64,
+          "Swift",
+          "String",
+          false,
+          "StringLiteralExpr"
+        ],
+        [
+          8,
+          88,
+          "Swift",
+          "String",
+          false,
+          "StringLiteralExpr"
+        ],
+        [
+          8,
+          94,
+          "Swift",
+          "String",
+          false,
+          "DeclRefExpr"
+        ]
+      ]
+    },
+    "numeric-bases": {
+      "row_count": 3,
+      "rows": [
+        [
+          5,
+          40,
+          "Swift",
+          "Int",
+          "Swift",
+          "SignedInteger"
+        ],
+        [
+          6,
+          27,
+          "Swift",
+          "Int",
+          "Swift",
+          "SignedInteger"
+        ],
+        [
+          6,
+          42,
+          "Swift",
+          "Int",
+          "Swift",
+          "SignedInteger"
+        ]
+      ]
+    },
+    "conversion-identity": {
+      "row_count": 2,
+      "rows": [
+        [
+          5,
+          24,
+          "Swift",
+          "Swift",
+          "FixedWidthInteger",
+          "init(_:radix:)",
+          2,
+          "S",
+          "Int",
+          "Int?",
+          "OptionalType"
+        ],
+        [
+          6,
+          20,
+          "Swift",
+          "Swift",
+          "String",
+          "init(_:radix:uppercase:)",
+          3,
+          "T",
+          "Int",
+          "String",
+          "StructType"
+        ]
+      ]
+    }
+  },
+  "phase_measurements": {
+    "database-create": {
+      "elapsed_seconds": 86.990464375,
+      "command_maxrss_bytes": 1306316800
+    },
+    "roles": {
+      "elapsed_seconds": 15.195104459000007,
+      "command_maxrss_bytes": 1364918272
+    },
+    "flow": {
+      "elapsed_seconds": 11.701877582999998,
+      "command_maxrss_bytes": 738770944
+    },
+    "identity": {
+      "elapsed_seconds": 2.435944500000005,
+      "command_maxrss_bytes": 444481536
+    },
+    "barriers": {
+      "elapsed_seconds": 2.748165,
+      "command_maxrss_bytes": 391102464
+    },
+    "numeric-bases": {
+      "elapsed_seconds": 2.5283260420000033,
+      "command_maxrss_bytes": 458113024
+    },
+    "conversion-identity": {
+      "elapsed_seconds": 2.4160681250000096,
+      "command_maxrss_bytes": 433963008
+    }
+  },
+  "archive_sha256": "f87f2f3626e5733db766817f510215857b07c6615fedcf521563b6b8baef3325",
+  "archive_member": "private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-htqxleo_/source/main.swift",
+  "source_sha256": "c9a1a164422b9a32ed4dd8c760cb70c79e999833fe0516b25f0e764224ab978e",
+  "status": "observed-unqualified",
+  "aggregate_memory_compliance": "unproven",
+  "semantic_completeness": "unproven",
+  "scored_activation": false
+}

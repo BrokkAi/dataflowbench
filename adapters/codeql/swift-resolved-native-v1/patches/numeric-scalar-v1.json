@@ -1,0 +1,12 @@
+{
+  "path": "codeql/swift-all/6.8.4/codeql/swift/security/CommandInjectionExtensions.qll",
+  "original_sha256": "5985ca26f6b0a38c74951779f9a59f705c55a5add1415fc175be5f6fec4418a4",
+  "patched_sha256": "3d12d7e1eb7aba5115379e80c4c2da9d317f18c8e297721492846264e1abd7bf",
+  "patch_sha256": "608b1ffa953202a50d4692cce9548efb15c8bf19897188a0eb8f3ce23ce90561",
+  "scope": "Restrict existing command-injection numeric barrier to resolved Swift scalar struct declarations",
+  "limitations": [
+    "Covers the twelve nominal scalar names already enumerated by pinned NumericType.qll; this does not qualify every SDK numeric type.",
+    "Adds no barrier based on protocol name/conformance alone.",
+    "Native Int control and local Numeric near-miss must pass before canonical qualification."
+  ]
+}

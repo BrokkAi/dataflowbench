@@ -34,6 +34,8 @@ identity; structs, `Array`, and `Dictionary` have value semantics. Shared heap
 and alias fixtures must therefore use classes, not copied structs. This follows
 [Swift's value/reference distinction](https://www.swift.org/documentation/articles/value-and-reference-types.html).
 
+Prospective exception, 2026-09-23: the [dated opaque-template amendment](swift-opaque-objc-amendment-2026-09-23.md) permits a Darwin Objective-C runtime bridge only for the two named opaque propagator templates. The historical scope and results remain unchanged.
+
 Every executable row below is a positive/near-miss negative pair. The positive
 has source dependence; the negative changes only the stated separating or
 killing operation and retains the source-backed computation (the infeasible-path negative intentionally leaves its source assignment unreachable). Modeling expectations are

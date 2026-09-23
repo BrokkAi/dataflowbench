@@ -108,6 +108,12 @@ jobs:
           python3 scripts/verify-swift-conversion-fresh.py
           python3 scripts/test-swift-summary-fresh.py
           python3 scripts/verify-swift-summary-fresh.py
+          python3 scripts/test-swift-sanitizer-resolved.py
+          python3 scripts/verify-swift-sanitizer-resolved.py
+          python3 scripts/test-swift-sanitizer-fresh.py
+          python3 scripts/verify-swift-sanitizer-fresh.py
+          python3 scripts/test-swift-sanitizer-canonical.py
+          python3 scripts/verify-swift-sanitizer-canonical.py
       - name: Test Swift fixture validation controls
         run: python3 scripts/test-swift-fixtures.py
       - name: Test isolated release validation gate
