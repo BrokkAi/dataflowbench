@@ -1,0 +1,41 @@
+{
+  "scope": "non-scored-independent-integer-sanitizer-control",
+  "plan_sha256": "3289710e6411aa23569984b97425f47521d86ef811581e60aaa846fb0e2ccb93",
+  "source_commit": "b2ef69c65ef80a2bf4ebb2ee7b3d39dda084866d",
+  "pack_files_verified": 3398,
+  "compiler_sha256": "3d13e20b1504d7d30038fcd2201b9d0a8ead5c09eea752a5da223453b3ae0c6f",
+  "assets": {
+    "codeql/codeql": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413",
+    "codeql/swift/tools/osx64/extractor.real": "680adbee37bdbfc5fe0a4b6d63c45bdae23fcf3bb2210530a7b751b58f319530"
+  },
+  "scored_activation": false,
+  "argv": [
+    "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+    "/private/tmp/dfb-220-extraction150/scripts/probe-swift-v2-codeql.py",
+    "--output",
+    "/private/tmp/dfb-220-extraction150/evidence/swift-sanitizer-qualification-v1/control-attempt-01/probe",
+    "--codeql",
+    "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+    "--packs",
+    "/private/tmp/dfb-220-candidate-assets/codeql-cli/packs",
+    "--compiler",
+    "/private/tmp/dfb-220-candidate-assets/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc",
+    "--sdk",
+    "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+    "--target",
+    "arm64-apple-macosx26.5",
+    "--control-directory",
+    "/private/tmp/dfb-220-extraction150/evidence/swift-sanitizer-qualification-v1/control",
+    "--query-directory",
+    "/private/tmp/dfb-220-extraction150/adapters/codeql/swift-sanitizer-v1/queries",
+    "--probe-queries",
+    "roles",
+    "flow",
+    "identity",
+    "conversion-identity",
+    "barriers",
+    "numeric-bases"
+  ],
+  "exit_status": 0,
+  "status": "unqualified"
+}
