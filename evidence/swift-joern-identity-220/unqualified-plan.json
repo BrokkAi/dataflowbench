@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-23T14:08:59.971991+00:00",
+  "reason": "Qualified external property reads lack REF identity; isolate qualification syntax by moving local lookalikes into enum and using unqualified real imports.",
+  "limits": {
+    "typecheck_seconds": 60,
+    "frontend_seconds": 180,
+    "query_seconds": 60,
+    "requested_heap_mib": 512
+  },
+  "acceptance": "Require resolved real property member identity and distinguish lookalikes without code/name matching; otherwise retain concrete external binding gap.",
+  "files": {
+    "control-unqualified/main.swift": "b2433d56057de991d7dbab4b2387b79e81d6827d1c4d7bcfdf928690b5774245",
+    "probe-unqualified.py": "8f5afb4feac32f8a61945824167241e92c27bed9923d1da0090d872ca7e077f5",
+    "inspect.sc": "4fb75f5483a69c776346d1280b9c26172f17790782b28c3ad8fab314b04f16af"
+  }
+}
