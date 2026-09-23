@@ -1,0 +1,71 @@
+{
+  "date": "2026-09-23T13:40:29.525578+00:00",
+  "scope": "Prospective adapter-corrected sources and sinks; non-scored diagnostic, separate vendor output.",
+  "base_commit": "18551def165a59acd048eca4dd66ea6d2f676350",
+  "policy": "swift-codeql-extraction150-analysis2048-v2",
+  "analysis_seconds": 60,
+  "analysis_memory_mib": 2048,
+  "extraction_seconds": 150,
+  "compiler": "Swift 6.3.3",
+  "sdk": "MacOSX26.5.sdk",
+  "target": "arm64-apple-macosx26.5",
+  "native_execution": false,
+  "expected_corrected_flows": [
+    [
+      "SOURCE_ENV",
+      "POS_ENV_RUN"
+    ],
+    [
+      "SOURCE_ENV",
+      "POS_ENV_SETTER"
+    ],
+    [
+      "SOURCE_ARGV",
+      "POS_ARGV_RUN"
+    ],
+    [
+      "SOURCE_ARGV",
+      "POS_ARGV_SETTER"
+    ]
+  ],
+  "expected_vendor_flows": [],
+  "expected_corrected_source_labels": [
+    "SOURCE_ENV",
+    "SOURCE_ARGV"
+  ],
+  "negative_sink_labels": [
+    "NEG_LOCAL",
+    "NEG_OWNER",
+    "NEG_TYPE",
+    "NEG_SAFE"
+  ],
+  "labels": {
+    "SOURCE_ENV": 23,
+    "SOURCE_ARGV": 24,
+    "POS_ENV_RUN": 25,
+    "POS_ARGV_SETTER": 27,
+    "POS_ARGV_RUN": 28,
+    "POS_ENV_SETTER": 30,
+    "LOCAL_ENV": 31,
+    "LOCAL_ARGV": 32,
+    "NEG_LOCAL": 33,
+    "OTHER_ENV": 34,
+    "OTHER_ARGV": 35,
+    "NEG_OWNER": 36,
+    "WRONG_ENV": 37,
+    "WRONG_ARGV": 38,
+    "NEG_TYPE": 39,
+    "NEG_SAFE": 40
+  },
+  "query_hashes": {
+    "identity.ql": "f538a600531cde0a974db541cdc742a00edbfafce8b77c88a247e0d9d54c31dc",
+    "qlpack.yml": "020e4cdf7164c52fcda8c2e3fd77a50f201d10855e2987e81dabe6525877117b",
+    "codeql-pack.lock.yml": "fceb4b22c946b8a06e7895799cd997580c2f8b64cb871014cfaf62f66f962f17",
+    "flow.ql": "c1a7b2318c4531c216b3a62d06d4735e58694a38a5c8c85237b342cdc8c6feb6",
+    "roles.ql": "88598cae6491b4031132910c931edc080383b063f4aca05512616399195f1b99",
+    "FoundationIdentity.qll": "d55b73575e575145329b022105ce96fae6d5fed342ceaa6447c375a694e6e413",
+    "FoundationSources.qll": "5a6703e01eb89a2286fbe492ccbcdd9d1c69692a6d3bffcc02be56338086932a"
+  },
+  "source_sha256": "822d6d5a5aa778bdc5fe1abffd4e5b8ee55577a3dd1fd139ce0953c9c94b358e",
+  "qualification": "Exact role/flow observations only; raw extractor errors block; warnings, descendant accounting and aggregate memory uncertainty remain explicit."
+}
