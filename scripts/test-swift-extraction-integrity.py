@@ -7,6 +7,21 @@ from swift_extraction_integrity import inspect_logs
 
 
 class IntegrityTests(unittest.TestCase):
+    def test_all_raw_and_retained_variants_enforce_error_gate(self):
+        for suffix in ('.log', '.log.gz', '.log.txt', '.log.txt.gz'):
+            for message, expected in [('INFO extracted\n', True),
+                                      ('ERRO [extractor/compiler] unknown option\n', False),
+                                      ('ERROR [extractor/compiler] missing type\n', False)]:
+                with self.subTest(suffix=suffix, message=message), tempfile.TemporaryDirectory() as d:
+                    path = Path(d, 'extractor' + suffix)
+                    opener = gzip.open if suffix.endswith('.gz') else open
+                    with opener(path, 'wt') as stream:
+                        stream.write(message)
+                    result = inspect_logs(d)
+                    self.assertEqual(result['logs_checked'], 1)
+                    self.assertEqual(result['ready_for_observation'], expected)
+                    self.assertEqual(len(result['errors']), 0 if expected else 1)
+
     def test_missing_logs_blocks(self):
         with tempfile.TemporaryDirectory() as d:
             self.assertFalse(inspect_logs(d)['ready_for_observation'])
