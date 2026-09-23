@@ -1,0 +1,246 @@
+{
+  "lanes": {
+    "adapter-patched-ssa": {
+      "source_rows": [
+        [
+          4,
+          15,
+          "adapter-patched-ssa",
+          "environment"
+        ]
+      ],
+      "sink_rows": [
+        [
+          8,
+          32,
+          "adapter-patched-ssa",
+          "sink"
+        ],
+        [
+          8,
+          87,
+          "adapter-patched-ssa",
+          "sink"
+        ]
+      ],
+      "flow_rows": [
+        [
+          4,
+          8,
+          87,
+          "adapter-patched-ssa"
+        ]
+      ],
+      "source_anchor_recognized": true,
+      "sink_anchor_recognized": true,
+      "observed_anchor_flow": true,
+      "matches_case_expectation": true
+    },
+    "adapter-patched-ssa-resolved": {
+      "source_rows": [
+        [
+          4,
+          15,
+          "adapter-patched-ssa-resolved",
+          "environment"
+        ]
+      ],
+      "sink_rows": [
+        [
+          8,
+          32,
+          "adapter-patched-ssa-resolved",
+          "sink"
+        ],
+        [
+          8,
+          87,
+          "adapter-patched-ssa-resolved",
+          "sink"
+        ]
+      ],
+      "flow_rows": [
+        [
+          4,
+          8,
+          87,
+          "adapter-patched-ssa-resolved"
+        ]
+      ],
+      "source_anchor_recognized": true,
+      "sink_anchor_recognized": true,
+      "observed_anchor_flow": true,
+      "matches_case_expectation": true
+    }
+  },
+  "summary_observations": {
+    "summary-identity": {
+      "row_count": 4,
+      "rows": [
+        [
+          5,
+          19,
+          "Foundation",
+          "Foundation",
+          "Data",
+          "init(_:)",
+          1,
+          true
+        ],
+        [
+          5,
+          19,
+          "Foundation",
+          "Foundation",
+          "Data",
+          "base64EncodedString(options:)",
+          1,
+          true
+        ],
+        [
+          6,
+          25,
+          "Foundation",
+          "Foundation",
+          "Data",
+          "init(base64Encoded:options:)",
+          2,
+          true
+        ],
+        [
+          7,
+          25,
+          "Foundation",
+          "Swift",
+          "String",
+          "init(data:encoding:)",
+          2,
+          true
+        ]
+      ]
+    },
+    "summary-ports": {
+      "row_count": 5,
+      "rows": [
+        [
+          5,
+          "Argument[0]",
+          "ReturnValue",
+          ""
+        ],
+        [
+          5,
+          "Argument[0]",
+          "ReturnValue.CollectionElement",
+          ""
+        ],
+        [
+          5,
+          "Argument[-1]",
+          "ReturnValue",
+          ""
+        ],
+        [
+          6,
+          "Argument[0]",
+          "ReturnValue",
+          ""
+        ],
+        [
+          7,
+          "Argument[0]",
+          "ReturnValue.OptionalSome",
+          ""
+        ]
+      ]
+    },
+    "summary-transfer": {
+      "row_count": 3,
+      "rows": [
+        [
+          5,
+          5,
+          19,
+          5,
+          19
+        ],
+        [
+          5,
+          5,
+          35,
+          5,
+          19
+        ],
+        [
+          6,
+          6,
+          56,
+          6,
+          25
+        ]
+      ]
+    },
+    "summary-store": {
+      "row_count": 2,
+      "rows": [
+        [
+          5,
+          5,
+          35,
+          5,
+          19,
+          "CollectionElement"
+        ],
+        [
+          7,
+          7,
+          38,
+          7,
+          25,
+          "OptionalSome"
+        ]
+      ]
+    }
+  },
+  "phase_measurements": {
+    "database-create": {
+      "elapsed_seconds": 90.543852625,
+      "command_maxrss_bytes": 1320013824
+    },
+    "roles": {
+      "elapsed_seconds": 21.91156870799999,
+      "command_maxrss_bytes": 1470808064
+    },
+    "flow": {
+      "elapsed_seconds": 18.470237458,
+      "command_maxrss_bytes": 1487208448
+    },
+    "identity": {
+      "elapsed_seconds": 2.151629208999992,
+      "command_maxrss_bytes": 457736192
+    },
+    "summary-identity": {
+      "elapsed_seconds": 2.681029292000005,
+      "command_maxrss_bytes": 469565440
+    },
+    "summary-ports": {
+      "elapsed_seconds": 2.564640541999978,
+      "command_maxrss_bytes": 527106048
+    },
+    "summary-transfer": {
+      "elapsed_seconds": 2.5686388339999837,
+      "command_maxrss_bytes": 553025536
+    },
+    "summary-store": {
+      "elapsed_seconds": 2.5832504589999985,
+      "command_maxrss_bytes": 577683456
+    }
+  },
+  "archive_sha256": "1f93a815282e4938aa41cf9ca14345d56ca34eb6383b43a3b5bbeb66c1647c9f",
+  "archive_member": "private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-mcl_dtto/source/main.swift",
+  "source_sha256": "652cd447d4bd47fe589852eb9e70fd8a20a9a53160f281aae4a1d21fbee31c94",
+  "status": "observed-unqualified",
+  "aggregate_memory_compliance": "unproven",
+  "semantic_completeness": "unproven",
+  "scored_activation": false
+}

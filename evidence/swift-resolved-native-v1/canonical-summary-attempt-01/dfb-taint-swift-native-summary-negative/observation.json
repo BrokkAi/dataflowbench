@@ -1,0 +1,232 @@
+{
+  "lanes": {
+    "adapter-patched-ssa": {
+      "source_rows": [
+        [
+          4,
+          15,
+          "adapter-patched-ssa",
+          "environment"
+        ]
+      ],
+      "sink_rows": [
+        [
+          8,
+          32,
+          "adapter-patched-ssa",
+          "sink"
+        ],
+        [
+          8,
+          87,
+          "adapter-patched-ssa",
+          "sink"
+        ]
+      ],
+      "flow_rows": [],
+      "source_anchor_recognized": true,
+      "sink_anchor_recognized": true,
+      "observed_anchor_flow": false,
+      "matches_case_expectation": true
+    },
+    "adapter-patched-ssa-resolved": {
+      "source_rows": [
+        [
+          4,
+          15,
+          "adapter-patched-ssa-resolved",
+          "environment"
+        ]
+      ],
+      "sink_rows": [
+        [
+          8,
+          32,
+          "adapter-patched-ssa-resolved",
+          "sink"
+        ],
+        [
+          8,
+          87,
+          "adapter-patched-ssa-resolved",
+          "sink"
+        ]
+      ],
+      "flow_rows": [],
+      "source_anchor_recognized": true,
+      "sink_anchor_recognized": true,
+      "observed_anchor_flow": false,
+      "matches_case_expectation": true
+    }
+  },
+  "summary_observations": {
+    "summary-identity": {
+      "row_count": 4,
+      "rows": [
+        [
+          5,
+          19,
+          "Foundation",
+          "Foundation",
+          "Data",
+          "init(_:)",
+          1,
+          true
+        ],
+        [
+          5,
+          19,
+          "Foundation",
+          "Foundation",
+          "Data",
+          "base64EncodedString(options:)",
+          1,
+          true
+        ],
+        [
+          6,
+          25,
+          "Foundation",
+          "Foundation",
+          "Data",
+          "init(base64Encoded:options:)",
+          2,
+          true
+        ],
+        [
+          7,
+          25,
+          "Foundation",
+          "Swift",
+          "String",
+          "init(data:encoding:)",
+          2,
+          true
+        ]
+      ]
+    },
+    "summary-ports": {
+      "row_count": 5,
+      "rows": [
+        [
+          5,
+          "Argument[0]",
+          "ReturnValue",
+          ""
+        ],
+        [
+          5,
+          "Argument[0]",
+          "ReturnValue.CollectionElement",
+          ""
+        ],
+        [
+          5,
+          "Argument[-1]",
+          "ReturnValue",
+          ""
+        ],
+        [
+          6,
+          "Argument[0]",
+          "ReturnValue",
+          ""
+        ],
+        [
+          7,
+          "Argument[0]",
+          "ReturnValue.OptionalSome",
+          ""
+        ]
+      ]
+    },
+    "summary-transfer": {
+      "row_count": 3,
+      "rows": [
+        [
+          5,
+          5,
+          19,
+          5,
+          19
+        ],
+        [
+          5,
+          5,
+          35,
+          5,
+          19
+        ],
+        [
+          6,
+          6,
+          56,
+          6,
+          25
+        ]
+      ]
+    },
+    "summary-store": {
+      "row_count": 2,
+      "rows": [
+        [
+          5,
+          5,
+          35,
+          5,
+          19,
+          "CollectionElement"
+        ],
+        [
+          7,
+          7,
+          38,
+          7,
+          25,
+          "OptionalSome"
+        ]
+      ]
+    }
+  },
+  "phase_measurements": {
+    "database-create": {
+      "elapsed_seconds": 116.235777958,
+      "command_maxrss_bytes": 1368457216
+    },
+    "roles": {
+      "elapsed_seconds": 20.429391167000006,
+      "command_maxrss_bytes": 1351680000
+    },
+    "flow": {
+      "elapsed_seconds": 19.832459416999995,
+      "command_maxrss_bytes": 718929920
+    },
+    "identity": {
+      "elapsed_seconds": 3.2482998330000044,
+      "command_maxrss_bytes": 436715520
+    },
+    "summary-identity": {
+      "elapsed_seconds": 3.7464232499999923,
+      "command_maxrss_bytes": 448741376
+    },
+    "summary-ports": {
+      "elapsed_seconds": 3.756196167000013,
+      "command_maxrss_bytes": 455016448
+    },
+    "summary-transfer": {
+      "elapsed_seconds": 2.787251916999992,
+      "command_maxrss_bytes": 614088704
+    },
+    "summary-store": {
+      "elapsed_seconds": 3.0485270419999893,
+      "command_maxrss_bytes": 594804736
+    }
+  },
+  "archive_sha256": "80bc0a2c0486b2e0d4323742dfc699defcafa1d0213c208cf7f74d9d28946274",
+  "archive_member": "private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-8hvw5ihk/source/main.swift",
+  "source_sha256": "af6368fb72193b65ef12914e7bc2dca28dc2157b9ee3a78ec4f1041afcb479d0",
+  "status": "observed-unqualified",
+  "aggregate_memory_compliance": "unproven",
+  "semantic_completeness": "unproven",
+  "scored_activation": false
+}
