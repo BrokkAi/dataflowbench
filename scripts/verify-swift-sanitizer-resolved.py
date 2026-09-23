@@ -45,5 +45,5 @@ def check_rows(before,after):
 
 def verify():
     check_rows(package('ssa','6.8.4-dfb.3'),package('resolved','6.8.4-dfb.4'))
-    print('SSA restores Plain; resolved scalar barrier restores local Int; real Swift.Int remains safe. Non-scored; fresh/canonical controls pending.')
+    print('SSA restores Plain; resolved scalar barrier restores local Int; real Swift.Int remains safe. Non-scored diagnostic; fresh/canonical controls are verified separately.')
 if __name__=='__main__':verify()
