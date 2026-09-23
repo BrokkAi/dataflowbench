@@ -1,0 +1,21 @@
+/** @name Adapter-corrected Foundation command flow
+ * @kind table
+ * @id dfb/swift-foundation-identity-flow
+ */
+import FoundationIdentity
+module CorrectedConfig implements DataFlow::ConfigSig {
+  predicate isSource(DataFlow::Node node) { CommandInjectionConfig::isSource(node) }
+  predicate isSink(DataFlow::Node node) { correctedSink(node) }
+  predicate isBarrier(DataFlow::Node node) { CommandInjectionConfig::isBarrier(node) }
+  predicate isAdditionalFlowStep(DataFlow::Node a, DataFlow::Node b) {
+    CommandInjectionConfig::isAdditionalFlowStep(a, b)
+  }
+}
+module CorrectedFlow = TaintTracking::Global<CorrectedConfig>;
+from DataFlow::Node source, DataFlow::Node sink, string profile
+where source.getLocation().getFile().getBaseName() = "main.swift" and
+ sink.getLocation().getFile().getBaseName() = "main.swift" and
+ (CommandInjectionFlow::flow(source, sink) and profile = "vendor-native" or
+  CorrectedFlow::flow(source, sink) and profile = "adapter-corrected")
+select source.getLocation().getStartLine(), sink.getLocation().getStartLine(),
+ sink.getLocation().getStartColumn(), profile

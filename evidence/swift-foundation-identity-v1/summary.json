@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "profile": "swift-foundation-identity-v1",
+  "classification": "adapter-corrected diagnostic; non-scored",
+  "policy": "swift-codeql-extraction150-analysis2048-v2",
+  "control_attempt": "control-attempt-03",
+  "phases": {
+    "database-create": {
+      "elapsed_seconds": 113.30452625,
+      "exit_status": 0,
+      "timed_out": false,
+      "command_maxrss_bytes": 1166000128
+    },
+    "database-resolve": {
+      "elapsed_seconds": 0.5876250419999991,
+      "exit_status": 0,
+      "timed_out": false,
+      "command_maxrss_bytes": null
+    },
+    "roles": {
+      "elapsed_seconds": 6.029594666999998,
+      "exit_status": 0,
+      "timed_out": false,
+      "command_maxrss_bytes": 1369161728
+    },
+    "flow": {
+      "elapsed_seconds": 3.835783707999994,
+      "exit_status": 0,
+      "timed_out": false,
+      "command_maxrss_bytes": 874381312
+    },
+    "signature": {
+      "elapsed_seconds": 2.3426505420000012,
+      "exit_status": 0,
+      "timed_out": false,
+      "command_maxrss_bytes": 436731904
+    }
+  },
+  "vendor_sink_nodes": 10,
+  "corrected_sink_nodes": 5,
+  "vendor_flow_pairs": 8,
+  "corrected_flow_pairs": 3,
+  "preserved_positive_flows": "String contents initializer to genuine Foundation arguments setter and both static run arguments",
+  "rejected_vendor_flows": "benchmark-owned Process setter/run and benchmark extension wrong-type overload",
+  "safe_negative": "genuine Foundation constant call has sink roles but no taint flow",
+  "wrong_arity": "excluded by both profiles; no new correction claim",
+  "top_level_controls": "Attempts 01/02 yield no vendor or corrected roles; unqualified for differentiation.",
+  "source_archive": {
+    "archive_sha256": "901521d9825dbbd868ee507718e6b51fce354fb04c73b36a6f59ad155caf9dce",
+    "member": "private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-4yyn9674/source/main.swift",
+    "member_sha256": "a3a27e157b7494d6e7e0b345e2a5cfe8bba22262bb6752a1755cb1c1930442bd",
+    "matches_retained_control": true
+  },
+  "extraction_semantic_completeness": "unproven; extractor warnings retained",
+  "memory_compliance": "Aggregate process accounting is unproven; measured command maximum RSS is below 2048 MiB.",
+  "scored_activation": false,
+  "historical_results_requalified": false,
+  "missing_environment_argv_sources": "separate unresolved dependency"
+}
