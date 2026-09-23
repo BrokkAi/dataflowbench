@@ -1,0 +1,85 @@
+{
+  "scope": "non-scored-darwin-objective-c-opaque-prototype",
+  "amendment": "docs/swift-opaque-objc-amendment-2026-09-23.md",
+  "template_ids": [
+    "dfb-template-model-opaque-propagator",
+    "dfb-template-model-propagator-position"
+  ],
+  "scored_activation": false,
+  "population_member": false,
+  "semantic_completeness": "unproven",
+  "aggregate_memory_compliance": "unproven",
+  "runtime_expectations": {
+    "carry": "tainted",
+    "block": "tainted",
+    "position1": "tainted",
+    "position0": "clean"
+  },
+  "required_runtime_declarations": {
+    "dfbRelay:": [
+      "@",
+      "@",
+      ":",
+      "@"
+    ],
+    "dfbChoose:second:": [
+      "@",
+      "@",
+      ":",
+      "@",
+      "@"
+    ]
+  },
+  "model_on_expected_sink_labels": [
+    "DIRECT_POSITIVE",
+    "CARRY_POSITIVE",
+    "POSITION_ONE"
+  ],
+  "model_on_forbidden_sink_labels": [
+    "UNDECLARED_BLOCK",
+    "POSITION_ZERO",
+    "CLEAN_CARRY"
+  ],
+  "extraction_seconds": 150,
+  "analysis_seconds": 60,
+  "analysis_memory_mb": 2048,
+  "failure_policy": "Retain every attempt; any runtime, extraction, exact identity, model-off opacity, or position failure leaves templates unqualified. Do not add compensating barriers or infer selector dispatch from names.",
+  "model_off_expected_sink_labels": [
+    "DIRECT_POSITIVE"
+  ],
+  "sdk_settings_sha256": "f8d005f09381389167f9e0aeaa169bc9e7dff162ef22ca2fd8e98df7ff1acafe",
+  "queries": [
+    "roles",
+    "flow",
+    "identity"
+  ],
+  "control_files": {
+    "evidence/swift-opaque-objc-v1/control-v2/control.json": "425759cec0cbe4c1ea8f3960989c073470732f3b3f00c30d6c3b3e7c5907dc7c",
+    "evidence/swift-opaque-objc-v1/control-v2/main.swift": "7fe67e06bffda081acedebd4a8497b20a209f5465a7cdcdd8e6da6a847c5af3d"
+  },
+  "query_files": {
+    "evidence/swift-opaque-objc-v1/queries/identity.ql": "588171d5448fa4b7cf3ac249c3a710a647a47d3d24ff0ee60680343299f177bb",
+    "evidence/swift-opaque-objc-v1/queries/qlpack.yml": "868a9cfbd0fccd64a05e7f8985e743a5f702f209e643e1836f9b625be3c65739",
+    "evidence/swift-opaque-objc-v1/queries/codeql-pack.lock.yml": "fceb4b22c946b8a06e7895799cd997580c2f8b64cb871014cfaf62f66f962f17",
+    "evidence/swift-opaque-objc-v1/queries/flow.ql": "df4a4ec23b1c033a3de056fb1ed01195b24e06b7681c3f0e5f2fe24cf0bd04ba",
+    "evidence/swift-opaque-objc-v1/queries/roles.ql": "253364d00459ded4586303e28c51f2a4474bf476c1ad2b84617d51384edc7182",
+    "evidence/swift-opaque-objc-v1/queries/OpaqueIdentity.qll": "bd1b2772f3ba8332a740d2fbd404d9b85be4efb6d0db80ca599eb8c935851cd8"
+  },
+  "runner_files": {
+    "scripts/probe-swift-v2-codeql.py": "a7ca82dd685a378dca56d14ec0edcbed27fc657c7bde68de9c8c2e95f4aae8e6",
+    "scripts/swift_v2_process.py": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd",
+    "scripts/swift_extraction_integrity.py": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156",
+    "scripts/probe-swift-opaque-objc-v2.py": "d20513885950108e68e7f380f7a30e9fc009aaec083bf5dd841090beaa647f80"
+  },
+  "vendor_files": {
+    "docs/swift-opaque-objc-amendment-2026-09-23.md": "60f1f55685ddcc34d8b734a9cd328577ba498396b716435639db46ead537b8aa",
+    "evidence/swift-opaque-objc-v1/runtime-plan.json": "5e7bcacfed3b7f8e7753ac51c23ff9dde2d71c37a9fcb9fa150414e2a02b070e",
+    "evidence/swift-opaque-objc-v1/runtime-attempt-01/manifest.json": "06992794aef288c95152e4a56cc1dba66439cbb3bfb980a8141fe43660291cab",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/resolved-pack-files.json": "4fb53772c26dbdf98b599403ed0fc7f396f019fcfb6e95447397f8369af68f9e",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/assets.json": "16e94a9eab4e67faff5f6576cfa4327b873692e9b2cb1113844c8649b8cead93",
+    "evidence/swift-foundation-sources-v1/control-attempt-01/witness.json": "89f80a2bb4341f4a393fc9dde0fa3427868d10ff711f5112b45fc318285de282",
+    "evidence/swift-opaque-objc-v1/endpoint-attempt-02/manifest.json": "9fb9c28acbc3f9c2806c8a20470ca9d357711f948061fce9619d0a388080fb8b"
+  },
+  "selector_evidence_boundary": "Runtime declaration list and signature evidence with identical class source bytes establishes declared selector behavior. The static model binds Swift wrapper declarations and parameter positions; no resolved dynamic perform target is claimed.",
+  "control_construction": "Same Opaque class bytes and call sequence as v1, with calls inside explicit run() to produce CFG nodes. Top-level call diagnosis retained; no query or model change."
+}

@@ -1,0 +1,67 @@
+{
+  "scope": "non-scored-darwin-objective-c-runtime-fidelity",
+  "amendment": "docs/swift-opaque-objc-amendment-2026-09-23.md",
+  "template_ids": [
+    "dfb-template-model-opaque-propagator",
+    "dfb-template-model-propagator-position"
+  ],
+  "scored_activation": false,
+  "population_member": false,
+  "semantic_completeness": "unproven",
+  "aggregate_memory_compliance": "unproven",
+  "runtime_expectations": {
+    "carry": "tainted",
+    "block": "tainted",
+    "position1": "tainted",
+    "position0": "clean"
+  },
+  "required_runtime_declarations": {
+    "dfbRelay:": [
+      "@",
+      "@",
+      ":",
+      "@"
+    ],
+    "dfbChoose:second:": [
+      "@",
+      "@",
+      ":",
+      "@",
+      "@"
+    ]
+  },
+  "model_on_expected_sink_labels": [
+    "DIRECT_POSITIVE",
+    "CARRY_POSITIVE",
+    "POSITION_ONE"
+  ],
+  "model_on_forbidden_sink_labels": [
+    "UNDECLARED_BLOCK",
+    "POSITION_ZERO",
+    "CLEAN_CARRY"
+  ],
+  "extraction_seconds": 150,
+  "analysis_seconds": 60,
+  "analysis_memory_mb": 2048,
+  "failure_policy": "Retain every attempt; any runtime, extraction, exact identity, model-off opacity, or position failure leaves templates unqualified. Do not add compensating barriers or infer selector dispatch from names.",
+  "model_off_expected_sink_labels": [
+    "DIRECT_POSITIVE"
+  ],
+  "sdk_settings_sha256": "f8d005f09381389167f9e0aeaa169bc9e7dff162ef22ca2fd8e98df7ff1acafe",
+  "control_files": {
+    "evidence/swift-opaque-objc-v1/compiler-attempt-01/diagnostic.txt": "d82d42c0ac65af3e97620a796e8cedb1570046b7794b53d6dea75d6bbabafb2b",
+    "evidence/swift-opaque-objc-v1/compiler-attempt-01/main.swift": "27baf21b960a8576f59baa331da2e4eb55eacd6f8f1b5fa5c3a7f077c9cf5c81",
+    "evidence/swift-opaque-objc-v1/runtime/main.swift": "555164ad91060b097ee88c98399e6fa73525132aa45d6bc327137f552b0db230",
+    "evidence/swift-opaque-objc-v1/control/control.json": "425759cec0cbe4c1ea8f3960989c073470732f3b3f00c30d6c3b3e7c5907dc7c",
+    "evidence/swift-opaque-objc-v1/control/main.swift": "be2cdc2f5ce4a8703da3bd947201082ea2b87e46297a76afe9abae1cc909af30"
+  },
+  "runner_files": {
+    "scripts/run-swift-opaque-runtime.py": "fe3d0aaa0f15a4ffa4ada6316aa0728a3509baac76f0e1394db37277e84dfcf6",
+    "scripts/swift_v2_process.py": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd"
+  },
+  "vendor_files": {
+    "docs/swift-opaque-objc-amendment-2026-09-23.md": "60f1f55685ddcc34d8b734a9cd328577ba498396b716435639db46ead537b8aa",
+    "evidence/swift-foundation-sources-v1/control-attempt-01/witness.json": "89f80a2bb4341f4a393fc9dde0fa3427868d10ff711f5112b45fc318285de282"
+  },
+  "execution_scope": "Only runtime/main.swift is executed; the analysis fixture is never executed. Analysis requires a later separate committed plan and runtime evidence join."
+}
