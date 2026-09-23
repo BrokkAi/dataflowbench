@@ -1,4 +1,4 @@
-# Prospective Swift integer sanitizer qualification
+# Swift integer sanitizer qualification: blocked independent control
 
 The canonical sanitizer negative parses environment input with `Int(raw,
 radix: 10)` and renders the result with `String(parsed, radix: 10)`; its positive
@@ -32,3 +32,56 @@ separately. Missing identity or barrier evidence is not a clean result. A failed
 separating control blocks the canonical sanitizer pair and is retained without
 changing expectations. Append remains independently blocked; this work does
 not activate scores, run the full corpus, freeze, or publish results.
+
+
+## Retained result
+
+The independent control is **blocked**. The canonical sanitizer pair has not
+run. A successful portable evidence check verifies this blocked observation;
+it does not qualify the family or activate benchmark scores.
+
+| Control | Native value barrier | Assisted endpoint flow |
+| --- | --- | --- |
+| Raw string | no | source 17 → sink 19 |
+| Swift integer decimal roundtrip | yes, Swift.Int read at 21:33 | none |
+| String-preserving local Int:Numeric | **yes, local Int read at 25:33** | missing at sink 27 |
+| Same-body Plain wrapper | no, Plain read at 29:34 | missing at sink 31 |
+
+The preregistration expected flows to sinks 19, 27 and 31. Only sink 19 was
+observed. Both lanes retain eight sink nodes; the adapter-assisted lane has one
+environment source, while the vendor-native lane has no source or flow.
+
+The native base-declaration query ties the local Int at 25:33 to the module-local
+Numeric protocol. The shipped `CommandInjectionDefaultBarrier` checks base-type
+names without their module. It therefore admits this unrelated string-holding
+type as a barrier. The same membership is observed in the local initializer and
+unwrapping initializer bodies. The Plain control has no such barrier, yet it
+also lacks endpoint flow. Consequently the evidence establishes a spurious
+barrier and a failed constructor/field/unwrapping flow control, but **does not
+establish that the barrier alone causes the missing endpoint flows**. No
+suppression, custom transfer, or changed expectation is supplied.
+
+Resolved initializer identity is retained separately. The real parse target is
+`Swift.FixedWidthInteger.init(_:radix:)`; it must remain protocol-owned rather
+than being relabeled as a declaration on Int. The real render target is
+`Swift.String.init(_:radix:uppercase:)` with its default argument. The local
+constructors and String extensions resolve to the fixture module. Printed
+formal/result type text is context only; typed barrier rows carry the resolved
+module and nominal declaration evidence.
+
+The first attempt extracted successfully in 95.389 seconds and retained source,
+role and flow observations. Its conversion-identity query failed compilation
+because the optional-type projection produced an empty relation. The failure
+and original query remain immutable. A separately committed diagnosis removes
+that projection, preserving resolved initializer module/owner and reporting
+result type text without claiming it is exact identity. Its three queries
+completed in 11.443, 10.925 and 10.293 seconds against the same retained database.
+All 424 non-cache source-data hashes and the source archive were checked before
+reuse; only the mutable query-cache subtree was excluded. No new extraction or
+canonical execution occurred.
+
+The raw attempts, preregistrations, selected vendor source and archive are under
+`evidence/swift-sanitizer-qualification-v1`. Run
+`python3 scripts/verify-swift-sanitizer-control.py` and
+`python3 scripts/test-swift-sanitizer-control.py` to verify the portable package.
+Aggregate memory compliance and semantic completeness remain unproven.
