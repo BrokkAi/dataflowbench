@@ -32,6 +32,9 @@ def checked_path(root, name):
 
 
 def verify_contract(activation, partition, population):
+    require(activation['query_directory'] == 'adapters/codeql/swift-foundation-sources-v1/queries',
+            'corrected query identity')
+    require(activation['policy_path'] == 'adapters/codeql/swift-extraction-v2/policy.json', 'policy identity')
     require(activation['configuration_id'] == 'codeql-swift-native-v3', 'configuration identity')
     require(activation['status'] == 'pending' and activation['scored_activation'] is False,
             'unqualified activation')
@@ -81,6 +84,9 @@ def verify(root=ROOT):
     for name, digest in inputs.items():
         require(hashlib.sha256(checked_path(root, name).read_bytes()).hexdigest() == digest,
                 'input digest: ' + name)
+    version = read(root / 'evidence/swift-candidate-qualification-220/codeql-runtime/version.stdout')
+    require(version['version'] == activation['version'] and version['sha'] == activation['build_identity'],
+            'retained binary witness')
     policy = read(root / activation['policy_path'])
     require([policy[k] for k in ['extraction_wall_clock_seconds', 'analysis_wall_clock_seconds',
             'analysis_peak_memory_mb']] == [150, 60, 2048], 'prospective policy')

@@ -26,6 +26,8 @@ class ContractTests(unittest.TestCase):
             lambda a, p: a['query_profiles'].update({'adapter-assisted': 'vendor-native'}),
             lambda a, p: a['joern'].update(normalized_outcome='unsupported'),
             lambda a, p: a.update(version='2.27.0'),
+            lambda a, p: a.update(query_directory='adapters/codeql/swift-v2/queries'),
+            lambda a, p: a.update(policy_path='adapters/codeql/swift-extraction-v1/policy.json'),
             lambda a, p: a.update(unresolved_modeling_templates=[]),
             lambda a, p: p.update(fixture_revision='wrong'),
             lambda a, p: p['cases'].pop(),
