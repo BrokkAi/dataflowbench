@@ -1,0 +1,44 @@
+--- a/codeql/swift-all/6.8.4/codeql/swift/dataflow/ExternalFlow.qll
++++ b/codeql/swift-all/6.8.4/codeql/swift/dataflow/ExternalFlow.qll
+@@ -485,6 +485,31 @@
+  */
+ predicate sinkNode(Node node, string kind) { sinkNode(node, kind, _) }
+ 
++/** DFB adapter patch v1: resolve the declaration identity of Data conversion summaries.
++ * Other catalog rows remain stock; this is not a complete framework identity repair.
++ */
++bindingset[type, name]
++private predicate dfbResolvedConversionSummary(Function f, string type, string name) {
++  if type = "Data" and name = ["init(_:)", "base64EncodedString(options:)", "init(base64Encoded:options:)"]
++  then
++    exists(Method m, NominalTypeDecl owner |
++      m = f and owner = m.getDeclaringDecl().asNominalTypeDecl() and
++      m.getModule().getName() = "Foundation" and owner.getModule().getName() = "Foundation" and
++      owner.getName() = "Data" and
++      (name = ["init(_:)", "base64EncodedString(options:)"] and m.getNumberOfParams() = 1 or
++       name = "init(base64Encoded:options:)" and m.getNumberOfParams() = 2)
++    )
++  else
++    if type = "String" and name = "init(data:encoding:)"
++    then
++      exists(Method m, NominalTypeDecl owner |
++        m = f and owner = m.getDeclaringDecl().asNominalTypeDecl() and
++        m.getModule().getName() = "Foundation" and owner.getModule().getName() = "Swift" and
++        owner.getName() = "String" and m.getNumberOfParams() = 2
++      )
++    else any()
++}
++
+ private predicate interpretSummary(
+   Function f, string input, string output, string kind, string provenance, string model
+ ) {
+@@ -493,7 +518,8 @@
+   |
+     summaryModel(namespace, type, subtypes, name, signature, ext, input, output, kind, provenance) and
+     model = "" and // TODO: Insert MaD provenance from summaryModel
+-    f = interpretElement(namespace, type, subtypes, name, signature, ext)
++    f = interpretElement(namespace, type, subtypes, name, signature, ext) and
++    dfbResolvedConversionSummary(f, type, name)
+   )
+ }
+ 
