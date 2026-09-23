@@ -1,0 +1,67 @@
+{
+  "policy": "adapters/codeql/swift-extraction-v2/policy.json",
+  "scored_activation": false,
+  "aggregate_memory_compliance": "unproven",
+  "semantic_completeness": "unproven",
+  "sdk_settings_sha256": "f8d005f09381389167f9e0aeaa169bc9e7dff162ef22ca2fd8e98df7ff1acafe",
+  "scope": "non-scored-fresh-resolved-sanitizer-control",
+  "control_files": {
+    "evidence/swift-sanitizer-qualification-v1/control/control.json": "680647a3273facb1fd40616abac1ba272d288f678da1098dd57c4a0913d8e647",
+    "evidence/swift-sanitizer-qualification-v1/control/main.swift": "90931423fcc7882e7d7d30af50e3af9aaf69971779d5af725c7e36ae81d04007"
+  },
+  "query_files": {
+    "evidence/swift-resolved-native-v1/sanitizer-fresh-queries-v1/FoundationIdentity.qll": "d55b73575e575145329b022105ce96fae6d5fed342ceaa6447c375a694e6e413",
+    "evidence/swift-resolved-native-v1/sanitizer-fresh-queries-v1/FoundationSources.qll": "5a6703e01eb89a2286fbe492ccbcdd9d1c69692a6d3bffcc02be56338086932a",
+    "evidence/swift-resolved-native-v1/sanitizer-fresh-queries-v1/barriers.ql": "ce9f7125387ab68d92a1a3f9900542a02a628e3b013c5eddb8ced12b9c8714d4",
+    "evidence/swift-resolved-native-v1/sanitizer-fresh-queries-v1/codeql-pack.lock.yml": "c7fc4933034419257be8f90a3869257f44590fc4b711b2dfe66054e4b8960afb",
+    "evidence/swift-resolved-native-v1/sanitizer-fresh-queries-v1/conversion-identity.ql": "bd31467b973a60a5ca489c1ba73006af09f3b2287b333605fb0be8182a0ad3df",
+    "evidence/swift-resolved-native-v1/sanitizer-fresh-queries-v1/flow.ql": "0f7e660f2a326afaa3779cbe2d6bed6cf0b51987abaf5dd3bab9bda1eb7aacaf",
+    "evidence/swift-resolved-native-v1/sanitizer-fresh-queries-v1/identity.ql": "f538a600531cde0a974db541cdc742a00edbfafce8b77c88a247e0d9d54c31dc",
+    "evidence/swift-resolved-native-v1/sanitizer-fresh-queries-v1/numeric-bases.ql": "8abb33a612de0041935c6c6f21bbeaf5b75f8fd2405542d9dacd8dd4fccb23c6",
+    "evidence/swift-resolved-native-v1/sanitizer-fresh-queries-v1/qlpack.yml": "05baa5a9548e0646878eb9a2e939134d82a50f5e6da33ceba0b8be99e182ee39",
+    "evidence/swift-resolved-native-v1/sanitizer-fresh-queries-v1/roles.ql": "85bf1c9302eba63021e5bae3722a9aeb1717ef4f6df7faad89d4c74aeb289160"
+  },
+  "vendor_files": {},
+  "runner_files": {
+    "scripts/probe-swift-v2-codeql.py": "a7ca82dd685a378dca56d14ec0edcbed27fc657c7bde68de9c8c2e95f4aae8e6",
+    "scripts/swift_v2_process.py": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd",
+    "scripts/swift_extraction_integrity.py": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156",
+    "scripts/swift_population_v2.py": "3ba357b0be10408b3e43b6713b7b161f9fb6676ff8a78f01228191bac64ad899",
+    "adapters/codeql/swift-extraction-v2/policy.json": "e4f590a6bf6ee93e0299caa945ef93bdaee2abc562bf64fa979d7fbd748ae0e5",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/assets.json": "16e94a9eab4e67faff5f6576cfa4327b873692e9b2cb1113844c8649b8cead93",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/resolved-pack-files.json": "4fb53772c26dbdf98b599403ed0fc7f396f019fcfb6e95447397f8369af68f9e",
+    "evidence/swift-foundation-sources-v1/control-attempt-01/witness.json": "89f80a2bb4341f4a393fc9dde0fa3427868d10ff711f5112b45fc318285de282",
+    "evidence/swift-resolved-native-v1/numeric-pack-manifest-v1.json": "ac23fed3706d33e9f73707fa0d665d31af70ac934ff407583fafc77efce918f3",
+    "scripts/materialize-swift-resolved-pack-v4.py": "e383d55301310acbfdde489ed47fa45515dba5d166f9f456605171f8fdbe1073",
+    "scripts/probe-swift-sanitizer-fresh.py": "87be5bf951c65cb79494bd7729822497fcc393a3dd1f7932800c7037bbf68d63"
+  },
+  "queries": [
+    "roles",
+    "flow",
+    "identity",
+    "barriers",
+    "numeric-bases",
+    "conversion-identity"
+  ],
+  "control_labels": {
+    "SOURCE": 17,
+    "POSITIVE_SINK": 19,
+    "REAL_PARSE": 20,
+    "REAL_RENDER": 21,
+    "SAFE_SINK": 23,
+    "LOCAL_PARSE": 24,
+    "LOCAL_RENDER": 25,
+    "LOCAL_SINK": 27,
+    "PLAIN_PARSE": 28,
+    "PLAIN_RENDER": 29,
+    "PLAIN_SINK": 31
+  },
+  "ordinary_body_required": true,
+  "limitations": "Fresh sanitizer control only; canonical pair and broader profile qualification remain required. Other SDK numeric types are not qualified.",
+  "expected_patched_sink_labels": [
+    "POSITIVE_SINK",
+    "LOCAL_SINK",
+    "PLAIN_SINK"
+  ],
+  "profile": "adapter-patched-resolved-sanitizer"
+}
