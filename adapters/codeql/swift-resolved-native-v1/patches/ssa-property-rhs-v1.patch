@@ -1,0 +1,11 @@
+--- a/codeql/swift-all/6.8.4/codeql/swift/dataflow/Ssa.qll
++++ b/codeql/swift-all/6.8.4/codeql/swift/dataflow/Ssa.qll
+@@ -176,7 +176,7 @@
+       exists(AssignExpr a, BasicBlocks::BasicBlock bb, int i |
+         this.definesAt(_, bb, i) and
+         a = bb.getNode(i).getNode().asAstNode() and
+-        value.getNode().asAstNode() = a.getSource()
++        value.getAst() = a.getSource()
+       )
+       or
+       exists(BasicBlocks::BasicBlock bb, int blockIndex, NamedPattern np |
