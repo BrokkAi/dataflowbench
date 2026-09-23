@@ -1,0 +1,351 @@
+{
+  "lanes": {
+    "adapter-patched-suite-state": {
+      "source_rows": [
+        [
+          7,
+          21,
+          "adapter-patched-suite-state",
+          "environment"
+        ]
+      ],
+      "sink_rows": [
+        [
+          10,
+          32,
+          "adapter-patched-suite-state",
+          "sink"
+        ],
+        [
+          10,
+          87,
+          "adapter-patched-suite-state",
+          "sink"
+        ]
+      ],
+      "flow_rows": [
+        [
+          7,
+          10,
+          87,
+          "adapter-patched-suite-state"
+        ]
+      ],
+      "source_anchor_recognized": true,
+      "sink_anchor_recognized": true,
+      "observed_anchor_flow": true,
+      "matches_case_expectation": true
+    }
+  },
+  "persistence_observations": {
+    "persistence-identity": {
+      "row_count": 5,
+      "rows": [
+        [
+          4,
+          20,
+          "Foundation",
+          "Foundation",
+          "UserDefaults",
+          "init(suiteName:)",
+          1,
+          false
+        ],
+        [
+          5,
+          5,
+          "Foundation",
+          "Foundation",
+          "UserDefaults",
+          "set(_:forKey:)",
+          2,
+          false
+        ],
+        [
+          6,
+          5,
+          "Foundation",
+          "Foundation",
+          "UserDefaults",
+          "set(_:forKey:)",
+          2,
+          false
+        ],
+        [
+          8,
+          5,
+          "Foundation",
+          "Foundation",
+          "UserDefaults",
+          "set(_:forKey:)",
+          2,
+          false
+        ],
+        [
+          9,
+          19,
+          "Foundation",
+          "Foundation",
+          "UserDefaults",
+          "string(forKey:)",
+          1,
+          false
+        ]
+      ]
+    },
+    "persistence-keys": {
+      "row_count": 4,
+      "rows": [
+        [
+          5,
+          "Foundation",
+          "set(_:forKey:)",
+          "forKey",
+          "payload",
+          5,
+          43
+        ],
+        [
+          6,
+          "Foundation",
+          "set(_:forKey:)",
+          "forKey",
+          "other",
+          6,
+          41
+        ],
+        [
+          8,
+          "Foundation",
+          "set(_:forKey:)",
+          "forKey",
+          "payload",
+          8,
+          31
+        ],
+        [
+          9,
+          "Foundation",
+          "string(forKey:)",
+          "forKey",
+          "payload",
+          9,
+          43
+        ]
+      ]
+    },
+    "content": {
+      "row_count": 4,
+      "rows": [
+        [
+          "read",
+          9,
+          19,
+          9,
+          19,
+          "payload"
+        ],
+        [
+          "store",
+          5,
+          18,
+          5,
+          5,
+          "payload"
+        ],
+        [
+          "store",
+          6,
+          18,
+          6,
+          5,
+          "other"
+        ],
+        [
+          "store",
+          8,
+          18,
+          8,
+          5,
+          "payload"
+        ]
+      ]
+    },
+    "clears": {
+      "row_count": 3,
+      "rows": [
+        [
+          5,
+          5,
+          "payload"
+        ],
+        [
+          6,
+          5,
+          "other"
+        ],
+        [
+          8,
+          5,
+          "payload"
+        ]
+      ]
+    },
+    "states": {
+      "row_count": 8,
+      "rows": [
+        [
+          5,
+          5,
+          "DataFlowBench.Native.A38",
+          false
+        ],
+        [
+          5,
+          5,
+          "DataFlowBench.Native.A38",
+          true
+        ],
+        [
+          6,
+          5,
+          "DataFlowBench.Native.A38",
+          false
+        ],
+        [
+          6,
+          5,
+          "DataFlowBench.Native.A38",
+          true
+        ],
+        [
+          8,
+          5,
+          "DataFlowBench.Native.A38",
+          false
+        ],
+        [
+          8,
+          5,
+          "DataFlowBench.Native.A38",
+          true
+        ],
+        [
+          9,
+          19,
+          "DataFlowBench.Native.A38",
+          false
+        ],
+        [
+          9,
+          19,
+          "DataFlowBench.Native.A38",
+          true
+        ]
+      ]
+    },
+    "transitions": {
+      "row_count": 7,
+      "rows": [
+        [
+          5,
+          false,
+          5,
+          true,
+          "DataFlowBench.Native.A38"
+        ],
+        [
+          5,
+          true,
+          6,
+          false,
+          "DataFlowBench.Native.A38"
+        ],
+        [
+          6,
+          false,
+          6,
+          true,
+          "DataFlowBench.Native.A38"
+        ],
+        [
+          6,
+          true,
+          8,
+          false,
+          "DataFlowBench.Native.A38"
+        ],
+        [
+          8,
+          false,
+          8,
+          true,
+          "DataFlowBench.Native.A38"
+        ],
+        [
+          8,
+          true,
+          9,
+          false,
+          "DataFlowBench.Native.A38"
+        ],
+        [
+          9,
+          false,
+          9,
+          true,
+          "DataFlowBench.Native.A38"
+        ]
+      ]
+    }
+  },
+  "phase_measurements": {
+    "database-create": {
+      "elapsed_seconds": 110.552036208,
+      "command_maxrss_bytes": 971653120
+    },
+    "roles": {
+      "elapsed_seconds": 17.778275374999993,
+      "command_maxrss_bytes": 1355825152
+    },
+    "flow": {
+      "elapsed_seconds": 15.529883832999985,
+      "command_maxrss_bytes": 878526464
+    },
+    "identity": {
+      "elapsed_seconds": 12.893265291999995,
+      "command_maxrss_bytes": 1405468672
+    },
+    "persistence-identity": {
+      "elapsed_seconds": 5.335019958000004,
+      "command_maxrss_bytes": 447578112
+    },
+    "persistence-keys": {
+      "elapsed_seconds": 3.435011375000016,
+      "command_maxrss_bytes": 437272576
+    },
+    "content": {
+      "elapsed_seconds": 6.274080708000014,
+      "command_maxrss_bytes": 1343094784
+    },
+    "clears": {
+      "elapsed_seconds": 9.121346665999994,
+      "command_maxrss_bytes": 1337507840
+    },
+    "states": {
+      "elapsed_seconds": 7.286458334000002,
+      "command_maxrss_bytes": 1351974912
+    },
+    "transitions": {
+      "elapsed_seconds": 6.471888583000009,
+      "command_maxrss_bytes": 1349763072
+    }
+  },
+  "archive_sha256": "3c7267c8c5cb4bef87d1cd719a835694efb8b21b30ad588d4acc0a489768a712",
+  "archive_member": "private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-m_075xpq/source/main.swift",
+  "source_sha256": "25394bf472f7b31b9652adfbf6db45b72986cf79e76f8651c21dbf4448361b1a",
+  "status": "observed-unqualified",
+  "aggregate_memory_compliance": "unproven",
+  "semantic_completeness": "unproven",
+  "scored_activation": false
+}

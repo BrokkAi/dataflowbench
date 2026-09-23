@@ -1,0 +1,203 @@
+--- a/codeql/swift-all/6.8.4/codeql/swift/dataflow/internal/DataFlowPrivate.qll
++++ b/codeql/swift-all/6.8.4/codeql/swift/dataflow/internal/DataFlowPrivate.qll
+@@ -115,12 +115,107 @@
+   def = nodeFrom.asDefinition()
+ }
+ 
++/** Literal-key prototype: exact Foundation declarations, no display-string key parsing. */
++private predicate userDefaultsLiteralKey(MethodCallExpr call, string key, int position) {
++  exists(Method method |
++    call.getStaticTarget() = method and method.isInstanceMethod() and
++    method.getDeclaringDecl().asNominalTypeDecl().getModule().getName() = "Foundation" and
++    (
++      method.hasQualifiedName("Foundation", "UserDefaults", "set(_:forKey:)") and
++      method.getNumberOfParams() = 2 and position = 1
++      or
++      method.hasQualifiedName("Foundation", "UserDefaults", "string(forKey:)") and
++      method.getNumberOfParams() = 1 and position = 0
++    ) and
++    method.getParam(position).getType().(NominalType).getDeclaration().getModule().getName() = "Swift" and
++    method.getParam(position).getType().(NominalType).getDeclaration().getName() = "String" and
++    call.getArgument(position).getExpr().(StringLiteralExpr).getValue() = key
++  )
++}
++
++/** Exact literal suite identity follows reference value flow, not mutable contents. */
++
++
++private predicate userDefaultsSuite(MethodCallExpr call, string suite) {
++  exists(InitializerCallExpr init, Initializer target, StringLiteralExpr literal,
++      Node origin, Node receiver |
++    init.getStaticTarget() = target and
++    target.hasQualifiedName("Foundation", "UserDefaults", "init(suiteName:)") and
++    target.getDeclaringDecl().asNominalTypeDecl().getModule().getName() = "Foundation" and
++    target.getNumberOfParams() = 1 and
++    (init.getArgument(0).getExpr() = literal or
++     init.getArgument(0).getExpr().(InjectIntoOptionalExpr).convertsFrom(literal)) and
++    suite = literal.getValue() and
++    origin.asExpr() = init and receiver.asExpr() = call.getQualifier() and
++    referenceValueStep*(origin, receiver)
++  )
++}
++
++private predicate suiteOperation(CfgNode point, string suite) {
++  exists(MethodCallExpr call |
++    point.(ApplyExprCfgNode).getExpr() = call and
++    userDefaultsLiteralKey(call, _, _) and userDefaultsSuite(call, suite)
++  )
++}
++
++/** Follow CFG paths to the next operation in this suite, without bypassing writes. */
++private predicate nextSuiteOperation(CfgNode point, CfgNode next, string suite) {
++  exists(CfgNode successor | successor = point.getASuccessor() |
++    suiteOperation(successor, suite) and next = successor
++    or
++    not suiteOperation(successor, suite) and nextSuiteOperation(successor, next, suite)
++  )
++}
++
++private class UserDefaultsState extends NodeImpl, TUserDefaultsState {
++  CfgNode point;
++  string suite;
++  boolean post;
++  UserDefaultsState() { this = TUserDefaultsState(point, suite, post) }
++  CfgNode getPoint() { result = point }
++  string getSuite() { result = suite }
++  predicate isPost() { post = true }
++  override Location getLocationImpl() { result = point.getLocation() }
++  override string toStringImpl() { result = "UserDefaults suite " + suite + " post=" + post.toString() }
++  override DataFlowCallable getEnclosingCallable() { result = TDataFlowFunc(point.getScope()) }
++}
++
++private class UserDefaultsPostState extends UserDefaultsState, PostUpdateNodeImpl {
++  UserDefaultsPostState() { this.isPost() }
++  override Node getPreUpdateNode() {
++    result.(UserDefaultsState).getPoint() = this.getPoint() and
++    result.(UserDefaultsState).getSuite() = this.getSuite() and
++    not result.(UserDefaultsState).isPost()
++  }
++}
++
++predicate userDefaultsStateDomain(Node node, string suite, boolean post) {
++  suite = node.(UserDefaultsState).getSuite() and
++  (if node.(UserDefaultsState).isPost() then post = true else post = false)
++}
++
++predicate userDefaultsStateTransition(Node a, Node b) { suiteStateStep(a, b) }
++
++private predicate suiteStateStep(Node a, Node b) {
++  exists(UserDefaultsState before, UserDefaultsState after |
++    a = before and b = after and
++    before.getSuite() = after.getSuite() and
++    (
++      not before.isPost() and after.isPost() and before.getPoint() = after.getPoint()
++      or
++      before.isPost() and not after.isPost() and
++      nextSuiteOperation(before.getPoint(), after.getPoint(), before.getSuite())
++    )
++  )
++}
++
+ /** A collection of cached types and predicates to be evaluated in the same stage. */
+ cached
+ private module Cached {
+   cached
+   newtype TNode =
+     TExprNode(CfgNode n, Expr e) { hasExprNode(n, e) } or
++    TUserDefaultsState(CfgNode point, string suite, boolean post) { suiteOperation(point, suite) } or
+     TPatternNode(CfgNode n, Pattern p) { hasPatternNode(n, p) } or
+     TSsaDefinitionNode(Ssa::Definition def) or
+     TInoutReturnNode(ParamDecl param) { modifiableParam(param) } or
+@@ -312,15 +407,20 @@
+    * This is the local flow predicate that is used as a building block in global
+    * data flow.
+    */
++  predicate referenceValueStep(Node a, Node b) { localFlowStepCommon(a, b, _) }
++
+   cached
+   predicate simpleLocalFlowStep(Node nodeFrom, Node nodeTo, string model) {
+     localFlowStepCommon(nodeFrom, nodeTo, model)
++    or
++    suiteStateStep(nodeFrom, nodeTo) and model = ""
+   }
+ 
+   /** This is the local flow predicate that is exposed. */
+   cached
+   predicate localFlowStepImpl(Node nodeFrom, Node nodeTo) {
+     localFlowStepCommon(nodeFrom, nodeTo, _)
++    or suiteStateStep(nodeFrom, nodeTo)
+     or
+     // models-as-data summarized flow
+     FlowSummaryImpl::Private::Steps::summaryThroughStepValue(nodeFrom, nodeTo, _)
+@@ -335,6 +435,7 @@
+     TTupleContent(int index) { exists(any(TupleExpr te).getElement(index)) } or
+     TEnumContent(ParamDecl f) { exists(EnumElementDecl d | d.getAParam() = f) } or
+     TCollectionContent() or
++    TUserDefaultsContent(string key) { userDefaultsLiteralKey(_, key, _) } or
+     TCapturedVariableContent(CapturedVariable v)
+ }
+ 
+@@ -1017,6 +1118,14 @@
+ }
+ 
+ predicate storeStep(Node node1, ContentSet c, Node node2) {
++  // DFB prototype: store a value into receiver content under a resolved literal key.
++  exists(MethodCallExpr call, string key |
++    userDefaultsLiteralKey(call, key, 1) and
++    node1.asExpr() = call.getArgument(0).getExpr() and
++    node2.(UserDefaultsPostState).getPoint().(ApplyExprCfgNode).getExpr() = call and
++    c.isSingleton(any(Content::UserDefaultsContent content | content.getKey() = key))
++  )
++  or
+   // assignment to a member variable `obj.member = value`
+   exists(MemberRefExpr ref, AssignExpr assign |
+     ref = assign.getDest() and
+@@ -1131,6 +1240,14 @@
+ predicate isLValue(Expr e) { any(AssignExpr assign).getDest() = e }
+ 
+ predicate readStep(Node node1, ContentSet c, Node node2) {
++  // DFB prototype: read only the matching receiver content, through heap flow.
++  exists(MethodCallExpr call, string key |
++    userDefaultsLiteralKey(call, key, 0) and
++    node1.(UserDefaultsState).getPoint().(ApplyExprCfgNode).getExpr() = call and
++    not node1.(UserDefaultsState).isPost() and node2.asExpr() = call and
++    c.isSingleton(any(Content::UserDefaultsContent content | content.getKey() = key))
++  )
++  or
+   // read of a member variable `obj.member`
+   exists(MemberRefExpr ref |
+     not isLValue(ref) and
+@@ -1242,6 +1359,7 @@
+ predicate clearsContent(Node n, ContentSet c) {
+   n = any(PostUpdateNode pun | storeStep(_, c, pun)).getPreUpdateNode() and
+   (
++    c.isSingleton(any(Content::UserDefaultsContent uc)) or
+     c.isSingleton(any(Content::FieldContent fc)) or
+     c.isSingleton(any(Content::TupleContent tc)) or
+     c.isSingleton(any(Content::EnumContent ec))
+@@ -1347,7 +1465,7 @@
+  * Holds if access paths with `c` at their head always should be tracked at high
+  * precision. This disables adaptive access path precision for such access paths.
+  */
+-predicate forceHighPrecision(Content c) { c instanceof Content::CollectionContent }
++predicate forceHighPrecision(Content c) { c instanceof Content::CollectionContent or c instanceof Content::UserDefaultsContent }
+ 
+ class NodeRegion instanceof Unit {
+   string toString() { result = "NodeRegion" }
+--- a/codeql/swift-all/6.8.4/codeql/swift/dataflow/internal/DataFlowPublic.qll
++++ b/codeql/swift-all/6.8.4/codeql/swift/dataflow/internal/DataFlowPublic.qll
+@@ -176,6 +176,14 @@
+ }
+ 
+ module Content {
++  /** DFB prototype: a literal key in a UserDefaults receiver. */
++  class UserDefaultsContent extends Content, TUserDefaultsContent {
++    private string key;
++    UserDefaultsContent() { this = TUserDefaultsContent(key) }
++    string getKey() { result = key }
++    override string toString() { result = "UserDefaults key " + key }
++  }
++
+   /** A field of an object, for example an instance variable. */
+   class FieldContent extends Content, TFieldContent {
+     private FieldDecl f;
