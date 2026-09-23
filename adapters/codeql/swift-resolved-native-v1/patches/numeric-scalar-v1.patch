@@ -1,0 +1,20 @@
+--- a/codeql/swift-all/6.8.4/codeql/swift/security/CommandInjectionExtensions.qll
++++ b/codeql/swift-all/6.8.4/codeql/swift/security/CommandInjectionExtensions.qll
+@@ -62,8 +62,14 @@
+  */
+ private class CommandInjectionDefaultBarrier extends CommandInjectionBarrier {
+   CommandInjectionDefaultBarrier() {
+-    // any numeric type
+-    this.asExpr().getType().getUnderlyingType().getABaseType*().getName() =
+-      ["Numeric", "SignedInteger", "UnsignedInteger"]
++    // DFB adapter: restrict the stock barrier to resolved native scalar declarations.
++    // Protocol conformance or a local type named Int does not establish scalar identity.
++    exists(NominalOrBoundGenericNominalType type, StructDecl declaration |
++      type = this.asExpr().getType().getUnderlyingType() and
++      declaration = type.getDeclaration() and declaration.getModule().getName() = "Swift" and
++      declaration.getName() =
++        ["Int", "Int8", "Int16", "Int32", "Int64", "UInt", "UInt8", "UInt16", "UInt32", "UInt64", "Float", "Double"] and
++      type.getABaseType*().getName() = ["Numeric", "SignedInteger", "UnsignedInteger"]
++    )
+   }
+ }
