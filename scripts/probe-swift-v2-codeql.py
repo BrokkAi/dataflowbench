@@ -3,6 +3,7 @@
 import argparse
 import gzip
 import json
+import os
 import re
 from pathlib import Path
 import shlex
@@ -13,6 +14,85 @@ from swift_population_v2 import ROOT, audit, sha
 
 import swift_v2_process as commands
 from swift_extraction_integrity import inspect_logs
+
+DEFAULT_TARGET = 'arm64-apple-macosx27.0.0'
+VERSION_TIMEOUT_SECONDS = 5
+VERSION_OUTPUT_LIMIT = 4096
+
+
+def validate_toolchain_overrides(compiler, sdk, target, control_directory):
+    """Validate an explicit compiler/SDK/target tuple without invoking tools."""
+    overrides = (compiler, sdk, target)
+    if any(value is not None for value in overrides) and not all(value is not None for value in overrides):
+        raise ValueError('explicit toolchain overrides require --compiler, --sdk, and --target together')
+    if all(value is None for value in overrides):
+        return None
+    if control_directory is None:
+        raise ValueError('explicit toolchain overrides require --control-directory non-scored scope')
+
+    compiler = Path(compiler)
+    if not compiler.is_absolute():
+        raise ValueError('--compiler must be an absolute executable path')
+    if not compiler.is_file() or not os.access(compiler, os.X_OK):
+        raise ValueError('--compiler must be an existing executable file')
+
+    sdk = Path(sdk)
+    if not sdk.is_absolute() or not sdk.is_dir():
+        raise ValueError('--sdk must be an absolute existing directory')
+    return str(compiler), str(sdk), target
+
+
+def build_compile_argv(compiler, sdk, target, module_cache, source_files, output):
+    """Build the compiler command retained in the CodeQL extraction command."""
+    return ([str(compiler), '-swift-version', '6', '-Onone', '-sdk', str(sdk),
+             '-target', str(target), '-module-name', 'DataFlowBenchTaintSwift',
+             '-module-cache-path', str(module_cache)]
+            + [str(source_file) for source_file in source_files]
+            + ['-o', str(output)])
+
+
+def resolve_toolchain(compiler, sdk, target, control_directory):
+    """Resolve defaults or return the validated explicit diagnostic tuple."""
+    explicit = validate_toolchain_overrides(compiler, sdk, target, control_directory)
+    if explicit is not None:
+        return explicit
+    return (subprocess.check_output(['xcrun', '--find', 'swiftc'], text=True).strip(),
+            subprocess.check_output(['xcrun', '--show-sdk-path'], text=True).strip(),
+            DEFAULT_TARGET)
+
+
+def _bounded_output(value):
+    value = value or ''
+    if isinstance(value, bytes):
+        value = value.decode(errors='replace')
+    if len(value) <= VERSION_OUTPUT_LIMIT:
+        return value
+    return value[:VERSION_OUTPUT_LIMIT] + '\n...[truncated]'
+
+
+def compiler_version(compiler):
+    """Capture a bounded compiler version probe for the toolchain witness."""
+    command = [str(compiler), '--version']
+    try:
+        result = subprocess.run(command, capture_output=True, text=True,
+                                timeout=VERSION_TIMEOUT_SECONDS, check=False)
+        return {'argv': command, 'exit_status': result.returncode, 'timed_out': False,
+                'stdout': _bounded_output(result.stdout), 'stderr': _bounded_output(result.stderr),
+                'timeout_seconds': VERSION_TIMEOUT_SECONDS}
+    except subprocess.TimeoutExpired as error:
+        return {'argv': command, 'exit_status': None, 'timed_out': True,
+                'stdout': _bounded_output(error.stdout), 'stderr': _bounded_output(error.stderr),
+                'timeout_seconds': VERSION_TIMEOUT_SECONDS}
+    except OSError as error:
+        return {'argv': command, 'exit_status': None, 'timed_out': False,
+                'stdout': '', 'stderr': '', 'error': str(error),
+                'timeout_seconds': VERSION_TIMEOUT_SECONDS}
+
+
+def compiler_version_ready(record):
+    """Require a successful, non-empty identity for explicit diagnostics."""
+    return (record.get('exit_status') == 0 and not record.get('timed_out')
+            and bool((record.get('stdout') or '').strip() or (record.get('stderr') or '').strip()))
 
 
 def database_ready(record, metadata, resolved, database):
@@ -31,6 +111,9 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--codeql', type=Path, required=True)
     parser.add_argument('--packs', type=Path, required=True)
+    parser.add_argument('--compiler', type=Path, help='explicit absolute Swift compiler executable')
+    parser.add_argument('--sdk', type=Path, help='explicit absolute SDK directory')
+    parser.add_argument('--target', help='explicit Swift compiler target triple')
     selection = parser.add_mutually_exclusive_group(required=True)
     selection.add_argument('--case-id')
     selection.add_argument('--control-directory', type=Path)
@@ -43,6 +126,13 @@ def main():
         parser.error('a non-default extraction deadline requires explicit unqualified feasibility scope (maximum300s)')
     if any(not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', name) for name in args.probe_queries):
         parser.error('probe query names must be simple identifiers')
+    try:
+        compiler, sdk, target = resolve_toolchain(args.compiler, args.sdk, args.target, args.control_directory)
+    except ValueError as error:
+        parser.error(str(error))
+    compiler_version_record = compiler_version(compiler)
+    if args.compiler is not None and not compiler_version_ready(compiler_version_record):
+        parser.error('explicit toolchain diagnostics require a successful compiler --version identity')
     manifest, additions = audit()
     if args.control_directory:
         path = args.control_directory.resolve() / 'control.json'
@@ -52,8 +142,6 @@ def main():
     else:
         path, case = next((p, c) for p, c in additions if c['id'] == args.case_id)
     output = args.output.resolve(); output.mkdir(parents=True, exist_ok=False)
-    compiler = subprocess.check_output(['xcrun', '--find', 'swiftc'], text=True).strip()
-    sdk = subprocess.check_output(['xcrun', '--show-sdk-path'], text=True).strip()
     queries = args.query_directory.resolve()
     shutil.copytree(queries, output / 'queries')
     shutil.copyfile(__file__, output / 'probe.py')
@@ -65,7 +153,9 @@ def main():
                'case_id': case['id'], 'population': None if args.control_directory else manifest['population'],
                'fixture_revision': None if args.control_directory else manifest['fixture_revision'],
                'population_member': not bool(args.control_directory),
-               'case_sha256': sha(path), 'compiler_sha256': sha(Path(compiler).resolve()),
+               'case_sha256': sha(path), 'compiler': compiler, 'sdk': sdk, 'target': target,
+               'compiler_version': compiler_version_record,
+               'compiler_sha256': sha(Path(compiler).resolve()),
                'extractor_sha256': sha(args.codeql.parent / 'swift/tools/osx64/extractor.real'),
                'source_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
                'budget': case['execution_budget'], 'extraction_phase_deadline_seconds': args.extraction_timeout,
@@ -76,7 +166,10 @@ def main():
     try:
         source = scratch / 'source'; source.mkdir(); db = scratch / 'db'
         for name in case['fixture_files']: shutil.copyfile(path.parent / name, source / name)
-        compile_argv = [compiler, '-swift-version', '6', '-Onone', '-sdk', sdk, '-target', 'arm64-apple-macosx27.0.0', '-module-name', 'DataFlowBenchTaintSwift', '-module-cache-path', str(scratch / 'cache')] + [str(source / name) for name in case['fixture_files']] + ['-o', str(scratch / 'never-executed')]
+        compile_argv = build_compile_argv(
+            compiler, sdk, target, scratch / 'cache',
+            [source / name for name in case['fixture_files']],
+            scratch / 'never-executed')
         try:
             argv = [str(args.codeql), 'database', 'create', str(db), '--language=swift', '--source-root=' + str(source), '--threads=2', '--ram=512', '--command=' + shlex.join(compile_argv)]
             record = commands.run(argv, output, 'database-create', args.extraction_timeout, measure=True)

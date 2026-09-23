@@ -1,0 +1,184 @@
+{
+  "scope": "non-scored structural observations; no flow or unsupported qualification",
+  "case_id": "control-swift633-sdk265-native",
+  "population": null,
+  "fixture_revision": null,
+  "population_member": false,
+  "case_sha256": "4f8fbd2f8734a0e24f90aaea36b541cf20dc04c457b65be4ebf2423cdf6bd9d7",
+  "compiler": "/private/tmp/dfb-220-candidate-assets/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc",
+  "sdk": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+  "target": "arm64-apple-macosx26.5",
+  "compiler_version": {
+    "argv": [
+      "/private/tmp/dfb-220-candidate-assets/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc",
+      "--version"
+    ],
+    "exit_status": 0,
+    "timed_out": false,
+    "stdout": "Apple Swift version 6.3.3 (swift-6.3.3-RELEASE)\nTarget: arm64-apple-macosx28.0\n",
+    "stderr": "",
+    "timeout_seconds": 5
+  },
+  "compiler_sha256": "3d13e20b1504d7d30038fcd2201b9d0a8ead5c09eea752a5da223453b3ae0c6f",
+  "extractor_sha256": "680adbee37bdbfc5fe0a4b6d63c45bdae23fcf3bb2210530a7b751b58f319530",
+  "source_commit": "64c3f1f1cdb04e4e83d5b5708d119e1f872d2e69",
+  "budget": {
+    "peak_memory_mb": 512,
+    "wall_clock_seconds": 60
+  },
+  "extraction_phase_deadline_seconds": 60,
+  "unqualified_feasibility": false,
+  "query_phase_deadline_seconds": 60,
+  "memory_compliance": "unproven",
+  "phases": {
+    "database-create": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "database",
+        "create",
+        "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-b41v4pcn/db",
+        "--language=swift",
+        "--source-root=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-b41v4pcn/source",
+        "--threads=2",
+        "--ram=512",
+        "--command=/private/tmp/dfb-220-candidate-assets/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc -swift-version 6 -Onone -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk -target arm64-apple-macosx26.5 -module-name DataFlowBenchTaintSwift -module-cache-path /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-b41v4pcn/cache /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-b41v4pcn/source/main.swift -o /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-b41v4pcn/never-executed"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/1ba0/dataflowbench",
+      "environment": null,
+      "elapsed_seconds": 60.461811415999996,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 2,
+      "timed_out": true,
+      "tracked_descendants": [
+        {
+          "pid": 34058,
+          "start_identity": "1790148705:330299"
+        },
+        {
+          "pid": 34060,
+          "start_identity": "1790148705:333332"
+        },
+        {
+          "pid": 34066,
+          "start_identity": "1790148705:351397"
+        },
+        {
+          "pid": 34075,
+          "start_identity": "1790148706:114192"
+        },
+        {
+          "pid": 34079,
+          "start_identity": "1790148706:247305"
+        },
+        {
+          "pid": 34080,
+          "start_identity": "1790148706:280339"
+        },
+        {
+          "pid": 34091,
+          "start_identity": "1790148706:761529"
+        },
+        {
+          "pid": 34105,
+          "start_identity": "1790148707:341345"
+        },
+        {
+          "pid": 34118,
+          "start_identity": "1790148708:382683"
+        },
+        {
+          "pid": 34124,
+          "start_identity": "1790148708:843097"
+        },
+        {
+          "pid": 34127,
+          "start_identity": "1790148709:71422"
+        },
+        {
+          "pid": 34152,
+          "start_identity": "1790148711:488513"
+        },
+        {
+          "pid": 34266,
+          "start_identity": "1790148718:966927"
+        },
+        {
+          "pid": 34299,
+          "start_identity": "1790148720:443801"
+        },
+        {
+          "pid": 34300,
+          "start_identity": "1790148720:450929"
+        },
+        {
+          "pid": 34304,
+          "start_identity": "1790148720:601526"
+        },
+        {
+          "pid": 34308,
+          "start_identity": "1790148720:765221"
+        },
+        {
+          "pid": 34316,
+          "start_identity": "1790148721:222763"
+        },
+        {
+          "pid": 34317,
+          "start_identity": "1790148721:225343"
+        },
+        {
+          "pid": 34338,
+          "start_identity": "1790148721:780877"
+        },
+        {
+          "pid": 34356,
+          "start_identity": "1790148722:663621"
+        },
+        {
+          "pid": 34362,
+          "start_identity": "1790148723:120671"
+        },
+        {
+          "pid": 34396,
+          "start_identity": "1790148723:835975"
+        },
+        {
+          "pid": 34401,
+          "start_identity": "1790148724:248583"
+        }
+      ],
+      "cleanup_signaled": [
+        {
+          "pid": 34266,
+          "start_identity": "1790148718:966927",
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 34079,
+          "start_identity": "1790148706:247305",
+          "signal": "SIGTERM"
+        },
+        {
+          "pid": 34066,
+          "start_identity": "1790148705:351397",
+          "signal": "SIGTERM"
+        }
+      ],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    }
+  },
+  "retained_scratch": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-b41v4pcn",
+  "probe_error": "extraction did not complete normally; stop and retain scratch for reconciliation",
+  "status": "unqualified"
+}
