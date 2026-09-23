@@ -197,3 +197,5 @@ other by `model_profile` and never pooled:
 
 - [Swift candidate native audit](swift-candidate-native-audit.md) — current shipped model/catalog evidence and explicit omissions; no capability promotion.
 - [Swift candidate native controls](swift-candidate-native-controls.md) — fresh declaration/role observations, near-miss blocker, and complete Joern inventory; no capability promotion.
+
+- [Isolated Swift toolchain compatibility](swift-toolchain-compatibility.md) — signed Swift 6.3.3 compiler control and retained bounded CodeQL timeout.
