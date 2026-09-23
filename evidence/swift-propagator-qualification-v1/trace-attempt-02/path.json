@@ -1,0 +1,42 @@
+{"edges":{"columns":[
+   {"name":"a","kind":"Entity"}
+  ,{"name":"b","kind":"Entity"}
+  ,{"name":"key","kind":"String"}
+  ,{"name":"val","kind":"String"}]
+ ,"tuples":[
+   [{"label":"wrong"},{"label":"[...]"},"provenance",""]
+  ,[{"label":"command"},{"label":"[...]"},"provenance",""]
+  ,[{"label":"raw"},{"label":"[post] command"},"provenance",""]
+  ,[{"label":".environment"},{"label":"wrong"},"provenance","AdditionalTaintStep"]
+  ,[{"label":".environment"},{"label":"command"},"provenance","AdditionalTaintStep"]
+  ,[{"label":".environment"},{"label":"raw"},"provenance",""]
+  ,[{"label":"[post] command"},{"label":"command"},"provenance",""]]
+ },"nodes":{"columns":[
+   {"name":"n","kind":"Entity"}
+  ,{"name":"key","kind":"String"}
+  ,{"name":"val","kind":"String"}]
+ ,"tuples":[
+   [{"label":"wrong"},"semmle.label","wrong"]
+  ,[{"label":"command"},"semmle.label","command"]
+  ,[{"label":"raw"},"semmle.label","raw"]
+  ,[{"label":".environment"},"semmle.label",".environment"]
+  ,[{"label":"[post] command"},"semmle.label","[post] command"]
+  ,[{"label":"[...]"},"semmle.label","[...]"]
+  ,[{"label":"[...]"},"semmle.label","[...]"]]
+ },"subpaths":{"columns":[
+   {"name":"arg","kind":"Entity"}
+  ,{"name":"par","kind":"Entity"}
+  ,{"name":"ret","kind":"Entity"}
+  ,{"name":"out","kind":"Entity"}]
+ ,"tuples":[]
+ },"#select":{"columns":[
+   {"kind":"Integer"}
+  ,{"kind":"Integer"}
+  ,{"kind":"String"}
+  ,{"kind":"Integer"}
+  ,{"kind":"Integer"}
+  ,{"kind":"String"}]
+ ,"tuples":[
+   [11,15,".environment",23,94,"wrong"]
+  ,[23,94,"wrong",23,87,"[...]"]]
+ }}

@@ -37,3 +37,5 @@ The [prospective native integration plan](https://github.com/BrokkAi/dataflowben
 The [canonical source–sink qualification](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-canonical-qualification.md) retains a separating positive/negative observation for the adapter-assisted CodeQL lane. It remains non-scored; vendor-native observations and the pending activation state are reported separately.
 
 The [canonical entrypoint qualification](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-entrypoint-qualification.md) treats the command-line count guard and indexed source separately, retaining vendor-native and adapter-assisted observations without scored promotion.
+
+The [independent append control](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-propagator-qualification.md) is blocked by a retained false flow through a constant-body lookalike. Native path and shipped heuristic evidence explain the precision gap; the canonical propagator pair remains unrun.
