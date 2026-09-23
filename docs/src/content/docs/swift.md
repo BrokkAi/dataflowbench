@@ -31,3 +31,5 @@ and result-generation process. Inconclusive, unsupported and runner-error
 outcomes remain separate from clean negatives. A partition with no definitive
 outcomes has no correctness rate; publishing honest coverage does not require
 inventing one.
+
+The [prospective native integration plan](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-native-integration-plan.md) tracks the next CodeQL qualification dependencies with separate vendor-native and adapter-assisted lanes. The candidate configuration remains pending, and Joern's external-property binding gap remains blocked. These diagnostics add no published results.
