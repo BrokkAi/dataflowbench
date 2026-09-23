@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "scope": "non-scored-canonical-persistence-qualification",
+  "configuration_hash": "sha256:da43ec1b71221425085646fb89470ac180893e2cb32a3bca75351f8f339fa035",
+  "population": "swift-synthetic-v2",
+  "population_entries": 104,
+  "population_sha256": "b6c29ff47942c73c34bd479c7ce1137b5bf97d0fbede1204f8eae16aa32007bb",
+  "fixture_revision": "sha256:2dc97bb29cdba04c900308be9e3aef016a5a00d2ac11f2bcaa2ac39d9d2484ff",
+  "cases": [
+    "dfb-taint-swift-native-persistence-positive",
+    "dfb-taint-swift-native-persistence-negative"
+  ],
+  "flow_profiles": [
+    "adapter-patched-suite-state"
+  ],
+  "role_profiles": [
+    "adapter-patched-suite-state"
+  ],
+  "runtime_scope": "adapter-patched-library-not-vendor-native",
+  "runtime_pack_version": "6.8.4-dfb.8",
+  "runtime_manifest": "evidence/swift-keyed-persistence-v1/pack-manifest-v4.json",
+  "runtime_manifest_sha256": "b1ad17f86a874612bb67dbe1a8c3fd83228db2c2973da8491998f03d05f84226",
+  "base_append_plan_sha256": "2fad62466a20562b9a0225ca9da782418bc10e0fae78e2c1cf29db9a21a99126",
+  "source_ssa_plan_sha256": "88d4a48e48acec1cc852bfa8dbb2d438637b62ca51754ceca57d8d1265f7daec",
+  "sdk_settings_sha256": "f8d005f09381389167f9e0aeaa169bc9e7dff162ef22ca2fd8e98df7ff1acafe",
+  "extraction_seconds": 150,
+  "analysis_seconds": 60,
+  "analysis_memory_mb": 2048,
+  "queries": [
+    "roles",
+    "flow",
+    "identity",
+    "persistence-identity",
+    "persistence-keys",
+    "content",
+    "clears",
+    "states",
+    "transitions"
+  ],
+  "runner_files": {
+    "scripts/run-swift-keyed-persistence-qualification.py": "c51e89460ccfefb7f14d363ddf43d285585a0d50fcfcebe3b6dc574641bdb0ca",
+    "scripts/probe-swift-v2-codeql.py": "a7ca82dd685a378dca56d14ec0edcbed27fc657c7bde68de9c8c2e95f4aae8e6",
+    "scripts/swift_extraction_integrity.py": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156",
+    "scripts/swift_population_v2.py": "3ba357b0be10408b3e43b6713b7b161f9fb6676ff8a78f01228191bac64ad899",
+    "scripts/swift_v2_process.py": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd",
+    "scripts/verify-swift-native-integration.py": "266ea1e217889bca001dda509ed13161052bcf41a5e571714f320612c21b5277"
+  },
+  "query_files": {
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/FoundationIdentity.qll": "d55b73575e575145329b022105ce96fae6d5fed342ceaa6447c375a694e6e413",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/FoundationSources.qll": "5a6703e01eb89a2286fbe492ccbcdd9d1c69692a6d3bffcc02be56338086932a",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/PersistenceIdentity.qll": "7e9e7b33f0783f73f1fd6961b544f7cdf42a0087e47bc3b3e5f7d4625ed4c23e",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/clears.ql": "d723768c34f0fc843327ccc1740438f877d99be35111e2ec9bdac347b8102aa0",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/codeql-pack.lock.yml": "4e2336b8dfad564729b75fd2b12aa9ec6efec33f6d2e7c803c7b97b83aedff77",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/content.ql": "a5cc71d9c64ac411ad0294deffc4e70bbaf651e24dc94aa75e8d0959466bf51c",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/flow.ql": "998d81ba44036361fa174e3869acd45b4dbfe7701e8895443ec4dc8bd39a4b61",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/identity.ql": "f538a600531cde0a974db541cdc742a00edbfafce8b77c88a247e0d9d54c31dc",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/persistence-identity.ql": "7360663cf99e67b80b9c0e75a4a54985d1ea35c130813e1a2bc66f8574aa40ff",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/persistence-keys.ql": "c7225247348439476e9aa1d3f04f8ab247bb58b0a2eebecb3c40ef08e92ed3f2",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/qlpack.yml": "28e16b7a71c378ed5700940219977c1fa87f9247a07f8b87f18fb1125967a571",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/roles.ql": "492a909d6682fe54d2737b4cd1170098f44cecabce98063d767de7588b9f0c2f",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/states.ql": "18bb8222085211d75954cc4d35420ef0f7b61a848527aa69e2a653d84fda4963",
+    "adapters/codeql/swift-resolved-native-v1/canonical-persistence-queries-v1/transitions.ql": "a2d349658658bfc5e4e1de3f5749a4b13d1b90a0f665dafdb6269a8d7fc2de75"
+  },
+  "input_files": {
+    "populations/swift-synthetic-v2.json": "b6c29ff47942c73c34bd479c7ce1137b5bf97d0fbede1204f8eae16aa32007bb",
+    "adapters/codeql/swift-extraction-v2/policy.json": "e4f590a6bf6ee93e0299caa945ef93bdaee2abc562bf64fa979d7fbd748ae0e5",
+    "evidence/swift-keyed-persistence-v1/pack-manifest-v4.json": "b1ad17f86a874612bb67dbe1a8c3fd83228db2c2973da8491998f03d05f84226",
+    "evidence/swift-keyed-persistence-v1/suite-attempt-03/manifest.json": "5effa19378b6dd4a9057b2eceb92794e03253d39da7d1a11531e56867bc2ea6d",
+    "evidence/swift-keyed-persistence-v1/suite-plan-v3.json": "a40d74de88388294b0ac9f91ad14549841e9facd6cdb243cd07103f9f62e2ab1",
+    "adapters/codeql/swift-native-v3/activation.json": "d0c88e8bfa5f406c1ae009ed9b30c3e121956d1d42443b9859d1737c7e1e6a8b",
+    "adapters/codeql/swift-native-v3/partition.json": "7ebd7ab8b7ab5e8ddb07834762c01fa4f8344946a361b22a0478ed734a69c9e0",
+    "adapters/codeql/swift-native-v3/inputs.json": "21c85b9bd3fba5764248950944ee2626558b8d50c194153361e79abe1c062d4a",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/assets.json": "16e94a9eab4e67faff5f6576cfa4327b873692e9b2cb1113844c8649b8cead93",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/resolved-pack-files.json": "4fb53772c26dbdf98b599403ed0fc7f396f019fcfb6e95447397f8369af68f9e",
+    "evidence/swift-foundation-sources-v1/control-attempt-01/witness.json": "89f80a2bb4341f4a393fc9dde0fa3427868d10ff711f5112b45fc318285de282",
+    "cases/taint/swift/native-persistence-positive/case.json": "3ca7a3d3ee196ea04e0fb747e2d886054e8e1397098690a81e886b5f04dca033",
+    "cases/taint/swift/native-persistence-positive/main.swift": "25394bf472f7b31b9652adfbf6db45b72986cf79e76f8651c21dbf4448361b1a",
+    "cases/taint/swift/native-persistence-negative/case.json": "42ce79ef630f1af8beb858812ce97864f028328278c70c5880262788b587405d",
+    "cases/taint/swift/native-persistence-negative/main.swift": "cf8e0098a59e97b26c562ceced7fc6cb399688be6c02cb329d7fe646e922c6b9"
+  },
+  "expectations": {
+    "positive": "resolved sanitizer profile must retain direct canonical source flow",
+    "negative": "real Swift.Int parse/render must retain a scalar barrier and no endpoint flow",
+    "roles": "adapter-patched-resolved-sanitizer only, never vendor-native"
+  },
+  "uncertainty": "Both cases remain observed-unqualified and non-scored; aggregate memory compliance and semantic completeness are unproven. No unsupported classification is inferred from silence.",
+  "fixture_execution": "prohibited; extraction and queries only",
+  "hash_refresh": "After copying the bundle, recompute runner_files and query_files from the mirrored repository paths before preregistration. The plan itself is SHA-256-bound by the run record.",
+  "scored_activation": false,
+  "aggregate_memory_compliance": "unproven",
+  "semantic_completeness": "unproven"
+}
