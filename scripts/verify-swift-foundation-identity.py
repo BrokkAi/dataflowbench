@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Verify retained Foundation diagnostics without claiming scored qualification."""
-import gzip
 import hashlib
 import json
 import re
 from pathlib import Path
+from swift_extraction_integrity import inspect_logs
 
 ROOT = Path(__file__).resolve().parents[1]
 EVIDENCE = ROOT / 'evidence/swift-foundation-identity-v1'
@@ -35,6 +35,11 @@ def verify_rows(roles, flows):
     assert len(roles) == 15 and len(flows) == 11
 
 
+def verify_extraction_logs(directory):
+    integrity = inspect_logs(directory)
+    assert integrity['ready_for_observation'], integrity
+
+
 def verify():
     verify_manifest(EVIDENCE, nested=True)
     verify_manifest(ROOT / 'evidence/swift-native-recognition-220', nested=True)
@@ -49,10 +54,7 @@ def verify():
     assert witness['extraction_integrity']['ready_for_observation']
     assert not witness['extraction_integrity']['errors']
     assert 'finalised: true' in (attempt / 'codeql-database.yml').read_text()
-    logs = list((attempt / 'log/swift/extractor').glob('*.gz'))
-    assert logs
-    for log in logs:
-        assert not re.search(r'\bERROR\b|error:', gzip.decompress(log.read_bytes()).decode())
+    verify_extraction_logs(attempt / 'log/swift/extractor')
     source = (attempt / 'main.swift').read_bytes()
     assert source == (EVIDENCE / 'control-v3/main.swift').read_bytes()
     assert hashlib.sha256(source).hexdigest() == plan['source_sha256']

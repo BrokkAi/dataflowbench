@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Negative controls for the retained semantic evidence gate."""
 import copy
+import gzip
+import tempfile
 import importlib.util
 from pathlib import Path
 import unittest
@@ -15,6 +17,13 @@ class EvidenceTests(unittest.TestCase):
         attempt = module.EVIDENCE / 'control-attempt-03'
         self.roles = module.read(attempt / 'roles.json')['#select']['tuples']
         self.flows = module.read(attempt / 'flow.json')['#select']['tuples']
+
+    def test_retained_erro_diagnostic_blocks(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log = Path(directory) / 'extractor.log.txt.gz'
+            log.write_bytes(gzip.compress(b'INFO started\nERRO [extractor/compiler] missing type\nINFO finalized\n'))
+            with self.assertRaises(AssertionError):
+                module.verify_extraction_logs(directory)
 
     def test_actual_positive_and_near_miss_evidence(self):
         module.verify_rows(self.roles, self.flows)
