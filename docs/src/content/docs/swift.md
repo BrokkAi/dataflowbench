@@ -35,3 +35,5 @@ inventing one.
 The [prospective native integration plan](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-native-integration-plan.md) tracks the next CodeQL qualification dependencies with separate vendor-native and adapter-assisted lanes. The candidate configuration remains pending, and Joern's external-property binding gap remains blocked. These diagnostics add no published results.
 
 The [canonical source–sink qualification](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-canonical-qualification.md) retains a separating positive/negative observation for the adapter-assisted CodeQL lane. It remains non-scored; vendor-native observations and the pending activation state are reported separately.
+
+The [canonical entrypoint qualification](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-entrypoint-qualification.md) treats the command-line count guard and indexed source separately, retaining vendor-native and adapter-assisted observations without scored promotion.
