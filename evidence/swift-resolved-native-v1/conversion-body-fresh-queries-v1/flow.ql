@@ -1,0 +1,23 @@
+/** @name Resolved conversion flow after structural SSA correction
+ * @kind table
+ * @id dfb/swift-foundation-sources-flow
+ */
+import FoundationSources
+import ResolvedConversion
+module CorrectedConfig implements DataFlow::ConfigSig {
+  predicate isSource(DataFlow::Node node) {
+    CommandInjectionConfig::isSource(node) or processInput(node, _)
+  }
+  predicate isSink(DataFlow::Node node) { correctedSink(node) }
+  predicate isBarrier(DataFlow::Node node) { CommandInjectionConfig::isBarrier(node) }
+  predicate isAdditionalFlowStep(DataFlow::Node a, DataFlow::Node b) {
+    CommandInjectionConfig::isAdditionalFlowStep(a, b)
+  }
+}
+module ResolvedFlow = ResolvedConversionEngine::Global<CorrectedConfig>;
+from DataFlow::Node source, DataFlow::Node sink, string profile
+where source.getLocation().getFile().getBaseName() = "main.swift" and
+ sink.getLocation().getFile().getBaseName() = "main.swift" and
+ (ResolvedFlow::flow(source, sink) and profile = "adapter-patched-ssa-resolved")
+select source.getLocation().getStartLine(), sink.getLocation().getStartLine(),
+ sink.getLocation().getStartColumn(), profile
