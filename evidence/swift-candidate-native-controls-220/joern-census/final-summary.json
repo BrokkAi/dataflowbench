@@ -1,0 +1,90 @@
+{
+  "api_observation": "api-observation.json",
+  "archive": {
+    "mode": 420,
+    "path": "/private/tmp/dfb-220-candidate-assets/joern/joern-cli-macos-arm64.zip",
+    "sha256": "e11563c7cf4797db76655524398f108c3469a518fa3ed823de0aac2a1155aec6",
+    "size_bytes": 1782451433
+  },
+  "candidate": "/private/tmp/dfb-220-candidate-assets/joern/extracted/joern-cli",
+  "census_summary": "summary.json",
+  "codeql_coordination": "All three fresh 180-second controls finalized before any hypothetical Joern JVM diagnostic; this sidecar launched no Joern runtime.",
+  "compressed_jsonl": [
+    {
+      "gzip": "all-files.jsonl.gz",
+      "gzip_sha256": "459801bf7e806ea65d3d22af9cbdf92a2b5563d11e4e80064fac6865cc525ed3",
+      "gzip_size_bytes": 28975,
+      "source": "all-files.jsonl",
+      "source_sha256": "fb9799f6abca6ff20506944a9158129473ce034e55e0226959f27332abe7a816",
+      "source_size_bytes": 263684
+    },
+    {
+      "gzip": "all-jar-members.jsonl.gz",
+      "gzip_sha256": "80ce0295b9529912ae8795a4ef396dc74ff427c063f1179789823d4fdd763d6c",
+      "gzip_size_bytes": 10756731,
+      "source": "all-jar-members.jsonl",
+      "source_sha256": "b67c63962de57362be3c0d68be2c8af1c4630892fcb7786a8ce02dce2ec1fa13",
+      "source_size_bytes": 74642273
+    },
+    {
+      "gzip": "all-jar-resources.jsonl.gz",
+      "gzip_sha256": "14b1ce8361b614296bece05602cb238a3626df0e7226ed6ebe95639405037b83",
+      "gzip_size_bytes": 892829,
+      "source": "all-jar-resources.jsonl",
+      "source_sha256": "eddebae9b2efd91d89cf5924c8737c78568d050234734cafc5562009f06fb07e",
+      "source_size_bytes": 6359496
+    },
+    {
+      "gzip": "first-party-classes.jsonl.gz",
+      "gzip_sha256": "c42cf31c0fc4004151e5f861b0d4ad47259b9c631642d589f7a42248a4942ba9",
+      "gzip_size_bytes": 3114941,
+      "source": "first-party-classes.jsonl",
+      "source_sha256": "6566e71c2ee09ecc47c7594cd8f1153fbb2b2dd1aceada939cadf5dfa778eb25",
+      "source_size_bytes": 25520152
+    },
+    {
+      "gzip": "jars.jsonl.gz",
+      "gzip_sha256": "d28a5ee518ffe41928ef702371785950a07f81b77bdc6b53252368cfcfe0da3e",
+      "gzip_size_bytes": 20019,
+      "source": "jars.jsonl",
+      "source_sha256": "3d8c7bf60ba3816fb72629691041848ebe1b5e3dd1090f98837f467fcf7008ae",
+      "source_size_bytes": 219088
+    },
+    {
+      "gzip": "keyword-navigation-hits.jsonl.gz",
+      "gzip_sha256": "87a371c7e818cbb09d47fd5da0ed97543a85eb97d925fb37bc21b171bac9fde7",
+      "gzip_size_bytes": 7606352,
+      "source": "keyword-navigation-hits.jsonl",
+      "source_sha256": "f31c878f82f0b6240988a3b076a3cdda5e9920defeae673476750bf00cb7b2c5",
+      "source_size_bytes": 58669603
+    },
+    {
+      "gzip": "unique-jars.jsonl.gz",
+      "gzip_sha256": "cae52b2a9343337829497f0a5456fc7e326a0a8ad83d798ef7ce2302c6adbdaf",
+      "gzip_size_bytes": 13330,
+      "source": "unique-jars.jsonl",
+      "source_sha256": "daad17e3a20598134810f05f7a6b2853fc1275079d3bc9306121c2b26e7dc475",
+      "source_size_bytes": 42558
+    }
+  ],
+  "compression": {
+    "algorithm": "gzip",
+    "deterministic": true,
+    "level": 9,
+    "mtime": 0
+  },
+  "conclusion": "Concrete qualification blocker: shipped Joern exposes generic FlowSemantic exact/regex method-full-name matching and generic c/java/operator mappings (including atoi), but API inspection found no typed Swift Foundation native source/sink role-binding mechanism. No Joern runtime claim, native unsupported result, or name-only absence claim is made.",
+  "counts": {
+    "duplicate_jar_path_mappings": 971,
+    "exact_first_party_package_class_rows": 53859,
+    "extracted_files": 1349,
+    "jar_paths": 1191,
+    "keyword_navigation_rows": 152434,
+    "unique_content_class_members": 147755,
+    "unique_content_jar_members": 179468,
+    "unique_content_non_class_non_tasty_resources": 15482,
+    "unique_jar_sha256_contents": 220
+  },
+  "schema_version": 1,
+  "status": "complete-bounded-sidecar"
+}
