@@ -1,0 +1,478 @@
+{
+  "active_pins_changed": false,
+  "blockers": [
+    {
+      "control": "environment",
+      "reason": "known contentsOf positive did not acquire a shipped-source role"
+    },
+    {
+      "control": "argv",
+      "reason": "known contentsOf positive did not acquire a shipped-source role"
+    },
+    {
+      "control": "near-misses",
+      "reason": "known contentsOf positive did not acquire a shipped-source role"
+    },
+    {
+      "control": "near-misses",
+      "declarations": [
+        [
+          18,
+          5,
+          "declaration",
+          "DataFlowBenchTaintSwift:arguments:[String]"
+        ]
+      ],
+      "reason": "shipped sink instantiated at benchmark-owned Process.arguments lookalike",
+      "role_nodes": [
+        [
+          18,
+          5,
+          "shipped-sink",
+          "[post] process"
+        ]
+      ]
+    }
+  ],
+  "candidate_native_admission": "blocked",
+  "capability_partition_emitted": false,
+  "codeql_attempts": [
+    {
+      "capability_interpretation": "blocked: no complete finalized native role observation",
+      "case_id": "control-candidate-native-argv",
+      "extraction_phase_deadline_seconds": 60,
+      "failure": "extraction did not complete normally; stop and retain scratch for reconciliation",
+      "finalized_swift_database": false,
+      "path": "evidence/swift-candidate-native-controls-220/codeql-argv-attempt-01",
+      "phase_results": {
+        "database-create": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 2,
+          "timed_out": true
+        }
+      },
+      "role_observation_complete": false,
+      "scored_qualified": false
+    },
+    {
+      "case_id": "control-candidate-native-argv",
+      "declaration_rows": [
+        [
+          6,
+          11,
+          "declaration",
+          "Swift:arguments:[String]"
+        ],
+        [
+          6,
+          11,
+          "declaration",
+          "Swift:count:Int"
+        ],
+        [
+          6,
+          45,
+          "declaration",
+          "Swift:>(_:_:):(Int.Type) -> (Int, Int) -> Bool"
+        ],
+        [
+          7,
+          17,
+          "declaration",
+          "Swift:subscript ...:<Element> (Int) -> Element"
+        ],
+        [
+          7,
+          17,
+          "declaration",
+          "Swift:arguments:[String]"
+        ],
+        [
+          8,
+          19,
+          "declaration",
+          "Foundation:Process.init():(Process.Type) -> () -> Process"
+        ],
+        [
+          8,
+          30,
+          "declaration",
+          "Foundation:Process.init():(Process.Type) -> () -> Process"
+        ],
+        [
+          9,
+          5,
+          "declaration",
+          "DataFlowBenchTaintSwift:process:Process"
+        ],
+        [
+          10,
+          5,
+          "declaration",
+          "Foundation:arguments:[String]?"
+        ],
+        [
+          10,
+          5,
+          "declaration",
+          "DataFlowBenchTaintSwift:process:Process"
+        ],
+        [
+          10,
+          26,
+          "declaration",
+          "DataFlowBenchTaintSwift:input:String"
+        ],
+        [
+          11,
+          9,
+          "declaration",
+          "Foundation:run():(Process) -> () throws -> ()"
+        ],
+        [
+          11,
+          9,
+          "declaration",
+          "DataFlowBenchTaintSwift:process:Process"
+        ],
+        [
+          11,
+          17,
+          "declaration",
+          "Foundation:run():(Process) -> () throws -> ()"
+        ]
+      ],
+      "extraction_phase_deadline_seconds": 180,
+      "failure": null,
+      "finalized_swift_database": true,
+      "path": "evidence/swift-candidate-native-controls-220/codeql-argv-attempt-02",
+      "phase_results": {
+        "database-create": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        },
+        "database-resolve": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        },
+        "roleNodes": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        },
+        "rolesCalls": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        }
+      },
+      "role_observation_complete": true,
+      "scored_qualified": false,
+      "shipped_role_nodes": []
+    },
+    {
+      "capability_interpretation": "blocked: no complete finalized native role observation",
+      "case_id": "control-candidate-native-environment",
+      "extraction_phase_deadline_seconds": 60,
+      "failure": "extraction did not complete normally; stop and retain scratch for reconciliation",
+      "finalized_swift_database": false,
+      "path": "evidence/swift-candidate-native-controls-220/codeql-environment-attempt-01",
+      "phase_results": {
+        "database-create": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 2,
+          "timed_out": true
+        }
+      },
+      "role_observation_complete": false,
+      "scored_qualified": false
+    },
+    {
+      "case_id": "control-candidate-native-environment",
+      "declaration_rows": [
+        [
+          6,
+          17,
+          "declaration",
+          "Swift:subscript ...:<Key, Value where Key : Hashable> (Key) -> Value?"
+        ],
+        [
+          6,
+          17,
+          "declaration",
+          "Foundation:processInfo:ProcessInfo"
+        ],
+        [
+          6,
+          17,
+          "declaration",
+          "Foundation:environment:[String : String]"
+        ],
+        [
+          6,
+          77,
+          "declaration",
+          "Swift:??(_:_:):<T where T : ~Copyable> (consuming T?, @autoclosure () throws -> T) throws -> T"
+        ],
+        [
+          7,
+          19,
+          "declaration",
+          "Foundation:Process.init():(Process.Type) -> () -> Process"
+        ],
+        [
+          7,
+          30,
+          "declaration",
+          "Foundation:Process.init():(Process.Type) -> () -> Process"
+        ],
+        [
+          8,
+          5,
+          "declaration",
+          "DataFlowBenchTaintSwift:process:Process"
+        ],
+        [
+          9,
+          5,
+          "declaration",
+          "DataFlowBenchTaintSwift:process:Process"
+        ],
+        [
+          9,
+          5,
+          "declaration",
+          "Foundation:arguments:[String]?"
+        ],
+        [
+          9,
+          26,
+          "declaration",
+          "DataFlowBenchTaintSwift:input:String"
+        ],
+        [
+          10,
+          9,
+          "declaration",
+          "Foundation:run():(Process) -> () throws -> ()"
+        ],
+        [
+          10,
+          9,
+          "declaration",
+          "DataFlowBenchTaintSwift:process:Process"
+        ],
+        [
+          10,
+          17,
+          "declaration",
+          "Foundation:run():(Process) -> () throws -> ()"
+        ]
+      ],
+      "extraction_phase_deadline_seconds": 180,
+      "failure": null,
+      "finalized_swift_database": true,
+      "path": "evidence/swift-candidate-native-controls-220/codeql-environment-attempt-02",
+      "phase_results": {
+        "database-create": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        },
+        "database-resolve": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        },
+        "roleNodes": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        },
+        "rolesCalls": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        }
+      },
+      "role_observation_complete": true,
+      "scored_qualified": false,
+      "shipped_role_nodes": []
+    },
+    {
+      "capability_interpretation": "blocked: no complete finalized native role observation",
+      "case_id": "control-candidate-native-near-misses",
+      "extraction_phase_deadline_seconds": 60,
+      "failure": "extraction did not complete normally; stop and retain scratch for reconciliation",
+      "finalized_swift_database": false,
+      "path": "evidence/swift-candidate-native-controls-220/codeql-near-misses-attempt-01",
+      "phase_results": {
+        "database-create": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 2,
+          "timed_out": true
+        }
+      },
+      "role_observation_complete": false,
+      "scored_qualified": false
+    },
+    {
+      "case_id": "control-candidate-native-near-misses",
+      "declaration_rows": [
+        [
+          3,
+          30,
+          "declaration",
+          "DataFlowBenchTaintSwift:ProcessInfo.init():(ProcessInfo.Type) -> () -> ProcessInfo"
+        ],
+        [
+          15,
+          15,
+          "declaration",
+          "Swift:subscript ...:<Key, Value where Key : Hashable> (Key) -> Value?"
+        ],
+        [
+          15,
+          15,
+          "declaration",
+          "DataFlowBenchTaintSwift:processInfo:ProcessInfo"
+        ],
+        [
+          15,
+          15,
+          "declaration",
+          "DataFlowBenchTaintSwift:environment:[String : String]"
+        ],
+        [
+          15,
+          64,
+          "declaration",
+          "Swift:??(_:_:):<T where T : ~Copyable> (consuming T?, @autoclosure () throws -> T) throws -> T"
+        ],
+        [
+          16,
+          15,
+          "declaration",
+          "Swift:subscript ...:<Element> (Int) -> Element"
+        ],
+        [
+          16,
+          15,
+          "declaration",
+          "DataFlowBenchTaintSwift:arguments:[String]"
+        ],
+        [
+          17,
+          19,
+          "declaration",
+          "DataFlowBenchTaintSwift:Process.init():(Process.Type) -> () -> Process"
+        ],
+        [
+          18,
+          5,
+          "declaration",
+          "DataFlowBenchTaintSwift:arguments:[String]"
+        ],
+        [
+          18,
+          5,
+          "declaration",
+          "DataFlowBenchTaintSwift:process:Process"
+        ],
+        [
+          18,
+          26,
+          "declaration",
+          "DataFlowBenchTaintSwift:env:String"
+        ],
+        [
+          18,
+          31,
+          "declaration",
+          "DataFlowBenchTaintSwift:arg:String"
+        ],
+        [
+          19,
+          5,
+          "declaration",
+          "DataFlowBenchTaintSwift:run():(Process) -> () -> ()"
+        ],
+        [
+          19,
+          5,
+          "declaration",
+          "DataFlowBenchTaintSwift:process:Process"
+        ],
+        [
+          19,
+          13,
+          "declaration",
+          "DataFlowBenchTaintSwift:run():(Process) -> () -> ()"
+        ]
+      ],
+      "extraction_phase_deadline_seconds": 180,
+      "failure": null,
+      "finalized_swift_database": true,
+      "path": "evidence/swift-candidate-native-controls-220/codeql-near-misses-attempt-02",
+      "phase_results": {
+        "database-create": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        },
+        "database-resolve": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        },
+        "roleNodes": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        },
+        "rolesCalls": {
+          "cleanup_status": "tracked-processes-stopped",
+          "exit_status": 0,
+          "timed_out": false
+        }
+      },
+      "role_observation_complete": true,
+      "scored_qualified": false,
+      "shipped_role_nodes": [
+        [
+          18,
+          5,
+          "shipped-sink",
+          "[post] process"
+        ]
+      ]
+    }
+  ],
+  "joern_census": {
+    "assessment": {
+      "capability_partition_emitted": false,
+      "native_role_matching": "not established; no Joern runtime role-matching experiment performed",
+      "raw_record_scope": "Interpret negative API booleans in api-observation.json as no mechanism discovered in the cited inspected interfaces, not exhaustive semantic absence across all classes.",
+      "reason": "The inspected DefaultSemantics/FullNameSemantics interfaces return generic FlowSemantic argument/return mappings. A typed Swift endpoint source/sink classifier was not established. Full inventory and keyword navigation do not prove absence of such a mechanism.",
+      "scope": "Inventory coverage is complete for the extracted candidate; semantic interpretation is limited to the cited inspected APIs.",
+      "status": "blocked"
+    },
+    "counts": {
+      "duplicate_jar_path_mappings": 971,
+      "exact_first_party_package_class_rows": 53859,
+      "extracted_files": 1349,
+      "jar_paths": 1191,
+      "keyword_navigation_rows": 152434,
+      "unique_content_class_members": 147755,
+      "unique_content_jar_members": 179468,
+      "unique_content_non_class_non_tasty_resources": 15482,
+      "unique_jar_sha256_contents": 220
+    }
+  },
+  "limits": "Non-scored diagnostics only. A 180s extraction is a feasibility retry, not a changed scored budget. Incomplete finalization or role queries cannot prove absence. Individual phases do not establish memory compliance or complete descendant containment.",
+  "opaque_choice": "pending",
+  "schema_version": 1,
+  "scope": "candidate-native control observations"
+}
