@@ -1,0 +1,59 @@
+{
+  "scope": "non-scored-expanded-keyed-persistence-control",
+  "scored_activation": false,
+  "semantic_completeness": "unproven",
+  "aggregate_memory_compliance": "unproven",
+  "sdk_settings_sha256": "f8d005f09381389167f9e0aeaa169bc9e7dff162ef22ca2fd8e98df7ff1acafe",
+  "queries": [
+    "roles",
+    "flow",
+    "persistence-identity",
+    "persistence-keys",
+    "content",
+    "clears"
+  ],
+  "control_files": {
+    "evidence/swift-keyed-persistence-v1/expanded-control-v1/control.json": "331aecd8f6b4273c135226eed33f8fd15485a0d2b0296700b49943e49c1e38a0",
+    "evidence/swift-keyed-persistence-v1/expanded-control-v1/main.swift": "4be5136875aa239d333840f08d2f550c02b7a0549e0ff295f9b4d55610716271"
+  },
+  "query_files": {
+    "evidence/swift-keyed-persistence-v1/queries-v1/qlpack.yml": "929bcd38dab95e5662be40259d82b9f3e595d7b82003a9d3847752e9db79bc41",
+    "evidence/swift-keyed-persistence-v1/queries-v1/PersistenceIdentity.qll": "7e9e7b33f0783f73f1fd6961b544f7cdf42a0087e47bc3b3e5f7d4625ed4c23e",
+    "evidence/swift-keyed-persistence-v1/queries-v1/content.ql": "a5cc71d9c64ac411ad0294deffc4e70bbaf651e24dc94aa75e8d0959466bf51c",
+    "evidence/swift-keyed-persistence-v1/queries-v1/codeql-pack.lock.yml": "fae5126721e0528a00f135daa5a6291259bec1f61102f200ae118933a66d49ca",
+    "evidence/swift-keyed-persistence-v1/queries-v1/persistence-identity.ql": "7360663cf99e67b80b9c0e75a4a54985d1ea35c130813e1a2bc66f8574aa40ff",
+    "evidence/swift-keyed-persistence-v1/queries-v1/flow.ql": "9fea38b615285ae3a3ac41db5da624a2c5af469ad7d5f8ff3fea88fc82a0f321",
+    "evidence/swift-keyed-persistence-v1/queries-v1/roles.ql": "8844953f6c6e9821b6c76102bd2514b13a9ce55b7180985cba80f4b02349ee7c",
+    "evidence/swift-keyed-persistence-v1/queries-v1/FoundationIdentity.qll": "d55b73575e575145329b022105ce96fae6d5fed342ceaa6447c375a694e6e413",
+    "evidence/swift-keyed-persistence-v1/queries-v1/clears.ql": "d723768c34f0fc843327ccc1740438f877d99be35111e2ec9bdac347b8102aa0",
+    "evidence/swift-keyed-persistence-v1/queries-v1/FoundationSources.qll": "5a6703e01eb89a2286fbe492ccbcdd9d1c69692a6d3bffcc02be56338086932a",
+    "evidence/swift-keyed-persistence-v1/queries-v1/persistence-keys.ql": "c7225247348439476e9aa1d3f04f8ab247bb58b0a2eebecb3c40ef08e92ed3f2"
+  },
+  "runner_files": {
+    "scripts/probe-swift-keyed-expanded.py": "99f5cb8c5c160af601a59a272e70ac6e16c8d1e2b01cf43931f483012c4bf25d",
+    "scripts/probe-swift-v2-codeql.py": "a7ca82dd685a378dca56d14ec0edcbed27fc657c7bde68de9c8c2e95f4aae8e6",
+    "scripts/swift_v2_process.py": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd",
+    "scripts/swift_extraction_integrity.py": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156"
+  },
+  "vendor_files": {
+    "evidence/swift-keyed-persistence-v1/pack-manifest-v1.json": "e132ffa6f0ab02f29a27ffd790179db6e70104bef35a7d7a4f3304f6d6813279",
+    "evidence/swift-keyed-persistence-v1/attempt-01/manifest.json": "b7369c12fbf3147e4be230e342acfa8ef337a3a46db366be7bbef209d55afe73"
+  },
+  "expected_positive_labels": [
+    "DIRECT_SINK",
+    "SAME_SINK",
+    "ALIAS_POSITIVE_SINK",
+    "RECEIVER_POSITIVE_SINK",
+    "SHARED_SUITE_POSITIVE_SINK"
+  ],
+  "expected_negative_labels": [
+    "OTHER_SINK",
+    "LOCAL_SINK",
+    "OVERWRITE_SAFE_SINK",
+    "ALIAS_OVERWRITE_SAFE_SINK",
+    "OTHER_DOMAIN_SAFE_SINK",
+    "READ_BEFORE_WRITE_SAFE_SINK"
+  ],
+  "shared_suite_semantics_source": "https://developer.apple.com/documentation/foundation/userdefaults/init%28suitename%3A%29",
+  "acceptance": "Every positive and near miss required; small retained probe alone is not qualification. Missing shared-domain identity remains incomplete, not clean."
+}
