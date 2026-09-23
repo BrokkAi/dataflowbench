@@ -1,0 +1,38 @@
+{
+  "created_utc": "2026-09-23T12:08:27.506418+00:00",
+  "scope": "non-scored shipped role and exact declaration observations",
+  "database": "/private/tmp/dfb-220-unlimited-extraction-01/db",
+  "database_source_sha256": "1bca69a5d828eda91498b1b89ba4ba249ef49688dee6f7038a89190eb42809f5",
+  "database_metadata_sha256": "3d517b616ace3d3d22a2e5a6dbe8f88906dcff3c7a6431d08571006f56832b7e",
+  "original_extraction": "121.097800666 seconds without timeout; historical diagnostic never relabeled150qualified",
+  "versions": {
+    "codeql": "2.27.1",
+    "swift_all": "6.8.4",
+    "compiler": "6.3.3",
+    "sdk": "26.5"
+  },
+  "pack_files_reverified": 1493,
+  "analysis_wall_clock_seconds": 60,
+  "analysis_requested_ram_mb": 512,
+  "queries": [
+    "rolesCalls",
+    "roleNodes"
+  ],
+  "query_files": {
+    "evidence/swift-native-recognition-220/queries/rolesCalls.ql": "b1a2bedff51ec1561b39b84b12aa364dd4fcd1d73370d72a1761bc3e1e48d86a",
+    "evidence/swift-native-recognition-220/queries/qlpack.yml": "75b6865ba09f91a798bb4ecafac2d8058a70ab98e8fecb9cb0e0a958b0cc6224",
+    "evidence/swift-native-recognition-220/queries/codeql-pack.lock.yml": "fceb4b22c946b8a06e7895799cd997580c2f8b64cb871014cfaf62f66f962f17",
+    "evidence/swift-native-recognition-220/queries/roleNodes.ql": "75e83116383a369d351b62aee910f543d5711fed0c690c5b64a64d109a1d051e"
+  },
+  "acceptance": [
+    "Known String contentsOfFile initializer line3 must resolve and instantiate shipped source.",
+    "Foundation Process staticrun atline6 must resolve exactdeclaration and instantiate shippedsink.",
+    "Environmentline4 and argvline5 need resolvedidentity before interpreting role absence.",
+    "Roleabsence is diagnostic only until exactmatchingnear-misses tested on validextraction.",
+    "Timedout/error queries and unprovenmemory cannot qualify capability."
+  ],
+  "near_miss_plan": "preregister separately ifpositiveobservations complete",
+  "native_binary_execution": false,
+  "custom_models": false,
+  "capability_partition_emitted": false
+}
