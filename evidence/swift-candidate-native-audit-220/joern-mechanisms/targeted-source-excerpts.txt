@@ -1,0 +1,737 @@
+--- DefaultSemantics ---
+     1	package io.joern.dataflowengineoss
+     2	
+     3	import io.joern.dataflowengineoss.semanticsloader.{FlowSemantic, FullNameSemantics}
+     4	import io.joern.dataflowengineoss.semanticsloader.FlowPath.{FlowMapping, PassThroughMapping}
+     5	import io.shiftleft.codepropertygraph.generated.Operators
+     6	
+     7	import scala.annotation.unused
+     8	
+     9	object DefaultSemantics {
+    10	
+    11	  /** @return
+    12	    *   a default set of common external procedure calls for all languages.
+    13	    */
+    14	  def apply(): FullNameSemantics = {
+    15	    val list = operatorFlows ++ cFlows ++ javaFlows
+    16	    FullNameSemantics.fromList(list)
+    17	  }
+    18	
+    19	  private def F = (x: String, y: List[(Int, Int)]) => FlowSemantic.from(x, y)
+    20	
+    21	  private def PTF(x: String, ys: List[(Int, Int)] = List.empty): FlowSemantic =
+    22	    FlowSemantic(x).copy(mappings = FlowSemantic.from(x, ys).mappings :+ PassThroughMapping)
+    23	
+    24	  def operatorFlows: List[FlowSemantic] = List(
+    25	    F(Operators.addition, List((1, -1), (2, -1))),
+    26	    F(Operators.addressOf, List((1, -1))),
+    27	    F(Operators.assignment, List((2, 1), (2, -1))),
+    28	    F(Operators.assignmentAnd, List((2, 1), (1, 1), (2, -1))),
+    29	    F(Operators.assignmentArithmeticShiftRight, List((2, 1), (1, 1), (2, -1))),
+    30	    F(Operators.assignmentDivision, List((2, 1), (1, 1), (2, -1))),
+    31	    F(Operators.assignmentExponentiation, List((2, 1), (1, 1), (2, -1))),
+    32	    F(Operators.assignmentLogicalShiftRight, List((2, 1), (1, 1), (2, -1))),
+    33	    F(Operators.assignmentMinus, List((2, 1), (1, 1), (2, -1))),
+    34	    F(Operators.assignmentModulo, List((2, 1), (1, 1), (2, -1))),
+    35	    F(Operators.assignmentMultiplication, List((2, 1), (1, 1), (2, -1))),
+    36	    F(Operators.assignmentOr, List((2, 1), (1, 1), (2, -1))),
+    37	    F(Operators.assignmentPlus, List((2, 1), (1, 1), (2, -1))),
+    38	    F(Operators.assignmentShiftLeft, List((2, 1), (1, 1), (2, -1))),
+    39	    F(Operators.assignmentXor, List((2, 1), (1, 1), (2, -1))),
+    40	    F(Operators.cast, List((1, -1), (2, -1))),
+    41	    F(Operators.computedMemberAccess, List((1, -1))),
+    42	    F(Operators.conditional, List((2, -1), (3, -1))),
+    43	    F(Operators.elvis, List((1, -1), (2, -1))),
+    44	    F(Operators.notNullAssert, List((1, -1))),
+    45	    F(Operators.fieldAccess, List((1, -1))),
+    46	    F(Operators.getElementPtr, List((1, -1))),
+    47	    PTF(Operators.modulo, List.empty),
+    48	    PTF(Operators.arrayInitializer, List.empty),
+    49	
+    50	    // TODO does this still exist?
+    51	    F("<operator>.incBy", List((1, 1), (2, 1), (3, 1), (4, 1))),
+    52	    F(Operators.indexAccess, List((1, -1))),
+    53	    F(Operators.indirectComputedMemberAccess, List((1, -1))),
+    54	    F(Operators.indirectFieldAccess, List((1, -1))),
+    55	    F(Operators.indirectIndexAccess, List((1, -1), (2, 1))),
+    56	    F(Operators.indirectMemberAccess, List((1, -1))),
+    57	    F(Operators.indirection, List((1, -1))),
+    58	    F(Operators.memberAccess, List((1, -1))),
+    59	    F(Operators.pointerShift, List((1, -1))),
+    60	    F(Operators.postDecrement, List((1, 1), (1, -1))),
+    61	    F(Operators.postIncrement, List((1, 1), (1, -1))),
+    62	    F(Operators.preDecrement, List((1, 1), (1, -1))),
+    63	    F(Operators.preIncrement, List((1, 1), (1, -1))),
+    64	    F(Operators.sizeOf, List.empty[(Int, Int)]),
+    65	
+    66	    // Language specific operators
+    67	    PTF("<operator>.tupleLiteral"),
+    68	    PTF("<operator>.dictLiteral"),
+    69	    PTF("<operator>.setLiteral"),
+    70	    PTF("<operator>.listLiteral")
+    71	  )
+    72	
+    73	  /** Semantic summaries for common external C/C++ calls.
+    74	    *
+    75	    * @see
+    76	    *   <a href="https://www.ibm.com/docs/en/i/7.3?topic=extensions-standard-c-library-functions-table-by-name">Standard
+    77	    *   C Library Functions</a>
+    78	    */
+    79	  def cFlows: List[FlowSemantic] = List(
+    80	    F("abs", List((1, 1), (1, -1))),
+    81	    F("abort", List.empty[(Int, Int)]),
+    82	    F("asctime", List((1, 1), (1, -1))),
+    83	    F("asctime_r", List((1, 1), (1, -1))),
+    84	    F("atof", List((1, 1), (1, -1))),
+    85	    F("atoi", List((1, 1), (1, -1))),
+    86	    F("atol", List((1, 1), (1, -1))),
+    87	    F("calloc", List((1, -1), (2, -1))),
+    88	    F("ceil", List((1, 1), (1, 1))),
+    89	    F("clock", List.empty[(Int, Int)]),
+    90	    F("ctime", List((1, -1))),
+    91	    F("ctime64", List((1, -1))),
+    92	    F("ctime_r", List((1, -1))),
+    93	    F("ctime64_r", List((1, -1))),
+    94	    F("difftime", List((1, -1), (2, -1))),
+    95	    F("difftime64", List((1, -1), (2, -1))),
+    96	    PTF("div"),
+    97	    F("exit", List((1, 1))),
+    98	    F("exp", List((1, -1))),
+    99	    F("fabs", List((1, -1))),
+   100	    F("fclose", List((1, 1), (1, -1))),
+   101	    F("fdopen", List((1, -1), (2, -1))),
+   102	    F("feof", List((1, 1), (1, -1))),
+   103	    F("ferror", List((1, 1), (1, -1))),
+   104	    F("fflush", List((1, 1), (1, -1))),
+   105	    F("fgetc", List((1, 1), (1, -1))),
+   106	    F("fwrite", List((1, 1), (1, -1), (2, -1), (3, -1), (4, -1))),
+   107	    F("free", List((1, 1))),
+   108	    F("getc", List((1, 1))),
+   109	    F("scanf", List((2, 2))),
+   110	    F("strcmp", List((1, 1), (1, -1), (2, 2), (2, -1))),
+   111	    F("strlen", List((1, 1), (1, -1))),
+   112	    F("strncpy", List((1, 1), (2, 2), (3, 3), (1, -1), (2, -1))),
+   113	    F("strncat", List((1, 1), (2, 2), (3, 3), (1, -1), (2, -1)))
+   114	  )
+   115	
+   116	  /** Semantic summaries for common external Java calls.
+   117	    */
+   118	  def javaFlows: List[FlowSemantic] = List(
+   119	    PTF("java.lang.String.split:java.lang.String[](java.lang.String)", List((0, 0))),
+   120	    PTF("java.lang.String.split:java.lang.String[](java.lang.String,int)", List((0, 0))),
+   121	    PTF("java.lang.String.compareTo:int(java.lang.String)", List((0, 0))),
+   122	    F("java.io.PrintWriter.print:void(java.lang.String)", List((0, 0), (1, 1))),
+   123	    F("java.io.PrintWriter.println:void(java.lang.String)", List((0, 0), (1, 1))),
+   124	    F("java.io.PrintStream.println:void(java.lang.String)", List((0, 0), (1, 1))),
+   125	    PTF("java.io.PrintStream.print:void(java.lang.String)", List((0, 0))),
+   126	    F("android.text.TextUtils.isEmpty:boolean(java.lang.String)", List((0, -1), (1, -1))),
+   127	    F("java.sql.PreparedStatement.prepareStatement:java.sql.PreparedStatement(java.lang.String)", List((1, -1))),
+   128	    F("java.sql.PreparedStatement.prepareStatement:setDouble(int,double)", List((1, 1), (2, 2))),
+   129	    F("java.sql.PreparedStatement.prepareStatement:setFloat(int,float)", List((1, 1), (2, 2))),
+   130	    F("java.sql.PreparedStatement.prepareStatement:setInt(int,int)", List((1, 1), (2, 2))),
+   131	    F("java.sql.PreparedStatement.prepareStatement:setLong(int,long)", List((1, 1), (2, 2))),
+   132	    F("java.sql.PreparedStatement.prepareStatement:setShort(int,short)", List((1, 1), (2, 2))),
+   133	    F("java.sql.PreparedStatement.prepareStatement:setString(int,java.lang.String)", List((1, 1), (2, 2))),
+   134	    F("org.apache.http.HttpRequest.<init>:void(org.apache.http.RequestLine)", List((1, 1), (1, 0))),
+   135	    F("org.apache.http.HttpRequest.<init>:void(java.lang.String,java.lang.String)", List((1, 1), (1, 0), (2, 0))),
+   136	    F(
+   137	      "org.apache.http.HttpRequest.<init>:void(java.lang.String,java.lang.String,org.apache.http.ProtocolVersion)",
+   138	      List((1, 1), (1, 0), (2, 2), (2, 0), (3, 3), (3, 0))
+   139	    ),
+   140	    F("org.apache.http.HttpResponse.getStatusLine:org.apache.http.StatusLine()", List((0, -1))),
+   141	    F("org.apache.http.HttpResponse.setStatusLine:void(org.apache.http.StatusLine)", List((1, 0), (1, 1), (0, -1))),
+   142	    F("org.apache.http.HttpResponse.setReasonPhrase:void(java.lang.String)", List((1, 0), (1, 1), (0, -1))),
+   143	    F("org.apache.http.HttpResponse.getEntity:org.apache.http.HttpEntity()", List((0, -1))),
+   144	    F("org.apache.http.HttpResponse.setEntity:void(org.apache.http.HttpEntity)", List((1, 0), (1, 1), (1, 0)))
+   145	  )
+   146	
+   147	  /** @return
+   148	    *   procedure semantics for operators and common external Java calls only.
+   149	    */
+   150	  @unused
+   151	  def javaSemantics(): FullNameSemantics = FullNameSemantics.fromList(operatorFlows ++ javaFlows)
+   152	
+   153	}
+--- Semantics ---
+     1	package io.joern.dataflowengineoss.semanticsloader
+     2	
+     3	import io.joern.dataflowengineoss.semanticsloader.FlowPath.{FlowMapping, PassThroughMapping}
+     4	import io.shiftleft.codepropertygraph.generated.Cpg
+     5	import io.shiftleft.codepropertygraph.generated.nodes.Method
+     6	import io.shiftleft.semanticcpg.language.*
+     7	
+     8	trait Semantics {
+     9	
+    10	  /** Useful for `Semantics` that benefit from having some kind of internal state tailored to the current CPG.
+    11	    */
+    12	  def initialize(cpg: Cpg): Unit = {}
+    13	
+    14	  def forMethod(method: Method): Option[FlowSemantic]
+    15	
+    16	  /** Builds a new `Semantics` whose `forMethod` behaviour first lookups in `other` and only if it fails (i.e. returns
+    17	    * `None`) lookups in the current one.
+    18	    */
+    19	  def after(other: Semantics): Semantics = Semantics.compose(this, other)
+    20	}
+    21	
+    22	object Semantics {
+    23	
+    24	  private def compose(first: Semantics, second: Semantics): Semantics = new Semantics {
+    25	
+    26	    override def initialize(cpg: Cpg): Unit = {
+    27	      second.initialize(cpg)
+    28	      first.initialize(cpg)
+    29	    }
+    30	
+    31	    override def forMethod(method: Method): Option[FlowSemantic] =
+    32	      second.forMethod(method).orElse { first.forMethod(method) }
+    33	  }
+    34	}
+    35	
+    36	/** The empty Semantics, whose `forMethod` always fails, i.e. the identity under `Semantics.after`. */
+    37	object NoSemantics extends Semantics {
+    38	
+    39	  override def forMethod(method: Method): Option[FlowSemantic] = None
+    40	}
+    41	
+    42	/** The nil Semantics, whose `forMethod` always succeeds but returns the empty (nil) mapping. */
+    43	object NilSemantics {
+    44	
+    45	  /** Builds a universal nil semantics. Beware this is right-absorbing under `Semantics.after`. */
+    46	  def apply(): Semantics = new Semantics {
+    47	    override def forMethod(method: Method): Option[FlowSemantic] = Some(FlowSemantic(method.fullName, List.empty))
+    48	  }
+    49	
+    50	  /** Extensionally builds a nil semantics. */
+    51	  def where(methodFullNames: List[String], regex: Boolean = false): Semantics =
+    52	    FullNameSemantics.fromList(methodFullNames.map {
+    53	      FlowSemantic(_, List.empty, regex)
+    54	    })
+    55	
+    56	  /** Intensionally builds a nil semantics. */
+    57	  def where(predicate: Method => Boolean): Semantics = new Semantics {
+    58	    override def forMethod(method: Method): Option[FlowSemantic] = Option.when(predicate(method)) {
+    59	      FlowSemantic(method.fullName, List.empty)
+    60	    }
+    61	  }
+    62	}
+    63	
+    64	/** Semantics whose mappings are: 0->0, PassThroughMapping. */
+    65	object NoCrossTaintSemantics {
+    66	
+    67	  /** Builds a universal no-cross-taint semantics. Beware this is right-absorbing under `Semantics.after`. */
+    68	  def apply(): Semantics = new Semantics {
+    69	    override def forMethod(method: Method): Option[FlowSemantic] = Some(
+    70	      FlowSemantic(method.fullName, List(FlowMapping(0, 0), PassThroughMapping))
+    71	    )
+    72	  }
+    73	
+    74	  /** Extensionally builds a no-cross-taint semantics. */
+    75	  def where(methodFullNames: List[String], regex: Boolean = false): Semantics =
+    76	    FullNameSemantics.fromList(methodFullNames.map {
+    77	      FlowSemantic(_, List(FlowMapping(0, 0), PassThroughMapping), regex)
+    78	    })
+    79	
+    80	  /** Intensionally builds a no-cross-taint semantics. */
+    81	  def where(predicate: Method => Boolean): Semantics = new Semantics {
+    82	    override def forMethod(method: Method): Option[FlowSemantic] = Option.when(predicate(method)) {
+    83	      FlowSemantic(method.fullName, List(FlowMapping(0, 0), PassThroughMapping))
+    84	    }
+    85	  }
+    86	}
+    87	
+    88	case class FlowSemantic(methodFullName: String, mappings: List[FlowPath] = List.empty, regex: Boolean = false)
+    89	
+    90	object FlowSemantic {
+    91	
+    92	  def from(methodFullName: String, mappings: List[?], regex: Boolean = false): FlowSemantic = {
+    93	    FlowSemantic(
+    94	      methodFullName,
+    95	      mappings.map {
+    96	        case (src: Int, dst: Int)                                 => FlowMapping(src, dst)
+    97	        case (srcIdx: Int, src: String, dst: Int)                 => FlowMapping(srcIdx, src, dst)
+    98	        case (src: Int, dstIdx: Int, dst: String)                 => FlowMapping(src, dstIdx, dst)
+    99	        case (srcIdx: Int, src: String, dstIdx: Int, dst: String) => FlowMapping(srcIdx, src, dstIdx, dst)
+   100	        case x: FlowMapping                                       => x
+   101	      },
+   102	      regex
+   103	    )
+   104	  }
+   105	
+   106	}
+   107	
+   108	abstract class FlowNode
+   109	
+   110	/** Collects parameters and return nodes under a common trait. This trait acknowledges their argument index which is
+   111	  * relevant when a caller wants to coordinate relevant tainted flows through specific arguments and the return flow.
+   112	  */
+   113	trait ParamOrRetNode extends FlowNode {
+   114	
+   115	  /** Temporary backward compatible idx field.
+   116	    *
+   117	    * @return
+   118	    *   the argument index.
+   119	    */
+   120	  def index: Int
+--- FullNameSemantics ---
+     1	package io.joern.dataflowengineoss.semanticsloader
+     2	
+     3	import io.joern.dataflowengineoss.semanticsloader.FlowPath.{FlowMapping, PassThroughMapping}
+     4	import io.shiftleft.codepropertygraph.generated.Cpg
+     5	import io.shiftleft.codepropertygraph.generated.nodes.Method
+     6	import io.shiftleft.semanticcpg.language.*
+     7	import org.slf4j.LoggerFactory
+     8	
+     9	import scala.collection.mutable
+    10	
+    11	object FullNameSemantics {
+    12	
+    13	  private val logger = LoggerFactory.getLogger(getClass)
+    14	
+    15	  /** Builds FullNameSemantics given their constituent FlowSemantics. Same methodFullNamed FlowSemantic elements are
+    16	    * combined into a single one with both of their FlowMappings.
+    17	    */
+    18	  def fromList(elements: List[FlowSemantic]): FullNameSemantics = FullNameSemantics(
+    19	    elements.groupBy(_.methodFullName).map { (fullName, semantics) =>
+    20	      val howMany = semantics.length
+    21	      if (howMany > 1) {
+    22	        logger.warn(s"$howMany competing FlowSemantics found for $fullName, merging them")
+    23	      }
+    24	      fullName -> FlowSemantic(
+    25	        methodFullName = fullName,
+    26	        mappings = semantics.flatMap(_.mappings),
+    27	        regex = semantics.exists(_.regex)
+    28	      )
+    29	    }
+    30	  )
+    31	
+    32	  def empty: FullNameSemantics = fromList(List())
+    33	
+    34	}
+    35	
+    36	class FullNameSemantics private (methodToSemantic: Map[String, FlowSemantic]) extends Semantics {
+    37	
+    38	  /** The map below keeps a mapping between results of a regex and the regex string it matches. e.g.
+    39	    *
+    40	    * `path/to/file.py:<module>.Foo.sink` -> `^path.*Foo\\.sink$`
+    41	    */
+    42	  private val regexMatchedFullNames = mutable.HashMap.empty[String, String]
+    43	
+    44	  /** Initialize all the method semantics that use regex with all their regex results before query time.
+    45	    */
+    46	  override def initialize(cpg: Cpg): Unit = {
+    47	    import io.shiftleft.semanticcpg.language._
+    48	
+    49	    methodToSemantic.filter(_._2.regex).foreach { case (regexString, _) =>
+    50	      cpg.method.fullName(regexString).fullName.foreach { methodMatch =>
+    51	        regexMatchedFullNames.put(methodMatch, regexString)
+    52	      }
+    53	    }
+    54	  }
+    55	
+    56	  def elements: List[FlowSemantic] = methodToSemantic.values.toList
+    57	
+    58	  private def forMethod(fullName: String): Option[FlowSemantic] = regexMatchedFullNames.get(fullName) match {
+    59	    case Some(matchedFullName) => methodToSemantic.get(matchedFullName)
+    60	    case None                  => methodToSemantic.get(fullName)
+    61	  }
+    62	
+    63	  override def forMethod(method: Method): Option[FlowSemantic] = forMethod(method.fullName)
+    64	
+    65	  def serialize: String = {
+    66	    elements
+    67	      .sortBy(_.methodFullName)
+    68	      .map { elem =>
+    69	        s"\"${elem.methodFullName}\" " + elem.mappings
+    70	          .collect { case FlowMapping(x, y) => s"$x -> $y" }
+    71	          .mkString(" ")
+    72	      }
+    73	      .mkString("\n")
+    74	  }
+    75	
+    76	  /** Immutably extends the current `FullNameSemantics` with `extraFlows`.
+    77	    */
+    78	  def plus(extraFlows: List[FlowSemantic]): FullNameSemantics = FullNameSemantics.fromList(elements ++ extraFlows)
+    79	
+    80	}
+--- SwiftSrc2Cpg ---
+     1	package io.joern.swiftsrc2cpg
+     2	
+     3	import io.joern.swiftsrc2cpg.passes.*
+     4	import io.joern.swiftsrc2cpg.utils.AstGenRunner
+     5	import io.joern.x2cpg.X2Cpg.withNewEmptyCpg
+     6	import io.joern.x2cpg.X2CpgFrontend
+     7	import io.joern.x2cpg.frontendspecific.swiftsrc2cpg
+     8	import io.joern.x2cpg.passes.frontend.XTypeRecoveryConfig
+     9	import io.joern.x2cpg.utils.{HashUtil, Report}
+    10	import io.shiftleft.codepropertygraph.generated.Cpg
+    11	import io.shiftleft.semanticcpg.layers.LayerCreatorContext
+    12	import io.shiftleft.semanticcpg.utils.FileUtil
+    13	
+    14	import java.nio.file.Paths
+    15	import scala.util.Try
+    16	
+    17	class SwiftSrc2Cpg extends X2CpgFrontend {
+    18	  override type ConfigType = Config
+    19	  override val defaultConfig = Config()
+    20	
+    21	  def createCpg(config: Config): Try[Cpg] = {
+    22	    withNewEmptyCpg(config.outputPath, config) { (cpg, config) =>
+    23	      FileUtil.usingTemporaryDirectory("swiftsrc2cpgOut") { tmpDir =>
+    24	        val report: Report = new Report()
+    25	
+    26	        val astGenResult = new AstGenRunner(config).execute(tmpDir)
+    27	        val hash         = HashUtil.sha256(astGenResult.parsedFiles.map(file => Paths.get(file)))
+    28	
+    29	        val astCreationPass = new AstCreationPass(cpg, astGenResult, config, report)(config.schemaValidation)
+    30	        astCreationPass.createAndApply()
+    31	
+    32	        new MetaDataPass(cpg, hash, config.inputPath).createAndApply()
+    33	        new BuiltinTypesPass(cpg).createAndApply()
+    34	        SwiftTypeNodePass.withRegisteredTypes(astCreationPass.typesSeen(), cpg).createAndApply()
+    35	
+    36	        new ConfigFileCreationPass(cpg, config).createAndApply()
+    37	        new DependenciesPass(cpg).createAndApply()
+    38	
+    39	        val extensionsPass = new ExtensionsPass(
+    40	          cpg,
+    41	          astCreationPass.extensionMembers(),
+    42	          astCreationPass.extensionMethodFullNameMapping(),
+    43	          astCreationPass.memberPropertyMapping(),
+    44	          astCreationPass.extensionInherits()
+    45	        )
+    46	        extensionsPass.createAndApply()
+    47	        extensionsPass.setters.createAndApply()
+    48	
+    49	        new ObjcCallFullNamePass(cpg).createAndApply()
+    50	        new ClosureBindingsPass(cpg).createAndApply()
+    51	        new FullNameUniquenessPass(cpg).createAndApply()
+    52	
+    53	        report.print()
+    54	      }
+    55	    }
+    56	  }
+    57	}
+--- Swift type provider ---
+   190	      "-Wwarning",
+   191	      "-warnings-as-errors"
+   192	    )
+   193	
+   194	  /** Attempts to create a SwiftTypesProvider using the given configuration.
+   195	    *
+   196	    * @param config
+   197	    *   The Swift CPG generation configuration
+   198	    * @return
+   199	    *   Some(SwiftTypesProvider) if Swift environment is valid, None otherwise
+   200	    */
+   201	  def apply(config: Config): Option[SwiftTypesProvider] = {
+   202	    if (!config.swiftBuild) {
+   203	      logger.debug(
+   204	        "Swift build disabled (--swift-build was not provided). CPG will not contain any type information from the Swift compiler."
+   205	      )
+   206	      return None
+   207	    }
+   208	    if (!isValidEnvironment(config)) {
+   209	      logger.warn(
+   210	        "No valid Swift environment found (swift and swiftc executables). CPG will not contain any type information from the Swift compiler."
+   211	      )
+   212	      return None
+   213	    }
+   214	
+   215	    config.buildLogPath.map(outputPath => build(config, IOUtils.readLinesInFile(outputPath))).orElse(build(config))
+   216	  }
+   217	
+   218	  /** Resolves the path to the swift-demangle command and combines it with the provided arguments. This method
+   219	    * determines the appropriate command to use for swift-demangle based on the operating system.
+   220	    *
+   221	    * @param args
+   222	    *   Arguments to pass to the swift-demangle command
+   223	    * @return
+   224	    *   A sequence containing the resolved swift-demangle command path followed by the provided arguments
+   225	    */
+   226	  private def resolveSwiftDemangleCommand(args: Seq[String]): Seq[String] = {
+   227	    val defaultCommand = SwiftDemangleCommand ++ args
+   228	    val osSpecificCommand = Environment.operatingSystem match {
+   229	      case io.joern.x2cpg.utils.Environment.OperatingSystemType.Windows =>
+   230	        // The Windows installation of Swift puts swift-demangle into the PATH automatically
+   231	        Some(defaultCommand)
+   232	      case io.joern.x2cpg.utils.Environment.OperatingSystemType.Linux =>
+   233	        // The Linux installation of Swift puts swift-demangle next to swiftc but not into the PATH automatically
+   234	        findInStdOut(WhichSwiftCompilerCommand)
+   235	          .map { outLine =>
+   236	            val resolvedPath = Paths.get(outLine).toRealPath().resolveSibling("swift-demangle").toString
+   237	            resolvedPath +: args
+   238	          }
+   239	      case io.joern.x2cpg.utils.Environment.OperatingSystemType.Mac =>
+   240	        // On macOS, we have to ask xcrun --find swift-demangle
+   241	        findInStdOut(XcrunFindDemangleCommand).map { outLine => outLine +: args }
+   242	      case io.joern.x2cpg.utils.Environment.OperatingSystemType.Unknown =>
+   243	        Some(defaultCommand)
+   244	    }
+   245	    osSpecificCommand.getOrElse(defaultCommand)
+   246	  }
+   247	
+   248	  /** Returns the command to get the version of swift-demangle.
+   249	    *
+   250	    * This method constructs a command sequence that includes the path to the swift-demangle executable (resolved using
+   251	    * `resolveSwiftDemangleCommand`) along with the --version flag.
+   252	    *
+   253	    * @return
+   254	    *   A sequence containing the swift-demangle command with the --version argument
+   255	    */
+   256	  private def swiftDemangleVersionCommand(): Seq[String] = {
+   257	    resolveSwiftDemangleCommand(Seq("--version"))
+   258	  }
+   259	
+   260	  /** Returns the command to demangle Swift symbols with specific formatting options.
+   261	    *
+   262	    * This method constructs a command sequence that includes the path to the swift-demangle executable (resolved using
+   263	    * `resolveSwiftDemangleCommand`) along with the following options:
+   264	    *   - `--compact`: Produces more compact demangled output
+   265	    *   - `--no-sugar`: Avoids syntactic sugar in the demangled output, showing raw type information
+   266	    *
+   267	    * @return
+   268	    *   A sequence containing the swift-demangle command with formatting options
+   269	    */
+   270	  private def swiftDemangleCommand(): Seq[String] = {
+   271	    resolveSwiftDemangleCommand(Seq("--compact", "--no-sugar"))
+   272	  }
+   273	
+   274	  /** Checks if the current environment has all the required tools to perform Swift type extraction.
+   275	    *
+   276	    * This method verifies:
+   277	    *   - If Package.swift exists (when buildLogPath is not provided)
+   278	    *   - If Swift/swiftc are available with version >= 6.1
+   279	    *   - If swift-demangle tool is available
+   280	    *
+   281	    * @param config
+   282	    *   The Swift CPG generation configuration
+   283	    * @return
+   284	    *   true if the environment has all required tools with compatible versions, false otherwise
+   285	    */
+   286	  private def isValidEnvironment(config: Config): Boolean = {
+   287	    if (config.buildLogPath.isEmpty && !Paths.get(config.inputPath, "Package.swift").toFile.canRead) {
+   288	      logger.warn("Package.swift not found or can not be read. This does not look like a valid SwiftPM project.")
+   289	      return false
+   290	    }
+   291	
+   292	    val commands = if (config.buildLogPath.isDefined) {
+   293	      // we do not need 'swift' on the system if the commands are taken from a build log file
+   294	      Seq(SwiftCompilerVersionCommand)
+   295	    } else {
+   296	      SwiftVersionCommands
+   297	    }
+   298	    val hasSwift = commands.forall { command =>
+   299	      findInStdOut(command, _.contains("Swift version ")) match {
+   300	        case Some(outLine) =>
+   301	          val swiftVersion = outLine.substring(outLine.indexOf("Swift version ") + 14, outLine.indexOf(" ("))
+   302	          val isCompatible = Try(VersionHelper.compare(swiftVersion, MinimumSwiftVersion)).toOption.getOrElse(-1) >= 0
+   303	          if (!isCompatible) {
+   304	            logger.warn(s"Found Swift version '$swiftVersion' but '$MinimumSwiftVersion' is required!")
+   305	          }
+   306	          isCompatible
+   307	        case None =>
+   308	          logger.warn("Unable to determine a Swift version on this system!")
+   309	          false
+   310	      }
+--- Swift recovery ---
+     1	package io.joern.x2cpg.frontendspecific.swiftsrc2cpg
+     2	
+     3	import io.joern.x2cpg.Defines as XDefines
+     4	import io.joern.x2cpg.Defines.ConstructorMethodName
+     5	import io.joern.x2cpg.passes.frontend.*
+     6	import io.shiftleft.codepropertygraph.generated.Cpg
+     7	import io.shiftleft.codepropertygraph.generated.nodes.*
+     8	import io.shiftleft.codepropertygraph.generated.{Operators, Properties, PropertyNames}
+     9	import io.shiftleft.semanticcpg.language.*
+    10	import io.shiftleft.semanticcpg.language.operatorextension.OpNodes.FieldAccess
+    11	import io.shiftleft.codepropertygraph.generated.DiffGraphBuilder
+    12	
+    13	class SwiftTypeRecoveryPassGenerator(cpg: Cpg, config: XTypeRecoveryConfig = XTypeRecoveryConfig())
+    14	    extends XTypeRecoveryPassGenerator[File](cpg, config) {
+    15	  override protected def generateRecoveryPass(state: XTypeRecoveryState, iteration: Int): XTypeRecovery[File] =
+    16	    new SwiftTypeRecovery(cpg, state, iteration)
+    17	}
+    18	
+    19	private class SwiftTypeRecovery(cpg: Cpg, state: XTypeRecoveryState, iteration: Int)
+    20	    extends XTypeRecovery[File](cpg, state, iteration) {
+    21	
+    22	  override def compilationUnits: Iterator[File] = cpg.file.iterator
+    23	
+    24	  override def generateRecoveryForCompilationUnitTask(
+    25	    unit: File,
+    26	    builder: DiffGraphBuilder
+    27	  ): RecoverForXCompilationUnit[File] = {
+    28	    new RecoverForSwiftFile(cpg, unit, builder, state)
+    29	  }
+    30	
+    31	}
+    32	
+    33	private class RecoverForSwiftFile(cpg: Cpg, cu: File, builder: DiffGraphBuilder, state: XTypeRecoveryState)
+    34	    extends RecoverForXCompilationUnit[File](cpg, cu, builder, state) {
+    35	
+    36	  import io.joern.x2cpg.passes.frontend.XTypeRecovery.AllNodeTypesFromNodeExt
+    37	
+    38	  /** A heuristic method to determine if a call is a constructor or not.
+    39	    */
+    40	  override protected def isConstructor(c: Call): Boolean = {
+    41	    isConstructor(c.name) && c.inCall.astParent.headOption.exists(_.isInstanceOf[Block])
+    42	  }
+    43	
+    44	  override protected def isConstructor(name: String): Boolean = name == "init"
+    45	
+    46	  override protected def prepopulateSymbolTableEntry(x: AstNode): Unit = x match {
+    47	    case x @ (_: Identifier | _: Local | _: MethodParameterIn)
+    48	        if x.propertyOption(Properties.TypeFullName).getOrElse(Defines.Any) != Defines.Any =>
+    49	      val typeFullName         = x.propertyOption(Properties.TypeFullName).getOrElse(Defines.Any)
+    50	      val typeHints            = symbolTable.get(LocalVar(typeFullName)) - typeFullName
+    51	      lazy val cpgTypeFullName = cpg.typeDecl.nameExact(typeFullName).fullName.toSet
+    52	      val resolvedTypeHints =
+    53	        if (typeHints.nonEmpty) symbolTable.put(x, typeHints)
+    54	        else if (cpgTypeFullName.nonEmpty) symbolTable.put(x, cpgTypeFullName)
+    55	        else symbolTable.put(x, x.getKnownTypes)
+    56	      if (!resolvedTypeHints.contains(typeFullName) && resolvedTypeHints.sizeIs == 1)
+    57	        builder.setNodeProperty(x, PropertyNames.TypeFullName, resolvedTypeHints.head)
+    58	    case x @ (_: Identifier | _: Local | _: MethodParameterIn) =>
+    59	      symbolTable.put(x, x.getKnownTypes)
+    60	    case call: Call => symbolTable.put(call, (call.methodFullName +: call.dynamicTypeHintFullName).toSet)
+    61	    case _          =>
+    62	  }
+    63	
+    64	  override protected def prepopulateSymbolTable(): Unit = {
+    65	    super.prepopulateSymbolTable()
+    66	    cu.ast.isMethod.foreach(f => symbolTable.put(CallAlias(f.name, Option("self")), Set(f.fullName)))
+    67	    (cu.ast.isParameter.whereNot(_.nameExact("self")) ++ cu.ast.isMethod.methodReturn).filter(hasTypes).foreach { p =>
+    68	      val resolvedHints = p.getKnownTypes
+    69	        .map { t =>
+    70	          t.split("\\.").headOption match {
+    71	            case Some(base) if symbolTable.contains(LocalVar(base)) =>
+    72	              (t, symbolTable.get(LocalVar(base)).map(x => s"$x${t.stripPrefix(base)}"))
+    73	            case _ => (t, Set(t))
+    74	          }
+    75	        }
+    76	        .flatMap {
+    77	          case (t, ts) if Set(t) == ts => Set(t)
+    78	          case (_, ts)                 => ts.map(_.replaceAll("\\.(?!swift:<global>)", pathSep))
+    79	        }
+    80	      p match {
+    81	        case _: MethodParameterIn => symbolTable.put(p, resolvedHints)
+    82	        case _: MethodReturn if resolvedHints.sizeIs == 1 =>
+    83	          builder.setNodeProperty(p, PropertyNames.TypeFullName, resolvedHints.head)
+    84	        case _: MethodReturn =>
+    85	          builder.setNodeProperty(p, PropertyNames.TypeFullName, Defines.Any)
+    86	          builder.setNodeProperty(p, PropertyNames.DynamicTypeHintFullName, resolvedHints)
+    87	        case _ =>
+    88	      }
+    89	    }
+    90	  }
+    91	
+    92	  private lazy val exportedIdentifiers = cu.method
+    93	    .nameExact("<global>")
+    94	    .flatMap(_._callViaContainsOut)
+    95	    .nameExact(Operators.assignment)
+    96	    .filter(_.code.startsWith("@_exported"))
+    97	    .argument
+    98	    .isIdentifier
+    99	    .name
+   100	    .toSet
+   101	
+   102	  override protected def isFieldUncached(i: Identifier): Boolean =
+   103	    exportedIdentifiers.contains(i.name) || super.isFieldUncached(i)
+   104	
+   105	  override protected def visitIdentifierAssignedToConstructor(i: Identifier, c: Call): Set[String] = {
+   106	    val constructorPaths = if (c.methodFullName.endsWith(".alloc")) {
+   107	      def newChildren =
+   108	        c.inAssignment.astSiblings.isCall.nameExact("<operator>.new").astChildren: @scala.annotation.nowarn(
+   109	          "cat=deprecation"
+   110	        )
+   111	      val possibleImportIdentifier = newChildren.isIdentifier.headOption match {
+   112	        case Some(id) => symbolTable.get(id)
+   113	        case None     => Set.empty[String]
+   114	      }
+   115	      lazy val possibleConstructorPointer =
+   116	        newChildren.astChildren.isFieldIdentifier
+   117	          .map(f => CallAlias(f.canonicalName, Option("self")))
+   118	          .headOption match {
+   119	          case Some(fi) => symbolTable.get(fi)
+   120	          case None     => Set.empty[String]
+   121	        }
+   122	
+   123	      if (possibleImportIdentifier.nonEmpty) possibleImportIdentifier
+   124	      else if (possibleConstructorPointer.nonEmpty) possibleConstructorPointer
+   125	      else Set.empty[String]
+   126	    } else (symbolTable.get(c) + c.methodFullName).map(t => t.stripSuffix(".factory"))
+   127	    associateTypes(i, constructorPaths)
+   128	  }
+   129	
+   130	  override protected def visitIdentifierAssignedToOperator(i: Identifier, c: Call, operation: String): Set[String] = {
+   131	    operation match {
+   132	      case "<operator>.new" =>
+   133	        c.astChildren.l match {
+   134	          case ::(fa: Call, ::(id: Identifier, _)) if fa.name == Operators.fieldAccess =>
+   135	            symbolTable.append(
+   136	              c,
+   137	              visitIdentifierAssignedToFieldLoad(id, fa.asInstanceOf[FieldAccess]).map(t =>
+   138	                s"$t$pathSep$ConstructorMethodName"
+   139	              )
+   140	            )
+   141	          case _ => Set.empty
+   142	        }
+   143	      case _ => super.visitIdentifierAssignedToOperator(i, c, operation)
+   144	    }
+   145	  }
+   146	
+   147	  override protected def associateInterproceduralTypes(
+   148	    i: Identifier,
+   149	    fieldFullName: String,
+   150	    fieldName: String,
+   151	    globalTypes: Set[String],
+   152	    baseTypes: Set[String]
+   153	  ): Set[String] = {
+   154	    if (symbolTable.contains(LocalVar(fieldName))) {
+   155	      val fieldTypes = symbolTable.get(LocalVar(fieldName))
+   156	      symbolTable.append(i, fieldTypes)
+   157	    } else if (symbolTable.contains(CallAlias(fieldName, Option("self")))) {
+   158	      symbolTable.get(CallAlias(fieldName, Option("self")))
+   159	    } else {
+   160	      super.associateInterproceduralTypes(
+   161	        i: Identifier,
+   162	        fieldFullName: String,
+   163	        fieldName: String,
+   164	        globalTypes: Set[String],
+   165	        baseTypes: Set[String]
+   166	      )
+   167	    }
+   168	  }
+   169	
+   170	  override protected def visitIdentifierAssignedToMethodRef(
+   171	    i: Identifier,
+   172	    m: MethodRef,
+   173	    rec: Option[String] = None
+   174	  ): Set[String] =
+   175	    super.visitIdentifierAssignedToMethodRef(i, m, Option("self"))
+   176	
+   177	  override protected def visitIdentifierAssignedToTypeRef(
+   178	    i: Identifier,
+   179	    t: TypeRef,
+   180	    rec: Option[String] = None
+   181	  ): Set[String] =
+   182	    super.visitIdentifierAssignedToTypeRef(i, t, Option("self"))
+   183	
+   184	  override protected def postSetTypeInformation(): Unit = {
+   185	    // often there are "self" identifiers with type hints but this can be set to a type hint if they meet the criteria
+   186	    cu.method
+   187	      .flatMap(_._identifierViaContainsOut)
+   188	      .nameExact("self")
+   189	      .where(_.typeFullNameExact(Defines.Any))
+   190	      .filterNot(_.dynamicTypeHintFullName.isEmpty)
+   191	      .foreach(setTypeFromTypeHints)
+   192	  }
+   193	
+   194	  protected override def storeIdentifierTypeInfo(i: Identifier, types: Seq[String]): Unit =
+   195	    super.storeIdentifierTypeInfo(i, types.map(_.stripSuffix(s"$pathSep${XDefines.ConstructorMethodName}")))
+   196	
+   197	  protected override def storeLocalTypeInfo(i: Local, types: Seq[String]): Unit =
+   198	    super.storeLocalTypeInfo(i, types.map(_.stripSuffix(s"$pathSep${XDefines.ConstructorMethodName}")))
+   199	
+   200	}

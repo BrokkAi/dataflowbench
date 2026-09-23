@@ -194,3 +194,5 @@ other by `model_profile` and never pooled:
 - [Swift release preparation, 2026-09-23](releases/swift-preparation-2026-09-23.md) — dated pin audit and blocked common-revision plan; opaque-template choice pending.
 
 - [Swift candidate compatibility](swift-candidate-qualification.md) — isolated proposed-runtime identity and non-scored controls; no active pin promotion.
+
+- [Swift candidate native audit](swift-candidate-native-audit.md) — current shipped model/catalog evidence and explicit omissions; no capability promotion.
