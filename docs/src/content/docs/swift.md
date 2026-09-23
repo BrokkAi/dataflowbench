@@ -41,3 +41,5 @@ The [canonical entrypoint qualification](https://github.com/BrokkAi/dataflowbenc
 The [independent append control](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-propagator-qualification.md) is blocked by a retained false flow through a constant-body lookalike. Native path and shipped heuristic evidence explain the precision gap; the canonical propagator pair remains unrun.
 
 The [independent integer sanitizer control](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-sanitizer-qualification.md) is also blocked: a string-holding local numeric lookalike is admitted as a barrier, and both local wrapper flow controls are missing. These observations remain separate; the canonical sanitizer pair has not run.
+
+The [independent Data roundtrip control](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-summary-qualification.md) is blocked by a false flow through constant-body local lookalikes. Resolved identities, attached ports, simple transfer edges and OptionalSome stores are retained separately; the canonical summary pair remains unrun.
