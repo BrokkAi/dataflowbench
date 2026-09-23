@@ -1,0 +1,54 @@
+{
+  "policy": "adapters/codeql/swift-extraction-v2/policy.json",
+  "scored_activation": false,
+  "aggregate_memory_compliance": "unproven",
+  "semantic_completeness": "unproven",
+  "sdk_settings_sha256": "f8d005f09381389167f9e0aeaa169bc9e7dff162ef22ca2fd8e98df7ff1acafe",
+  "scope": "non-scored-resolved-append-body-preservation-control",
+  "control_files": {
+    "evidence/swift-resolved-native-v1/append-body-control/control.json": "e744cf28498a4b41d822b99863ecde0af73a5f613131d6189fb06850df306cfe",
+    "evidence/swift-resolved-native-v1/append-body-control/main.swift": "4efc28326afe688e747448e6aea2bdf17b7e9644c996c1f3fe9e160d9ce6068a"
+  },
+  "query_files": {
+    "adapters/codeql/swift-resolved-native-v1/queries-body-v1/AppendIdentity.qll": "5534463217a791f87e5cc97567a64b2ab6659fc00728c90aa0f5a4f7c5b74186",
+    "adapters/codeql/swift-resolved-native-v1/queries-body-v1/FoundationIdentity.qll": "d55b73575e575145329b022105ce96fae6d5fed342ceaa6447c375a694e6e413",
+    "adapters/codeql/swift-resolved-native-v1/queries-body-v1/FoundationSources.qll": "5a6703e01eb89a2286fbe492ccbcdd9d1c69692a6d3bffcc02be56338086932a",
+    "adapters/codeql/swift-resolved-native-v1/queries-body-v1/ResolvedTaint.qll": "a3a8950b139807dff50dfddf0fa91d810d1b50189a7aa85acd39706f0dc2e297",
+    "adapters/codeql/swift-resolved-native-v1/queries-body-v1/append-flow.ql": "1bacfa081efcd3f075e4bd97ca8db037735ac6163693b0e20004024a3dc2f9b9",
+    "adapters/codeql/swift-resolved-native-v1/queries-body-v1/codeql-pack.lock.yml": "fceb4b22c946b8a06e7895799cd997580c2f8b64cb871014cfaf62f66f962f17",
+    "adapters/codeql/swift-resolved-native-v1/queries-body-v1/identity.ql": "f538a600531cde0a974db541cdc742a00edbfafce8b77c88a247e0d9d54c31dc",
+    "adapters/codeql/swift-resolved-native-v1/queries-body-v1/qlpack.yml": "e786284dccf6718a1ee6e3639ce340a642121eb4e4050180bdc0ecbc34879435",
+    "adapters/codeql/swift-resolved-native-v1/queries-body-v1/roles.ql": "88598cae6491b4031132910c931edc080383b063f4aca05512616399195f1b99"
+  },
+  "vendor_files": {},
+  "runner_files": {
+    "scripts/probe-swift-resolved-append-body.py": "3e9ccb01c3220855ad0e1e785d0f85b9b926c52f03e41cd2293b4cc0226cb7ce",
+    "scripts/probe-swift-v2-codeql.py": "a7ca82dd685a378dca56d14ec0edcbed27fc657c7bde68de9c8c2e95f4aae8e6",
+    "scripts/swift_v2_process.py": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd",
+    "scripts/swift_extraction_integrity.py": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156",
+    "scripts/swift_population_v2.py": "3ba357b0be10408b3e43b6713b7b161f9fb6676ff8a78f01228191bac64ad899",
+    "adapters/codeql/swift-extraction-v2/policy.json": "e4f590a6bf6ee93e0299caa945ef93bdaee2abc562bf64fa979d7fbd748ae0e5",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/assets.json": "16e94a9eab4e67faff5f6576cfa4327b873692e9b2cb1113844c8649b8cead93",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/resolved-pack-files.json": "4fb53772c26dbdf98b599403ed0fc7f396f019fcfb6e95447397f8369af68f9e",
+    "evidence/swift-foundation-sources-v1/control-attempt-01/witness.json": "89f80a2bb4341f4a393fc9dde0fa3427868d10ff711f5112b45fc318285de282"
+  },
+  "queries": [
+    "roles",
+    "identity",
+    "append-flow"
+  ],
+  "control_labels": {},
+  "expected_sink_labels": {
+    "adapter-corrected-stock": [
+      "POSITIVE_SINK",
+      "ARITY_SINK",
+      "BODY_SINK"
+    ],
+    "adapter-resolved-experiment": [
+      "POSITIVE_SINK",
+      "BODY_SINK"
+    ]
+  },
+  "ordinary_body_required": true,
+  "limitations": "Experimental String append heuristic correction only; no summary repair or whole-library completeness claim; original native control and failed evidence unchanged."
+}
