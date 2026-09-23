@@ -42,3 +42,28 @@ Only the preregistered pair runs. Other native families, the two unresolved opaq
 modeling identities, Joern's binding blocker, and release qualification remain
 separate dependencies. A failure produces retained diagnostic uncertainty, never
 a clean negative. No full-corpus run or scored activation is part of this work.
+
+## Retained canonical observations
+
+The first pair ran under prospective commit `7cdce9ad`, before its results were
+written. The retained package is
+[`evidence/swift-native-qualification-v1`](../evidence/swift-native-qualification-v1).
+Both source archives match the canonical bytes and the raw extraction error gate
+passes. Every extraction, query and decode phase exited successfully.
+
+| Canonical case | Assisted sources / sinks / flows | Vendor sources / sinks / flows | Extraction seconds |
+| --- | --- | --- | --- |
+| Positive | 1 / 2 / 1 | 0 / 2 / 0 | 89.54 |
+| Constant-command negative | 1 / 2 / 0 | 0 / 2 / 0 | 87.58 |
+
+The positive flow joins source line 4 to the command-array sink at line 6,
+column 87. The separate executable-URL argument is recognized as a sink but
+has no source flow. The negative retains the environment getter and both real
+sink arguments without a connecting flow. Vendor silence remains an observation,
+not a newly emitted unsupported decision. These measurements are diagnostic,
+not performance certification or scored activation.
+
+Run `python3 scripts/verify-swift-native-qualification.py` to verify the portable
+raw package, configuration, canonical joins, source archives, phase completion,
+query provenance, and separated lane observations. The source archives are copied
+from retained databases without modifying the original attempt manifests.
