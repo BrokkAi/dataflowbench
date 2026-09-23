@@ -6,7 +6,7 @@ import re
 
 def inspect_logs(directory):
     paths = sorted(p for p in Path(directory).rglob('*') if p.is_file() and
-                   (p.name.endswith('.log.txt') or p.name.endswith('.log.txt.gz')))
+                   p.name.endswith(('.log', '.log.gz', '.log.txt', '.log.txt.gz')))
     errors = []
     for path in paths:
         opener = gzip.open if path.suffix == '.gz' else open

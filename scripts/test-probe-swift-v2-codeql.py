@@ -4,6 +4,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 
 SCRIPT = Path(__file__).with_name('probe-swift-v2-codeql.py')
@@ -80,6 +81,41 @@ class CompileArgvTests(unittest.TestCase):
 
     def test_bounded_output_decodes_timeout_bytes(self):
         self.assertEqual(MODULE._bounded_output(b'Swift 6.3.3\n'), 'Swift 6.3.3\n')
+
+
+class PhaseBudgetTests(unittest.TestCase):
+    def test_extraction_extension_does_not_extend_analysis(self):
+        with mock.patch.object(MODULE.commands, 'run', return_value={}) as run:
+            MODULE.run_extraction(['codeql', 'database', 'create'], Path('/tmp/out'))
+            self.assertEqual(run.call_args.args[3], 150)
+            MODULE.run_analysis_query(['codeql', 'query', 'run'], Path('/tmp/out'), 'flow')
+            self.assertEqual(run.call_args.args[3], 60)
+        self.assertEqual(MODULE.ANALYSIS_MEMORY_MB, 512)
+        self.assertFalse(MODULE.EXTRACTION_POLICY['extraction_memory_is_analysis_budget'])
+
+    def test_approved_default_and_150_pass_parser_but_151_needs_override(self):
+        class Parsed(Exception):
+            pass
+        base = ['probe', '--output', '/unused', '--codeql', '/unused',
+                '--packs', '/unused', '--case-id', 'not-executed']
+        for extra in ([], ['--extraction-timeout', '150']):
+            with mock.patch.object(sys, 'argv', base + extra), mock.patch.object(
+                    MODULE, 'resolve_toolchain', side_effect=Parsed):
+                with self.assertRaises(Parsed):
+                    MODULE.main()
+        with mock.patch.object(sys, 'argv', base + ['--extraction-timeout', '151']), mock.patch(
+                'sys.stderr'), mock.patch.object(MODULE, 'resolve_toolchain') as resolve:
+            with self.assertRaises(SystemExit) as failure:
+                MODULE.main()
+            self.assertEqual(failure.exception.code, 2)
+            resolve.assert_not_called()
+
+    def test_explicit_diagnostic_deadline_cannot_leak_into_analysis(self):
+        with mock.patch.object(MODULE.commands, 'run', return_value={}) as run:
+            MODULE.run_extraction(['extract'], Path('/tmp/out'), 180)
+            self.assertEqual(run.call_args.args[3], 180)
+            MODULE.run_analysis_query(['query'], Path('/tmp/out'), 'flow')
+            self.assertEqual(run.call_args.args[3], 60)
 
 
 if __name__ == '__main__':
