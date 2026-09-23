@@ -1,0 +1,7 @@
+[2026-09-23 14:33:16] [build-stderr] /var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-__rpra57/source/main.swift:7:5: warning: no calls to throwing functions occur within 'try' expression
+[2026-09-23 14:33:16] [build-stderr]  5 | let genuine = Foundation.Process()
+[2026-09-23 14:33:16] [build-stderr]  6 | genuine.arguments = [input] // real setter positive
+[2026-09-23 14:33:16] [build-stderr]  7 | _ = try Foundation.Process.run(URL(fileURLWithPath: input), arguments: [input]) // real run positive
+[2026-09-23 14:33:16] [build-stderr]    |     `- warning: no calls to throwing functions occur within 'try' expression
+[2026-09-23 14:33:16] [build-stderr]  8 | 
+[2026-09-23 14:33:16] [build-stderr]  9 | struct Process {

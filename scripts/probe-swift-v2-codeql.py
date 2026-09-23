@@ -16,7 +16,7 @@ import swift_v2_process as commands
 from swift_extraction_integrity import inspect_logs
 
 DEFAULT_TARGET = 'arm64-apple-macosx27.0.0'
-EXTRACTION_POLICY_PATH = ROOT / 'adapters/codeql/swift-extraction-v1/policy.json'
+EXTRACTION_POLICY_PATH = ROOT / 'adapters/codeql/swift-extraction-v2/policy.json'
 EXTRACTION_POLICY = json.loads(EXTRACTION_POLICY_PATH.read_text())
 DEFAULT_EXTRACTION_TIMEOUT = EXTRACTION_POLICY['extraction_wall_clock_seconds']
 ANALYSIS_TIMEOUT = EXTRACTION_POLICY['analysis_wall_clock_seconds']
@@ -177,6 +177,7 @@ def main():
                'extraction_policy_id': EXTRACTION_POLICY['policy_id'],
                'extraction_policy_sha256': sha(EXTRACTION_POLICY_PATH),
                'extraction_memory_is_analysis_budget': False,
+               'analysis_budget': {'wall_clock_seconds': ANALYSIS_TIMEOUT, 'peak_memory_mb': ANALYSIS_MEMORY_MB},
                'unqualified_feasibility': args.unqualified_feasibility, 'query_phase_deadline_seconds': ANALYSIS_TIMEOUT, 'memory_compliance': 'unproven', 'phases': {}}
     (output / 'witness.json').write_text(json.dumps(witness, indent=2) + '\n')
     scratch = Path(tempfile.mkdtemp(prefix='dfb-v2-codeql-'))

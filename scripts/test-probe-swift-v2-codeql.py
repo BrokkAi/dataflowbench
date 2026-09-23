@@ -90,7 +90,7 @@ class PhaseBudgetTests(unittest.TestCase):
             self.assertEqual(run.call_args.args[3], 150)
             MODULE.run_analysis_query(['codeql', 'query', 'run'], Path('/tmp/out'), 'flow')
             self.assertEqual(run.call_args.args[3], 60)
-        self.assertEqual(MODULE.ANALYSIS_MEMORY_MB, 512)
+        self.assertEqual(MODULE.ANALYSIS_MEMORY_MB, 2048)
         self.assertFalse(MODULE.EXTRACTION_POLICY['extraction_memory_is_analysis_budget'])
 
     def test_approved_default_and_150_pass_parser_but_151_needs_override(self):
