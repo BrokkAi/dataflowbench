@@ -1,0 +1,30 @@
+Compiled from "Semantics.scala"
+public interface io.joern.dataflowengineoss.semanticsloader.Semantics {
+  public static void initialize$(io.joern.dataflowengineoss.semanticsloader.Semantics, io.shiftleft.codepropertygraph.generated.Cpg);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #13                 // InterfaceMethod initialize:(Lio/shiftleft/codepropertygraph/generated/Cpg;)V
+       5: return
+
+  public default void initialize(io.shiftleft.codepropertygraph.generated.Cpg);
+    Code:
+       0: return
+
+  public abstract scala.Option<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> forMethod(io.shiftleft.codepropertygraph.generated.nodes.Method);
+
+  public static io.joern.dataflowengineoss.semanticsloader.Semantics after$(io.joern.dataflowengineoss.semanticsloader.Semantics, io.joern.dataflowengineoss.semanticsloader.Semantics);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #27                 // InterfaceMethod after:(Lio/joern/dataflowengineoss/semanticsloader/Semantics;)Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+       5: areturn
+
+  public default io.joern.dataflowengineoss.semanticsloader.Semantics after(io.joern.dataflowengineoss.semanticsloader.Semantics);
+    Code:
+       0: getstatic     #33                 // Field io/joern/dataflowengineoss/semanticsloader/Semantics$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/Semantics$;
+       3: aload_0
+       4: aload_1
+       5: invokevirtual #36                 // Method io/joern/dataflowengineoss/semanticsloader/Semantics$.io$joern$dataflowengineoss$semanticsloader$Semantics$$$compose:(Lio/joern/dataflowengineoss/semanticsloader/Semantics;Lio/joern/dataflowengineoss/semanticsloader/Semantics;)Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+       8: areturn
+}

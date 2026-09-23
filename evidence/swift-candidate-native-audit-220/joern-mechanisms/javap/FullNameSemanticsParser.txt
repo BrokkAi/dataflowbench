@@ -1,0 +1,89 @@
+Compiled from "FullNameSemanticsParser.scala"
+public class io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser {
+  public io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser();
+    Code:
+       0: aload_0
+       1: invokespecial #29                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> parse(java.lang.String);
+    Code:
+       0: aload_1
+       1: invokestatic  #41                 // Method org/antlr/v4/runtime/CharStreams.fromString:(Ljava/lang/String;)Lorg/antlr/v4/runtime/CodePointCharStream;
+       4: astore_2
+       5: aload_0
+       6: aload_2
+       7: invokespecial #45                 // Method parseCharStream:(Lorg/antlr/v4/runtime/CharStream;)Lscala/collection/immutable/List;
+      10: areturn
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> parseFile(java.lang.String);
+    Code:
+       0: aload_1
+       1: invokestatic  #54                 // Method org/antlr/v4/runtime/CharStreams.fromFileName:(Ljava/lang/String;)Lorg/antlr/v4/runtime/CharStream;
+       4: astore_2
+       5: aload_0
+       6: aload_2
+       7: invokespecial #45                 // Method parseCharStream:(Lorg/antlr/v4/runtime/CharStream;)Lscala/collection/immutable/List;
+      10: areturn
+
+  private scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> parseCharStream(org.antlr.v4.runtime.CharStream);
+    Code:
+       0: new           #58                 // class io/joern/dataflowengineoss/SemanticsLexer
+       3: dup
+       4: aload_1
+       5: invokespecial #61                 // Method io/joern/dataflowengineoss/SemanticsLexer."<init>":(Lorg/antlr/v4/runtime/CharStream;)V
+       8: astore_2
+       9: new           #63                 // class org/antlr/v4/runtime/CommonTokenStream
+      12: dup
+      13: aload_2
+      14: invokespecial #66                 // Method org/antlr/v4/runtime/CommonTokenStream."<init>":(Lorg/antlr/v4/runtime/TokenSource;)V
+      17: astore_3
+      18: new           #9                  // class io/joern/dataflowengineoss/SemanticsParser
+      21: dup
+      22: aload_3
+      23: invokespecial #69                 // Method io/joern/dataflowengineoss/SemanticsParser."<init>":(Lorg/antlr/v4/runtime/TokenStream;)V
+      26: astore        4
+      28: new           #71                 // class org/antlr/v4/runtime/tree/ParseTreeWalker
+      31: dup
+      32: invokespecial #72                 // Method org/antlr/v4/runtime/tree/ParseTreeWalker."<init>":()V
+      35: astore        5
+      37: aload         4
+      39: invokevirtual #76                 // Method io/joern/dataflowengineoss/SemanticsParser.taintSemantics:()Lio/joern/dataflowengineoss/SemanticsParser$TaintSemanticsContext;
+      42: astore        6
+      44: new           #24                 // class io/joern/dataflowengineoss/semanticsloader/FullNameSemanticsParser$Listener
+      47: dup
+      48: aload_0
+      49: invokespecial #79                 // Method io/joern/dataflowengineoss/semanticsloader/FullNameSemanticsParser$Listener."<init>":(Lio/joern/dataflowengineoss/semanticsloader/FullNameSemanticsParser;)V
+      52: astore        7
+      54: aload         5
+      56: aload         7
+      58: aload         6
+      60: invokevirtual #83                 // Method org/antlr/v4/runtime/tree/ParseTreeWalker.walk:(Lorg/antlr/v4/runtime/tree/ParseTreeListener;Lorg/antlr/v4/runtime/tree/ParseTree;)V
+      63: aload         7
+      65: invokevirtual #87                 // Method io/joern/dataflowengineoss/semanticsloader/FullNameSemanticsParser$Listener.result:()Lscala/collection/mutable/ListBuffer;
+      68: invokevirtual #93                 // Method scala/collection/mutable/ListBuffer.toList:()Lscala/collection/immutable/List;
+      71: areturn
+
+  public final io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser$AntlrFlowExtensions AntlrFlowExtensions(io.joern.dataflowengineoss.SemanticsParser$MappingContext);
+    Code:
+       0: new           #21                 // class io/joern/dataflowengineoss/semanticsloader/FullNameSemanticsParser$AntlrFlowExtensions
+       3: dup
+       4: aload_0
+       5: aload_1
+       6: invokespecial #110                // Method io/joern/dataflowengineoss/semanticsloader/FullNameSemanticsParser$AntlrFlowExtensions."<init>":(Lio/joern/dataflowengineoss/semanticsloader/FullNameSemanticsParser;Lio/joern/dataflowengineoss/SemanticsParser$MappingContext;)V
+       9: areturn
+
+  public static final java.lang.String io$joern$dataflowengineoss$semanticsloader$FullNameSemanticsParser$AntlrFlowExtensions$$_$srcArgName$$anonfun$1(io.joern.dataflowengineoss.SemanticsParser$ArgNameContext);
+    Code:
+       0: aload_0
+       1: invokevirtual #118                // Method io/joern/dataflowengineoss/SemanticsParser$ArgNameContext.name:()Lio/joern/dataflowengineoss/SemanticsParser$NameContext;
+       4: invokevirtual #122                // Method io/joern/dataflowengineoss/SemanticsParser$NameContext.getText:()Ljava/lang/String;
+       7: areturn
+
+  public static final java.lang.String io$joern$dataflowengineoss$semanticsloader$FullNameSemanticsParser$AntlrFlowExtensions$$_$dstArgName$$anonfun$1(io.joern.dataflowengineoss.SemanticsParser$ArgNameContext);
+    Code:
+       0: aload_0
+       1: invokevirtual #118                // Method io/joern/dataflowengineoss/SemanticsParser$ArgNameContext.name:()Lio/joern/dataflowengineoss/SemanticsParser$NameContext;
+       4: invokevirtual #122                // Method io/joern/dataflowengineoss/SemanticsParser$NameContext.getText:()Ljava/lang/String;
+       7: areturn
+}

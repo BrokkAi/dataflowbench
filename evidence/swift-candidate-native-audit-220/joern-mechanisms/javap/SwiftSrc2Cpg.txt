@@ -1,0 +1,198 @@
+Compiled from "SwiftSrc2Cpg.scala"
+public class io.joern.swiftsrc2cpg.SwiftSrc2Cpg implements io.joern.x2cpg.X2CpgFrontend {
+  private final io.joern.swiftsrc2cpg.Config defaultConfig;
+
+  public io.joern.swiftsrc2cpg.SwiftSrc2Cpg();
+    Code:
+       0: aload_0
+       1: invokespecial #33                 // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: getstatic     #39                 // Field io/joern/swiftsrc2cpg/Config$.MODULE$:Lio/joern/swiftsrc2cpg/Config$;
+       8: getstatic     #39                 // Field io/joern/swiftsrc2cpg/Config$.MODULE$:Lio/joern/swiftsrc2cpg/Config$;
+      11: invokevirtual #43                 // Method io/joern/swiftsrc2cpg/Config$.$lessinit$greater$default$1:()Lscala/collection/immutable/Set;
+      14: getstatic     #39                 // Field io/joern/swiftsrc2cpg/Config$.MODULE$:Lio/joern/swiftsrc2cpg/Config$;
+      17: invokevirtual #47                 // Method io/joern/swiftsrc2cpg/Config$.$lessinit$greater$default$2:()Z
+      20: getstatic     #39                 // Field io/joern/swiftsrc2cpg/Config$.MODULE$:Lio/joern/swiftsrc2cpg/Config$;
+      23: invokevirtual #51                 // Method io/joern/swiftsrc2cpg/Config$.$lessinit$greater$default$3:()Lscala/Option;
+      26: getstatic     #39                 // Field io/joern/swiftsrc2cpg/Config$.MODULE$:Lio/joern/swiftsrc2cpg/Config$;
+      29: invokevirtual #55                 // Method io/joern/swiftsrc2cpg/Config$.$lessinit$greater$default$4:()Lio/joern/x2cpg/X2CpgConfig$GenericConfig;
+      32: getstatic     #39                 // Field io/joern/swiftsrc2cpg/Config$.MODULE$:Lio/joern/swiftsrc2cpg/Config$;
+      35: invokevirtual #59                 // Method io/joern/swiftsrc2cpg/Config$.$lessinit$greater$default$5:()Lio/joern/x2cpg/passes/frontend/TypeRecoveryParserConfig$Config;
+      38: invokevirtual #63                 // Method io/joern/swiftsrc2cpg/Config$.apply:(Lscala/collection/immutable/Set;ZLscala/Option;Lio/joern/x2cpg/X2CpgConfig$GenericConfig;Lio/joern/x2cpg/passes/frontend/TypeRecoveryParserConfig$Config;)Lio/joern/swiftsrc2cpg/Config;
+      41: putfield      #65                 // Field defaultConfig:Lio/joern/swiftsrc2cpg/Config;
+      44: return
+
+  public void run(io.joern.x2cpg.X2CpgConfig) throws java/lang/Throwable;
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #77                 // InterfaceMethod io/joern/x2cpg/X2CpgFrontend.run$:(Lio/joern/x2cpg/X2CpgFrontend;Lio/joern/x2cpg/X2CpgConfig;)V
+       5: return
+
+  public scala.util.Try createCpgWithOverlays(io.joern.x2cpg.X2CpgConfig);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #84                 // InterfaceMethod io/joern/x2cpg/X2CpgFrontend.createCpgWithOverlays$:(Lio/joern/x2cpg/X2CpgFrontend;Lio/joern/x2cpg/X2CpgConfig;)Lscala/util/Try;
+       5: areturn
+
+  public void close();
+    Code:
+       0: aload_0
+       1: invokestatic  #89                 // InterfaceMethod io/joern/x2cpg/X2CpgFrontend.close$:(Lio/joern/x2cpg/X2CpgFrontend;)V
+       4: return
+
+  public io.joern.swiftsrc2cpg.Config defaultConfig();
+    Code:
+       0: aload_0
+       1: getfield      #65                 // Field defaultConfig:Lio/joern/swiftsrc2cpg/Config;
+       4: areturn
+
+  public scala.util.Try<io.shiftleft.codepropertygraph.generated.Cpg> createCpg(io.joern.swiftsrc2cpg.Config);
+    Code:
+       0: getstatic     #98                 // Field io/joern/x2cpg/X2Cpg$.MODULE$:Lio/joern/x2cpg/X2Cpg$;
+       3: aload_1
+       4: invokevirtual #104                // Method io/joern/swiftsrc2cpg/Config.outputPath:()Ljava/lang/String;
+       7: aload_1
+       8: invokedynamic #125,  0            // InvokeDynamic #0:applyVoid:()Lscala/runtime/function/JProcedure2;
+      13: invokevirtual #129                // Method io/joern/x2cpg/X2Cpg$.withNewEmptyCpg:(Ljava/lang/String;Lio/joern/x2cpg/X2CpgConfig;Lscala/Function2;)Lscala/util/Try;
+      16: areturn
+
+  public io.joern.x2cpg.X2CpgConfig defaultConfig();
+    Code:
+       0: aload_0
+       1: invokevirtual #132                // Method defaultConfig:()Lio/joern/swiftsrc2cpg/Config;
+       4: areturn
+
+  public scala.util.Try createCpg(io.joern.x2cpg.X2CpgConfig);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: checkcast     #100                // class io/joern/swiftsrc2cpg/Config
+       5: invokevirtual #134                // Method createCpg:(Lio/joern/swiftsrc2cpg/Config;)Lscala/util/Try;
+       8: areturn
+
+  private static final java.nio.file.Path $anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: anewarray     #139                // class java/lang/String
+       5: invokestatic  #145                // Method java/nio/file/Paths.get:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+       8: areturn
+
+  private static final void createCpg$$anonfun$1$$anonfun$1(io.joern.swiftsrc2cpg.Config, io.shiftleft.codepropertygraph.generated.Cpg, java.nio.file.Path);
+    Code:
+       0: new           #153                // class io/joern/x2cpg/utils/Report
+       3: dup
+       4: invokespecial #154                // Method io/joern/x2cpg/utils/Report."<init>":()V
+       7: astore_3
+       8: new           #156                // class io/joern/swiftsrc2cpg/utils/AstGenRunner
+      11: dup
+      12: aload_0
+      13: invokespecial #159                // Method io/joern/swiftsrc2cpg/utils/AstGenRunner."<init>":(Lio/joern/swiftsrc2cpg/Config;)V
+      16: aload_2
+      17: invokevirtual #163                // Method io/joern/swiftsrc2cpg/utils/AstGenRunner.execute:(Ljava/nio/file/Path;)Lio/joern/x2cpg/astgen/AstGenRunner$AstGenRunnerResult;
+      20: astore        4
+      22: getstatic     #168                // Field io/joern/x2cpg/utils/HashUtil$.MODULE$:Lio/joern/x2cpg/utils/HashUtil$;
+      25: aload         4
+      27: invokeinterface #172,  1          // InterfaceMethod io/joern/x2cpg/astgen/AstGenRunner$AstGenRunnerResult.parsedFiles:()Lscala/collection/immutable/List;
+      32: invokedynamic #181,  0            // InvokeDynamic #1:apply:()Lscala/Function1;
+      37: invokevirtual #187                // Method scala/collection/immutable/List.map:(Lscala/Function1;)Lscala/collection/immutable/List;
+      40: invokevirtual #191                // Method io/joern/x2cpg/utils/HashUtil$.sha256:(Lscala/collection/immutable/Seq;)Ljava/lang/String;
+      43: astore        5
+      45: new           #193                // class io/joern/swiftsrc2cpg/passes/AstCreationPass
+      48: dup
+      49: aload_1
+      50: aload         4
+      52: aload_0
+      53: aload_3
+      54: aload_0
+      55: invokevirtual #197                // Method io/joern/swiftsrc2cpg/Config.schemaValidation:()Lio/joern/x2cpg/ValidationMode;
+      58: invokespecial #200                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;Lio/joern/x2cpg/astgen/AstGenRunner$AstGenRunnerResult;Lio/joern/swiftsrc2cpg/Config;Lio/joern/x2cpg/utils/Report;Lio/joern/x2cpg/ValidationMode;)V
+      61: astore        6
+      63: aload         6
+      65: invokevirtual #203                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass.createAndApply:()V
+      68: new           #205                // class io/joern/swiftsrc2cpg/passes/MetaDataPass
+      71: dup
+      72: aload_1
+      73: aload         5
+      75: aload_0
+      76: invokevirtual #208                // Method io/joern/swiftsrc2cpg/Config.inputPath:()Ljava/lang/String;
+      79: invokespecial #211                // Method io/joern/swiftsrc2cpg/passes/MetaDataPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;Ljava/lang/String;Ljava/lang/String;)V
+      82: invokevirtual #212                // Method io/joern/swiftsrc2cpg/passes/MetaDataPass.createAndApply:()V
+      85: new           #214                // class io/joern/swiftsrc2cpg/passes/BuiltinTypesPass
+      88: dup
+      89: aload_1
+      90: invokespecial #217                // Method io/joern/swiftsrc2cpg/passes/BuiltinTypesPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;)V
+      93: invokevirtual #218                // Method io/joern/swiftsrc2cpg/passes/BuiltinTypesPass.createAndApply:()V
+      96: getstatic     #223                // Field io/joern/swiftsrc2cpg/passes/SwiftTypeNodePass$.MODULE$:Lio/joern/swiftsrc2cpg/passes/SwiftTypeNodePass$;
+      99: aload         6
+     101: invokevirtual #226                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass.typesSeen:()Lscala/collection/immutable/Set;
+     104: aload_1
+     105: invokevirtual #230                // Method io/joern/swiftsrc2cpg/passes/SwiftTypeNodePass$.withRegisteredTypes:(Lscala/collection/immutable/Set;Lio/shiftleft/codepropertygraph/generated/Cpg;)Lio/joern/x2cpg/passes/frontend/TypeNodePass;
+     108: invokevirtual #233                // Method io/joern/x2cpg/passes/frontend/TypeNodePass.createAndApply:()V
+     111: new           #235                // class io/joern/swiftsrc2cpg/passes/ConfigFileCreationPass
+     114: dup
+     115: aload_1
+     116: aload_0
+     117: invokespecial #237                // Method io/joern/swiftsrc2cpg/passes/ConfigFileCreationPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;Lio/joern/swiftsrc2cpg/Config;)V
+     120: invokevirtual #238                // Method io/joern/swiftsrc2cpg/passes/ConfigFileCreationPass.createAndApply:()V
+     123: new           #240                // class io/joern/swiftsrc2cpg/passes/DependenciesPass
+     126: dup
+     127: aload_1
+     128: invokespecial #241                // Method io/joern/swiftsrc2cpg/passes/DependenciesPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;)V
+     131: invokevirtual #242                // Method io/joern/swiftsrc2cpg/passes/DependenciesPass.createAndApply:()V
+     134: new           #244                // class io/joern/swiftsrc2cpg/passes/ExtensionsPass
+     137: dup
+     138: aload_1
+     139: aload         6
+     141: invokevirtual #248                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass.extensionMembers:()Lscala/collection/immutable/Map;
+     144: aload         6
+     146: invokevirtual #251                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass.extensionMethodFullNameMapping:()Lscala/collection/immutable/Map;
+     149: aload         6
+     151: invokevirtual #254                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass.memberPropertyMapping:()Lscala/collection/immutable/Map;
+     154: aload         6
+     156: invokevirtual #257                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass.extensionInherits:()Lscala/collection/immutable/Map;
+     159: invokespecial #260                // Method io/joern/swiftsrc2cpg/passes/ExtensionsPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;Lscala/collection/immutable/Map;Lscala/collection/immutable/Map;Lscala/collection/immutable/Map;Lscala/collection/immutable/Map;)V
+     162: astore        7
+     164: aload         7
+     166: invokevirtual #261                // Method io/joern/swiftsrc2cpg/passes/ExtensionsPass.createAndApply:()V
+     169: aload         7
+     171: invokevirtual #265                // Method io/joern/swiftsrc2cpg/passes/ExtensionsPass.setters:()Lio/joern/swiftsrc2cpg/passes/ExtensionsPass;
+     174: invokevirtual #261                // Method io/joern/swiftsrc2cpg/passes/ExtensionsPass.createAndApply:()V
+     177: new           #267                // class io/joern/swiftsrc2cpg/passes/ObjcCallFullNamePass
+     180: dup
+     181: aload_1
+     182: invokespecial #268                // Method io/joern/swiftsrc2cpg/passes/ObjcCallFullNamePass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;)V
+     185: invokevirtual #269                // Method io/joern/swiftsrc2cpg/passes/ObjcCallFullNamePass.createAndApply:()V
+     188: new           #271                // class io/joern/swiftsrc2cpg/passes/ClosureBindingsPass
+     191: dup
+     192: aload_1
+     193: invokespecial #272                // Method io/joern/swiftsrc2cpg/passes/ClosureBindingsPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;)V
+     196: invokevirtual #273                // Method io/joern/swiftsrc2cpg/passes/ClosureBindingsPass.createAndApply:()V
+     199: new           #275                // class io/joern/swiftsrc2cpg/passes/FullNameUniquenessPass
+     202: dup
+     203: aload_1
+     204: invokespecial #276                // Method io/joern/swiftsrc2cpg/passes/FullNameUniquenessPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;)V
+     207: invokevirtual #277                // Method io/joern/swiftsrc2cpg/passes/FullNameUniquenessPass.createAndApply:()V
+     210: aload_3
+     211: invokevirtual #280                // Method io/joern/x2cpg/utils/Report.print:()V
+     214: return
+
+  private static final void createCpg$$anonfun$1(io.shiftleft.codepropertygraph.generated.Cpg, io.joern.swiftsrc2cpg.Config);
+    Code:
+       0: getstatic     #297                // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+       3: ldc_w         #299                // String swiftsrc2cpgOut
+       6: aload_1
+       7: aload_0
+       8: invokedynamic #309,  0            // InvokeDynamic #2:applyVoid:(Lio/joern/swiftsrc2cpg/Config;Lio/shiftleft/codepropertygraph/generated/Cpg;)Lscala/runtime/function/JProcedure1;
+      13: invokevirtual #313                // Method io/shiftleft/semanticcpg/utils/FileUtil$.usingTemporaryDirectory:(Ljava/lang/String;Lscala/Function1;)Ljava/lang/Object;
+      16: pop
+      17: return
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #325,  0            // InvokeDynamic #3:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}
