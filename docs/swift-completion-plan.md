@@ -175,6 +175,8 @@ reflection is unavailable, or implemented under these IDs without reconciling
 the existing contract. Objective-C selectors and arbitrary hidden helper bodies
 remain outside the authorized scope.
 
+**2026-09-23 scope amendment:** the [dated opaque-template exception](swift-opaque-objc-amendment-2026-09-23.md) now authorizes implementing and testing declared-method Objective-C self-dispatch for these two identities only. This supersedes the Objective-C restriction and next-step choice below prospectively; the earlier analysis remains historical evidence. Other scope exclusions and all fidelity, runtime, and model-off/on gates remain in force.
+
 The concrete next step is a non-scored, standard-library-only closure-reflection
 prototype and independent model-off/on controls. If it preserves the canonical
 self-dispatch intent, a prospective adaptation can name its exact construction
