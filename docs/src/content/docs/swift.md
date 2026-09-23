@@ -39,3 +39,5 @@ The [canonical source–sink qualification](https://github.com/BrokkAi/dataflowb
 The [canonical entrypoint qualification](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-entrypoint-qualification.md) treats the command-line count guard and indexed source separately, retaining vendor-native and adapter-assisted observations without scored promotion.
 
 The [independent append control](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-propagator-qualification.md) is blocked by a retained false flow through a constant-body lookalike. Native path and shipped heuristic evidence explain the precision gap; the canonical propagator pair remains unrun.
+
+The [independent integer sanitizer control](https://github.com/BrokkAi/dataflowbench/blob/main/docs/swift-sanitizer-qualification.md) is also blocked: a string-holding local numeric lookalike is admitted as a barrier, and both local wrapper flow controls are missing. These observations remain separate; the canonical sanitizer pair has not run.
