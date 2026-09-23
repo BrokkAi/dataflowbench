@@ -200,5 +200,6 @@ other by `model_profile` and never pooled:
 
 - [Isolated Swift toolchain compatibility](swift-toolchain-compatibility.md) — signed Swift 6.3.3 compiler control and retained bounded CodeQL timeout.
 - [Swift Foundation identity correction](swift-foundation-identity-profile.md) — separate adapter-corrected diagnostic profile, exact declaration controls, and prospective 2-GiB analysis policy.
+- [Swift process-input sources](swift-foundation-sources-profile.md) — resolved environment/argv getters in an explicit adapter-corrected diagnostic profile.
 
 - [Swift CodeQL extraction cutoff](swift-codeql-extraction-cutoff.md) — approved prospective 150-second extraction; analysis remains 60 seconds / 512 MiB.
