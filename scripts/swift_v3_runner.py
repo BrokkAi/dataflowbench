@@ -13,6 +13,9 @@ def lane(case):
 
 def observe(case, roles, flows, selected_lane):
     if selected_lane in ['native','opaque']:
+        allowed={'adapter-composed-v1'} if selected_lane=='native' else {'adapter-controlled-model-on','adapter-controlled-model-off'}
+        require(all(isinstance(r,list) and len(r)==4 and type(r[0]) is int and r[0]>0 and type(r[1]) is int and r[1]>0 and isinstance(r[2],str) and r[2] in allowed and r[3] in ['source','environment','argv','sink'] for r in roles),'malformed lane endpoint rows')
+        require(all(isinstance(r,list) and len(r)==4 and all(type(n) is int and n>0 for n in r[:3]) and isinstance(r[3],str) and r[3] in allowed for r in flows),'malformed lane flow rows')
         profile='adapter-composed-v1' if selected_lane=='native' else 'adapter-controlled-model-on'
         roles=[['main.swift',r[0],r[1],'source' if r[3] in ['environment','argv'] else r[3]] for r in roles if len(r)==4 and r[2]==profile]
         flows=[['main.swift',r[0],'main.swift',r[1],r[2]] for r in flows if len(r)==4 and r[3]==profile]

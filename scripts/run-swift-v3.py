@@ -43,11 +43,12 @@ def main():
     write(output/'library-paths.json',resolutions)
     selected={e['id']:e for e in pop['cases']};results=[];stop=False
     write(output/'tool-lanes.json',plan['tool_lanes'])
-    write(output/'run-plan.json',dict(envelope,runner_plan_sha256=sha(ROOT/'adapters/codeql/swift-v3/runner-plan.json'),source_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()))
+    write(output/'run-plan.json',dict(envelope,paths={'repository':str(ROOT),'output':str(output),'cli':str(args.codeql),'compiler':str(args.compiler),'sdk':str(args.sdk),'packs':str(args.packs),'native_packs':str(args.native_packs)},runner_plan_sha256=sha(ROOT/'adapters/codeql/swift-v3/runner-plan.json'),source_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()))
     for case_id,case in cases.items():
         directory=output/case_id;directory.mkdir();selected_lane=lane(case)
         raw=dict(envelope,case_id=case_id,outcome='inconclusive',diagnostics=['NotAttempted'],lane=selected_lane,
                  execution_status='not-attempted',aggregate_resource_qualification='unavailable',commands={})
+        analysis_start=None
         try:
             if stop:raise RuntimeError('StoppedAfterUncertainCleanup')
             if shutil.disk_usage(ROOT).free<args.minimum_free_gib*1024**3:stop=True;raise RuntimeError('DiskReserveReached')
@@ -55,7 +56,11 @@ def main():
             for name in case['fixture_files']:shutil.copyfile(case_path.parent/name,source/name)
             db=directory/'database';commands=raw['commands']
             def run(argv,name,deadline):
-                record=process.run(argv,directory,name,deadline)
+                try:
+                    record=process.run(argv,directory,name,deadline)
+                except process.ProcessCleanupError:
+                    if (directory/(name+'.command.json')).exists():commands[name]=read(directory/(name+'.command.json'))
+                    raise
                 commands[name]=record
                 if record['timed_out']:raise TimeoutError('BudgetExhausted:'+name)
                 require(record['exit_status']==0,'CommandFailed:'+name)
@@ -88,16 +93,18 @@ def main():
                 if coverage.status is CoverageStatus.INCOMPLETE:raw['outcome']='inconclusive';raw['diagnostics'].extend(coverage.reasons)
             raw['execution_status']='completed'
         except process.ProcessCleanupError as error:
-            stop=True;raw.update(outcome='runner-error',diagnostics=['UncertainCleanup',str(error)])
-        except TimeoutError as error:raw.update(outcome='inconclusive',diagnostics=[str(error)])
-        except Exception as error:raw.update(outcome='runner-error' if raw['execution_status']=='attempted' else 'inconclusive',diagnostics=[str(error)])
+            stop=True;raw.update(outcome='runner-error',failure_kind='cleanup',diagnostics=['UncertainCleanup',str(error)])
+        except TimeoutError as error:raw.update(outcome='inconclusive',failure_kind='timeout',diagnostics=[str(error)])
+        except Exception as error:raw.update(outcome='runner-error' if raw['execution_status']=='attempted' else 'inconclusive',failure_kind='command' if str(error).startswith('CommandFailed:') else 'validation',diagnostics=[str(error)])
         finally:
+            if analysis_start is not None:raw['analysis_elapsed_seconds']=time.monotonic()-analysis_start
             artifacts={str(p.relative_to(directory)):sha(p) for p in sorted(directory.rglob('*')) if p.is_file()}
             write(directory/'artifacts.json',artifacts);raw['artifacts_sha256']=sha(directory/'artifacts.json')
             write(directory/'observation.json',raw)
             results.append({'case_id':case_id,'outcome':raw['outcome'],'raw_output':str((directory/'observation.json').relative_to(ROOT)),'raw_sha256':sha(directory/'observation.json')})
             write(output/'run.json',dict(envelope,results=results))
         print(case_id+': '+raw['outcome'],flush=True)
-    write(output/'coverage-report.json',assemble(ROOT,dict(envelope,results=results)))
+    from swift_v3_verify import verify
+    write(output/'coverage-report.json',verify(ROOT,output))
 
 if __name__=='__main__':main()

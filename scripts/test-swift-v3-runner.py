@@ -20,7 +20,12 @@ class Runner(unittest.TestCase):
         for selected,profile in [('native','adapter-composed-v1'),('opaque','adapter-controlled-model-on')]:
             role='environment' if selected=='native' else 'source'
             self.assertEqual(observe(case,[[2,1,profile,role],[5,1,profile,'sink']],[[2,5,1,profile]],selected)[0],'reached')
-            self.assertEqual(observe(case,[[2,1,'foreign',role],[5,1,'foreign','sink']],[],selected)[0],'runner-error')
+            with self.assertRaisesRegex(ValueError,'lane endpoint'):observe(case,[[2,1,'foreign',role],[5,1,'foreign','sink']],[],selected)
+    def test_malformed_alternate_lane_rejected_before_filtering(self):
+        case={'source_anchors':[],'sink_anchors':[]}
+        for rows in [[[1,2]],[[1,2,'adapter-controlled-model-off','invalid']]]:
+            with self.assertRaisesRegex(ValueError,'lane endpoint'):observe(case,rows,[],'opaque')
+
     def test_malformed_generic_rows_rejected(self):
         with self.assertRaisesRegex(ValueError,'endpoint'):observe({'source_anchors':[],'sink_anchors':[]},[[1,2]],[],'kernel')
 
