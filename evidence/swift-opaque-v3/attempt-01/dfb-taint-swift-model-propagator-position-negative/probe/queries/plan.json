@@ -1,0 +1,53 @@
+{
+  "scope": "exact-staged-opaque-fixture-diagnostic",
+  "scored_activation": false,
+  "resource_qualification": "unavailable",
+  "cli_sha256": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413",
+  "extractor_sha256": "680adbee37bdbfc5fe0a4b6d63c45bdae23fcf3bb2210530a7b751b58f319530",
+  "compiler_sha256": "3d13e20b1504d7d30038fcd2201b9d0a8ead5c09eea752a5da223453b3ae0c6f",
+  "sdk_settings_sha256": "f8d005f09381389167f9e0aeaa169bc9e7dff162ef22ca2fd8e98df7ff1acafe",
+  "queries": {
+    "adapters/codeql/swift-opaque-v3/OpaqueIdentity.qll": "bd1b2772f3ba8332a740d2fbd404d9b85be4efb6d0db80ca599eb8c935851cd8",
+    "adapters/codeql/swift-opaque-v3/codeql-pack.lock.yml": "fceb4b22c946b8a06e7895799cd997580c2f8b64cb871014cfaf62f66f962f17",
+    "adapters/codeql/swift-opaque-v3/flow.ql": "df4a4ec23b1c033a3de056fb1ed01195b24e06b7681c3f0e5f2fe24cf0bd04ba",
+    "adapters/codeql/swift-opaque-v3/identity.ql": "588171d5448fa4b7cf3ac249c3a710a647a47d3d24ff0ee60680343299f177bb",
+    "adapters/codeql/swift-opaque-v3/qlpack.yml": "868a9cfbd0fccd64a05e7f8985e743a5f702f209e643e1836f9b625be3c65739",
+    "adapters/codeql/swift-opaque-v3/roles.ql": "253364d00459ded4586303e28c51f2a4474bf476c1ad2b84617d51384edc7182"
+  },
+  "inputs": {
+    "adapters/codeql/swift-extraction-v2/policy.json": "e4f590a6bf6ee93e0299caa945ef93bdaee2abc562bf64fa979d7fbd748ae0e5",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/assets.json": "16e94a9eab4e67faff5f6576cfa4327b873692e9b2cb1113844c8649b8cead93",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/resolved-pack-files.json": "4fb53772c26dbdf98b599403ed0fc7f396f019fcfb6e95447397f8369af68f9e",
+    "populations/swift-opaque-v3.json": "a2c3d952652cdb3634b73324604bbcda3e941144ee0036d467ff7728ede4c52f",
+    "populations/swift-opaque-v3/model-opaque-propagator-negative/case.json": "97a2b8235cfa0fe5671ec09e769cbde8bbef3d76cd5bcc01d2cf9f7569ac9486",
+    "populations/swift-opaque-v3/model-opaque-propagator-negative/main.swift": "62780c017d6757f1f2160203b4231ccf57277f7829ae8e6016812df99c6eed92",
+    "populations/swift-opaque-v3/model-opaque-propagator-positive/case.json": "02786b07f22ba2f2e7ead2811207be123a011878169053fc1dd535432a030d25",
+    "populations/swift-opaque-v3/model-opaque-propagator-positive/main.swift": "75851d2d6c561229b3526e2ddb97b080b07db241939193f9f7b310e161743ff8",
+    "populations/swift-opaque-v3/model-propagator-position-negative/case.json": "cf2e1c96ceb3ada547fc90d42c4f227d21d94628092754fc93683c815385f84f",
+    "populations/swift-opaque-v3/model-propagator-position-negative/main.swift": "f604d43b01fdf8f358246b025c357f9259cbc5e5497967e0f43273f34f662285",
+    "populations/swift-opaque-v3/model-propagator-position-positive/case.json": "61f49705afdfca7d2e828db700e8877de6370d9d2c3dbced693ca43dd0d125b4",
+    "populations/swift-opaque-v3/model-propagator-position-positive/main.swift": "b1f20ce74a8d94f30df10b765c5f862a036b63360fadc5e40dd488f7583159c1",
+    "populations/swift-synthetic-v1.json": "95e3075b26ebd55cff6dc5fa0fc413ed15733c2ae9d8e21014f80395ca24c4f5",
+    "populations/swift-synthetic-v2.json": "b6c29ff47942c73c34bd479c7ce1137b5bf97d0fbede1204f8eae16aa32007bb"
+  },
+  "runner_files": {
+    "scripts/run-swift-opaque-v3.py": "b758aeb7d07a68ba6466f98382c4af1c3c93386c07612d648b04709007e971d1",
+    "scripts/probe-swift-v2-codeql.py": "a7ca82dd685a378dca56d14ec0edcbed27fc657c7bde68de9c8c2e95f4aae8e6",
+    "scripts/swift_v2_process.py": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd",
+    "scripts/swift_population_v2.py": "3ba357b0be10408b3e43b6713b7b161f9fb6676ff8a78f01228191bac64ad899",
+    "scripts/swift_extraction_integrity.py": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156",
+    "scripts/swift_opaque_v3_evidence.py": "aa89ed383a57385bea534a609cd910405c8c8fd675fb6856fe5452c3b500dd77",
+    "scripts/swift_integration_v3.py": "56c535ea3592b4169bdfd4d49730121a8cf733ef1e91bdedb495d58c164549cd",
+    "scripts/swift_persistence_coverage.py": "62017833ad9e666a405f2650618173b97ab2d1568fb14b13cce8fed722dc4ec3"
+  },
+  "expected_model_off": "no endpoint flows in all four fixtures; prior independent direct-flow control retained",
+  "expected_model_on": "exact endpoint flow for two positives only",
+  "failure_policy": "retain all attempts and all four selections; uncertain cleanup stops further execution",
+  "budgets": {
+    "extraction_seconds": 150,
+    "analysis_seconds": 60,
+    "analysis_memory_mb": 2048,
+    "canonical_seconds": 60,
+    "canonical_memory_mb": 512
+  }
+}
