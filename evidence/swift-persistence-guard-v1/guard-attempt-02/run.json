@@ -1,0 +1,40 @@
+{
+  "scope": "non-scored-typed-persistence-applicability-controls",
+  "plan_sha256": "442baca4371f256ef0bc844c77a42333b74805b6c4b06d87826f26929d423464",
+  "source_commit": "86c0e30ab04a40c8f4c94adb727ce8e4ee30fadd",
+  "pack_files_verified": 3398,
+  "compiler_sha256": "3d13e20b1504d7d30038fcd2201b9d0a8ead5c09eea752a5da223453b3ae0c6f",
+  "assets": {
+    "codeql/codeql": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413",
+    "codeql/swift/tools/osx64/extractor.real": "680adbee37bdbfc5fe0a4b6d63c45bdae23fcf3bb2210530a7b751b58f319530"
+  },
+  "scored_activation": false,
+  "argv": [
+    "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+    "/private/tmp/dfb-220-extraction150/scripts/probe-swift-v2-codeql.py",
+    "--output",
+    "/private/tmp/dfb-220-extraction150/evidence/swift-persistence-guard-v1/guard-attempt-02/probe",
+    "--codeql",
+    "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+    "--packs",
+    "/private/tmp/dfb-swift-suite-state-packs-v4b",
+    "--compiler",
+    "/private/tmp/dfb-220-candidate-assets/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc",
+    "--sdk",
+    "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+    "--target",
+    "arm64-apple-macosx26.5",
+    "--control-directory",
+    "/private/tmp/dfb-220-extraction150/evidence/swift-persistence-guard-v1/coverage-control-v2",
+    "--query-directory",
+    "/private/tmp/dfb-220-extraction150/evidence/swift-persistence-guard-v1/coverage-queries-v3",
+    "--probe-queries",
+    "coverage",
+    "receiver-proof",
+    "payloads",
+    "calls",
+    "getters"
+  ],
+  "exit_status": 0,
+  "status": "unqualified"
+}
