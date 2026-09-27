@@ -26,8 +26,9 @@ def main():
     require(args.minimum_free_gib>=30,'minimum disk reserve cannot be weakened')
     plan=read(ROOT/'adapters/codeql/swift-v3/runner-plan.json')
     for name,digest in plan['files'].items():require(sha(ROOT/name)==digest,'preregistered file '+name)
-    subprocess.run(['git','diff','--quiet','HEAD','--',*plan['files']],cwd=ROOT,check=True)
-    subprocess.run(['git','ls-files','--error-unmatch','--',*plan['files']],cwd=ROOT,stdout=subprocess.DEVNULL,check=True)
+    registered=['adapters/codeql/swift-v3/runner-plan.json','adapters/codeql/swift-v3/smoke-selection.json',*plan['files']]
+    subprocess.run(['git','diff','--quiet','HEAD','--',*registered],cwd=ROOT,check=True)
+    subprocess.run(['git','ls-files','--error-unmatch','--',*registered],cwd=ROOT,stdout=subprocess.DEVNULL,check=True)
     pins=read(ROOT/'adapters/codeql/swift-opaque-v3/plan.json')
     require(sha(args.codeql)==pins['cli_sha256'] and sha(args.compiler)==pins['compiler_sha256'] and
             sha(args.codeql.parent/'swift/tools/osx64/extractor.real')==pins['extractor_sha256'] and

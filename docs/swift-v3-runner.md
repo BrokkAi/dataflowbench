@@ -66,7 +66,11 @@ command records, BQRS and decoded rows, extractor logs, observations and full
 local artifact-closure digests. Run
 `python3 scripts/check-swift-v3-smoke-evidence.py` for portable source, command
 and observation replay. This does **not** verify omitted database/cache bytes.
-Full local artifact replay passed using
+The 1,050-second selection metadata is the sum of five extraction/analysis
+phase ceilings, not a separate total wall-clock watchdog; it excludes metadata
+resolution and cleanup.
+
+Full local artifact replay passed at the exact preregistered commit using
 `python3 scripts/verify-swift-v3-run.py reports/raw/swift-v3/lane-smoke-01 --smoke`.
 The complete local closure remains at
 `/private/tmp/dfb-220-extraction150/reports/raw/swift-v3/lane-smoke-01`;
@@ -106,3 +110,8 @@ a compatible pinned Darwin Swift/SDK environment, independently demonstrated
 aggregate memory/swap and process-lifecycle enforcement, and qualified boundary
 behavior under fork/reparent/memory/timeout tests. Facility availability remains
 unestablished. Pause further analyzer execution here; retain existing artifacts.
+
+The subsequent launch-integrity fix also checks that the plan and smoke-selection
+files themselves are tracked and unchanged. The exported historical plan and
+original observations are preserved; full historical replay requires the recorded
+preregistration revision rather than the changed prospective runner plan.
