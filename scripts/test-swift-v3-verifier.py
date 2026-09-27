@@ -33,6 +33,13 @@ class Verify(unittest.TestCase):
         for n,r in self.raw['commands'].items():(self.base/(n+'.command.json')).write_text(json.dumps(r))
     def check(self):verify_case(Path('/repo'),self.base,self.case,self.raw,self.paths)
     def test_complete(self):self.check()
+    def test_distinct_not_attempted_stops(self):
+        for reason in ['DiskReserveReached','StoppedAfterUncertainCleanup']:
+            self.raw.update(execution_status='not-attempted',commands={},outcome='inconclusive',diagnostics=[reason])
+            self.check()
+    def test_no_record_spawn_failure_is_unreportable(self):
+        self.raw.update(execution_status='attempted',commands={},outcome='runner-error')
+        with self.assertRaisesRegex(ValueError,'phase prefix'):self.check()
     def test_empty_complete(self):
         self.raw['commands']={}
         with self.assertRaisesRegex(ValueError,'phase prefix'):self.check()

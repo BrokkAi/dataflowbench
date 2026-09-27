@@ -41,7 +41,7 @@ def main():
         expected=str(packs/'codeql/swift-all'/('6.8.4-dfb.9' if selected_lane=='native' else '6.8.4'))
         require(expected in resolutions[selected_lane]['libraryPath'],'resolved runtime lane mismatch')
     write(output/'library-paths.json',resolutions)
-    selected={e['id']:e for e in pop['cases']};results=[];stop=False
+    selected={e['id']:e for e in pop['cases']};results=[];stop_reason=None
     write(output/'tool-lanes.json',plan['tool_lanes'])
     write(output/'run-plan.json',dict(envelope,paths={'repository':str(ROOT),'output':str(output),'cli':str(args.codeql),'compiler':str(args.compiler),'sdk':str(args.sdk),'packs':str(args.packs),'native_packs':str(args.native_packs)},runner_plan_sha256=sha(ROOT/'adapters/codeql/swift-v3/runner-plan.json'),source_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()))
     for case_id,case in cases.items():
@@ -50,8 +50,8 @@ def main():
                  execution_status='not-attempted',aggregate_resource_qualification='unavailable',commands={})
         analysis_start=None
         try:
-            if stop:raise RuntimeError('StoppedAfterUncertainCleanup')
-            if shutil.disk_usage(ROOT).free<args.minimum_free_gib*1024**3:stop=True;raise RuntimeError('DiskReserveReached')
+            if stop_reason:raise RuntimeError(stop_reason)
+            if shutil.disk_usage(ROOT).free<args.minimum_free_gib*1024**3:stop_reason='DiskReserveReached';raise RuntimeError(stop_reason)
             source=directory/'source';source.mkdir();case_path=ROOT/selected[case_id]['path']
             for name in case['fixture_files']:shutil.copyfile(case_path.parent/name,source/name)
             db=directory/'database';commands=raw['commands']
@@ -93,7 +93,7 @@ def main():
                 if coverage.status is CoverageStatus.INCOMPLETE:raw['outcome']='inconclusive';raw['diagnostics'].extend(coverage.reasons)
             raw['execution_status']='completed'
         except process.ProcessCleanupError as error:
-            stop=True;raw.update(outcome='runner-error',failure_kind='cleanup',diagnostics=['UncertainCleanup',str(error)])
+            stop_reason='StoppedAfterUncertainCleanup';raw.update(outcome='runner-error',failure_kind='cleanup',diagnostics=['UncertainCleanup',str(error)])
         except TimeoutError as error:raw.update(outcome='inconclusive',failure_kind='timeout',diagnostics=[str(error)])
         except Exception as error:raw.update(outcome='runner-error' if raw['execution_status']=='attempted' else 'inconclusive',failure_kind='command' if str(error).startswith('CommandFailed:') else 'validation',diagnostics=[str(error)])
         finally:
@@ -105,6 +105,11 @@ def main():
             write(output/'run.json',dict(envelope,results=results))
         print(case_id+': '+raw['outcome'],flush=True)
     from swift_v3_verify import verify
-    write(output/'coverage-report.json',verify(ROOT,output))
+    try:
+        verified=verify(ROOT,output)
+    except Exception as error:
+        write(output/'report-status.json',{'status':'unreportable','reason':str(error),'raw_evidence_preserved':True,'scored_activation':False})
+        raise
+    write(output/'coverage-report.json',verified)
 
 if __name__=='__main__':main()
