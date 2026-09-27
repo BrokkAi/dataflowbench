@@ -63,9 +63,7 @@ pub(crate) const MODELING_TEMPLATE_IDS: [&str; 12] = [
 /// assertions for a language whose modeling population exists at all.
 pub(crate) const MODELING_CASE_COUNT: usize = 2 * MODELING_TEMPLATE_IDS.len();
 
-/// The ten Swift-applicable benchmark-controlled modeling identities. The two
-/// opaque propagator identities remain deferred by docs/swift-kernel.md and do
-/// not enter Swift's denominator.
+/// Historical v1/v2 Swift controlled-modeling identities, preserved for old runners.
 pub(crate) const SWIFT_MODELING_TEMPLATE_IDS: [&str; 10] = [
     "dfb-template-model-declared-source",
     "dfb-template-model-declared-sink",
@@ -79,8 +77,41 @@ pub(crate) const SWIFT_MODELING_TEMPLATE_IDS: [&str; 10] = [
     "dfb-template-model-store-separation",
 ];
 
-/// Unresolved Swift language-body contracts; a prospective opacity amendment
-/// is required before fixture implementation or analyzer activation.
+/// Current canonical Swift modeling registration; historical v1/v2 remain ten pairs.
+pub(crate) const SWIFT_V3_MODELING_TEMPLATE_IDS: [&str; 12] = [
+    "dfb-template-model-declared-source",
+    "dfb-template-model-declared-sink",
+    "dfb-template-model-sanitizer-kill",
+    "dfb-template-model-sanitizer-selectivity",
+    "dfb-template-model-summary-through",
+    "dfb-template-model-summary-field",
+    "dfb-template-model-entrypoint-parameter",
+    "dfb-template-model-entrypoint-selectivity",
+    "dfb-template-model-store-roundtrip",
+    "dfb-template-model-store-separation",
+    "dfb-template-model-opaque-propagator",
+    "dfb-template-model-propagator-position",
+];
+
+fn swift_modeling_templates(cases: &[(PathBuf, Value)]) -> &'static [&'static str] {
+    if cases.iter().any(|(_, c)| {
+        c["language"] == "swift"
+            && matches!(
+                c["template_id"].as_str(),
+                Some(
+                    "dfb-template-model-opaque-propagator"
+                        | "dfb-template-model-propagator-position"
+                )
+            )
+    }) {
+        &SWIFT_V3_MODELING_TEMPLATE_IDS
+    } else {
+        &SWIFT_MODELING_TEMPLATE_IDS
+    }
+}
+
+/// Historically deferred v1/v2 identities; v3 registers them under the approved
+/// Darwin opaque amendment. This list preserves historical diagnostics.
 pub(crate) const SWIFT_DEFERRED_MODELING_TEMPLATE_IDS: [&str; 2] = [
     "dfb-template-model-opaque-propagator",
     "dfb-template-model-propagator-position",
@@ -735,7 +766,7 @@ pub(crate) fn validate_modeling_cases(cases: &[(PathBuf, Value)]) -> Result<()> 
         }
         let language = case["language"].as_str();
         let expected_templates = if language == Some("swift") {
-            &SWIFT_MODELING_TEMPLATE_IDS[..]
+            swift_modeling_templates(cases)
         } else {
             &MODELING_TEMPLATE_IDS[..]
         };
@@ -799,7 +830,7 @@ pub(crate) fn validate_modeling_cases(cases: &[(PathBuf, Value)]) -> Result<()> 
             .cloned()
             .collect();
         let templates = if language == "swift" {
-            &SWIFT_MODELING_TEMPLATE_IDS[..]
+            swift_modeling_templates(cases)
         } else {
             &MODELING_TEMPLATE_IDS[..]
         };
@@ -834,7 +865,7 @@ pub(crate) fn validate_modeling_population(cases: &[(PathBuf, Value)], label: &s
         .and_then(|(_, case)| case["language"].as_str())
         == Some("swift")
     {
-        &SWIFT_MODELING_TEMPLATE_IDS[..]
+        swift_modeling_templates(cases)
     } else {
         &MODELING_TEMPLATE_IDS[..]
     };
@@ -1321,4 +1352,36 @@ pub(crate) fn run_modeling(
         plan.tool.pinned_identity()
     );
     Ok(())
+}
+
+#[cfg(test)]
+mod swift_registration_tests {
+    use super::*;
+
+    #[test]
+    fn other_language_opaque_templates_do_not_expand_historical_swift() {
+        let mut cases: Vec<(PathBuf, Value)> = crate::cases::all_case_paths()
+            .into_iter()
+            .filter(|p| p.starts_with("cases/taint/swift") || p.starts_with("cases/taint/java"))
+            .map(|p| {
+                let value = serde_json::from_slice(&std::fs::read(&p).unwrap()).unwrap();
+                (p, value)
+            })
+            .collect();
+        assert!(cases.iter().any(|(_, c)| c["language"] == "java"
+            && c["template_id"] == "dfb-template-model-opaque-propagator"));
+        assert_eq!(swift_modeling_templates(&cases).len(), 10);
+        validate_modeling_cases(&cases).unwrap();
+        for path in crate::cases::all_case_paths()
+            .into_iter()
+            .filter(|p| p.starts_with("populations/swift-opaque-v3"))
+        {
+            cases.push((
+                path.clone(),
+                serde_json::from_slice(&std::fs::read(path).unwrap()).unwrap(),
+            ));
+        }
+        assert_eq!(swift_modeling_templates(&cases).len(), 12);
+        validate_modeling_cases(&cases).unwrap();
+    }
 }

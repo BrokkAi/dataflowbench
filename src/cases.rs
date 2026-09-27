@@ -37,8 +37,9 @@ pub(crate) fn case_paths() -> Vec<PathBuf> {
 }
 
 pub(crate) fn all_case_paths() -> Vec<PathBuf> {
-    let mut paths: Vec<_> = WalkDir::new("cases")
+    let mut paths: Vec<_> = ["cases", "populations/swift-opaque-v3"]
         .into_iter()
+        .flat_map(WalkDir::new)
         .filter_map(Result::ok)
         .filter(|entry| entry.file_type().is_file() && entry.file_name() == "case.json")
         .map(|entry| entry.into_path())
@@ -78,6 +79,7 @@ pub(crate) fn validate_cases() -> Result<()> {
     }
     validate_swift_metadata(&cases)?;
     crate::population::validate_swift_population(Path::new("."))?;
+    crate::population::validate_swift_v3_population(Path::new("."))?;
     validate_balanced_core_pairs(&cases)?;
     // Every language is checked against its own row in the challenge rollout
     // table, which is the one place a denominator is stated. Before this table
@@ -144,7 +146,7 @@ pub(crate) fn validate_swift_metadata(cases: &[(PathBuf, Value)]) -> Result<()> 
     let expected_calibration = SWIFT_CALIBRATION_TEMPLATE_IDS
         .into_iter()
         .collect::<BTreeSet<_>>();
-    let expected_modeling = crate::modeling::SWIFT_MODELING_TEMPLATE_IDS
+    let expected_modeling = crate::modeling::SWIFT_V3_MODELING_TEMPLATE_IDS
         .into_iter()
         .collect::<BTreeSet<_>>();
     let expected_case_count = 2
@@ -155,7 +157,7 @@ pub(crate) fn validate_swift_metadata(cases: &[(PathBuf, Value)]) -> Result<()> 
             + 1);
     if swift.len() != expected_case_count {
         bail!(
-            "Swift population must contain exactly {expected_case_count} assertions (33 core + 2 calibration + 10 controlled modeling + 6 native + 1 extension pairs); found {}",
+            "Swift population must contain exactly {expected_case_count} assertions (33 core + 2 calibration + 12 controlled modeling + 6 native + 1 extension pairs); found {}",
             swift.len()
         );
     }
