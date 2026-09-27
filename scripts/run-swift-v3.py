@@ -14,8 +14,14 @@ def write(path,value):path.write_text(json.dumps(value,indent=2)+'\n')
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     for key in ['codeql','packs','native-packs','compiler','sdk','output']:parser.add_argument('--'+key,type=Path,required=True)
+    parser.add_argument('--smoke',action='store_true',help='Execute only the five preregistered smoke cases; never emit a full report')
     parser.add_argument('--minimum-free-gib',type=int,default=30)
     args=parser.parse_args();pop,contract,cases,envelope=configuration(ROOT)
+    if args.smoke:
+        smoke=read(ROOT/'adapters/codeql/swift-v3/smoke-selection.json')
+        require(len(smoke['case_ids'])==5 and len(set(smoke['case_ids']))==5 and set(smoke['case_ids'])<=set(cases),'smoke selection')
+        cases={key:cases[key] for key in smoke['case_ids']}
+        envelope=dict(envelope,scope='swift-v3-contract-bound-smoke',selected_case_ids=smoke['case_ids'])
     output=args.output.resolve();output.relative_to(ROOT/'reports/raw/swift-v3')
     require(args.minimum_free_gib>=30,'minimum disk reserve cannot be weakened')
     plan=read(ROOT/'adapters/codeql/swift-v3/runner-plan.json')
@@ -106,10 +112,10 @@ def main():
         print(case_id+': '+raw['outcome'],flush=True)
     from swift_v3_verify import verify
     try:
-        verified=verify(ROOT,output)
+        verified=verify(ROOT,output,allow_smoke=args.smoke)
     except Exception as error:
         write(output/'report-status.json',{'status':'unreportable','reason':str(error),'raw_evidence_preserved':True,'scored_activation':False})
         raise
-    write(output/'coverage-report.json',verified)
+    write(output/('smoke-observations.json' if args.smoke else 'coverage-report.json'),verified)
 
 if __name__=='__main__':main()
