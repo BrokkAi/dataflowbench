@@ -82,15 +82,28 @@ def verify_case(root,base,case,raw,paths):
     require(raw['outcome']==outcome and raw['diagnostics']==diagnostics,'derived observation binding')
 
 
-def verify(root,directory):
+def verify(root,directory,allow_smoke=False):
     plan=read(root/'adapters/codeql/swift-v3/runner-plan.json')
     for name,digest in plan['files'].items():require(sha(root/name)==digest,'runner configuration binding')
-    launch=read(directory/'run-plan.json');run=read(directory/'run.json');report=assemble(root,run)
+    launch=read(directory/'run-plan.json');run=read(directory/'run.json')
+    smoke=run.get('scope')=='swift-v3-contract-bound-smoke'
+    if smoke:
+        require(allow_smoke,'explicit smoke replay required')
+        population,contract,cases,ph,ch=inputs(root)
+        selection=read(root/'adapters/codeql/swift-v3/smoke-selection.json')['case_ids']
+        require(run.get('selected_case_ids')==selection and [r['case_id'] for r in run['results']]==selection,'exact smoke membership')
+        require(run['population_sha256']==ph and run['contract_sha256']==ch and run['fixture_revision']==population['fixture_revision'] and run['phases']==contract['phases'],'smoke contract binding')
+        report={'scope':'verified-five-case-smoke-not-full-report','scored_activation':False,'selected_case_ids':selection,'results':[]}
+    else:report=assemble(root,run)
     require(launch['runner_plan_sha256']==sha(root/'adapters/codeql/swift-v3/runner-plan.json'),'launch plan binding')
     for key in ['scope','population_sha256','fixture_revision','contract_sha256','phases']:require(launch[key]==run[key],'launch envelope binding')
     pop,_,_,_,_=inputs(root);entries={e['id']:e for e in pop['cases']}
     for row in run['results']:
-        rawpath=root/row['raw_output'];raw=read(rawpath);base=rawpath.parent
+        relative=Path(row['raw_output']);require(not relative.is_absolute() and '..' not in relative.parts and relative.parts[:3]==('reports','raw','swift-v3'),'raw path')
+        rawpath=root/relative;require(sha(rawpath)==row['raw_sha256'],'raw digest')
+        raw=read(rawpath);base=rawpath.parent
+        for key in ['scope','population_sha256','fixture_revision','contract_sha256']:require(raw[key]==run[key],'raw envelope binding')
+        require(raw['case_id']==row['case_id'] and raw['outcome']==row['outcome'],'raw result identity')
         require(sha(base/'artifacts.json')==raw['artifacts_sha256'],'artifact manifest binding')
         artifacts=read(base/'artifacts.json');actual={str(p.relative_to(base)) for p in base.rglob('*') if p.is_file()}-{'artifacts.json','observation.json'}
         require(actual==set(artifacts),'complete artifact closure')
@@ -101,4 +114,5 @@ def verify(root,directory):
         if raw['execution_status']!='not-attempted':
             for name in case['fixture_files']:require((base/'source'/name).read_bytes()==(root/entry['path']).parent.joinpath(name).read_bytes(),'canonical source bytes')
         verify_case(root,base,case,raw,launch['paths'])
+        if smoke:report['results'].append({'case_id':row['case_id'],'raw_outcome':raw['outcome'],'outcome':'runner-error' if raw['outcome']=='runner-error' else 'inconclusive','diagnostics':raw['diagnostics']+['AggregateResourceQualificationUnavailable']})
     return report
