@@ -17,6 +17,8 @@ const SWIFT: &str = include_str!("../populations/swift-synthetic-v1.json");
 const SWIFT_SHA256: &str = "95e3075b26ebd55cff6dc5fa0fc413ed15733c2ae9d8e21014f80395ca24c4f5";
 const SWIFT_V2: &str = include_str!("../populations/swift-synthetic-v2.json");
 const SWIFT_V2_SHA256: &str = "b6c29ff47942c73c34bd479c7ce1137b5bf97d0fbede1204f8eae16aa32007bb";
+const SWIFT_V3: &str = include_str!("../populations/swift-synthetic-v3.json");
+const SWIFT_V3_SHA256: &str = "8a324597f77a2948920c0471ac6fce6809e202afdc3c3e30c062809b8a863efa";
 static ACTIVE: OnceLock<Population> = OnceLock::new();
 
 pub(crate) struct Population {
@@ -36,8 +38,9 @@ pub(crate) fn initialize(name: Option<&str>) -> Result<()> {
         "v0.7.0" => Population::load(Path::new("."))?,
         "swift-synthetic-v1" => Population::load_swift(Path::new("."))?,
         "swift-synthetic-v2" => Population::load_swift_v2(Path::new("."))?,
+        "swift-synthetic-v3" => Population::load_swift_v3(Path::new("."))?,
         _ => bail!(
-            "unknown population {name:?}; supported: v0.7.0, swift-synthetic-v1, swift-synthetic-v2"
+            "unknown population {name:?}; supported: v0.7.0, swift-synthetic-v1, swift-synthetic-v2, swift-synthetic-v3"
         ),
     };
     ACTIVE
@@ -57,6 +60,10 @@ impl Population {
 
     fn load_swift_v2(root: &Path) -> Result<Self> {
         Self::load_manifest(root, "swift-synthetic-v2", SWIFT_V2, SWIFT_V2_SHA256)
+    }
+
+    fn load_swift_v3(root: &Path) -> Result<Self> {
+        Self::load_manifest(root, "swift-synthetic-v3", SWIFT_V3, SWIFT_V3_SHA256)
     }
 
     fn load_manifest(root: &Path, name: &'static str, bytes: &str, digest: &str) -> Result<Self> {
@@ -181,9 +188,94 @@ pub(crate) fn validate_swift_population(root: &Path) -> Result<()> {
     Ok(())
 }
 
+/// Canonical v3 registration preserves every v2 member and adds the four qualified opaque inputs.
+pub(crate) fn validate_swift_v3_population(root: &Path) -> Result<()> {
+    let old = Population::load_swift_v2(root)?;
+    let new = Population::load_swift_v3(root)?;
+    if new.cases.len() != 108 {
+        bail!("Swift v3 requires all 108 inputs");
+    }
+    for (id, entry) in &old.cases {
+        if new.cases.get(id) != Some(entry) {
+            bail!("Swift v3 changed historical member {id}");
+        }
+    }
+    let actual: BTreeSet<_> = ["cases/taint/swift", "populations/swift-opaque-v3"]
+        .into_iter()
+        .flat_map(|base| walkdir::WalkDir::new(root.join(base)))
+        .collect::<std::result::Result<Vec<_>, _>>()?
+        .into_iter()
+        .filter(|entry| entry.file_type().is_file() && entry.file_name() == "case.json")
+        .map(|entry| entry.path().strip_prefix(root).map(Path::to_path_buf))
+        .collect::<std::result::Result<_, _>>()?;
+    if actual != new.paths().into_iter().collect() {
+        bail!("Swift v3 canonical file set differs from manifest");
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn swift_v3_keeps_historical_inputs_and_registers_opaque_pairs() {
+        validate_swift_v3_population(Path::new(".")).unwrap();
+        let population = Population::load_swift_v3(Path::new(".")).unwrap();
+        assert_eq!(population.paths().len(), 108);
+        assert_eq!(population.core_templates("swift").len(), 33);
+        assert_eq!(
+            population
+                .cases
+                .values()
+                .filter(|(_, c)| c["score_tier"] == "modeling"
+                    && c["model_profile"] == "benchmark-controlled")
+                .count(),
+            24
+        );
+        assert!(
+            population
+                .cases
+                .values()
+                .all(|(_, c)| c["execution_budget"]["peak_memory_mb"] == 512)
+        );
+    }
+
+    #[test]
+    fn v3_rejects_missing_and_duplicate_opaque_registration() {
+        let root = std::env::temp_dir().join(format!("dfb-v3-registration-{}", std::process::id()));
+        let manifest: Value = serde_json::from_str(SWIFT_V3).unwrap();
+        for case in manifest["cases"].as_array().unwrap() {
+            for relative in std::iter::once(case["path"].as_str().unwrap()).chain(
+                case["fixture_digests"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .map(|f| f["path"].as_str().unwrap()),
+            ) {
+                let target = root.join(relative);
+                fs::create_dir_all(target.parent().unwrap()).unwrap();
+                fs::copy(relative, target).unwrap();
+            }
+        }
+        validate_swift_v3_population(&root).unwrap();
+        let path =
+            root.join("populations/swift-opaque-v3/model-opaque-propagator-positive/case.json");
+        let bytes = fs::read(&path).unwrap();
+        fs::remove_file(&path).unwrap();
+        assert!(validate_swift_v3_population(&root).is_err());
+        fs::write(&path, bytes).unwrap();
+        let duplicate = root.join("cases/taint/swift/duplicate-opaque/case.json");
+        fs::create_dir_all(duplicate.parent().unwrap()).unwrap();
+        fs::copy(path, duplicate).unwrap();
+        assert!(
+            validate_swift_v3_population(&root)
+                .unwrap_err()
+                .to_string()
+                .contains("file set")
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
 
     #[test]
     fn swift_prospective_population_is_separate_and_complete() {

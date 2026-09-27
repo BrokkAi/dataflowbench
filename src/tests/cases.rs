@@ -106,11 +106,14 @@ pub(crate) fn case_schema_accepts_swift_without_closing_future_language_keys() {
 pub(crate) fn swift_registry_rejects_incomplete_duplicate_and_excluded_templates() {
     let cases: Vec<_> = crate::cases::all_case_paths()
         .into_iter()
-        .filter(|path| path.starts_with("cases/taint/swift"))
         .map(|path| {
             let value: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
             (path, value)
         })
+        .collect();
+    let cases: Vec<_> = cases
+        .into_iter()
+        .filter(|(_, case)| case["language"] == "swift")
         .collect();
     validate_swift_metadata(&cases).unwrap();
     for tier in ["core", "calibration", "modeling", "language-extension"] {
