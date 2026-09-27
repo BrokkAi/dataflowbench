@@ -1,0 +1,63 @@
+{
+  "scope": "non-scored-canonical-persistence-effect-shape-diagnosis",
+  "plan_sha256": "aabe826f2fb4c76faca3a7764d065ef8d505576fe23983b40d7f3b6b188cb0ce",
+  "source_commit": "9878b53721788b202d8accff0cef762a7a75aa05",
+  "scored_activation": false,
+  "phases": {
+    "calls": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "query",
+        "run",
+        "evidence/swift-persistence-guard-v1/diagnostic-attempt-01/queries/calls.ql",
+        "--database=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-m_075xpq/db",
+        "--output=evidence/swift-persistence-guard-v1/diagnostic-attempt-01/calls.bqrs",
+        "--additional-packs=/private/tmp/dfb-swift-suite-state-packs-v4b",
+        "--threads=2",
+        "--ram=2048",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/private/tmp/dfb-220-extraction150",
+      "environment": null,
+      "elapsed_seconds": 5.722295083000001,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 2,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 67945,
+          "start_identity": "1790489794:971658"
+        },
+        {
+          "pid": 67947,
+          "start_identity": "1790489794:973277"
+        },
+        {
+          "pid": 67953,
+          "start_identity": "1790489794:984880"
+        },
+        {
+          "pid": 67958,
+          "start_identity": "1790489795:355236"
+        },
+        {
+          "pid": 67967,
+          "start_identity": "1790489795:960517"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    }
+  }
+}

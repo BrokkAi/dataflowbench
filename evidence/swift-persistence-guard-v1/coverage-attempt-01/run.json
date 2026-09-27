@@ -1,0 +1,59 @@
+{
+  "scope": "non-scored-structural-persistence-applicability",
+  "plan_sha256": "90596c652ca038c4385cf32d1e909c0ba218ae9a3038b414c3d6b804026f2171",
+  "source_commit": "ad76de1877e8398a4ce1774c51bc254a5c249d08",
+  "scored_activation": false,
+  "phases": {
+    "coverage": {
+      "argv": [
+        "/private/tmp/dfb-220-candidate-assets/codeql-cli/extracted/codeql/codeql",
+        "query",
+        "run",
+        "evidence/swift-persistence-guard-v1/coverage-attempt-01/queries/coverage.ql",
+        "--database=/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/dfb-v2-codeql-m_075xpq/db",
+        "--output=evidence/swift-persistence-guard-v1/coverage-attempt-01/coverage.bqrs",
+        "--additional-packs=/private/tmp/dfb-swift-suite-state-packs-v4b",
+        "--threads=2",
+        "--ram=2048",
+        "--timeout=60"
+      ],
+      "measurement_wrapper": [
+        "/usr/bin/time",
+        "-l"
+      ],
+      "cwd": "/private/tmp/dfb-220-extraction150",
+      "environment": null,
+      "elapsed_seconds": 5.542868458,
+      "deadline_seconds": 60,
+      "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+      "exit_status": 2,
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 69075,
+          "start_identity": "1790490068:845196"
+        },
+        {
+          "pid": 69077,
+          "start_identity": "1790490068:846928"
+        },
+        {
+          "pid": 69083,
+          "start_identity": "1790490068:857398"
+        },
+        {
+          "pid": 69088,
+          "start_identity": "1790490069:226759"
+        }
+      ],
+      "cleanup_signaled": [],
+      "cleanup_status": "tracked-processes-stopped",
+      "discovery_complete": false,
+      "descendant_containment": "unproven",
+      "scratch_cleanup_authorized": false,
+      "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+      "cleanup_error": null,
+      "memory_compliance": "unproven"
+    }
+  }
+}
