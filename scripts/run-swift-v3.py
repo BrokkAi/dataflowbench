@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+"""Serial full108 CodeQL execution; no fixture binaries run, no containment claim."""
+import argparse,json,shutil,subprocess,shlex,time
+from pathlib import Path
+from swift_v3_runner import lane,observe,configuration
+from swift_v3_reports import ROOT,read,sha,require,assemble
+from swift_extraction_integrity import inspect_logs
+from swift_persistence_coverage import assess_coverage,CoverageStatus
+import swift_v2_process as process
+
+
+def write(path,value):path.write_text(json.dumps(value,indent=2)+'\n')
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    for key in ['codeql','packs','native-packs','compiler','sdk','output']:parser.add_argument('--'+key,type=Path,required=True)
+    parser.add_argument('--minimum-free-gib',type=int,default=30)
+    args=parser.parse_args();pop,contract,cases,envelope=configuration(ROOT)
+    output=args.output.resolve();output.relative_to(ROOT/'reports/raw/swift-v3')
+    require(args.minimum_free_gib>=30,'minimum disk reserve cannot be weakened')
+    plan=read(ROOT/'adapters/codeql/swift-v3/runner-plan.json')
+    for name,digest in plan['files'].items():require(sha(ROOT/name)==digest,'preregistered file '+name)
+    subprocess.run(['git','diff','--quiet','HEAD','--',*plan['files']],cwd=ROOT,check=True)
+    subprocess.run(['git','ls-files','--error-unmatch','--',*plan['files']],cwd=ROOT,stdout=subprocess.DEVNULL,check=True)
+    pins=read(ROOT/'adapters/codeql/swift-opaque-v3/plan.json')
+    require(sha(args.codeql)==pins['cli_sha256'] and sha(args.compiler)==pins['compiler_sha256'] and
+            sha(args.codeql.parent/'swift/tools/osx64/extractor.real')==pins['extractor_sha256'] and
+            sha(args.sdk/'SDKSettings.json')==pins['sdk_settings_sha256'],'runtime pin')
+    for base,manifest in [(args.packs,read(ROOT/'evidence/swift-candidate-qualification-220/codeql-runtime/resolved-pack-files.json')),
+                          (args.native_packs,read(ROOT/'evidence/swift-persistence-completeness-v1/pack-manifest-v1.json')['files'])]:
+        for row in manifest:require(sha(base/row['path'])==row['sha256'],'pack pin')
+    require(shutil.disk_usage(ROOT).free>=args.minimum_free_gib*1024**3,'insufficient disk reserve before run')
+    output.mkdir(parents=True,exist_ok=False)
+    resolutions={}
+    for selected_lane in ['kernel','calibration','modeling','opaque','native']:
+        queryroot=ROOT/('adapters/codeql/swift-native-composed-v1' if selected_lane=='native' else 'adapters/codeql/swift-opaque-v3' if selected_lane=='opaque' else 'adapters/codeql/swift-v3/queries')
+        query=queryroot/('flow.ql' if selected_lane in ['native','opaque'] else selected_lane+'-flow.ql')
+        packs=args.native_packs if selected_lane=='native' else args.packs
+        resolved=subprocess.run([str(args.codeql),'resolve','library-path','--query='+str(query),'--additional-packs='+str(packs),'--format=json'],capture_output=True,text=True,check=True,timeout=30)
+        resolutions[selected_lane]=json.loads(resolved.stdout)
+        expected=str(packs/'codeql/swift-all'/('6.8.4-dfb.9' if selected_lane=='native' else '6.8.4'))
+        require(expected in resolutions[selected_lane]['libraryPath'],'resolved runtime lane mismatch')
+    write(output/'library-paths.json',resolutions)
+    selected={e['id']:e for e in pop['cases']};results=[];stop=False
+    write(output/'tool-lanes.json',plan['tool_lanes'])
+    write(output/'run-plan.json',dict(envelope,runner_plan_sha256=sha(ROOT/'adapters/codeql/swift-v3/runner-plan.json'),source_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()))
+    for case_id,case in cases.items():
+        directory=output/case_id;directory.mkdir();selected_lane=lane(case)
+        raw=dict(envelope,case_id=case_id,outcome='inconclusive',diagnostics=['NotAttempted'],lane=selected_lane,
+                 execution_status='not-attempted',aggregate_resource_qualification='unavailable',commands={})
+        try:
+            if stop:raise RuntimeError('StoppedAfterUncertainCleanup')
+            if shutil.disk_usage(ROOT).free<args.minimum_free_gib*1024**3:stop=True;raise RuntimeError('DiskReserveReached')
+            source=directory/'source';source.mkdir();case_path=ROOT/selected[case_id]['path']
+            for name in case['fixture_files']:shutil.copyfile(case_path.parent/name,source/name)
+            db=directory/'database';commands=raw['commands']
+            def run(argv,name,deadline):
+                record=process.run(argv,directory,name,deadline)
+                commands[name]=record
+                if record['timed_out']:raise TimeoutError('BudgetExhausted:'+name)
+                require(record['exit_status']==0,'CommandFailed:'+name)
+                return record
+            compile_argv=[str(args.compiler),'-swift-version','6','-Onone','-sdk',str(args.sdk),'-target','arm64-apple-macosx26.5',
+                          '-module-name','DataFlowBenchTaintSwift','-module-cache-path',str(directory/'cache')]+[str(source/n) for n in case['fixture_files']]+['-o',str(directory/'never-executed')]
+            raw['execution_status']='attempted'
+            run([str(args.codeql),'database','create',str(db),'--language=swift','--source-root='+str(source),'--threads=2','--ram=2048','--command='+shlex.join(compile_argv)],'extract',150)
+            run([str(args.codeql),'resolve','database','--format=json',str(db)],'resolve-database',30)
+            resolved=read(directory/'resolve-database.stdout')
+            require(resolved.get('languages')==['swift'] and Path(resolved['datasetFolder']).resolve()==(db/'db-swift').resolve(),'database identity')
+            require('finalised: true' in (db/'codeql-database.yml').read_text(),'database finalization')
+            require(inspect_logs(db/'log/swift/extractor')['ready_for_observation'],'ExtractionIncomplete')
+            queryroot=ROOT/('adapters/codeql/swift-native-composed-v1' if selected_lane=='native' else 'adapters/codeql/swift-opaque-v3' if selected_lane=='opaque' else 'adapters/codeql/swift-v3/queries')
+            packs=args.native_packs if selected_lane=='native' else args.packs
+            names=['roles','flow']+(['coverage','scopes'] if case['template_id']=='dfb-template-native-persistence' else [])
+            analysis_start=time.monotonic();rows={}
+            for name in names:
+                query=queryroot/((selected_lane+'-'+name+'.ql') if selected_lane not in ['native','opaque'] else name+'.ql')
+                remaining=60-(time.monotonic()-analysis_start)
+                if remaining<=0:raise TimeoutError('BudgetExhausted:analysis')
+                run([str(args.codeql),'query','run',str(query),'--database='+str(db),'--output='+str(directory/(name+'.bqrs')),'--additional-packs='+str(packs),'--threads=2','--ram=2048','--timeout='+str(max(1,int(remaining)))],name,remaining)
+                remaining=60-(time.monotonic()-analysis_start)
+                if remaining<=0:raise TimeoutError('BudgetExhausted:analysis')
+                run([str(args.codeql),'bqrs','decode',str(directory/(name+'.bqrs')),'--format=json','--output='+str(directory/(name+'.json'))],name+'-decode',remaining)
+                rows[name]=read(directory/(name+'.json'))['#select']['tuples']
+            raw['rows']=rows;raw['outcome'],raw['diagnostics']=observe(case,rows['roles'],rows['flow'],selected_lane)
+            if 'coverage' in rows:
+                coverage=assess_coverage(rows['coverage'],[r[0] for r in rows['scopes']]);raw['coverage_status']=coverage.status.value
+                if coverage.status is CoverageStatus.INCOMPLETE:raw['outcome']='inconclusive';raw['diagnostics'].extend(coverage.reasons)
+            raw['execution_status']='completed'
+        except process.ProcessCleanupError as error:
+            stop=True;raw.update(outcome='runner-error',diagnostics=['UncertainCleanup',str(error)])
+        except TimeoutError as error:raw.update(outcome='inconclusive',diagnostics=[str(error)])
+        except Exception as error:raw.update(outcome='runner-error' if raw['execution_status']=='attempted' else 'inconclusive',diagnostics=[str(error)])
+        finally:
+            artifacts={str(p.relative_to(directory)):sha(p) for p in sorted(directory.rglob('*')) if p.is_file()}
+            write(directory/'artifacts.json',artifacts);raw['artifacts_sha256']=sha(directory/'artifacts.json')
+            write(directory/'observation.json',raw)
+            results.append({'case_id':case_id,'outcome':raw['outcome'],'raw_output':str((directory/'observation.json').relative_to(ROOT)),'raw_sha256':sha(directory/'observation.json')})
+            write(output/'run.json',dict(envelope,results=results))
+        print(case_id+': '+raw['outcome'],flush=True)
+    write(output/'coverage-report.json',assemble(ROOT,dict(envelope,results=results)))
+
+if __name__=='__main__':main()
