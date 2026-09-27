@@ -15,10 +15,12 @@ This version admits no definitive result: the available Darwin runner cannot
 prove aggregate memory containment. Retain actual findings and coverage reasons
 so later resource qualification cannot hide semantic incompleteness.
 """
+    if not isinstance(observation, dict):
+        observation = {}
     raw = observation.get('outcome')
     reasons = []
     semantic_coverage = 'NotAssessed'
-    if raw not in OUTCOMES:
+    if not isinstance(raw, str) or raw not in OUTCOMES:
         raw = 'runner-error'
         reasons.append('MalformedOutcome')
     if observation.get('case_id') != case['id']:
@@ -78,7 +80,7 @@ def normalize_population(cases, observations):
         raise ValueError('duplicate selected case')
     indexed = {}
     for row in observations:
-        if row.get('case_id') not in selected:
+        if not isinstance(row, dict) or not isinstance(row.get('case_id'), str) or row['case_id'] not in selected:
             raise ValueError('foreign observation')
         if row['case_id'] in indexed:
             raise ValueError('duplicate observation')

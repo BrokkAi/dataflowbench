@@ -14,6 +14,10 @@ class Integration(unittest.TestCase):
                     'endpoints_verified': True, 'extraction_complete': True,
                     'phases': [{'exit_status': 0, 'timed_out': False, 'cleanup_status': 'tracked-processes-stopped'}]}
 
+    def test_malformed_observation_is_runner_error(self):
+        for row in [None, [], dict(self.row, outcome=[])]:
+            self.assertEqual(normalize(self.case, row)['outcome'], 'runner-error')
+
     def test_successful_queries_do_not_qualify_resources(self):
         result = normalize(self.case, self.row)
         self.assertEqual(result['outcome'], 'inconclusive')
