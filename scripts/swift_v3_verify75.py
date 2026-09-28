@@ -84,6 +84,7 @@ def verify_case(root,base,case,raw,paths):
 
 def verify(root,directory,allow_smoke=False):
     plan=read(root/'adapters/codeql/swift-v3-75/runner-plan.json')
+    require(plan['resources']['analysis_total_seconds']==75 and plan['resources']['extraction_seconds']==150 and plan['resources']['memory_mb']==2048,'preregistered resource envelope')
     for name,digest in plan['files'].items():require(sha(root/name)==digest,'runner configuration binding')
     launch=read(directory/'run-plan.json');run=read(directory/'run.json')
     smoke=run.get('scope')=='swift-v3-budget-retry-subset'

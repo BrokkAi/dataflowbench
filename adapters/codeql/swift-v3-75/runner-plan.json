@@ -1,5 +1,5 @@
 {
-  "scope": "prospective-eight-case-budget-retry",
+  "scope": "prospective-eight-case-budget-retry-plan-v2",
   "scored_activation": false,
   "files": {
     "adapters/codeql/swift-native-composed-v1/AppendIdentity.qll": "5534463217a791f87e5cc97567a64b2ab6659fc00728c90aa0f5a4f7c5b74186",
@@ -284,10 +284,10 @@
     "scripts/swift_persistence_coverage.py": "62017833ad9e666a405f2650618173b97ab2d1568fb14b13cce8fed722dc4ec3",
     "scripts/swift_v2_process.py": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd",
     "adapters/codeql/swift-v3/smoke-selection.json": "519a8313d9aeb27134395c1a233801dbd2464ecc06468b323d167038fd00f8fa",
-    "scripts/run-swift-v3-75.py": "e3b3d6993e9be7478ae5edd10eeb297a11ab062b0b7aeb78aa56d773fa4d118f",
+    "scripts/run-swift-v3-75.py": "d8b8f181aa1a795911bdffb388bd6faffa64196127e312032f5894ca233453cb",
     "scripts/swift_v3_reports75.py": "abab59c61c0f85e1adc69c827210b835aed768c9e7f887f93237d247f58f408a",
     "scripts/swift_v3_runner75.py": "a151a6077b8eb7fa0e104d4cc7832018441106e2623cb1b28882fcafa7a30bdf",
-    "scripts/swift_v3_verify75.py": "48f9a74b6be5ce645786041b23eb9d5f1115f6414979a20e4043d65cd06cc9a1",
+    "scripts/swift_v3_verify75.py": "bfc60bf1652a77178b405c36e3bf9b9ed23da01a96f6260875286f5ed92de3fb",
     "adapters/codeql/swift-v3-75/execution-contract.json": "fa943c9511994b55220dc7d61ec56b936ff7d6c3ca31e8e364c44bc00927c1f6",
     "adapters/codeql/swift-v3-75/selection.json": "1b289679cc13497f13037e2861d6531de88941c573e959aff3e23d3323191141"
   },
@@ -311,24 +311,12 @@
   "resources": {
     "serial": true,
     "extraction_seconds": 150,
-    "analysis_total_seconds": 60,
+    "analysis_total_seconds": 75,
     "memory_mb": 2048,
     "minimum_free_gib": 30,
-    "measured_extraction_seconds": [
-      85.984,
-      84.826,
-      88.182,
-      85.114
-    ],
-    "measured_scratch_kib": [
-      214104,
-      214124,
-      214360,
-      214492
-    ],
-    "projected_extraction_hours": 2.58,
-    "projected_retained_scratch_gib": 22.07,
-    "maximum_phase_hours": 6.3,
+    "selected_case_count": 8,
+    "maximum_extraction_analysis_seconds": 1800,
+    "aggregate_resource_qualification": "unavailable",
     "automatic_full_launch": false
   },
   "containment_blocker": "No independently qualified enforceable aggregate Darwin process boundary. Polling descendants and process RSS are incomplete; heap flags are not aggregate limits. A macOS guest/host boundary would require proven memory+swap limits, process lifecycle containment and adversarial fork/reparent/timeout controls. No usable such runtime is established here. Linux Docker is not a Darwin replacement."

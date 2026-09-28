@@ -1,0 +1,46 @@
+{
+  "scope": "unreportable-full108-diagnostic-archive",
+  "source_commit": "926f70e98c6c23478c0ac55da4aecef689a4e660",
+  "archive_sha256": "6136a946c657aba578ad539eca6f050aac9ac60325071b814972abce2ddf5f9f",
+  "export_manifest_sha256": "52180cb139bda1a4d46f04bcfbb01f913bc1fca8cc5f2161258f4473a770ae9b",
+  "full_database_replay_portable": false,
+  "replay_audit": {
+    "scope": "unreportable-full108-diagnostic-attempt",
+    "scored_activation": false,
+    "full_local_artifact_digests_audited": true,
+    "case_replay_errors": [
+      {
+        "case_id": "dfb-taint-swift-native-persistence-negative",
+        "reason": "successful phase overrun"
+      },
+      {
+        "case_id": "dfb-taint-swift-native-source-sink-positive",
+        "reason": "artifact closure changed",
+        "added": [
+          "database/working/copy-root/000001F5/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/clang",
+          "database/working/copy-root/000001F5/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/clang-21",
+          "database/working/copy-root/000001F5/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/clang.semmle.00003EC3.04BA53C0.slice.arm64"
+        ],
+        "missing": []
+      },
+      {
+        "case_id": "dfb-taint-swift-native-source-sink-positive",
+        "reason": "artifact digest changed",
+        "path": "database/log/build-tracer.log"
+      },
+      {
+        "case_id": "dfb-taint-swift-native-source-sink-positive",
+        "reason": "artifact digest changed",
+        "path": "database/working/copy-root/000001F5/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/clang.semmle.00003EC3.04BA53C0.slice.x86_64"
+      }
+    ],
+    "full_database_replay_portable": false,
+    "local_run": "/private/tmp/dfb-220-full108-20260928/reports/raw/swift-v3/full108-20260928-01",
+    "raw_outcomes": {
+      "not-reached": 26,
+      "reached": 20,
+      "runner-error": 54,
+      "inconclusive": 8
+    }
+  }
+}

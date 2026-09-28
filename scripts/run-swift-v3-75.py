@@ -25,6 +25,7 @@ def main():
     output=args.output.resolve();output.relative_to(ROOT/'reports/raw/swift-v3')
     require(args.minimum_free_gib>=30,'minimum disk reserve cannot be weakened')
     plan=read(ROOT/'adapters/codeql/swift-v3-75/runner-plan.json')
+    require(plan['resources']['analysis_total_seconds']==contract['phases']['analysis']['wall_clock_seconds'] and plan['resources']['extraction_seconds']==contract['phases']['extraction']['wall_clock_seconds'] and plan['resources']['memory_mb']==2048,'preregistered resource envelope')
     for name,digest in plan['files'].items():require(sha(ROOT/name)==digest,'preregistered file '+name)
     registered=['adapters/codeql/swift-v3-75/runner-plan.json','adapters/codeql/swift-v3-75/selection.json',*plan['files']]
     subprocess.run(['git','diff','--quiet','HEAD','--',*registered],cwd=ROOT,check=True)
