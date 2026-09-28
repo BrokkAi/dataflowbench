@@ -130,3 +130,30 @@ seconds total; 96 attempts give a 7,200-second maximum case allowance, plus the
 is a conservative prospective estimate, not measured hard containment. Reserve
 checks remain active between cases and phases. Preparation creates no launch
 reservation, native result, full-population report, score, freeze or publication.
+
+## Completed current108 diagnostic run
+
+The registered plan ran on merge commit `4b3f6b78628f9d030d0dbb835fc8eb0f4f1a0679`
+after all four post-merge CI checks passed. The exact-plan reservation recorded
+48,369,913,856 free bytes and an exclusive analyzer slot. The serial run completed
+all 108 rows: 96 actual attempts and 12 prospective native capability decisions.
+Normal output is **96 inconclusive and 12 unsupported**, with no scored activation.
+
+Raw diagnostic observations were 30 reached, 58 not-reached and 8 inconclusive.
+Four entrypoint fixtures reported incomplete Swift import; four opaque/position
+fixtures reported missing exact native endpoint identity. These outcomes remain
+visible. No model repair, repeated matrix or fixture execution was performed.
+The 284 case phase commands recorded exit zero, no timeouts and tracked-process
+cleanup success; that observation does not prove aggregate descendant containment.
+
+Observed run wall time was 534 seconds, summed case time 529.010 seconds and
+maximum case time 10.317 seconds. These are diagnostic costs, not comparative
+performance certification. The complete local output tree was about 165.4 MiB;
+the committed evidence subset is about 9.0 MiB, excluding module caches and
+Joern working copies. Original hashes and failed prefixes remain intact.
+
+`python3 -O scripts/check-joern-current108-results-v1.py` independently reconstructs
+the normal reports from the registered plan, admission, decisions, commands,
+native output and configuration hashes. The resulting reports remain under
+`reports/raw/joern-normal-v1/current108-2026-09-28-01/normal` as an unqualified
+diagnostic lane. No scorecard, freeze, release or deployed publication changes.
