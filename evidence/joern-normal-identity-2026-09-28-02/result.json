@@ -1,0 +1,428 @@
+{
+  "schema": "joern-identity-diagnostic-result/v1",
+  "status": "incomplete-native-endpoint-link",
+  "query_evaluated": true,
+  "original_cpg_unchanged": true,
+  "source": {
+    "internal_declaration": {
+      "id": "107374182407",
+      "full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182407",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 22,
+        "code": "@inline(never) func dfb_source() -> String { \"tainted\" }"
+      },
+      "ast_parent": {
+        "id": "107374182406",
+        "label": "METHOD"
+      },
+      "parameters": [],
+      "return": {
+        "type": "Swift.String",
+        "node": {
+          "id": "124554051590",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 22,
+          "code": "RET"
+        }
+      }
+    },
+    "anchored_call": {
+      "node": {
+        "id": "30064771103",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 26,
+        "code": "dfb_source()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+      "callee_ids": [
+        "107374182420"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476760",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 26,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    "actual_callee": {
+      "id": "107374182420",
+      "full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+      "external": true,
+      "node": {
+        "id": "107374182420",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149732",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051604",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    }
+  },
+  "sink": {
+    "internal_declaration": {
+      "id": "107374182408",
+      "full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+      "external": false,
+      "node": {
+        "id": "107374182408",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 23,
+        "code": "@inline(never) func dfb_sink(_ value: String) { print(value) }"
+      },
+      "ast_parent": {
+        "id": "107374182406",
+        "label": "METHOD"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149709",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 23,
+            "code": "_ value: String"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051591",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 23,
+          "code": "RET"
+        }
+      }
+    },
+    "anchored_call": {
+      "node": {
+        "id": "30064771104",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 27,
+        "code": "dfb_sink(opaque.carry(tainted))"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+      "callee_ids": [
+        "107374182421"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476761",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 27,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771105",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 27,
+            "code": "opaque.carry(tainted)"
+          }
+        }
+      ]
+    },
+    "actual_callee": {
+      "id": "107374182421",
+      "full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+      "external": true,
+      "node": {
+        "id": "107374182421",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149733",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149734",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051605",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    }
+  },
+  "wrappers": {
+    "carry": {
+      "id": "107374182403",
+      "full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182403",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 8,
+        "code": "func carry(_ value: String) -> String {\n        let name = [\"dfb\", \"Relay\", \":\"].joined()\n        return perform(NSSelectorFromString(name), with: value as NSString).takeUnretainedValue() as! String\n    }"
+      },
+      "ast_parent": {
+        "id": "167503724544",
+        "label": "TYPE_DECL",
+        "full_name": "DataFlowBenchTaintSwift.Opaque",
+        "method_ids": [
+          "107374182400",
+          "107374182401",
+          "107374182402",
+          "107374182403",
+          "107374182404",
+          "107374182405"
+        ]
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Opaque",
+          "node": {
+            "id": "111669149702",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 8,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149703",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 8,
+            "code": "_ value: String"
+          }
+        }
+      ],
+      "return": {
+        "type": "Swift.String",
+        "node": {
+          "id": "124554051587",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 8,
+          "code": "RET"
+        }
+      }
+    },
+    "block": {
+      "id": "107374182404",
+      "full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182404",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 12,
+        "code": "func block(_ value: String) -> String {\n        let name = [\"dfb\", \"Relay\", \":\"].joined()\n        return perform(NSSelectorFromString(name), with: value as NSString).takeUnretainedValue() as! String\n    }"
+      },
+      "ast_parent": {
+        "id": "167503724544",
+        "label": "TYPE_DECL",
+        "full_name": "DataFlowBenchTaintSwift.Opaque",
+        "method_ids": [
+          "107374182400",
+          "107374182401",
+          "107374182402",
+          "107374182403",
+          "107374182404",
+          "107374182405"
+        ]
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Opaque",
+          "node": {
+            "id": "111669149704",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 12,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149705",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 12,
+            "code": "_ value: String"
+          }
+        }
+      ],
+      "return": {
+        "type": "Swift.String",
+        "node": {
+          "id": "124554051588",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 12,
+          "code": "RET"
+        }
+      }
+    },
+    "select": {
+      "id": "107374182405",
+      "full_name": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182405",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 16,
+        "code": "func select(_ first: String, _ second: String) -> String {\n        let name = [\"dfb\", \"Choose\", \":\", \"second\", \":\"].joined()\n        return perform(NSSelectorFromString(name), with: first as NSString, with: second as NSString).takeUnretainedValue() as! String\n    }"
+      },
+      "ast_parent": {
+        "id": "167503724544",
+        "label": "TYPE_DECL",
+        "full_name": "DataFlowBenchTaintSwift.Opaque",
+        "method_ids": [
+          "107374182400",
+          "107374182401",
+          "107374182402",
+          "107374182403",
+          "107374182404",
+          "107374182405"
+        ]
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Opaque",
+          "node": {
+            "id": "111669149706",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 16,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149707",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 16,
+            "code": "_ first: String"
+          }
+        },
+        {
+          "index": 2,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149708",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 16,
+            "code": "_ second: String"
+          }
+        }
+      ],
+      "return": {
+        "type": "Swift.String",
+        "node": {
+          "id": "124554051589",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 16,
+          "code": "RET"
+        }
+      }
+    }
+  },
+  "scope": "IDs are local to this exact CPG only; no names-only reconstruction or unsupported inference",
+  "files": {
+    "inventory.stdout": "834c892e5c07f905fcfac2007f336a72780dea3a9404731e140b0f3770a368d5",
+    "input-cpg.bin": "0f168b3883d9060cbdb91ba399a1148d24880ebac0cf799d0bde08071e8dc9aa",
+    "closure-before.json": "225af78659215d7c27a2a6bc2e16ede0ed68522094bd65f549aa58c5eaefd421",
+    "inventory.command.json": "ea9246040b58f104ff5e3106e4a978b95198f8d6c8380fbe72453a3660fa938a",
+    "inventory.stderr": "e0ffb6da04004082173b3719561f98fb2510b55ab7d06e57582d221e9f586fbc",
+    "closure-after.json": "f1ea061f2d11b33e88fe8c2c42721ad2286905312dd847e874a82ffea65717ac",
+    "inventory.json": "08987c4f72786eb50449574ecd660e1ec34a8afd874cc409e56b54d7982532be",
+    "reservation.json": "af725014ce4b34aeefd55e87a8d42996e9014fd79bbdc56e7781f1220cd1d3c7"
+  }
+}
