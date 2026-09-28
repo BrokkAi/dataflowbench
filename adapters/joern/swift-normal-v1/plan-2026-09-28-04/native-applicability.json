@@ -1,0 +1,463 @@
+{
+  "schema": "joern-current108-native-applicability-review/v1",
+  "status": "read-only-review-not-partition",
+  "current_merge": "583b3a95e1792eade7add2c83ec3427a550d727c",
+  "current_population_sha256": "8a324597f77a2948920c0471ac6fce6809e202afdc3c3e30c062809b8a863efa",
+  "old_population_sha256": "b6c29ff47942c73c34bd479c7ce1137b5bf97d0fbede1204f8eae16aa32007bb",
+  "prior_evidence_manifest_sha256": "e55857f458bf55dd3637d71cc1632b79ce41109bf292af0002ddb8319fda10a6",
+  "evidence_manifest_drift": [],
+  "runtime": {
+    "path": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli",
+    "audited_files": 1349,
+    "changed_or_missing": [],
+    "added_files": [],
+    "hash_review_seconds": 1.417365917
+  },
+  "cases": [
+    {
+      "id": "dfb-taint-swift-native-entrypoint-negative",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "562d35278332486b30d4efdf6247bc84e2d9da9f814ef25138b78d971cfcad58",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-entrypoint-negative/main.swift",
+          "sha256": "dee46617fcaccbeaceaa538f64a5a803ddfa42207ceac045b7ce5c7776992dbd"
+        }
+      ],
+      "contract": {
+        "kind": "native-entrypoint-convention"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-entrypoint-argv",
+          "file": "main.swift",
+          "line_hint": 5
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-entrypoint-exec",
+          "file": "main.swift",
+          "line_hint": 7
+        }
+      ],
+      "reviewed_contract": "guarded CommandLine.arguments[1]",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    },
+    {
+      "id": "dfb-taint-swift-native-entrypoint-positive",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "1ade47d725563efbafd95fbff261cb850eb320d964da4443be6bed31d80ec23f",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-entrypoint-positive/main.swift",
+          "sha256": "bbf6b74602115619d05fcbb3b1e4ab09f934ea2356787a96872d7a257f3dde8b"
+        }
+      ],
+      "contract": {
+        "kind": "native-entrypoint-convention"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-entrypoint-argv",
+          "file": "main.swift",
+          "line_hint": 5
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-entrypoint-exec",
+          "file": "main.swift",
+          "line_hint": 6
+        }
+      ],
+      "reviewed_contract": "guarded CommandLine.arguments[1]",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    },
+    {
+      "id": "dfb-taint-swift-native-persistence-negative",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "42ce79ef630f1af8beb858812ce97864f028328278c70c5880262788b587405d",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-persistence-negative/main.swift",
+          "sha256": "cf8e0098a59e97b26c562ceced7fc6cb399688be6c02cb329d7fe646e922c6b9"
+        }
+      ],
+      "contract": {
+        "kind": "native-persistence-link"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-persistence-env",
+          "file": "main.swift",
+          "line_hint": 7
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-persistence-exec",
+          "file": "main.swift",
+          "line_hint": 10
+        }
+      ],
+      "reviewed_contract": "UserDefaults receiver/key discrimination",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    },
+    {
+      "id": "dfb-taint-swift-native-persistence-positive",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "3ca7a3d3ee196ea04e0fb747e2d886054e8e1397098690a81e886b5f04dca033",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-persistence-positive/main.swift",
+          "sha256": "25394bf472f7b31b9652adfbf6db45b72986cf79e76f8651c21dbf4448361b1a"
+        }
+      ],
+      "contract": {
+        "kind": "native-persistence-link"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-persistence-env",
+          "file": "main.swift",
+          "line_hint": 7
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-persistence-exec",
+          "file": "main.swift",
+          "line_hint": 10
+        }
+      ],
+      "reviewed_contract": "UserDefaults receiver/key discrimination",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    },
+    {
+      "id": "dfb-taint-swift-native-propagator-negative",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "0ad539fdca3e389289cbbd5b0cb013f5b76280fe7c3ded43fd77a7eb51042e02",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-propagator-negative/main.swift",
+          "sha256": "f32ed5bf15ea5491e0b80b4f721b4d90e71d89ac3811b6a119da1c3028de026a"
+        }
+      ],
+      "contract": {
+        "kind": "native-propagator-coverage"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-propagator-env",
+          "file": "main.swift",
+          "line_hint": 4
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-propagator-exec",
+          "file": "main.swift",
+          "line_hint": 7
+        }
+      ],
+      "reviewed_contract": "String.append preserving taint into Process.run",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    },
+    {
+      "id": "dfb-taint-swift-native-propagator-positive",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "8b191cdab61fe8a5d79c07c389dcb7d1322326e6e5999f88bfe6529ea67bf7bc",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-propagator-positive/main.swift",
+          "sha256": "098d9b92ae36469f75f4fabc368b2dedc9fb3176e788c086605d29b4ebb2387a"
+        }
+      ],
+      "contract": {
+        "kind": "native-propagator-coverage"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-propagator-env",
+          "file": "main.swift",
+          "line_hint": 4
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-propagator-exec",
+          "file": "main.swift",
+          "line_hint": 7
+        }
+      ],
+      "reviewed_contract": "String.append preserving taint into Process.run",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    },
+    {
+      "id": "dfb-taint-swift-native-sanitizer-negative",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "74d0f88c160ceca94f9abb4a380f4285413938b926d6cc1b9e3e10bd4518347c",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-sanitizer-negative/main.swift",
+          "sha256": "c9a1a164422b9a32ed4dd8c760cb70c79e999833fe0516b25f0e764224ab978e"
+        }
+      ],
+      "contract": {
+        "kind": "native-sanitizer-credit"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-sanitizer-env",
+          "file": "main.swift",
+          "line_hint": 4
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-sanitizer-exec",
+          "file": "main.swift",
+          "line_hint": 8
+        }
+      ],
+      "reviewed_contract": "Int radix parse and safe String rendering",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    },
+    {
+      "id": "dfb-taint-swift-native-sanitizer-positive",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "019ae4ec6946609a12834f487d566bae889b30446fafabba1ea244e541a98ca2",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-sanitizer-positive/main.swift",
+          "sha256": "13eebec155377719a2aa844627e4a2b23dfc7d16a2ad643878335a547b3a442f"
+        }
+      ],
+      "contract": {
+        "kind": "native-sanitizer-credit"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-sanitizer-env",
+          "file": "main.swift",
+          "line_hint": 4
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-sanitizer-exec",
+          "file": "main.swift",
+          "line_hint": 6
+        }
+      ],
+      "reviewed_contract": "Int radix parse and safe String rendering",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    },
+    {
+      "id": "dfb-taint-swift-native-source-sink-negative",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "f201a8774364fb6953f38b5c8f92c7925035b35ce4068358256c11da6f37f7ea",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-source-sink-negative/main.swift",
+          "sha256": "73b9d645cc7138c1654fbc51044595f684e63f26704a1c5b217fc301fafcf37a"
+        }
+      ],
+      "contract": {
+        "kind": "native-source-sink-coverage"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-source-sink-env",
+          "file": "main.swift",
+          "line_hint": 4
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-source-sink-exec",
+          "file": "main.swift",
+          "line_hint": 6
+        }
+      ],
+      "reviewed_contract": "ProcessInfo.environment to Foundation.Process.run",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    },
+    {
+      "id": "dfb-taint-swift-native-source-sink-positive",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "bf3a6227cef7366ef28e0104e71d2286207afebc1014daaf9c55594e73d781dc",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-source-sink-positive/main.swift",
+          "sha256": "66eb76bda1e6980765f6b7821795c4e4f2597952f5aa3db101e48c51320e8e9f"
+        }
+      ],
+      "contract": {
+        "kind": "native-source-sink-coverage"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-source-sink-env",
+          "file": "main.swift",
+          "line_hint": 4
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-source-sink-exec",
+          "file": "main.swift",
+          "line_hint": 6
+        }
+      ],
+      "reviewed_contract": "ProcessInfo.environment to Foundation.Process.run",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    },
+    {
+      "id": "dfb-taint-swift-native-summary-negative",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "6cffbd0378affd2a6616b85d4fee8f179624c9354e82e451333da498ee23833f",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-summary-negative/main.swift",
+          "sha256": "af6368fb72193b65ef12914e7bc2dca28dc2157b9ee3a78ec4f1041afcb479d0"
+        }
+      ],
+      "contract": {
+        "kind": "native-summary-coverage"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-summary-env",
+          "file": "main.swift",
+          "line_hint": 4
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-summary-exec",
+          "file": "main.swift",
+          "line_hint": 8
+        }
+      ],
+      "reviewed_contract": "Data base64 and String conversion roundtrip",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    },
+    {
+      "id": "dfb-taint-swift-native-summary-positive",
+      "case_metadata_identical": true,
+      "fixtures_identical": true,
+      "case_sha256": "3d9616998df9cb9b5e2a1afd88471300b8979904fb8e351fc84406d5dedce845",
+      "fixture_digests": [
+        {
+          "path": "cases/taint/swift/native-summary-positive/main.swift",
+          "sha256": "652cd447d4bd47fe589852eb9e70fd8a20a9a53160f281aae4a1d21fbee31c94"
+        }
+      ],
+      "contract": {
+        "kind": "native-summary-coverage"
+      },
+      "source_anchors": [
+        {
+          "marker": "DFB-SOURCE: native-summary-env",
+          "file": "main.swift",
+          "line_hint": 4
+        }
+      ],
+      "sink_anchors": [
+        {
+          "marker": "DFB-SINK: native-summary-exec",
+          "file": "main.swift",
+          "line_hint": 8
+        }
+      ],
+      "reviewed_contract": "Data base64 and String conversion roundtrip",
+      "recommended_disposition": "unsupported",
+      "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification."
+    }
+  ],
+  "native_execution": false,
+  "custom_models": false,
+  "conclusion": "Current applicability verified for all12 unchanged native cases against unchanged exact1349-file pin and intact prior source/class/resource evidence. Recommend fresh current108 scoped-unsupported decisions, bounded to pinned shipped native qualification. Source/model capability assessment, not execution and not inferred from config rejection.",
+  "reviewed_evidence": [
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/decision.json",
+      "sha256": "5ee1558706ba5249ea11da66f66cb6b4a7325dff5e16f278e0f77d04717ba2eb"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/audit.md",
+      "sha256": "4888e7195fa8ce1cf9af1774d84813e867d1c8d317d6abe7e9ba3f94e66f44df"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/pinned-file-inventory.json",
+      "sha256": "4fe8af144fb9ebdba63bc85133d862f50da7c7fb3e5e2988a57cafac78a00421"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/jar-inventory.json",
+      "sha256": "11417e543e704b9403d45c2a15596c4decaae587415be935b27f6e8f99167db2"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/first-party-class-inventory.json",
+      "sha256": "0406ada552a51c4f610b523aa4659fad91b745dcd7b8773205b9bbc2ab252f42"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/resource-inventory.json",
+      "sha256": "771220d799e9564fd3b85c0dda4045e5c675854679b695c0ee1bfd662899019b"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/javap-DefaultSemantics-object-bytecode.txt",
+      "sha256": "1cd383f7bb72b6bc5fded7b9fcc57b09d99a3972765b71b42fb4c0d0a7d269b6"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/javap-DefaultSemantics-object.txt",
+      "sha256": "5eae0ac8dc567e6b36ffd1157f6c01ff82c05548ae779f72ac1f84cf92f2ad7b"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/upstream-source/FullNameSemantics.scala",
+      "sha256": "dfd4348bb90f8381d2f44b386ef783ab5f0ae23badff7fc2a742e40d16b43354"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/upstream-source/Semantics.scala",
+      "sha256": "bd8c6aeaeef5864b90bf656d4b2975e2f2e4091290f1a9cbaaa5461d36bcf11c"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/javap-FlowSemantic.txt",
+      "sha256": "64f96afd781f3af320c04840553a69e08c75ef98e6a4c4f7a3bbf0cbed41f665"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/prior-vendor-evidence/structural-catalog.json",
+      "sha256": "7223dc571451493bb0470ef1b0fab5f53f3b69243eaf93cf23944b7c56b6ced2"
+    }
+  ],
+  "parent_review_required_before_partition": true,
+  "scope_limits": [
+    "No claim about future releases or external packs.",
+    "Generic caller-supplied mappings are not shipped native endpoint provenance.",
+    "No native execution or approximate models.",
+    "No partition, registration, score or freeze changed."
+  ],
+  "reviewed_at_unix_seconds": 1790611336
+}

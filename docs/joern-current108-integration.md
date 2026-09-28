@@ -106,3 +106,27 @@ configuration, and the command arguments that consumed it, even for inconclusive
 outcomes. Native-profile configuration and other family activation remain
 unresolved; the diagnostic mechanism alone does not establish current108
 coverage. No new native run is part of this amendment.
+
+## Prospective current108 diagnostic admission (plan 04)
+
+Plan `plan-2026-09-28-04` admits 96 benchmark-controlled cases for real,
+identity-gated, models-off diagnostic attempts. It separately records 12 fresh
+scoped unsupported decisions for the unchanged native contracts. Current case
+and fixture hashes, all 1,349 installed Joern files, and the retained source,
+class and resource evidence were rechecked; these are capability decisions,
+not executions or automatic inheritance of an old partition. No claim about
+future versions or externally supplied models follows.
+
+The new plan resolves membership only. A reached or not-reached native
+observation still exports as inconclusive because aggregate qualification is
+unavailable; models-off execution is not modeled accuracy qualification.
+The execution amendment preserves the earlier amendment and native controls.
+
+Launch requires 44 GiB free (40 GiB reserve plus 4 GiB scratch allowance), an
+exclusive analyzer reservation for this exact committed plan, unchanged runtime
+inventories, and committed decisions/evidence. Each attempted case has 75
+seconds total; 96 attempts give a 7,200-second maximum case allowance, plus the
+30-second version witness and preflight/closure overhead. The storage allowance
+is a conservative prospective estimate, not measured hard containment. Reserve
+checks remain active between cases and phases. Preparation creates no launch
+reservation, native result, full-population report, score, freeze or publication.
