@@ -1,0 +1,34 @@
+{
+  "schema": "swift-topology-diagnostic/v1",
+  "case_ids": [
+    "dfb-taint-swift-direct-positive",
+    "dfb-taint-swift-array-element-positive",
+    "dfb-taint-swift-callback-registration-positive"
+  ],
+  "observations": {
+    "dfb-taint-swift-direct-positive": "0012cc60bf00db6b34be743a53e9289b99a807c493fbff54f70b29bb1adbda63",
+    "dfb-taint-swift-array-element-positive": "bf3fc409105043e0f22f702280aa8d073f5a9a3cc57f53ec19f926077b4e1acd",
+    "dfb-taint-swift-callback-registration-positive": "65f4aa7dcb77910b5257f703ce0b265adccaabedc864ce864761b2b454df4dde"
+  },
+  "resources": {
+    "analysis_total_seconds": 75,
+    "requested_memory_mb": 2048,
+    "minimum_free_gib": 40,
+    "extraction": false
+  },
+  "files": {
+    "scripts/probe-swift-topology-v1.py": "dfa55f0eedf15fc39d6e51b412da38443b46d798e34c348512fd1ce788ea2865",
+    "scripts/probe-swift-endpoints-v1.py": "4935555aef75bc320270fbb061ce1f9d194bff40e6e94ff4f8e4b34000cd3d3c",
+    "scripts/swift_artifact_closure.py": "fe00daf7b75263e7add65675560f8731988333f75af3944e373599a85d7215c3",
+    "scripts/swift_v2_process.py": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd",
+    "scripts/swift_v3_runner75.py": "a151a6077b8eb7fa0e104d4cc7832018441106e2623cb1b28882fcafa7a30bdf",
+    "scripts/swift_v3_reports75.py": "abab59c61c0f85e1adc69c827210b835aed768c9e7f887f93237d247f58f408a",
+    "scripts/swift_extraction_integrity.py": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156",
+    "adapters/codeql/swift-opaque-v3/plan.json": "1e4c7b8bbefd205210dfb6ecacf76d411723078d5044aa726edcd28fbf5f336e",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/resolved-pack-files.json": "4fb53772c26dbdf98b599403ed0fc7f396f019fcfb6e95447397f8369af68f9e",
+    "adapters/codeql/swift-top-level-topology-v1/qlpack.yml": "01c589ae0b706177ceb1558181e1f43ee27d601b175f0ea76e51ce7d58fc802f",
+    "adapters/codeql/swift-top-level-topology-v1/topology.ql": "209135acfd6c7242ff4235e5660a59c59abaa034b5950e17fe3831149d029837"
+  },
+  "ordering_policy": "Only extracted structural member/body indices; locations label nodes and never determine order; no production classification.",
+  "revision_note": "Attempt03 retains locationless AST parent rows and explicit parent/membership counts so missing labels cannot masquerade as absent structural edges; attempts01/02 unchanged."
+}
