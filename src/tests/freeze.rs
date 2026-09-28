@@ -473,3 +473,29 @@ pub(crate) fn freeze_accepts_full_swift_inconclusive_export_without_promoting_ou
     assert!(error.to_string().contains("inconclusive"), "{error:#}");
     fs::remove_dir_all(root).unwrap();
 }
+
+#[test]
+pub(crate) fn swift_normal_configuration_hash_matches_rust_component_order() {
+    let unique = unique_test_dir("swift-normal-config-order");
+    let root = PathBuf::from("target").join(unique.file_name().unwrap());
+    fs::create_dir_all(root.join("a")).unwrap();
+    // String ordering puts a-z before a/x; PathBuf orders a/x first.
+    let paths = BTreeSet::from([root.join("a-z"), root.join("a/x")]);
+    for path in &paths {
+        fs::write(path, path.to_string_lossy().as_bytes()).unwrap();
+    }
+    let expected = crate::report::hash_paths(&paths).unwrap();
+    let paths_json = serde_json::to_string(&paths).unwrap();
+    let output = Command::new("python3")
+        .args(["-c", "import sys,json;from pathlib import Path;sys.path.insert(0,'scripts');from swift_normal_reports_v1 import sha,configuration_hash;p=json.loads(sys.argv[1]);print(configuration_hash(Path('.'),[{'path':x,'sha256':sha(Path(x))} for x in p]))", &paths_json])
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert_eq!(String::from_utf8(output.stdout).unwrap().trim(), expected);
+    fs::remove_dir_all(root).unwrap();
+    fs::remove_dir_all(unique).unwrap();
+}

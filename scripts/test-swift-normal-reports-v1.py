@@ -9,7 +9,7 @@ import unittest
 from collections import Counter
 from pathlib import Path
 
-from swift_normal_reports_v1 import ROOT, POPULATION, export, sha, load_population
+from swift_normal_reports_v1 import ROOT, POPULATION, export, sha, load_population, validate_phases, phase_sequence
 
 
 def write(root, name, value):
@@ -26,17 +26,17 @@ def sample(root):
     tool = {'tool': 'codeql', 'tool_version': 'test-version-1', 'tool_build_identity': 'synthetic-patched-test-build', 'adapter_version': 'test-normal-v1'}
     config = write(root, 'adapters/test-normal/config.json', {'synthetic': True})
     plan = {'schema': 'swift-normal-report-plan/v1', 'population_sha256': ph, 'fixture_revision': population['fixture_revision'], 'aggregate_resource_qualification': 'unavailable', 'scored_activation': False, 'registered_at_unix_seconds': 1, 'identity': tool, 'configurations': {'test': [config]}, 'cases': {i: {'configuration': 'test', 'disposition': 'attempt'} for i in cases}}
-    plan['execution_contract'] = write(root, 'adapters/test-normal/contract.json', {'population_sha256': ph, 'fixture_revision': population['fixture_revision'], 'aggregate_resource_qualification': 'unavailable', 'scored_activation': False, 'phases': {'extraction': {'wall_clock_seconds': 150, 'peak_memory_mb': 2048}, 'analysis': {'wall_clock_seconds': 75, 'peak_memory_mb': 2048}}})
+    plan['execution_contract'] = write(root, 'adapters/test-normal/contract.json', {'population_sha256': ph, 'fixture_revision': population['fixture_revision'], 'aggregate_resource_qualification': 'unavailable', 'scored_activation': False, 'phases': {'extraction': {'wall_clock_seconds': 150, 'peak_memory_mb': 2048}, 'analysis': {'wall_clock_seconds': 75, 'peak_memory_mb': 2048}}, 'phase_sequence': [{'id': 'extract', 'role': 'extraction'}, {'id': 'query', 'role': 'analysis'}, {'id': 'decode', 'role': 'analysis'}]})
     planref = write(root, 'adapters/test-normal/plan.json', plan)
     import hashlib
     ch = hashlib.sha256(config['path'].encode() + (root / config['path']).read_bytes()).hexdigest()
     stdout = write(root, 'reports/raw/normal-test/version.stdout', {'test': 'synthetic identity only'})
     command = {'argv': ['synthetic-test-only'], 'exit_status': 0, 'timed_out': False, 'cleanup_status': 'tracked-processes-stopped', 'elapsed_seconds': 0.001, 'deadline_seconds': 1}
     witness = write(root, 'reports/raw/normal-test/identity.json', {'observed': tool, 'observed_at_unix_seconds': 2, 'command': command, 'stdout': stdout})
-    cmdref = write(root, 'reports/raw/normal-test/command.json', command)
+    commands = [write(root, 'reports/raw/normal-test/' + name + '.json', dict(command, phase_id=name, role=role)) for name, role in [('extract', 'extraction'), ('query', 'analysis'), ('decode', 'analysis')]]
     run = {'schema': 'swift-normal-report-run/v1', 'plan_sha256': planref['sha256'], 'population_sha256': ph, 'fixture_revision': population['fixture_revision'], 'aggregate_resource_qualification': 'unavailable', 'scored_activation': False, 'started_at_unix_seconds': 2, 'ended_at_unix_seconds': 3, 'cold_or_warm': 'cold', 'identity': tool, 'identity_witness': witness, 'results': []}
     for i in cases:
-        raw = {'schema': 'swift-normal-raw/v1', 'case_id': i, 'plan_sha256': planref['sha256'], 'population_sha256': ph, 'fixture_revision': population['fixture_revision'], 'configuration_hash': ch, 'identity_witness_sha256': witness['sha256'], 'execution_contract_sha256': plan['execution_contract']['sha256'], 'raw_outcome': 'not-reached', 'state': 'inconclusive', 'duration_ms': 1, 'diagnostics': ['IncompleteCoverage'], 'witness_checkpoints': [], 'executed': True, 'commands': [cmdref], 'native_outputs': [write(root, 'reports/raw/normal-test/' + i + '-native.json', {'synthetic_observation': []})]}
+        raw = {'schema': 'swift-normal-raw/v1', 'case_id': i, 'plan_sha256': planref['sha256'], 'population_sha256': ph, 'fixture_revision': population['fixture_revision'], 'configuration_hash': ch, 'identity_witness_sha256': witness['sha256'], 'execution_contract_sha256': plan['execution_contract']['sha256'], 'raw_outcome': 'not-reached', 'state': 'inconclusive', 'duration_ms': 1, 'diagnostics': ['IncompleteCoverage'], 'witness_checkpoints': [], 'executed': True, 'commands': commands, 'analysis_elapsed_seconds': 0.002, 'native_outputs': [write(root, 'reports/raw/normal-test/' + i + '-native.json', {'synthetic_observation': []})]}
         ref = write(root, 'reports/raw/normal-test/' + i + '.json', raw)
         run['results'].append({'case_id': i, 'configuration': 'test', 'raw': ref})
     return planref['path'], plan, run
@@ -150,13 +150,13 @@ class Exporter(unittest.TestCase):
     def test_failed_command_cannot_hide_in_inconclusive(self):
         ref = self.run['results'][0]['raw']
         raw = json.loads((self.root / ref['path']).read_text())
-        command = {'argv': ['synthetic-failure'], 'exit_status': 2, 'timed_out': False, 'cleanup_status': 'tracked-processes-stopped', 'elapsed_seconds': 1, 'deadline_seconds': 2}
+        command = {'phase_id': 'extract', 'role': 'extraction', 'argv': ['synthetic-failure'], 'exit_status': 2, 'timed_out': False, 'cleanup_status': 'tracked-processes-stopped', 'elapsed_seconds': 1, 'deadline_seconds': 2}
         cmdref = write(self.root, 'reports/raw/normal-test/failure.json', command)
-        self.mutate_raw(commands=[cmdref])
+        self.mutate_raw(commands=[cmdref], analysis_elapsed_seconds=0)
         with self.assertRaisesRegex(ValueError, 'failed invocation'): self.export()
         command.update(timed_out=True, exit_status=-15)
         cmdref = write(self.root, cmdref['path'], command)
-        self.mutate_raw(commands=[cmdref])
+        self.mutate_raw(commands=[cmdref], analysis_elapsed_seconds=0)
         with self.assertRaisesRegex(ValueError, 'budget reason'): self.export()
         self.mutate_raw(diagnostics=['BudgetExhausted'])
         self.export()
@@ -169,6 +169,36 @@ class Exporter(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'artifact'): self.export()
         self.mutate_raw(configuration_hash='0' * 64)
         with self.assertRaisesRegex(ValueError, 'configuration_hash'): self.export()
+
+    def test_phase_contract_prefix_and_shared_budget(self):
+        sequence = [{'id': 'extract', 'role': 'extraction'}, {'id': 'query', 'role': 'analysis'}, {'id': 'decode', 'role': 'analysis'}]
+        template = {'argv': ['test'], 'exit_status': 0, 'timed_out': False, 'cleanup_status': 'tracked-processes-stopped', 'elapsed_seconds': 1, 'deadline_seconds': 1}
+        for kind in ['valid', 'extract-cap', 'extract-overrun', 'shared-sum', 'shared-overhead', 'missing-role', 'wrong-role', 'wrong-order', 'short-clean', 'failed-prefix', 'failure-continued', 'explicit-incomplete']:
+            phases = [dict(template, phase_id=s['id'], role=s['role']) for s in sequence]
+            diagnostics, outcome, shared = [], 'inconclusive', 2
+            if kind == 'extract-cap': phases[0]['deadline_seconds'] = 999
+            if kind == 'extract-overrun': phases[0].update(elapsed_seconds=151, deadline_seconds=150)
+            if kind == 'shared-sum':
+                phases[1].update(elapsed_seconds=40, deadline_seconds=75)
+                phases[2].update(elapsed_seconds=40, deadline_seconds=75)
+                shared = 80
+            if kind == 'shared-overhead': shared = 76
+            if kind == 'missing-role': del phases[1]['role']
+            if kind == 'wrong-role': phases[1]['role'] = 'extraction'
+            if kind == 'wrong-order': phases[1]['phase_id'] = 'decode'
+            if kind in ['short-clean', 'failed-prefix', 'explicit-incomplete']:
+                phases = phases[:1]; shared = 0
+            if kind in ['failed-prefix', 'failure-continued']:
+                phases[0]['exit_status'] = 2; outcome = 'runner-error'
+            if kind == 'explicit-incomplete': diagnostics = ['IncompleteExecution']
+            refs = [write(self.root, f'reports/raw/phase-{i}.json', phase) for i, phase in enumerate(phases)]
+            raw = {'commands': refs, 'analysis_elapsed_seconds': shared}
+            if kind in ['valid', 'failed-prefix', 'explicit-incomplete']:
+                validate_phases(self.root, raw, sequence, outcome, diagnostics)
+            else:
+                with self.subTest(kind=kind), self.assertRaises(ValueError):
+                    validate_phases(self.root, raw, sequence, outcome, diagnostics)
+        with self.assertRaises(ValueError): phase_sequence({})
 
     def test_case_metadata_drift_is_rejected(self):
         pop = json.loads((self.root / POPULATION).read_text())

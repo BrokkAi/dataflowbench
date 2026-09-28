@@ -18,7 +18,8 @@ IDs exactly once, and derives partitions from track, profile, tier and registere
 configuration. Current fixtures produce 96 benchmark-controlled and 12 tool-native
 rows, split into five tier/profile groups; those counts are verified in tests,
 not supplied as a substitute for metadata checks. Different configurations always
-remain separate. Configuration hashes cover sorted repository paths and bytes.
+remain separate. Configuration hashes cover repository paths and bytes in Rust PathBuf component
+order; a cross-language prefix-directory/hyphen regression verifies this.
 
 A new plan must precede the run, bind the exact population revision, tool/build/
 adapter identity and configuration files, and select attempt or unsupported for
@@ -27,8 +28,14 @@ nonempty original stdout and a matching structured observation within run times.
 Tool-specific banner parsing remains the runner's responsibility; this exporter
 checks bound provenance and never infers a version from arbitrary text. Missing
 or placeholder identity, timing, cache mode, raw data or command evidence fails
-closed. Nonzero invocation failures require runner-error; deadlines retain
-BudgetExhausted. Case anchors are copied from verified case metadata and observed
+closed. The prospective contract supplies unique ordered phase IDs: one extraction then
+analysis/query-decode phases. Records must match that exact sequence or a valid
+prefix; continuing after failure/exhaustion is rejected. Extraction deadlines
+cannot exceed 150 seconds; each analysis deadline fits the remaining shared
+75 seconds. A required monotonic shared-analysis duration includes overhead and
+cannot be below the phase sum. Overruns require BudgetExhausted. A clean short
+prefix requires explicit IncompleteExecution; failed prefixes preserve
+runner-error. Missing role/order/timing is rejected rather than fabricated. Case anchors are copied from verified case metadata and observed
 checkpoints from raw records, never from expected flows.
 
 Unqualified reached/not-reached/inconclusive observations export as inconclusive;

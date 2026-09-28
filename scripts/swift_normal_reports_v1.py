@@ -101,6 +101,54 @@ def normalized(raw_outcome):
     return raw_outcome if raw_outcome in ('runner-error', 'unsupported') else 'inconclusive'
 
 
+def configuration_hash(root, references):
+    digest = hashlib.sha256()
+    for reference in sorted(references, key=lambda ref: Path(ref['path']).parts):
+        file = bound_file(root, reference)
+        digest.update(reference['path'].encode())
+        digest.update(file.read_bytes())
+    return digest.hexdigest()
+
+
+def phase_sequence(contract):
+    sequence = contract.get('phase_sequence')
+    require(isinstance(sequence, list) and len(sequence) >= 2, 'missing phase sequence')
+    require(all(isinstance(p, dict) and isinstance(p.get('id'), str) and p['id'] for p in sequence), 'invalid phase ID')
+    require(len({p['id'] for p in sequence}) == len(sequence), 'duplicate phase ID')
+    require(sequence[0].get('role') == 'extraction' and all(p.get('role') == 'analysis' for p in sequence[1:]), 'invalid phase roles')
+    return sequence
+
+
+def validate_phases(root, raw, sequence, outcome, diagnostics):
+    phases = raw.get('commands')
+    require(isinstance(phases, list) and 0 < len(phases) <= len(sequence), 'missing or excess command evidence')
+    failed, exhausted, analysis_sum = False, False, 0.0
+    for index, reference in enumerate(phases):
+        require(not failed and not exhausted, 'commands after failed or exhausted prefix')
+        phase = read(bound_file(root, reference))
+        expected = sequence[index]
+        require(phase.get('phase_id') == expected['id'] and phase.get('role') == expected['role'], 'phase role/order mismatch')
+        require(strings(phase.get('argv'), 'phase argv'), 'missing phase command')
+        require(type(phase.get('exit_status')) is int and type(phase.get('timed_out')) is bool, 'missing phase status')
+        elapsed, deadline = phase.get('elapsed_seconds'), phase.get('deadline_seconds')
+        require(all(type(v) in (int, float) and math.isfinite(v) and v >= 0 for v in (elapsed, deadline)) and deadline > 0, 'invalid phase duration')
+        cap = 150 if expected['role'] == 'extraction' else 75 - analysis_sum
+        require(deadline <= cap + 0.000001, 'phase deadline exceeds contract or remaining shared budget')
+        if expected['role'] == 'analysis':
+            analysis_sum += elapsed
+        failed = phase['exit_status'] != 0 and not phase['timed_out']
+        failed |= phase.get('cleanup_status') != 'tracked-processes-stopped'
+        exhausted = phase['timed_out'] or elapsed > deadline
+    shared = raw.get('analysis_elapsed_seconds')
+    require(type(shared) in (int, float) and math.isfinite(shared) and shared >= 0, 'missing shared analysis duration')
+    require(shared + 0.000001 >= analysis_sum, 'shared duration smaller than phase sum')
+    require(len(phases) > 1 or shared == 0, 'analysis duration without analysis phase')
+    exhausted |= shared > 75
+    require(not failed or outcome == 'runner-error', 'failed invocation cannot be hidden')
+    require(not exhausted or 'BudgetExhausted' in diagnostics, 'missing raw budget reason')
+    require(len(phases) == len(sequence) or failed or exhausted or 'IncompleteExecution' in diagnostics, 'missing terminal phases without incomplete diagnostic')
+
+
 def export(root, plan_path, run):
     """Return separate normal reports and an audit index; write nothing."""
     root = Path(root)
@@ -136,6 +184,7 @@ def export(root, plan_path, run):
     require(contract.get('aggregate_resource_qualification') == 'unavailable' and contract.get('scored_activation') is False, 'unqualified execution contract required')
     require(contract.get('population_sha256') == population_hash and contract.get('fixture_revision') == population['fixture_revision'], 'execution contract population mismatch')
     require(contract.get('phases') == {'extraction': {'wall_clock_seconds': 150, 'peak_memory_mb': 2048}, 'analysis': {'wall_clock_seconds': 75, 'peak_memory_mb': 2048}}, 'prospective execution budgets required')
+    sequence = phase_sequence(contract)
     configs = plan.get('configurations')
     require(isinstance(configs, dict) and configs, 'missing configuration inventory')
     config_hashes = {}
@@ -143,12 +192,7 @@ def export(root, plan_path, run):
         require(isinstance(key, str) and key and isinstance(files, list) and files, 'invalid configuration')
         names = [ref['path'] for ref in files]
         require(len(set(names)) == len(names), 'duplicate configuration path')
-        digest = hashlib.sha256()
-        for ref in sorted(files, key=lambda ref: ref['path']):
-            file = bound_file(root, ref)
-            digest.update(ref['path'].encode())
-            digest.update(file.read_bytes())
-        config_hashes[key] = digest.hexdigest()
+        config_hashes[key] = configuration_hash(root, files)
     selection = plan.get('cases')
     require(isinstance(selection, dict) and set(selection) == set(cases), 'plan membership mismatch')
     rows = run.get('results')
@@ -193,21 +237,7 @@ def export(root, plan_path, run):
             require(isinstance(outputs, list) and outputs, 'missing native output evidence')
             for reference in outputs:
                 bound_file(root, reference)
-            phases = raw.get('commands')
-            require(isinstance(phases, list) and phases, 'missing command evidence')
-            failed = False
-            timed_out = False
-            for reference in phases:
-                phase = read(bound_file(root, reference))
-                require(isinstance(phase, dict) and strings(phase.get('argv'), 'phase argv'), 'missing phase command')
-                require(type(phase.get('exit_status')) is int and type(phase.get('timed_out')) is bool, 'missing phase status')
-                elapsed, deadline = phase.get('elapsed_seconds'), phase.get('deadline_seconds')
-                require(all(type(v) in (int, float) and math.isfinite(v) and v >= 0 for v in (elapsed, deadline)) and deadline > 0, 'invalid phase duration')
-                failed |= phase['exit_status'] != 0 and not phase['timed_out']
-                failed |= phase.get('cleanup_status') != 'tracked-processes-stopped'
-                timed_out |= phase['timed_out'] or elapsed > deadline
-            require(not failed or outcome == 'runner-error', 'failed invocation cannot be hidden')
-            require(not timed_out or 'BudgetExhausted' in diagnostics, 'missing raw budget reason')
+            validate_phases(root, raw, sequence, outcome, diagnostics)
         grouping = tuple(case[field] for field in PARTITION) + (key,)
         if grouping not in reports:
             reports[grouping] = dict(schema_version=1, **tool, configuration_hash=config_hashes[key], fixture_revision=population['fixture_revision'], started_at_unix_seconds=start, ended_at_unix_seconds=end, cold_or_warm=run['cold_or_warm'], results=[])
