@@ -9,6 +9,8 @@ import shlex
 import shutil
 import subprocess
 import time
+import re
+import zipfile
 from pathlib import Path
 
 import swift_v2_process as process
@@ -42,7 +44,7 @@ def query_files(case):
 
 
 def sequence(names):
-    return [{'id': 'extract', 'role': 'extraction'}] + [dict(id=phase, role='analysis') for name in names for phase in (name, name + '-decode')]
+    return [{'id': 'extract', 'role': 'extraction'}, {'id':'resolve-database','role':'analysis'}] + [dict(id=phase, role='analysis') for name in names for phase in (name, name + '-decode')]
 
 
 def patched_identity(banner, pins):
@@ -66,9 +68,9 @@ def file_inventory(base):
             if path.is_symlink():
                 target = path.resolve(strict=True)
                 require(target.is_relative_to(base), 'runtime symlink escapes inventory: ' + str(path))
-                result[relative] = {'symlink': os.readlink(path)}
+                result[relative] = {'symlink': os.readlink(path), 'mode': path.lstat().st_mode & 0o777}
             elif path.is_file():
-                result[relative] = {'sha256': sha(path)}
+                result[relative] = {'sha256': sha(path), 'mode': path.stat().st_mode & 0o777}
     require(result, 'empty runtime inventory')
     return result
 
@@ -122,6 +124,9 @@ def prepare(root, directory, runtime):
     cli_root = Path(runtime['codeql']).parent
     cli_manifest = {str(p.relative_to(cli_root)):sha(p) for p in sorted(cli_root.rglob('*')) if p.is_file()}
     write(directory/'cli-files.json',cli_manifest);manifests['cli'] = ref(root,directory/'cli-files.json')
+    for name, base in [('cli',cli_root),('extractor',repair/'candidate-extractor/swift'),('packs',repair/'candidate-packs')]:
+        write(directory/(name+'-tree.json'),file_inventory(base))
+        manifests[name+'_tree'] = ref(root,directory/(name+'-tree.json'))
     runtime['compiler_root'] = str(Path(runtime['compiler']).resolve().parent.parent)
     runtime['sdk_root'] = str(Path(runtime['sdk']).resolve())
     for name in ['compiler', 'sdk']:
@@ -153,6 +158,10 @@ def verify_runtime(root, plan):
         manifest=read(bound_file(root,rt['manifests'][name]))
         require({str(p.relative_to(base)) for p in base.rglob('*') if p.is_file()} == set(manifest),'runtime file membership drift: '+name)
         for path,digest in manifest.items():require(sha(base/path)==digest,'runtime file drift: '+name+'/'+path)
+    for name,base in [('cli',Path(rt['codeql']).parent),('extractor',Path(rt['extractor_root'])/'swift'),('packs',Path(rt['packs']))]:
+        require(file_inventory(base)==read(bound_file(root,rt['manifests'][name+'_tree'])), 'runtime symlink/mode drift: '+name)
+    for executable in [Path(rt['codeql']),Path(rt['compiler']),Path(rt['extractor_root'])/'swift/tools/osx64/extractor.real']:
+        require(executable.stat().st_mode & 0o111, 'runtime not executable')
     for name in ['compiler','sdk']:
         require(file_inventory(Path(rt[name+'_root'])) == read(bound_file(root,rt['manifests'][name])), 'full runtime tree drift: '+name)
     require(sha(Path(rt['compiler']))==rt['compiler_sha256'],'compiler drift')
@@ -214,14 +223,94 @@ def run_phase(argv, directory, spec, deadline, invoke=process.run):
     return record
 
 
+def validate_database(db, source, canonical, case, resolved, schema_hash):
+    metadata=(db/'codeql-database.yml').read_text()
+    require(len(re.findall(r'^finalised: true$',metadata,re.MULTILINE))==1 and not re.search(r'^inProgress:',metadata,re.MULTILINE),'DatabaseNotFinalized')
+    require(resolved.get('languages')==['swift'],'DatabaseLanguageMismatch')
+    for key,expected in [('datasetFolder',db/'db-swift'),('sourceArchiveZip',db/'src.zip'),('sourceLocationPrefix',source),('logsFolder',db/'log')]:
+        require(resolved.get(key)==str(expected),'DatabaseOwnershipMismatch:'+key)
+    require(sha(db/'db-swift/swift.dbscheme')==schema_hash,'DatabaseSchemaMismatch')
+    with zipfile.ZipFile(db/'src.zip') as archive:
+        names=archive.namelist()
+        require(len(names)==len(set(names)),'DuplicateArchivedSource')
+        for name in case['fixture_files']:
+            matches=[member for member in names if member==str(source/name).lstrip('/')]
+            require(len(matches)==1,'MissingExactArchivedSource:'+name)
+            require(archive.read(matches[0])==(source/name).read_bytes()==(canonical/name).read_bytes(),'ArchivedSourceMismatch:'+name)
+
+
+def semantic_query_inputs(root, plan):
+    rt=plan['runtime']
+    queries={reference['path']:reference['sha256'] for references in plan['configurations'].values() for reference in references if '/queries/' in reference['path']}
+    require(queries, 'empty query semantic closure')
+    actual_queries={str(p.relative_to(root)) for p in (root/BASE/'queries').rglob('*') if p.is_file()}
+    require(set(queries)==actual_queries, 'query/import/pack membership changed')
+    for path,digest in queries.items():require(sha(root/path)==digest,'query closure drift')
+    inventories={}
+    for name in ['cli','extractor','packs','compiler','sdk']:
+        inventory=read(bound_file(root,rt['manifests'][name]))
+        # New executable-mode checks strengthen the runtime gate. They do not
+        # change old byte/symlink identities supporting query compatibility.
+        inventories[name]={path:({k:v for k,v in entry.items() if k!='mode'} if isinstance(entry,dict) else entry) for path,entry in inventory.items()}
+    return {'queries':queries,'inventories':inventories,'pins':rt['pins'],
+            'runtime_paths':{k:rt[k] for k in ['codeql','compiler','sdk','extractor_root','packs','compiler_root','sdk_root','compiler_sha256','sdk_settings_sha256']}}
+
+
+def nonquery_changes(old_plan, new_plan):
+    def normalized_config(plan):
+        result={}
+        for references in plan['configurations'].values():
+            for reference in references:
+                path=reference['path']
+                if '/queries/' in path:continue
+                if '/plan-' in path:path='plan/'+Path(path).name
+                require(path not in result or result[path]==reference['sha256'],'ambiguous configuration mapping')
+                result[path]=reference['sha256']
+        return result
+    old,new=normalized_config(old_plan),normalized_config(new_plan)
+    return sorted(path for path in set(old)|set(new) if old.get(path)!=new.get(path))
+
+
+def validate_allowed_changes(old_plan,new_plan,amendment):
+    allowed={'scripts/swift_normal_runner_v1.py','scripts/swift_normal_reports_v1.py','plan/contract.json','plan/compiler-tree.json','plan/sdk-tree.json','plan/cli-tree.json','plan/extractor-tree.json','plan/packs-tree.json'}
+    changed=nonquery_changes(old_plan,new_plan)
+    require(amendment.get('allowed_nonquery_changes')==changed and set(changed)<=allowed,'unlisted or forbidden nonquery change')
+    require(isinstance(amendment.get('rationale'),str) and amendment['rationale'].strip(),'missing revalidation rationale')
+    require(amendment.get('claim')=='query-compile-only-not-runner-execution','revalidation claim overreach')
+
+
+def verify_revalidation(root, plan_path, reservation, execution_start=None):
+    amendment=read(bound_file(root,reservation.get('query_revalidation')))
+    require(amendment.get('schema')=='swift-query-revalidation/v1','missing explicit query revalidation')
+    require(amendment.get('new_plan')=={'path':plan_path,'sha256':sha(root/plan_path)},'revalidation target mismatch')
+    old_plan=read(bound_file(root,amendment.get('old_plan')))
+    receipt=read(bound_file(root,amendment.get('original_receipt')))
+    require(receipt.get('plan_path')==amendment['old_plan']['path'],'old receipt plan mismatch')
+    require(amendment['original_receipt']==reservation.get('query_qualification'),'revalidation receipt mismatch')
+    verify_query_receipt(root,old_plan,receipt)
+    new_plan=read(root/plan_path)
+    require(semantic_query_inputs(root,old_plan)==semantic_query_inputs(root,new_plan),'query semantic inputs changed; fresh checks required')
+    validate_allowed_changes(old_plan,new_plan,amendment)
+    stamp=amendment.get('registered_at_unix_seconds')
+    require(type(stamp) is int and new_plan['registered_at_unix_seconds']<=stamp<(int(time.time()) if execution_start is None else execution_start),'revalidation must precede execution')
+    return amendment
+
+
 def execute(root, plan_path, output, reservation):
     plan=read(root/plan_path);rt=plan['runtime'];contract=read(bound_file(root,plan['execution_contract']))
     receipt = read(bound_file(root,reservation.get('query_qualification')))
-    require(receipt.get('plan_path') == plan_path, 'query qualification names another plan')
-    verify_query_receipt(root,plan,receipt)
+    revalidation=None
+    if receipt.get('plan_path') == plan_path:
+        verify_query_receipt(root,plan,receipt)
+    else:
+        revalidation=verify_revalidation(root,plan_path,reservation)
     population,cases,ph=load_population(root)
     require(plan['population_sha256']==ph and plan['fixture_revision']==population['fixture_revision'],'plan population drift')
     registered=[plan_path,plan['execution_contract']['path'],*[r['path'] for refs in plan['configurations'].values() for r in refs]]
+    if revalidation is not None:
+        registered.append(reservation['query_revalidation']['path'])
+        registered.append(reservation['query_qualification']['path'])
+        registered.append(revalidation['old_plan']['path'])
     subprocess.run(['git','diff','--quiet','HEAD','--',*registered],cwd=root,check=True)
     subprocess.run(['git','ls-files','--error-unmatch','--',*registered],cwd=root,check=True,stdout=subprocess.DEVNULL)
     require(reservation.get('plan_sha256')==sha(root/plan_path) and reservation.get('launch_free_bytes',0)>=LAUNCH_CAPACITY and reservation.get('exclusive_analyzer_slot') is True,'missing exact-plan capacity reservation')
@@ -232,12 +321,15 @@ def execute(root, plan_path, output, reservation):
     require(not output.exists() and output.resolve().is_relative_to((root/plan['output_root']).resolve()),'new versioned output required')
     output.mkdir(parents=True)
     write(output/'reservation.json',reservation)
+    if revalidation is not None:write(output/'query-revalidation.json',revalidation)
     start=int(time.time());require(plan['registered_at_unix_seconds']<start,'plan must precede execution')
     cli=rt['codeql'];version=process.run([cli,'version','--format=json'],output,'version',30,cwd=root)
     require(version['exit_status']==0 and not version['timed_out'] and version['cleanup_status']=='tracked-processes-stopped','failed identity witness')
     observed=patched_identity(read(output/'version.stdout'),rt['pins']);require(observed==plan['identity'],'plan identity mismatch')
     write(output/'identity.json',{'observed':observed,'observed_at_unix_seconds':int(time.time()),'command':version,'stdout':ref(root,output/'version.stdout')})
     run={'schema':'swift-normal-report-run/v1','plan_sha256':sha(root/plan_path),'population_sha256':ph,'fixture_revision':population['fixture_revision'],'aggregate_resource_qualification':'unavailable','scored_activation':False,'started_at_unix_seconds':start,'ended_at_unix_seconds':int(time.time()),'cold_or_warm':'cold','identity':observed,'identity_witness':ref(root,output/'identity.json'),'results':[]}
+    run['query_qualification']=reservation['query_qualification']
+    if revalidation is not None:run['query_revalidation']=reservation['query_revalidation']
     selected={c['id']:c for c in population['cases']}
     for case_id,case in cases.items():
         try:capacity(shutil.disk_usage(root).free)
@@ -247,18 +339,22 @@ def execute(root, plan_path, output, reservation):
         for name in case['fixture_files']:shutil.copyfile((root/selected[case_id]['path']).parent/name,source/name)
         conf=plan['cases'][case_id]['configuration'];seq=phase_sequence(contract,plan['cases'][case_id]['phase_sequence'])
         raw={'schema':'swift-normal-raw/v1','case_id':case_id,'plan_sha256':run['plan_sha256'],'population_sha256':ph,'fixture_revision':population['fixture_revision'],'configuration_hash':configuration_hash(root,plan['configurations'][conf]),'identity_witness_sha256':run['identity_witness']['sha256'],'execution_contract_sha256':plan['execution_contract']['sha256'],'raw_outcome':'inconclusive','state':'inconclusive','duration_ms':0,'diagnostics':[],'witness_checkpoints':[],'executed':True,'commands':[],'native_outputs':[],'analysis_elapsed_seconds':0}
+        raw['query_qualification']=reservation['query_qualification']
+        if revalidation is not None:raw['query_revalidation']=reservation['query_revalidation']
         case_start=time.monotonic();analysis_start=None;rows={};stop=False
         try:
             compile_argv=[rt['compiler'],'-swift-version','6','-Onone','-sdk',rt['sdk'],'-target','arm64-apple-macosx26.5','-module-name','DataFlowBenchTaintSwift','-module-cache-path',str(directory/'cache'),*[str(source/n) for n in case['fixture_files']],'-o',str(directory/'never-executed')]
             db=directory/'database'
             run_phase([cli,'database','create',str(db),'--language=swift','--search-path='+rt['extractor_root'],'--source-root='+str(source),'--threads=2','--ram=2048','--command='+shlex.join(compile_argv)],directory,seq[0],150)
-            require('finalised: true' in (db/'codeql-database.yml').read_text(),'DatabaseNotFinalized')
+            analysis_start=time.monotonic()
+            run_phase([cli,'resolve','database','--format=json',str(db)],directory,seq[1],75)
+            validate_database(db,source,(root/selected[case_id]['path']).parent,case,read(directory/'resolve-database.stdout'),rt['pins']['schema_sha256'])
             integrity=inspect_logs(db/'log/swift/extractor')
             write(directory/'extraction-integrity.json',integrity)
             require(integrity['ready_for_observation'],'ExtractionIncomplete')
             shutil.copyfile(db/'codeql-database.yml',directory/'database-finalization.txt')
-            analysis_start=time.monotonic();queries=query_files(case)
-            for spec in seq[1:]:
+            queries=query_files(case)
+            for spec in seq[2:]:
                 capacity(shutil.disk_usage(root).free)
                 remaining=75-(time.monotonic()-analysis_start)
                 if remaining<=0:raise TimeoutError('BudgetExhausted')
@@ -270,18 +366,24 @@ def execute(root, plan_path, output, reservation):
             if 'coverage' in rows:
                 assessment=assess_coverage(rows['coverage'],[r[0] for r in rows['scopes']])
                 if assessment.status is CoverageStatus.INCOMPLETE:raw['raw_outcome']='inconclusive';raw['diagnostics'].extend(assessment.reasons)
-        except TimeoutError:raw['raw_outcome']='inconclusive';raw['diagnostics'].append('BudgetExhausted')
+        except TimeoutError:raw['raw_outcome']='inconclusive';raw['diagnostics'].append('BudgetExhausted');stop=True
         except Exception as error:
             raw['raw_outcome']='runner-error';raw['diagnostics'].append(str(error));stop=isinstance(error,process.ProcessCleanupError) or str(error) in ('UncertainCleanup','DiskReserveReached')
         finally:
             raw['duration_ms']=int((time.monotonic()-case_start)*1000)
             raw['analysis_elapsed_seconds']=time.monotonic()-analysis_start if analysis_start is not None else 0
             if raw['analysis_elapsed_seconds']>75:
-                raw['diagnostics'].append('BudgetExhausted')
+                raw['diagnostics'].append('BudgetExhausted');stop=True
                 if raw['raw_outcome']!='runner-error':raw['raw_outcome']='inconclusive'
             raw['state']=normalized(raw['raw_outcome'])
             if (directory/'database').exists():
-                write(directory/'database-closure.json',snapshot(directory/'database'))
+                try:
+                    write(directory/'database-closure.json',snapshot(directory/'database'))
+                except Exception as error:
+                    raw['diagnostics'].append('ArtifactClosureFailed:'+str(error));stop=True
+                    raw['closure_status']='incomplete'
+                    if raw['raw_outcome'] not in ('runner-error','inconclusive'):
+                        raw['raw_outcome']='inconclusive';raw['state']='inconclusive'
             raw['runtime_manifest_sha256']={name:reference['sha256'] for name,reference in rt['manifests'].items()}
             for spec in seq:
                 command=directory/(spec['id']+'.command.json')
@@ -289,8 +391,10 @@ def execute(root, plan_path, output, reservation):
             raw['native_outputs']=[ref(root,p) for p in sorted(directory.iterdir()) if p.is_file() and p.suffix in ('.stdout','.stderr','.bqrs','.json','.txt') and not p.name.endswith('.command.json')]
             if len(raw['commands'])<len(seq) and 'BudgetExhausted' not in raw['diagnostics']:raw['diagnostics'].append('IncompleteExecution')
             write(directory/'raw.json',raw);run['results'].append({'case_id':case_id,'configuration':conf,'raw':ref(root,directory/'raw.json')});run['ended_at_unix_seconds']=int(time.time());write(output/'run.json',run)
-        if stop:break
-    if len(run['results'])==len(cases):
+        if stop:
+            write(output/'stop.json',{'reason':raw['diagnostics'],'unattempted_case_ids':[i for i in cases if i not in {r['case_id'] for r in run['results']}],'full_report':False})
+            break
+    if len(run['results'])==len(cases) and not (output/'stop.json').exists():
         bundle=export(root,plan_path,run);normal=output/'normal';normal.mkdir()
         for index,report in enumerate(bundle['reports'].values()):write(normal/f'report-{index}.json',report)
         write(normal/'audit.json',bundle['audit'])

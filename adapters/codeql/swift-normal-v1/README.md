@@ -5,7 +5,7 @@ Preparation hashes inputs and emits an exact plan without running CodeQL. The
 prepared local plan is not a reservation, compatibility qualification, analyzer
 result or freeze. Execute requires a committed unchanged plan, exact runtime
 file inventories, a plan-bound exclusive-slot reservation, at least 64 GiB free
-at launch and a 40 GiB per-phase reserve. Current approximately 41 GiB free does
+at launch and a 40 GiB per-phase reserve. Current approximately 40 GiB free does
 not satisfy launch capacity. Compiled fixture executables are never run.
 
 The runner witnesses CodeQL's JSON product/version/build and combines it with
@@ -62,8 +62,8 @@ The implementation binds full compiler/SDK/CLI/extractor/pack inventories,
 rejects escaped compiler/SDK symlinks, checks exact query schema/dependency
 resolution, and retains extraction-integrity/finalization records and post-run
 database closure. Fake process and mutation tests cover witnesses and guards;
-no end-to-end 108-case execution is claimed. Plan-04 has its exact-plan check-only receipt; it still needs independent runner
-review, a committed unchanged plan and a real capacity reservation. No reservation exists. The 64 GiB launch target is
+no end-to-end 108-case execution is claimed. Plan-06 supersedes plan-04 for future execution and still needs independent runner
+review and a real capacity reservation. No reservation exists. The 64 GiB launch target is
 40 GiB reserve plus approximately 24 GiB projected scratch from prior diagnostic
 growth, not proof of a hard maximum. The per-phase guard stops further work;
 all stopped evidence remains, and this version never deletes per-case databases
@@ -72,3 +72,28 @@ or executes native fixtures. Conservative estimates do not certify resources.
 Joern's current108 capability assessment remains open; this CodeQL implementation
 does not assert unsupported for its four missing opaque cases or reuse its 104
 old rows. No score activation or common release freeze follows from this PR.
+
+## Reviewed execution guards and prospective amendment
+
+Plan-06 SHA-256 is `a91c0571b588e63977611064d649914827d1497b9988e52b4f8b8622540c7bcd`.
+Its `query-revalidation.json` binds plan-04, receipt 03 and plan-06 without
+rewriting the original observations. Replay checks the complete query directory
+(including imports, qlpack and lockfiles), exact CLI/extractor/pack/compiler/SDK
+byte inventories, schema pins and runtime paths. It enumerates the allowed
+runner/exporter, phase-contract and inventory-hardening changes. It certifies
+compile compatibility only, never execution of the changed runner.
+
+Execution requires the amendment, original receipt, old plan and current inputs
+to be tracked and clean against HEAD. The run and every raw record retain the
+qualification references; export replays their bindings and checks that the
+amendment predates the run. A reservation must reference receipt 03 through
+`query_qualification` and the amendment through `query_revalidation`, each as
+`{path, sha256}`. No capacity reservation is created by the amendment.
+
+Timeouts, uncertain cleanup and failed database closure stop before another
+case. Original commands and diagnostics survive closure errors; `stop.json`
+records unattempted IDs and prevents a full report. Before queries, a timed
+resolve phase binds database ownership, language, schema and archived canonical
+fixture bytes. Runtime trees now bind symlinks and executable modes as well as
+regular-file bytes. These guards have synthetic regression coverage; no new
+analyzer execution is claimed.

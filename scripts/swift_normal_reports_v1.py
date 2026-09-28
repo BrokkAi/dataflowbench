@@ -200,6 +200,15 @@ def export(root, plan_path, run):
     require(isinstance(rows, list) and all(isinstance(row, dict) for row in rows), 'missing run rows')
     ids = [row.get('case_id') for row in rows]
     require(all(isinstance(i, str) for i in ids) and len(ids) == len(set(ids)) == 108 and set(ids) == set(cases), 'run membership mismatch')
+    # Import lazily: the runner uses this module's common artifact helpers.
+    if tool['adapter_version'] == 'swift-normal-v1':
+        from swift_normal_runner_v1 import verify_query_receipt, verify_revalidation
+        receipt = read(bound_file(root, run.get('query_qualification')))
+        if receipt.get('plan_path') == plan_path:
+            require('query_revalidation' not in run, 'unexpected revalidation')
+            verify_query_receipt(root, plan, receipt)
+        else:
+            verify_revalidation(root, plan_path, run, execution_start=start)
     reports, index = {}, []
     for row in rows:
         case_id = row['case_id']
@@ -212,6 +221,11 @@ def export(root, plan_path, run):
         require(raw.get('schema') == 'swift-normal-raw/v1', 'new raw record required')
         for field, expected in [('case_id', case_id), ('plan_sha256', sha(plan_file)), ('population_sha256', population_hash), ('fixture_revision', population['fixture_revision']), ('configuration_hash', config_hashes[key]), ('identity_witness_sha256', run['identity_witness']['sha256']), ('execution_contract_sha256', plan['execution_contract']['sha256'])]:
             require(raw.get(field) == expected, 'raw binding mismatch: ' + field)
+        if tool['adapter_version'] == 'swift-normal-v1':
+            for field in ['query_qualification', 'query_revalidation']:
+                require(raw.get(field) == run.get(field), 'raw query provenance mismatch: ' + field)
+                if field in raw:
+                    bound_file(root, raw[field])
         outcome = normalized(raw.get('raw_outcome'))
         require(raw.get('state') == outcome, 'raw special state must preserve normalized outcome')
         duration = integer(raw.get('duration_ms'), 'case duration')
