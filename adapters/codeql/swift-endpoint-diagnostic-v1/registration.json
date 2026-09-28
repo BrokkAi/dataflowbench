@@ -1,0 +1,46 @@
+{
+  "schema": "swift-endpoint-diagnostic-registration/v1",
+  "scope": "diagnostic-only",
+  "scored_activation": false,
+  "resources": {
+    "extraction_seconds": 150,
+    "analysis_total_seconds": 75,
+    "requested_memory_mb": 2048,
+    "minimum_free_gib": 40,
+    "aggregate_memory_compliance": "unproven",
+    "descendant_containment": "unproven"
+  },
+  "retained_case_ids": [
+    "dfb-taint-swift-direct-positive",
+    "dfb-taint-swift-array-element-positive",
+    "dfb-taint-swift-callback-registration-positive"
+  ],
+  "retained_observations": {
+    "dfb-taint-swift-direct-positive": "0012cc60bf00db6b34be743a53e9289b99a807c493fbff54f70b29bb1adbda63",
+    "dfb-taint-swift-array-element-positive": "bf3fc409105043e0f22f702280aa8d073f5a9a3cc57f53ec19f926077b4e1acd",
+    "dfb-taint-swift-callback-registration-positive": "65f4aa7dcb77910b5257f703ce0b265adccaabedc864ce864761b2b454df4dde"
+  },
+  "files": {
+    "adapters/codeql/swift-endpoint-diagnostic-v1/controls/wrapped/main.swift": "97d7813eee5f1d809a8aab40273c0bec2fcf261441eab72eff6e6c992ea4e61e",
+    "adapters/codeql/swift-endpoint-diagnostic-v1/controls/wrong-signature/main.swift": "346f75ef225a6f22dd54dcda2cfde47353b04874cd07cfd123b70f9f049ae426",
+    "adapters/codeql/swift-endpoint-diagnostic-v1/diagnostics.ql": "6aaf82e0b3ab2494c90164f60ba9948f0af15a19052481bcc7a468147a2a9eac",
+    "adapters/codeql/swift-endpoint-diagnostic-v1/plan.json": "19df2ca28844f566f544e1eb3b9e819830cd687e53a4abcb8a308f9c9c0f31d2",
+    "adapters/codeql/swift-endpoint-diagnostic-v1/qlpack.yml": "8ff28fd855772175247f92134ffb6f5ef2e9176aaba8cd863bc8209e6139dc8d",
+    "adapters/codeql/swift-opaque-v3/plan.json": "1e4c7b8bbefd205210dfb6ecacf76d411723078d5044aa726edcd28fbf5f336e",
+    "cases/taint/swift/array-element-positive/case.json": "727f90912f7abca5c20d241c15009413682cccc371e7c8f6032c996501bcfa4d",
+    "cases/taint/swift/array-element-positive/main.swift": "73227d9a6a655a64db6b79135247db31d4aa3af2a2ec6c160f69a0152c39e150",
+    "cases/taint/swift/callback-registration-positive/case.json": "876aa983f865b819fff848bde5d9b6b5da08c1c7ec87466cc5abc68f03f5fbfc",
+    "cases/taint/swift/callback-registration-positive/main.swift": "044cd307eaa4e792b0092e5a942bf4a1b1ef475895f0c22c925e0fddb1b6ea37",
+    "cases/taint/swift/direct-positive/case.json": "0e6d074d722140b7561446e9d8b6bde779511a375f3a2111193f25d2bd3c8a88",
+    "cases/taint/swift/direct-positive/main.swift": "43145c3085d565b4b261ad3c890fbd9bf7c12490444bef3ffda5549844470c51",
+    "evidence/swift-candidate-qualification-220/codeql-runtime/resolved-pack-files.json": "4fb53772c26dbdf98b599403ed0fc7f396f019fcfb6e95447397f8369af68f9e",
+    "populations/swift-synthetic-v3.json": "8a324597f77a2948920c0471ac6fce6809e202afdc3c3e30c062809b8a863efa",
+    "scripts/probe-swift-endpoints-v1.py": "4935555aef75bc320270fbb061ce1f9d194bff40e6e94ff4f8e4b34000cd3d3c",
+    "scripts/swift_artifact_closure.py": "fe00daf7b75263e7add65675560f8731988333f75af3944e373599a85d7215c3",
+    "scripts/swift_endpoint_diagnostic.py": "c5850b21014b6dead4e3ea3e27fec0d7d33605d39f786e9a104df2c34bc2139b",
+    "scripts/swift_extraction_integrity.py": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156",
+    "scripts/swift_v2_process.py": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd",
+    "scripts/swift_v3_reports75.py": "abab59c61c0f85e1adc69c827210b835aed768c9e7f887f93237d247f58f408a",
+    "scripts/swift_v3_runner75.py": "a151a6077b8eb7fa0e104d4cc7832018441106e2623cb1b28882fcafa7a30bdf"
+  }
+}

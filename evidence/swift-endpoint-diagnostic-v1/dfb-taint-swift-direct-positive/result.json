@@ -1,0 +1,60 @@
+{
+  "id": "dfb-taint-swift-direct-positive",
+  "execution_status": "completed",
+  "scored_activation": false,
+  "endpoints": [
+    {
+      "file": "main.swift",
+      "line": 6,
+      "role": "source",
+      "status": "Bound",
+      "rows": [
+        [
+          "main.swift",
+          6,
+          17,
+          "source",
+          1,
+          1,
+          1,
+          1,
+          1,
+          "DataFlowBenchTaintSwift:dfb_source()"
+        ]
+      ]
+    },
+    {
+      "file": "main.swift",
+      "line": 7,
+      "role": "sink",
+      "status": "Bound",
+      "rows": [
+        [
+          "main.swift",
+          7,
+          5,
+          "sink",
+          1,
+          1,
+          1,
+          1,
+          1,
+          "DataFlowBenchTaintSwift:dfb_sink(_:)"
+        ]
+      ]
+    }
+  ],
+  "analysis_elapsed_seconds": 27.659727916005068,
+  "closure": {
+    "schema": "swift-artifact-closure-delta/v1",
+    "version": 1,
+    "before_root": "/private/tmp/dfb-220-full108-20260928/reports/raw/swift-endpoints-v1/attempt-01/dfb-taint-swift-direct-positive/artifacts",
+    "after_root": "/private/tmp/dfb-220-full108-20260928/reports/raw/swift-endpoints-v1/attempt-01/dfb-taint-swift-direct-positive/artifacts",
+    "status": "CompleteArtifactClosure",
+    "snapshot_semantics": "point-in-time-observation; stability-and-containment-unproven",
+    "added": [],
+    "changed": [],
+    "removed": []
+  },
+  "descendant_containment": "unproven"
+}
