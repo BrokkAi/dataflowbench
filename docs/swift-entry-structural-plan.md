@@ -1,4 +1,8 @@
-# Prospective structural controls — proposal only
+# Structural controls — prospective plan and execution record
+
+The two controls were subsequently authorized, preregistered and executed; see
+[the retained result](../adapters/codeql/swift-entry-structural-v1/README.md).
+The prospective plan below is retained as planning context.
 
 This plan is separate from the hash-bound ten-control registration and preserves
 its failure. No new extraction or query is authorized by this document. Before

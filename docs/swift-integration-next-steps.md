@@ -47,3 +47,12 @@ current108/Joern join and report/freeze predicates. In parallel, a read-only aud
 and freeze-schema changes are needed for truthful inconclusive reporting. A
 resource facility must be demonstrated before promising qualified decided
 scores. No optional analyzer-model perfection loop is on the closure path.
+
+## Subsequent bounded structural execution
+
+The two authorized multifile controls passed their registered structural checks.
+See [exact commands, identities and retained limitations](../adapters/codeql/swift-entry-structural-v1/README.md).
+This supplies bounded ownership, conditional/abrupt completion and nested-scope
+evidence for review. Historical ten-control failures, resource nonqualification,
+unexercised auxiliary/lazy paths and the remaining result/freeze integration stay
+visible; no new full-population run or score activation follows automatically.
