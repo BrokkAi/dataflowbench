@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-28",
+  "scope": "read-only javap signatures, no Joern invocation or Scala compile",
+  "jars": {
+    "io.joern.semanticcpg-4.0.628.jar": "dafa3ed41664922943f901a86c479a954695fb8640ba36b3b486e2e886167cd4",
+    "io.shiftleft.codepropertygraph-domain-classes_3-1.7.74.jar": "9c6c0865db78ce3d40c98c64c8d76cab935257cb213873902515664d17a80230",
+    "io.joern.dataflowengineoss-4.0.628.jar": "e63635788249ef86d87bb75c9f37929ab2309fd557e7e147765b73dbd0ac077b"
+  },
+  "outputs": {
+    "semantics-signatures.txt": "9f09ff30b2be180bcd859e81bc5636b4ed094e73c8d130ad8df0174e4f87fc1c",
+    "method-neighbors.txt": "60c795e2e8539da8290a7b1ea718b8370a5816117849cf5820d630b9841e30a7",
+    "semanticcpg-signatures.txt": "08f14eea9b766146ae6b1480998aeffa4f8837db9a9ac9143695b0dacfab5b28"
+  },
+  "conclusion": "astParentOption returns Option[AstNode]; Method.methodReturn returns one MethodReturn, parameter returns iterator. Owner and return joins feasible at API surface, current Swift graphs unobserved.",
+  "limitations": [
+    "javap FlowSemantic signatures succeeded; FlowMapping class lookup absent; no inference from absence",
+    "Native Scala compile, version command and current Swift CPG owner/parameter evidence remain unobserved"
+  ]
+}
