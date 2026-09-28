@@ -18,7 +18,7 @@ incomplete baseline. Original evidence remains immutable.
 Corrected plan `3ca3c36fd4194db148b30fac9d65cd6d581ad6e7828e7e506df9253594c6e2c5`
 ran twelve serial arms after its registration commit `c4765e3a` with
 47,162,884,096 free bytes. All commands completed below their remaining budget;
-phase totals were 70.532 seconds combined, with a 6.779-second maximum arm.
+total arm wall time was 70.532 seconds combined, with a 6.779-second maximum arm.
 The output tree retained approximately 238.3 MiB and the observed free-space
 change was 251,355,136 bytes; these are diagnostic measurements, not isolated
 peak accounting or aggregate containment certification.
@@ -61,7 +61,7 @@ and new prospective controls; this work does not start an accuracy-fixing loop.
 
 ## Remaining gates
 
-A current108 activation receipt must replay successful model-off/on controls and
+An opaque-model activation receipt must replay successful model-off/on controls and
 bind the same query/model/helper/runtime and phase-contract inputs as its corpus
 plan. The exporter independently verifies that receipt and run/raw references.
 Fresh native unsupported decisions require evidence for the current population;
