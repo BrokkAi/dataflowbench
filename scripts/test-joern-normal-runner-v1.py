@@ -40,6 +40,20 @@ class Controls(unittest.TestCase):
             self.assertEqual(shlex.split((root/'out/build.log').read_text()),argv_seen[0])
             self.assertEqual(argv_seen[0][0],'/fake/swiftc')
 
+    def test_diagnostic_admission_does_not_require_opaque_activation(self):
+        from joern_normal_runner_v1 import verify_controls,validate_capability
+        control='adapters/joern/swift-normal-v1/plan-2026-09-28-03/controls.json'
+        run='reports/raw/joern-normal-v1/controls-2026-09-28-02/run.json'
+        result=verify_controls(ROOT,control,run,'diagnostic-identity-gated')
+        self.assertEqual(result['status'],'incomplete')
+        with self.assertRaisesRegex(ValueError,'incomplete'):
+            verify_controls(ROOT,control,run,'opaque-models')
+        case={'template_id':'dfb-template-model-opaque-propagator'}
+        planned={'capability':{'identity_gate':'exact-native-edges','model_status':'unqualified','model_mode':'off'}}
+        validate_capability(case,planned,'diagnostic-identity-gated')
+        planned['capability']['model_mode']='on'
+        with self.assertRaisesRegex(ValueError,'cannot activate'):validate_capability(case,planned,'diagnostic-identity-gated')
+
     def test_capacity_and_unresolved_partition(self):
         capacity(RESERVE);capacity(RESERVE+SCRATCH,True)
         for value,launch in [(RESERVE-1,False),(RESERVE+SCRATCH-1,True)]:

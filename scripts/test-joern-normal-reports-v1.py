@@ -18,9 +18,10 @@ class Reports(unittest.TestCase):
         self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name)
         self.path,self.plan,self.run=fixtures.sample(self.root)
         tool={'tool':'joern','tool_version':'4.0.628','tool_build_identity':'joern-cli:4.0.628;engine:synthetic','adapter_version':'joern-normal-v1'}
-        self.plan.update(schema='joern-normal-report-plan/v1',identity=tool,runtime={'joern':'/pinned/joern'},partition_status='resolved')
+        self.plan.update(schema='joern-normal-report-plan/v1',identity=tool,runtime={k:'/pinned/'+k for k in ['joern','frontend','compiler','sdk']},partition_status='resolved')
         contract={'schema':'joern-normal-contract/v1','population_sha256':self.plan['population_sha256'],'fixture_revision':self.plan['fixture_revision'],'aggregate_resource_qualification':'unavailable','scored_activation':False,'total_wall_clock_seconds':75,'phase_sequence':[{'id':name,'role':'analysis'} for name in ['typecheck','frontend','query']],'memory_policy':{'fixture_peak_memory_mb':512,'aggregate_enforcement':'unavailable','jvm_heap_request_mb':512}}
         self.plan['execution_contract']=write(self.root,'adapters/test-normal/contract.json',contract)
+        for planned in self.plan['cases'].values():planned['capability']={'identity_gate':'exact-native-edges','model_status':'unqualified','model_mode':'off'}
         self.plan['activation_receipt']=write(self.root,'activation.json',{'synthetic':True})
         self.run['activation_receipt']=self.plan['activation_receipt']
         # Native control replay is covered separately; exercise export bindings.
@@ -32,8 +33,20 @@ class Reports(unittest.TestCase):
         self.run.update(schema='joern-normal-report-run/v1',identity=tool,plan_sha256=planref['sha256'])
         phases=[dict(witness['command'],phase_id=p['id'],role='analysis',deadline_seconds=25,elapsed_seconds=0.001) for p in contract['phase_sequence']]
         commands=[write(self.root,'reports/raw/phase-'+str(i)+'.json',phase) for i,phase in enumerate(phases)]
+        from swift_normal_reports_v1 import load_population
+        cases=load_population(ROOT)[1]
+        # Synthetic full-population provenance fixture, not native admission.
+        def synthetic_config(root,case,mode):
+            return {'template':case['template_id'],'semantics':[] if mode=='off' else [{'flows':[[1,-1]]}]}
+        config_patch=patch('joern_normal_controls_v1.config_for',side_effect=synthetic_config)
+        config_for=config_patch.start();self.addCleanup(config_patch.stop)
         for row in self.run['results']:
-            raw=read(self.root/row['raw']['path']);raw.update(activation_receipt=self.plan['activation_receipt'],schema='joern-normal-raw/v1',plan_sha256=planref['sha256'],identity_witness_sha256=self.run['identity_witness']['sha256'],execution_contract_sha256=self.plan['execution_contract']['sha256'],commands=commands,total_elapsed_seconds=0.004)
+            raw=read(self.root/row['raw']['path']);raw.update(capability={'identity_gate':'exact-native-edges','model_status':'unqualified','model_mode':'off'},activation_receipt=self.plan['activation_receipt'],schema='joern-normal-raw/v1',plan_sha256=planref['sha256'],identity_witness_sha256=self.run['identity_witness']['sha256'],execution_contract_sha256=self.plan['execution_contract']['sha256'],commands=commands,total_elapsed_seconds=0.004)
+            raw['native_outputs'].append(write(self.root,'native/'+row['case_id']+'/config.json',config_for(ROOT,cases[row['case_id']],'off')))
+            from joern_normal_execution_v1 import compiler_argv,frontend_argv,query_argv
+            directory=self.root/'native'/row['case_id'];case=cases[row['case_id']];rt=self.plan['runtime']
+            generated=[compiler_argv(rt,case,directory),frontend_argv(rt,directory),query_argv(self.root,rt,directory)]
+            raw['commands']=[write(self.root,'native/'+row['case_id']+'/'+str(i)+'.command.json',dict(phase,argv=argv,cwd=str(directory))) for i,(phase,argv) in enumerate(zip(phases,generated))]
             raw.pop('analysis_elapsed_seconds')
             row['raw']=write(self.root,row['raw']['path'],raw)
 
@@ -57,6 +70,26 @@ class Reports(unittest.TestCase):
         self.run['activation_receipt']=self.plan['activation_receipt']
         row=self.run['results'][0];raw=read(self.root/row['raw']['path']);raw.pop('activation_receipt');row['raw']=write(self.root,row['raw']['path'],raw)
         with self.assertRaisesRegex(ValueError,'raw activation'):export(self.root,self.path,self.run)
+
+    def test_models_on_native_config_and_raw_capability_reject_even_inconclusive(self):
+        row=self.run['results'][0];raw=read(self.root/row['raw']['path'])
+        self.assertEqual(raw['state'],'inconclusive')
+        raw['capability']['model_mode']='on'
+        row['raw']=write(self.root,row['raw']['path'],raw)
+        with self.assertRaisesRegex(ValueError,'raw capability'):export(self.root,self.path,self.run)
+        raw['capability']['model_mode']='off'
+        config=raw['native_outputs'][-1];value=read(self.root/config['path']);value['semantics']=[{'flows':[[1,-1]]}]
+        raw['native_outputs'][-1]=write(self.root,config['path'],value)
+        row['raw']=write(self.root,row['raw']['path'],raw)
+        with self.assertRaisesRegex(ValueError,'native configuration'):export(self.root,self.path,self.run)
+
+    def test_query_cannot_use_an_unbound_configuration(self):
+        row=self.run['results'][0];raw=read(self.root/row['raw']['path'])
+        reference=raw['commands'][-1];command=read(self.root/reference['path'])
+        command['argv'][-3]='configPath=/foreign/model-on.json'
+        raw['commands'][-1]=write(self.root,reference['path'],command)
+        row['raw']=write(self.root,row['raw']['path'],raw)
+        with self.assertRaisesRegex(ValueError,'configuration invocation'):export(self.root,self.path,self.run)
 
     def test_real_total_budget_and_failed_prefix_rules(self):
         seq=phase_sequence({'phase_sequence':[{'id':n,'role':'analysis'} for n in ['typecheck','frontend','query']]})

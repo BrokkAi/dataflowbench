@@ -43,6 +43,21 @@ def validate_phases(root, raw, sequence, outcome, diagnostics):
     require(len(phases) == len(sequence) or failed or exhausted or 'IncompleteExecution' in diagnostics, 'missing terminal phases without incomplete diagnostic')
 
 
+def validate_config_invocation(root, raw, case, runtime, config_reference):
+    """Bind the retained config to the invocation, including moved checkouts."""
+    from joern_normal_execution_v1 import compiler_argv, frontend_argv, query_argv
+    relative=Path(config_reference['path']).parent
+    commands=[read(bound_file(root,r)) for r in raw['commands']]
+    require(commands,'missing configuration invocation')
+    cwd=Path(commands[0].get('cwd',''))
+    require(cwd.is_absolute() and cwd.parts[-len(relative.parts):]==relative.parts,'configuration invocation directory mismatch')
+    execution_root=cwd.parents[len(relative.parts)-1]
+    expected=[compiler_argv(runtime,case,cwd),frontend_argv(runtime,cwd),query_argv(execution_root,runtime,cwd)]
+    require(len(commands)<=3,'excess configuration invocations')
+    for command,argv in zip(commands,expected):
+        require(command.get('cwd')==str(cwd) and command.get('argv')==argv,'configuration invocation mismatch')
+
+
 def export(root, plan_path, run):
     """Return separate normal reports and an audit index; write nothing."""
     root = Path(root)
@@ -138,10 +153,16 @@ def export(root, plan_path, run):
             require(duration == 0 and checkpoints == [], 'unsupported cannot claim execution')
         else:
             require(disposition == 'attempt' and raw.get('executed') is True, 'missing attempted execution')
+            require(raw.get('capability')==planned.get('capability') and isinstance(raw.get('capability'),dict),'raw capability binding')
             outputs = raw.get('native_outputs')
             require(isinstance(outputs, list) and outputs, 'missing native output evidence')
             for reference in outputs:
                 bound_file(root, reference)
+            from joern_normal_controls_v1 import config_for
+            configs=[r for r in outputs if Path(r['path']).name=='config.json']
+            require(len(configs)==1,'one bound native configuration required')
+            require(read(bound_file(root,configs[0]))==config_for(root,case,planned['capability']['model_mode']),'native configuration capability mismatch')
+            validate_config_invocation(root,raw,case,plan['runtime'],configs[0])
             sequence = phase_sequence(contract, planned.get('phase_sequence'))
             validate_phases(root, raw, sequence, outcome, diagnostics)
         grouping = tuple(case[field] for field in PARTITION) + (key,)

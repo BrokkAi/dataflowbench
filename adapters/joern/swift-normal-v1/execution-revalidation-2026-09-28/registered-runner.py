@@ -8,8 +8,6 @@ import subprocess
 import time
 
 import swift_v2_process as process
-from joern_execution_revalidation_v1 import AMENDMENT, REVIEWED, EXECUTION, verify as verify_execution
-from joern_normal_execution_v1 import env_for, compiler_argv, frontend_argv, query_argv
 from swift_artifact_closure import snapshot
 from swift_normal_reports_v1 import ROOT, read, sha, require, bound_file, load_population, configuration_hash, normalized
 from swift_normal_runner_v1 import file_inventory, ref, write
@@ -63,7 +61,7 @@ def prepare(root,directory,runtime):
         target=directory/(name+'.json');write(target,tree);runtime['inventories'][name]=ref(root,target)
     contract={'schema':'joern-normal-contract/v1','phase_sequence':PHASES,'total_wall_clock_seconds':75,'aggregate_resource_qualification':'unavailable','scored_activation':False,'population_sha256':digest,'fixture_revision':population['fixture_revision'],'memory_policy':{'fixture_peak_memory_mb':512,'aggregate_enforcement':'unavailable','jvm_heap_request_mb':512}}
     write(directory/'contract.json',contract)
-    files=['scripts/joern_normal_runner_v1.py','scripts/joern_normal_execution_v1.py','scripts/joern_execution_revalidation_v1.py',AMENDMENT,'scripts/joern_normal_controls_v1.py','scripts/joern_normal_reports_v1.py','scripts/run-joern-normal-v1.py','scripts/joern_swift.py','scripts/run-joern-swift-case.py','scripts/swift_v2_process.py','scripts/swift_normal_reports_v1.py','scripts/swift_normal_runner_v1.py','scripts/swift_artifact_closure.py','adapters/joern/swift/models.json',BASE+'/query.sc',BASE+'/README.md']
+    files=['scripts/joern_normal_runner_v1.py','scripts/joern_normal_controls_v1.py','scripts/joern_normal_reports_v1.py','scripts/run-joern-normal-v1.py','scripts/joern_swift.py','scripts/run-joern-swift-case.py','scripts/swift_v2_process.py','scripts/swift_normal_reports_v1.py','scripts/swift_normal_runner_v1.py','scripts/swift_artifact_closure.py','adapters/joern/swift/models.json',BASE+'/query.sc',BASE+'/README.md']
     refs=[ref(root,root/p) for p in files]+[ref(root,directory/'contract.json')]+list(runtime['inventories'].values())
     plan={'schema':'joern-normal-report-plan/v1','registered_at_unix_seconds':int(time.time()),'population_sha256':digest,'fixture_revision':population['fixture_revision'],'aggregate_resource_qualification':'unavailable','scored_activation':False,'identity':identity(runtime),'runtime':runtime,'execution_contract':ref(root,directory/'contract.json'),'configurations':{'joern-current108':refs},'cases':{i:{'configuration':'joern-current108','disposition':'pending-capability'} for i in cases},'output_root':'reports/raw/joern-normal-v1','partition_status':'unresolved','resources':{'reserve_bytes':RESERVE,'scratch_allowance_bytes':SCRATCH,'launch_bytes':RESERVE+SCRATCH,'status':'not-reserved','cost_estimate':'2 GiB prospective serial one-CPG scratch allowance; unmeasured for current controls, not hard containment'}}
     write(directory/'plan.json',plan)
@@ -105,6 +103,14 @@ def preflight(root,plan_path,reservation,extra=()):
     return plan,population,cases
 
 
+def env_for(rt):
+    env=dict(os.environ)
+    # Do not accept ambient JVM/Scala injections into a pinned invocation.
+    for key in ['JAVA_TOOL_OPTIONS','_JAVA_OPTIONS','JDK_JAVA_OPTIONS','CLASSPATH','JAVA_OPTS','JDK_JAVA_OPTIONS']:
+        env.pop(key,None)
+    env.update(JAVA_HOME=rt['java_home'],SWIFTASTGEN_BIN=rt['astgen'],JAVA_OPTS='-Xmx512m -XX:ActiveProcessorCount=2',LANG='C',LC_ALL='C')
+    return env
+
 
 def phase(argv,directory,name,deadline,env,invoke=process.run):
     remaining=deadline-time.monotonic()
@@ -134,17 +140,17 @@ def run_case(root,plan,case_path,case,directory,mode='on'):
     start=time.monotonic();deadline=start+75;outcome='runner-error';diagnostics=[];stop=False
     env=env_for(rt);cpg=directory/'cpg.bin'
     try:
-        argv=compiler_argv(rt,case,directory)
+        argv=[rt['compiler'],'-module-name','DataFlowBenchTaintSwift','-swift-version','6','-Onone','-sdk',rt['sdk'],'-target','arm64-apple-macosx27.0.0','-module-cache-path',str(directory/'cache'),*[str(source/n) for n in case['fixture_files']],'-typecheck']
         phase(argv,directory,'typecheck',deadline,env)
         write(directory/'fixture-hashes.json',{name:sha(source/name) for name in case['fixture_files']})
         import shlex
         (directory/'build.log').write_text(shlex.join(argv)+'\n')
-        phase(frontend_argv(rt,directory),directory,'frontend',deadline,env)
+        phase([rt['frontend'],str(source),'--build-log-path',str(directory/'build.log'),'--output',str(cpg)],directory,'frontend',deadline,env)
         log=(directory/'frontend.stdout').read_text()+(directory/'frontend.stderr').read_text()
         counts=re.findall(r'Got (\d+) type map entries\.',log)
         require(counts and int(counts[-1])>=len(case['fixture_files']) and cpg.is_file() and cpg.stat().st_size>0,'Incomplete:SwiftImport')
         require(not re.search(r'\[(?:ERROR|WARN)\]',log),'Incomplete:FrontendDiagnostics')
-        phase(query_argv(root,rt,directory),directory,'query',deadline,env)
+        phase([rt['joern'],'--script',str(root/BASE/'query.sc'),'--param','cpgPath='+str(cpg),'--param','configPath='+str(directory/'config.json'),'--param','outputPath='+str(directory/'graph.json')],directory,'query',deadline,env)
         outcome,diagnostics=observe(read(directory/'graph.json'),config)
         require(time.monotonic()<=deadline,'BudgetExhausted')
     except KeyboardInterrupt:outcome='runner-error';diagnostics.append('Cancelled');stop=True
@@ -210,7 +216,7 @@ def controls(root,plan_path,control_path,output,reservation):
     return result
 
 
-def verify_controls(root,control_path,run_path,activation_scope="opaque-models"):
+def verify_controls(root,control_path,run_path):
     """Replay retained raw graphs, fixture identity and exact prospective matrix."""
     from joern_normal_reports_v1 import validate_phases
     control=read(root/control_path);plan_path=control['plan']['path']
@@ -219,7 +225,8 @@ def verify_controls(root,control_path,run_path,activation_scope="opaque-models")
     require(control['registered_at_unix_seconds']<run['started_at_unix_seconds']<=run['ended_at_unix_seconds'],'control chronology')
     _,cases,digest=load_population(root)
     require(plan['population_sha256']==digest,'control population drift')
-    control_semantics(root,plan)
+    for refs in plan['configurations'].values():
+        for reference in refs:bound_file(root,reference)
     witness=run['identity_witness'];command=read(bound_file(root,witness['command']))
     require(witness['observed']==plan['identity'] and command['argv']==[plan['runtime']['joern']] and command['exit_status']==0 and command['timed_out'] is False and command['cleanup_status']=='tracked-processes-stopped','control version witness')
     require(re.search(r'(?<![0-9.])4\.0\.628(?![0-9.])',bound_file(root,witness['stdout']).read_text()),'control version mismatch')
@@ -241,44 +248,22 @@ def verify_controls(root,control_path,run_path,activation_scope="opaque-models")
         require(read(directory/'config.json')==config,'control configuration drift')
         outcome,diagnostics=observe(read(directory/'graph.json'),config)
         require(outcome==raw['raw_outcome'] and raw['state']==normalized(outcome),'control raw outcome drift')
-        require(diagnostics==raw['diagnostics'],'control diagnostic drift')
-        if activation_scope=='opaque-models' or label.startswith('direct-'):
-            require(not diagnostics,'required activation control incomplete')
+        require(not diagnostics and not raw['diagnostics'],'incomplete controls cannot activate models')
         validate_phases(root,raw,PHASES,raw['state'],raw['diagnostics'])
         observations.setdefault(label,{})[arm]=outcome
     require(observations==run['observations'],'control observation mismatch')
     assessment=assess_controls(observations)
-    require(assessment==run.get('assessment'),'control assessment drift')
-    require(activation_scope in ('diagnostic-identity-gated','opaque-models'),'unknown activation scope')
-    if activation_scope=='opaque-models':require(assessment['status']=='bounded-controls-observed','load-bearing control matrix failed')
-    else:
-        require(observations['direct-positive']=={'off':'reached','on':'reached'} and observations['direct-negative']=={'off':'not-reached','on':'not-reached'},'direct diagnostic baseline failed')
+    require(assessment==run.get('assessment') and assessment['status']=='bounded-controls-observed','load-bearing control matrix failed')
     return assessment
 
 
 def control_semantics(root,plan):
     # All code/configuration capable of changing compilation, identity or models
     # must match the observed control plan. Plan manifests use stable role keys.
-    reviewed=set(REVIEWED+[EXECUTION,'scripts/joern_execution_revalidation_v1.py',AMENDMENT])
-    files={r['path']:r['sha256'] for rows in plan['configurations'].values() for r in rows if '/plan-' not in r['path'] and r['path'] not in reviewed}
+    files={r['path']:r['sha256'] for rows in plan['configurations'].values() for r in rows if '/plan-' not in r['path']}
     for path,digest in files.items():require(sha(root/path)==digest,'control semantic file drift')
     rt=plan['runtime']
     return {'files':files,'contract':read(bound_file(root,plan['execution_contract'])),'runtime':{k:v for k,v in rt.items() if k!='inventories'},'trees':{k:read(bound_file(root,v)) for k,v in rt['inventories'].items()}}
-
-
-def validate_capability(case,planned,scope):
-    capability=planned.get('capability')
-    require(isinstance(capability,dict) and capability.get('identity_gate')=='exact-native-edges','case capability identity gate required')
-    if scope=='diagnostic-identity-gated':
-        require(capability.get('model_status')=='unqualified' and capability.get('model_mode')=='off','diagnostic admission cannot activate models')
-    else:
-        require(case['template_id'] in OPAQUE and capability.get('model_status')=='activated' and capability.get('model_mode')=='on','opaque activation does not qualify other families')
-    return capability
-
-
-def admitted_cases(value):
-    require(isinstance(value,list) and all(isinstance(i,str) and i for i in value) and len(value)==len(set(value)),'unique admitted case IDs required')
-    return set(value)
 
 
 def verify_activation(root,plan):
@@ -289,20 +274,10 @@ def verify_activation(root,plan):
     require(receipt.get('evidence') and isinstance(receipt['evidence'],list),'activation evidence missing')
     for reference in receipt['evidence']:bound_file(root,reference)
     control_plan=bound_file(root,receipt.get('control_plan'));control_run=bound_file(root,receipt.get('control_run'))
-    scope=receipt.get('scope')
-    require(scope in ('diagnostic-identity-gated','opaque-models'),'activation scope required')
-    verify_controls(root,str(control_plan.relative_to(root)),str(control_run.relative_to(root)),scope)
-    _,cases,_=load_population(root)
-    admitted=admitted_cases(receipt.get('admitted_case_ids'))
-    require(admitted=={i for i,c in plan['cases'].items() if c['disposition']=='attempt'},'admitted case membership')
-    for case_id in admitted:
-        validate_capability(cases[case_id],plan['cases'][case_id],scope)
+    verify_controls(root,str(control_plan.relative_to(root)),str(control_run.relative_to(root)))
     require(receipt['reviewed_at_unix_seconds']>=read(control_run)['ended_at_unix_seconds'],'activation review predates controls')
     controls=read(control_plan)
     observed_plan=read(bound_file(root,controls['plan']))
-    require(isinstance(receipt.get('execution_revalidation'),dict),'bound execution revalidation required')
-    amendment=verify_execution(root,receipt['execution_revalidation'],plan)
-    require(amendment['control_plan']==receipt['control_plan'] and amendment['control_run']==receipt['control_run'],'activation execution evidence mismatch')
     require(control_semantics(root,observed_plan)==control_semantics(root,plan),'control query/model/runtime closure changed')
     return receipt
 
@@ -312,11 +287,8 @@ def execute(root,plan_path,output,reservation):
     require(plan.get('partition_status')=='resolved','Incomplete: current108 capability partition not registered')
     require(set(plan['cases'])==set(load_population(root)[1]),'current108 membership')
     require(all(c.get('disposition') in ('attempt','unsupported') for c in plan['cases'].values()),'pending capability decision')
-    receipt=verify_activation(root,plan)
-    amendment=read(bound_file(root,receipt['execution_revalidation']))
-    extra=[plan['activation_receipt']['path'],receipt['execution_revalidation']['path']]
-    extra.extend(r['path'] for r in [receipt['control_plan'],receipt['control_run'],*receipt['evidence'],amendment['registered_runner'],amendment['execution_module'],*amendment['reviewed_files']])
-    plan,population,cases=preflight(root,plan_path,reservation,extra)
+    verify_activation(root,plan)
+    plan,population,cases=preflight(root,plan_path,reservation,[plan['activation_receipt']['path']])
     require(plan['registered_at_unix_seconds']<int(time.time()),'plan must precede run')
     require(not output.exists() and output.resolve().is_relative_to((root/plan['output_root']).resolve()),'new owned output required')
     output.mkdir(parents=True);write(output/'reservation.json',reservation)
@@ -343,10 +315,9 @@ def execute(root,plan_path,output,reservation):
             (output/case_id).mkdir()
             raw={'raw_outcome':'unsupported','state':'unsupported','duration_ms':0,'total_elapsed_seconds':0,'diagnostics':[decision['reason']],'witness_checkpoints':[],'executed':False,'decision_sha256':planned['decision']['sha256'],'native_outputs':[],'commands':[]}
         else:
-            try:raw,stop=run_case(root,plan,paths[case_id],case,output/case_id,planned['capability']['model_mode'])
+            try:raw,stop=run_case(root,plan,paths[case_id],case,output/case_id)
             except Exception as error:
                 write(output/'stop.json',{'reason':'PrelaunchFailure:'+str(error),'case_id':case_id,'executed':False,'unattempted_case_ids':[i for i in cases if i not in {r['case_id'] for r in run['results']}],'full_report':False});write(output/'run.json',run);break
-        if planned['disposition']=='attempt':raw['capability']=planned['capability']
         raw.update(activation_receipt=plan['activation_receipt'],schema='joern-normal-raw/v1',case_id=case_id,plan_sha256=run['plan_sha256'],population_sha256=plan['population_sha256'],fixture_revision=plan['fixture_revision'],configuration_hash=configuration_hash(root,plan['configurations'][key]),identity_witness_sha256=run['identity_witness']['sha256'],execution_contract_sha256=plan['execution_contract']['sha256'])
         write(output/case_id/'raw.json',raw)
         run['results'].append({'case_id':case_id,'configuration':key,'raw':ref(root,output/case_id/'raw.json')})
