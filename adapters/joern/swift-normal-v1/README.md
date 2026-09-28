@@ -98,3 +98,17 @@ that phase sum. Prelaunch fixture/configuration failures retain a stop record
 with `executed: false`, never a fabricated command. Export independently replays
 the activation receipt and controls and requires identical query, model,
 helper, runtime-tree and phase-contract inputs between control and corpus plans.
+
+## Prospective correction after controls-01
+
+The first attempt recorded six `Incomplete:SwiftImport` arms and no query
+execution: preparation resolved the supplied `swiftc` driver symlink to the
+`swift-frontend` filename. SwiftAstGen's build-log parser then reported zero
+type-map entries, unlike retained successful driver-spelled commands. The next
+plan preserves the compiler launcher name while inventorying its target bytes.
+It also stops on any incomplete direct baseline, and retains cancellation.
+The initial `--version` flag was unsupported, but the process printed a 4.0.628
+REPL banner and exited successfully at EOF. Future version witnessing invokes
+the launcher without that unsupported flag, retaining its actual banner.
+Earlier registration and failure evidence remain immutable. This is a runner
+correction, not a claim about analyzer accuracy or opaque capability.

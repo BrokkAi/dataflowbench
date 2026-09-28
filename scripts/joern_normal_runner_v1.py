@@ -32,11 +32,19 @@ def identity(runtime):
     return {'tool':'joern','tool_version':VERSION,'tool_build_identity':'joern-cli:'+VERSION+';engine:'+runtime['engine_sha256']+';frontend:'+runtime['frontend_sha256'],'adapter_version':ADAPTER}
 
 
+def compiler_launcher(path):
+    path=Path(path)
+    return str(path.parent.resolve()/path.name)
+
+
 def prepare(root,directory,runtime):
     require(not directory.exists(),'plan directory exists')
     population,cases,digest=load_population(root)
     runtime=dict(runtime)
-    for key in ['joern','java_home','compiler','sdk']:runtime[key]=str(Path(runtime[key]).resolve())
+    for key in ['joern','java_home','sdk']:runtime[key]=str(Path(runtime[key]).resolve())
+    # swiftc driver spelling is an input to SwiftAstGen's compiler-log parser.
+    # Resolve its parent, not the executable symlink (which names swift-frontend).
+    runtime['compiler']=compiler_launcher(runtime['compiler'])
     runtime['joern_root']=str(Path(runtime['joern']).parent)
     runtime['compiler_root']=str(Path(runtime['compiler']).parent.parent)
     runtime['frontend']=str(Path(runtime['joern_root'])/'frontends/swiftsrc2cpg/bin/swiftsrc2cpg')
@@ -145,6 +153,7 @@ def run_case(root,plan,case_path,case,directory,mode='on'):
         phase([rt['joern'],'--script',str(root/BASE/'query.sc'),'--param','cpgPath='+str(cpg),'--param','configPath='+str(directory/'config.json'),'--param','outputPath='+str(directory/'graph.json')],directory,'query',deadline,env)
         outcome,diagnostics=observe(read(directory/'graph.json'),config)
         require(time.monotonic()<=deadline,'BudgetExhausted')
+    except KeyboardInterrupt:outcome='runner-error';diagnostics.append('Cancelled');stop=True
     except TimeoutError:outcome='inconclusive';diagnostics.append('BudgetExhausted');stop=True
     except Exception as error:
         reason=str(error);diagnostics.append(reason)
@@ -182,7 +191,7 @@ def controls(root,plan_path,control_path,output,reservation):
     paths={row['id']:root/row['path'] for row in population['cases']}
     result={'schema':'joern-normal-controls-run/v1','plan_sha256':sha(root/plan_path),'controls_sha256':sha(root/control_path),'started_at_unix_seconds':int(time.time()),'observations':{},'records':[],'scored_activation':False}
     initial=shutil.disk_usage(root).free
-    version=process.run([plan['runtime']['joern'],'--version'],output,'version',30,env=env_for(plan['runtime']),cwd=output)
+    version=process.run([plan['runtime']['joern']],output,'version',30,env=env_for(plan['runtime']),cwd=output)
     require(version['exit_status']==0 and not version['timed_out'] and version['cleanup_status']=='tracked-processes-stopped','failed version witness')
     require(re.search(r'(?<![0-9.])4\.0\.628(?![0-9.])',(output/'version.stdout').read_text()),'unexpected Joern version')
     result['identity_witness']={'command':ref(root,output/'version.command.json'),'stdout':ref(root,output/'version.stdout'),'observed':identity(plan['runtime'])}
@@ -200,8 +209,9 @@ def controls(root,plan_path,control_path,output,reservation):
             result['ended_at_unix_seconds']=int(time.time())
             result['observed_free_space_delta_bytes']=initial-shutil.disk_usage(root).free
             write(output/'run.json',result)
-            if stop or (label.startswith('direct-') and raw['raw_outcome']=='runner-error'):
-                write(output/'stop.json',{'reason':raw['diagnostics'],'full_report':False});return result
+            print(label,arm,raw['raw_outcome'],raw['diagnostics'],flush=True)
+            if stop or (label.startswith('direct-') and raw['raw_outcome'] not in ('reached','not-reached')):
+                write(output/'stop.json',{'reason':raw['diagnostics'],'unattempted_arms':[[l,a] for l in control['controls'] for a in control['arms'] if (l,a) not in {(r['control'],r['arm']) for r in result['records']}],'full_report':False});return result
     result['assessment']=assess_controls(result['observations']);write(output/'run.json',result)
     return result
 
@@ -218,7 +228,7 @@ def verify_controls(root,control_path,run_path):
     for refs in plan['configurations'].values():
         for reference in refs:bound_file(root,reference)
     witness=run['identity_witness'];command=read(bound_file(root,witness['command']))
-    require(witness['observed']==plan['identity'] and command['argv']==[plan['runtime']['joern'],'--version'] and command['exit_status']==0 and command['timed_out'] is False and command['cleanup_status']=='tracked-processes-stopped','control version witness')
+    require(witness['observed']==plan['identity'] and command['argv']==[plan['runtime']['joern']] and command['exit_status']==0 and command['timed_out'] is False and command['cleanup_status']=='tracked-processes-stopped','control version witness')
     require(re.search(r'(?<![0-9.])4\.0\.628(?![0-9.])',bound_file(root,witness['stdout']).read_text()),'control version mismatch')
     expected={(label,arm) for label in control['controls'] for arm in ['off','on']}
     require(len(run['records'])==12 and {(r['control'],r['arm']) for r in run['records']}==expected,'incomplete control matrix')
@@ -283,7 +293,7 @@ def execute(root,plan_path,output,reservation):
     require(not output.exists() and output.resolve().is_relative_to((root/plan['output_root']).resolve()),'new owned output required')
     output.mkdir(parents=True);write(output/'reservation.json',reservation)
     started=int(time.time());rt=plan['runtime']
-    version=process.run([rt['joern'],'--version'],output,'version',30,env=env_for(rt),cwd=output)
+    version=process.run([rt['joern']],output,'version',30,env=env_for(rt),cwd=output)
     require(version['exit_status']==0 and not version['timed_out'] and version['cleanup_status']=='tracked-processes-stopped','failed version witness')
     banner=(output/'version.stdout').read_text()
     require(re.search(r'(?<![0-9.])4\.0\.628(?![0-9.])',banner),'unexpected Joern version banner')

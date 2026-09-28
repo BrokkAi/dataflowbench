@@ -26,7 +26,7 @@ class Reports(unittest.TestCase):
         # Native control replay is covered separately; exercise export bindings.
         replay=patch('joern_normal_runner_v1.verify_activation');self.replay=replay.start();self.addCleanup(replay.stop)
         planref=write(self.root,self.path,self.plan)
-        witness=read(self.root/self.run['identity_witness']['path']);witness['observed']=tool;witness['command']['argv']=['/pinned/joern','--version']
+        witness=read(self.root/self.run['identity_witness']['path']);witness['observed']=tool;witness['command']['argv']=['/pinned/joern']
         stdout=self.root/witness['stdout']['path'];stdout.write_text('Joern 4.0.628\n');witness['stdout']['sha256']=sha(stdout)
         self.run['identity_witness']=write(self.root,self.run['identity_witness']['path'],witness)
         self.run.update(schema='joern-normal-report-run/v1',identity=tool,plan_sha256=planref['sha256'])
@@ -76,7 +76,7 @@ class Reports(unittest.TestCase):
         witness_path=self.root/self.run['identity_witness']['path'];witness=read(witness_path);witness['command']['argv']=['codeql','version']
         self.run['identity_witness']=write(self.root,str(witness_path.relative_to(self.root)),witness)
         with self.assertRaisesRegex(ValueError,'identity command'):export(self.root,self.path,self.run)
-        witness['command']['argv']=['/pinned/joern','--version'];self.run['identity_witness']=write(self.root,str(witness_path.relative_to(self.root)),witness)
+        witness['command']['argv']=['/pinned/joern'];self.run['identity_witness']=write(self.root,str(witness_path.relative_to(self.root)),witness)
         row=self.run['results'][0];raw=read(self.root/row['raw']['path']);(self.root/raw['native_outputs'][0]['path']).write_text('changed')
         with self.assertRaisesRegex(ValueError,'digest'):export(self.root,self.path,self.run)
 

@@ -76,7 +76,7 @@ def export(root, plan_path, run):
     witnessed = integer(witness.get('observed_at_unix_seconds'), 'identity observation time')
     require(start <= witnessed <= end, 'identity witness outside run')
     import re
-    require(command['argv'] == [plan['runtime']['joern'],'--version'], 'wrong Joern identity command')
+    require(command['argv'] == [plan['runtime']['joern']], 'wrong Joern identity command')
     require(re.search(r'(?<![0-9.])4\.0\.628(?![0-9.])', bound_file(root,witness.get('stdout')).read_text()), 'wrong Joern version witness')
     contract = read(bound_file(root, plan.get('execution_contract')))
     require(contract.get('aggregate_resource_qualification') == 'unavailable' and contract.get('scored_activation') is False, 'unqualified execution contract required')

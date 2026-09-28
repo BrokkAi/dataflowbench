@@ -13,6 +13,33 @@ from swift_normal_reports_v1 import load_population
 
 
 class Controls(unittest.TestCase):
+    def test_compiler_launcher_preserves_driver_and_tree_binds_target(self):
+        from joern_normal_runner_v1 import compiler_launcher
+        from swift_normal_runner_v1 import file_inventory
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);(root/'swift-frontend').write_text('binary');(root/'swiftc').symlink_to('swift-frontend')
+            launcher=compiler_launcher(root/'swiftc')
+            self.assertEqual(Path(launcher).name,'swiftc')
+            tree=file_inventory(root)
+            self.assertEqual(tree['swiftc']['symlink'],'swift-frontend')
+            self.assertIn('sha256',tree['swift-frontend'])
+
+    def test_build_log_preserves_declared_driver_invocation(self):
+        from joern_normal_runner_v1 import run_case, write
+        case={'template_id':'dfb-template-model-opaque-propagator','polarity':'positive','model_profile':'benchmark-controlled','source_anchors':[],'sink_anchors':[],'fixture_files':['main.swift']}
+        rt={k:'/fake/'+k for k in ['joern','frontend','sdk','java_home','astgen']};rt['compiler']='/fake/swiftc'
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);source=root/'fixture';source.mkdir();(source/'main.swift').write_text('let x = 1')
+            argv_seen=[]
+            def run(argv,directory,name,deadline,env):
+                argv_seen.append(argv)
+                if name=='frontend':raise ValueError('Incomplete:fake frontend stop')
+                write(directory/(name+'.command.json'),{'argv':argv,'phase_id':name,'role':'analysis'})
+            with patch('joern_normal_runner_v1.phase',side_effect=run):run_case(root,{'runtime':rt},source/'case.json',case,root/'out')
+            import shlex
+            self.assertEqual(shlex.split((root/'out/build.log').read_text()),argv_seen[0])
+            self.assertEqual(argv_seen[0][0],'/fake/swiftc')
+
     def test_capacity_and_unresolved_partition(self):
         capacity(RESERVE);capacity(RESERVE+SCRATCH,True)
         for value,launch in [(RESERVE-1,False),(RESERVE+SCRATCH-1,True)]:
@@ -107,12 +134,13 @@ class Controls(unittest.TestCase):
         from joern_normal_runner_v1 import run_case, write
         case={'template_id':'dfb-template-model-opaque-propagator','polarity':'positive','model_profile':'benchmark-controlled','source_anchors':[],'sink_anchors':[],'fixture_files':['main.swift']}
         rt={k:'/fake/'+k for k in ['joern','frontend','compiler','sdk','java_home','astgen']}
-        for reason in ['BudgetExhausted','UncertainCleanup']:
+        for reason in ['BudgetExhausted','UncertainCleanup','Cancelled']:
             with tempfile.TemporaryDirectory() as tmp:
                 root=Path(tmp);fixture=root/'fixture';fixture.mkdir();(fixture/'main.swift').write_text('let x = 1')
                 def fail(argv,directory,name,deadline,env):
                     write(directory/(name+'.command.json'),{'argv':argv,'phase_id':name,'role':'analysis','exit_status':1,'timed_out':reason=='BudgetExhausted','elapsed_seconds':1,'deadline_seconds':75,'cleanup_status':'uncertain' if reason=='UncertainCleanup' else 'tracked-processes-stopped'})
                     (directory/(name+'.stderr')).write_text('retained')
+                    if reason=='Cancelled':raise KeyboardInterrupt()
                     if reason=='BudgetExhausted':raise TimeoutError(reason)
                     raise ValueError(reason)
                 with patch('joern_normal_runner_v1.phase',side_effect=fail),patch('joern_normal_runner_v1.snapshot',side_effect=OSError('closure failed')):
