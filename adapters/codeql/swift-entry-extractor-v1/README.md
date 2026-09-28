@@ -40,7 +40,11 @@ reparented children; all resulting observations remain diagnostic.
 The ten pinned controls cover direct, overwrite, array, callback and wrapped
 positive/negative behavior. The direct fixtures themselves use a wrapper;
 they cannot alone prove ordering across multiple top-level declarations.
-Positive flow failure or a violated negative prevents adoption. Globals,
+Under the original ten-control registration, positive flow failure or a violated
+negative prevents adoption. That historical acceptance remains failed. A separate
+prospective structural review is described in
+[the integration plan](../../../docs/swift-integration-next-steps.md); it does not
+require perfect analyzer accuracy or retroactively pass this registration. Globals,
 cross-file initialization, macros and async behavior are not generally qualified
 by this set. The entry is a CFG scope, not a synthesized source callable.
 
@@ -66,7 +70,12 @@ the subscript index. Those rule bodies are unchanged by the entry patch. This
 is evidence of an existing index-insensitive representation and a candidate
 explanation for the array result, not a witnessed causal path. The retained
 native database would allow a bounded read/write-step query to test that
-hypothesis without another extraction. No such extra query has been run.
+hypothesis without another extraction. The subsequent bounded query is retained separately in
+`evidence/swift-entry-extractor-v1/retained-diagnosis-01`: both array controls
+export six store and seven read rows with the same collection-element display;
+the callback positive has zero viable targets at its indirect invocation.
+These observations do not establish a full causal flow or dynamic-call proof.
+Optional model repairs are stopped pending structural integration review.
 
 A potential generic fix needs resolver-proven array operations and index-valued
 content identity, with an explicit unknown-index policy and correct weak/strong
