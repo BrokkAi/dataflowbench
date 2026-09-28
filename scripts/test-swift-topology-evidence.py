@@ -20,6 +20,18 @@ class Topology(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'complete structural'):
             module.classify_topology(self.rows()[:-1])
 
+    def test_conflicting_counts_cannot_overwrite(self):
+        rows=self.rows();rows.append(['top-parent-count','a','module',1])
+        with self.assertRaisesRegex(ValueError,'conflicting structural'):
+            module.classify_topology(rows)
+
+    def test_negative_counts_rejected(self):
+        for kind in ['top-parent-count','top-membership-count']:
+            rows=self.rows()
+            next(row for row in rows if row[0]==kind)[3]=-1
+            with self.assertRaisesRegex(ValueError,'negative structural'):
+                module.classify_topology(rows)
+
     def test_location_labels_do_not_choose_order(self):
         rows=self.rows();a=module.classify_topology(rows)
         for row in rows:row[1]={'a':'Top@900','b':'Top@1'}[row[1]]

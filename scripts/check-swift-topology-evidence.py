@@ -16,8 +16,16 @@ def classify_topology(rows):
         require(isinstance(row,list) and len(row)==4 and all(isinstance(x,str) for x in row[:3]) and type(row[3]) is int,'topology schema')
     require(len({tuple(row) for row in rows})==len(rows),'duplicate topology row')
     tops={r[1] for r in rows if r[0]=='top-body'}
-    parents={r[1]:r[3] for r in rows if r[0]=='top-parent-count'}
-    members={r[1]:r[3] for r in rows if r[0]=='top-membership-count'}
+    def counts(relation):
+        result={}
+        for row in rows:
+            if row[0]!=relation:continue
+            require(row[3]>=0,'negative structural count')
+            require(row[1] not in result,'conflicting structural count records')
+            result[row[1]]=row[3]
+        return result
+    parents=counts('top-parent-count')
+    members=counts('top-membership-count')
     require(tops and tops==set(parents)==set(members),'complete structural count inventory')
     if all(parents[t]==0 and members[t]==0 for t in tops):
         return {'status':'MissingTopLevelSequence' if len(tops)>1 else 'SingleUnparentedTopLevelBody','top_level_bodies':len(tops),'registry_outcome_changed':False}

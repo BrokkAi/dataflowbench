@@ -29,7 +29,9 @@ Each sampled top-level body contains one structurally indexed element at index
 zero. The pinned schema exposes `top_level_code_decls(id, body)` and
 `decl_members(parent, index, child)`, but these extracted top-level declarations
 have neither parent nor membership relationships. Location labels identify rows
-for inspection; they never select execution order.
+for inspection; they never select execution order. They are display labels, not
+globally unique AST identities. These observations are limited to the three
+measured databases; the query is not a general collision-free AST inventory.
 
 The array/callback diagnosis is `MissingTopLevelSequence`. This is a bounded
 feasibility diagnostic, **not** the registry outcome `unsupported`. A solitary
