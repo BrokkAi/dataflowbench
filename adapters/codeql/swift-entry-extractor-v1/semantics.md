@@ -1,0 +1,13 @@
+# Prospective generic top-level entry repair
+
+CodeQL public source 6e9f9e38390175c41b99070a423c875f450759ca is compatible with CLI 2.27.1/Swift QL 6.8.4; it is not an attestation of the retained binary's source.
+
+Swift source 064859e41d68596f486c5d724401cb370f260409 (swift-6.3.3-RELEASE): lib/SILGen/SILGenTopLevel.cpp:41 creates one top-level SILGenFunction for the script source file. visitSourceFile at 395 traverses getTopLevelDecls, visiting auxiliary declarations before each declaration. visitTopLevelCodeDecl at 435 executes the brace elements. lib/AST/Module.cpp:1348 appends the same vector order; 3579 obtains the parser request result. SourceFile::isScriptMode is only Main, excluding library, interface and macro-expansion files. No line numbers or fixture names determine execution order.
+
+The patch emits one entry keyed by module/file labels for non-lazy primary script files. It retains existing TopLevelCodeDecl labels, deduplicates identical compiler pointers, and emits contiguous compiler enumeration indices. Those declarations and existing bodies become children of an AST entry scope; existing CFG sequence construction connects them. Original VarDecl/DeclRef identity is preserved. The entry is not callable. Existing function/closure scopes stay distinct. This is a candidate, not a claim that arbitrary global captures, macros, async execution or callback models are qualified.
+
+Ten controls pin direct, overwrite, array, callback positive/negative and wrapped positive/negative source bytes. Required observations: unique file/module entry and dense structural indices; exact source/sink bindings and CFG/SSA membership; positive reach and negative nonreach for direct/overwrite/wrapped. Array/callback coverage remains typed incomplete if other semantics are missing. No full corpus run or scored activation. Native outcomes must be retained even if they contradict expected controls.
+
+CLI database init selected the separate extractor package and initialized the modified schema on 2026-09-28. This establishes configuration/schema selection only; successful TRAP import and query compilation remain to be checked after building. Modified schema must accompany rebuilt extractor and matching isolated QL libraries. Stock databases cannot be queried as if they contained the new relation.
+
+One build attempt only: extractor target, 900 seconds including resolution, two jobs, CPU2/RAM4096 scheduler hints, JVM2GiB, task-local Bazel/repository/temp caches and 40GiB free-space stop. Not hard aggregate RSS confinement. Batch process-group cleanup is monitored; escaped descendants are not proved absent. Any failed build stops this attempt; no automatic retry or full Swift/LLVM build.
