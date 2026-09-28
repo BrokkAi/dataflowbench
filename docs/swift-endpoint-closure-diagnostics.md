@@ -50,3 +50,48 @@ is capped at 150 seconds; each query and its decode share 75 seconds. The disk
 reserve is 40 GiB. All attempts, including errors and unattempted selections,
 are retained. A native probe is diagnostic evidence only and cannot activate
 scoring, freeze, publish, or close #220/#215.
+
+## Observed result (2026-09-28)
+
+The probe ran from preregistration commit
+`d4dc62fb` and completed all five selections. The exact commit is retained in
+`evidence/swift-endpoint-diagnostic-v1/launch.json`.
+
+| Selection | Source | Sink |
+| --- | --- | --- |
+| Retained direct-positive | Bound | Bound |
+| Retained array-element-positive | MissingControlFlow | MissingControlFlow |
+| Retained callback-registration-positive | MissingControlFlow | Bound |
+| Adapter wrapped control | Bound | Bound |
+| Adapter wrong-signature control | NonMatchingDeclaration | NonMatchingDeclaration |
+
+For each sampled `MissingControlFlow` endpoint, the AST call exists, resolves
+to exactly one matching benchmark declaration, and has its endpoint expression;
+CFG and data-flow node counts are both zero. The callback sink inside its closure
+has both node types. The wrong-signature functions have the benchmark names but
+use `String`, and are rejected despite having CFG/data-flow nodes. Thus matching
+spelling is not sufficient for endpoint identity.
+
+This establishes a structural CFG boundary in the sampled failing endpoints;
+it does not prove the diagnosis for every one of the 54 failures. A production
+repair would require genuine top-level CFG/data-flow support in the pinned
+analyzer or a separately reviewed prospective fixture amendment. This change
+does neither and does not manufacture taint reachability for missing nodes.
+
+All final artifact comparisons and all three retained-original comparisons
+reported no observed drift. This is a bounded observation, not containment proof.
+The old timeout drift and symlink rejection remain in their original archives.
+The new typed-link behavior is covered by positive and adversarial filesystem
+regressions; the five successful native cases did not require a timeout recovery.
+
+Run `python3 scripts/check-swift-endpoint-evidence.py` to replay the compact
+query/classification evidence. It verifies copied file digests, exact selection,
+command records, source input registration, classification, and recorded closure
+deltas. Full database/cache/binary payloads remain local; the checker is explicitly
+not a full database replay, memory qualification, or process-containment proof.
+
+The inventory's path-based checks are not atomic against concurrent directory
+replacement. A hostile concurrent writer could swap an intermediate directory
+between checks; descriptor-relative traversal would be required for a strict
+no-follow security boundary. This helper is a diagnostic drift detector and
+must not be used as sandboxing or cleanup authorization.
