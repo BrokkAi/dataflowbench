@@ -34,10 +34,16 @@ def main():
         base=BASE/result['id'];require(read(base/'result.json')==result,'result binding')
         require(result['execution_status']=='completed' and not result['scored_activation'],'completion/scoring')
         if result['id'] in population:
-            case=read(ROOT/population[result['id']]['path'])
+            casepath=ROOT/population[result['id']]['path']
+            case=read(casepath)
+            for name in case['fixture_files']:
+                require((base/'artifacts/source'/name).read_bytes()==(casepath.parent/name).read_bytes(),'canonical source bytes')
+            require(compare(read(base/'original-before.json'),read(base/'original-after.json'))['status']=='CompleteArtifactClosure','recorded original drift')
             anchors=[dict(file=a['file'],line=a['line_hint'],role=role) for role,key in [('source','source_anchors'),('sink','sink_anchors')] for a in case[key]]
         else:
             control=next(c for c in controls if c['id']==result['id']);anchors=control['anchors']
+            for name in control['files']:
+                require((base/'artifacts/source'/Path(name).name).read_bytes()==(ROOT/'adapters/codeql/swift-endpoint-diagnostic-v1'/name).read_bytes(),'control source bytes')
             require([r['status'] for r in result['endpoints']]==control['expected_statuses'],'control result')
         require(classify(read(base/'artifacts/diagnostics.json')['#select']['tuples'],anchors)==result['endpoints'],'classifier replay')
         first=read(base/'closure-before.json');after=read(base/'closure-after.json');final=read(base/'closure-final.json')
@@ -51,7 +57,12 @@ def main():
         for r in records:
             require(r['exit_status']==0 and not r['timed_out'] and r['elapsed_seconds']<=r['deadline_seconds'] and r['cleanup_status']=='tracked-processes-stopped','command status')
             require(r['descendant_containment']=='unproven' and not r['discovery_complete'],'containment limits')
-        require(result['analysis_elapsed_seconds']<=75,'analysis budget')
+        paths=launch['paths'];original=Path(paths['output'])/result['id']/'artifacts'
+        query=read(base/'artifacts/query.command.json');decode=read(base/'artifacts/decode.command.json')
+        require(query['argv']==[paths['codeql'],'query','run',str(Path(paths['output']).parents[3]/'adapters/codeql/swift-endpoint-diagnostic-v1/diagnostics.ql'), '--database='+str(original/'database'),'--output='+str(original/'diagnostics.bqrs'),'--additional-packs='+paths['packs'],'--threads=2','--ram=2048','--timeout=75'],'query command identity')
+        require(decode['argv']==[paths['codeql'],'bqrs','decode',str(original/'diagnostics.bqrs'),'--format=json','--output='+str(original/'diagnostics.json')],'decode command identity')
+        require(query['deadline_seconds']==75 and decode['deadline_seconds']<=75-query['elapsed_seconds']+.01,'shared phase deadlines')
+        require(query['elapsed_seconds']+decode['elapsed_seconds']<=result['analysis_elapsed_seconds']<=75,'analysis budget')
     audit=read(BASE/'closure-audit.json')
     require(all(r['status']=='CompleteArtifactClosure' for r in audit['cases']+audit['retained_originals']),'closure audit')
     require(not audit['stable_snapshots_prove_containment'],'containment assertion')
