@@ -1,0 +1,333 @@
+{
+  "schema": 1,
+  "claim": "structural diagnostic only; flow results separately observed, no accuracy or scoring gate",
+  "budgets": {
+    "extract_seconds": 150,
+    "shared_query_decode_seconds": 75,
+    "threads": 2,
+    "requested_ram_mb": 2048,
+    "minimum_free_gib": 40
+  },
+  "files": {
+    "branch/Library.swift": "14e47903c303f5d941f1fb992925bee59bc7b73d91238242ce935ebb3562ea17",
+    "branch/main.swift": "565f7573876c4e7d3c95aac04260606b43e93e173cafd97aa6ccf48bf7e252b7",
+    "queries/identity.ql": "702dfc2fbfe258c3c33732ecd4d9d135900bd0c0f581051ebc36b51874eff128",
+    "queries/kernel-flow.ql": "6fa67fdc18913c4035dc267a8e277478dc5e6240529b2ea87b2a60b71e57bf98",
+    "queries/qlpack.yml": "cc0be4a6785a80256dc010af14fa8152fb854e521fe4e8799df87bb2472e16b3",
+    "queries/structure.ql": "8c36a8c0b9bd2a2c4659193354f522d2d86eecee15d6d1fdc49a8db838086a96",
+    "queries/diagnostics.ql": "6aaf82e0b3ab2494c90164f60ba9948f0af15a19052481bcc7a468147a2a9eac",
+    "queries/SwiftEndpoints.qll": "83a2cb2a11a208262ce0b0f11f3f602b585db0a18c84fce65ef23efbd063151f",
+    "throw/Library.swift": "14e47903c303f5d941f1fb992925bee59bc7b73d91238242ce935ebb3562ea17",
+    "throw/main.swift": "12473814aa39bec5f6bd76d87759a5dcdcc30be794a8fd52e405533cbb003c53"
+  },
+  "candidate_extractor_manifest_sha256": "4a36613896fcc6d81e77ca9d1832fed3da1ab873aff9c27512060c2e51bb2a56",
+  "candidate_pack_manifest_sha256": "580ea3032d6aeb481479cae3e0cfee057ce0f8c58f0f40987269ecc7a779a4ce",
+  "cli_sha256": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413",
+  "swift_sha256": "3d13e20b1504d7d30038fcd2201b9d0a8ead5c09eea752a5da223453b3ae0c6f",
+  "controls": [
+    {
+      "id": "branch",
+      "directory": "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch",
+      "extract": [
+        "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+        "database",
+        "create",
+        "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/database",
+        "--language=swift",
+        "--search-path=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-extractor",
+        "--source-root=/private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/branch",
+        "--threads=2",
+        "--ram=2048",
+        "--command=/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc -swift-version 6 -Onone -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk -target arm64-apple-macosx26.5 -module-name DataFlowBenchTaintSwift -module-cache-path /private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/cache /private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/branch/main.swift /private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/branch/Library.swift -o /private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/never-executed"
+      ],
+      "phases": [
+        {
+          "name": "structure",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "query",
+            "run",
+            "/private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/queries/structure.ql",
+            "--database=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/database",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/structure.bqrs",
+            "--additional-packs=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-packs",
+            "--threads=2",
+            "--ram=2048"
+          ]
+        },
+        {
+          "name": "structure-decode",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "bqrs",
+            "decode",
+            "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/structure.bqrs",
+            "--format=json",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/structure.json"
+          ]
+        },
+        {
+          "name": "identity",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "query",
+            "run",
+            "/private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/queries/identity.ql",
+            "--database=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/database",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/identity.bqrs",
+            "--additional-packs=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-packs",
+            "--threads=2",
+            "--ram=2048"
+          ]
+        },
+        {
+          "name": "identity-decode",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "bqrs",
+            "decode",
+            "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/identity.bqrs",
+            "--format=json",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/identity.json"
+          ]
+        },
+        {
+          "name": "diagnostics",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "query",
+            "run",
+            "/private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/queries/diagnostics.ql",
+            "--database=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/database",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/diagnostics.bqrs",
+            "--additional-packs=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-packs",
+            "--threads=2",
+            "--ram=2048"
+          ]
+        },
+        {
+          "name": "diagnostics-decode",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "bqrs",
+            "decode",
+            "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/diagnostics.bqrs",
+            "--format=json",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/diagnostics.json"
+          ]
+        },
+        {
+          "name": "kernel-flow",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "query",
+            "run",
+            "/private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/queries/kernel-flow.ql",
+            "--database=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/database",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/kernel-flow.bqrs",
+            "--additional-packs=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-packs",
+            "--threads=2",
+            "--ram=2048"
+          ]
+        },
+        {
+          "name": "kernel-flow-decode",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "bqrs",
+            "decode",
+            "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/kernel-flow.bqrs",
+            "--format=json",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/branch/kernel-flow.json"
+          ]
+        }
+      ],
+      "expected_declarations": 6,
+      "expected_throw_statements": 0,
+      "expected_throw_cfg": 0,
+      "expected_throw_exits": 0,
+      "compiler_order_labels": [
+        8,
+        9,
+        10,
+        15,
+        16,
+        17
+      ]
+    },
+    {
+      "id": "throw",
+      "directory": "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw",
+      "extract": [
+        "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+        "database",
+        "create",
+        "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/database",
+        "--language=swift",
+        "--search-path=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-extractor",
+        "--source-root=/private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/throw",
+        "--threads=2",
+        "--ram=2048",
+        "--command=/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc -swift-version 6 -Onone -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk -target arm64-apple-macosx26.5 -module-name DataFlowBenchTaintSwift -module-cache-path /private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/cache /private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/throw/main.swift /private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/throw/Library.swift -o /private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/never-executed"
+      ],
+      "phases": [
+        {
+          "name": "structure",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "query",
+            "run",
+            "/private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/queries/structure.ql",
+            "--database=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/database",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/structure.bqrs",
+            "--additional-packs=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-packs",
+            "--threads=2",
+            "--ram=2048"
+          ]
+        },
+        {
+          "name": "structure-decode",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "bqrs",
+            "decode",
+            "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/structure.bqrs",
+            "--format=json",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/structure.json"
+          ]
+        },
+        {
+          "name": "identity",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "query",
+            "run",
+            "/private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/queries/identity.ql",
+            "--database=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/database",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/identity.bqrs",
+            "--additional-packs=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-packs",
+            "--threads=2",
+            "--ram=2048"
+          ]
+        },
+        {
+          "name": "identity-decode",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "bqrs",
+            "decode",
+            "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/identity.bqrs",
+            "--format=json",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/identity.json"
+          ]
+        },
+        {
+          "name": "diagnostics",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "query",
+            "run",
+            "/private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/queries/diagnostics.ql",
+            "--database=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/database",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/diagnostics.bqrs",
+            "--additional-packs=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-packs",
+            "--threads=2",
+            "--ram=2048"
+          ]
+        },
+        {
+          "name": "diagnostics-decode",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "bqrs",
+            "decode",
+            "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/diagnostics.bqrs",
+            "--format=json",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/diagnostics.json"
+          ]
+        },
+        {
+          "name": "kernel-flow",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "query",
+            "run",
+            "/private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-entry-structural-v1/queries/kernel-flow.ql",
+            "--database=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/database",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/kernel-flow.bqrs",
+            "--additional-packs=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-packs",
+            "--threads=2",
+            "--ram=2048"
+          ]
+        },
+        {
+          "name": "kernel-flow-decode",
+          "argv": [
+            "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+            "bqrs",
+            "decode",
+            "/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/kernel-flow.bqrs",
+            "--format=json",
+            "--output=/private/tmp/dfb-swift-extractor-repair-20260928/structural-attempt-01/throw/kernel-flow.json"
+          ]
+        }
+      ],
+      "expected_declarations": 3,
+      "expected_throw_statements": 1,
+      "expected_throw_cfg": 1,
+      "expected_throw_exits": 1,
+      "compiler_order_labels": [
+        9,
+        10,
+        13
+      ]
+    }
+  ],
+  "expected_zero": [
+    "wrong-entry-file",
+    "wrong-entry-module",
+    "unowned-declarations",
+    "wrong-declaration-owner",
+    "duplicate-declaration",
+    "duplicate-indices",
+    "non-dense-indices",
+    "nested-return-leak",
+    "throw-to-sink"
+  ],
+  "expected_one": [
+    "entries",
+    "normal-exits"
+  ],
+  "expected_positive": [
+    "nested-return-scopes",
+    "closure-scopes",
+    "script-conditions"
+  ],
+  "original_ten_control_failure": "preserved",
+  "nonqualification": [
+    "auxiliary macro declarations",
+    "lazy extraction trigger",
+    "aggregate resource containment",
+    "full108 activation"
+  ],
+  "preparation": {
+    "structural-preparation-01/throw.command.json": "748e60295bca2ea4c576dae5bd06ad041071706edc2d90e69c7c4d9fc42b4b78",
+    "structural-preparation-01/branch.stderr": "450b4b380a9c51066056e5ba3843cd25cc6ed21a88bf55a64e0465a53ef4af14",
+    "structural-preparation-01/branch.command.json": "522040004c427ca3b39394a75a51c2af2d294f3748379c723a36282fdadf10d5",
+    "structural-preparation-01/query-check.command.json": "a7d7eee651648fa0d52150610bb1e24d49d742385630fa71caaaeccacfe9f8a0",
+    "structural-preparation-01/query-check.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "structural-preparation-01/branch.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "structural-preparation-01/query-check.stderr": "c5617a68e586d578d3c1b21a64a2adc74ab1bd0fd98bf4861577f8f2aaae3f08",
+    "structural-preparation-01/throw.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "structural-preparation-01/preregistration.json": "510e8dee5cea8d99119e76d93ef56e8943d209b4f67430bf3cf4ddbccf759f6c",
+    "structural-preparation-01/throw.stderr": "0d9059d9f5ad97fb26ad189af5ac5e1f1918e7ec5300188bb6f4e843e967d16e",
+    "structural-preparation-02/query-check.command.json": "8bf697c5b6c18fc56c586f255a3996e60b1af40a66e45d33e874f074eae18275",
+    "structural-preparation-02/query-check.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "structural-preparation-02/query-check.stderr": "3f21ddfebb6b11bc93f58323f7e27f04d48204c76fb510d6808a52861114b006",
+    "structural-preparation-02/preregistration.json": "705c242d6d3c43822d9c6e860ce703e47f40851e66190aff5776b2ed7fd6b434",
+    "structural-preparation-03/query-check.command.json": "a648117e54f8a3ff4007c0f64baa7ce91a0a3ac2308962e96e23a30a94bbeb91",
+    "structural-preparation-03/query-check.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "structural-preparation-03/query-check.stderr": "b6b4396ae263d55b78a2cb9d137e3d72fd50009b4a9379918eb581c4dc28da8c",
+    "structural-preparation-03/preregistration.json": "98848e822765c4fba62879ee3f0665ea31d65f38032ac4185dd046cb298e1df5"
+  }
+}
