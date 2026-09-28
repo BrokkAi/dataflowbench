@@ -30,6 +30,12 @@ def main():
         audit = json.loads(files['closure-audit/' + case + '.json'])
         assert audit['delta']['status'] == 'CompleteArtifactClosure'
         assert audit['before']['entries'] == audit['after']['entries']
+    diagnosis = EVIDENCE / 'retained-diagnosis-01'
+    diagnostic_manifest = json.loads((diagnosis / 'manifest.json').read_text())
+    for name, digest in diagnostic_manifest['files'].items():
+        assert hashlib.sha256((diagnosis / name).read_bytes()).hexdigest() == digest
+    diagnostic_results = json.loads((diagnosis / 'retained-diagnosis-01/results.json').read_text())
+    assert len(diagnostic_results) == 3 and all(r['status'] == 'completed' for r in diagnostic_results)
     results = []
     for name in sorted(files):
         if name.startswith('controls-attempt-01/') and name.endswith('/observation.json'):
