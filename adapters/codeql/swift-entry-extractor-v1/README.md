@@ -100,3 +100,13 @@ environment values are removed, and binary BQRS stays local. Decoded native JSON
 is retained. `publication-transforms.json` records each original digest; full
 original artifacts remain unchanged locally. Closure digests refer to those
 original artifacts, not byte identity of the redacted derivative.
+
+## Integration acceptance clarification
+
+The historical ten-control candidate expectation failed and remains failed.
+Those analyzer misses are not automatically blockers for the benchmark epic: the
+scoring contract permits qualified false positives and false negatives. The
+generic structural repair is separately reviewable; broader adoption and scoring
+still require prospective structural, completeness, resource and population
+qualification. See [the prospective integration plan](../../../docs/swift-integration-next-steps.md).
+Optional array/callback semantic repair is stopped.
