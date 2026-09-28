@@ -110,8 +110,8 @@ def configuration_hash(root, references):
     return digest.hexdigest()
 
 
-def phase_sequence(contract):
-    sequence = contract.get('phase_sequence')
+def phase_sequence(contract, name=None):
+    sequence = contract.get('phase_sequence') if name is None else contract.get('phase_sequences', {}).get(name)
     require(isinstance(sequence, list) and len(sequence) >= 2, 'missing phase sequence')
     require(all(isinstance(p, dict) and isinstance(p.get('id'), str) and p['id'] for p in sequence), 'invalid phase ID')
     require(len({p['id'] for p in sequence}) == len(sequence), 'duplicate phase ID')
@@ -184,7 +184,8 @@ def export(root, plan_path, run):
     require(contract.get('aggregate_resource_qualification') == 'unavailable' and contract.get('scored_activation') is False, 'unqualified execution contract required')
     require(contract.get('population_sha256') == population_hash and contract.get('fixture_revision') == population['fixture_revision'], 'execution contract population mismatch')
     require(contract.get('phases') == {'extraction': {'wall_clock_seconds': 150, 'peak_memory_mb': 2048}, 'analysis': {'wall_clock_seconds': 75, 'peak_memory_mb': 2048}}, 'prospective execution budgets required')
-    sequence = phase_sequence(contract)
+    if 'phase_sequences' not in contract:
+        phase_sequence(contract)
     configs = plan.get('configurations')
     require(isinstance(configs, dict) and configs, 'missing configuration inventory')
     config_hashes = {}
@@ -237,6 +238,7 @@ def export(root, plan_path, run):
             require(isinstance(outputs, list) and outputs, 'missing native output evidence')
             for reference in outputs:
                 bound_file(root, reference)
+            sequence = phase_sequence(contract, planned.get('phase_sequence'))
             validate_phases(root, raw, sequence, outcome, diagnostics)
         grouping = tuple(case[field] for field in PARTITION) + (key,)
         if grouping not in reports:
