@@ -1,0 +1,50 @@
+{
+  "scope": "diagnostic-only",
+  "scored_activation": false,
+  "controls": [
+    {
+      "id": "wrapped",
+      "files": [
+        "controls/wrapped/main.swift"
+      ],
+      "anchors": [
+        {
+          "file": "main.swift",
+          "line": 4,
+          "role": "source"
+        },
+        {
+          "file": "main.swift",
+          "line": 5,
+          "role": "sink"
+        }
+      ],
+      "expected_statuses": [
+        "Bound",
+        "Bound"
+      ]
+    },
+    {
+      "id": "wrong-signature",
+      "files": [
+        "controls/wrong-signature/main.swift"
+      ],
+      "anchors": [
+        {
+          "file": "main.swift",
+          "line": 4,
+          "role": "source"
+        },
+        {
+          "file": "main.swift",
+          "line": 5,
+          "role": "sink"
+        }
+      ],
+      "expected_statuses": [
+        "NonMatchingDeclaration",
+        "NonMatchingDeclaration"
+      ]
+    }
+  ]
+}
