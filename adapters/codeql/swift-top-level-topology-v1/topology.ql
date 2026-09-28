@@ -6,10 +6,10 @@ import swift
 import codeql.swift.generated.ParentChild
 
 string identity(Element e) {
-  not e instanceof AstNode and result = e.getAPrimaryQlClass()
-  or
-  result = e.getAPrimaryQlClass() + "@" + e.(AstNode).getLocation().getStartLine().toString() +
+  if exists(e.(AstNode).getLocation().getStartLine())
+  then result = e.getAPrimaryQlClass() + "@" + e.(AstNode).getLocation().getStartLine().toString() +
     ":" + e.(AstNode).getLocation().getStartColumn().toString()
+  else result = e.getAPrimaryQlClass() + "@<no-location>"
 }
 
 from string relation, string left, string right, int index
@@ -47,5 +47,17 @@ where
     ref.getLocation().getFile().getBaseName() = "main.swift" and
     declaration = ref.getDecl() and relation = "variable-reference" and
     left = identity(ref) and right = identity(declaration) and index = -1
+  )
+  or
+  exists(TopLevelCodeDecl top |
+    top.getLocation().getFile().getBaseName() = "main.swift" and
+    relation = "top-parent-count" and left = identity(top) and
+    right = top.getModule().getName() and index = count(getImmediateParent(top))
+  )
+  or
+  exists(TopLevelCodeDecl top |
+    top.getLocation().getFile().getBaseName() = "main.swift" and
+    relation = "top-membership-count" and left = identity(top) and
+    right = top.getModule().getName() and index = count(Decl parent | parent.getMember(_) = top | parent)
   )
 select relation, left, right, index
