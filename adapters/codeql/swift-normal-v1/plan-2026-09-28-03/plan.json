@@ -1,0 +1,771 @@
+{
+  "schema": "swift-normal-report-plan/v1",
+  "population_sha256": "8a324597f77a2948920c0471ac6fce6809e202afdc3c3e30c062809b8a863efa",
+  "fixture_revision": "sha256:f9f2afd8566f7d0d833eb6b3b1383b5ed633eafba43320a6477d1c61472323af",
+  "aggregate_resource_qualification": "unavailable",
+  "scored_activation": false,
+  "registered_at_unix_seconds": 1790604398,
+  "identity": {
+    "tool": "codeql",
+    "tool_version": "2.27.1",
+    "tool_build_identity": "codeql:938af3639d0709b587251e45d9f8d2bdc3505696;swift-extractor:593eb7afe23d63c57d04461bd046e45672555bb0586353edcf27a0313249841f;schema:a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89;packs:580ea3032d6aeb481479cae3e0cfee057ce0f8c58f0f40987269ecc7a779a4ce",
+    "adapter_version": "swift-normal-v1"
+  },
+  "execution_contract": {
+    "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/contract.json",
+    "sha256": "de715246a9e3aacd75ed43cd91a87e9235efa02cd2b62a87744ea350a5714762"
+  },
+  "configurations": {
+    "patched-codeql": [
+      {
+        "path": "scripts/swift_normal_runner_v1.py",
+        "sha256": "56785ba9d7d756aab6553bf9c062834cbb409b8a389e88bb3f6b92170eeac176"
+      },
+      {
+        "path": "scripts/run-swift-normal-v1.py",
+        "sha256": "31b53480bd303238cdd8b55bf2ece02f44cc041d9529d42b36e384e99bd256ef"
+      },
+      {
+        "path": "scripts/swift_normal_reports_v1.py",
+        "sha256": "994666bb85f19f930454a3077a383a443b4548bc061f59d4f19c5cb5f2f4ad16"
+      },
+      {
+        "path": "scripts/swift_v3_runner.py",
+        "sha256": "454944d5ca461e8ae49361055408daaa9037388a151dcd8e5f3d34c8a3c2b954"
+      },
+      {
+        "path": "scripts/swift_v2_process.py",
+        "sha256": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd"
+      },
+      {
+        "path": "scripts/swift_extraction_integrity.py",
+        "sha256": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156"
+      },
+      {
+        "path": "scripts/swift_persistence_coverage.py",
+        "sha256": "62017833ad9e666a405f2650618173b97ab2d1568fb14b13cce8fed722dc4ec3"
+      },
+      {
+        "path": "scripts/swift_artifact_closure.py",
+        "sha256": "fe00daf7b75263e7add65675560f8731988333f75af3944e373599a85d7215c3"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/native/qlpack.yml",
+        "sha256": "bb916f5045f1c20f1ee56a45d4209ab600b3e0fe292c73d97023c5f43eb04754"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/native/PersistenceCoverage.qll",
+        "sha256": "8cfb14044674c739c2153fb3b8e00ff57c5eb3b442e28465a3ce01c430a5e45d"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/native/PersistenceIdentity.qll",
+        "sha256": "7e9e7b33f0783f73f1fd6961b544f7cdf42a0087e47bc3b3e5f7d4625ed4c23e"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/native/ResolvedTaint.qll",
+        "sha256": "b0af7862ccc199d9d909ec09928e67177cccda3220698a4d0ca56b54ffcc5690"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/native/coverage.ql",
+        "sha256": "faba37d55817332471f65ab774f5af5a855e80b35fcb09d3ffb5d7dbd8afea90"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/native/flow.ql",
+        "sha256": "9645e600d5ca57a3e4ac507337be985ca57d4a64f94b46fd39232cbb503a8638"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/native/AppendIdentity.qll",
+        "sha256": "5534463217a791f87e5cc97567a64b2ab6659fc00728c90aa0f5a4f7c5b74186"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/native/roles.ql",
+        "sha256": "b37ad392fbef48d83de25dec65c937b713893060450005797ac409464ca6eb4b"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/native/FoundationIdentity.qll",
+        "sha256": "d55b73575e575145329b022105ce96fae6d5fed342ceaa6447c375a694e6e413"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/native/FoundationSources.qll",
+        "sha256": "5a6703e01eb89a2286fbe492ccbcdd9d1c69692a6d3bffcc02be56338086932a"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/native/scopes.ql",
+        "sha256": "6d4f06912e20de0d24ede1177bc144fc75f7a09006e8faa28ead06ff7e22b0a7"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/standard/calibration-roles.ql",
+        "sha256": "74f0ac15ff75e97c3e65764f03aafa2fc6e85a55bc971572f0d51b26edaeccb6"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/standard/kernel-flow.ql",
+        "sha256": "6fa67fdc18913c4035dc267a8e277478dc5e6240529b2ea87b2a60b71e57bf98"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/standard/qlpack.yml",
+        "sha256": "6e482014576be8d45f42d1071ded3a865e0ba0af52d88cbef84b76c728cda250"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/standard/modeling-roles.ql",
+        "sha256": "55b3f6428d6d908e2de8195a3084617ea388d303859161901b705a68156fb604"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/standard/SwiftModelSteps.qll",
+        "sha256": "13fdcda253d68baa9d6a8e63c502fd4c80ac6e180f4284252da507cb578fe308"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/standard/modeling-flow.ql",
+        "sha256": "9b7564e7490bb97f4268f27bf2e53fa484aa2490945a1da73bc4411e577426e9"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/standard/calibration-flow.ql",
+        "sha256": "e87156c67f291ec840363183f2ee140934b323c62f9c35582c0ba85a174498d2"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/standard/SwiftModelIdentity.qll",
+        "sha256": "aa9a60f15d5f6e55fec03ee7da19b902b493fcb44d8e376f0073998be3956390"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/standard/kernel-roles.ql",
+        "sha256": "9e2d260715739bf6adfaf438394fb2f03f5156e09dba512263ea176304a49934"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/standard/SwiftEndpoints.qll",
+        "sha256": "83a2cb2a11a208262ce0b0f11f3f602b585db0a18c84fce65ef23efbd063151f"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/opaque/identity.ql",
+        "sha256": "588171d5448fa4b7cf3ac249c3a710a647a47d3d24ff0ee60680343299f177bb"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/opaque/qlpack.yml",
+        "sha256": "01b73d6f65f69ba8638431bf8f2af63cc0f661270da53bf620b6b5cef62b532b"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/opaque/flow.ql",
+        "sha256": "df4a4ec23b1c033a3de056fb1ed01195b24e06b7681c3f0e5f2fe24cf0bd04ba"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/opaque/roles.ql",
+        "sha256": "253364d00459ded4586303e28c51f2a4474bf476c1ad2b84617d51384edc7182"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/queries/opaque/OpaqueIdentity.qll",
+        "sha256": "bd1b2772f3ba8332a740d2fbd404d9b85be4efb6d0db80ca599eb8c935851cd8"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/contract.json",
+        "sha256": "de715246a9e3aacd75ed43cd91a87e9235efa02cd2b62a87744ea350a5714762"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/extractor-files.json",
+        "sha256": "4a36613896fcc6d81e77ca9d1832fed3da1ab873aff9c27512060c2e51bb2a56"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/packs-files.json",
+        "sha256": "580ea3032d6aeb481479cae3e0cfee057ce0f8c58f0f40987269ecc7a779a4ce"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/cli-files.json",
+        "sha256": "991f5072ce6b9ba68c0ec6786f21aabf65e445fae1a038c6a7e8186353c5d667"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/compiler-tree.json",
+        "sha256": "df0ea72160f2bee8773ea30196446b5e5258a85f9055c68a01cbbccbdbb5fd98"
+      },
+      {
+        "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/sdk-tree.json",
+        "sha256": "60a71bd456d46d302c1d44fc342748abbba4d7bbab37a27b071fbabc98499c6c"
+      }
+    ]
+  },
+  "cases": {
+    "dfb-taint-swift-alias-propagation-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-alias-propagation-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-argument-position-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-argument-position-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-array-element-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-array-element-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-branch-join-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-branch-join-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-call-context-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-call-context-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-callback-registration-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-callback-registration-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-closure-capture-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-closure-capture-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-computed-property-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-computed-property-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-context-pair-depth2-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-context-pair-depth2-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-deep-relay-chain-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-deep-relay-chain-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-direct-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-direct-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-dispatch-table-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-dispatch-table-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-element-object-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-element-object-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-exception-catch-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-exception-catch-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-expression-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-expression-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-function-field-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-function-field-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-infeasible-branch-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-infeasible-branch-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-interprocedural-exception-persistence-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-interprocedural-exception-persistence-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-local-chain-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-local-chain-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-local-overwrite-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-local-overwrite-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-loop-carried-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-loop-carried-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-map-iteration-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-map-iteration-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-declared-sink-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-declared-sink-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-declared-source-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-declared-source-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-entrypoint-parameter-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-entrypoint-parameter-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-entrypoint-selectivity-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-entrypoint-selectivity-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-sanitizer-kill-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-sanitizer-kill-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-sanitizer-selectivity-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-sanitizer-selectivity-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-store-roundtrip-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-store-roundtrip-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-store-separation-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-store-separation-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-summary-field-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-summary-field-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-summary-through-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-summary-through-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-modeled-external-summary-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-modeled-external-summary-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-mutual-recursive-transform-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-mutual-recursive-transform-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-native-entrypoint-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-native-entrypoint-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-native-persistence-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "persistence"
+    },
+    "dfb-taint-swift-native-persistence-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "persistence"
+    },
+    "dfb-taint-swift-native-propagator-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-native-propagator-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-native-sanitizer-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-native-sanitizer-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-native-source-sink-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-native-source-sink-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-native-summary-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-native-summary-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-nested-access-path-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-nested-access-path-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-object-separation-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-object-separation-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-one-hop-relay-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-one-hop-relay-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-recursive-callback-transform-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-recursive-callback-transform-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-recursive-carry-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-recursive-carry-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-recursive-exception-persistence-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-recursive-exception-persistence-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-recursive-heap-unwind-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-recursive-heap-unwind-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-recursive-payload-transform-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-recursive-payload-transform-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-result-error-propagation-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-result-error-propagation-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-return-relay-one-hop-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-return-relay-one-hop-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-return-relay-two-hop-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-return-relay-two-hop-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-same-object-field-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-same-object-field-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-opaque-propagator-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-opaque-propagator-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-propagator-position-negative": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    },
+    "dfb-taint-swift-model-propagator-position-positive": {
+      "configuration": "patched-codeql",
+      "disposition": "attempt",
+      "phase_sequence": "standard"
+    }
+  },
+  "runtime": {
+    "repair": "/private/tmp/dfb-swift-extractor-repair-20260928",
+    "codeql": "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+    "compiler": "/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc",
+    "sdk": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+    "extractor_root": "/private/tmp/dfb-swift-extractor-repair-20260928/candidate-extractor",
+    "packs": "/private/tmp/dfb-swift-extractor-repair-20260928/candidate-packs",
+    "compiler_root": "/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr",
+    "sdk_root": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+    "manifests": {
+      "extractor": {
+        "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/extractor-files.json",
+        "sha256": "4a36613896fcc6d81e77ca9d1832fed3da1ab873aff9c27512060c2e51bb2a56"
+      },
+      "packs": {
+        "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/packs-files.json",
+        "sha256": "580ea3032d6aeb481479cae3e0cfee057ce0f8c58f0f40987269ecc7a779a4ce"
+      },
+      "cli": {
+        "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/cli-files.json",
+        "sha256": "991f5072ce6b9ba68c0ec6786f21aabf65e445fae1a038c6a7e8186353c5d667"
+      },
+      "compiler": {
+        "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/compiler-tree.json",
+        "sha256": "df0ea72160f2bee8773ea30196446b5e5258a85f9055c68a01cbbccbdbb5fd98"
+      },
+      "sdk": {
+        "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-03/sdk-tree.json",
+        "sha256": "60a71bd456d46d302c1d44fc342748abbba4d7bbab37a27b071fbabc98499c6c"
+      }
+    },
+    "compiler_sha256": "3d13e20b1504d7d30038fcd2201b9d0a8ead5c09eea752a5da223453b3ae0c6f",
+    "sdk_settings_sha256": "f8d005f09381389167f9e0aeaa169bc9e7dff162ef22ca2fd8e98df7ff1acafe",
+    "pins": {
+      "cli_version": "2.27.1",
+      "cli_build": "938af3639d0709b587251e45d9f8d2bdc3505696",
+      "extractor_sha256": "593eb7afe23d63c57d04461bd046e45672555bb0586353edcf27a0313249841f",
+      "schema_sha256": "a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89",
+      "packs_manifest_sha256": "580ea3032d6aeb481479cae3e0cfee057ce0f8c58f0f40987269ecc7a779a4ce"
+    }
+  },
+  "resource_reservation": {
+    "launch_free_bytes": 68719476736,
+    "minimum_free_bytes": 42949672960,
+    "status": "not-reserved"
+  },
+  "output_root": "reports/raw/swift-normal-v1"
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "swift-query-revalidation/v1",
+  "registered_at_unix_seconds": 1790605692,
+  "old_plan": {
+    "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-04/plan.json",
+    "sha256": "46df6af46ca562d53c37346ed8ed82f21ab205523b4b835d8976b96762e313f9"
+  },
+  "new_plan": {
+    "path": "adapters/codeql/swift-normal-v1/plan-2026-09-28-06/plan.json",
+    "sha256": "a91c0571b588e63977611064d649914827d1497b9988e52b4f8b8622540c7bcd"
+  },
+  "original_receipt": {
+    "path": "evidence/swift-normal-query-check-2026-09-28-03/receipt.json",
+    "sha256": "d2dd1b2b1f7d9e10fc88b3552c7de49a92698a7a353bf9d4683e6970e05a38be"
+  },
+  "allowed_nonquery_changes": [
+    "plan/cli-tree.json",
+    "plan/compiler-tree.json",
+    "plan/contract.json",
+    "plan/extractor-tree.json",
+    "plan/packs-tree.json",
+    "plan/sdk-tree.json",
+    "scripts/swift_normal_reports_v1.py",
+    "scripts/swift_normal_runner_v1.py"
+  ],
+  "claim": "query-compile-only-not-runner-execution",
+  "rationale": "Runner changes stop after timeout or uncertain cleanup, preserve failure records when database closure fails, and validate archived source, schema and owned database metadata. Exporter changes bind qualification references through run and raw records. Runtime tree inventories add symlink and mode checks. Exact query/import/pack files, CLI/extractor/pack/compiler/SDK byte inventories, schema pins and runtime paths are unchanged; receipt 03 remains solely its original plan-04 compile-compatibility observation. This amendment does not qualify execution of the changed runner."
+}

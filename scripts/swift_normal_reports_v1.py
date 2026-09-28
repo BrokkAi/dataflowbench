@@ -110,8 +110,8 @@ def configuration_hash(root, references):
     return digest.hexdigest()
 
 
-def phase_sequence(contract):
-    sequence = contract.get('phase_sequence')
+def phase_sequence(contract, name=None):
+    sequence = contract.get('phase_sequence') if name is None else contract.get('phase_sequences', {}).get(name)
     require(isinstance(sequence, list) and len(sequence) >= 2, 'missing phase sequence')
     require(all(isinstance(p, dict) and isinstance(p.get('id'), str) and p['id'] for p in sequence), 'invalid phase ID')
     require(len({p['id'] for p in sequence}) == len(sequence), 'duplicate phase ID')
@@ -184,7 +184,8 @@ def export(root, plan_path, run):
     require(contract.get('aggregate_resource_qualification') == 'unavailable' and contract.get('scored_activation') is False, 'unqualified execution contract required')
     require(contract.get('population_sha256') == population_hash and contract.get('fixture_revision') == population['fixture_revision'], 'execution contract population mismatch')
     require(contract.get('phases') == {'extraction': {'wall_clock_seconds': 150, 'peak_memory_mb': 2048}, 'analysis': {'wall_clock_seconds': 75, 'peak_memory_mb': 2048}}, 'prospective execution budgets required')
-    sequence = phase_sequence(contract)
+    if 'phase_sequences' not in contract:
+        phase_sequence(contract)
     configs = plan.get('configurations')
     require(isinstance(configs, dict) and configs, 'missing configuration inventory')
     config_hashes = {}
@@ -199,6 +200,15 @@ def export(root, plan_path, run):
     require(isinstance(rows, list) and all(isinstance(row, dict) for row in rows), 'missing run rows')
     ids = [row.get('case_id') for row in rows]
     require(all(isinstance(i, str) for i in ids) and len(ids) == len(set(ids)) == 108 and set(ids) == set(cases), 'run membership mismatch')
+    # Import lazily: the runner uses this module's common artifact helpers.
+    if tool['adapter_version'] == 'swift-normal-v1':
+        from swift_normal_runner_v1 import verify_query_receipt, verify_revalidation
+        receipt = read(bound_file(root, run.get('query_qualification')))
+        if receipt.get('plan_path') == plan_path:
+            require('query_revalidation' not in run, 'unexpected revalidation')
+            verify_query_receipt(root, plan, receipt)
+        else:
+            verify_revalidation(root, plan_path, run, execution_start=start)
     reports, index = {}, []
     for row in rows:
         case_id = row['case_id']
@@ -211,6 +221,11 @@ def export(root, plan_path, run):
         require(raw.get('schema') == 'swift-normal-raw/v1', 'new raw record required')
         for field, expected in [('case_id', case_id), ('plan_sha256', sha(plan_file)), ('population_sha256', population_hash), ('fixture_revision', population['fixture_revision']), ('configuration_hash', config_hashes[key]), ('identity_witness_sha256', run['identity_witness']['sha256']), ('execution_contract_sha256', plan['execution_contract']['sha256'])]:
             require(raw.get(field) == expected, 'raw binding mismatch: ' + field)
+        if tool['adapter_version'] == 'swift-normal-v1':
+            for field in ['query_qualification', 'query_revalidation']:
+                require(raw.get(field) == run.get(field), 'raw query provenance mismatch: ' + field)
+                if field in raw:
+                    bound_file(root, raw[field])
         outcome = normalized(raw.get('raw_outcome'))
         require(raw.get('state') == outcome, 'raw special state must preserve normalized outcome')
         duration = integer(raw.get('duration_ms'), 'case duration')
@@ -237,6 +252,7 @@ def export(root, plan_path, run):
             require(isinstance(outputs, list) and outputs, 'missing native output evidence')
             for reference in outputs:
                 bound_file(root, reference)
+            sequence = phase_sequence(contract, planned.get('phase_sequence'))
             validate_phases(root, raw, sequence, outcome, diagnostics)
         grouping = tuple(case[field] for field in PARTITION) + (key,)
         if grouping not in reports:

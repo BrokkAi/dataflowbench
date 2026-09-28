@@ -71,6 +71,47 @@ class Exporter(unittest.TestCase):
         raw.update(changes)
         row['raw'] = write(self.root, row['raw']['path'], raw)
 
+    def test_runner_query_provenance_is_bound_through_run_and_raw(self):
+        from unittest.mock import patch
+        self.plan['identity']['adapter_version'] = 'swift-normal-v1'
+        self.run['identity']['adapter_version'] = 'swift-normal-v1'
+        witness_path = self.run['identity_witness']['path']
+        witness = json.loads((self.root / witness_path).read_text())
+        witness['observed']['adapter_version'] = 'swift-normal-v1'
+        self.run['identity_witness'] = write(self.root, witness_path, witness)
+        self.run['plan_sha256'] = write(self.root, self.path, self.plan)['sha256']
+        qualification = write(self.root, 'query-receipt.json', {'plan_path': self.path})
+        self.run['query_qualification'] = qualification
+        for row in self.run['results']:
+            raw = json.loads((self.root / row['raw']['path']).read_text())
+            raw.update(plan_sha256=self.run['plan_sha256'], identity_witness_sha256=self.run['identity_witness']['sha256'], query_qualification=qualification)
+            row['raw'] = write(self.root, row['raw']['path'], raw)
+        # Receipt replay itself has separate runner mutation coverage; this test
+        # exercises the exporter's real whole-population provenance checks.
+        with patch('swift_normal_runner_v1.verify_query_receipt') as replay:
+            self.export()
+            replay.assert_called_once()
+            self.mutate_raw(query_qualification={'path': 'foreign.json', 'sha256': '0' * 64})
+            with self.assertRaisesRegex(ValueError, 'raw query provenance'):
+                self.export()
+            self.mutate_raw(query_qualification=qualification)
+            (self.root / qualification['path']).write_text('{}')
+            with self.assertRaisesRegex(ValueError, 'artifact digest mismatch'):
+                self.export()
+        qualification = write(self.root, 'query-receipt.json', {'plan_path': 'old-plan.json'})
+        amendment = write(self.root, 'amendment.json', {'synthetic': True})
+        self.run.update(query_qualification=qualification, query_revalidation=amendment)
+        for row in self.run['results']:
+            raw = json.loads((self.root / row['raw']['path']).read_text())
+            raw.update(query_qualification=qualification, query_revalidation=amendment)
+            row['raw'] = write(self.root, row['raw']['path'], raw)
+        with patch('swift_normal_runner_v1.verify_revalidation') as replay:
+            self.export()
+            self.assertEqual(replay.call_args.kwargs, {'execution_start': self.run['started_at_unix_seconds']})
+            self.mutate_raw(query_revalidation=None)
+            with self.assertRaisesRegex(ValueError, 'raw query provenance'):
+                self.export()
+
     def test_all108_inconclusive_partitioned_by_case_metadata(self):
         result = self.export()
         self.assertEqual(result['audit']['profile_counts'], {'benchmark-controlled': 96, 'tool-native': 12})
