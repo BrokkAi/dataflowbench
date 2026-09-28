@@ -414,3 +414,62 @@ pub(crate) fn freeze_revision_must_be_reachable_from_main() {
 
     fs::remove_dir_all(&root).unwrap();
 }
+
+/// Exercise Python's real normal-report exporter against all 108 pinned Swift
+/// cases, then validate the emitted reports through the existing Rust freeze
+/// boundary. These synthetic records never claim an analyzer run or release.
+#[test]
+pub(crate) fn freeze_accepts_full_swift_inconclusive_export_without_promoting_outcomes() {
+    let root = unique_test_dir("swift-normal-report-freeze");
+    let output = Command::new("python3")
+        .arg("scripts/test-swift-normal-reports-v1.py")
+        .arg("--freeze-fixture")
+        .arg(&root)
+        .output()
+        .expect("run synthetic Swift report exporter");
+    assert!(
+        output.status.success(),
+        "synthetic exporter failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let manifest_path = root.join("reports/freeze.json");
+    validate_freeze_at(&root, &manifest_path, false).unwrap();
+    let manifest: Value = serde_json::from_slice(&fs::read(&manifest_path).unwrap()).unwrap();
+    assert_eq!(manifest["cases"].as_array().unwrap().len(), 108);
+    assert_eq!(manifest["reports"].as_array().unwrap().len(), 5);
+    assert!(
+        manifest["reports"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|report| {
+                report["outcomes"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .all(|row| row["outcome"] == "inconclusive")
+            })
+    );
+    // A consistently rehashed report/freeze cannot turn incomplete raw evidence
+    // into a decided negative. This tests semantics, not just digest rejection.
+    let mut changed = manifest.clone();
+    let report_path = root.join(changed["reports"][0]["path"].as_str().unwrap());
+    let mut report: Value = serde_json::from_slice(&fs::read(&report_path).unwrap()).unwrap();
+    report["results"][0]["outcome"] = json!("not-reached");
+    let case_id = report["results"][0]["case_id"].clone();
+    for row in changed["reports"][0]["outcomes"].as_array_mut().unwrap() {
+        if row["case_id"] == case_id {
+            row["outcome"] = json!("not-reached");
+        }
+    }
+    let bytes = serde_json::to_vec_pretty(&report).unwrap();
+    fs::write(&report_path, &bytes).unwrap();
+    use sha2::Digest;
+    let digest = format!("{:x}", sha2::Sha256::digest(&bytes));
+    changed["reports"][0]["sha256"] = json!(digest);
+    changed["reports"][0]["normalized_report_sha256"] = json!(digest);
+    fs::write(&manifest_path, serde_json::to_vec_pretty(&changed).unwrap()).unwrap();
+    let error = validate_freeze_at(&root, &manifest_path, false).unwrap_err();
+    assert!(error.to_string().contains("inconclusive"), "{error:#}");
+    fs::remove_dir_all(root).unwrap();
+}
