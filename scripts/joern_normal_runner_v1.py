@@ -16,7 +16,7 @@ from swift_normal_runner_v1 import file_inventory, ref, write
 from joern_normal_controls_v1 import BASE, OPAQUE, config_for, observe, assess_controls
 
 RESERVE=40*1024**3
-SCRATCH=2*1024**3
+SCRATCH=4*1024**3
 ADAPTER='joern-normal-v1'
 VERSION='4.0.628'
 PHASES=[{'id':name,'role':'analysis'} for name in ['typecheck','frontend','query']]
@@ -65,7 +65,7 @@ def prepare(root,directory,runtime):
     write(directory/'contract.json',contract)
     files=['scripts/joern_normal_runner_v1.py','scripts/joern_normal_execution_v1.py','scripts/joern_execution_revalidation_v1.py',AMENDMENT,'scripts/joern_normal_controls_v1.py','scripts/joern_normal_reports_v1.py','scripts/run-joern-normal-v1.py','scripts/joern_swift.py','scripts/run-joern-swift-case.py','scripts/swift_v2_process.py','scripts/swift_normal_reports_v1.py','scripts/swift_normal_runner_v1.py','scripts/swift_artifact_closure.py','adapters/joern/swift/models.json',BASE+'/query.sc',BASE+'/README.md']
     refs=[ref(root,root/p) for p in files]+[ref(root,directory/'contract.json')]+list(runtime['inventories'].values())
-    plan={'schema':'joern-normal-report-plan/v1','registered_at_unix_seconds':int(time.time()),'population_sha256':digest,'fixture_revision':population['fixture_revision'],'aggregate_resource_qualification':'unavailable','scored_activation':False,'identity':identity(runtime),'runtime':runtime,'execution_contract':ref(root,directory/'contract.json'),'configurations':{'joern-current108':refs},'cases':{i:{'configuration':'joern-current108','disposition':'pending-capability'} for i in cases},'output_root':'reports/raw/joern-normal-v1','partition_status':'unresolved','resources':{'reserve_bytes':RESERVE,'scratch_allowance_bytes':SCRATCH,'launch_bytes':RESERVE+SCRATCH,'status':'not-reserved','cost_estimate':'2 GiB prospective serial one-CPG scratch allowance; unmeasured for current controls, not hard containment'}}
+    plan={'schema':'joern-normal-report-plan/v1','registered_at_unix_seconds':int(time.time()),'population_sha256':digest,'fixture_revision':population['fixture_revision'],'aggregate_resource_qualification':'unavailable','scored_activation':False,'identity':identity(runtime),'runtime':runtime,'execution_contract':ref(root,directory/'contract.json'),'configurations':{'joern-current108':refs},'cases':{i:{'configuration':'joern-current108','disposition':'pending-capability'} for i in cases},'output_root':'reports/raw/joern-normal-v1','partition_status':'unresolved','resources':{'reserve_bytes':RESERVE,'scratch_allowance_bytes':SCRATCH,'launch_bytes':RESERVE+SCRATCH,'status':'not-reserved','cost_estimate':'4 GiB prospective allowance for retained current108 outputs; diagnostic extrapolation only, not hard containment'}}
     write(directory/'plan.json',plan)
     # Four exact population fixtures plus canonical direct baseline pair.
     direct={}
@@ -96,6 +96,8 @@ def preflight(root,plan_path,reservation,extra=()):
     plan=read(root/plan_path)
     population,cases,digest=load_population(root)
     require(plan['population_sha256']==digest and plan['fixture_revision']==population['fixture_revision'],'population drift')
+    resources=plan.get('resources',{})
+    require(resources.get('reserve_bytes')==RESERVE and resources.get('scratch_allowance_bytes')==SCRATCH and resources.get('launch_bytes')==RESERVE+SCRATCH,'exact resource policy required')
     refs=[r for rows in plan['configurations'].values() for r in rows]
     for r in refs:bound_file(root,r)
     registered(root,[plan_path,plan['execution_contract']['path'],*[r['path'] for r in refs],*extra])
@@ -316,6 +318,11 @@ def execute(root,plan_path,output,reservation):
     amendment=read(bound_file(root,receipt['execution_revalidation']))
     extra=[plan['activation_receipt']['path'],receipt['execution_revalidation']['path']]
     extra.extend(r['path'] for r in [receipt['control_plan'],receipt['control_run'],*receipt['evidence'],amendment['registered_runner'],amendment['execution_module'],*amendment['reviewed_files']])
+    for planned in plan['cases'].values():
+        if planned['disposition']=='unsupported':
+            decision=read(bound_file(root,planned.get('decision')))
+            extra.append(planned['decision']['path'])
+            extra.extend(r['path'] for r in decision.get('evidence',[]))
     plan,population,cases=preflight(root,plan_path,reservation,extra)
     require(plan['registered_at_unix_seconds']<int(time.time()),'plan must precede run')
     require(not output.exists() and output.resolve().is_relative_to((root/plan['output_root']).resolve()),'new owned output required')

@@ -12,7 +12,7 @@ from unittest.mock import patch
 from swift_normal_reports_v1 import read, require, bound_file, load_population
 from joern_normal_execution_v1 import env_for, compiler_argv, frontend_argv, query_argv
 
-AMENDMENT='adapters/joern/swift-normal-v1/execution-revalidation-2026-09-28/amendment.json'
+AMENDMENT='adapters/joern/swift-normal-v1/execution-revalidation-2026-09-28-02/amendment.json'
 EXECUTION='scripts/joern_normal_execution_v1.py'
 # These exact new bytes require review and a bound amendment, not a blanket
 # exemption from compatibility checks whenever orchestration changes.
