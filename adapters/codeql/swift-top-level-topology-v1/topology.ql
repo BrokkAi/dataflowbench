@@ -6,8 +6,10 @@ import swift
 import codeql.swift.generated.ParentChild
 
 string identity(Element e) {
-  result = e.getAPrimaryQlClass() + "@" + e.getLocation().getStartLine().toString() +
-    ":" + e.getLocation().getStartColumn().toString()
+  not e instanceof AstNode and result = e.getAPrimaryQlClass()
+  or
+  result = e.getAPrimaryQlClass() + "@" + e.(AstNode).getLocation().getStartLine().toString() +
+    ":" + e.(AstNode).getLocation().getStartColumn().toString()
 }
 
 from string relation, string left, string right, int index
