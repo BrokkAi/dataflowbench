@@ -1,0 +1,142 @@
+{
+  "base_commit": "1e8b871cc207af7995d9ad13c77a1e0d58d0c4df",
+  "captured_utc": "2026-09-29T15:35:38.468781+00:00",
+  "execution_authorized": false,
+  "live_read_only_checks": [
+    "Exact OpenTaint archive hash and329-file membership verified",
+    "Python probe held tool digests and full CodeQL CLI and pack inventory verified",
+    "Current execution_authorized=false rejects both new probes before output creation"
+  ],
+  "schema": "release-control-integration-validation/v1",
+  "scope": "Synthetic and mocked control/recorder tests only; no analyzer control or matrix result.",
+  "test_count": 78,
+  "test_scripts": 14,
+  "tests": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-execute-release-controls-v090.py"
+      ],
+      "exit_code": 0,
+      "output": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.002s\n\nOK\n",
+      "seconds": 0.076
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-execute-release-v090.py"
+      ],
+      "exit_code": 0,
+      "output": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.006s\n\nOK\n",
+      "seconds": 0.054
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-prepare-release-root-v090.py"
+      ],
+      "exit_code": 0,
+      "output": ".Cloning into '/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmpzfrvjhcb/controls/java-modeling'...\ndone.\nHEAD is now at a3900db exact control harness\n...Cloning into '/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/tmpw2tfxq49/execution'...\ndone.\nHEAD is now at da7efc5 harness\n..\n----------------------------------------------------------------------\nRan 6 tests in 1.155s\n\nOK\n",
+      "seconds": 1.201
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-probe-opentaint-product-v090.py"
+      ],
+      "exit_code": 0,
+      "output": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.480s\n\nOK\n",
+      "seconds": 0.546
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-probe-python-modeling-load-bearing-v090.py"
+      ],
+      "exit_code": 0,
+      "output": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.065s\n\nOK\n",
+      "seconds": 0.119
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-probe-warm-observability-v090.py"
+      ],
+      "exit_code": 0,
+      "output": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n",
+      "seconds": 0.063
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-release-attempt-v090.py"
+      ],
+      "exit_code": 0,
+      "output": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.891s\n\nOK\n",
+      "seconds": 0.934
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-release-control-attempt-v090.py"
+      ],
+      "exit_code": 0,
+      "output": "........\n----------------------------------------------------------------------\nRan 8 tests in 2.631s\n\nOK\n",
+      "seconds": 2.678
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-release-environment-v090.py"
+      ],
+      "exit_code": 0,
+      "output": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.004s\n\nOK\n",
+      "seconds": 0.046
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-release-runtime-inventory-v090.py"
+      ],
+      "exit_code": 0,
+      "output": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.004s\n\nOK\n",
+      "seconds": 0.042
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-run-release-control-v090.py"
+      ],
+      "exit_code": 0,
+      "output": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nOK\n",
+      "seconds": 0.064
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-run-release-group-v090.py"
+      ],
+      "exit_code": 0,
+      "output": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.014s\n\nOK\n",
+      "seconds": 0.076
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-v090-execution-contract.py"
+      ],
+      "exit_code": 0,
+      "output": "...........\n----------------------------------------------------------------------\nRan 11 tests in 0.123s\n\nOK\n",
+      "seconds": 0.165
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/test-verify-release-attempt-v090.py"
+      ],
+      "exit_code": 0,
+      "output": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.502s\n\nOK\n",
+      "seconds": 0.55
+    }
+  ]
+}
