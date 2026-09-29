@@ -299,6 +299,196 @@ pub(crate) fn create_freeze_rejects_stale_fixture_bytes() {
     assert!(error.contains("re-run the adapters"), "{error}");
 }
 
+/// Freeze assembly must discover the full pinned common population, including
+/// Swift v3 cases stored outside `cases/`, and retain the population's exact
+/// union check when one of those cases is omitted.
+#[test]
+pub(crate) fn create_freeze_manifest_covers_named_common1108_and_rejects_omission() {
+    const CHILD: &str = "DFB_FREEZE_COMMON1108_TEST_CHILD";
+    if std::env::var_os(CHILD).is_none() {
+        let root = unique_test_dir("freeze-common1108");
+        copy_directory(Path::new("cases"), &root.join("cases")).unwrap();
+        copy_directory(
+            Path::new("populations/swift-opaque-v3"),
+            &root.join("populations/swift-opaque-v3"),
+        )
+        .unwrap();
+        let status = Command::new(std::env::current_exe().unwrap())
+            .args([
+                "--exact",
+                "tests::freeze::create_freeze_manifest_covers_named_common1108_and_rejects_omission",
+            ])
+            .current_dir(&root)
+            .env(CHILD, "1")
+            .status()
+            .unwrap();
+        fs::remove_dir_all(&root).unwrap();
+        assert!(status.success());
+        return;
+    }
+
+    crate::population::initialize(Some("v0.9.0")).unwrap();
+    let paths = case_paths();
+    assert_eq!(paths.len(), 1108);
+    let cases = paths
+        .iter()
+        .map(|path| {
+            let value: Value = serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
+            (
+                value["id"].as_str().unwrap().to_string(),
+                path.clone(),
+                value,
+            )
+        })
+        .collect::<Vec<_>>();
+    let revision_paths = cases
+        .iter()
+        .map(|(_, path, _)| (path.to_string_lossy().replace('\\', "/"), path.clone()))
+        .collect::<Vec<_>>();
+    let full_revision =
+        fixture_revision_for_manifest_cases(Path::new("."), &revision_paths).unwrap();
+    let full_reports = write_common1108_reports("full", &cases, &full_revision);
+    let manifest = build_freeze_manifest(
+        Path::new("."),
+        &full_reports,
+        "development",
+        "development",
+        &"a".repeat(40),
+    )
+    .unwrap();
+    assert_eq!(manifest["cases"].as_array().unwrap().len(), 1108);
+    let selected_ids = manifest["cases"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|case| case["id"].as_str().unwrap())
+        .collect::<BTreeSet<_>>();
+    assert_eq!(selected_ids.len(), 1108);
+    for id in [
+        "dfb-taint-swift-model-propagator-position-negative",
+        "dfb-taint-swift-model-propagator-position-positive",
+        "dfb-taint-swift-model-opaque-propagator-negative",
+        "dfb-taint-swift-model-opaque-propagator-positive",
+    ] {
+        assert!(selected_ids.contains(id), "full freeze omitted {id}");
+        let frozen = manifest["cases"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|case| case["id"] == id)
+            .unwrap();
+        assert!(
+            frozen["path"]
+                .as_str()
+                .unwrap()
+                .starts_with("populations/swift-opaque-v3/")
+        );
+        assert_eq!(frozen["fixture_digests"].as_array().unwrap().len(), 1);
+    }
+
+    let omitted_id = "dfb-taint-swift-model-opaque-propagator-positive";
+    let reduced = cases
+        .iter()
+        .filter(|(id, _, _)| id != omitted_id)
+        .cloned()
+        .collect::<Vec<_>>();
+    let reduced_paths = reduced
+        .iter()
+        .map(|(_, path, _)| (path.to_string_lossy().replace('\\', "/"), path.clone()))
+        .collect::<Vec<_>>();
+    let reduced_revision =
+        fixture_revision_for_manifest_cases(Path::new("."), &reduced_paths).unwrap();
+    let reduced_reports = write_common1108_reports("omitted", &reduced, &reduced_revision);
+    let error = build_freeze_manifest(
+        Path::new("."),
+        &reduced_reports,
+        "development",
+        "development",
+        &"a".repeat(40),
+    )
+    .unwrap_err()
+    .to_string();
+    assert!(
+        error.contains("missing=[\"dfb-taint-swift-model-opaque-propagator-positive\"]"),
+        "{error}"
+    );
+}
+
+fn copy_directory(source: &Path, destination: &Path) -> std::io::Result<()> {
+    fs::create_dir_all(destination)?;
+    for entry in fs::read_dir(source)? {
+        let entry = entry?;
+        let target = destination.join(entry.file_name());
+        if entry.file_type()?.is_dir() {
+            copy_directory(&entry.path(), &target)?;
+        } else {
+            fs::copy(entry.path(), target)?;
+        }
+    }
+    Ok(())
+}
+
+fn write_common1108_reports(
+    label: &str,
+    cases: &[(String, PathBuf, Value)],
+    fixture_revision: &str,
+) -> Vec<PathBuf> {
+    let mut partitions = BTreeMap::<(String, String), Vec<&(String, PathBuf, Value)>>::new();
+    for case in cases {
+        partitions
+            .entry((
+                case.2["track"].as_str().unwrap().to_string(),
+                case.2["model_profile"].as_str().unwrap().to_string(),
+            ))
+            .or_default()
+            .push(case);
+    }
+
+    let mut reports = Vec::new();
+    for ((track, profile), cases) in partitions {
+        let adapter = format!("{track}-{profile}");
+        let report_path = PathBuf::from(format!("reports/freeze-{label}/{adapter}.json"));
+        let raw_path = format!("reports/raw/freeze-{label}/{adapter}.json");
+        fs::create_dir_all(Path::new(&raw_path).parent().unwrap()).unwrap();
+        fs::write(&raw_path, b"{}\n").unwrap();
+        let mut results = Vec::new();
+        for (case_id, _, _) in cases {
+            results.push(json!({
+                "case_id": case_id,
+                "outcome": "inconclusive",
+                "source_anchors": [],
+                "sink_anchors": [],
+                "witness_checkpoints": [],
+                "diagnostics": [],
+                "duration_ms": 0,
+                "peak_memory_mb": null,
+                "raw_output": raw_path,
+            }));
+        }
+        fs::create_dir_all(report_path.parent().unwrap()).unwrap();
+        fs::write(
+            &report_path,
+            serde_json::to_vec_pretty(&json!({
+                "schema_version": 1,
+                "tool": "synthetic-freeze-test",
+                "tool_version": "1.0.0",
+                "tool_build_identity": "synthetic-test-build",
+                "adapter_version": "1.0.0",
+                "configuration_hash": "0".repeat(64),
+                "fixture_revision": fixture_revision,
+                "started_at_unix_seconds": 1,
+                "ended_at_unix_seconds": 2,
+                "cold_or_warm": "cold",
+                "results": results,
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        reports.push(report_path);
+    }
+    reports
+}
+
 #[test]
 pub(crate) fn freeze_git_state_accepts_ancestor_revisions_and_containing_tags() {
     let fixture = FreezeFixture::new("reached", json!({"state": "complete"}));
