@@ -1,0 +1,130 @@
+{
+  "argv": [
+    "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+    "database",
+    "create",
+    "/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-native-entrypoint-positive/database",
+    "--language=swift",
+    "--search-path=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-extractor",
+    "--source-root=/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-native-entrypoint-positive/source",
+    "--threads=2",
+    "--ram=2048",
+    "--command=/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc -swift-version 6 -Onone -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk -target arm64-apple-macosx26.5 -module-name DataFlowBenchTaintSwift -module-cache-path /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-native-entrypoint-positive/cache /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-native-entrypoint-positive/source/main.swift -o /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-native-entrypoint-positive/never-executed"
+  ],
+  "measurement_wrapper": [],
+  "cwd": "/private/tmp/dfb-220-full108-20260928",
+  "environment": null,
+  "elapsed_seconds": 93.85937437499979,
+  "deadline_seconds": 150,
+  "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+  "exit_status": 0,
+  "timed_out": false,
+  "tracked_descendants": [
+    {
+      "pid": 61778,
+      "start_identity": "1790674957:284481"
+    },
+    {
+      "pid": 61785,
+      "start_identity": "1790674957:298295"
+    },
+    {
+      "pid": 61795,
+      "start_identity": "1790674957:886958"
+    },
+    {
+      "pid": 61809,
+      "start_identity": "1790674958:493547"
+    },
+    {
+      "pid": 61816,
+      "start_identity": "1790674959:32835"
+    },
+    {
+      "pid": 61818,
+      "start_identity": "1790674959:91627"
+    },
+    {
+      "pid": 61835,
+      "start_identity": "1790674960:215354"
+    },
+    {
+      "pid": 61843,
+      "start_identity": "1790674960:837524"
+    },
+    {
+      "pid": 61876,
+      "start_identity": "1790674963:409617"
+    },
+    {
+      "pid": 61965,
+      "start_identity": "1790674971:387306"
+    },
+    {
+      "pid": 61977,
+      "start_identity": "1790674971:944804"
+    },
+    {
+      "pid": 61988,
+      "start_identity": "1790674972:431981"
+    },
+    {
+      "pid": 61999,
+      "start_identity": "1790674972:892812"
+    },
+    {
+      "pid": 62007,
+      "start_identity": "1790674973:440363"
+    },
+    {
+      "pid": 62012,
+      "start_identity": "1790674973:796298"
+    },
+    {
+      "pid": 62016,
+      "start_identity": "1790674974:150616"
+    },
+    {
+      "pid": 63368,
+      "start_identity": "1790675043:231938"
+    },
+    {
+      "pid": 63377,
+      "start_identity": "1790675043:703118"
+    },
+    {
+      "pid": 63391,
+      "start_identity": "1790675044:520587"
+    },
+    {
+      "pid": 63395,
+      "start_identity": "1790675044:845156"
+    },
+    {
+      "pid": 63397,
+      "start_identity": "1790675044:929037"
+    },
+    {
+      "pid": 63422,
+      "start_identity": "1790675046:668676"
+    },
+    {
+      "pid": 63425,
+      "start_identity": "1790675046:803889"
+    },
+    {
+      "pid": 63433,
+      "start_identity": "1790675047:104040"
+    }
+  ],
+  "cleanup_signaled": [],
+  "cleanup_status": "tracked-processes-stopped",
+  "discovery_complete": false,
+  "descendant_containment": "unproven",
+  "scratch_cleanup_authorized": false,
+  "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+  "cleanup_error": null,
+  "memory_compliance": "unproven",
+  "phase_id": "extract",
+  "role": "extraction"
+}

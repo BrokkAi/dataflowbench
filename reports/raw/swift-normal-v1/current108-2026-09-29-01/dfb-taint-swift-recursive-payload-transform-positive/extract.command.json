@@ -1,0 +1,134 @@
+{
+  "argv": [
+    "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+    "database",
+    "create",
+    "/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-recursive-payload-transform-positive/database",
+    "--language=swift",
+    "--search-path=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-extractor",
+    "--source-root=/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-recursive-payload-transform-positive/source",
+    "--threads=2",
+    "--ram=2048",
+    "--command=/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc -swift-version 6 -Onone -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk -target arm64-apple-macosx26.5 -module-name DataFlowBenchTaintSwift -module-cache-path /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-recursive-payload-transform-positive/cache /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-recursive-payload-transform-positive/source/main.swift -o /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-recursive-payload-transform-positive/never-executed"
+  ],
+  "measurement_wrapper": [],
+  "cwd": "/private/tmp/dfb-220-full108-20260928",
+  "environment": null,
+  "elapsed_seconds": 40.822272790999705,
+  "deadline_seconds": 150,
+  "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+  "exit_status": 0,
+  "timed_out": false,
+  "tracked_descendants": [
+    {
+      "pid": 75403,
+      "start_identity": "1790677197:804510"
+    },
+    {
+      "pid": 75410,
+      "start_identity": "1790677197:818238"
+    },
+    {
+      "pid": 75420,
+      "start_identity": "1790677198:454419"
+    },
+    {
+      "pid": 75431,
+      "start_identity": "1790677198:879374"
+    },
+    {
+      "pid": 75439,
+      "start_identity": "1790677199:482742"
+    },
+    {
+      "pid": 75457,
+      "start_identity": "1790677200:457676"
+    },
+    {
+      "pid": 75460,
+      "start_identity": "1790677200:512028"
+    },
+    {
+      "pid": 75467,
+      "start_identity": "1790677200:907578"
+    },
+    {
+      "pid": 75469,
+      "start_identity": "1790677201:14779"
+    },
+    {
+      "pid": 75495,
+      "start_identity": "1790677203:411650"
+    },
+    {
+      "pid": 75497,
+      "start_identity": "1790677203:505320"
+    },
+    {
+      "pid": 75509,
+      "start_identity": "1790677204:16235"
+    },
+    {
+      "pid": 75520,
+      "start_identity": "1790677204:494621"
+    },
+    {
+      "pid": 75531,
+      "start_identity": "1790677204:969506"
+    },
+    {
+      "pid": 75539,
+      "start_identity": "1790677205:520546"
+    },
+    {
+      "pid": 75543,
+      "start_identity": "1790677205:852810"
+    },
+    {
+      "pid": 75550,
+      "start_identity": "1790677206:215993"
+    },
+    {
+      "pid": 75934,
+      "start_identity": "1790677233:221257"
+    },
+    {
+      "pid": 75941,
+      "start_identity": "1790677233:700944"
+    },
+    {
+      "pid": 75951,
+      "start_identity": "1790677234:508078"
+    },
+    {
+      "pid": 75956,
+      "start_identity": "1790677234:847461"
+    },
+    {
+      "pid": 75958,
+      "start_identity": "1790677234:972029"
+    },
+    {
+      "pid": 75988,
+      "start_identity": "1790677236:778644"
+    },
+    {
+      "pid": 75992,
+      "start_identity": "1790677236:911686"
+    },
+    {
+      "pid": 76002,
+      "start_identity": "1790677237:173127"
+    }
+  ],
+  "cleanup_signaled": [],
+  "cleanup_status": "tracked-processes-stopped",
+  "discovery_complete": false,
+  "descendant_containment": "unproven",
+  "scratch_cleanup_authorized": false,
+  "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+  "cleanup_error": null,
+  "memory_compliance": "unproven",
+  "phase_id": "extract",
+  "role": "extraction"
+}

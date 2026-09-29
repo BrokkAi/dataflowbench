@@ -1,0 +1,158 @@
+{
+  "argv": [
+    "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+    "database",
+    "create",
+    "/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-modeled-external-summary-positive/database",
+    "--language=swift",
+    "--search-path=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-extractor",
+    "--source-root=/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-modeled-external-summary-positive/source",
+    "--threads=2",
+    "--ram=2048",
+    "--command=/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc -swift-version 6 -Onone -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk -target arm64-apple-macosx26.5 -module-name DataFlowBenchTaintSwift -module-cache-path /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-modeled-external-summary-positive/cache /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-modeled-external-summary-positive/source/ModeledExternalSummaryPositive.swift /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-modeled-external-summary-positive/source/ThirdPartyBridge.swift /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-modeled-external-summary-positive/source/main.swift -o /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-modeled-external-summary-positive/never-executed"
+  ],
+  "measurement_wrapper": [],
+  "cwd": "/private/tmp/dfb-220-full108-20260928",
+  "environment": null,
+  "elapsed_seconds": 41.850564834000124,
+  "deadline_seconds": 150,
+  "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+  "exit_status": 0,
+  "timed_out": false,
+  "tracked_descendants": [
+    {
+      "pid": 53335,
+      "start_identity": "1790674637:984794"
+    },
+    {
+      "pid": 53342,
+      "start_identity": "1790674637:997604"
+    },
+    {
+      "pid": 53410,
+      "start_identity": "1790674639:21940"
+    },
+    {
+      "pid": 53422,
+      "start_identity": "1790674639:431139"
+    },
+    {
+      "pid": 53433,
+      "start_identity": "1790674639:994564"
+    },
+    {
+      "pid": 53435,
+      "start_identity": "1790674640:50138"
+    },
+    {
+      "pid": 53446,
+      "start_identity": "1790674641:3947"
+    },
+    {
+      "pid": 53448,
+      "start_identity": "1790674641:57001"
+    },
+    {
+      "pid": 53454,
+      "start_identity": "1790674641:514229"
+    },
+    {
+      "pid": 53457,
+      "start_identity": "1790674641:720838"
+    },
+    {
+      "pid": 53490,
+      "start_identity": "1790674644:105984"
+    },
+    {
+      "pid": 53492,
+      "start_identity": "1790674644:174270"
+    },
+    {
+      "pid": 53504,
+      "start_identity": "1790674644:652620"
+    },
+    {
+      "pid": 53505,
+      "start_identity": "1790674644:655183"
+    },
+    {
+      "pid": 53515,
+      "start_identity": "1790674645:121950"
+    },
+    {
+      "pid": 53516,
+      "start_identity": "1790674645:124393"
+    },
+    {
+      "pid": 53526,
+      "start_identity": "1790674645:590199"
+    },
+    {
+      "pid": 53535,
+      "start_identity": "1790674646:137999"
+    },
+    {
+      "pid": 53539,
+      "start_identity": "1790674646:496967"
+    },
+    {
+      "pid": 53547,
+      "start_identity": "1790674646:859784"
+    },
+    {
+      "pid": 54116,
+      "start_identity": "1790674673:367765"
+    },
+    {
+      "pid": 54119,
+      "start_identity": "1790674673:421795"
+    },
+    {
+      "pid": 54127,
+      "start_identity": "1790674673:844829"
+    },
+    {
+      "pid": 54130,
+      "start_identity": "1790674673:890915"
+    },
+    {
+      "pid": 54202,
+      "start_identity": "1790674674:391627"
+    },
+    {
+      "pid": 54224,
+      "start_identity": "1790674675:92340"
+    },
+    {
+      "pid": 54235,
+      "start_identity": "1790674675:906117"
+    },
+    {
+      "pid": 54240,
+      "start_identity": "1790674676:259451"
+    },
+    {
+      "pid": 54242,
+      "start_identity": "1790674676:423714"
+    },
+    {
+      "pid": 54267,
+      "start_identity": "1790674678:139575"
+    },
+    {
+      "pid": 54278,
+      "start_identity": "1790674678:514509"
+    }
+  ],
+  "cleanup_signaled": [],
+  "cleanup_status": "tracked-processes-stopped",
+  "discovery_complete": false,
+  "descendant_containment": "unproven",
+  "scratch_cleanup_authorized": false,
+  "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+  "cleanup_error": null,
+  "memory_compliance": "unproven",
+  "phase_id": "extract",
+  "role": "extraction"
+}
