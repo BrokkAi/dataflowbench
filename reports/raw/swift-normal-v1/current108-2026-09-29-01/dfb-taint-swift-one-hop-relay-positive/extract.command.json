@@ -1,0 +1,134 @@
+{
+  "argv": [
+    "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+    "database",
+    "create",
+    "/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-one-hop-relay-positive/database",
+    "--language=swift",
+    "--search-path=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-extractor",
+    "--source-root=/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-one-hop-relay-positive/source",
+    "--threads=2",
+    "--ram=2048",
+    "--command=/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc -swift-version 6 -Onone -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk -target arm64-apple-macosx26.5 -module-name DataFlowBenchTaintSwift -module-cache-path /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-one-hop-relay-positive/cache /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-one-hop-relay-positive/source/OneHopRelayPositive.swift /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-one-hop-relay-positive/source/main.swift -o /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-one-hop-relay-positive/never-executed"
+  ],
+  "measurement_wrapper": [],
+  "cwd": "/private/tmp/dfb-220-full108-20260928",
+  "environment": null,
+  "elapsed_seconds": 41.45557041700067,
+  "deadline_seconds": 150,
+  "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+  "exit_status": 0,
+  "timed_out": false,
+  "tracked_descendants": [
+    {
+      "pid": 36150,
+      "start_identity": "1790676699:825241"
+    },
+    {
+      "pid": 36157,
+      "start_identity": "1790676699:840231"
+    },
+    {
+      "pid": 36170,
+      "start_identity": "1790676700:496958"
+    },
+    {
+      "pid": 36181,
+      "start_identity": "1790676700:912203"
+    },
+    {
+      "pid": 36194,
+      "start_identity": "1790676701:515846"
+    },
+    {
+      "pid": 36208,
+      "start_identity": "1790676702:662093"
+    },
+    {
+      "pid": 36217,
+      "start_identity": "1790676703:104176"
+    },
+    {
+      "pid": 36220,
+      "start_identity": "1790676703:212361"
+    },
+    {
+      "pid": 36279,
+      "start_identity": "1790676705:866567"
+    },
+    {
+      "pid": 36290,
+      "start_identity": "1790676706:367431"
+    },
+    {
+      "pid": 36301,
+      "start_identity": "1790676706:846812"
+    },
+    {
+      "pid": 36312,
+      "start_identity": "1790676707:316006"
+    },
+    {
+      "pid": 36321,
+      "start_identity": "1790676707:891463"
+    },
+    {
+      "pid": 36329,
+      "start_identity": "1790676708:290201"
+    },
+    {
+      "pid": 36333,
+      "start_identity": "1790676708:619742"
+    },
+    {
+      "pid": 36741,
+      "start_identity": "1790676735:261837"
+    },
+    {
+      "pid": 36743,
+      "start_identity": "1790676735:326282"
+    },
+    {
+      "pid": 36757,
+      "start_identity": "1790676735:759845"
+    },
+    {
+      "pid": 36768,
+      "start_identity": "1790676736:276441"
+    },
+    {
+      "pid": 36782,
+      "start_identity": "1790676737:154100"
+    },
+    {
+      "pid": 36796,
+      "start_identity": "1790676737:584879"
+    },
+    {
+      "pid": 36798,
+      "start_identity": "1790676737:735605"
+    },
+    {
+      "pid": 36832,
+      "start_identity": "1790676739:467570"
+    },
+    {
+      "pid": 36835,
+      "start_identity": "1790676739:596480"
+    },
+    {
+      "pid": 36843,
+      "start_identity": "1790676739:852467"
+    }
+  ],
+  "cleanup_signaled": [],
+  "cleanup_status": "tracked-processes-stopped",
+  "discovery_complete": false,
+  "descendant_containment": "unproven",
+  "scratch_cleanup_authorized": false,
+  "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+  "cleanup_error": null,
+  "memory_compliance": "unproven",
+  "phase_id": "extract",
+  "role": "extraction"
+}

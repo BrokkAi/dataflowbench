@@ -1,0 +1,49 @@
+{
+  "argv": [
+    "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+    "query",
+    "run",
+    "/private/tmp/dfb-220-full108-20260928/adapters/codeql/swift-normal-v1/queries/standard/modeling-flow.ql",
+    "--database=/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-model-store-separation-negative/database",
+    "--output=/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-model-store-separation-negative/flow.bqrs",
+    "--additional-packs=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-packs",
+    "--threads=2",
+    "--ram=2048"
+  ],
+  "measurement_wrapper": [],
+  "cwd": "/private/tmp/dfb-220-full108-20260928",
+  "environment": null,
+  "elapsed_seconds": 2.7793685839997124,
+  "deadline_seconds": 70.83425024999997,
+  "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+  "exit_status": 0,
+  "timed_out": false,
+  "tracked_descendants": [
+    {
+      "pid": 45540,
+      "start_identity": "1790674319:237403"
+    },
+    {
+      "pid": 45547,
+      "start_identity": "1790674319:250402"
+    },
+    {
+      "pid": 45552,
+      "start_identity": "1790674319:618757"
+    },
+    {
+      "pid": 45561,
+      "start_identity": "1790674320:185993"
+    }
+  ],
+  "cleanup_signaled": [],
+  "cleanup_status": "tracked-processes-stopped",
+  "discovery_complete": false,
+  "descendant_containment": "unproven",
+  "scratch_cleanup_authorized": false,
+  "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+  "cleanup_error": null,
+  "memory_compliance": "unproven",
+  "phase_id": "flow",
+  "role": "analysis"
+}

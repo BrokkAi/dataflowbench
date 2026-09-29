@@ -1,0 +1,130 @@
+{
+  "argv": [
+    "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+    "database",
+    "create",
+    "/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-recursive-callback-transform-negative/database",
+    "--language=swift",
+    "--search-path=/private/tmp/dfb-swift-extractor-repair-20260928/candidate-extractor",
+    "--source-root=/private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-recursive-callback-transform-negative/source",
+    "--threads=2",
+    "--ram=2048",
+    "--command=/private/tmp/dfb-full108-assets-20260928/swift-expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc -swift-version 6 -Onone -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk -target arm64-apple-macosx26.5 -module-name DataFlowBenchTaintSwift -module-cache-path /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-recursive-callback-transform-negative/cache /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-recursive-callback-transform-negative/source/main.swift -o /private/tmp/dfb-220-full108-20260928/reports/raw/swift-normal-v1/current108-2026-09-29-01/dfb-taint-swift-recursive-callback-transform-negative/never-executed"
+  ],
+  "measurement_wrapper": [],
+  "cwd": "/private/tmp/dfb-220-full108-20260928",
+  "environment": null,
+  "elapsed_seconds": 41.23106358299992,
+  "deadline_seconds": 150,
+  "deadline_scope": "non-scored probe phase; not a scored analysis outcome",
+  "exit_status": 0,
+  "timed_out": false,
+  "tracked_descendants": [
+    {
+      "pid": 37085,
+      "start_identity": "1790676749:815810"
+    },
+    {
+      "pid": 37092,
+      "start_identity": "1790676749:829148"
+    },
+    {
+      "pid": 37101,
+      "start_identity": "1790676750:394575"
+    },
+    {
+      "pid": 37102,
+      "start_identity": "1790676750:404926"
+    },
+    {
+      "pid": 37117,
+      "start_identity": "1790676750:809050"
+    },
+    {
+      "pid": 37130,
+      "start_identity": "1790676751:413164"
+    },
+    {
+      "pid": 37144,
+      "start_identity": "1790676752:487990"
+    },
+    {
+      "pid": 37153,
+      "start_identity": "1790676753:106754"
+    },
+    {
+      "pid": 37184,
+      "start_identity": "1790676755:481964"
+    },
+    {
+      "pid": 37186,
+      "start_identity": "1790676755:587491"
+    },
+    {
+      "pid": 37213,
+      "start_identity": "1790676756:151394"
+    },
+    {
+      "pid": 37223,
+      "start_identity": "1790676756:614757"
+    },
+    {
+      "pid": 37224,
+      "start_identity": "1790676756:617324"
+    },
+    {
+      "pid": 37347,
+      "start_identity": "1790676757:87874"
+    },
+    {
+      "pid": 37356,
+      "start_identity": "1790676757:702669"
+    },
+    {
+      "pid": 37368,
+      "start_identity": "1790676758:114101"
+    },
+    {
+      "pid": 37374,
+      "start_identity": "1790676758:544078"
+    },
+    {
+      "pid": 37733,
+      "start_identity": "1790676785:737603"
+    },
+    {
+      "pid": 37743,
+      "start_identity": "1790676786:393472"
+    },
+    {
+      "pid": 37755,
+      "start_identity": "1790676787:195033"
+    },
+    {
+      "pid": 37759,
+      "start_identity": "1790676787:551293"
+    },
+    {
+      "pid": 37761,
+      "start_identity": "1790676787:636963"
+    },
+    {
+      "pid": 37784,
+      "start_identity": "1790676789:344322"
+    },
+    {
+      "pid": 37795,
+      "start_identity": "1790676789:740785"
+    }
+  ],
+  "cleanup_signaled": [],
+  "cleanup_status": "tracked-processes-stopped",
+  "discovery_complete": false,
+  "descendant_containment": "unproven",
+  "scratch_cleanup_authorized": false,
+  "limitations": "Polling may miss fast reparented descendants; PID/start recheck is not an atomic signal handle.",
+  "cleanup_error": null,
+  "memory_compliance": "unproven",
+  "phase_id": "extract",
+  "role": "extraction"
+}
