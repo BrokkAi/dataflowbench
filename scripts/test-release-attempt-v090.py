@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import sys
+import subprocess
 import tempfile
 import time
 import unittest
@@ -221,15 +222,22 @@ sys.exit(17 if "--fail" in sys.argv else 0)
         env = {"PATH": os.defpath, "CHILD_PID_FILE": str(child_pid_file)}
         stdout = self.root / "timeout.stdout"
         stderr = self.root / "timeout.stderr"
+        # Establish the descendant before testing cleanup; process startup is
+        # not part of the behavior under test and can exceed 200ms in CI.
+        process = subprocess.Popen([sys.executable, '-c', parent_code, child_code],
+                                   cwd=self.root, env=env, start_new_session=True,
+                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        try:
+            deadline = time.monotonic() + 10
+            while time.monotonic() < deadline and not child_pid_file.exists():
+                time.sleep(0.01)
+            self.assertTrue(child_pid_file.exists(), 'fake descendant did not start')
+        finally:
+            RECORDER._terminate_process_group(process, grace_seconds=0.1)
         _, timed_out, _ = RECORDER._run(
-            [sys.executable, "-c", parent_code, child_code], self.root, env,
-            stdout, stderr, 0.2,
-        )
+            [sys.executable, '-c', 'import time; time.sleep(30)'], self.root, env,
+            stdout, stderr, 0.1)
         self.assertTrue(timed_out)
-        deadline = time.monotonic() + 2
-        while time.monotonic() < deadline and not child_pid_file.exists():
-            time.sleep(0.01)
-        self.assertTrue(child_pid_file.exists(), "fake descendant did not start")
         child_pid = int(child_pid_file.read_text())
         deadline = time.monotonic() + 2
         while time.monotonic() < deadline:
