@@ -143,9 +143,12 @@ def _verify_v090_contract(root: Path, contract_path: Path, probe_script_path: Pa
     if not isinstance(identities, dict):
         raise ProbeError("contract input_identities must bind release inputs")
     control_ref = contract.get("control_inventory")
-    control_rel = "reports/releases/v0.9.0/execution-v1/control-inventory.json"
-    if not isinstance(control_ref, dict) or control_ref.get("path") != control_rel:
+    control_rel = control_ref.get('path') if isinstance(control_ref, dict) else None
+    if (not isinstance(control_rel, str) or '..' in Path(control_rel).parts or
+            not control_rel.startswith('reports/releases/v0.9.0/execution-v1/')):
         raise ProbeError("contract must bind the v0.9 control inventory")
+    if (root / control_rel).resolve().is_relative_to(root.resolve()) is not True:
+        raise ProbeError('control inventory escapes repository')
     control_inventory, control_inventory_raw = _read_json(root / control_rel, "v0.9 control inventory")
     control_sha = _require_digest(control_ref.get("sha256"), "control inventory SHA-256")
     if _sha_bytes(control_inventory_raw) != control_sha or identities.get(control_rel) != control_sha:
@@ -155,8 +158,13 @@ def _verify_v090_contract(root: Path, contract_path: Path, probe_script_path: Pa
     if len(control_rows) != 1:
         raise ProbeError("control inventory must register this probe exactly once")
     control_record = control_rows[0]
-    if control_record.get("argv") != ["/usr/bin/python3", SCRIPT_REL.as_posix()]:
-        raise ProbeError("control inventory must bind the exact versioned probe command")
+    relative_contract = contract_path.resolve().relative_to(root.resolve()).as_posix()
+    if not relative_contract.startswith('reports/releases/v0.9.0/execution-v1/'):
+        raise ProbeError('contract must be inside the versioned execution plan')
+    expected = ['/usr/bin/python3', SCRIPT_REL.as_posix(), '--contract', relative_contract]
+    legacy = ['/usr/bin/python3', SCRIPT_REL.as_posix()]
+    if control_record.get('argv') != expected and not (relative_contract == CONTRACT_REL.as_posix() and control_record.get('argv') == legacy):
+        raise ProbeError('control inventory must bind this exact contract path')
     script_rows = control_record.get("script_identity")
     if not isinstance(script_rows, list) or len(script_rows) != 1 or script_rows[0].get("path") != SCRIPT_REL.as_posix():
         raise ProbeError("control inventory must bind this probe's script identity")
