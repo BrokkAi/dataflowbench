@@ -12,6 +12,7 @@ import {
   vendorOrder,
 } from '../data/snapshots';
 import { analyzerLanguageSupport, type AnalyzerLanguageSupport } from '../data/analyzer-language-support';
+import { percentAxis, placeLabels } from '../data/scatter-layout';
 import ScatterTooltip from './ScatterTooltip.astro';
 
 interface AnalyzerPoint {
@@ -67,28 +68,28 @@ const formatPercent = (value: number) => `${value.toFixed(1)}%`;
 
 const width = 820;
 const height = 470;
-const padLeft = 66;
-const padRight = 30;
-const padTop = 34;
-const padBottom = 62;
+const padLeft = 60;
+const padRight = 24;
+const padTop = 28;
+const padBottom = 56;
 const plotWidth = width - padLeft - padRight;
 const plotHeight = height - padTop - padBottom;
 const languageAxisMax = 14;
+// The vertical axis starts at the tens below the lowest analyzer rather than
+// at 0, so the plot spends its height on the range the analyzers occupy.
+const axis = percentAxis(points.map((point) => percent(point.correct, point.covered)));
 const x = (languages: number) => padLeft + languages * plotWidth / languageAxisMax;
-const y = (correct: number, covered: number) => padTop + (100 - percent(correct, covered)) * plotHeight / 100;
+const y = (value: number) => padTop + (axis.max - value) * plotHeight / (axis.max - axis.min);
 const xTicks = [0, 2, 4, 6, 8, 10, 12, 14];
-const yTicks = [50, 60, 70, 80, 90, 100];
-// Small, stable offsets keep labels readable without changing point geometry.
-const labelOffsets: Record<string, { x: number; y: number; anchor?: 'start' | 'end' }> = {
-  bifrost: { x: -9, y: -11, anchor: 'end' },
-  codeql: { x: -9, y: 17, anchor: 'end' },
-  joern: { x: -9, y: -11, anchor: 'end' },
-  semgrep: { x: -9, y: 17, anchor: 'end' },
-  opentaint: { x: -10, y: -11, anchor: 'end' },
-  infer: { x: 9, y: -11 },
-  flowdroid: { x: 9, y: 17 },
-  pysa: { x: 9, y: 17 },
-};
+const plotted = points.map((point) => ({
+  ...point,
+  px: x(point.languageSupport.languages.length),
+  py: y(percent(point.correct, point.covered)),
+}));
+const labels = placeLabels(
+  plotted.map((point) => ({ x: point.px, y: point.py, text: point.name })),
+  { bounds: { left: padLeft + 4, top: 4, right: width - 4, bottom: height - padBottom - 4 }, radius: 8, fontSize: 13, charWidth: 0.58 },
+);
 ---
 
 <h2 id="landscape">Accuracy and language coverage — current snapshot</h2>
@@ -108,33 +109,26 @@ const labelOffsets: Record<string, { x: number; y: number; anchor?: 'start' | 'e
   <svg class="landscape-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby="landscape-title landscape-desc">
     <title id="landscape-title">Current analyzer accuracy by supported data-flow languages</title>
     <desc id="landscape-desc">Scatter plot of all analyzers in DataFlowBench {currentSnapshot.version}. The horizontal axis is the documented number of languages in which each analyzer performs data-flow analysis. The vertical axis is decisive-correct assertions divided by every assertion in the benchmark kernels that analyzer covers, including non-answers in the denominator.</desc>
-    {yTicks.map((tick) => {
-      const tickY = padTop + (100 - tick) * plotHeight / 100;
-      return <>
-        <line class="grid" x1={padLeft} y1={tickY} x2={width - padRight} y2={tickY} />
-        <text class="tick" x={padLeft - 10} y={tickY + 4} text-anchor="end">{tick}%</text>
-      </>;
-    })}
-    {xTicks.map((tick) => {
-      const tickX = x(tick);
-      return <>
-        <line class="grid vertical" x1={tickX} y1={padTop} x2={tickX} y2={height - padBottom} />
-        <text class="tick" x={tickX} y={height - padBottom + 22} text-anchor="middle">{tick}</text>
-      </>;
-    })}
+    {axis.ticks.map((tick) => <>
+      <line class="grid" x1={padLeft} y1={y(tick)} x2={width - padRight} y2={y(tick)} />
+      <text class="tick" x={padLeft - 10} y={y(tick) + 4} text-anchor="end">{tick}%</text>
+    </>)}
+    {xTicks.map((tick) => <>
+      <line class="grid vertical" x1={x(tick)} y1={padTop} x2={x(tick)} y2={height - padBottom} />
+      <text class="tick" x={x(tick)} y={height - padBottom + 20} text-anchor="middle">{tick}</text>
+    </>)}
     <line class="axis" x1={padLeft} y1={height - padBottom} x2={width - padRight} y2={height - padBottom} />
     <line class="axis" x1={padLeft} y1={padTop} x2={padLeft} y2={height - padBottom} />
-    <text class="axis-title" x={(padLeft + width - padRight) / 2} y={height - 10} text-anchor="middle">languages with documented data-flow support</text>
-    <text class="axis-title" transform={`translate(17 ${(padTop + height - padBottom) / 2}) rotate(-90)`} text-anchor="middle">accuracy within covered kernels</text>
-    {points.map((point) => {
-      const pointX = x(point.languageSupport.languages.length);
-      const pointY = y(point.correct, point.covered);
-      const offset = labelOffsets[point.tool] ?? { x: 9, y: -9 };
+    <text class="axis-title" x={(padLeft + width - padRight) / 2} y={height - 12} text-anchor="middle">Languages with documented data-flow support</text>
+    <text class="axis-title" transform={`translate(16 ${(padTop + height - padBottom) / 2}) rotate(-90)`} text-anchor="middle">Accuracy within covered kernels</text>
+    {plotted.map((point, index) => {
+      const label = labels[index];
       const accuracy = percent(point.correct, point.covered);
       const tooltip = `${point.name} — x: ${point.languageSupport.languages.length} supported languages · y: ${formatPercent(accuracy)} accuracy`;
       return <g class:list={['analyzer', point.colorClass]} tabindex="0" role="img" aria-label={tooltip} data-tooltip={tooltip}>
-        <circle class:list={['point', point.cohort]} cx={pointX} cy={pointY} r="7" />
-        <text class="point-label" x={pointX + offset.x} y={pointY + offset.y} text-anchor={offset.anchor ?? 'start'}>{point.name}</text>
+        {label.leader && <line class="leader" x1={point.px} y1={point.py} x2={label.x} y2={label.y - 4} />}
+        <circle class:list={['point', point.cohort]} cx={point.px} cy={point.py} r="6.5" />
+        <text class="point-label" x={label.x} y={label.y} text-anchor={label.anchor}>{point.name}</text>
       </g>;
     })}
   </svg>
@@ -148,15 +142,15 @@ const labelOffsets: Record<string, { x: number; y: number; anchor?: 'start' | 'e
 
 <details class="landscape-data">
   <summary>Exact figures</summary>
-  <div class="table-wrap">
+  <div class="table-wrap ds-table">
     <table>
       <thead><tr><th>Analyzer</th><th>Scope</th><th>Supported languages</th><th>Benchmark kernels</th><th>Accuracy</th><th>Correct</th><th>Wrong</th><th>Incomplete</th></tr></thead>
       <tbody>{points.map((point) => <tr>
         <th scope="row"><span class:list={['vendor-dot', point.colorClass]}></span>{point.name}</th>
         <td>{point.cohort}</td>
         <td><a href={point.languageSupport.sourceUrl} title={point.languageSupport.source}>{point.languageSupport.languages.length}</a><small>{point.languageSupport.languages.join(', ')}</small></td>
-        <td>{point.kernels}/{kernelCount} ({formatPercent(percent(point.kernels, kernelCount))})</td>
-        <td>{point.correct}/{point.covered} ({formatPercent(percent(point.correct, point.covered))})</td>
+        <td class="num">{point.kernels}/{kernelCount} ({formatPercent(percent(point.kernels, kernelCount))})</td>
+        <td class="num">{point.correct}/{point.covered} ({formatPercent(percent(point.correct, point.covered))})</td>
         <td>{point.correct}</td><td>{point.wrong}</td><td>{point.incomplete}</td>
       </tr>)}</tbody>
     </table>
@@ -164,26 +158,32 @@ const labelOffsets: Record<string, { x: number; y: number; anchor?: 'start' | 'e
 </details>
 
 <style>
-  .landscape-frame { position: relative; border: 1px solid var(--sl-color-hairline); border-radius: .75rem; padding: .75rem .5rem .25rem; background: var(--sl-color-bg-sidebar); overflow-x: auto; }
+  .landscape-frame { position: relative; margin-top: 1.25rem; border: 1px solid var(--ds-line); padding: 1rem .75rem .5rem; background: var(--ds-well); overflow-x: auto; }
   .landscape-chart { display: block; width: 100%; min-width: 42rem; height: auto; }
-  .grid { stroke: var(--sl-color-hairline); stroke-width: 1; }
-  .grid.vertical { stroke-dasharray: 3 5; }
-  .axis { stroke: var(--sl-color-gray-4); stroke-width: 1.5; }
-  .tick, .axis-title { font-family: var(--__sl-font-mono); font-size: 11px; fill: var(--sl-color-gray-3); }
-  .axis-title { font-size: 12px; }
-  .point { fill: var(--vendor-rule); stroke: var(--sl-color-bg-sidebar); stroke-width: 2; }
+  .grid { stroke: var(--ds-line-soft); stroke-width: 1; }
+  .grid.vertical { stroke-dasharray: 2 4; }
+  .axis { stroke: var(--ds-line-strong); stroke-width: 1; }
+  .tick { font-family: var(--ds-font-mono); font-size: 11px; fill: var(--ds-text-3); }
+  .axis-title { font-family: var(--ds-font); font-size: 13px; font-weight: 500; fill: var(--ds-text-2); }
+  .point { fill: var(--vendor-rule); stroke: var(--ds-well); stroke-width: 2; }
+  .leader { stroke: var(--vendor-rule); stroke-width: 1; opacity: .55; }
   .analyzer { cursor: default; outline: none; }
-  .analyzer:is(:hover, :focus-visible) .point { stroke: var(--sl-color-text); stroke-width: 3; }
-  .point.specialist { stroke-dasharray: 3 2; stroke-width: 3; }
-  .point-label { font-family: var(--__sl-font-mono); font-size: 12px; font-weight: 650; fill: var(--vendor-rule); paint-order: stroke; stroke: var(--sl-color-bg-sidebar); stroke-width: 4px; stroke-linejoin: round; }
-  .landscape-key { list-style: none; display: flex; gap: 1.25rem; margin: .65rem 0 0; padding: 0; color: var(--sl-color-gray-2); font-size: var(--sl-text-sm); }
+  .analyzer:is(:hover, :focus-visible) .point { stroke: var(--ds-text); stroke-width: 2.5; }
+  .analyzer:focus-visible .point-label { text-decoration: underline; }
+  /* A specialist is drawn as a ring, so the distinction survives without colour. */
+  .point.specialist { fill: var(--ds-well); stroke: var(--vendor-rule); stroke-width: 2.5; }
+  .point-label { font-family: var(--ds-font); font-size: 13px; font-weight: 500; fill: var(--vendor-rule); paint-order: stroke; stroke: var(--ds-well); stroke-width: 4px; stroke-linejoin: round; }
+  .landscape-key { list-style: none; display: flex; gap: 1.5rem; margin: .65rem 0 0; padding: 0; color: var(--ds-text-3); font-size: var(--sl-text-sm); }
   .landscape-key li { display: flex; align-items: center; margin: 0; }
-  .shape { width: .7rem; height: .7rem; border-radius: 50%; margin-right: .4rem; background: var(--sl-color-gray-3); border: 2px solid var(--sl-color-bg); }
-  .shape.specialist { border: 2px dashed var(--sl-color-gray-3); background: transparent; }
+  .shape { width: .7rem; height: .7rem; border-radius: 50%; margin-right: .45rem; background: var(--ds-text-3); }
+  .shape.specialist { background: transparent; border: 2px solid var(--ds-text-3); }
   .landscape-data { margin-top: .8rem; }
   .table-wrap { overflow-x: auto; }
-  td small { display: block; min-width: 12rem; margin-top: .2rem; color: var(--sl-color-gray-3); line-height: 1.35; }
-  .vendor-dot { display: inline-block; width: .55rem; height: .55rem; border-radius: 50%; margin-right: .4rem; background: var(--vendor-rule); }
+  td small { display: block; min-width: 12rem; margin-top: .2rem; color: var(--ds-text-3); line-height: 1.35; }
+  /* A name and a fraction each read as one unit; the table pans before either
+     splits across lines. */
+  th[scope='row'], .num { white-space: nowrap; }
+  .vendor-dot { display: inline-block; width: .55rem; height: .55rem; border-radius: 50%; margin-right: .45rem; background: var(--vendor-rule); }
   .v0 { --vendor-rule: var(--sl-color-accent-high); } .v1 { --vendor-rule: var(--sl-color-orange); } .v2 { --vendor-rule: var(--sl-color-purple); } .v3 { --vendor-rule: var(--sl-color-green); }
   .v4 { --vendor-rule: var(--dfb-vendor-4); } .v5 { --vendor-rule: var(--dfb-vendor-5); } .v6 { --vendor-rule: var(--dfb-vendor-6); } .v7 { --vendor-rule: var(--dfb-vendor-7); }
 </style>

@@ -29,7 +29,7 @@ const { adapter } = scorecard;
     >
     (<code>{shortDigest(scorecard.report.sha256)}…</code>).
   </p>
-  <div class="table-scroll">
+  <div class="table-scroll ds-table">
     <table>
       <thead>
         <tr>
@@ -60,12 +60,12 @@ const { adapter } = scorecard;
                 <td>{tier.outcome_coverage['inconclusive'] ?? 0}</td>
                 <td>{tier.outcome_coverage['unsupported'] ?? 0}</td>
                 <td>{tier.outcome_coverage['runner-error'] ?? 0}</td>
-                <td>
+                <td class="rate">
                   {tier.scored
                     ? percentCell(tier.dimension_macro.true_positive_rate_percent)
                     : 'not scored'}
                 </td>
-                <td>
+                <td class="rate">
                   {tier.scored
                     ? percentCell(tier.dimension_macro.false_positive_rate_percent)
                     : 'not scored'}
@@ -82,5 +82,16 @@ const { adapter } = scorecard;
 <style>
   .table-scroll {
     overflow-x: auto;
+  }
+  /* A scorecard id that just fits the column as text still overhangs it by
+     its chip's end padding, since the line fits the text alone. As a block of
+     its own width it stays inside, wrapping at its hyphens when it must. */
+  h3 > code {
+    display: inline-block;
+    max-width: 100%;
+  }
+  /* A rate, or "not scored" in its place, reads as one figure. */
+  .rate {
+    white-space: nowrap;
   }
 </style>

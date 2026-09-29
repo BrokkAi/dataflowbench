@@ -469,54 +469,25 @@ const nativeDecidingAdapters = [
 const snapshotPage = `/snapshots/${snapshot.slug}`;
 ---
 
-<p class="eyebrow">
-  Immutable evaluation · DataFlowBench {snapshot.version}
+{/* The verdict answers the page title, so it follows it directly, across the
+    full column above the two paragraphs that frame it: how the kernels are
+    read, and who builds the benchmark and why. A reader meeting the page for
+    the first time needs both before the numbers mean anything. */}
+<p class="ds-statement verdict">
+  Nobody is perfect. No analyzer answers a whole core correctly in any of the
+  {kernels.length} languages{spotless.length === 0 ? (
+    <>, and every one of the {analyzerCount} in the field makes at least one
+    decisive mistake.</>
+  ) : (
+    <>, and of the {analyzerCount} in the field only{' '}
+    {spotless.map((tool) => tool.name).join(' and ')} makes no decisive
+    mistake at all — bought by declining{' '}
+    {spotless.reduce((sum, tool) => sum + tool.incomplete, 0)} of the{' '}
+    {coreAssertions} core assertions rather than guessing at them.</>
+  )}
 </p>
 
-{/* The subtitle the page title used to be. The h1 names the benchmark, which
-    is what a reader arriving from a citation is looking for; the motivation
-    belongs directly under it, stated rather than implied. */}
-<p class="subtitle">
-  BrokkAi's benchmark for semantic data flow: <a
-    href="https://bifrost.brokk.ai">Bifrost</a
-  > measured against {analyzerCount - 1} reference analyzers, from immutable
-  freeze evidence.
-</p>
-
-{/* Starlight's "On this page" nav is built from markdown headings and cannot
-    see the h2s this component emits, so the landing page carries its own
-    section strip. The ids it targets are permanent deep-link anchors: chosen
-    once, never renamed. */}
-<nav class="section-nav" aria-label="Sections on this page">
-  <span class="section-nav-label">On this page</span>
-  <a href="#meaning">What it means</a>
-  <a href="#landscape">Analyzer landscape</a>
-  <a href="#modeling-matrix">Modeling matrix</a>
-  <a href="#tool-native-probes">Tool-native probes</a>
-  <a href="#latency">Latency</a>
-  <a href="#kernels">Kernels</a>
-  <a href="#direct-flow">Direct-flow breadth</a>
-  <a href="#trust">Trust</a>
-</nav>
-
-{/* What the benchmark is, ahead of what this particular freeze found. These
-    two describe the dataset and the conflict of interest behind it, so they
-    belong above the verdict rather than inside it — a reader meeting the page
-    for the first time needs them before the numbers mean anything. Wrapped
-    because they are adjacent: two paragraphs each holding their own pair of
-    columns read in the wrong order (see `.prose-columns` in custom.css). */}
-<div class="prose-columns">
-<p>
-  DataFlowBench is <a href="https://github.com/BrokkAi">BrokkAi</a>'s own
-  benchmark: we build it to measure where <a
-    href="https://bifrost.brokk.ai">Bifrost</a
-  > stands against other analyzers, and to keep ourselves honest while doing
-  it. The methodology is deliberately analyzer-neutral — every number below is
-  generated from digest-bound freeze evidence that we cannot edit after the
-  fact, misses and crashes included — but the motivation is not neutral, and
-  we would rather say so.
-</p>
-
+<div class="ds-split lead">
 <p>
   Each kernel poses one positive and one negative assertion per semantic
   template, and each language's kernel is its own population — cores of
@@ -529,24 +500,39 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   dialog. A blank analyzer on a kernel means no report in this freeze: no
   extractor, no frontend, or no adapter, which is coverage rather than a score.
 </p>
+<p>
+  DataFlowBench is <a href="https://slopcop.com">SlopCop</a>'s own
+  benchmark for semantic data flow: we build it to measure where <a
+    href="https://bifrost.brokk.ai">Bifrost</a
+  > stands against {analyzerCount - 1} reference analyzers, and to keep
+  ourselves honest while doing it. The methodology is deliberately
+  analyzer-neutral — every number here is generated from digest-bound freeze
+  evidence that we cannot edit after the fact, misses and crashes included —
+  but the motivation is not neutral, and we would rather say so.
+</p>
 </div>
 
-<aside class="short-answer">
-  <p class="label">Short answer</p>
-  <p class="verdict">
-    Nobody is perfect. No analyzer answers a whole core correctly in any of the
-    {kernels.length} languages{spotless.length === 0 ? (
-      <>, and every one of the {analyzerCount} in the field makes at least one
-      decisive mistake.</>
-    ) : (
-      <>, and of the {analyzerCount} in the field only{' '}
-      {spotless.map((tool) => tool.name).join(' and ')} makes no decisive
-      mistake at all — bought by declining{' '}
-      {spotless.reduce((sum, tool) => sum + tool.incomplete, 0)} of the{' '}
-      {coreAssertions} core assertions rather than guessing at them.</>
-    )}
-  </p>
-  <div class="supporting">
+{/* Starlight's "On this page" nav is built from markdown headings and cannot
+    see the h2s this component emits, so the landing page carries its own
+    section strip. The ids it targets are permanent deep-link anchors: chosen
+    once, never renamed. */}
+<nav class="section-nav" aria-label="Sections on this page">
+  <a class="ds-chip" href="#decisiveness">Decisiveness</a>
+  <a class="ds-chip" href="#meaning">What it means</a>
+  <a class="ds-chip" href="#landscape">Analyzer landscape</a>
+  <a class="ds-chip" href="#modeling-matrix">Modeling matrix</a>
+  <a class="ds-chip" href="#tool-native-probes">Tool-native probes</a>
+  <a class="ds-chip" href="#latency">Latency</a>
+  <a class="ds-chip" href="#kernels">Kernels</a>
+  <a class="ds-chip" href="#direct-flow">Direct-flow breadth</a>
+  <a class="ds-chip" href="#trust">Trust</a>
+</nav>
+
+{/* What this freeze adds, beside what it contains: the release's figures sit
+    next to the paragraphs on a wide screen and under them otherwise. */}
+<h2 id="release">What {snapshot.version} contains</h2>
+<div class="ds-split release">
+  <div class="support">
   {snapshot.version === 'v0.8.0' ? (
     <p>
       This is the first freeze of the expanded recursive-composition kernels:
@@ -620,14 +606,33 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   </p>
   <p>
     On the direct-flow breadth baseline, Bifrost answered both assertions
-    correctly in <strong>{breadthCorrect} of {breadth.length}</strong>
+    correctly in <strong>{breadthCorrect}&nbsp;of&nbsp;{breadth.length}</strong>
     languages{breadthIncomplete.length > 0
       ? ` (${breadthIncomplete.map((row) => row.language).join(', ')}: inconclusive, which is reported as coverage — not as a wrong answer).`
       : '.'}
   </p>
   </div>
-</aside>
+  <dl class="ds-figures" data-cols="4" aria-label={`DataFlowBench ${snapshot.version} in figures`}>
+    <div>
+      <dt>Frozen case results, across three populations</dt>
+      <dd>{caseCount.toLocaleString('en-US')}</dd>
+    </div>
+    <div>
+      <dt>Kernel languages, {templateSizes} templates each</dt>
+      <dd>{kernels.length}</dd>
+    </div>
+    <div>
+      <dt>Languages in the direct-flow breadth baseline</dt>
+      <dd>{breadth.length}</dd>
+    </div>
+    <div>
+      <dt>Immutable evidence release</dt>
+      <dd>{snapshot.version}</dd>
+    </div>
+  </dl>
+</div>
 
+<h2 id="decisiveness">How decisive, and how correct</h2>
 <DecisionLandscape />
 
 <dialog id="kernel-dialog" aria-labelledby="kernel-dialog-title">
@@ -873,25 +878,6 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
 </p>
 </div>
 
-<div class="tile-grid">
-  <div class="tile">
-    <p class="big">{caseCount}</p>
-    <p class="caption">frozen case results, across three populations</p>
-  </div>
-  <div class="tile">
-    <p class="big">{breadth.length}</p>
-    <p class="caption">languages in the breadth baseline</p>
-  </div>
-  <div class="tile">
-    <p class="big">{kernels.length}</p>
-    <p class="caption">kernel languages ({templateSizes} templates each)</p>
-  </div>
-  <div class="tile">
-    <p class="big">{snapshot.version}</p>
-    <p class="caption">immutable evidence release</p>
-  </div>
-</div>
-
 <AnalyzerLandscape />
 
 <h2 id="modeling-matrix">Modeling matrix — is the model surface load-bearing?</h2>
@@ -915,16 +901,12 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     <div class:list={['summary-card', card.colorClass]}>
       <p class="card-title">
         <span class="vendor-dot" aria-hidden="true"></span>
-        {card.name} <span class="card-version">{card.toolVersion}</span>
+        <span class="card-name">{card.name}</span>
+        <span class="card-version">{card.toolVersion}</span>
       </p>
       {card.rows.map((row) => (
         <div class="tier-row">
-          <p class="tier-head">
-            <code>{row.language}</code>
-            <span class="tier-scored">
-              {row.scored} scored · {row.unsupported} declined of {row.total}
-            </span>
-          </p>
+          <span class="tier-lang">{row.language}</span>
           <div
             class="bar"
             role="img"
@@ -943,9 +925,14 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
               class="seg declined"
               style={`width:${barWidth(row.unsupported, row.total)}`}></span>
           </div>
-          <p class="tier-verdict">
-            {tierVerdict(row)}
-            {row.inconclusive > 0 ? ` · ${row.inconclusive} inconclusive` : ''}
+          <p class="tier-meta">
+            <span class="tier-verdict">
+              {tierVerdict(row)}
+              {row.inconclusive > 0 ? ` · ${row.inconclusive} inconclusive` : ''}
+            </span>
+            <span class="tier-scored">
+              {row.scored} scored · {row.unsupported} declined of {row.total}
+            </span>
           </p>
         </div>
       ))}
@@ -996,16 +983,12 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     <div class:list={['summary-card', card.colorClass]}>
       <p class="card-title">
         <span class="vendor-dot" aria-hidden="true"></span>
-        {card.name} <span class="card-version">{card.toolVersion}</span>
+        <span class="card-name">{card.name}</span>
+        <span class="card-version">{card.toolVersion}</span>
       </p>
       {card.rows.map((row) => (
         <div class="tier-row">
-          <p class="tier-head">
-            <code>{row.language}</code>
-            <span class="tier-scored">
-              {row.scored} scored · {row.unsupported} declined of {row.total}
-            </span>
-          </p>
+          <span class="tier-lang">{row.language}</span>
           <div
             class="bar"
             role="img"
@@ -1024,10 +1007,15 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
               class="seg declined"
               style={`width:${barWidth(row.unsupported, row.total)}`}></span>
           </div>
-          <p class="tier-verdict">
-            {tierVerdict(row)}
-            {row.falsePositives > 0 ? ` · ${row.falsePositives} FP` : ''}
-            {row.falseNegatives > 0 ? ` · ${row.falseNegatives} FN` : ''}
+          <p class="tier-meta">
+            <span class="tier-verdict">
+              {tierVerdict(row)}
+              {row.falsePositives > 0 ? ` · ${row.falsePositives} FP` : ''}
+              {row.falseNegatives > 0 ? ` · ${row.falseNegatives} FN` : ''}
+            </span>
+            <span class="tier-scored">
+              {row.scored} scored · {row.unsupported} declined of {row.total}
+            </span>
           </p>
         </div>
       ))}
@@ -1100,10 +1088,20 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
 <div class="kernel-bars">
   {kernels.map((kernel) => (
     <div class="summary-card kernel-panel">
-      <p class="card-title">
-        {kernel.language}
-        <span class="card-version">{kernel.cases} assertions</span>
-      </p>
+      <div class="kernel-head">
+        <p class="card-title">
+          <span class="card-name">{kernel.language}</span>
+          <span class="card-version">{kernel.cases} assertions</span>
+        </p>
+        <button
+          type="button"
+          class="details-button ds-button"
+          data-kernel={kernel.id}
+          aria-label={`View the confusion matrix for the ${kernel.language} kernel`}
+        >
+          Confusion matrix
+        </button>
+      </div>
       {kernel.vendors.map((vendor, index) => (
         <div class:list={['bar-row', vendorColorClass(vendor.tool, index)]}>
           <p class="bar-name">
@@ -1128,21 +1126,11 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
               class="seg declined"
               style={`width:${barWidth(vendor.unsupported, vendor.total)}`}></span>
           </div>
-          <p class="bar-value">
+          <p class="bar-value ds-num">
             {vendor.correct}<span class="of">/{vendor.total}</span>
           </p>
         </div>
       ))}
-      <p class="card-action">
-        <button
-          type="button"
-          class="details-button"
-          data-kernel={kernel.id}
-          aria-label={`View the confusion matrix for the ${kernel.language} kernel`}
-        >
-          Confusion matrix
-        </button>
-      </p>
     </div>
   ))}
 </div>
@@ -1242,11 +1230,13 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     width: min(64rem, calc(100vw - 2rem));
     max-height: calc(100vh - 4rem);
     overflow-y: auto;
-    border: 1px solid var(--sl-color-accent);
-    border-radius: 0.75rem;
-    padding: 1.25rem 1.5rem 1.5rem;
-    background: var(--sl-color-bg-sidebar);
+    border: 1px solid var(--ds-line-strong);
+    border-radius: var(--ds-cut-panel);
+    corner-shape: bevel;
+    padding: 1.5rem 1.75rem 1.75rem;
+    background: var(--ds-surface);
     color: var(--sl-color-text);
+    box-shadow: var(--ds-shadow-panel);
   }
   /* Starlight's content flow adds margin-top to every sibling block; the
      dialog lays out its own spacing. */
@@ -1254,7 +1244,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     margin-top: 0;
   }
   #kernel-dialog::backdrop {
-    background: rgb(0 0 0 / 0.6);
+    background: var(--sl-color-backdrop-overlay);
   }
   #kernel-dialog .dialog-head {
     display: flex;
@@ -1263,39 +1253,48 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     gap: 1rem;
   }
   #kernel-dialog .label {
-    font-family: var(--__sl-font-mono);
     font-size: var(--sl-text-xs);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--sl-color-accent-high);
+    font-weight: 500;
+    color: var(--ds-text-3);
     margin: 0;
   }
   #kernel-dialog h2 {
     font-size: var(--sl-text-2xl);
-    line-height: 1.2;
-    margin: 0.25rem 0 0;
-    color: var(--sl-color-white);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin: 0.3rem 0 0;
+    color: var(--ds-text);
     border: 0;
     padding: 0;
   }
   #kernel-dialog .caption {
     font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-3);
-    margin: 0.25rem 0 0;
+    color: var(--ds-text-3);
+    margin: 0.3rem 0 0;
   }
   #kernel-dialog .dialog-close {
     flex: 0 0 auto;
-    font-size: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1.25rem;
     line-height: 1;
-    padding: 0.25rem 0.6rem;
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.5rem;
-    background: transparent;
-    color: var(--sl-color-text);
+    border: 1px solid var(--ds-line-strong);
+    border-radius: var(--ds-cut-chip);
+    corner-shape: bevel;
+    background: var(--ds-control);
+    color: var(--ds-text-2);
     cursor: pointer;
+    transition:
+      border-color var(--ds-duration) ease,
+      color var(--ds-duration) ease;
   }
   #kernel-dialog .dialog-close:hover {
-    background: var(--sl-color-gray-6);
+    border-color: var(--ds-accent-line);
+    color: var(--ds-text);
   }
   /* A grid rather than a wrapping flex row: with four analyzers the leftover
      panel on the second row keeps its column width instead of stretching to
@@ -1304,57 +1303,78 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     gap: 1rem;
-    margin-top: 1.25rem;
+    margin-top: 1.5rem;
   }
   #kernel-dialog .panel {
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.75rem;
-    padding: 0.75rem 1rem 1rem;
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-cut-control);
+    corner-shape: bevel;
+    background: var(--ds-canvas);
+    padding: 1rem 1.1rem 1.1rem;
+  }
+  #kernel-dialog .panel-head {
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--ds-line-soft);
   }
   #kernel-dialog .panel .who {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: var(--sl-text-base);
+    font-weight: 500;
+    letter-spacing: -0.01em;
     margin: 0;
-    color: var(--vendor-color, var(--sl-color-accent-high));
-    border-top: 3px solid var(--vendor-color, var(--sl-color-accent));
-    padding-top: 0.25rem;
+    color: var(--ds-text);
+  }
+  #kernel-dialog .panel .who::before {
+    content: '';
+    flex: none;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--vendor-rule, var(--ds-accent));
+  }
+  #kernel-dialog .panel-head .caption {
+    font-family: var(--ds-font-mono);
+    font-size: var(--sl-text-2xs);
   }
   #kernel-dialog .matrix {
     width: 100%;
-    margin: 0.75rem 0 0;
+    margin: 0.85rem 0 0;
     border-collapse: collapse;
     font-size: var(--sl-text-sm);
   }
   #kernel-dialog .matrix th {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
+    font-family: var(--ds-font-mono);
+    font-size: var(--sl-text-2xs);
     font-weight: 400;
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
     text-align: left;
     padding: 0.25rem 0.4rem;
     border: 0;
     background: transparent;
   }
   #kernel-dialog .matrix td {
-    border: 1px solid var(--sl-color-hairline);
-    padding: 0.4rem 0.5rem;
+    border: 1px solid var(--ds-line);
+    padding: 0.45rem 0.55rem;
     text-align: left;
+    background: transparent;
   }
   #kernel-dialog .matrix .matrix-corner {
     border: 0;
   }
   #kernel-dialog .matrix-count {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-family: var(--ds-font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.375rem;
+    font-weight: 500;
     line-height: 1.1;
     margin-right: 0.35rem;
   }
   #kernel-dialog .matrix-tag {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
-    color: var(--sl-color-gray-3);
+    font-family: var(--ds-font-mono);
+    font-size: var(--sl-text-2xs);
+    color: var(--ds-text-3);
   }
   #kernel-dialog .matrix-cell.good .matrix-count {
     color: var(--sl-color-green-high);
@@ -1364,34 +1384,32 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   }
   #kernel-dialog .rates {
     display: flex;
-    gap: 1.5rem;
-    margin-top: 0.75rem;
+    gap: 1.75rem;
+    margin-top: 0.85rem;
   }
   #kernel-dialog .rate-label {
-    font-family: var(--__sl-font-mono);
     font-size: var(--sl-text-xs);
-    letter-spacing: 0.1em;
-    color: var(--sl-color-gray-3);
+    font-weight: 500;
+    color: var(--ds-text-3);
     margin: 0;
   }
   #kernel-dialog .rate-value {
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-family: var(--ds-font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.2rem;
+    font-weight: 500;
     margin: 0;
-    color: var(--vendor-color, var(--sl-color-accent-high));
+    color: var(--vendor-color, var(--ds-accent-text));
   }
   #kernel-dialog .coverage {
-    margin-top: 0.75rem;
-    border: 1px dashed var(--sl-color-orange);
-    border-radius: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    background: var(--sl-color-bg);
+    margin-top: 0.85rem;
+    border: 1px dashed var(--ds-line-strong);
+    padding: 0.55rem 0.75rem;
+    background: transparent;
   }
   #kernel-dialog .coverage-label {
-    font-family: var(--__sl-font-mono);
     font-size: var(--sl-text-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-weight: 500;
     color: var(--sl-color-orange-high);
     margin: 0;
   }
@@ -1407,21 +1425,24 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     margin: 0;
   }
   #kernel-dialog .coverage-count {
-    font-weight: 700;
-    margin-right: 0.25rem;
+    font-family: var(--ds-font-mono);
+    font-weight: 500;
+    color: var(--ds-text);
+    margin-right: 0.3rem;
   }
   #kernel-dialog .coverage-name {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
-    color: var(--sl-color-gray-3);
+    font-family: var(--ds-font-mono);
+    font-size: var(--sl-text-2xs);
+    color: var(--ds-text-3);
   }
   #kernel-dialog .scorecard {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
+    font-family: var(--ds-font-mono);
+    font-size: var(--sl-text-2xs);
     overflow-wrap: anywhere;
   }
   #kernel-dialog .dialog-foot {
-    margin-top: 1rem;
+    margin-top: 1.25rem;
+    max-width: 48rem;
   }
   #kernel-dialog .v0 {
     --vendor-color: var(--sl-color-accent-high);
@@ -1456,330 +1477,59 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     --vendor-color: var(--dfb-vendor-7);
     --vendor-rule: var(--dfb-vendor-7);
   }
-  #kernel-dialog .panel .who {
-    border-top-color: var(--vendor-rule, var(--sl-color-accent));
-  }
 </style>
 
 <style>
-  .eyebrow {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--sl-color-accent-high);
+  /* ---- Opening ------------------------------------------------------------
+     The verdict answers the page title, so it follows it directly, across the
+     full column above the two paragraphs it introduces. */
+  .verdict {
+    margin-top: 0 !important;
+    max-width: none;
+  }
+  .lead {
+    margin-top: var(--ds-space-lg) !important;
   }
   /* The section strip: this page's stand-in for the "On this page" nav its
-     component-emitted headings cannot feed. Pills wrap on narrow screens, so
+     component-emitted headings cannot feed. Chips wrap on narrow screens, so
      every section stays one tap away on mobile. */
   .section-nav {
     display: flex;
-    align-items: center;
     flex-wrap: wrap;
-    gap: 0.4rem 0.5rem;
-    margin-top: 0.75rem;
+    gap: var(--ds-space-xs);
+    margin-top: var(--ds-space-xl) !important;
   }
-  .section-nav-label {
-    margin-right: 0.2rem;
-    font-size: var(--sl-text-sm);
-    font-weight: 600;
-    color: var(--sl-color-gray-2);
-    white-space: nowrap;
-  }
-  .section-nav a {
+  .section-nav .ds-chip {
+    min-height: 2rem;
+    padding-inline: 0.7rem;
     font-size: var(--sl-text-xs);
-    line-height: 1;
-    padding: 0.45rem 0.7rem;
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 999px;
-    background: var(--sl-color-bg-sidebar);
-    color: var(--sl-color-gray-2);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-  .section-nav a:hover,
-  .section-nav a:focus-visible {
-    border-color: var(--sl-color-accent);
-    color: var(--sl-color-white);
   }
   /* Anchor targets land clear of the sticky site header. */
   h2[id] {
     scroll-margin-top: calc(var(--sl-nav-height, 4rem) + 1rem);
   }
-  .subtitle {
-    font-size: var(--sl-text-lg);
-    line-height: 1.5;
-    color: var(--sl-color-gray-2);
-    margin: 0 0 1.5rem;
-    max-width: none;
+
+  .support > :first-child {
+    margin-top: 0;
   }
-  .short-answer {
-    border: 1px solid var(--sl-color-accent);
-    border-radius: 0.75rem;
-    padding: 1.25rem 1.75rem;
-    background: var(--sl-color-bg-sidebar);
+  /* Stacked, the figures follow the paragraphs with room to breathe; side by
+     side, the split sets the gap. */
+  .release > .ds-figures {
+    margin-top: var(--ds-space-lg);
   }
-  /* The verdict is the densest prose on the page, and it used to break out of
-     the 45rem content column on its own. The column is now wide on desktop
-     (see `--sl-content-width` in custom.css), so the card simply fills it —
-     and the width buys two columns for the supporting paragraphs instead of
-     one very long line. The verdict itself stays at the prose measure and
-     spans both, so the reader meets it as a single headline block; document
-     order, and so reading order, is unchanged. */
-  @media (min-width: 72rem) {
-    /* Continuous two-column flow, not an aligned grid: grid rows sized by the
-       taller paragraph of each pair left conspicuous gaps under the shorter
-       one, which read as layout rather than prose. Multicol lets the text
-       flow like a newspaper column instead. The verdict paragraphs span the
-       full card above it. */
-    .short-answer > .verdict {
-      max-width: 72rem;
-    }
-    .short-answer > .supporting {
-      columns: 2;
-      column-gap: 2.5rem;
-      margin-top: 1rem;
-    }
-    .short-answer > .supporting > p {
-      max-width: none;
-      margin-block: 0 1rem;
-    }
-  }
-  .short-answer .label,
-  .stat-card .label {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--sl-color-accent-high);
-    margin: 0;
-  }
-  .short-answer .verdict {
-    font-size: var(--sl-text-xl);
-    font-weight: 700;
-    line-height: 1.3;
-    margin: 0.5rem 0;
-    color: var(--sl-color-white);
-  }
-  .stat-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  .stat-card {
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.75rem;
-    padding: 1rem 1.25rem;
-  }
-  /* Starlight's content flow adds margin-top to sibling blocks, which
-     offsets every grid item after the first. */
-  .stat-grid > .stat-card,
-  .tile-grid > .tile,
-  .tile p,
-  .stat-card > .label,
-  .stat-card > .caption,
-  .stat-card > .card-action {
-    margin-top: 0 !important;
-  }
-  /* The whole card is the button: the label stretches over the card, so a
-     click anywhere activates it while the markup stays a real <button>. */
-  .kernel-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-  }
-  .kernel-card .card-action {
-    margin-top: auto;
-    padding-top: 0.75rem;
-  }
-  .details-button {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--sl-color-accent-high);
-    background: transparent;
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.5rem;
-    padding: 0.3rem 0.7rem;
-    cursor: pointer;
-  }
-  .details-button::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 0.75rem;
-  }
-  .kernel-card:hover {
-    border-color: var(--sl-color-accent);
-  }
-  .kernel-card:hover .details-button {
-    border-color: var(--sl-color-accent);
-  }
-  .kernel-card:has(.details-button:focus-visible) {
-    outline: 2px solid var(--sl-color-accent-high);
-    outline-offset: 2px;
-  }
-  .details-button:focus-visible {
-    outline: 2px solid var(--sl-color-accent-high);
-    outline-offset: 2px;
-  }
-  .kernel-card:has(.details-button:focus-visible) .details-button {
-    outline: none;
-  }
-  .stat-pair {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 0.75rem 2rem;
-    margin: 0.5rem 0;
-  }
-  .stat-pair > div {
-    flex: 0 0 auto;
-    /* Starlight's content flow adds margin-top to sibling blocks. */
-    margin-top: 0 !important;
-  }
-  .stat-pair p {
-    margin-top: 0 !important;
-  }
-  .who {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin: 0;
-    color: var(--vendor-color, var(--sl-color-accent-high));
-    border-top: 3px solid var(--vendor-rule, var(--sl-color-accent));
-    padding-top: 0.25rem;
-  }
-  .big {
-    font-size: 2.25rem;
-    font-weight: 700;
-    line-height: 1.1;
-    margin: 0;
-    color: var(--vendor-color, var(--sl-color-accent-high));
-  }
-  /* Three or more analyzers per language: shrink so the row still fits the
-     card without the numbers wrapping mid-fraction. */
-  .stat-card.many .stat-pair {
-    gap: 0.75rem 1.25rem;
-  }
-  .stat-card.many .big {
-    font-size: 1.75rem;
-  }
-  /* Four analyzers on one card: two columns of two rather than a squeezed
-     single row. */
-  .stat-card.dense .stat-pair {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem 1rem;
-  }
-  .stat-card.dense .big {
-    font-size: 1.5rem;
-  }
-  .decided {
-    font-size: var(--sl-text-xs);
-    font-family: var(--__sl-font-mono);
-    color: var(--sl-color-gray-3);
-    margin: 0.1rem 0 0 !important;
-  }
-  .vendor.v0 {
-    --vendor-color: var(--sl-color-accent-high);
-    --vendor-rule: var(--sl-color-accent);
-  }
-  .vendor.v1 {
-    --vendor-color: var(--sl-color-orange);
-    --vendor-rule: var(--sl-color-orange);
-  }
-  .vendor.v2 {
-    --vendor-color: var(--sl-color-purple);
-    --vendor-rule: var(--sl-color-purple);
-  }
-  .vendor.v3 {
-    --vendor-color: var(--sl-color-green);
-    --vendor-rule: var(--sl-color-green);
-  }
-  /* Slots added in v0.6.0. The four above are untouched. */
-  .vendor.v4 {
-    --vendor-color: var(--dfb-vendor-4);
-    --vendor-rule: var(--dfb-vendor-4);
-  }
-  .vendor.v5 {
-    --vendor-color: var(--dfb-vendor-5);
-    --vendor-rule: var(--dfb-vendor-5);
-  }
-  .vendor.v6 {
-    --vendor-color: var(--dfb-vendor-6);
-    --vendor-rule: var(--dfb-vendor-6);
-  }
-  .vendor.v7 {
-    --vendor-color: var(--dfb-vendor-7);
-    --vendor-rule: var(--dfb-vendor-7);
-  }
-  /* Same fixed vendor→colour mapping as the cards and the dialog, keyed by
-     tool identity rather than row position, so a vendor keeps its colour
-     across the kernel, modeling, and tool-native sections. */
-  .vendor-dot {
-    display: inline-block;
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 50%;
-    margin-right: 0.4rem;
-    vertical-align: baseline;
-    background: var(--vendor-rule, var(--sl-color-accent));
-  }
-  .vendor-dot.v0 {
-    --vendor-rule: var(--sl-color-accent);
-  }
-  .vendor-dot.v1 {
-    --vendor-rule: var(--sl-color-orange);
-  }
-  .vendor-dot.v2 {
-    --vendor-rule: var(--sl-color-purple);
-  }
-  .vendor-dot.v3 {
-    --vendor-rule: var(--sl-color-green);
-  }
-  /* Slots added in v0.6.0. The four above are untouched. */
-  .vendor-dot.v4 {
-    --vendor-rule: var(--dfb-vendor-4);
-  }
-  .vendor-dot.v5 {
-    --vendor-rule: var(--dfb-vendor-5);
-  }
-  .vendor-dot.v6 {
-    --vendor-rule: var(--dfb-vendor-6);
-  }
-  .vendor-dot.v7 {
-    --vendor-rule: var(--dfb-vendor-7);
-  }
-  .big .of {
-    font-size: 1.1rem;
-    color: var(--sl-color-gray-3);
-  }
-  .tile-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  .tile {
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.75rem;
-    padding: 0.75rem 1rem;
-  }
-  .tile .big {
-    font-size: 1.75rem;
-  }
+
+  /* ---- Captions and notes --------------------------------------------------- */
   .caption {
     font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
     margin: 0.25rem 0 0;
   }
-  .table-scroll {
-    overflow-x: auto;
+  .takeaway {
+    font-size: var(--sl-text-sm);
+    line-height: 1.6;
+    color: var(--ds-text-3);
   }
+
   /* ---- Compact population summaries -------------------------------------
      One idiom shared by the kernel panels, the modeling cards and the
      tool-native cards: a segmented bar whose segments are always correct,
@@ -1787,25 +1537,27 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
      denominator. No bar ever spans two populations. */
   .card-grid {
     display: grid;
-    /* 15rem rather than 17rem: at the narrow widths the track count is the
-       same (two up at 45rem, one on a phone), and at the wide desktop column
-       it is the difference between three cards and an orphan and a single row
-       of four. These cards stack their bars full-width, so a narrower track
-       costs the bar nothing. */
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
+    /* 17rem: wide enough that a tier's two caption lines never wrap, which at
+       the desktop column gives four cards a row — and so rows of cards that
+       hold the same number of tiers. */
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+    gap: var(--ds-space-sm);
+    margin-top: var(--ds-space-lg);
   }
   .kernel-bars {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
+    /* 22rem: three panels a row on the desktop column, so the bars — the
+       point of the panel — get a readable length beside their labels. */
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+    gap: var(--ds-space-sm);
+    margin-top: var(--ds-space-lg);
   }
   .summary-card {
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.75rem;
-    padding: 0.75rem 1rem 0.85rem;
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-cut-control);
+    corner-shape: bevel;
+    padding: var(--ds-space-md) var(--ds-card-pad) var(--ds-card-pad);
+    background: var(--ds-surface);
   }
   /* Starlight's content flow adds margin-top to every sibling block, which
      would stagger the grid items and every line inside a card. */
@@ -1822,45 +1574,86 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     position: relative;
     display: flex;
     flex-direction: column;
+    transition: border-color var(--ds-duration) ease;
   }
-  .kernel-panel .card-action {
-    margin-top: auto !important;
-    padding-top: 0.6rem;
+  /* The panel's action sits in its head, beside the name it acts on, so a
+     panel with few analyzers ends where its rows do. */
+  .kernel-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--ds-space-sm);
+    margin: 0 0 var(--ds-space-xs) !important;
+  }
+  .kernel-head .card-title {
+    margin: 0 !important;
+  }
+  .kernel-head .details-button {
+    flex: none;
+    min-height: 1.875rem;
+    padding-inline: 0.65rem;
+    font-size: var(--sl-text-xs);
+  }
+  .details-button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
   }
   .kernel-panel:hover {
-    border-color: var(--sl-color-accent);
+    border-color: var(--ds-accent-line);
   }
   .kernel-panel:hover .details-button {
-    border-color: var(--sl-color-accent);
+    border-color: var(--ds-accent);
+    color: var(--ds-text);
   }
   .kernel-panel:has(.details-button:focus-visible) {
-    outline: 2px solid var(--sl-color-accent-high);
-    outline-offset: 2px;
+    outline: 2px solid var(--ds-accent);
+    outline-offset: 3px;
   }
   .kernel-panel:has(.details-button:focus-visible) .details-button {
     outline: none;
   }
+  /* The card head: its name, and under it one line of identity — a version,
+     a size — in the column the name starts in, whatever marks sit before it.
+     Spacing, not a rule, separates it from the body. */
   .card-title {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--vendor-color, var(--sl-color-accent-high));
-    border-top: 3px solid var(--vendor-rule, var(--sl-color-accent));
-    padding-top: 0.3rem;
-    margin: 0 0 0.5rem !important;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: var(--ds-space-2xs) var(--ds-space-xs);
+    margin: 0 0 var(--ds-space-sm) !important;
+  }
+  .card-title:has(.vendor-dot) {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .card-title:has(.vendor-dot) .card-version {
+    grid-column: 2;
+  }
+  .card-name {
+    font-size: var(--sl-text-base);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--ds-text);
   }
   .card-version {
-    color: var(--sl-color-gray-3);
-    text-transform: none;
-    letter-spacing: 0;
+    overflow: hidden;
+    font-family: var(--ds-font-mono);
+    font-size: var(--sl-text-2xs);
+    line-height: 1.4;
+    color: var(--ds-text-3);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .card-title .vendor-dot {
+    margin-right: 0;
   }
   .bar {
     display: flex;
-    height: 0.55rem;
-    border-radius: 0.3rem;
+    height: 0.5rem;
     overflow: hidden;
-    background: var(--sl-color-gray-6, var(--sl-color-hairline));
+    background: var(--ds-control);
+    box-shadow: inset 0 0 0 1px var(--ds-line-soft);
   }
   .bar .seg {
     display: block;
@@ -1887,77 +1680,102 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   .bar .seg.declined {
     background: repeating-linear-gradient(
       45deg,
-      var(--sl-color-gray-4) 0 3px,
-      transparent 3px 6px
+      var(--sl-color-gray-4) 0 2px,
+      transparent 2px 5px
     );
   }
   .bar-row {
     display: grid;
-    grid-template-columns: minmax(4.5rem, auto) 1fr auto;
+    grid-template-columns: 6.25rem minmax(0, 1fr) 3.5rem;
     align-items: center;
-    gap: 0.5rem;
-    margin: 0.3rem 0 0 !important;
+    gap: var(--ds-space-sm);
+    padding-block: 0.3rem;
+    margin: 0 !important;
   }
   .bar-name,
   .bar-value {
-    font-family: var(--__sl-font-mono);
-    font-size: var(--sl-text-xs);
+    font-size: var(--sl-text-sm);
     margin: 0 !important;
     white-space: nowrap;
   }
   .bar-name {
-    color: var(--sl-color-gray-2);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--ds-text-2);
+  }
+  .bar-name .vendor-dot {
+    margin: 0;
   }
   .bar-value {
-    color: var(--vendor-color, var(--sl-color-accent-high));
-    font-weight: 700;
+    text-align: right;
+    font-size: var(--sl-text-xs);
+    font-weight: 600;
+    color: var(--vendor-color, var(--ds-accent-text));
   }
   .bar-value .of {
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
     font-weight: 400;
   }
+
+  /* A tier row stacks its language, its bar and what the bar says, so the bar
+     gets the card's full width even four cards to a row. */
   .tier-row {
-    margin-top: 0.6rem !important;
+    display: grid;
+    gap: var(--ds-space-xs);
+    margin: 0 !important;
   }
-  .tier-head {
+  .tier-row + .tier-row {
+    margin-top: var(--ds-space-md) !important;
+  }
+  .tier-lang {
+    font-family: var(--ds-font-mono);
+    font-size: var(--sl-text-2xs);
+    color: var(--ds-text-2);
+  }
+  .tier-meta {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.25rem 0.75rem;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin: 0 !important;
     font-size: var(--sl-text-xs);
-    margin: 0 0 0.25rem !important;
-  }
-  .tier-scored {
-    font-family: var(--__sl-font-mono);
-    color: var(--sl-color-gray-3);
+    line-height: 1.4;
   }
   .tier-verdict {
-    font-size: var(--sl-text-xs);
-    color: var(--sl-color-gray-2);
-    margin: 0.25rem 0 0 !important;
+    color: var(--ds-text-2);
   }
+  .tier-scored {
+    font-family: var(--ds-font-mono);
+    font-size: var(--sl-text-2xs);
+    color: var(--ds-text-3);
+  }
+
   .bar-legend {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.35rem 1.25rem;
-    margin: 0.75rem 0 0;
+    gap: 0.4rem 1.5rem;
+    margin: 1rem 0 0;
     padding: 0;
-    font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-2);
+    font-size: var(--sl-text-xs);
+    color: var(--ds-text-3);
   }
+  /* Inline flow, not flex: as flex items, the longer keys' code terms each
+     shrank to their own narrow box on a phone and broke mid-word. The hanging
+     indent keeps a wrapped key's second line clear of its swatch. */
   .bar-legend li {
     margin: 0;
-    display: flex;
-    align-items: center;
+    padding-left: 1.45rem;
+    text-indent: -1.45rem;
   }
   .bar-legend .swatch {
     display: inline-block;
-    width: 1.1rem;
-    height: 0.55rem;
-    border-radius: 0.2rem;
+    width: 1rem;
+    height: 0.5rem;
     margin-right: 0.45rem;
-    flex: 0 0 auto;
+    vertical-align: 0.05em;
   }
   .bar-legend .key-correct .swatch {
     background: var(--sl-color-green);
@@ -1971,49 +1789,57 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   .bar-legend .key-declined .swatch {
     background: repeating-linear-gradient(
       45deg,
-      var(--sl-color-gray-4) 0 3px,
-      transparent 3px 6px
+      var(--sl-color-gray-4) 0 2px,
+      transparent 2px 5px
     );
+    box-shadow: inset 0 0 0 1px var(--ds-line-soft);
   }
-  .takeaway {
-    font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-2);
-  }
+
   .breadth-strip {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin: 1rem 0 0;
+    margin: 1.25rem 0 0;
     padding: 0;
   }
   .breadth-chip {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.5rem;
-    padding: 0.25rem 0.55rem;
+    gap: 0.6rem;
+    min-height: 2.25rem;
+    border: 1px solid var(--ds-line-strong);
+    border-radius: var(--ds-cut-lead) var(--ds-cut-chip) var(--ds-cut-chip)
+      var(--ds-cut-chip);
+    corner-shape: bevel;
+    background: var(--ds-control);
+    padding: 0 0.7rem;
     font-size: var(--sl-text-xs);
   }
+  .breadth-language {
+    font-family: var(--ds-font-mono);
+    font-size: var(--sl-text-2xs);
+    color: var(--ds-text-2);
+  }
+  /* The chip's edge says the pair's verdict; the marks say each assertion's. */
   .breadth-chip.ok {
-    border-color: var(--sl-color-green);
+    border-color: color-mix(in srgb, var(--sl-color-green) 55%, var(--ds-line));
   }
   .breadth-chip.partial {
-    border-color: var(--sl-color-orange);
+    border-color: color-mix(in srgb, var(--sl-color-orange) 60%, var(--ds-line));
   }
   .breadth-chip.miss {
-    border-color: var(--sl-color-red);
+    border-color: color-mix(in srgb, var(--sl-color-red) 60%, var(--ds-line));
   }
   .breadth-marks {
     display: inline-flex;
-    gap: 0.2rem;
+    gap: 0.25rem;
   }
   .breadth-marks .mark {
     display: inline-block;
     width: 0.5rem;
     height: 0.5rem;
-    border-radius: 0.15rem;
+    clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
   }
   .breadth-marks .mark.good {
     background: var(--sl-color-green);
@@ -2024,8 +1850,20 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   .breadth-marks .mark.incomplete {
     background: var(--sl-color-orange);
   }
-  /* The same fixed vendor→colour identity map as the cards, the dialog and the
-     evolution graph, keyed by tool rather than by row position. */
+
+  /* Same fixed vendor→colour mapping as the cards and the dialog, keyed by
+     tool identity rather than row position, so a vendor keeps its colour
+     across the kernel, modeling, and tool-native sections. */
+  .vendor-dot {
+    display: inline-block;
+    flex: none;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    vertical-align: baseline;
+    background: var(--vendor-rule, var(--ds-accent));
+  }
   .summary-card.v0,
   .bar-row.v0 {
     --vendor-color: var(--sl-color-accent-high);
@@ -2046,6 +1884,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     --vendor-color: var(--sl-color-green);
     --vendor-rule: var(--sl-color-green);
   }
+  /* Slots added in v0.6.0. The four above are untouched. */
   .summary-card.v4,
   .bar-row.v4 {
     --vendor-color: var(--dfb-vendor-4);

@@ -50,7 +50,7 @@ rows.sort(
 );
 ---
 
-<div class="table-scroll">
+<div class="table-scroll ds-table">
   <table>
     <thead>
       <tr>
@@ -72,18 +72,18 @@ rows.sort(
             <td>
               <code>{row.language}</code>
             </td>
-            <td>
+            <td class="scorecard">
               <code>{row.scorecard}</code>
             </td>
             <td>
               <code>{row.profile}</code>
             </td>
             <td>{row.tier}</td>
-            <td>{row.total}</td>
-            <td>{row.definitive}</td>
-            <td>{row.incomplete}</td>
-            <td>{row.scored ? percentCell(row.tpr) : 'not scored'}</td>
-            <td>{row.scored ? percentCell(row.fpr) : 'not scored'}</td>
+            <td class="num">{row.total}</td>
+            <td class="num">{row.definitive}</td>
+            <td class="num">{row.incomplete}</td>
+            <td class="num">{row.scored ? percentCell(row.tpr) : 'not scored'}</td>
+            <td class="num">{row.scored ? percentCell(row.fpr) : 'not scored'}</td>
           </tr>
         ))
       }
@@ -94,5 +94,15 @@ rows.sort(
 <style>
   .table-scroll {
     overflow-x: auto;
+  }
+  /* A scorecard id wraps at its hyphens, two or three lines to the id; below
+     that the matrix pans instead of stacking one word per line. */
+  .scorecard {
+    min-width: 13rem;
+  }
+  /* A count or a rate — or "not scored" in its place — reads as one figure;
+     its header wraps over it instead. */
+  .num {
+    white-space: nowrap;
   }
 </style>
