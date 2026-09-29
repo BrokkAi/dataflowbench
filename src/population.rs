@@ -19,6 +19,8 @@ const SWIFT_V2: &str = include_str!("../populations/swift-synthetic-v2.json");
 const SWIFT_V2_SHA256: &str = "b6c29ff47942c73c34bd479c7ce1137b5bf97d0fbede1204f8eae16aa32007bb";
 const SWIFT_V3: &str = include_str!("../populations/swift-synthetic-v3.json");
 const SWIFT_V3_SHA256: &str = "8a324597f77a2948920c0471ac6fce6809e202afdc3c3e30c062809b8a863efa";
+const V0_9: &str = include_str!("../populations/v0.9.0.json");
+const V0_9_SHA256: &str = "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890";
 static ACTIVE: OnceLock<Population> = OnceLock::new();
 
 pub(crate) struct Population {
@@ -39,8 +41,9 @@ pub(crate) fn initialize(name: Option<&str>) -> Result<()> {
         "swift-synthetic-v1" => Population::load_swift(Path::new("."))?,
         "swift-synthetic-v2" => Population::load_swift_v2(Path::new("."))?,
         "swift-synthetic-v3" => Population::load_swift_v3(Path::new("."))?,
+        "v0.9.0" => Population::load_v0_9(Path::new("."))?,
         _ => bail!(
-            "unknown population {name:?}; supported: v0.7.0, swift-synthetic-v1, swift-synthetic-v2, swift-synthetic-v3"
+            "unknown population {name:?}; supported: v0.7.0, v0.9.0, swift-synthetic-v1, swift-synthetic-v2, swift-synthetic-v3"
         ),
     };
     ACTIVE
@@ -64,6 +67,10 @@ impl Population {
 
     fn load_swift_v3(root: &Path) -> Result<Self> {
         Self::load_manifest(root, "swift-synthetic-v3", SWIFT_V3, SWIFT_V3_SHA256)
+    }
+
+    fn load_v0_9(root: &Path) -> Result<Self> {
+        Self::load_manifest(root, "v0.9.0", V0_9, V0_9_SHA256)
     }
 
     fn load_manifest(root: &Path, name: &'static str, bytes: &str, digest: &str) -> Result<Self> {
@@ -217,6 +224,148 @@ pub(crate) fn validate_swift_v3_population(root: &Path) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn v0_9_is_the_exact_union_of_v0_8_and_swift_v3() {
+        let prospective = Population::load_v0_9(Path::new(".")).unwrap();
+        let swift_v2 = Population::load_swift_v2(Path::new(".")).unwrap();
+        let swift_v3 = Population::load_swift_v3(Path::new(".")).unwrap();
+        let frozen: Value = serde_json::from_str(
+            &fs::read_to_string("reports/releases/v0.8.0/population.json").unwrap(),
+        )
+        .unwrap();
+        let frozen_cases = frozen["cases"].as_array().unwrap();
+        let selected_manifest: Value = serde_json::from_str(V0_9).unwrap();
+        let selected_by_id: BTreeMap<_, _> = selected_manifest["cases"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|case| (case["id"].as_str().unwrap(), case))
+            .collect();
+
+        assert_eq!(frozen["release"], "v0.8.0");
+        assert_eq!(frozen["case_count"], 1000);
+        assert_eq!(frozen_cases.len(), 1000);
+        assert_eq!(swift_v2.cases.len(), 104);
+        assert_eq!(swift_v3.cases.len(), 108);
+        for (id, entry) in &swift_v2.cases {
+            assert_eq!(swift_v3.cases.get(id), Some(entry));
+        }
+        assert_eq!(
+            swift_v3
+                .cases
+                .keys()
+                .filter(|id| !swift_v2.cases.contains_key(*id))
+                .count(),
+            4
+        );
+
+        let frozen_ids: BTreeSet<_> = frozen_cases
+            .iter()
+            .map(|case| case["id"].as_str().unwrap().to_string())
+            .collect();
+        let swift_ids: BTreeSet<_> = swift_v3.cases.keys().cloned().collect();
+        assert!(frozen_ids.is_disjoint(&swift_ids));
+        let expected_ids: BTreeSet<_> = frozen_ids.union(&swift_ids).cloned().collect();
+        assert_eq!(prospective.cases.len(), 1108);
+        assert_eq!(
+            prospective.cases.keys().cloned().collect::<BTreeSet<_>>(),
+            expected_ids
+        );
+
+        for frozen_case in frozen_cases {
+            let id = frozen_case["id"].as_str().unwrap();
+            let (path, case) = &prospective.cases[id];
+            let selected_case = selected_by_id[id];
+            assert_eq!(
+                path.to_string_lossy(),
+                frozen_case["path"].as_str().unwrap()
+            );
+            assert_eq!(case["id"], frozen_case["id"]);
+            assert_eq!(selected_case["path"], frozen_case["path"]);
+            assert_eq!(selected_case["sha256"], frozen_case["sha256"]);
+            for field in ["track", "score_tier", "model_profile"] {
+                assert_eq!(selected_case[field], frozen_case[field], "{id} {field}");
+            }
+            assert_eq!(case["language"], frozen_case["language"], "{id} language");
+            let frozen_fixtures: BTreeMap<_, _> = frozen_case["fixtures"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|fixture| {
+                    (
+                        fixture["path"].as_str().unwrap(),
+                        fixture["sha256"].as_str().unwrap(),
+                    )
+                })
+                .collect();
+            let selected_fixtures: BTreeMap<_, _> = selected_case["fixture_digests"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|fixture| {
+                    (
+                        fixture["path"].as_str().unwrap(),
+                        fixture["sha256"].as_str().unwrap(),
+                    )
+                })
+                .collect();
+            assert_eq!(selected_fixtures, frozen_fixtures);
+        }
+        for (id, entry) in &swift_v3.cases {
+            assert_eq!(prospective.cases.get(id), Some(entry));
+        }
+    }
+
+    #[test]
+    fn v0_9_rejects_manifest_byte_mutation() {
+        let mut mutated = V0_9.as_bytes().to_vec();
+        mutated.push(b' ');
+        let mutated = std::str::from_utf8(&mutated).unwrap();
+        let error = Population::load_manifest(Path::new("."), "v0.9.0", mutated, V0_9_SHA256)
+            .err()
+            .unwrap();
+        assert!(error.to_string().contains("SHA-256 digest mismatch"));
+    }
+
+    #[test]
+    fn v0_9_selection_preserves_default_and_reaches_common_runner_inputs() {
+        const CHILD: &str = "DFB_V0_9_POPULATION_TEST_CHILD";
+        if std::env::var_os(CHILD).is_none() {
+            let status = std::process::Command::new(std::env::current_exe().unwrap())
+                .args([
+                    "--exact",
+                    "population::tests::v0_9_selection_preserves_default_and_reaches_common_runner_inputs",
+                ])
+                .env(CHILD, "1")
+                .status()
+                .unwrap();
+            assert!(status.success());
+            return;
+        }
+
+        assert!(active().is_none());
+        assert_eq!(crate::cases::case_paths().len(), 1108);
+        assert_eq!(crate::cases::case_paths(), crate::cases::all_case_paths());
+
+        initialize(Some("v0.9.0")).unwrap();
+        assert_eq!(crate::cases::case_paths().len(), 1108);
+        assert_eq!(
+            crate::cases::fixture_revision().unwrap(),
+            serde_json::from_str::<Value>(V0_9).unwrap()["fixture_revision"]
+                .as_str()
+                .unwrap()
+        );
+        for tool in [
+            crate::latency::WarmTool::Joern,
+            crate::latency::WarmTool::Semgrep,
+        ] {
+            let warm =
+                crate::latency::warm_population(tool, crate::latency::WarmLanguage::Java).unwrap();
+            assert!(!warm.cases.is_empty());
+            active().unwrap().validate_members(&warm.cases).unwrap();
+        }
+    }
 
     #[test]
     fn swift_v3_keeps_historical_inputs_and_registers_opaque_pairs() {
