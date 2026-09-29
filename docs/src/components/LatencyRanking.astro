@@ -228,12 +228,14 @@ function layout(view: (typeof ranking.views)[number]) {
     });
     y += mainRowHeight / 2;
     for (const phase of entry.phases) {
+      // A materialization phase says so on its own line rather than in a
+      // second, wider line under it; the figure notes say what it means.
       y += phaseRowHeight / 2;
       rows.push({
         kind: 'phase',
         tool: entry.tool,
-        label: phase.phase,
-        sublabel: phase.includedInAnalyzerTotal ? '' : 'materialization; excluded',
+        label: phase.includedInAnalyzerTotal ? phase.phase : `${phase.phase} · excluded`,
+        sublabel: '',
         d: phase,
         warm: null,
         estimate: null,
@@ -270,21 +272,19 @@ const panels = panelsToRender.map((view) => ({
 // that silently rots the next time a kernel is added — so they are emitted
 // from the same array the panels are, and cannot drift from it.
 //
-// The selected pill takes the accent rather than the evolution toggle's
-// `--sl-color-gray-6`: with two options a subtle fill is enough to find, and
-// in the dark theme gray-6 happens to equal the ribbon's own background, so
-// the only cue left is the label's colour. With fourteen options that is not
-// enough, and the accent reads against the ribbon in both themes.
+// Each option is a chip, and the selected one takes the accent border and
+// fill: with fourteen options, colour of the label alone is not enough to find
+// the current one.
 const toggleCss = panels
   .map(
     (panel) => `
 #${panel.radioId}:checked ~ .lat-ribbon label[for='${panel.radioId}'] {
-  background: var(--sl-color-accent-low);
-  color: var(--sl-color-white);
-  box-shadow: inset 0 0 0 1px var(--sl-color-accent);
+  border-color: var(--ds-accent);
+  background: var(--ds-accent-low);
+  color: var(--ds-text);
 }
 #${panel.radioId}:focus-visible ~ .lat-ribbon label[for='${panel.radioId}'] {
-  outline: 2px solid var(--sl-color-accent-high);
+  outline: 2px solid var(--ds-accent);
   outline-offset: 2px;
 }
 #${panel.radioId}:checked ~ .lat-panels > #${panel.panelId} {
@@ -338,7 +338,7 @@ const belowThreshold = overheadPublished.filter(
   {kernelViews && (
     <div class="lat-ribbon" role="group" aria-label="Latency ranking view">
       {panels.map((panel) => (
-        <label for={panel.radioId}>{panel.view.label}</label>
+        <label class="ds-chip" for={panel.radioId}>{panel.view.label}</label>
       ))}
     </div>
   )}
@@ -413,7 +413,7 @@ const belowThreshold = overheadPublished.filter(
               y={panel.height - padBottom + 39}
               text-anchor="middle"
             >
-              wall-clock per invocation — logarithmic scale
+              Wall-clock per invocation, logarithmic scale
             </text>
 
             {panel.rows.map((row) => {
@@ -431,7 +431,7 @@ const belowThreshold = overheadPublished.filter(
                   <text
                     class={row.kind === 'adapter' ? 'row-label' : 'phase-label'}
                     x={padLeft - 12}
-                    y={row.kind === 'adapter' ? row.y - 1 : row.y + 4}
+                    y={row.kind === 'adapter' || row.sublabel !== '' ? row.y - 1 : row.y + 4}
                     text-anchor="end"
                   >
                     {row.label}
@@ -473,7 +473,7 @@ const belowThreshold = overheadPublished.filter(
                     y={row.y - boxHeight / 2}
                     width={Math.max(1.5, x(row.d.q3) - x(row.d.q1))}
                     height={boxHeight}
-                    rx="2"
+                    
                   />
                   <line
                     class="median"
@@ -610,28 +610,29 @@ const belowThreshold = overheadPublished.filter(
     {drawsWarmMarks && (
       <li class="key-warm">
         <span class="swatch" aria-hidden="true"></span>
-        <strong>measured</strong>&nbsp;warm marginal per case — the range its
-        retained repeats span
+        <span><strong>measured</strong>&nbsp;warm marginal per case — the range
+        its retained repeats span</span>
       </li>
     )}
     {drawsEstimateMarks && (
       <li class="key-estimate">
         <span class="swatch" aria-hidden="true"></span>
-        <strong>estimated</strong>&nbsp;per-invocation overhead (trivial
+        <span><strong>estimated</strong>&nbsp;per-invocation overhead (trivial
         fixture, upper bound), drawn across the range its repeats spanned, where
         that range starts at or above{' '}
-        {Math.round(SIGNIFICANCE_SHARE * 100)}% of the row's median
+        {Math.round(SIGNIFICANCE_SHARE * 100)}% of the row's median</span>
       </li>
     )}
   </ul>
 </div>
 
 {/* The sentence directly below each chart is its caption. The longer reading
-    guidance is ordinary companion prose: title it explicitly so it does not
-    present as one enormous caption, while preserving its evidence and the
-    wrapper that gives adjacent paragraphs one coherent column flow. */}
-<section class="figure-notes" aria-labelledby={`figure-notes-${scope}`}>
-<h3 id={`figure-notes-${scope}`}>How to read this figure</h3>
+    guidance is companion prose under its own title, so it does not present as
+    one enormous caption. On the latency page it is open, since reading the
+    figure closely is what that page is for; on the landing page, where the
+    figure is one of several, it starts closed and is one click away. */}
+<details class="figure-notes" id={`figure-notes-${scope}`} open={kernelViews}>
+<summary>How to read this figure</summary>
 <div class="prose-columns">
   {warmMeasurements.length > 0 && (
     <p>
@@ -814,7 +815,7 @@ const belowThreshold = overheadPublished.filter(
     </p>
   )}
 </div>
-</section>
+</details>
 
 <style is:inline set:html={toggleCss}></style>
 
@@ -837,26 +838,20 @@ const belowThreshold = overheadPublished.filter(
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.25rem;
-    margin: 0 0 0.75rem;
-    padding: 0.2rem;
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.6rem;
-    background: var(--sl-color-bg-sidebar);
+    gap: 0.4rem;
+    margin: 0 0 1rem;
   }
   .lat-ribbon label {
     /* The content area's global sibling rule adds margin-top to successive
-       elements; inside the pill row that staggers the labels vertically. */
+       elements; inside the chip row that staggers the labels vertically. */
     margin: 0 !important;
+    min-height: 2rem;
+    padding-inline: 0.65rem;
+    font-size: var(--sl-text-xs);
     cursor: pointer;
-    border-radius: 0.45rem;
-    padding: 0.28rem 0.6rem;
-    font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-2);
-    line-height: 1.3;
   }
-  .lat-ribbon label:hover {
-    color: var(--sl-color-white);
+  .lat-ribbon label:first-child {
+    margin-right: 0.6rem !important;
   }
   .lat-panel {
     display: none;
@@ -870,18 +865,14 @@ const belowThreshold = overheadPublished.filter(
   }
   .figure-notes {
     margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--sl-color-hairline);
   }
-  .figure-notes > h3 {
-    margin: 0 0 0.75rem;
-    font-size: var(--sl-text-lg);
+  .figure-notes > .prose-columns {
+    padding: 0.5rem 0 0.75rem;
   }
   .chart-frame {
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.75rem;
-    padding: 0.75rem 0.5rem 0.25rem;
-    background: var(--sl-color-bg-sidebar);
+    border: 1px solid var(--ds-line);
+    padding: 1rem 0.75rem 0.5rem;
+    background: var(--ds-well);
     overflow-x: auto;
   }
   .ranking-chart {
@@ -891,35 +882,41 @@ const belowThreshold = overheadPublished.filter(
     height: auto;
   }
   .ranking-chart .grid {
-    stroke: var(--sl-color-hairline);
+    stroke: var(--ds-line-soft);
     stroke-width: 1;
   }
   .ranking-chart .axis {
-    stroke: var(--sl-color-gray-4);
-    stroke-width: 1.5;
+    stroke: var(--ds-line-strong);
+    stroke-width: 1;
   }
   .ranking-chart .row-sublabel,
   .ranking-chart .phase-label,
   .ranking-chart .phase-value {
-    font-family: var(--__sl-font-mono);
+    font-family: var(--ds-font-mono);
     font-size: 10px;
-    fill: var(--sl-color-gray-3);
+    fill: var(--ds-text-3);
   }
-  .ranking-chart .tick,
-  .ranking-chart .axis-title {
-    font-family: var(--__sl-font-mono);
+  .ranking-chart .tick {
+    font-family: var(--ds-font-mono);
     font-size: 11px;
-    fill: var(--sl-color-gray-3);
+    fill: var(--ds-text-3);
+  }
+  .ranking-chart .axis-title {
+    font-family: var(--ds-font);
+    font-size: 13px;
+    font-weight: 500;
+    fill: var(--ds-text-2);
   }
   .ranking-chart .row-label {
-    font-size: 13px;
-    font-weight: 600;
-    fill: var(--sl-color-white);
+    font-family: var(--ds-font);
+    font-size: 13.5px;
+    font-weight: 500;
+    fill: var(--ds-text);
   }
   .ranking-chart .row-value {
-    font-family: var(--__sl-font-mono);
+    font-family: var(--ds-font-mono);
     font-size: 12px;
-    fill: var(--sl-color-gray-2);
+    fill: var(--ds-text-2);
   }
   .ranking-chart .row .whisker {
     stroke: var(--vendor-rule, var(--sl-color-accent));
@@ -988,28 +985,29 @@ const belowThreshold = overheadPublished.filter(
     gap: 0.4rem 1.25rem;
     margin: 0.75rem 0 0;
     padding: 0;
-    font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-2);
+    font-size: var(--sl-text-xs);
+    color: var(--ds-text-3);
   }
+  /* The label is one flex item, so a bold lead word wraps with its sentence
+     instead of being squeezed into a column of its own. */
   .chart-legend li {
     margin: 0;
     display: flex;
-    align-items: center;
+    align-items: baseline;
   }
   .chart-legend .swatch {
+    flex: none;
     display: inline-block;
     width: 1.1rem;
     height: 0.7rem;
     margin-right: 0.45rem;
-    background: var(--sl-color-gray-3);
+    background: var(--ds-text-3);
   }
   .chart-legend .key-median .swatch {
     width: 0.2rem;
-    border-radius: 0.1rem;
   }
   .chart-legend .key-box .swatch {
     opacity: 0.42;
-    border-radius: 0.15rem;
   }
   .chart-legend .key-whisker .swatch {
     height: 0.15rem;
@@ -1018,7 +1016,6 @@ const belowThreshold = overheadPublished.filter(
   .chart-legend .key-phase .swatch {
     height: 0.35rem;
     opacity: 0.28;
-    border-radius: 0.1rem;
   }
   .chart-legend .key-warm .swatch {
     width: 0.7rem;
@@ -1029,13 +1026,13 @@ const belowThreshold = overheadPublished.filter(
     width: 1.1rem;
     height: 0.45rem;
     background: none;
-    border-top: 1.5px dashed var(--sl-color-gray-3);
-    border-left: 1.5px solid var(--sl-color-gray-3);
-    border-right: 1.5px solid var(--sl-color-gray-3);
+    border-top: 1.5px dashed var(--ds-text-3);
+    border-left: 1.5px solid var(--ds-text-3);
+    border-right: 1.5px solid var(--ds-text-3);
   }
   .caption {
     font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
   }
   /* The same fixed vendor→colour identity map every other section uses, keyed
      by tool rather than by row position. Slots v0–v3 keep the definitions they

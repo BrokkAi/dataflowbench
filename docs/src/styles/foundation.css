@@ -1,0 +1,1278 @@
+/* ==========================================================================
+   Benchmark site foundation
+   --------------------------------------------------------------------------
+   Shared, byte for byte, by the DataFlowBench and UsageBench documentation
+   sites: edit it in one repository and copy it to the other. Everything
+   site-specific — the accent colour, the analyzer palette, page layout — lives
+   in each site's own stylesheet, which loads after this one and sets the
+   `--ds-accent*` tokens this file reads.
+
+   The language is borrowed from the Brokk SlopCop design system and turned
+   down for reading: a near-black ground, bone-white type, hairline rules and
+   chamfered panels, with one accent per site and nothing rounded, glowing or
+   decorative. Separation comes from hairlines, not from fills. SlopCop's
+   display face and its red are deliberately not carried over: these are
+   reference pages, read for minutes at a time, not a landing page.
+
+   Starlight's own styles live in cascade layers, so every rule here — which is
+   unlayered — wins over them without `!important`.
+   ========================================================================== */
+
+/* ---- Type ---------------------------------------------------------------
+   Apfel Grotezk for everything a reader reads; JetBrains Mono for evidence
+   only — identifiers, digests, paths, code and the numbers in tables and
+   charts (Apfel's figures are proportional and it has no `tnum` feature, so
+   any column of numbers is set in the mono). Both are OFL; see
+   `src/fonts/OFL.txt`. */
+@font-face {
+  font-family: 'Apfel Grotezk';
+  src: url('../fonts/ApfelGrotezk-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Apfel Grotezk';
+  src: url('../fonts/ApfelGrotezk-Mittel.woff2') format('woff2');
+  font-weight: 500 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Apfel Grotezk';
+  src: url('../fonts/ApfelGrotezk-Fett.woff2') format('woff2');
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/JetBrainsMono-wght.woff2') format('woff2-variations');
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---- Tokens: dark (the primary theme) ------------------------------------ */
+:root {
+  color-scheme: dark;
+
+  /* Grounds, darkest out. They differ by a few percent on purpose. */
+  --ds-canvas: #07080a;
+  --ds-well: #0b0c0e;
+  --ds-surface: #0e1012;
+  --ds-control: #131517;
+  --ds-surface-hover: #17191c;
+
+  /* Hairlines. */
+  --ds-line-soft: #1f2124;
+  --ds-line: #2e3134;
+  --ds-line-strong: #45484b;
+
+  /* Text. All three clear 4.5:1 on every ground above. */
+  --ds-text: #f2f0eb;
+  --ds-text-2: #c2c0bb;
+  --ds-text-3: #9a9da0;
+
+  /* The accent is the site's. These are neutral fallbacks only. */
+  --ds-accent: #8a8d90;
+  --ds-accent-text: #d6d4cf;
+  --ds-accent-low: #16181a;
+  --ds-accent-line: #5d6063;
+
+  /* Figures and code. */
+  --ds-code-text: #d4d1cb;
+
+  --ds-shadow-panel: 0 18px 40px rgb(0 0 0 / 0.32);
+  --ds-shadow-float: 0 12px 28px rgb(0 0 0 / 0.45);
+
+  --ds-font: 'Apfel Grotezk', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', sans-serif;
+  --ds-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
+
+  --ds-duration: 160ms;
+  --ds-measure: 45rem;
+
+  /* One spacing scale for everything the components lay out. Paragraphs keep
+     Starlight's 1rem flow; a figure, grid or statement sits `--ds-space-lg`
+     from its neighbours; a caption sits `--ds-space-sm` under its figure; the
+     inside of a card is padded `--ds-space-md`–`lg` and separated in `sm`s. */
+  --ds-space-2xs: 0.25rem;
+  --ds-space-xs: 0.5rem;
+  --ds-space-sm: 0.75rem;
+  --ds-space-md: 1rem;
+  --ds-space-lg: 1.5rem;
+  --ds-space-xl: 2.5rem;
+  --ds-card-pad: 1.25rem;
+}
+
+/* ---- Tokens: light ------------------------------------------------------
+   Warm paper rather than white, ink rather than black, the same hairline
+   structure. The site stylesheet sets light accents alongside. */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --ds-canvas: #f7f6f2;
+  --ds-well: #efeee9;
+  --ds-surface: #fbfaf7;
+  --ds-control: #f1f0eb;
+  --ds-surface-hover: #ebeae4;
+
+  --ds-line-soft: #e4e2dc;
+  --ds-line: #d2d0c9;
+  --ds-line-strong: #a9a7a0;
+
+  --ds-text: #15171a;
+  --ds-text-2: #3a3d41;
+  --ds-text-3: #5c5f63;
+
+  --ds-accent: #5c5f63;
+  --ds-accent-text: #2b2d30;
+  --ds-accent-low: #ebeae4;
+  --ds-accent-line: #a9a7a0;
+
+  --ds-code-text: #2a2c2f;
+
+  --ds-shadow-panel: 0 14px 32px rgb(40 36 28 / 0.08);
+  --ds-shadow-float: 0 10px 24px rgb(40 36 28 / 0.14);
+}
+
+/* ---- The chamfer ---------------------------------------------------------
+   Nothing is rounded. Controls and panels have their corners cut, drawn with
+   `corner-shape: bevel` so the border, the fill, the shadow and the focus
+   ring all follow the cut and nothing inside is clipped (the chart tooltips
+   and the dialog's scroll area both depend on that). A browser without
+   `corner-shape` gets square corners: the cut tokens are zero until the
+   feature query sets them, so no one ever sees a rounded fallback. Use them
+   as `border-radius: var(--ds-cut-…); corner-shape: bevel;`. */
+:root {
+  --ds-cut-tick: 0px;
+  --ds-cut-badge: 0px;
+  --ds-cut-chip: 0px;
+  --ds-cut-control: 0px;
+  --ds-cut-panel: 0px;
+  --ds-cut-lead: 0px;
+}
+@supports (corner-shape: bevel) {
+  :root {
+    --ds-cut-tick: 2px;
+    --ds-cut-badge: 4px;
+    --ds-cut-chip: 6px;
+    --ds-cut-control: 8px;
+    --ds-cut-panel: 14px;
+    /* The longer cut a chip or paper panel takes at its top-left corner. */
+    --ds-cut-lead: 10px;
+  }
+}
+
+/* ---- Starlight's variables, mapped onto the tokens ----------------------
+   Most components on both sites read Starlight's grey ramp and hairlines, so
+   this mapping is what carries the palette into them. The hue ramps (orange,
+   green, purple, red, blue) are deliberately left alone: the analyzer
+   palettes are built from them and must not shift. */
+:root,
+::backdrop {
+  --sl-font: var(--ds-font);
+  --sl-font-mono: var(--ds-font-mono);
+
+  --sl-color-white: var(--ds-text);
+  --sl-color-gray-1: #e2e0db;
+  --sl-color-gray-2: var(--ds-text-2);
+  --sl-color-gray-3: var(--ds-text-3);
+  --sl-color-gray-4: #64676b;
+  --sl-color-gray-5: var(--ds-line-strong);
+  --sl-color-gray-6: var(--ds-control);
+  --sl-color-black: var(--ds-canvas);
+
+  --sl-color-text: var(--ds-text-2);
+  --sl-color-bg: var(--ds-canvas);
+  --sl-color-bg-nav: var(--ds-canvas);
+  --sl-color-bg-sidebar: var(--ds-canvas);
+  --sl-color-bg-inline-code: var(--ds-control);
+  --sl-color-hairline-light: var(--ds-line);
+  --sl-color-hairline: var(--ds-line-soft);
+  --sl-color-hairline-shade: var(--ds-canvas);
+  --sl-color-backdrop-overlay: rgb(3 4 5 / 0.72);
+
+  --sl-shadow-md: var(--ds-shadow-float);
+  --sl-shadow-lg: var(--ds-shadow-panel);
+
+  --sl-text-h1: clamp(2rem, 1.5rem + 1.6vw, 2.625rem);
+  --sl-text-h2: 1.75rem;
+  --sl-text-h3: 1.3125rem;
+  --sl-text-h4: 1.125rem;
+  --sl-text-h5: 1rem;
+  --sl-line-height: 1.65;
+  --sl-line-height-headings: 1.15;
+
+  --sl-nav-height: 4rem;
+}
+
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+  --sl-color-white: var(--ds-text);
+  --sl-color-gray-1: #24272a;
+  --sl-color-gray-2: var(--ds-text-2);
+  --sl-color-gray-3: var(--ds-text-3);
+  --sl-color-gray-4: #8d9094;
+  --sl-color-gray-5: var(--ds-line-strong);
+  --sl-color-gray-6: var(--ds-control);
+  --sl-color-gray-7: var(--ds-surface);
+  --sl-color-black: var(--ds-canvas);
+
+  --sl-color-text: var(--ds-text-2);
+  --sl-color-bg: var(--ds-canvas);
+  --sl-color-bg-nav: var(--ds-canvas);
+  --sl-color-bg-sidebar: var(--ds-canvas);
+  --sl-color-bg-inline-code: var(--ds-control);
+  --sl-color-hairline-light: var(--ds-line);
+  --sl-color-hairline: var(--ds-line-soft);
+  --sl-color-hairline-shade: var(--ds-line);
+  --sl-color-backdrop-overlay: rgb(40 36 28 / 0.35);
+}
+
+/* ---- Base -------------------------------------------------------------- */
+body {
+  background: var(--ds-canvas);
+  color: var(--ds-text-2);
+  font-family: var(--ds-font);
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--ds-accent-low);
+  color: var(--ds-text);
+}
+
+/* One focus ring everywhere: 2px of the accent, clear of the shape. */
+:focus-visible {
+  outline: 2px solid var(--ds-accent);
+  outline-offset: 3px;
+}
+
+/* ---- Header -------------------------------------------------------------- */
+/* Starlight names both the bar and its inner row `.header`; only the bar
+   draws the rule. */
+header.header {
+  border-bottom: 1px solid var(--ds-line-soft);
+  background: color-mix(in srgb, var(--ds-canvas) 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.site-title {
+  gap: 0.6rem;
+  font-size: 1.3125rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--ds-text);
+}
+.site-title img {
+  height: 1.6rem;
+  width: auto;
+}
+
+button[data-open-modal] {
+  border-radius: var(--ds-cut-control);
+  corner-shape: bevel;
+}
+@media (min-width: 50rem) {
+  button[data-open-modal] {
+    border-color: var(--ds-line-strong);
+    background-color: var(--ds-control);
+    color: var(--ds-text-3);
+    transition:
+      border-color var(--ds-duration) ease,
+      color var(--ds-duration) ease;
+  }
+  button[data-open-modal]:hover {
+    border-color: var(--ds-accent-line);
+    color: var(--ds-text);
+  }
+}
+button[data-open-modal] > kbd {
+  border-radius: var(--ds-cut-badge);
+  corner-shape: bevel;
+  background-color: var(--ds-surface);
+  font-family: var(--ds-font-mono);
+}
+
+site-search dialog {
+  border-radius: var(--ds-cut-panel);
+  corner-shape: bevel;
+  border-color: var(--ds-line-strong);
+  background-color: var(--ds-surface);
+}
+
+starlight-theme-select select,
+starlight-lang-select select {
+  font-family: var(--ds-font);
+}
+
+/* ---- Page geometry -------------------------------------------------------
+   The content and its contents list travel together as one block right of
+   the sidebar: the column of content first, then a narrow contents column
+   beside it. The block is the same width on every page, so the text and the
+   contents list sit in the same place on every page, and anything wide —
+   tables, charts, card grids — fits the column rather than moving it.
+
+   On a large display the room the block leaves is split one part left to
+   two right, so the text lands a little left of centre, where the eye
+   starts, without a wide empty margin beside the sidebar. On a narrower
+   display the block simply fills the room, one gutter each side, and the
+   contents list and its gap narrow before the column does. Pages without a
+   contents list give its room to the content.
+
+   On a large display the whole scale grows a little — 16px at 1440px wide,
+   18px at 2560px — so the sidebars stay readable. Breakpoints are unaffected:
+   media queries resolve rem against the browser default, not this size. */
+html {
+  font-size: clamp(100%, 0.8393rem + 0.1786vw, 112.5%);
+}
+:root {
+  --sl-sidebar-width: 17rem;
+  --ds-column: 56rem;
+  --sl-content-width: var(--ds-column);
+  --ds-toc-width: clamp(11rem, 16vw - 1rem, 14rem);
+  --ds-toc-gap: clamp(2rem, 6vw - 3.5rem, 3rem);
+  --ds-page-pad: clamp(2.5rem, 4vw, 4rem);
+  --ds-page-width: calc(var(--ds-column) + var(--ds-toc-gap) + var(--ds-toc-width));
+  --ds-page-lead: 0.3333;
+}
+@media screen and (min-width: 72rem) {
+  :root[data-has-sidebar] {
+    --sl-content-pad-x: var(--ds-page-pad);
+  }
+  :root[data-has-sidebar] .main-frame > .lg\:sl-flex {
+    --ds-page-start: max(
+      var(--ds-page-pad),
+      (100% - var(--ds-page-width)) * var(--ds-page-lead)
+    );
+    margin-inline-start: var(--ds-page-start);
+    width: min(var(--ds-page-width), 100% - var(--ds-page-start) - var(--ds-page-pad));
+  }
+  /* The content pane takes the block; the panels inside it add no gutter of
+     their own, and their rules span only the content. */
+  :root[data-has-sidebar] .main-pane {
+    order: 1;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+  }
+  :root[data-has-sidebar] .main-pane .content-panel {
+    padding-inline: 0;
+  }
+  :root[data-has-sidebar] .main-pane .sl-container {
+    max-width: none;
+    margin-inline: 0;
+  }
+  /* Starlight pins the contents pane to the window at full width; here it
+     is a column of the block that follows the reader down the page. */
+  :root[data-has-sidebar] .right-sidebar-container {
+    order: 2;
+    flex: 0 0 var(--ds-toc-width);
+    width: auto;
+    margin-inline-start: var(--ds-toc-gap);
+  }
+  :root[data-has-sidebar] .right-sidebar {
+    position: sticky;
+    top: var(--sl-nav-height);
+    width: auto;
+    height: auto;
+    max-height: calc(100vh - var(--sl-nav-height));
+    padding-top: 0;
+    border-inline-start: 0;
+  }
+  :root[data-has-sidebar] .right-sidebar-panel {
+    padding: 2rem 0;
+  }
+  :root[data-has-sidebar] .right-sidebar-panel .sl-container {
+    width: auto;
+    max-width: none;
+  }
+  /* The search box starts where the content does: the header's first column
+     runs to the sidebar's edge plus the block's offset. The percentage is the
+     header row's width, which is the window's less the bar's own padding. */
+  :root[data-has-sidebar] .header {
+    --__main-column-fr: max(
+      var(--ds-page-pad),
+      (
+          100% + 2 * var(--sl-nav-pad-x) - var(--sl-sidebar-width) -
+            var(--ds-page-width)
+        ) * var(--ds-page-lead)
+    );
+  }
+}
+
+/* ---- Sidebar -------------------------------------------------------------
+   Section labels quiet, links a step quieter, and the current page marked by
+   a short accent rule rather than a filled pill. */
+.sidebar-pane {
+  border-inline-end: 1px solid var(--ds-line-soft);
+}
+.sidebar-content .large,
+.sidebar-content a {
+  font-size: 0.9375rem;
+}
+.sidebar-content .large {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ds-text);
+}
+.sidebar-content a {
+  position: relative;
+  border-radius: 0;
+  color: var(--ds-text-3);
+  transition: color var(--ds-duration) ease;
+}
+.sidebar-content a:hover,
+.sidebar-content a:focus-visible {
+  color: var(--ds-text);
+}
+/* The top-level entries sit on the same step as a group label. */
+.sidebar-content .top-level > li > a {
+  color: var(--ds-text-2);
+  font-weight: 500;
+}
+.sidebar-content [aria-current='page'],
+.sidebar-content [aria-current='page']:hover,
+.sidebar-content [aria-current='page']:focus {
+  color: var(--ds-text);
+  background: transparent;
+  font-weight: 500;
+}
+.sidebar-content [aria-current='page']::before {
+  content: '';
+  position: absolute;
+  inset-block: 0.35em;
+  inset-inline-start: -1px;
+  width: 2px;
+  background: var(--ds-accent);
+}
+/* Top-level current pages have no rail to sit on; give them a tick instead. */
+.sidebar-content .top-level > li > a[aria-current='page']::before {
+  inset-inline-start: -0.35rem;
+}
+.sidebar-content ul ul li {
+  border-inline-start-color: var(--ds-line-soft);
+}
+.sidebar-content summary {
+  border-radius: 0;
+}
+.sidebar-content .caret {
+  color: var(--ds-text-3);
+}
+
+/* ---- Right-hand contents --------------------------------------------------- */
+.right-sidebar-panel h2 {
+  font-size: var(--sl-text-sm);
+  font-weight: 500;
+  color: var(--ds-text-3);
+  letter-spacing: 0;
+}
+.right-sidebar-panel a,
+starlight-toc a {
+  font-size: var(--sl-text-sm);
+  line-height: 1.4;
+  border-radius: 0;
+  color: var(--ds-text-3);
+}
+.right-sidebar-panel a:hover {
+  color: var(--ds-text);
+}
+starlight-toc a[aria-current='true'] {
+  color: var(--ds-accent-text);
+  box-shadow: inset 2px 0 0 var(--ds-accent);
+}
+.right-sidebar {
+  border-inline-start-color: var(--ds-line-soft);
+}
+
+/* ---- Page title and content --------------------------------------------- */
+.content-panel {
+  border-top-color: var(--ds-line-soft);
+}
+.content-panel h1,
+#_top {
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  color: var(--ds-text);
+  text-wrap: balance;
+}
+
+.sl-markdown-content {
+  font-size: 1.0625rem;
+}
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: 500;
+  color: var(--ds-text);
+  text-wrap: balance;
+}
+.sl-markdown-content h2 {
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+}
+.sl-markdown-content h3 {
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.sl-markdown-content h4,
+.sl-markdown-content h5 {
+  letter-spacing: -0.01em;
+}
+/* A section starts with a hairline across the column, not with space alone. */
+.sl-markdown-content :is(h2, .sl-heading-wrapper.level-h2):not(:first-child) {
+  margin-top: 2.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ds-line);
+}
+.sl-markdown-content .sl-heading-wrapper.level-h2 > h2 {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.sl-markdown-content :is(h3, .sl-heading-wrapper.level-h3):not(:first-child) {
+  margin-top: 2.25rem;
+}
+.sl-markdown-content .sl-anchor-link {
+  color: var(--ds-text-3);
+}
+
+.sl-markdown-content :is(p, li, dd) {
+  text-wrap: pretty;
+}
+.sl-markdown-content strong {
+  color: var(--ds-text);
+  font-weight: 500;
+}
+
+.sl-markdown-content a:not(:where(.not-content *)) {
+  color: var(--ds-accent-text);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  transition: text-decoration-color var(--ds-duration) ease;
+}
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+  text-decoration-color: currentColor;
+}
+
+/* Lists: 6px octagon ticks in the accent. Ordered lists keep their numbers. */
+.sl-markdown-content ul:not([class]):not(:where(.not-content *)) {
+  list-style: none;
+  padding-inline-start: 1.25rem;
+}
+.sl-markdown-content ul:not([class]):not(:where(.not-content *)) > li {
+  position: relative;
+}
+.sl-markdown-content ul:not([class]):not(:where(.not-content *)) > li::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: -1.1rem;
+  top: 0.66em;
+  width: 6px;
+  height: 6px;
+  background: var(--ds-accent);
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+.sl-markdown-content ol:not([class]) > li::marker {
+  color: var(--ds-text-3);
+  font-family: var(--ds-font-mono);
+  font-size: 0.85em;
+}
+
+.sl-markdown-content hr {
+  border-color: var(--ds-line);
+}
+
+.sl-markdown-content blockquote {
+  border-inline-start: 1px solid var(--ds-line-strong);
+  color: var(--ds-text-2);
+}
+
+/* Inline code is evidence: mono, a hairline chip, never coloured by kind. */
+.sl-markdown-content :not(pre) > code:not(:where(.not-content *)),
+.sl-markdown-content code:not(:where(pre *, .not-content *)) {
+  font-family: var(--ds-font-mono);
+  font-size: 0.8em;
+  color: var(--ds-code-text);
+  background: var(--ds-control);
+  border: 1px solid var(--ds-line-soft);
+  border-radius: var(--ds-cut-badge);
+  corner-shape: bevel;
+  padding: 0.05em 0.3em;
+  overflow-wrap: anywhere;
+}
+.sl-markdown-content a code:not(:where(pre *, .not-content *)) {
+  color: inherit;
+}
+
+kbd {
+  font-family: var(--ds-font-mono);
+}
+
+/* ---- Tables --------------------------------------------------------------
+   Plain tables on the canvas: a quiet head under a rule, body rows divided by
+   the softest hairline, no zebra, no side borders. */
+.sl-markdown-content table:not(:where(.not-content *)) {
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+/* Every table spans the column, so tables line up with each other and with
+   the rules between sections. A table with more columns than the column has
+   room for pans inside its box (the `.ds-table` wrapper every markdown table
+   gets, from rehype-table-scroll) rather than running under the contents
+   list, and it pans before its cells get too narrow to read: each column is
+   owed about 5rem — 4rem from eight columns up, where they are mostly
+   figures — so a table of many columns keeps a floor of its own, short of
+   the column on a 1440px display.
+   Text wraps between words, and identifiers and digests only at the break
+   points the plugin gives them — after `_ - / . :`, and in even pieces of
+   at most sixteen characters of a hash — never mid-token (inline code
+   elsewhere may break anywhere; in a cell that let the column shrink below
+   its longest token and split `v0.2.0`). Numbers, the right-aligned
+   cells, never break; their headers wrap over them. */
+.sl-markdown-content .ds-table {
+  overflow-x: auto;
+}
+.sl-markdown-content .ds-table > table {
+  display: table;
+  width: 100%;
+  overflow: visible;
+}
+.sl-markdown-content .ds-table > table:has(tr > :nth-child(4)) { min-width: 20rem; }
+.sl-markdown-content .ds-table > table:has(tr > :nth-child(5)) { min-width: 25rem; }
+.sl-markdown-content .ds-table > table:has(tr > :nth-child(6)) { min-width: 30rem; }
+.sl-markdown-content .ds-table > table:has(tr > :nth-child(7)) { min-width: 35rem; }
+.sl-markdown-content .ds-table > table:has(tr > :nth-child(8)) { min-width: 36rem; }
+.sl-markdown-content .ds-table > table:has(tr > :nth-child(10)) { min-width: 42rem; }
+.sl-markdown-content .ds-table > table:has(tr > :nth-child(12)) { min-width: 48rem; }
+.sl-markdown-content .ds-table :is(td, th),
+.sl-markdown-content .ds-table :is(td, th) code {
+  overflow-wrap: normal;
+}
+.sl-markdown-content .ds-table td code {
+  white-space: normal;
+}
+.sl-markdown-content .ds-table td[align='right'] {
+  white-space: nowrap;
+}
+.sl-markdown-content :is(th, td):not(:where(.not-content *)) {
+  border: 0;
+  border-bottom: 1px solid var(--ds-line-soft);
+  padding: 0.55rem 1.1rem 0.55rem 0;
+  background: transparent;
+  vertical-align: top;
+}
+.sl-markdown-content :is(th, td):last-child:not(:where(.not-content *)) {
+  padding-inline-end: 0;
+}
+/* Tables of many columns are mostly short figures: a tighter gap between
+   them keeps a twelve-column table inside a 1440px display. */
+.sl-markdown-content .ds-table > table:has(tr > :nth-child(8)) :is(th, td):not(:last-child) {
+  padding-inline-end: 0.7rem;
+}
+.sl-markdown-content thead th:not(:where(.not-content *)) {
+  border-bottom: 1px solid var(--ds-line);
+  color: var(--ds-text-3);
+  font-size: var(--sl-text-xs);
+  font-weight: 500;
+  text-wrap: balance;
+}
+.sl-markdown-content tbody th:not(:where(.not-content *)) {
+  color: var(--ds-text);
+  font-weight: 500;
+}
+.sl-markdown-content tbody tr:not(:where(.not-content *)) {
+  background: transparent;
+}
+.sl-markdown-content td:not(:where(.not-content *)) {
+  color: var(--ds-text-2);
+}
+
+/* ---- Code blocks (Expressive Code) ---------------------------------------- */
+.expressive-code {
+  --ec-brdRad: 0px;
+  font-family: var(--ds-font-mono);
+}
+.expressive-code .frame,
+.expressive-code figure {
+  border-radius: var(--ds-cut-control);
+  corner-shape: bevel;
+}
+.expressive-code pre {
+  border-color: var(--ds-line) !important;
+  background: var(--ds-well) !important;
+}
+.expressive-code .frame.has-title .header,
+.expressive-code .frame.is-terminal .header {
+  background: var(--ds-surface) !important;
+  border-color: var(--ds-line) !important;
+}
+.expressive-code .frame .header::before {
+  border-color: var(--ds-line) !important;
+}
+.expressive-code .copy button {
+  border-radius: var(--ds-cut-badge);
+  corner-shape: bevel;
+}
+
+/* ---- Asides --------------------------------------------------------------
+   A notice, not a banner: a quiet panel with a hairline, the aside's kind in
+   its title, and the colour kept to a 2px rule on the leading edge. */
+.starlight-aside {
+  border: 1px solid var(--ds-line);
+  border-inline-start: 2px solid var(--sl-color-asides-border, var(--ds-accent));
+  border-radius: 0;
+  background: var(--ds-surface);
+  padding: 1rem 1.25rem;
+}
+.starlight-aside--note {
+  --sl-color-asides-border: var(--ds-accent);
+  --sl-color-asides-text-accent: var(--ds-accent-text);
+}
+.starlight-aside__title {
+  font-weight: 500;
+  font-size: var(--sl-text-sm);
+  letter-spacing: 0;
+}
+.starlight-aside__content {
+  color: var(--ds-text-2);
+}
+
+/* ---- Details ---------------------------------------------------------------
+   Native disclosures in running content read as an accordion row: the summary
+   in text, a plus that turns into a cross when open. Components that style
+   their own `details` carry a class and are left alone. */
+.sl-markdown-content details:not([class]) {
+  border-top: 1px solid var(--ds-line);
+  border-bottom: 1px solid var(--ds-line);
+  padding: 0;
+}
+.sl-markdown-content details:not([class]) + details:not([class]) {
+  margin-top: 0;
+  border-top: 0;
+}
+/* Starlight's own disclosure look (a side rule and a chevron) gives way to
+   the hairline row for every disclosure in content, classed or not. */
+.sl-markdown-content details:not(:where(.not-content *)) {
+  border-inline-start: 0;
+  padding-inline-start: 0;
+}
+.sl-markdown-content summary:not(:where(.not-content *)) {
+  margin-inline-start: 0;
+  padding-inline-start: 0;
+}
+.sl-markdown-content summary:not(:where(.not-content *))::before {
+  content: none;
+}
+.sl-markdown-content details:not([class]) > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  cursor: pointer;
+  list-style: none;
+  color: var(--ds-text);
+  font-weight: 500;
+}
+.sl-markdown-content details:not([class]) > summary::-webkit-details-marker {
+  display: none;
+}
+.sl-markdown-content details:not([class]) > summary::after {
+  content: '+';
+  flex: none;
+  font-family: var(--ds-font-mono);
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--ds-text-3);
+  transition: transform var(--ds-duration) ease;
+}
+.sl-markdown-content details:not([class])[open] > summary::after {
+  transform: rotate(45deg);
+}
+.sl-markdown-content details:not([class]) > summary:hover {
+  color: var(--ds-accent-text);
+}
+.sl-markdown-content details:not([class]) > :not(summary) {
+  margin-bottom: 1rem;
+}
+
+/* ---- Cards, badges, tabs (Starlight's components) ------------------------- */
+.card {
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-cut-panel);
+  corner-shape: bevel;
+  background: var(--ds-surface);
+  box-shadow: none;
+}
+.card .icon {
+  border-radius: 0;
+}
+.sl-badge {
+  border-radius: var(--ds-cut-badge);
+  corner-shape: bevel;
+  font-family: var(--ds-font);
+  font-weight: 500;
+}
+starlight-tabs [role='tablist'] {
+  border-bottom-color: var(--ds-line);
+}
+starlight-tabs [role='tab'][aria-selected='true'] {
+  color: var(--ds-text);
+  border-color: var(--ds-accent);
+}
+
+/* ---- Pagination ------------------------------------------------------------
+   Previous and next take slants: each keeps the corners on its outer side
+   square and cuts the two that point the way it goes, so the pair reads as a
+   pair of arrows. */
+.pagination-links a {
+  border: 1px solid var(--ds-line-strong);
+  background: var(--ds-control);
+  box-shadow: none;
+  color: var(--ds-text-3);
+  font-size: var(--sl-text-sm);
+  transition:
+    border-color var(--ds-duration) ease,
+    color var(--ds-duration) ease;
+}
+.pagination-links a[rel='prev'] {
+  border-radius: var(--ds-cut-panel) 0 0 var(--ds-cut-panel);
+  corner-shape: bevel;
+}
+.pagination-links a[rel='next'] {
+  border-radius: 0 var(--ds-cut-panel) var(--ds-cut-panel) 0;
+  corner-shape: bevel;
+}
+.pagination-links a:hover {
+  border-color: var(--ds-accent-line);
+  color: var(--ds-text-2);
+}
+.pagination-links .link-title {
+  font-size: var(--sl-text-xl);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ds-text);
+}
+
+/* ---- Footer ---------------------------------------------------------------- */
+footer .meta {
+  color: var(--ds-text-3);
+  font-size: var(--sl-text-sm);
+}
+footer .meta a {
+  color: var(--ds-text-3);
+}
+footer .meta a:hover {
+  color: var(--ds-text);
+}
+
+/* ==========================================================================
+   Shared component vocabulary
+   --------------------------------------------------------------------------
+   Classes the sites' own components compose. Component-scoped styles may add
+   to them, but the look of a label, a panel, a chip or a figure is decided
+   here once.
+   ========================================================================== */
+
+/* A small label above a block: sentence case, never uppercase or tracked. */
+.ds-label {
+  margin: 0;
+  font-size: var(--sl-text-xs);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ds-text-3);
+}
+
+/* A panel: the one surface that sits on the canvas with its own ground. */
+.ds-panel {
+  border: 1px solid var(--ds-line-strong);
+  border-radius: var(--ds-cut-panel);
+  corner-shape: bevel;
+  background: var(--ds-surface);
+  box-shadow: var(--ds-shadow-panel);
+}
+
+/* A quieter frame for a figure or a card within a grid. */
+.ds-frame {
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-cut-control);
+  corner-shape: bevel;
+  background: var(--ds-surface);
+}
+
+/* A chip: a toggle, a filter, an in-page link. */
+.ds-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.25rem;
+  padding: 0 0.8rem;
+  border: 1px solid var(--ds-line-strong);
+  border-radius: var(--ds-cut-lead) var(--ds-cut-chip) var(--ds-cut-chip)
+    var(--ds-cut-chip);
+  corner-shape: bevel;
+  background: var(--ds-control);
+  color: var(--ds-text-2);
+  font-size: var(--sl-text-sm);
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color var(--ds-duration) ease,
+    color var(--ds-duration) ease,
+    background-color var(--ds-duration) ease;
+}
+.ds-chip:hover {
+  border-color: var(--ds-accent-line);
+  color: var(--ds-text);
+}
+.ds-chip[aria-pressed='true'],
+.ds-chip[aria-current='true'],
+.ds-chip.is-selected {
+  border-color: var(--ds-accent);
+  background: var(--ds-accent-low);
+  color: var(--ds-text);
+}
+
+/* A small quiet button, e.g. "Confusion matrix". */
+.ds-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--ds-line-strong);
+  border-radius: var(--ds-cut-lead) var(--ds-cut-badge) var(--ds-cut-badge)
+    var(--ds-cut-badge);
+  corner-shape: bevel;
+  background: var(--ds-control);
+  color: var(--ds-text-2);
+  font-family: var(--ds-font);
+  font-size: var(--sl-text-xs);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color var(--ds-duration) ease,
+    color var(--ds-duration) ease;
+}
+.ds-button:hover {
+  border-color: var(--ds-accent);
+  color: var(--ds-text);
+}
+
+/* Numbers that sit in rows or columns. */
+.ds-num {
+  font-family: var(--ds-font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* A statement: the one sentence a page exists to say, set larger than the
+   prose around it and marked by a rule rather than boxed. */
+.ds-statement {
+  margin: var(--ds-space-lg) 0 0;
+  max-width: var(--ds-measure);
+  padding-inline-start: var(--ds-space-lg);
+  border-inline-start: 2px solid var(--ds-accent);
+  font-size: clamp(1.1875rem, 1.05rem + 0.45vw, 1.375rem);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  color: var(--ds-text);
+  text-wrap: pretty;
+}
+.ds-statement strong {
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--ds-accent-text);
+}
+
+/* Figures: a row of numbers, each above what it counts, divided by hairlines.
+   Written as a <dl> of <div><dt/><dd/></div>; the number is shown first. The
+   column count comes from `--ds-figures-cols` (3 by default), and a row of
+   four folds to two by two on a narrow screen. */
+.ds-figures {
+  --ds-figures-cols: 3;
+  display: grid;
+  grid-template-columns: repeat(var(--ds-figures-cols), minmax(0, 1fr));
+  margin: var(--ds-space-lg) 0 0;
+  padding: 0;
+  border-block: 1px solid var(--ds-line);
+}
+.ds-figures > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2xs);
+  min-width: 0;
+  margin: 0 !important;
+  padding: var(--ds-space-md) var(--ds-space-md) var(--ds-space-md) 0;
+}
+.ds-figures > div + div {
+  padding-inline-start: var(--ds-space-md);
+  border-inline-start: 1px solid var(--ds-line-soft);
+}
+.ds-figures :is(dt, dd) {
+  margin: 0 !important;
+  padding: 0;
+}
+.ds-figures dt {
+  font-size: var(--sl-text-sm);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ds-text-2);
+}
+.ds-figures dd {
+  order: -1;
+  font-family: var(--ds-font-mono);
+  font-size: 1.75rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ds-text);
+}
+.ds-figures .ds-figure-unit {
+  margin-inline-start: 0.35em;
+  font-family: var(--ds-font);
+  font-size: var(--sl-text-sm);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--ds-text-3);
+}
+/* A second <dd> under the label: provenance, in small type. */
+.ds-figures dd.ds-figure-meta {
+  order: 0;
+  font-family: var(--ds-font);
+  font-size: var(--sl-text-xs);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--ds-text-3);
+}
+.ds-figures[data-cols='4'] {
+  --ds-figures-cols: 4;
+}
+@media (max-width: 40rem) {
+  .ds-figures[data-cols='4'] {
+    --ds-figures-cols: 2;
+  }
+  .ds-figures[data-cols='4'] > div:nth-child(odd) {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+  .ds-figures[data-cols='4'] > div:nth-child(n + 3) {
+    border-top: 1px solid var(--ds-line-soft);
+  }
+}
+/* On a phone a row of three reads as a list: each number beside its label. */
+@media (max-width: 36rem) {
+  .ds-figures:not(.is-compact, [data-cols='4']) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ds-figures:not(.is-compact, [data-cols='4']) > div {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr);
+    column-gap: var(--ds-space-sm);
+    align-items: baseline;
+    padding: var(--ds-space-sm) 0;
+    border-inline-start: 0;
+  }
+  .ds-figures:not(.is-compact, [data-cols='4']) > div + div {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    border-top: 1px solid var(--ds-line-soft);
+  }
+  .ds-figures:not(.is-compact, [data-cols='4']) dd:not(.ds-figure-meta) {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    font-size: 1.5rem;
+  }
+  .ds-figures:not(.is-compact, [data-cols='4']) dt,
+  .ds-figures:not(.is-compact, [data-cols='4']) .ds-figure-meta {
+    grid-column: 2;
+  }
+  .ds-figures:not(.is-compact, [data-cols='4']) .ds-figure-unit {
+    display: block;
+    margin: 0;
+    font-size: var(--sl-text-xs);
+  }
+}
+/* Inside a card: smaller numbers, no closing rule, and the card's own inset. */
+.ds-figures.is-compact {
+  margin-top: var(--ds-space-lg);
+  border-top-color: var(--ds-line-soft);
+  border-bottom: 0;
+}
+.ds-figures.is-compact > div {
+  padding-block: var(--ds-space-sm) 0;
+  padding-inline-end: var(--ds-space-sm);
+}
+.ds-figures.is-compact > div + div {
+  padding-inline-start: var(--ds-space-sm);
+}
+.ds-figures.is-compact dt {
+  font-size: var(--sl-text-xs);
+  color: var(--ds-text-3);
+}
+.ds-figures.is-compact dd {
+  font-size: 1.125rem;
+}
+
+/* A card in a grid: a name, one line of identity under it, then its body.
+   The head has no rule under it; spacing separates it. */
+.ds-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0 !important;
+  padding: var(--ds-space-md) var(--ds-card-pad) var(--ds-card-pad);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-cut-control);
+  corner-shape: bevel;
+  background: var(--ds-surface);
+}
+.ds-card > * {
+  margin-top: 0;
+}
+.ds-card-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ds-space-2xs);
+  margin: 0 0 var(--ds-space-md) !important;
+}
+.ds-card-name {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-xs);
+  margin: 0 !important;
+  font-size: var(--sl-text-base);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ds-text);
+}
+.ds-card-meta {
+  margin: 0 !important;
+  overflow: hidden;
+  font-family: var(--ds-font-mono);
+  font-size: var(--sl-text-2xs);
+  line-height: 1.4;
+  color: var(--ds-text-3);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Bars: label, track, value, on one grid so every row in a card — and every
+   card in a grid — starts its track at the same place. */
+.ds-bars {
+  display: grid;
+  grid-template-columns: var(--ds-bars-label, 7rem) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--ds-space-xs) var(--ds-space-sm);
+  margin: 0;
+}
+.ds-bars > * {
+  margin: 0 !important;
+}
+.ds-bars-label {
+  overflow: hidden;
+  font-size: var(--sl-text-sm);
+  color: var(--ds-text-2);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ds-bars-value {
+  min-width: 3.25rem;
+  font-family: var(--ds-font-mono);
+  font-size: var(--sl-text-xs);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  white-space: nowrap;
+  color: var(--ds-text);
+}
+.ds-bars-value small {
+  font-size: 1em;
+  color: var(--ds-text-3);
+}
+.ds-track {
+  display: flex;
+  height: 0.5rem;
+  overflow: hidden;
+  background: var(--ds-control);
+  box-shadow: inset 0 0 0 1px var(--ds-line-soft);
+}
+.ds-track > * {
+  height: 100%;
+}
+
+/* A split: two things read side by side once the column has room for both
+   at a readable width — a passage and the figures it introduces, or two
+   independent paragraphs. Each keeps its own reading order; nothing flows from
+   one column into the other. Below the breakpoint they simply stack. */
+@media (min-width: 100rem) {
+  .ds-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--ds-space-lg) var(--ds-space-xl);
+  }
+  .ds-split > * {
+    margin-top: 0 !important;
+  }
+  .ds-split > :is(p, ul, ol) + :is(p, ul, ol) {
+    max-width: var(--ds-measure);
+  }
+  /* In the second column a row of four figures folds to two by two. */
+  .ds-split .ds-figures[data-cols='4'] {
+    --ds-figures-cols: 2;
+  }
+  .ds-split .ds-figures[data-cols='4'] > div:nth-child(odd) {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+  .ds-split .ds-figures[data-cols='4'] > div:nth-child(n + 3) {
+    border-top: 1px solid var(--ds-line-soft);
+  }
+}
+
+/* A figure caption. */
+.ds-caption {
+  margin: var(--ds-space-sm) 0 0;
+  max-width: var(--ds-measure);
+  color: var(--ds-text-3);
+  font-size: var(--sl-text-sm);
+  line-height: 1.55;
+}
+
+/* ---- Motion ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Print ---------------------------------------------------------------- */
+@media print {
+  .ds-panel,
+  .ds-frame {
+    box-shadow: none;
+  }
+}

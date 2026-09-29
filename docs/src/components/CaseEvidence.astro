@@ -14,7 +14,7 @@ interface Props {
 const { snapshot, tier } = Astro.props;
 ---
 
-<div class="table-scroll">
+<div class="table-scroll ds-table">
   <table>
     <thead>
       <tr>
@@ -30,17 +30,17 @@ const { snapshot, tier } = Astro.props;
       {
         tier.cases.map((result) => (
           <tr>
-            <td>
+            <td class="template">
               <code>{result.template_id.replace('dfb-template-', '')}</code>
             </td>
-            <td>
+            <td class="case">
               <code>{result.case_id}</code>
             </td>
             <td>{result.polarity}</td>
             <td>
               <code>{result.outcome}</code>
             </td>
-            <td>{result.classification}</td>
+            <td class="classification">{result.classification}</td>
             <td>
               <a href={evidenceUrl(snapshot, result.raw_evidence.path)}>
                 <code>{shortDigest(result.raw_evidence.sha256)}…</code>
@@ -56,5 +56,17 @@ const { snapshot, tier } = Astro.props;
 <style>
   .table-scroll {
     overflow-x: auto;
+  }
+  /* Template and case ids wrap at their hyphens, two or three pieces to a
+     line; below that the table pans instead of stacking one piece per line.
+     A classification such as true-negative is one term. */
+  .template {
+    min-width: 9rem;
+  }
+  .case {
+    min-width: 11rem;
+  }
+  .classification {
+    white-space: nowrap;
   }
 </style>

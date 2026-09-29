@@ -377,10 +377,10 @@ const last = columns.at(-1)!;
   />
   <div class="view-toggle" role="group" aria-label="Evolution chart view">
     {heading && (
-      <label class="absolute-label" for={`evolution-view-absolute-${scope}`}>Absolute counts</label>
+      <label class="ds-chip absolute-label" for={`evolution-view-absolute-${scope}`}>Absolute counts</label>
     )}
-    <label class="normalized-label" for={`evolution-view-normalized-${scope}`}>Accuracy on covered kernels</label>
-    <label class="table-label" for={`evolution-view-table-${scope}`}>Data table</label>
+    <label class="ds-chip normalized-label" for={`evolution-view-normalized-${scope}`}>Accuracy on covered kernels</label>
+    <label class="ds-chip table-label" for={`evolution-view-table-${scope}`}>Data table</label>
   </div>
 
 {heading && (
@@ -500,7 +500,7 @@ const last = columns.at(-1)!;
     ))}
 
     <text class="axis-title" x="2" y={padTop - 12} text-anchor="start">
-      assertions
+      Assertions
     </text>
   </svg>
   <ScatterTooltip />
@@ -635,7 +635,7 @@ const last = columns.at(-1)!;
     ))}
 
     <text class="axis-title" x="2" y={padTop - 12} text-anchor="start">
-      % of its covered population
+      Share of its covered population
     </text>
   </svg>
   <ScatterTooltip />
@@ -669,8 +669,8 @@ const last = columns.at(-1)!;
   ))}
   <li class="size-key">
     <span class="swatch" aria-hidden="true"></span>
-    marker size and the <code>k/n</code> label under it: kernels covered of the
-    snapshot's kernels
+    <span>marker size and the <code>k/n</code> label under it: kernels covered
+    of the snapshot's kernels</span>
   </li>
 </ul>
 
@@ -690,7 +690,7 @@ const last = columns.at(-1)!;
   )}
 </p>
 
-<div class="table-scroll view-table">
+<div class="table-scroll ds-table view-table">
   <table>
     <thead>
       <tr>
@@ -763,35 +763,11 @@ const last = columns.at(-1)!;
 <style>
   /* The view toggle is a plain radio group: no JavaScript, keyboard-operable
      by default (Tab into the group, arrows between options), and it degrades
-     to two labelled radios if the stylesheet never arrives. The radios sit as
+     to labelled radios if the stylesheet never arrives. The radios sit as
      direct children of `.evolution` so `:checked ~ …` can reach every element
      that belongs to one view or the other. */
-  .chart-note {
-    max-width: 64rem;
-    margin-inline: auto;
-  }
-  @media (min-width: 72rem) {
-    /* A lone note reads correctly as its own two columns: down the left, then
-       down the right, with nothing else interleaved. The captions do not —
-       they come in adjacent runs — so they are flowed by the `.prose-columns`
-       wrapper around them instead, and must not also column themselves. */
-    .chart-note {
-      columns: 2;
-      column-gap: 2.5rem;
-      max-width: none;
-    }
-    .evolution .caption {
-      max-width: none;
-    }
-  }
   .evolution {
     position: relative;
-    /* The chart itself is capped at 64rem (custom.css); on the wide desktop
-       column an uncapped wrapper leaves a dead margin to the right of the
-       toggle, frame, and captions. Cap and center the whole block so its
-       edges follow the chart's. */
-    max-width: 64rem;
-    margin-inline: auto;
   }
   .view-radio {
     position: absolute;
@@ -805,41 +781,32 @@ const last = columns.at(-1)!;
     white-space: nowrap;
   }
   .view-toggle {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.25rem;
-    margin: 0 0 0.75rem;
-    padding: 0.2rem;
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.6rem;
-    background: var(--sl-color-bg-sidebar);
+    gap: 0.4rem;
+    margin: 0 0 1rem;
   }
   .view-toggle label {
     /* The content area's global sibling rule adds margin-top to successive
-       elements; inside the pill row that staggers the labels vertically. */
+       elements; inside the chip row that staggers the labels vertically. */
     margin: 0 !important;
+    min-height: 2rem;
+    padding-inline: 0.7rem;
+    font-size: var(--sl-text-xs);
     cursor: pointer;
-    border-radius: 0.45rem;
-    padding: 0.3rem 0.7rem;
-    font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-2);
-    line-height: 1.3;
-  }
-  .view-toggle label:hover {
-    color: var(--sl-color-white);
   }
   .absolute-radio:checked ~ .view-toggle .absolute-label,
   .normalized-radio:checked ~ .view-toggle .normalized-label,
   .table-radio:checked ~ .view-toggle .table-label {
-    background: var(--sl-color-gray-6, var(--sl-color-hairline));
-    color: var(--sl-color-white);
-    box-shadow: inset 0 0 0 1px var(--sl-color-hairline);
+    border-color: var(--ds-accent);
+    background: var(--ds-accent-low);
+    color: var(--ds-text);
   }
   .absolute-radio:focus-visible ~ .view-toggle .absolute-label,
   .normalized-radio:focus-visible ~ .view-toggle .normalized-label,
   .table-radio:focus-visible ~ .view-toggle .table-label {
-    outline: 2px solid var(--sl-color-accent-high);
+    outline: 2px solid var(--ds-accent);
     outline-offset: 2px;
   }
   /* Each view hides the two it is not. The value table is the third view
@@ -858,14 +825,14 @@ const last = columns.at(-1)!;
   }
   .chart-frame {
     position: relative;
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.75rem;
-    padding: 0.75rem 0.5rem 0.25rem;
-    background: var(--sl-color-bg-sidebar);
+    max-width: 64rem;
+    border: 1px solid var(--ds-line);
+    padding: 1rem 0.75rem 0.5rem;
+    background: var(--ds-well);
     overflow-x: auto;
   }
   .dot { cursor: default; outline: none; }
-  .dot:is(:hover, :focus-visible) { stroke: var(--sl-color-text); stroke-width: 3; }
+  .dot:is(:hover, :focus-visible) { stroke: var(--ds-text); stroke-width: 2.5; }
   .evolution-chart {
     display: block;
     width: 100%;
@@ -876,39 +843,48 @@ const last = columns.at(-1)!;
     height: auto;
   }
   .evolution-chart .grid {
-    stroke: var(--sl-color-hairline);
+    stroke: var(--ds-line-soft);
     stroke-width: 1;
   }
   .evolution-chart .axis {
-    stroke: var(--sl-color-gray-4);
-    stroke-width: 1.5;
+    stroke: var(--ds-line-strong);
+    stroke-width: 1;
   }
   .evolution-chart .tick,
-  .evolution-chart .axis-title,
   .evolution-chart .x-sub {
-    font-family: var(--__sl-font-mono);
+    font-family: var(--ds-font-mono);
     font-size: 11px;
-    fill: var(--sl-color-gray-3);
+    fill: var(--ds-text-3);
+  }
+  .evolution-chart .axis-title {
+    font-family: var(--ds-font);
+    font-size: 13px;
+    font-weight: 500;
+    fill: var(--ds-text-2);
   }
   .evolution-chart .x-label {
-    font-family: var(--__sl-font-mono);
+    font-family: var(--ds-font-mono);
     font-size: 13px;
-    fill: var(--sl-color-accent-high);
+    fill: var(--ds-accent-text);
     text-decoration: underline;
+    text-decoration-color: var(--ds-accent-line);
   }
   .evolution-chart a:hover .x-label {
-    fill: var(--sl-color-white);
+    fill: var(--ds-text);
+  }
+  .evolution-chart a:focus-visible {
+    outline: 2px solid var(--ds-accent);
   }
   .evolution-chart .ceiling {
     fill: none;
-    stroke: var(--sl-color-gray-4);
-    stroke-width: 2;
+    stroke: var(--ds-text-3);
+    stroke-width: 1.5;
     stroke-dasharray: 6 4;
   }
   .evolution-chart .ceiling-label {
-    font-family: var(--__sl-font-mono);
+    font-family: var(--ds-font-mono);
     font-size: 12px;
-    fill: var(--sl-color-gray-2);
+    fill: var(--ds-text-2);
   }
   .evolution-chart .series .line {
     fill: none;
@@ -919,7 +895,7 @@ const last = columns.at(-1)!;
   }
   .evolution-chart .series .dot {
     fill: var(--vendor-rule);
-    stroke: var(--sl-color-bg-sidebar);
+    stroke: var(--ds-well);
     stroke-width: 1.5;
   }
   .evolution-chart .series .uncorrect {
@@ -932,51 +908,53 @@ const last = columns.at(-1)!;
     stroke-width: 2;
     opacity: 0.5;
   }
+  .evolution-chart .coverage-note {
+    font-family: var(--ds-font-mono);
+    font-size: 9px;
+    fill: var(--ds-text-3);
+  }
   .chart-legend {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem 1.25rem;
+    gap: 0.4rem 1.5rem;
     margin: 0.75rem 0 0;
     padding: 0;
-    font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-2);
+    font-size: var(--sl-text-xs);
+    color: var(--ds-text-3);
   }
+  /* Each label is one flex item, so it wraps as a sentence rather than
+     splitting around its inline code. */
   .chart-legend li {
     margin: 0;
     display: flex;
     align-items: center;
   }
   .chart-legend .swatch {
+    flex: none;
     display: inline-block;
     width: 1.1rem;
-    height: 0.25rem;
-    border-radius: 0.125rem;
+    height: 0.2rem;
     margin-right: 0.45rem;
-    background: var(--vendor-rule, var(--sl-color-accent));
+    background: var(--vendor-rule, var(--ds-accent));
   }
   .chart-legend .ceiling-key .swatch {
     background: repeating-linear-gradient(
       to right,
-      var(--sl-color-gray-4) 0 6px,
+      var(--ds-text-3) 0 6px,
       transparent 6px 10px
     );
-  }
-  .evolution-chart .coverage-note {
-    font-family: var(--__sl-font-mono);
-    font-size: 9px;
-    fill: var(--sl-color-gray-3);
   }
   .chart-legend .size-key .swatch {
     height: 0.6rem;
     width: 0.6rem;
     border-radius: 50%;
-    background: var(--sl-color-gray-3);
+    background: var(--ds-text-3);
   }
   .chart-legend .stub-key .swatch {
     height: 0.6rem;
     width: 0.45rem;
-    background: var(--sl-color-gray-3);
+    background: var(--ds-text-3);
     opacity: 0.35;
   }
   .vendor-dot {
@@ -984,9 +962,9 @@ const last = columns.at(-1)!;
     width: 0.55rem;
     height: 0.55rem;
     border-radius: 50%;
-    margin-right: 0.4rem;
+    margin-right: 0.45rem;
     vertical-align: baseline;
-    background: var(--vendor-rule, var(--sl-color-accent));
+    background: var(--vendor-rule, var(--ds-accent));
   }
   /* The fixed vendor→colour identity map, keyed by tool rather than by
      position, matching the kernel cards and the confusion dialog. */
@@ -1016,11 +994,11 @@ const last = columns.at(-1)!;
     --vendor-rule: var(--dfb-vendor-7);
   }
   .muted {
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
   }
   .caption {
     font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
   }
   .table-scroll {
     overflow-x: auto;

@@ -735,8 +735,10 @@ export function kernelCorpusDistributions(
 }
 
 export function formatMs(value: number): string {
+  // A no-break space: a figure never parts from its unit, in a table cell or
+  // a sentence.
   const ms = Math.round(value);
-  if (ms < 1000) return `${ms} ms`;
-  if (ms < 10_000) return `${(Math.round(ms / 10) / 100).toFixed(2)} s`;
-  return `${(Math.round(ms / 100) / 10).toFixed(1)} s`;
+  if (ms < 1000) return `${ms}\u00a0ms`;
+  if (ms < 10_000) return `${(Math.round(ms / 10) / 100).toFixed(2)}\u00a0s`;
+  return `${(Math.round(ms / 100) / 10).toFixed(1)}\u00a0s`;
 }

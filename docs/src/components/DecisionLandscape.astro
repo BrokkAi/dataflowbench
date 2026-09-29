@@ -11,6 +11,7 @@ import {
   vendorName,
   vendorOrder,
 } from '../data/snapshots';
+import { percentAxis, placeLabels, type LabelPlacement, type PercentAxis } from '../data/scatter-layout';
 import ScatterTooltip from './ScatterTooltip.astro';
 
 interface Point {
@@ -28,6 +29,13 @@ interface Panel {
   denominator: number;
   kernelId: string | null;
   points: Point[];
+}
+
+interface PlottedPoint extends Point {
+  decided: number;
+  px: number;
+  py: number;
+  label: LabelPlacement;
 }
 
 const populations = coreKernelPopulations(currentSnapshot.results);
@@ -73,36 +81,49 @@ const panels: Panel[] = [
 
 const width = 820;
 const height = 470;
-const padLeft = 66;
-const padRight = 30;
-const padTop = 34;
-const padBottom = 62;
+const padLeft = 60;
+const padRight = 24;
+const padTop = 28;
+const padBottom = 56;
 const plotWidth = width - padLeft - padRight;
 const plotHeight = height - padTop - padBottom;
 const percent = (part: number, whole: number) => whole === 0 ? 0 : (100 * part) / whole;
 const formatPercent = (value: number) => `${value.toFixed(1)}%`;
-const x = (decided: number, denominator: number) => padLeft + percent(decided, denominator) * plotWidth / 100;
-const y = (correct: number, decided: number) => padTop + (100 - percent(correct, decided)) * plotHeight / 100;
 const xTicks = [0, 25, 50, 75, 100];
-const yTicks = [50, 60, 70, 80, 90, 100];
-const labelOffsets: Record<string, { x: number; y: number; anchor?: 'start' | 'end' }> = {
-  bifrost: { x: -9, y: -11, anchor: 'end' },
-  codeql: { x: -9, y: 17, anchor: 'end' },
-  joern: { x: -9, y: -11, anchor: 'end' },
-  semgrep: { x: 9, y: 17 },
-  opentaint: { x: -10, y: -11, anchor: 'end' },
-  infer: { x: 9, y: -11 },
-  flowdroid: { x: 9, y: 17 },
-  pysa: { x: -9, y: 17, anchor: 'end' },
-};
+// Blind answering — the same verdict on both halves of every pair — is right
+// exactly half the time, so 50% correctness is the floor worth marking.
+const baseline = 50;
+
+// Each view gets a vertical axis fitted to its own points, trimmed from 0 to
+// the tens below the lowest one but always keeping the baseline clear of the
+// floor: most views share the same 40–100% axis, and one that dips below it
+// says so on its ticks.
+// Labels are placed per view, since which points crowd depends on the view.
+const layouts = panels.map((panel) => {
+  const axis: PercentAxis = percentAxis(
+    panel.points.map((point) => percent(point.correct, point.correct + point.wrong)),
+    baseline - 10,
+  );
+  const x = (value: number) => padLeft + value * plotWidth / 100;
+  const y = (value: number) => padTop + (axis.max - value) * plotHeight / (axis.max - axis.min);
+  const located = panel.points.map((point) => {
+    const decided = point.correct + point.wrong;
+    return { ...point, decided, px: x(percent(decided, panel.denominator)), py: y(percent(point.correct, decided)) };
+  });
+  const labels = placeLabels(
+    located.map((point) => ({ x: point.px, y: point.py, text: point.name })),
+    { bounds: { left: padLeft + 4, top: 4, right: width - 4, bottom: height - padBottom - 4 }, radius: 8, fontSize: 13, charWidth: 0.58 },
+  );
+  const points: PlottedPoint[] = located.map((point, index) => ({ ...point, label: labels[index] }));
+  return { panel, axis, x, y, points };
+});
 
 const toggleCss = panels.map((panel) => `
 #decision-view-${panel.id}:checked ~ .decision-ribbon label[for='decision-view-${panel.id}'] {
-  background: var(--sl-color-accent-low); color: var(--sl-color-white);
-  box-shadow: inset 0 0 0 1px var(--sl-color-accent);
+  border-color: var(--ds-accent); background: var(--ds-accent-low); color: var(--ds-text);
 }
 #decision-view-${panel.id}:focus-visible ~ .decision-ribbon label[for='decision-view-${panel.id}'] {
-  outline: 2px solid var(--sl-color-accent-high); outline-offset: 2px;
+  outline: 2px solid var(--ds-accent); outline-offset: 2px;
 }
 #decision-view-${panel.id}:checked ~ .decision-panels > #decision-panel-${panel.id} { display: block; }
 `).join('\n');
@@ -111,35 +132,34 @@ const toggleCss = panels.map((panel) => `
 <div class="decision-landscape" id="decisions">
   {panels.map((panel, index) => <input class="decision-radio" type="radio" name="decision-view" id={`decision-view-${panel.id}`} checked={index === 0} />)}
   <div class="decision-ribbon" role="group" aria-label="Decisiveness and correctness view">
-    {panels.map((panel) => <label for={`decision-view-${panel.id}`}>{panel.label}</label>)}
+    {panels.map((panel, index) => <label class:list={['ds-chip', { lead: index === 0 }]} for={`decision-view-${panel.id}`}>{panel.label}</label>)}
   </div>
   <div class="decision-panels">
-    {panels.map((panel) => <section class="decision-panel" id={`decision-panel-${panel.id}`}>
+    {layouts.map(({ panel, axis, x, y, points }) => <section class="decision-panel" id={`decision-panel-${panel.id}`}>
       <div class="chart-frame" data-scatter-frame>
         <svg class="decision-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby={`decision-title-${panel.id} decision-desc-${panel.id}`}>
           <title id={`decision-title-${panel.id}`}>{panel.label} analyzer decisiveness and correctness</title>
-          <desc id={`decision-desc-${panel.id}`}>Scatter plot for {panel.label}. The horizontal axis is decisive answers divided by {panel.denominator} assertions. The vertical axis is correct answers divided by decisive answers.</desc>
-          {yTicks.map((tick) => {
-            const tickY = padTop + (100 - tick) * plotHeight / 100;
-            return <><line class="grid" x1={padLeft} y1={tickY} x2={width - padRight} y2={tickY} /><text class="tick" x={padLeft - 10} y={tickY + 4} text-anchor="end">{tick}%</text></>;
-          })}
-          {xTicks.map((tick) => {
-            const tickX = padLeft + tick * plotWidth / 100;
-            return <><line class="grid vertical" x1={tickX} y1={padTop} x2={tickX} y2={height - padBottom} /><text class="tick" x={tickX} y={height - padBottom + 22} text-anchor="middle">{tick}%</text></>;
-          })}
+          <desc id={`decision-desc-${panel.id}`}>Scatter plot for {panel.label}. The horizontal axis is decisive answers divided by {panel.denominator} assertions. The vertical axis is correct answers divided by decisive answers, from {axis.min}% to 100%; a line marks the {baseline}% a blind answerer would score.</desc>
+          {axis.ticks.map((tick) => <>
+            <line class="grid" x1={padLeft} y1={y(tick)} x2={width - padRight} y2={y(tick)} />
+            <text class="tick" x={padLeft - 10} y={y(tick) + 4} text-anchor="end">{tick}%</text>
+          </>)}
+          {xTicks.map((tick) => <>
+            <line class="grid vertical" x1={x(tick)} y1={padTop} x2={x(tick)} y2={height - padBottom} />
+            <text class="tick" x={x(tick)} y={height - padBottom + 20} text-anchor="middle">{tick}%</text>
+          </>)}
+          <line class="baseline" x1={padLeft} y1={y(baseline)} x2={width - padRight} y2={y(baseline)} />
+          <text class="baseline-label" x={width - padRight - 4} y={y(baseline) - 6} text-anchor="end">blind baseline</text>
           <line class="axis" x1={padLeft} y1={height - padBottom} x2={width - padRight} y2={height - padBottom} />
           <line class="axis" x1={padLeft} y1={padTop} x2={padLeft} y2={height - padBottom} />
-          <text class="axis-title" x={(padLeft + width - padRight) / 2} y={height - 10} text-anchor="middle">decisiveness — share of {panel.denominator} assertions answered</text>
-          <text class="axis-title" transform={`translate(17 ${(padTop + height - padBottom) / 2}) rotate(-90)`} text-anchor="middle">correctness among decisive answers</text>
-          {panel.points.map((point) => {
-            const decided = point.correct + point.wrong;
-            const pointX = x(decided, panel.denominator);
-            const pointY = y(point.correct, decided);
-            const offset = labelOffsets[point.tool] ?? { x: 9, y: -9 };
-            const tooltip = `${point.name} — x: ${formatPercent(percent(decided, panel.denominator))} decisiveness (${decided}/${panel.denominator}) · y: ${formatPercent(percent(point.correct, decided))} correctness (${point.correct}/${decided})`;
+          <text class="axis-title" x={(padLeft + width - padRight) / 2} y={height - 12} text-anchor="middle">Decisiveness: share of {panel.denominator} assertions answered</text>
+          <text class="axis-title" transform={`translate(16 ${(padTop + height - padBottom) / 2}) rotate(-90)`} text-anchor="middle">Correctness among decisive answers</text>
+          {points.map((point) => {
+            const tooltip = `${point.name} — x: ${formatPercent(percent(point.decided, panel.denominator))} decisiveness (${point.decided}/${panel.denominator}) · y: ${formatPercent(percent(point.correct, point.decided))} correctness (${point.correct}/${point.decided})`;
             return <g class:list={['analyzer', point.colorClass]} tabindex="0" role="img" aria-label={tooltip} data-tooltip={tooltip}>
-              <circle class="point" cx={pointX} cy={pointY} r="7" />
-              <text class="point-label" x={pointX + offset.x} y={pointY + offset.y} text-anchor={offset.anchor ?? 'start'}>{point.name}</text>
+              {point.label.leader && <line class="leader" x1={point.px} y1={point.py} x2={point.label.x} y2={point.label.y - 4} />}
+              <circle class="point" cx={point.px} cy={point.py} r="6.5" />
+              <text class="point-label" x={point.label.x} y={point.label.y} text-anchor={point.label.anchor}>{point.name}</text>
             </g>;
           })}
         </svg>
@@ -152,16 +172,16 @@ const toggleCss = panels.map((panel) => `
       </p>
       <details class="decision-data">
         <summary>Exact figures</summary>
-        <div class="table-wrap"><table>
+        <div class="table-wrap ds-table"><table>
           <thead><tr><th>Analyzer</th><th>Decisiveness</th><th>Correctness when decisive</th><th>Unanswered</th>{panel.kernelId && <th>Evidence</th>}</tr></thead>
           <tbody>{panel.points.map((point) => {
             const decided = point.correct + point.wrong;
             return <tr>
               <th scope="row"><span class:list={['vendor-dot', point.colorClass]}></span>{point.name}</th>
-              <td>{decided}/{panel.denominator} ({formatPercent(percent(decided, panel.denominator))})</td>
-              <td>{point.correct}/{decided} ({formatPercent(percent(point.correct, decided))})</td>
+              <td class="num">{decided}/{panel.denominator} ({formatPercent(percent(decided, panel.denominator))})</td>
+              <td class="num">{point.correct}/{decided} ({formatPercent(percent(point.correct, decided))})</td>
               <td>{panel.denominator - decided}</td>
-              {panel.kernelId && <td><button type="button" class="details-button" data-kernel={panel.kernelId}>Confusion matrix</button></td>}
+              {panel.kernelId && <td><button type="button" class="details-button ds-button" data-kernel={panel.kernelId}>Confusion matrix</button></td>}
             </tr>;
           })}</tbody>
         </table></div>
@@ -172,30 +192,38 @@ const toggleCss = panels.map((panel) => `
 
 <style is:inline set:html={toggleCss}></style>
 <style>
-  .decision-landscape { display: grid; gap: 1rem; margin-top: 1rem; scroll-margin-top: 5rem; }
+  .decision-landscape { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; margin-top: var(--ds-space-lg); scroll-margin-top: 5rem; }
   .decision-radio { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  .decision-ribbon { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; padding: .35rem; border-radius: .65rem; background: var(--sl-color-bg-sidebar); }
-  .decision-ribbon label { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; box-sizing: border-box; height: 2.5rem; margin: 0 !important; padding: 0 .65rem; border: 1px solid transparent; border-radius: .45rem; cursor: pointer; color: var(--sl-color-gray-2); font-size: var(--sl-text-sm); line-height: 1; }
+  .decision-ribbon { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+  .decision-ribbon label { min-height: 2rem; margin: 0 !important; padding-inline: .65rem; font-size: var(--sl-text-xs); cursor: pointer; }
+  /* The aggregate view is set apart from the per-language ones. */
+  .decision-ribbon label.lead { margin-right: .6rem !important; }
   .decision-ribbon, .decision-panels, .decision-panel, .decision-panel > :first-child { margin-top: 0; }
   .decision-panel { display: none; }
-  .chart-frame { position: relative; min-width: 0; border: 1px solid var(--sl-color-hairline); border-radius: .75rem; padding: .75rem .5rem .25rem; background: var(--sl-color-bg-sidebar); overflow: hidden; }
-  .decision-chart { display: block; width: 100%; max-width: 100%; min-width: 0; height: auto; }
-  .grid { stroke: var(--sl-color-hairline); stroke-width: 1; }
-  .grid.vertical { stroke-dasharray: 3 5; }
-  .axis { stroke: var(--sl-color-gray-4); stroke-width: 1.5; }
-  .tick, .axis-title { font-family: var(--__sl-font-mono); font-size: 11px; fill: var(--sl-color-gray-3); }
-  .axis-title { font-size: 12px; }
-  .point { fill: var(--vendor-rule); stroke: var(--sl-color-bg-sidebar); stroke-width: 2; }
+  /* Below 36rem the chart scrolls sideways rather than shrinking its labels
+     past reading size; the tooltip already accounts for the scroll offset. */
+  .chart-frame { position: relative; min-width: 0; border: 1px solid var(--ds-line); padding: 1rem .75rem .5rem; background: var(--ds-well); overflow-x: auto; }
+  .decision-chart { display: block; width: 100%; min-width: 36rem; height: auto; }
+  .grid { stroke: var(--ds-line-soft); stroke-width: 1; }
+  .grid.vertical { stroke-dasharray: 2 4; }
+  .axis { stroke: var(--ds-line-strong); stroke-width: 1; }
+  .baseline { stroke: var(--ds-text-3); stroke-width: 1; stroke-dasharray: 6 4; }
+  .baseline-label { font-family: var(--ds-font); font-size: 12px; fill: var(--ds-text-3); }
+  .tick { font-family: var(--ds-font-mono); font-size: 11px; fill: var(--ds-text-3); }
+  .axis-title { font-family: var(--ds-font); font-size: 13px; font-weight: 500; fill: var(--ds-text-2); }
+  .point { fill: var(--vendor-rule); stroke: var(--ds-well); stroke-width: 2; }
+  .leader { stroke: var(--vendor-rule); stroke-width: 1; opacity: .55; }
   .analyzer { cursor: default; outline: none; }
-  .analyzer:is(:hover, :focus-visible) .point { stroke: var(--sl-color-text); stroke-width: 3; }
-  .point-label { font-family: var(--__sl-font-mono); font-size: 12px; font-weight: 650; fill: var(--vendor-rule); paint-order: stroke; stroke: var(--sl-color-bg-sidebar); stroke-width: 4px; stroke-linejoin: round; }
-  .view-note { margin: .65rem 0 0; color: var(--sl-color-gray-3); font-size: var(--sl-text-sm); }
+  .analyzer:is(:hover, :focus-visible) .point { stroke: var(--ds-text); stroke-width: 2.5; }
+  .analyzer:focus-visible .point-label { text-decoration: underline; }
+  .point-label { font-family: var(--ds-font); font-size: 13px; font-weight: 500; fill: var(--vendor-rule); paint-order: stroke; stroke: var(--ds-well); stroke-width: 4px; stroke-linejoin: round; }
+  .view-note { margin: .65rem 0 0; color: var(--ds-text-3); font-size: var(--sl-text-sm); }
   .decision-data { margin-top: .65rem; }
   .table-wrap { overflow-x: auto; }
-  .details-button { font-family: var(--__sl-font-mono); font-size: var(--sl-text-xs); letter-spacing: .08em; text-transform: uppercase; color: var(--sl-color-accent-high); background: transparent; border: 1px solid var(--sl-color-hairline); border-radius: .45rem; padding: .3rem .55rem; cursor: pointer; white-space: nowrap; }
-  .details-button:hover { border-color: var(--sl-color-accent); }
-  .details-button:focus-visible { outline: 2px solid var(--sl-color-accent-high); outline-offset: 2px; }
-  .vendor-dot { display: inline-block; width: .55rem; height: .55rem; border-radius: 50%; margin-right: .4rem; background: var(--vendor-rule); }
+  /* A name and a fraction each read as one unit; the table pans before either
+     splits across lines. */
+  th[scope='row'], .num { white-space: nowrap; }
+  .vendor-dot { display: inline-block; width: .55rem; height: .55rem; border-radius: 50%; margin-right: .45rem; background: var(--vendor-rule); }
   .v0 { --vendor-rule: var(--sl-color-accent-high); } .v1 { --vendor-rule: var(--sl-color-orange); } .v2 { --vendor-rule: var(--sl-color-purple); } .v3 { --vendor-rule: var(--sl-color-green); }
   .v4 { --vendor-rule: var(--dfb-vendor-4); } .v5 { --vendor-rule: var(--dfb-vendor-5); } .v6 { --vendor-rule: var(--dfb-vendor-6); } .v7 { --vendor-rule: var(--dfb-vendor-7); }
 </style>
