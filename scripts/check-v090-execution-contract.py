@@ -85,8 +85,23 @@ def validate(root=ROOT):
     require(budget['serial_analyzers'] == 1 and budget['protected_reserve_gib'] >= 40, 'resource boundary weakened')
     require(budget['minimum_launch_free_gib'] >= sum(budget[k] for k in ['protected_reserve_gib', 'scratch_gib', 'proposed_total_retention_ceiling_gib', 'proposed_working_copy_and_staging_gib']), 'unbudgeted launch capacity')
     require(len(plan['controls']) == 30 and len({c['id'] for c in plan['controls']}) == 30, 'existing control inventory changed')
+    inventory = json.loads(bound(root, plan['control_inventory']).read_text())
+    controls = inventory['controls']
+    controls_by_id = {c['id']: c for c in controls}
+    require(len(controls_by_id) == len(controls), 'duplicate control identity')
+    legacy_ids = {c['id'] for c in plan['controls']}
+    require(legacy_ids.issubset(controls_by_id), 'historical control omitted')
+    supplemental = {'probe-python-modeling-load-bearing', 'probe-warm-observability', 'probe-opentaint-product-v090'}
+    require(set(controls_by_id) == legacy_ids | supplemental, 'supplemental control membership changed')
+    require(set(plan['control_execution_roots']) == set(controls_by_id), 'control root membership changed')
+    require(len(set(plan['control_execution_roots'].values())) == len(controls), 'control roots must be isolated')
+    for control in controls:
+        require(control.get('maximum_attempts') == 2, 'control retry bound changed')
+        expected_repeats = {'warm': 2, 'overhead': 3}.get(control['stage'], 1)
+        require(control.get('measurement_repeats') == expected_repeats, 'control measurement repeats changed')
+        require(control.get('repeat_mechanism') == ('inside-harness-command' if control['stage'] in ('warm', 'overhead') else 'single-control-series'), 'control repeat mechanism changed')
     require(plan['unresolved'], 'planning blocker list missing')
-    return {'groups': len(groups), 'controls': len(plan['controls']), 'executable': False}
+    return {'groups': len(groups), 'controls': len(controls), 'executable': False}
 
 
 if __name__ == '__main__':

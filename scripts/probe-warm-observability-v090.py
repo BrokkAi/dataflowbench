@@ -3,8 +3,8 @@
 
 This is observational evidence only. It does not run an analyzer, interpret a
 missing help option as a capability decline, or make any warm-performance
-claim. The OpenTaint product wrapper is recorded as unavailable until its full
-runtime identity is added to the reviewed v0.9.0 contract.
+claim. The OpenTaint product wrapper is observed only when its exact identity
+is registered in the reviewed v0.9.0 contract.
 """
 
 from __future__ import annotations
@@ -34,40 +34,67 @@ def _group_environment(contract: Mapping[str, object], command_id: str) -> dict[
         "bifrost": "bifrost", "codeql-create": "codeql", "codeql-analyze": "codeql",
         "joern": "joern", "semgrep": "semgrep", "infer": "infer",
         "flowdroid": "flowdroid", "pysa": "pysa", "opentaint-jar": "opentaint",
+        "opentaint-product": "opentaint",
     }[command_id]
     for group in groups:
         if group.get('tool') == wanted_tool and isinstance(group.get('environment'), dict):
-            return dict(group['environment'])
+            environment = dict(group['environment'])
+            if command_id == 'opentaint-product':
+                runtime = str(Path(contract['tools']['opentaint-wrapper']['path']).parent / 'jre')
+                environment['JAVA_HOME'] = runtime
+                environment['PATH'] = runtime + '/bin:' + environment['PATH']
+            reference = contract.get('control_inventory')
+            if reference:
+                raw = (ROOT / reference['path']).read_bytes()
+                if hashlib.sha256(raw).hexdigest() != reference['sha256']:
+                    raise ValueError('control inventory digest mismatch')
+                matches = [item for item in json.loads(raw)['controls'] if item['id'] == 'probe-warm-observability']
+                if len(matches) != 1:
+                    raise ValueError('warm observability control must be registered exactly once')
+                environment['TMPDIR'] = matches[0]['environment']['TMPDIR']
+            return environment
     raise ValueError('missing explicit tool environment: ' + wanted_tool)
 
 
 def _run_bounded(argv: Sequence[str], *, cwd: Path, stdout: object, stderr: object,
                  env: Mapping[str, str], timeout: int = TIMEOUT_SECONDS) -> int:
-    process = subprocess.Popen(
-        list(argv), cwd=cwd, stdout=stdout, stderr=stderr, env=dict(env),
-        start_new_session=True,
-    )
-    try:
-        return process.wait(timeout=timeout)
-    except subprocess.TimeoutExpired:
+    def interrupted(signum, frame):
+        raise KeyboardInterrupt('probe interrupted by signal ' + str(signum))
+    old_handlers = {sig: signal.getsignal(sig) for sig in (signal.SIGTERM, signal.SIGINT)}
+    for sig in old_handlers:
+        signal.signal(sig, interrupted)
+    process = None
+    def stop():
+        if process is None:
+            return
         try:
             os.killpg(process.pid, signal.SIGTERM)
         except ProcessLookupError:
             pass
         try:
-            process.wait(timeout=3)
+            process.wait(timeout=1)
         except subprocess.TimeoutExpired:
-            try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-            process.wait()
+            pass
         try:
             os.killpg(process.pid, signal.SIGKILL)
         except ProcessLookupError:
             pass
         process.wait()
+    try:
+        process = subprocess.Popen(
+            list(argv), cwd=cwd, stdout=stdout, stderr=stderr, env=dict(env),
+            start_new_session=True,
+        )
+        return process.wait(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        stop()
         return 124
+    except BaseException:
+        stop()
+        raise
+    finally:
+        for sig, handler in old_handlers.items():
+            signal.signal(sig, handler)
 
 
 def _tool(tools: Mapping[str, object], key: str) -> tuple[str, str]:
@@ -114,6 +141,11 @@ def command_inventory(contract: Mapping[str, object]) -> list[dict[str, object]]
         {"id": "opentaint-product", "argv": None, "identity": ["opentaint-wrapper"],
          "status": "not-run-no-pinned-v090-identity"},
     ]
+    if 'opentaint-wrapper' in tools:
+        pinned['opentaint-wrapper'] = _tool(tools, 'opentaint-wrapper')
+        commands[-1] = {'id': 'opentaint-product',
+                        'argv': [pinned['opentaint-wrapper'][0], 'scan', '--help'],
+                        'identity': ['opentaint-wrapper']}
     for item in commands:
         item["tool_identities"] = {
             key: {"path": pinned[key][0], "sha256": pinned[key][1]}
@@ -140,6 +172,21 @@ def capture(
     for key in ("bifrost", "codeql", "joern", "semgrep", "infer", "java", "flowdroid", "pyre", "opentaint-analyzer"):
         path, digest = _tool(tools, key)
         _check_pinned_file(path, digest)
+    if 'opentaint-wrapper' in tools:
+        _check_pinned_file(*_tool(tools, 'opentaint-wrapper'))
+        from release_runtime_inventory_v090 import verify
+        bundle = str(Path(tools['opentaint-wrapper']['path']).parent)
+        matched = False
+        for reference in contract.get('runtime_trees', []):
+            raw = (ROOT / reference['path']).read_bytes()
+            if hashlib.sha256(raw).hexdigest() != reference['sha256']:
+                raise ValueError('runtime inventory digest mismatch')
+            manifest = json.loads(raw)
+            if manifest.get('root') == bundle:
+                verify(manifest)
+                matched = True
+        if not matched:
+            raise ValueError('full product runtime tree is not bound')
     output_root.mkdir(parents=True, exist_ok=False)
     command_log = output_root / "commands.jsonl"
     failures = 0
@@ -189,7 +236,9 @@ def capture(
         "scope": "Advertised CLI help only. Help absence does not establish declined capability; pair with the registered same-work controls.",
         "flowdroid": "Batch support does not establish whole-population per-case-config equivalence; preserve as unsupported/unresolved unless independently qualified.",
         "warm_measurements": ["Joern Java", "Semgrep Java largest identical-rule group"],
-        "opentaint_product": "not run: v0.9 contract does not pin the full product wrapper identity/runtime tree",
+        "opentaint_product": ("Pinned shipped wrapper help captured; no equivalence inferred."
+                              if 'opentaint-wrapper' in tools else
+                              "not run: v0.9 contract does not pin the full product wrapper identity/runtime tree"),
     }
     (output_root / "scope.json").write_text(json.dumps(scope, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return 1 if failures else 0

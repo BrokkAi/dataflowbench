@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Mutations that must never turn a planning contract into executable evidence."""
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -19,7 +20,7 @@ class ContractTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         self.plan = json.loads((ROOT/checker.CONTRACT).read_text())
         refs = [self.plan['preparation_plan'], *self.plan['identity_evidence'],
-                *self.plan['environment_implementation'], self.plan['codeql_compatibility']]
+                *self.plan['environment_implementation'], self.plan['codeql_compatibility'], self.plan['control_inventory']]
         for ref in refs:
             target = self.root/ref['path']
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -32,7 +33,7 @@ class ContractTests(unittest.TestCase):
         return checker.validate(self.root)
 
     def test_complete_planning_inventory(self):
-        self.assertEqual(self.check(), {'groups': 84, 'controls': 30, 'executable': False})
+        self.assertEqual(self.check(), {'groups': 84, 'controls': 33, 'executable': False})
 
     def test_cannot_self_authorize(self):
         self.plan['execution_authorized'] = True
@@ -78,6 +79,17 @@ class ContractTests(unittest.TestCase):
     def test_deadline_cannot_shrink(self):
         self.plan['groups'][-1]['deadline_seconds'] -= 1
         with self.assertRaisesRegex(ValueError, 'deadline changed'):
+            self.check()
+
+    def test_measurement_repeats_cannot_become_retries(self):
+        reference = self.plan['control_inventory']
+        path = self.root/reference['path']
+        inventory = json.loads(path.read_text())
+        next(c for c in inventory['controls'] if c['stage'] == 'warm')['measurement_repeats'] = 1
+        raw = json.dumps(inventory).encode()
+        path.write_bytes(raw)
+        reference['sha256'] = hashlib.sha256(raw).hexdigest()
+        with self.assertRaisesRegex(ValueError, 'measurement repeats'):
             self.check()
 
 
