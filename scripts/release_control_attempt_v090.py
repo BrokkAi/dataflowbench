@@ -136,6 +136,10 @@ def _load_bound_control(root, contract_path, control_id, *, require_authorized, 
         raise ControlError("control execution root must be an absolute path")
     if Path(mapped_root).resolve(strict=True) != root:
         raise ControlError("supplied execution root differs from contract.control_execution_roots")
+    canonical_roots = [Path(value).resolve(strict=False) for value in control_roots.values()
+                       if isinstance(value, str) and Path(value).is_absolute()]
+    if len(canonical_roots) != len(control_roots) or len(set(canonical_roots)) != len(canonical_roots):
+        raise ControlError("contract.control_execution_roots must map every control to a unique absolute root")
 
     argv = control.get("argv")
     if (not isinstance(argv, list) or not argv or
@@ -220,6 +224,12 @@ def _load_bound_control(root, contract_path, control_id, *, require_authorized, 
             raise ControlError("tools.runner and runner_build binary identity mismatch")
         if not isinstance(runner_build.get("source_commit"), str) or not isinstance(runner_build.get("source_files"), dict):
             raise ControlError("runner_build lacks source commit or source file provenance")
+        build_refs = [path for path in input_identities if Path(path).name == "runner-build.json"]
+        if len(build_refs) != 1:
+            raise ControlError("runner_build must be bound by exactly one contract input identity")
+        build_value, _ = _HELPERS._read_json(root / build_refs[0], "runner build provenance")
+        if build_value != runner_build:
+            raise ControlError("contract runner_build differs from its hash-bound provenance file")
         runner_identity = {"path": str(binary_path), "sha256": binary_sha,
                            "source_commit": runner_build["source_commit"],
                            "source_files": runner_build["source_files"],
@@ -298,13 +308,13 @@ def _append_ledger(path: Path, row: dict) -> None:
 def _capture_roots(root: Path, attempt: Path, roots: list[str]) -> tuple[list[dict], list[str], list[str]]:
     files, missing, errors = [], [], []
     for value in roots:
-        relative = _HELPERS._relative(value, "control output root")
-        source = _HELPERS._safe_path(root, relative, allow_missing=True)
-        if not source.exists() and not source.is_symlink():
-            missing.append(value)
-            continue
-        target = attempt / "capture" / Path(*relative.parts)
         try:
+            relative = _HELPERS._relative(value, "control output root")
+            source = _HELPERS._safe_path(root, relative, allow_missing=True)
+            if not source.exists() and not source.is_symlink():
+                missing.append(value)
+                continue
+            target = attempt / "capture" / Path(*relative.parts)
             files.extend(_HELPERS._copy_tree(root, relative, target))
         except Exception as exc:
             errors.append(f"{value}: {type(exc).__name__}: {exc}")

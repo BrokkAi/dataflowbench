@@ -151,6 +151,10 @@ class ControlAttemptTests(unittest.TestCase):
         self.contract["runner_build"] = {"binary_path": str(binary), "binary_sha256": digest,
             "source_commit": "b" * 40, "source_files": {"src/main.rs": "c" * 64},
             "schema": "release-runner-build/v1"}
+        build_path = 'reports/releases/v0.9.0/execution-v1/runner-build.json'
+        build_raw = self._json(self.contract['runner_build'])
+        self._write(build_path, build_raw)
+        self.contract['input_identities'][build_path] = self.sha(build_raw)
         self._write(CONTRACT, self._json(self.contract))
         validated = RECORDER.validate_control(self.root, CONTRACT, self.control_id)
         self.assertEqual(validated["script_identity"], [])
