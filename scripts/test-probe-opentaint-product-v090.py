@@ -139,6 +139,32 @@ class Fixture:
 
 
 class ProductProbeV090Tests(unittest.TestCase):
+    def test_explicit_ready_contract_inventory_and_wrong_path_guard(self):
+        contract = json.loads(self.fx.contract_path.read_bytes())
+        self.fx._json(self.fx.contract_path, {**contract, 'execution_authorized': False})
+        original = self.fx.contract_path.read_bytes()
+        inventory = json.loads(self.fx.control_path.read_text())
+        ready_rel = Path('reports/releases/v0.9.0/execution-v1/final-01/contract.json')
+        inventory_rel = Path('reports/releases/v0.9.0/execution-v1/final-01/control-inventory.json')
+        inventory['controls'][0]['argv'] += ['--contract', ready_rel.as_posix()]
+        self.fx._json(self.fx.root/inventory_rel, inventory)
+        digest = sha((self.fx.root/inventory_rel).read_bytes())
+        contract['control_inventory'] = {'path': inventory_rel.as_posix(), 'sha256': digest}
+        contract['input_identities'][inventory_rel.as_posix()] = digest
+        self.fx._json(self.fx.root/ready_rel, contract)
+        self.assertEqual(MODULE.capture(self.fx.root, ready_rel, MODULE.OUTPUT_REL,
+                                       runner=self.successful_runner([])), 0)
+        self.assertEqual(self.fx.contract_path.read_bytes(), original)
+        inventory['controls'][0]['argv'][-1] = 'reports/releases/v0.9.0/execution-v1/other.json'
+        self.fx._json(self.fx.root/inventory_rel, inventory)
+        digest = sha((self.fx.root/inventory_rel).read_bytes())
+        contract['control_inventory']['sha256'] = digest
+        contract['input_identities'][inventory_rel.as_posix()] = digest
+        self.fx._json(self.fx.root/ready_rel, contract)
+        with self.assertRaisesRegex(MODULE.ProbeError, 'exact contract path'):
+            MODULE.capture(self.fx.root, ready_rel, 'reports/raw/rejected', runner=self.successful_runner([]))
+        self.assertFalse((self.fx.root/'reports/raw/rejected').exists())
+
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)

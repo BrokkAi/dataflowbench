@@ -53,7 +53,7 @@ def _bound_contract_input(root: Path, reference: Mapping[str, object], label: st
     return candidate
 
 
-def _check_control_environment(contract: Mapping[str, object], root: Path) -> dict[str, str]:
+def _check_control_environment(contract: Mapping[str, object], root: Path, contract_path: Path) -> dict[str, str]:
     reference = contract.get("control_inventory")
     if not isinstance(reference, dict):
         raise ValueError("v0.9 contract has no bound control inventory")
@@ -88,8 +88,13 @@ def _check_control_environment(contract: Mapping[str, object], root: Path) -> di
     ]:
         raise ValueError("Python modeling probe differs from control inventory script identity")
     argv = control.get("argv")
-    if not isinstance(argv, list) or not argv or argv[-1] != "scripts/probe-python-modeling-load-bearing-v090.py":
-        raise ValueError("Python modeling control inventory points at a different script")
+    relative_contract = contract_path.resolve().relative_to(root.resolve()).as_posix()
+    if not relative_contract.startswith('reports/releases/v0.9.0/execution-v1/'):
+        raise ValueError('contract must be inside the versioned execution plan')
+    expected = ['/usr/bin/python3', script_path, '--contract', relative_contract]
+    legacy = ['/usr/bin/python3', script_path]
+    if argv != expected and not (relative_contract == 'reports/releases/v0.9.0/execution-v1/contract.json' and argv == legacy):
+        raise ValueError('Python modeling argv must bind this exact contract path')
     roots = control.get("output_roots")
     scratch_relative = "reports/raw/control-scratch/probe-python-modeling-load-bearing"
     if not isinstance(roots, list) or scratch_relative not in roots or "reports/raw/load-bearing-python-modeling-v090" not in roots:
@@ -540,7 +545,7 @@ def capture(
         raise ValueError("execution authorization required: reviewed executable contract required")
 
     # Complete every authorization and identity check before creating output.
-    control_environment = _check_control_environment(contract, root)
+    control_environment = _check_control_environment(contract, root, contract_path)
     tools = _check_held_tool_digests(contract, contract_path, root)
     output_root.mkdir(parents=True, exist_ok=False)
     workspace = output_root / "workspace"
