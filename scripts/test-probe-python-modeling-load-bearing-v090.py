@@ -158,6 +158,32 @@ def prepared_root(root: Path) -> tuple[Path, Path, Path]:
 
 
 class PythonModelingV090Tests(unittest.TestCase):
+    def test_explicit_ready_contract_preserves_disabled_canonical_and_rejects_wrong_path(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            canonical, root, scratch = prepared_root(Path(temporary))
+            contract = json.loads(canonical.read_text())
+            write_json(canonical, {**contract, 'execution_authorized': False})
+            original = canonical.read_bytes()
+            inventory = json.loads((root/contract['control_inventory']['path']).read_text())
+            ready_rel = 'reports/releases/v0.9.0/execution-v1/final-01/contract.json'
+            inventory_rel = 'reports/releases/v0.9.0/execution-v1/final-01/control-inventory.json'
+            inventory['controls'][0]['argv'] += ['--contract', ready_rel]
+            digest = write_json(root/inventory_rel, inventory)
+            contract['control_inventory'] = {'path': inventory_rel, 'sha256': digest}
+            contract['input_identities'][inventory_rel] = digest
+            ready = root/ready_rel
+            write_json(ready, contract)
+            self.assertEqual(MODULE.capture(ready, root/'output', root=root, runner=lambda *a, **k: 0), 0)
+            self.assertEqual(canonical.read_bytes(), original)
+            inventory['controls'][0]['argv'][-1] = 'reports/releases/v0.9.0/execution-v1/other.json'
+            digest = write_json(root/inventory_rel, inventory)
+            contract['control_inventory']['sha256'] = digest
+            contract['input_identities'][inventory_rel] = digest
+            write_json(ready, contract)
+            with self.assertRaisesRegex(ValueError, 'exact contract path'):
+                MODULE.capture(ready, root/'rejected', root=root, runner=lambda *a, **k: 0)
+            self.assertFalse((root/'rejected').exists())
+
     def test_denied_execution_creates_no_output_and_never_calls_runner(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
