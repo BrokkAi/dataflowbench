@@ -68,3 +68,18 @@ implied by this selection; the [Swift contract](swift-kernel.md) records the
 unresolved scope. `scripts/write-swift-population.py` authors the initial
 manifest and refuses to overwrite one. Future published fixture changes need a
 new population identity and explicit review.
+
+## Prospective v0.9.0 common population
+
+`--population v0.9.0` selects the registered 1,108-case union of the v0.8.0
+1,000-case corpus and `swift-synthetic-v3`'s 108 cases. A scan of `cases/` alone sees
+1,104 cases with 104 Swift inputs. The runner already includes the four opaque
+Swift inputs under `populations/swift-opaque-v3`, so its default discovery is
+1,108 cases with 108 Swift inputs. The named common population pins those exact
+bytes and membership independently of future default discovery.
+The old named populations retain their exact membership and fixture revisions.
+
+This selection is prospective and does not publish new results or activate a
+score. Use the [v0.9.0 release contract](v0.9.0-release-contract.md) and its exact
+partition plan before execution. All freeze-bound reports require fresh evidence
+under the common revision; historical revision strings must not be relabeled.
