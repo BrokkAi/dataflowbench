@@ -813,25 +813,35 @@ pub(crate) fn build_freeze_manifest(
     }
 
     // Index every case in the repository by ID, with repository-relative paths.
+    // Keep this root set aligned with canonical discovery in `cases.rs`; the
+    // opaque Swift v3 cases live outside `cases/` but are part of named unions.
     let mut case_index = BTreeMap::new();
-    for entry in WalkDir::new(root.join("cases")) {
-        let entry = entry.context("walk cases directory")?;
-        if !entry.file_type().is_file() || entry.file_name() != "case.json" {
+    for relative_root in ["cases", "populations/swift-opaque-v3"] {
+        let case_root = root.join(relative_root);
+        // Small freeze fixtures need not include every optional repository
+        // population directory. If present, traversal errors still fail closed.
+        if relative_root != "cases" && !case_root.exists() {
             continue;
         }
-        let bytes = fs::read(entry.path())
-            .with_context(|| format!("read case {}", entry.path().display()))?;
-        let case: Value = serde_json::from_slice(&bytes)
-            .with_context(|| format!("parse case {}", entry.path().display()))?;
-        let relative = entry
-            .path()
-            .strip_prefix(root)
-            .expect("walked under repository root")
-            .to_string_lossy()
-            .replace('\\', "/");
-        let id = required_string(&case, "id", &relative)?.to_string();
-        if case_index.insert(id.clone(), (relative, case)).is_some() {
-            bail!("case ID {id} appears in more than one case file");
+        for entry in WalkDir::new(&case_root) {
+            let entry = entry.with_context(|| format!("walk {relative_root}"))?;
+            if !entry.file_type().is_file() || entry.file_name() != "case.json" {
+                continue;
+            }
+            let bytes = fs::read(entry.path())
+                .with_context(|| format!("read case {}", entry.path().display()))?;
+            let case: Value = serde_json::from_slice(&bytes)
+                .with_context(|| format!("parse case {}", entry.path().display()))?;
+            let relative = entry
+                .path()
+                .strip_prefix(root)
+                .expect("walked under repository root")
+                .to_string_lossy()
+                .replace('\\', "/");
+            let id = required_string(&case, "id", &relative)?.to_string();
+            if case_index.insert(id.clone(), (relative, case)).is_some() {
+                bail!("case ID {id} appears in more than one case file");
+            }
         }
     }
 
