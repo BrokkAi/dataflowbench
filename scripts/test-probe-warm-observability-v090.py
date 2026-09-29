@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import Mock, patch
 
 
 SCRIPT = Path(__file__).with_name("probe-warm-observability-v090.py")
@@ -33,6 +34,26 @@ def fixture_contract() -> dict:
 
 
 class WarmObservabilityV090Tests(unittest.TestCase):
+    def test_interruption_kills_nested_group_and_restores_handlers(self):
+        process = Mock(pid=12345)
+        process.wait.side_effect = [KeyboardInterrupt(), 0, 0]
+        original = {sig: MODULE.signal.getsignal(sig) for sig in (MODULE.signal.SIGTERM, MODULE.signal.SIGINT)}
+        with patch.object(MODULE.subprocess, 'Popen', return_value=process), patch.object(MODULE.os, 'killpg') as kill:
+            with self.assertRaises(KeyboardInterrupt):
+                MODULE._run_bounded(['fake'], cwd=Path('.'), stdout=None, stderr=None, env={})
+            self.assertEqual([call.args[1] for call in kill.call_args_list], [MODULE.signal.SIGTERM, MODULE.signal.SIGKILL])
+        self.assertEqual({sig: MODULE.signal.getsignal(sig) for sig in original}, original)
+
+    def test_pinned_product_uses_bundled_jre(self) -> None:
+        contract = fixture_contract()
+        contract['tools']['opentaint-wrapper'] = {'path': '/held/product/opentaint', 'sha256': 'a' * 64}
+        command = MODULE.command_inventory(contract)[-1]
+        self.assertEqual(command['argv'], ['/held/product/opentaint', 'scan', '--help'])
+        env = MODULE._group_environment(contract, 'opentaint-product')
+        self.assertEqual(env['JAVA_HOME'], '/held/product/jre')
+        self.assertEqual(env['PATH'], '/held/product/jre/bin:/pinned/bin')
+        self.assertEqual(contract['groups'][-1]['environment']['JAVA_HOME'], '/pinned/jdk')
+
     def test_uses_only_v090_pins_and_skips_unpinned_wrapper(self) -> None:
         inventory = MODULE.command_inventory(fixture_contract())
         self.assertEqual(len(inventory), 10)

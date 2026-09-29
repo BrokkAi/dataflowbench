@@ -20,9 +20,16 @@ def launch_gate(root, contract, group):
     head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
     if contract.get('harness_commit') != head:
         raise AttemptError('execution checkout is not the exact reviewed harness')
+    changed = subprocess.check_output(
+        ['git', 'diff', '--name-only', 'HEAD', '--', 'src', 'cases', 'populations',
+         'adapters', 'scripts', 'Cargo.toml', 'Cargo.lock'], cwd=root, text=True)
+    if changed.strip():
+        raise AttemptError('execution source differs from the reviewed harness: ' + changed.strip())
     # A single designated root per group prevents a fresh checkout resetting
     # the recorder-local two-attempt bound. The separate preparer reserves it.
     designated = contract.get('execution_roots', {}).get(group['id'])
+    if designated is None:
+        designated = contract.get('control_execution_roots', {}).get(group['id'])
     if not designated or Path(designated).resolve() != root:
         raise AttemptError('group execution root is not explicitly designated')
     runner = contract['tools']['runner']
@@ -47,10 +54,12 @@ def launch_gate(root, contract, group):
     if shutil.disk_usage(root).free < budget['minimum_launch_free_gib'] * 1024**3:
         raise AttemptError('launch capacity below reviewed floor')
     used = 0
-    for owned_root in set(contract['execution_roots'].values()):
-        retained = Path(owned_root) / 'reports/releases/v0.9.0/attempts'
-        if retained.exists():
-            used += sum(p.stat().st_size for p in retained.rglob('*') if p.is_file())
+    owned_roots = set(contract['execution_roots'].values()) | set(contract.get('control_execution_roots', {}).values())
+    for owned_root in owned_roots:
+        for category in ('attempts', 'control-attempts'):
+            retained = Path(owned_root) / 'reports/releases/v0.9.0' / category
+            if retained.exists():
+                used += sum(p.stat().st_size for p in retained.rglob('*') if p.is_file())
     window_start = reservation.get('window_started_at_unix_seconds')
     if not isinstance(window_start, (int, float)) or window_start > time.time():
         raise AttemptError('recorded release window start required')

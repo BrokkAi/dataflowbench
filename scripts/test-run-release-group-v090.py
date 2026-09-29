@@ -33,14 +33,34 @@ class LaunchTests(unittest.TestCase):
                          'total_wall_budget_seconds': 102960,
                          'resource_budget': {'minimum_launch_free_gib': 100, 'proposed_total_retention_ceiling_gib': 24}}
 
-    def gate(self, *, processes='', free=120*1024**3):
+    def gate(self, *, processes='', free=120*1024**3, changed=''):
         def output(argv, **kwargs):
-            return 'a'*40 if argv[0] == 'git' else processes
+            if argv[0] == 'git':
+                return changed if argv[1] == 'diff' else 'a'*40
+            return processes
         with patch('release_runtime_inventory_v090.verify', return_value=True), patch.object(launch.subprocess, 'check_output', side_effect=output), patch.object(launch.shutil, 'disk_usage', return_value=types.SimpleNamespace(free=free)):
             launch.launch_gate(self.root, self.contract, {'id': 'one', 'deadline_seconds': 600})
 
     def test_valid_gate(self):
         self.gate()
+
+    def test_dirty_fixture_blocks_exact_harness_claim(self):
+        with self.assertRaisesRegex(launch.AttemptError, 'source differs'):
+            self.gate(changed='cases/taint/java/direct-positive/Main.java\n')
+
+    def test_control_uses_its_designated_root(self):
+        self.contract['execution_roots'] = {}
+        self.contract['control_execution_roots'] = {'one': str(self.root)}
+        self.gate()
+
+    def test_retention_counts_other_control_roots(self):
+        retained = self.root/'other/reports/releases/v0.9.0/control-attempts'
+        retained.mkdir(parents=True)
+        (retained/'raw').write_bytes(b'ab')
+        self.contract['control_execution_roots'] = {'control': str(self.root/'other')}
+        self.contract['resource_budget']['proposed_total_retention_ceiling_gib'] = 1 / 1024**3
+        with self.assertRaisesRegex(launch.AttemptError, 'retention budget'):
+            self.gate()
 
     def test_another_build_blocks(self):
         with self.assertRaisesRegex(launch.AttemptError, 'contending'):
