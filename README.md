@@ -479,7 +479,7 @@ the `--check` mode.
 
 ## Website
 
-The public site at <https://dataflowbench.brokk.ai> is an Astro
+The public site at <https://dataflowbench.slopcop.com> is an Astro
 Starlight package in `docs/`; every number it shows is rendered from the
 generated `results/results.json`, never hand-authored. Develop locally with:
 

@@ -59,8 +59,15 @@ const previousLabel = previousSnapshot
   : '';
 
 // Production deployment target for GitHub Pages.
+const site = 'https://dataflowbench.slopcop.com';
+const base = '/';
+/** The published root, for the absolute URLs social cards need. */
+const siteRoot = new URL(base.replace(/\/?$/, '/'), site);
+const socialCard = new URL('og-image.png', siteRoot).href;
+
 export default defineConfig({
-  site: 'https://dataflowbench.brokk.ai',
+  site,
+  base,
   markdown: {
     // `## Heading {#legacy-id}` — explicit anchors for headings whose ids are
     // citable and must not follow the auto-slugger. See the plugin's comment.
@@ -82,6 +89,33 @@ export default defineConfig({
       // then this site's accent, palette and layout on top of it.
       customCss: ['./src/styles/foundation.css', './src/styles/custom.css'],
       logo: { src: './src/assets/mark.svg', alt: '' },
+      head: [
+        { tag: 'meta', attrs: { property: 'og:image', content: socialCard } },
+        { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+        { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:image:alt',
+            content: 'DataFlowBench: how well do static analyzers follow data flow?',
+          },
+        },
+        { tag: 'meta', attrs: { name: 'twitter:image', content: socialCard } },
+        {
+          tag: 'script',
+          attrs: { type: 'application/ld+json' },
+          content: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'DataFlowBench',
+            url: siteRoot.href,
+            publisher: { '@type': 'Organization', name: 'SlopCop', url: 'https://slopcop.com' },
+          }),
+        },
+      ],
+      // Archived snapshot pages get their release named in their search
+      // description, so no two pages share one. See src/routeData.ts.
+      routeMiddleware: './src/routeData.ts',
       expressiveCode: {
         styleOverrides: {
           borderRadius: '0px',
