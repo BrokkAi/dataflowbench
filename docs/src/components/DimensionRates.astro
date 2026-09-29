@@ -18,7 +18,7 @@ function fraction(rate: RateFraction | null): string {
 }
 ---
 
-<div class="table-scroll">
+<div class="table-scroll ds-table">
   <table>
     <thead>
       <tr>
@@ -50,10 +50,10 @@ function fraction(rate: RateFraction | null): string {
             <td>{dimension.counts.inconclusive}</td>
             <td>{dimension.counts.unsupported}</td>
             <td>{dimension.counts.runner_errors}</td>
-            <td>{fraction(dimension.true_positive_rate)}</td>
-            <td>{fraction(dimension.false_positive_rate)}</td>
-            <td>{percentCell(dimension.template_macro.true_positive_rate_percent)}</td>
-            <td>{percentCell(dimension.template_macro.false_positive_rate_percent)}</td>
+            <td class="rate">{fraction(dimension.true_positive_rate)}</td>
+            <td class="rate">{fraction(dimension.false_positive_rate)}</td>
+            <td class="rate">{percentCell(dimension.template_macro.true_positive_rate_percent)}</td>
+            <td class="rate">{percentCell(dimension.template_macro.false_positive_rate_percent)}</td>
           </tr>
         ))
       }
@@ -64,5 +64,9 @@ function fraction(rate: RateFraction | null): string {
 <style>
   .table-scroll {
     overflow-x: auto;
+  }
+  /* A rate reads as one figure; its header wraps over it instead. */
+  .rate {
+    white-space: nowrap;
   }
 </style>

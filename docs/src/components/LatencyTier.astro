@@ -173,7 +173,7 @@ interface Props {
   every number on this page.
 </p>
 
-<div class="table-scroll">
+<div class="table-scroll ds-table">
   <table>
     <thead>
       <tr>
@@ -235,7 +235,7 @@ interface Props {
   side by side as though they were.
 </p>
 
-<div class="table-scroll">
+<div class="table-scroll ds-table">
   <table>
     <thead>
       <tr>
@@ -329,7 +329,7 @@ interface Props {
     Show the data table — analyzer-invocation wall-clock per adapter, with minima
     and maxima
   </summary>
-  <div class="table-scroll">
+  <div class="table-scroll ds-table">
     <table>
       <thead>
         <tr>
@@ -404,7 +404,7 @@ interface Props {
           adapter.phases.length
         } observable phases against its analyzer total`}
       </summary>
-      <div class="table-scroll">
+      <div class="table-scroll ds-table">
         <table>
           <thead>
             <tr>
@@ -507,7 +507,7 @@ interface Props {
   </p>
 ) : (
   <>
-    <div class="table-scroll">
+    <div class="table-scroll ds-table">
       <table>
         <thead>
           <tr>
@@ -611,7 +611,7 @@ interface Props {
       auditable if it is still legible beside the one that replaced it.
     </p>
 
-    <div class="table-scroll">
+    <div class="table-scroll ds-table">
       <table>
         <thead>
           <tr>
@@ -707,7 +707,7 @@ interface Props {
             measurement.language
           } kernel, all ${measurement.runs.length} retained repeats`}
         </summary>
-        <div class="table-scroll">
+        <div class="table-scroll ds-table">
           <table>
             <thead>
               <tr>
@@ -798,7 +798,7 @@ interface Props {
   runtime or from another adapter's slope.
 </p>
 
-<div class="table-scroll">
+<div class="table-scroll ds-table">
   <table>
     <thead>
       <tr>
@@ -816,7 +816,7 @@ interface Props {
               aria-hidden="true"></span>
             {vendorName(measurement.tool)}
           </td>
-          <td><strong>Yes — measured</strong></td>
+          <td class="observable"><strong>Yes — measured</strong></td>
           <td>
             A released multi-case batch that does the same per-case work, timed
             above.
@@ -832,7 +832,7 @@ interface Props {
               aria-hidden="true"></span>
             {vendorName(decline.tool)}
           </td>
-          <td>
+          <td class="observable">
             {decline.verdict === 'deferred' ? (
               <strong>Yes in the CLI — not measured here</strong>
             ) : (
@@ -913,7 +913,7 @@ interface Props {
   one, and never used to order a row.
 </p>
 
-<div class="table-scroll">
+<div class="table-scroll ds-table">
   <table>
     <thead>
       <tr>
@@ -1076,7 +1076,7 @@ interface Props {
   selects.
 </p>
 
-<div class="table-scroll">
+<div class="table-scroll ds-table">
   <table>
     <thead>
       <tr>
@@ -1185,7 +1185,7 @@ interface Props {
           adapter.slices.length === 1 ? 'slice' : 'slices'
         } for ${vendorName(adapter.tool)}`}
       </summary>
-      <div class="table-scroll">
+      <div class="table-scroll ds-table">
         <table>
           <thead>
             <tr>
@@ -1207,7 +1207,7 @@ interface Props {
             {adapter.slices.map((slice) => (
               <tr>
                 <td><code>{slice.report.replace(/^reports\//, '').replace(/\.json$/, '')}</code></td>
-                <td>{slice.language}</td>
+                <td class="language">{slice.language}</td>
                 <td><code>{slice.modelProfile}</code></td>
                 <td>
                   {slice.timed} / {slice.cases}
@@ -1243,7 +1243,7 @@ interface Props {
   accounted for:
 </p>
 
-<div class="table-scroll">
+<div class="table-scroll ds-table">
   <table>
     <thead>
       <tr>
@@ -1306,21 +1306,35 @@ interface Props {
 </>)}
 
 <style>
+  /* An analyzer's name stays on one line beside its dot, in every table
+     here; a two-word name split under its own dot reads as two rows. */
+  td:has(> .vendor-dot:first-child) {
+    white-space: nowrap;
+  }
+  /* The verdict is a short phrase; given a floor, it reads in two lines
+     beside its evidence instead of one word to a line. */
+  .observable {
+    min-width: 10rem;
+  }
+  /* A language, or the smoke slice's "13 languages", is one label. */
+  .language {
+    white-space: nowrap;
+  }
   .vendor-dot {
     display: inline-block;
     width: 0.55rem;
     height: 0.55rem;
     border-radius: 50%;
-    margin-right: 0.4rem;
+    margin-right: 0.45rem;
     vertical-align: baseline;
     background: var(--vendor-rule, var(--sl-color-accent));
   }
   .caption {
     font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
   }
   .muted {
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
   }
   .table-scroll {
     overflow-x: auto;

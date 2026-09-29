@@ -50,7 +50,7 @@ rows.sort(
 );
 ---
 
-<div class="table-scroll">
+<div class="table-scroll ds-table">
   <table>
     <thead>
       <tr>
@@ -67,13 +67,13 @@ rows.sort(
       {
         rows.map((row) => (
           <tr>
-            <td>
+            <td class="template">
               <code>{row.template}</code>
             </td>
             <td>
               <code>{row.language}</code>
             </td>
-            <td>
+            <td class="scorecard">
               <code>{row.scorecard}</code>
             </td>
             <td>
@@ -96,5 +96,19 @@ rows.sort(
 <style>
   .table-scroll {
     overflow-x: auto;
+  }
+  /* Template and scorecard ids wrap at their hyphens, two or three lines to
+     an id; below that the matrix pans instead of stacking one piece per
+     line. */
+  .template {
+    min-width: 9.5rem;
+  }
+  .scorecard {
+    min-width: 10.5rem;
+  }
+  /* Seven columns of short terms: the tighter gap the foundation gives tables
+     of eight or more keeps both id columns their room at 1440px. */
+  table :is(th, td):not(:last-child) {
+    padding-inline-end: 0.7rem;
   }
 </style>

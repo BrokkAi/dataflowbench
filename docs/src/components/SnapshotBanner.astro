@@ -34,11 +34,12 @@ const { benchmark, manifest, claim } = snapshot.results;
 
 <style>
   .snapshot-banner {
-    border: 1px solid var(--sl-color-hairline);
-    border-inline-start: 4px solid var(--sl-color-accent);
-    border-radius: 0.5rem;
-    padding: 0.75rem 1rem;
-    background: var(--sl-color-bg-sidebar);
+    border: 1px solid var(--ds-line);
+    border-inline-start: 2px solid var(--ds-accent);
+    border-radius: 0 var(--ds-cut-control) var(--ds-cut-control) 0;
+    corner-shape: bevel;
+    padding: 0.85rem 1.1rem;
+    background: var(--ds-surface);
   }
   .snapshot-banner ul {
     margin: 0.25rem 0 0;
@@ -46,10 +47,13 @@ const { benchmark, manifest, claim } = snapshot.results;
   .current-pill {
     display: inline-block;
     margin-inline-start: 0.5rem;
-    padding: 0 0.5rem;
-    border-radius: 999px;
+    padding: 0.05rem 0.45rem;
+    border: 1px solid var(--ds-accent-line);
+    border-radius: var(--ds-cut-badge);
+    corner-shape: bevel;
     font-size: var(--sl-text-xs);
-    background: var(--sl-color-accent-low);
-    color: var(--sl-color-accent-high);
+    font-weight: 500;
+    background: var(--ds-accent-low);
+    color: var(--ds-accent-text);
   }
 </style>

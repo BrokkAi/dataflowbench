@@ -4,6 +4,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { snapshots } from './src/data/snapshots';
 import { remarkHeadingIds } from './src/plugins/remark-heading-ids.mjs';
+import { rehypeTableScroll } from './src/plugins/rehype-table-scroll.mjs';
 
 // ---------------------------------------------------------------------------
 // Snapshot navigation.
@@ -58,12 +59,21 @@ const previousLabel = previousSnapshot
   : '';
 
 // Production deployment target for GitHub Pages.
+const site = 'https://dataflowbench.slopcop.com';
+const base = '/';
+/** The published root, for the absolute URLs social cards need. */
+const siteRoot = new URL(base.replace(/\/?$/, '/'), site);
+const socialCard = new URL('og-image.png', siteRoot).href;
+
 export default defineConfig({
-  site: 'https://dataflowbench.brokk.ai',
+  site,
+  base,
   markdown: {
     // `## Heading {#legacy-id}` — explicit anchors for headings whose ids are
     // citable and must not follow the auto-slugger. See the plugin's comment.
     remarkPlugins: [remarkHeadingIds],
+    // Each table in a scroll box, so a wide one pans instead of overflowing.
+    rehypePlugins: [rehypeTableScroll],
   },
   redirects: {
     // Explicit current-snapshot pointer alongside versioned snapshot URLs.
@@ -75,7 +85,44 @@ export default defineConfig({
       favicon: '/favicon.svg',
       description:
         'Analyzer-neutral benchmark for data-flow analysis, published exclusively from immutable freeze evidence.',
-      customCss: ['./src/styles/custom.css'],
+      // The shared foundation first (identical in the UsageBench repository),
+      // then this site's accent, palette and layout on top of it.
+      customCss: ['./src/styles/foundation.css', './src/styles/custom.css'],
+      logo: { src: './src/assets/mark.svg', alt: '' },
+      head: [
+        { tag: 'meta', attrs: { property: 'og:image', content: socialCard } },
+        { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+        { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:image:alt',
+            content: 'DataFlowBench: how well do static analyzers follow data flow?',
+          },
+        },
+        { tag: 'meta', attrs: { name: 'twitter:image', content: socialCard } },
+        {
+          tag: 'script',
+          attrs: { type: 'application/ld+json' },
+          content: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'DataFlowBench',
+            url: siteRoot.href,
+            publisher: { '@type': 'Organization', name: 'SlopCop', url: 'https://slopcop.com' },
+          }),
+        },
+      ],
+      // Archived snapshot pages get their release named in their search
+      // description, so no two pages share one. See src/routeData.ts.
+      routeMiddleware: './src/routeData.ts',
+      expressiveCode: {
+        styleOverrides: {
+          borderRadius: '0px',
+          codeFontFamily: "'JetBrains Mono', ui-monospace, monospace",
+          uiFontFamily: "'Apfel Grotezk', ui-sans-serif, system-ui, sans-serif",
+        },
+      },
       components: {
         // Starlight's own footer, with the floating "back to top" control
         // appended. The footer is the one slot that renders exactly once on

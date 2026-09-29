@@ -113,11 +113,12 @@ const entries = archived.map((snapshot) => ({
     gap: 1rem;
   }
   .archive-entry {
-    border: 1px solid var(--sl-color-hairline);
-    border-inline-start: 4px solid var(--sl-color-gray-4);
-    border-radius: 0.5rem;
-    padding: 0.75rem 1rem 1rem;
-    background: var(--sl-color-bg-sidebar);
+    border: 1px solid var(--ds-line);
+    border-inline-start: 2px solid var(--ds-line-strong);
+    border-radius: 0 var(--ds-cut-control) var(--ds-cut-control) 0;
+    corner-shape: bevel;
+    padding: 0.9rem 1.1rem 1.1rem;
+    background: var(--ds-surface);
   }
   .archive-entry h3 {
     margin: 0;
@@ -128,12 +129,14 @@ const entries = archived.map((snapshot) => ({
     gap: 0.5rem;
   }
   .archived-pill {
-    padding: 0 0.5rem;
-    border-radius: 999px;
+    padding: 0.05rem 0.45rem;
+    border: 1px solid var(--ds-line-strong);
+    border-radius: var(--ds-cut-badge);
+    corner-shape: bevel;
     font-size: var(--sl-text-xs);
-    font-weight: 400;
-    background: var(--sl-color-gray-6);
-    color: var(--sl-color-gray-2);
+    font-weight: 500;
+    background: var(--ds-control);
+    color: var(--ds-text-2);
   }
   .summary {
     margin: 0.5rem 0 0;
@@ -141,7 +144,7 @@ const entries = archived.map((snapshot) => ({
   .scale {
     margin: 0.5rem 0 0;
     font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-2);
+    color: var(--ds-text-2);
   }
   .identity {
     margin: 0.75rem 0 0;
@@ -151,8 +154,8 @@ const entries = archived.map((snapshot) => ({
     font-size: var(--sl-text-sm);
   }
   .identity dt {
-    font-weight: 600;
-    color: var(--sl-color-gray-2);
+    font-weight: 500;
+    color: var(--ds-text-3);
   }
   .identity dd {
     margin: 0 0 0.4rem;
