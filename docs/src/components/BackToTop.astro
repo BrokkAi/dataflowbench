@@ -68,13 +68,14 @@
     justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 999px;
+    border: 1px solid var(--ds-line-strong);
+    border-radius: var(--ds-cut-chip);
+    corner-shape: bevel;
     /* The nav's own background: this floats over the page, so it should read
        as chrome rather than as another card. */
     background: var(--sl-color-bg-nav);
-    color: var(--sl-color-gray-2);
-    box-shadow: var(--sl-shadow-md);
+    color: var(--ds-text-2);
+    box-shadow: var(--ds-shadow-float);
 
     /* Hidden until the reader has scrolled. `visibility` rather than opacity
        alone so the anchor leaves the tab order while it is not on offer. */
@@ -94,12 +95,12 @@
   }
 
   .to-top:hover {
-    color: var(--sl-color-white);
-    border-color: var(--sl-color-accent);
+    color: var(--ds-text);
+    border-color: var(--ds-accent);
   }
 
   .to-top:focus-visible {
-    outline: 2px solid var(--sl-color-accent-high);
+    outline: 2px solid var(--ds-accent);
     outline-offset: 2px;
   }
 

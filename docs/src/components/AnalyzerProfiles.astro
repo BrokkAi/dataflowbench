@@ -300,17 +300,19 @@ const cards = model.profiles.map((profile) => {
   }
   .profile-card {
     margin: 0;
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.75rem;
-    padding: 0.75rem 0.75rem 0.6rem;
-    background: var(--sl-color-bg-sidebar);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-cut-control);
+    corner-shape: bevel;
+    padding: 0.95rem 1rem 0.85rem;
+    background: var(--ds-surface);
   }
   .profile-name {
     display: flex;
     align-items: center;
-    font-weight: 600;
+    font-weight: 500;
     font-size: var(--sl-text-base);
-    color: var(--sl-color-white);
+    letter-spacing: -0.01em;
+    color: var(--ds-text);
     margin: 0 0 0.25rem;
   }
   .vendor-dot {
@@ -318,7 +320,7 @@ const cards = model.profiles.map((profile) => {
     width: 0.55rem;
     height: 0.55rem;
     border-radius: 50%;
-    margin-right: 0.4rem;
+    margin-right: 0.45rem;
     background: var(--vendor-rule, var(--sl-color-accent));
   }
   .profile-radar {
@@ -328,11 +330,11 @@ const cards = model.profiles.map((profile) => {
   }
   .profile-radar .ring {
     fill: none;
-    stroke: var(--sl-color-hairline);
+    stroke: var(--ds-line);
     stroke-width: 1;
   }
   .profile-radar .spoke {
-    stroke: var(--sl-color-hairline);
+    stroke: var(--ds-line-soft);
     stroke-width: 1;
   }
   .profile-radar .shape {
@@ -346,9 +348,10 @@ const cards = model.profiles.map((profile) => {
     fill: var(--vendor-rule, var(--sl-color-accent));
   }
   .profile-radar .axis-label {
-    font-family: var(--__sl-font-mono);
-    font-size: 11px;
-    fill: var(--sl-color-gray-3);
+    font-family: var(--ds-font);
+    font-size: 11.5px;
+    font-weight: 500;
+    fill: var(--ds-text-3);
   }
   .readings {
     display: grid;
@@ -358,26 +361,25 @@ const cards = model.profiles.map((profile) => {
     font-size: var(--sl-text-xs);
   }
   .readings dt {
-    font-family: var(--__sl-font-mono);
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
   }
   .readings dd {
     margin: 0;
     display: flex;
     flex-direction: column;
     line-height: 1.3;
-    color: var(--sl-color-gray-2);
+    color: var(--ds-text-2);
   }
   .readings .basis {
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
   }
   .axis-notes {
     font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
   }
   .caption {
     font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-3);
+    color: var(--ds-text-3);
   }
   /* The same fixed vendor→colour identity map every other section uses. */
   .v0 {
