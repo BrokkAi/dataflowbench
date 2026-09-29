@@ -1,0 +1,35 @@
+{
+  "checked_at": "2026-09-29T11:55:58.016017+00:00",
+  "environment": {
+    "PATH": "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin:/usr/bin:/bin",
+    "SEMGREP_ENABLE_VERSION_CHECK": "0"
+  },
+  "observations": [
+    {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "1.177.0\n",
+      "stderr": "",
+      "executable_sha256": "297428de56e052760598a8e44fb906ee2437209fe74886823432781f1f556328"
+    },
+    {
+      "argv": [
+        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/lib/python3.10/site-packages/semgrep/bin/semgrep-core",
+        "-version"
+      ],
+      "exit_code": 0,
+      "stdout": "semgrep-core version: 1.177.0 (5df3f053b3)\n",
+      "stderr": "",
+      "executable_sha256": "afe17950f778c37402bf1791e92ec63ce834856fae5c4af14b67acee15da0d62"
+    }
+  ],
+  "initial_default_path_witness": {
+    "launcher": "1.176.0",
+    "core": "1.177.0 (5df3f053b3)"
+  },
+  "cause": "Entrypoint appends venv scripts to PATH, allowing fallback pysemgrep from earlier system PATH. Prepend exact venv to bind launcher/core pair.",
+  "historical_venv_mutated": false
+}

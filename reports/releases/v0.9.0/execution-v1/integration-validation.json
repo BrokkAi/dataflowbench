@@ -1,0 +1,46 @@
+{
+  "claim": "local-integration-validation-not-release-evidence",
+  "base_commit": "338155be17915197d0cfc9878396da70d340c73c",
+  "working_tree_dirty": true,
+  "checks": [
+    {
+      "command": "cargo fmt --check",
+      "status": "passed"
+    },
+    {
+      "command": "CARGO_TARGET_DIR=/private/tmp/dfb-v090-target cargo test --locked",
+      "status": "passed",
+      "tests": 286
+    },
+    {
+      "command": "CARGO_TARGET_DIR=/private/tmp/dfb-v090-target cargo build --release --locked -j 2",
+      "status": "passed",
+      "warning": "pre-existing unused WARM_SUPERSEDED_ROOT"
+    },
+    {
+      "command": "dataflowbench --population v0.9.0 validate",
+      "status": "passed",
+      "cases": 1108
+    },
+    {
+      "command": "dataflowbench --population v0.9.0 validate-reports",
+      "status": "passed",
+      "reports": 92
+    },
+    {
+      "command": "python3 scripts/test-v090-execution-contract.py",
+      "status": "passed",
+      "tests": 10
+    },
+    {
+      "command": "python3 scripts/test-swift-normal-runner-v1.py",
+      "status": "passed",
+      "tests": 16
+    },
+    {
+      "command": "python3 scripts/test-joern-normal-runner-v1.py",
+      "status": "passed",
+      "tests": 12
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "claim": "pinned native query suite resolution under CLI2.27.1, not corpus execution",
+  "commands": [
+    {
+      "argv": [
+        "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+        "resolve",
+        "queries",
+        "codeql/java-queries@1.11.10:codeql-suites/java-security-extended.qls",
+        "--format=json"
+      ],
+      "exit_code": 0,
+      "language": "java"
+    },
+    {
+      "argv": [
+        "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+        "resolve",
+        "queries",
+        "codeql/javascript-queries@2.4.5:codeql-suites/javascript-security-extended.qls",
+        "--format=json"
+      ],
+      "exit_code": 0,
+      "language": "javascript"
+    },
+    {
+      "argv": [
+        "/private/tmp/dfb-full108-assets-20260928/codeql-runtime/codeql/codeql",
+        "resolve",
+        "queries",
+        "codeql/python-queries@1.8.10:codeql-suites/python-security-extended.qls",
+        "--format=json"
+      ],
+      "exit_code": 0,
+      "language": "python"
+    }
+  ]
+}
