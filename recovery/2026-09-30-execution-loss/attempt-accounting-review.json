@@ -1,0 +1,1260 @@
+{
+  "schema": "v090-global-attempt-accounting-review/v1",
+  "review_date": "2026-09-30",
+  "scope": {
+    "release": "v0.9.0",
+    "operation_count": 117,
+    "composition": {
+      "matrix_groups": 84,
+      "controls": 33
+    },
+    "maximum_attempts_per_operation": 2,
+    "nominal_total_attempt_slots": 234,
+    "attempt_unit": "one recorder allocation for a group or control invocation; measurement_repeats are internal harness behavior and do not allocate separate recorder attempts",
+    "contract_used_for_operation_inventory": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/contract.json",
+    "control_inventory_used": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/control-inventory.json"
+  },
+  "finding": {
+    "severity": "release_execution_blocker",
+    "summary": "Both recorders enforce attempts inside a caller-selected execution root; cumulative v0.9 prior allocation across roots is unknown. No numerical remaining budget is claimed.",
+    "current_v0_9_authoritative_global_remaining": null,
+    "reason_authoritative_remaining_unknown": "The prior per-control execution root and local receipts/ledgers were lost. terminal-events.json records seven completed_control transcript lines and an eighth launcher failure, but not all immutable receipts. No v0.9 ledger or attempt receipt is present in this checkout. The available count is a conservative evidence-backed reservation floor, not proof that no other v0.9 attempts exist in unretained roots."
+  },
+  "recovered_launches": {
+    "source": "recovery/2026-09-30-execution-loss/terminal-events.json",
+    "completed_transcript_launch_count": 7,
+    "completed_but_unqualified_control_ids": [
+      "probe-bifrost-sanitizer-lowering",
+      "probe-bifrost-scan-native",
+      "probe-flowdroid-modeling-load-bearing",
+      "probe-flowdroid-native-shipped-surface",
+      "probe-infer-modeling-partition",
+      "probe-infer-native-activation",
+      "probe-infer-native-silence"
+    ],
+    "unknown_eighth_launch": {
+      "control_id": "probe-java-modeling-load-bearing",
+      "launcher_return_code": 1,
+      "attempt_receipt_allocation": "unknown; reserve one consumed slot conservatively",
+      "original_failure_cause": "unknown; original temporary launcher log missing",
+      "current_argument_replay": "exits before scratch creation or analyzer launch because required --codeql-packs is absent; this deterministic replay does not establish the original attempt allocation or original stderr",
+      "matrix_groups_started_in_lost_run": 0
+    },
+    "observed_or_reserved_consumed_floor": 8,
+    "interpretation": "226 is a provisional arithmetic remainder after known/reserved events only. It is not an authoritative global remainder and does not authorize launch. The 7 transcript completions and the eighth reservation all remain consumed despite zero currently qualified controls.",
+    "per_operation": [
+      {
+        "operation_id": "bifrost-c-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-cpp-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-csharp-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-go-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-java-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-java-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-java-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-javascript-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-javascript-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-javascript-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-kotlin-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-php-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-python-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-python-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-python-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-ruby-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-rust-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-scala-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-smoke",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "bifrost-typescript-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-c-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-cpp-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-csharp-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-go-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-java-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-java-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-java-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-javascript-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-javascript-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-javascript-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-kotlin-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-python-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-python-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-python-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-ruby-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-rust-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-typescript-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "flowdroid-java-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "flowdroid-java-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "flowdroid-java-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "flowdroid-kotlin-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "infer-c-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "infer-cpp-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "infer-java-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "infer-java-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "infer-java-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-java-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-java-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-java-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-javascript-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-javascript-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-javascript-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-php-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-python-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-python-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-python-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-ruby-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-rust-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "opentaint-java-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "opentaint-java-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "opentaint-java-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "opentaint-kotlin-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "pysa-python-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "pysa-python-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "pysa-python-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-c-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-cpp-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-go-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-java-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-java-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-java-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-javascript-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-javascript-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-javascript-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-kotlin-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-php-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-python-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-python-modeling",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-python-native",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-ruby-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-rust-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "semgrep-typescript-kernel",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "joern-swift-common108",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "codeql-swift-common108",
+        "kind": "matrix_group",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "no_matrix_launch_observed"
+      },
+      {
+        "operation_id": "probe-bifrost-sanitizer-lowering",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 1,
+        "authoritative_global_remaining": null,
+        "accounting_status": "lost_transcript_completion_unqualified"
+      },
+      {
+        "operation_id": "probe-bifrost-scan-native",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 1,
+        "authoritative_global_remaining": null,
+        "accounting_status": "lost_transcript_completion_unqualified"
+      },
+      {
+        "operation_id": "probe-flowdroid-modeling-load-bearing",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 1,
+        "authoritative_global_remaining": null,
+        "accounting_status": "lost_transcript_completion_unqualified"
+      },
+      {
+        "operation_id": "probe-flowdroid-native-shipped-surface",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 1,
+        "authoritative_global_remaining": null,
+        "accounting_status": "lost_transcript_completion_unqualified"
+      },
+      {
+        "operation_id": "probe-infer-modeling-partition",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 1,
+        "authoritative_global_remaining": null,
+        "accounting_status": "lost_transcript_completion_unqualified"
+      },
+      {
+        "operation_id": "probe-infer-native-activation",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 1,
+        "authoritative_global_remaining": null,
+        "accounting_status": "lost_transcript_completion_unqualified"
+      },
+      {
+        "operation_id": "probe-infer-native-silence",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 1,
+        "authoritative_global_remaining": null,
+        "accounting_status": "lost_transcript_completion_unqualified"
+      },
+      {
+        "operation_id": "probe-java-modeling-load-bearing",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 1,
+        "authoritative_global_remaining": null,
+        "accounting_status": "eighth_launcher_allocation_unknown_reserved_consumed"
+      },
+      {
+        "operation_id": "probe-javascript-modeling-load-bearing",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-joern-scan-native",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-opentaint-modeling-surface",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-opentaint-native-activation",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-opentaint-primitive-tracking",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-opentaint-scan-activation",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-opentaint-value-kind",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-pysa-callee-resolution",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-pysa-modeling-load-bearing",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-pysa-native-activation",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-semgrep-jsjava-native",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "warm-joern-java",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "warm-semgrep-java",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "overhead-bifrost-python",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "overhead-codeql-ruby",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "overhead-flowdroid-java",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "overhead-infer-c",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "overhead-joern-php",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "overhead-joern-java",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "overhead-opentaint-kotlin",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "overhead-pysa-python",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "overhead-semgrep-kotlin",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-python-modeling-load-bearing",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-warm-observability",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      },
+      {
+        "operation_id": "probe-opentaint-product-v090",
+        "kind": "control",
+        "maximum_attempts": 2,
+        "observed_or_reserved_consumed": 0,
+        "authoritative_global_remaining": null,
+        "accounting_status": "not_in_lost_run"
+      }
+    ],
+    "prior_v0_9_attempt_baseline": {
+      "status": "unknown",
+      "known_floor": "seven lost transcript completion IDs plus one reserved unknown Java launcher = eight slots",
+      "why_unknown": "No original v0.9 global ledger, per-control receipts, or preserved execution root is available here; current checkout has no v0.9 started/completed receipts or ledgers. Historical inventory references and current argument replay do not resolve the original v0.9 allocation history."
+    },
+    "remaining_attempts": null,
+    "remaining_attempts_status": "unknown; no inference from the observed/reserved floor is valid"
+  },
+  "recorded_wall_duration_evidence": [
+    {
+      "operation_id": "probe-bifrost-sanitizer-lowering",
+      "duration_seconds": 163.855811291,
+      "evidence": "The first terminal event embeds the recorder completion row with duration_seconds; the underlying original artifacts are missing and were not reverified."
+    }
+  ],
+  "historical_attempt_references": {
+    "inventory_reference_count": 30,
+    "attempt_suffix_counts": {
+      "01": 25,
+      "02": 4,
+      "05": 1,
+      "no_reference": 3
+    },
+    "references_with_suffix_other_than_01": [
+      {
+        "control_id": "probe-bifrost-scan-native",
+        "historical_attempt": "probe-bifrost-scan-native-attempt-05",
+        "receipt_path": "reports/releases/v0.8.0/attempts/probe-bifrost-scan-native-attempt-05/completed.json",
+        "receipt_release": "v0.8.0",
+        "v0_9_accounting_treatment": "historical_reference_only; never normalize its suffix into a v0.9 attempt number or alter its historical qualification"
+      },
+      {
+        "control_id": "probe-java-modeling-load-bearing",
+        "historical_attempt": "probe-java-modeling-load-bearing-attempt-02",
+        "receipt_path": "reports/releases/v0.8.0/attempts/probe-java-modeling-load-bearing-attempt-02/completed.json",
+        "receipt_release": "v0.8.0",
+        "v0_9_accounting_treatment": "historical_reference_only; never normalize its suffix into a v0.9 attempt number or alter its historical qualification"
+      },
+      {
+        "control_id": "probe-joern-scan-native",
+        "historical_attempt": "probe-joern-scan-native-attempt-02",
+        "receipt_path": "reports/releases/v0.8.0/attempts/probe-joern-scan-native-attempt-02/completed.json",
+        "receipt_release": "v0.8.0",
+        "v0_9_accounting_treatment": "historical_reference_only; never normalize its suffix into a v0.9 attempt number or alter its historical qualification"
+      },
+      {
+        "control_id": "warm-semgrep-java",
+        "historical_attempt": "warm-semgrep-java-attempt-02",
+        "receipt_path": "reports/releases/v0.8.0/attempts/warm-semgrep-java-attempt-02/completed.json",
+        "receipt_release": "v0.8.0",
+        "v0_9_accounting_treatment": "historical_reference_only; never normalize its suffix into a v0.9 attempt number or alter its historical qualification"
+      },
+      {
+        "control_id": "overhead-opentaint-kotlin",
+        "historical_attempt": "overhead-opentaint-kotlin-attempt-02",
+        "receipt_path": "reports/releases/v0.8.0/attempts/overhead-opentaint-kotlin-attempt-02/completed.json",
+        "receipt_release": "v0.8.0",
+        "v0_9_accounting_treatment": "historical_reference_only; never normalize its suffix into a v0.9 attempt number or alter its historical qualification"
+      }
+    ],
+    "treatment": "The historical_attempt fields refer to retained v0.8.0 receipts under reports/releases/v0.8.0/attempts. They are a distinct historical qualification/evidence scope. Preserve their evidence and qualification exactly as recorded; do not normalize attempt-02 or attempt-05 into current v0.9 allocation counts or rewrite any history.",
+    "lineage_conclusion": {
+      "observed": "The v0.9 control inventory names five non-attempt-01 historical references (four attempt-02 and one attempt-05). Matching retained receipts exist at the corresponding reports/releases/v0.8.0/attempts/<id>/completed.json paths and identify release v0.8.0.",
+      "unverified": "Whether any of those v0.8 historical executions, especially probe-java-modeling-load-bearing-attempt-02, is the same launch or a prior allocation in the lost v0.9 run is unknown. The lost v0.9 root and original Java launcher receipt/log are unavailable; the transcript does not establish that linkage.",
+      "accounting_rule": "Do not map historical suffixes into v0.9 attempt numbers or decrement/increment the v0.9 budget from them. Preserve v0.8 qualification as recorded; charge the lost Java launch once as a conservative v0.9 reservation because its allocation is unknown."
+    }
+  },
+  "enforcement_paths": [
+    {
+      "path": "scripts/release_attempt_v090.py:246-253",
+      "behavior": "Validates per-group maximum_attempts is 1 or 2, with no release-wide budget identity or registry reference."
+    },
+    {
+      "path": "scripts/release_attempt_v090.py:311-324",
+      "behavior": "_attempt_dir scans only reports/releases/v0.9.0/attempts beneath the supplied root and selects the first free attempt-01/attempt-02 directory. A fresh root is empty and starts at attempt-01."
+    },
+    {
+      "path": "scripts/release_attempt_v090.py:499-508,544-591",
+      "behavior": "run_group validates and allocates locally, writes started/completed receipts and appends the local ledger. A crash after started.json but before completed/ledger leaves a local started-only directory; the local allocator can skip it and choose attempt-02 if called again directly."
+    },
+    {
+      "path": "scripts/execute-release-v090.py:12-32",
+      "behavior": "The serial orchestrator reads only the selected root ledger and rejects a started directory without completed.json. This review gate is not in the recorder allocator and can be bypassed by invoking the per-group launcher directly."
+    },
+    {
+      "path": "scripts/release_control_attempt_v090.py:254-258,285-295",
+      "behavior": "Control freshness/allocation also inspect only the supplied root. It uses a fixed local attempt-01 and rejects a repeated attempt only when that directory is already present in that same root."
+    },
+    {
+      "path": "scripts/release_control_attempt_v090.py:324-359,400-410",
+      "behavior": "run_control allocates locally, writes started.json before running, then writes terminal receipt and appends a root-local ledger. A lost started-only state cannot inform another root."
+    },
+    {
+      "path": "scripts/run-release-group-v090.py:28-34,57-68",
+      "behavior": "Launch gate requires the supplied root to equal the current contract designated root and checks retained-byte/resource budgets. It does not reconcile attempts for the operation across prior roots or contract revisions."
+    },
+    {
+      "path": "scripts/run-release-control-v090.py:14-34",
+      "behavior": "Control entry point shares the serial host lock and launch gate, then calls the root-local control allocator; serialization is not cumulative accounting."
+    }
+  ],
+  "demonstrated_root_reset": {
+    "lost_run_root_evidence": "The recovered completion row names execution_root /private/tmp/dfb-v090-controls-01/probe-bifrost-sanitizer-lowering and attempt_id probe-bifrost-sanitizer-lowering-attempt-01. Per-control roots are distinct, so attempt numbering is scoped separately to each directory.",
+    "second_root_behavior": "For a logical operation absent from reports/releases/v0.9.0/control-attempts/<control_id> in a newly designated root, _allocate_attempt creates attempt-01 again. For a matrix group, _attempt_dir likewise creates attempt-01 in an empty designated root. The allocator receives no prior-root ledger or immutable release-wide sequence.",
+    "qualification": "Code-path demonstration; the recovered second root was not executed as part of this read-only review."
+  },
+  "unknown_prior_attempt_behavior": {
+    "same_root_matrix_group": "A retained attempt-01 directory consumes that local name even with no completed receipt. _attempt_dir can then allocate attempt-02 when invoked directly. The orchestrator rejects started-without-completion only if its completion preflight is used.",
+    "same_root_control": "A nonempty control attempt directory fails require_fresh validation, so another local control launch is blocked in that root.",
+    "different_root_for_either_kind": "No lookup reaches prior-root started receipts or missing ledgers. Unknown prior allocation is therefore not discovered; a new designated root can restart numbering.",
+    "lost_run": "For the seven lost transcript completions, charge one each. For the eighth Java launcher, allocation is unknown; charge one and do not treat the failed replay as proof that the historical allocation did not happen."
+  },
+  "smallest_safe_implementation_integration": {
+    "scope": "Separate new versioned launchers and recorder modules, sharing one durable release-scoped allocator; preserve the original v0.9.0 launchers and receipt history.",
+    "integration_points": [
+      "New versioned matrix-group recorder immediately before allocation",
+      "New versioned control recorder immediately before allocation",
+      "New versioned group and control entry points before dispatch; exact paths/version identifiers are owned by the implementation worker"
+    ],
+    "mechanism": "Bind the durable registry to the exact release, parent-plan/population identity, inventory identity, operation kind and exact operation ID. Atomically reserve and fsync a monotonically increasing slot under a shared interprocess lock before launch; keep the started reservation if terminal persistence is lost. Missing, malformed, contradictory, or started-only entries fail closed. A fresh execution root does not reset the registry.",
+    "concurrency": "Reservation is atomic in the shared allocator; the analyzer serial lock alone is not cumulative accounting."
+  },
+  "evidence_limits": {
+    "terminal_events_provenance": "recovered session event; raw artifacts missing, not reverified benchmark evidence",
+    "present_checkout_v0_9_receipts_or_ledgers": 0,
+    "fresh_operation_validation_artifact": "Referenced by terminal transcript commit output but absent from this checkout; not counted as independently inspectable evidence.",
+    "source_state": "Read-only source and artifact inspection; no benchmark, test, build, or code mutation performed."
+  },
+  "prospective_infrastructure_loss_allocation": {
+    "purpose": "Request one prospective fresh execution allocation per exact named v0.9 operation following infrastructure/evidence loss.",
+    "operation_count": 117,
+    "allocations_requested_per_operation": 1,
+    "prospective_allocation_count": 117,
+    "operation_ids": [
+      "bifrost-c-kernel",
+      "bifrost-cpp-kernel",
+      "bifrost-csharp-kernel",
+      "bifrost-go-kernel",
+      "bifrost-java-kernel",
+      "bifrost-java-modeling",
+      "bifrost-java-native",
+      "bifrost-javascript-kernel",
+      "bifrost-javascript-modeling",
+      "bifrost-javascript-native",
+      "bifrost-kotlin-kernel",
+      "bifrost-php-kernel",
+      "bifrost-python-kernel",
+      "bifrost-python-modeling",
+      "bifrost-python-native",
+      "bifrost-ruby-kernel",
+      "bifrost-rust-kernel",
+      "bifrost-scala-kernel",
+      "bifrost-smoke",
+      "bifrost-typescript-kernel",
+      "codeql-c-kernel",
+      "codeql-cpp-kernel",
+      "codeql-csharp-kernel",
+      "codeql-go-kernel",
+      "codeql-java-kernel",
+      "codeql-java-modeling",
+      "codeql-java-native",
+      "codeql-javascript-kernel",
+      "codeql-javascript-modeling",
+      "codeql-javascript-native",
+      "codeql-kotlin-kernel",
+      "codeql-python-kernel",
+      "codeql-python-modeling",
+      "codeql-python-native",
+      "codeql-ruby-kernel",
+      "codeql-rust-kernel",
+      "codeql-typescript-kernel",
+      "flowdroid-java-kernel",
+      "flowdroid-java-modeling",
+      "flowdroid-java-native",
+      "flowdroid-kotlin-kernel",
+      "infer-c-kernel",
+      "infer-cpp-kernel",
+      "infer-java-kernel",
+      "infer-java-modeling",
+      "infer-java-native",
+      "joern-java-kernel",
+      "joern-java-modeling",
+      "joern-java-native",
+      "joern-javascript-kernel",
+      "joern-javascript-modeling",
+      "joern-javascript-native",
+      "joern-php-kernel",
+      "joern-python-kernel",
+      "joern-python-modeling",
+      "joern-python-native",
+      "joern-ruby-kernel",
+      "joern-rust-kernel",
+      "opentaint-java-kernel",
+      "opentaint-java-modeling",
+      "opentaint-java-native",
+      "opentaint-kotlin-kernel",
+      "pysa-python-kernel",
+      "pysa-python-modeling",
+      "pysa-python-native",
+      "semgrep-c-kernel",
+      "semgrep-cpp-kernel",
+      "semgrep-go-kernel",
+      "semgrep-java-kernel",
+      "semgrep-java-modeling",
+      "semgrep-java-native",
+      "semgrep-javascript-kernel",
+      "semgrep-javascript-modeling",
+      "semgrep-javascript-native",
+      "semgrep-kotlin-kernel",
+      "semgrep-php-kernel",
+      "semgrep-python-kernel",
+      "semgrep-python-modeling",
+      "semgrep-python-native",
+      "semgrep-ruby-kernel",
+      "semgrep-rust-kernel",
+      "semgrep-typescript-kernel",
+      "joern-swift-common108",
+      "codeql-swift-common108",
+      "probe-bifrost-sanitizer-lowering",
+      "probe-bifrost-scan-native",
+      "probe-flowdroid-modeling-load-bearing",
+      "probe-flowdroid-native-shipped-surface",
+      "probe-infer-modeling-partition",
+      "probe-infer-native-activation",
+      "probe-infer-native-silence",
+      "probe-java-modeling-load-bearing",
+      "probe-javascript-modeling-load-bearing",
+      "probe-joern-scan-native",
+      "probe-opentaint-modeling-surface",
+      "probe-opentaint-native-activation",
+      "probe-opentaint-primitive-tracking",
+      "probe-opentaint-scan-activation",
+      "probe-opentaint-value-kind",
+      "probe-pysa-callee-resolution",
+      "probe-pysa-modeling-load-bearing",
+      "probe-pysa-native-activation",
+      "probe-semgrep-jsjava-native",
+      "warm-joern-java",
+      "warm-semgrep-java",
+      "overhead-bifrost-python",
+      "overhead-codeql-ruby",
+      "overhead-flowdroid-java",
+      "overhead-infer-c",
+      "overhead-joern-php",
+      "overhead-joern-java",
+      "overhead-opentaint-kotlin",
+      "overhead-pysa-python",
+      "overhead-semgrep-kotlin",
+      "probe-python-modeling-load-bearing",
+      "probe-warm-observability",
+      "probe-opentaint-product-v090"
+    ],
+    "raw_prior_attempt_count": "unknown per operation and globally; the eight-slot consumed/reserved floor is not a complete lifetime ledger",
+    "original_two_attempt_budget_satisfied": false,
+    "approved": false,
+    "approval_gate": "Do not treat this proposal as an authorized reset or launch budget until a reviewer checks the exact 117 operation IDs and the bound identity hashes below and records approval in the durable execution packet.",
+    "review_identity_hashes": {
+      "contract": {
+        "path": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/contract.json",
+        "sha256": "aa6c10fdc17250326bdbebaf8380070b7e52f89f1f77faf8d85d1627595e7477"
+      },
+      "control_inventory": {
+        "path": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/control-inventory.json",
+        "sha256": "ca944177ba819ba52f8d2118d550166a4eed7f3cd30d8b6f0064e62618f0e980"
+      },
+      "parent_plan": {
+        "path": "reports/releases/v0.9.0/plan.json",
+        "sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf"
+      },
+      "population": {
+        "path": "populations/v0.9.0.json",
+        "sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+      }
+    },
+    "scope_rule": "One fresh allocation is proposed for each listed operation only. Do not normalize historical v0.8 attempt suffixes, erase prior allocation state, or claim the original two-attempt ceiling has been satisfied.",
+    "launcher_implementation_direction": "Implement through separate new versioned launchers and shared release-scoped accounting; preserve scripts/release_attempt_v090.py and scripts/release_control_attempt_v090.py as historical originals."
+  }
+}

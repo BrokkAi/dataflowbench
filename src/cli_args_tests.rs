@@ -11,8 +11,24 @@ const RECOVERY_INVENTORY: &str = include_str!(
 
 #[test]
 fn validates_every_registered_recovery_runner_argv_without_dispatch() {
-    let contract: serde_json::Value = serde_json::from_str(RECOVERY_CONTRACT).unwrap();
-    let inventory: serde_json::Value = serde_json::from_str(RECOVERY_INVENTORY).unwrap();
+    validate_registered_runner_argv(RECOVERY_CONTRACT, RECOVERY_INVENTORY);
+}
+
+#[test]
+fn validates_every_final_prospective_runner_argv_without_dispatch() {
+    validate_registered_runner_argv(
+        include_str!(
+            "../reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/contract.json"
+        ),
+        include_str!(
+            "../reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/control-inventory.json"
+        ),
+    );
+}
+
+fn validate_registered_runner_argv(contract: &str, inventory: &str) {
+    let contract: serde_json::Value = serde_json::from_str(contract).unwrap();
+    let inventory: serde_json::Value = serde_json::from_str(inventory).unwrap();
     let runner = contract["tools"]["runner"]["path"].as_str().unwrap();
     let mut operations = Vec::new();
 

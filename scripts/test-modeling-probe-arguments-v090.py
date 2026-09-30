@@ -21,8 +21,13 @@ def parser_command(argv):
 class ArgumentTests(unittest.TestCase):
     def test_all_19_registered_shell_parser_blocks(self):
         boundaries = json.loads((PACKET.parent / 'shell-parser-boundaries.json').read_text())
-        controls = {c['id']: c for c in json.loads(PACKET.read_text())['controls']}
         self.assertEqual(len(boundaries), 19)
+        packets = [PACKET, PACKET.parent.parent / 'final-recovery-20260930-01/control-inventory.json']
+        for packet in packets:
+            self.check_shell_commands(packet, boundaries)
+
+    def check_shell_commands(self, packet, boundaries):
+        controls = {c['id']: c for c in json.loads(packet.read_text())['controls']}
         for row in boundaries:
             with self.subTest(control=row['id']):
                 source = (ROOT / row['script']).read_text()

@@ -1,0 +1,48 @@
+{
+  "automatic_retry": false,
+  "build_scratch_ceiling_gib": 8,
+  "contention": {
+    "cpu_percent": 99.6,
+    "observed_at_utc": "2026-09-30T09:55Z",
+    "owner": "Bifrost workspace coverage exporter in fbf7d243-c260-416f-a269-0769c03e4cbd",
+    "pid": 39259,
+    "result": "no slot acquired"
+  },
+  "control_deadline_sum_seconds": 48205,
+  "full_completion_guaranteed": false,
+  "historical_wall_charge_status": "pending cumulative scope review; unknown duration must not be represented as zero",
+  "latest_capacity_readback": {
+    "active_exporter_pid": 39259,
+    "captured_utc": "2026-09-30T10:32:10.790059+00:00",
+    "cpu_percent": 101.1,
+    "exclusive_slot": false,
+    "free_bytes": 250040193024
+  },
+  "launch_budget_gib": {
+    "protected_reserve": 40,
+    "retention": 24,
+    "scratch": 24,
+    "working_copies_staging": 48
+  },
+  "matrix_deadline_sum_seconds": 166108,
+  "minimum_free_before_all_staging_after_build_gib": 184,
+  "minimum_free_before_build_and_all_staging_gib": 192,
+  "minimum_prebuild_free_gib": 144,
+  "minimum_prelaunch_free_gib": 136,
+  "monitoring": [
+    "Record fresh capacity and full process command lines before each command; include coverage Python and LLVM exports, not just Cargo names",
+    "Existing serial analyzer lock must be held; reservation expires explicitly and does not imply other tasks stopped",
+    "Supervisor retains started/terminal receipts and stdout/stderr on durable storage; no retries",
+    "Before every operation reject if remaining wall window cannot contain its full deadline",
+    "Stop on any failed or missing terminal receipt, capacity loss, contention, exhausted cumulative attempts or expired reservation",
+    "Keep failed/partial outputs immutable; require parent review before any retry or benchmark launch"
+  ],
+  "observed_free_bytes": 174899200000,
+  "previous_window_evidence": "terminal-events.json: first control start16:11:34.967064 through failed launcher16:26:04.873 on2026-09-29; not whole-session duration",
+  "previous_window_known_seconds": 869.906,
+  "reservation": null,
+  "schema": "release-recovery-resource-plan/v1",
+  "serial_analyzers": 1,
+  "staging_floor_explanation": "Existing launch_gate keeps136GiB free after root preparation. Conservatively budget48GiB staging plus8GiB runner build above that fixed floor; do not count staging twice as available launch reserve.",
+  "total_wall_budget_seconds": 102960
+}
