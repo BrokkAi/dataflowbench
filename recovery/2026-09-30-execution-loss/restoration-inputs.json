@@ -20,5 +20,10 @@
       "sha256": "95c14073cb94b3a942488531c74d7812653bc7f684d1efa53f422d5ba22d3d92"
     }
   ],
-  "verification_required": "Installer hashes plus exact runtime membership, file hashes, executable modes and symlinks. Repaired Swift extractor/packs must be reconstructed and verified against committed manifests, never assumed equal."
+  "verification_required": "Installer hashes plus exact runtime membership, file hashes, executable modes and symlinks. Repaired Swift extractor/packs must be reconstructed and verified against committed manifests, never assumed equal.",
+  "custom_extractor_gap": {
+    "sha256": "593eb7afe23d63c57d04461bd046e45672555bb0586353edcf27a0313249841f",
+    "original_build": "Session records show a locally compiled extractor.real copied from source/bazel-bin/swift/extractor/extractor.real, plus compiler-prebuilt dylibs, into stock CodeQL Swift extractor. Stock installer alone cannot restore this identity.",
+    "required": "Recover original binary/build inputs or rebuild and verify exact hash. Any different binary requires new prospective identity and qualification, never claim original restoration."
+  }
 }
