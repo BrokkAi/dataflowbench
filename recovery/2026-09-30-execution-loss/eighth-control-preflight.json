@@ -1,0 +1,201 @@
+{
+  "schema": "java-modeling-eighth-control-preflight/v1",
+  "date": "2026-09-30",
+  "status": "blocked-prospective",
+  "scope": {
+    "control_id": "probe-java-modeling-load-bearing",
+    "inventory": "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/control-inventory.json",
+    "contract": "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/contract.json",
+    "probe_script": "scripts/probe-java-modeling-load-bearing.sh",
+    "probe_script_sha256": "635fcfa58241a83ddd2afd349f1fd1ba40c5f875bffe2d1a72585ff9a66a7724",
+    "inventory_sha256": "6e9dcebbb5274ad2dfb73648ea8e64b95900d642075e4adfb8af49a9ba003177",
+    "contract_sha256": "325f11c262c8242ea803eec46791208134d808a145ffd3ea99a230fd878f4126",
+    "native_or_benchmark_execution": false,
+    "downloads_or_builds": false
+  },
+  "historical_failure": {
+    "supervisor_exit_code": 1,
+    "historical_stderr_available": false,
+    "cause": "unknown",
+    "parser_replay": {
+      "scope": "The recovered historical Java argv, which omitted --codeql-packs, was replayed against the unchanged probe parser; parser exits before scratch creation or analyzers.",
+      "result": "exit 2 because the recovered historical argv omitted required --codeql-packs",
+      "inference_limit": "This demonstrates the parser defect in the lost invocation record. Historical stderr is unavailable, so the cause of the supervisor's exit 1 remains unknown."
+    }
+  },
+  "parser_only_validation": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/test-modeling-probe-arguments-v090.py ArgumentTests.test_registered_java_and_javascript_arguments ArgumentTests.test_unknown_options_are_rejected",
+    "result": "passed: 2 tests",
+    "coverage": [
+      "corrected inventory Java and JavaScript argv pass their existing shell argument parsers",
+      "removing --codeql-packs and its value is rejected with exit 2",
+      "unknown options are rejected with exit 2"
+    ],
+    "not_covered": "No executable was started and no fixture, output, runtime behavior, or analyzer result was qualified."
+  },
+  "packet_update_after_historical_check": {
+    "authoritative_packet": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01",
+    "contract_sha256": "aa6c10fdc17250326bdbebaf8380070b7e52f89f1f77faf8d85d1627595e7477",
+    "inventory_sha256": "ca944177ba819ba52f8d2118d550166a4eed7f3cd30d8b6f0064e62618f0e980",
+    "contract_inventory_binding_matches": true,
+    "java_summary_argv_matches_inventory": true,
+    "java_summary_output_roots_match_inventory": true,
+    "correction": "The main-synced final packet now includes --codeql-packs and both declared output roots in contract.controls. The historical recovery packet remains unchanged and retains the mismatch recorded below.",
+    "authorization": "Still disabled: execution_authorized=false in contract and inventory; contract status final-registration-preparation-disabled; seven unresolved items remain.",
+    "parser_test_relation": "The focused parser test read the historical recovery inventory. The final packet Java argv was inspected and matches that tested argv; the parser test was not rerun against the final packet path.",
+    "final_execution_root_state": "not checked after packet sync"
+  },
+  "cross_field_constraints": [
+    {
+      "field": "historical recovery packet inventory.controls[probe-java-modeling-load-bearing].argv",
+      "result": "contains --codeql-packs /Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs"
+    },
+    {
+      "field": "historical recovery packet contract.controls[probe-java-modeling-load-bearing].proposed_argv",
+      "result": "omits --codeql-packs and its path; this stale disabled packet is preserved. The main-synced final packet summary has since been corrected to match its inventory."
+    },
+    {
+      "field": "historical recovery packet contract.controls[probe-java-modeling-load-bearing].output_roots",
+      "result": "lists only reports/raw/load-bearing-java-modeling; inventory also declares reports/raw/control-scratch/probe-java-modeling-load-bearing, which is the exact control-specific TMPDIR. The final packet summary now matches both inventory roots."
+    },
+    {
+      "field": "authorization_and_identity",
+      "result": "contract and inventory both set execution_authorized=false; contract status is recovery-prospective-not-executable; the inventory control is registered-pending-final-executable-plan-review; the inventory SHA-256 is pinned by the contract"
+    },
+    {
+      "field": "contract.unresolved",
+      "result": "contains unresolved recovery, identity, attempt-accounting, resource, and 117-operation review items; the control recorder rejects execution while unresolved is non-empty"
+    }
+  ],
+  "identity_and_path_checks": {
+    "result": "read-only checks only",
+    "probe_script": {
+      "expected_sha256": "635fcfa58241a83ddd2afd349f1fd1ba40c5f875bffe2d1a72585ff9a66a7724",
+      "actual_sha256": "635fcfa58241a83ddd2afd349f1fd1ba40c5f875bffe2d1a72585ff9a66a7724",
+      "match": true
+    },
+    "tool_launchers": [
+      {
+        "option": "--bifrost",
+        "path": "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost",
+        "sha256": "a7109bc86ea5c2f79c88421fac68161de8d6d632c313bf4ae28f7fb6183e304a",
+        "exists": true,
+        "matches_contract_tools_identity": true
+      },
+      {
+        "option": "--codeql",
+        "path": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/tools/full108/codeql-runtime/codeql/codeql",
+        "sha256": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413",
+        "exists": true,
+        "mode": "0555",
+        "matches_contract_tools_identity": true,
+        "restoration_receipt": "recovery/2026-09-30-execution-loss/codeql-restoration-verification.json reports the historical CodeQL CLI tree matched; this preflight rechecked the launcher bytes, not every current tree entry"
+      },
+      {
+        "option": "--codeql-packs",
+        "path": "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
+        "exists": true,
+        "manifest": "reports/releases/v0.9.0/execution-v1/non-swift-codeql-packs.json",
+        "manifest_sha256": "3594d6486c40c55b51c86369553c08017a2bb12f325f87d1e88c724a16569e3e",
+        "actual_tree_check": "5929 regular files; 0 missing, extra, or changed files against the manifest",
+        "matches_contract_tools_tree_identity": true
+      },
+      {
+        "option": "--joern",
+        "path": "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+        "sha256": "0df7e8db4282ef2c6fc37998917aca694176e23192de5f0c631511d993e99736",
+        "exists": true,
+        "matches_contract_tools_identity": true
+      },
+      {
+        "option": "--semgrep",
+        "path": "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep",
+        "sha256": "297428de56e052760598a8e44fb906ee2437209fe74886823432781f1f556328",
+        "exists": true,
+        "matches_contract_tools_identity": true
+      }
+    ],
+    "host_prerequisites": [
+      {
+        "name": "JAVA_HOME",
+        "path": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "exists": true,
+        "version_command_run": false
+      },
+      {
+        "name": "Java and javac host paths",
+        "paths": ["/usr/bin/java", "/usr/bin/javac"],
+        "exist": true,
+        "version_command_run": false
+      },
+      {
+        "name": "system python3 and shell utilities",
+        "result": "required paths checked for existence only; no tool version or runtime behavior check"
+      }
+    ],
+    "fixture_and_model_inputs": {
+      "result": "present in this checkout",
+      "inputs": [
+        "cases/taint/java/model-declared-source-positive",
+        "cases/taint/java/model-opaque-propagator-positive",
+        "cases/taint/java/model-sanitizer-kill-negative",
+        "cases/taint/java/model-declared-sink-positive",
+        "adapters/bifrost/policies/model-java.rqlp",
+        "adapters/codeql/qlpack.yml",
+        "adapters/codeql/queries/JavaModeling.ql",
+        "adapters/joern/semantics/model-java.semantics",
+        "adapters/joern/queries/modeling.sc",
+        "adapters/semgrep/rules/model-java.yaml"
+      ],
+      "fixture_hashes_recomputed": false
+    },
+    "historical_recovery_execution_root": {
+      "path": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/controls/probe-java-modeling-load-bearing",
+      "observed_exists": false,
+      "note": "This check predates the final packet sync and does not establish the state of its distinct execution root."
+    }
+  },
+  "expected_raw_outputs": [
+    "reports/raw/load-bearing-java-modeling/bifrost-declared-source-with-model.json",
+    "reports/raw/load-bearing-java-modeling/bifrost-declared-source-without-model.json",
+    "reports/raw/load-bearing-java-modeling/bifrost-require-model-accepted.json",
+    "reports/raw/load-bearing-java-modeling/codeql-opaque-propagator-with-model.sarif.json",
+    "reports/raw/load-bearing-java-modeling/codeql-opaque-propagator-without-model.sarif.json",
+    "reports/raw/load-bearing-java-modeling/joern-sanitizer-kill-with-model.json",
+    "reports/raw/load-bearing-java-modeling/joern-sanitizer-kill-without-model.json",
+    "reports/raw/load-bearing-java-modeling/joern-opaque-propagator-unmodeled.json",
+    "reports/raw/load-bearing-java-modeling/semgrep-declared-sink-with-model.json",
+    "reports/raw/load-bearing-java-modeling/semgrep-declared-sink-without-model.json"
+  ],
+  "concrete_prerequisites_before_one_control": [
+    "Use the main-synced final-recovery packet as the current prospective packet; the earlier recovery packet is stale and remains preserved. The final contract summary now matches its hash-bound corrected inventory.",
+    "Resolve the final contract's seven listed unresolved prerequisites and obtain the required parent review; the current final contract and inventory remain validation-only.",
+    "Check and prepare the final packet's distinct isolated control root from the reviewed source snapshot. Its control-specific TMPDIR and both declared output roots must be fresh there; the final root's current existence was not checked.",
+    "Review historical attempt accounting before any launch. The inventory records historical_attempt probe-java-modeling-load-bearing-attempt-02 with maximum_attempts 2; missing receipts do not establish remaining attempt capacity or permit resetting it.",
+    "Run the one-control capture through the release recorder only after contract authorization, exact bindings, and fresh-root checks pass; preserve stdout, stderr, started/completed receipts, and captured outputs. Do not start the matrix as part of this diagnostic."
+  ],
+  "unresolved_unknowns": [
+    "The cause and stderr of the historical exit 1 remain unknown; the missing --codeql-packs parser failure is only a reproduced defect in the recorded argv.",
+    "Whether a permitted attempt remains is unknown until lost-run attempt accounting is reviewed.",
+    "This preflight did not independently rehash every file in the CodeQL installation or every file in the Joern distribution; it verified the CodeQL launcher and pack tree and the recorded executable identities.",
+    "No analyzer compatibility, runtime behavior, raw output correctness, or expected modeling outcome was established."
+  ],
+  "diagnostic_invocation_not_executed": {
+    "condition": "A future versioned recovery launcher must stage the exact checked source and inputs under the isolated final control root, constrain and verify all writes and output roots there, preserve attempt accounting, and capture terminal status/stdout/stderr before any diagnostic execution.",
+    "invocation": "Not specified: the future launcher's path and CLI are not yet defined or qualified. Do not invoke the original shell probe directly or treat the existing generic recorder as authorization for that unguarded probe.",
+    "future_inner_argv_requirements": [
+      "bash",
+      "scripts/probe-java-modeling-load-bearing.sh",
+      "--bifrost",
+      "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost",
+      "--codeql",
+      "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/tools/full108/codeql-runtime/codeql/codeql",
+      "--joern",
+      "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+      "--semgrep",
+      "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep",
+      "--codeql-packs",
+      "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs"
+    ]
+  }
+}
