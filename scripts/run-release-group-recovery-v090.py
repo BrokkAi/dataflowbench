@@ -8,12 +8,38 @@ import json
 import os
 from pathlib import Path
 import shutil
+import shlex
 import subprocess
 import time
 
 from release_attempt_v090 import AttemptError, SERIAL_LOCK_PATH, run_group, validate_group
 
 from release_claim_v090 import claim_attempt
+
+
+def coverage_exporter_processes(processes):
+    """Recognize the observed Bifrost exporter, not every Python process."""
+    found = []
+    for line in processes.splitlines():
+        fields = line.split(None, 1)
+        if len(fields) != 2:
+            continue
+        try:
+            argv = shlex.split(fields[1])
+        except ValueError:
+            if 'workspace-branch-export.py' in fields[1]:
+                found.append(line.strip())  # Unparseable matching evidence is not a quiet slot.
+            continue
+        if not argv:
+            continue
+        executable = argv[0]
+        interpreter = executable.endswith('/bifrost-dev/target/coverage-tools/python/bin/python')
+        script = any(arg == 'scripts/test-cost/workspace-branch-export.py' or
+                     arg.endswith('/bifrost-dev/scripts/test-cost/workspace-branch-export.py')
+                     for arg in argv[1:])
+        if interpreter and script:
+            found.append(line.strip())
+    return found
 
 
 def launch_gate(root, contract, group):
@@ -73,8 +99,10 @@ def launch_gate(root, contract, group):
     heavy = []
     for line in processes.splitlines():
         fields = line.split(None, 1)
-        if len(fields) == 2 and Path(fields[1]).name in {'cargo', 'rustc', 'hyperfine', 'codeql', 'joern', 'java'}:
+        if len(fields) == 2 and Path(fields[1]).name in {'cargo', 'cargo-nextest', 'rustc', 'hyperfine', 'codeql', 'joern', 'java', 'llvm-cov', 'llvm-profdata'}:
             heavy.append(line.strip())
+    exporter_argv = subprocess.check_output(['ps', '-axo', 'pid=,args='], text=True)
+    heavy.extend(coverage_exporter_processes(exporter_argv))
     if heavy:
         raise AttemptError('contending build/analyzer processes: ' + '; '.join(heavy))
 
