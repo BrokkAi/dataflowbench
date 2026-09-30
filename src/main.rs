@@ -18,6 +18,8 @@
 mod adapters;
 mod batch;
 mod cases;
+#[cfg(test)]
+mod cli_args_tests;
 mod evidence;
 mod freeze;
 mod latency;
@@ -76,6 +78,9 @@ use std::path::{Path, PathBuf};
 #[derive(Parser)]
 #[command(name = "dataflowbench")]
 struct Cli {
+    /// Parse the selected command and its arguments, then exit before setup or execution.
+    #[arg(long, global = true)]
+    validate_args: bool,
     /// Select pinned inputs: v0.7.0, prospective v0.9.0, swift-synthetic-v1, swift-synthetic-v2, or registered swift-synthetic-v3.
     #[arg(long, global = true)]
     population: Option<String>,
@@ -979,7 +984,34 @@ enum Commands {
 }
 
 fn main() -> Result<()> {
-    let cli = Cli::parse();
+    run_from(std::env::args_os())
+}
+
+fn run_from<I, T>(args: I) -> Result<()>
+where
+    I: IntoIterator<Item = T>,
+    T: Into<std::ffi::OsString> + Clone,
+{
+    let args: Vec<std::ffi::OsString> = args.into_iter().map(Into::into).collect();
+    let validating = args.iter().any(|arg| {
+        arg == "--validate-args" || arg.to_string_lossy().starts_with("--validate-args=")
+    });
+    let cli = if validating {
+        if args.iter().any(|arg| arg == "--help" || arg == "-h") {
+            anyhow::bail!("--help cannot replace command arguments when using --validate-args");
+        }
+        Cli::try_parse_from(args)?
+    } else {
+        Cli::parse_from(args)
+    };
+
+    run_cli(cli)
+}
+
+fn run_cli(cli: Cli) -> Result<()> {
+    if cli.validate_args {
+        return Ok(());
+    }
     let explicit_swift_v2_population = cli.population.as_deref() == Some("swift-synthetic-v2");
     population::initialize(cli.population.as_deref())?;
     match cli.command {

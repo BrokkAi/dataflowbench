@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Validate the actual shell parsers without starting analyzers."""
 import json
+import hashlib
 from pathlib import Path
 import subprocess
 import unittest
@@ -18,6 +19,20 @@ def parser_command(argv):
     return ['bash', '-c', parser + '\necho "argument validation passed"\n', argv[1], *argv[2:]]
 
 class ArgumentTests(unittest.TestCase):
+    def test_all_19_registered_shell_parser_blocks(self):
+        boundaries = json.loads((PACKET.parent / 'shell-parser-boundaries.json').read_text())
+        controls = {c['id']: c for c in json.loads(PACKET.read_text())['controls']}
+        self.assertEqual(len(boundaries), 19)
+        for row in boundaries:
+            with self.subTest(control=row['id']):
+                source = (ROOT / row['script']).read_text()
+                self.assertEqual(hashlib.sha256(source.encode()).hexdigest(), row['sha256'])
+                parser = source.split(row['boundary'], 1)[0]
+                self.assertEqual(hashlib.sha256(parser.encode()).hexdigest(), row['parser_sha256'])
+                argv = ['bash', '-c', parser, row['script'], *controls[row['id']]['argv'][2:]]
+                result = subprocess.run(argv, cwd=ROOT, capture_output=True, text=True, timeout=5)
+                self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_registered_java_and_javascript_arguments(self):
         inventory = json.loads(PACKET.read_text())
         for language in ('java', 'javascript'):
