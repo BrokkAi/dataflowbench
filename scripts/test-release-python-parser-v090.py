@@ -35,9 +35,9 @@ def parse_only(script, arguments):
     return namespace['args']
 
 class ParserTests(unittest.TestCase):
-    def commands(self):
-        inventory = json.loads((PACKET / 'control-inventory.json').read_text())
-        contract = json.loads((PACKET / 'contract.json').read_text())
+    def commands(self, packet=PACKET):
+        inventory = json.loads((packet / 'control-inventory.json').read_text())
+        contract = json.loads((packet / 'contract.json').read_text())
         return [row['argv'] for row in inventory['controls'] + contract['groups']
                 if len(row['argv']) > 1 and row['argv'][1].endswith('.py')]
 
@@ -48,6 +48,17 @@ class ParserTests(unittest.TestCase):
             with self.subTest(script=argv[1]):
                 result = parse_only(argv[1], argv[2:])
                 self.assertIsInstance(result, argparse.Namespace)
+                with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as failure:
+                    parse_only(argv[1], argv[2:] + ['--unregistered-option'])
+                self.assertEqual(failure.exception.code, 2)
+
+    def test_final_prospective_python_commands(self):
+        packet = PACKET.parent / 'final-recovery-20260930-01'
+        commands = self.commands(packet)
+        self.assertEqual(len(commands), 5)
+        for argv in commands:
+            with self.subTest(script=argv[1]):
+                self.assertIsInstance(parse_only(argv[1], argv[2:]), argparse.Namespace)
                 with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as failure:
                     parse_only(argv[1], argv[2:] + ['--unregistered-option'])
                 self.assertEqual(failure.exception.code, 2)

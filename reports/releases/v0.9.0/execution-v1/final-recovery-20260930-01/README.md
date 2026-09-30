@@ -18,3 +18,13 @@ This packet is disabled and prospective. Parent packets and historical failures 
 - Push the complete registration and obtain parent review before enabling execution.
 
 The corrected eighth command remains an actual analyzer execution if launched. Parser-only replay does not consume an analyzer attempt and does not prove what caused the historical failure. It cannot replace retained failure evidence.
+
+## Prospective guards
+
+Use only `run-release-control-recovery-v090.py` and `run-release-group-recovery-v090.py` for this packet. They claim under the existing serial lock before invoking the unchanged recorders. The baseline pins a single durable ledger path; missing or corrupt state cannot be initialized by a launcher. A fsynced started claim consumes its allowance even if no terminal receipt survives.
+
+`attempt-baseline.json` preserves unknown counts for all117 operations and records the observed floors separately. `recovery-allocation.json` is a hash-bound, **unapproved** one-claim-per-named-operation exception. It binds the contract projection and fixed ledger path; it does not establish compliance with the original cumulative two-attempt ceiling. The projection excludes accounting metadata and the allocation's input-identity entry to avoid circular hashes; the durable anchor separately binds their identities.
+
+Do not initialize the live ledger until the final exact contract and allocation are reviewed. Explicit initialization uses `release_claim_v090.py init --contract ...` and exclusive file creation; its returned random anchor hash must be bound and pushed before launch. No live ledger or anchor has been created during preparation.
+
+The versioned OpenTaint recovery probe validates the explicit restoration, runtime-tree and original implementation references, then invokes the original complete pre-dispatch checker. The original script stays byte-exact. Seven fixture regressions cover relocated external storage and fail-closed identity/path behavior without invoking an analyzer.

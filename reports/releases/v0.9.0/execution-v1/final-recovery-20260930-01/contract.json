@@ -40,14 +40,15 @@
   },
   "control_inventory": {
     "path": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/control-inventory.json",
-    "sha256": "ca944177ba819ba52f8d2118d550166a4eed7f3cd30d8b6f0064e62618f0e980"
+    "sha256": "88625b7897513809482a02adceb83c802e29850e7246dfe9a63dc0f4f3d9ecda"
   },
   "controls": [
     {
       "id": "probe-bifrost-sanitizer-lowering",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a9-bifrost-sanitizer"
+        "reports/raw/amendment-a9-bifrost-sanitizer",
+        "reports/raw/control-scratch/probe-bifrost-sanitizer-lowering"
       ],
       "proposed_argv": [
         "bash",
@@ -56,13 +57,14 @@
         "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-bifrost-scan-native",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a32-bifrost-scan-native"
+        "reports/raw/amendment-a32-bifrost-scan-native",
+        "reports/raw/control-scratch/probe-bifrost-scan-native"
       ],
       "proposed_argv": [
         "bash",
@@ -71,13 +73,14 @@
         "/Users/dave/.cache/dataflowbench-tools/bifrost-v0.11.4/bifrost-v0.11.4-universal-apple-darwin/bifrost"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-flowdroid-modeling-load-bearing",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/load-bearing-java-modeling"
+        "reports/raw/load-bearing-java-modeling",
+        "reports/raw/control-scratch/probe-flowdroid-modeling-load-bearing"
       ],
       "proposed_argv": [
         "bash",
@@ -94,13 +97,14 @@
         "/usr/bin/javac"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-flowdroid-native-shipped-surface",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a29-flowdroid-shipped-surface"
+        "reports/raw/amendment-a29-flowdroid-shipped-surface",
+        "reports/raw/control-scratch/probe-flowdroid-native-shipped-surface"
       ],
       "proposed_argv": [
         "bash",
@@ -113,13 +117,14 @@
         "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-infer-modeling-partition",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a13-infer-partition"
+        "reports/raw/amendment-a13-infer-partition",
+        "reports/raw/control-scratch/probe-infer-modeling-partition"
       ],
       "proposed_argv": [
         "bash",
@@ -130,13 +135,14 @@
         "/usr/bin/javac"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-infer-native-activation",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a28-infer-native-activation"
+        "reports/raw/amendment-a28-infer-native-activation",
+        "reports/raw/control-scratch/probe-infer-native-activation"
       ],
       "proposed_argv": [
         "bash",
@@ -147,13 +153,14 @@
         "/usr/bin/javac"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-infer-native-silence",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a14-infer-native-silence"
+        "reports/raw/amendment-a14-infer-native-silence",
+        "reports/raw/control-scratch/probe-infer-native-silence"
       ],
       "proposed_argv": [
         "bash",
@@ -164,13 +171,14 @@
         "/usr/bin/javac"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-java-modeling-load-bearing",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/load-bearing-java-modeling"
+        "reports/raw/load-bearing-java-modeling",
+        "reports/raw/control-scratch/probe-java-modeling-load-bearing"
       ],
       "proposed_argv": [
         "bash",
@@ -182,16 +190,19 @@
         "--joern",
         "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
         "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep",
+        "--codeql-packs",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-javascript-modeling-load-bearing",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/load-bearing-javascript-modeling"
+        "reports/raw/load-bearing-javascript-modeling",
+        "reports/raw/control-scratch/probe-javascript-modeling-load-bearing"
       ],
       "proposed_argv": [
         "bash",
@@ -203,16 +214,19 @@
         "--joern",
         "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
         "--semgrep",
-        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+        "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep",
+        "--codeql-packs",
+        "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-joern-scan-native",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a26-joern-scan-native"
+        "reports/raw/amendment-a26-joern-scan-native",
+        "reports/raw/control-scratch/probe-joern-scan-native"
       ],
       "proposed_argv": [
         "bash",
@@ -223,13 +237,14 @@
         "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-opentaint-modeling-surface",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/opentaint-modeling-surface-probe"
+        "reports/raw/opentaint-modeling-surface-probe",
+        "reports/raw/control-scratch/probe-opentaint-modeling-surface"
       ],
       "proposed_argv": [
         "bash",
@@ -244,13 +259,14 @@
         "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-opentaint-native-activation",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/opentaint-native-activation-probe"
+        "reports/raw/opentaint-native-activation-probe",
+        "reports/raw/control-scratch/probe-opentaint-native-activation"
       ],
       "proposed_argv": [
         "bash",
@@ -265,13 +281,14 @@
         "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-opentaint-primitive-tracking",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/opentaint-primitive-tracking-probe"
+        "reports/raw/opentaint-primitive-tracking-probe",
+        "reports/raw/control-scratch/probe-opentaint-primitive-tracking"
       ],
       "proposed_argv": [
         "bash",
@@ -284,13 +301,14 @@
         "/usr/bin/javac"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-opentaint-scan-activation",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a25-opentaint-scan-activation"
+        "reports/raw/amendment-a25-opentaint-scan-activation",
+        "reports/raw/control-scratch/probe-opentaint-scan-activation"
       ],
       "proposed_argv": [
         "bash",
@@ -307,13 +325,14 @@
         "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-rules-v0.3.0.tar.gz"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-opentaint-value-kind",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/opentaint-value-kind-probe"
+        "reports/raw/opentaint-value-kind-probe",
+        "reports/raw/control-scratch/probe-opentaint-value-kind"
       ],
       "proposed_argv": [
         "bash",
@@ -326,13 +345,14 @@
         "/usr/bin/javac"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-pysa-callee-resolution",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/pysa-callee-resolution-probe"
+        "reports/raw/pysa-callee-resolution-probe",
+        "reports/raw/control-scratch/probe-pysa-callee-resolution"
       ],
       "proposed_argv": [
         "bash",
@@ -345,13 +365,14 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-pysa-modeling-load-bearing",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a16-pysa-modeling"
+        "reports/raw/amendment-a16-pysa-modeling",
+        "reports/raw/control-scratch/probe-pysa-modeling-load-bearing"
       ],
       "proposed_argv": [
         "bash",
@@ -364,13 +385,14 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-pysa-native-activation",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a17-pysa-native"
+        "reports/raw/amendment-a17-pysa-native",
+        "reports/raw/control-scratch/probe-pysa-native-activation"
       ],
       "proposed_argv": [
         "bash",
@@ -383,13 +405,14 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "probe-semgrep-jsjava-native",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a27-semgrep-jsjava-native"
+        "reports/raw/amendment-a27-semgrep-jsjava-native",
+        "reports/raw/control-scratch/probe-semgrep-jsjava-native"
       ],
       "proposed_argv": [
         "bash",
@@ -398,13 +421,14 @@
         "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
       ],
       "stage": "script_probes",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "warm-joern-java",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/warm-latency/joern-java-kernel"
+        "reports/raw/warm-latency/joern-java-kernel",
+        "reports/raw/control-scratch/warm-joern-java"
       ],
       "proposed_argv": [
         "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/target/release/dataflowbench",
@@ -423,13 +447,14 @@
         "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
       ],
       "stage": "warm",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "warm-semgrep-java",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/warm-latency/semgrep-java-kernel"
+        "reports/raw/warm-latency/semgrep-java-kernel",
+        "reports/raw/control-scratch/warm-semgrep-java"
       ],
       "proposed_argv": [
         "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/target/release/dataflowbench",
@@ -448,13 +473,14 @@
         "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
       ],
       "stage": "warm",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "overhead-bifrost-python",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/invocation-overhead/bifrost-python"
+        "reports/raw/invocation-overhead/bifrost-python",
+        "reports/raw/control-scratch/overhead-bifrost-python"
       ],
       "proposed_argv": [
         "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/target/release/dataflowbench",
@@ -503,13 +529,14 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "overhead",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "overhead-codeql-ruby",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/invocation-overhead/codeql-ruby"
+        "reports/raw/invocation-overhead/codeql-ruby",
+        "reports/raw/control-scratch/overhead-codeql-ruby"
       ],
       "proposed_argv": [
         "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/target/release/dataflowbench",
@@ -558,13 +585,14 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "overhead",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "overhead-flowdroid-java",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/invocation-overhead/flowdroid-java"
+        "reports/raw/invocation-overhead/flowdroid-java",
+        "reports/raw/control-scratch/overhead-flowdroid-java"
       ],
       "proposed_argv": [
         "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/target/release/dataflowbench",
@@ -613,13 +641,14 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "overhead",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "overhead-infer-c",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/invocation-overhead/infer-c"
+        "reports/raw/invocation-overhead/infer-c",
+        "reports/raw/control-scratch/overhead-infer-c"
       ],
       "proposed_argv": [
         "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/target/release/dataflowbench",
@@ -668,13 +697,14 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "overhead",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "overhead-joern-php",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/invocation-overhead/joern-php"
+        "reports/raw/invocation-overhead/joern-php",
+        "reports/raw/control-scratch/overhead-joern-php"
       ],
       "proposed_argv": [
         "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/target/release/dataflowbench",
@@ -723,13 +753,14 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "overhead",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "overhead-joern-java",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/invocation-overhead/joern-java"
+        "reports/raw/invocation-overhead/joern-java",
+        "reports/raw/control-scratch/overhead-joern-java"
       ],
       "proposed_argv": [
         "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/target/release/dataflowbench",
@@ -778,13 +809,14 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "overhead",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "overhead-opentaint-kotlin",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/invocation-overhead/opentaint-kotlin"
+        "reports/raw/invocation-overhead/opentaint-kotlin",
+        "reports/raw/control-scratch/overhead-opentaint-kotlin"
       ],
       "proposed_argv": [
         "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/target/release/dataflowbench",
@@ -833,13 +865,14 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "overhead",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "overhead-pysa-python",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/invocation-overhead/pysa-python"
+        "reports/raw/invocation-overhead/pysa-python",
+        "reports/raw/control-scratch/overhead-pysa-python"
       ],
       "proposed_argv": [
         "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/target/release/dataflowbench",
@@ -888,13 +921,14 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "overhead",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
     },
     {
       "id": "overhead-semgrep-kotlin",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/invocation-overhead/semgrep-kotlin"
+        "reports/raw/invocation-overhead/semgrep-kotlin",
+        "reports/raw/control-scratch/overhead-semgrep-kotlin"
       ],
       "proposed_argv": [
         "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-recovery-20260930-01/target/release/dataflowbench",
@@ -943,7 +977,55 @@
         "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
       ],
       "stage": "overhead",
-      "status": "pending-exact-membership-and-capture-review"
+      "status": "prospective-disabled-see-bound-control-inventory"
+    },
+    {
+      "id": "probe-python-modeling-load-bearing",
+      "maximum_attempts": 2,
+      "output_roots": [
+        "reports/raw/load-bearing-python-modeling-v090",
+        "reports/raw/control-scratch/probe-python-modeling-load-bearing"
+      ],
+      "proposed_argv": [
+        "/usr/bin/python3",
+        "scripts/probe-python-modeling-load-bearing-v090.py",
+        "--contract",
+        "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/contract.json"
+      ],
+      "stage": "supplemental",
+      "status": "prospective-disabled-see-bound-control-inventory"
+    },
+    {
+      "id": "probe-warm-observability",
+      "maximum_attempts": 2,
+      "output_roots": [
+        "reports/raw/warm-observability-v090",
+        "reports/raw/control-scratch/probe-warm-observability"
+      ],
+      "proposed_argv": [
+        "/usr/bin/python3",
+        "scripts/probe-warm-observability-v090.py",
+        "--contract",
+        "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/contract.json"
+      ],
+      "stage": "supplemental",
+      "status": "prospective-disabled-see-bound-control-inventory"
+    },
+    {
+      "id": "probe-opentaint-product-v090",
+      "maximum_attempts": 2,
+      "output_roots": [
+        "reports/raw/opentaint-product-v090",
+        "reports/raw/control-scratch/probe-opentaint-product-v090"
+      ],
+      "proposed_argv": [
+        "/usr/bin/python3",
+        "scripts/probe-opentaint-product-recovery-v090.py",
+        "--contract",
+        "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/contract.json"
+      ],
+      "stage": "supplemental",
+      "status": "prospective-disabled-see-bound-control-inventory"
     }
   ],
   "controls_pending_review": [
@@ -952,8 +1034,27 @@
     "New durable CodeQL plan query qualification/revalidation receipt",
     "Full final117 runtime and dispatch-time cross-field preflight in designated roots",
     "Fresh capacity and exclusive serial resource reservation; Bifrost priority",
-    "Parent review of pushed final launch packet before enabling execution"
+    "Parent review of pushed final launch packet before enabling execution",
+    "Merge and bind versioned recovery launchers/probe before final runtime preflight"
   ],
+  "cumulative_attempts": {
+    "baseline": {
+      "path": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/attempt-baseline.json",
+      "sha256": "2711bc8e25335156e265789232b2a3bdf1b88b08af2a325c13b1ebd8bdea52fa"
+    },
+    "ledger_identity": {
+      "anchor_path": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-global-attempts/anchor.json",
+      "anchor_sha256": null
+    },
+    "ledger_path": "/Users/dave/.codex/worktrees/1ba0/dataflowbench/execution-state/v090-global-attempts/claims.jsonl",
+    "max_attempts_per_operation": 2,
+    "recovery_allocation": {
+      "path": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/recovery-allocation.json",
+      "sha256": "0d3d22e3e88252f6a9baccd301c2ec51d26c45dfc8debe61e8d6c5902626561e"
+    },
+    "schema": "release-cumulative-attempts/v1",
+    "status": "not-initialized; unknown baseline; allocation unapproved"
+  },
   "environment_implementation": [
     {
       "path": "scripts/release_environment_v090.py",
@@ -14487,8 +14588,11 @@
     "reports/releases/v0.9.0/execution-v1/command-parsing-check.json": "73b9849ac390763dd65e26d829148323ec79f24fbae34f0572ae63a64bb306ab",
     "reports/releases/v0.9.0/execution-v1/control-integration-validation.json": "fe09cac1435971ff4535f0091f53568f5e8bac32675353eb8e755d9f86d38028",
     "reports/releases/v0.9.0/execution-v1/dependency-version-witnesses.json": "50d7d8566cb24d1fdee789bfc7932463f3d014c8702f69822101db46ba916480",
-    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/control-inventory.json": "ca944177ba819ba52f8d2118d550166a4eed7f3cd30d8b6f0064e62618f0e980",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/attempt-baseline.json": "2711bc8e25335156e265789232b2a3bdf1b88b08af2a325c13b1ebd8bdea52fa",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/control-inventory.json": "88625b7897513809482a02adceb83c802e29850e7246dfe9a63dc0f4f3d9ecda",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-restoration.json": "bf983885a3674e3c4ab0ab837bd13ef2d7e22d4f2189887a7078176bc69a4ca5",
     "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-runtime.json": "1a2f936f40e7e978ea1f2b38033a02cf8bd5f0a1d1c5fb531e40dd63a1bab894",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/recovery-allocation.json": "0d3d22e3e88252f6a9baccd301c2ec51d26c45dfc8debe61e8d6c5902626561e",
     "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/runner-build.json": "6dd4a18feb45df4e4f1084681c520eea137e6c57b70b84694d6b0885a27e0a5c",
     "reports/releases/v0.9.0/execution-v1/held-tool-digests.json": "9d748428932fdf7922ae62a066304226166a8f7105ebd5a8be9a42c15a4ffab2",
     "reports/releases/v0.9.0/execution-v1/native-codeql-packs.json": "7ab00154d9b4b16197a4103ea25d16a69f5bd0a0a2623301249fe3182649a9d4",
@@ -14520,6 +14624,7 @@
     "scripts/probe-opentaint-modeling-surface.sh": "0415d7838cc0d0cd9a3e338cdd9d6e11f3dfc8ca8703f38347e87044c4e71de7",
     "scripts/probe-opentaint-native-activation.sh": "5400cc43cded6c84b17544a7affeefdff103f8ad70df39602ccd3b865c18328f",
     "scripts/probe-opentaint-primitive-tracking.sh": "88592a10525c2fd1c7de3c0e37e3e56f9a82a20b7b2ae72b2f6d9c7b92caba6c",
+    "scripts/probe-opentaint-product-recovery-v090.py": "5c945332a00680f11355cd4f3a97c96bd4a994ba38b59872b19ff4df2ffc7c5b",
     "scripts/probe-opentaint-product-v090.py": "0589faee6fae872d8991bb5f3d30db5d00c95ea11c5a56fbca8e89dfe726c864",
     "scripts/probe-opentaint-scan-activation.sh": "d8c7074105c644ec9990d96eb281288e9795fd76f7a01ebddafe7f97ea9d384b",
     "scripts/probe-opentaint-value-kind.sh": "1f1aae2c22a238011cc7061e9faf47cd075acad783264a1564582389de9fe22a",
@@ -14529,9 +14634,12 @@
     "scripts/probe-python-modeling-load-bearing-v090.py": "a3862528578f74ac99acf43ef6af6a6f9d72d1411b9fa9ae4116b03f31a77536",
     "scripts/probe-semgrep-jsjava-native.sh": "d09e3bab859030d4679af455a341e7a155119fd48cba248abdc11b0fdf8d44f2",
     "scripts/probe-warm-observability-v090.py": "c2c31b70154f25287488f262a3bd23e5d029e784d1c7c60173212a113b7346a8",
+    "scripts/release_claim_v090.py": "f4458242ec60e70327f8e6bfee14904e378941d1cb096bcc082974566d30a901",
     "scripts/release_control_attempt_v090.py": "7e876cfd9c0be39c2c0a85bec99c1282366f3c69fffe3eb524b5aa2ffacf41b5",
     "scripts/release_environment_v090.py": "344ed79eb774134c4e04e4e243bf05c20279a52d0e050e674a9c79ddb0f16ebd",
+    "scripts/run-release-control-recovery-v090.py": "03341567bd732495fe8e4129542867bc7c7da09ee40ef96be458e75b3bf452c9",
     "scripts/run-release-control-v090.py": "8cf9785659f8319a08115422c6229162883a858dd766e128c906431ed96c7d0d",
+    "scripts/run-release-group-recovery-v090.py": "5029a9728da6067590b1a6c758dd95bf48155d4c1485c936d3538fb9ac69cf4d",
     "scripts/run-release-group-v090.py": "a19ae44adefe386f7f71b006ece268e1d3e3ea0ee54d94247737a0b1eb6b1ac4"
   },
   "minimum_required_scope": {
@@ -14545,6 +14653,20 @@
   },
   "on_capacity_loss": "Stop before next group; active runner retains its explicit per-case reserve checks. No deletion of historical evidence.",
   "on_wall_budget_exhaustion": "Retain partial/failure evidence and request parent review of remaining work; never relax thresholds or omit groups.",
+  "opentaint_recovery": {
+    "implementation": {
+      "path": "scripts/probe-opentaint-product-v090.py",
+      "sha256": "0589faee6fae872d8991bb5f3d30db5d00c95ea11c5a56fbca8e89dfe726c864"
+    },
+    "restoration": {
+      "path": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-restoration.json",
+      "sha256": "bf983885a3674e3c4ab0ab837bd13ef2d7e22d4f2189887a7078176bc69a4ca5"
+    },
+    "runtime_tree": {
+      "path": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-runtime.json",
+      "sha256": "1a2f936f40e7e978ea1f2b38033a02cf8bd5f0a1d1c5fb531e40dd63a1bab894"
+    }
+  },
   "parent_plan": {
     "path": "reports/releases/v0.9.0/plan.json",
     "sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf"
@@ -14840,6 +14962,6 @@
     "Full final117 runtime and dispatch-time cross-field preflight in designated roots",
     "Fresh capacity and exclusive serial resource reservation; Bifrost priority",
     "Parent review of pushed final launch packet before enabling execution",
-    "OpenTaint product probe hardcodes historical restoration/tree paths; requires prospective path-binding support without rewriting historical receipts"
+    "Merge and bind versioned recovery launchers/probe before final runtime preflight"
   ]
 }
