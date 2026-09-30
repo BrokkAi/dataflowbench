@@ -17,3 +17,5 @@ Before launch:
 5. Validate all 117 operations in designated roots; commit and push the final sealed packet before heavy execution. Persist supervisor stdout, stderr, started and terminal status in durable storage, stopping on failure with no automatic retry.
 
 `reconstruction-source-events.json` is a local recovery aid extracted from this session, not a release artifact. It is intentionally not part of the committed evidence package. No private session narrative is required to reproduce the argument failures.
+
+The `supervise-release-command-v090.py` wrapper requires an explicit deadline and fresh durable log directory, preserves stdout/stderr and start/terminal receipts, and propagates nonzero status. It never retries. It cannot persist a terminal event after SIGKILL, sudden power loss, or filesystem failure; a started-only receipt is an interrupted/unknown attempt requiring review. Descendants that create their own process sessions remain the inner launcher's containment responsibility. All 117 exact parser/mode checks remain a launch blocker: the two defective shell parsers are covered now, but missing runtimes prevent full command qualification.
