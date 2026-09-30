@@ -33,7 +33,6 @@
 #     --bifrost <path> --codeql <path> --joern <path> --semgrep <path>
 set -euo pipefail
 
-VALIDATE_ARGS=0
 BIFROST=bifrost
 CODEQL=codeql
 CODEQL_PACKS=
@@ -41,7 +40,6 @@ JOERN=joern
 SEMGREP=semgrep
 while [ $# -gt 0 ]; do
   case "$1" in
-    --validate-args) VALIDATE_ARGS=1; shift ;;
     --bifrost) BIFROST="$2"; shift 2 ;;
     --codeql) CODEQL="$2"; shift 2 ;;
     --codeql-packs) CODEQL_PACKS="$2"; shift 2 ;;
@@ -55,11 +53,6 @@ test -n "$CODEQL_PACKS" || {
   echo "--codeql-packs is required so the probe uses the release-pinned pack tree" >&2
   exit 2
 }
-
-if [ "$VALIDATE_ARGS" -eq 1 ]; then
-  echo "argument validation passed"
-  exit 0
-fi
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/reports/raw/load-bearing-javascript-modeling"
