@@ -1,0 +1,18 @@
+{
+  "contention_stderr": "Cloning into '/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-bifrost-scan-native'...\ndone.\nHEAD is now at d2503cdfd Fix v0.12 native default-policy selection and preserve failed evidence (#283)\nCloning into '/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-bifrost-sanitizer-lowering'...\ndone.\nHEAD is now at d2503cdfd Fix v0.12 native default-policy selection and preserve failed evidence (#283)\nTraceback (most recent call last):\n  File \"/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-bifrost-sanitizer-lowering/scripts/run-release-control-recovery-v090.py\", line 53, in <module>\n    raise SystemExit(main())\n  File \"/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-bifrost-sanitizer-lowering/scripts/run-release-control-recovery-v090.py\", line 47, in main\n    result = launch_control(args.root, args.contract, args.control, execute=args.execute)\n  File \"/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-bifrost-sanitizer-lowering/scripts/run-release-control-recovery-v090.py\", line 35, in launch_control\n    gate.launch_gate(root, contract, control)\n  File \"/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-bifrost-sanitizer-lowering/scripts/run-release-group-recovery-v090.py\", line 107, in launch_gate\n    raise AttemptError('contending build/analyzer processes: ' + '; '.join(heavy))\nrelease_attempt_v090.AttemptError: contending build/analyzer processes: 80448 /Users/dave/.rustup/toolchains/1.97.1-aarch64-apple-darwin/bin/cargo; 80449 /Users/dave/.rustup/toolchains/1.97.1-aarch64-apple-darwin/bin/rustc\nCommand '['/Applications/Xcode.app/Contents/Developer/usr/bin/python3', '/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-bifrost-sanitizer-lowering/scripts/run-release-control-recovery-v090.py', '--root', '/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-bifrost-sanitizer-lowering', '--contract', 'reports/releases/v0.9.0/execution-v1/resume-20261007-03/contract.json', '--control', 'probe-bifrost-sanitizer-lowering', '--execute']' returned non-zero exit status 1.\n",
+  "current_claims_consumed": 1,
+  "harness_commit": "d2503cdfd118b82b9c1beaae0a1c4662f9931bd2",
+  "matrix_groups_started": 0,
+  "native_outcomes": "Native positive control inconclusive due partial_discovery; no native detection qualification",
+  "next_gate": "Fresh uncontended process readback; resume skips verified native completion and claims only next control.",
+  "prior_claims_preserved": 3,
+  "schema": "release-controls-progress/v1",
+  "status": "native-completed-next-control-denied-pre-claim-by-contention",
+  "supervision_terminal": {
+    "command_pid": 64556,
+    "exit_code": 1,
+    "finished_at_utc": "2026-10-07T11:59:04.349579+00:00",
+    "status": "failed"
+  },
+  "verified_completed_controls": 1
+}
