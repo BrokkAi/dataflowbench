@@ -40,7 +40,7 @@
   },
   "control_inventory": {
     "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/control-inventory.json",
-    "sha256": "d722d40eadc2db030d91f0e22bded80dc0f629c6b7bcba477690fbf087577be7"
+    "sha256": "9a2105bea62505592deaaf15a9f271634e3eb74f42c4365ca86cdb48c66b9ce0"
   },
   "controls": [
     {
@@ -1037,18 +1037,20 @@
   ],
   "cumulative_attempts": {
     "baseline": {
-      "path": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/attempt-baseline.json",
-      "sha256": "2711bc8e25335156e265789232b2a3bdf1b88b08af2a325c13b1ebd8bdea52fa"
+      "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/attempt-baseline.json",
+      "sha256": "a5beda3eb8786c9ffd9aa666b0d77499b8a7ee2d834e8d999597ab824558d427"
     },
     "ledger_identity": {
       "anchor_path": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/global-attempts/anchor.json",
-      "anchor_sha256": null
+      "anchor_sha256": "85faf350afe1ae2002e8182b9c4adcedcb9c23c5f4c8935cb160b4686638675a"
     },
     "ledger_path": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/global-attempts/claims.jsonl",
     "max_attempts_per_operation": 2,
-    "recovery_allocation": null,
-    "schema": "release-cumulative-attempts/v1",
-    "status": "not-initialized; historical counts unknown; fresh explicit allocation pending"
+    "recovery_allocation": {
+      "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/recovery-allocation.json",
+      "sha256": "64cc317e05c534557be975ee97f92cf230612f30fbb349572fe680e7d8d909d8"
+    },
+    "schema": "release-cumulative-attempts/v1"
   },
   "environment_implementation": [
     {
@@ -1056,7 +1058,7 @@
       "sha256": "344ed79eb774134c4e04e4e243bf05c20279a52d0e050e674a9c79ddb0f16ebd"
     }
   ],
-  "execution_authorized": false,
+  "execution_authorized": true,
   "execution_root_policy": {
     "attempt_limit_scope": "release-and-group-across-all-isolated-roots",
     "contract_transport": "explicit-reviewed-descendant-plan-reference",
@@ -13932,7 +13934,7 @@
         "--output",
         "reports/raw/joern-common-v2/current108-v090-01",
         "--reservation",
-        "reports/releases/v0.9.0/execution-v1/joern-swift-reservation.json"
+        "reports/releases/v0.9.0/execution-v1/resume-20261007-01/joern-swift-reservation.json"
       ],
       "case_ids": [
         "dfb-taint-swift-alias-propagation-negative",
@@ -14235,7 +14237,7 @@
         "--output",
         "reports/raw/swift-common-v2/current108-v090-01",
         "--reservation",
-        "reports/releases/v0.9.0/execution-v1/codeql-swift-reservation.json"
+        "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-reservation.json"
       ],
       "case_ids": [
         "dfb-taint-swift-alias-propagation-negative",
@@ -14529,7 +14531,7 @@
       "tool": "codeql"
     }
   ],
-  "harness_commit": "0e42beb655d08081db3123721e1fa7c4b49015e5",
+  "harness_commit": "6cf300701fc9bc9a5104d283b64a0a63da33a62a",
   "historical_lost_packet": {
     "attempt_policy": "Preserve all known historical attempts; review recovery attempt allocation before launch. New root does not reset attempt count.",
     "contract_sha256": "29c1a14d422506cd585a9ab2bc7fe7035b87ed5ca3426a46c51399b2c129db39",
@@ -14595,14 +14597,18 @@
     "reports/releases/v0.9.0/execution-v1/non-swift-codeql-packs.json": "3594d6486c40c55b51c86369553c08017a2bb12f325f87d1e88c724a16569e3e",
     "reports/releases/v0.9.0/execution-v1/opentaint-full-restoration.json": "3fcb4894b8544d4f1764b5755f5def28f2161d34c09e0ae31ed159bba858fd22",
     "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/codeql-swift-plan.json": "0da64698c1c25dea74e2f38bae62a400089aa49a4ae7a2d0d22f1a49f1aedcbf",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/attempt-baseline.json": "a5beda3eb8786c9ffd9aa666b0d77499b8a7ee2d834e8d999597ab824558d427",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/bifrost-runtime.json": "1635ef70e935c3fb036c50a347ed4a20604ddc27045542eb46074f19b5c6147f",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-plan.json": "1b03fce83c2de7ab0ce4bea7e1d6c61b37910fe9a36b6941c32c6fa03c7202ea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-reservation.json": "1a825206f32b4b2852924008dce2e620f340b663e577b7db0c1db77de8ad7875",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/command-parsing-check.json": "36d20b5ba8ed49a929220f90cb2c1952971057216f4355cbc48ae8e1363f17da",
-    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/control-inventory.json": "d722d40eadc2db030d91f0e22bded80dc0f629c6b7bcba477690fbf087577be7",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/control-inventory.json": "9a2105bea62505592deaaf15a9f271634e3eb74f42c4365ca86cdb48c66b9ce0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/joern-swift-reservation.json": "faef0e3fe35223b0901a4293d27d3be83caa8c64ddde9e7df57b8709423ce835",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-restoration.json": "1c65c58260e115d33c9461a541a74e92d84c4cd4c01aa9cf171799ff2b4061bd",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-runtime.json": "78e899e13217020e5895827b88dec06f6a5e109bfb16a242d1a0ca3ba8588174",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/pin-amendment.json": "f6120d6d9f6512fa23b1b5a2ab6e4b1d5a112a35b01587fc17cc23e47895c08b",
-    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/runner-build.json": "78ce6cf3a6e4d828c36a8b53a593070d4008c48a49dcb539f63288ab78d6afda",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/recovery-allocation.json": "64cc317e05c534557be975ee97f92cf230612f30fbb349572fe680e7d8d909d8",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/runner-build.json": "0e1c82354095b8db0bed66f3d7ead17bd1cd98b6991a8417b99d200629bf6771",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.command.json": "909baac6a5ca68a38b1d883d6fea7205053d74ebda352caa019d8b258b656bea",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stderr": "51481a2ec800708aaaefd8fbe6c3ef2a8b5f3d772e26c5e2dfafde941cab1775",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -14764,6 +14770,7 @@
     "sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf"
   },
   "qualification_evidence": {
+    "bifrost_v012": "Fresh qualification is performed by the registered sanitizer/native/modeling/warm/overhead controls; matrix requires every control completed. No v012 result exists yet.",
     "native_suites": "codeql-compatibility/native-suite-resolution.json",
     "non_swift_queries": "codeql-compatibility/summary.json",
     "semgrep": "semgrep-runtime-witness.json",
@@ -14799,9 +14806,13 @@
     "tool_restore_required": false
   },
   "resource_reservation": {
-    "exclusive_analyzer_slot": false,
-    "expires_at_unix_seconds": 0,
-    "status": "not-reserved"
+    "exclusive_analyzer_slot": true,
+    "expires_at_unix_seconds": 1791473101,
+    "launch_free_bytes": 279252549632,
+    "owner": "DataFlowBench v090 resume 20261007-01",
+    "readback": "execution-state/v090-resume-20261007-01/postmerge-prebuild.json",
+    "status": "reserved-with-per-operation-lock-and-live-process-gate",
+    "window_started_at_unix_seconds": 1791370141
   },
   "retry_resume_contract": {
     "maximum_attempts_per_group": 2,
@@ -14835,9 +14846,10 @@
     "environment_overrides": {
       "CARGO_TARGET_DIR": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/target"
     },
+    "prior_build_source_commit": "0e42beb655d08081db3123721e1fa7c4b49015e5",
     "rustc_version": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6\n",
     "schema": "release-runner-build/v1",
-    "source_commit": "0e42beb655d08081db3123721e1fa7c4b49015e5",
+    "source_commit": "6cf300701fc9bc9a5104d283b64a0a63da33a62a",
     "source_files": {
       "Cargo.lock": "1b02175cfa099803e999364b30f145e7dd218c94ebabc7f5312338543c7cc5b1",
       "Cargo.toml": "91ecd4bffc145c2f70590eca7c5dbb3976f26194b80e3f225ffda41fc4006876",
@@ -14894,13 +14906,8 @@
       "src/tests/support.rs": "e4b26d1e69f151542bfa091b58b9c68c73dce7067c0b5c48585188c0604b4583",
       "src/tests/templates.rs": "4d31dd4614654681e166dd5aa50f59661bd291b6f453865179fff37f4ba599a5"
     },
-    "status": "built-verified",
-    "supervision": {
-      "command_pid": 91245,
-      "exit_code": 0,
-      "finished_at_utc": "2026-10-07T10:19:05.868238+00:00",
-      "status": "completed"
-    }
+    "status": "built-verified-exact-merged-harness",
+    "supervision": "execution-state/v090-resume-20261007-01/runner-postmerge-build-supervision-01"
   },
   "runtime_tree_scope": "Exact held distribution trees and external interpreter executable links. OS libraries remain host dependencies; Swift plans separately bind CodeQL, compiler, SDK and Joern/JDK inventories.",
   "runtime_trees": [
@@ -14939,9 +14946,9 @@
     "SEMGREP_ENABLE_VERSION_CHECK": "0",
     "prepend_path": "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin"
   },
-  "source_commit": "0e42beb655d08081db3123721e1fa7c4b49015e5",
+  "source_commit": "6cf300701fc9bc9a5104d283b64a0a63da33a62a",
   "source_policy": "One exact merged harness commit for all execution groups, reviewed before launch; compatibility receipts are not corpus run evidence.",
-  "status": "runtime-and-swift-queries-qualified-launch-gates-pending",
+  "status": "registered-controls-first-matrix-requires-all-verified-completions",
   "swift_plans": {
     "codeql": {
       "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-plan.json",
@@ -15052,11 +15059,5 @@
     }
   },
   "total_wall_budget_seconds": 102960,
-  "unresolved": [
-    "Merge new recovery executor and v012 control; bind exact merged harness and matching runner provenance",
-    "Qualify Bifrost v0.12.0 adapter/native controls under explicit pin amendment",
-    "Finalize recovery accounting and durable anchor without resetting unknown historical counts",
-    "Fresh exclusive reservation and reviewed pushed launch packet",
-    "Fresh full runtime readback immediately before dispatch; all 117 argument vectors passed parser-only checks"
-  ]
+  "unresolved": []
 }
