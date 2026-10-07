@@ -138,13 +138,14 @@ PY
   echo "extracted from: $BIN"
   echo "embedded path:  policies/jvm/servlet-parameter-to-jdbc.rqlp"
   echo "sha256 of the extracted text: $(shasum -a 256 "$OUT/security-policy-source.rqlp" | cut -d' ' -f1)"
-  echo "catalog semantic_hash for the same policy:"
+  echo "catalog authored_hash and resolved_semantic_hash for the same policy:"
   python3 -c "
 import json
 for pack in json.load(open('$OUT/builtin-policy-catalog.json'))['packs']:
     for policy in pack['policies']:
         if policy['id'] == 'bifrost.security.java.servlet-parameter-to-jdbc':
-            print('  ' + policy['semantic_hash'])
+            print('  authored_hash: ' + policy['authored_hash'])
+            print('  resolved_semantic_hash: ' + policy['resolved_semantic_hash'])
 "
 } > "$OUT/security-policy-provenance.txt"
 

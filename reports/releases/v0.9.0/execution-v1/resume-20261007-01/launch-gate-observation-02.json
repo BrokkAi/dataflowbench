@@ -1,0 +1,17 @@
+{
+  "analyzer_dispatched": false,
+  "automatic_analyzer_retry": false,
+  "claims_consumed": 0,
+  "next_gate": "Wait for existing nextest to exit and refresh full-width process/reservation evidence before dispatch.",
+  "observation_correction": "Human-readable ps comm column with extra columns was truncated; exact gate comm-only output identifies cargo-nextest PID53168 still active. No approximation or bypass allowed.",
+  "plan_commit": "ea6cf2dd0d57e3e2f18a25893f069945f70fb5d7",
+  "schema": "release-launch-gate-observation/v1",
+  "status": "blocked-before-first-claim",
+  "stderr": "Traceback (most recent call last):\n  File \"/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/execution/controls/probe-bifrost-sanitizer-lowering/scripts/run-release-control-recovery-v090.py\", line 53, in <module>\n    raise SystemExit(main())\n  File \"/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/execution/controls/probe-bifrost-sanitizer-lowering/scripts/run-release-control-recovery-v090.py\", line 47, in main\n    result = launch_control(args.root, args.contract, args.control, execute=args.execute)\n  File \"/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/execution/controls/probe-bifrost-sanitizer-lowering/scripts/run-release-control-recovery-v090.py\", line 35, in launch_control\n    gate.launch_gate(root, contract, control)\n  File \"/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/execution/controls/probe-bifrost-sanitizer-lowering/scripts/run-release-group-recovery-v090.py\", line 107, in launch_gate\n    raise AttemptError('contending build/analyzer processes: ' + '; '.join(heavy))\nrelease_attempt_v090.AttemptError: contending build/analyzer processes: 53168 /Users/dave/.cargo/bin/cargo-nextest\nCommand '['/Applications/Xcode.app/Contents/Developer/usr/bin/python3', '/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/execution/controls/probe-bifrost-sanitizer-lowering/scripts/run-release-control-recovery-v090.py', '--root', '/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/execution/controls/probe-bifrost-sanitizer-lowering', '--contract', 'reports/releases/v0.9.0/execution-v1/resume-20261007-01/contract.json', '--control', 'probe-bifrost-sanitizer-lowering', '--execute']' returned non-zero exit status 1.\n",
+  "terminal": {
+    "command_pid": 60090,
+    "exit_code": 1,
+    "finished_at_utc": "2026-10-07T10:52:54.557899+00:00",
+    "status": "failed"
+  }
+}
