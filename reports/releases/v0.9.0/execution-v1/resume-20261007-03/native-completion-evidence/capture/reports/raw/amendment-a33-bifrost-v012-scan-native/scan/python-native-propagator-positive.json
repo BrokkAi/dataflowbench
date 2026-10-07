@@ -1,0 +1,290 @@
+{
+  "probe": "native-propagator-positive",
+  "language": "python",
+  "invocation": [
+    "bifrost",
+    "scan",
+    "<fixture>",
+    "--format",
+    "json",
+    "--evaluation-date",
+    "2026-09-04"
+  ],
+  "scan_exit_status": 2,
+  "shipped_catalog_packs": [
+    {
+      "id": "bifrost.code-smells",
+      "version": "2.16.0",
+      "policies": 30
+    },
+    {
+      "id": "bifrost.correctness",
+      "version": "0.1.0",
+      "policies": 1
+    },
+    {
+      "id": "bifrost.security",
+      "version": "1.3.0",
+      "policies": 29
+    },
+    {
+      "id": "bifrost.effects",
+      "version": "1.4.0",
+      "policies": 10
+    }
+  ],
+  "default_policy_ids": [
+    "bifrost.correctness.c-self-assignment",
+    "bifrost.correctness.contradictory-condition",
+    "bifrost.correctness.discarded-pure-result",
+    "bifrost.correctness.dynamic-evaluation",
+    "bifrost.correctness.empty-failure-handler",
+    "bifrost.correctness.failed-swap",
+    "bifrost.correctness.go-data-race",
+    "bifrost.correctness.go-nil-dereference",
+    "bifrost.correctness.go-wrong-error-on-failure-path",
+    "bifrost.correctness.identical-conditional-branches",
+    "bifrost.correctness.ignored-status-result",
+    "bifrost.correctness.local-self-assignment",
+    "bifrost.correctness.loop-body-never-repeats",
+    "bifrost.correctness.overwritten-unread-value",
+    "bifrost.correctness.python-absent-member",
+    "bifrost.correctness.rayon-in-blocking-lazy-init",
+    "bifrost.correctness.redundant-boolean-branches",
+    "bifrost.correctness.repeated-branch-condition",
+    "bifrost.correctness.resource-lifecycle",
+    "bifrost.correctness.unreachable-statement",
+    "bifrost.correctness.unsafe-deserialization",
+    "bifrost.effects.csharp.selected-boundary-no-network-io",
+    "bifrost.effects.go.selected-boundary-no-network-io",
+    "bifrost.effects.java.selected-boundary-no-network-io",
+    "bifrost.effects.javascript.selected-boundary-no-network-io",
+    "bifrost.effects.kotlin.selected-boundary-no-network-io",
+    "bifrost.effects.python.selected-boundary-no-network-io",
+    "bifrost.effects.ruby.selected-boundary-no-network-io",
+    "bifrost.effects.rust.selected-boundary-no-network-io",
+    "bifrost.effects.scala.selected-boundary-no-network-io",
+    "bifrost.effects.typescript.selected-boundary-no-network-io",
+    "bifrost.performance.database-call-in-loop",
+    "bifrost.performance.expensive-operation-in-nested-loop",
+    "bifrost.performance.file-read-in-loop",
+    "bifrost.performance.loop-invariant-sort",
+    "bifrost.performance.network-call-in-loop",
+    "bifrost.performance.parsing-in-loop",
+    "bifrost.performance.regex-compile-in-loop",
+    "bifrost.performance.serialization-in-loop",
+    "bifrost.performance.sleep-in-loop",
+    "bifrost.performance.subprocess-in-loop",
+    "bifrost.security.java.servlet-parameter-to-jdbc",
+    "bifrost.security.java.system-getenv-to-runtime-exec",
+    "bifrost.security.python.process-input-to-os-system"
+  ],
+  "opt_in_policy_ids": [
+    "bifrost.security.c.store-requires-validation",
+    "bifrost.security.c.stored-request-to-sql",
+    "bifrost.security.cpp.store-requires-validation",
+    "bifrost.security.cpp.stored-request-to-sql",
+    "bifrost.security.csharp.store-requires-validation",
+    "bifrost.security.csharp.stored-request-to-sql",
+    "bifrost.security.go.store-requires-validation",
+    "bifrost.security.go.stored-request-to-sql",
+    "bifrost.security.java.store-requires-validation",
+    "bifrost.security.java.stored-request-to-sql",
+    "bifrost.security.javascript.store-requires-validation",
+    "bifrost.security.javascript.stored-request-to-sql",
+    "bifrost.security.kotlin.store-requires-validation",
+    "bifrost.security.kotlin.stored-request-to-sql",
+    "bifrost.security.php.store-requires-validation",
+    "bifrost.security.php.stored-request-to-sql",
+    "bifrost.security.python.store-requires-validation",
+    "bifrost.security.python.stored-request-to-sql",
+    "bifrost.security.ruby.store-requires-validation",
+    "bifrost.security.ruby.stored-request-to-sql",
+    "bifrost.security.rust.store-requires-validation",
+    "bifrost.security.rust.stored-request-to-sql",
+    "bifrost.security.scala.store-requires-validation",
+    "bifrost.security.scala.stored-request-to-sql",
+    "bifrost.security.typescript.store-requires-validation",
+    "bifrost.security.typescript.stored-request-to-sql"
+  ],
+  "policies_evaluated": 44,
+  "policy_completions": [
+    "bifrost.correctness.c-self-assignment=complete",
+    "bifrost.correctness.contradictory-condition=inconclusive",
+    "bifrost.correctness.discarded-pure-result=complete",
+    "bifrost.correctness.dynamic-evaluation=complete",
+    "bifrost.correctness.empty-failure-handler=complete",
+    "bifrost.correctness.failed-swap=complete",
+    "bifrost.correctness.go-data-race=complete",
+    "bifrost.correctness.go-nil-dereference=complete",
+    "bifrost.correctness.go-wrong-error-on-failure-path=complete",
+    "bifrost.correctness.identical-conditional-branches=complete",
+    "bifrost.correctness.ignored-status-result=complete",
+    "bifrost.correctness.local-self-assignment=complete",
+    "bifrost.correctness.loop-body-never-repeats=complete",
+    "bifrost.correctness.overwritten-unread-value=complete",
+    "bifrost.correctness.python-absent-member=inconclusive",
+    "bifrost.correctness.rayon-in-blocking-lazy-init=complete",
+    "bifrost.correctness.redundant-boolean-branches=complete",
+    "bifrost.correctness.repeated-branch-condition=complete",
+    "bifrost.correctness.resource-lifecycle=complete",
+    "bifrost.correctness.unreachable-statement=complete",
+    "bifrost.correctness.unsafe-deserialization=complete",
+    "bifrost.effects.csharp.selected-boundary-no-network-io=complete",
+    "bifrost.effects.go.selected-boundary-no-network-io=complete",
+    "bifrost.effects.java.selected-boundary-no-network-io=complete",
+    "bifrost.effects.javascript.selected-boundary-no-network-io=complete",
+    "bifrost.effects.kotlin.selected-boundary-no-network-io=complete",
+    "bifrost.effects.python.selected-boundary-no-network-io=complete",
+    "bifrost.effects.ruby.selected-boundary-no-network-io=complete",
+    "bifrost.effects.rust.selected-boundary-no-network-io=complete",
+    "bifrost.effects.scala.selected-boundary-no-network-io=complete",
+    "bifrost.effects.typescript.selected-boundary-no-network-io=complete",
+    "bifrost.performance.database-call-in-loop=complete",
+    "bifrost.performance.expensive-operation-in-nested-loop=complete",
+    "bifrost.performance.file-read-in-loop=complete",
+    "bifrost.performance.loop-invariant-sort=complete",
+    "bifrost.performance.network-call-in-loop=complete",
+    "bifrost.performance.parsing-in-loop=complete",
+    "bifrost.performance.regex-compile-in-loop=complete",
+    "bifrost.performance.serialization-in-loop=complete",
+    "bifrost.performance.sleep-in-loop=complete",
+    "bifrost.performance.subprocess-in-loop=complete",
+    "bifrost.security.java.servlet-parameter-to-jdbc=complete",
+    "bifrost.security.java.system-getenv-to-runtime-exec=complete",
+    "bifrost.security.python.process-input-to-os-system=inconclusive"
+  ],
+  "outcome": "inconclusive",
+  "outcome_basis": {
+    "completion_types": [
+      "complete",
+      "inconclusive"
+    ],
+    "total_findings": 0
+  },
+  "total_findings": 0,
+  "findings_by_policy": {},
+  "security_policy": {
+    "policy_id": "bifrost.security.java.servlet-parameter-to-jdbc",
+    "analysis_type": "taint",
+    "completion": {
+      "type": "complete"
+    },
+    "outcome": "no-finding",
+    "findings": 0,
+    "compiled_source_endpoints": 0,
+    "compiled_sink_endpoints": 0,
+    "selector_scans": 6,
+    "diagnostics": [
+      {
+        "severity": "note",
+        "family": "empty_selection",
+        "message": "taint policy `bifrost.security.java.servlet-parameter-to-jdbc` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists"
+      },
+      {
+        "severity": "note",
+        "family": "empty_selection",
+        "message": "taint policy `bifrost.security.java.servlet-parameter-to-jdbc` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists"
+      }
+    ]
+  },
+  "security_policies": [
+    {
+      "policy_id": "bifrost.security.java.servlet-parameter-to-jdbc",
+      "analysis_type": "taint",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "metrics": {
+        "taint.compiled_sink_endpoints": 0,
+        "taint.compiled_source_endpoints": 0,
+        "taint.propagation_shared_memberships": 0,
+        "taint.propagation_solves": 0,
+        "taint.selector_scans": 6,
+        "taint.semantic_handle_identity_reuses": 0,
+        "taint.semantic_materialized_files": 0,
+        "taint.semantic_peak_retained_bytes": 0,
+        "taint.semantic_peak_row_dimension": 0,
+        "taint.semantic_peak_traversal_steps": 0,
+        "taint.semantic_program_points": 0,
+        "taint.semantic_result_contract_artifact_leases": 0,
+        "taint.semantic_snapshot_materializations": 0,
+        "taint.semantic_source_bytes": 0,
+        "taint.semantic_traversal_steps": 0,
+        "taint.store_key_budget_hits": 0,
+        "taint.store_key_direct_literals": 0,
+        "taint.store_key_operands": 0,
+        "taint.store_key_recovered": 0,
+        "taint.store_key_unproven": 0,
+        "taint.store_key_work": 0
+      }
+    },
+    {
+      "policy_id": "bifrost.security.java.system-getenv-to-runtime-exec",
+      "analysis_type": "taint",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "metrics": {
+        "taint.compiled_sink_endpoints": 0,
+        "taint.compiled_source_endpoints": 0,
+        "taint.propagation_shared_memberships": 0,
+        "taint.propagation_solves": 0,
+        "taint.selector_scans": 4,
+        "taint.semantic_handle_identity_reuses": 0,
+        "taint.semantic_materialized_files": 0,
+        "taint.semantic_peak_retained_bytes": 0,
+        "taint.semantic_peak_row_dimension": 0,
+        "taint.semantic_peak_traversal_steps": 0,
+        "taint.semantic_program_points": 0,
+        "taint.semantic_result_contract_artifact_leases": 0,
+        "taint.semantic_snapshot_materializations": 0,
+        "taint.semantic_source_bytes": 0,
+        "taint.semantic_traversal_steps": 0,
+        "taint.store_key_budget_hits": 0,
+        "taint.store_key_direct_literals": 0,
+        "taint.store_key_operands": 0,
+        "taint.store_key_recovered": 0,
+        "taint.store_key_unproven": 0,
+        "taint.store_key_work": 0
+      }
+    },
+    {
+      "policy_id": "bifrost.security.python.process-input-to-os-system",
+      "analysis_type": "taint",
+      "completion": {
+        "type": "inconclusive",
+        "reasons": [
+          "partial_discovery"
+        ]
+      },
+      "findings": 0,
+      "metrics": {
+        "taint.compiled_sink_endpoints": 0,
+        "taint.compiled_source_endpoints": 0,
+        "taint.propagation_shared_memberships": 0,
+        "taint.propagation_solves": 0,
+        "taint.selector_scans": 3,
+        "taint.semantic_handle_identity_reuses": 0,
+        "taint.semantic_materialized_files": 1,
+        "taint.semantic_peak_retained_bytes": 119621,
+        "taint.semantic_peak_row_dimension": 1037,
+        "taint.semantic_peak_traversal_steps": 3,
+        "taint.semantic_program_points": 157,
+        "taint.semantic_result_contract_artifact_leases": 0,
+        "taint.semantic_snapshot_materializations": 0,
+        "taint.semantic_source_bytes": 1617,
+        "taint.semantic_traversal_steps": 3,
+        "taint.store_key_budget_hits": 0,
+        "taint.store_key_direct_literals": 0,
+        "taint.store_key_operands": 0,
+        "taint.store_key_recovered": 0,
+        "taint.store_key_unproven": 0,
+        "taint.store_key_work": 0
+      }
+    }
+  ],
+  "evidence_kind": "retained-shipped-scan-probe"
+}
