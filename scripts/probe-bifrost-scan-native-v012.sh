@@ -177,7 +177,10 @@ expected_ids = {
     policy["id"]
     for pack in catalog["packs"]
     for policy in pack["policies"]
+    if policy["activation"] == "default"
 }
+assert all(policy["activation"] in {"default", "opt-in"}
+           for pack in catalog["packs"] for policy in pack["policies"]), "unknown catalog activation"
 actual_ids = {run["policy_id"] for run in report["runs"]}
 assert len(report["runs"]) == len(expected_ids), \
     f"{language}/{fixture}: expected {len(expected_ids)} policy runs"
@@ -214,10 +217,13 @@ summary = {
     "invocation": ["bifrost", "scan", "<fixture>", "--format", "json",
                    "--evaluation-date", "2026-09-04"],
     "scan_exit_status": int(status),
-    "activated_packs": [
+    "shipped_catalog_packs": [
         {"id": pack["id"], "version": pack["version"], "policies": len(pack["policies"])}
         for pack in catalog["packs"]
     ],
+    "default_policy_ids": sorted(expected_ids),
+    "opt_in_policy_ids": sorted(policy["id"] for pack in catalog["packs"]
+                                for policy in pack["policies"] if policy["activation"] == "opt-in"),
     "policies_evaluated": len(report["runs"]),
     "policy_completions": sorted({
         f"{run['policy_id']}={run['completion']['type']}" for run in report["runs"]
@@ -319,12 +325,19 @@ catalog_ids = {
     for pack in catalog["packs"]
 }
 expected_retained = catalog_ids["bifrost.code-smells"]
-expected_security = catalog_ids["bifrost.security"]
+expected_security = {policy["id"] for pack in catalog["packs"]
+                     if pack["id"] == "bifrost.security"
+                     for policy in pack["policies"] if policy["activation"] == "default"}
+expected_default = {policy["id"] for pack in catalog["packs"]
+                    for policy in pack["policies"] if policy["activation"] == "default"}
+assert all(policy["activation"] in {"default", "opt-in"}
+           for pack in catalog["packs"] for policy in pack["policies"]), "unknown catalog activation"
 assert set(retained_ids) == expected_retained, \
     f"code-smell activation differs from catalog: {sorted(set(retained_ids) ^ expected_retained)}"
-assert set(default_ids) == expected_retained | expected_security, \
-    f"default activation differs from catalog: {sorted(set(default_ids) ^ (expected_retained | expected_security))}"
-assert set(default_ids) - set(retained_ids) == expected_security
+assert set(default_ids) == expected_default, \
+    f"default activation differs from catalog: {sorted(set(default_ids) ^ expected_default)}"
+assert set(default_ids) - set(retained_ids) == expected_default - expected_retained
+assert expected_security <= set(default_ids)
 summary = {
     "fixture": "cases/taint/java/native-source-sink-positive",
     "retained_activation": {
