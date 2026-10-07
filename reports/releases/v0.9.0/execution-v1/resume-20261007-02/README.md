@@ -1,0 +1,5 @@
+# Corrected-harness v0.9 registration, 7 October 2026
+
+PR282 merged as 3e57fcaca. Exact merged runner build passed; the native catalog reader now records authored_hash and resolved_semantic_hash separately. This new packet keeps the original failed/native and successful/sanitizer receipts, their exact contract and both predecessor claims immutable and hash-bound. Original historical counts remain unknown. Known fresh claims are carried in the new baseline rather than erased.
+
+A disclosed one-claim qualification allowance registers all 33 controls and 84 groups under the corrected exact harness. Native control is first. Sanitizer is requalified under the new harness because receipt verification binds the entire exact contract; its prior success remains evidence. The matrix requires all 33 current-harness controls. No retry follows a failed control or unfavorable analyzer result. Push this packet before dispatch; live runtime/resource/lock/accounting gates run before each claim. No corpus, freeze or publication is established by registration.
