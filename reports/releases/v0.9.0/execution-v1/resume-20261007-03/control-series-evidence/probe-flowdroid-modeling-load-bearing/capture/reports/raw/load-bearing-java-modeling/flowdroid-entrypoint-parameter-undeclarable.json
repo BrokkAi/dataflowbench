@@ -1,0 +1,14 @@
+{
+  "adapter": "flowdroid",
+  "case_directory": "cases/taint/java/model-entrypoint-parameter-positive",
+  "completion_line": "Found 0 leaks from 0 sources",
+  "entry_call": "new Handler()",
+  "evidence_kind": "flowdroid-modeling-probe",
+  "exit_status": 0,
+  "invocation_shape": "java -jar soot-infoflow-cmd -a case.apk -p android.jar -s <endpoints> -o out.xml",
+  "leaks_reported": 0,
+  "model_configuration": "XML sources-and-sinks definition binding onRequest's parameter 0 as a source; the handler is never called and the manifest-derived entry model creates no root from a declaration",
+  "results_xml": "absent",
+  "sources_sinks": "entrypoint-sources-sinks.xml",
+  "termination_state": null
+}
