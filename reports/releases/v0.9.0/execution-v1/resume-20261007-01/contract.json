@@ -40,7 +40,7 @@
   },
   "control_inventory": {
     "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/control-inventory.json",
-    "sha256": "2da6418eebbd76153c5502e4914d3755abfd1d96ad9a2b731ab419f56c3e3f41"
+    "sha256": "d722d40eadc2db030d91f0e22bded80dc0f629c6b7bcba477690fbf087577be7"
   },
   "controls": [
     {
@@ -63,12 +63,12 @@
       "id": "probe-bifrost-scan-native",
       "maximum_attempts": 2,
       "output_roots": [
-        "reports/raw/amendment-a32-bifrost-scan-native",
+        "reports/raw/amendment-a33-bifrost-v012-scan-native",
         "reports/raw/control-scratch/probe-bifrost-scan-native"
       ],
       "proposed_argv": [
         "bash",
-        "scripts/probe-bifrost-scan-native.sh",
+        "scripts/probe-bifrost-scan-native-v012.sh",
         "--bifrost",
         "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/tools/bifrost-v0.12.0/bifrost-v0.12.0-universal-apple-darwin/bifrost"
       ],
@@ -1029,7 +1029,7 @@
     }
   ],
   "controls_pending_review": [
-    "Restore checksum-pinned CodeQL and Swift distributions and exact patched extractor/packs in current durable root",
+    "Merge new recovery executor and v012 control; bind exact merged harness and matching runner provenance",
     "Qualify Bifrost v0.12.0 adapter/native controls under explicit pin amendment",
     "Requalify relocated Swift queries and validate all117 commands and runtime gates",
     "Finalize recovery accounting and durable anchor without resetting unknown historical counts",
@@ -14231,7 +14231,7 @@
         "scripts/run-swift-common-v2.py",
         "execute",
         "--plan",
-        "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/codeql-swift-plan.json",
+        "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-plan.json",
         "--output",
         "reports/raw/swift-common-v2/current108-v090-01",
         "--reservation",
@@ -14592,9 +14592,11 @@
     "reports/releases/v0.9.0/execution-v1/opentaint-full-restoration.json": "3fcb4894b8544d4f1764b5755f5def28f2161d34c09e0ae31ed159bba858fd22",
     "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/codeql-swift-plan.json": "0da64698c1c25dea74e2f38bae62a400089aa49a4ae7a2d0d22f1a49f1aedcbf",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/bifrost-runtime.json": "1635ef70e935c3fb036c50a347ed4a20604ddc27045542eb46074f19b5c6147f",
-    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/control-inventory.json": "2da6418eebbd76153c5502e4914d3755abfd1d96ad9a2b731ab419f56c3e3f41",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-plan.json": "1b03fce83c2de7ab0ce4bea7e1d6c61b37910fe9a36b6941c32c6fa03c7202ea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/control-inventory.json": "d722d40eadc2db030d91f0e22bded80dc0f629c6b7bcba477690fbf087577be7",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-restoration.json": "1c65c58260e115d33c9461a541a74e92d84c4cd4c01aa9cf171799ff2b4061bd",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-runtime.json": "78e899e13217020e5895827b88dec06f6a5e109bfb16a242d1a0ca3ba8588174",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/pin-amendment.json": "f6120d6d9f6512fa23b1b5a2ab6e4b1d5a112a35b01587fc17cc23e47895c08b",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/runner-build.json": "78ce6cf3a6e4d828c36a8b53a593070d4008c48a49dcb539f63288ab78d6afda",
     "reports/releases/v0.9.0/execution-v1/runtime-trees/bifrost.json": "690b40f65d6b0635e3fd9e06d37470f48a09594e2e15003ce5fd88c98c1bf86c",
     "reports/releases/v0.9.0/execution-v1/runtime-trees/flowdroid.json": "7dc0d4b5c82674b96ccc70693b0b2a472300b0758e10e1be13da33de35d4661e",
@@ -14607,8 +14609,10 @@
     "reports/releases/v0.9.0/execution-v1/swift-query-checks/receipt.json": "1040dc8b6f9878d7b83264f3fb7da5647df8f08d099edc492ae3fa15e5c4d8bd",
     "reports/releases/v0.9.0/plan.json": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf",
     "scripts/execute-release-controls-v090.py": "4808f3721fde76a42e24a979257bcba8babe788955140768361cf59e3419cb66",
+    "scripts/execute-release-recovery-v090.py": "9ef1f8a75f41109f2c00b35ea8aa31e5ab5c0cdb3fd0c6d5fdb74b0eab032510",
     "scripts/prepare-release-root-v090.py": "e53dabc4133d8eb4ff976e4a2e1447be90e745060b48b46aa29de7b868256b76",
     "scripts/probe-bifrost-sanitizer-lowering.sh": "d6790e3a245ca568ba0c12bd09012a41831704e43e45f5567f978d725abbfb03",
+    "scripts/probe-bifrost-scan-native-v012.sh": "84a4fff2794f13e6f44f88f326448ca5a68f5700bf051371bde7d9924e4c8f2a",
     "scripts/probe-bifrost-scan-native.sh": "40c95ed69d820c624e6524a200684544ef99f70d65b65a1c043071e94c38e312",
     "scripts/probe-flowdroid-modeling-load-bearing.sh": "62075cc2af9ab50f274d29ea80c85f169746fe4237901f9635c93742e831928c",
     "scripts/probe-flowdroid-native-shipped-surface.sh": "e19b888159f5e67a2c7419df4d59cf59e38046353e0c882588d438942872ed4a",
@@ -14667,6 +14671,10 @@
   "parent_plan": {
     "path": "reports/releases/v0.9.0/plan.json",
     "sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf"
+  },
+  "pin_amendment": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/pin-amendment.json",
+    "sha256": "f6120d6d9f6512fa23b1b5a2ab6e4b1d5a112a35b01587fc17cc23e47895c08b"
   },
   "population": {
     "path": "populations/v0.9.0.json",
@@ -14854,11 +14862,11 @@
   },
   "source_commit": "0e42beb655d08081db3123721e1fa7c4b49015e5",
   "source_policy": "One exact merged harness commit for all execution groups, reviewed before launch; compatibility receipts are not corpus run evidence.",
-  "status": "runtime-restoration-and-bifrost-v012-qualification-pending",
+  "status": "runtime-restored-query-and-launch-qualification-pending",
   "swift_plans": {
     "codeql": {
-      "path": "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/codeql-swift-plan.json",
-      "sha256": "0da64698c1c25dea74e2f38bae62a400089aa49a4ae7a2d0d22f1a49f1aedcbf"
+      "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-plan.json",
+      "sha256": "1b03fce83c2de7ab0ce4bea7e1d6c61b37910fe9a36b6941c32c6fa03c7202ea"
     },
     "joern": {
       "path": "adapters/joern/swift-common-v2/plan-v090-01/plan.json",
@@ -14966,7 +14974,7 @@
   },
   "total_wall_budget_seconds": 102960,
   "unresolved": [
-    "Restore checksum-pinned CodeQL and Swift distributions and exact patched extractor/packs in current durable root",
+    "Merge new recovery executor and v012 control; bind exact merged harness and matching runner provenance",
     "Qualify Bifrost v0.12.0 adapter/native controls under explicit pin amendment",
     "Requalify relocated Swift queries and validate all117 commands and runtime gates",
     "Finalize recovery accounting and durable anchor without resetting unknown historical counts",
