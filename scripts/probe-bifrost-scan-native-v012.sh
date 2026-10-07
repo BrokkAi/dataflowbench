@@ -325,11 +325,17 @@ catalog_ids = {
     for pack in catalog["packs"]
 }
 expected_retained = catalog_ids["bifrost.code-smells"]
-expected_security = catalog_ids["bifrost.security"]
+expected_security = {policy["id"] for pack in catalog["packs"]
+                     if pack["id"] == "bifrost.security"
+                     for policy in pack["policies"] if policy["activation"] == "default"}
+expected_default = {policy["id"] for pack in catalog["packs"]
+                    for policy in pack["policies"] if policy["activation"] == "default"}
+assert all(policy["activation"] in {"default", "opt-in"}
+           for pack in catalog["packs"] for policy in pack["policies"]), "unknown catalog activation"
 assert set(retained_ids) == expected_retained, \
     f"code-smell activation differs from catalog: {sorted(set(retained_ids) ^ expected_retained)}"
-assert set(default_ids) == expected_retained | expected_security, \
-    f"default activation differs from catalog: {sorted(set(default_ids) ^ (expected_retained | expected_security))}"
+assert set(default_ids) == expected_default, \
+    f"default activation differs from catalog: {sorted(set(default_ids) ^ expected_default)}"
 assert set(default_ids) - set(retained_ids) == expected_security
 summary = {
     "fixture": "cases/taint/java/native-source-sink-positive",

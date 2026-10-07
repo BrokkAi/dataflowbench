@@ -22,6 +22,12 @@ class CatalogTests(unittest.TestCase):
         block=source.split('expected_ids = {',1)[1].split('completion_types =',1)[0]
         namespace={'catalog':catalog,'report':report,'language':'java','fixture':'retained'}
         exec('expected_ids = {'+block,namespace)
+        activation_block=source.split('catalog_ids = {',1)[1].split('summary = {',1)[0]
+        retained_ids=[p['id'] for pack in catalog['packs'] if pack['id']=='bifrost.code-smells' for p in pack['policies']]
+        activation_namespace={'catalog':catalog,'retained_ids':retained_ids,'default_ids':list(defaults)}
+        exec('catalog_ids = {'+activation_block,activation_namespace)
+        with self.assertRaises(AssertionError):
+            exec('catalog_ids = {'+activation_block,{**activation_namespace,'default_ids':list(defaults|optional)})
         for mutate in ('missing','duplicate','unexpected'):
             changed=json.loads(json.dumps(report))
             if mutate=='missing':changed['runs'].pop()
