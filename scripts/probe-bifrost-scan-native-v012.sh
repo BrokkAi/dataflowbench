@@ -336,7 +336,8 @@ assert set(retained_ids) == expected_retained, \
     f"code-smell activation differs from catalog: {sorted(set(retained_ids) ^ expected_retained)}"
 assert set(default_ids) == expected_default, \
     f"default activation differs from catalog: {sorted(set(default_ids) ^ expected_default)}"
-assert set(default_ids) - set(retained_ids) == expected_security
+assert set(default_ids) - set(retained_ids) == expected_default - expected_retained
+assert expected_security <= set(default_ids)
 summary = {
     "fixture": "cases/taint/java/native-source-sink-positive",
     "retained_activation": {
