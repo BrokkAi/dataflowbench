@@ -40,7 +40,7 @@
   },
   "control_inventory": {
     "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/control-inventory.json",
-    "sha256": "7fecab7f2b6eacdecbc5fb62f7db16eed9a8b80b06ee1d0c1aca293a841a4797"
+    "sha256": "2da6418eebbd76153c5502e4914d3755abfd1d96ad9a2b731ab419f56c3e3f41"
   },
   "controls": [
     {
@@ -990,7 +990,7 @@
         "/usr/bin/python3",
         "scripts/probe-python-modeling-load-bearing-v090.py",
         "--contract",
-        "reports/releases/v0.9.0/execution-v1/final-launch-20260930-01/contract.json"
+        "reports/releases/v0.9.0/execution-v1/resume-20261007-01/contract.json"
       ],
       "stage": "supplemental",
       "status": "prospective-disabled-see-bound-control-inventory"
@@ -1006,7 +1006,7 @@
         "/usr/bin/python3",
         "scripts/probe-warm-observability-v090.py",
         "--contract",
-        "reports/releases/v0.9.0/execution-v1/final-launch-20260930-01/contract.json"
+        "reports/releases/v0.9.0/execution-v1/resume-20261007-01/contract.json"
       ],
       "stage": "supplemental",
       "status": "prospective-disabled-see-bound-control-inventory"
@@ -1022,7 +1022,7 @@
         "/usr/bin/python3",
         "scripts/probe-opentaint-product-recovery-v090.py",
         "--contract",
-        "reports/releases/v0.9.0/execution-v1/final-launch-20260930-01/contract.json"
+        "reports/releases/v0.9.0/execution-v1/resume-20261007-01/contract.json"
       ],
       "stage": "supplemental",
       "status": "prospective-disabled-see-bound-control-inventory"
@@ -1030,7 +1030,6 @@
   ],
   "controls_pending_review": [
     "Restore checksum-pinned CodeQL and Swift distributions and exact patched extractor/packs in current durable root",
-    "Build and bind exact merged runner provenance after quiet-slot readback",
     "Qualify Bifrost v0.12.0 adapter/native controls under explicit pin amendment",
     "Requalify relocated Swift queries and validate all117 commands and runtime gates",
     "Finalize recovery accounting and durable anchor without resetting unknown historical counts",
@@ -14593,8 +14592,10 @@
     "reports/releases/v0.9.0/execution-v1/opentaint-full-restoration.json": "3fcb4894b8544d4f1764b5755f5def28f2161d34c09e0ae31ed159bba858fd22",
     "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/codeql-swift-plan.json": "0da64698c1c25dea74e2f38bae62a400089aa49a4ae7a2d0d22f1a49f1aedcbf",
     "reports/releases/v0.9.0/execution-v1/resume-20261007-01/bifrost-runtime.json": "1635ef70e935c3fb036c50a347ed4a20604ddc27045542eb46074f19b5c6147f",
-    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/control-inventory.json": "7fecab7f2b6eacdecbc5fb62f7db16eed9a8b80b06ee1d0c1aca293a841a4797",
-    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/runner-build.json": "a5bdee7471df93ba03a0f303ebf8cac82dab8319c449e7e57f00bff031c5945a",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/control-inventory.json": "2da6418eebbd76153c5502e4914d3755abfd1d96ad9a2b731ab419f56c3e3f41",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-restoration.json": "1c65c58260e115d33c9461a541a74e92d84c4cd4c01aa9cf171799ff2b4061bd",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-runtime.json": "78e899e13217020e5895827b88dec06f6a5e109bfb16a242d1a0ca3ba8588174",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/runner-build.json": "78ce6cf3a6e4d828c36a8b53a593070d4008c48a49dcb539f63288ab78d6afda",
     "reports/releases/v0.9.0/execution-v1/runtime-trees/bifrost.json": "690b40f65d6b0635e3fd9e06d37470f48a09594e2e15003ce5fd88c98c1bf86c",
     "reports/releases/v0.9.0/execution-v1/runtime-trees/flowdroid.json": "7dc0d4b5c82674b96ccc70693b0b2a472300b0758e10e1be13da33de35d4661e",
     "reports/releases/v0.9.0/execution-v1/runtime-trees/infer.json": "f88687f03e98358896cbfe4974978b33da2260af42fe72cf8613fb11270aec76",
@@ -14655,12 +14656,12 @@
       "sha256": "0589faee6fae872d8991bb5f3d30db5d00c95ea11c5a56fbca8e89dfe726c864"
     },
     "restoration": {
-      "path": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-restoration.json",
-      "sha256": "bf983885a3674e3c4ab0ab837bd13ef2d7e22d4f2189887a7078176bc69a4ca5"
+      "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-restoration.json",
+      "sha256": "1c65c58260e115d33c9461a541a74e92d84c4cd4c01aa9cf171799ff2b4061bd"
     },
     "runtime_tree": {
-      "path": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-runtime.json",
-      "sha256": "1a2f936f40e7e978ea1f2b38033a02cf8bd5f0a1d1c5fb531e40dd63a1bab894"
+      "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-runtime.json",
+      "sha256": "78e899e13217020e5895827b88dec06f6a5e109bfb16a242d1a0ca3ba8588174"
     }
   },
   "parent_plan": {
@@ -14726,7 +14727,7 @@
   },
   "runner_build": {
     "binary_path": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/target/release/dataflowbench",
-    "binary_sha256": null,
+    "binary_sha256": "a27205c137abb32e9d9d1d0a6739dafbd959c11ef4eea1aa9513575178de0bad",
     "build_deadline_seconds": 1200,
     "build_prerequisites": [
       "Fresh read-only process and build-owner readback",
@@ -14735,6 +14736,7 @@
       "Push preregistration before build; durable supervisor logs; no automatic retry"
     ],
     "build_scratch_budget_gib": 8,
+    "cargo_version": "cargo 1.97.1 (c980f4866 2026-06-30)\n",
     "command": [
       "cargo",
       "build",
@@ -14746,6 +14748,7 @@
     "environment_overrides": {
       "CARGO_TARGET_DIR": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/target"
     },
+    "rustc_version": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6\n",
     "schema": "release-runner-build/v1",
     "source_commit": "0e42beb655d08081db3123721e1fa7c4b49015e5",
     "source_files": {
@@ -14804,7 +14807,13 @@
       "src/tests/support.rs": "e4b26d1e69f151542bfa091b58b9c68c73dce7067c0b5c48585188c0604b4583",
       "src/tests/templates.rs": "4d31dd4614654681e166dd5aa50f59661bd291b6f453865179fff37f4ba599a5"
     },
-    "status": "not-built"
+    "status": "built-verified",
+    "supervision": {
+      "command_pid": 91245,
+      "exit_code": 0,
+      "finished_at_utc": "2026-10-07T10:19:05.868238+00:00",
+      "status": "completed"
+    }
   },
   "runtime_tree_scope": "Exact held distribution trees and external interpreter executable links. OS libraries remain host dependencies; Swift plans separately bind CodeQL, compiler, SDK and Joern/JDK inventories.",
   "runtime_trees": [
@@ -14829,12 +14838,12 @@
       "sha256": "6da0b1ebc6d2686302dec7e4f15c60ace682e552cc64e138c0d00a21c941dd7f"
     },
     {
-      "path": "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-runtime.json",
-      "sha256": "1a2f936f40e7e978ea1f2b38033a02cf8bd5f0a1d1c5fb531e40dd63a1bab894"
-    },
-    {
       "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/bifrost-runtime.json",
       "sha256": "1635ef70e935c3fb036c50a347ed4a20604ddc27045542eb46074f19b5c6147f"
+    },
+    {
+      "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-runtime.json",
+      "sha256": "78e899e13217020e5895827b88dec06f6a5e109bfb16a242d1a0ca3ba8588174"
     }
   ],
   "schema": "release-execution-contract/v1",
@@ -14943,8 +14952,8 @@
     },
     "runner": {
       "path": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/target/release/dataflowbench",
-      "sha256": null,
-      "status": "merged-rust-source-build-verified-control-harness-pending"
+      "sha256": "a27205c137abb32e9d9d1d0a6739dafbd959c11ef4eea1aa9513575178de0bad",
+      "status": "built-verified"
     },
     "semgrep": {
       "path": "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep",
@@ -14958,7 +14967,6 @@
   "total_wall_budget_seconds": 102960,
   "unresolved": [
     "Restore checksum-pinned CodeQL and Swift distributions and exact patched extractor/packs in current durable root",
-    "Build and bind exact merged runner provenance after quiet-slot readback",
     "Qualify Bifrost v0.12.0 adapter/native controls under explicit pin amendment",
     "Requalify relocated Swift queries and validate all117 commands and runtime gates",
     "Finalize recovery accounting and durable anchor without resetting unknown historical counts",
