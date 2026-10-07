@@ -25,6 +25,25 @@ GROUP_LAUNCHER = "scripts/run-release-group-recovery-v090.py"
 CONTROL_ATTEMPTS = PurePosixPath("reports/releases/v0.9.0/control-attempts")
 GROUP_ATTEMPTS = PurePosixPath("reports/releases/v0.9.0/attempts")
 CONTROL_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\Z")
+CONTRACT_CONTROLS = {
+    "probe-python-modeling-load-bearing",
+    "probe-warm-observability",
+    "probe-opentaint-product-v090",
+}
+
+
+def validate_control_contract_arguments(controls: list[dict], contract_path: str) -> None:
+    """Reject stale supplemental contract paths before preparing or claiming work."""
+    for control in controls:
+        argv = control.get("argv", [])
+        if not isinstance(argv, list) or any(not isinstance(arg, str) for arg in argv):
+            raise ValueError("control argv must be a string list")
+        positions = [i for i, arg in enumerate(argv) if arg == "--contract"]
+        if not positions and control["id"] not in CONTRACT_CONTROLS:
+            continue
+        if (len(positions) != 1 or positions[0] + 1 >= len(argv)
+                or argv[positions[0] + 1] != contract_path):
+            raise ValueError("control argv must bind the reviewed contract: " + control["id"])
 
 
 def _read_json(path: Path, description: str) -> dict:
@@ -95,6 +114,7 @@ def reviewed_inventory(source: Path, plan_commit: str, contract_path: str):
     ids = [control["id"] for control in controls]
     if len(ids) != len(set(ids)) or set(ids) != set(roots):
         raise ValueError("control membership and designated roots differ")
+    validate_control_contract_arguments(controls, contract_path)
     return contract, controls
 
 

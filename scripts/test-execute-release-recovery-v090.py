@@ -1,5 +1,7 @@
 """The v0.9 recovery executor is bounded, fail-stop, and recovery-only."""
 import importlib.util
+import copy
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -15,6 +17,48 @@ spec.loader.exec_module(recovery)
 
 
 class RecoveryExecutorTests(unittest.TestCase):
+    def test_retained_recovery_inventory_has_stale_contract_arguments(self):
+        packet = Path(__file__).resolve().parents[1] / "reports/releases/v0.9.0/execution-v1/resume-20261007-03"
+        controls = json.loads((packet / "control-inventory.json").read_text())["controls"]
+        with self.assertRaisesRegex(ValueError, "reviewed contract"):
+            recovery.validate_control_contract_arguments(controls, "reports/releases/v0.9.0/execution-v1/resume-20261007-03/contract.json")
+
+    def test_corrected_supplemental_arguments_and_invalid_variants(self):
+        contract = "reports/releases/v0.9.0/execution-v1/replacement/contract.json"
+        controls = [{"id": name, "argv": ["python3", "probe.py", "--contract", contract]}
+                    for name in sorted(recovery.CONTRACT_CONTROLS)]
+        recovery.validate_control_contract_arguments(controls, contract)
+        for mutation in ("stale", "missing", "duplicate", "truncated"):
+            changed = copy.deepcopy(controls)
+            argv = changed[-1]["argv"]
+            if mutation == "stale":
+                argv[-1] = "reports/releases/v0.9.0/execution-v1/original/contract.json"
+            elif mutation == "missing":
+                del argv[-2:]
+            elif mutation == "duplicate":
+                argv.extend(["--contract", contract])
+            else:
+                argv.pop()
+            with self.subTest(mutation=mutation), self.assertRaisesRegex(ValueError, "reviewed contract"):
+                recovery.validate_control_contract_arguments(changed, contract)
+
+    def test_stale_bound_inventory_stops_before_preparation_or_claim(self):
+        control = {"id": "probe-python-modeling-load-bearing",
+                   "argv": ["python3", "probe.py", "--contract", "old-contract.json"]}
+        inventory = json.dumps({"controls": [control]}).encode()
+        contract = json.dumps({
+            "execution_authorized": True, "unresolved": [],
+            "control_inventory": {"path": "inventory.json",
+                                  "sha256": hashlib.sha256(inventory).hexdigest()},
+            "control_execution_roots": {control["id"]: "/unused/root"},
+        }).encode()
+        with patch.object(recovery, "_reviewed_file", side_effect=[contract, inventory]), \
+                patch.object(recovery, "_run") as run:
+            with self.assertRaisesRegex(ValueError, "reviewed contract"):
+                recovery.execute_controls(Path("/unused/source"), "a" * 40,
+                                          "new-contract.json", python="python3")
+            run.assert_not_called()
+
     def test_launcher_constants_cannot_select_historical_executors(self):
         self.assertEqual(recovery.CONTROL_LAUNCHER,
                          "scripts/run-release-control-recovery-v090.py")
