@@ -177,7 +177,10 @@ expected_ids = {
     policy["id"]
     for pack in catalog["packs"]
     for policy in pack["policies"]
+    if policy["activation"] == "default"
 }
+assert all(policy["activation"] in {"default", "opt-in"}
+           for pack in catalog["packs"] for policy in pack["policies"]), "unknown catalog activation"
 actual_ids = {run["policy_id"] for run in report["runs"]}
 assert len(report["runs"]) == len(expected_ids), \
     f"{language}/{fixture}: expected {len(expected_ids)} policy runs"
@@ -214,10 +217,13 @@ summary = {
     "invocation": ["bifrost", "scan", "<fixture>", "--format", "json",
                    "--evaluation-date", "2026-09-04"],
     "scan_exit_status": int(status),
-    "activated_packs": [
+    "shipped_catalog_packs": [
         {"id": pack["id"], "version": pack["version"], "policies": len(pack["policies"])}
         for pack in catalog["packs"]
     ],
+    "default_policy_ids": sorted(expected_ids),
+    "opt_in_policy_ids": sorted(policy["id"] for pack in catalog["packs"]
+                                for policy in pack["policies"] if policy["activation"] == "opt-in"),
     "policies_evaluated": len(report["runs"]),
     "policy_completions": sorted({
         f"{run['policy_id']}={run['completion']['type']}" for run in report["runs"]
