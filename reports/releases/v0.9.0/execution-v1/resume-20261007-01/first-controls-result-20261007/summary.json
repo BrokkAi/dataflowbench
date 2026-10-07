@@ -1,0 +1,28 @@
+{
+  "claims_consumed": 2,
+  "failure": "v0.12 catalog exposes authored_hash and resolved_semantic_hash; probe expected obsolete semantic_hash. Failure precedes scan fixture execution.",
+  "fix": "Versioned probe now records both actual catalog fields independently; retained-catalog parser validation and bash syntax pass. Historical/current failed claim and plan unchanged.",
+  "matrix_groups_started": 0,
+  "merged_harness": "6cf300701fc9bc9a5104d283b64a0a63da33a62a",
+  "next_gate": "Merge corrected harness and explicitly preregister a reviewed replacement attempt/contract/accounting; no automatic or selective analyzer retry.",
+  "registered_contract_sha256": "a83f7c58cbb4031f6b27f279e351c0b10c8cd9f682027951f3620c2dee54d56f",
+  "results": [
+    {
+      "control": "probe-bifrost-sanitizer-lowering",
+      "duration_seconds": 74.276572166,
+      "exit_code": 0,
+      "receipt": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/first-controls-result-20261007/probe-bifrost-sanitizer-lowering/completed.json",
+      "status": "completed"
+    },
+    {
+      "control": "probe-bifrost-scan-native",
+      "duration_seconds": 1.8947475420000006,
+      "exit_code": 1,
+      "receipt": "reports/releases/v0.9.0/execution-v1/resume-20261007-01/first-controls-result-20261007/probe-bifrost-scan-native/completed.json",
+      "status": "failed"
+    }
+  ],
+  "schema": "release-controls-progress/v1",
+  "status": "fail-stop-after-native-probe-script-defect",
+  "verified_completed_controls": 1
+}
