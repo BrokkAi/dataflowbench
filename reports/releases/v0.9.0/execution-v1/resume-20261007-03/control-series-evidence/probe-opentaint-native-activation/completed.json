@@ -1,0 +1,79 @@
+{
+  "argv": [
+    "bash",
+    "scripts/probe-opentaint-native-activation.sh",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz"
+  ],
+  "attempt_id": "probe-opentaint-native-activation-attempt-01",
+  "attempt_number": 1,
+  "captured_files": [
+    {
+      "bytes": 693,
+      "path": "reports/raw/opentaint-native-activation-probe/report-ifds.sarif",
+      "sha256": "f2de3062e30395ce6d05e69974dffc79d8ea2d3b4ae3ab810461c73ce90f0c8a"
+    }
+  ],
+  "contract": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-03/contract.json",
+    "sha256": "e565b5871bf233e16f6fea045ad8640b7b4db40c7c9bb07f939fa17efc9a45d7"
+  },
+  "control_id": "probe-opentaint-native-activation",
+  "control_inventory": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-03/control-inventory.json",
+    "sha256": "1f731f660de12fd693793121840e248da0a31173709114b63d75391197bf99bb"
+  },
+  "deadline_seconds": 600,
+  "duration_seconds": 4.589072959,
+  "end_utc": "2026-10-07T12:18:53.065187+00:00",
+  "environment": {
+    "HOME": "/Users/dave",
+    "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+    "LANG": "en_US.UTF-8",
+    "PATH": "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin:/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "SEMGREP_ENABLE_VERSION_CHECK": "0",
+    "TMPDIR": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-opentaint-native-activation/reports/raw/control-scratch/probe-opentaint-native-activation"
+  },
+  "environment_sha256": "b6e3a9575fe5c7658f15df72d8234d126103ca14aaf7fb2c47d3ebde72b181e0",
+  "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-opentaint-native-activation",
+  "exit_code": 0,
+  "maximum_attempts": 2,
+  "measurement_repeats": 1,
+  "missing_output_roots": [],
+  "output_roots": [
+    "reports/raw/opentaint-native-activation-probe",
+    "reports/raw/control-scratch/probe-opentaint-native-activation"
+  ],
+  "parent_plan_sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf",
+  "population_sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+  "release": "v0.9.0",
+  "repeat_mechanism": "single-control-series",
+  "runner_identity": null,
+  "schema": "release-control-attempt/v1",
+  "script_identity": [
+    {
+      "path": "scripts/probe-opentaint-native-activation.sh",
+      "sha256": "5400cc43cded6c84b17544a7affeefdff103f8ad70df39602ccd3b865c18328f"
+    }
+  ],
+  "start_utc": "2026-10-07T12:18:48.445291+00:00",
+  "started_receipt": "started.json",
+  "started_receipt_sha256": "fac4dd78c6a695ed9c4bb867000effc14db861a38f6fa6f6fde103a77c8856a8",
+  "status": "completed",
+  "stderr": {
+    "path": "stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "stdout.txt",
+    "sha256": "350502f1aabd5e578b3cc6d615cf0cabc6e8f24920e721e8ecaea662a42350c6"
+  },
+  "timed_out": false
+}

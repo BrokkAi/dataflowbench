@@ -1,0 +1,494 @@
+{
+  "argv": [
+    "bash",
+    "scripts/probe-opentaint-modeling-surface.sh",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz"
+  ],
+  "attempt_id": "probe-opentaint-modeling-surface-attempt-01",
+  "attempt_number": 1,
+  "captured_files": [
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-endpoints-only/load-trace.json",
+      "sha256": "fffbb55d9f813cef0002921d7975fd0bfaa0e5803d8419595b3f220f83b64bb1"
+    },
+    {
+      "bytes": 1578,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-endpoints-only/report-ifds.sarif",
+      "sha256": "00c7452ec9fb0717e77ae86807e217b91aae7f774dc0f7d11bb3c99b753a7519"
+    },
+    {
+      "bytes": 516,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-endpoints-only/rule.yaml",
+      "sha256": "a7274a773a78253f139a25c88d91c5abd91361cc3afb5912d0f29978111a9c7f"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-static/load-trace.json",
+      "sha256": "89b7ec8101d74e627784fd183c92217f15807cfe53794d117208711b88a592a5"
+    },
+    {
+      "bytes": 1570,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-static/report-ifds.sarif",
+      "sha256": "056dd67499b9a6f9a833305a3d20618ed631c1a303dffb640834fe031801b0f8"
+    },
+    {
+      "bytes": 745,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-roundtrip-static/rule.yaml",
+      "sha256": "e87a5337f7e61869a085f91be8e5e9fce05703dd12bdfcd35e6550368fda5971"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-separation-negative/load-trace.json",
+      "sha256": "89b7ec8101d74e627784fd183c92217f15807cfe53794d117208711b88a592a5"
+    },
+    {
+      "bytes": 1573,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-separation-negative/report-ifds.sarif",
+      "sha256": "d1db1f2a08498536edbb43f1e07e253476ae535d0b3c5c68bc52b8e4a2b067ad"
+    },
+    {
+      "bytes": 757,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-separation-negative/rule.yaml",
+      "sha256": "2653581ba20e1727152df12ccaf67cd2c3a74118adb538fa49af8dfa62afe15f"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-separation-positive/load-trace.json",
+      "sha256": "89b7ec8101d74e627784fd183c92217f15807cfe53794d117208711b88a592a5"
+    },
+    {
+      "bytes": 1573,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-separation-positive/report-ifds.sarif",
+      "sha256": "57e368aee00dccd525715eaf8676022e8a89ac97d67a9f2adf5fc466f808a62a"
+    },
+    {
+      "bytes": 757,
+      "path": "reports/raw/opentaint-modeling-surface-probe/b-separation-positive/rule.yaml",
+      "sha256": "2653581ba20e1727152df12ccaf67cd2c3a74118adb538fa49af8dfa62afe15f"
+    },
+    {
+      "bytes": 4856,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-negative/load-trace.json",
+      "sha256": "a198665c4e13ac238bc4f7c6e08b3d2782eff4ca968a2286382663e6c4d3a8b6"
+    },
+    {
+      "bytes": 4402,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-negative/report-ifds.sarif",
+      "sha256": "14bfb1d42f1295a942a86cb1ed14c360542508f9b45a3b0baab2abad8a821f0e"
+    },
+    {
+      "bytes": 545,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-negative/rule.yaml",
+      "sha256": "0a260466aa0cc8ca71038f30b1d8f9b6e327db4798461b99a9bced8b1694fc5e"
+    },
+    {
+      "bytes": 4856,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-positive/load-trace.json",
+      "sha256": "a198665c4e13ac238bc4f7c6e08b3d2782eff4ca968a2286382663e6c4d3a8b6"
+    },
+    {
+      "bytes": 4402,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-positive/report-ifds.sarif",
+      "sha256": "ed2bb0eb7ce16810773329729c0c963f26e9b74de1d8d967387a1f575f6df8f7"
+    },
+    {
+      "bytes": 545,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-def-pattern-positive/rule.yaml",
+      "sha256": "0a260466aa0cc8ca71038f30b1d8f9b6e327db4798461b99a9bced8b1694fc5e"
+    },
+    {
+      "bytes": 4852,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-negative/load-trace.json",
+      "sha256": "f4d317537ba1c598dcb1de8d9dcebba9143f501c4cf033f72f639360a7db53cf"
+    },
+    {
+      "bytes": 4405,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-negative/report-ifds.sarif",
+      "sha256": "27f8a2bf00fca8179ad74d1e92a8848455501a37ffaa8d5f397791152492ce0b"
+    },
+    {
+      "bytes": 541,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-negative/rule.yaml",
+      "sha256": "d3225b9f5d1d62a198bb205c9d14a5d91de0f17d5c8cd91281f19e88b0b087ab"
+    },
+    {
+      "bytes": 4852,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-positive/load-trace.json",
+      "sha256": "f4d317537ba1c598dcb1de8d9dcebba9143f501c4cf033f72f639360a7db53cf"
+    },
+    {
+      "bytes": 4405,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-positive/report-ifds.sarif",
+      "sha256": "474f6adc390125009a754ce03d8868bdbc0b16236bd9f610974e95d4b2e728d8"
+    },
+    {
+      "bytes": 541,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-inside-pattern-positive/rule.yaml",
+      "sha256": "d3225b9f5d1d62a198bb205c9d14a5d91de0f17d5c8cd91281f19e88b0b087ab"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-sink-only-control/load-trace.json",
+      "sha256": "c9a0d0568881b7b1d2acc1cc6044efd5b5d5bb30b9be4714085e789da0abf5d4"
+    },
+    {
+      "bytes": 1571,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-sink-only-control/report-ifds.sarif",
+      "sha256": "5cf8802e2539d45557f3b32c6a41d839976e5f60a8eeccb75125d33d4461cbab"
+    },
+    {
+      "bytes": 473,
+      "path": "reports/raw/opentaint-modeling-surface-probe/e-sink-only-control/rule.yaml",
+      "sha256": "0b6e8fe99f31eb1948d0159d30f7b6a9ed51113ceddf60169294fbfe467cb91c"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-field-negative-side-effect/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 1580,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-field-negative-side-effect/report-ifds.sarif",
+      "sha256": "a4e29287718acc3616a03f8c46a0e5b106adf09e2cd683959a2fc236e974daaf"
+    },
+    {
+      "bytes": 662,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-field-negative-side-effect/rule.yaml",
+      "sha256": "846f8200e0660f5b0955f15834b753f4c88b990dd5ec1c18613868227b2154f2"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-plain/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 1574,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-plain/report-ifds.sarif",
+      "sha256": "4bdf34901acd01f1c33f73b6acb1db420c889859058a01cb441cab076525f2c3"
+    },
+    {
+      "bytes": 633,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-plain/rule.yaml",
+      "sha256": "c142d75b2bc7824d7e082802eb12ef53b3b1762ec13726b83479ce2f99660787"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-side-effect/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 1580,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-side-effect/report-ifds.sarif",
+      "sha256": "0a4359d50d3874be7505fca193cd9274cb474d88dcf8838ef56f76b25c097ac3"
+    },
+    {
+      "bytes": 662,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-field-positive-side-effect/rule.yaml",
+      "sha256": "846f8200e0660f5b0955f15834b753f4c88b990dd5ec1c18613868227b2154f2"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-through-negative-endpoints-only/load-trace.json",
+      "sha256": "fffbb55d9f813cef0002921d7975fd0bfaa0e5803d8419595b3f220f83b64bb1"
+    },
+    {
+      "bytes": 15480,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-through-negative-endpoints-only/report-ifds.sarif",
+      "sha256": "3790fdcf506835c936fbe330a6cff01c89f309bd08d3769b871b1658012a9fa7"
+    },
+    {
+      "bytes": 516,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-through-negative-endpoints-only/rule.yaml",
+      "sha256": "a7274a773a78253f139a25c88d91c5abd91361cc3afb5912d0f29978111a9c7f"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-through-positive-endpoints-only/load-trace.json",
+      "sha256": "fffbb55d9f813cef0002921d7975fd0bfaa0e5803d8419595b3f220f83b64bb1"
+    },
+    {
+      "bytes": 15478,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-through-positive-endpoints-only/report-ifds.sarif",
+      "sha256": "27ff325c7f8549c842075a6beff7183bc2f071db5991389ab32ac9139f076586"
+    },
+    {
+      "bytes": 516,
+      "path": "reports/raw/opentaint-modeling-surface-probe/o-through-positive-endpoints-only/rule.yaml",
+      "sha256": "a7274a773a78253f139a25c88d91c5abd91361cc3afb5912d0f29978111a9c7f"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 1569,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-negative/report-ifds.sarif",
+      "sha256": "8de32a66f2198909d54473099df03f679bbce2480bbf7735e0d7fd6a18343c63"
+    },
+    {
+      "bytes": 632,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-negative/rule.yaml",
+      "sha256": "a4a624b1b1866c59290ce3aa6df96cede6638567511c0dd3ec9c71a7dcca9421"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 7412,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-positive/report-ifds.sarif",
+      "sha256": "65c899bb9f2a90522dc93f93637f11d93fc77a8a69d09cedc1f7a12aedcb127c"
+    },
+    {
+      "bytes": 632,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-opaque-positive/rule.yaml",
+      "sha256": "a4a624b1b1866c59290ce3aa6df96cede6638567511c0dd3ec9c71a7dcca9421"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-position-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 1571,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-position-negative/report-ifds.sarif",
+      "sha256": "7a93ae7aa4605783b326836ca14af9073293fbc26ddae5a5f79fac207bd98189"
+    },
+    {
+      "bytes": 646,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-position-negative/rule.yaml",
+      "sha256": "89385b85cac639492b248aaf3846ed47c2b3c2a4f8fb2645dc87d0fa2edfa654"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-position-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 7448,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-position-positive/report-ifds.sarif",
+      "sha256": "2fd2063d285c57d2a7a28b3fd231c5378d688dc538a5a1e277b403552094e0d6"
+    },
+    {
+      "bytes": 646,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-position-positive/rule.yaml",
+      "sha256": "89385b85cac639492b248aaf3846ed47c2b3c2a4f8fb2645dc87d0fa2edfa654"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-unmodeled-positive/load-trace.json",
+      "sha256": "fffbb55d9f813cef0002921d7975fd0bfaa0e5803d8419595b3f220f83b64bb1"
+    },
+    {
+      "bytes": 1572,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-unmodeled-positive/report-ifds.sarif",
+      "sha256": "7859b225d22d2dff65af4a93080700907f54f14603d05d1bc9664913883d4e93"
+    },
+    {
+      "bytes": 516,
+      "path": "reports/raw/opentaint-modeling-surface-probe/p-unmodeled-positive/rule.yaml",
+      "sha256": "a7274a773a78253f139a25c88d91c5abd91361cc3afb5912d0f29978111a9c7f"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-sink-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 1567,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-sink-negative/report-ifds.sarif",
+      "sha256": "50be56ffcc732b6ef3ddf767c764936f72f692b37aed7cd66383be44c843649c"
+    },
+    {
+      "bytes": 618,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-sink-negative/rule.yaml",
+      "sha256": "5d2e38f8753222c1170dc631df293fd80fab53fc0fc256825eb98cf0a9201121"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-sink-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 7368,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-sink-positive/report-ifds.sarif",
+      "sha256": "f895b1ae6e715dfcde23190db5e2733a49a705a294e7049506d9081fdfd354c9"
+    },
+    {
+      "bytes": 618,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-sink-positive/rule.yaml",
+      "sha256": "5d2e38f8753222c1170dc631df293fd80fab53fc0fc256825eb98cf0a9201121"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-source-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 1569,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-source-negative/report-ifds.sarif",
+      "sha256": "61653986157af1d1c329b6d7a6324310a1352eaa90e983a564386700a857dd93"
+    },
+    {
+      "bytes": 554,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-source-negative/rule.yaml",
+      "sha256": "e8f99778d20996cc025602bf48de289f3a90f5da9a894a9fcfe3b23b4143ba0a"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-source-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 7419,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-source-positive/report-ifds.sarif",
+      "sha256": "4f39ee912b1fde7a2d107968bddd2c8cb672dc16906f2cb87871d08047fd1e2e"
+    },
+    {
+      "bytes": 554,
+      "path": "reports/raw/opentaint-modeling-surface-probe/s-source-positive/rule.yaml",
+      "sha256": "e8f99778d20996cc025602bf48de289f3a90f5da9a894a9fcfe3b23b4143ba0a"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative-unmodeled/load-trace.json",
+      "sha256": "fffbb55d9f813cef0002921d7975fd0bfaa0e5803d8419595b3f220f83b64bb1"
+    },
+    {
+      "bytes": 15496,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative-unmodeled/report-ifds.sarif",
+      "sha256": "3fb5c231f6d196736b52e38e10f2a435ab41a12606b66a94f2bd43cc2746446f"
+    },
+    {
+      "bytes": 516,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative-unmodeled/rule.yaml",
+      "sha256": "a7274a773a78253f139a25c88d91c5abd91361cc3afb5912d0f29978111a9c7f"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 1567,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative/report-ifds.sarif",
+      "sha256": "f643391551b6f7564c4c4977443fb7f05f6c510b2cc8c656586973060614c4a3"
+    },
+    {
+      "bytes": 582,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-kill-negative/rule.yaml",
+      "sha256": "c0b555ddf7ba87dab63c2600721e9f68327341e90e083a866fa53ac8e261f0d3"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-kill-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 7424,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-kill-positive/report-ifds.sarif",
+      "sha256": "e004e7e26213af8c4529d92e1766b7c7bd476bb6fadb99a5689d48c7d71ff9aa"
+    },
+    {
+      "bytes": 582,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-kill-positive/rule.yaml",
+      "sha256": "c0b555ddf7ba87dab63c2600721e9f68327341e90e083a866fa53ac8e261f0d3"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-negative/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 1574,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-negative/report-ifds.sarif",
+      "sha256": "66f025beaee1b97300aec88460a0376cebf0ec89e39cc5185e10ca10dc960326"
+    },
+    {
+      "bytes": 582,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-negative/rule.yaml",
+      "sha256": "c0b555ddf7ba87dab63c2600721e9f68327341e90e083a866fa53ac8e261f0d3"
+    },
+    {
+      "bytes": 806,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-positive/load-trace.json",
+      "sha256": "40c2bb3884181b7bcff7f63dba5b163099680d859fe667fffb193ab47ff8c932"
+    },
+    {
+      "bytes": 15665,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-positive/report-ifds.sarif",
+      "sha256": "51230e574d4ee7fc71f08881db15f2a288881e9fffdfa35468f2aa3563d36886"
+    },
+    {
+      "bytes": 582,
+      "path": "reports/raw/opentaint-modeling-surface-probe/z-selectivity-positive/rule.yaml",
+      "sha256": "c0b555ddf7ba87dab63c2600721e9f68327341e90e083a866fa53ac8e261f0d3"
+    }
+  ],
+  "contract": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-03/contract.json",
+    "sha256": "e565b5871bf233e16f6fea045ad8640b7b4db40c7c9bb07f939fa17efc9a45d7"
+  },
+  "control_id": "probe-opentaint-modeling-surface",
+  "control_inventory": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-03/control-inventory.json",
+    "sha256": "1f731f660de12fd693793121840e248da0a31173709114b63d75391197bf99bb"
+  },
+  "deadline_seconds": 600,
+  "duration_seconds": 135.327236542,
+  "end_utc": "2026-10-07T12:18:35.928009+00:00",
+  "environment": {
+    "HOME": "/Users/dave",
+    "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+    "LANG": "en_US.UTF-8",
+    "PATH": "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin:/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "SEMGREP_ENABLE_VERSION_CHECK": "0",
+    "TMPDIR": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-opentaint-modeling-surface/reports/raw/control-scratch/probe-opentaint-modeling-surface"
+  },
+  "environment_sha256": "eac75f379dbdba47532294b390bf9f6d7a4a0ef0af52c5c71638fa52fdb6cd25",
+  "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-03/execution/controls/probe-opentaint-modeling-surface",
+  "exit_code": 0,
+  "maximum_attempts": 2,
+  "measurement_repeats": 1,
+  "missing_output_roots": [],
+  "output_roots": [
+    "reports/raw/opentaint-modeling-surface-probe",
+    "reports/raw/control-scratch/probe-opentaint-modeling-surface"
+  ],
+  "parent_plan_sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf",
+  "population_sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+  "release": "v0.9.0",
+  "repeat_mechanism": "single-control-series",
+  "runner_identity": null,
+  "schema": "release-control-attempt/v1",
+  "script_identity": [
+    {
+      "path": "scripts/probe-opentaint-modeling-surface.sh",
+      "sha256": "0415d7838cc0d0cd9a3e338cdd9d6e11f3dfc8ca8703f38347e87044c4e71de7"
+    }
+  ],
+  "start_utc": "2026-10-07T12:16:20.540912+00:00",
+  "started_receipt": "started.json",
+  "started_receipt_sha256": "e027a62beed93c326389134193bdbc43c83805700644014c38b47dd331d16fc1",
+  "status": "completed",
+  "stderr": {
+    "path": "stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "stdout.txt",
+    "sha256": "94431d78700cdfee788f8fcff7541a5a1b2de0d724d428d0280d308a8315d835"
+  },
+  "timed_out": false
+}
