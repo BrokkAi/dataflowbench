@@ -1,0 +1,44 @@
+Usage: joern [options] [<cpg.bin>]
+
+Script execution
+  --script <value>         path to script file: will execute and exit
+  --param param1=value1    key/value pair for main function in script - may be passed multiple times
+  --import script1.sc      given source files will be compiled and added to classpath - this may be passed multiple times
+  --runBefore 'import Int.MaxValue'
+                           given code will be executed on startup - this may be passed multiple times
+  --runAfter println("bye!")
+                           given code will be executed on shutdown - this may be passed multiple times
+  --classpathEntry path/to/classpath
+                           additional classpath entries - may be passed multiple times
+  -d, --dep com.michaelpollmeier:versionsort:1.0.7
+                           add artifacts (including transitive dependencies) for given maven coordinate to classpath - may be passed multiple times
+  -r, --repo https://repository.apache.org/content/groups/public/
+                           additional repositories to resolve dependencies - may be passed multiple times
+  --command <value>        select one of multiple @main methods
+Plugin Management
+  --add-plugin <value>     Plugin zip file to add to the installation
+  --remove-plugin <value>  Name of plugin to remove from the installation
+  --plugins                List available plugins and layer creators
+  --run <value>            Run layer creator. Get a list via --plugins
+  --src <value>            Source code directory to run layer creator on
+  --language <value>       Language to use in CPG creation
+  --overwrite              Overwrite CPG if it already exists
+  --store                  Store graph changes made by layer creator
+REST server mode
+  --server                 run as HTTP server
+  --server-host <value>    Hostname on which to expose the CPGQL server
+  --server-port <value>    Port on which to expose the CPGQL server
+  --server-auth-username <value>
+                           Basic auth username for the CPGQL server
+  --server-auth-password <value>
+                           Basic auth password for the CPGQL server
+Misc
+  <cpg.bin>                CPG to load
+  --for-input-path <value>
+                           Open CPG for given input path - overrides <cpg.bin>
+  --nocolors               turn off colors
+  --verbose                enable verbose output (predef, resolved dependency jars, ...)
+  --maxHeight <value>      Maximum number lines to print before output gets truncated (default: no limit)
+  --scalacOption -Xfatal-warnings
+                           additional scalac option passed to the underlying compiler - may be passed multiple times
+  --help                   Print this help text

@@ -1,0 +1,1695 @@
+{
+  "argv": [
+    "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/target/release/dataflowbench",
+    "--population",
+    "v0.9.0",
+    "estimate-invocation-overhead",
+    "--tool",
+    "opentaint",
+    "--language",
+    "kotlin",
+    "--joern",
+    "/Users/dave/.cache/dataflowbench-tools/joern-v4.0.628/joern-cli/joern",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep",
+    "--bifrost",
+    "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/tools/bifrost-v0.12.0/bifrost-v0.12.0-universal-apple-darwin/bifrost",
+    "--codeql",
+    "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/tools/full108/codeql-runtime/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.cache/dataflowbench-tools/codeql-v2.27.0-packs",
+    "--infer",
+    "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac",
+    "--kotlinc",
+    "/opt/homebrew/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+    "--pyre",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre",
+    "--pyre-binary",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyre.bin",
+    "--pyrefly",
+    "/Users/dave/.cache/dataflowbench-tools/v0.8.0-python-tools/bin/pyrefly"
+  ],
+  "attempt_id": "overhead-opentaint-kotlin-attempt-01",
+  "attempt_number": 1,
+  "captured_files": [
+    {
+      "bytes": 777,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/archive.tar.yaml",
+      "sha256": "4da5c51900cf83cc29024b21e68f0da83b49b51cb7a4012b01a6736c1a0a9283"
+    },
+    {
+      "bytes": 892,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/archive.zip.yaml",
+      "sha256": "1a76fef2f473806615ed3ceacdb5d4b6b61752103ba0c9ecc9c454ce880addd6"
+    },
+    {
+      "bytes": 2396,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/bufio.yaml",
+      "sha256": "02821a600c0c9ffbc8c79b44bc4c9c613e79a4de739c85490f52df96f2cb7f5f"
+    },
+    {
+      "bytes": 1292,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/builtin.yaml",
+      "sha256": "3b75aad2ea1cef84467456d2592a2b515aef85c7eca1d369c84911155d5e2126"
+    },
+    {
+      "bytes": 5940,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/bytes.yaml",
+      "sha256": "7c82968ac60a2cda83f104c2bb0e258bc2476514203b8e4ba4f993c2c6755626"
+    },
+    {
+      "bytes": 146,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/compress.bzip2.yaml",
+      "sha256": "80b90b2b553f9a9f08019634605f4fc6338d7f1e76d4fe79602ff314e14ba495"
+    },
+    {
+      "bytes": 782,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/compress.flate.yaml",
+      "sha256": "5efad618ebf8c569706e66c69853fe10ce693b340e2bfdac844e4e4363fe19c1"
+    },
+    {
+      "bytes": 652,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/compress.gzip.yaml",
+      "sha256": "f901ee79563d2db0a9159aa05926875bdc20fb7f2bccceabb290453291b9ff80"
+    },
+    {
+      "bytes": 262,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/compress.lzw.yaml",
+      "sha256": "02eb5fd260bb4479c727588566f3a27dd174d421b5127d1cc58b85932d70978a"
+    },
+    {
+      "bytes": 911,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/compress.zlib.yaml",
+      "sha256": "e1e61983a5abfde275c2da4e49a74a5d635c753ecf206cdf328624958cb7ae3c"
+    },
+    {
+      "bytes": 875,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/container.heap.yaml",
+      "sha256": "da9658d0fade12678cdd29dab703949c49a8fd7e4707eaf8b009f32c173111be"
+    },
+    {
+      "bytes": 2454,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/container.list.yaml",
+      "sha256": "4e1f8ed684da981e9b08d13c842c8170ed107d5bb0115ef5de2a90cbdd5b5eaa"
+    },
+    {
+      "bytes": 665,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/container.ring.yaml",
+      "sha256": "8395123d52648b4decbb94fa3f1d4dd52880a27acc241407ed6e1a7d7a8c747e"
+    },
+    {
+      "bytes": 681,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/context.yaml",
+      "sha256": "8db64fd1fd2bad3065142c2de585d4a931c363ead8a567fce5d812f911cf3dbb"
+    },
+    {
+      "bytes": 417,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/crypto.cipher.yaml",
+      "sha256": "80625f4abfa5d89c35aea52edc7579f1324ab40982077508a5c4e74d3d2f57a3"
+    },
+    {
+      "bytes": 272,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/crypto.rsa.yaml",
+      "sha256": "fbb151611865f696075377b99213b7dc68f1541bdf7eb91d7261cfbe7b129d57"
+    },
+    {
+      "bytes": 596,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/crypto.tls.yaml",
+      "sha256": "74beadc96cca62da87c2a3c4273ec89ddd90b6b69ec4f1752e44968afc631055"
+    },
+    {
+      "bytes": 152,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/crypto.x509.yaml",
+      "sha256": "3f31209dc3abe8947ad27f0a5f676735e5f9a07610ff0a83d584795ed0e78d4b"
+    },
+    {
+      "bytes": 158,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/crypto.yaml",
+      "sha256": "4dfe043b786c60c2f5df426c3f9dc4131235a093b992b3430712a0c178be11bc"
+    },
+    {
+      "bytes": 752,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/database.sql.driver.yaml",
+      "sha256": "e760df27b8c5168dd771ab5ffff940912dea2c4f52afeb37b87c248dae55713d"
+    },
+    {
+      "bytes": 978,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/database.sql.yaml",
+      "sha256": "60d36e0fbe545d1e09d6b3e3e6e0483df93e41141d84b77f20f001b8bcc29e20"
+    },
+    {
+      "bytes": 245,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/deserialization.yaml",
+      "sha256": "58ae96586ab60d03d98bcc1c2345e268c3e8ccf9311953c137879b9d59bdf0b0"
+    },
+    {
+      "bytes": 268,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.ascii85.yaml",
+      "sha256": "00b2b472dca7271cef9702325a763112810b814f2871f6fcc964ff2032af3d4a"
+    },
+    {
+      "bytes": 1074,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.asn1.yaml",
+      "sha256": "e53ba27d9e40809a036b7354b7ef1608151e56aa6a83692823d048cc6e5c1885"
+    },
+    {
+      "bytes": 429,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.base32.yaml",
+      "sha256": "515b134bbc1223725d9715ef6b7477504bf7c27fa49d69a2cf23ed0487553142"
+    },
+    {
+      "bytes": 709,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.base64.yaml",
+      "sha256": "70cf4be803afab8efc1b44d88c8a615ec65671db56e0bb33080a2ccb97d9836d"
+    },
+    {
+      "bytes": 259,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.binary.yaml",
+      "sha256": "c944c589d54d4efcada41c1f456fa109ff9e2813414adabfa8cba2b9b276eea6"
+    },
+    {
+      "bytes": 784,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.csv.yaml",
+      "sha256": "6c44385adf104aa2b18cd2f416f840c6f12357bb2bf898a79630ce043707cdb7"
+    },
+    {
+      "bytes": 1069,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.gob.yaml",
+      "sha256": "18648076f7bcd584192222a7c883f9bcc67e6f5bae0c9e296c4e29b19027ffe8"
+    },
+    {
+      "bytes": 510,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.hex.yaml",
+      "sha256": "0ffb00e7643bfa56575fd7f6fb5c250faafc7cf66e408a68dd0f4b482f87430c"
+    },
+    {
+      "bytes": 2093,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.json.yaml",
+      "sha256": "0c07bb8e87c095b1149510b68ee7dfe4881e6225e2d1ea9d4a361b5136d526ad"
+    },
+    {
+      "bytes": 417,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.pem.yaml",
+      "sha256": "353992e64e5b0a3b21804a5ba6c7dfbba5e953ddd671e8f45d40e417d7b52bc6"
+    },
+    {
+      "bytes": 3197,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.xml.yaml",
+      "sha256": "426755f6a4b5268bb6b2556b33a86ca40a61af6be531b64113dfce1c89be53a3"
+    },
+    {
+      "bytes": 1160,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/encoding.yaml",
+      "sha256": "ef06a8c053a8a66dd3b4862f09315053147498f80ea2406e3b2444678c5c3a21"
+    },
+    {
+      "bytes": 565,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/errors.yaml",
+      "sha256": "33c5a6600232eb60367f1f75874a6c7b04c659d1f0995c68d38ce3e08dc99aa0"
+    },
+    {
+      "bytes": 772,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/expvar.yaml",
+      "sha256": "de5e0fbcd8539789f86730d4d4b300593e055be17dd28c4c3e11a3d8249af045"
+    },
+    {
+      "bytes": 4232,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/fmt.yaml",
+      "sha256": "a197d821a6c6dbae091e13b894b1a51228d15fb4d2299027354d6bc68e9b0d07"
+    },
+    {
+      "bytes": 172,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.astaxie.beego.utils.yaml",
+      "sha256": "fb8b8e6b5363675b34219bb2d4f0a2e767b07a82e5eef69ada1f97eb8a8c08de"
+    },
+    {
+      "bytes": 5850,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.beego.beego.core.utils.yaml",
+      "sha256": "e6334802790812146fe25f181b9f4e67745ea766a5e202a4c6cb8c10003c1c02"
+    },
+    {
+      "bytes": 447,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.beego.beego.server.web.context.yaml",
+      "sha256": "9fb923f016a72cedebdefa5053e6fc7c6ccfb284c913ae1e5f4429386d418d47"
+    },
+    {
+      "bytes": 2796,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.beego.beego.server.web.yaml",
+      "sha256": "4fb8b76b33bacf2aa3829cd6fc21d971b64791cce2840fe7459c5005102d53ac"
+    },
+    {
+      "bytes": 170,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.beego.beego.utils.yaml",
+      "sha256": "728a4675219bc668e243a9e9bf61effe072a4611585aa262557bc3e7a863ddb8"
+    },
+    {
+      "bytes": 178,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.beego.beego.v2.core.utils.yaml",
+      "sha256": "93926b977681a3bdaee6a168d861eefaf4947068083dcbebb02d25bbf7fa38f0"
+    },
+    {
+      "bytes": 297,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.caarlos0.env.yaml",
+      "sha256": "8ce63a631b0b4f0276a6344ee7aa8a5194073119ef45b594adc95500431e48cb"
+    },
+    {
+      "bytes": 22985,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.couchbase.gocb.yaml",
+      "sha256": "7becd5e80de62ea878e09d6dd2b519407e284711c686c5392d8422210e8128cd"
+    },
+    {
+      "bytes": 564,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.davecgh.go-spew.spew.yaml",
+      "sha256": "4cd12b9d543481411b2214e9f859357b75f0527ef8a23863dd3b8ceadcf8d163"
+    },
+    {
+      "bytes": 1374,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.dgrijalva.jwt-go.yaml",
+      "sha256": "0e1141a476240b0f65b90dbc1413b65803996fd1f4090e1509dfb80e21992f32"
+    },
+    {
+      "bytes": 328,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.elazarl.goproxy.yaml",
+      "sha256": "15e76ddfac8239d50bfb12b9bad0ec15b42667d08081437bf2b43cc8a0a1410e"
+    },
+    {
+      "bytes": 1953,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.evanphx.json-patch.yaml",
+      "sha256": "76414f9dc746aa0dfa3cb3e52f704e00fe6c07606a56651af1dc2a17878b8366"
+    },
+    {
+      "bytes": 308,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.gin-gonic.gin.yaml",
+      "sha256": "c9ff0b456769e9ad34b6ca810c6cfebf6faaa976671a1ae91916a65789281672"
+    },
+    {
+      "bytes": 2518,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.go-jose.go-jose.jwt.yaml",
+      "sha256": "7fd832e2f76abf4c9e96df1ce9e14ec152705dc4b2406a01b6d8691daea9d551"
+    },
+    {
+      "bytes": 916,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.go-pg.pg.orm.yaml",
+      "sha256": "311112f94d1b7880ed17d27d4b1bc7bc5e8e68fa406cc426c4460b2117b69ee7"
+    },
+    {
+      "bytes": 3194,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.gogf.gf.database.gdb.yaml",
+      "sha256": "363ae87c64afcd8065697aaeaef1ca89105db0e6209a617bb3626f38668c5624"
+    },
+    {
+      "bytes": 1637,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.golang-jwt.jwt.yaml",
+      "sha256": "bb0bbba8523c679be479e6f255f21ce883cbb7b17d25d961727946896bec9338"
+    },
+    {
+      "bytes": 571,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.golang.protobuf.proto.yaml",
+      "sha256": "e25f9f8109499deceab2aa6ca51b9dcb8f8c552158afc25f59f431fd5f62ab98"
+    },
+    {
+      "bytes": 1536,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.jmoiron.sqlx.yaml",
+      "sha256": "15489370aca2cf53a029f632d4d37068f1a5156d6dbb078c5bb9b7b11358cb4e"
+    },
+    {
+      "bytes": 604,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.json-iterator.go.yaml",
+      "sha256": "b51d0f028484337f19cfe5cac0865cc4ba1f46bad3e85922d61352e25073e4b1"
+    },
+    {
+      "bytes": 304,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.labstack.echo.yaml",
+      "sha256": "cb693585ca2bdfd1546b45a5854f0e4cbaf9e19550ef026f3727726094fa3e57"
+    },
+    {
+      "bytes": 3052,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.revel.revel.yaml",
+      "sha256": "fff7221b6191fbd6c958338cd566e064e3eab3c736991483d3d53add2553fbb4"
+    },
+    {
+      "bytes": 936,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.rqlite.gorqlite.yaml",
+      "sha256": "1a8431ae2a3706a5a18d65734a8304fe676a27db71e0a43c6e3247a343d28f92"
+    },
+    {
+      "bytes": 177,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.sendgrid.sendgrid-go.helpers.mail.yaml",
+      "sha256": "bdb1293a8ccf62224b18e0eaf43d26ab2a65e60ed704ad1923e7475430df26bb"
+    },
+    {
+      "bytes": 772,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/github.com.valyala.fasthttp.yaml",
+      "sha256": "652835770685065643df18e9a616c5c6b240e66af260f80c1bced4d82925733a"
+    },
+    {
+      "bytes": 791,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/go.mongodb.org.mongo-driver.mongo.yaml",
+      "sha256": "388494a2912a73bb604b121ca5c031bd6cafdb9eeac1ea4e94aa2fd8d75b5bdb"
+    },
+    {
+      "bytes": 1774,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/go.uber.org.zap.yaml",
+      "sha256": "af764c4422544372a567e02730c197aec59c237cc7c2a3db2c09be77dd9a303a"
+    },
+    {
+      "bytes": 766,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/golang.org.x.net.context.yaml",
+      "sha256": "5d87405d877852bb12674a53ef37f0d80337263a286ac7f3397e0f55c9f09b05"
+    },
+    {
+      "bytes": 2210,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/golang.org.x.net.html.yaml",
+      "sha256": "bdda5596fc1934b723ab0842fc7bdf2e06148aabab0e3dd2b4c4ec94849210d5"
+    },
+    {
+      "bytes": 194,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/google.golang.org.protobuf.internal.encoding.text.yaml",
+      "sha256": "4f16e759b803e2a2f5e65081e68ccea88d23c66f93fd08141847041283168aee"
+    },
+    {
+      "bytes": 359,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/google.golang.org.protobuf.internal.impl.yaml",
+      "sha256": "b6c3c523cbabd526104e89ca39ff9759e1046abdb85d6020f6cc636438de3e4c"
+    },
+    {
+      "bytes": 1233,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/google.golang.org.protobuf.proto.yaml",
+      "sha256": "b31561bb88ad597c9dd7ecac702a7a6ef527a4e201598c191150e6faecfd8b16"
+    },
+    {
+      "bytes": 202,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/google.golang.org.protobuf.reflect.protoreflect.yaml",
+      "sha256": "818c820501bc1d76fed42f83f591f6d9a0000718c456251449740ba1543eb9cd"
+    },
+    {
+      "bytes": 167,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/gopkg.in.macaron.yaml",
+      "sha256": "237cd02f7cb0df2a0921f0bf2d3848556849ee7ebc056d3633b3825d0aa0ede8"
+    },
+    {
+      "bytes": 1279,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/gopkg.in.yaml.yaml",
+      "sha256": "c97bdbb1aa788e757bbcb09c9cdab8eb16e276d86553a7e75bcd2e7e3881c163"
+    },
+    {
+      "bytes": 434,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/gorm.io.gorm.yaml",
+      "sha256": "075b99acf4c9bfd5bace5409ed207b21989f49d39034e539ff18f57cbf3bdf74"
+    },
+    {
+      "bytes": 1157,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/html.template.yaml",
+      "sha256": "7291f42005ce0c8c9ffd1a7ef0bd25903cb090ed783043fcfc144b340b63a3c0"
+    },
+    {
+      "bytes": 254,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/html.yaml",
+      "sha256": "5430226f4798dc624676539911c82eb781583f1e87b3c7042aa210d2abc9c607"
+    },
+    {
+      "bytes": 1576,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/io.fs.yaml",
+      "sha256": "70d4c1452f3f03f9ee74d6e57d975209b166ebcfb65ff6d217a860bb3363a5d4"
+    },
+    {
+      "bytes": 257,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/io.ioutil.yaml",
+      "sha256": "21f2365952e328246d77eb5a08d87e01812cf80b421d121d39edbd1525a61e2b"
+    },
+    {
+      "bytes": 2511,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/io.yaml",
+      "sha256": "982bcdd99c06a85bf259dc2b9f05c441a887600c980d4852ca3bc27f912d4214"
+    },
+    {
+      "bytes": 1412,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/k8s.io.api.core.yaml",
+      "sha256": "e08de1d0045999b5774fa6afe00fd46e56964d621ed1de785c41a14751a7e98b"
+    },
+    {
+      "bytes": 7327,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/k8s.io.apimachinery.pkg.runtime.yaml",
+      "sha256": "53da70f376881f8b86490077198d5248355b22fff002109f23472d0c68357c23"
+    },
+    {
+      "bytes": 495,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/log.yaml",
+      "sha256": "9fda294e08250f3451c850ed02169e89ea9319673844c75bd93317f78333b0ca"
+    },
+    {
+      "bytes": 150,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/math.big.yaml",
+      "sha256": "76e24adec30b76d142e68bc364f0ca95ac7d9eac82b34acca3286a1c00ff907f"
+    },
+    {
+      "bytes": 1360,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/mime.multipart.yaml",
+      "sha256": "284c58e7fa22825af8caf9e9b6f5ef5237afa93be5c067382d48273e60b20dbe"
+    },
+    {
+      "bytes": 278,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/mime.quotedprintable.yaml",
+      "sha256": "133360f654e152461a8c24b5ae8f123dbfff3494d0b1bac54d2399aab8e5e64c"
+    },
+    {
+      "bytes": 723,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/mime.yaml",
+      "sha256": "ff7e49d5bfb857546ea278484e4944b3146720e736b9117531efd9c60f12165d"
+    },
+    {
+      "bytes": 1874,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/net.http.httputil.yaml",
+      "sha256": "b490020d7c15fcef3e6560761db0c1d93dd8182c3cf523dc7f9dfed2a00f2877"
+    },
+    {
+      "bytes": 2892,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/net.http.yaml",
+      "sha256": "f9e8fe07984884ba2056942190f28858fda55fc8c535935fbc70327b3b81d214"
+    },
+    {
+      "bytes": 787,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/net.mail.yaml",
+      "sha256": "34bcb01aaca3f3dbd5a63a036d13df6a62345e2ba04cebf544f6416b32fc1b74"
+    },
+    {
+      "bytes": 2854,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/net.textproto.yaml",
+      "sha256": "0f3c61fff79f409ceafd26d9f5a026ce33774fa0dfddada9e7a21299a0891622"
+    },
+    {
+      "bytes": 3101,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/net.url.yaml",
+      "sha256": "04d709a1fc32dcc5e9dfb98157c1965c2de51035c0b310566d42858dfbc89266"
+    },
+    {
+      "bytes": 3077,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/net.yaml",
+      "sha256": "df7f6b1c95c260bffe3098a2a567831ff9ccdcae62d04c28a59950d5fc73ac4b"
+    },
+    {
+      "bytes": 799,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/os.yaml",
+      "sha256": "eb5adbed3305cd7f54643d83a98d4c029dd35ac1cd1bfa78e0f6b00d328ea2e8"
+    },
+    {
+      "bytes": 1732,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/path.filepath.yaml",
+      "sha256": "89dc2db3eac605c31deb2c71df9fc3968e2721c2d659c4383806d9358ccc37fc"
+    },
+    {
+      "bytes": 694,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/path.yaml",
+      "sha256": "112e6a90fe9e03ee5995e93d5f197876b6d8e2b9cbcd6407f276931d8b92ecd3"
+    },
+    {
+      "bytes": 4765,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/reflect.yaml",
+      "sha256": "6fd12cea155dee8e9c12faaba9df72f8a5a42c22cf7611f057a42a1030349afa"
+    },
+    {
+      "bytes": 2960,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/regexp.yaml",
+      "sha256": "c64b90d6cf8231c88361ffd92f3dbf98e36c207380f7374a2d5bf89d69e9d963"
+    },
+    {
+      "bytes": 2808,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/slices.yaml",
+      "sha256": "6ceea4ae2a282e13c0c47ddcae56c0762bb840f3a862375c835d9f0a57989789"
+    },
+    {
+      "bytes": 134,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/sort.yaml",
+      "sha256": "299a9bd08a753580eee0d64168912e40c6f8e993b28b712635e1a0684cbf01d2"
+    },
+    {
+      "bytes": 2316,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/strconv.yaml",
+      "sha256": "c66bca3c74ea67c7f60157cf9c3d2f36c6417a3673c7d2b29b4e4e70bc0aa1fd"
+    },
+    {
+      "bytes": 661,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/strings.builder.yaml",
+      "sha256": "58077a2a7c368591c58fd2edba4f63a97ad99b1de504527267ce02d6d4d8b0a9"
+    },
+    {
+      "bytes": 4168,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/strings.yaml",
+      "sha256": "0ce16c65d8783eab944c01717a7913361c042e6d4710a4cae3af7b1cf7709fef"
+    },
+    {
+      "bytes": 2993,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/sync.atomic.yaml",
+      "sha256": "e0c23a8fe2d8bb06e42b1bd249448be41ed2264f3d91a1b7f769fbc183df05e6"
+    },
+    {
+      "bytes": 1433,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/sync.yaml",
+      "sha256": "9bddd78ce7811555c023da5af001963a349496541391bf741f867b8e3b837660"
+    },
+    {
+      "bytes": 1007,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/syscall.yaml",
+      "sha256": "0187e389545e33a31b0a87155cf6c7806453083ad4f5dcc6afc354b3851b03e6"
+    },
+    {
+      "bytes": 417,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/text.scanner.yaml",
+      "sha256": "989936eb2f2a9bbf0385823b17efad74fd71f5151bdec060ca72454ac6e39b1f"
+    },
+    {
+      "bytes": 275,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/text.tabwriter.yaml",
+      "sha256": "4059716edbc1c1dba598650eb9bd9813134f9d8c1a98db428b791ddd9ae462e3"
+    },
+    {
+      "bytes": 879,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/text.template.yaml",
+      "sha256": "d87609fc9c253c47a2b9455bbb580459fd9e75969d1526569b7a726fc20eec46"
+    },
+    {
+      "bytes": 468,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/unsafe.yaml",
+      "sha256": "50005215a92fe60f022a8e8ada3f9d6161e4bbe13f1ba1569efc253ca077b475"
+    },
+    {
+      "bytes": 259,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/go/config/weak.yaml",
+      "sha256": "c4c99969a1d8c0d79497430be7996d835d391816051b6dd98de1028f4f09809b"
+    },
+    {
+      "bytes": 28387,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/accumulated-fields.yaml",
+      "sha256": "06ae5b32e1648a6ac7f0827acf1a6fb21f4dd36387a535fb025e3b0b3e95a433"
+    },
+    {
+      "bytes": 353,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/ant-1.10.14.yaml",
+      "sha256": "b2e7a8b14221948abfc42d27e7462e7cd7565302b3022b41822923ee8322f66a"
+    },
+    {
+      "bytes": 1748,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/com.fasterxml.jackson.core-jackson-databind-2.4.0.yaml",
+      "sha256": "37decd43680a5af24b905a54a91e9f307d1491da760041092baf3e06c4cc0a7a"
+    },
+    {
+      "bytes": 949,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/com.fasterxml.jackson.core-jackson-databind-2.8.0.yaml",
+      "sha256": "a2f288258350ceb1d6f94d9f46853ee0105eb92396071b8f27ba56abb4aa385d"
+    },
+    {
+      "bytes": 833,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-beanutils-commons-beanutils-1.11.0.yaml",
+      "sha256": "790be8e6739f6035a5082958680477e2a4935814e495f9cc95ddd5507f1c5dd7"
+    },
+    {
+      "bytes": 477,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-codec-commons-codec-1.16.0.yaml",
+      "sha256": "4e7250f9da3caa695ba09ec6fe0f49a7379cbfc2c0172c849753d1f3ece1c096"
+    },
+    {
+      "bytes": 280,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-codec-commons-codec-1.21.0.yaml",
+      "sha256": "d5822264e0649e32b80e987a4c61b658490e84c073e84bafdd5818882cb0789c"
+    },
+    {
+      "bytes": 66235,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-collections-3.2.yaml",
+      "sha256": "0ae9ddcb059cafb17d540fab4681458708a0c30f8fbb0d8d6c20107e5f1dc278"
+    },
+    {
+      "bytes": 253807,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-collections4-4.5.0.yaml",
+      "sha256": "9e9461867f15995b814f994dd508f2e8eb28a385fcf6bbcfb260a81a1d5a0930"
+    },
+    {
+      "bytes": 2735,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-digester-commons-digester-2.1.yaml",
+      "sha256": "219c4bc8ed2a93d8c31bfbb584bbd0df970972e687972d0e388587610bb2010d"
+    },
+    {
+      "bytes": 1324,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-fileupload-commons-fileupload-1.5.yaml",
+      "sha256": "a33445653bda2972cebc40d72e17f022700d4abe04b0e87de0b8381aea649327"
+    },
+    {
+      "bytes": 26062,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-httpclient-commons-httpclient-3.1.yaml",
+      "sha256": "f7ff9d70263d7dce87255f312a6f7b83400921da3c811370b60d65b722c89fcf"
+    },
+    {
+      "bytes": 399,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-io-commons-io-2.15.1.yaml",
+      "sha256": "e90aeb9afbc471344d0cc05e8a29b32aa3831855fe894ae1b6c95cd2fd0519b9"
+    },
+    {
+      "bytes": 1488,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-io-commons-io-2.21.0.yaml",
+      "sha256": "0bbf470f297b468b19f7ce6ddc29455b16d51407054622dc84146fd607104526"
+    },
+    {
+      "bytes": 162,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-lang-commons-lang-2.0.yaml",
+      "sha256": "f641a252ef9517da08eaab4ccc684aef24db5387b5100f6e96a8a74f01fa3b62"
+    },
+    {
+      "bytes": 28901,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/commons-lang-commons-lang-2.6.yaml",
+      "sha256": "37fc353253991151bf291fde7c9ab57acea542783393b6ddc98dd289be0b7792"
+    },
+    {
+      "bytes": 3369,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/ecs-ecs-1.4.2.yaml",
+      "sha256": "c7cc15f41a83ffe00ba389a6f0de48d171246abc816b9d0ebad9f39c469751c8"
+    },
+    {
+      "bytes": 736,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/fastjson-2.0.60.yaml",
+      "sha256": "1c369406896861110c9e83e55ee97a530b895abf8a3cd1e2f0c68506bedb5980"
+    },
+    {
+      "bytes": 1176,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/groovy-3.0.21.yaml",
+      "sha256": "5b91b564ddfacbf9c91ca3a852d5c77148dd29d1a937c204ace5549d95fc4361"
+    },
+    {
+      "bytes": 7825,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/gson-2.13.2.yaml",
+      "sha256": "0fea7c3be8c92e24391fe9724c01bccdd59baed2ac53f9c8cb0847319e71395e"
+    },
+    {
+      "bytes": 111264,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/guava-33.5.0-jre.yaml",
+      "sha256": "e718eebd1c3fb56a7ed5de5be540c863eb25ebd2cf94eda500179f0b986ffe52"
+    },
+    {
+      "bytes": 306,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/httpclient5-5.6.yaml",
+      "sha256": "b9d427df5cd317aa50d89eef84d5d550e9518b83b4bdb16ba2499465a49d416f"
+    },
+    {
+      "bytes": 423,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/imap-2.0.2.yaml",
+      "sha256": "ed955a766e91b9209193e02bed316b52cd369f69918a8b4d52ce2c2b828db3db"
+    },
+    {
+      "bytes": 304,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/io.projectreactor-reactor-core-3.0.3.RELEASE.yaml",
+      "sha256": "6b48fb0268df5063767015327e8b9b395e96dce595de2053ad7db8c00c98b700"
+    },
+    {
+      "bytes": 365,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/io.projectreactor-reactor-core-3.3.22.RELEASE.yaml",
+      "sha256": "691e4357d01b78a81f3fe2b1b512c5e375334118cc0dbe8cbf812ecf7cf0277d"
+    },
+    {
+      "bytes": 34043,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/jackson-core-2.20.1.yaml",
+      "sha256": "328eec0ce56a0c4a50b6d21da06674c35d7997466b8f68cec20aae6f6ccd893e"
+    },
+    {
+      "bytes": 43452,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/jackson-databind-2.20.1.yaml",
+      "sha256": "ec8dab0ca62ee46a7046773af554d56ff53944494f39f30f9dc6fa60e7b09b16"
+    },
+    {
+      "bytes": 2414,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/jakarta.json-api-2.1.3.yaml",
+      "sha256": "0c6c6a797c0aedd0c4326dee598df63ef06affd711522de96701f80715677053"
+    },
+    {
+      "bytes": 6397,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/jakarta.ws.rs-api-4.0.0.yaml",
+      "sha256": "03a6c266c93e66718648ad3c6e10ad0e60669e62e9e85a1b874161fc53bee882"
+    },
+    {
+      "bytes": 1850,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/jakarta.xml.bind-jakarta.xml.bind-api-2.3.3.yaml",
+      "sha256": "b98b6ea18e84afa3f97c62c90ef296445445fdd55012f58ba77f7cb11022ee5a"
+    },
+    {
+      "bytes": 1823,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.activation-activation-1.1.1.yaml",
+      "sha256": "20d127aa2f1b763f8fc9e88d475437f121c0fd4967fdde81c858b25a645e6ce0"
+    },
+    {
+      "bytes": 10919,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.faces-javax.faces-api-2.3.yaml",
+      "sha256": "b12b9f13a7532568395c2388e3cf3f99eeba750fc63dbe3cf6dc02f6891ed61e"
+    },
+    {
+      "bytes": 6486,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.jdo-jdo2-api-2.3-eb.yaml",
+      "sha256": "2e548c0020cd5084dc9bf1c4f068926823a0f98230bc5b6fb0d1d67456e1935c"
+    },
+    {
+      "bytes": 7074,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.jms-javax.jms-api-2.0.yaml",
+      "sha256": "68b34f8871dda2c062c57e67e7ce67b390b3f36b50ce6a50b06e15e58c27dbce"
+    },
+    {
+      "bytes": 54630,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.json-javax.json-api-1.1.4.yaml",
+      "sha256": "f308986f547ee7de6e1f1f96b46e84a1dd8df079cb9b6464ba8e0227823d29b6"
+    },
+    {
+      "bytes": 9883,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.mail-javax.mail-api-1.6.2.yaml",
+      "sha256": "2a17bcda56c14f2e38da4f19ac89fae2190b68596f50b47ff2da7aaecfd25e71"
+    },
+    {
+      "bytes": 4075,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.servlet-javax.servlet-api-4.0.1.yaml",
+      "sha256": "e7d6eb002fac9da9b1965e23a58149f0238bd9b5cdce5b31daf81346adea629f"
+    },
+    {
+      "bytes": 8860,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.servlet.jsp-javax.servlet.jsp-api-2.3.3.yaml",
+      "sha256": "aeed8ec867614f74952a50b2c12fbbaa2f7b6ccc36c38217ad7b7338fd139db2"
+    },
+    {
+      "bytes": 258,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.websocket-javax.websocket-api-1.1.yaml",
+      "sha256": "cb36b8f383cffbe9e8d92f77135e92a21ae4da6bfef38d1a7b9fc298868e1c97"
+    },
+    {
+      "bytes": 17755,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.ws.rs-api-2.1.1.yaml",
+      "sha256": "53d0e76a7dce92601075a4619ffe370527a5b61124c45f178f9af96e06c4d0f4"
+    },
+    {
+      "bytes": 533,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.xml.soap-javax.xml.soap-api-1.4.0.yaml",
+      "sha256": "7fc53d03a3c722899ec52b0985ed3ab5cb13ef891e88b7a4791716b3cc416986"
+    },
+    {
+      "bytes": 1588,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/javax.xml.xquery-xqj-api-1.0.yaml",
+      "sha256": "4b4328b88167f649b7d9a72fc55b98e0ba7efc378f3539658972f081a3a41853"
+    },
+    {
+      "bytes": 547,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/jenkins-core-2.426.3.yaml",
+      "sha256": "69ffd91b754784c0862b737224478e5baa8a7bec416ad49966841d66a72241ea"
+    },
+    {
+      "bytes": 265,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/log4j-log4j-1.2.17.yaml",
+      "sha256": "b6420f3c9a5d68b64b291556359d20ce3526c4167b1fcd47fe16233e93522c9f"
+    },
+    {
+      "bytes": 484,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/mvel2-2.5.2.Final.yaml",
+      "sha256": "e8159fa3663f4f76172c6b2c63fcfbbf67b6d5c53931da0a63639d4e8e74947d"
+    },
+    {
+      "bytes": 6218,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/netty-buffer-4.2.9.Final.yaml",
+      "sha256": "633ee12efe3335f9a5ceffafaeef9f2f76e1dd3e186ade404763ee83496e3b24"
+    },
+    {
+      "bytes": 9434,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/netty-codec-base-4.2.9.Final.yaml",
+      "sha256": "0d4bf18d8e5a9bf4106fa617d63d2bdb7c586a99c75b7d5005d7640507477770"
+    },
+    {
+      "bytes": 6972,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/netty-codec-http-4.2.9.Final.yaml",
+      "sha256": "0af9bd837ab096be45df3a99c353988c99f7f7066c290338011c9b39e6cfd259"
+    },
+    {
+      "bytes": 2762,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/netty-codec-http2-4.2.9.Final.yaml",
+      "sha256": "b17bf114e673ff8cd8e12c19d4b9ae256660682864f413d13d8c4210f1b8f179"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/netty-common-4.2.9.Final.yaml",
+      "sha256": "553bc8112a72f023b89fc21ac0ec30a2fa557fc65832f63901e966e9885bf19a"
+    },
+    {
+      "bytes": 3674,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/okhttp-4.12.0.yaml",
+      "sha256": "a99a969f66acfeb88e0fae0253172ba467fc542aa6e7ad8b8799c6db079dc7f3"
+    },
+    {
+      "bytes": 6630,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.axis-axis-1.4.yaml",
+      "sha256": "2fafc832799861a506c19d0b8126af1bb50debb9a01e0b069f5af9c21fc4b8dc"
+    },
+    {
+      "bytes": 171,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.axis2-axis2-adb-1.6.4.yaml",
+      "sha256": "8ca26eb572445ef2f111d940fcaccae394fa02806a17cc2dfc3a98561a8e7634"
+    },
+    {
+      "bytes": 303,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.axis2-axis2-kernel-1.6.2.yaml",
+      "sha256": "5d7b4b9d31abd3a191d9c7c6405334ababf8c4e33207f9eb6b2a4bc491130c5d"
+    },
+    {
+      "bytes": 1659,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.axis2-axis2-kernel-1.8.0.yaml",
+      "sha256": "49521487023f82519f0f447f79bd60fa0c1a9c5196a56817b4e896123dd30150"
+    },
+    {
+      "bytes": 1070,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.cocoon-cocoon-util-2.3.0.yaml",
+      "sha256": "50730da26381bf262c2fafad6841a35a7175a1590e1739e25946cb1a9adb35ce"
+    },
+    {
+      "bytes": 305,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.commons-commons-compress-1.26.2.yaml",
+      "sha256": "459003fcca1d87fc7e72cb9da8777d5bc512577a05c03e2f0aecadf0c5eadf1d"
+    },
+    {
+      "bytes": 1237,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.commons-commons-csv-1.11.0.yaml",
+      "sha256": "fccad6dece1dce0bac1cf08ad5bf295ed3ee5d9085c8c254f4bbbd4ece166a61"
+    },
+    {
+      "bytes": 1047,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.commons-commons-email-1.6.0.yaml",
+      "sha256": "a94d0f1bb5499879e054cc32d6fc273558dcb6ddb07b199eb22fceb7fcc273d9"
+    },
+    {
+      "bytes": 52627,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.commons-commons-lang3-3.14.0.yaml",
+      "sha256": "c51d089103d037d46b0c5eb657c31e80a97cc8b6ca048c3e18c345968c5edbda"
+    },
+    {
+      "bytes": 6736,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.commons-commons-text-1.12.0.yaml",
+      "sha256": "60ca88fe9466630eaba29fadb66aab7c7df91b9023ce715d2bdb636d1bc40ff0"
+    },
+    {
+      "bytes": 23217,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.hadoop-hadoop-common-3.3.6.yaml",
+      "sha256": "3395642b15b6aeecfd5d9ed3187dbc7606d9d433936cda5ad220816ef8a519a6"
+    },
+    {
+      "bytes": 8226,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.hadoop-hadoop-core-1.2.1.yaml",
+      "sha256": "3c2a53717bf05e9668525a909fba35f264805cdef55e5ae5bb0353c6f4ad158b"
+    },
+    {
+      "bytes": 15541,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.hadoop-hadoop-mapreduce-client-core-3.3.6.yaml",
+      "sha256": "4024939af6df1ad739fdb8eb00ca0036a46ae79112a0e45b3ddf8ca77a03427d"
+    },
+    {
+      "bytes": 1479,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.hadoop-hadoop-streaming-3.4.0.yaml",
+      "sha256": "cf52e4f4157ddc34710738ad5309f4fedb4c7c53da3d63889177732141b10f93"
+    },
+    {
+      "bytes": 9668,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.httpcomponents-httpclient-4.5.14.yaml",
+      "sha256": "81978d0cb0d60ae146e75577e9e5ef353a9184a4bb487d66820fef70d57a9c61"
+    },
+    {
+      "bytes": 9809,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.httpcomponents-httpcore-4.4.16.yaml",
+      "sha256": "fc48da69ec8a0d8c47138fe0fa730a5d24374357d7f91bf1677a8c445ffc42a9"
+    },
+    {
+      "bytes": 1211,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.httpcomponents-httpmime-4.5.14.yaml",
+      "sha256": "8429aa63164f13346384c753a031433ecab246132f4f238233e4378691b64ab1"
+    },
+    {
+      "bytes": 2211,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.httpcomponents.core5-httpcore5-5.2.4.yaml",
+      "sha256": "37a95cce8ed90968c4a2732f64c047d2ff329eb593ddd7e328551c9fd6168ea8"
+    },
+    {
+      "bytes": 762,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.httpcomponents.core5-httpcore5-5.3.1.yaml",
+      "sha256": "d93b24a13a3272bbc49689c09b95a900308966ba51dd6bf241bf9502131e74d4"
+    },
+    {
+      "bytes": 484,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.logging.log4j-log4j-api-2.17.2.yaml",
+      "sha256": "33b0e8330bf7f4778472d625cc661115adf445cd19948a5896cea49860823fe8"
+    },
+    {
+      "bytes": 522,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.velocity-velocity-engine-core-2.3.yaml",
+      "sha256": "e2d14951fd57d2152db1803f56473a38da5eb26f1c42854790567c59cded1691"
+    },
+    {
+      "bytes": 3124,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.velocity-velocity-engine-core-2.4.1.yaml",
+      "sha256": "134032897aa12feb568926834aed500922f2881fa77dc2c0fa78f3eb7b54f8c6"
+    },
+    {
+      "bytes": 1189,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.wicket-wicket-1.4.23.yaml",
+      "sha256": "b7d6362a136b5b5b8fe49aa43285e9b03272a491565e21d1e8b6fa7c0f9881bb"
+    },
+    {
+      "bytes": 6843,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.wicket-wicket-core-10.1.0.yaml",
+      "sha256": "6d0d3c0cd69decee65edc85b068c9511de364d7693328057d1ba8d3c3662cbfa"
+    },
+    {
+      "bytes": 281,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.wicket-wicket-util-9.16.0.yaml",
+      "sha256": "1602ce7a06e6110592c76ed9679fe2a34d30066a96f3daf53654f59dad4567b8"
+    },
+    {
+      "bytes": 3750,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.apache.ws.commons.axiom-axiom-api-1.4.0.yaml",
+      "sha256": "5f8c55b490a3e274f92c42a7853f0749f29b5967dfb8c19538d5fd957c3e169e"
+    },
+    {
+      "bytes": 188,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.hibernate-hibernate-core-3.6.10.Final.yaml",
+      "sha256": "c1d968b01e475511ba3973a42ba6953684222a969a40988e12f90a3b6b387f78"
+    },
+    {
+      "bytes": 1927,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.hibernate-hibernate-core-5.6.15.Final.yaml",
+      "sha256": "90cbbd1429ed3ee50916385675406aeffc0bc864c37ea75274612578ba8aae10"
+    },
+    {
+      "bytes": 776,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.hibernate-hibernate-entitymanager-3.5.0-Final.yaml",
+      "sha256": "c7d532c1f95f8592097c03b4fafe07502721a58a1e4d6a5b663ce23d81433401"
+    },
+    {
+      "bytes": 443,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.json-json-20240303.yaml",
+      "sha256": "dcbf086ed282acb7550a5201ed9b1ff13db31cf0fe2fa9551f73237c02e757a9"
+    },
+    {
+      "bytes": 1871,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.mybatis-mybatis-spring-3.0.5.yaml",
+      "sha256": "7d44c5e053b6ffa64260b1c0a3d2166b30bb40df1a19a396948016aa55eb1a9b"
+    },
+    {
+      "bytes": 636,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.slf4j-slf4j-api-2.0.13.yaml",
+      "sha256": "9a31b60db5526cd6c484c870857ebc7ed0fe64efe852468ec18ab18a985cfbf7"
+    },
+    {
+      "bytes": 2282,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-context-support-6.1.5.yaml",
+      "sha256": "74056f532a987a53206d8160c79e2e953c2111aad5741fd367edc7b9b2fe643d"
+    },
+    {
+      "bytes": 299,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-core-2.5.6.yaml",
+      "sha256": "60d330e232d41883a48c89211f8e3ab516228eadc0a410bb003e8128c9489c99"
+    },
+    {
+      "bytes": 453,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-core-4.3.30.RELEASE.yaml",
+      "sha256": "f93d54d56eed3cc38dd87087db17793cc493df33bf6d47e694d0513d5caa33d5"
+    },
+    {
+      "bytes": 647,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-hibernate-1.2.9.yaml",
+      "sha256": "c7043d25b303aa6392c0958d2d8215408b218d12830899058cc9b2ce439ee6fe"
+    },
+    {
+      "bytes": 795,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-jdbc-4.3.25.RELEASE.yaml",
+      "sha256": "bee4bdb3d70ad0e8fbda6cb779cd17bee48b68e8d97ade7527fdd25370e9fbd8"
+    },
+    {
+      "bytes": 944,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-jms-6.1.5.yaml",
+      "sha256": "9a51a237773b6f5b5090b227c7406775398db71fe6ae7fbb12e49df2dc450fe6"
+    },
+    {
+      "bytes": 23610,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-ldap-1.1.2.yaml",
+      "sha256": "2e954889728652f28f18af512397ff824590179e9eabce97e64ec4c4a6fbae1f"
+    },
+    {
+      "bytes": 9220,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-messaging-6.1.5.yaml",
+      "sha256": "e9bedefff0bee7754d71da4cbb20f113e1d6908021fbd531217a259e4f149bc8"
+    },
+    {
+      "bytes": 17261,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-messaging-7.0.2.yaml",
+      "sha256": "d7decc00dc3087023b8005c0e2aa5541561905eab55ba2798b9d2a914b8595b8"
+    },
+    {
+      "bytes": 291,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-orm-1.2.9.yaml",
+      "sha256": "9b3b03b8ab7260b7defbe6020b53ddd565c182e8373533fe1cafd2f149914352"
+    },
+    {
+      "bytes": 652,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-orm-3.2.18.RELEASE.yaml",
+      "sha256": "3b5560c32fc1f01f80ae1ccdebf1d3d33b81efbeff20b44152122f5b94fe1f04"
+    },
+    {
+      "bytes": 1307,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-web-4.2.7.RELEASE.yaml",
+      "sha256": "1fcef5401eb5a6bee3fca699c6080513b242af9945d6f90ac6a48faebe5c5ee2"
+    },
+    {
+      "bytes": 3274,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-web-5.3.39.yaml",
+      "sha256": "1c07202f1a0a107e82cdb6fa57abb4820fc2ef93176f7336e844c57f55f37de4"
+    },
+    {
+      "bytes": 238,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-web-reactive-5.0.0.M4.yaml",
+      "sha256": "9357b3d071a0ff8640806288042bcc1f526e26b68847b07002411457cd10aa4f"
+    },
+    {
+      "bytes": 17878,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-webflux-6.1.5.yaml",
+      "sha256": "3e92fde809959db4ee816a396b2f9a983dee6a18286c8d3dc356721dfae084f8"
+    },
+    {
+      "bytes": 1280,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-webmvc-6.1.5.yaml",
+      "sha256": "f7df2c8a6d95af05b02a092b352f340f591ec8201234e26556354dad7c27c5b0"
+    },
+    {
+      "bytes": 3259,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework-spring-websocket-6.1.5.yaml",
+      "sha256": "f915caa0db0b104bd17536413cf53df92e7e6f5cd66eadb0594bdbca18eb8f5f"
+    },
+    {
+      "bytes": 9117,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework.ldap-spring-ldap-core-2.4.1.yaml",
+      "sha256": "968db83faf9f99b0e9bfa0c8438b91c7dd826b6e363e26c9e58881d826135016"
+    },
+    {
+      "bytes": 2762,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework.ldap-spring-ldap-core-3.2.5.yaml",
+      "sha256": "4814e1783ba15ee6ccbca73648fcb0d2f0974c0c1f2c95a8af9a3e6f2aede3ee"
+    },
+    {
+      "bytes": 28830,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework.ws-spring-ws-core-4.0.5.yaml",
+      "sha256": "e685b88fa6e846d657d361e4fd82dfe3144b3f1a6dabd14c95725f614e7244b7"
+    },
+    {
+      "bytes": 7731,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework.ws-spring-ws-core-4.1.0.yaml",
+      "sha256": "91b658fc47014428bf9497bd85e4107ddb9acfad0a4df3b0e6a02ea8f6806a94"
+    },
+    {
+      "bytes": 658,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.springframework.ws-spring-xml-4.0.11.yaml",
+      "sha256": "323fb409c7a85e78f05b32b73becf48f2371d7233f6f1eef10bcacc347727bbf"
+    },
+    {
+      "bytes": 248,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.thymeleaf-thymeleaf-3.1.2.RELEASE.yaml",
+      "sha256": "50c9af087feb8752a265baab9b8cb289edf66430130e62f6d9759089a72db2fa"
+    },
+    {
+      "bytes": 603,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.w3c.jigsaw-jigsaw-2.2.6.yaml",
+      "sha256": "07c6d45ba28fe80df35331f0f8c47106977eda5cb1958ef451c867a48a6c6528"
+    },
+    {
+      "bytes": 716,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/org.yaml-snakeyaml-2.2.yaml",
+      "sha256": "b5de23ebfe42fb67fa60614195c31b887b65beeb68f6912e683fc09bd13c5d97"
+    },
+    {
+      "bytes": 11632,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/oro-oro-2.0.8.yaml",
+      "sha256": "31040750446177b8ff8922297f70b954ab65498eae2663c7a79f7bea4acd00fe"
+    },
+    {
+      "bytes": 147,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/pop3-2.0.2.yaml",
+      "sha256": "d6a8949c72349a48b2c8223760102a5d121a24d85b82a6274665067a60d9f290"
+    },
+    {
+      "bytes": 17830,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/reactor-core-3.8.2.yaml",
+      "sha256": "e393e5434af3e08602a103333b10ecec361af1db286b76434c9b34c6e4b99b7b"
+    },
+    {
+      "bytes": 3051,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/requestfactory-server-2.12.2.yaml",
+      "sha256": "cba8560a5a318874c558f85809f5f9c5806903be685e0c78d981e812f40f073a"
+    },
+    {
+      "bytes": 5466,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/spring-beans-7.0.2.yaml",
+      "sha256": "a7b5b3361096457b5cf69f4bd57845f87cca88207df20b3963c1c6782409899d"
+    },
+    {
+      "bytes": 808,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/spring-boot-health-4.0.2.yaml",
+      "sha256": "7b5ec8ba383b53ad97f3e47d1c3b34a3a2053fcc11ad01af9bf0651df4a70e2c"
+    },
+    {
+      "bytes": 7324,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/spring-context-7.0.2.yaml",
+      "sha256": "e00edbfa078e55705ac30bfdeb893505391f21e12f2605d45a0d0e0de1c2cc14"
+    },
+    {
+      "bytes": 56115,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/spring-core-7.0.2.yaml",
+      "sha256": "f33984d2c208c3fae4233e7c199c516bb1e7c755ef9e1127882f36f86e5c8099"
+    },
+    {
+      "bytes": 196,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/spring-data-commons-4.0.2.yaml",
+      "sha256": "db9a8e274306a8648d997b280447e2954fe5a453bcc94e1dfe7e54c7c3b4df55"
+    },
+    {
+      "bytes": 439,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/spring-jdbc-5.3.39.yaml",
+      "sha256": "b7e0f400ed69644051d5e485a204967a57b5e90bdadbb331a213e7bc6ff8707a"
+    },
+    {
+      "bytes": 2165,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/spring-jdbc-7.0.2.yaml",
+      "sha256": "b90a00534f94fa290212d3b71b06773a351825c8ba6536c22b7cc2d0309d5c29"
+    },
+    {
+      "bytes": 985,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/spring-tx-7.0.2.yaml",
+      "sha256": "15e976147f24ad5a6f3903d0e9b857c258c591826cfee24b2c63144e2c25e953"
+    },
+    {
+      "bytes": 35850,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/spring-web-7.0.2.yaml",
+      "sha256": "e090236bf7ed9d702b93e19772afc795d260e5d21198468dbe7bf3779de935a6"
+    },
+    {
+      "bytes": 17225,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-io.yaml",
+      "sha256": "3ac7ecaed275c11fe20d995e5bed487a1f3b506093fd08f4687e852bed7ce9cf"
+    },
+    {
+      "bytes": 805,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-lang-ref.yaml",
+      "sha256": "c2a4216b0fc36532ed6a369597485961453940adfdab8184a9b34276d65de286"
+    },
+    {
+      "bytes": 9924,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-lang-reflect.yaml",
+      "sha256": "b11cc68f3694ac830c5c2082ff4921ff3550f0d8460edd6a325133077337eb3e"
+    },
+    {
+      "bytes": 71203,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-lang-stringbuilder.yaml",
+      "sha256": "72ad7ba05a98e5e20c1b55a62ea4024418f3a5deea15607f082198ed107c1710"
+    },
+    {
+      "bytes": 38856,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-lang.yaml",
+      "sha256": "999cd10e634cd3267d021a2ffb4e2fad4705398bb0edd5c9594b9e2595c39f20"
+    },
+    {
+      "bytes": 3812,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-net-http.yaml",
+      "sha256": "f1e903dbf86b2243476e4b41f90959e8a8498cf238bfc1f555d77adc7251549e"
+    },
+    {
+      "bytes": 23174,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-net.yaml",
+      "sha256": "c5302e00fce37363b875b791943d608c96d6c2a4a43c23734a12a0b4e2f94f76"
+    },
+    {
+      "bytes": 1526,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-nio-charset.yaml",
+      "sha256": "3a67479984451e66fe2e7533a8f4c116f8dac0abe16a1d85600ba0db0cf8f0b6"
+    },
+    {
+      "bytes": 5224,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-nio-file.yaml",
+      "sha256": "58e1869751ab0e15ce998ad80d533bc3990591eecc47e4f97c3ffbbc3bb2d5c9"
+    },
+    {
+      "bytes": 81492,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-nio.yaml",
+      "sha256": "d4419a297489f4bfbdd3a842ded6b90a284f55ff4437fc89bd46b2c33a94e870"
+    },
+    {
+      "bytes": 225,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-security-interfaces.yaml",
+      "sha256": "32fbc2c5152825997b7bfe7f5a8d5a3608ff655decd8d30a127240a4140ce27b"
+    },
+    {
+      "bytes": 1649,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-security.yaml",
+      "sha256": "5e163f7b7827b24efb1aa7e1112c84564ee2934343d6e55a4425c4635bc9eb48"
+    },
+    {
+      "bytes": 23845,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-sql.yaml",
+      "sha256": "c14067c72690b73ac74d8d22160b85c74c7ed9a28b4cfede62ad072c42968889"
+    },
+    {
+      "bytes": 37434,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-text.yaml",
+      "sha256": "335fec8a1aab528be92f6ff24cb724acc65dbdb50e3d90ea2f47935a9173ee5c"
+    },
+    {
+      "bytes": 729,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-util-concurrent-atomic.yaml",
+      "sha256": "2912ecc7a4ac6c596086e80293dc31aeded5d6468af242497a0c93178c1d7d64"
+    },
+    {
+      "bytes": 11933,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-util-concurrent.yaml",
+      "sha256": "285cde0895c7e31cb7b9a9f4ce0d6ceaf07a69ac4c35111e12ec0e4178cadfbc"
+    },
+    {
+      "bytes": 1574,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-util-logging.yaml",
+      "sha256": "d04b529ae2e7786f6aa125790b47e0ad9cdcd5856f8ec011715d31eb34824e95"
+    },
+    {
+      "bytes": 25896,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-util-regex.yaml",
+      "sha256": "78b484e42661f44b933dfbfc9477b8b24a4445a374f6e0ac9d30d9a84b825139"
+    },
+    {
+      "bytes": 12799,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-util-stream.yaml",
+      "sha256": "4ccd7ac18ec5f0e592a12b165be971b04d15184088225fa5fc81b95e37e0308a"
+    },
+    {
+      "bytes": 722,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-util-zip.yaml",
+      "sha256": "acfed7499e9ef87a04e88781867a8afdaad19e6f53016ee9671b7e402fd8d71c"
+    },
+    {
+      "bytes": 152208,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/java-util.yaml",
+      "sha256": "1ed925590e148a36acf11affcd281838f3cb4ce8358556d1ce08b21254e119c6"
+    },
+    {
+      "bytes": 1184,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-management-remote.yaml",
+      "sha256": "dc3da78916719a663816bd5960388f8d344a6dc6a60f37ce0dfa9814d25c73d0"
+    },
+    {
+      "bytes": 12154,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-naming-directory.yaml",
+      "sha256": "87ab1a22f46ad431f71577455b1a4bca6c07b5c158d8cc069c8dd587c3de95ce"
+    },
+    {
+      "bytes": 21283,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-naming-ldap.yaml",
+      "sha256": "33e058c93b12edec031d99f794862ab07a2ed5ab85422f0a43984cd05e994c64"
+    },
+    {
+      "bytes": 844,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-naming-spi.yaml",
+      "sha256": "421354cb9274483e6de90c750a284579aa6d165dfc1e3448862f0111b4c089bb"
+    },
+    {
+      "bytes": 31232,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-naming.yaml",
+      "sha256": "ac81146a66cb39eac25dd926376f42688c2c8a5450ff8db67504871e62bf7c4f"
+    },
+    {
+      "bytes": 12391,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-script.yaml",
+      "sha256": "844a523004d1c60cd0c1837d0f711a1b00cf2564a561814fd39dc5cf7d48c013"
+    },
+    {
+      "bytes": 2445,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-sql-rowset-serial.yaml",
+      "sha256": "1c1b076de981592da83e26421951b2929cb008dc3ec666fd346de8d76dc5b7c8"
+    },
+    {
+      "bytes": 13557,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-sql-rowset.yaml",
+      "sha256": "7fb9ad9067addd3a41580763b1a3566a58b451c2499a4a73c2165c55172aa087"
+    },
+    {
+      "bytes": 876,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-sql.yaml",
+      "sha256": "6361853aff07fd25c2f984ba2ff691af831eb2bd061e1baaef11785b5d4c9b78"
+    },
+    {
+      "bytes": 3572,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-xml-namespace.yaml",
+      "sha256": "dd7cadb5b60432d904ea5aa9c4f3c0cad7f126a459621dc5c5f91b1bd05a5028"
+    },
+    {
+      "bytes": 4448,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-xml-parsers.yaml",
+      "sha256": "edd405f6cc3ccafcda2cf0f4ad53b03895e34bb5596b3475598fcd65d08303ce"
+    },
+    {
+      "bytes": 7839,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-xml-transform-dom.yaml",
+      "sha256": "0a255cf337942e93743435dd1ce1675deaad91542acd02ff51d7498062ce6769"
+    },
+    {
+      "bytes": 8362,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-xml-transform-sax.yaml",
+      "sha256": "65afe72d2aaf2afd6a0147096abb5166c2ffa0d2c70af7ccc0ee6b36ff1f3b41"
+    },
+    {
+      "bytes": 6190,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-xml-transform-stax.yaml",
+      "sha256": "d121a287f971bf81fd4f804aaf30e2291ea14bbaa688b5041b9cd0680b4847ac"
+    },
+    {
+      "bytes": 10058,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-xml-transform-stream.yaml",
+      "sha256": "6b864331cd4939989483f245879510c57b90251d175d02c8010dd97dbab54f76"
+    },
+    {
+      "bytes": 7677,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/javax-xml-transform.yaml",
+      "sha256": "12ada408d9ecb1d3d6f5790ee7987dda94593d4c8c2e8ec1a4a46dce18d41b45"
+    },
+    {
+      "bytes": 12826,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/kotlin.yaml",
+      "sha256": "776a48db85b531fedcd0d281af612af11afacc1f8f9c55441a4553a81aa699f3"
+    },
+    {
+      "bytes": 9464,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/org-w3c-dom.yaml",
+      "sha256": "ced7e38efc0aad5a17a8b295a5a7cc2848f03e3bd041dafdfa59a48ad0e9f579"
+    },
+    {
+      "bytes": 1119,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/stdlib/org-xml-sax.yaml",
+      "sha256": "c162ab9efd50b378cec0c6feeab226caa6730b61180fe3d04ea1ce0ab261dfef"
+    },
+    {
+      "bytes": 7019,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/unboundid-ldapsdk-6.0.11.yaml",
+      "sha256": "68279383bd513ea254a2c0d17e1467248cc9b0a484c480ec8387319ccdbfdb53"
+    },
+    {
+      "bytes": 258,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/velocity-velocity-1.5.yaml",
+      "sha256": "77663a36da57878c8d89f21b79dbbb9214033e95565c84fa776bdc0812e20667"
+    },
+    {
+      "bytes": 2296,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/velocity-velocity-dep-1.4.yaml",
+      "sha256": "144bdb50b12cbcc474bc723b7a85a31de9dc30f7689987c681ba8220e7932bbb"
+    },
+    {
+      "bytes": 498,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/config/xml-apis-xml-apis-1.4.01.yaml",
+      "sha256": "ab1bac77ab73c9ffaea3819e7ed3da9e63db86d9e7f9cd7c712de45d90437900"
+    },
+    {
+      "bytes": 533,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build.gradle.kts",
+      "sha256": "a14e406d08b6fad9ab647ab3e9b987c78acd43006251e1462918ea1e77062011"
+    },
+    {
+      "bytes": 436,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/ArgumentTypeContext.class",
+      "sha256": "ea5218f8188aee53b6dc4c82e998b81b95a2343d39d679dccc16a068d029f838"
+    },
+    {
+      "bytes": 411,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/OpentaintNdUtil.class",
+      "sha256": "ecb41daad37ac5c77e269a33e238349177f3600f5c5fb18ed73c1c42e8e5f52a"
+    },
+    {
+      "bytes": 5748,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/kotlin/Builders.class",
+      "sha256": "9313aafb255dfbf01bcd8372127cf1ff8fe9ed3a46e2599f1f0c2a00bf02a58b"
+    },
+    {
+      "bytes": 1707,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/kotlin/BuildersBuilders.class",
+      "sha256": "39bb77c4f01046b856bcf47e11404de9b00120aabdd0b09a90e963e2d04ec512"
+    },
+    {
+      "bytes": 5152,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/kotlin/BuildersBuildersCommon.class",
+      "sha256": "c479b8da4761f4f574b3c7d941510227822416ca47338fb4f8042230c30a4514"
+    },
+    {
+      "bytes": 12504,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/stdlib/CompletableFuture.class",
+      "sha256": "030e610ff9180916f30a745e8b5fc545a7333efedf9edc457e290e5e2a07aa4b"
+    },
+    {
+      "bytes": 11909,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/stdlib/CompletionStage.class",
+      "sha256": "620ad266e811631ae9a16586507e9b0bd248788144669f5c59862b5e715cbdaf"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/stdlib/Executor.class",
+      "sha256": "275eefffe3edd2081139c3e83f40c747393e472d9a13a3a7d357e56a4c7728cd"
+    },
+    {
+      "bytes": 3129,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/stdlib/ExecutorService.class",
+      "sha256": "60bc9582672dc1b2a4b96725676910091f9b1a69f45d1a645f0f4508d5977d08"
+    },
+    {
+      "bytes": 2993,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/stdlib/Optional.class",
+      "sha256": "219282d6e6a92d99ec483a0442da0e0da695125f9fa3e8bb4bc92e1550b6ec67"
+    },
+    {
+      "bytes": 9790,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/stdlib/Stream.class",
+      "sha256": "b16441d9b899a9807db6b95d649a7bc0a5101b2139fc9172edd7378e3245e757"
+    },
+    {
+      "bytes": 2249,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/classes/java/main/org/opentaint/jvm/dataflow/approximations/stdlib/Thread.class",
+      "sha256": "d728bfb47f9213678963b7a6b5200a247ecbe9653f1bba93c334742353c030f7"
+    },
+    {
+      "bytes": 19963,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/libs/dataflow-approximations.jar",
+      "sha256": "3dca7f08186879c79d073de725e6d99b2f0cdaf4be7aeb7bdd8b77c91207767a"
+    },
+    {
+      "bytes": 6661,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/tmp/compileJava/previous-compilation-data.bin",
+      "sha256": "84ec8669de052589d260fda5c6308d12293ecc48fd4e93789f63d89f77c69686"
+    },
+    {
+      "bytes": 25,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/build/tmp/jar/MANIFEST.MF",
+      "sha256": "566ad1a80220026d05099562645ce968ff0e7c36cde22634332605bb34cc3eff"
+    },
+    {
+      "bytes": 324,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/ArgumentTypeContext.java",
+      "sha256": "664a5a2460f49c48515182b75921868dee6489e4c9c916a1241ca5715d94a1f1"
+    },
+    {
+      "bytes": 151,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/OpentaintNdUtil.java",
+      "sha256": "af177692a65337485377fca19450e06ab840c5a8161ef59100a551087ae18de2"
+    },
+    {
+      "bytes": 3419,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/kotlin/Builders.java",
+      "sha256": "fba1929496fd10077f75f55ba4f709dec0fcc9c407a7bbb04d2622811c417a19"
+    },
+    {
+      "bytes": 867,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/kotlin/BuildersBuilders.java",
+      "sha256": "09caad1c6964790ca4368f8ef94c550fb5afe1ac64e93c786593f1f90ae6b52c"
+    },
+    {
+      "bytes": 3033,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/kotlin/BuildersBuildersCommon.java",
+      "sha256": "a41d46876403831d88d25a027c63523662c2779a01f3064f78f2989bbb31a3f3"
+    },
+    {
+      "bytes": 20337,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/stdlib/CompletableFuture.java",
+      "sha256": "7353d69c2d61561cfb99c58514145419903da59ec474e4c4b403a3b14266dde8"
+    },
+    {
+      "bytes": 19060,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/stdlib/CompletionStage.java",
+      "sha256": "cee565f7b903404adbc9bdeded8cf070c72d787a475ba50c3a4e2660c29143db"
+    },
+    {
+      "bytes": 363,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/stdlib/Executor.java",
+      "sha256": "193190e74c28fae4c93fa12c557c50fbd022f557699ff9917711d4785b993b26"
+    },
+    {
+      "bytes": 2447,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/stdlib/ExecutorService.java",
+      "sha256": "e5f5529e1811472bf4e9ae04abc9522305d75c1a69588b6c55ad4eff8d241da7"
+    },
+    {
+      "bytes": 2671,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/stdlib/Optional.java",
+      "sha256": "1dc1d6183ba46fd1d2ce0c4d9909ce32e39844d4cb760d909e995fb1ea8b4ff5"
+    },
+    {
+      "bytes": 9762,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/stdlib/Stream.java",
+      "sha256": "5d4b1323c23223c404881bb58f81888c840babcd72dcf3afe21522d665bc2440"
+    },
+    {
+      "bytes": 1535,
+      "path": "reports/raw/control-scratch/overhead-opentaint-kotlin/dataflowbench-opentaint-models/java/dataflow/src/main/java/org/opentaint/jvm/dataflow/approximations/stdlib/Thread.java",
+      "sha256": "a961cdf6009ec63cc75509655e636379fbc86a4b8a9b2fd637fdfffaf7c2a674"
+    },
+    {
+      "bytes": 266,
+      "path": "reports/raw/invocation-overhead/opentaint-kotlin/fixture/DfbTrivial.kt",
+      "sha256": "d6ef47a7d8bdbf00b355f60935b05f60b019235d08b5935be0363823e8164b46"
+    },
+    {
+      "bytes": 1951,
+      "path": "reports/raw/invocation-overhead/opentaint-kotlin/invocation-overhead.json",
+      "sha256": "7f1ae25d7004b43b7f6e577bdfdd0a87c0cd8a3d5e969436ab192d0ebebf6788"
+    },
+    {
+      "bytes": 1831,
+      "path": "reports/raw/invocation-overhead/opentaint-kotlin/resolved-rule.yaml",
+      "sha256": "1c9b34833739ecb2de6f5b2d66840cfed70e5db63101abd6d54ec5a733020ba0"
+    },
+    {
+      "bytes": 581,
+      "path": "reports/raw/invocation-overhead/opentaint-kotlin/run-environment.json",
+      "sha256": "4108d78b9043787fd08bf78896ac43922c471781df78a077f981833bb513d03b"
+    }
+  ],
+  "contract": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/contract.json",
+    "sha256": "4a4c27f07671443c01d15d485b02d49dc4d0968491a008af416a3fadf847c757"
+  },
+  "control_id": "overhead-opentaint-kotlin",
+  "control_inventory": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/control-inventory.json",
+    "sha256": "a232733f779104358786ffa894657b7920f2b148651a684c7686396f26ed9498"
+  },
+  "deadline_seconds": 600,
+  "duration_seconds": 18.639331708,
+  "end_utc": "2026-10-07T16:35:34.193139+00:00",
+  "environment": {
+    "HOME": "/Users/dave",
+    "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+    "LANG": "en_US.UTF-8",
+    "PATH": "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin:/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "SEMGREP_ENABLE_VERSION_CHECK": "0",
+    "TMPDIR": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/controls/overhead-opentaint-kotlin/reports/raw/control-scratch/overhead-opentaint-kotlin"
+  },
+  "environment_sha256": "051189501958f54fe1a00b5a990460e1c555cf2862177c07a5adec5786a4ff4f",
+  "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/controls/overhead-opentaint-kotlin",
+  "exit_code": 0,
+  "maximum_attempts": 2,
+  "measurement_repeats": 3,
+  "missing_output_roots": [],
+  "output_roots": [
+    "reports/raw/invocation-overhead/opentaint-kotlin",
+    "reports/raw/control-scratch/overhead-opentaint-kotlin"
+  ],
+  "parent_plan_sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf",
+  "population_sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+  "release": "v0.9.0",
+  "repeat_mechanism": "inside-harness-command",
+  "runner_identity": {
+    "path": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/target/release/dataflowbench",
+    "runner_build_schema": "release-runner-build/v1",
+    "runner_build_sha256": "2c126dc1f7fb23b2d9dcf4ce09049c450636e1991741b58fdb282d9bc98fd1d3",
+    "sha256": "a27205c137abb32e9d9d1d0a6739dafbd959c11ef4eea1aa9513575178de0bad",
+    "source_commit": "fdb83ab93e1190a5b04e7e1184d6c64d40d48daa",
+    "source_files": {
+      "Cargo.lock": "1b02175cfa099803e999364b30f145e7dd218c94ebabc7f5312338543c7cc5b1",
+      "Cargo.toml": "91ecd4bffc145c2f70590eca7c5dbb3976f26194b80e3f225ffda41fc4006876",
+      "src/adapters/bifrost.rs": "9d89a68fac4ed09bef19a93ce269f0b2e94bbf4320b1faa7e6df0d814ac14cb0",
+      "src/adapters/codeql.rs": "43589ecb4062d0ef690175da66c7f3c9624f27b58f5e9a7bcc1f2365a7b01b7e",
+      "src/adapters/codeql/swift.rs": "554fe23d08f35db6bda567ce6abd0879c94acbbeb1c02253ed9c4b8a0bf9614f",
+      "src/adapters/flowdroid.rs": "aba04ea96ce63090381c8ef2783d0aded803d0e66c8242da96b31865479069bd",
+      "src/adapters/infer.rs": "6be54e8bc60aa532e0279fa754483459fd45f1927f9f9a0baf1b3f39024f1525",
+      "src/adapters/joern.rs": "5545993c88a9d91f0e1379893c3725597d839c966bbf934f27f6560a9a852469",
+      "src/adapters/joern/swift.rs": "14ed6b93580b274b73b450fc82b37be4ea4a49f01edbc9efcdf0315fcc4776d7",
+      "src/adapters/mod.rs": "19e5b9a43481f994adf6dd364bbe974bb14d0212187c4033f526c631387cecbd",
+      "src/adapters/opentaint.rs": "df3db7f6b5cfd35cff40a19faabd3778a55f2afdcd89114c88862e55251ae555",
+      "src/adapters/pysa.rs": "e036345d7c297d5abee75adef71043cf7cbc3e3e61662b85bcb4cf7bcb68c2a0",
+      "src/adapters/semgrep.rs": "314666cb5bd2444eb44cb5678a9347b85d453101b860e157bd0b40bb71c5fabd",
+      "src/adapters/swift_v2.rs": "7455857429471c901548dbd1de09ada79961caf6e997407de093c274a7654042",
+      "src/batch.rs": "d38ce47c270160d54dc107d01f5ace38969d682b98b5d592e2df5a513bb0a5f4",
+      "src/cases.rs": "56e62c24eff5ad93e68e7ab981d1f1479f29189f924201668c1f225e5b901b44",
+      "src/cli_args_tests.rs": "50deec98ddbdb12c59c63a23aef53ebfac15a8964ab48c4239a8a8f734388e1f",
+      "src/evidence.rs": "4cd815b189b5d4538e03effac82e3f8747586faf14a0b2d3f73c8ec26149fe93",
+      "src/freeze.rs": "81f50c7584303cabf266ce7521c325be9394173c3af53f395c402e72613b0526",
+      "src/latency.rs": "d3fbeb0b6e5c2e21ce2208f53a5e4848d5f0df91bcce7c2f3c750647aaaa780e",
+      "src/main.rs": "5c66cbed4ba73b030eb58af023e59805935f491f70f1d76d9d410a160c6ca645",
+      "src/modeling.rs": "faf6497d9a13aac4a7a2c159c3b5077ac79288fc1b841eb9a922bd9c7e8337e8",
+      "src/native.rs": "c364175afbac4e8b65a0a4f458e99fc6dfbb61ca67c6818c09df09a60cff658c",
+      "src/population.rs": "fe90146270bcb7f972669fc8b7f211437f793f98e027be8b9551a588ee5f2dbe",
+      "src/real_project.rs": "10cf064375ea5d43e82b5e5de44ad5c35f23e3dc36c4fcbe40d087ac1e37fefb",
+      "src/report.rs": "b81dfeaf720cbf2fa3fc21cc7eede7372561595e7f222fb99268e5babcd83bf7",
+      "src/report_diff.rs": "4a3c135f08d999a5ba00936b188aa1a33c0d56a7cd4e4582aa031f9f1f8fb75e",
+      "src/results.rs": "20e96b62900daa3cdd0dd34c2a3cd6a24b2de42b7be313ff99114c8338d3d753",
+      "src/runtime.rs": "9e7c4e03a9b07cf643183bb36db7a126f49e18d93e7705181284d70d5fcad83b",
+      "src/templates.rs": "45f98c6a1bdad748d134a54902b26e796b76ef5ff0f29d3606ba81a2b6f258ed",
+      "src/tests/adapters/bifrost.rs": "819babd0246f254d02c5dd245c505ae40d78d5e50d77c2930de493bf800e1167",
+      "src/tests/adapters/codeql.rs": "06afdd6b8b9070c00ff97df4a7ab52726bdaacd7f3a594ee8f2e80dcf27f617c",
+      "src/tests/adapters/flowdroid.rs": "b006c79666dcef11a3426120fde2cc94fc31e2a1bc41943b63cdfdd999f8b137",
+      "src/tests/adapters/infer.rs": "1af844f9e1d6562f8afb2a2f7eaef81b02bfe421f5454c5f4a206e6dd40e2da2",
+      "src/tests/adapters/joern.rs": "6644069351e4d5b86c77f9b6b7969fa87a451465c8a7ab7111847e470936b0fa",
+      "src/tests/adapters/mod.rs": "68696c95c8d65c0d3a87a4fe6caa475302ef3e26a68453b04cb2b179b9d7d9cd",
+      "src/tests/adapters/opentaint.rs": "7fd615d232aef29526c472747288b625bee4eadc06b66eb917017ca5e9605694",
+      "src/tests/adapters/pysa.rs": "d38962d7a9b3a4470b88d21a562aafc075689945e033f4bb28c42c5aaa5b4201",
+      "src/tests/adapters/semgrep.rs": "2ae16c34b18114c702aa37f8773896c787fb142ea21a5f776b1878aafd8bb98f",
+      "src/tests/batch.rs": "688b074d1567f8701ed2337f51ea7904b37e5d70160f3ba19d54c7012ef86c10",
+      "src/tests/cases.rs": "0373e91bae2bf0290a50b7c3413409ca69010d80220dbbe5975660f45aa8b072",
+      "src/tests/evidence.rs": "215b213cf61fb72e249d85e7da42fab95e9c0b32e4d4d83727161ee0c7d1cb63",
+      "src/tests/freeze.rs": "d4c7efc34454f736eb71125e11a463f08c57961515a3346654053f17f3737cf5",
+      "src/tests/latency.rs": "c658d6c19f825bd313259ebe19d03554a1d1100e1813a1f75a16c0ec7b2ac516",
+      "src/tests/mod.rs": "58e68bb79191af28e346aae04f3db59f77113ce44c3d21f84cc06d3dcbe32c35",
+      "src/tests/modeling.rs": "fa0c8c9a79c2d04a5c454e173308ab22a866f44d412e73fe2c7adbfd4cffe023",
+      "src/tests/native.rs": "5104dd99445fff97d34e21c5c92460fe3c228d4c2bc9c23273bf424944b0b3a2",
+      "src/tests/real_project.rs": "abeb4c84816191342e653b0e789625b79221d2164dfb34fbfbfe383903bcfd6b",
+      "src/tests/report.rs": "7da3a3f575b80a3ccbe307ff44c37ee9b71dfaf8a83126612ec677a38faeaf0d",
+      "src/tests/report_diff.rs": "cc1d3e5e09398cc654574e71af000520ae603671e317d29145738383c775b8d4",
+      "src/tests/results.rs": "56c15f583df998175621d9c0f81f9e09ef05d3657bee4894357a11a131bcda05",
+      "src/tests/runtime.rs": "6e8400e6741ca0233c4485c8e5aab3ce864526fda9288b11673644eba0cf2951",
+      "src/tests/support.rs": "e4b26d1e69f151542bfa091b58b9c68c73dce7067c0b5c48585188c0604b4583",
+      "src/tests/templates.rs": "4d31dd4614654681e166dd5aa50f59661bd291b6f453865179fff37f4ba599a5"
+    }
+  },
+  "schema": "release-control-attempt/v1",
+  "script_identity": [],
+  "start_utc": "2026-10-07T16:35:15.470443+00:00",
+  "started_receipt": "started.json",
+  "started_receipt_sha256": "38567f0e3f8520d8a3eb0fa683f887400ce55c73039bd0d7492b87263701ce88",
+  "status": "completed",
+  "stderr": {
+    "path": "stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "stdout.txt",
+    "sha256": "d3c0925927805e7f9230c6132f093bb1bd32286c90ca269c86beb3610e4c3e29"
+  },
+  "timed_out": false
+}

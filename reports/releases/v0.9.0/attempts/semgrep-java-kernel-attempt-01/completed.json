@@ -1,0 +1,904 @@
+{
+  "argv": [
+    "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/target/release/dataflowbench",
+    "--population",
+    "v0.9.0",
+    "run-semgrep-java-kernel",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "attempt_id": "semgrep-java-kernel-attempt-01",
+  "captured_files": [
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-alias-propagation-negative-unsupported.json",
+      "sha256": "55b5fcb28f175cebd2d7f5dc1cd6eeaf0ad36a461fc93eb88f5c30f98f462056"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-alias-propagation-positive-unsupported.json",
+      "sha256": "d310dceec513db994cf3560ce77b2d031df652fcbd40022bd79ddd7cd792928d"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-anonymous-implementation-negative-unsupported.json",
+      "sha256": "faa1df2a3a5f291da0a6ae4633975a2b6776d1f803252dabbd7be3478d3f83f0"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-anonymous-implementation-positive-unsupported.json",
+      "sha256": "51bf82153f7f8d94d1f13d337befc315807dcd6686cce34351a40f3bf362c46a"
+    },
+    {
+      "bytes": 935,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-argument-position-negative-unsupported.json",
+      "sha256": "046a448c9c956b850ae570c20791458e5a61b52869063aa2f0ebf6f60b3c011b"
+    },
+    {
+      "bytes": 935,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-argument-position-positive-unsupported.json",
+      "sha256": "2915851bc95de8c19456ee2a6d96d3e4cf3ad79ac4b9b04c8d3fe264b44b111c"
+    },
+    {
+      "bytes": 950,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-array-element-negative-unsupported.json",
+      "sha256": "503c22dfbbc6fc49515cb6b492b3a2ddfc6a1dc3103a8d54662b74f0f606b0dd"
+    },
+    {
+      "bytes": 950,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-array-element-positive-unsupported.json",
+      "sha256": "4e93ac323b013fead3c746f49039d27930d11506d4c7d909819365871f88da5c"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-negative-timing.json",
+      "sha256": "37a9ec60279ac996a9e24650503f1c13a961d28c72e05e354932e7c8a5dcc861"
+    },
+    {
+      "bytes": 1421,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-negative.json",
+      "sha256": "0330d5ec731939b26cd8e6588e458ab790ba59fbba64a21c433e813c6491394a"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-positive-timing.json",
+      "sha256": "de4d02c159c52693e0e903181a28be8574afdc53afe20b56abeb28cf0dbf3c67"
+    },
+    {
+      "bytes": 2038,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-branch-join-positive.json",
+      "sha256": "a438e9fa4d707ca58a79024516b84baccf969ce169c2a1fbf314a678e09db5b6"
+    },
+    {
+      "bytes": 928,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-call-context-negative-unsupported.json",
+      "sha256": "62b87ffe81b4ec05c815a7152b7002cb487c31c18560587b98fde9ae1eda9a2b"
+    },
+    {
+      "bytes": 928,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-call-context-positive-unsupported.json",
+      "sha256": "c808cb04c0cd3bc22065128e3833fabb631e9a55367002282cff5263694af984"
+    },
+    {
+      "bytes": 887,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-callback-registration-negative-unsupported.json",
+      "sha256": "3ea0e7395f0dcd2c2ca55d761bbac4fb76d70aa10c7ddb5a4bee8b6eab5793cc"
+    },
+    {
+      "bytes": 887,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-callback-registration-positive-unsupported.json",
+      "sha256": "2b064521fd8cf1d15d42ec4f7f433d8b072b9d9f9ce1dd600001310c02bd1ac4"
+    },
+    {
+      "bytes": 839,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-closure-capture-negative-unsupported.json",
+      "sha256": "3bffa1b7c99bf9b6a48c5dc381c8834a495af87db4c87dba9e1bb2a55ced406f"
+    },
+    {
+      "bytes": 839,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-closure-capture-positive-unsupported.json",
+      "sha256": "89b15bbdd65224a38739d851bb39dd2d77250730e1773900c967b522516d5deb"
+    },
+    {
+      "bytes": 1149,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-computed-property-negative-unsupported.json",
+      "sha256": "ce0bbc0e9d9ec08aa2d9d57c9d8e768d46fd59178417c27a10804ebb9cb6b71b"
+    },
+    {
+      "bytes": 1149,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-computed-property-positive-unsupported.json",
+      "sha256": "0eab33e4ec1707bc01f14bf318a86e4e58853eaa7409fdde98759cb316aee512"
+    },
+    {
+      "bytes": 862,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-context-pair-depth2-negative-unsupported.json",
+      "sha256": "55275474fcdc83bde3832d9b8c9dc4e5039628be4f83e9d34bbc87c77eaf5767"
+    },
+    {
+      "bytes": 862,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-context-pair-depth2-positive-unsupported.json",
+      "sha256": "6a649cc60e613968d2f348e73436a48fbe58f8914c3361cfe104049ce7404454"
+    },
+    {
+      "bytes": 922,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-deep-relay-chain-negative-unsupported.json",
+      "sha256": "f13c667b4393f184322664e33b77c58c458c3bba0dbc2c534d0f37876e77e204"
+    },
+    {
+      "bytes": 922,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-deep-relay-chain-positive-unsupported.json",
+      "sha256": "9025bf6f37f8f707590c102fec864a6236faf47b111ad2ef4e65f5977054d9db"
+    },
+    {
+      "bytes": 1019,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-direct-positive-rule.yaml",
+      "sha256": "67f79e425edfbf8f346fa6c8d0c9c40582455a7738ce3dfd4865261fad3dd0c0"
+    },
+    {
+      "bytes": 241,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-direct-positive-timing.json",
+      "sha256": "cc16fba1f0152f2f8a509157505ad151afc0b588c400effc8e8bb611719e4051"
+    },
+    {
+      "bytes": 2018,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-direct-positive.json",
+      "sha256": "307546cee9e95c8bcc05feb9359fe23ab150d295cc9a32cb1ce84731120a0fd7"
+    },
+    {
+      "bytes": 941,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-dispatch-table-negative-unsupported.json",
+      "sha256": "7c9b3a09f02fc4197fafb595661bf0b0775be829b61cee42661d391ab9b12787"
+    },
+    {
+      "bytes": 941,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-dispatch-table-positive-unsupported.json",
+      "sha256": "45e5e843282525f42539d4173f2ecd157529391d391712895183ae6a9b8305c4"
+    },
+    {
+      "bytes": 889,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-element-object-negative-unsupported.json",
+      "sha256": "1c1fb5efe4f25e113be78f43241461684eccb7b4033adeddbb52822f6961b958"
+    },
+    {
+      "bytes": 889,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-element-object-positive-unsupported.json",
+      "sha256": "07feb5202d846f0b21d938d36f76dd59d1b21b1748b8f0aa719a35e1d8f1e0fe"
+    },
+    {
+      "bytes": 985,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-exception-catch-negative-unsupported.json",
+      "sha256": "230e2b6c046f5fa11c78c7318ffef28bee5ddc4a1f0dcb893a0181dcd3633171"
+    },
+    {
+      "bytes": 985,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-exception-catch-positive-unsupported.json",
+      "sha256": "db238f2cf8b65118251211e5e977e321611bd509faad5deba8a6a8e333706f40"
+    },
+    {
+      "bytes": 1039,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-explicit-negative-rule.yaml",
+      "sha256": "7c4bd79e4724304c6beed891a9a5db2a254cd867adf74b29b475882eabe22438"
+    },
+    {
+      "bytes": 243,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-explicit-negative-timing.json",
+      "sha256": "564d5f5c987c78e22ad70d557a7eccb4059cf351a244ce5676822bd3d54c8f9d"
+    },
+    {
+      "bytes": 1420,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-explicit-negative.json",
+      "sha256": "d1c4380e46d2a6650a387e481b1a467ad9c259117a0eeb157caf9e5c82fffb8d"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 245,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-negative-timing.json",
+      "sha256": "bf292ea9c7e6793da4df032d47ea6ca2bbd6648e3dd97e174a6776de63cf4b73"
+    },
+    {
+      "bytes": 1422,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-negative.json",
+      "sha256": "33fad07a51e66293f1c70ded80cd4735e629a0b0b288920684be7c5f49b3a52a"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 245,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-positive-timing.json",
+      "sha256": "2526b64a23e866e66e738775ff822e155406500041a2731bc9e8721e8f4cbf91"
+    },
+    {
+      "bytes": 2034,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-expression-positive.json",
+      "sha256": "3f4b1d4d22cd6481705c04524a3deda787aaa23c2d2c7c5240c0a81949e14107"
+    },
+    {
+      "bytes": 893,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-function-field-negative-unsupported.json",
+      "sha256": "4a66063d6e21df98c9be5f8c83b3e0798d8d4ae51d664e2a3f7e93c7bd5f527d"
+    },
+    {
+      "bytes": 893,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-function-field-positive-unsupported.json",
+      "sha256": "c8e1e24901d28268df0fb6eacd24fe0ad1f6e334e3f4726d5fa30d8fd07ef2bf"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-negative-timing.json",
+      "sha256": "85ba0740a97a92710899496fa06df731979ba03899414447e8d901477ce53b3e"
+    },
+    {
+      "bytes": 2061,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-negative.json",
+      "sha256": "bfab20d66610e6ced79e729b5b67a358a5b27fde5ef0418a53ad2a878b407897"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-positive-timing.json",
+      "sha256": "509225213ddd2f5701314ca763cc85631fb791c676882e5d3c5ec9774cb1b1ae"
+    },
+    {
+      "bytes": 2057,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-infeasible-branch-positive.json",
+      "sha256": "dbbe36a5b83a3f8078aa3207acd789096196d7f48968cc343c55c33faa8fd54b"
+    },
+    {
+      "bytes": 957,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative-unsupported.json",
+      "sha256": "5155ba67a807627103deb8aee44ddc19e3bff392a5c240316cc98db00cd87494"
+    },
+    {
+      "bytes": 957,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive-unsupported.json",
+      "sha256": "4cf3b5f91b8bce2a90f359a70cd1cf91ce9180911c6c0f3280995b22a33ac9bf"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-negative-timing.json",
+      "sha256": "54409d9fdc1d2574bcf98e91af8b2c2769efd96ebc476b1d969a886b20724172"
+    },
+    {
+      "bytes": 1422,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-negative.json",
+      "sha256": "1fe513c3b09f61caaca72c5c9b58f5a334206a0b86d7c611a57beb6f0f1f205f"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-positive-timing.json",
+      "sha256": "b802d86889d7a9e9a21d21601bc5d21d0cafe89a38201e6b15df1953ac7f5d83"
+    },
+    {
+      "bytes": 2033,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-chain-positive.json",
+      "sha256": "a94c98abb7bab5a16f5732898ff7d0e042d63b996491384f34a8ee75b92040d1"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 250,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-negative-timing.json",
+      "sha256": "e32a88aca4907f61dbbe0ada4c55f2d3b043f81bd753003b7ad45db34736d975"
+    },
+    {
+      "bytes": 1431,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-negative.json",
+      "sha256": "3c198d6072b14d8d9c579f46f46b7152cfc33d82cb33fb0b84ad3585f34cc093"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 250,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-positive-timing.json",
+      "sha256": "f7e16609eb5ad24acdef36a8ce97f787e407d69c4581b4c53411ac797bb70507"
+    },
+    {
+      "bytes": 2050,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-local-overwrite-positive.json",
+      "sha256": "879676c148a48efba07519769abb35592b68880649288da21a41901d2f4ea2e3"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-negative-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 247,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-negative-timing.json",
+      "sha256": "9abd63ccb86b6e952edf331c2b2010ebc2f7b147a7c5cd7796041c18fb4fc0ed"
+    },
+    {
+      "bytes": 2034,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-negative.json",
+      "sha256": "d80300fde3a73a7d745ab415f5866718983149f6cf39d17abf2a996d1a1242ef"
+    },
+    {
+      "bytes": 1005,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-positive-rule.yaml",
+      "sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935"
+    },
+    {
+      "bytes": 247,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-positive-timing.json",
+      "sha256": "b32eb8942765c3583aaaf76b0ab79cb4ad2c2f754e03a8ae4f2a68c81367d430"
+    },
+    {
+      "bytes": 2037,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-loop-carried-positive.json",
+      "sha256": "af80a6aa824cd1b04e25911ccbab7df9859cc0a0c5f22a1067b0beecedcab744"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-map-iteration-negative-unsupported.json",
+      "sha256": "04991d518e80ad7e67255e5a52b24bfd8131851688084a226760745ca619455b"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-map-iteration-positive-unsupported.json",
+      "sha256": "65c9225da356eea063075509d7e24b2d02113447a2ef1e3702a907c410fcd977"
+    },
+    {
+      "bytes": 816,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-mutual-recursive-transform-negative-unsupported.json",
+      "sha256": "28741179f9befa6fc90f10ce8e727006a1dd72744718f751606d86194911bfdf"
+    },
+    {
+      "bytes": 816,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-mutual-recursive-transform-positive-unsupported.json",
+      "sha256": "6c0674ffbab8166e8167ac2fc3edd0599b3c3782b75c6fd3ee3a6d7243cabd28"
+    },
+    {
+      "bytes": 918,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-nested-access-path-negative-unsupported.json",
+      "sha256": "c551aa92a5d165eaeb10a47aef2500e15341347d879c059828ac5bd5df6ef479"
+    },
+    {
+      "bytes": 918,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-nested-access-path-positive-unsupported.json",
+      "sha256": "a21b31a1e04bd2035e3f0938b166e7ed7f08cb18f563a282ba7cc1e7172b3246"
+    },
+    {
+      "bytes": 940,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-object-separation-negative-unsupported.json",
+      "sha256": "33e11c0947622630cf6f85d7b2fdf151c2ab426989bce28510d2f394d735c1df"
+    },
+    {
+      "bytes": 940,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-object-separation-positive-unsupported.json",
+      "sha256": "04bc97c6a2861b37d6fa64108ffae7bac218419912d4407c1f3a16603a2f6dfb"
+    },
+    {
+      "bytes": 842,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-callback-transform-negative-unsupported.json",
+      "sha256": "f4418f550fd17ff933697af738540bf6498d1e6b7f6d400dca5d0519ee6dd18a"
+    },
+    {
+      "bytes": 842,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-callback-transform-positive-unsupported.json",
+      "sha256": "b5e6c128cf99a8b2ffaedd5e29bb8c79eb3b9631c67d9aaa5504adfd7633e248"
+    },
+    {
+      "bytes": 835,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-carry-negative-unsupported.json",
+      "sha256": "5dc5689edfcbc62fc09817ee074f1b77933afd2d6958002c8b00ad3cb16b8f91"
+    },
+    {
+      "bytes": 835,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-carry-positive-unsupported.json",
+      "sha256": "796658a8f78573203d92e26c81d2c0f8a4c534c59f474444592e1f434ce58ef4"
+    },
+    {
+      "bytes": 874,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-exception-persistence-negative-unsupported.json",
+      "sha256": "cff74b7469fc70f6679b30cb924c231911964f22e36d364848f21f69ed9a7205"
+    },
+    {
+      "bytes": 874,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-exception-persistence-positive-unsupported.json",
+      "sha256": "04a039ca0aed6ea645340d70a10673b97c65b4db46cbb8dbf22a5c1f5126ed5f"
+    },
+    {
+      "bytes": 825,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-heap-unwind-negative-unsupported.json",
+      "sha256": "5f4b153ffd3fb7108f6399b22c16449a045a542287b4697b24f62e378b3c9d58"
+    },
+    {
+      "bytes": 825,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-heap-unwind-positive-unsupported.json",
+      "sha256": "1530793f3fcf7eaf51e57ec9af95136555132f6d34c632340afb87360922e4c0"
+    },
+    {
+      "bytes": 819,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-payload-transform-negative-unsupported.json",
+      "sha256": "28e5a0c9be110bce8473ba9ec4aa9b8bb737cd3ced1c1b4b4ceaaa29e97c8515"
+    },
+    {
+      "bytes": 819,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-recursive-payload-transform-positive-unsupported.json",
+      "sha256": "abfd05f0b4785e90929b57de626db958d15a759a1bb280d92c0eb889d52fa46f"
+    },
+    {
+      "bytes": 1033,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-reflective-invocation-negative-unsupported.json",
+      "sha256": "d5cffee586bc721f2c5f545f7d95180f26dbf60cdd1a014e6457e079098506d4"
+    },
+    {
+      "bytes": 1033,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-reflective-invocation-positive-unsupported.json",
+      "sha256": "941f92bd516cb32b53d3dcd8eb8e5bb40b3669a20650fd2a7128219c6a22df0d"
+    },
+    {
+      "bytes": 914,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-one-hop-negative-unsupported.json",
+      "sha256": "39626cf3d131a82357be56b6d583b5e2d801d883a2121cb74116b21cf1386747"
+    },
+    {
+      "bytes": 914,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-one-hop-positive-unsupported.json",
+      "sha256": "c784ff72c53d7724778138f9b093ed39245650745e7a5cc7c958933022221e7a"
+    },
+    {
+      "bytes": 936,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-two-hop-negative-unsupported.json",
+      "sha256": "9bb8e3cd5bd56da113d7571bdfc54bebf3a180e88be6c1a8230e1ca11292b67b"
+    },
+    {
+      "bytes": 936,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-return-relay-two-hop-positive-unsupported.json",
+      "sha256": "b035bd0895c18dcc5bc1c6edff83e8121f50a5fd3025174370953d44a6124b60"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-same-object-field-negative-unsupported.json",
+      "sha256": "15a8fafcc825de020600465916de8961702076221471fb85707fe02f6f73e018"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-java-kernel/dfb-taint-java-same-object-field-positive-unsupported.json",
+      "sha256": "a055729e50ee733ab6b18b094d9b99b2ee970190664232bd8f506f9c7654631a"
+    },
+    {
+      "bytes": 400,
+      "path": "reports/raw/semgrep-java-kernel/run-environment.json",
+      "sha256": "bfc0aab415ab3d342f49bb7976750ef79a04553cdd5c5eda036b1db1a2875705"
+    },
+    {
+      "bytes": 68042,
+      "path": "reports/semgrep-java-kernel.json",
+      "sha256": "4835ba8e443b53416aeac6f7bd44fc9f322711418c000d2b562e7024410d3d79"
+    }
+  ],
+  "case_ids": [
+    "dfb-taint-java-alias-propagation-negative",
+    "dfb-taint-java-alias-propagation-positive",
+    "dfb-taint-java-anonymous-implementation-negative",
+    "dfb-taint-java-anonymous-implementation-positive",
+    "dfb-taint-java-argument-position-negative",
+    "dfb-taint-java-argument-position-positive",
+    "dfb-taint-java-array-element-negative",
+    "dfb-taint-java-array-element-positive",
+    "dfb-taint-java-branch-join-negative",
+    "dfb-taint-java-branch-join-positive",
+    "dfb-taint-java-call-context-negative",
+    "dfb-taint-java-call-context-positive",
+    "dfb-taint-java-callback-registration-negative",
+    "dfb-taint-java-callback-registration-positive",
+    "dfb-taint-java-closure-capture-negative",
+    "dfb-taint-java-closure-capture-positive",
+    "dfb-taint-java-computed-property-negative",
+    "dfb-taint-java-computed-property-positive",
+    "dfb-taint-java-context-pair-depth2-negative",
+    "dfb-taint-java-context-pair-depth2-positive",
+    "dfb-taint-java-deep-relay-chain-negative",
+    "dfb-taint-java-deep-relay-chain-positive",
+    "dfb-taint-java-direct-positive",
+    "dfb-taint-java-dispatch-table-negative",
+    "dfb-taint-java-dispatch-table-positive",
+    "dfb-taint-java-element-object-negative",
+    "dfb-taint-java-element-object-positive",
+    "dfb-taint-java-exception-catch-negative",
+    "dfb-taint-java-exception-catch-positive",
+    "dfb-taint-java-explicit-negative",
+    "dfb-taint-java-expression-negative",
+    "dfb-taint-java-expression-positive",
+    "dfb-taint-java-function-field-negative",
+    "dfb-taint-java-function-field-positive",
+    "dfb-taint-java-infeasible-branch-negative",
+    "dfb-taint-java-infeasible-branch-positive",
+    "dfb-taint-java-interprocedural-exception-persistence-negative",
+    "dfb-taint-java-interprocedural-exception-persistence-positive",
+    "dfb-taint-java-local-chain-negative",
+    "dfb-taint-java-local-chain-positive",
+    "dfb-taint-java-local-overwrite-negative",
+    "dfb-taint-java-local-overwrite-positive",
+    "dfb-taint-java-loop-carried-negative",
+    "dfb-taint-java-loop-carried-positive",
+    "dfb-taint-java-map-iteration-negative",
+    "dfb-taint-java-map-iteration-positive",
+    "dfb-taint-java-mutual-recursive-transform-negative",
+    "dfb-taint-java-mutual-recursive-transform-positive",
+    "dfb-taint-java-nested-access-path-negative",
+    "dfb-taint-java-nested-access-path-positive",
+    "dfb-taint-java-object-separation-negative",
+    "dfb-taint-java-object-separation-positive",
+    "dfb-taint-java-recursive-callback-transform-negative",
+    "dfb-taint-java-recursive-callback-transform-positive",
+    "dfb-taint-java-recursive-carry-negative",
+    "dfb-taint-java-recursive-carry-positive",
+    "dfb-taint-java-recursive-exception-persistence-negative",
+    "dfb-taint-java-recursive-exception-persistence-positive",
+    "dfb-taint-java-recursive-heap-unwind-negative",
+    "dfb-taint-java-recursive-heap-unwind-positive",
+    "dfb-taint-java-recursive-payload-transform-negative",
+    "dfb-taint-java-recursive-payload-transform-positive",
+    "dfb-taint-java-reflective-invocation-negative",
+    "dfb-taint-java-reflective-invocation-positive",
+    "dfb-taint-java-return-relay-one-hop-negative",
+    "dfb-taint-java-return-relay-one-hop-positive",
+    "dfb-taint-java-return-relay-two-hop-negative",
+    "dfb-taint-java-return-relay-two-hop-positive",
+    "dfb-taint-java-same-object-field-negative",
+    "dfb-taint-java-same-object-field-positive"
+  ],
+  "contract": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/contract.json",
+    "sha256": "4a4c27f07671443c01d15d485b02d49dc4d0968491a008af416a3fadf847c757"
+  },
+  "deadline_seconds": 600,
+  "duration_seconds": 13.182728958,
+  "end_utc": "2026-10-07T21:25:18.104095+00:00",
+  "environment": {
+    "HOME": "/Users/dave",
+    "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+    "LANG": "en_US.UTF-8",
+    "PATH": "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin:/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "SEMGREP_ENABLE_VERSION_CHECK": "0",
+    "TMPDIR": "/private/tmp"
+  },
+  "environment_sha256": "6bbbf0802f6937501582b4a08c3c826d0d13aa57c767c9a960389936d81e5796",
+  "execution_revision": "fdb83ab93e1190a5b04e7e1184d6c64d40d48daa",
+  "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/matrix",
+  "execution_root_mapping": {
+    "captured_root": "reports/releases/v0.9.0/attempts/semgrep-java-kernel-attempt-01/capture",
+    "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/matrix",
+    "mapping": [
+      {
+        "captured_relative": "reports/releases/v0.9.0/attempts/semgrep-java-kernel-attempt-01/capture/reports/semgrep-java-kernel.json",
+        "execution_root_relative": "reports/semgrep-java-kernel.json"
+      },
+      {
+        "captured_relative": "reports/releases/v0.9.0/attempts/semgrep-java-kernel-attempt-01/capture/reports/raw/semgrep-java-kernel",
+        "execution_root_relative": "reports/raw/semgrep-java-kernel"
+      }
+    ],
+    "nested_raw_references_resolve_from_execution_root_namespace": true,
+    "raw_json_bytes_rewritten": false
+  },
+  "exit_code": 0,
+  "expected_reports": [
+    "reports/releases/v0.9.0/normal/semgrep-java-kernel.json"
+  ],
+  "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+  "group_id": "semgrep-java-kernel",
+  "historical_seconds": 13,
+  "input_commits": {
+    "corpus": "2637211a21f22aabedf7bcf0d1b30fc09a349673",
+    "execution_harness": null
+  },
+  "input_identities": {
+    "adapters/codeql/swift-common-v2/plan-v090-01/plan.json": "bdcc6299efb30ec37d765ec4b6afcb492337fa1c5d635422c1001ff5f482acfd",
+    "adapters/joern/swift-common-v2/plan-v090-01/plan.json": "14dde3a42a90c19d5c4eb696688f19cf31463a9d38bf153c227d0b82097604e6",
+    "populations/v0.9.0.json": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+    "reports/releases/v0.9.0/execution-v1/codeql-compatibility/summary.json": "7bc68a9bc11994525c8dd536fc9c419c795003228ee285e288ea3bc7e9dd6adc",
+    "reports/releases/v0.9.0/execution-v1/command-parsing-check.json": "73b9849ac390763dd65e26d829148323ec79f24fbae34f0572ae63a64bb306ab",
+    "reports/releases/v0.9.0/execution-v1/control-integration-validation.json": "fe09cac1435971ff4535f0091f53568f5e8bac32675353eb8e755d9f86d38028",
+    "reports/releases/v0.9.0/execution-v1/dependency-version-witnesses.json": "50d7d8566cb24d1fdee789bfc7932463f3d014c8702f69822101db46ba916480",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/attempt-baseline.json": "2711bc8e25335156e265789232b2a3bdf1b88b08af2a325c13b1ebd8bdea52fa",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-restoration.json": "bf983885a3674e3c4ab0ab837bd13ef2d7e22d4f2189887a7078176bc69a4ca5",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-runtime.json": "1a2f936f40e7e978ea1f2b38033a02cf8bd5f0a1d1c5fb531e40dd63a1bab894",
+    "reports/releases/v0.9.0/execution-v1/held-tool-digests.json": "9d748428932fdf7922ae62a066304226166a8f7105ebd5a8be9a42c15a4ffab2",
+    "reports/releases/v0.9.0/execution-v1/native-codeql-packs.json": "7ab00154d9b4b16197a4103ea25d16a69f5bd0a0a2623301249fe3182649a9d4",
+    "reports/releases/v0.9.0/execution-v1/non-swift-codeql-packs.json": "3594d6486c40c55b51c86369553c08017a2bb12f325f87d1e88c724a16569e3e",
+    "reports/releases/v0.9.0/execution-v1/opentaint-full-restoration.json": "3fcb4894b8544d4f1764b5755f5def28f2161d34c09e0ae31ed159bba858fd22",
+    "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/codeql-swift-plan.json": "0da64698c1c25dea74e2f38bae62a400089aa49a4ae7a2d0d22f1a49f1aedcbf",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/attempt-baseline.json": "a5beda3eb8786c9ffd9aa666b0d77499b8a7ee2d834e8d999597ab824558d427",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/bifrost-runtime.json": "1635ef70e935c3fb036c50a347ed4a20604ddc27045542eb46074f19b5c6147f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-plan.json": "1b03fce83c2de7ab0ce4bea7e1d6c61b37910fe9a36b6941c32c6fa03c7202ea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-reservation.json": "1a825206f32b4b2852924008dce2e620f340b663e577b7db0c1db77de8ad7875",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/command-parsing-check.json": "36d20b5ba8ed49a929220f90cb2c1952971057216f4355cbc48ae8e1363f17da",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/joern-swift-reservation.json": "faef0e3fe35223b0901a4293d27d3be83caa8c64ddde9e7df57b8709423ce835",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-restoration.json": "1c65c58260e115d33c9461a541a74e92d84c4cd4c01aa9cf171799ff2b4061bd",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-runtime.json": "78e899e13217020e5895827b88dec06f6a5e109bfb16a242d1a0ca3ba8588174",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/pin-amendment.json": "f6120d6d9f6512fa23b1b5a2ab6e4b1d5a112a35b01587fc17cc23e47895c08b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/recovery-allocation.json": "64cc317e05c534557be975ee97f92cf230612f30fbb349572fe680e7d8d909d8",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.command.json": "909baac6a5ca68a38b1d883d6fea7205053d74ebda352caa019d8b258b656bea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stderr": "51481a2ec800708aaaefd8fbe6c3ef2a8b5f3d772e26c5e2dfafde941cab1775",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.command.json": "b3f061ef7b810a34ba35bd58140eb5b6a0346becc2cd7fd965311c208cc7217c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.stdout": "58e42160c951a60e77f79f24e6588bb2a2f5dc31f13eda32a8ebe9e3a291895c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.command.json": "3c5ca699b7add324bf1f3a8f8fd50e67a852f2f283c81e217bec1a57f9f9cdd1",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.stderr": "bea81d63fffd872e1564d44a97589ed7c40296015250cff4d472dca88cc4eea9",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.command.json": "fe6b061f2670fe409ab1a7ba68aa0e0f3d8655cfabbfbc9bd08fb75ce6b33f7b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.stdout": "c7dd25b0771a72c528dea94ef4bea83deb1154625391ee6e8498190790b4de7f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.command.json": "161f0985914464a33c746f689af7bcc93d606b413c2f2453f487f40152f02501",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.stderr": "a5415cc0501430f95866ddf8b989040e889c3e31adc8f07c2d530bc6d1fe84b0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.command.json": "44a229b96dfcf66db188ecdd44294cef581dc30c1712ac9d62373436519f35de",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.stdout": "f2586e4d0a2ce61dc3857049f84d83b8fab168b5eaa95cd5524a1b843fd04d9b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.command.json": "e5101be2f9070136b63051024086f3eec694d9a16892b18fe774463abac760de",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.stderr": "c08f87ca2083e9836116d22ee84316628d46edff05bf1d3b870e2a142514531b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.command.json": "46eeaba4a55e30dc4e493b4d5bbe1315fce3d86a474adc0ecda6369eff0e4362",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.stdout": "db40d8af58b6b5f130a872b44a3e3487ddd28a527cd3070cbedcab1687107a2b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.command.json": "ad8d244c3660480dba8f715be935bd0f17a2d6884bf0fd276686f7494f9e0da0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.stderr": "f863ea57ad59e9d22b5b4ee7a89d05c6789272300496e062855cba35c32b1e49",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.command.json": "242f2bc58b2b60b042a890c9e70316bf260157452176338bce961d9055456693",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.stdout": "e9dc53cd4319de2fe8aabbe83c8b5256e2f7afe2287507f76e506f4c3c5aa72e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.command.json": "75471d6b7a069babc38a7f7e277998abe6780275676d420b0c27569b6f4f0c52",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.stderr": "88112363bd05b8cdaa2272b01de23f92e82e5cd245bd59ad3861fb076f7404e9",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.command.json": "cd6426298745445faecd2f3a4a0d7f7fa51737ab886d83a6b7628b1d197dd67f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.stdout": "5958bb9265843221acf9bacbe5571c33a4b2160656d94610764701876a1199aa",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.command.json": "832d7372afbf5390ba62d3d61468ab9b43a255c92365a743d7b9100b262af046",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.stderr": "39e1f0311a995de3cde608bb72d4173cc180d3a26c6a0545eadb2aceca92e9c0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.command.json": "6a8d3fed08cf4601cce9d5cd8f1e4c257b9f7b6e00298fbeccc39a3f231ec31c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.stdout": "d23ab7e6a0729659e445e79c7f29343229cc5395f8e3ca546447d173c5d69531",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.command.json": "ab79170665c1fd3c7a5c9b8bb1c0b7e0c2e86605d61211fde6f55eb71ea2bda4",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.stderr": "ed867ce4fdeaefe8c9744784c5a5d8a7f2589c171a8f75bd11bb1fef14b11885",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.command.json": "b2867e60c5a942b003c5083110c94ea9b2a4ca2843b73233a1ed449cbd6623bd",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.stdout": "0b15639a135957cc3839fb1e6da12e3639642ebe86ed9d12fa669a0b7b55bc39",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.command.json": "02d0a4467c9bda6da11d530a12db909159e27bd01adb6b17f32a380e8595b4da",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.stderr": "dffba6d3b7956f2752044f282b103f6c08ad4baef0bac00004274f81c4faebf5",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.command.json": "87e6fd3367827a9be579140bf387fadc123a2e1dac01cde2308dad9cb33c939e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.stdout": "ba09e41784ddc1fad7e25a27c8cdc11725bdeb95d2a95b0144f8f659ac1a02dc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.command.json": "1c58798ff7361233dc4b3a8814758434f5f4b4478bb1fe041e666927d1aa8814",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.stderr": "f4fa4d093ca0f27609d5e95e0975a73056bcdb06f0a3382720618059a539f24b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.command.json": "3a6d452149cc1e0c895ed433fecc1fd754be47f488b337f91e786a85557a96fb",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.stdout": "c91e81476a573ed14daf0bb77cb22ebfa1a6ae01b1707c64ade3f88a2f5b0d79",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.command.json": "b52367a8723a3386ea0bec40bdd55ceda9e2ab3bcc85c3f58e569a3cb38d9fcc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.stderr": "cec93fe7d778bbd452763ffa6e0db57708389ed7a250c354a0f505b24da2122d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.command.json": "9b337474087470f54cabc257cf8d3d882bc5a232560805d67a425db444147fe3",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.stdout": "1a8bdd2a9db187583a5a33e9335d981aee3d2b7a6d4d0cd412ad313a1e0e6e94",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.command.json": "2dbea25672156a65bc6d996e5cafc1735be2acb7adbf4eef47d9c601f55e3760",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.stderr": "eddf0fe23f04f3bdbab45974e9a38b635bf596edf8a3ec65438284de676a97f5",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.command.json": "4f908a1650dbbb0c2d4cb7bbda4f907ad58bda97bf3e4e5af922ca40cd3fc97d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.stdout": "202e7481ebb0c39615ff07aa786936dd96d59971cabfae2ab0ea7805d2b4aa59",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/preregistration.json": "551aa381686bea8a0e2a0fffeb0abbb4a801a7568111d60b415236457cca3ede",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/receipt.json": "68cb80eb2511757bb247a4ca1ee8f7dfc07e62c2f1acf882a88f755ece65e40b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/attempt-baseline.json": "603907abbb35b7c2ccaaf8c5acaad5b8740563a97208db2fff0e3636737b7d69",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/codeql-swift-reservation.json": "3bffc8c348e79f966b9850b4166d4897901a179775ba30ae1070172a9c5eaf15",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/joern-swift-reservation.json": "21b0f364cba57020925f57fcb910cabfa7586415cddf234d8872df0db4f6a1a7",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/recovery-allocation.json": "4c1beea908e947a2faf8e3025d1f9290055bc0ffe51e311ae0c387751263743e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/attempt-baseline.json": "a92102ad81795fdfbd1a8b15d898c533b8b2ccc1db9165e826a448fb2217b418",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/codeql-swift-reservation.json": "0a22faf05c9e9799adea897d129dced9aae55707ad4e09ca1efd1c3ec800e95d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/joern-swift-reservation.json": "a1a8fdc7ae85791965eb14cacb0b7ad96250bf2f5c15079250a589a44899de8f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/recovery-allocation.json": "894e1c200d91419cb6f6660ef6c51a3ff9a265f698e38f8611620d9d526b9d7c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/attempt-baseline.json": "37c07d1e750fb844a68ce59af1a490f13d361ceb3c7d0e82847e5c656a642729",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/codeql-swift-reservation.json": "21b0eec15fdda88572c07ca47faa92f397ee5c3c1ab2e5ed7d85150f15a164b6",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/joern-swift-reservation.json": "4f7be153542793cf803f2ecdf8e2ffc840924c22ac19090c2a9faac2d9bd29f6",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/recovery-allocation.json": "0056bd4508d665cf455b5b9e246e4839ddbdda7630ba8af72eceb14d765272ac",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/attempt-baseline.json": "402005a3a73e9921a9be2fdaec5831e7d9bce154f635b9186f3658434ca4d3df",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/codeql-swift-reservation.json": "b3ceae7d685fc9d655f105051cc0edd2dc8b378857124915e2ffdd5fd6b093dc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/control-inventory.json": "a232733f779104358786ffa894657b7920f2b148651a684c7686396f26ed9498",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/held-tool-digests.json": "ca93a3ab4f9421c343f07b373862f9cf7c95329e206da522c6470628ff035178",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/joern-swift-reservation.json": "b7b5abc8c93a5ac090b1b2744e8b16bfd844e04777b4007c141cb9f22dc70920",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/recovery-allocation.json": "77609ff41a2f5fd82ba8cfc451d2818c236798ff0aba58240d1a27e9cef17ccc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/runner-build.json": "2c126dc1f7fb23b2d9dcf4ce09049c450636e1991741b58fdb282d9bc98fd1d3",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/bifrost.json": "690b40f65d6b0635e3fd9e06d37470f48a09594e2e15003ce5fd88c98c1bf86c",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/flowdroid.json": "7dc0d4b5c82674b96ccc70693b0b2a472300b0758e10e1be13da33de35d4661e",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/infer.json": "f88687f03e98358896cbfe4974978b33da2260af42fe72cf8613fb11270aec76",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/opentaint.json": "93cd3cfd102c3ad3577400512237f1b7dae6ca9624a5937882a5047365c090db",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/python.json": "d87a9446e1ab2ff323dcab65a0645773413f7d4c3dcee7e4abccb2648c330bdb",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/semgrep.json": "6da0b1ebc6d2686302dec7e4f15c60ace682e552cc64e138c0d00a21c941dd7f",
+    "reports/releases/v0.9.0/execution-v1/runtime-version-witnesses.json": "e33f14c4f03b4f73f2f056cf96765d057d10e68e77c8dff50a65425c72db48ed",
+    "reports/releases/v0.9.0/execution-v1/semgrep-runtime-witness.json": "9d5462470bf89f162b4c9764203000e48f53726a3cd6c5775ffe5464caf7df15",
+    "reports/releases/v0.9.0/execution-v1/swift-query-checks/receipt.json": "1040dc8b6f9878d7b83264f3fb7da5647df8f08d099edc492ae3fa15e5c4d8bd",
+    "reports/releases/v0.9.0/plan.json": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf",
+    "scripts/execute-release-controls-v090.py": "4808f3721fde76a42e24a979257bcba8babe788955140768361cf59e3419cb66",
+    "scripts/execute-release-recovery-v090.py": "98ae29bd67cd77a3754458b032c2203474155cd40779630c0dfd6e8c41841c40",
+    "scripts/prepare-release-root-v090.py": "e53dabc4133d8eb4ff976e4a2e1447be90e745060b48b46aa29de7b868256b76",
+    "scripts/probe-bifrost-sanitizer-lowering.sh": "d6790e3a245ca568ba0c12bd09012a41831704e43e45f5567f978d725abbfb03",
+    "scripts/probe-bifrost-scan-native-v012.sh": "4d4bf38e5286b5d74fb50bb3c733c4f8f330e03baa85ab0e6d61b1f4f538c731",
+    "scripts/probe-bifrost-scan-native.sh": "40c95ed69d820c624e6524a200684544ef99f70d65b65a1c043071e94c38e312",
+    "scripts/probe-flowdroid-modeling-load-bearing.sh": "62075cc2af9ab50f274d29ea80c85f169746fe4237901f9635c93742e831928c",
+    "scripts/probe-flowdroid-native-shipped-surface.sh": "e19b888159f5e67a2c7419df4d59cf59e38046353e0c882588d438942872ed4a",
+    "scripts/probe-infer-modeling-partition.sh": "9b3c523f6d6524beef18dc877dfdeb5344cbed1e5bcd99e19bfe870b06c8bb23",
+    "scripts/probe-infer-native-activation.sh": "d10617b106bea4104dd2887c9d468b0312af0647e23f3a07928a62c78774c064",
+    "scripts/probe-infer-native-silence.sh": "7897a032da1569ca85d6286fc5a32509ff2eee623515059873a6ce2700b98666",
+    "scripts/probe-java-modeling-load-bearing.sh": "635fcfa58241a83ddd2afd349f1fd1ba40c5f875bffe2d1a72585ff9a66a7724",
+    "scripts/probe-javascript-modeling-load-bearing.sh": "e3611a71a410db0bd44c90277c29bfa8db7acd72d5248f239fc510679930314c",
+    "scripts/probe-joern-scan-native.sh": "f2584fa97d92bc932dbc514e84db6c89db7da8630effea92d8f244cab9bed3d5",
+    "scripts/probe-opentaint-modeling-surface.sh": "0415d7838cc0d0cd9a3e338cdd9d6e11f3dfc8ca8703f38347e87044c4e71de7",
+    "scripts/probe-opentaint-native-activation.sh": "5400cc43cded6c84b17544a7affeefdff103f8ad70df39602ccd3b865c18328f",
+    "scripts/probe-opentaint-primitive-tracking.sh": "88592a10525c2fd1c7de3c0e37e3e56f9a82a20b7b2ae72b2f6d9c7b92caba6c",
+    "scripts/probe-opentaint-product-recovery-v090.py": "5c945332a00680f11355cd4f3a97c96bd4a994ba38b59872b19ff4df2ffc7c5b",
+    "scripts/probe-opentaint-product-v090.py": "0589faee6fae872d8991bb5f3d30db5d00c95ea11c5a56fbca8e89dfe726c864",
+    "scripts/probe-opentaint-scan-activation.sh": "d8c7074105c644ec9990d96eb281288e9795fd76f7a01ebddafe7f97ea9d384b",
+    "scripts/probe-opentaint-value-kind.sh": "1f1aae2c22a238011cc7061e9faf47cd075acad783264a1564582389de9fe22a",
+    "scripts/probe-pysa-callee-resolution.sh": "ec4501bda36ad2a017af84d609eedfe8bfd706f7c5de3c37565116750f225cbe",
+    "scripts/probe-pysa-modeling-load-bearing.sh": "315b8a46993392bd93ab211bad1b90318e3fcfdd313652229c15bc5285d9e15a",
+    "scripts/probe-pysa-native-activation.sh": "cd55635af84a86806ddd21e5726b19315330349e1cb122a09417fa36d8e43871",
+    "scripts/probe-python-modeling-load-bearing-v090.py": "a3862528578f74ac99acf43ef6af6a6f9d72d1411b9fa9ae4116b03f31a77536",
+    "scripts/probe-semgrep-jsjava-native.sh": "d09e3bab859030d4679af455a341e7a155119fd48cba248abdc11b0fdf8d44f2",
+    "scripts/probe-warm-observability-v090.py": "c2c31b70154f25287488f262a3bd23e5d029e784d1c7c60173212a113b7346a8",
+    "scripts/release_claim_v090.py": "f4458242ec60e70327f8e6bfee14904e378941d1cb096bcc082974566d30a901",
+    "scripts/release_control_attempt_v090.py": "7e876cfd9c0be39c2c0a85bec99c1282366f3c69fffe3eb524b5aa2ffacf41b5",
+    "scripts/release_environment_v090.py": "344ed79eb774134c4e04e4e243bf05c20279a52d0e050e674a9c79ddb0f16ebd",
+    "scripts/run-release-control-recovery-v090.py": "03341567bd732495fe8e4129542867bc7c7da09ee40ef96be458e75b3bf452c9",
+    "scripts/run-release-control-v090.py": "8cf9785659f8319a08115422c6229162883a858dd766e128c906431ed96c7d0d",
+    "scripts/run-release-group-recovery-v090.py": "8dbfe3c4f9de495b5d72c68ab0f7374e6de0ba7357329426418710f0837dcb91",
+    "scripts/run-release-group-v090.py": "a19ae44adefe386f7f71b006ece268e1d3e3ea0ee54d94247737a0b1eb6b1ac4"
+  },
+  "output_roots": [
+    "reports/semgrep-java-kernel.json",
+    "reports/raw/semgrep-java-kernel"
+  ],
+  "parent_plan": {
+    "path": "reports/releases/v0.9.0/plan.json",
+    "sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf"
+  },
+  "population": {
+    "path": "populations/v0.9.0.json",
+    "sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+  },
+  "release": "v0.9.0",
+  "reports": [
+    {
+      "case_ids": [
+        "dfb-taint-java-alias-propagation-negative",
+        "dfb-taint-java-alias-propagation-positive",
+        "dfb-taint-java-anonymous-implementation-negative",
+        "dfb-taint-java-anonymous-implementation-positive",
+        "dfb-taint-java-argument-position-negative",
+        "dfb-taint-java-argument-position-positive",
+        "dfb-taint-java-array-element-negative",
+        "dfb-taint-java-array-element-positive",
+        "dfb-taint-java-branch-join-negative",
+        "dfb-taint-java-branch-join-positive",
+        "dfb-taint-java-call-context-negative",
+        "dfb-taint-java-call-context-positive",
+        "dfb-taint-java-callback-registration-negative",
+        "dfb-taint-java-callback-registration-positive",
+        "dfb-taint-java-closure-capture-negative",
+        "dfb-taint-java-closure-capture-positive",
+        "dfb-taint-java-computed-property-negative",
+        "dfb-taint-java-computed-property-positive",
+        "dfb-taint-java-context-pair-depth2-negative",
+        "dfb-taint-java-context-pair-depth2-positive",
+        "dfb-taint-java-deep-relay-chain-negative",
+        "dfb-taint-java-deep-relay-chain-positive",
+        "dfb-taint-java-direct-positive",
+        "dfb-taint-java-dispatch-table-negative",
+        "dfb-taint-java-dispatch-table-positive",
+        "dfb-taint-java-element-object-negative",
+        "dfb-taint-java-element-object-positive",
+        "dfb-taint-java-exception-catch-negative",
+        "dfb-taint-java-exception-catch-positive",
+        "dfb-taint-java-explicit-negative",
+        "dfb-taint-java-expression-negative",
+        "dfb-taint-java-expression-positive",
+        "dfb-taint-java-function-field-negative",
+        "dfb-taint-java-function-field-positive",
+        "dfb-taint-java-infeasible-branch-negative",
+        "dfb-taint-java-infeasible-branch-positive",
+        "dfb-taint-java-interprocedural-exception-persistence-negative",
+        "dfb-taint-java-interprocedural-exception-persistence-positive",
+        "dfb-taint-java-local-chain-negative",
+        "dfb-taint-java-local-chain-positive",
+        "dfb-taint-java-local-overwrite-negative",
+        "dfb-taint-java-local-overwrite-positive",
+        "dfb-taint-java-loop-carried-negative",
+        "dfb-taint-java-loop-carried-positive",
+        "dfb-taint-java-map-iteration-negative",
+        "dfb-taint-java-map-iteration-positive",
+        "dfb-taint-java-mutual-recursive-transform-negative",
+        "dfb-taint-java-mutual-recursive-transform-positive",
+        "dfb-taint-java-nested-access-path-negative",
+        "dfb-taint-java-nested-access-path-positive",
+        "dfb-taint-java-object-separation-negative",
+        "dfb-taint-java-object-separation-positive",
+        "dfb-taint-java-recursive-callback-transform-negative",
+        "dfb-taint-java-recursive-callback-transform-positive",
+        "dfb-taint-java-recursive-carry-negative",
+        "dfb-taint-java-recursive-carry-positive",
+        "dfb-taint-java-recursive-exception-persistence-negative",
+        "dfb-taint-java-recursive-exception-persistence-positive",
+        "dfb-taint-java-recursive-heap-unwind-negative",
+        "dfb-taint-java-recursive-heap-unwind-positive",
+        "dfb-taint-java-recursive-payload-transform-negative",
+        "dfb-taint-java-recursive-payload-transform-positive",
+        "dfb-taint-java-reflective-invocation-negative",
+        "dfb-taint-java-reflective-invocation-positive",
+        "dfb-taint-java-return-relay-one-hop-negative",
+        "dfb-taint-java-return-relay-one-hop-positive",
+        "dfb-taint-java-return-relay-two-hop-negative",
+        "dfb-taint-java-return-relay-two-hop-positive",
+        "dfb-taint-java-same-object-field-negative",
+        "dfb-taint-java-same-object-field-positive"
+      ],
+      "execution_output_path": "reports/semgrep-java-kernel.json",
+      "ordinal": 0,
+      "original_normalized": "original-normalized/reports/releases/v0.9.0/normal/semgrep-java-kernel.json",
+      "original_normalized_sha256": "4835ba8e443b53416aeac6f7bd44fc9f322711418c000d2b562e7024410d3d79",
+      "source_path": "reports/releases/v0.9.0/normal/semgrep-java-kernel.json",
+      "staged_path": "reports/releases/v0.9.0/normal/attempts/semgrep-java-kernel-attempt-01/semgrep-java-kernel.json",
+      "staged_sha256": "510c367061ff2272f3f069ffcbbb33b03f2a462da7543c63b540bf6e70ef36aa"
+    }
+  ],
+  "schema_version": 1,
+  "start_utc": "2026-10-07T21:25:04.874237+00:00",
+  "started_receipt": "started.json",
+  "status": "completed",
+  "stderr": {
+    "path": "stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "stdout.txt",
+    "sha256": "c0f1430c567011165bf2516ab1923fb6d54aa4064ba9047637b1b9277e423d2f"
+  },
+  "timed_out": false
+}

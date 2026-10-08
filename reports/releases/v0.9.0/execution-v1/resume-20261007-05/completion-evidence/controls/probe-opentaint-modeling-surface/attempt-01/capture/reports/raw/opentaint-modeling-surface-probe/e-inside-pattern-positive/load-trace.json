@@ -1,0 +1,88 @@
+{
+    "fileTraces": [
+        {
+            "path": "",
+            "ruleTraces": [
+                {
+                    "ruleId": ":probe-opentaint-modeling",
+                    "ruleIdInFile": "probe-opentaint-modeling",
+                    "steps": [
+                        {
+                            "step": "BUILD_ACTION_LIST_CONVERSION",
+                            "entries": [
+                                {
+                                    "type": "Error",
+                                    "step": "BUILD_ACTION_LIST_CONVERSION",
+                                    "message": "Fix this Semgrep rule and rerun rule loading. Impact: Processing of this rule stopped. Details: Failed to transform pattern into an action list: Root pattern is: Metavar.",
+                                    "category": "RULE_ISSUE",
+                                    "severity": "BLOCKING"
+                                },
+                                {
+                                    "type": "Error",
+                                    "step": "BUILD_ACTION_LIST_CONVERSION",
+                                    "message": "Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: Failed to convert a normalized pattern to an action list; the affected pattern variant will be skipped.",
+                                    "category": "INTERNAL_WARNING",
+                                    "severity": "NON_BLOCKING"
+                                }
+                            ]
+                        },
+                        {
+                            "step": "BUILD",
+                            "entries": [
+                                {
+                                    "type": "Error",
+                                    "step": "BUILD",
+                                    "message": "Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: Automata build completed with non-fatal issues; some patterns may be skipped.",
+                                    "category": "INTERNAL_WARNING",
+                                    "severity": "NON_BLOCKING"
+                                }
+                            ]
+                        },
+                        {
+                            "step": "AUTOMATA_TO_TAINT_RULE",
+                            "entries": [
+                                {
+                                    "type": "Error",
+                                    "step": "AUTOMATA_TO_TAINT_RULE",
+                                    "message": "Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: Taint rule defines no taint labels; sink 'requires' expressions cannot be evaluated and will be treated as unconditional.",
+                                    "category": "INTERNAL_WARNING",
+                                    "severity": "NON_BLOCKING"
+                                },
+                                {
+                                    "type": "Error",
+                                    "step": "AUTOMATA_TO_TAINT_RULE",
+                                    "message": "Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: Taint rule defines no taint labels; sink 'requires' expressions cannot be evaluated and will be treated as unconditional.",
+                                    "category": "INTERNAL_WARNING",
+                                    "severity": "NON_BLOCKING"
+                                },
+                                {
+                                    "type": "Error",
+                                    "step": "AUTOMATA_TO_TAINT_RULE",
+                                    "message": "Internal warning: no user action is required. Impact: Processing continues with best-effort fallback. Details: Taint rule has no pattern-sources defined; it will never propagate taint.",
+                                    "category": "INTERNAL_WARNING",
+                                    "severity": "NON_BLOCKING"
+                                }
+                            ]
+                        }
+                    ],
+                    "entries": [
+                        {
+                            "type": "Info",
+                            "message": "Generate 2 rules from :probe-opentaint-modeling"
+                        }
+                    ]
+                }
+            ],
+            "entries": [
+                {
+                    "type": "Info",
+                    "message": "Found 1 supported rules"
+                },
+                {
+                    "type": "Info",
+                    "message": "Register 1 rules"
+                }
+            ]
+        }
+    ]
+}

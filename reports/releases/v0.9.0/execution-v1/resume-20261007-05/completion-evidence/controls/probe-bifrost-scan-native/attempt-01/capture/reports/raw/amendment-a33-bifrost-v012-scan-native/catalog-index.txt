@@ -1,0 +1,218 @@
+pack bifrost.code-smells@2.16.0 policies=30 — Bifrost code smells
+  Curated structured RQLP checks for bug-prone and potentially expensive source patterns.
+  - bifrost.correctness.contradictory-condition  category=correctness  languages=java,javascript,typescript,python
+      path=policies/contradictory-condition.rqlp
+      required_capabilities=structural-match,branch-relations,semantic-guard-facts,scalar-state
+  - bifrost.correctness.discarded-pure-result  category=correctness  languages=java
+      path=policies/discarded-pure-result.rqlp
+      required_capabilities=normalized-call,canonical-external-dispatch,exact-result-use,reviewed-jdk-result-obligation
+  - bifrost.correctness.dynamic-evaluation  category=correctness  languages=python,javascript,typescript
+      path=policies/dynamic-evaluation.rqlp
+      required_capabilities=structural-match,normalized-call
+  - bifrost.correctness.identical-conditional-branches  category=correctness  languages=java,javascript,typescript,python
+      path=policies/identical-conditional-branches.rqlp
+      required_capabilities=structural-match,branch-relations,lexical-environment
+  - bifrost.correctness.ignored-status-result  category=correctness  languages=java
+      path=policies/ignored-status-result.rqlp
+      required_capabilities=normalized-call,canonical-external-dispatch,exact-result-use,reviewed-jdk-result-obligation
+  - bifrost.correctness.repeated-branch-condition  category=correctness  languages=java,javascript,typescript,python
+      path=policies/repeated-branch-condition.rqlp
+      required_capabilities=structural-match,branch-relations,lexical-environment
+  - bifrost.correctness.redundant-boolean-branches  category=correctness  languages=java,javascript,typescript,python
+      path=policies/redundant-boolean-branches.rqlp
+      required_capabilities=structural-match,branch-relations
+  - bifrost.correctness.unsafe-deserialization  category=correctness  languages=python
+      path=policies/unsafe-deserialization.rqlp
+      required_capabilities=structural-match,normalized-call-roles
+  - bifrost.correctness.python-absent-member  category=correctness  languages=python
+      path=policies/python-absent-member.rqlp
+      required_capabilities=class-set-type-flow,python-declaration-models,absent-member
+  - bifrost.correctness.go-data-race  category=correctness  languages=go
+      path=policies/go-data-race.rqlp
+      required_capabilities=structural-match,normalized-concurrent-spawn,concurrent-access-conflicts,canonical-workspace-dispatch,heap-location-identity,reviewed-concurrency-models
+  - bifrost.correctness.go-nil-dereference  category=correctness  languages=go
+      path=policies/go-nil-dereference.rqlp
+      required_capabilities=structural-match,canonical-external-dispatch,conditional-result-contracts,operation-precondition-contracts,result-contract-operation-uses,procedure-local-scalar-refinement,nilness-operations,reaching-definitions,guard-dominance
+  - bifrost.correctness.go-wrong-error-on-failure-path  category=correctness  languages=go
+      path=policies/go-wrong-error-on-failure-path.rqlp
+      required_capabilities=structural-match,canonical-external-dispatch,conditional-result-contracts,result-contract-failure-uses,reaching-definitions,failure-edge-control
+  - bifrost.correctness.empty-failure-handler  category=correctness  languages=java
+      path=policies/empty-failure-handler.rqlp
+      required_capabilities=structural-match,prepared-syntax,failure-handler-state
+  - bifrost.correctness.c-self-assignment  category=correctness  languages=c
+      path=policies/c-self-assignment.rqlp
+      required_capabilities=prepared-c-syntax,assignment-relations,reaching-definitions,same-evaluation
+  - bifrost.correctness.local-self-assignment  category=correctness  languages=java,javascript,typescript,python
+      path=policies/local-self-assignment.rqlp
+      required_capabilities=prepared-syntax,assignment-relations,reaching-definitions,same-evaluation
+  - bifrost.correctness.failed-swap  category=correctness  languages=java,javascript,typescript,python
+      path=policies/failed-swap.rqlp
+      required_capabilities=prepared-syntax,assignment-relations,reaching-definitions,same-evaluation
+  - bifrost.correctness.overwritten-unread-value  category=correctness  languages=java,javascript,typescript
+      path=policies/overwritten-unread-value.rqlp
+      required_capabilities=prepared-syntax,assignment-relations,reaching-definitions
+  - bifrost.correctness.loop-body-never-repeats  category=correctness  languages=java
+      path=policies/loop-body-never-repeats.rqlp
+      required_capabilities=prepared-syntax,loop-relations,semantic-control-flow
+  - bifrost.correctness.unreachable-statement  category=correctness  languages=java
+      path=policies/unreachable-statement.rqlp
+      required_capabilities=prepared-syntax,statement-reachability,semantic-control-flow
+  - bifrost.performance.loop-invariant-sort  category=performance  languages=rust,python,java,typescript,javascript
+      path=policies/loop-invariant-sort.rqlp
+      required_capabilities=structural-match,normalized-call-roles,lexical-environment,reaching-binding-assertion,value-origin-assertion
+  - bifrost.performance.regex-compile-in-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/regex-compile-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.file-read-in-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/file-read-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.serialization-in-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/serialization-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.parsing-in-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/parsing-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.database-call-in-loop  category=performance  languages=python,java,javascript,typescript
+      path=policies/database-call-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.network-call-in-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/network-call-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.subprocess-in-loop  category=performance  languages=python,java,javascript,typescript
+      path=policies/subprocess-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.sleep-in-loop  category=performance  languages=python,java,rust
+      path=policies/sleep-in-loop.rqlp
+      required_capabilities=structural-match,declaration-bounded-containment,normalized-call-roles,lexical-environment,origin-shape-assertion
+  - bifrost.performance.expensive-operation-in-nested-loop  category=performance  languages=python,java,javascript,typescript,rust
+      path=policies/expensive-operation-in-nested-loop.rqlp
+      required_capabilities=structural-match,descendant-match,normalized-call,lexical-environment,origin-shape-assertion
+  - bifrost.correctness.rayon-in-blocking-lazy-init  category=correctness  languages=rust
+      path=policies/rayon-in-blocking-lazy-init.rqlp
+      required_capabilities=structural-match,descendant-match,normalized-call-roles
+pack bifrost.correctness@0.1.0 policies=1 — Bifrost correctness
+  Selectable lifecycle and ownership policies over reviewed acquisition families.
+  - bifrost.correctness.resource-lifecycle  category=correctness  languages=go,java,javascript,kotlin,php,python,rust,scala,typescript
+      path=policies/resource-lifecycle.rqlp
+      required_capabilities=typestate,endpoint-categories,interprocedural-transfer,terminal-obligation,normal-and-exceptional-exit
+pack bifrost.security@1.3.0 policies=29 — Bifrost security
+  High-precision security policies backed by exact structural identity and value-flow evidence.
+  - bifrost.security.java.servlet-parameter-to-jdbc  category=security  languages=java
+      path=policies/jvm/servlet-parameter-to-jdbc.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,semantic-model-provenance,scoped-callable-completeness
+  - bifrost.security.java.system-getenv-to-runtime-exec  category=security  languages=java
+      path=policies/jvm/system-getenv-to-runtime-exec.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,semantic-model-provenance,scoped-callable-completeness,call-argument-conversion
+  - bifrost.security.python.process-input-to-os-system  category=security  languages=python
+      path=policies/python/process-input-to-os-system.rqlp
+      required_capabilities=taint,runtime-keyed-read,exact-call-target,actual-to-formal-binding,semantic-model-provenance,scoped-callable-completeness
+  - bifrost.security.c.stored-request-to-sql  category=security  languages=c
+      path=policies/declared-storage/c-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.c.store-requires-validation  category=security  languages=c
+      path=policies/declared-storage/c-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.cpp.stored-request-to-sql  category=security  languages=cpp
+      path=policies/declared-storage/cpp-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.cpp.store-requires-validation  category=security  languages=cpp
+      path=policies/declared-storage/cpp-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.csharp.stored-request-to-sql  category=security  languages=csharp
+      path=policies/declared-storage/csharp-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.csharp.store-requires-validation  category=security  languages=csharp
+      path=policies/declared-storage/csharp-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.go.stored-request-to-sql  category=security  languages=go
+      path=policies/declared-storage/go-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.go.store-requires-validation  category=security  languages=go
+      path=policies/declared-storage/go-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.java.stored-request-to-sql  category=security  languages=java
+      path=policies/declared-storage/java-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.java.store-requires-validation  category=security  languages=java
+      path=policies/declared-storage/java-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.javascript.stored-request-to-sql  category=security  languages=javascript
+      path=policies/declared-storage/javascript-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.javascript.store-requires-validation  category=security  languages=javascript
+      path=policies/declared-storage/javascript-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.kotlin.stored-request-to-sql  category=security  languages=kotlin
+      path=policies/declared-storage/kotlin-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.kotlin.store-requires-validation  category=security  languages=kotlin
+      path=policies/declared-storage/kotlin-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.php.stored-request-to-sql  category=security  languages=php
+      path=policies/declared-storage/php-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.php.store-requires-validation  category=security  languages=php
+      path=policies/declared-storage/php-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.python.stored-request-to-sql  category=security  languages=python
+      path=policies/declared-storage/python-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.python.store-requires-validation  category=security  languages=python
+      path=policies/declared-storage/python-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.ruby.stored-request-to-sql  category=security  languages=ruby
+      path=policies/declared-storage/ruby-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.ruby.store-requires-validation  category=security  languages=ruby
+      path=policies/declared-storage/ruby-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.rust.stored-request-to-sql  category=security  languages=rust
+      path=policies/declared-storage/rust-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.rust.store-requires-validation  category=security  languages=rust
+      path=policies/declared-storage/rust-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.scala.stored-request-to-sql  category=security  languages=scala
+      path=policies/declared-storage/scala-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.scala.store-requires-validation  category=security  languages=scala
+      path=policies/declared-storage/scala-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+  - bifrost.security.typescript.stored-request-to-sql  category=security  languages=typescript
+      path=policies/declared-storage/typescript-stored-request-to-sql.rqlp
+      required_capabilities=taint,exact-call-target,actual-to-formal-binding,declared-store-boundary,endpoint-set-imports
+  - bifrost.security.typescript.store-requires-validation  category=security  languages=typescript
+      path=policies/declared-storage/typescript-store-requires-validation.rqlp
+      required_capabilities=flow,exact-call-target,actual-to-formal-binding,endpoint-set-imports
+pack bifrost.effects@1.4.0 policies=10 — Bifrost network-effect boundaries
+  Configurable forbidden-network-effect specializations. Each policy asserts that one explicitly selected declaration reaches no declared network effect, directly or through workspace helpers. The effect is declared by a reviewed semantic model on the exact API identity; purity is never inferred from a name, a file name, a comment, or an unqualified annotation, and a repository that configures no selection carries no obligation.
+  - bifrost.effects.csharp.selected-boundary-no-network-io  category=effects  languages=csharp
+      path=policies/csharp/selected-boundary-no-network-io.rqlp
+      required_capabilities=semantic-model-declared-effects,transitive-procedure-effects,exhaustive-effect-coverage,module-identity-declaration-selection,external-api-identity
+  - bifrost.effects.go.selected-boundary-no-network-io  category=effects  languages=go
+      path=policies/go/selected-boundary-no-network-io.rqlp
+      required_capabilities=semantic-model-declared-effects,transitive-procedure-effects,exhaustive-effect-coverage,module-identity-declaration-selection,external-api-identity
+  - bifrost.effects.java.selected-boundary-no-network-io  category=effects  languages=java
+      path=policies/java/selected-boundary-no-network-io.rqlp
+      required_capabilities=semantic-model-declared-effects,transitive-procedure-effects,exhaustive-effect-coverage,module-identity-declaration-selection,external-api-identity
+  - bifrost.effects.javascript.selected-boundary-no-network-io  category=effects  languages=javascript
+      path=policies/javascript/selected-boundary-no-network-io.rqlp
+      required_capabilities=semantic-model-declared-effects,transitive-procedure-effects,exhaustive-effect-coverage,module-identity-declaration-selection,external-api-identity
+  - bifrost.effects.kotlin.selected-boundary-no-network-io  category=effects  languages=kotlin
+      path=policies/kotlin/selected-boundary-no-network-io.rqlp
+      required_capabilities=semantic-model-declared-effects,transitive-procedure-effects,exhaustive-effect-coverage,module-identity-declaration-selection,external-api-identity
+  - bifrost.effects.python.selected-boundary-no-network-io  category=effects  languages=python
+      path=policies/python/selected-boundary-no-network-io.rqlp
+      required_capabilities=semantic-model-declared-effects,transitive-procedure-effects,exhaustive-effect-coverage,module-identity-declaration-selection,external-api-identity
+  - bifrost.effects.ruby.selected-boundary-no-network-io  category=effects  languages=ruby
+      path=policies/ruby/selected-boundary-no-network-io.rqlp
+      required_capabilities=semantic-model-declared-effects,transitive-procedure-effects,exhaustive-effect-coverage,module-identity-declaration-selection,external-api-identity
+  - bifrost.effects.rust.selected-boundary-no-network-io  category=effects  languages=rust
+      path=policies/rust/selected-boundary-no-network-io.rqlp
+      required_capabilities=semantic-model-declared-effects,transitive-procedure-effects,exhaustive-effect-coverage,module-identity-declaration-selection,external-api-identity
+  - bifrost.effects.scala.selected-boundary-no-network-io  category=effects  languages=scala
+      path=policies/scala/selected-boundary-no-network-io.rqlp
+      required_capabilities=semantic-model-declared-effects,transitive-procedure-effects,exhaustive-effect-coverage,module-identity-declaration-selection,external-api-identity
+  - bifrost.effects.typescript.selected-boundary-no-network-io  category=effects  languages=typescript
+      path=policies/typescript/selected-boundary-no-network-io.rqlp
+      required_capabilities=semantic-model-declared-effects,transitive-procedure-effects,exhaustive-effect-coverage,module-identity-declaration-selection,external-api-identity

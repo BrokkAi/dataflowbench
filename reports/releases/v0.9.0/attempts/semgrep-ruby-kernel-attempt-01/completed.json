@@ -1,0 +1,904 @@
+{
+  "argv": [
+    "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/target/release/dataflowbench",
+    "--population",
+    "v0.9.0",
+    "run-semgrep-ruby-kernel",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "attempt_id": "semgrep-ruby-kernel-attempt-01",
+  "captured_files": [
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-alias-propagation-negative-unsupported.json",
+      "sha256": "3f14c0005e6544cb099aec5bd564060fbc70d43895eb6637ff85952d9e6ab185"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-alias-propagation-positive-unsupported.json",
+      "sha256": "343635a6ec1f1282ed59fbed08cae64fac24f779fae494ae71a585301fc325b1"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-anonymous-implementation-negative-unsupported.json",
+      "sha256": "4392e94fed993d816a945864866a7b729ceb6e02f4072112cb02cda0aff0bc59"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-anonymous-implementation-positive-unsupported.json",
+      "sha256": "9d33dcde8d07bff5ba6f73f1d71698235dc0dd3f2775b7444f135a0da4c0a9e9"
+    },
+    {
+      "bytes": 935,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-argument-position-negative-unsupported.json",
+      "sha256": "10f47b512cf95fbddb34ef2684aed981cd34e1710b99eb215a8eff991a43a42c"
+    },
+    {
+      "bytes": 935,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-argument-position-positive-unsupported.json",
+      "sha256": "41c694d28edbc5a31b42da504290b94686bc73559062924b6cd08e468e92d956"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 256,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative-timing.json",
+      "sha256": "6b6035c4a3c4f406751a58c0f79d2a9174737bded020ebe8f8347b735899f779"
+    },
+    {
+      "bytes": 1435,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-negative.json",
+      "sha256": "5feb3c493fb3c76aa7bc33439157a59f7a4a62075ff18beddaa76f5f42f68f8c"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 256,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive-timing.json",
+      "sha256": "bec619701fb925741f82e1e43fc4f43ef0eb14a463d971cd39aba521ea45e9ea"
+    },
+    {
+      "bytes": 2057,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-arithmetic-expression-positive.json",
+      "sha256": "44e8340033ac97f1f9b8f538453cd1741d260e748cf533324310a6a1184fce98"
+    },
+    {
+      "bytes": 950,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-array-element-negative-unsupported.json",
+      "sha256": "6681214c30dbffecf9fb219ead5251f130134a4f954cd157e40dbf0951ea6439"
+    },
+    {
+      "bytes": 950,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-array-element-positive-unsupported.json",
+      "sha256": "470755c2eaa25bb22db48e97f328041f7cc8d958b5bef3c2015c2b88c110d5cb"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-negative-timing.json",
+      "sha256": "0894e564d0c0cf7b71608f477b5a5d6e0be1d45d550e908802b725b947b7a475"
+    },
+    {
+      "bytes": 1413,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-negative.json",
+      "sha256": "28f22354d2623f2cdcc923413449c4bbf8579e7d7925d9c071c3021820628355"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-positive-timing.json",
+      "sha256": "334aadabf23e02dda95dff5a3736d53185713a6e9403efd7d2468215f90cad3c"
+    },
+    {
+      "bytes": 2015,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-branch-join-positive.json",
+      "sha256": "74da95b66339a0fb782f384d914dc59ab38c4f4fcb5a53e071661d2477ddf0bf"
+    },
+    {
+      "bytes": 928,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-call-context-negative-unsupported.json",
+      "sha256": "c7f6d62f852d4af55896d84e9c8231b5b5fa0be900ae4795d9e45949eaf2c41f"
+    },
+    {
+      "bytes": 928,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-call-context-positive-unsupported.json",
+      "sha256": "a684b07081777ef9c98a02a4ab6f3de5f856c3fcc2ae8fc3441f3cc859c1cf7a"
+    },
+    {
+      "bytes": 887,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-callback-registration-negative-unsupported.json",
+      "sha256": "c589d9126b23c8bd5c6da69de6e56b0c9fb30f1ac7769fcb566367782176161b"
+    },
+    {
+      "bytes": 887,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-callback-registration-positive-unsupported.json",
+      "sha256": "4e804f09c9315d5586ada8cacafd14982c50072c1080b4106a671cad700e4817"
+    },
+    {
+      "bytes": 839,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-closure-capture-negative-unsupported.json",
+      "sha256": "2322fe5daacb5bd58c7eecaa26e9bd157748e37ef77d4ed5bdd578cb3e83e92d"
+    },
+    {
+      "bytes": 839,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-closure-capture-positive-unsupported.json",
+      "sha256": "76a2f29889b9221ae1bc718ec591dc5121e2b0d5d6d35153abd2d4761c46e8d9"
+    },
+    {
+      "bytes": 1122,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-computed-property-negative-unsupported.json",
+      "sha256": "6e1ecab69ebefd8166b6627a04771d27736902d5d2fb726aef2fb5c28b980afe"
+    },
+    {
+      "bytes": 1122,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-computed-property-positive-unsupported.json",
+      "sha256": "22242324fa3a1fd400a05a68f2e8b83f4a89b8472a9f8cbdd625e7d2a1b260f9"
+    },
+    {
+      "bytes": 862,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-context-pair-depth2-negative-unsupported.json",
+      "sha256": "3a3e79e9a862f4dc13f0ff84baee18efb06f8b908ac9f8e88b08d87e5cc86408"
+    },
+    {
+      "bytes": 862,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-context-pair-depth2-positive-unsupported.json",
+      "sha256": "264532ba737442424edefd49be640689932ddbc6b0132f36bf9b4cbec6596248"
+    },
+    {
+      "bytes": 922,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-deep-relay-chain-negative-unsupported.json",
+      "sha256": "a657054b104ef7f9dcff37cf5414d90296575b5cb7b54b2fb0eec1c4ddcb4fd8"
+    },
+    {
+      "bytes": 922,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-deep-relay-chain-positive-unsupported.json",
+      "sha256": "fd9672b6357da1ef7efe3ef31fb02d5a9da16e7031bc8437839c089d7120b520"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 241,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-negative-timing.json",
+      "sha256": "e0175a264a9b801080b59e009bf45950281b77c266d81b94cd638774d986c501"
+    },
+    {
+      "bytes": 1409,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-negative.json",
+      "sha256": "a8f2c93acdf1a4a1d2620cbb706d16392df32cf3ffbb11c50b80592eb808403b"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 241,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-positive-timing.json",
+      "sha256": "47c137999bb72ed9afcc156048dbeb0a7a9ed3a476ffd54dfdc24af0e577a4d7"
+    },
+    {
+      "bytes": 2006,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-direct-positive.json",
+      "sha256": "ea3b6a960f7cba01a17f6ef8c6c349ea9f69a76fda74d0d914c7a2e4571be1c4"
+    },
+    {
+      "bytes": 941,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-dispatch-table-negative-unsupported.json",
+      "sha256": "c663a6294fc060e90c85cf3a93112b6295049c38d58865be019687506484d10f"
+    },
+    {
+      "bytes": 941,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-dispatch-table-positive-unsupported.json",
+      "sha256": "c69b047bd0ba8a92b9314cd8314f9ba4226c6b865d5a03054b0dfafb9d5aa0d4"
+    },
+    {
+      "bytes": 889,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-element-object-negative-unsupported.json",
+      "sha256": "a36017b2ad6a4f7ee5f19e353722f0b8e6b11f6d63ab35415264617316121f3b"
+    },
+    {
+      "bytes": 889,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-element-object-positive-unsupported.json",
+      "sha256": "e6049f1bfe2e36d286bf08b9efb9833cb2ae438ceee7a4ca6ddb3f16be1eabe4"
+    },
+    {
+      "bytes": 985,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-exception-catch-negative-unsupported.json",
+      "sha256": "e1508bfecfd9b803c2aa3a125f604b840334490eeab3630243c6e48c057e3400"
+    },
+    {
+      "bytes": 985,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-exception-catch-positive-unsupported.json",
+      "sha256": "3eab47923829a768cc85990b7e432651a635f99b4854a0a9ef055466f84afa88"
+    },
+    {
+      "bytes": 893,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-function-field-negative-unsupported.json",
+      "sha256": "2ae6f84b4de3670a92832deb0a046963328498fdcac6a5ac70403b620c908a65"
+    },
+    {
+      "bytes": 893,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-function-field-positive-unsupported.json",
+      "sha256": "ef6598f5249d2dae627e8a38d9d73c816008555b78ea074908f8ec0e468e923c"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative-timing.json",
+      "sha256": "d176198dad7dbae1d1fa64e5cc7e934a1024d281e2eef4e38d7ec7a6affa6313"
+    },
+    {
+      "bytes": 2040,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-negative.json",
+      "sha256": "bb09e33c72e68e82d4c1eab3ef70ea73b75b7c3c60ea9dfadb385f64c765dc37"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive-timing.json",
+      "sha256": "6f4325f148f818757c02070064542220295ca20ca2174f23a4125c01134c2154"
+    },
+    {
+      "bytes": 2038,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-infeasible-branch-positive.json",
+      "sha256": "bada15ab4796e537a3722c25d75b638ad3abc690e5598083069f177a8945f117"
+    },
+    {
+      "bytes": 957,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-negative-unsupported.json",
+      "sha256": "f250d9454bf11b0570f096a3cf80737512b75a581baf91ae2ae5b7f321cc252d"
+    },
+    {
+      "bytes": 957,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-interprocedural-exception-persistence-positive-unsupported.json",
+      "sha256": "d432db03eaabcd8174e1996cd05c7867ec363b5eacdcfc1688004988681ac25f"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-negative-timing.json",
+      "sha256": "c4e09becb7431a189504c94f931be80d081b0c077218f54b191028d7956a32a3"
+    },
+    {
+      "bytes": 1412,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-negative.json",
+      "sha256": "b047110bc4af25b07b44205ae9d7cad848739be6363c73d6f5ed9357d2165a7f"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-positive-timing.json",
+      "sha256": "80a2d1e273fe42976d06f8219f6e4452cf1518415f98b1ec99ebc4a675b8e0fd"
+    },
+    {
+      "bytes": 2019,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-chain-positive.json",
+      "sha256": "2716caf43e795a5d99c7b2411bacea16c1469854505b2dc6e1a220da68df417d"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 250,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-negative-timing.json",
+      "sha256": "6645e3dacbb8ccfd90e5926996d1b4177d3559ba3a96883718a5b91a429f4f7f"
+    },
+    {
+      "bytes": 1419,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-negative.json",
+      "sha256": "85001bc48d27a5045c9c1d5b432e592a34b58dd8912540ea47316da4eb94159e"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 250,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-positive-timing.json",
+      "sha256": "87d9540b877c787d83e9183b4c19b610213392f91b0136a14e29c145a7949acd"
+    },
+    {
+      "bytes": 2033,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-local-overwrite-positive.json",
+      "sha256": "6a351e0c8c7b8883037a0db4657f8eaee250eb9c45173b8750c6725ab78c0277"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-negative-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 247,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-negative-timing.json",
+      "sha256": "9f86437d12955d1578a8e501fd18129797e7453ec5cf1b56219998e3c5311cad"
+    },
+    {
+      "bytes": 2018,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-negative.json",
+      "sha256": "cf7038fe5b07ca51694fb1945fff3a0303d147f02cfc5539990deb7c75684cd7"
+    },
+    {
+      "bytes": 1476,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-positive-rule.yaml",
+      "sha256": "459614f84b0f64f36eeeb21ba91f4f80a428e65db02336e01a21b36f7bad35f4"
+    },
+    {
+      "bytes": 247,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-positive-timing.json",
+      "sha256": "ff7262ecd50b2cec9a9a38690f67a52323dbaefe59d2c09e96967a29e4e8d2a2"
+    },
+    {
+      "bytes": 2021,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-loop-carried-positive.json",
+      "sha256": "f60eb1da18187c5232b87bcd6e7574e6f7e74d40969c87d06b5f75098d9dc8cf"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-map-iteration-negative-unsupported.json",
+      "sha256": "3d27252b8ce6c69536e32c52ab86ef3bd1302da42fe4bb819f480eb7857caea4"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-map-iteration-positive-unsupported.json",
+      "sha256": "6f3eff512acc144543861ccb72ae5ad35326903e93d802df895cbaf46da3ff2e"
+    },
+    {
+      "bytes": 816,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-negative-unsupported.json",
+      "sha256": "5e5d83315a595e96a3dfef408507fcc66e84360c766361a1ce787acf089f1f6f"
+    },
+    {
+      "bytes": 816,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-mutual-recursive-transform-positive-unsupported.json",
+      "sha256": "68617f283e8accb60c6096e66c9033b41e03cb681f065bca10c9848fe7c79763"
+    },
+    {
+      "bytes": 918,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-nested-access-path-negative-unsupported.json",
+      "sha256": "639c843539ce523ff9864edc7f3837f58b11b9f441765f215c0f06b5bc53bda7"
+    },
+    {
+      "bytes": 918,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-nested-access-path-positive-unsupported.json",
+      "sha256": "b656aa4f10c54f73b2731616e781424ae8145b356bf0f250600bd56f579ad36d"
+    },
+    {
+      "bytes": 940,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-object-separation-negative-unsupported.json",
+      "sha256": "0545b6436dff9b48cdbd9f2c2654941eb1268d7ad8df7efba9db2a7445c00489"
+    },
+    {
+      "bytes": 940,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-object-separation-positive-unsupported.json",
+      "sha256": "c4f3a6cb2bf7e833b7ff3c974d5ff8100d7e630e30e130326a8024b798339246"
+    },
+    {
+      "bytes": 842,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-negative-unsupported.json",
+      "sha256": "c12d5bd44e62f3fadc2e9efd1392d6771ca9254ecd62cdafceb42f6715179599"
+    },
+    {
+      "bytes": 842,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-callback-transform-positive-unsupported.json",
+      "sha256": "3007cc0c0b69e15df0ad49eedcb09af1a689ff1b3bcdeee5a640a87035af44d4"
+    },
+    {
+      "bytes": 835,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-carry-negative-unsupported.json",
+      "sha256": "38d07f3833ca5b8e54b0b9a30b2dc803395ea3fb420b7b1568fde48b9f7b1702"
+    },
+    {
+      "bytes": 835,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-carry-positive-unsupported.json",
+      "sha256": "ccdab8f109bf98adebdf56ebf8b56f3e8bba0d319efc6681daa1ca1b232a43ac"
+    },
+    {
+      "bytes": 874,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-negative-unsupported.json",
+      "sha256": "3fb3ea1028cd2cc147580c0fe06a9819f6018139c1acd9efc219b8887e9efe91"
+    },
+    {
+      "bytes": 874,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-exception-persistence-positive-unsupported.json",
+      "sha256": "1783239278036bb604d9e7ec34382cbe6ce03998a0d75b385e758bc1c117974d"
+    },
+    {
+      "bytes": 825,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-negative-unsupported.json",
+      "sha256": "4f1f86c9e1cc37eb5ab728713ea58083ce725985cd5a00f4f22e55e521eafa3e"
+    },
+    {
+      "bytes": 825,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-heap-unwind-positive-unsupported.json",
+      "sha256": "ac487cd070ea2019e14ad7461f6cff3d0840899e2f5b1593589a463ca8063d17"
+    },
+    {
+      "bytes": 819,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-negative-unsupported.json",
+      "sha256": "da678ae15d8c5128439e6afa5b44ccf6f9cac549129ea717e6a80294c46467d1"
+    },
+    {
+      "bytes": 819,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-recursive-payload-transform-positive-unsupported.json",
+      "sha256": "1d10e79b311a7e0ad42ee08efc1550344e1f41bf21bb673d772e1a9251b12080"
+    },
+    {
+      "bytes": 1033,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-reflective-invocation-negative-unsupported.json",
+      "sha256": "745412971f70f2386c7e6115e13cac7c3ec6007f807b9cade327f8e8a24f70ea"
+    },
+    {
+      "bytes": 1033,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-reflective-invocation-positive-unsupported.json",
+      "sha256": "774febbc4562c5994c1a24cddb90c1f050c19c1a9fa053bc28fd4373a41c5288"
+    },
+    {
+      "bytes": 914,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-negative-unsupported.json",
+      "sha256": "87a19ba00f7884b9eb46b6082815a71e008cd918cd7ce266513ae06a4ca723bb"
+    },
+    {
+      "bytes": 914,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-one-hop-positive-unsupported.json",
+      "sha256": "da76ce7a7e26f69c1f5af1429f0bb23d4eb00e91cd1159c26dd3a140cda187c1"
+    },
+    {
+      "bytes": 936,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-negative-unsupported.json",
+      "sha256": "7fad2dc85006d3c4f4555fcf303fb7bf8f0f040bcdd9d5e3d072dadb5723148a"
+    },
+    {
+      "bytes": 936,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-return-relay-two-hop-positive-unsupported.json",
+      "sha256": "1ba368de2537e869bf0d21c0a4a2b80f2d77d1c3f8c23d76efe5c8d339584677"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-same-object-field-negative-unsupported.json",
+      "sha256": "0b5754797ab50640946c5a668937dec9f69982be7c7ae45519889af463872f1d"
+    },
+    {
+      "bytes": 938,
+      "path": "reports/raw/semgrep-ruby-kernel/dfb-taint-ruby-same-object-field-positive-unsupported.json",
+      "sha256": "96662510076d577af72216762891e2cc938e702a541b31cf800c2f0d3d7ab1e9"
+    },
+    {
+      "bytes": 400,
+      "path": "reports/raw/semgrep-ruby-kernel/run-environment.json",
+      "sha256": "76deb6d1626db8d5bbc57c6fa134666c445926024a7139a8a49d9d61c2f131a2"
+    },
+    {
+      "bytes": 68044,
+      "path": "reports/semgrep-ruby-kernel.json",
+      "sha256": "84f03e11af662ed61d67c2931960da624300968dcf59146664d87e503db23b3b"
+    }
+  ],
+  "case_ids": [
+    "dfb-taint-ruby-alias-propagation-negative",
+    "dfb-taint-ruby-alias-propagation-positive",
+    "dfb-taint-ruby-anonymous-implementation-negative",
+    "dfb-taint-ruby-anonymous-implementation-positive",
+    "dfb-taint-ruby-argument-position-negative",
+    "dfb-taint-ruby-argument-position-positive",
+    "dfb-taint-ruby-arithmetic-expression-negative",
+    "dfb-taint-ruby-arithmetic-expression-positive",
+    "dfb-taint-ruby-array-element-negative",
+    "dfb-taint-ruby-array-element-positive",
+    "dfb-taint-ruby-branch-join-negative",
+    "dfb-taint-ruby-branch-join-positive",
+    "dfb-taint-ruby-call-context-negative",
+    "dfb-taint-ruby-call-context-positive",
+    "dfb-taint-ruby-callback-registration-negative",
+    "dfb-taint-ruby-callback-registration-positive",
+    "dfb-taint-ruby-closure-capture-negative",
+    "dfb-taint-ruby-closure-capture-positive",
+    "dfb-taint-ruby-computed-property-negative",
+    "dfb-taint-ruby-computed-property-positive",
+    "dfb-taint-ruby-context-pair-depth2-negative",
+    "dfb-taint-ruby-context-pair-depth2-positive",
+    "dfb-taint-ruby-deep-relay-chain-negative",
+    "dfb-taint-ruby-deep-relay-chain-positive",
+    "dfb-taint-ruby-direct-negative",
+    "dfb-taint-ruby-direct-positive",
+    "dfb-taint-ruby-dispatch-table-negative",
+    "dfb-taint-ruby-dispatch-table-positive",
+    "dfb-taint-ruby-element-object-negative",
+    "dfb-taint-ruby-element-object-positive",
+    "dfb-taint-ruby-exception-catch-negative",
+    "dfb-taint-ruby-exception-catch-positive",
+    "dfb-taint-ruby-function-field-negative",
+    "dfb-taint-ruby-function-field-positive",
+    "dfb-taint-ruby-infeasible-branch-negative",
+    "dfb-taint-ruby-infeasible-branch-positive",
+    "dfb-taint-ruby-interprocedural-exception-persistence-negative",
+    "dfb-taint-ruby-interprocedural-exception-persistence-positive",
+    "dfb-taint-ruby-local-chain-negative",
+    "dfb-taint-ruby-local-chain-positive",
+    "dfb-taint-ruby-local-overwrite-negative",
+    "dfb-taint-ruby-local-overwrite-positive",
+    "dfb-taint-ruby-loop-carried-negative",
+    "dfb-taint-ruby-loop-carried-positive",
+    "dfb-taint-ruby-map-iteration-negative",
+    "dfb-taint-ruby-map-iteration-positive",
+    "dfb-taint-ruby-mutual-recursive-transform-negative",
+    "dfb-taint-ruby-mutual-recursive-transform-positive",
+    "dfb-taint-ruby-nested-access-path-negative",
+    "dfb-taint-ruby-nested-access-path-positive",
+    "dfb-taint-ruby-object-separation-negative",
+    "dfb-taint-ruby-object-separation-positive",
+    "dfb-taint-ruby-recursive-callback-transform-negative",
+    "dfb-taint-ruby-recursive-callback-transform-positive",
+    "dfb-taint-ruby-recursive-carry-negative",
+    "dfb-taint-ruby-recursive-carry-positive",
+    "dfb-taint-ruby-recursive-exception-persistence-negative",
+    "dfb-taint-ruby-recursive-exception-persistence-positive",
+    "dfb-taint-ruby-recursive-heap-unwind-negative",
+    "dfb-taint-ruby-recursive-heap-unwind-positive",
+    "dfb-taint-ruby-recursive-payload-transform-negative",
+    "dfb-taint-ruby-recursive-payload-transform-positive",
+    "dfb-taint-ruby-reflective-invocation-negative",
+    "dfb-taint-ruby-reflective-invocation-positive",
+    "dfb-taint-ruby-return-relay-one-hop-negative",
+    "dfb-taint-ruby-return-relay-one-hop-positive",
+    "dfb-taint-ruby-return-relay-two-hop-negative",
+    "dfb-taint-ruby-return-relay-two-hop-positive",
+    "dfb-taint-ruby-same-object-field-negative",
+    "dfb-taint-ruby-same-object-field-positive"
+  ],
+  "contract": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/contract.json",
+    "sha256": "4a4c27f07671443c01d15d485b02d49dc4d0968491a008af416a3fadf847c757"
+  },
+  "deadline_seconds": 600,
+  "duration_seconds": 13.210713917,
+  "end_utc": "2026-10-07T21:28:50.066172+00:00",
+  "environment": {
+    "HOME": "/Users/dave",
+    "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+    "LANG": "en_US.UTF-8",
+    "PATH": "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin:/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "SEMGREP_ENABLE_VERSION_CHECK": "0",
+    "TMPDIR": "/private/tmp"
+  },
+  "environment_sha256": "6bbbf0802f6937501582b4a08c3c826d0d13aa57c767c9a960389936d81e5796",
+  "execution_revision": "fdb83ab93e1190a5b04e7e1184d6c64d40d48daa",
+  "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/matrix",
+  "execution_root_mapping": {
+    "captured_root": "reports/releases/v0.9.0/attempts/semgrep-ruby-kernel-attempt-01/capture",
+    "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/matrix",
+    "mapping": [
+      {
+        "captured_relative": "reports/releases/v0.9.0/attempts/semgrep-ruby-kernel-attempt-01/capture/reports/semgrep-ruby-kernel.json",
+        "execution_root_relative": "reports/semgrep-ruby-kernel.json"
+      },
+      {
+        "captured_relative": "reports/releases/v0.9.0/attempts/semgrep-ruby-kernel-attempt-01/capture/reports/raw/semgrep-ruby-kernel",
+        "execution_root_relative": "reports/raw/semgrep-ruby-kernel"
+      }
+    ],
+    "nested_raw_references_resolve_from_execution_root_namespace": true,
+    "raw_json_bytes_rewritten": false
+  },
+  "exit_code": 0,
+  "expected_reports": [
+    "reports/releases/v0.9.0/normal/semgrep-ruby-kernel.json"
+  ],
+  "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+  "group_id": "semgrep-ruby-kernel",
+  "historical_seconds": 12,
+  "input_commits": {
+    "corpus": "2637211a21f22aabedf7bcf0d1b30fc09a349673",
+    "execution_harness": null
+  },
+  "input_identities": {
+    "adapters/codeql/swift-common-v2/plan-v090-01/plan.json": "bdcc6299efb30ec37d765ec4b6afcb492337fa1c5d635422c1001ff5f482acfd",
+    "adapters/joern/swift-common-v2/plan-v090-01/plan.json": "14dde3a42a90c19d5c4eb696688f19cf31463a9d38bf153c227d0b82097604e6",
+    "populations/v0.9.0.json": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+    "reports/releases/v0.9.0/execution-v1/codeql-compatibility/summary.json": "7bc68a9bc11994525c8dd536fc9c419c795003228ee285e288ea3bc7e9dd6adc",
+    "reports/releases/v0.9.0/execution-v1/command-parsing-check.json": "73b9849ac390763dd65e26d829148323ec79f24fbae34f0572ae63a64bb306ab",
+    "reports/releases/v0.9.0/execution-v1/control-integration-validation.json": "fe09cac1435971ff4535f0091f53568f5e8bac32675353eb8e755d9f86d38028",
+    "reports/releases/v0.9.0/execution-v1/dependency-version-witnesses.json": "50d7d8566cb24d1fdee789bfc7932463f3d014c8702f69822101db46ba916480",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/attempt-baseline.json": "2711bc8e25335156e265789232b2a3bdf1b88b08af2a325c13b1ebd8bdea52fa",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-restoration.json": "bf983885a3674e3c4ab0ab837bd13ef2d7e22d4f2189887a7078176bc69a4ca5",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-runtime.json": "1a2f936f40e7e978ea1f2b38033a02cf8bd5f0a1d1c5fb531e40dd63a1bab894",
+    "reports/releases/v0.9.0/execution-v1/held-tool-digests.json": "9d748428932fdf7922ae62a066304226166a8f7105ebd5a8be9a42c15a4ffab2",
+    "reports/releases/v0.9.0/execution-v1/native-codeql-packs.json": "7ab00154d9b4b16197a4103ea25d16a69f5bd0a0a2623301249fe3182649a9d4",
+    "reports/releases/v0.9.0/execution-v1/non-swift-codeql-packs.json": "3594d6486c40c55b51c86369553c08017a2bb12f325f87d1e88c724a16569e3e",
+    "reports/releases/v0.9.0/execution-v1/opentaint-full-restoration.json": "3fcb4894b8544d4f1764b5755f5def28f2161d34c09e0ae31ed159bba858fd22",
+    "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/codeql-swift-plan.json": "0da64698c1c25dea74e2f38bae62a400089aa49a4ae7a2d0d22f1a49f1aedcbf",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/attempt-baseline.json": "a5beda3eb8786c9ffd9aa666b0d77499b8a7ee2d834e8d999597ab824558d427",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/bifrost-runtime.json": "1635ef70e935c3fb036c50a347ed4a20604ddc27045542eb46074f19b5c6147f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-plan.json": "1b03fce83c2de7ab0ce4bea7e1d6c61b37910fe9a36b6941c32c6fa03c7202ea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-reservation.json": "1a825206f32b4b2852924008dce2e620f340b663e577b7db0c1db77de8ad7875",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/command-parsing-check.json": "36d20b5ba8ed49a929220f90cb2c1952971057216f4355cbc48ae8e1363f17da",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/joern-swift-reservation.json": "faef0e3fe35223b0901a4293d27d3be83caa8c64ddde9e7df57b8709423ce835",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-restoration.json": "1c65c58260e115d33c9461a541a74e92d84c4cd4c01aa9cf171799ff2b4061bd",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-runtime.json": "78e899e13217020e5895827b88dec06f6a5e109bfb16a242d1a0ca3ba8588174",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/pin-amendment.json": "f6120d6d9f6512fa23b1b5a2ab6e4b1d5a112a35b01587fc17cc23e47895c08b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/recovery-allocation.json": "64cc317e05c534557be975ee97f92cf230612f30fbb349572fe680e7d8d909d8",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.command.json": "909baac6a5ca68a38b1d883d6fea7205053d74ebda352caa019d8b258b656bea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stderr": "51481a2ec800708aaaefd8fbe6c3ef2a8b5f3d772e26c5e2dfafde941cab1775",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.command.json": "b3f061ef7b810a34ba35bd58140eb5b6a0346becc2cd7fd965311c208cc7217c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.stdout": "58e42160c951a60e77f79f24e6588bb2a2f5dc31f13eda32a8ebe9e3a291895c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.command.json": "3c5ca699b7add324bf1f3a8f8fd50e67a852f2f283c81e217bec1a57f9f9cdd1",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.stderr": "bea81d63fffd872e1564d44a97589ed7c40296015250cff4d472dca88cc4eea9",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.command.json": "fe6b061f2670fe409ab1a7ba68aa0e0f3d8655cfabbfbc9bd08fb75ce6b33f7b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.stdout": "c7dd25b0771a72c528dea94ef4bea83deb1154625391ee6e8498190790b4de7f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.command.json": "161f0985914464a33c746f689af7bcc93d606b413c2f2453f487f40152f02501",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.stderr": "a5415cc0501430f95866ddf8b989040e889c3e31adc8f07c2d530bc6d1fe84b0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.command.json": "44a229b96dfcf66db188ecdd44294cef581dc30c1712ac9d62373436519f35de",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.stdout": "f2586e4d0a2ce61dc3857049f84d83b8fab168b5eaa95cd5524a1b843fd04d9b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.command.json": "e5101be2f9070136b63051024086f3eec694d9a16892b18fe774463abac760de",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.stderr": "c08f87ca2083e9836116d22ee84316628d46edff05bf1d3b870e2a142514531b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.command.json": "46eeaba4a55e30dc4e493b4d5bbe1315fce3d86a474adc0ecda6369eff0e4362",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.stdout": "db40d8af58b6b5f130a872b44a3e3487ddd28a527cd3070cbedcab1687107a2b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.command.json": "ad8d244c3660480dba8f715be935bd0f17a2d6884bf0fd276686f7494f9e0da0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.stderr": "f863ea57ad59e9d22b5b4ee7a89d05c6789272300496e062855cba35c32b1e49",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.command.json": "242f2bc58b2b60b042a890c9e70316bf260157452176338bce961d9055456693",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.stdout": "e9dc53cd4319de2fe8aabbe83c8b5256e2f7afe2287507f76e506f4c3c5aa72e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.command.json": "75471d6b7a069babc38a7f7e277998abe6780275676d420b0c27569b6f4f0c52",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.stderr": "88112363bd05b8cdaa2272b01de23f92e82e5cd245bd59ad3861fb076f7404e9",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.command.json": "cd6426298745445faecd2f3a4a0d7f7fa51737ab886d83a6b7628b1d197dd67f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.stdout": "5958bb9265843221acf9bacbe5571c33a4b2160656d94610764701876a1199aa",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.command.json": "832d7372afbf5390ba62d3d61468ab9b43a255c92365a743d7b9100b262af046",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.stderr": "39e1f0311a995de3cde608bb72d4173cc180d3a26c6a0545eadb2aceca92e9c0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.command.json": "6a8d3fed08cf4601cce9d5cd8f1e4c257b9f7b6e00298fbeccc39a3f231ec31c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.stdout": "d23ab7e6a0729659e445e79c7f29343229cc5395f8e3ca546447d173c5d69531",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.command.json": "ab79170665c1fd3c7a5c9b8bb1c0b7e0c2e86605d61211fde6f55eb71ea2bda4",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.stderr": "ed867ce4fdeaefe8c9744784c5a5d8a7f2589c171a8f75bd11bb1fef14b11885",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.command.json": "b2867e60c5a942b003c5083110c94ea9b2a4ca2843b73233a1ed449cbd6623bd",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.stdout": "0b15639a135957cc3839fb1e6da12e3639642ebe86ed9d12fa669a0b7b55bc39",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.command.json": "02d0a4467c9bda6da11d530a12db909159e27bd01adb6b17f32a380e8595b4da",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.stderr": "dffba6d3b7956f2752044f282b103f6c08ad4baef0bac00004274f81c4faebf5",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.command.json": "87e6fd3367827a9be579140bf387fadc123a2e1dac01cde2308dad9cb33c939e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.stdout": "ba09e41784ddc1fad7e25a27c8cdc11725bdeb95d2a95b0144f8f659ac1a02dc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.command.json": "1c58798ff7361233dc4b3a8814758434f5f4b4478bb1fe041e666927d1aa8814",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.stderr": "f4fa4d093ca0f27609d5e95e0975a73056bcdb06f0a3382720618059a539f24b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.command.json": "3a6d452149cc1e0c895ed433fecc1fd754be47f488b337f91e786a85557a96fb",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.stdout": "c91e81476a573ed14daf0bb77cb22ebfa1a6ae01b1707c64ade3f88a2f5b0d79",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.command.json": "b52367a8723a3386ea0bec40bdd55ceda9e2ab3bcc85c3f58e569a3cb38d9fcc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.stderr": "cec93fe7d778bbd452763ffa6e0db57708389ed7a250c354a0f505b24da2122d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.command.json": "9b337474087470f54cabc257cf8d3d882bc5a232560805d67a425db444147fe3",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.stdout": "1a8bdd2a9db187583a5a33e9335d981aee3d2b7a6d4d0cd412ad313a1e0e6e94",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.command.json": "2dbea25672156a65bc6d996e5cafc1735be2acb7adbf4eef47d9c601f55e3760",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.stderr": "eddf0fe23f04f3bdbab45974e9a38b635bf596edf8a3ec65438284de676a97f5",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.command.json": "4f908a1650dbbb0c2d4cb7bbda4f907ad58bda97bf3e4e5af922ca40cd3fc97d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.stdout": "202e7481ebb0c39615ff07aa786936dd96d59971cabfae2ab0ea7805d2b4aa59",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/preregistration.json": "551aa381686bea8a0e2a0fffeb0abbb4a801a7568111d60b415236457cca3ede",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/receipt.json": "68cb80eb2511757bb247a4ca1ee8f7dfc07e62c2f1acf882a88f755ece65e40b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/attempt-baseline.json": "603907abbb35b7c2ccaaf8c5acaad5b8740563a97208db2fff0e3636737b7d69",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/codeql-swift-reservation.json": "3bffc8c348e79f966b9850b4166d4897901a179775ba30ae1070172a9c5eaf15",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/joern-swift-reservation.json": "21b0f364cba57020925f57fcb910cabfa7586415cddf234d8872df0db4f6a1a7",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/recovery-allocation.json": "4c1beea908e947a2faf8e3025d1f9290055bc0ffe51e311ae0c387751263743e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/attempt-baseline.json": "a92102ad81795fdfbd1a8b15d898c533b8b2ccc1db9165e826a448fb2217b418",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/codeql-swift-reservation.json": "0a22faf05c9e9799adea897d129dced9aae55707ad4e09ca1efd1c3ec800e95d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/joern-swift-reservation.json": "a1a8fdc7ae85791965eb14cacb0b7ad96250bf2f5c15079250a589a44899de8f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/recovery-allocation.json": "894e1c200d91419cb6f6660ef6c51a3ff9a265f698e38f8611620d9d526b9d7c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/attempt-baseline.json": "37c07d1e750fb844a68ce59af1a490f13d361ceb3c7d0e82847e5c656a642729",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/codeql-swift-reservation.json": "21b0eec15fdda88572c07ca47faa92f397ee5c3c1ab2e5ed7d85150f15a164b6",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/joern-swift-reservation.json": "4f7be153542793cf803f2ecdf8e2ffc840924c22ac19090c2a9faac2d9bd29f6",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/recovery-allocation.json": "0056bd4508d665cf455b5b9e246e4839ddbdda7630ba8af72eceb14d765272ac",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/attempt-baseline.json": "402005a3a73e9921a9be2fdaec5831e7d9bce154f635b9186f3658434ca4d3df",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/codeql-swift-reservation.json": "b3ceae7d685fc9d655f105051cc0edd2dc8b378857124915e2ffdd5fd6b093dc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/control-inventory.json": "a232733f779104358786ffa894657b7920f2b148651a684c7686396f26ed9498",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/held-tool-digests.json": "ca93a3ab4f9421c343f07b373862f9cf7c95329e206da522c6470628ff035178",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/joern-swift-reservation.json": "b7b5abc8c93a5ac090b1b2744e8b16bfd844e04777b4007c141cb9f22dc70920",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/recovery-allocation.json": "77609ff41a2f5fd82ba8cfc451d2818c236798ff0aba58240d1a27e9cef17ccc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/runner-build.json": "2c126dc1f7fb23b2d9dcf4ce09049c450636e1991741b58fdb282d9bc98fd1d3",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/bifrost.json": "690b40f65d6b0635e3fd9e06d37470f48a09594e2e15003ce5fd88c98c1bf86c",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/flowdroid.json": "7dc0d4b5c82674b96ccc70693b0b2a472300b0758e10e1be13da33de35d4661e",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/infer.json": "f88687f03e98358896cbfe4974978b33da2260af42fe72cf8613fb11270aec76",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/opentaint.json": "93cd3cfd102c3ad3577400512237f1b7dae6ca9624a5937882a5047365c090db",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/python.json": "d87a9446e1ab2ff323dcab65a0645773413f7d4c3dcee7e4abccb2648c330bdb",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/semgrep.json": "6da0b1ebc6d2686302dec7e4f15c60ace682e552cc64e138c0d00a21c941dd7f",
+    "reports/releases/v0.9.0/execution-v1/runtime-version-witnesses.json": "e33f14c4f03b4f73f2f056cf96765d057d10e68e77c8dff50a65425c72db48ed",
+    "reports/releases/v0.9.0/execution-v1/semgrep-runtime-witness.json": "9d5462470bf89f162b4c9764203000e48f53726a3cd6c5775ffe5464caf7df15",
+    "reports/releases/v0.9.0/execution-v1/swift-query-checks/receipt.json": "1040dc8b6f9878d7b83264f3fb7da5647df8f08d099edc492ae3fa15e5c4d8bd",
+    "reports/releases/v0.9.0/plan.json": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf",
+    "scripts/execute-release-controls-v090.py": "4808f3721fde76a42e24a979257bcba8babe788955140768361cf59e3419cb66",
+    "scripts/execute-release-recovery-v090.py": "98ae29bd67cd77a3754458b032c2203474155cd40779630c0dfd6e8c41841c40",
+    "scripts/prepare-release-root-v090.py": "e53dabc4133d8eb4ff976e4a2e1447be90e745060b48b46aa29de7b868256b76",
+    "scripts/probe-bifrost-sanitizer-lowering.sh": "d6790e3a245ca568ba0c12bd09012a41831704e43e45f5567f978d725abbfb03",
+    "scripts/probe-bifrost-scan-native-v012.sh": "4d4bf38e5286b5d74fb50bb3c733c4f8f330e03baa85ab0e6d61b1f4f538c731",
+    "scripts/probe-bifrost-scan-native.sh": "40c95ed69d820c624e6524a200684544ef99f70d65b65a1c043071e94c38e312",
+    "scripts/probe-flowdroid-modeling-load-bearing.sh": "62075cc2af9ab50f274d29ea80c85f169746fe4237901f9635c93742e831928c",
+    "scripts/probe-flowdroid-native-shipped-surface.sh": "e19b888159f5e67a2c7419df4d59cf59e38046353e0c882588d438942872ed4a",
+    "scripts/probe-infer-modeling-partition.sh": "9b3c523f6d6524beef18dc877dfdeb5344cbed1e5bcd99e19bfe870b06c8bb23",
+    "scripts/probe-infer-native-activation.sh": "d10617b106bea4104dd2887c9d468b0312af0647e23f3a07928a62c78774c064",
+    "scripts/probe-infer-native-silence.sh": "7897a032da1569ca85d6286fc5a32509ff2eee623515059873a6ce2700b98666",
+    "scripts/probe-java-modeling-load-bearing.sh": "635fcfa58241a83ddd2afd349f1fd1ba40c5f875bffe2d1a72585ff9a66a7724",
+    "scripts/probe-javascript-modeling-load-bearing.sh": "e3611a71a410db0bd44c90277c29bfa8db7acd72d5248f239fc510679930314c",
+    "scripts/probe-joern-scan-native.sh": "f2584fa97d92bc932dbc514e84db6c89db7da8630effea92d8f244cab9bed3d5",
+    "scripts/probe-opentaint-modeling-surface.sh": "0415d7838cc0d0cd9a3e338cdd9d6e11f3dfc8ca8703f38347e87044c4e71de7",
+    "scripts/probe-opentaint-native-activation.sh": "5400cc43cded6c84b17544a7affeefdff103f8ad70df39602ccd3b865c18328f",
+    "scripts/probe-opentaint-primitive-tracking.sh": "88592a10525c2fd1c7de3c0e37e3e56f9a82a20b7b2ae72b2f6d9c7b92caba6c",
+    "scripts/probe-opentaint-product-recovery-v090.py": "5c945332a00680f11355cd4f3a97c96bd4a994ba38b59872b19ff4df2ffc7c5b",
+    "scripts/probe-opentaint-product-v090.py": "0589faee6fae872d8991bb5f3d30db5d00c95ea11c5a56fbca8e89dfe726c864",
+    "scripts/probe-opentaint-scan-activation.sh": "d8c7074105c644ec9990d96eb281288e9795fd76f7a01ebddafe7f97ea9d384b",
+    "scripts/probe-opentaint-value-kind.sh": "1f1aae2c22a238011cc7061e9faf47cd075acad783264a1564582389de9fe22a",
+    "scripts/probe-pysa-callee-resolution.sh": "ec4501bda36ad2a017af84d609eedfe8bfd706f7c5de3c37565116750f225cbe",
+    "scripts/probe-pysa-modeling-load-bearing.sh": "315b8a46993392bd93ab211bad1b90318e3fcfdd313652229c15bc5285d9e15a",
+    "scripts/probe-pysa-native-activation.sh": "cd55635af84a86806ddd21e5726b19315330349e1cb122a09417fa36d8e43871",
+    "scripts/probe-python-modeling-load-bearing-v090.py": "a3862528578f74ac99acf43ef6af6a6f9d72d1411b9fa9ae4116b03f31a77536",
+    "scripts/probe-semgrep-jsjava-native.sh": "d09e3bab859030d4679af455a341e7a155119fd48cba248abdc11b0fdf8d44f2",
+    "scripts/probe-warm-observability-v090.py": "c2c31b70154f25287488f262a3bd23e5d029e784d1c7c60173212a113b7346a8",
+    "scripts/release_claim_v090.py": "f4458242ec60e70327f8e6bfee14904e378941d1cb096bcc082974566d30a901",
+    "scripts/release_control_attempt_v090.py": "7e876cfd9c0be39c2c0a85bec99c1282366f3c69fffe3eb524b5aa2ffacf41b5",
+    "scripts/release_environment_v090.py": "344ed79eb774134c4e04e4e243bf05c20279a52d0e050e674a9c79ddb0f16ebd",
+    "scripts/run-release-control-recovery-v090.py": "03341567bd732495fe8e4129542867bc7c7da09ee40ef96be458e75b3bf452c9",
+    "scripts/run-release-control-v090.py": "8cf9785659f8319a08115422c6229162883a858dd766e128c906431ed96c7d0d",
+    "scripts/run-release-group-recovery-v090.py": "8dbfe3c4f9de495b5d72c68ab0f7374e6de0ba7357329426418710f0837dcb91",
+    "scripts/run-release-group-v090.py": "a19ae44adefe386f7f71b006ece268e1d3e3ea0ee54d94247737a0b1eb6b1ac4"
+  },
+  "output_roots": [
+    "reports/semgrep-ruby-kernel.json",
+    "reports/raw/semgrep-ruby-kernel"
+  ],
+  "parent_plan": {
+    "path": "reports/releases/v0.9.0/plan.json",
+    "sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf"
+  },
+  "population": {
+    "path": "populations/v0.9.0.json",
+    "sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+  },
+  "release": "v0.9.0",
+  "reports": [
+    {
+      "case_ids": [
+        "dfb-taint-ruby-alias-propagation-negative",
+        "dfb-taint-ruby-alias-propagation-positive",
+        "dfb-taint-ruby-anonymous-implementation-negative",
+        "dfb-taint-ruby-anonymous-implementation-positive",
+        "dfb-taint-ruby-argument-position-negative",
+        "dfb-taint-ruby-argument-position-positive",
+        "dfb-taint-ruby-arithmetic-expression-negative",
+        "dfb-taint-ruby-arithmetic-expression-positive",
+        "dfb-taint-ruby-array-element-negative",
+        "dfb-taint-ruby-array-element-positive",
+        "dfb-taint-ruby-branch-join-negative",
+        "dfb-taint-ruby-branch-join-positive",
+        "dfb-taint-ruby-call-context-negative",
+        "dfb-taint-ruby-call-context-positive",
+        "dfb-taint-ruby-callback-registration-negative",
+        "dfb-taint-ruby-callback-registration-positive",
+        "dfb-taint-ruby-closure-capture-negative",
+        "dfb-taint-ruby-closure-capture-positive",
+        "dfb-taint-ruby-computed-property-negative",
+        "dfb-taint-ruby-computed-property-positive",
+        "dfb-taint-ruby-context-pair-depth2-negative",
+        "dfb-taint-ruby-context-pair-depth2-positive",
+        "dfb-taint-ruby-deep-relay-chain-negative",
+        "dfb-taint-ruby-deep-relay-chain-positive",
+        "dfb-taint-ruby-direct-negative",
+        "dfb-taint-ruby-direct-positive",
+        "dfb-taint-ruby-dispatch-table-negative",
+        "dfb-taint-ruby-dispatch-table-positive",
+        "dfb-taint-ruby-element-object-negative",
+        "dfb-taint-ruby-element-object-positive",
+        "dfb-taint-ruby-exception-catch-negative",
+        "dfb-taint-ruby-exception-catch-positive",
+        "dfb-taint-ruby-function-field-negative",
+        "dfb-taint-ruby-function-field-positive",
+        "dfb-taint-ruby-infeasible-branch-negative",
+        "dfb-taint-ruby-infeasible-branch-positive",
+        "dfb-taint-ruby-interprocedural-exception-persistence-negative",
+        "dfb-taint-ruby-interprocedural-exception-persistence-positive",
+        "dfb-taint-ruby-local-chain-negative",
+        "dfb-taint-ruby-local-chain-positive",
+        "dfb-taint-ruby-local-overwrite-negative",
+        "dfb-taint-ruby-local-overwrite-positive",
+        "dfb-taint-ruby-loop-carried-negative",
+        "dfb-taint-ruby-loop-carried-positive",
+        "dfb-taint-ruby-map-iteration-negative",
+        "dfb-taint-ruby-map-iteration-positive",
+        "dfb-taint-ruby-mutual-recursive-transform-negative",
+        "dfb-taint-ruby-mutual-recursive-transform-positive",
+        "dfb-taint-ruby-nested-access-path-negative",
+        "dfb-taint-ruby-nested-access-path-positive",
+        "dfb-taint-ruby-object-separation-negative",
+        "dfb-taint-ruby-object-separation-positive",
+        "dfb-taint-ruby-recursive-callback-transform-negative",
+        "dfb-taint-ruby-recursive-callback-transform-positive",
+        "dfb-taint-ruby-recursive-carry-negative",
+        "dfb-taint-ruby-recursive-carry-positive",
+        "dfb-taint-ruby-recursive-exception-persistence-negative",
+        "dfb-taint-ruby-recursive-exception-persistence-positive",
+        "dfb-taint-ruby-recursive-heap-unwind-negative",
+        "dfb-taint-ruby-recursive-heap-unwind-positive",
+        "dfb-taint-ruby-recursive-payload-transform-negative",
+        "dfb-taint-ruby-recursive-payload-transform-positive",
+        "dfb-taint-ruby-reflective-invocation-negative",
+        "dfb-taint-ruby-reflective-invocation-positive",
+        "dfb-taint-ruby-return-relay-one-hop-negative",
+        "dfb-taint-ruby-return-relay-one-hop-positive",
+        "dfb-taint-ruby-return-relay-two-hop-negative",
+        "dfb-taint-ruby-return-relay-two-hop-positive",
+        "dfb-taint-ruby-same-object-field-negative",
+        "dfb-taint-ruby-same-object-field-positive"
+      ],
+      "execution_output_path": "reports/semgrep-ruby-kernel.json",
+      "ordinal": 0,
+      "original_normalized": "original-normalized/reports/releases/v0.9.0/normal/semgrep-ruby-kernel.json",
+      "original_normalized_sha256": "84f03e11af662ed61d67c2931960da624300968dcf59146664d87e503db23b3b",
+      "source_path": "reports/releases/v0.9.0/normal/semgrep-ruby-kernel.json",
+      "staged_path": "reports/releases/v0.9.0/normal/attempts/semgrep-ruby-kernel-attempt-01/semgrep-ruby-kernel.json",
+      "staged_sha256": "4544d4bff8663ecc14d3f090c865acc29fde60d059a94d9fe0597d96f9faef25"
+    }
+  ],
+  "schema_version": 1,
+  "start_utc": "2026-10-07T21:28:36.807119+00:00",
+  "started_receipt": "started.json",
+  "status": "completed",
+  "stderr": {
+    "path": "stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "stdout.txt",
+    "sha256": "e6de4724173393600c05404a37039ac6c549280c369d33cac827707cd26b67c9"
+  },
+  "timed_out": false
+}

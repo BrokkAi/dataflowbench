@@ -1,0 +1,76 @@
+{
+  "shape": "jakarta.servlet HttpServletRequest.getParameter -> java.sql.Statement.execute",
+  "scan_exit_status": 2,
+  "dependency_pack_decisions": [
+    {
+      "pack": "bifrost.external.java",
+      "status": "selected",
+      "reason": "strict activation evidence and controls selected this shard; pack version 0.12.0; matched package jakarta.servlet:jakarta.servlet-api 6.1.0 against the pack requirement =6.1.0; gaps: 0"
+    },
+    {
+      "pack": "bifrost.external.java",
+      "status": "selected",
+      "reason": "strict activation evidence and controls selected this shard; pack version 0.12.0; matched toolchain jdk 21.0.8 against the pack requirement =21.0.8; gaps: 0"
+    },
+    {
+      "pack": "bifrost.external.java@0.12.0",
+      "status": "selected"
+    },
+    {
+      "pack": "bifrost.java.lombok",
+      "status": "incompatible",
+      "reason": "no activation evidence names package org.projectlombok:lombok"
+    },
+    {
+      "pack": "bifrost.jdk21.result-use-obligations",
+      "status": "selected",
+      "reason": "strict activation evidence and controls selected this shard; pack version 1.0.0; matched toolchain jdk 21.0.8 against the pack requirement >=21.0.0, <22.0.0; gaps: 0"
+    },
+    {
+      "pack": "bifrost.jdk21.result-use-obligations@1.0.0",
+      "status": "selected",
+      "summary_matches": [
+        {
+          "summary_id": "java.lang.string.trim.result-use",
+          "symbol": "java.lang.String.trim()",
+          "match_count": 0
+        },
+        {
+          "summary_id": "java.nio.file.files.delete-if-exists.result-use",
+          "symbol": "java.nio.file.Files.deleteIfExists(java.nio.file.Path)",
+          "match_count": 0
+        }
+      ]
+    },
+    {
+      "pack": "jakarta.servlet:jakarta.servlet-api:6.1.0",
+      "status": "selected"
+    },
+    {
+      "pack": "jdk:21.0.8",
+      "status": "selected"
+    }
+  ],
+  "completion": {
+    "type": "inconclusive",
+    "reasons": [
+      "partial_discovery"
+    ]
+  },
+  "outcome": "inconclusive",
+  "outcome_basis": {
+    "completion_type": "inconclusive",
+    "finding_count": 1
+  },
+  "findings": 1,
+  "compiled_source_endpoints": 1,
+  "compiled_sink_endpoints": 1,
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "family": "taint discovery is incomplete: call resolution is unknown",
+      "message": "taint discovery is incomplete: call resolution for src/main/java/dfb/Control.java:Control.java.Control.handle is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model"
+    }
+  ],
+  "evidence_kind": "retained-positive-control-attempt"
+}

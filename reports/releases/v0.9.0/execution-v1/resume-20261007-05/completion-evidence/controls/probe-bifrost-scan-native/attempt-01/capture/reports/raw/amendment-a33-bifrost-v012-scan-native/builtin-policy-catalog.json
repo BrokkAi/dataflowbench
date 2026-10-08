@@ -1,0 +1,1471 @@
+{
+  "schema_version": 2,
+  "packs": [
+    {
+      "schema_version": 2,
+      "id": "bifrost.code-smells",
+      "version": "2.16.0",
+      "name": "Bifrost code smells",
+      "description": "Curated structured RQLP checks for bug-prone and potentially expensive source patterns.",
+      "policies": [
+        {
+          "path": "policies/contradictory-condition.rqlp",
+          "id": "bifrost.correctness.contradictory-condition",
+          "authored_hash": "8a5a83b875e2a2fb21a187cefacc95fc701ee0678b9675ceba199e48a0b4c679",
+          "resolved_semantic_hash": "8a5a83b875e2a2fb21a187cefacc95fc701ee0678b9675ceba199e48a0b4c679",
+          "category": "correctness",
+          "supported_languages": [
+            "java",
+            "javascript",
+            "typescript",
+            "python"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "branch-relations",
+            "semantic-guard-facts",
+            "scalar-state"
+          ],
+          "severity_rationale": "A proven constant condition outcome makes one conditional arm unreachable.",
+          "remediation": "Review the scalar assumptions and intended branch test before changing the code; no automatic rewrite is supplied.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/discarded-pure-result.rqlp",
+          "id": "bifrost.correctness.discarded-pure-result",
+          "authored_hash": "3e59b29f3bb81d915028489c301c6d93b38dd57101858ceabe3a5b3a5c25356c",
+          "resolved_semantic_hash": "3e59b29f3bb81d915028489c301c6d93b38dd57101858ceabe3a5b3a5c25356c",
+          "category": "correctness",
+          "supported_languages": [
+            "java"
+          ],
+          "required_capabilities": [
+            "normalized-call",
+            "canonical-external-dispatch",
+            "exact-result-use",
+            "reviewed-jdk-result-obligation"
+          ],
+          "severity_rationale": "An exact JDK 21 String.trim() result is a pure transformed value and the caller discards it.",
+          "remediation": "Use or return the transformed value if intended; review why the call was made before removing it. No automatic fix is supplied.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/dynamic-evaluation.rqlp",
+          "id": "bifrost.correctness.dynamic-evaluation",
+          "authored_hash": "455fca5f51f3291329d71adaa89b4c5e478df8a869272e633b6cd138afe54fb3",
+          "resolved_semantic_hash": "455fca5f51f3291329d71adaa89b4c5e478df8a869272e633b6cd138afe54fb3",
+          "category": "correctness",
+          "supported_languages": [
+            "python",
+            "javascript",
+            "typescript"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "normalized-call"
+          ],
+          "severity_rationale": "Dynamic evaluation converts data into executable code and expands both correctness and security risk.",
+          "remediation": "Replace dynamic evaluation with explicit dispatch, parsing, or a bounded data representation.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/identical-conditional-branches.rqlp",
+          "id": "bifrost.correctness.identical-conditional-branches",
+          "authored_hash": "ecae8e51ea4b11ad0159b1891b9df33fe2a855b6b466b129227e7e6a3f372494",
+          "resolved_semantic_hash": "ecae8e51ea4b11ad0159b1891b9df33fe2a855b6b466b129227e7e6a3f372494",
+          "category": "correctness",
+          "supported_languages": [
+            "java",
+            "javascript",
+            "typescript",
+            "python"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "branch-relations",
+            "lexical-environment"
+          ],
+          "severity_rationale": "Two branch bodies have the same structured operations and proven reference identities, suggesting a copy/paste error or redundant condition.",
+          "remediation": "Review the intended behavior in each branch. Preserve condition evaluation, pattern binding and branch scope when changing code.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/ignored-status-result.rqlp",
+          "id": "bifrost.correctness.ignored-status-result",
+          "authored_hash": "66796f14a27da81e34e7bc486270ddfbcdf69f8fe63dfe1b66d1d3b05913d9de",
+          "resolved_semantic_hash": "66796f14a27da81e34e7bc486270ddfbcdf69f8fe63dfe1b66d1d3b05913d9de",
+          "category": "correctness",
+          "supported_languages": [
+            "java"
+          ],
+          "required_capabilities": [
+            "normalized-call",
+            "canonical-external-dispatch",
+            "exact-result-use",
+            "reviewed-jdk-result-obligation"
+          ],
+          "severity_rationale": "An exact JDK 21 Files.deleteIfExists(Path) call returns a status indicating whether a file was deleted; a direct expression statement discards it.",
+          "remediation": "Handle or deliberately ignore the status according to the caller's intent. I/O exceptions are separate; no automatic fix is supplied.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/repeated-branch-condition.rqlp",
+          "id": "bifrost.correctness.repeated-branch-condition",
+          "authored_hash": "1ebe9d4f16d8cd37e4c606edbe5abb85711b9de2f96f684cbb657eb1a9932b48",
+          "resolved_semantic_hash": "1ebe9d4f16d8cd37e4c606edbe5abb85711b9de2f96f684cbb657eb1a9932b48",
+          "category": "correctness",
+          "supported_languages": [
+            "java",
+            "javascript",
+            "typescript",
+            "python"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "branch-relations",
+            "lexical-environment"
+          ],
+          "severity_rationale": "A later ordered branch repeats an earlier test over stable ordinary bindings, so that later branch cannot be selected.",
+          "remediation": "Correct the repeated test or remove the unreachable branch after reviewing condition side effects and intended branch behavior.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/redundant-boolean-branches.rqlp",
+          "id": "bifrost.correctness.redundant-boolean-branches",
+          "authored_hash": "b80c30a8f84e7e086f05b7e1b5f8f3af185a12a77383b8413ac3e80385fd8ecc",
+          "resolved_semantic_hash": "b80c30a8f84e7e086f05b7e1b5f8f3af185a12a77383b8413ac3e80385fd8ecc",
+          "category": "correctness",
+          "supported_languages": [
+            "java",
+            "javascript",
+            "typescript",
+            "python"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "branch-relations"
+          ],
+          "severity_rationale": "Opposite Boolean-literal returns on immediate conditional paths are a verbose or mistaken outcome.",
+          "remediation": "Review the intended Boolean result and condition evaluation before changing the branch structure; no expression rewrite is supplied.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/unsafe-deserialization.rqlp",
+          "id": "bifrost.correctness.unsafe-deserialization",
+          "authored_hash": "04fe7a69f28ebc3d702bf909b01b29bad3def6fe5d6072351337fcd17c0ed867",
+          "resolved_semantic_hash": "04fe7a69f28ebc3d702bf909b01b29bad3def6fe5d6072351337fcd17c0ed867",
+          "category": "correctness",
+          "supported_languages": [
+            "python"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "normalized-call-roles"
+          ],
+          "severity_rationale": "General-purpose object deserializers can construct unexpected objects or execute attacker-controlled behavior.",
+          "remediation": "Use a data-only format, then validate the decoded schema before use.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/python-absent-member.rqlp",
+          "id": "bifrost.correctness.python-absent-member",
+          "authored_hash": "0018b743fcf3cd82084af3ae2cdd6f8f59573934ed5f1d33297827911b113287",
+          "resolved_semantic_hash": "0018b743fcf3cd82084af3ae2cdd6f8f59573934ed5f1d33297827911b113287",
+          "category": "correctness",
+          "supported_languages": [
+            "python"
+          ],
+          "required_capabilities": [
+            "class-set-type-flow",
+            "python-declaration-models",
+            "absent-member"
+          ],
+          "severity_rationale": "A fully classified receiver includes a Proven class whose complete member surface lacks this access; unknown receivers and open member models are excluded.",
+          "remediation": "Pass a receiver with the required member, correct the member name, or guard the access using a condition the analyzer can prove. Inspect the class origin and retained witness before changing the caller.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/go-data-race.rqlp",
+          "id": "bifrost.correctness.go-data-race",
+          "authored_hash": "4e2a3cc7715440600870e968765ec8b8b503b43f13c84845ecc0d78e4e79636f",
+          "resolved_semantic_hash": "4e2a3cc7715440600870e968765ec8b8b503b43f13c84845ecc0d78e4e79636f",
+          "category": "correctness",
+          "supported_languages": [
+            "go"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "normalized-concurrent-spawn",
+            "concurrent-access-conflicts",
+            "canonical-workspace-dispatch",
+            "heap-location-identity",
+            "reviewed-concurrency-models"
+          ],
+          "severity_rationale": "Two exact conflicting accesses without ordering or compatible protection violate Go's data-race-free execution contract and can produce undefined program behavior.",
+          "remediation": "Order the accesses with a channel or completed task group, protect both accesses with the same compatible mutex, use an appropriate atomic operation consistently, or stop sharing the location.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/go-nil-dereference.rqlp",
+          "id": "bifrost.correctness.go-nil-dereference",
+          "authored_hash": "e933fbff9821bbcc4883af11a2532440d2de04d75ab7784ff1b51d73e2184896",
+          "resolved_semantic_hash": "e933fbff9821bbcc4883af11a2532440d2de04d75ab7784ff1b51d73e2184896",
+          "category": "correctness",
+          "supported_languages": [
+            "go"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "canonical-external-dispatch",
+            "conditional-result-contracts",
+            "operation-precondition-contracts",
+            "result-contract-operation-uses",
+            "procedure-local-scalar-refinement",
+            "nilness-operations",
+            "reaching-definitions",
+            "guard-dominance"
+          ],
+          "severity_rationale": "Dereferencing a value that is nil on one or every reachable local path can panic, including a success-gated API result used before its reviewed condition is established.",
+          "remediation": "Prove the pointer non-nil before the operation, return from the nil path, or establish the API's reviewed success condition before using its result.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/go-wrong-error-on-failure-path.rqlp",
+          "id": "bifrost.correctness.go-wrong-error-on-failure-path",
+          "authored_hash": "2e83c5bd2b4ad34ec4d9b5c1919c233728a231cb04ffa83deae4b7e67447b869",
+          "resolved_semantic_hash": "2e83c5bd2b4ad34ec4d9b5c1919c233728a231cb04ffa83deae4b7e67447b869",
+          "category": "correctness",
+          "supported_languages": [
+            "go"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "canonical-external-dispatch",
+            "conditional-result-contracts",
+            "result-contract-failure-uses",
+            "reaching-definitions",
+            "failure-edge-control"
+          ],
+          "severity_rationale": "Returning an error-construction call that receives a different, provably nil error binding on an exact API failure path can hide the actual cause and may itself return nil.",
+          "remediation": "Pass the reviewed API's exact failure result to the returned error-construction call, or deliberately establish and use a separate non-nil error.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/empty-failure-handler.rqlp",
+          "id": "bifrost.correctness.empty-failure-handler",
+          "authored_hash": "2a008d3b13abab4f0816628cb54c487b3cc1cc6a817da91f3ab359e2d536d2fc",
+          "resolved_semantic_hash": "2a008d3b13abab4f0816628cb54c487b3cc1cc6a817da91f3ab359e2d536d2fc",
+          "category": "correctness",
+          "supported_languages": [
+            "java"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "prepared-syntax",
+            "failure-handler-state"
+          ],
+          "severity_rationale": "An empty catch body may silently discard failures when the catch is reached; this rule reports the structural body regardless of reachability.",
+          "remediation": "Review whether to handle or propagate the exception deliberately. No automatic fix is supplied.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/c-self-assignment.rqlp",
+          "id": "bifrost.correctness.c-self-assignment",
+          "authored_hash": "613655d61b87df1aa17143ae1d8b1c4f2138300fa20d17fe09fa221bcc1b7dc9",
+          "resolved_semantic_hash": "613655d61b87df1aa17143ae1d8b1c4f2138300fa20d17fe09fa221bcc1b7dc9",
+          "category": "correctness",
+          "supported_languages": [
+            "c"
+          ],
+          "required_capabilities": [
+            "prepared-c-syntax",
+            "assignment-relations",
+            "reaching-definitions",
+            "same-evaluation"
+          ],
+          "severity_rationale": "Writing an initialized scalar local back to the same binding is usually an accidental no-op and can hide a mistaken source or target.",
+          "remediation": "Remove the assignment or replace the right-hand side or target with the intended binding.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/local-self-assignment.rqlp",
+          "id": "bifrost.correctness.local-self-assignment",
+          "authored_hash": "436c16e9b195b9fa8ccecb90d466ab62ea2beaa6ddf370a3b57805ebe0dd7951",
+          "resolved_semantic_hash": "436c16e9b195b9fa8ccecb90d466ab62ea2beaa6ddf370a3b57805ebe0dd7951",
+          "category": "correctness",
+          "supported_languages": [
+            "java",
+            "javascript",
+            "typescript",
+            "python"
+          ],
+          "required_capabilities": [
+            "prepared-syntax",
+            "assignment-relations",
+            "reaching-definitions",
+            "same-evaluation"
+          ],
+          "severity_rationale": "Writing an initialized ordinary local back to the same binding is usually an accidental no-op.",
+          "remediation": "Remove the assignment or use the intended source or target binding.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/failed-swap.rqlp",
+          "id": "bifrost.correctness.failed-swap",
+          "authored_hash": "7ea3b54aba5ce9073707ca96ace43280f9d2475e77aeea6559428e56b67ec23e",
+          "resolved_semantic_hash": "7ea3b54aba5ce9073707ca96ace43280f9d2475e77aeea6559428e56b67ec23e",
+          "category": "correctness",
+          "supported_languages": [
+            "java",
+            "javascript",
+            "typescript",
+            "python"
+          ],
+          "required_capabilities": [
+            "prepared-syntax",
+            "assignment-relations",
+            "reaching-definitions",
+            "same-evaluation"
+          ],
+          "severity_rationale": "Adjacent crossed writes copy the first assigned value back into the second local, suggesting a failed swap.",
+          "remediation": "Review the intended operation; if a swap was intended, preserve the original value in a temporary or use the language's simultaneous assignment.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/overwritten-unread-value.rqlp",
+          "id": "bifrost.correctness.overwritten-unread-value",
+          "authored_hash": "79186d88e1a8b6f7fbe9f92bd3e629f74f0beffd3ed1d508c05e25a6a343665d",
+          "resolved_semantic_hash": "79186d88e1a8b6f7fbe9f92bd3e629f74f0beffd3ed1d508c05e25a6a343665d",
+          "category": "correctness",
+          "supported_languages": [
+            "java",
+            "javascript",
+            "typescript"
+          ],
+          "required_capabilities": [
+            "prepared-syntax",
+            "assignment-relations",
+            "reaching-definitions"
+          ],
+          "severity_rationale": "An exact ordinary local value is replaced on every modeled continuation before any read, so its original value is unused.",
+          "remediation": "Review the original assignment and its right-hand-side effects before changing it.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/loop-body-never-repeats.rqlp",
+          "id": "bifrost.correctness.loop-body-never-repeats",
+          "authored_hash": "2cafb97f47e655c51c5516ff8516eb76a7492a908165d3d2d1ac4b2a534b35a5",
+          "resolved_semantic_hash": "2cafb97f47e655c51c5516ff8516eb76a7492a908165d3d2d1ac4b2a534b35a5",
+          "category": "correctness",
+          "supported_languages": [
+            "java"
+          ],
+          "required_capabilities": [
+            "prepared-syntax",
+            "loop-relations",
+            "semantic-control-flow"
+          ],
+          "severity_rationale": "A reachable Java loop body cannot reach the same loop's repeat edge on any modeled continuation.",
+          "remediation": "Review the early exits and whether a loop is intended; no automatic rewrite is supplied.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/unreachable-statement.rqlp",
+          "id": "bifrost.correctness.unreachable-statement",
+          "authored_hash": "d167dcdaa1ecc28768f22d10f2e4188369fdfb224facc6fc3292895169d97629",
+          "resolved_semantic_hash": "d167dcdaa1ecc28768f22d10f2e4188369fdfb224facc6fc3292895169d97629",
+          "category": "correctness",
+          "supported_languages": [
+            "java"
+          ],
+          "required_capabilities": [
+            "prepared-syntax",
+            "statement-reachability",
+            "semantic-control-flow"
+          ],
+          "severity_rationale": "All producer-authored entries to an exact Java statement are outside complete entry reachability.",
+          "remediation": "Review the preceding control flow and the intended statement before removing unreachable code.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/loop-invariant-sort.rqlp",
+          "id": "bifrost.performance.loop-invariant-sort",
+          "authored_hash": "933ab0a333030b76e26fdc97b8139797a6d388fa258cabc9f7fdb50d1222fcf1",
+          "resolved_semantic_hash": "933ab0a333030b76e26fdc97b8139797a6d388fa258cabc9f7fdb50d1222fcf1",
+          "category": "performance",
+          "supported_languages": [
+            "rust",
+            "python",
+            "java",
+            "typescript",
+            "javascript"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "normalized-call-roles",
+            "lexical-environment",
+            "reaching-binding-assertion",
+            "value-origin-assertion"
+          ],
+          "severity_rationale": "The receiver's value is established outside the loop and no assignment inside re-establishes it, so the loop provably re-sorts one unchanged-identity value on every pass.",
+          "remediation": "Sort once before the loop or maintain order incrementally. Calls in deferred bodies are reported lexically; verify how often the body runs before restructuring.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/regex-compile-in-loop.rqlp",
+          "id": "bifrost.performance.regex-compile-in-loop",
+          "authored_hash": "c7347566fe5db86bf385d136b9585da5be6f8e3e8f4ef57922aadd22b306b165",
+          "resolved_semantic_hash": "c7347566fe5db86bf385d136b9585da5be6f8e3e8f4ef57922aadd22b306b165",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Compiling the same regular expression repeatedly adds avoidable parser and automaton construction work.",
+          "remediation": "Compile loop-invariant expressions once and reuse the compiled pattern.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/file-read-in-loop.rqlp",
+          "id": "bifrost.performance.file-read-in-loop",
+          "authored_hash": "4f0b625d3cdef7c80700d6e72e997428321ec4afacc99fe89a246169a4acb3f1",
+          "resolved_semantic_hash": "4f0b625d3cdef7c80700d6e72e997428321ec4afacc99fe89a246169a4acb3f1",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Synchronous or whole-file reads inside a loop can multiply I/O and allocation cost.",
+          "remediation": "Read once, stream or batch inputs, and cache loop-invariant content where semantics permit.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/serialization-in-loop.rqlp",
+          "id": "bifrost.performance.serialization-in-loop",
+          "authored_hash": "aa047adba257c80f10812f857e4fd647344dab04d60ba1935f2fc4b13bf2e74c",
+          "resolved_semantic_hash": "aa047adba257c80f10812f857e4fd647344dab04d60ba1935f2fc4b13bf2e74c",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Repeated serialization can dominate loops through traversal, encoding, and allocation.",
+          "remediation": "Move loop-invariant serialization out of the loop or batch records into one encoder call.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/parsing-in-loop.rqlp",
+          "id": "bifrost.performance.parsing-in-loop",
+          "authored_hash": "1b5b748be4794ffb11a0924d228346c63403dc4e4dfade76ed93655f5cd469c4",
+          "resolved_semantic_hash": "1b5b748be4794ffb11a0924d228346c63403dc4e4dfade76ed93655f5cd469c4",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Parsing the same representation per iteration repeats validation, tokenization, and object construction.",
+          "remediation": "Parse loop-invariant data once or use an incremental/batched parser for per-item input.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/database-call-in-loop.rqlp",
+          "id": "bifrost.performance.database-call-in-loop",
+          "authored_hash": "f184707c0021d42dde7e6c4a77985a3854e5b7db970ec30ff109856ebd74da21",
+          "resolved_semantic_hash": "f184707c0021d42dde7e6c4a77985a3854e5b7db970ec30ff109856ebd74da21",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "A database round trip per iteration is a common N+1 query pattern.",
+          "remediation": "Batch the operation, prefetch required rows, or use one set-oriented query.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/network-call-in-loop.rqlp",
+          "id": "bifrost.performance.network-call-in-loop",
+          "authored_hash": "b48032b76b82c4c449aa2d2fa45aff95b36350314e4cbcefd6f4ed86de47cd83",
+          "resolved_semantic_hash": "b48032b76b82c4c449aa2d2fa45aff95b36350314e4cbcefd6f4ed86de47cd83",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "A serial network request per iteration amplifies latency and remote-service load.",
+          "remediation": "Batch requests, prefetch data, or use explicitly bounded concurrency with backpressure.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/subprocess-in-loop.rqlp",
+          "id": "bifrost.performance.subprocess-in-loop",
+          "authored_hash": "0c264195a730138def1054723dffb3ec40ad13a0bc7c3bb7b74b72ea5996fd37",
+          "resolved_semantic_hash": "0c264195a730138def1054723dffb3ec40ad13a0bc7c3bb7b74b72ea5996fd37",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Process creation is expensive and repeated launches can exhaust OS resources.",
+          "remediation": "Move invariant work outside the loop, use one long-lived process, or batch subprocess input.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/sleep-in-loop.rqlp",
+          "id": "bifrost.performance.sleep-in-loop",
+          "authored_hash": "16b1be4131f57ee9dff8c34d8a083241bbfbd0992cc0a6e215e9b142d7e551ab",
+          "resolved_semantic_hash": "16b1be4131f57ee9dff8c34d8a083241bbfbd0992cc0a6e215e9b142d7e551ab",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "declaration-bounded-containment",
+            "normalized-call-roles",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "Sleeping for every iterated item throttles the whole batch in lockstep.",
+          "remediation": "Prefer rate limiters or batching over per-item sleeps; keep deliberate poll and backoff sleeps in condition-controlled loops, which this rule does not flag.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/expensive-operation-in-nested-loop.rqlp",
+          "id": "bifrost.performance.expensive-operation-in-nested-loop",
+          "authored_hash": "2bf75d3cc91deae0675196ee82c530b82f96096430aeafa2a2642faf7583bbc5",
+          "resolved_semantic_hash": "2bf75d3cc91deae0675196ee82c530b82f96096430aeafa2a2642faf7583bbc5",
+          "category": "performance",
+          "supported_languages": [
+            "python",
+            "java",
+            "javascript",
+            "typescript",
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "descendant-match",
+            "normalized-call",
+            "lexical-environment",
+            "origin-shape-assertion"
+          ],
+          "severity_rationale": "I/O, parsing, serialization, sorting, or remote work under two loop levels can grow multiplicatively.",
+          "remediation": "Hoist invariant work, precompute indexes, batch external operations, or reduce the nested iteration space.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/rayon-in-blocking-lazy-init.rqlp",
+          "id": "bifrost.correctness.rayon-in-blocking-lazy-init",
+          "authored_hash": "498af02f7cc9183b55ce0efb3059c87f7cefd17ee87caa83ef5302e4878712a8",
+          "resolved_semantic_hash": "498af02f7cc9183b55ce0efb3059c87f7cefd17ee87caa83ef5302e4878712a8",
+          "category": "correctness",
+          "supported_languages": [
+            "rust"
+          ],
+          "required_capabilities": [
+            "structural-match",
+            "descendant-match",
+            "normalized-call-roles"
+          ],
+          "severity_rationale": "A blocking once-cell whose initializer joins on rayon can park the worker that owns the stolen re-entrant job and wedge the whole pool.",
+          "remediation": "Use a pool-safe memoization such as PoolSafeMemo::get_or_build_parallel, or build the value eagerly before entering the parallel region.",
+          "activation": "default"
+        }
+      ]
+    },
+    {
+      "schema_version": 2,
+      "id": "bifrost.correctness",
+      "version": "0.1.0",
+      "name": "Bifrost correctness",
+      "description": "Selectable lifecycle and ownership policies over reviewed acquisition families.",
+      "policies": [
+        {
+          "path": "policies/resource-lifecycle.rqlp",
+          "id": "bifrost.correctness.resource-lifecycle",
+          "authored_hash": "efb7f8435c92eab75f2ec628da592470ea40e063816364b27744886ee4a1a5c7",
+          "resolved_semantic_hash": "efb7f8435c92eab75f2ec628da592470ea40e063816364b27744886ee4a1a5c7",
+          "category": "correctness",
+          "supported_languages": [
+            "go",
+            "java",
+            "javascript",
+            "kotlin",
+            "php",
+            "python",
+            "rust",
+            "scala",
+            "typescript"
+          ],
+          "required_capabilities": [
+            "typestate",
+            "endpoint-categories",
+            "interprocedural-transfer",
+            "terminal-obligation",
+            "normal-and-exceptional-exit"
+          ],
+          "severity_rationale": "A resource that reaches a supported exit of its acquiring root while still open can leak a file descriptor, connection, or lock until process exit.",
+          "remediation": "Close the resource on every supported exit of the acquiring procedure, including the exceptional exit, or transfer ownership through a contract the analysis can prove.",
+          "activation": "default"
+        }
+      ]
+    },
+    {
+      "schema_version": 2,
+      "id": "bifrost.security",
+      "version": "1.3.0",
+      "name": "Bifrost security",
+      "description": "High-precision security policies backed by exact structural identity and value-flow evidence.",
+      "policies": [
+        {
+          "path": "policies/jvm/servlet-parameter-to-jdbc.rqlp",
+          "id": "bifrost.security.java.servlet-parameter-to-jdbc",
+          "authored_hash": "b88225d8df37ba00381431577a1f54fc18d43c981ed9bc44f02124279e255c21",
+          "resolved_semantic_hash": "b88225d8df37ba00381431577a1f54fc18d43c981ed9bc44f02124279e255c21",
+          "category": "security",
+          "supported_languages": [
+            "java"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "semantic-model-provenance",
+            "scoped-callable-completeness"
+          ],
+          "severity_rationale": "Attacker-controlled data used as JDBC SQL structure can change the executed statement and compromise application data.",
+          "remediation": "Use a PreparedStatement with placeholders and bind untrusted values through typed setter methods instead of concatenating SQL text.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/jvm/system-getenv-to-runtime-exec.rqlp",
+          "id": "bifrost.security.java.system-getenv-to-runtime-exec",
+          "authored_hash": "64388737bcc0e1f39382e9f4d21ecf63ab75122b60e9c7b85dfdbd1654085d1d",
+          "resolved_semantic_hash": "64388737bcc0e1f39382e9f4d21ecf63ab75122b60e9c7b85dfdbd1654085d1d",
+          "category": "security",
+          "supported_languages": [
+            "java"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "semantic-model-provenance",
+            "scoped-callable-completeness",
+            "call-argument-conversion"
+          ],
+          "severity_rationale": "Attacker-controlled command text can execute unintended operating-system commands with the application's privileges.",
+          "remediation": "Avoid passing untrusted text to Runtime.exec. Use a fixed executable and validate arguments against an allowlist.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/python/process-input-to-os-system.rqlp",
+          "id": "bifrost.security.python.process-input-to-os-system",
+          "authored_hash": "594c125f8e59f0a0bec935b7691da102b699143eaac7fdc1ad3b1b364d2fcf08",
+          "resolved_semantic_hash": "594c125f8e59f0a0bec935b7691da102b699143eaac7fdc1ad3b1b364d2fcf08",
+          "category": "security",
+          "supported_languages": [
+            "python"
+          ],
+          "required_capabilities": [
+            "taint",
+            "runtime-keyed-read",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "semantic-model-provenance",
+            "scoped-callable-completeness"
+          ],
+          "severity_rationale": "A command string built from the process environment or the launch arguments runs in a subshell with the application's privileges, so attacker-controlled text changes the executed command.",
+          "remediation": "Do not pass process input to os.system. Use subprocess.run with an argument list and shell=False, and validate the executable against an allowlist.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/declared-storage/c-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.c.stored-request-to-sql",
+          "authored_hash": "c286d4e92032a2e34c5778fc8d395b2d06ac16c77ee695bf0efaad49fd85437c",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "c"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/c-store-requires-validation.rqlp",
+          "id": "bifrost.security.c.store-requires-validation",
+          "authored_hash": "42a369670f0ff0346b159394021af9d7296646ee1331ece21348158f68c2fe40",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "c"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/cpp-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.cpp.stored-request-to-sql",
+          "authored_hash": "977a175308bd8a4a491afe293b53a8a993f0fe8eef403ca64baf2503d7463715",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "cpp"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/cpp-store-requires-validation.rqlp",
+          "id": "bifrost.security.cpp.store-requires-validation",
+          "authored_hash": "32611b93b850993ec9888f2233b24dbd5e82ac90d85289b718018d830e08ef95",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "cpp"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/csharp-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.csharp.stored-request-to-sql",
+          "authored_hash": "85a82e21bef171c72a1bba916f2e01a206e5b876e0510d6a4ec8c520c01426ed",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "csharp"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/csharp-store-requires-validation.rqlp",
+          "id": "bifrost.security.csharp.store-requires-validation",
+          "authored_hash": "d2cfb27f840e874d2513f1d1d8526c6ae79c017194f847694e041b0fbafe6916",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "csharp"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/go-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.go.stored-request-to-sql",
+          "authored_hash": "533bfc83c7362778c3dd2948c662fa1e6d105c119976021996f82ee954e5c600",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "go"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/go-store-requires-validation.rqlp",
+          "id": "bifrost.security.go.store-requires-validation",
+          "authored_hash": "a768363a29c77009a220dd2f50dcbd0c98d171ec2ea0d60e03a0e8d63732b2fe",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "go"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/java-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.java.stored-request-to-sql",
+          "authored_hash": "6eb131d0820bcc5b1334222eba6caf7b8ac71fc49642a622bf6c994f17895985",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "java"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/java-store-requires-validation.rqlp",
+          "id": "bifrost.security.java.store-requires-validation",
+          "authored_hash": "b42faaaff9edb0e9e3cbcb65692563dbd188379da522136d2e0304cd641213eb",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "java"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/javascript-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.javascript.stored-request-to-sql",
+          "authored_hash": "e4d3400e5a5caa3ca1406c41628a4305ef944ad1915a85a7c6de640acfddffdd",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "javascript"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/javascript-store-requires-validation.rqlp",
+          "id": "bifrost.security.javascript.store-requires-validation",
+          "authored_hash": "775b8afe54e27e2b2e915bfa12c8c136b99d9a9dcdc9a0171f26155d0fc241c8",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "javascript"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/kotlin-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.kotlin.stored-request-to-sql",
+          "authored_hash": "85ce41cda68fe035dad514d89220185b0c1f64890535d4e12d859e03afa7357c",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "kotlin"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/kotlin-store-requires-validation.rqlp",
+          "id": "bifrost.security.kotlin.store-requires-validation",
+          "authored_hash": "f897db6e958a74512a3161a2803679bdfa9cb7ec7b66ae9529cfa4298153a618",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "kotlin"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/php-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.php.stored-request-to-sql",
+          "authored_hash": "1f808587f7eb33ec37ee6904ff9d5533d4175e24642c8749dd58d8ec11e50927",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "php"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/php-store-requires-validation.rqlp",
+          "id": "bifrost.security.php.store-requires-validation",
+          "authored_hash": "ffa1029dd6b1ce77378047e5fafaa4e777dfa32411dcaeae52f075ce17e390e9",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "php"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/python-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.python.stored-request-to-sql",
+          "authored_hash": "b17a2fef926b5dd30c0f1e26618a9b2d0f8858b16b8bc396b3a0797be43b8572",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "python"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/python-store-requires-validation.rqlp",
+          "id": "bifrost.security.python.store-requires-validation",
+          "authored_hash": "bce539224954757ab05f45d4afdddda96f9b4968d81d710407e18c998635e974",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "python"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/ruby-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.ruby.stored-request-to-sql",
+          "authored_hash": "4962b2137d27e6f0fc1aa3d7138b65132864fe5b6d2109d90cbc1bb1d003ba02",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "ruby"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/ruby-store-requires-validation.rqlp",
+          "id": "bifrost.security.ruby.store-requires-validation",
+          "authored_hash": "e06cf9385efd6893eff133e1e53e4ee734353e20bc0fce33906b800b952ceea1",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "ruby"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/rust-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.rust.stored-request-to-sql",
+          "authored_hash": "8816b7080d97b02cc47f110d23ada1e817bc165487a6c56f29321cc5963d5c78",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "rust"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/rust-store-requires-validation.rqlp",
+          "id": "bifrost.security.rust.store-requires-validation",
+          "authored_hash": "2fdb10af8360284dcd19ddc4ae73011f11d08e735f2ccb3a7f93dc14c808d91a",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "rust"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/scala-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.scala.stored-request-to-sql",
+          "authored_hash": "d2ab845883799e753ec247a33b0c0095cfa8076ea70caf86787f49d44e0bdc35",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "scala"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/scala-store-requires-validation.rqlp",
+          "id": "bifrost.security.scala.store-requires-validation",
+          "authored_hash": "8b2f4c177adcb9e10537d4f3d4272fe5c6528b76d942dc2dfbd8f240d098e61e",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "scala"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/typescript-stored-request-to-sql.rqlp",
+          "id": "bifrost.security.typescript.stored-request-to-sql",
+          "authored_hash": "70c618b0fd2b385314176e134a73cb68c378b1010b1147fdb898249123118b9b",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "typescript"
+          ],
+          "required_capabilities": [
+            "taint",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "declared-store-boundary",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value persisted through the declared store and read back into SQL text can change the executed statement and compromise application data.",
+          "remediation": "Pass untrusted values through the driver's parameter-binding contract instead of adding them to the SQL text.",
+          "activation": "opt-in"
+        },
+        {
+          "path": "policies/declared-storage/typescript-store-requires-validation.rqlp",
+          "id": "bifrost.security.typescript.store-requires-validation",
+          "authored_hash": "3b40938621aab7b234702813d6bb20a4e4b2d70c01b67b538fa17fc5ddf67829",
+          "resolved_semantic_hash": null,
+          "category": "security",
+          "supported_languages": [
+            "typescript"
+          ],
+          "required_capabilities": [
+            "flow",
+            "exact-call-target",
+            "actual-to-formal-binding",
+            "endpoint-set-imports"
+          ],
+          "severity_rationale": "A request value stored without the validator the workspace requires bypasses the application's own reviewed storage invariant.",
+          "remediation": "Pass request-derived values through the configured validator before storing them, or narrow the reviewed configuration if the obligation does not apply.",
+          "activation": "opt-in"
+        }
+      ]
+    },
+    {
+      "schema_version": 2,
+      "id": "bifrost.effects",
+      "version": "1.4.0",
+      "name": "Bifrost network-effect boundaries",
+      "description": "Configurable forbidden-network-effect specializations. Each policy asserts that one explicitly selected declaration reaches no declared network effect, directly or through workspace helpers. The effect is declared by a reviewed semantic model on the exact API identity; purity is never inferred from a name, a file name, a comment, or an unqualified annotation, and a repository that configures no selection carries no obligation.",
+      "policies": [
+        {
+          "path": "policies/csharp/selected-boundary-no-network-io.rqlp",
+          "id": "bifrost.effects.csharp.selected-boundary-no-network-io",
+          "authored_hash": "0959cba446519d3f47b734504be76a293687f882db999e8db35a077ffe558e17",
+          "resolved_semantic_hash": "0959cba446519d3f47b734504be76a293687f882db999e8db35a077ffe558e17",
+          "category": "effects",
+          "supported_languages": [
+            "csharp"
+          ],
+          "required_capabilities": [
+            "semantic-model-declared-effects",
+            "transitive-procedure-effects",
+            "exhaustive-effect-coverage",
+            "module-identity-declaration-selection",
+            "external-api-identity"
+          ],
+          "severity_rationale": "A declaration the repository reviewed as a pure calculation reaching network I/O breaks the boundary the review relied on and can turn a local computation into an externally visible side effect.",
+          "remediation": "Move the effect to the caller, or make the selected declaration's helper chain reach no declared network effect. Configure the declaration-selection block with the exact declaration this repository protects before enabling the policy.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/go/selected-boundary-no-network-io.rqlp",
+          "id": "bifrost.effects.go.selected-boundary-no-network-io",
+          "authored_hash": "178ebb86f332639d85cf53cd697e611bee2f74c2fe75d2b0539fd0aa71f89152",
+          "resolved_semantic_hash": "178ebb86f332639d85cf53cd697e611bee2f74c2fe75d2b0539fd0aa71f89152",
+          "category": "effects",
+          "supported_languages": [
+            "go"
+          ],
+          "required_capabilities": [
+            "semantic-model-declared-effects",
+            "transitive-procedure-effects",
+            "exhaustive-effect-coverage",
+            "module-identity-declaration-selection",
+            "external-api-identity"
+          ],
+          "severity_rationale": "A declaration the repository reviewed as a pure calculation reaching network I/O breaks the boundary the review relied on and can turn a local computation into an externally visible side effect.",
+          "remediation": "Move the effect to the caller, or make the selected declaration's helper chain reach no declared network effect. Configure the declaration-selection block with the exact declaration this repository protects before enabling the policy.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/java/selected-boundary-no-network-io.rqlp",
+          "id": "bifrost.effects.java.selected-boundary-no-network-io",
+          "authored_hash": "b3567ffa813b2c36dc787f6631ef2e864ebaa214271cffaf1349e65d05e0d22e",
+          "resolved_semantic_hash": "b3567ffa813b2c36dc787f6631ef2e864ebaa214271cffaf1349e65d05e0d22e",
+          "category": "effects",
+          "supported_languages": [
+            "java"
+          ],
+          "required_capabilities": [
+            "semantic-model-declared-effects",
+            "transitive-procedure-effects",
+            "exhaustive-effect-coverage",
+            "module-identity-declaration-selection",
+            "external-api-identity"
+          ],
+          "severity_rationale": "A declaration the repository reviewed as a pure calculation reaching network I/O breaks the boundary the review relied on and can turn a local computation into an externally visible side effect.",
+          "remediation": "Move the effect to the caller, or make the selected declaration's helper chain reach no declared network effect. Configure the declaration-selection block with the exact declaration this repository protects before enabling the policy.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/javascript/selected-boundary-no-network-io.rqlp",
+          "id": "bifrost.effects.javascript.selected-boundary-no-network-io",
+          "authored_hash": "1dd58941aa1e7eb9019e33c7d6e515a5c00b5695c62cd0a07e60771de0080090",
+          "resolved_semantic_hash": "1dd58941aa1e7eb9019e33c7d6e515a5c00b5695c62cd0a07e60771de0080090",
+          "category": "effects",
+          "supported_languages": [
+            "javascript"
+          ],
+          "required_capabilities": [
+            "semantic-model-declared-effects",
+            "transitive-procedure-effects",
+            "exhaustive-effect-coverage",
+            "module-identity-declaration-selection",
+            "external-api-identity"
+          ],
+          "severity_rationale": "A declaration the repository reviewed as a pure calculation reaching network I/O breaks the boundary the review relied on and can turn a local computation into an externally visible side effect.",
+          "remediation": "Move the effect to the caller, or make the selected declaration's helper chain reach no declared network effect. Configure the declaration-selection block with the exact declaration this repository protects before enabling the policy.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/kotlin/selected-boundary-no-network-io.rqlp",
+          "id": "bifrost.effects.kotlin.selected-boundary-no-network-io",
+          "authored_hash": "2cd358e0221e62921bea27cfb293ffe60d80bf4e231bede43b88533fa3e97f51",
+          "resolved_semantic_hash": "2cd358e0221e62921bea27cfb293ffe60d80bf4e231bede43b88533fa3e97f51",
+          "category": "effects",
+          "supported_languages": [
+            "kotlin"
+          ],
+          "required_capabilities": [
+            "semantic-model-declared-effects",
+            "transitive-procedure-effects",
+            "exhaustive-effect-coverage",
+            "module-identity-declaration-selection",
+            "external-api-identity"
+          ],
+          "severity_rationale": "A declaration the repository reviewed as a pure calculation reaching network I/O breaks the boundary the review relied on and can turn a local computation into an externally visible side effect.",
+          "remediation": "Move the effect to the caller, or make the selected declaration's helper chain reach no declared network effect. Configure the declaration-selection block with the exact declaration this repository protects before enabling the policy.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/python/selected-boundary-no-network-io.rqlp",
+          "id": "bifrost.effects.python.selected-boundary-no-network-io",
+          "authored_hash": "a97dc7d6d32604e0146f986f071ae42200003aed516dbb7b8fece2dbfe015943",
+          "resolved_semantic_hash": "a97dc7d6d32604e0146f986f071ae42200003aed516dbb7b8fece2dbfe015943",
+          "category": "effects",
+          "supported_languages": [
+            "python"
+          ],
+          "required_capabilities": [
+            "semantic-model-declared-effects",
+            "transitive-procedure-effects",
+            "exhaustive-effect-coverage",
+            "module-identity-declaration-selection",
+            "external-api-identity"
+          ],
+          "severity_rationale": "A declaration the repository reviewed as a pure calculation reaching network I/O breaks the boundary the review relied on and can turn a local computation into an externally visible side effect.",
+          "remediation": "Move the effect to the caller, or make the selected declaration's helper chain reach no declared network effect. Configure the declaration-selection block with the exact declaration this repository protects before enabling the policy.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/ruby/selected-boundary-no-network-io.rqlp",
+          "id": "bifrost.effects.ruby.selected-boundary-no-network-io",
+          "authored_hash": "7af85260fc7c42cfaca8e021917a7d7dce9fc211f1e79b81f14af1879fe7a06f",
+          "resolved_semantic_hash": "7af85260fc7c42cfaca8e021917a7d7dce9fc211f1e79b81f14af1879fe7a06f",
+          "category": "effects",
+          "supported_languages": [
+            "ruby"
+          ],
+          "required_capabilities": [
+            "semantic-model-declared-effects",
+            "transitive-procedure-effects",
+            "exhaustive-effect-coverage",
+            "module-identity-declaration-selection",
+            "external-api-identity"
+          ],
+          "severity_rationale": "A declaration the repository reviewed as a pure calculation reaching network I/O breaks the boundary the review relied on and can turn a local computation into an externally visible side effect.",
+          "remediation": "Move the effect to the caller, or make the selected declaration's helper chain reach no declared network effect. Configure the declaration-selection block with the exact declaration this repository protects before enabling the policy.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/rust/selected-boundary-no-network-io.rqlp",
+          "id": "bifrost.effects.rust.selected-boundary-no-network-io",
+          "authored_hash": "dd7164f5c4eaa28ce8e6d471b41c98206f017c09076557b35cfc21295a609f47",
+          "resolved_semantic_hash": "dd7164f5c4eaa28ce8e6d471b41c98206f017c09076557b35cfc21295a609f47",
+          "category": "effects",
+          "supported_languages": [
+            "rust"
+          ],
+          "required_capabilities": [
+            "semantic-model-declared-effects",
+            "transitive-procedure-effects",
+            "exhaustive-effect-coverage",
+            "module-identity-declaration-selection",
+            "external-api-identity"
+          ],
+          "severity_rationale": "A declaration the repository reviewed as a pure calculation reaching network I/O breaks the boundary the review relied on and can turn a local computation into an externally visible side effect.",
+          "remediation": "Move the effect to the caller, or make the selected declaration's helper chain reach no declared network effect. Configure the declaration-selection block with the exact declaration this repository protects before enabling the policy.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/scala/selected-boundary-no-network-io.rqlp",
+          "id": "bifrost.effects.scala.selected-boundary-no-network-io",
+          "authored_hash": "91bf3f9c2962aa6ee392abb05d9a6f8871dfc65eff3564f27fbb9d6812ec78cd",
+          "resolved_semantic_hash": "91bf3f9c2962aa6ee392abb05d9a6f8871dfc65eff3564f27fbb9d6812ec78cd",
+          "category": "effects",
+          "supported_languages": [
+            "scala"
+          ],
+          "required_capabilities": [
+            "semantic-model-declared-effects",
+            "transitive-procedure-effects",
+            "exhaustive-effect-coverage",
+            "module-identity-declaration-selection",
+            "external-api-identity"
+          ],
+          "severity_rationale": "A declaration the repository reviewed as a pure calculation reaching network I/O breaks the boundary the review relied on and can turn a local computation into an externally visible side effect.",
+          "remediation": "Move the effect to the caller, or make the selected declaration's helper chain reach no declared network effect. Configure the declaration-selection block with the exact declaration this repository protects before enabling the policy.",
+          "activation": "default"
+        },
+        {
+          "path": "policies/typescript/selected-boundary-no-network-io.rqlp",
+          "id": "bifrost.effects.typescript.selected-boundary-no-network-io",
+          "authored_hash": "7a8e974e05b52a9ec11319c20c0c3dc4f4b7d40917cf9c27d62b74edcfdb89ee",
+          "resolved_semantic_hash": "7a8e974e05b52a9ec11319c20c0c3dc4f4b7d40917cf9c27d62b74edcfdb89ee",
+          "category": "effects",
+          "supported_languages": [
+            "typescript"
+          ],
+          "required_capabilities": [
+            "semantic-model-declared-effects",
+            "transitive-procedure-effects",
+            "exhaustive-effect-coverage",
+            "module-identity-declaration-selection",
+            "external-api-identity"
+          ],
+          "severity_rationale": "A declaration the repository reviewed as a pure calculation reaching network I/O breaks the boundary the review relied on and can turn a local computation into an externally visible side effect.",
+          "remediation": "Move the effect to the caller, or make the selected declaration's helper chain reach no declared network effect. Configure the declaration-selection block with the exact declaration this repository protects before enabling the policy.",
+          "activation": "default"
+        }
+      ]
+    }
+  ]
+}

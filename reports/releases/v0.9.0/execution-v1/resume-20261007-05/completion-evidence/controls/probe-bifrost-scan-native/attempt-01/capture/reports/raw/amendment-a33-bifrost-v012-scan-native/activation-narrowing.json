@@ -1,0 +1,43 @@
+{
+  "fixture": "cases/taint/java/native-source-sink-positive",
+  "retained_activation": {
+    "arguments": [
+      "--policy-pack",
+      "bifrost.code-smells"
+    ],
+    "policies_evaluated": 30,
+    "completion_types": [
+      "complete",
+      "inconclusive"
+    ],
+    "security_pack_loaded": false
+  },
+  "shipped_default_activation": {
+    "arguments": [
+      "--policy"
+    ],
+    "policies_evaluated": 44,
+    "completion_types": [
+      "complete",
+      "inconclusive"
+    ],
+    "security_pack_loaded": true
+  },
+  "policies_the_retained_activation_excludes": [
+    "bifrost.correctness.resource-lifecycle",
+    "bifrost.effects.csharp.selected-boundary-no-network-io",
+    "bifrost.effects.go.selected-boundary-no-network-io",
+    "bifrost.effects.java.selected-boundary-no-network-io",
+    "bifrost.effects.javascript.selected-boundary-no-network-io",
+    "bifrost.effects.kotlin.selected-boundary-no-network-io",
+    "bifrost.effects.python.selected-boundary-no-network-io",
+    "bifrost.effects.ruby.selected-boundary-no-network-io",
+    "bifrost.effects.rust.selected-boundary-no-network-io",
+    "bifrost.effects.scala.selected-boundary-no-network-io",
+    "bifrost.effects.typescript.selected-boundary-no-network-io",
+    "bifrost.security.java.servlet-parameter-to-jdbc",
+    "bifrost.security.java.system-getenv-to-runtime-exec",
+    "bifrost.security.python.process-input-to-os-system"
+  ],
+  "evidence_kind": "retained-activation-narrowing-check"
+}
