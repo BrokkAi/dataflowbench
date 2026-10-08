@@ -208,7 +208,10 @@ jobs:
       - name: Test isolated release validation gate
         run: python3 scripts/test-release-results.py
       - name: Test versioned release execution guard
-        run: python3 scripts/test-release-harness.py
+        run: |
+          python3 scripts/test-release-harness.py
+          python3 scripts/test-execute-release-v091.py
+          python3 scripts/test-qualify-bifrost-v013.py
       - name: Check resolved v0.8.0 release plan
         run: python3 scripts/prepare-v080-execution-plan.py
       - name: Validate current release in an isolated tag checkout
