@@ -31,7 +31,7 @@ class ExecutorTests(unittest.TestCase):
         self.bifrost.write_bytes(b"bifrost-0.13")
         self.fixture = "sha256:fixture-v090"
         self.group_id = "bifrost-c-kernel"
-        self.execution = self.root / "execution-state/v091/groups" / self.group_id
+        self.execution = self.root / "execution-state/v091/matrix-02/groups" / self.group_id
         self.output_root = self.execution / "reports"
         self.raw = self.output_root / "raw" / "case.bin"
         self.report_source = self.output_root / "report.json"
@@ -119,7 +119,7 @@ class ExecutorTests(unittest.TestCase):
 
         def native(_argv, cwd, env, stdout, stderr, timeout):
             self.assertEqual(cwd, self.execution)
-            self.assertEqual(env["BIFROST_CACHE_ROOT"], str(self.root / "execution-state/v091/cache/bifrost-c-kernel"))
+            self.assertEqual(env["BIFROST_CACHE_ROOT"], str(self.root / "execution-state/v091/matrix-02/cache/bifrost-c-kernel"))
             self.assertNotIn("HOME", env)
             self.assertNotIn("DFB_TEST_SECRET", env)
             observed_environment.update(env)
@@ -134,13 +134,13 @@ class ExecutorTests(unittest.TestCase):
             )
         self.assertEqual(row["status"], "completed")
         self.assertEqual((self.raw).read_bytes(), b"raw-native-bytes")
-        attempt = self.root / "reports/releases/v0.9.1/attempts" / f"{self.group_id}-attempt-01"
+        attempt = self.root / "reports/releases/v0.9.1/attempts" / f"{self.group_id}-attempt-02"
         self.assertEqual((attempt / "capture/reports/raw/case.bin").read_bytes(), b"raw-native-bytes")
         self.assertEqual((attempt / "original/reports/releases/v0.9.1/normal/bifrost-c-kernel.json").read_bytes(),
                          json.dumps(self.original_report).encode() + b"\n")
         staged = json.loads((self.root / self.report_path).read_text())
         self.assertEqual(staged["results"][0]["raw_output"],
-                         "reports/releases/v0.9.1/attempts/bifrost-c-kernel-attempt-01/capture/reports/raw/case.bin")
+                         "reports/releases/v0.9.1/attempts/bifrost-c-kernel-attempt-02/capture/reports/raw/case.bin")
         self.assertEqual((attempt / "stdout.txt").read_bytes(), b"native stdout")
         receipt = json.loads((attempt / "completed.json").read_text())
         self.assertEqual(receipt["bifrost"]["build_identity"], self.plan["tools"]["bifrost"]["build_identity"])
@@ -177,7 +177,7 @@ class ExecutorTests(unittest.TestCase):
         )
         self.assertEqual(row["status"], "recorder-error")
         self.assertIn("tool version mismatch", row["recorder_error"])
-        self.assertTrue((self.root / "reports/releases/v0.9.1/attempts/bifrost-c-kernel-attempt-01/completed.json").is_file())
+        self.assertTrue((self.root / "reports/releases/v0.9.1/attempts/bifrost-c-kernel-attempt-02/completed.json").is_file())
         self.assertFalse((self.root / self.report_path).exists())
 
     def test_timeout_is_retained_and_second_run_does_not_retry(self):
@@ -208,7 +208,7 @@ class ExecutorTests(unittest.TestCase):
                 _check_resources=mock.patch.object(executor, "_check_resources", wraps=executor._check_resources),
             )
         self.assertFalse((self.root / "reports/releases/v0.9.1/attempts").exists())
-        self.assertFalse((self.root / "execution-state/v091/cache").exists())
+        self.assertFalse((self.root / "execution-state/v091/matrix-02/cache").exists())
 
     def test_child_environment_has_no_unapproved_inherited_values(self):
         with mock.patch.dict(executor.os.environ, {
@@ -222,6 +222,13 @@ class ExecutorTests(unittest.TestCase):
         self.assertEqual(set(environment), {
             "PATH", "LANG", "LC_ALL", "JAVA_HOME", "TMPDIR", "BIFROST_CACHE_ROOT",
         })
+
+    def test_source_snapshot_includes_required_corpus_metadata(self):
+        self.assertEqual(executor._safe_member("corpus/real-project/r2/protocol.json"),
+                         Path("corpus/real-project/r2/protocol.json"))
+        self.assertEqual(executor._safe_member("docs/real-project-review.md"),
+                         Path("docs/real-project-review.md"))
+        self.assertIsNone(executor._safe_member("reports/releases/v0.9.0/attempts/stale.json"))
 
     def test_historical_smoke_overlap_is_allowed_but_rows_remain_1116(self):
         historical = executor._historical_bifrost_groups(Path(__file__).parents[1])

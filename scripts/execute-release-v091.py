@@ -37,10 +37,11 @@ BIFROST_BINARY_SHA256 = "640d0b8e4fe5fb34159c184f994e245021825b05e6144a09f2b4be9
 BIFROST_ARCHIVE_SHA256 = "8fb7212912cda0d6fc97e72188339b53aec4ea1ce31cc6a076765763e2273604"
 MIN_FREE_BYTES = 64 * 1024**3
 LOCK_PATH = "/private/tmp/dataflowbench-v0.9.0-exclusive-analyzer.lock"
-EXECUTION_ROOT = PurePosixPath("execution-state/v091/groups")
-CACHE_ROOT = PurePosixPath("execution-state/v091/cache")
+EXECUTION_ROOT = PurePosixPath("execution-state/v091/matrix-02/groups")
+CACHE_ROOT = PurePosixPath("execution-state/v091/matrix-02/cache")
 ATTEMPTS_ROOT = PurePosixPath("reports/releases/v0.9.1/attempts")
-LEDGER_PATH = PurePosixPath("reports/releases/v0.9.1/ledger-v1.jsonl")
+LEDGER_PATH = PurePosixPath("reports/releases/v0.9.1/ledger-v2.jsonl")
+EXECUTION_SERIES = 2
 NORMAL_ROOT = PurePosixPath("reports/releases/v0.9.1/normal")
 SAFE_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\Z")
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
@@ -53,6 +54,7 @@ SNAPSHOT_DIRECTORIES = (
     "adapters",
     "scripts",
     "schemas",
+    "corpus",
 )
 SNAPSHOT_FILES = (
     "Cargo.toml",
@@ -60,6 +62,14 @@ SNAPSHOT_FILES = (
     "reports/releases/v0.9.1/acquisition/builtin-policy-catalog.json",
     "reports/releases/v0.9.1/acquisition/help.txt",
     "docs/releases/v0.9.1-native.md",
+    "README.md",
+    "LICENSE",
+    "docs/adapters.md",
+    "docs/benchmark-sources.md",
+    "docs/challenge-tier.md",
+    "docs/real-project-preregistration.md",
+    "docs/real-project-r2-preregistration.md",
+    "docs/real-project-review.md",
 )
 SNAPSHOT_PATHS = SNAPSHOT_DIRECTORIES + SNAPSHOT_FILES
 HEAVY_PROCESS_NAMES = {
@@ -182,6 +192,10 @@ def _assert_source_snapshot(root: Path, source_commit: str) -> None:
         "reports/releases/v0.9.1/acquisition/builtin-policy-catalog.json",
         "reports/releases/v0.9.1/acquisition/help.txt",
         "docs/releases/v0.9.1-native.md",
+        "corpus", "README.md", "LICENSE", "docs/adapters.md",
+        "docs/benchmark-sources.md", "docs/challenge-tier.md",
+        "docs/real-project-preregistration.md", "docs/real-project-r2-preregistration.md",
+        "docs/real-project-review.md",
     ]
     try:
         result = subprocess.run(
@@ -430,6 +444,8 @@ def validate_plan(plan_path: str | Path, *, repo_root: str | Path | None = None)
     plan, plan_raw = _read_json(path, "release plan")
     if plan.get("schema_version") != 1 or plan.get("release") != RELEASE:
         raise ReleaseError("plan schema or release identity mismatch")
+    if plan.get("execution_series") != EXECUTION_SERIES:
+        raise ReleaseError("plan must bind the reviewed second execution series")
     if not isinstance(plan.get("execution_authorized"), bool):
         raise ReleaseError("plan must explicitly bind execution_authorized")
     source_commit = plan.get("source_commit")
@@ -721,7 +737,7 @@ def _child_environment(cache_root: Path) -> dict[str, str]:
 
 
 def _attempt_paths(repo_root: Path, group_id: str) -> tuple[Path, Path, Path, Path]:
-    attempt_id = f"{group_id}-attempt-01"
+    attempt_id = f"{group_id}-attempt-02"
     attempt = repo_root / Path(*ATTEMPTS_ROOT.parts) / attempt_id
     execution = repo_root / Path(*EXECUTION_ROOT.parts) / group_id
     cache = repo_root / Path(*CACHE_ROOT.parts) / group_id
@@ -921,6 +937,7 @@ def run_group(validated: dict, group_id: str) -> dict:
         receipt = {
             "schema_version": 1,
             "release": RELEASE,
+            "execution_series": EXECUTION_SERIES,
             "group_id": group_id,
             "attempt_id": attempt_id,
             "status": "started",
