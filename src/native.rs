@@ -78,6 +78,22 @@ pub(crate) const NATIVE_CASE_COUNT: usize = 2 * NATIVE_TEMPLATE_IDS.len();
 /// never pooled with this one.
 pub(crate) const NATIVE_MODEL_PROFILE: &str = "tool-native";
 
+/// The v0.13.0 standalone release is the first Bifrost pin whose shipped
+/// policy catalog is known to be empty. Keep this condition exact: a later
+/// release must earn its own catalog evidence instead of inheriting a
+/// capability decision from this amendment.
+pub(crate) const BIFROST_V0_13_VERSION: &str = "bifrost 0.13.0";
+pub(crate) const BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY: &str =
+    "standalone engine; no active product policy packs";
+const BIFROST_V0_13_CATALOG: &str =
+    "reports/releases/v0.9.1/acquisition/builtin-policy-catalog.json";
+const BIFROST_V0_13_HELP: &str = "reports/releases/v0.9.1/acquisition/help.txt";
+const BIFROST_V0_13_APPENDIX: &str = "docs/releases/v0.9.1-native.md";
+
+fn is_bifrost_v0_13(version: &str) -> bool {
+    version == BIFROST_V0_13_VERSION
+}
+
 /// The category a native template reports under, decided from the template ID
 /// alone. The six templates are one per category, in `ModelingCategory::ALL`
 /// order, which is what lets a native scorecard be read beside a
@@ -923,16 +939,41 @@ pub(crate) fn native_unsupported_reason(
         return Ok(None);
     };
     let category = native_category(template).expect("partition resolved the category");
-    let provenance = if tool == ModelingTool::Bifrost {
-        "Current v0.7.1 evidence: reports/raw/amendment-a32-bifrost-scan-native/ \
+    let (provenance, retained_reason) = if tool == ModelingTool::Bifrost
+        && is_bifrost_v0_13(identity)
+    {
+        (
+            format!(
+                "Current v0.9.1 evidence for the exact witnessed `{BIFROST_V0_13_VERSION}` pin: the \
+                     acquisition catalog at `{BIFROST_V0_13_CATALOG}` is schema version 2 with \
+                     `packs: []`, and the captured CLI surface at `{BIFROST_V0_13_HELP}` describes the \
+                     standalone engine's host-supplied policy-pack boundary. The standalone engine \
+                     ships no product policy rules, so this activation has no product model to engage. \
+                     The version and exact build identity are witnessed from `--version` and \
+                     `--build-identity` and retained in the report's `tool_build_identity`. See \
+                     `{BIFROST_V0_13_APPENDIX}` for this versioned amendment: "
+            ),
+            "The six native template cells therefore remain `unsupported`; zero coverage is \
+                 `unsupported`, never a clean `not-reached` negative. A host configured with \
+                 Bifrost-packs is a separate product profile and is not benchmark-invented model \
+                 input."
+                .to_string(),
+        )
+    } else if tool == ModelingTool::Bifrost {
+        (
+            "Current v0.7.1 evidence: reports/raw/amendment-a32-bifrost-scan-native/ \
          retains the v0.11.0 binary identity, extracted shipped policy and catalog. \
          The capability decision rests on the shipped selectors and catalog, not on \
          the positive control, which was inconclusive with partial_discovery; native \
          activation validation remains partial. The following A32/v0.10.9 rationale \
          is historical context, including its activation wording and issue-status \
          statements, which were not freshly verified: "
+                .to_string(),
+            reason.to_string(),
+        )
     } else if tool == ModelingTool::Opentaint {
-        "Current v0.7.1 evidence: reports/releases/v0.7.1/opentaint-native-category-audit.json \
+        (
+            "Current v0.7.1 evidence: reports/releases/v0.7.1/opentaint-native-category-audit.json \
          and opentaint-native-catalog-index.json retain the per-category source identities \
          and full v0.4.6 shipped selector bytes/hashes. The shipped os-command-injection \
          rule joins only servlet-untrusted-data-source or spring-untrusted-data-source \
@@ -946,11 +987,14 @@ pub(crate) fn native_unsupported_reason(
          reports/releases/v0.7.1/opentaint-product-functional-audit.json. The following \
          A23 rationale is superseded historical context, including its obsolete claims \
          that no endpoint catalog or rules ship: "
+                .to_string(),
+            reason.to_string(),
+        )
     } else {
-        ""
+        (String::new(), reason.to_string())
     };
     Ok(Some(format!(
-        "tool-native activation of {template} (category {} — {}) is unsupported for {identity} over {} by the activation partition (docs/native-profile.md#partition-summary, as amended): {provenance}{reason}",
+        "tool-native activation of {template} (category {} — {}) is unsupported for {identity} over {} by the activation partition (docs/native-profile.md#partition-summary, as amended): {provenance}{retained_reason}",
         category.key(),
         category.label(),
         language.display_name(),
@@ -1048,16 +1092,27 @@ pub(crate) fn native_activation(
         }
         // The shipped product as shipped, and nothing else: the
         // zero-configuration default `bifrost scan` runs, spelled on the flag
-        // surface as `--policy` with no selector. Amendment A32 replaced the
-        // preregistered `--policy-pack bifrost.code-smells` with it, because at
-        // v0.10.9 that selector stopped naming the whole built-in catalog and
-        // started naming a subset of it — the one excluding
-        // `bifrost.security@1.0.0`, which holds the only taint policy the
-        // product ships.
+        // surface as `--policy` with no selector. For v0.13.0 the exact
+        // witnessed release has no active product policy packs, so retain that
+        // fact in the activation identity while keeping older pins on their
+        // historical identity. Host-supplied Bifrost-packs are a separate
+        // product profile and are never injected into this native activation.
         ModelingTool::Bifrost => NativeActivation {
-            identity: format!("{identity} built-in policy packs"),
+            identity: if is_bifrost_v0_13(identity) {
+                format!("{identity} — {BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY}")
+            } else {
+                format!("{identity} built-in policy packs")
+            },
             arguments: vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG.to_string()],
-            configuration_paths: BTreeSet::new(),
+            configuration_paths: if is_bifrost_v0_13(identity) {
+                BTreeSet::from([
+                    PathBuf::from(BIFROST_V0_13_CATALOG),
+                    PathBuf::from(BIFROST_V0_13_HELP),
+                    PathBuf::from(BIFROST_V0_13_APPENDIX),
+                ])
+            } else {
+                BTreeSet::new()
+            },
         },
         // The shipped product as shipped: `analyze --pulse-only --sarif` and
         // no `--pulse-taint-config`, which is precisely the activation the

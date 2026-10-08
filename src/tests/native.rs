@@ -17,8 +17,9 @@ use crate::modeling::{
     modeling_case, modeling_supported_templates, validate_modeling_cases,
 };
 use crate::native::{
-    NATIVE_CASE_COUNT, NATIVE_MODEL_PROFILE, NATIVE_PARTITION, NATIVE_PARTITION_AMENDMENTS,
-    NATIVE_TEMPLATE_IDS, NATIVE_TEMPLATE_PREFIX, benchmark_model_artifacts, native_activation,
+    BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_13_VERSION, NATIVE_CASE_COUNT,
+    NATIVE_MODEL_PROFILE, NATIVE_PARTITION, NATIVE_PARTITION_AMENDMENTS, NATIVE_TEMPLATE_IDS,
+    NATIVE_TEMPLATE_PREFIX, benchmark_model_artifacts, native_activation,
     native_anchor_tally_outcome, native_case, native_category, native_configuration_hash,
     native_partition_outcome, native_partition_reason, native_raw_dir, native_report_path,
     native_sarif_outcome, native_sink_anchor_locations, native_supported_templates,
@@ -347,6 +348,121 @@ pub(crate) fn native_unsupported_reasons_are_retained_and_attributed() {
             }
         }
     }
+}
+
+/// Bifrost's v0.13.0 empty standalone catalog is an exact-version amendment:
+/// it changes neither the v0.12.0 rationale nor an unknown/future identity.
+/// The activation identity and hash change because the v0.13.0 standalone
+/// engine has no active product policy packs, while the six native cells stay
+/// in the unsupported partition for every native language.
+#[test]
+pub(crate) fn bifrost_v013_native_amendment_is_exact_and_version_scoped() {
+    let v013 = native_activation(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        BIFROST_V0_13_VERSION,
+    )
+    .unwrap();
+    let expected_v013_identity =
+        format!("{BIFROST_V0_13_VERSION} — {BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY}");
+    assert_eq!(&v013.identity, &expected_v013_identity);
+    assert_eq!(
+        &v013.arguments,
+        &vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG.to_string()]
+    );
+    let expected_v013_paths = BTreeSet::from([
+        PathBuf::from("reports/releases/v0.9.1/acquisition/builtin-policy-catalog.json"),
+        PathBuf::from("reports/releases/v0.9.1/acquisition/help.txt"),
+        PathBuf::from("docs/releases/v0.9.1-native.md"),
+    ]);
+    assert_eq!(v013.configuration_paths, expected_v013_paths);
+    for path in &v013.configuration_paths {
+        assert!(
+            path.is_file(),
+            "v0.13 native configuration is missing: {}",
+            path.display()
+        );
+    }
+
+    let v012 = native_activation(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        "bifrost 0.12.0",
+    )
+    .unwrap();
+    assert_eq!(&v012.identity, "bifrost 0.12.0 built-in policy packs");
+    assert!(v012.configuration_paths.is_empty());
+
+    let near_match = native_activation(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        "bifrost 0.13.0-dev",
+    )
+    .unwrap();
+    assert_eq!(
+        near_match.identity,
+        "bifrost 0.13.0-dev built-in policy packs"
+    );
+    assert_ne!(
+        native_configuration_hash(&v013).unwrap(),
+        native_configuration_hash(&v012).unwrap()
+    );
+
+    for language in [
+        ModelingLanguage::Java,
+        ModelingLanguage::Javascript,
+        ModelingLanguage::Python,
+    ] {
+        assert!(native_supported_templates(ModelingTool::Bifrost, language).is_empty());
+    }
+
+    let v013_reason = native_unsupported_reason(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        "dfb-template-native-source-sink",
+        BIFROST_V0_13_VERSION,
+    )
+    .unwrap()
+    .expect("v0.13 native cell is declined");
+    assert!(
+        v013_reason.contains("reports/releases/v0.9.1/acquisition/builtin-policy-catalog.json")
+    );
+    assert!(v013_reason.contains("reports/releases/v0.9.1/acquisition/help.txt"));
+    assert!(v013_reason.contains("schema version 2"));
+    assert!(v013_reason.contains("packs: []"));
+    assert!(v013_reason.contains("standalone engine ships no product policy rules"));
+    assert!(v013_reason.contains("--build-identity"));
+    assert!(v013_reason.contains("tool_build_identity"));
+    assert!(v013_reason.contains("unsupported"));
+    assert!(v013_reason.contains("not-reached"));
+    assert!(v013_reason.contains("Bifrost-packs"));
+    assert!(v013_reason.contains("docs/releases/v0.9.1-native.md"));
+    assert!(!v013_reason.contains("Current v0.7.1 evidence"));
+    assert!(!v013_reason.contains("Amendment A32"));
+
+    let v012_reason = native_unsupported_reason(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        "dfb-template-native-source-sink",
+        "bifrost 0.12.0",
+    )
+    .unwrap()
+    .expect("v0.12 native cell is declined");
+    assert!(v012_reason.contains("Current v0.7.1 evidence"));
+    assert!(v012_reason.contains("Amendment A32"));
+    assert!(!v012_reason.contains("reports/releases/v0.9.1"));
+
+    let unknown_reason = native_unsupported_reason(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        "dfb-template-native-source-sink",
+        "bifrost 0.13.0-dev",
+    )
+    .unwrap()
+    .expect("near-match identity is still declined");
+    assert!(unknown_reason.contains("Current v0.7.1 evidence"));
+    assert!(unknown_reason.contains("Amendment A32"));
+    assert!(!unknown_reason.contains("reports/releases/v0.9.1"));
 }
 
 /// A declined cell writes its retained decision beside the report without
