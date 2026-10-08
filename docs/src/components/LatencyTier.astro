@@ -1238,7 +1238,7 @@ interface Props {
 
 <p>
   Of the case results in this bound latency corpus, <strong>{model.totalTimed}</strong>
-  invoked an analyzer and carry a timing sidecar.{' '}
+  carry a retained timing sidecar.{' '}
   <strong>{model.totalUntimed}</strong> do not, and every one of them is
   accounted for:
 </p>
@@ -1268,8 +1268,10 @@ interface Props {
   is nothing to time. Those cases are <strong>absent from every distribution
   on this page, not entered as zero</strong> — entering them as zero would
   make the adapters that decline the most look the fastest, which is exactly
-  backwards. Every case that did invoke an analyzer is timed; the timed and
-  untimed columns account for the whole bound population with no remainder.
+  backwards. A missing sidecar does not establish that analysis never ran;
+  Swift reference results can retain an outcome without this timing format.
+  Missing timings stay outside distributions. The timed and untimed columns
+  account for the whole bound population with no remainder.
 </p>
 
 </>)}
