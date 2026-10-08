@@ -237,6 +237,14 @@ class ExecutorTests(unittest.TestCase):
         self.assertEqual(executor._contenders(idle), [])
         self.assertEqual(executor._contenders(active), [active])
 
+    def test_repo_mentions_and_service_process_are_not_analyzer_executables(self):
+        table = "\n".join([
+            "103 0.0 gh gh run watch --repo BrokkAi/bifrost-service",
+            "104 0.0 /Users/dave/.cod /Users/dave/.codex/worktrees/a37f/bifrost-service/target/debug/bifrost-service-control",
+            "105 0.0 /bin/zsh /bin/zsh -c 'gh pr view --repo BrokkAi/bifrost-packs'",
+        ])
+        self.assertEqual(executor._contenders(table), [])
+
 
 if __name__ == "__main__":
     unittest.main()

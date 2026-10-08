@@ -606,12 +606,16 @@ def _contenders(table: str) -> list[str]:
             cpu = float(fields[1]) if len(fields) >= 4 else 100.0
         except ValueError:
             cpu = 100.0
-        command = Path(fields[2] if len(fields) >= 4 else fields[1]).name.lower()
         args = fields[3].lower() if len(fields) >= 4 else " ".join(fields[1:]).lower()
+        # macOS truncates `comm` to a narrow column. Identify the executable
+        # from argv[0], rather than matching repository names in arguments.
+        command = Path(args.split()[0]).name if args else ""
+        if len(fields) < 4:
+            command = Path(fields[1]).name.lower()
         if command in HEAVY_PROCESS_NAMES:
             result.append(line.strip())
             continue
-        if "bifrost" in command or "bifrost" in args:
+        if command == "bifrost":
             if "--mcp" in args and cpu < 1.0:
                 continue
             result.append(line.strip())
