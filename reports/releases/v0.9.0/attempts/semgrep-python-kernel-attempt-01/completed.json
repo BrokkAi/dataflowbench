@@ -1,0 +1,904 @@
+{
+  "argv": [
+    "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/target/release/dataflowbench",
+    "--population",
+    "v0.9.0",
+    "run-semgrep-python-kernel",
+    "--semgrep",
+    "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin/semgrep"
+  ],
+  "attempt_id": "semgrep-python-kernel-attempt-01",
+  "captured_files": [
+    {
+      "bytes": 942,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-alias-propagation-negative-unsupported.json",
+      "sha256": "1ec0b5729794b199deb13e75bf156d7ef298149a742918b7da9707d4f1d44f2e"
+    },
+    {
+      "bytes": 942,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-alias-propagation-positive-unsupported.json",
+      "sha256": "86fabea094165f19716fe7b74acca0cedf93fbf614365f68581b96e83705ef4b"
+    },
+    {
+      "bytes": 942,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-anonymous-implementation-negative-unsupported.json",
+      "sha256": "491667ac0b17e97c93d58fcfd865d619baaf593a7de5f9775cfdf1b348ecb856"
+    },
+    {
+      "bytes": 942,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-anonymous-implementation-positive-unsupported.json",
+      "sha256": "176907230bcb6279cc5b2f6a48c506f3e7af0262cc744993e5917e8832a6721f"
+    },
+    {
+      "bytes": 939,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-argument-position-negative-unsupported.json",
+      "sha256": "23f00fc918b549bfd0017dc891e03e1cfa9ef2812efe1d6f1c6a06a8d2f0ba0b"
+    },
+    {
+      "bytes": 939,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-argument-position-positive-unsupported.json",
+      "sha256": "2ca81b3d8e3065e351aef3557ce69d549a5046b2edf9ce83acd8ad9f617104c2"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 258,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-negative-timing.json",
+      "sha256": "c0766d4e66c404ff29dad75a96ced57ac538ac86a86d6cd06836700e957904c4"
+    },
+    {
+      "bytes": 1440,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-negative.json",
+      "sha256": "52b6b36821a20263704455e364dc34fd48dca4191c04bb9ff4988590cc86d679"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 258,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-positive-timing.json",
+      "sha256": "b667701368f9fab14baac28781daf6c2769aa4a439ba148224a444df95417917"
+    },
+    {
+      "bytes": 2059,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-arithmetic-expression-positive.json",
+      "sha256": "2d8be60f4a5c189ab18453900c7e405354b7fb2594618473f6309114309787e9"
+    },
+    {
+      "bytes": 954,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-array-element-negative-unsupported.json",
+      "sha256": "b3adde333a93170972c242dadb525de236b755991483d0839577f6298cc4c06b"
+    },
+    {
+      "bytes": 954,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-array-element-positive-unsupported.json",
+      "sha256": "84e6cab74ad794141593f0e9d8205a4bdcc89f0c5eb9cb08975bc46ddd18ea8e"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 248,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-negative-timing.json",
+      "sha256": "d47726e6491b9b41c9101c7a50f61b9b84d595e95c1346bba375ffb34601431a"
+    },
+    {
+      "bytes": 1417,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-negative.json",
+      "sha256": "b93eaf9b6a9623309d25d938f4ba534193e1d280c4f0a95cb228d3907aa7c68e"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 248,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-positive-timing.json",
+      "sha256": "3fbd745408d021cd05d37af3ea56391a90fc21acf95535f1a48b97ccc8d04559"
+    },
+    {
+      "bytes": 2030,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-branch-join-positive.json",
+      "sha256": "56100d2239065180fbf50d677bada7c9ec507d1644ccedf481c65ed90b3812c6"
+    },
+    {
+      "bytes": 932,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-call-context-negative-unsupported.json",
+      "sha256": "43866b8002babfacb05512ca98d7b5043efc5c0281b971d835356935618f1996"
+    },
+    {
+      "bytes": 932,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-call-context-positive-unsupported.json",
+      "sha256": "ca4a3244e12452de444497c0e026a3271bac8f8f1d34804ee172283590483285"
+    },
+    {
+      "bytes": 891,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-callback-registration-negative-unsupported.json",
+      "sha256": "1f37629b8abc7684b256cb366193f00dc7c17f24481118fdb2761d2075203087"
+    },
+    {
+      "bytes": 891,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-callback-registration-positive-unsupported.json",
+      "sha256": "b1d1227ef8ec21a21d58da0e795346d7a4552da3355e91da303f87413a24cde0"
+    },
+    {
+      "bytes": 843,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-closure-capture-negative-unsupported.json",
+      "sha256": "66bdf58835b8990e0eab7f044e34be31969e3ea4a02d09a6c67a9735b14d106a"
+    },
+    {
+      "bytes": 843,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-closure-capture-positive-unsupported.json",
+      "sha256": "9628d43d66f124731af7376d3d1c06dcec69e76acac499999e213d60d97741a3"
+    },
+    {
+      "bytes": 1126,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-computed-property-negative-unsupported.json",
+      "sha256": "e1e634a6696c30b8c67ba68e241ab97298106d8dba865c68cb7ce29ba06300eb"
+    },
+    {
+      "bytes": 1126,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-computed-property-positive-unsupported.json",
+      "sha256": "a7198c1ada2e89d59e68a7cd4caa7ae1c9778e0ef1308c08280ca8beef986d2b"
+    },
+    {
+      "bytes": 866,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-context-pair-depth2-negative-unsupported.json",
+      "sha256": "3c9ba5c86d096bcfb33eb26fdfa55f523c41115ff9776237a7153f46c0e13f10"
+    },
+    {
+      "bytes": 866,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-context-pair-depth2-positive-unsupported.json",
+      "sha256": "4d328d030822c1c6469b30c7498ed34bd8576bb9f0ec137c1fd941573705a422"
+    },
+    {
+      "bytes": 926,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-deep-relay-chain-negative-unsupported.json",
+      "sha256": "ce4b261c1e4858ac698ec10dc98dcdf61f72b995d868669c7dcae32c6aa8bf96"
+    },
+    {
+      "bytes": 926,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-deep-relay-chain-positive-unsupported.json",
+      "sha256": "189f11d47fd122612bf5df25f57ccb4e4e167ec6586bc195d22ae138df7e355e"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 243,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-negative-timing.json",
+      "sha256": "a751fe99dae7a0927bfc85946d267c925dea8c6c26007fa3c66ff1f14a7064d9"
+    },
+    {
+      "bytes": 1410,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-negative.json",
+      "sha256": "fa03aa4a9ab988f74ca07dddc63f3e23bc7721e268c7f8243bc0167c2e3fbb31"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 243,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-positive-timing.json",
+      "sha256": "79c592549206bee616190527bedaa48ea0ba3df94d5b36ea9205dab19511858e"
+    },
+    {
+      "bytes": 2016,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-direct-positive.json",
+      "sha256": "b9a5d0c74093482360278307da46082f7a3684cde13c82c36fa50cd9379b3f9c"
+    },
+    {
+      "bytes": 945,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-dispatch-table-negative-unsupported.json",
+      "sha256": "548333ac896c6482fc3146ba99c8c8bb0832be08c267e49fce948d341dfbc00d"
+    },
+    {
+      "bytes": 945,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-dispatch-table-positive-unsupported.json",
+      "sha256": "6fac4fb712f6c378feafbd60b0faa7cf5e0474a23e604b9963407f8d9471df65"
+    },
+    {
+      "bytes": 893,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-element-object-negative-unsupported.json",
+      "sha256": "f4769d697d85c3e34b9f60bc3687149650ae576543bb05a2c43e865fa4b3297e"
+    },
+    {
+      "bytes": 893,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-element-object-positive-unsupported.json",
+      "sha256": "f753d9bd34876364607f1a12f54bb071f7bebb18bd43e2993410d998b8b468ec"
+    },
+    {
+      "bytes": 989,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-exception-catch-negative-unsupported.json",
+      "sha256": "ac86ea9d3222a67a4ddd6d41e26fa4496fee1aeef127b7132043c627e3e21d4b"
+    },
+    {
+      "bytes": 989,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-exception-catch-positive-unsupported.json",
+      "sha256": "454ec9a902be0638189b45361281db54aa852c305a4cd0d0f16a61c3dab55128"
+    },
+    {
+      "bytes": 897,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-function-field-negative-unsupported.json",
+      "sha256": "0398cd23f5281ab53e38c964b56e25ded1e6b0314bc5b371029aeefe0811c0a0"
+    },
+    {
+      "bytes": 897,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-function-field-positive-unsupported.json",
+      "sha256": "47b3af02a8591148948b96cd2ad11f71b54fba042cfe6a93a4b2723a62064ff6"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 254,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-negative-timing.json",
+      "sha256": "b572d6cc36882ee718dfcd9eaabdecc4bbd8973886aed7421d71576d03284679"
+    },
+    {
+      "bytes": 2053,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-negative.json",
+      "sha256": "557f7ebf78a12d84d7bd6fff9e24bdea55d07c21bd102919df8ed6c9ebbb8b23"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 254,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-positive-timing.json",
+      "sha256": "c1aa170570695124d41c8064d3d106e0506ce1ce15203965cb183b3d74449a6d"
+    },
+    {
+      "bytes": 2050,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-infeasible-branch-positive.json",
+      "sha256": "01a7e409099241f7690cc333bc9c568e6970aaf0027f196b814675f1cbd2da57"
+    },
+    {
+      "bytes": 961,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-interprocedural-exception-persistence-negative-unsupported.json",
+      "sha256": "a39988cac5974725bf7f60b612decf68b35fb6a5f50c0d2dd898c7e5cf928078"
+    },
+    {
+      "bytes": 961,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-interprocedural-exception-persistence-positive-unsupported.json",
+      "sha256": "15587544839fcf2729a2ef4dc1c432fdec175c1fe50fc5f8291698587fa0fe82"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 248,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-negative-timing.json",
+      "sha256": "1c21a9813191f75e76378dd76c1685cf949a5fc13d3dd8c9c457649f9f7b901f"
+    },
+    {
+      "bytes": 1420,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-negative.json",
+      "sha256": "2ad3a206e57b7215f06179fdd5eaea772fa9eb01aa3bdf82eed5aeeede0421b6"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 248,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-positive-timing.json",
+      "sha256": "4eba1eb9726fbd51b97a1892e5abf4ce795411d066540143572d0c488b81a966"
+    },
+    {
+      "bytes": 2025,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-chain-positive.json",
+      "sha256": "0f424fb019429ade9520efb3c6cfdc1cc159cba5b31168e94ee2f45f94e5308a"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-negative-timing.json",
+      "sha256": "047627510044708f9882314aceced2e3545da4125de764a6ea26106712dc28a0"
+    },
+    {
+      "bytes": 1428,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-negative.json",
+      "sha256": "b8de616c06f25bae577f0bfabfa31f4ff033f04697284111667df60a2e2c092e"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-positive-timing.json",
+      "sha256": "4a5e36b478a5709c18873a5b83d11546651de4690c73d5b225be37de17218eb3"
+    },
+    {
+      "bytes": 2043,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-local-overwrite-positive.json",
+      "sha256": "6b2b10d4581a72e4f393769311840ad1c17f9d3d747d19ff072efbb8a854fa0b"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-negative-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-negative-timing.json",
+      "sha256": "40f5a2930bb64654a81f1588fddfd770fd597c020b754a82a5cab21852828805"
+    },
+    {
+      "bytes": 2030,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-negative.json",
+      "sha256": "45af980f34b77bdef439c6812b03cf493e9f1d93c31d110c26fe6c9de7d6cbc9"
+    },
+    {
+      "bytes": 1009,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-positive-rule.yaml",
+      "sha256": "e88c949bfc4c9087c422b8eec36e435eccc93df2ab1d26fb72f7826046b41f86"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-positive-timing.json",
+      "sha256": "1cce5d07c70460584b52b1da76b42be26f2048a122818cad00f7a5dfa4fa8bbc"
+    },
+    {
+      "bytes": 2031,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-loop-carried-positive.json",
+      "sha256": "c4259ced9f6c9814dda612c6f167abd0efbac48ce6baf6616f92d023041380d2"
+    },
+    {
+      "bytes": 942,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-map-iteration-negative-unsupported.json",
+      "sha256": "7cc5b55e8a7685e969f1c46af4c2cf88ca44a932ebf5b616b540c6c57089b136"
+    },
+    {
+      "bytes": 942,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-map-iteration-positive-unsupported.json",
+      "sha256": "109d9a108afa25630b2ba2dbd2a438e2ff2184fdaace3fef5525d1b37a6e61d6"
+    },
+    {
+      "bytes": 820,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-mutual-recursive-transform-negative-unsupported.json",
+      "sha256": "0bb629fda2ec3e5096dbd386db843b91fdb7593cbaf114ade5675b077a402821"
+    },
+    {
+      "bytes": 820,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-mutual-recursive-transform-positive-unsupported.json",
+      "sha256": "26d3f9990f097799cbe9c4ff9a02248f5647bea5c71f0e95bde8f61c33314bf9"
+    },
+    {
+      "bytes": 922,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-nested-access-path-negative-unsupported.json",
+      "sha256": "5f922d06dac61fe8d7571ef90b1976ce6ff4b90883f80eeb35619cb7442ba964"
+    },
+    {
+      "bytes": 922,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-nested-access-path-positive-unsupported.json",
+      "sha256": "4f65e678bfc3e22268b42d70546877bda16f723536a362daa393cf3d52d58a8c"
+    },
+    {
+      "bytes": 944,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-object-separation-negative-unsupported.json",
+      "sha256": "6c8fa9601b1562a23dc4cdfd7132b7ad13d618fb89f8372edad29bcb2d589b56"
+    },
+    {
+      "bytes": 944,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-object-separation-positive-unsupported.json",
+      "sha256": "95bd7a40225591b0edfa9cf787b6608b632945427b012c16e8647cb6d34b2435"
+    },
+    {
+      "bytes": 846,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-callback-transform-negative-unsupported.json",
+      "sha256": "943c432e1fcc03ef3fc1f05088c2c49c4545e3515003589d5faa6f20bf086bf4"
+    },
+    {
+      "bytes": 846,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-callback-transform-positive-unsupported.json",
+      "sha256": "fa61d971f24d629484b7a043ef220bb1a69bc5a64170e1caf01a9df7035dacea"
+    },
+    {
+      "bytes": 839,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-carry-negative-unsupported.json",
+      "sha256": "fea2fc2094e15524bc7226c581e399141c6df7f69251e280a1bea0d51fc3326d"
+    },
+    {
+      "bytes": 839,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-carry-positive-unsupported.json",
+      "sha256": "8efd66d1d7ec9c9b05e39825c86c66635d5cbfb96bbbab33ff83d0f8855c54ce"
+    },
+    {
+      "bytes": 878,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-exception-persistence-negative-unsupported.json",
+      "sha256": "c3afe63d6ec5c68f8608bcc87ccc2b35132322d3fd641e868f09ee55fc0ef399"
+    },
+    {
+      "bytes": 878,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-exception-persistence-positive-unsupported.json",
+      "sha256": "92f1dfa2c750cd6883b0f6d35dfd300641f5189bc0212751c74e78e1e92ef905"
+    },
+    {
+      "bytes": 829,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-heap-unwind-negative-unsupported.json",
+      "sha256": "01641535f18a266458170e3a65229630b60ddaf83524281a56fe15d0d52bd560"
+    },
+    {
+      "bytes": 829,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-heap-unwind-positive-unsupported.json",
+      "sha256": "ac9ef6d9fc9565d1755796cbfab8e41d90bd50db3374bb3a5cfc9d271b3a3100"
+    },
+    {
+      "bytes": 823,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-payload-transform-negative-unsupported.json",
+      "sha256": "beace322e24ea0a9c5ef7856c2fd2325b1557c5cbe8bd1d176196088937963ac"
+    },
+    {
+      "bytes": 823,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-recursive-payload-transform-positive-unsupported.json",
+      "sha256": "93bf9adb6e6693d99b824432b365c937efbbdb6e9de00b6113b1676cf1a7cf08"
+    },
+    {
+      "bytes": 1037,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-reflective-invocation-negative-unsupported.json",
+      "sha256": "466a7d45d8042dc493d7e712c56ebf73514b5dc4b5cb5dda2022f393a43bbf0d"
+    },
+    {
+      "bytes": 1037,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-reflective-invocation-positive-unsupported.json",
+      "sha256": "8f6fdfa46bbacbdef5b0dd69430a4cab052bdb366a7188210b843b72201ea152"
+    },
+    {
+      "bytes": 918,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-one-hop-negative-unsupported.json",
+      "sha256": "52d1a50b14449de668c6407696e28bda3485ad10b07cbffe2c0482e0345ae680"
+    },
+    {
+      "bytes": 918,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-one-hop-positive-unsupported.json",
+      "sha256": "8d738c07d0ce9c1006fc6dc09a661ed9dabb1f8c87c1ea3d1245e8183a544412"
+    },
+    {
+      "bytes": 940,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-two-hop-negative-unsupported.json",
+      "sha256": "3bdcde55d5ab0193838cfd36364b1c2ba4aafb1ad0a82afb783a17665d240b01"
+    },
+    {
+      "bytes": 940,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-return-relay-two-hop-positive-unsupported.json",
+      "sha256": "2c1547d4c53f51e82d7892690345dfa85e4a460c20a933952789fa8999e88fd8"
+    },
+    {
+      "bytes": 942,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-same-object-field-negative-unsupported.json",
+      "sha256": "2ccf425ec56723d2be22b298d63cf08c9d6d2fc580d79836cf82024d9e9a9129"
+    },
+    {
+      "bytes": 942,
+      "path": "reports/raw/semgrep-python-kernel/dfb-taint-python-same-object-field-positive-unsupported.json",
+      "sha256": "0a8ad70ee4567d803cca0aca520ccbf3daf66932d4f9874652cac4c6065e2c8a"
+    },
+    {
+      "bytes": 400,
+      "path": "reports/raw/semgrep-python-kernel/run-environment.json",
+      "sha256": "c6e2f7ddfcf1e8a8fb6c7a207fe8d8490785ff1bae6c9796ad39974cee5dfcb0"
+    },
+    {
+      "bytes": 68604,
+      "path": "reports/semgrep-python-kernel.json",
+      "sha256": "6b8e99cac768a93c1bf9a55d1735013e43804d01b6dfe77ab26732ac9ce70e9f"
+    }
+  ],
+  "case_ids": [
+    "dfb-taint-python-alias-propagation-negative",
+    "dfb-taint-python-alias-propagation-positive",
+    "dfb-taint-python-anonymous-implementation-negative",
+    "dfb-taint-python-anonymous-implementation-positive",
+    "dfb-taint-python-argument-position-negative",
+    "dfb-taint-python-argument-position-positive",
+    "dfb-taint-python-arithmetic-expression-negative",
+    "dfb-taint-python-arithmetic-expression-positive",
+    "dfb-taint-python-array-element-negative",
+    "dfb-taint-python-array-element-positive",
+    "dfb-taint-python-branch-join-negative",
+    "dfb-taint-python-branch-join-positive",
+    "dfb-taint-python-call-context-negative",
+    "dfb-taint-python-call-context-positive",
+    "dfb-taint-python-callback-registration-negative",
+    "dfb-taint-python-callback-registration-positive",
+    "dfb-taint-python-closure-capture-negative",
+    "dfb-taint-python-closure-capture-positive",
+    "dfb-taint-python-computed-property-negative",
+    "dfb-taint-python-computed-property-positive",
+    "dfb-taint-python-context-pair-depth2-negative",
+    "dfb-taint-python-context-pair-depth2-positive",
+    "dfb-taint-python-deep-relay-chain-negative",
+    "dfb-taint-python-deep-relay-chain-positive",
+    "dfb-taint-python-direct-negative",
+    "dfb-taint-python-direct-positive",
+    "dfb-taint-python-dispatch-table-negative",
+    "dfb-taint-python-dispatch-table-positive",
+    "dfb-taint-python-element-object-negative",
+    "dfb-taint-python-element-object-positive",
+    "dfb-taint-python-exception-catch-negative",
+    "dfb-taint-python-exception-catch-positive",
+    "dfb-taint-python-function-field-negative",
+    "dfb-taint-python-function-field-positive",
+    "dfb-taint-python-infeasible-branch-negative",
+    "dfb-taint-python-infeasible-branch-positive",
+    "dfb-taint-python-interprocedural-exception-persistence-negative",
+    "dfb-taint-python-interprocedural-exception-persistence-positive",
+    "dfb-taint-python-local-chain-negative",
+    "dfb-taint-python-local-chain-positive",
+    "dfb-taint-python-local-overwrite-negative",
+    "dfb-taint-python-local-overwrite-positive",
+    "dfb-taint-python-loop-carried-negative",
+    "dfb-taint-python-loop-carried-positive",
+    "dfb-taint-python-map-iteration-negative",
+    "dfb-taint-python-map-iteration-positive",
+    "dfb-taint-python-mutual-recursive-transform-negative",
+    "dfb-taint-python-mutual-recursive-transform-positive",
+    "dfb-taint-python-nested-access-path-negative",
+    "dfb-taint-python-nested-access-path-positive",
+    "dfb-taint-python-object-separation-negative",
+    "dfb-taint-python-object-separation-positive",
+    "dfb-taint-python-recursive-callback-transform-negative",
+    "dfb-taint-python-recursive-callback-transform-positive",
+    "dfb-taint-python-recursive-carry-negative",
+    "dfb-taint-python-recursive-carry-positive",
+    "dfb-taint-python-recursive-exception-persistence-negative",
+    "dfb-taint-python-recursive-exception-persistence-positive",
+    "dfb-taint-python-recursive-heap-unwind-negative",
+    "dfb-taint-python-recursive-heap-unwind-positive",
+    "dfb-taint-python-recursive-payload-transform-negative",
+    "dfb-taint-python-recursive-payload-transform-positive",
+    "dfb-taint-python-reflective-invocation-negative",
+    "dfb-taint-python-reflective-invocation-positive",
+    "dfb-taint-python-return-relay-one-hop-negative",
+    "dfb-taint-python-return-relay-one-hop-positive",
+    "dfb-taint-python-return-relay-two-hop-negative",
+    "dfb-taint-python-return-relay-two-hop-positive",
+    "dfb-taint-python-same-object-field-negative",
+    "dfb-taint-python-same-object-field-positive"
+  ],
+  "contract": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/contract.json",
+    "sha256": "4a4c27f07671443c01d15d485b02d49dc4d0968491a008af416a3fadf847c757"
+  },
+  "deadline_seconds": 600,
+  "duration_seconds": 13.132285292,
+  "end_utc": "2026-10-07T21:27:32.501352+00:00",
+  "environment": {
+    "HOME": "/Users/dave",
+    "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+    "LANG": "en_US.UTF-8",
+    "PATH": "/Users/dave/.cache/dataflowbench-tools/semgrep-1.177.0-venv/bin:/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "SEMGREP_ENABLE_VERSION_CHECK": "0",
+    "TMPDIR": "/private/tmp"
+  },
+  "environment_sha256": "6bbbf0802f6937501582b4a08c3c826d0d13aa57c767c9a960389936d81e5796",
+  "execution_revision": "fdb83ab93e1190a5b04e7e1184d6c64d40d48daa",
+  "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/matrix",
+  "execution_root_mapping": {
+    "captured_root": "reports/releases/v0.9.0/attempts/semgrep-python-kernel-attempt-01/capture",
+    "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/matrix",
+    "mapping": [
+      {
+        "captured_relative": "reports/releases/v0.9.0/attempts/semgrep-python-kernel-attempt-01/capture/reports/semgrep-python-kernel.json",
+        "execution_root_relative": "reports/semgrep-python-kernel.json"
+      },
+      {
+        "captured_relative": "reports/releases/v0.9.0/attempts/semgrep-python-kernel-attempt-01/capture/reports/raw/semgrep-python-kernel",
+        "execution_root_relative": "reports/raw/semgrep-python-kernel"
+      }
+    ],
+    "nested_raw_references_resolve_from_execution_root_namespace": true,
+    "raw_json_bytes_rewritten": false
+  },
+  "exit_code": 0,
+  "expected_reports": [
+    "reports/releases/v0.9.0/normal/semgrep-python-kernel.json"
+  ],
+  "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+  "group_id": "semgrep-python-kernel",
+  "historical_seconds": 14,
+  "input_commits": {
+    "corpus": "2637211a21f22aabedf7bcf0d1b30fc09a349673",
+    "execution_harness": null
+  },
+  "input_identities": {
+    "adapters/codeql/swift-common-v2/plan-v090-01/plan.json": "bdcc6299efb30ec37d765ec4b6afcb492337fa1c5d635422c1001ff5f482acfd",
+    "adapters/joern/swift-common-v2/plan-v090-01/plan.json": "14dde3a42a90c19d5c4eb696688f19cf31463a9d38bf153c227d0b82097604e6",
+    "populations/v0.9.0.json": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+    "reports/releases/v0.9.0/execution-v1/codeql-compatibility/summary.json": "7bc68a9bc11994525c8dd536fc9c419c795003228ee285e288ea3bc7e9dd6adc",
+    "reports/releases/v0.9.0/execution-v1/command-parsing-check.json": "73b9849ac390763dd65e26d829148323ec79f24fbae34f0572ae63a64bb306ab",
+    "reports/releases/v0.9.0/execution-v1/control-integration-validation.json": "fe09cac1435971ff4535f0091f53568f5e8bac32675353eb8e755d9f86d38028",
+    "reports/releases/v0.9.0/execution-v1/dependency-version-witnesses.json": "50d7d8566cb24d1fdee789bfc7932463f3d014c8702f69822101db46ba916480",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/attempt-baseline.json": "2711bc8e25335156e265789232b2a3bdf1b88b08af2a325c13b1ebd8bdea52fa",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-restoration.json": "bf983885a3674e3c4ab0ab837bd13ef2d7e22d4f2189887a7078176bc69a4ca5",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-runtime.json": "1a2f936f40e7e978ea1f2b38033a02cf8bd5f0a1d1c5fb531e40dd63a1bab894",
+    "reports/releases/v0.9.0/execution-v1/held-tool-digests.json": "9d748428932fdf7922ae62a066304226166a8f7105ebd5a8be9a42c15a4ffab2",
+    "reports/releases/v0.9.0/execution-v1/native-codeql-packs.json": "7ab00154d9b4b16197a4103ea25d16a69f5bd0a0a2623301249fe3182649a9d4",
+    "reports/releases/v0.9.0/execution-v1/non-swift-codeql-packs.json": "3594d6486c40c55b51c86369553c08017a2bb12f325f87d1e88c724a16569e3e",
+    "reports/releases/v0.9.0/execution-v1/opentaint-full-restoration.json": "3fcb4894b8544d4f1764b5755f5def28f2161d34c09e0ae31ed159bba858fd22",
+    "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/codeql-swift-plan.json": "0da64698c1c25dea74e2f38bae62a400089aa49a4ae7a2d0d22f1a49f1aedcbf",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/attempt-baseline.json": "a5beda3eb8786c9ffd9aa666b0d77499b8a7ee2d834e8d999597ab824558d427",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/bifrost-runtime.json": "1635ef70e935c3fb036c50a347ed4a20604ddc27045542eb46074f19b5c6147f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-plan.json": "1b03fce83c2de7ab0ce4bea7e1d6c61b37910fe9a36b6941c32c6fa03c7202ea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-reservation.json": "1a825206f32b4b2852924008dce2e620f340b663e577b7db0c1db77de8ad7875",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/command-parsing-check.json": "36d20b5ba8ed49a929220f90cb2c1952971057216f4355cbc48ae8e1363f17da",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/joern-swift-reservation.json": "faef0e3fe35223b0901a4293d27d3be83caa8c64ddde9e7df57b8709423ce835",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-restoration.json": "1c65c58260e115d33c9461a541a74e92d84c4cd4c01aa9cf171799ff2b4061bd",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-runtime.json": "78e899e13217020e5895827b88dec06f6a5e109bfb16a242d1a0ca3ba8588174",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/pin-amendment.json": "f6120d6d9f6512fa23b1b5a2ab6e4b1d5a112a35b01587fc17cc23e47895c08b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/recovery-allocation.json": "64cc317e05c534557be975ee97f92cf230612f30fbb349572fe680e7d8d909d8",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.command.json": "909baac6a5ca68a38b1d883d6fea7205053d74ebda352caa019d8b258b656bea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stderr": "51481a2ec800708aaaefd8fbe6c3ef2a8b5f3d772e26c5e2dfafde941cab1775",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.command.json": "b3f061ef7b810a34ba35bd58140eb5b6a0346becc2cd7fd965311c208cc7217c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.stdout": "58e42160c951a60e77f79f24e6588bb2a2f5dc31f13eda32a8ebe9e3a291895c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.command.json": "3c5ca699b7add324bf1f3a8f8fd50e67a852f2f283c81e217bec1a57f9f9cdd1",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.stderr": "bea81d63fffd872e1564d44a97589ed7c40296015250cff4d472dca88cc4eea9",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.command.json": "fe6b061f2670fe409ab1a7ba68aa0e0f3d8655cfabbfbc9bd08fb75ce6b33f7b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.stdout": "c7dd25b0771a72c528dea94ef4bea83deb1154625391ee6e8498190790b4de7f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.command.json": "161f0985914464a33c746f689af7bcc93d606b413c2f2453f487f40152f02501",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.stderr": "a5415cc0501430f95866ddf8b989040e889c3e31adc8f07c2d530bc6d1fe84b0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.command.json": "44a229b96dfcf66db188ecdd44294cef581dc30c1712ac9d62373436519f35de",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.stdout": "f2586e4d0a2ce61dc3857049f84d83b8fab168b5eaa95cd5524a1b843fd04d9b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.command.json": "e5101be2f9070136b63051024086f3eec694d9a16892b18fe774463abac760de",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.stderr": "c08f87ca2083e9836116d22ee84316628d46edff05bf1d3b870e2a142514531b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.command.json": "46eeaba4a55e30dc4e493b4d5bbe1315fce3d86a474adc0ecda6369eff0e4362",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.stdout": "db40d8af58b6b5f130a872b44a3e3487ddd28a527cd3070cbedcab1687107a2b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.command.json": "ad8d244c3660480dba8f715be935bd0f17a2d6884bf0fd276686f7494f9e0da0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.stderr": "f863ea57ad59e9d22b5b4ee7a89d05c6789272300496e062855cba35c32b1e49",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.command.json": "242f2bc58b2b60b042a890c9e70316bf260157452176338bce961d9055456693",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.stdout": "e9dc53cd4319de2fe8aabbe83c8b5256e2f7afe2287507f76e506f4c3c5aa72e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.command.json": "75471d6b7a069babc38a7f7e277998abe6780275676d420b0c27569b6f4f0c52",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.stderr": "88112363bd05b8cdaa2272b01de23f92e82e5cd245bd59ad3861fb076f7404e9",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.command.json": "cd6426298745445faecd2f3a4a0d7f7fa51737ab886d83a6b7628b1d197dd67f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.stdout": "5958bb9265843221acf9bacbe5571c33a4b2160656d94610764701876a1199aa",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.command.json": "832d7372afbf5390ba62d3d61468ab9b43a255c92365a743d7b9100b262af046",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.stderr": "39e1f0311a995de3cde608bb72d4173cc180d3a26c6a0545eadb2aceca92e9c0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.command.json": "6a8d3fed08cf4601cce9d5cd8f1e4c257b9f7b6e00298fbeccc39a3f231ec31c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.stdout": "d23ab7e6a0729659e445e79c7f29343229cc5395f8e3ca546447d173c5d69531",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.command.json": "ab79170665c1fd3c7a5c9b8bb1c0b7e0c2e86605d61211fde6f55eb71ea2bda4",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.stderr": "ed867ce4fdeaefe8c9744784c5a5d8a7f2589c171a8f75bd11bb1fef14b11885",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.command.json": "b2867e60c5a942b003c5083110c94ea9b2a4ca2843b73233a1ed449cbd6623bd",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.stdout": "0b15639a135957cc3839fb1e6da12e3639642ebe86ed9d12fa669a0b7b55bc39",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.command.json": "02d0a4467c9bda6da11d530a12db909159e27bd01adb6b17f32a380e8595b4da",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.stderr": "dffba6d3b7956f2752044f282b103f6c08ad4baef0bac00004274f81c4faebf5",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.command.json": "87e6fd3367827a9be579140bf387fadc123a2e1dac01cde2308dad9cb33c939e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.stdout": "ba09e41784ddc1fad7e25a27c8cdc11725bdeb95d2a95b0144f8f659ac1a02dc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.command.json": "1c58798ff7361233dc4b3a8814758434f5f4b4478bb1fe041e666927d1aa8814",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.stderr": "f4fa4d093ca0f27609d5e95e0975a73056bcdb06f0a3382720618059a539f24b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.command.json": "3a6d452149cc1e0c895ed433fecc1fd754be47f488b337f91e786a85557a96fb",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.stdout": "c91e81476a573ed14daf0bb77cb22ebfa1a6ae01b1707c64ade3f88a2f5b0d79",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.command.json": "b52367a8723a3386ea0bec40bdd55ceda9e2ab3bcc85c3f58e569a3cb38d9fcc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.stderr": "cec93fe7d778bbd452763ffa6e0db57708389ed7a250c354a0f505b24da2122d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.command.json": "9b337474087470f54cabc257cf8d3d882bc5a232560805d67a425db444147fe3",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.stdout": "1a8bdd2a9db187583a5a33e9335d981aee3d2b7a6d4d0cd412ad313a1e0e6e94",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.command.json": "2dbea25672156a65bc6d996e5cafc1735be2acb7adbf4eef47d9c601f55e3760",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.stderr": "eddf0fe23f04f3bdbab45974e9a38b635bf596edf8a3ec65438284de676a97f5",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.command.json": "4f908a1650dbbb0c2d4cb7bbda4f907ad58bda97bf3e4e5af922ca40cd3fc97d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.stdout": "202e7481ebb0c39615ff07aa786936dd96d59971cabfae2ab0ea7805d2b4aa59",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/preregistration.json": "551aa381686bea8a0e2a0fffeb0abbb4a801a7568111d60b415236457cca3ede",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/receipt.json": "68cb80eb2511757bb247a4ca1ee8f7dfc07e62c2f1acf882a88f755ece65e40b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/attempt-baseline.json": "603907abbb35b7c2ccaaf8c5acaad5b8740563a97208db2fff0e3636737b7d69",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/codeql-swift-reservation.json": "3bffc8c348e79f966b9850b4166d4897901a179775ba30ae1070172a9c5eaf15",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/joern-swift-reservation.json": "21b0f364cba57020925f57fcb910cabfa7586415cddf234d8872df0db4f6a1a7",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/recovery-allocation.json": "4c1beea908e947a2faf8e3025d1f9290055bc0ffe51e311ae0c387751263743e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/attempt-baseline.json": "a92102ad81795fdfbd1a8b15d898c533b8b2ccc1db9165e826a448fb2217b418",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/codeql-swift-reservation.json": "0a22faf05c9e9799adea897d129dced9aae55707ad4e09ca1efd1c3ec800e95d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/joern-swift-reservation.json": "a1a8fdc7ae85791965eb14cacb0b7ad96250bf2f5c15079250a589a44899de8f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/recovery-allocation.json": "894e1c200d91419cb6f6660ef6c51a3ff9a265f698e38f8611620d9d526b9d7c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/attempt-baseline.json": "37c07d1e750fb844a68ce59af1a490f13d361ceb3c7d0e82847e5c656a642729",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/codeql-swift-reservation.json": "21b0eec15fdda88572c07ca47faa92f397ee5c3c1ab2e5ed7d85150f15a164b6",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/joern-swift-reservation.json": "4f7be153542793cf803f2ecdf8e2ffc840924c22ac19090c2a9faac2d9bd29f6",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/recovery-allocation.json": "0056bd4508d665cf455b5b9e246e4839ddbdda7630ba8af72eceb14d765272ac",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/attempt-baseline.json": "402005a3a73e9921a9be2fdaec5831e7d9bce154f635b9186f3658434ca4d3df",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/codeql-swift-reservation.json": "b3ceae7d685fc9d655f105051cc0edd2dc8b378857124915e2ffdd5fd6b093dc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/control-inventory.json": "a232733f779104358786ffa894657b7920f2b148651a684c7686396f26ed9498",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/held-tool-digests.json": "ca93a3ab4f9421c343f07b373862f9cf7c95329e206da522c6470628ff035178",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/joern-swift-reservation.json": "b7b5abc8c93a5ac090b1b2744e8b16bfd844e04777b4007c141cb9f22dc70920",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/recovery-allocation.json": "77609ff41a2f5fd82ba8cfc451d2818c236798ff0aba58240d1a27e9cef17ccc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/runner-build.json": "2c126dc1f7fb23b2d9dcf4ce09049c450636e1991741b58fdb282d9bc98fd1d3",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/bifrost.json": "690b40f65d6b0635e3fd9e06d37470f48a09594e2e15003ce5fd88c98c1bf86c",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/flowdroid.json": "7dc0d4b5c82674b96ccc70693b0b2a472300b0758e10e1be13da33de35d4661e",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/infer.json": "f88687f03e98358896cbfe4974978b33da2260af42fe72cf8613fb11270aec76",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/opentaint.json": "93cd3cfd102c3ad3577400512237f1b7dae6ca9624a5937882a5047365c090db",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/python.json": "d87a9446e1ab2ff323dcab65a0645773413f7d4c3dcee7e4abccb2648c330bdb",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/semgrep.json": "6da0b1ebc6d2686302dec7e4f15c60ace682e552cc64e138c0d00a21c941dd7f",
+    "reports/releases/v0.9.0/execution-v1/runtime-version-witnesses.json": "e33f14c4f03b4f73f2f056cf96765d057d10e68e77c8dff50a65425c72db48ed",
+    "reports/releases/v0.9.0/execution-v1/semgrep-runtime-witness.json": "9d5462470bf89f162b4c9764203000e48f53726a3cd6c5775ffe5464caf7df15",
+    "reports/releases/v0.9.0/execution-v1/swift-query-checks/receipt.json": "1040dc8b6f9878d7b83264f3fb7da5647df8f08d099edc492ae3fa15e5c4d8bd",
+    "reports/releases/v0.9.0/plan.json": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf",
+    "scripts/execute-release-controls-v090.py": "4808f3721fde76a42e24a979257bcba8babe788955140768361cf59e3419cb66",
+    "scripts/execute-release-recovery-v090.py": "98ae29bd67cd77a3754458b032c2203474155cd40779630c0dfd6e8c41841c40",
+    "scripts/prepare-release-root-v090.py": "e53dabc4133d8eb4ff976e4a2e1447be90e745060b48b46aa29de7b868256b76",
+    "scripts/probe-bifrost-sanitizer-lowering.sh": "d6790e3a245ca568ba0c12bd09012a41831704e43e45f5567f978d725abbfb03",
+    "scripts/probe-bifrost-scan-native-v012.sh": "4d4bf38e5286b5d74fb50bb3c733c4f8f330e03baa85ab0e6d61b1f4f538c731",
+    "scripts/probe-bifrost-scan-native.sh": "40c95ed69d820c624e6524a200684544ef99f70d65b65a1c043071e94c38e312",
+    "scripts/probe-flowdroid-modeling-load-bearing.sh": "62075cc2af9ab50f274d29ea80c85f169746fe4237901f9635c93742e831928c",
+    "scripts/probe-flowdroid-native-shipped-surface.sh": "e19b888159f5e67a2c7419df4d59cf59e38046353e0c882588d438942872ed4a",
+    "scripts/probe-infer-modeling-partition.sh": "9b3c523f6d6524beef18dc877dfdeb5344cbed1e5bcd99e19bfe870b06c8bb23",
+    "scripts/probe-infer-native-activation.sh": "d10617b106bea4104dd2887c9d468b0312af0647e23f3a07928a62c78774c064",
+    "scripts/probe-infer-native-silence.sh": "7897a032da1569ca85d6286fc5a32509ff2eee623515059873a6ce2700b98666",
+    "scripts/probe-java-modeling-load-bearing.sh": "635fcfa58241a83ddd2afd349f1fd1ba40c5f875bffe2d1a72585ff9a66a7724",
+    "scripts/probe-javascript-modeling-load-bearing.sh": "e3611a71a410db0bd44c90277c29bfa8db7acd72d5248f239fc510679930314c",
+    "scripts/probe-joern-scan-native.sh": "f2584fa97d92bc932dbc514e84db6c89db7da8630effea92d8f244cab9bed3d5",
+    "scripts/probe-opentaint-modeling-surface.sh": "0415d7838cc0d0cd9a3e338cdd9d6e11f3dfc8ca8703f38347e87044c4e71de7",
+    "scripts/probe-opentaint-native-activation.sh": "5400cc43cded6c84b17544a7affeefdff103f8ad70df39602ccd3b865c18328f",
+    "scripts/probe-opentaint-primitive-tracking.sh": "88592a10525c2fd1c7de3c0e37e3e56f9a82a20b7b2ae72b2f6d9c7b92caba6c",
+    "scripts/probe-opentaint-product-recovery-v090.py": "5c945332a00680f11355cd4f3a97c96bd4a994ba38b59872b19ff4df2ffc7c5b",
+    "scripts/probe-opentaint-product-v090.py": "0589faee6fae872d8991bb5f3d30db5d00c95ea11c5a56fbca8e89dfe726c864",
+    "scripts/probe-opentaint-scan-activation.sh": "d8c7074105c644ec9990d96eb281288e9795fd76f7a01ebddafe7f97ea9d384b",
+    "scripts/probe-opentaint-value-kind.sh": "1f1aae2c22a238011cc7061e9faf47cd075acad783264a1564582389de9fe22a",
+    "scripts/probe-pysa-callee-resolution.sh": "ec4501bda36ad2a017af84d609eedfe8bfd706f7c5de3c37565116750f225cbe",
+    "scripts/probe-pysa-modeling-load-bearing.sh": "315b8a46993392bd93ab211bad1b90318e3fcfdd313652229c15bc5285d9e15a",
+    "scripts/probe-pysa-native-activation.sh": "cd55635af84a86806ddd21e5726b19315330349e1cb122a09417fa36d8e43871",
+    "scripts/probe-python-modeling-load-bearing-v090.py": "a3862528578f74ac99acf43ef6af6a6f9d72d1411b9fa9ae4116b03f31a77536",
+    "scripts/probe-semgrep-jsjava-native.sh": "d09e3bab859030d4679af455a341e7a155119fd48cba248abdc11b0fdf8d44f2",
+    "scripts/probe-warm-observability-v090.py": "c2c31b70154f25287488f262a3bd23e5d029e784d1c7c60173212a113b7346a8",
+    "scripts/release_claim_v090.py": "f4458242ec60e70327f8e6bfee14904e378941d1cb096bcc082974566d30a901",
+    "scripts/release_control_attempt_v090.py": "7e876cfd9c0be39c2c0a85bec99c1282366f3c69fffe3eb524b5aa2ffacf41b5",
+    "scripts/release_environment_v090.py": "344ed79eb774134c4e04e4e243bf05c20279a52d0e050e674a9c79ddb0f16ebd",
+    "scripts/run-release-control-recovery-v090.py": "03341567bd732495fe8e4129542867bc7c7da09ee40ef96be458e75b3bf452c9",
+    "scripts/run-release-control-v090.py": "8cf9785659f8319a08115422c6229162883a858dd766e128c906431ed96c7d0d",
+    "scripts/run-release-group-recovery-v090.py": "8dbfe3c4f9de495b5d72c68ab0f7374e6de0ba7357329426418710f0837dcb91",
+    "scripts/run-release-group-v090.py": "a19ae44adefe386f7f71b006ece268e1d3e3ea0ee54d94247737a0b1eb6b1ac4"
+  },
+  "output_roots": [
+    "reports/semgrep-python-kernel.json",
+    "reports/raw/semgrep-python-kernel"
+  ],
+  "parent_plan": {
+    "path": "reports/releases/v0.9.0/plan.json",
+    "sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf"
+  },
+  "population": {
+    "path": "populations/v0.9.0.json",
+    "sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+  },
+  "release": "v0.9.0",
+  "reports": [
+    {
+      "case_ids": [
+        "dfb-taint-python-alias-propagation-negative",
+        "dfb-taint-python-alias-propagation-positive",
+        "dfb-taint-python-anonymous-implementation-negative",
+        "dfb-taint-python-anonymous-implementation-positive",
+        "dfb-taint-python-argument-position-negative",
+        "dfb-taint-python-argument-position-positive",
+        "dfb-taint-python-arithmetic-expression-negative",
+        "dfb-taint-python-arithmetic-expression-positive",
+        "dfb-taint-python-array-element-negative",
+        "dfb-taint-python-array-element-positive",
+        "dfb-taint-python-branch-join-negative",
+        "dfb-taint-python-branch-join-positive",
+        "dfb-taint-python-call-context-negative",
+        "dfb-taint-python-call-context-positive",
+        "dfb-taint-python-callback-registration-negative",
+        "dfb-taint-python-callback-registration-positive",
+        "dfb-taint-python-closure-capture-negative",
+        "dfb-taint-python-closure-capture-positive",
+        "dfb-taint-python-computed-property-negative",
+        "dfb-taint-python-computed-property-positive",
+        "dfb-taint-python-context-pair-depth2-negative",
+        "dfb-taint-python-context-pair-depth2-positive",
+        "dfb-taint-python-deep-relay-chain-negative",
+        "dfb-taint-python-deep-relay-chain-positive",
+        "dfb-taint-python-direct-negative",
+        "dfb-taint-python-direct-positive",
+        "dfb-taint-python-dispatch-table-negative",
+        "dfb-taint-python-dispatch-table-positive",
+        "dfb-taint-python-element-object-negative",
+        "dfb-taint-python-element-object-positive",
+        "dfb-taint-python-exception-catch-negative",
+        "dfb-taint-python-exception-catch-positive",
+        "dfb-taint-python-function-field-negative",
+        "dfb-taint-python-function-field-positive",
+        "dfb-taint-python-infeasible-branch-negative",
+        "dfb-taint-python-infeasible-branch-positive",
+        "dfb-taint-python-interprocedural-exception-persistence-negative",
+        "dfb-taint-python-interprocedural-exception-persistence-positive",
+        "dfb-taint-python-local-chain-negative",
+        "dfb-taint-python-local-chain-positive",
+        "dfb-taint-python-local-overwrite-negative",
+        "dfb-taint-python-local-overwrite-positive",
+        "dfb-taint-python-loop-carried-negative",
+        "dfb-taint-python-loop-carried-positive",
+        "dfb-taint-python-map-iteration-negative",
+        "dfb-taint-python-map-iteration-positive",
+        "dfb-taint-python-mutual-recursive-transform-negative",
+        "dfb-taint-python-mutual-recursive-transform-positive",
+        "dfb-taint-python-nested-access-path-negative",
+        "dfb-taint-python-nested-access-path-positive",
+        "dfb-taint-python-object-separation-negative",
+        "dfb-taint-python-object-separation-positive",
+        "dfb-taint-python-recursive-callback-transform-negative",
+        "dfb-taint-python-recursive-callback-transform-positive",
+        "dfb-taint-python-recursive-carry-negative",
+        "dfb-taint-python-recursive-carry-positive",
+        "dfb-taint-python-recursive-exception-persistence-negative",
+        "dfb-taint-python-recursive-exception-persistence-positive",
+        "dfb-taint-python-recursive-heap-unwind-negative",
+        "dfb-taint-python-recursive-heap-unwind-positive",
+        "dfb-taint-python-recursive-payload-transform-negative",
+        "dfb-taint-python-recursive-payload-transform-positive",
+        "dfb-taint-python-reflective-invocation-negative",
+        "dfb-taint-python-reflective-invocation-positive",
+        "dfb-taint-python-return-relay-one-hop-negative",
+        "dfb-taint-python-return-relay-one-hop-positive",
+        "dfb-taint-python-return-relay-two-hop-negative",
+        "dfb-taint-python-return-relay-two-hop-positive",
+        "dfb-taint-python-same-object-field-negative",
+        "dfb-taint-python-same-object-field-positive"
+      ],
+      "execution_output_path": "reports/semgrep-python-kernel.json",
+      "ordinal": 0,
+      "original_normalized": "original-normalized/reports/releases/v0.9.0/normal/semgrep-python-kernel.json",
+      "original_normalized_sha256": "6b8e99cac768a93c1bf9a55d1735013e43804d01b6dfe77ab26732ac9ce70e9f",
+      "source_path": "reports/releases/v0.9.0/normal/semgrep-python-kernel.json",
+      "staged_path": "reports/releases/v0.9.0/normal/attempts/semgrep-python-kernel-attempt-01/semgrep-python-kernel.json",
+      "staged_sha256": "5b56eba9a1b01a7dc3785eff8fe018caa76dd4e3025d7f5bdead1df553ab871b"
+    }
+  ],
+  "schema_version": 1,
+  "start_utc": "2026-10-07T21:27:19.322262+00:00",
+  "started_receipt": "started.json",
+  "status": "completed",
+  "stderr": {
+    "path": "stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "stdout.txt",
+    "sha256": "17dc491ebf1fc4c5b6da0431b169a103695cfa9933dea0aec425e760bca6b4bb"
+  },
+  "timed_out": false
+}

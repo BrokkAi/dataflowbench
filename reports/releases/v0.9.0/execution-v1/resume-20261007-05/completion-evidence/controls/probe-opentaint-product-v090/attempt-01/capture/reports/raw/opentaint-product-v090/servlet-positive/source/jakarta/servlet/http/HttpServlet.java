@@ -1,0 +1,1 @@
+package jakarta.servlet.http; public abstract class HttpServlet { protected void doGet(HttpServletRequest req,HttpServletResponse resp) throws java.io.IOException {} }

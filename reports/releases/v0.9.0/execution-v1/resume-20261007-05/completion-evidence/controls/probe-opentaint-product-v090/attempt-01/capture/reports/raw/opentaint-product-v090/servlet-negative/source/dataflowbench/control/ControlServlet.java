@@ -1,0 +1,1 @@
+package dataflowbench.control; import jakarta.servlet.http.*; public class ControlServlet extends HttpServlet { @Override protected void doGet(HttpServletRequest request,HttpServletResponse response) throws java.io.IOException { String cmd = "fixed-command"; Runtime.getRuntime().exec(cmd); } }

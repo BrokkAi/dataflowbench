@@ -1,0 +1,30 @@
+OpenTaint is a CLI tool that analyzes Java and Kotlin projects to find vulnerabilities
+
+Usage:
+  opentaint [flags]
+  opentaint [command]
+
+Available Commands:
+  compile     Compile your Java or Kotlin project
+  completion  Generate the autocompletion script for the specified shell
+  health      Show resolved dependency paths
+  help        Help about any command
+  project     Create a project model directory containing a project.yaml configuration from precompiled JARs or classes
+  prune       Remove stale downloaded artifacts from ~/.opentaint
+  pull        Download autobuilder, analyzer binaries, rules and Java runtime
+  scan        Scan your Java or Kotlin project
+  summary     Print summary of your sarif
+  test        Create and run rule and approximation tests
+  update      Update opentaint to the latest version
+
+Flags:
+      --color string       Color mode (auto, always, never) (default "auto")
+      --config string      Path to a config file
+  -d, --debug              Enable debug output (stream JAR subprocess output, show debug-only fields)
+  -h, --help               help for opentaint
+      --java-version int   Java version to use for running analyzer (default 21)
+  -q, --quiet              Suppress interactive UI elements (spinners, progress bars) and JAR streaming
+      --skip-verify        Skip SHA256 checksum verification of downloaded artifacts
+  -v, --version            Print the version information
+
+Use "opentaint [command] --help" for more information about a command.

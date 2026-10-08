@@ -1,0 +1,210 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "69dc9b55bb2dc412a2c441784d87483c16e449ddc809d05198c44dccdfbb5201",
+  "ended_at_unix_seconds": 1791400108,
+  "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+  "results": [
+    {
+      "case_id": "dfb-taint-python-native-entrypoint-negative",
+      "diagnostics": [],
+      "duration_ms": 6243,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argument"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-entrypoint-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 6169,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-entrypoint-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-entrypoint-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-entrypoint-argument"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-persistence-negative",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 6206,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-persistence-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-persistence-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1).\nThis command line depends on a [user-provided value](2)."
+      ],
+      "duration_ms": 6219,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-persistence-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-persistence-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-persistence-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-propagator-negative",
+      "diagnostics": [],
+      "duration_ms": 6172,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-propagator-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-propagator-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 6287,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-propagator-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-propagator-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-propagator-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-sanitizer-negative",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 6297,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-sanitizer-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 6280,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-sanitizer-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-sanitizer-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-sanitizer-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-source-sink-negative",
+      "diagnostics": [],
+      "duration_ms": 6129,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-source-sink-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 6175,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-source-sink-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-source-sink-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-source-sink-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-summary-negative",
+      "diagnostics": [],
+      "duration_ms": 6139,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-summary-negative.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-environment"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-python-native-summary-positive",
+      "diagnostics": [
+        "This command line depends on a [user-provided value](1)."
+      ],
+      "duration_ms": 6147,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/releases/v0.9.0/attempts/codeql-python-native-attempt-01/capture/reports/raw/codeql-python-native/dfb-taint-python-native-summary-positive.sarif.json",
+      "sink_anchors": [
+        "DFB-SINK: native-summary-command"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: native-summary-environment"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1791400033,
+  "tool": "codeql",
+  "tool_build_identity": "codeql-cli:938af3639d0709b587251e45d9f8d2bdc3505696 — 2.27.1 shipped suite codeql/python-queries@1.8.10:codeql-suites/python-security-extended.qls",
+  "tool_version": "2.27.1"
+}

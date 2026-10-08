@@ -1,0 +1,1108 @@
+{
+  "adapter_version": "0.1.0",
+  "cold_or_warm": "cold",
+  "configuration_hash": "724dccbb7faddf35386aa12dee397798f30e9d3418aa97566aa5c13a585b57e8",
+  "ended_at_unix_seconds": 1791404730,
+  "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+  "results": [
+    {
+      "case_id": "dfb-taint-java-alias-propagation-negative",
+      "diagnostics": [],
+      "duration_ms": 3838,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: alias-propagation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: alias-propagation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-alias-propagation-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `alias->value` is tainted by value returned from `int AliasPropagationPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void AliasPropagationPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3250,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-alias-propagation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: alias-propagation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: alias-propagation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-anonymous-implementation-negative",
+      "diagnostics": [],
+      "duration_ms": 3235,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-anonymous-implementation-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `int AnonymousImplementationPositive.dfb_source()` is tainted by value returned from `int AnonymousImplementationPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void AnonymousImplementationPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3208,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-anonymous-implementation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: anonymous-implementation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: anonymous-implementation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-argument-position-negative",
+      "diagnostics": [],
+      "duration_ms": 3201,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-argument-position-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: argument-position-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: argument-position-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-argument-position-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `result` is tainted by value returned from `int ArgumentPositionPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void ArgumentPositionPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3295,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-argument-position-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: argument-position-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: argument-position-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-array-element-negative",
+      "diagnostics": [],
+      "duration_ms": 3219,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-array-element-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: array-element-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: array-element-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-array-element-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `values[_]` is tainted by value returned from `int ArrayElementPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void ArrayElementPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3210,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-array-element-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: array-element-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: array-element-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-branch-join-negative",
+      "diagnostics": [],
+      "duration_ms": 3237,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-branch-join-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: branch-join-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: branch-join-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-branch-join-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `value` is tainted by value returned from `int BranchJoinPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void BranchJoinPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3218,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-branch-join-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: branch-join-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: branch-join-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-call-context-negative",
+      "diagnostics": [],
+      "duration_ms": 3230,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-call-context-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: call-context-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: call-context-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-call-context-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `tainted` is tainted by value returned from `int CallContextPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void CallContextPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3219,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-call-context-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: call-context-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: call-context-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-callback-registration-negative",
+      "diagnostics": [],
+      "duration_ms": 3292,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-callback-registration-positive",
+      "diagnostics": [],
+      "duration_ms": 3271,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-callback-registration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: callback-registration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: callback-registration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-closure-capture-negative",
+      "diagnostics": [],
+      "duration_ms": 3247,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-closure-capture-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `hook->arg1` is tainted by value returned from `int ClosureCapturePositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void ClosureCapturePositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3229,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-closure-capture-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: closure-capture-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: closure-capture-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-computed-property-negative",
+      "diagnostics": [],
+      "duration_ms": 3264,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-computed-property-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-computed-property-positive",
+      "diagnostics": [],
+      "duration_ms": 3270,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-computed-property-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: computed-property-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: computed-property-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-context-pair-depth2-negative",
+      "diagnostics": [],
+      "duration_ms": 3219,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-context-pair-depth2-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `tainted` is tainted by value returned from `int ContextPairDepth2Positive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void ContextPairDepth2Positive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3242,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-context-pair-depth2-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: context-pair-depth2-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: context-pair-depth2-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-deep-relay-chain-negative",
+      "diagnostics": [],
+      "duration_ms": 3220,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-deep-relay-chain-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `int DeepRelayChainPositive.dfb_source()` is tainted by value returned from `int DeepRelayChainPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void DeepRelayChainPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3294,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-deep-relay-chain-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: deep-relay-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: deep-relay-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-direct-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `int DirectPositive.directUntrustedInput()` is tainted by value returned from `int DirectPositive.directUntrustedInput()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void DirectPositive.recordDirect(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3231,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-direct-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: direct-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: direct-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-dispatch-table-negative",
+      "diagnostics": [],
+      "duration_ms": 3254,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-dispatch-table-positive",
+      "diagnostics": [],
+      "duration_ms": 3347,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-dispatch-table-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: dispatch-table-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: dispatch-table-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-element-object-negative",
+      "diagnostics": [],
+      "duration_ms": 3390,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-element-object-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-element-object-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `items[_]->value` is tainted by value returned from `int ElementObjectPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void ElementObjectPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3250,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-element-object-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: element-object-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: element-object-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-exception-catch-negative",
+      "diagnostics": [],
+      "duration_ms": 3241,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: exception-catch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: exception-catch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-exception-catch-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `caught->value` is tainted by value returned from `int ExceptionCatchPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void ExceptionCatchPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3224,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-exception-catch-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: exception-catch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: exception-catch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-explicit-negative",
+      "diagnostics": [],
+      "duration_ms": 3201,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-explicit-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: explicit-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: explicit-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-expression-negative",
+      "diagnostics": [],
+      "duration_ms": 3214,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-expression-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: expression-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: expression-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-expression-positive",
+      "diagnostics": [],
+      "duration_ms": 3250,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-expression-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: expression-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: expression-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-function-field-negative",
+      "diagnostics": [],
+      "duration_ms": 3254,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-function-field-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-function-field-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `int FunctionFieldPositive.dfb_source()` is tainted by value returned from `int FunctionFieldPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void FunctionFieldPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3257,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-function-field-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: function-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: function-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-infeasible-branch-negative",
+      "diagnostics": [],
+      "duration_ms": 3221,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: infeasible-branch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: infeasible-branch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-infeasible-branch-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `value` is tainted by value returned from `int InfeasibleBranchPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void InfeasibleBranchPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3221,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-infeasible-branch-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: infeasible-branch-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: infeasible-branch-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-interprocedural-exception-persistence-negative",
+      "diagnostics": [],
+      "duration_ms": 3295,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: interprocedural-exception-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: interprocedural-exception-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-interprocedural-exception-persistence-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `int InterproceduralExceptionPositive.recover(InterproceduralExceptionPositive$Box,int)` is tainted by value returned from `int InterproceduralExceptionPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void InterproceduralExceptionPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3265,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: interprocedural-exception-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: interprocedural-exception-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-local-chain-negative",
+      "diagnostics": [],
+      "duration_ms": 3259,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-local-chain-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: local-chain-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-chain-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-local-chain-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `third` is tainted by value returned from `int LocalChainPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void LocalChainPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3255,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-local-chain-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: local-chain-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-chain-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-local-overwrite-negative",
+      "diagnostics": [],
+      "duration_ms": 3235,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: local-overwrite-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-overwrite-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-local-overwrite-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `value` is tainted by value returned from `int LocalOverwritePositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void LocalOverwritePositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3226,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-local-overwrite-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: local-overwrite-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: local-overwrite-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-loop-carried-negative",
+      "diagnostics": [],
+      "duration_ms": 3263,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: loop-carried-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: loop-carried-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-loop-carried-positive",
+      "diagnostics": [],
+      "duration_ms": 3268,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-loop-carried-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: loop-carried-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: loop-carried-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-map-iteration-negative",
+      "diagnostics": [],
+      "duration_ms": 3261,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-map-iteration-positive",
+      "diagnostics": [],
+      "duration_ms": 3279,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-map-iteration-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: map-iteration-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: map-iteration-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-mutual-recursive-transform-negative",
+      "diagnostics": [],
+      "duration_ms": 3191,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: mutual-recursive-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: mutual-recursive-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-mutual-recursive-transform-positive",
+      "diagnostics": [],
+      "duration_ms": 3226,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-mutual-recursive-transform-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: mutual-recursive-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: mutual-recursive-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-nested-access-path-negative",
+      "diagnostics": [],
+      "duration_ms": 3240,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-nested-access-path-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `a->b->c->value` is tainted by value returned from `int NestedAccessPathPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void NestedAccessPathPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3270,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-nested-access-path-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: nested-access-path-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: nested-access-path-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-object-separation-negative",
+      "diagnostics": [],
+      "duration_ms": 3234,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-object-separation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: object-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: object-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-object-separation-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `tainted->value` is tainted by value returned from `int ObjectSeparationPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void ObjectSeparationPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3274,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-object-separation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: object-separation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: object-separation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-recursive-callback-transform-negative",
+      "diagnostics": [],
+      "duration_ms": 3253,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-callback-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-callback-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-recursive-callback-transform-positive",
+      "diagnostics": [],
+      "duration_ms": 3283,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-callback-transform-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-callback-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-callback-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-recursive-carry-negative",
+      "diagnostics": [],
+      "duration_ms": 3242,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-recursive-carry-positive",
+      "diagnostics": [],
+      "duration_ms": 3181,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-carry-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-carry-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-carry-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-recursive-exception-persistence-negative",
+      "diagnostics": [],
+      "duration_ms": 3344,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-exception-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-exception-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-recursive-exception-persistence-positive",
+      "diagnostics": [],
+      "duration_ms": 3479,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-exception-persistence-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-exception-persistence-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-exception-persistence-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-recursive-heap-unwind-negative",
+      "diagnostics": [],
+      "duration_ms": 3321,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-heap-unwind-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-heap-unwind-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-recursive-heap-unwind-positive",
+      "diagnostics": [],
+      "duration_ms": 3186,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-heap-unwind-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-heap-unwind-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-heap-unwind-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-recursive-payload-transform-negative",
+      "diagnostics": [],
+      "duration_ms": 3209,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-payload-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-payload-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-recursive-payload-transform-positive",
+      "diagnostics": [],
+      "duration_ms": 3239,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-recursive-payload-transform-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: recursive-payload-transform-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: recursive-payload-transform-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-reflective-invocation-negative",
+      "diagnostics": [],
+      "duration_ms": 3252,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-reflective-invocation-positive",
+      "diagnostics": [],
+      "duration_ms": 3289,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-reflective-invocation-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: reflective-invocation-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: reflective-invocation-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-return-relay-one-hop-negative",
+      "diagnostics": [],
+      "duration_ms": 3208,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: return-one-hop-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-one-hop-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-return-relay-one-hop-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `result` is tainted by value returned from `int ReturnRelayOneHopPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void ReturnRelayOneHopPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3224,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-one-hop-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: return-one-hop-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-one-hop-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-return-relay-two-hop-negative",
+      "diagnostics": [],
+      "duration_ms": 3215,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: return-two-hop-negative-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-two-hop-negative-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-return-relay-two-hop-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `result` is tainted by value returned from `int ReturnRelayTwoHopPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void ReturnRelayTwoHopPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3280,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-return-relay-two-hop-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: return-two-hop-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: return-two-hop-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-same-object-field-negative",
+      "diagnostics": [],
+      "duration_ms": 3216,
+      "outcome": "not-reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-negative.json",
+      "sink_anchors": [
+        "DFB-SINK: same-object-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: same-object-field-input"
+      ],
+      "witness_checkpoints": []
+    },
+    {
+      "case_id": "dfb-taint-java-same-object-field-positive",
+      "diagnostics": [
+        "DataFlowBench benchmark-controlled source-to-sink flow. `holder->tainted` is tainted by value returned from `int SameObjectFieldPositive.dfb_source()` with kind `DataFlowBenchSource` and flows to value passed as argument `#0` to `void SameObjectFieldPositive.dfb_sink(int)` with kind `DataFlowBenchSink`."
+      ],
+      "duration_ms": 3228,
+      "outcome": "reached",
+      "peak_memory_mb": null,
+      "raw_output": "reports/raw/infer-java-kernel/dfb-taint-java-same-object-field-positive.json",
+      "sink_anchors": [
+        "DFB-SINK: same-object-field-sink"
+      ],
+      "source_anchors": [
+        "DFB-SOURCE: same-object-field-input"
+      ],
+      "witness_checkpoints": []
+    }
+  ],
+  "schema_version": 1,
+  "started_at_unix_seconds": 1791404501,
+  "tool": "infer",
+  "tool_build_identity": "infer:v1.3.0 bin-sha256:17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62",
+  "tool_version": "v1.3.0"
+}

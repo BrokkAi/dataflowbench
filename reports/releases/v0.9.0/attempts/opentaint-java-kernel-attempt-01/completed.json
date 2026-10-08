@@ -1,0 +1,1819 @@
+{
+  "argv": [
+    "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/target/release/dataflowbench",
+    "--population",
+    "v0.9.0",
+    "run-opentaint-java-kernel",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--java",
+    "/usr/bin/java",
+    "--javac",
+    "/usr/bin/javac"
+  ],
+  "attempt_id": "opentaint-java-kernel-attempt-01",
+  "captured_files": [
+    {
+      "bytes": 36849,
+      "path": "reports/opentaint-java-kernel.json",
+      "sha256": "1432a73c05616a82687ab8d1e9874bceb50ac35fffdc81f3e7ada341a0ff6fc9"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative-timing.json",
+      "sha256": "5f1de53c6046a77c2aa4c4c04969a92ce97516cda13da4c63c6dd4b8199e1620"
+    },
+    {
+      "bytes": 1588,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-negative.json",
+      "sha256": "89a31cca7625cda116cfe95670043d6dfee1b943566a4c240929a609d7cbcdf0"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive-timing.json",
+      "sha256": "453fd7e5b7f82bcde6400071f3a2d0bad1f164b36b5992e936b3fd47bae04b28"
+    },
+    {
+      "bytes": 7376,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-alias-propagation-positive.json",
+      "sha256": "bf4b6a4bb8ea53856531ec5bdb9f0b725be1b64612b5278b0bbc09c46e790482"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 262,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative-timing.json",
+      "sha256": "5a8bee382c5ad49ce6c830dfe86d9182e1e1eea4fd70168346834e71482e826d"
+    },
+    {
+      "bytes": 1595,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-negative.json",
+      "sha256": "9332b8998508abc5e8213f8cd3715a17bf6f8402bbdce160fc5b53347a28831e"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 262,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive-timing.json",
+      "sha256": "16ea6d77ff8b037631d7f8cf77480c8f98902ae595682e11175cdae53fd94a3b"
+    },
+    {
+      "bytes": 11701,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-anonymous-implementation-positive.json",
+      "sha256": "e3a4fd8d97b68b0a6bc649486ad6615c6b11f466f4a7c96c84c64691588a3863"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative-timing.json",
+      "sha256": "9bb888d5a00fe49d176555ecf27ddfd34edfb30abc5b4acfb5a2cb086e69693c"
+    },
+    {
+      "bytes": 1588,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-negative.json",
+      "sha256": "433187bc19b18094578aeb7da662ef5adaab3fa259f2569f127720b86b224462"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive-timing.json",
+      "sha256": "2ca8c9bd1dabd52a77efdb5642912d0fd5446bed8042257296fe6d98f33117ee"
+    },
+    {
+      "bytes": 15661,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-argument-position-positive.json",
+      "sha256": "b70d55c31e528ea2f29df3d1638c0c1563e041e9ac5865a6f7387651c66eb313"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 251,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative-timing.json",
+      "sha256": "87e15f19892958f49fd9377114a980cf9739dcdd819e9e18a4f9fbbcdbbd068a"
+    },
+    {
+      "bytes": 11296,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-negative.json",
+      "sha256": "58a9b72780ebf4c8427bf8652e022880ec97c20f70731b9d990a85ed6962d028"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 251,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive-timing.json",
+      "sha256": "07981c4b8a098752eb13420c4d4f2e890ab9b0246606e4365932b785661f45a2"
+    },
+    {
+      "bytes": 11296,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-array-element-positive.json",
+      "sha256": "fd467d39556c5e256f4d4870004bd59131984a03185be3b9e7e25663f6cde740"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative-timing.json",
+      "sha256": "7197668180c118eee17ca6ae46b3b223291776e7521f12a7aace8f4460fe25c6"
+    },
+    {
+      "bytes": 1582,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-negative.json",
+      "sha256": "889b1f7c3e5069c1938fe41b9b2ee1d7ecba6a620f6f9df4080d8b02340549db"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive-timing.json",
+      "sha256": "5b24b7c597a928bb245f45fc2be4d4a166e033e572d9e75137537b2486ef0480"
+    },
+    {
+      "bytes": 7392,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-branch-join-positive.json",
+      "sha256": "ed989f0d20de14cf9b737bd1532a6fe7a8fffd9dce2b079a27ba3c605a9fbbe6"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 250,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative-timing.json",
+      "sha256": "fc28388151c2eae62e26d1a9f63c0bb20e1aa29f71292091bac2fd18607ba4b4"
+    },
+    {
+      "bytes": 1583,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-negative.json",
+      "sha256": "3b6a18594e1488a2e240288207e56576373428a11d1ed54bad73795eee98ff00"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 250,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive-timing.json",
+      "sha256": "6d4ebc7af1c629c8e6fadcfd2583b77a1859784f8274736d2a29ceb99705f91c"
+    },
+    {
+      "bytes": 15450,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-call-context-positive.json",
+      "sha256": "144e5f01cc2f7ec273199a25bf847c98ad8f9201ba915a23dfb20aff7b063770"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 259,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative-timing.json",
+      "sha256": "e2cf0aceced99cf8960a0737375dd5a6c887be3e3531436f6c253c7c96e24cc3"
+    },
+    {
+      "bytes": 1592,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-negative.json",
+      "sha256": "c595ac93ace5399b123b86752260982806eba6a32237290d3848dcf34e88a938"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 259,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive-timing.json",
+      "sha256": "b505622a66df79cc724506f133fdf8f283ff308267e6f1ba250e7eb070c3d67c"
+    },
+    {
+      "bytes": 15731,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-callback-registration-positive.json",
+      "sha256": "170706ff22480bae2ac4a53ea85869736756081a7ea7f939aa55ba72858280cf"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative-timing.json",
+      "sha256": "de46370059061dbfec3add66514d744956b8bea7fb697baac76d7d1e601db34d"
+    },
+    {
+      "bytes": 1586,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-negative.json",
+      "sha256": "8524de6856318741d5f0cadad307534322bfffaca3c6fdc54fc967059fd0b3e7"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive-timing.json",
+      "sha256": "7bf9b6987b0f0045b999821842e0240578a36c3b49cc4dc41872834a4df6b651"
+    },
+    {
+      "bytes": 21600,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-closure-capture-positive.json",
+      "sha256": "738d2a81c5fe29cc78f289e769267f738dffcd77b833458300f38dd8f721daaa"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative-timing.json",
+      "sha256": "4324adf0b304da8b5e247d4292a8d3c76de874fd0f9be1196b3850710f43aa40"
+    },
+    {
+      "bytes": 9420,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-negative.json",
+      "sha256": "f920b9cc5c35e1c46be33d49eeffddd88b38d7f74d9c4a752959d8d6cac55007"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive-timing.json",
+      "sha256": "da187be676ec7b0aa135560b9774815dd7a8e235bdba0af2ca9534293ee4b32e"
+    },
+    {
+      "bytes": 9414,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-computed-property-positive.json",
+      "sha256": "ed6d4c7b6a3c73870f918c440e228531e765c13da75316dab30796f084fa287d"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 257,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative-timing.json",
+      "sha256": "5f5a0c49379735e9f171cbbdcc0c032e72dc32b20982c8ef198d4a8224215788"
+    },
+    {
+      "bytes": 1590,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-negative.json",
+      "sha256": "ba749476bf58454784865d989a1221d2a642d21359605bccda17c572452c696a"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 257,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive-timing.json",
+      "sha256": "f794e6601dd830fbc6226aec1a93d7a7fe880cffcdf9a1004dffd21c40111f7f"
+    },
+    {
+      "bytes": 29846,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-context-pair-depth2-positive.json",
+      "sha256": "9333e78c2e28d46ef9d2930c4dfcdda03e82f6926782c8bfe3431ccdff16a80c"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 254,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative-timing.json",
+      "sha256": "c515298120e154d4b1e76abbc6377fdad46300c9fb48cc5bbea8e09950868721"
+    },
+    {
+      "bytes": 1587,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-negative.json",
+      "sha256": "5ece7bef2ac92c979cdb6ccf9e272e623bb8eecfe1f2b9c074408dbdcf110b60"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 254,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive-timing.json",
+      "sha256": "1afede0637832b7bb46be6a5deefe3b2ef77ce856d2a84b1617ec6fa3314ff9c"
+    },
+    {
+      "bytes": 32172,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-deep-relay-chain-positive.json",
+      "sha256": "e5fe534e5b0c88885045d6cff13edcaf7f434ea858a50c61b15fed2595ce35a4"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1677,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive-rule.yaml",
+      "sha256": "e7013e41ceb991a66912051e2c3cad5c39aa1245d948c9cdf61e0cb1facc2e73"
+    },
+    {
+      "bytes": 244,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive-timing.json",
+      "sha256": "dda34cc63fe6042a526b770c3b46e7e477901696bda9966daf981c10fbc537b7"
+    },
+    {
+      "bytes": 7346,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-direct-positive.json",
+      "sha256": "385373ec04dcd805834d14df8239c0c103298a8dc4d6f36fa331873bbd47e778"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative-timing.json",
+      "sha256": "2bc43847929c5cd7284f778bb9005b0bd9a1ffb59b9e61a1aba873b2d3056fb2"
+    },
+    {
+      "bytes": 11532,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-negative.json",
+      "sha256": "ba38b7f177c7ab7cbddcbf5e1bd7c0f0c1293ddce41fe60dd4e3749987a81a0b"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive-timing.json",
+      "sha256": "8f2bbae454884a255e4ae8a4450490aa997c42aae227d01dadd186655a73ada3"
+    },
+    {
+      "bytes": 11532,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-dispatch-table-positive.json",
+      "sha256": "82fb02ce472d5a1033e6b1eadccf27cfcd64f3b15f9082d96ae116fa2e66c1b9"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative-timing.json",
+      "sha256": "d1d64726d8ebc341e0391f821b638e34c0ad3622535fdc3def7f98020ac3e78e"
+    },
+    {
+      "bytes": 11319,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-negative.json",
+      "sha256": "8b5cfb2696dda19db418f33ea72d820f9b4cf416448c837a469493660c8d810f"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive-timing.json",
+      "sha256": "1457ad790cf5b2d846ee38fea92602e8e04459709428ea83667d05137a8751e6"
+    },
+    {
+      "bytes": 11319,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-element-object-positive.json",
+      "sha256": "4778b8321dd630cce1ea8038dd38bd68820a5d80dc20124f598a96f30186fe43"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative-timing.json",
+      "sha256": "ab7c3e1863972044ad34aaecf40238b8de704fca4ab6c0aaa85eacf5eb8d233e"
+    },
+    {
+      "bytes": 1586,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-negative.json",
+      "sha256": "c1d780fb5676b16785e81d77a563570f8b2c59fffeefb847024153ee7326b98b"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive-timing.json",
+      "sha256": "54d1b346fe141414760d9db0359c270f882972fc1bbdd94905707e32e959e984"
+    },
+    {
+      "bytes": 1586,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-exception-catch-positive.json",
+      "sha256": "9653ac92e71b4b8b33c5b5c0d5df3dd127ceb087543c19764935aeafbd120527"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1737,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative-rule.yaml",
+      "sha256": "2143de7a30edad8c311a4255db453f30fb8754f647607f4b0eca0977dd22f82c"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative-timing.json",
+      "sha256": "1a0181c74630ab8684a2eb822e59cfa80327c4f67602ddfcd43d376bf5d3e387"
+    },
+    {
+      "bytes": 1579,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-explicit-negative.json",
+      "sha256": "ef7e577b869854039786244368ff5f7187b9945880b7cfedd5628713135c6090"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 248,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative-timing.json",
+      "sha256": "7fc6175c4dc517cc67ab1500016d8e5e877c0642bf4516a9cd1bc9951d7bb8f4"
+    },
+    {
+      "bytes": 1581,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-negative.json",
+      "sha256": "ecd8431b16352d597e3ec95c08327e665dce550362d65c052d53f0689356370b"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 248,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive-timing.json",
+      "sha256": "01d9b4d5b493b8cd8bafd4952ae979c5da6a78d1ecf528693ca3e1294407b850"
+    },
+    {
+      "bytes": 11328,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-expression-positive.json",
+      "sha256": "ebc40baf3785a52f66690a480232eb226c0270681d4caf7a0dc4739d7b3f9d03"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative-timing.json",
+      "sha256": "b32cf17be0017585ee6cf3aaf1000b61328a4323bb275189434f0a7d0dfdb1a9"
+    },
+    {
+      "bytes": 1585,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-negative.json",
+      "sha256": "10caa6da710fea97f561f82bcf6bf24981d240cfb57bb0b72a8add5f77cca8a4"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive-timing.json",
+      "sha256": "6aa54a34f2609d097db0269d93930b2a0b071364365bfe7042e73c146c508578"
+    },
+    {
+      "bytes": 15676,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-function-field-positive.json",
+      "sha256": "42e9aeee65ef09b678a46ac51fa127665917c27c064d77ce0a5c244fb87eeacd"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative-timing.json",
+      "sha256": "9a30188c142408172ce4a203424522425e3692e3edd23752faffc1388b33efe6"
+    },
+    {
+      "bytes": 1588,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-negative.json",
+      "sha256": "e559fdaf27af885c19b4f0d3256b022159734a05bbf505d575d8042a4ba0c4ea"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive-timing.json",
+      "sha256": "02ede06959137792a9fbb6d13a7c97bf5275a6d1ae4608941d6f56b2de40a2f4"
+    },
+    {
+      "bytes": 7449,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-infeasible-branch-positive.json",
+      "sha256": "fab0b14877797a87558a3884b976199994e01d168c821c9b9c85c7d17d856ed5"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 275,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative-timing.json",
+      "sha256": "e8af6b0a24983672d092d948c4ff94451c186d3956bbcfb7e7f89428c0aa9b76"
+    },
+    {
+      "bytes": 1608,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-interprocedural-exception-persistence-negative.json",
+      "sha256": "e5d2aac0916f052626488a982b6cc1c61d93498affecd435b9ef63049420ca93"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 275,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive-timing.json",
+      "sha256": "3b8a7815b6bc793b03928fdb40c569363f97300bff65b488b1835ad62c1dc5a6"
+    },
+    {
+      "bytes": 1608,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-interprocedural-exception-persistence-positive.json",
+      "sha256": "7eb1f5782fc52d839184a92f5f7e1ae1861da5bfdaa5c667686f46ccd24ceb14"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative-timing.json",
+      "sha256": "ec2a465034846c8c75d614ce53c7f89a151cc9335da573d3974414c3a81e9c41"
+    },
+    {
+      "bytes": 1582,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-negative.json",
+      "sha256": "cdd4901e9a44b19208fefe8b01f8824efa0e89d4609741c641790d5666f85749"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive-timing.json",
+      "sha256": "28c3159817f43e2c95905cbbc53abd468773355219cfe59bd191274ab7fbc810"
+    },
+    {
+      "bytes": 7371,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-chain-positive.json",
+      "sha256": "e4196891e5087dae913773d41c3c2355903f164d063ded15cc75d949cb10a891"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative-timing.json",
+      "sha256": "558392e4d309b2ae8fce2117fc68ae34601ea3433120814de9a314dc6510290f"
+    },
+    {
+      "bytes": 1586,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-negative.json",
+      "sha256": "608703c5e6265df7f48ddf293ebab85ece4eff38f382c769acc27938f056f2fb"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive-timing.json",
+      "sha256": "63feeca5b84aef0b6dcdc5addc0f8185a8cb1d987abc85d6201c7dd8d01f219a"
+    },
+    {
+      "bytes": 7423,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-local-overwrite-positive.json",
+      "sha256": "06d47d3e20751a8c0ec440ead536ecb866c5e3ce5b8fb20118b56621891ed584"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 250,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative-timing.json",
+      "sha256": "d84556752c73574b05274a314621f5f97af25ad92cc8d2172f552b972ad2e352"
+    },
+    {
+      "bytes": 7386,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-negative.json",
+      "sha256": "2e637b2085c2020c25e0c5c1f2dfe52d6893971e843f696bce4d9216b75971f2"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 250,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive-timing.json",
+      "sha256": "4ea4f3cf5c551afb5f8a16d99148420dc4d5fb3a1e3527351d424128097d86db"
+    },
+    {
+      "bytes": 7386,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-loop-carried-positive.json",
+      "sha256": "9bdc15e27b2070ca6f7ed6fd73f468de33fdb599b99b63fd15141954376436cd"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 251,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative-timing.json",
+      "sha256": "86b28f3379f60faa8f5d58d206448af2fdc43e6dfba14b8c63972384eab01472"
+    },
+    {
+      "bytes": 1584,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-negative.json",
+      "sha256": "73b66aad4357313444bbfe0f460b52ff1d9c5dea9f5d8a11fe73bc52dc692ddc"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 251,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive-timing.json",
+      "sha256": "2f9408217d24d22c441cac969a7390cd5e59147c0aa90d111995fbc77e38594f"
+    },
+    {
+      "bytes": 13464,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-map-iteration-positive.json",
+      "sha256": "acc7db609148dc34f5cbc465376c5657e0924ffa26a955aac5db3ebbd264df84"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-mutual-recursive-transform-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-mutual-recursive-transform-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 264,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-mutual-recursive-transform-negative-timing.json",
+      "sha256": "f9b0f20b73ad207f7247d2e187ec92769ceaee01f3420d9258956aa2c02c56b2"
+    },
+    {
+      "bytes": 1597,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-mutual-recursive-transform-negative.json",
+      "sha256": "7b13dc7cceaf01d3c56685208e547b5bc0ce8f6cde4f96cde421335bc094c3e8"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-mutual-recursive-transform-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-mutual-recursive-transform-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 264,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-mutual-recursive-transform-positive-timing.json",
+      "sha256": "4c912612a7340517a3306ce6b91a9d82eb1d6a77bbf168cfedf1ef1c673b4c3d"
+    },
+    {
+      "bytes": 17829,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-mutual-recursive-transform-positive.json",
+      "sha256": "3ffa135293de2b0d5475ef8932c970b8a6b58fec87c76423173a01cb9171033d"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 256,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative-timing.json",
+      "sha256": "8a6464a4b06696197e93046abb9f1a43fffb0414ec487ab9470939ad7e43fd97"
+    },
+    {
+      "bytes": 1589,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-negative.json",
+      "sha256": "5b0fb9a222afbee5fddb3202f22ebb1980c13d11b09317e4abf0135d302e7104"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 256,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive-timing.json",
+      "sha256": "5a2263d20fd6a54d0805414ef3252d62fe2051712ebfe235ce47a3591e386dbf"
+    },
+    {
+      "bytes": 7379,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-nested-access-path-positive.json",
+      "sha256": "1236b12040b309424fc15ae8a52dffe5111a7e83befa1b137d6b815dfd52de4c"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative-timing.json",
+      "sha256": "b1e7ef03f9cb2e6403c724fdc5a6638439987d2cfbb48183b0407d555d0f12b1"
+    },
+    {
+      "bytes": 1588,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-negative.json",
+      "sha256": "9cce9e461f7ee852e2a964b842619bc3761c5e7572497f26be92c3d7b58ea14c"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive-timing.json",
+      "sha256": "9b6f9fa3e52677a87fd2ecf1d64ab9d4e22cdd6c0b48cd89b974a4b4505445e1"
+    },
+    {
+      "bytes": 7376,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-object-separation-positive.json",
+      "sha256": "f041dd5c849d32fb8b5f0424ba68605519720a2ab9f7127009ad5f29391bfd2a"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-callback-transform-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-callback-transform-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 266,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-callback-transform-negative-timing.json",
+      "sha256": "a0f64cc6d36ff074b914bf7a97ad5b19e9c1c6954e2f3f2c04e93ab84b6f236b"
+    },
+    {
+      "bytes": 1599,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-callback-transform-negative.json",
+      "sha256": "9bd3df401ca1dcfe3cfe2488deaf4863671e3e86247b2ed5f7afd4b9aa92cd9d"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-callback-transform-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-callback-transform-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 266,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-callback-transform-positive-timing.json",
+      "sha256": "6808578afde8f55dbf0862fcf1f77bd522237a786f255b2c4307249fc3184480"
+    },
+    {
+      "bytes": 18067,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-callback-transform-positive.json",
+      "sha256": "42675935f74c22a4f5fee8c26940a4ced3b2036594f397b79e554ac04f2e2bfa"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative-timing.json",
+      "sha256": "17da5f4d2bf27c8f4ff35c934e07ffa19acca492779f483d03f7b3b1dff0dd25"
+    },
+    {
+      "bytes": 1586,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-negative.json",
+      "sha256": "5b8afde16e1676d35c20c2120cadd227f4786004b79dab046a77d10b9061c52e"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive-timing.json",
+      "sha256": "a6a6035a4046791e67a423c9a53081b87ec6c03481e4deb96afc64675bf8e31e"
+    },
+    {
+      "bytes": 17528,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-carry-positive.json",
+      "sha256": "861a447527d6d1c05282b19f7dad01bd737e53e32f099c9c778e4774fff3d574"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-exception-persistence-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-exception-persistence-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 269,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-exception-persistence-negative-timing.json",
+      "sha256": "7ca41ef074a173279073d3431cfd63afa2f247ab4f5b0b782423f7ec7706820a"
+    },
+    {
+      "bytes": 1602,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-exception-persistence-negative.json",
+      "sha256": "f73b9e306b923096ec5fb22e0b4ec5c532e665cd25931faf528de01d99b63cc3"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-exception-persistence-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-exception-persistence-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 269,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-exception-persistence-positive-timing.json",
+      "sha256": "3f5a5e323f8d6fac682349b90675617686720fa27edfa290a051294f689ff85d"
+    },
+    {
+      "bytes": 1602,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-exception-persistence-positive.json",
+      "sha256": "caf00b256285cd513e0ee7ed656671821228a0acd0e83c9fb36707895d20f1d2"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-heap-unwind-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-heap-unwind-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 259,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-heap-unwind-negative-timing.json",
+      "sha256": "7b519600bd38d225bef26424da69f04f19903e4e0ef86da87125ae20b13f02ae"
+    },
+    {
+      "bytes": 1592,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-heap-unwind-negative.json",
+      "sha256": "d2a847c5b9fab65f3dbce47554165b73139038c1b6f6062f35703de4ec4cdbf6"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-heap-unwind-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-heap-unwind-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 259,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-heap-unwind-positive-timing.json",
+      "sha256": "8e2bfe3ffd161e5901b42593c339106c6d86b52cb5229f36d281c90f276f639c"
+    },
+    {
+      "bytes": 17818,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-heap-unwind-positive.json",
+      "sha256": "944908799a440fcec7d68bf2fe7ee4eafdbd0c02416fe3d56d9c42643fdf54d8"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-payload-transform-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-payload-transform-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 265,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-payload-transform-negative-timing.json",
+      "sha256": "5672568a7d6edc0956f471c0bd57d18e7576eb8b19641a37c0d99b92fcb450d5"
+    },
+    {
+      "bytes": 1598,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-payload-transform-negative.json",
+      "sha256": "bb0f2447916d344d1af3b5275a86805e6ba0e2a9b28358388491b0802283ed42"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-payload-transform-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-payload-transform-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 265,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-payload-transform-positive-timing.json",
+      "sha256": "96e195fb59505b724ae3717e61ccee6f6c4e0c78a3c5f5ad1f896c900d5711d0"
+    },
+    {
+      "bytes": 17846,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-recursive-payload-transform-positive.json",
+      "sha256": "70ebc1278ae9b4d9df9102f09015ce57aedc88cfa5e557f6b1d9c3d6c989fd5b"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 259,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative-timing.json",
+      "sha256": "07dae61426e72592b57511aae116fdd7f30f9520ab9dd989b7b1a18819593f67"
+    },
+    {
+      "bytes": 1592,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-negative.json",
+      "sha256": "9c343bb9701d778509d132e7f3168a0969909d7de809fc952d75d1d7ec33fe94"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 259,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive-timing.json",
+      "sha256": "d66ce4114dcca6983a8646e0ecdd2a4a39eb08b03585430ad16c6b20dd550941"
+    },
+    {
+      "bytes": 1592,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-reflective-invocation-positive.json",
+      "sha256": "12e006150fab9eb7d05e4581cd58378271ee1e1b948039e4e4f482ab370457c8"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 258,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative-timing.json",
+      "sha256": "829f8eeb9556e9f34a0f99b4ff5a535f780f937018da6ed32b093f85569d8e00"
+    },
+    {
+      "bytes": 1591,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-negative.json",
+      "sha256": "cd6295b703e3172446455056a634251e2d22a7bb324e52ccea22c9051dfd8fc1"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 258,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive-timing.json",
+      "sha256": "3444439f2a3da58b06de5cd0ec16836785a1c77682e8568045d4772d6d062520"
+    },
+    {
+      "bytes": 15614,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-one-hop-positive.json",
+      "sha256": "78edaa47e4a409e3252d8512c25347992d5f297693bde9ae4f9af36cde95c45b"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 258,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative-timing.json",
+      "sha256": "42c68f4c37191fb834cdd305ee803eb6bd4382a0dd8bc557b95000a44fbcc30b"
+    },
+    {
+      "bytes": 1591,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-negative.json",
+      "sha256": "7d45babf017c784a3ad23c9385673703b5688421e3d812ca2bd0e42f822d1d5d"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 258,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive-timing.json",
+      "sha256": "33d66c18cbc954e031fc6b533eccb234d67f5e1f89b3f290a4cca6a2970e62da"
+    },
+    {
+      "bytes": 23889,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-return-relay-two-hop-positive.json",
+      "sha256": "f7805453ddf577902bf791f29cbba425355243d59ff415aa66b6f92036221640"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative-timing.json",
+      "sha256": "fe7a23a4e788acc3ef039a2a20cd6e96041744d17dfda31b461cd0efddd9abb4"
+    },
+    {
+      "bytes": 1588,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-negative.json",
+      "sha256": "44876c0af7817e9e29a67f49dcbb5eead418a7421ed1c64c63868781aa032f3f"
+    },
+    {
+      "bytes": 794,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive-load-trace.json",
+      "sha256": "ad3c95b3dcb36f7778dd6e202c3118226143eb24d0c26cf849865c0aaefc2981"
+    },
+    {
+      "bytes": 1635,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive-rule.yaml",
+      "sha256": "b2ca2e5af2cd7ed43a8366dd4e7f4d34ca136be77a9a90835dcd6b4c73240bec"
+    },
+    {
+      "bytes": 255,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive-timing.json",
+      "sha256": "aa3c4b04a1adb5ec38283af5e5f15526257d973ff966a944adc406367b3204d9"
+    },
+    {
+      "bytes": 7367,
+      "path": "reports/raw/opentaint-java-kernel/dfb-taint-java-same-object-field-positive.json",
+      "sha256": "ae91dcd97074c74cdef4d9d49e44617e3c13d144d2d85e086d239f8673366104"
+    },
+    {
+      "bytes": 581,
+      "path": "reports/raw/opentaint-java-kernel/run-environment.json",
+      "sha256": "d096d96dd9a74e86a42c2ad2f41ed98fbb158b9fad2d4e7609bf5bd8e7d704df"
+    }
+  ],
+  "case_ids": [
+    "dfb-taint-java-alias-propagation-negative",
+    "dfb-taint-java-alias-propagation-positive",
+    "dfb-taint-java-anonymous-implementation-negative",
+    "dfb-taint-java-anonymous-implementation-positive",
+    "dfb-taint-java-argument-position-negative",
+    "dfb-taint-java-argument-position-positive",
+    "dfb-taint-java-array-element-negative",
+    "dfb-taint-java-array-element-positive",
+    "dfb-taint-java-branch-join-negative",
+    "dfb-taint-java-branch-join-positive",
+    "dfb-taint-java-call-context-negative",
+    "dfb-taint-java-call-context-positive",
+    "dfb-taint-java-callback-registration-negative",
+    "dfb-taint-java-callback-registration-positive",
+    "dfb-taint-java-closure-capture-negative",
+    "dfb-taint-java-closure-capture-positive",
+    "dfb-taint-java-computed-property-negative",
+    "dfb-taint-java-computed-property-positive",
+    "dfb-taint-java-context-pair-depth2-negative",
+    "dfb-taint-java-context-pair-depth2-positive",
+    "dfb-taint-java-deep-relay-chain-negative",
+    "dfb-taint-java-deep-relay-chain-positive",
+    "dfb-taint-java-direct-positive",
+    "dfb-taint-java-dispatch-table-negative",
+    "dfb-taint-java-dispatch-table-positive",
+    "dfb-taint-java-element-object-negative",
+    "dfb-taint-java-element-object-positive",
+    "dfb-taint-java-exception-catch-negative",
+    "dfb-taint-java-exception-catch-positive",
+    "dfb-taint-java-explicit-negative",
+    "dfb-taint-java-expression-negative",
+    "dfb-taint-java-expression-positive",
+    "dfb-taint-java-function-field-negative",
+    "dfb-taint-java-function-field-positive",
+    "dfb-taint-java-infeasible-branch-negative",
+    "dfb-taint-java-infeasible-branch-positive",
+    "dfb-taint-java-interprocedural-exception-persistence-negative",
+    "dfb-taint-java-interprocedural-exception-persistence-positive",
+    "dfb-taint-java-local-chain-negative",
+    "dfb-taint-java-local-chain-positive",
+    "dfb-taint-java-local-overwrite-negative",
+    "dfb-taint-java-local-overwrite-positive",
+    "dfb-taint-java-loop-carried-negative",
+    "dfb-taint-java-loop-carried-positive",
+    "dfb-taint-java-map-iteration-negative",
+    "dfb-taint-java-map-iteration-positive",
+    "dfb-taint-java-mutual-recursive-transform-negative",
+    "dfb-taint-java-mutual-recursive-transform-positive",
+    "dfb-taint-java-nested-access-path-negative",
+    "dfb-taint-java-nested-access-path-positive",
+    "dfb-taint-java-object-separation-negative",
+    "dfb-taint-java-object-separation-positive",
+    "dfb-taint-java-recursive-callback-transform-negative",
+    "dfb-taint-java-recursive-callback-transform-positive",
+    "dfb-taint-java-recursive-carry-negative",
+    "dfb-taint-java-recursive-carry-positive",
+    "dfb-taint-java-recursive-exception-persistence-negative",
+    "dfb-taint-java-recursive-exception-persistence-positive",
+    "dfb-taint-java-recursive-heap-unwind-negative",
+    "dfb-taint-java-recursive-heap-unwind-positive",
+    "dfb-taint-java-recursive-payload-transform-negative",
+    "dfb-taint-java-recursive-payload-transform-positive",
+    "dfb-taint-java-reflective-invocation-negative",
+    "dfb-taint-java-reflective-invocation-positive",
+    "dfb-taint-java-return-relay-one-hop-negative",
+    "dfb-taint-java-return-relay-one-hop-positive",
+    "dfb-taint-java-return-relay-two-hop-negative",
+    "dfb-taint-java-return-relay-two-hop-positive",
+    "dfb-taint-java-same-object-field-negative",
+    "dfb-taint-java-same-object-field-positive"
+  ],
+  "contract": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/contract.json",
+    "sha256": "4a4c27f07671443c01d15d485b02d49dc4d0968491a008af416a3fadf847c757"
+  },
+  "deadline_seconds": 894,
+  "duration_seconds": 276.789405875,
+  "end_utc": "2026-10-07T21:11:22.568856+00:00",
+  "environment": {
+    "HOME": "/Users/dave",
+    "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+    "LANG": "en_US.UTF-8",
+    "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/private/tmp"
+  },
+  "environment_sha256": "74e3b8874d66ade52a241c281f78bf20a2460ffdde1e1d5a1621c2ac569d37f2",
+  "execution_revision": "fdb83ab93e1190a5b04e7e1184d6c64d40d48daa",
+  "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/matrix",
+  "execution_root_mapping": {
+    "captured_root": "reports/releases/v0.9.0/attempts/opentaint-java-kernel-attempt-01/capture",
+    "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/matrix",
+    "mapping": [
+      {
+        "captured_relative": "reports/releases/v0.9.0/attempts/opentaint-java-kernel-attempt-01/capture/reports/opentaint-java-kernel.json",
+        "execution_root_relative": "reports/opentaint-java-kernel.json"
+      },
+      {
+        "captured_relative": "reports/releases/v0.9.0/attempts/opentaint-java-kernel-attempt-01/capture/reports/raw/opentaint-java-kernel",
+        "execution_root_relative": "reports/raw/opentaint-java-kernel"
+      }
+    ],
+    "nested_raw_references_resolve_from_execution_root_namespace": true,
+    "raw_json_bytes_rewritten": false
+  },
+  "exit_code": 0,
+  "expected_reports": [
+    "reports/releases/v0.9.0/normal/opentaint-java-kernel.json"
+  ],
+  "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+  "group_id": "opentaint-java-kernel",
+  "historical_seconds": 297,
+  "input_commits": {
+    "corpus": "2637211a21f22aabedf7bcf0d1b30fc09a349673",
+    "execution_harness": null
+  },
+  "input_identities": {
+    "adapters/codeql/swift-common-v2/plan-v090-01/plan.json": "bdcc6299efb30ec37d765ec4b6afcb492337fa1c5d635422c1001ff5f482acfd",
+    "adapters/joern/swift-common-v2/plan-v090-01/plan.json": "14dde3a42a90c19d5c4eb696688f19cf31463a9d38bf153c227d0b82097604e6",
+    "populations/v0.9.0.json": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+    "reports/releases/v0.9.0/execution-v1/codeql-compatibility/summary.json": "7bc68a9bc11994525c8dd536fc9c419c795003228ee285e288ea3bc7e9dd6adc",
+    "reports/releases/v0.9.0/execution-v1/command-parsing-check.json": "73b9849ac390763dd65e26d829148323ec79f24fbae34f0572ae63a64bb306ab",
+    "reports/releases/v0.9.0/execution-v1/control-integration-validation.json": "fe09cac1435971ff4535f0091f53568f5e8bac32675353eb8e755d9f86d38028",
+    "reports/releases/v0.9.0/execution-v1/dependency-version-witnesses.json": "50d7d8566cb24d1fdee789bfc7932463f3d014c8702f69822101db46ba916480",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/attempt-baseline.json": "2711bc8e25335156e265789232b2a3bdf1b88b08af2a325c13b1ebd8bdea52fa",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-restoration.json": "bf983885a3674e3c4ab0ab837bd13ef2d7e22d4f2189887a7078176bc69a4ca5",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-runtime.json": "1a2f936f40e7e978ea1f2b38033a02cf8bd5f0a1d1c5fb531e40dd63a1bab894",
+    "reports/releases/v0.9.0/execution-v1/held-tool-digests.json": "9d748428932fdf7922ae62a066304226166a8f7105ebd5a8be9a42c15a4ffab2",
+    "reports/releases/v0.9.0/execution-v1/native-codeql-packs.json": "7ab00154d9b4b16197a4103ea25d16a69f5bd0a0a2623301249fe3182649a9d4",
+    "reports/releases/v0.9.0/execution-v1/non-swift-codeql-packs.json": "3594d6486c40c55b51c86369553c08017a2bb12f325f87d1e88c724a16569e3e",
+    "reports/releases/v0.9.0/execution-v1/opentaint-full-restoration.json": "3fcb4894b8544d4f1764b5755f5def28f2161d34c09e0ae31ed159bba858fd22",
+    "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/codeql-swift-plan.json": "0da64698c1c25dea74e2f38bae62a400089aa49a4ae7a2d0d22f1a49f1aedcbf",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/attempt-baseline.json": "a5beda3eb8786c9ffd9aa666b0d77499b8a7ee2d834e8d999597ab824558d427",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/bifrost-runtime.json": "1635ef70e935c3fb036c50a347ed4a20604ddc27045542eb46074f19b5c6147f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-plan.json": "1b03fce83c2de7ab0ce4bea7e1d6c61b37910fe9a36b6941c32c6fa03c7202ea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-reservation.json": "1a825206f32b4b2852924008dce2e620f340b663e577b7db0c1db77de8ad7875",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/command-parsing-check.json": "36d20b5ba8ed49a929220f90cb2c1952971057216f4355cbc48ae8e1363f17da",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/joern-swift-reservation.json": "faef0e3fe35223b0901a4293d27d3be83caa8c64ddde9e7df57b8709423ce835",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-restoration.json": "1c65c58260e115d33c9461a541a74e92d84c4cd4c01aa9cf171799ff2b4061bd",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-runtime.json": "78e899e13217020e5895827b88dec06f6a5e109bfb16a242d1a0ca3ba8588174",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/pin-amendment.json": "f6120d6d9f6512fa23b1b5a2ab6e4b1d5a112a35b01587fc17cc23e47895c08b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/recovery-allocation.json": "64cc317e05c534557be975ee97f92cf230612f30fbb349572fe680e7d8d909d8",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.command.json": "909baac6a5ca68a38b1d883d6fea7205053d74ebda352caa019d8b258b656bea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stderr": "51481a2ec800708aaaefd8fbe6c3ef2a8b5f3d772e26c5e2dfafde941cab1775",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.command.json": "b3f061ef7b810a34ba35bd58140eb5b6a0346becc2cd7fd965311c208cc7217c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.stdout": "58e42160c951a60e77f79f24e6588bb2a2f5dc31f13eda32a8ebe9e3a291895c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.command.json": "3c5ca699b7add324bf1f3a8f8fd50e67a852f2f283c81e217bec1a57f9f9cdd1",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.stderr": "bea81d63fffd872e1564d44a97589ed7c40296015250cff4d472dca88cc4eea9",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.command.json": "fe6b061f2670fe409ab1a7ba68aa0e0f3d8655cfabbfbc9bd08fb75ce6b33f7b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.stdout": "c7dd25b0771a72c528dea94ef4bea83deb1154625391ee6e8498190790b4de7f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.command.json": "161f0985914464a33c746f689af7bcc93d606b413c2f2453f487f40152f02501",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.stderr": "a5415cc0501430f95866ddf8b989040e889c3e31adc8f07c2d530bc6d1fe84b0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.command.json": "44a229b96dfcf66db188ecdd44294cef581dc30c1712ac9d62373436519f35de",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.stdout": "f2586e4d0a2ce61dc3857049f84d83b8fab168b5eaa95cd5524a1b843fd04d9b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.command.json": "e5101be2f9070136b63051024086f3eec694d9a16892b18fe774463abac760de",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.stderr": "c08f87ca2083e9836116d22ee84316628d46edff05bf1d3b870e2a142514531b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.command.json": "46eeaba4a55e30dc4e493b4d5bbe1315fce3d86a474adc0ecda6369eff0e4362",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.stdout": "db40d8af58b6b5f130a872b44a3e3487ddd28a527cd3070cbedcab1687107a2b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.command.json": "ad8d244c3660480dba8f715be935bd0f17a2d6884bf0fd276686f7494f9e0da0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.stderr": "f863ea57ad59e9d22b5b4ee7a89d05c6789272300496e062855cba35c32b1e49",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.command.json": "242f2bc58b2b60b042a890c9e70316bf260157452176338bce961d9055456693",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.stdout": "e9dc53cd4319de2fe8aabbe83c8b5256e2f7afe2287507f76e506f4c3c5aa72e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.command.json": "75471d6b7a069babc38a7f7e277998abe6780275676d420b0c27569b6f4f0c52",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.stderr": "88112363bd05b8cdaa2272b01de23f92e82e5cd245bd59ad3861fb076f7404e9",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.command.json": "cd6426298745445faecd2f3a4a0d7f7fa51737ab886d83a6b7628b1d197dd67f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.stdout": "5958bb9265843221acf9bacbe5571c33a4b2160656d94610764701876a1199aa",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.command.json": "832d7372afbf5390ba62d3d61468ab9b43a255c92365a743d7b9100b262af046",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.stderr": "39e1f0311a995de3cde608bb72d4173cc180d3a26c6a0545eadb2aceca92e9c0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.command.json": "6a8d3fed08cf4601cce9d5cd8f1e4c257b9f7b6e00298fbeccc39a3f231ec31c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.stdout": "d23ab7e6a0729659e445e79c7f29343229cc5395f8e3ca546447d173c5d69531",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.command.json": "ab79170665c1fd3c7a5c9b8bb1c0b7e0c2e86605d61211fde6f55eb71ea2bda4",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.stderr": "ed867ce4fdeaefe8c9744784c5a5d8a7f2589c171a8f75bd11bb1fef14b11885",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.command.json": "b2867e60c5a942b003c5083110c94ea9b2a4ca2843b73233a1ed449cbd6623bd",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.stdout": "0b15639a135957cc3839fb1e6da12e3639642ebe86ed9d12fa669a0b7b55bc39",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.command.json": "02d0a4467c9bda6da11d530a12db909159e27bd01adb6b17f32a380e8595b4da",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.stderr": "dffba6d3b7956f2752044f282b103f6c08ad4baef0bac00004274f81c4faebf5",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.command.json": "87e6fd3367827a9be579140bf387fadc123a2e1dac01cde2308dad9cb33c939e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.stdout": "ba09e41784ddc1fad7e25a27c8cdc11725bdeb95d2a95b0144f8f659ac1a02dc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.command.json": "1c58798ff7361233dc4b3a8814758434f5f4b4478bb1fe041e666927d1aa8814",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.stderr": "f4fa4d093ca0f27609d5e95e0975a73056bcdb06f0a3382720618059a539f24b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.command.json": "3a6d452149cc1e0c895ed433fecc1fd754be47f488b337f91e786a85557a96fb",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.stdout": "c91e81476a573ed14daf0bb77cb22ebfa1a6ae01b1707c64ade3f88a2f5b0d79",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.command.json": "b52367a8723a3386ea0bec40bdd55ceda9e2ab3bcc85c3f58e569a3cb38d9fcc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.stderr": "cec93fe7d778bbd452763ffa6e0db57708389ed7a250c354a0f505b24da2122d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.command.json": "9b337474087470f54cabc257cf8d3d882bc5a232560805d67a425db444147fe3",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.stdout": "1a8bdd2a9db187583a5a33e9335d981aee3d2b7a6d4d0cd412ad313a1e0e6e94",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.command.json": "2dbea25672156a65bc6d996e5cafc1735be2acb7adbf4eef47d9c601f55e3760",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.stderr": "eddf0fe23f04f3bdbab45974e9a38b635bf596edf8a3ec65438284de676a97f5",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.command.json": "4f908a1650dbbb0c2d4cb7bbda4f907ad58bda97bf3e4e5af922ca40cd3fc97d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.stdout": "202e7481ebb0c39615ff07aa786936dd96d59971cabfae2ab0ea7805d2b4aa59",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/preregistration.json": "551aa381686bea8a0e2a0fffeb0abbb4a801a7568111d60b415236457cca3ede",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/receipt.json": "68cb80eb2511757bb247a4ca1ee8f7dfc07e62c2f1acf882a88f755ece65e40b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/attempt-baseline.json": "603907abbb35b7c2ccaaf8c5acaad5b8740563a97208db2fff0e3636737b7d69",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/codeql-swift-reservation.json": "3bffc8c348e79f966b9850b4166d4897901a179775ba30ae1070172a9c5eaf15",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/joern-swift-reservation.json": "21b0f364cba57020925f57fcb910cabfa7586415cddf234d8872df0db4f6a1a7",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/recovery-allocation.json": "4c1beea908e947a2faf8e3025d1f9290055bc0ffe51e311ae0c387751263743e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/attempt-baseline.json": "a92102ad81795fdfbd1a8b15d898c533b8b2ccc1db9165e826a448fb2217b418",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/codeql-swift-reservation.json": "0a22faf05c9e9799adea897d129dced9aae55707ad4e09ca1efd1c3ec800e95d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/joern-swift-reservation.json": "a1a8fdc7ae85791965eb14cacb0b7ad96250bf2f5c15079250a589a44899de8f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/recovery-allocation.json": "894e1c200d91419cb6f6660ef6c51a3ff9a265f698e38f8611620d9d526b9d7c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/attempt-baseline.json": "37c07d1e750fb844a68ce59af1a490f13d361ceb3c7d0e82847e5c656a642729",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/codeql-swift-reservation.json": "21b0eec15fdda88572c07ca47faa92f397ee5c3c1ab2e5ed7d85150f15a164b6",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/joern-swift-reservation.json": "4f7be153542793cf803f2ecdf8e2ffc840924c22ac19090c2a9faac2d9bd29f6",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/recovery-allocation.json": "0056bd4508d665cf455b5b9e246e4839ddbdda7630ba8af72eceb14d765272ac",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/attempt-baseline.json": "402005a3a73e9921a9be2fdaec5831e7d9bce154f635b9186f3658434ca4d3df",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/codeql-swift-reservation.json": "b3ceae7d685fc9d655f105051cc0edd2dc8b378857124915e2ffdd5fd6b093dc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/control-inventory.json": "a232733f779104358786ffa894657b7920f2b148651a684c7686396f26ed9498",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/held-tool-digests.json": "ca93a3ab4f9421c343f07b373862f9cf7c95329e206da522c6470628ff035178",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/joern-swift-reservation.json": "b7b5abc8c93a5ac090b1b2744e8b16bfd844e04777b4007c141cb9f22dc70920",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/recovery-allocation.json": "77609ff41a2f5fd82ba8cfc451d2818c236798ff0aba58240d1a27e9cef17ccc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/runner-build.json": "2c126dc1f7fb23b2d9dcf4ce09049c450636e1991741b58fdb282d9bc98fd1d3",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/bifrost.json": "690b40f65d6b0635e3fd9e06d37470f48a09594e2e15003ce5fd88c98c1bf86c",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/flowdroid.json": "7dc0d4b5c82674b96ccc70693b0b2a472300b0758e10e1be13da33de35d4661e",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/infer.json": "f88687f03e98358896cbfe4974978b33da2260af42fe72cf8613fb11270aec76",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/opentaint.json": "93cd3cfd102c3ad3577400512237f1b7dae6ca9624a5937882a5047365c090db",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/python.json": "d87a9446e1ab2ff323dcab65a0645773413f7d4c3dcee7e4abccb2648c330bdb",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/semgrep.json": "6da0b1ebc6d2686302dec7e4f15c60ace682e552cc64e138c0d00a21c941dd7f",
+    "reports/releases/v0.9.0/execution-v1/runtime-version-witnesses.json": "e33f14c4f03b4f73f2f056cf96765d057d10e68e77c8dff50a65425c72db48ed",
+    "reports/releases/v0.9.0/execution-v1/semgrep-runtime-witness.json": "9d5462470bf89f162b4c9764203000e48f53726a3cd6c5775ffe5464caf7df15",
+    "reports/releases/v0.9.0/execution-v1/swift-query-checks/receipt.json": "1040dc8b6f9878d7b83264f3fb7da5647df8f08d099edc492ae3fa15e5c4d8bd",
+    "reports/releases/v0.9.0/plan.json": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf",
+    "scripts/execute-release-controls-v090.py": "4808f3721fde76a42e24a979257bcba8babe788955140768361cf59e3419cb66",
+    "scripts/execute-release-recovery-v090.py": "98ae29bd67cd77a3754458b032c2203474155cd40779630c0dfd6e8c41841c40",
+    "scripts/prepare-release-root-v090.py": "e53dabc4133d8eb4ff976e4a2e1447be90e745060b48b46aa29de7b868256b76",
+    "scripts/probe-bifrost-sanitizer-lowering.sh": "d6790e3a245ca568ba0c12bd09012a41831704e43e45f5567f978d725abbfb03",
+    "scripts/probe-bifrost-scan-native-v012.sh": "4d4bf38e5286b5d74fb50bb3c733c4f8f330e03baa85ab0e6d61b1f4f538c731",
+    "scripts/probe-bifrost-scan-native.sh": "40c95ed69d820c624e6524a200684544ef99f70d65b65a1c043071e94c38e312",
+    "scripts/probe-flowdroid-modeling-load-bearing.sh": "62075cc2af9ab50f274d29ea80c85f169746fe4237901f9635c93742e831928c",
+    "scripts/probe-flowdroid-native-shipped-surface.sh": "e19b888159f5e67a2c7419df4d59cf59e38046353e0c882588d438942872ed4a",
+    "scripts/probe-infer-modeling-partition.sh": "9b3c523f6d6524beef18dc877dfdeb5344cbed1e5bcd99e19bfe870b06c8bb23",
+    "scripts/probe-infer-native-activation.sh": "d10617b106bea4104dd2887c9d468b0312af0647e23f3a07928a62c78774c064",
+    "scripts/probe-infer-native-silence.sh": "7897a032da1569ca85d6286fc5a32509ff2eee623515059873a6ce2700b98666",
+    "scripts/probe-java-modeling-load-bearing.sh": "635fcfa58241a83ddd2afd349f1fd1ba40c5f875bffe2d1a72585ff9a66a7724",
+    "scripts/probe-javascript-modeling-load-bearing.sh": "e3611a71a410db0bd44c90277c29bfa8db7acd72d5248f239fc510679930314c",
+    "scripts/probe-joern-scan-native.sh": "f2584fa97d92bc932dbc514e84db6c89db7da8630effea92d8f244cab9bed3d5",
+    "scripts/probe-opentaint-modeling-surface.sh": "0415d7838cc0d0cd9a3e338cdd9d6e11f3dfc8ca8703f38347e87044c4e71de7",
+    "scripts/probe-opentaint-native-activation.sh": "5400cc43cded6c84b17544a7affeefdff103f8ad70df39602ccd3b865c18328f",
+    "scripts/probe-opentaint-primitive-tracking.sh": "88592a10525c2fd1c7de3c0e37e3e56f9a82a20b7b2ae72b2f6d9c7b92caba6c",
+    "scripts/probe-opentaint-product-recovery-v090.py": "5c945332a00680f11355cd4f3a97c96bd4a994ba38b59872b19ff4df2ffc7c5b",
+    "scripts/probe-opentaint-product-v090.py": "0589faee6fae872d8991bb5f3d30db5d00c95ea11c5a56fbca8e89dfe726c864",
+    "scripts/probe-opentaint-scan-activation.sh": "d8c7074105c644ec9990d96eb281288e9795fd76f7a01ebddafe7f97ea9d384b",
+    "scripts/probe-opentaint-value-kind.sh": "1f1aae2c22a238011cc7061e9faf47cd075acad783264a1564582389de9fe22a",
+    "scripts/probe-pysa-callee-resolution.sh": "ec4501bda36ad2a017af84d609eedfe8bfd706f7c5de3c37565116750f225cbe",
+    "scripts/probe-pysa-modeling-load-bearing.sh": "315b8a46993392bd93ab211bad1b90318e3fcfdd313652229c15bc5285d9e15a",
+    "scripts/probe-pysa-native-activation.sh": "cd55635af84a86806ddd21e5726b19315330349e1cb122a09417fa36d8e43871",
+    "scripts/probe-python-modeling-load-bearing-v090.py": "a3862528578f74ac99acf43ef6af6a6f9d72d1411b9fa9ae4116b03f31a77536",
+    "scripts/probe-semgrep-jsjava-native.sh": "d09e3bab859030d4679af455a341e7a155119fd48cba248abdc11b0fdf8d44f2",
+    "scripts/probe-warm-observability-v090.py": "c2c31b70154f25287488f262a3bd23e5d029e784d1c7c60173212a113b7346a8",
+    "scripts/release_claim_v090.py": "f4458242ec60e70327f8e6bfee14904e378941d1cb096bcc082974566d30a901",
+    "scripts/release_control_attempt_v090.py": "7e876cfd9c0be39c2c0a85bec99c1282366f3c69fffe3eb524b5aa2ffacf41b5",
+    "scripts/release_environment_v090.py": "344ed79eb774134c4e04e4e243bf05c20279a52d0e050e674a9c79ddb0f16ebd",
+    "scripts/run-release-control-recovery-v090.py": "03341567bd732495fe8e4129542867bc7c7da09ee40ef96be458e75b3bf452c9",
+    "scripts/run-release-control-v090.py": "8cf9785659f8319a08115422c6229162883a858dd766e128c906431ed96c7d0d",
+    "scripts/run-release-group-recovery-v090.py": "8dbfe3c4f9de495b5d72c68ab0f7374e6de0ba7357329426418710f0837dcb91",
+    "scripts/run-release-group-v090.py": "a19ae44adefe386f7f71b006ece268e1d3e3ea0ee54d94247737a0b1eb6b1ac4"
+  },
+  "output_roots": [
+    "reports/opentaint-java-kernel.json",
+    "reports/raw/opentaint-java-kernel"
+  ],
+  "parent_plan": {
+    "path": "reports/releases/v0.9.0/plan.json",
+    "sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf"
+  },
+  "population": {
+    "path": "populations/v0.9.0.json",
+    "sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+  },
+  "release": "v0.9.0",
+  "reports": [
+    {
+      "case_ids": [
+        "dfb-taint-java-alias-propagation-negative",
+        "dfb-taint-java-alias-propagation-positive",
+        "dfb-taint-java-anonymous-implementation-negative",
+        "dfb-taint-java-anonymous-implementation-positive",
+        "dfb-taint-java-argument-position-negative",
+        "dfb-taint-java-argument-position-positive",
+        "dfb-taint-java-array-element-negative",
+        "dfb-taint-java-array-element-positive",
+        "dfb-taint-java-branch-join-negative",
+        "dfb-taint-java-branch-join-positive",
+        "dfb-taint-java-call-context-negative",
+        "dfb-taint-java-call-context-positive",
+        "dfb-taint-java-callback-registration-negative",
+        "dfb-taint-java-callback-registration-positive",
+        "dfb-taint-java-closure-capture-negative",
+        "dfb-taint-java-closure-capture-positive",
+        "dfb-taint-java-computed-property-negative",
+        "dfb-taint-java-computed-property-positive",
+        "dfb-taint-java-context-pair-depth2-negative",
+        "dfb-taint-java-context-pair-depth2-positive",
+        "dfb-taint-java-deep-relay-chain-negative",
+        "dfb-taint-java-deep-relay-chain-positive",
+        "dfb-taint-java-direct-positive",
+        "dfb-taint-java-dispatch-table-negative",
+        "dfb-taint-java-dispatch-table-positive",
+        "dfb-taint-java-element-object-negative",
+        "dfb-taint-java-element-object-positive",
+        "dfb-taint-java-exception-catch-negative",
+        "dfb-taint-java-exception-catch-positive",
+        "dfb-taint-java-explicit-negative",
+        "dfb-taint-java-expression-negative",
+        "dfb-taint-java-expression-positive",
+        "dfb-taint-java-function-field-negative",
+        "dfb-taint-java-function-field-positive",
+        "dfb-taint-java-infeasible-branch-negative",
+        "dfb-taint-java-infeasible-branch-positive",
+        "dfb-taint-java-interprocedural-exception-persistence-negative",
+        "dfb-taint-java-interprocedural-exception-persistence-positive",
+        "dfb-taint-java-local-chain-negative",
+        "dfb-taint-java-local-chain-positive",
+        "dfb-taint-java-local-overwrite-negative",
+        "dfb-taint-java-local-overwrite-positive",
+        "dfb-taint-java-loop-carried-negative",
+        "dfb-taint-java-loop-carried-positive",
+        "dfb-taint-java-map-iteration-negative",
+        "dfb-taint-java-map-iteration-positive",
+        "dfb-taint-java-mutual-recursive-transform-negative",
+        "dfb-taint-java-mutual-recursive-transform-positive",
+        "dfb-taint-java-nested-access-path-negative",
+        "dfb-taint-java-nested-access-path-positive",
+        "dfb-taint-java-object-separation-negative",
+        "dfb-taint-java-object-separation-positive",
+        "dfb-taint-java-recursive-callback-transform-negative",
+        "dfb-taint-java-recursive-callback-transform-positive",
+        "dfb-taint-java-recursive-carry-negative",
+        "dfb-taint-java-recursive-carry-positive",
+        "dfb-taint-java-recursive-exception-persistence-negative",
+        "dfb-taint-java-recursive-exception-persistence-positive",
+        "dfb-taint-java-recursive-heap-unwind-negative",
+        "dfb-taint-java-recursive-heap-unwind-positive",
+        "dfb-taint-java-recursive-payload-transform-negative",
+        "dfb-taint-java-recursive-payload-transform-positive",
+        "dfb-taint-java-reflective-invocation-negative",
+        "dfb-taint-java-reflective-invocation-positive",
+        "dfb-taint-java-return-relay-one-hop-negative",
+        "dfb-taint-java-return-relay-one-hop-positive",
+        "dfb-taint-java-return-relay-two-hop-negative",
+        "dfb-taint-java-return-relay-two-hop-positive",
+        "dfb-taint-java-same-object-field-negative",
+        "dfb-taint-java-same-object-field-positive"
+      ],
+      "execution_output_path": "reports/opentaint-java-kernel.json",
+      "ordinal": 0,
+      "original_normalized": "original-normalized/reports/releases/v0.9.0/normal/opentaint-java-kernel.json",
+      "original_normalized_sha256": "1432a73c05616a82687ab8d1e9874bceb50ac35fffdc81f3e7ada341a0ff6fc9",
+      "source_path": "reports/releases/v0.9.0/normal/opentaint-java-kernel.json",
+      "staged_path": "reports/releases/v0.9.0/normal/attempts/opentaint-java-kernel-attempt-01/opentaint-java-kernel.json",
+      "staged_sha256": "af106d8a9cc9d10a4e9ebf30219bb5f4f46863d1309eae7572b86870c90bbee9"
+    }
+  ],
+  "schema_version": 1,
+  "start_utc": "2026-10-07T21:06:45.703769+00:00",
+  "started_receipt": "started.json",
+  "status": "completed",
+  "stderr": {
+    "path": "stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "stdout.txt",
+    "sha256": "bf43d3cf99a9523d1d207568cebb53add1855682c58d3a70bc09566c50e76d08"
+  },
+  "timed_out": false
+}

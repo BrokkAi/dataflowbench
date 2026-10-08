@@ -1,0 +1,18 @@
+{
+  "adapter": "semgrep",
+  "case_id": "dfb-taint-python-context-pair-depth2-negative",
+  "engine_profile": "semgrep-ce-oss-intrafile-intraprocedural-taint",
+  "evidence_kind": "retained-capability-decision",
+  "expected_analysis_capability": {
+    "kind": "two-level-context-sensitive-taint"
+  },
+  "feature_tags": [
+    "interprocedural-deep"
+  ],
+  "language": "python",
+  "language_maturity": "ga",
+  "language_maturity_source": "semgrep_interfaces/lang.json (pinned distribution)",
+  "reason": "outside the bounded Semgrep CE profile: the case declares two-level context sensitivity; CE has no interprocedural taint and therefore no calling context to be sensitive to. The case requires \"two-level-context-sensitive-taint\"; the scored CE profile is the kernel's `intraprocedural` partition only.",
+  "stage": "declared-capability",
+  "state": "unsupported"
+}

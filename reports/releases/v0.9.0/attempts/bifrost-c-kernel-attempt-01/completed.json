@@ -1,0 +1,969 @@
+{
+  "argv": [
+    "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/target/release/dataflowbench",
+    "--population",
+    "v0.9.0",
+    "run-bifrost-c-kernel",
+    "--bifrost",
+    "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/tools/bifrost-v0.12.0/bifrost-v0.12.0-universal-apple-darwin/bifrost"
+  ],
+  "attempt_id": "bifrost-c-kernel-attempt-01",
+  "captured_files": [
+    {
+      "bytes": 33377,
+      "path": "reports/bifrost-c-kernel.json",
+      "sha256": "841a6da003fe3d029265a50fc24589b25b11ebe4aa610b8c4bc1ba73b0c14d8a"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-negative-timing.json",
+      "sha256": "4173b0f11b5af79a115c7e3d076f9e32d5bae8c04971cf30d2184896e4400fb9"
+    },
+    {
+      "bytes": 5134,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-negative.json",
+      "sha256": "f8c28cdebb33b2bedc837edc640c1ec595b8dd434a1bd7998803fe241cf2276d"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-positive-timing.json",
+      "sha256": "a3ab1ada6edf7971c707177e369779023c74386500662676e1937d7116102bd0"
+    },
+    {
+      "bytes": 32636,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-alias-propagation-positive.json",
+      "sha256": "e2284c7fb15c2618010566da3e11b27e0c0b3a879191623625c25f77eb688b74"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-negative-timing.json",
+      "sha256": "e2bac22713bd47d43f57dcc654d8c9bcdf1602a87a2097fe87f9151db8040c73"
+    },
+    {
+      "bytes": 5133,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-negative.json",
+      "sha256": "7c5382c1a4b78ea80a5230aa168815eb6fb8759b899c2f6e72fb8d7a99f6fd3a"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-positive-timing.json",
+      "sha256": "b2d46daf2b3da616747d9ef8ffe3913f4d76ef9c5a7423d99ac5687351866acc"
+    },
+    {
+      "bytes": 26289,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-argument-position-positive.json",
+      "sha256": "6e4a4d063315160c025841fbdaa62c36855b1d1280e9bc11f968351497fd75fc"
+    },
+    {
+      "bytes": 245,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-negative-timing.json",
+      "sha256": "6e4dc622e9d3ff4e66a8821c9d6e4d97e651ab214184351f41e960eb184316e3"
+    },
+    {
+      "bytes": 5132,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-negative.json",
+      "sha256": "e8f19402b65286dc57be3a79356f50eb6c88a2d2cf4df942e1aa422827097092"
+    },
+    {
+      "bytes": 245,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-positive-timing.json",
+      "sha256": "9be4a27edd45dbe646efb96933164edc4e59e451519c8ef149b449094ecf3910"
+    },
+    {
+      "bytes": 32128,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-array-element-positive.json",
+      "sha256": "4580f59f60ca5e1ab96442d585e1c26ca3f16836e753b85fbb997ce01c5830be"
+    },
+    {
+      "bytes": 243,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-negative-timing.json",
+      "sha256": "154021acadbdfda0cbd00630adb338a98a04f86a47e9c5c91b3cb4a6a21f9298"
+    },
+    {
+      "bytes": 5132,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-negative.json",
+      "sha256": "36ff6ee8a3dddedb28b07c2b4b2a8b97b5519e1a1a8695456927d5d8ceed865a"
+    },
+    {
+      "bytes": 243,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-positive-timing.json",
+      "sha256": "e6fb2a4d911c8f1da12b3060c89191a39a0a06ab65fe4fe5c9157cf4499fd870"
+    },
+    {
+      "bytes": 19768,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-branch-join-positive.json",
+      "sha256": "87ca3fc154529a9c80b02bd0bd9052b70fac71d434a53f026db34f9219205096"
+    },
+    {
+      "bytes": 244,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-negative-timing.json",
+      "sha256": "f40ff1550f08c55a04399f91d9dc1279869b696c8a8d11a35f228a92980f4e21"
+    },
+    {
+      "bytes": 5133,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-negative.json",
+      "sha256": "9692958b52ec58e3253315b5b625e34c9de784b2f9c364ec6dbb3c9de72b56fe"
+    },
+    {
+      "bytes": 244,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-positive-timing.json",
+      "sha256": "96e66a68011d7872e120754b5dbaa50b454248762ad72028767404c04c00fa6b"
+    },
+    {
+      "bytes": 29282,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-call-context-positive.json",
+      "sha256": "8edf1764159baad961f9c7acc4b307e23cbedc1c3127559ac71a27f1df225731"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-negative-timing.json",
+      "sha256": "274256ac3c37455b9658341ee4df236b0a2567fa3cc2f614f6f01085df0125ce"
+    },
+    {
+      "bytes": 5601,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-negative.json",
+      "sha256": "f6ab2260f419952404cbd94a56408e37084b12f83300272804173952ebc2c0ed"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-positive-timing.json",
+      "sha256": "ddfe3e62dc4035da34881e31e62a199c4943eaedcd2f488c23adc2232a0a273b"
+    },
+    {
+      "bytes": 5601,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-callback-registration-positive.json",
+      "sha256": "a5cdda9f6a539b62d40271bf2a2dc9695b30e24a6111d8c9f6b65010599ba464"
+    },
+    {
+      "bytes": 251,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-negative-timing.json",
+      "sha256": "69d027d84cafcc92607b4f0cdd79095b80cea18b0eb6709b23b14d7ecf39547f"
+    },
+    {
+      "bytes": 5135,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-negative.json",
+      "sha256": "a94a40527cf61d7f9fe3814fa78e5864a8eaf39d043a2483357e4b29e7e48ad7"
+    },
+    {
+      "bytes": 251,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-positive-timing.json",
+      "sha256": "3dc0d08d88535e3d6366f9e4e04bf7bc6173a942befc7d7d88feb7160bc9a886"
+    },
+    {
+      "bytes": 42152,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-context-pair-depth2-positive.json",
+      "sha256": "71e3870162b02a73a1de3597af92afb0a6da8ecdd1a076bad886f413d07ef6b4"
+    },
+    {
+      "bytes": 248,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-negative-timing.json",
+      "sha256": "8c99c06e143d5a0cfe8abd17d9374cdf54d1cdc1a092424df32b4f88cd453224"
+    },
+    {
+      "bytes": 5137,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-negative.json",
+      "sha256": "b3ac42bad6c1800f30fa20d92fe02fd71b736ce7c22db07adb5a7b6a96475e92"
+    },
+    {
+      "bytes": 248,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-positive-timing.json",
+      "sha256": "bf50cb9edf27a6ba2e8bb73712dcd3565b77ff02323d7971904fcb86ea7b72a0"
+    },
+    {
+      "bytes": 55723,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-deep-relay-chain-positive.json",
+      "sha256": "1a2450ee6d2f96726f322af2702d18fda60a872830bc95bff25b7256b5fa62e2"
+    },
+    {
+      "bytes": 238,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-direct-negative-timing.json",
+      "sha256": "fb320524f0c454f2b8743e9629b458077b6eaece9078ee805836cca4e93f9f4e"
+    },
+    {
+      "bytes": 5134,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-direct-negative.json",
+      "sha256": "ff81b6f8942918560ee9e41868f64be23c9a0e7e41d187139789d91e3cb3ed72"
+    },
+    {
+      "bytes": 238,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-direct-positive-timing.json",
+      "sha256": "3a0209c7a5c991e3f72bcf31c8431b1c66f6bc8a4a937916cfd71e693d1ac1b9"
+    },
+    {
+      "bytes": 15893,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-direct-positive.json",
+      "sha256": "67c08eb5c1b99aae66383a12ed9e0297226adb9348efd2ff356530b48d76a8ab"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-negative-timing.json",
+      "sha256": "ad78424cbdea29676c7075741d640a22d10bf4e775eb223730d2af1142658a3d"
+    },
+    {
+      "bytes": 5570,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-negative.json",
+      "sha256": "7c1e8b66fc5b28f89c7a86212cad4a7e00cc8030e660178216b24558e72b69fb"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-positive-timing.json",
+      "sha256": "15cbceb69625844ea6a4ffdc014f52da0c02ec5b6c049666df057407b2a485fb"
+    },
+    {
+      "bytes": 5570,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-dispatch-table-positive.json",
+      "sha256": "518386bf3cee97704e597c65c75e19b00a298535f132b69b17a60549bbaa10be"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-negative-timing.json",
+      "sha256": "28e5078a82ce4d77113840f0df2577ccd2515b697d4b2fef07cbc27c2a2af5ec"
+    },
+    {
+      "bytes": 5134,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-negative.json",
+      "sha256": "2e0b9b3a5bc159bf968389d4f5ea721ce20507a5d935e5ba206b1286e23e4f70"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-positive-timing.json",
+      "sha256": "c3e95c0f6d69804ed9dc6561785493eaaec2aee979a13f2964dd32c3ed8d0dd0"
+    },
+    {
+      "bytes": 36450,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-element-object-positive.json",
+      "sha256": "16f45475ed5539db876bcbe214304f9daf192eb143c3067bc136c552ff0c97f8"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-error-code-return-positive-timing.json",
+      "sha256": "f7776a8d509ea94b56c18966e988269e5a24c1a03079d50ce6bb67c38a45aafa"
+    },
+    {
+      "bytes": 42543,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-error-code-return-positive.json",
+      "sha256": "085a2d305ba5a09ae11bfddca5b3a1be7fa532107219c53725d92950a510538c"
+    },
+    {
+      "bytes": 242,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-expression-negative-timing.json",
+      "sha256": "c993bd50d76ff25d846a526e5b3b549ee275cce420f6d0fb9a736a1719e5de31"
+    },
+    {
+      "bytes": 5132,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-expression-negative.json",
+      "sha256": "9d1621b6bc562c1bffd7677b5d161c160e16f305624b217f3f6de10de0c7ae54"
+    },
+    {
+      "bytes": 242,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-expression-positive-timing.json",
+      "sha256": "ee833fc5d94924d4d2f8b5ed2639768cda5c43ed58bba8baa140ca8aa0fe8647"
+    },
+    {
+      "bytes": 25268,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-expression-positive.json",
+      "sha256": "1389ef91cb60bdd088dc13134b7f7c938559bc3c71e4cd25f8869b6ae3f90702"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-negative-timing.json",
+      "sha256": "3b1c0c8a23194a660b3cc956e97acf45b38c6829362cb19565e2add9d47bc838"
+    },
+    {
+      "bytes": 5758,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-negative.json",
+      "sha256": "6badd915665f47ab0fda44bdb23791399c915d4465e93888363fef7f083f209d"
+    },
+    {
+      "bytes": 246,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-positive-timing.json",
+      "sha256": "06f4a45fc2d0d416c622270b8869d9fe2eed6d754679fba3ff30331a1ffb5494"
+    },
+    {
+      "bytes": 5758,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-function-field-positive.json",
+      "sha256": "a7b16a2143c302807ce0d54c2a6ded27b8b45a5b4483948b08c5297f11b20906"
+    },
+    {
+      "bytes": 244,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-goto-cleanup-positive-timing.json",
+      "sha256": "2e68d1a29a568859b73da1c40ac5d7eab5134a25d00bcb61878b94ffa638e956"
+    },
+    {
+      "bytes": 25998,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-goto-cleanup-positive.json",
+      "sha256": "be1e9d5ab5f1858d8fa1a46da4f67d36b2b8514d0b09566786c8ed1d8658ca86"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-negative-timing.json",
+      "sha256": "12fd9aa76843dfdfcdbdec63f8556ea93837b59fe4dee6746ddb23965a975913"
+    },
+    {
+      "bytes": 5132,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-negative.json",
+      "sha256": "d64e55d904ac27853fd2be1d6a994bce88f6fa7ffe8c3a305e9d0d6aacdba503"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-positive-timing.json",
+      "sha256": "6bd48a3099e88574f62e2e636345ca33f3838a01ed4787065baba06a675f26ee"
+    },
+    {
+      "bytes": 22864,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-infeasible-branch-positive.json",
+      "sha256": "bcfd6e5103b052c74e466ac3be404582baf45384df77158bba11e22c4a1ec91a"
+    },
+    {
+      "bytes": 243,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-negative-timing.json",
+      "sha256": "b652352f3958acbc12d010e9f8a9c8ca0f9c070fec2de1aac496e1d33767885b"
+    },
+    {
+      "bytes": 5133,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-negative.json",
+      "sha256": "561d0ad8ec92ebbc20b481b55719c1193ee89c51cab734b969d8490fb13c53e0"
+    },
+    {
+      "bytes": 243,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-positive-timing.json",
+      "sha256": "3385b8e16080df2b56c9cd8b4d34b233357b53b44593c6bc6890fe0f83fef2f7"
+    },
+    {
+      "bytes": 22857,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-chain-positive.json",
+      "sha256": "b6dd20737e7a2a20e8e3fd116d773e9e6f0c87a153aafe8b3c86c628b3e425c1"
+    },
+    {
+      "bytes": 247,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-negative-timing.json",
+      "sha256": "460c631c54c28ca09bb712fad4647f97beb6d9875d464bdd8aceb6d783c1f420"
+    },
+    {
+      "bytes": 5132,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-negative.json",
+      "sha256": "98b63e342cc3a53c7e3a5517b4d9e2acec0ddf82dda26af8a71d7b0d02445c26"
+    },
+    {
+      "bytes": 247,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-positive-timing.json",
+      "sha256": "93205bf0d467bed429978b16bca079653095b6e56ea000fe195663b5bcfd500b"
+    },
+    {
+      "bytes": 23803,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-local-overwrite-positive.json",
+      "sha256": "021c5756b2be236d4bc9b69ef7c51d1cd3b88bfc27f163dc912118bb86b32791"
+    },
+    {
+      "bytes": 244,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-negative-timing.json",
+      "sha256": "4d2459e404d2ce14f77e2e9e14cf0acc337c8faf1355c35d91d4de49027e1ff8"
+    },
+    {
+      "bytes": 5132,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-negative.json",
+      "sha256": "0ad9a78cc8027d02c98521e1fb842703456ddc2ff2c018c731494de638293251"
+    },
+    {
+      "bytes": 244,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-positive-timing.json",
+      "sha256": "a4893ca529c49fa4ecf133ae0acce0a0982adc650d60d23a6520dd9e24ac3439"
+    },
+    {
+      "bytes": 31526,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-loop-carried-positive.json",
+      "sha256": "587aa1b2e76d47b9c009df8d07e5c5260ff85fde5ef28488d9c43b5657b0f1c3"
+    },
+    {
+      "bytes": 245,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-negative-timing.json",
+      "sha256": "91cb32b257b4ba361fc6971fa872def7f74ce77e41a2a2006f2734216aef4fd4"
+    },
+    {
+      "bytes": 5528,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-negative.json",
+      "sha256": "7d353ff221a897086b0813a51f7d47f6745392de5f01f9134066409e83256ef4"
+    },
+    {
+      "bytes": 245,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-positive-timing.json",
+      "sha256": "643b780302b822a64f4268fb7b1f2a5116f4d93b2e642182d161f3e75902a801"
+    },
+    {
+      "bytes": 54593,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-map-iteration-positive.json",
+      "sha256": "f313e40b4940210caac61b54e4eaca9eb821e8fb089248f2f74e1b3b018f7e28"
+    },
+    {
+      "bytes": 258,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-mutual-recursive-transform-negative-timing.json",
+      "sha256": "02fe8b77632dba0f3e5e6129d905512b9ad5f97ac2d88962b46e07e170fac09e"
+    },
+    {
+      "bytes": 5795,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-mutual-recursive-transform-negative.json",
+      "sha256": "4d65851a0a45827f02ab5a5ac3e62f7269d5291d88393783f1f4a5b9fe7b2eaa"
+    },
+    {
+      "bytes": 258,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-mutual-recursive-transform-positive-timing.json",
+      "sha256": "e9c2dbabc34bbe37474ba7b8918d1185e042224a1ff16c67b7424ae641af2157"
+    },
+    {
+      "bytes": 29729,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-mutual-recursive-transform-positive.json",
+      "sha256": "11850ece61fa342db282c48bc838b7a36b70893a52b284d162c73c91c4f6df5d"
+    },
+    {
+      "bytes": 250,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-negative-timing.json",
+      "sha256": "fc4fe1278b5e81a0b3521ea026087228b640fe794f5ad4786d512aeaeb561645"
+    },
+    {
+      "bytes": 5134,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-negative.json",
+      "sha256": "d19b09b3daaf7c2f123dd36b1370ebf41558f890056f9781e6d3828645bb0fc8"
+    },
+    {
+      "bytes": 250,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-positive-timing.json",
+      "sha256": "a58c82ea62b82062d42772c8ec633ee30ab7d776479598e6e149595e0d717132"
+    },
+    {
+      "bytes": 36247,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-nested-access-path-positive.json",
+      "sha256": "a03e6a5999b87b223cebb67f7a236868b7931c400fabbe2490119bbbd0cb0cdf"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-negative-timing.json",
+      "sha256": "4d538a2158d82be032e79f4fc437842c941917dc9874b60681e0688bebeea88f"
+    },
+    {
+      "bytes": 5134,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-negative.json",
+      "sha256": "f6e0c6b55340d06d43f9ad010799a11df0a156d2028e8975436afcb50c7e8d4f"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-positive-timing.json",
+      "sha256": "9d62fef2ed0d89df67f7cc9475c54e45e06702f853e0d85942ce1fdacf127894"
+    },
+    {
+      "bytes": 29164,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-object-separation-positive.json",
+      "sha256": "37c4bb08324bc9a85b5e949e7998776b84a9266993fed0b67e9b4aabd87e4ddf"
+    },
+    {
+      "bytes": 260,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-callback-transform-negative-timing.json",
+      "sha256": "ea8fe1b8c68c54704054ecd3b9b7cf6fe3ae59b6f529e841c8a4ffd7a6a809c3"
+    },
+    {
+      "bytes": 5798,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-callback-transform-negative.json",
+      "sha256": "0564ca3427460d12f31eab32bf7b2030537389da2645be8a8cad25a8b490bcb0"
+    },
+    {
+      "bytes": 260,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-callback-transform-positive-timing.json",
+      "sha256": "af6b20a32a8b5caf54a1fbcfbe5f90417579bfe8ae5c2a8bae6969c67a014705"
+    },
+    {
+      "bytes": 30655,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-callback-transform-positive.json",
+      "sha256": "54b4072a24e2225aa819862daabde3e671a83e934595f85cc27c58058db8e263"
+    },
+    {
+      "bytes": 247,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-negative-timing.json",
+      "sha256": "ca4480b67719f3985305dd49a55cc236c4eb055aa2d4ebb00d52a1232ef02b18"
+    },
+    {
+      "bytes": 5133,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-negative.json",
+      "sha256": "55bae6c864ccb2d853441a2d44da65bb40749398225c91ca4035cb861468c9a8"
+    },
+    {
+      "bytes": 247,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-positive-timing.json",
+      "sha256": "38717b17bef6c2e4c47d495e7d036f3c5e7c7b6c2b85abdc1817c3761721c5e3"
+    },
+    {
+      "bytes": 27971,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-carry-positive.json",
+      "sha256": "c77efb8a35b84a8dc2ed34b4139a9bbde7235c66a5b29fd810ad0ca481a49e81"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-heap-unwind-negative-timing.json",
+      "sha256": "2834898848666308b1959980b4d7bd786156320e26838f9f57e846007f7e57d5"
+    },
+    {
+      "bytes": 51118,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-heap-unwind-negative.json",
+      "sha256": "4bc7ba9160e61c2c127e6a511cfa40d4f313b976a960aa03ee09b4d531a68931"
+    },
+    {
+      "bytes": 253,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-heap-unwind-positive-timing.json",
+      "sha256": "c6d267fd53425645b8a8717d23e8450d9bf3070021fbed9c971e9e58a869774a"
+    },
+    {
+      "bytes": 46885,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-heap-unwind-positive.json",
+      "sha256": "d611a120940cd51bceb853b61b81a2bb87fd306fba6a58bb9a5921429b37e42d"
+    },
+    {
+      "bytes": 259,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-payload-transform-negative-timing.json",
+      "sha256": "23e31995ab4400018057340a52bf9d7f4b18e87d2086bbd006706cd373707ba7"
+    },
+    {
+      "bytes": 5136,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-payload-transform-negative.json",
+      "sha256": "b63d97842abf0756a06db45551e8f3f4c63caaabb77a55022e7a35075f33c068"
+    },
+    {
+      "bytes": 259,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-payload-transform-positive-timing.json",
+      "sha256": "0cdcabfad4d34d509aa8db81a335fb6dd1ae76a3114e378b93592bc0f8b8e05e"
+    },
+    {
+      "bytes": 29005,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-recursive-payload-transform-positive.json",
+      "sha256": "9603f555f1282e34a604514662ff7f52ab4000263f303038d9b0fc03d92800df"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-negative-timing.json",
+      "sha256": "11a3bd2183cec4027c8e70f7ca0baa2214e4973166ba28004a44f89774d8dc56"
+    },
+    {
+      "bytes": 5133,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-negative.json",
+      "sha256": "9eaa7ad77de18e8d36303666edd76a81ebb85b0947d17aa1a2bcc19ecf722109"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-positive-timing.json",
+      "sha256": "429317d441b7f57b0322e3250a145262cb3050c3ee4836c9faf0dbfef088dfbb"
+    },
+    {
+      "bytes": 25792,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-one-hop-positive.json",
+      "sha256": "80df73c1ca3a43e35d20a9e9a39a0bafb1f626322bc084d0232c41f391ecd9e5"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-negative-timing.json",
+      "sha256": "c3bac9187bb32a2df3e1c88ee2d045fe4821b9798bbcf7dbd9851ca6e3760f5a"
+    },
+    {
+      "bytes": 5134,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-negative.json",
+      "sha256": "aa12f76153dcbeff90e6e7514f7d834cac61ec56a9b96cc0c6ae62118fba87e0"
+    },
+    {
+      "bytes": 252,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-positive-timing.json",
+      "sha256": "5642911c31df2de993f2946258b203af6bd7636d123d443a224d72c8e87ea41e"
+    },
+    {
+      "bytes": 32754,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-return-relay-two-hop-positive.json",
+      "sha256": "e14d4a7c6ead8f57ce7ce59f956141515b8bf9e3053d983bcec3d5fac001ea5a"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-negative-timing.json",
+      "sha256": "6a3690ff8cd0efef437a0258ba9999a9e32e4b69d05ab118cc6270f6c069a448"
+    },
+    {
+      "bytes": 5134,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-negative.json",
+      "sha256": "f6807d73ad8890ac88994fcae564367ba96d5323c860fe142579e99fab209e50"
+    },
+    {
+      "bytes": 249,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-positive-timing.json",
+      "sha256": "93feee6abd0ec4f51d3c9c464d98b03759d320324e6367b32265bf2684913e60"
+    },
+    {
+      "bytes": 27780,
+      "path": "reports/raw/bifrost-c-kernel/dfb-taint-c-same-object-field-positive.json",
+      "sha256": "d22f69eeedfd4fc2f1e59f6a2fa0886ae2a69b367b4d63604f4ed98dcc04c9f0"
+    },
+    {
+      "bytes": 765,
+      "path": "reports/raw/bifrost-c-kernel/run-environment.json",
+      "sha256": "832dcd659c8e4e9c58a51fb66d93dcd92583c236a8e74961d50141ab08c3e611"
+    }
+  ],
+  "case_ids": [
+    "dfb-taint-c-alias-propagation-negative",
+    "dfb-taint-c-alias-propagation-positive",
+    "dfb-taint-c-argument-position-negative",
+    "dfb-taint-c-argument-position-positive",
+    "dfb-taint-c-array-element-negative",
+    "dfb-taint-c-array-element-positive",
+    "dfb-taint-c-branch-join-negative",
+    "dfb-taint-c-branch-join-positive",
+    "dfb-taint-c-call-context-negative",
+    "dfb-taint-c-call-context-positive",
+    "dfb-taint-c-callback-registration-negative",
+    "dfb-taint-c-callback-registration-positive",
+    "dfb-taint-c-context-pair-depth2-negative",
+    "dfb-taint-c-context-pair-depth2-positive",
+    "dfb-taint-c-deep-relay-chain-negative",
+    "dfb-taint-c-deep-relay-chain-positive",
+    "dfb-taint-c-direct-negative",
+    "dfb-taint-c-direct-positive",
+    "dfb-taint-c-dispatch-table-negative",
+    "dfb-taint-c-dispatch-table-positive",
+    "dfb-taint-c-element-object-negative",
+    "dfb-taint-c-element-object-positive",
+    "dfb-taint-c-error-code-return-positive",
+    "dfb-taint-c-expression-negative",
+    "dfb-taint-c-expression-positive",
+    "dfb-taint-c-function-field-negative",
+    "dfb-taint-c-function-field-positive",
+    "dfb-taint-c-goto-cleanup-positive",
+    "dfb-taint-c-infeasible-branch-negative",
+    "dfb-taint-c-infeasible-branch-positive",
+    "dfb-taint-c-local-chain-negative",
+    "dfb-taint-c-local-chain-positive",
+    "dfb-taint-c-local-overwrite-negative",
+    "dfb-taint-c-local-overwrite-positive",
+    "dfb-taint-c-loop-carried-negative",
+    "dfb-taint-c-loop-carried-positive",
+    "dfb-taint-c-map-iteration-negative",
+    "dfb-taint-c-map-iteration-positive",
+    "dfb-taint-c-mutual-recursive-transform-negative",
+    "dfb-taint-c-mutual-recursive-transform-positive",
+    "dfb-taint-c-nested-access-path-negative",
+    "dfb-taint-c-nested-access-path-positive",
+    "dfb-taint-c-object-separation-negative",
+    "dfb-taint-c-object-separation-positive",
+    "dfb-taint-c-recursive-callback-transform-negative",
+    "dfb-taint-c-recursive-callback-transform-positive",
+    "dfb-taint-c-recursive-carry-negative",
+    "dfb-taint-c-recursive-carry-positive",
+    "dfb-taint-c-recursive-heap-unwind-negative",
+    "dfb-taint-c-recursive-heap-unwind-positive",
+    "dfb-taint-c-recursive-payload-transform-negative",
+    "dfb-taint-c-recursive-payload-transform-positive",
+    "dfb-taint-c-return-relay-one-hop-negative",
+    "dfb-taint-c-return-relay-one-hop-positive",
+    "dfb-taint-c-return-relay-two-hop-negative",
+    "dfb-taint-c-return-relay-two-hop-positive",
+    "dfb-taint-c-same-object-field-negative",
+    "dfb-taint-c-same-object-field-positive"
+  ],
+  "contract": {
+    "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/contract.json",
+    "sha256": "4a4c27f07671443c01d15d485b02d49dc4d0968491a008af416a3fadf847c757"
+  },
+  "deadline_seconds": 600,
+  "duration_seconds": 9.460174958,
+  "end_utc": "2026-10-07T16:39:49.656924+00:00",
+  "environment": {
+    "HOME": "/Users/dave",
+    "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+    "LANG": "en_US.UTF-8",
+    "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/private/tmp"
+  },
+  "environment_sha256": "74e3b8874d66ade52a241c281f78bf20a2460ffdde1e1d5a1621c2ac569d37f2",
+  "execution_revision": "fdb83ab93e1190a5b04e7e1184d6c64d40d48daa",
+  "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/matrix",
+  "execution_root_mapping": {
+    "captured_root": "reports/releases/v0.9.0/attempts/bifrost-c-kernel-attempt-01/capture",
+    "execution_root": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-05/execution/matrix",
+    "mapping": [
+      {
+        "captured_relative": "reports/releases/v0.9.0/attempts/bifrost-c-kernel-attempt-01/capture/reports/bifrost-c-kernel.json",
+        "execution_root_relative": "reports/bifrost-c-kernel.json"
+      },
+      {
+        "captured_relative": "reports/releases/v0.9.0/attempts/bifrost-c-kernel-attempt-01/capture/reports/raw/bifrost-c-kernel",
+        "execution_root_relative": "reports/raw/bifrost-c-kernel"
+      }
+    ],
+    "nested_raw_references_resolve_from_execution_root_namespace": true,
+    "raw_json_bytes_rewritten": false
+  },
+  "exit_code": 0,
+  "expected_reports": [
+    "reports/releases/v0.9.0/normal/bifrost-c-kernel.json"
+  ],
+  "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+  "group_id": "bifrost-c-kernel",
+  "historical_seconds": 10,
+  "input_commits": {
+    "corpus": "2637211a21f22aabedf7bcf0d1b30fc09a349673",
+    "execution_harness": null
+  },
+  "input_identities": {
+    "adapters/codeql/swift-common-v2/plan-v090-01/plan.json": "bdcc6299efb30ec37d765ec4b6afcb492337fa1c5d635422c1001ff5f482acfd",
+    "adapters/joern/swift-common-v2/plan-v090-01/plan.json": "14dde3a42a90c19d5c4eb696688f19cf31463a9d38bf153c227d0b82097604e6",
+    "populations/v0.9.0.json": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+    "reports/releases/v0.9.0/execution-v1/codeql-compatibility/summary.json": "7bc68a9bc11994525c8dd536fc9c419c795003228ee285e288ea3bc7e9dd6adc",
+    "reports/releases/v0.9.0/execution-v1/command-parsing-check.json": "73b9849ac390763dd65e26d829148323ec79f24fbae34f0572ae63a64bb306ab",
+    "reports/releases/v0.9.0/execution-v1/control-integration-validation.json": "fe09cac1435971ff4535f0091f53568f5e8bac32675353eb8e755d9f86d38028",
+    "reports/releases/v0.9.0/execution-v1/dependency-version-witnesses.json": "50d7d8566cb24d1fdee789bfc7932463f3d014c8702f69822101db46ba916480",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/attempt-baseline.json": "2711bc8e25335156e265789232b2a3bdf1b88b08af2a325c13b1ebd8bdea52fa",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-restoration.json": "bf983885a3674e3c4ab0ab837bd13ef2d7e22d4f2189887a7078176bc69a4ca5",
+    "reports/releases/v0.9.0/execution-v1/final-recovery-20260930-01/opentaint-full-runtime.json": "1a2f936f40e7e978ea1f2b38033a02cf8bd5f0a1d1c5fb531e40dd63a1bab894",
+    "reports/releases/v0.9.0/execution-v1/held-tool-digests.json": "9d748428932fdf7922ae62a066304226166a8f7105ebd5a8be9a42c15a4ffab2",
+    "reports/releases/v0.9.0/execution-v1/native-codeql-packs.json": "7ab00154d9b4b16197a4103ea25d16a69f5bd0a0a2623301249fe3182649a9d4",
+    "reports/releases/v0.9.0/execution-v1/non-swift-codeql-packs.json": "3594d6486c40c55b51c86369553c08017a2bb12f325f87d1e88c724a16569e3e",
+    "reports/releases/v0.9.0/execution-v1/opentaint-full-restoration.json": "3fcb4894b8544d4f1764b5755f5def28f2161d34c09e0ae31ed159bba858fd22",
+    "reports/releases/v0.9.0/execution-v1/recovery-20260930-01/codeql-swift-plan.json": "0da64698c1c25dea74e2f38bae62a400089aa49a4ae7a2d0d22f1a49f1aedcbf",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/attempt-baseline.json": "a5beda3eb8786c9ffd9aa666b0d77499b8a7ee2d834e8d999597ab824558d427",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/bifrost-runtime.json": "1635ef70e935c3fb036c50a347ed4a20604ddc27045542eb46074f19b5c6147f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-plan.json": "1b03fce83c2de7ab0ce4bea7e1d6c61b37910fe9a36b6941c32c6fa03c7202ea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/codeql-swift-reservation.json": "1a825206f32b4b2852924008dce2e620f340b663e577b7db0c1db77de8ad7875",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/command-parsing-check.json": "36d20b5ba8ed49a929220f90cb2c1952971057216f4355cbc48ae8e1363f17da",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/joern-swift-reservation.json": "faef0e3fe35223b0901a4293d27d3be83caa8c64ddde9e7df57b8709423ce835",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-restoration.json": "1c65c58260e115d33c9461a541a74e92d84c4cd4c01aa9cf171799ff2b4061bd",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/opentaint-full-runtime.json": "78e899e13217020e5895827b88dec06f6a5e109bfb16a242d1a0ca3ba8588174",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/pin-amendment.json": "f6120d6d9f6512fa23b1b5a2ab6e4b1d5a112a35b01587fc17cc23e47895c08b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/recovery-allocation.json": "64cc317e05c534557be975ee97f92cf230612f30fbb349572fe680e7d8d909d8",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.command.json": "909baac6a5ca68a38b1d883d6fea7205053d74ebda352caa019d8b258b656bea",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stderr": "51481a2ec800708aaaefd8fbe6c3ef2a8b5f3d772e26c5e2dfafde941cab1775",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.command.json": "b3f061ef7b810a34ba35bd58140eb5b6a0346becc2cd7fd965311c208cc7217c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/0/resolve.stdout": "58e42160c951a60e77f79f24e6588bb2a2f5dc31f13eda32a8ebe9e3a291895c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.command.json": "3c5ca699b7add324bf1f3a8f8fd50e67a852f2f283c81e217bec1a57f9f9cdd1",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.stderr": "bea81d63fffd872e1564d44a97589ed7c40296015250cff4d472dca88cc4eea9",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.command.json": "fe6b061f2670fe409ab1a7ba68aa0e0f3d8655cfabbfbc9bd08fb75ce6b33f7b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/1/resolve.stdout": "c7dd25b0771a72c528dea94ef4bea83deb1154625391ee6e8498190790b4de7f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.command.json": "161f0985914464a33c746f689af7bcc93d606b413c2f2453f487f40152f02501",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.stderr": "a5415cc0501430f95866ddf8b989040e889c3e31adc8f07c2d530bc6d1fe84b0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.command.json": "44a229b96dfcf66db188ecdd44294cef581dc30c1712ac9d62373436519f35de",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/10/resolve.stdout": "f2586e4d0a2ce61dc3857049f84d83b8fab168b5eaa95cd5524a1b843fd04d9b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.command.json": "e5101be2f9070136b63051024086f3eec694d9a16892b18fe774463abac760de",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.stderr": "c08f87ca2083e9836116d22ee84316628d46edff05bf1d3b870e2a142514531b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.command.json": "46eeaba4a55e30dc4e493b4d5bbe1315fce3d86a474adc0ecda6369eff0e4362",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/11/resolve.stdout": "db40d8af58b6b5f130a872b44a3e3487ddd28a527cd3070cbedcab1687107a2b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.command.json": "ad8d244c3660480dba8f715be935bd0f17a2d6884bf0fd276686f7494f9e0da0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.stderr": "f863ea57ad59e9d22b5b4ee7a89d05c6789272300496e062855cba35c32b1e49",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.command.json": "242f2bc58b2b60b042a890c9e70316bf260157452176338bce961d9055456693",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/2/resolve.stdout": "e9dc53cd4319de2fe8aabbe83c8b5256e2f7afe2287507f76e506f4c3c5aa72e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.command.json": "75471d6b7a069babc38a7f7e277998abe6780275676d420b0c27569b6f4f0c52",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.stderr": "88112363bd05b8cdaa2272b01de23f92e82e5cd245bd59ad3861fb076f7404e9",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.command.json": "cd6426298745445faecd2f3a4a0d7f7fa51737ab886d83a6b7628b1d197dd67f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/3/resolve.stdout": "5958bb9265843221acf9bacbe5571c33a4b2160656d94610764701876a1199aa",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.command.json": "832d7372afbf5390ba62d3d61468ab9b43a255c92365a743d7b9100b262af046",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.stderr": "39e1f0311a995de3cde608bb72d4173cc180d3a26c6a0545eadb2aceca92e9c0",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.command.json": "6a8d3fed08cf4601cce9d5cd8f1e4c257b9f7b6e00298fbeccc39a3f231ec31c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/4/resolve.stdout": "d23ab7e6a0729659e445e79c7f29343229cc5395f8e3ca546447d173c5d69531",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.command.json": "ab79170665c1fd3c7a5c9b8bb1c0b7e0c2e86605d61211fde6f55eb71ea2bda4",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.stderr": "ed867ce4fdeaefe8c9744784c5a5d8a7f2589c171a8f75bd11bb1fef14b11885",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.command.json": "b2867e60c5a942b003c5083110c94ea9b2a4ca2843b73233a1ed449cbd6623bd",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/5/resolve.stdout": "0b15639a135957cc3839fb1e6da12e3639642ebe86ed9d12fa669a0b7b55bc39",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.command.json": "02d0a4467c9bda6da11d530a12db909159e27bd01adb6b17f32a380e8595b4da",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.stderr": "dffba6d3b7956f2752044f282b103f6c08ad4baef0bac00004274f81c4faebf5",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.command.json": "87e6fd3367827a9be579140bf387fadc123a2e1dac01cde2308dad9cb33c939e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/6/resolve.stdout": "ba09e41784ddc1fad7e25a27c8cdc11725bdeb95d2a95b0144f8f659ac1a02dc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.command.json": "1c58798ff7361233dc4b3a8814758434f5f4b4478bb1fe041e666927d1aa8814",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.stderr": "f4fa4d093ca0f27609d5e95e0975a73056bcdb06f0a3382720618059a539f24b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.command.json": "3a6d452149cc1e0c895ed433fecc1fd754be47f488b337f91e786a85557a96fb",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/7/resolve.stdout": "c91e81476a573ed14daf0bb77cb22ebfa1a6ae01b1707c64ade3f88a2f5b0d79",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.command.json": "b52367a8723a3386ea0bec40bdd55ceda9e2ab3bcc85c3f58e569a3cb38d9fcc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.stderr": "cec93fe7d778bbd452763ffa6e0db57708389ed7a250c354a0f505b24da2122d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.command.json": "9b337474087470f54cabc257cf8d3d882bc5a232560805d67a425db444147fe3",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/8/resolve.stdout": "1a8bdd2a9db187583a5a33e9335d981aee3d2b7a6d4d0cd412ad313a1e0e6e94",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.command.json": "2dbea25672156a65bc6d996e5cafc1735be2acb7adbf4eef47d9c601f55e3760",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.stderr": "eddf0fe23f04f3bdbab45974e9a38b635bf596edf8a3ec65438284de676a97f5",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/compile.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.command.json": "4f908a1650dbbb0c2d4cb7bbda4f907ad58bda97bf3e4e5af922ca40cd3fc97d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/9/resolve.stdout": "202e7481ebb0c39615ff07aa786936dd96d59971cabfae2ab0ea7805d2b4aa59",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/preregistration.json": "551aa381686bea8a0e2a0fffeb0abbb4a801a7568111d60b415236457cca3ede",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-01/swift-query-checks/receipt.json": "68cb80eb2511757bb247a4ca1ee8f7dfc07e62c2f1acf882a88f755ece65e40b",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/attempt-baseline.json": "603907abbb35b7c2ccaaf8c5acaad5b8740563a97208db2fff0e3636737b7d69",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/codeql-swift-reservation.json": "3bffc8c348e79f966b9850b4166d4897901a179775ba30ae1070172a9c5eaf15",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/joern-swift-reservation.json": "21b0f364cba57020925f57fcb910cabfa7586415cddf234d8872df0db4f6a1a7",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-02/recovery-allocation.json": "4c1beea908e947a2faf8e3025d1f9290055bc0ffe51e311ae0c387751263743e",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/attempt-baseline.json": "a92102ad81795fdfbd1a8b15d898c533b8b2ccc1db9165e826a448fb2217b418",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/codeql-swift-reservation.json": "0a22faf05c9e9799adea897d129dced9aae55707ad4e09ca1efd1c3ec800e95d",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/joern-swift-reservation.json": "a1a8fdc7ae85791965eb14cacb0b7ad96250bf2f5c15079250a589a44899de8f",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-03/recovery-allocation.json": "894e1c200d91419cb6f6660ef6c51a3ff9a265f698e38f8611620d9d526b9d7c",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/attempt-baseline.json": "37c07d1e750fb844a68ce59af1a490f13d361ceb3c7d0e82847e5c656a642729",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/codeql-swift-reservation.json": "21b0eec15fdda88572c07ca47faa92f397ee5c3c1ab2e5ed7d85150f15a164b6",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/joern-swift-reservation.json": "4f7be153542793cf803f2ecdf8e2ffc840924c22ac19090c2a9faac2d9bd29f6",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-04/recovery-allocation.json": "0056bd4508d665cf455b5b9e246e4839ddbdda7630ba8af72eceb14d765272ac",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/attempt-baseline.json": "402005a3a73e9921a9be2fdaec5831e7d9bce154f635b9186f3658434ca4d3df",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/codeql-swift-reservation.json": "b3ceae7d685fc9d655f105051cc0edd2dc8b378857124915e2ffdd5fd6b093dc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/control-inventory.json": "a232733f779104358786ffa894657b7920f2b148651a684c7686396f26ed9498",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/held-tool-digests.json": "ca93a3ab4f9421c343f07b373862f9cf7c95329e206da522c6470628ff035178",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/joern-swift-reservation.json": "b7b5abc8c93a5ac090b1b2744e8b16bfd844e04777b4007c141cb9f22dc70920",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/recovery-allocation.json": "77609ff41a2f5fd82ba8cfc451d2818c236798ff0aba58240d1a27e9cef17ccc",
+    "reports/releases/v0.9.0/execution-v1/resume-20261007-05/runner-build.json": "2c126dc1f7fb23b2d9dcf4ce09049c450636e1991741b58fdb282d9bc98fd1d3",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/bifrost.json": "690b40f65d6b0635e3fd9e06d37470f48a09594e2e15003ce5fd88c98c1bf86c",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/flowdroid.json": "7dc0d4b5c82674b96ccc70693b0b2a472300b0758e10e1be13da33de35d4661e",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/infer.json": "f88687f03e98358896cbfe4974978b33da2260af42fe72cf8613fb11270aec76",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/opentaint.json": "93cd3cfd102c3ad3577400512237f1b7dae6ca9624a5937882a5047365c090db",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/python.json": "d87a9446e1ab2ff323dcab65a0645773413f7d4c3dcee7e4abccb2648c330bdb",
+    "reports/releases/v0.9.0/execution-v1/runtime-trees/semgrep.json": "6da0b1ebc6d2686302dec7e4f15c60ace682e552cc64e138c0d00a21c941dd7f",
+    "reports/releases/v0.9.0/execution-v1/runtime-version-witnesses.json": "e33f14c4f03b4f73f2f056cf96765d057d10e68e77c8dff50a65425c72db48ed",
+    "reports/releases/v0.9.0/execution-v1/semgrep-runtime-witness.json": "9d5462470bf89f162b4c9764203000e48f53726a3cd6c5775ffe5464caf7df15",
+    "reports/releases/v0.9.0/execution-v1/swift-query-checks/receipt.json": "1040dc8b6f9878d7b83264f3fb7da5647df8f08d099edc492ae3fa15e5c4d8bd",
+    "reports/releases/v0.9.0/plan.json": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf",
+    "scripts/execute-release-controls-v090.py": "4808f3721fde76a42e24a979257bcba8babe788955140768361cf59e3419cb66",
+    "scripts/execute-release-recovery-v090.py": "98ae29bd67cd77a3754458b032c2203474155cd40779630c0dfd6e8c41841c40",
+    "scripts/prepare-release-root-v090.py": "e53dabc4133d8eb4ff976e4a2e1447be90e745060b48b46aa29de7b868256b76",
+    "scripts/probe-bifrost-sanitizer-lowering.sh": "d6790e3a245ca568ba0c12bd09012a41831704e43e45f5567f978d725abbfb03",
+    "scripts/probe-bifrost-scan-native-v012.sh": "4d4bf38e5286b5d74fb50bb3c733c4f8f330e03baa85ab0e6d61b1f4f538c731",
+    "scripts/probe-bifrost-scan-native.sh": "40c95ed69d820c624e6524a200684544ef99f70d65b65a1c043071e94c38e312",
+    "scripts/probe-flowdroid-modeling-load-bearing.sh": "62075cc2af9ab50f274d29ea80c85f169746fe4237901f9635c93742e831928c",
+    "scripts/probe-flowdroid-native-shipped-surface.sh": "e19b888159f5e67a2c7419df4d59cf59e38046353e0c882588d438942872ed4a",
+    "scripts/probe-infer-modeling-partition.sh": "9b3c523f6d6524beef18dc877dfdeb5344cbed1e5bcd99e19bfe870b06c8bb23",
+    "scripts/probe-infer-native-activation.sh": "d10617b106bea4104dd2887c9d468b0312af0647e23f3a07928a62c78774c064",
+    "scripts/probe-infer-native-silence.sh": "7897a032da1569ca85d6286fc5a32509ff2eee623515059873a6ce2700b98666",
+    "scripts/probe-java-modeling-load-bearing.sh": "635fcfa58241a83ddd2afd349f1fd1ba40c5f875bffe2d1a72585ff9a66a7724",
+    "scripts/probe-javascript-modeling-load-bearing.sh": "e3611a71a410db0bd44c90277c29bfa8db7acd72d5248f239fc510679930314c",
+    "scripts/probe-joern-scan-native.sh": "f2584fa97d92bc932dbc514e84db6c89db7da8630effea92d8f244cab9bed3d5",
+    "scripts/probe-opentaint-modeling-surface.sh": "0415d7838cc0d0cd9a3e338cdd9d6e11f3dfc8ca8703f38347e87044c4e71de7",
+    "scripts/probe-opentaint-native-activation.sh": "5400cc43cded6c84b17544a7affeefdff103f8ad70df39602ccd3b865c18328f",
+    "scripts/probe-opentaint-primitive-tracking.sh": "88592a10525c2fd1c7de3c0e37e3e56f9a82a20b7b2ae72b2f6d9c7b92caba6c",
+    "scripts/probe-opentaint-product-recovery-v090.py": "5c945332a00680f11355cd4f3a97c96bd4a994ba38b59872b19ff4df2ffc7c5b",
+    "scripts/probe-opentaint-product-v090.py": "0589faee6fae872d8991bb5f3d30db5d00c95ea11c5a56fbca8e89dfe726c864",
+    "scripts/probe-opentaint-scan-activation.sh": "d8c7074105c644ec9990d96eb281288e9795fd76f7a01ebddafe7f97ea9d384b",
+    "scripts/probe-opentaint-value-kind.sh": "1f1aae2c22a238011cc7061e9faf47cd075acad783264a1564582389de9fe22a",
+    "scripts/probe-pysa-callee-resolution.sh": "ec4501bda36ad2a017af84d609eedfe8bfd706f7c5de3c37565116750f225cbe",
+    "scripts/probe-pysa-modeling-load-bearing.sh": "315b8a46993392bd93ab211bad1b90318e3fcfdd313652229c15bc5285d9e15a",
+    "scripts/probe-pysa-native-activation.sh": "cd55635af84a86806ddd21e5726b19315330349e1cb122a09417fa36d8e43871",
+    "scripts/probe-python-modeling-load-bearing-v090.py": "a3862528578f74ac99acf43ef6af6a6f9d72d1411b9fa9ae4116b03f31a77536",
+    "scripts/probe-semgrep-jsjava-native.sh": "d09e3bab859030d4679af455a341e7a155119fd48cba248abdc11b0fdf8d44f2",
+    "scripts/probe-warm-observability-v090.py": "c2c31b70154f25287488f262a3bd23e5d029e784d1c7c60173212a113b7346a8",
+    "scripts/release_claim_v090.py": "f4458242ec60e70327f8e6bfee14904e378941d1cb096bcc082974566d30a901",
+    "scripts/release_control_attempt_v090.py": "7e876cfd9c0be39c2c0a85bec99c1282366f3c69fffe3eb524b5aa2ffacf41b5",
+    "scripts/release_environment_v090.py": "344ed79eb774134c4e04e4e243bf05c20279a52d0e050e674a9c79ddb0f16ebd",
+    "scripts/run-release-control-recovery-v090.py": "03341567bd732495fe8e4129542867bc7c7da09ee40ef96be458e75b3bf452c9",
+    "scripts/run-release-control-v090.py": "8cf9785659f8319a08115422c6229162883a858dd766e128c906431ed96c7d0d",
+    "scripts/run-release-group-recovery-v090.py": "8dbfe3c4f9de495b5d72c68ab0f7374e6de0ba7357329426418710f0837dcb91",
+    "scripts/run-release-group-v090.py": "a19ae44adefe386f7f71b006ece268e1d3e3ea0ee54d94247737a0b1eb6b1ac4"
+  },
+  "output_roots": [
+    "reports/bifrost-c-kernel.json",
+    "reports/raw/bifrost-c-kernel"
+  ],
+  "parent_plan": {
+    "path": "reports/releases/v0.9.0/plan.json",
+    "sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf"
+  },
+  "population": {
+    "path": "populations/v0.9.0.json",
+    "sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+  },
+  "release": "v0.9.0",
+  "reports": [
+    {
+      "case_ids": [
+        "dfb-taint-c-alias-propagation-negative",
+        "dfb-taint-c-alias-propagation-positive",
+        "dfb-taint-c-argument-position-negative",
+        "dfb-taint-c-argument-position-positive",
+        "dfb-taint-c-array-element-negative",
+        "dfb-taint-c-array-element-positive",
+        "dfb-taint-c-branch-join-negative",
+        "dfb-taint-c-branch-join-positive",
+        "dfb-taint-c-call-context-negative",
+        "dfb-taint-c-call-context-positive",
+        "dfb-taint-c-callback-registration-negative",
+        "dfb-taint-c-callback-registration-positive",
+        "dfb-taint-c-context-pair-depth2-negative",
+        "dfb-taint-c-context-pair-depth2-positive",
+        "dfb-taint-c-deep-relay-chain-negative",
+        "dfb-taint-c-deep-relay-chain-positive",
+        "dfb-taint-c-direct-negative",
+        "dfb-taint-c-direct-positive",
+        "dfb-taint-c-dispatch-table-negative",
+        "dfb-taint-c-dispatch-table-positive",
+        "dfb-taint-c-element-object-negative",
+        "dfb-taint-c-element-object-positive",
+        "dfb-taint-c-error-code-return-positive",
+        "dfb-taint-c-expression-negative",
+        "dfb-taint-c-expression-positive",
+        "dfb-taint-c-function-field-negative",
+        "dfb-taint-c-function-field-positive",
+        "dfb-taint-c-goto-cleanup-positive",
+        "dfb-taint-c-infeasible-branch-negative",
+        "dfb-taint-c-infeasible-branch-positive",
+        "dfb-taint-c-local-chain-negative",
+        "dfb-taint-c-local-chain-positive",
+        "dfb-taint-c-local-overwrite-negative",
+        "dfb-taint-c-local-overwrite-positive",
+        "dfb-taint-c-loop-carried-negative",
+        "dfb-taint-c-loop-carried-positive",
+        "dfb-taint-c-map-iteration-negative",
+        "dfb-taint-c-map-iteration-positive",
+        "dfb-taint-c-mutual-recursive-transform-negative",
+        "dfb-taint-c-mutual-recursive-transform-positive",
+        "dfb-taint-c-nested-access-path-negative",
+        "dfb-taint-c-nested-access-path-positive",
+        "dfb-taint-c-object-separation-negative",
+        "dfb-taint-c-object-separation-positive",
+        "dfb-taint-c-recursive-callback-transform-negative",
+        "dfb-taint-c-recursive-callback-transform-positive",
+        "dfb-taint-c-recursive-carry-negative",
+        "dfb-taint-c-recursive-carry-positive",
+        "dfb-taint-c-recursive-heap-unwind-negative",
+        "dfb-taint-c-recursive-heap-unwind-positive",
+        "dfb-taint-c-recursive-payload-transform-negative",
+        "dfb-taint-c-recursive-payload-transform-positive",
+        "dfb-taint-c-return-relay-one-hop-negative",
+        "dfb-taint-c-return-relay-one-hop-positive",
+        "dfb-taint-c-return-relay-two-hop-negative",
+        "dfb-taint-c-return-relay-two-hop-positive",
+        "dfb-taint-c-same-object-field-negative",
+        "dfb-taint-c-same-object-field-positive"
+      ],
+      "execution_output_path": "reports/bifrost-c-kernel.json",
+      "ordinal": 0,
+      "original_normalized": "original-normalized/reports/releases/v0.9.0/normal/bifrost-c-kernel.json",
+      "original_normalized_sha256": "841a6da003fe3d029265a50fc24589b25b11ebe4aa610b8c4bc1ba73b0c14d8a",
+      "source_path": "reports/releases/v0.9.0/normal/bifrost-c-kernel.json",
+      "staged_path": "reports/releases/v0.9.0/normal/attempts/bifrost-c-kernel-attempt-01/bifrost-c-kernel.json",
+      "staged_sha256": "1f3c41c99de0a15f873c1e6656ce7269d2e76958919f01e363c2edf9cd5c7d08"
+    }
+  ],
+  "schema_version": 1,
+  "start_utc": "2026-10-07T16:39:40.135891+00:00",
+  "started_receipt": "started.json",
+  "status": "completed",
+  "stderr": {
+    "path": "stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "path": "stdout.txt",
+    "sha256": "54b97b1265102aced551a2c317e8cce8e4673044ae153346f1265aaee1fb7008"
+  },
+  "timed_out": false
+}

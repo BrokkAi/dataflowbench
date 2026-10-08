@@ -1,0 +1,45 @@
+{
+  "command_count": 31,
+  "command_timeout_seconds": 300,
+  "compiler": {
+    "environment_source": "contract group opentaint-java-native, unchanged",
+    "path": "/usr/bin/javac",
+    "sha256": "51ec0764f7225b40d5b286b01401aa6b3990d0d171b446d7dc81ca7542b45552"
+  },
+  "contract_sha256": "4a4c27f07671443c01d15d485b02d49dc4d0968491a008af416a3fadf847c757",
+  "entry_points": "* passed as an observed probe parameter; no equivalence is inferred",
+  "failed_commands": [],
+  "historical_identity_sha256": "591c5a8d598148bdb18fb74353d863b18753f00ab30149e9095a9ef7c1ab2d63",
+  "kind": "fresh-shipped-product-activation",
+  "native_fixtures": [
+    "native-entrypoint-negative",
+    "native-entrypoint-positive",
+    "native-persistence-negative",
+    "native-persistence-positive",
+    "native-propagator-negative",
+    "native-propagator-positive",
+    "native-sanitizer-negative",
+    "native-sanitizer-positive",
+    "native-source-sink-negative",
+    "native-source-sink-positive",
+    "native-summary-negative",
+    "native-summary-positive"
+  ],
+  "nested_timeouts": [],
+  "normalization": "No normalized outcome is generated; inspect raw product SARIF/logs before equivalence claims.",
+  "opentaint_wrapper": {
+    "path": "/Users/dave/.codex/worktrees/844d/dataflowbench/execution-state/v090-resume-20261007-01/tools/opentaint-full/opentaint",
+    "sha256": "6de7bc497c84d8b0e02b721ba10e61c4bf9f99388763df793a92ad19dbb6d8f8",
+    "version": "0.4.6"
+  },
+  "outer_deadline_seconds": 10200,
+  "release": "v0.9.0",
+  "runtime_tree_sha256": "78e899e13217020e5895827b88dec06f6a5e109bfb16a242d1a0ca3ba8588174",
+  "schema": "opentaint-product-probe/v090-v1",
+  "servlet_controls": {
+    "negative": "constant fixed-command reaches Runtime.exec",
+    "positive": "request.getParameter(cmd) flows to Runtime.exec"
+  },
+  "status": "captured",
+  "wrapper_environment": "contract group environment with JAVA_HOME and PATH bound to the exact restored bundle JRE"
+}
