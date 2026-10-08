@@ -33,6 +33,7 @@ TIMEOUT_SECONDS = 30
 TOTAL_TIMEOUT_SECONDS = 600
 EVALUATION_DATE = "2026-08-11"
 REPORT_SCHEMA_VERSION = 5
+NATIVE_REPORT_KEYS = {"schema_version", "status", "reason", "findings"}
 REPORT_KEYS = {
     "schema_version",
     "evaluation",
@@ -293,38 +294,35 @@ def _validate_policy_report(
     }
 
 
-def _diagnostic_has_no_rules(report: Mapping[str, object]) -> bool:
-    diagnostics = report.get("diagnostics")
-    if not isinstance(diagnostics, list) or not diagnostics:
-        return False
-    for diagnostic in diagnostics:
-        if not isinstance(diagnostic, dict):
-            continue
-        # Bifrost's diagnostic contract uses a typed code object and a string
-        # family. A prose message, a differently named family, or a nested
-        # arbitrary value is not evidence for this control.
-        code = diagnostic.get("code")
-        if isinstance(code, dict) and code.get("type") == "no_rules_evaluated":
-            return True
-        if diagnostic.get("family") == "no_rules_evaluated":
-            return True
-    return False
-
-
 def _validate_native_report(path: Path) -> dict[str, object]:
-    report = _load_report(path)
-    if report["rules"] != [] or report["runs"] != []:
-        raise QualificationError(f"native scan unexpectedly evaluated rules: {path}")
-    if not _diagnostic_has_no_rules(report):
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise QualificationError(f"invalid native stdout document {path}: {exc}") from exc
+    if not isinstance(document, dict):
+        raise QualificationError(f"native stdout is not a JSON object: {path}")
+    if set(document) != NATIVE_REPORT_KEYS:
         raise QualificationError(
-            f"native empty result has no explicit no_rules_evaluated diagnostic: {path}"
+            f"native stdout keys differ from schema 1: {path} "
+            f"(missing={sorted(NATIVE_REPORT_KEYS - set(document))}, "
+            f"extra={sorted(set(document) - NATIVE_REPORT_KEYS)})"
         )
+    if document.get("schema_version") != 1:
+        raise QualificationError(f"native stdout is not schema_version 1: {path}")
+    if document.get("status") != "not-evaluated":
+        raise QualificationError(f"native stdout status is not not-evaluated: {path}")
+    if document.get("reason") != "no-active-rule-packs":
+        raise QualificationError(f"native stdout reason is not no-active-rule-packs: {path}")
+    if document.get("findings") != []:
+        raise QualificationError(f"native stdout findings are not empty: {path}")
     return {
         "interpretation": "confirmed-no-rules-evaluated",
         "clean": False,
         "rules": 0,
         "runs": 0,
-        "diagnostics": len(report["diagnostics"]),
+        "status": document["status"],
+        "reason": document["reason"],
+        "findings": 0,
     }
 
 
@@ -629,16 +627,15 @@ def _run_catalog_and_native_controls(probe: ProbeRun, root: Path) -> dict[str, o
 
     native_name = "native-python-source-sink-positive"
     native_work = _fixture(root, probe.workspace_root, "python", "native-source-sink-positive")
-    native_report = probe.report_root / f"{native_name}.json"
+    native_stdout = probe.output / "stdout" / f"{native_name}.txt"
     probe.run(native_name, [
         probe.bifrost,
         "scan", native_work,
         "--format", "json",
         "--evaluation-date", EVALUATION_DATE,
-        "--output", native_report,
-    ], report_path=native_report)
+    ])
     try:
-        native_summary = _validate_native_report(native_report)
+        native_summary = _validate_native_report(native_stdout)
         _json_dump(probe.output / "native-summary.json", native_summary)
     except QualificationError as exc:
         probe.fail(str(exc))

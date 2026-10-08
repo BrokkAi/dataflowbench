@@ -104,22 +104,10 @@ def report(language: str, count: int) -> dict[str, object]:
 
 def native_report() -> dict[str, object]:
     return {
-        "schema_version": 5,
-        "evaluation": {},
-        "execution": {},
-        "rules": [],
-        "runs": [],
-        "suppressions": [],
-        "scope": [],
-        "packs": {"document_path": ".bifrost/packs.json", "complete": True},
-        "diagnostics": [{
-            "code": {"type": "no_rules_evaluated"},
-            "family": "no_rules_evaluated",
-            "message": "no rules were evaluated",
-        }],
-        "diagnostics_truncated": False,
-        "omitted_diagnostics_lower_bound": 0,
-        "worst_omitted_diagnostic_severity": None,
+        "schema_version": 1,
+        "status": "not-evaluated",
+        "reason": "no-active-rule-packs",
+        "findings": [],
     }
 
 
@@ -149,22 +137,24 @@ class MockBifrost:
             indent = 2 if "--list-policies" in argv else None
             stdout.write((json.dumps(self.catalog, indent=indent) + "\n").encode())
             return 0
+        if "scan" in argv and "--policy-file" not in argv:
+            stdout.seek(0)
+            stdout.truncate()
+            stdout.write((json.dumps(native_report()) + "\n").encode())
+            return 0
         if "--output" in argv:
             output = Path(argv[argv.index("--output") + 1])
-            if " scan " in (" " + " ".join(argv) + " ") and "--policy-file" not in argv:
-                document = native_report()
+            name = output.stem
+            language = next(language for language in MODULE.LANGUAGES if f"-{language}-" in name)
+            if "sanitizer" in name:
+                count = 1 if (
+                    "kill-positive" in name
+                    or "selectivity-positive" in name
+                    or ("kill-negative-without" in name)
+                ) else 0
             else:
-                name = output.stem
-                language = next(language for language in MODULE.LANGUAGES if f"-{language}-" in name)
-                if "sanitizer" in name:
-                    count = 1 if (
-                        "kill-positive" in name
-                        or "selectivity-positive" in name
-                        or ("kill-negative-without" in name)
-                    ) else 0
-                else:
-                    count = 1 if name.endswith("positive-with") else 0
-                document = report(language, count)
+                count = 1 if name.endswith("positive-with") else 0
+            document = report(language, count)
             output.parent.mkdir(parents=True, exist_ok=True)
             output.write_text(json.dumps(document) + "\n", encoding="utf-8")
         return 0
@@ -218,6 +208,16 @@ class QualifyBifrostV013Tests(unittest.TestCase):
             self.assertTrue((output / "stdout/catalog-list-policies.txt").is_file())
             self.assertTrue((output / "stderr/native-python-source-sink-positive.txt").is_file())
             self.assertTrue((output / "native-summary.json").is_file())
+            native_call = next(
+                call for call in runner.calls
+                if call["argv"][1:2] == ["scan"] and "--list-builtin-policies" not in call["argv"]
+            )
+            self.assertNotIn("--output", native_call["argv"])
+            self.assertEqual(
+                json.loads((output / "stdout/native-python-source-sink-positive.txt").read_text()),
+                native_report(),
+            )
+            self.assertFalse((output / "reports/native-python-source-sink-positive.json").exists())
             self.assertEqual(qualification["qualification"], "qualified")
             self.assertEqual(qualification["invocations"], 44)
             self.assertEqual(
@@ -245,7 +245,7 @@ class QualifyBifrostV013Tests(unittest.TestCase):
             with self.assertRaisesRegex(MODULE.QualificationError, "packs=\[\]"):
                 MODULE._validate_catalog(path)
 
-    def test_native_no_rules_requires_typed_code_or_family(self) -> None:
+    def test_native_no_rules_requires_exact_typed_document(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             valid_path = root / "valid.json"
@@ -254,15 +254,16 @@ class QualifyBifrostV013Tests(unittest.TestCase):
                 MODULE._validate_native_report(valid_path)["interpretation"],
                 "confirmed-no-rules-evaluated",
             )
-            for diagnostic in (
-                {"message": "no rules were evaluated"},
-                {"code": {"type": "empty_selection"}, "family": "empty_selection"},
+            for label, changes, message in (
+                ("status", {"status": "evaluated"}, "status is not not-evaluated"),
+                ("reason", {"reason": "empty-selection"}, "reason is not no-active-rule-packs"),
+                ("findings", {"findings": [{"id": "unexpected"}]}, "findings are not empty"),
             ):
                 document = native_report()
-                document["diagnostics"] = [diagnostic]
-                path = root / ("invalid-" + str(len(list(root.iterdir()))) + ".json")
+                document.update(changes)
+                path = root / f"invalid-{label}.json"
                 path.write_text(json.dumps(document), encoding="utf-8")
-                with self.assertRaisesRegex(MODULE.QualificationError, "no_rules_evaluated"):
+                with self.assertRaisesRegex(MODULE.QualificationError, message):
                     MODULE._validate_native_report(path)
 
     def test_incomplete_and_absent_evidence_fail_closed(self) -> None:

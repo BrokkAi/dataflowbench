@@ -13,6 +13,7 @@ import contextlib
 import datetime as _datetime
 import fcntl
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -273,7 +274,7 @@ def _qualification_gate(plan: dict, repo_root: Path) -> dict:
     if not isinstance(binding, dict):
         raise ReleaseError("plan must bind qualification")
     relative = _relative(binding.get("path"), "qualification summary path")
-    expected_path = PurePosixPath("reports/releases/v0.9.1/qualification/attempt-01/qualification.json")
+    expected_path = PurePosixPath("reports/releases/v0.9.1/qualification/review-01.json")
     if relative != expected_path:
         raise ReleaseError(f"qualification path must be {expected_path.as_posix()}")
     digest = _bound_sha(binding.get("sha256"), "qualification.sha256")
@@ -283,11 +284,26 @@ def _qualification_gate(plan: dict, repo_root: Path) -> dict:
         raise ReleaseError("qualification summary bytes differ from the plan SHA-256")
     tool = summary.get("tool")
     expected_tool = plan.get("tools", {}).get("bifrost", {})
-    if (summary.get("qualification") != "qualified" or not isinstance(tool, dict) or
+    if (summary.get("schema") != "bifrost-v013-control-review/v1" or
+            summary.get("measurement_contract") != "verified-with-known-limits" or
+            summary.get("full_policy_qualification") is not False or not isinstance(tool, dict) or
             tool.get("version") != BIFROST_SEMVER or
             tool.get("build_identity") != expected_tool.get("build_identity") or
             tool.get("sha256") != expected_tool.get("sha256")):
         raise ReleaseError("qualification summary does not authorize the release matrix")
+    # Recheck every captured byte and the exact frozen limited states, rather
+    # than trusting a favorable summary flag or treating incomplete as clean.
+    spec = importlib.util.spec_from_file_location(
+        "v013_control_review", repo_root / "scripts/review-bifrost-v013-controls.py"
+    )
+    review = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(review)
+    try:
+        observed = review.audit(repo_root)
+    except (OSError, ValueError, KeyError, StopIteration) as exc:
+        raise ReleaseError(f"retained control evidence failed review: {exc}") from exc
+    if observed != summary:
+        raise ReleaseError("control review differs from recomputed retained evidence")
     return {"path": relative.as_posix(), "sha256": digest}
 
 
