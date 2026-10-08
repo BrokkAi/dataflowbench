@@ -101,9 +101,9 @@ export interface LatencyModel {
   environments: EnvironmentStamp[];
   adapters: LatencyAdapter[];
   totalTimed: number;
-  /** Bound cases with no timing, because they never invoked the analyzer. */
+  /** Bound cases without a retained timing sidecar. */
   totalUntimed: number;
-  /** Outcomes those untimed cases carry — expected to be `unsupported` only. */
+  /** Outcomes those untimed cases carry, including incomplete coverage. */
   untimedOutcomes: { outcome: string; cases: number }[];
 }
 
@@ -211,7 +211,7 @@ interface CaseTiming {
 
 /**
  * One case's timing sidecar, or `null` when the freeze does not bind the case
- * or the case never invoked an analyzer (and so has nothing to time).
+ * or no sidecar was retained. Missing timing does not prove no invocation.
  */
 function readTiming(
   evidence: ArchivedLatencyEvidence,
