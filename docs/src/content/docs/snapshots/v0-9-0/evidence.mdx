@@ -10,19 +10,14 @@ export const snapshot = snapshots.find((s) => s.version === 'v0.9.0');
 
 Every result links its retained raw-evidence artifact, digest-bound in the
 <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}>freeze manifest</a>.
-The manifest binds 1,000 cases, all 82 freshly rerun reports, and 4,036
-normalized outcomes. Failed and superseded executions remain in the v0.9.0
-attempt archive and ledger; they are not erased by the final result counts.
+The manifest binds 1,108 cases, 92 fresh report partitions, and 4,252 outcomes.
+Failed and superseded executions remain in the versioned attempt archive and
+ledger. Inconclusive, unsupported, and runner-error results retain separate
+coverage and never become clean negatives.
 
-The 124 changed shared-population cells remain visible as substantive analyzer
-results. CodeQL's 104 C/C++ changes are `inconclusive`, not clean negatives.
-Bifrost's 20 newly decisive C#, JavaScript, TypeScript, and Ruby cells retain
-their reached/not-reached evidence. Tool-native `unsupported` results remain
-capability decisions rather than wrong answers.
-
-Every invoked case also retains its phase-timing sidecar beside raw evidence;
-the [latency page](./latency/) interprets those sidecars without conditioning
-any correctness outcome on timing.
+Available phase-timing sidecars remain beside their raw evidence; the
+[latency page](./latency/) interprets them without conditioning correctness on
+timing. Missing timing remains missing.
 
 {snapshot.results.scorecards.map((scorecard) =>
   scorecard.languages.map((language) =>
