@@ -1,0 +1,20 @@
+---
+title: Semantic templates — v0.9.0
+description: Per-template positive and negative outcomes for every freshly rerun v0.9.0 scorecard.
+---
+
+import TemplateMatrix from '../../../../components/TemplateMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.9.0');
+
+Each scored template is a balanced pair: one positive case where flow exists
+and one minimally different negative case where it does not. `inconclusive`
+preserves incomplete proof; `unsupported` records a declared capability
+boundary.
+
+v0.9.0 adds Swift reference results across core, modeling, calibration,
+native, and language-extension tiers. The table renders all 4,252 cells from
+the generated release model. Profiles remain separate populations.
+
+<TemplateMatrix snapshot={snapshot} />

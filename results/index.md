@@ -1,10 +1,12 @@
 # DataFlowBench frozen results
 
-Generated from freeze manifest `reports/freeze.json` (`sha256:582b2589648772926bc7da0a83844eed0450f015c3593fa5f2937c10669f4259`), benchmark release `v0.8.0` at revision `80d4f01bb189d530849f9ceb5d775680fcedfb52`, fixture revision `sha256:4b62280924ed2e141dc8bb8e7b1bddfbd512d0201a3fa82f7b92b223eefca8c9`.
+Generated from freeze manifest `reports/freeze.json` (`sha256:e63dcc483d3000c046816c595811bf35ab494544fb6dd6fff2608d43e9bc676d`), benchmark release `v0.9.0` at revision `301dd3de146337fdda5fc409c711bf4b133e4d3c`, fixture revision `sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62`.
 
 Claim scope `release`. Every number on these pages is derived from the immutable freeze evidence above; none are maintained by hand. Tracks, score dimensions, score tiers, and model profiles are separate result populations and are never combined into one leaderboard.
 
-Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator on these pages, so rate columns cover only each population's conclusive subset. In this freeze every `inconclusive` outcome is produced by: `bifrost-c-kernel` (15), `bifrost-cpp-kernel` (38), `bifrost-csharp-kernel` (34), `bifrost-go-kernel` (30), `bifrost-java-kernel` (24), `bifrost-java-modeling` (1), `bifrost-javascript-kernel` (30), `bifrost-javascript-modeling` (4), `bifrost-kotlin-kernel` (38), `bifrost-php-kernel` (36), `bifrost-python-kernel` (34), `bifrost-python-modeling` (1), `bifrost-ruby-kernel` (34), `bifrost-rust-kernel` (22), `bifrost-scala-kernel` (28), `bifrost-typescript-kernel` (32), `codeql-c-kernel` (58), `codeql-cpp-kernel` (68), `codeql-csharp-kernel` (1), `codeql-python-kernel` (1), `codeql-ruby-kernel` (1). Compare rate columns across adapters with that exclusion in mind.
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator on these pages, so rate columns cover only each population's conclusive subset. In this freeze every `inconclusive` outcome is produced by: `bifrost-c-kernel` (15), `bifrost-cpp-kernel` (38), `bifrost-csharp-kernel` (28), `bifrost-go-kernel` (28), `bifrost-java-kernel` (24), `bifrost-java-modeling` (1), `bifrost-javascript-kernel` (22), `bifrost-javascript-modeling` (4), `bifrost-kotlin-kernel` (38), `bifrost-php-kernel` (36), `bifrost-python-kernel` (28), `bifrost-python-modeling` (1), `bifrost-ruby-kernel` (34), `bifrost-rust-kernel` (22), `bifrost-scala-kernel` (28), `bifrost-typescript-kernel` (24), `codeql-c-kernel` (1), `codeql-cpp-kernel` (1), `codeql-csharp-kernel` (1), `codeql-python-kernel` (1), `codeql-ruby-kernel` (1), `codeql-swift-calibration` (4), `codeql-swift-core` (65), `codeql-swift-language-extension` (2), `codeql-swift-modeling` (24), `codeql-swift-native` (12), `joern-swift-calibration` (4), `joern-swift-core` (66), `joern-swift-language-extension` (2), `joern-swift-modeling` (24). Compare rate columns across adapters with that exclusion in mind.
+
+Caveat: the following result populations were frozen under an adapter configuration that has since changed in this repository: `joern-swift-modeling-taint-taint-benchmark-controlled`, `joern-swift-calibration-taint-taint-benchmark-controlled`, `codeql-swift-modeling-taint-taint-benchmark-controlled`, `codeql-swift-calibration-taint-taint-benchmark-controlled`. Their outcomes predate the current adapter configuration; they stand as frozen evidence for the configuration they were measured under until each population is re-run.
 
 - Tracks: `taint`
 - Score dimensions: `taint`
@@ -99,3 +101,13 @@ None.
 - [`semgrep-ruby-kernel-taint-taint-benchmark-controlled`](scorecards/semgrep-ruby-kernel-taint-taint-benchmark-controlled.md)
 - [`semgrep-rust-kernel-taint-taint-benchmark-controlled`](scorecards/semgrep-rust-kernel-taint-taint-benchmark-controlled.md)
 - [`semgrep-typescript-kernel-taint-taint-benchmark-controlled`](scorecards/semgrep-typescript-kernel-taint-taint-benchmark-controlled.md)
+- [`joern-swift-core-taint-taint-benchmark-controlled`](scorecards/joern-swift-core-taint-taint-benchmark-controlled.md)
+- [`joern-swift-modeling-taint-taint-benchmark-controlled`](scorecards/joern-swift-modeling-taint-taint-benchmark-controlled.md)
+- [`joern-swift-calibration-taint-taint-benchmark-controlled`](scorecards/joern-swift-calibration-taint-taint-benchmark-controlled.md)
+- [`joern-swift-native-taint-taint-tool-native`](scorecards/joern-swift-native-taint-taint-tool-native.md)
+- [`joern-swift-language-extension-taint-taint-benchmark-controlled`](scorecards/joern-swift-language-extension-taint-taint-benchmark-controlled.md)
+- [`codeql-swift-core-taint-taint-benchmark-controlled`](scorecards/codeql-swift-core-taint-taint-benchmark-controlled.md)
+- [`codeql-swift-modeling-taint-taint-benchmark-controlled`](scorecards/codeql-swift-modeling-taint-taint-benchmark-controlled.md)
+- [`codeql-swift-calibration-taint-taint-benchmark-controlled`](scorecards/codeql-swift-calibration-taint-taint-benchmark-controlled.md)
+- [`codeql-swift-native-taint-taint-tool-native`](scorecards/codeql-swift-native-taint-taint-tool-native.md)
+- [`codeql-swift-language-extension-taint-taint-benchmark-controlled`](scorecards/codeql-swift-language-extension-taint-taint-benchmark-controlled.md)

@@ -1,0 +1,22 @@
+---
+title: Languages — v0.9.0
+description: Per-language coverage and rates across the freshly rerun v0.9.0 scorecards.
+---
+
+import LanguageMatrix from '../../../../components/LanguageMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.9.0');
+
+Rows are `(language, scorecard, tier)` partitions. They share a table for
+navigation, not a denominator. *Definitive* counts `reached` and `not-reached`;
+*incomplete* counts `inconclusive`, `unsupported`, and `runner-error`, which
+remain capability coverage and are never scored as negatives.
+
+The v0.9.0 population contains 1,108 cases, including 108 Swift cases, across
+92 report partitions. Swift reference-adapter participation remains distinct
+from analyzer language support; Bifrost Swift remains unsupported. Languages
+with more rows have broader benchmark participation, and model profiles retain
+separate populations.
+
+<LanguageMatrix snapshot={snapshot} />

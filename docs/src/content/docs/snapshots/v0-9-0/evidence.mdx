@@ -1,0 +1,28 @@
+---
+title: Case evidence — v0.9.0
+description: Every v0.9.0 result, its classification, and its retained raw evidence.
+---
+
+import CaseEvidence from '../../../../components/CaseEvidence.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.9.0');
+
+Every result links its retained raw-evidence artifact, digest-bound in the
+<a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}>freeze manifest</a>.
+The manifest binds 1,108 cases, 92 fresh report partitions, and 4,252 outcomes.
+Failed and superseded executions remain in the versioned attempt archive and
+ledger. Inconclusive, unsupported, and runner-error results retain separate
+coverage and never become clean negatives.
+
+Available phase-timing sidecars remain beside their raw evidence; the
+[latency page](./latency/) interprets them without conditioning correctness on
+timing. Missing timing remains missing.
+
+{snapshot.results.scorecards.map((scorecard) =>
+  scorecard.languages.map((language) =>
+    language.score_tiers.map((tier) => (
+      <><h2><code>{scorecard.id}</code> — <code>{language.language}</code>, {tier.score_tier} (<code>{scorecard.model_profile}</code>)</h2><CaseEvidence snapshot={snapshot} tier={tier} /></>
+    )),
+  ),
+)}

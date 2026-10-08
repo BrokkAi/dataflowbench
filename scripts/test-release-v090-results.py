@@ -133,6 +133,35 @@ class ReleaseV090Tests(unittest.TestCase):
         (self.root / "reports" / "freeze.json").write_text(json.dumps(manifest), encoding="utf-8")
         GATE._load_release_manifest(self.root, "1" * 40)
 
+    def test_attempt_projection_requires_exact_membership_digest_and_mapping(self) -> None:
+        import hashlib
+        manifest = self._manifest()
+        mappings = []
+        for planned, frozen in zip(self.plan["reports"], manifest["reports"]):
+            staged = "reports/releases/v0.9.0/normal/attempts/series/" + Path(planned["report"]).name
+            data = json.dumps({"case_ids": planned["case_ids"]}).encode()
+            target = self.root / staged
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(data)
+            frozen["path"] = staged
+            mappings.append({"source_path": planned["report"], "staged_path": staged,
+                             "staged_sha256": hashlib.sha256(data).hexdigest(),
+                             "case_ids": planned["case_ids"]})
+        ledger = self.root / "reports/releases/v0.9.0/ledger-v1.jsonl"
+        ledger.write_text(json.dumps({"status": "completed", "reports": mappings}) + "\n")
+        (self.root / "reports/freeze.json").write_text(json.dumps(manifest))
+        GATE._load_release_manifest(self.root, "1" * 40)
+        for mutation in ("digest", "duplicate", "missing", "membership", "traversal"):
+            changed = json.loads(json.dumps(mappings))
+            if mutation == "digest": changed[0]["staged_sha256"] = "0" * 64
+            elif mutation == "duplicate": changed.append(changed[0])
+            elif mutation == "missing": changed.pop()
+            elif mutation == "membership": changed[0]["case_ids"] = []
+            else: changed[0]["staged_path"] = "reports/releases/v0.9.0/normal/attempts/../escape.json"
+            ledger.write_text(json.dumps({"status": "completed", "reports": changed}) + "\n")
+            with self.subTest(mutation=mutation), self.assertRaises(GATE.GateError):
+                GATE._load_release_manifest(self.root, "1" * 40)
+
     def test_swapped_memberships_fail_even_when_total_rows_match(self) -> None:
         manifest = self._manifest()
         left = manifest["reports"][0]["case_ids"]
