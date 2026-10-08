@@ -32449,7 +32449,7 @@
       "track": "taint"
     }
   ],
-  "execution_authorized": false,
+  "execution_authorized": true,
   "expected_cases": 1108,
   "expected_report_partitions": 92,
   "expected_report_rows": 4252,
@@ -35318,7 +35318,10 @@
     ],
     "deadline_seconds": 600,
     "maximum_attempts": 1,
-    "status": "not-started"
+    "original_attempt_status": "failed",
+    "path": "reports/releases/v0.9.1/qualification/review-01.json",
+    "sha256": "a0d7aa260b9e7a8b0659bfbe7fd89c55bfee9de87e74ad5af36f73684e498679",
+    "status": "verified-with-known-limits"
   },
   "registered_at": "2026-10-08T10:57:44.353989+00:00",
   "release": "v0.9.1",
@@ -35330,8 +35333,8 @@
     "serial_lock": "/private/tmp/dataflowbench-v0.9.0-exclusive-analyzer.lock"
   },
   "schema_version": 1,
-  "source_commit": "4361a0e62110a2d0d7634baa2d0fa59091eeb837",
-  "status": "qualification-pending",
+  "source_commit": "4eaa7558c7ea904ef4f660128defab8cae45853c",
+  "status": "measurement-ready-with-known-limits",
   "tools": {
     "bifrost": {
       "archive_sha256": "8fb7212912cda0d6fc97e72188339b53aec4ea1ce31cc6a076765763e2273604",
@@ -35344,6 +35347,7 @@
     "runner": {
       "build_profile": "debug",
       "build_receipt": "reports/releases/v0.9.1/runner-build.json",
+      "execution_source_commit": "4eaa7558c7ea904ef4f660128defab8cae45853c",
       "path": "/Users/dave/.codex/worktrees/5a7f/dataflowbench/execution-state/v091/target/debug/dataflowbench",
       "sha256": "fa1896134f75fae4ec81b64b7a61ca31e90f088a2b179413bde8ace8ca2ba48d",
       "source_commit": "4361a0e62110a2d0d7634baa2d0fa59091eeb837"
