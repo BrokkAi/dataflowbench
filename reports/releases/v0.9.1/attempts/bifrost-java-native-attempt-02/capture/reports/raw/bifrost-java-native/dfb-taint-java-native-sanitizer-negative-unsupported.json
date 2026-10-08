@@ -1,0 +1,18 @@
+{
+  "activation_arguments": [
+    "--policy"
+  ],
+  "activation_identity": "bifrost 0.13.0 — standalone engine; no active product policy packs",
+  "adapter": "bifrost",
+  "case_id": "dfb-taint-java-native-sanitizer-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "Z",
+  "modeling_category_label": "declared sanitizers",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-sanitizer (category Z — declared sanitizers) is unsupported for bifrost 0.13.0 over Java by the activation partition (docs/native-profile.md#partition-summary, as amended): Current v0.9.1 evidence for the exact witnessed `bifrost 0.13.0` pin: the acquisition catalog at `reports/releases/v0.9.1/acquisition/builtin-policy-catalog.json` is schema version 2 with `packs: []`, and the captured CLI surface at `reports/releases/v0.9.1/acquisition/help.txt` describes the standalone engine's host-supplied policy-pack boundary. The standalone engine ships no product policy rules, so this activation has no product model to engage. The version and exact build identity are witnessed from `--version` and `--build-identity` and retained in the report's `tool_build_identity`. See `docs/releases/v0.9.1-native.md` for this versioned amendment: The six native template cells therefore remain `unsupported`; zero coverage is `unsupported`, never a clean `not-reached` negative. A host configured with Bifrost-packs is a separate product profile and is not benchmark-invented model input.",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-sanitizer",
+  "witnessed_tool_identity": "bifrost 0.13.0"
+}

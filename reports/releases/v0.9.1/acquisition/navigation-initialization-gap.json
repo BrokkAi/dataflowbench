@@ -1,0 +1,16 @@
+{
+  "observed_at": "2026-10-08T11:01:38.294346+00:00",
+  "pid": 56553,
+  "command": "/Users/dave/Library/Caches/bifrost-agent/binaries/0.12.0/darwin-arm64/bifrost --mcp symbol|extended",
+  "owned_workspace": "/Users/dave/.codex/worktrees/5a7f/dataflowbench",
+  "minimal_reproduction": {
+    "tool": "get_symbol_sources",
+    "symbols": [
+      "native.native_activation",
+      "native.native_unsupported_reason"
+    ],
+    "result": "workspace snapshot was not ready within the request-wide time budget"
+  },
+  "observation": "MCP workspace initialization consumed one CPU for over25min and opened historical evidence directories. It prevented the benchmark capacity gate.",
+  "action": "Stop only this task-owned MCP process; no cache, source or unrelated process deletion."
+}
