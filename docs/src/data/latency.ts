@@ -1,3 +1,4 @@
+import v090Evidence from './archive/v0-9-0-latency-evidence.json';
 import v080Evidence from './archive/v0-8-0-latency-evidence.json';
 import v071Evidence from './archive/v0-7-1-latency-evidence.json';
 import { boundEvidence } from './evidence-binding';
@@ -125,6 +126,10 @@ const latencyEvidenceByRelease: Record<
   string,
   { evidenceRef: string; evidence: ArchivedLatencyEvidence }
 > = {
+  'v0.9.0': {
+    evidenceRef: '301dd3de146337fdda5fc409c711bf4b133e4d3c',
+    evidence: v090Evidence as ArchivedLatencyEvidence,
+  },
   'v0.8.0': {
     evidenceRef: '80d4f01bb189d530849f9ceb5d775680fcedfb52',
     evidence: v080Evidence as ArchivedLatencyEvidence,
