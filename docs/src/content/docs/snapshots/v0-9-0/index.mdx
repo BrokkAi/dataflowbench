@@ -1,0 +1,46 @@
+---
+title: Snapshot v0.9.0
+description: The Swift-inclusive release with 1,108 cases and 92 fresh report partitions.
+---
+
+import SnapshotBanner from '../../../../components/SnapshotBanner.astro';
+import { snapshots, evidenceUrl } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.9.0');
+
+<SnapshotBanner snapshot={snapshot} />
+
+v0.9.0 binds 1,108 cases and 92 freshly executed report partitions, including
+108 Swift cases. Its 4,252 outcomes comprise 1,309 `reached`, 1,472
+`not-reached`, 579 `inconclusive`, 891 `unsupported`, and one `runner-error`.
+Incomplete and unsupported coverage remain visible and are never clean negatives.
+
+Bifrost was measured at v0.12.0. All 33 prerequisite controls succeeded before
+84 serial matrix groups ran. The single CodeQL Swift runner error retains its
+endpoint and resource-qualification diagnostics; it was not retried for a
+more favorable outcome. These counts span independent scorecards and are not
+a pooled analyzer ranking.
+
+## Timing qualification
+
+Cold timing sidecars and fresh warm and invocation-overhead controls are bound
+to the same retained execution evidence. Missing timing remains missing. OS
+cache state was uncontrolled; desktop measurements establish no causal speedup.
+
+## Claim
+
+- Scope: <code>{snapshot.results.claim.scope}</code>
+- Tracks: {snapshot.results.claim.tracks.map((t) => <code>{t} </code>)}
+- Score tiers: {snapshot.results.claim.score_tiers.map((t) => <code>{t} </code>)}
+- Model profiles: {snapshot.results.claim.model_profiles.map((p) => <code>{p} </code>)}
+- Exclusions: {snapshot.results.claim.exclusions.length === 0 ? 'none' : ''}
+
+## Bound evidence
+
+Freeze ID (manifest SHA-256): <code>{snapshot.results.manifest.sha256}</code>
+
+Freeze manifest: <a href={evidenceUrl(snapshot, snapshot.results.manifest.path)}><code>{snapshot.results.manifest.path}</code></a>
+
+Continue to [analyzers](./analyzers/), [languages](./languages/), [semantic
+templates](./templates/), [case evidence](./evidence/), [profiles](./profiles/),
+or [latency](./latency/).

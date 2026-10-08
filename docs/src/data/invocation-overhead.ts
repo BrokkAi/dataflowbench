@@ -189,16 +189,12 @@ export function invocationOverhead(snapshot: Snapshot = currentSnapshot): {
   const documents = Object.keys(artifacts)
     .filter(
       (name) =>
-        name.startsWith(`${OVERHEAD_ROOT}/`) &&
+        (name.startsWith(`${OVERHEAD_ROOT}/`) || name.includes(`/${OVERHEAD_ROOT}/`)) &&
         name.endsWith('/invocation-overhead.json'),
     )
     .sort();
   if (documents.length > 0) {
     for (const document of documents) {
-      const entry = document.slice(
-        OVERHEAD_ROOT.length + 1,
-        -'/invocation-overhead.json'.length,
-      );
       const raw = artifacts[document];
       const repeats: OverheadRepeat[] = raw.runs.map((run: any) => {
         const phases = run.phases.map((phase: any) => ({
@@ -247,7 +243,7 @@ export function invocationOverhead(snapshot: Snapshot = currentSnapshot): {
         }
       }
 
-      const stamp = `${OVERHEAD_ROOT}/${entry}/run-environment.json`;
+      const stamp = `${document.slice(0, -'/invocation-overhead.json'.length)}/run-environment.json`;
       const environment = artifacts[stamp] ?? null;
       const coldMedianMs = coldMedianFor(snapshot, raw.adapter, raw.language);
       // The threshold reads the range's LOW end, so a mark can never appear on

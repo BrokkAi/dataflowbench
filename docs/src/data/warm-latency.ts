@@ -224,7 +224,7 @@ export function warmLatency(snapshot: Snapshot = currentSnapshot): {
   const documents = Object.keys(artifacts)
     .filter(
       (name) =>
-        name.startsWith(`${WARM_ROOT}/`) &&
+        (name.startsWith(`${WARM_ROOT}/`) || name.includes(`/${WARM_ROOT}/`)) &&
         name.endsWith('/warm-latency.json') &&
         !name.startsWith(`${SUPERSEDED_A15_ROOT}/`),
     )
@@ -232,7 +232,7 @@ export function warmLatency(snapshot: Snapshot = currentSnapshot): {
   if (documents.length > 0) {
     for (const document of documents) {
       const entry = document.slice(
-        WARM_ROOT.length + 1,
+        document.indexOf(`${WARM_ROOT}/`) + WARM_ROOT.length + 1,
         -'/warm-latency.json'.length,
       );
       const warm = artifacts[document];
@@ -311,7 +311,7 @@ export function warmLatency(snapshot: Snapshot = currentSnapshot): {
       const caseIds: string[] =
         warm.runs[warm.runs.length - 1].batches[lastRun.batches.length - 1]
           .case_ids ?? [];
-      const stamp = `${WARM_ROOT}/${entry}/run-environment.json`;
+      const stamp = `${document.slice(0, -'/warm-latency.json'.length)}/run-environment.json`;
       const environment = artifacts[stamp] ?? null;
 
       // A15's retired figure, where one was published for this adapter. Its

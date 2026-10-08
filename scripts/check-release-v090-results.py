@@ -274,6 +274,32 @@ def _load_release_manifest(source: Path, evidence_revision: str) -> dict:
     }
     if len(planned_memberships) != EXPECTED_REPORT_PARTITIONS:
         raise GateError("v0.9.0 plan contains missing or duplicate report paths")
+    ledger_path = source / "reports/releases/v0.9.0/ledger-v1.jsonl"
+    if ledger_path.exists():
+        # Resolve immutable recorder projections using explicit receipt mappings.
+        mappings = {}
+        for line in ledger_path.read_text(encoding="utf-8").splitlines():
+            receipt = json.loads(line)
+            if receipt.get("status") != "completed":
+                raise GateError("release ledger contains a non-completed attempt")
+            for report in receipt.get("reports", []):
+                original = report.get("source_path")
+                staged = report.get("staged_path")
+                if original not in planned_memberships or original in mappings:
+                    raise GateError("release ledger report mapping is unknown or duplicated")
+                if report.get("case_ids") != planned_memberships[original]:
+                    raise GateError("release ledger report membership differs from plan")
+                if not isinstance(staged, str) or not staged.startswith("reports/releases/v0.9.0/normal/attempts/"):
+                    raise GateError("release ledger staged report path is invalid")
+                path = Path(staged)
+                if path.is_absolute() or ".." in path.parts:
+                    raise GateError("release ledger staged report path is unsafe")
+                if _sha256((source / path).read_bytes()) != report.get("staged_sha256"):
+                    raise GateError("release ledger staged report digest differs")
+                mappings[original] = staged
+        if set(mappings) != set(planned_memberships) or len(set(mappings.values())) != EXPECTED_REPORT_PARTITIONS:
+            raise GateError("release ledger does not map every planned report exactly once")
+        planned_memberships = {mappings[path]: ids for path, ids in planned_memberships.items()}
     frozen_memberships: dict[str, list[str]] = {}
     rows = 0
     for index, report in enumerate(reports):

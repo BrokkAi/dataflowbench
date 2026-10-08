@@ -1,0 +1,43 @@
+---
+title: Latency — v0.9.0
+description: v0.9.0 cold, warm, and invocation-overhead characterization with explicit boundaries.
+---
+
+import LatencyTier from '../../../../components/LatencyTier.astro';
+
+The latency-characterization tier stands beside correctness. Fresh cold timing
+sidecars and prerequisite warm and invocation-overhead controls are retained
+under their versioned recorder paths. Missing timing is not invented.
+
+The full retained ranges are published. Cache state remained uncontrolled,
+and these desktop observations establish no causal cross-release speedup.
+
+## What these numbers are, and what they are not \{#scope\}
+<LatencyTier snapshotVersion="v0.9.0" section="scope" />
+
+## Environment stamp \{#environment\}
+<LatencyTier snapshotVersion="v0.9.0" section="environment" />
+
+## The granularity is unequal, and that is the point \{#granularity\}
+<LatencyTier snapshotVersion="v0.9.0" section="granularity" />
+
+## Analyzer-invocation wall-clock, per adapter \{#cross-adapter\}
+<LatencyTier snapshotVersion="v0.9.0" section="cross-adapter" />
+
+## Phase decomposition, within each adapter that has one \{#phases\}
+<LatencyTier snapshotVersion="v0.9.0" section="phases" />
+
+## Warm marginal cost, measured separately \{#warm-marginal\}
+<LatencyTier snapshotVersion="v0.9.0" section="warm-marginal" />
+
+## Estimated per-invocation overhead \{#invocation-overhead\}
+<LatencyTier snapshotVersion="v0.9.0" section="invocation-overhead" />
+
+## Per-slice medians \{#slices\}
+<LatencyTier snapshotVersion="v0.9.0" section="slices" />
+
+## Cases with no latency number \{#untimed\}
+<LatencyTier snapshotVersion="v0.9.0" section="untimed" />
+
+## Provenance and freeze guarantees \{#provenance\}
+<LatencyTier snapshotVersion="v0.9.0" section="provenance" />

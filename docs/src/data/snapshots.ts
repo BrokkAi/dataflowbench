@@ -3,6 +3,7 @@
 // `cargo run -- generate-results` from a validated immutable freeze — never
 // from hand-authored prose. CI proves the checked-in model is current.
 import currentResults from '../../../results/results.json';
+import v080Results from './archive/v0-8-0-results.json';
 import v071Results from './archive/v0-7-1-results.json';
 import v070Results from './archive/v0-7-0-results.json';
 import v061Results from './archive/v0-6-1-results.json';
@@ -139,13 +140,22 @@ export const repository = 'https://github.com/BrokkAi/dataflowbench';
 
 export const snapshots: Snapshot[] = [
   {
+    version: 'v0.9.0',
+    publicationRef: 'v0.9.0',
+    slug: 'v0-9-0',
+    evidenceRef: '301dd3de146337fdda5fc409c711bf4b133e4d3c',
+    latencyEvidenceRelease: latencyEvidenceRelease('v0.9.0'),
+    current: true,
+    results: currentResults as unknown as ResultsModel,
+  },
+  {
     version: 'v0.8.0',
     publicationRef: 'v0.8.0',
     slug: 'v0-8-0',
     evidenceRef: '80d4f01bb189d530849f9ceb5d775680fcedfb52',
     latencyEvidenceRelease: latencyEvidenceRelease('v0.8.0'),
-    current: true,
-    results: currentResults as unknown as ResultsModel,
+    current: false,
+    results: v080Results as unknown as ResultsModel,
   },
   {
     version: 'v0.7.1',

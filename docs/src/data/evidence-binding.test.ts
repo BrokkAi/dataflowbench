@@ -48,7 +48,7 @@ test('v0.7.0 archive binds the published release rather than its development tag
 test('the final freeze uses current release validation rather than historical transition', () => {
   const workflow = fs.readFileSync(new URL('../../../.github/workflows/ci.yml', import.meta.url), 'utf8');
   assert.equal(workflow.includes('TEMPORARY v0.7.1 evidence transition'), false);
-  assert.ok(workflow.includes('scripts/check-release-results.py'));
+  assert.ok(workflow.includes('scripts/check-release-v090-results.py'));
 });
 
 test('v0.7.1 fresh latency binds its own manifest and actual warm batch sizes', () => {
@@ -72,7 +72,7 @@ test('v0.8.0 fresh latency binds its own manifest and actual warm batch sizes', 
   const read = (path: string) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url), 'utf8'));
   const cold = read('./archive/v0-8-0-latency-evidence.json');
   const aux = read('./archive/v0-8-0-latency-auxiliary-evidence.json');
-  const manifest = fs.readFileSync(new URL('../../../reports/freeze.json', import.meta.url));
+  const manifest = fs.readFileSync(new URL('../../../reports/releases/v0.8.0/freeze.json', import.meta.url));
   assert.equal(cold.manifest_sha256, createHash('sha256').update(manifest).digest('hex'));
   assert.equal(cold.release, 'v0.8.0');
   assert.equal(cold.evidence_ref, '80d4f01bb189d530849f9ceb5d775680fcedfb52');
@@ -83,4 +83,21 @@ test('v0.8.0 fresh latency binds its own manifest and actual warm batch sizes', 
   const warm = aux.artifacts['reports/raw/warm-latency/semgrep-java-kernel/warm-latency.json'];
   assert.equal(warm.runs.length, 2);
   for (const run of warm.runs) assert.deepEqual(run.batches.map((b: any) => b.k), [1, 2, 4, 8, 12]);
+});
+
+
+test('v0.9.0 timing archives retain recorder paths and the exact release binding', () => {
+  const read = (path: string) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url), 'utf8'));
+  const cold = read('./archive/v0-9-0-latency-evidence.json');
+  const aux = read('./archive/v0-9-0-latency-auxiliary-evidence.json');
+  const manifest = fs.readFileSync(new URL('../../../reports/freeze.json', import.meta.url));
+  assert.equal(cold.manifest_sha256, createHash('sha256').update(manifest).digest('hex'));
+  assert.equal(cold.release, 'v0.9.0');
+  assert.equal(aux.evidence_ref, cold.evidence_ref);
+  assert.equal(cold.benchmark_revision, JSON.parse(manifest.toString()).benchmark.revision);
+  assert.ok(Object.keys(cold.timings).length > 0);
+  for (const [path, artifact] of Object.entries(aux.artifacts)) {
+    assert.ok(path.startsWith('reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/'));
+    assert.deepEqual(artifact, read('../../../' + path));
+  }
 });

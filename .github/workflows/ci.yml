@@ -212,7 +212,7 @@ jobs:
       - name: Check resolved v0.8.0 release plan
         run: python3 scripts/prepare-v080-execution-plan.py
       - name: Validate current release in an isolated tag checkout
-        run: python3 scripts/check-release-results.py --binary "$PWD/target/debug/dataflowbench"
+        run: python3 scripts/check-release-v090-results.py --evidence-revision 301dd3de146337fdda5fc409c711bf4b133e4d3c --binary "$PWD/target/debug/dataflowbench"
 
   site:
     runs-on: ubuntu-latest
