@@ -266,6 +266,28 @@ class ContractGeneratorTests(unittest.TestCase):
         with self.assertRaisesRegex(executor.ReleaseError, "exactly one prior"):
             generator._contract_output({**self.bindings, "prior_failed_contracts": []}, None, self.root)
 
+    def test_scoped_recovery_selects_only_execution_v3_output(self):
+        binding = {
+            **self.bindings,
+            "scoped_recovery": {
+                "path": generator.SCOPED_RECOVERY_PATH.as_posix(),
+                "sha256": "d" * 64,
+            },
+        }
+        relative, destination = generator._contract_output(binding, None, self.root)
+        self.assertEqual(relative, generator.OUTPUT_V3)
+        self.assertEqual(destination, self.root / generator.OUTPUT_V3)
+        with self.assertRaisesRegex(executor.ReleaseError, "exact scoped-recovery manifest"):
+            generator._contract_output(
+                {**binding, "scoped_recovery": {"path": "elsewhere.json", "sha256": "d" * 64}},
+                None,
+                self.root,
+            )
+        with self.assertRaisesRegex(executor.ReleaseError, "cannot combine"):
+            generator._contract_output(
+                {**binding, "prior_failed_contracts": [{}]}, None, self.root,
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

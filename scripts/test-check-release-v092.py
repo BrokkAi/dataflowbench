@@ -832,6 +832,191 @@ class SuccessorContractSelectionTests(unittest.TestCase):
             )
 
 
+class ScopedRecoverySelectionTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.current_sha = "b" * 64
+        self.c1_sha, self.c2_sha = checker.SCOPED_C1_SHA256, checker.SCOPED_C2_SHA256
+        self.current_commit = "e" * 40
+        self.c1_commit, self.c2_commit = checker.SCOPED_C1_PLAN_COMMIT, checker.SCOPED_C2_PLAN_COMMIT
+        self.current_source = "2" * 40
+        self.c1_source, self.c2_source = checker.SCOPED_C1_SOURCE_COMMIT, checker.SCOPED_C2_SOURCE_COMMIT
+        self.groups = []
+        for index in range(checker.EXPECTED_GROUPS):
+            if index == 0:
+                group_id, tool = "bifrost-c-kernel", "bifrost"
+            elif index == 25:
+                group_id, tool = "codeql-java-modeling", "codeql"
+            else:
+                group_id, tool = f"fixture-group-{index:03d}", "bifrost"
+            self.groups.append({"id": group_id, "tool": tool, "family": "fixture",
+                                "case_ids": [f"case-{index:03d}"], "maximum_attempts": 2,
+                                "deadline_seconds": 60, "output_roots": []})
+        self.plan = {"execution_series": 1, "source_commit": self.current_source,
+                     "total_wall_budget_seconds": 102960,
+                     "groups": json.loads(json.dumps(self.groups)),
+                     "scoped_recovery": {
+                         "path": "reports/releases/v0.9.2/qualification/scoped-recovery-01/manifest.json",
+                         "sha256": "5" * 64,
+                     }}
+        self.contexts = {}
+        histories = []
+        for sha, commit, source, canonical, archive in (
+            (self.c1_sha, self.c1_commit, self.c1_source,
+             "reports/releases/v0.9.2/execution-v1/contract.json",
+             "reports/releases/v0.9.2/acquisition/failed-contract-01.json"),
+            (self.c2_sha, self.c2_commit, self.c2_source,
+             "reports/releases/v0.9.2/execution-v2/contract.json",
+             "reports/releases/v0.9.2/acquisition/scoped-recovery-contract-02.json"),
+        ):
+            old_plan = {"execution_series": 1, "source_commit": source,
+                        "total_wall_budget_seconds": 102960,
+                        "groups": json.loads(json.dumps(self.groups))}
+            fake_root = Path.cwd().resolve()
+            old_validated = {"bytes_sha256": sha, "plan": old_plan,
+                             "repo_root": fake_root,
+                             "path": str(fake_root / archive),
+                             "groups": json.loads(json.dumps(self.groups))}
+            self.contexts[sha] = {"validated": old_validated, "plan_commit": commit}
+            histories.append({"path": archive, "sha256": sha, "canonical_path": canonical,
+                              "plan_commit": commit, "source_commit": source})
+        self.prefix = []
+        self.completed = {}
+        self.failures = {}
+        self._append("bifrost-c-kernel", 1, self.c1_sha, self.c1_commit,
+                     self.c1_source, "recorder-error")
+        self._append("bifrost-c-kernel", 2, self.c2_sha, self.c2_commit,
+                     self.c2_source, "completed")
+        for group in self.groups[1:25]:
+            self._append(group["id"], 1, self.c2_sha, self.c2_commit,
+                         self.c2_source, "completed")
+        self._append("codeql-java-modeling", 1, self.c2_sha, self.c2_commit,
+                     self.c2_source, "failed")
+        complete_items = [self._manifest_item(row, digest, context)
+                          for row, digest, context in self.prefix if row["status"] == "completed"]
+        failure_items = [self._manifest_item(row, digest, context)
+                         for row, digest, context in self.prefix if row["status"] != "completed"]
+        self.manifest = {"schema": "v092-scoped-recovery-manifest/v1", "execution_series": 1,
+                         "maximum_attempts_per_group": 2, "total_wall_budget_seconds": 102960,
+                         "original_wall_origin_utc": "2026-10-20T00:57:00.680937+00:00",
+                         "scope": ("Only current v0.9.2 C2 completed runs retain their own original "
+                                  "source/contract provenance; new measurements use corrected C3; "
+                                  "all failed evidence remains non-selected."),
+                         "historical_contracts": histories,
+                         "ledger_prefix": {
+                             "path": "reports/releases/v0.9.2/qualification/scoped-recovery-01/ledger-prefix.jsonl",
+                             "sha256": checker.SCOPED_PREFIX_SHA256,
+                             "bytes": checker.SCOPED_PREFIX_BYTES, "lines": 27},
+                         "retained_completed": complete_items, "retained_failures": failure_items}
+        for row, digest, context in self.prefix:
+            attempt_number = int(row["attempt_id"].split("-attempt-")[1][:2])
+            target = self.completed if row["status"] == "completed" else self.failures
+            target[row["attempt_id"]] = {"row": row, "ledger_line_sha256": digest,
+                                          "context_sha256": context,
+                                          "plan_commit": row["plan_commit"],
+                                          "attempt_number": attempt_number}
+        rows = [(row, digest) for row, digest, _context in self.prefix]
+        for group in self.groups[25:]:
+            number = 2 if group["id"] == "codeql-java-modeling" else 1
+            rows.append((self._row(group["id"], number, self.current_sha,
+                                   self.current_commit, self.current_source, "completed"), None))
+        self.ledger = [(row, digest or self._line_sha(row)) for row, digest in rows]
+        self.scoped = {"manifest": self.manifest, "manifest_sha256": "5" * 64,
+                       "contexts": self.contexts,
+                       "prefix_rows": [(row, digest) for row, digest, _context in self.prefix],
+                       "sealed_prefix_sha256": checker.SCOPED_PREFIX_SHA256,
+                       "retained_completed": self.completed, "retained_failures": self.failures}
+
+    @staticmethod
+    def _line_sha(row):
+        raw = (json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode()
+        return hashlib.sha256(raw).hexdigest()
+
+    def _row(self, group_id, number, contract_sha, plan_commit, source, status):
+        group = next(item for item in self.groups if item["id"] == group_id)
+        return {"group_id": group_id,
+                "attempt_id": f"{group_id}-attempt-{number:02d}-series-01",
+                "execution_series": 1, "plan_commit": plan_commit,
+                "source_commit": source, "contract_sha256": contract_sha,
+                "tool": group["tool"], "case_ids": group["case_ids"], "status": status}
+
+    def _append(self, group_id, number, contract_sha, plan_commit, source, status):
+        row = self._row(group_id, number, contract_sha, plan_commit, source, status)
+        self.prefix.append((row, self._line_sha(row), contract_sha))
+
+    def _manifest_item(self, row, digest, context):
+        attempt_id = row["attempt_id"]
+        return {"group_id": row["group_id"], "attempt_id": attempt_id,
+                "status": row["status"], "contract_sha256": context,
+                "source_commit": row["source_commit"], "plan_commit": row["plan_commit"],
+                "ledger_line_sha256": digest,
+                "started_receipt": {"path": f"reports/releases/v0.9.2/attempts/{attempt_id}/started.json",
+                                    "sha256": "8" * 64},
+                "completed_receipt": {"path": f"reports/releases/v0.9.2/attempts/{attempt_id}/completed.json",
+                                      "sha256": "9" * 64}}
+
+    def _select(self):
+        return checker._select_scoped_recovery_attempts(
+            self.plan, self.current_sha, self.ledger, self.scoped,
+        )
+
+    def test_scoped_recovery_selects_only_25_old_and_59_current_completions(self):
+        _commit, selected, failures = self._select()
+        self.assertEqual(len(selected), checker.EXPECTED_GROUPS)
+        self.assertEqual(sum(item[6] for item in selected.values()), 25)
+        self.assertEqual(sum(not item[6] for item in selected.values()), 59)
+        self.assertEqual(len(failures), 2)
+        self.assertEqual({item[0]["attempt_id"] for item in failures}, {
+            "bifrost-c-kernel-attempt-01-series-01",
+            "codeql-java-modeling-attempt-01-series-01",
+        })
+        self.assertEqual(selected["codeql-java-modeling"][2], 2)
+
+    def test_post_prefix_row_cannot_use_historical_contract(self):
+        row, _digest = self.ledger[-1]
+        row["contract_sha256"] = self.c2_sha
+        self.ledger[-1] = (row, self._line_sha(row))
+        with self.assertRaisesRegex(checker.EvidenceError, "after the sealed prefix"):
+            self._select()
+
+    def test_post_prefix_row_must_bind_c3_source_commit(self):
+        row, _digest = self.ledger[-1]
+        row["source_commit"] = self.c2_source
+        self.ledger[-1] = (row, self._line_sha(row))
+        with self.assertRaisesRegex(checker.EvidenceError, "mismatched C3 contract, plan commit, or source"):
+            self._select()
+
+    def test_historical_completion_outside_exact_roster_is_rejected(self):
+        del self.completed[next(iter(self.completed))]
+        with self.assertRaisesRegex(checker.EvidenceError, "exactly the 25 sealed C2 completions"):
+            self._select()
+
+    def test_current_attempt_cannot_exceed_shared_retry_ceiling(self):
+        group = self.groups[26]
+        row = self._row(group["id"], 3, self.current_sha, self.current_commit,
+                        self.current_source, "completed")
+        self.ledger[-1] = (row, self._line_sha(row))
+        with self.assertRaisesRegex(checker.EvidenceError, "attempt number or series"):
+            self._select()
+
+    def test_sealed_prefix_line_change_is_rejected(self):
+        row = dict(self.ledger[0][0])
+        row["status"] = "completed"
+        self.ledger[0] = (row, self._line_sha(row))
+        with self.assertRaisesRegex(checker.EvidenceError, "exact sealed C1/C2 prefix"):
+            self._select()
+
+    def test_historical_row_with_wrong_origin_commit_is_rejected(self):
+        row = dict(self.ledger[1][0])
+        row["plan_commit"] = "a" * 40
+        digest = self._line_sha(row)
+        self.ledger[1] = (row, digest)
+        old_prefix_row = self.scoped["prefix_rows"][1]
+        self.scoped["prefix_rows"][1] = (row, digest)
+        with self.assertRaisesRegex(checker.EvidenceError, "executor completion differs"):
+            self._select()
+        self.scoped["prefix_rows"][1] = old_prefix_row
+
+
 class FailedStagingInventoryTests(unittest.TestCase):
     def test_global_staging_inventory_keeps_recorder_leftovers_separate_from_selected_reports(self):
         selected = {"reports/releases/v0.9.2/normal/attempts/selected/report.json"}

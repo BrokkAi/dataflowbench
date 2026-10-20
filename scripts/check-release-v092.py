@@ -47,6 +47,14 @@ D8_VERSION_LINE = (
     "from go/r8bot (luci-r8-custom-ci-archive-0-gths))"
 )
 D8_JAR_SHA256 = "4733945987ee0a840fafc34080b135259e01678412e07212b23f706334290294"
+SCOPED_C1_SHA256 = "43aa0cc5185e46f284f0fa07f5b8af123ddd0345d7918ca4ec37ef61cbb02ac3"
+SCOPED_C1_PLAN_COMMIT = "c5837c0e5b3b809cae3f347a748ef2fd03e3090f"
+SCOPED_C1_SOURCE_COMMIT = "4e7b1d9afd6bccf3e932e4222825afb44c436412"
+SCOPED_C2_SHA256 = "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422"
+SCOPED_C2_PLAN_COMMIT = "a180c302b56f2c18a1fdfbbd1bc14489151fc54e"
+SCOPED_C2_SOURCE_COMMIT = "21b76b747b72363aad4bbbc358fc2ae9aee24f1c"
+SCOPED_PREFIX_SHA256 = "48e5a5eb985fa3dde72c62dee2cfa55e6c291050c68d7c5b8b4212d970aebd29"
+SCOPED_PREFIX_BYTES = 7_738_871
 CODEQL_NATIVE_PACKS = {
     "java": "1.11.12",
     "javascript": "2.4.7",
@@ -424,6 +432,481 @@ def _select_attempts(plan: dict, contract_sha256: str,
             else:
                 failures.append((row, line_sha, number, None, origin_commit, None, origin_sha))
     return plan_commit, selected, failures
+
+
+def _select_scoped_recovery_attempts(
+    plan: dict,
+    contract_sha256: str,
+    ledger_rows: list[tuple[dict, str]],
+    scoped: dict,
+) -> tuple[str, dict[str, tuple], list[tuple]]:
+    """Select C3 attempts while preserving the sealed C1/C2 ledger prefix.
+
+    Historical completion rows remain bound to their original validated C2
+    contract.  Only the C2 success roster in the scoped-recovery manifest may
+    be retained; the two sealed historical failures remain failures.
+    """
+    planned = plan.get("groups")
+    _require(isinstance(planned, list), "execution plan groups are malformed")
+    groups = {item.get("id"): item for item in planned if isinstance(item, dict)}
+    _require(len(groups) == len(planned) == EXPECTED_GROUPS,
+             "execution plan must contain exactly 84 unique groups")
+    _require(isinstance(scoped, dict), "executor did not return scoped-recovery validation")
+    manifest = scoped.get("manifest")
+    _require(isinstance(manifest, dict) and manifest.get("schema") == "v092-scoped-recovery-manifest/v1",
+             "scoped-recovery manifest is missing or has an unsupported schema")
+    manifest_sha = scoped.get("manifest_sha256")
+    _require(isinstance(manifest_sha, str) and SHA256.fullmatch(manifest_sha) is not None,
+             "scoped-recovery manifest digest is missing or malformed")
+    ref = plan.get("scoped_recovery")
+    _require(isinstance(ref, dict) and set(ref) == {"path", "sha256"} and
+             ref.get("path") == "reports/releases/v0.9.2/qualification/scoped-recovery-01/manifest.json" and
+             ref.get("sha256") == manifest_sha,
+             "C3 plan does not bind the exact scoped-recovery manifest")
+    _require(plan.get("execution_series") == 1 and manifest.get("execution_series") == 1 and
+             plan.get("maximum_attempts_per_group", 2) == 2 and
+             "prior_failed_contracts" not in plan and
+             manifest.get("maximum_attempts_per_group") == 2 and
+             manifest.get("total_wall_budget_seconds") == plan.get("total_wall_budget_seconds") and
+             manifest.get("original_wall_origin_utc") == "2026-10-20T00:57:00.680937+00:00" and
+             manifest.get("scope") == (
+                 "Only current v0.9.2 C2 completed runs retain their own original source/contract "
+                 "provenance; new measurements use corrected C3; all failed evidence remains non-selected."
+             ),
+             "scoped-recovery changed the shared execution series, retry, or wall budget")
+
+    historical = manifest.get("historical_contracts")
+    _require(isinstance(historical, list) and len(historical) == 2,
+             "scoped-recovery must bind exactly the C1 and C2 historical contracts")
+    expected_historical = {
+        "reports/releases/v0.9.2/execution-v1/contract.json": {
+            "path": "reports/releases/v0.9.2/acquisition/failed-contract-01.json",
+            "sha256": SCOPED_C1_SHA256,
+            "plan_commit": SCOPED_C1_PLAN_COMMIT,
+            "source_commit": SCOPED_C1_SOURCE_COMMIT,
+        },
+        "reports/releases/v0.9.2/execution-v2/contract.json": {
+            "path": "reports/releases/v0.9.2/acquisition/scoped-recovery-contract-02.json",
+            "sha256": SCOPED_C2_SHA256,
+            "plan_commit": SCOPED_C2_PLAN_COMMIT,
+            "source_commit": SCOPED_C2_SOURCE_COMMIT,
+        },
+    }
+    _require({item.get("canonical_path"): {
+        key: item.get(key) for key in ("path", "sha256", "plan_commit", "source_commit")
+    } for item in historical if isinstance(item, dict)} == expected_historical,
+             "scoped-recovery historical contracts differ from the exact registered C1/C2 identities")
+    contexts = scoped.get("contexts")
+    _require(isinstance(contexts, dict) and len(contexts) == 2,
+             "executor did not return both historical contract contexts")
+    context_by_sha: dict[str, dict] = {}
+    for item in historical:
+        _require(isinstance(item, dict), "scoped-recovery historical contract entry is malformed")
+        old_sha = item.get("sha256")
+        context = contexts.get(old_sha)
+        _require(isinstance(old_sha, str) and SHA256.fullmatch(old_sha) is not None and
+                 isinstance(context, dict) and isinstance(context.get("validated"), dict),
+                 "scoped-recovery historical contract context is absent")
+        old_validated = context["validated"]
+        old_plan = old_validated.get("plan")
+        _require(old_validated.get("bytes_sha256") == old_sha and isinstance(old_plan, dict) and
+                 context.get("plan_commit") == item.get("plan_commit") and
+                 old_plan.get("source_commit") == item.get("source_commit") and
+                 old_plan.get("execution_series") == 1,
+                 "historical contract context differs from the sealed manifest")
+        historical_root = old_validated.get("repo_root")
+        _require(isinstance(historical_root, Path),
+                 "historical contract context lacks its repository root")
+        expected_archive_path = (historical_root / item["path"]).resolve()
+        _require(isinstance(old_validated.get("path"), str) and
+                 Path(old_validated["path"]).resolve() == expected_archive_path,
+                 "historical context was not validated from its exact archived contract bytes")
+        canonical = item.get("canonical_path")
+        expected_canonical = {
+            "reports/releases/v0.9.2/execution-v1/contract.json",
+            "reports/releases/v0.9.2/execution-v2/contract.json",
+        }
+        _require(canonical in expected_canonical,
+                 "scoped-recovery historical contract is not a canonical v1/v2 contract")
+        context_by_sha[old_sha] = context
+    _require(set(contexts) == set(context_by_sha),
+             "executor returned an unregistered historical contract context")
+    _require({item["canonical_path"] for item in historical} == {
+        "reports/releases/v0.9.2/execution-v1/contract.json",
+        "reports/releases/v0.9.2/execution-v2/contract.json",
+    }, "scoped-recovery does not bind both canonical historical contracts")
+    c1_sha = next(item["sha256"] for item in historical
+                   if item["canonical_path"].endswith("execution-v1/contract.json"))
+    c2_sha = next(item["sha256"] for item in historical
+                   if item["canonical_path"].endswith("execution-v2/contract.json"))
+
+    prefix_ref = manifest.get("ledger_prefix")
+    _require(isinstance(prefix_ref, dict) and prefix_ref.get("lines") == 27 and
+             type(prefix_ref.get("bytes")) is int and prefix_ref.get("bytes") > 0 and
+             isinstance(prefix_ref.get("sha256"), str) and SHA256.fullmatch(prefix_ref["sha256"]) is not None,
+             "scoped-recovery ledger prefix reference is malformed")
+    _require(prefix_ref.get("path") ==
+             "reports/releases/v0.9.2/qualification/scoped-recovery-01/ledger-prefix.jsonl" and
+             prefix_ref.get("sha256") == SCOPED_PREFIX_SHA256 and
+             prefix_ref.get("bytes") == SCOPED_PREFIX_BYTES,
+             "scoped-recovery prefix differs from the exact registered historical byte seal")
+    prefix_rows = scoped.get("prefix_rows")
+    _require(isinstance(prefix_rows, list) and len(prefix_rows) == 27 and
+             scoped.get("sealed_prefix_sha256") == prefix_ref["sha256"],
+             "executor's validated prefix differs from the manifest seal")
+    _require(len(ledger_rows) >= len(prefix_rows) and ledger_rows[:len(prefix_rows)] == prefix_rows,
+             "current ledger does not begin with the exact sealed C1/C2 prefix")
+    _require(ledger_rows and len(ledger_rows) <= EXPECTED_GROUPS * MAX_ATTEMPTS_PER_GROUP,
+             "execution ledger has no attempts or exceeds the shared two-attempt bound")
+    if len(ledger_rows) > len(prefix_rows):
+        _require(all(row.get("contract_sha256") == contract_sha256
+                     for row, _line_sha in ledger_rows[len(prefix_rows):]),
+                 "ledger rows after the sealed prefix must belong only to the current C3 contract")
+
+    retained_completed = scoped.get("retained_completed")
+    retained_failures = scoped.get("retained_failures")
+    completed_manifest = manifest.get("retained_completed")
+    failures_manifest = manifest.get("retained_failures")
+    _require(isinstance(retained_completed, dict) and len(retained_completed) == 25 and
+             isinstance(completed_manifest, list) and len(completed_manifest) == 25,
+             "scoped-recovery must retain exactly the 25 sealed C2 completions")
+    _require(isinstance(retained_failures, dict) and len(retained_failures) == 2 and
+             isinstance(failures_manifest, list) and len(failures_manifest) == 2,
+             "scoped-recovery must retain exactly the two sealed failures")
+    complete_by_id = {item.get("attempt_id"): item for item in completed_manifest if isinstance(item, dict)}
+    failure_by_id = {item.get("attempt_id"): item for item in failures_manifest if isinstance(item, dict)}
+    completed_by_attempt = {}
+    for key, recovered in retained_completed.items():
+        row = recovered.get("row") if isinstance(recovered, dict) else None
+        _require(isinstance(row, dict) and isinstance(row.get("attempt_id"), str) and
+                 key in (row.get("group_id"), row.get("attempt_id")) and
+                 row["attempt_id"] not in completed_by_attempt,
+                 "executor retained-completion map has a duplicate or mismatched key")
+        completed_by_attempt[row["attempt_id"]] = recovered
+    failures_by_attempt = {}
+    for key, recovered in retained_failures.items():
+        row = recovered.get("row") if isinstance(recovered, dict) else None
+        _require(isinstance(row, dict) and isinstance(row.get("attempt_id"), str) and
+                 key in (row.get("group_id"), row.get("attempt_id")) and
+                 row["attempt_id"] not in failures_by_attempt,
+                 "executor retained-failure map has a duplicate or mismatched key")
+        failures_by_attempt[row["attempt_id"]] = recovered
+    _require(len(complete_by_id) == 25 and len(failure_by_id) == 2 and
+             set(complete_by_id) == set(completed_by_attempt) and
+             set(failure_by_id) == set(failures_by_attempt),
+             "executor-retained attempts differ from the exact manifest roster")
+
+    prefix_by_id = {row.get("attempt_id"): (row, line_sha) for row, line_sha in prefix_rows}
+    _require(len(prefix_by_id) == len(prefix_rows), "sealed prefix contains duplicate attempt IDs")
+    _require(set(prefix_by_id) == set(complete_by_id) | set(failure_by_id),
+             "sealed prefix contains an unregistered attempt or omits a manifest attempt")
+    origins: dict[str, tuple[dict, str, str, bool, str | None]] = {}
+    for attempt_id, manifest_item in complete_by_id.items():
+        row, line_sha = prefix_by_id[attempt_id]
+        recovered = completed_by_attempt[attempt_id]
+        attempt_number = int(attempt_id.split("-attempt-", 1)[1][:2])
+        _require(isinstance(recovered, dict) and recovered.get("row") == row and
+                 recovered.get("ledger_line_sha256") == line_sha and
+                 recovered.get("context_sha256") == c2_sha and
+                 recovered.get("plan_commit") == manifest_item.get("plan_commit") and
+                 recovered.get("attempt_number") == attempt_number,
+                 f"{attempt_id}: executor completion differs from the C2 manifest roster")
+        _require(manifest_item.get("status") == "completed" and row.get("status") == "completed" and
+                 manifest_item.get("group_id") == row.get("group_id") and
+                 manifest_item.get("contract_sha256") == c2_sha and
+                 manifest_item.get("source_commit") == contexts[c2_sha]["validated"]["plan"]["source_commit"] and
+                 manifest_item.get("ledger_line_sha256") == line_sha,
+                 f"{attempt_id}: retained completion is not the exact C2 ledger row")
+        _verify_manifest_receipt_ref(manifest_item, attempt_id, "completed")
+        _verify_manifest_receipt_ref(manifest_item, attempt_id, "started")
+        origins[attempt_id] = (row, line_sha, c2_sha, True,
+                               manifest_item["completed_receipt"]["sha256"])
+
+    expected_failure_ids = {"bifrost-c-kernel-attempt-01-series-01",
+                            "codeql-java-modeling-attempt-01-series-01"}
+    _require(set(failure_by_id) == expected_failure_ids,
+             "scoped-recovery failures differ from the authorized C1/C2 pair")
+    for attempt_id, manifest_item in failure_by_id.items():
+        row, line_sha = prefix_by_id[attempt_id]
+        recovered = failures_by_attempt[attempt_id]
+        expected_context = c1_sha if attempt_id.startswith("bifrost-c-kernel-") else c2_sha
+        context = contexts[expected_context]
+        _require(isinstance(recovered, dict) and recovered.get("row") == row and
+                 recovered.get("ledger_line_sha256") == line_sha and
+                 recovered.get("context_sha256") == expected_context and
+                 recovered.get("plan_commit") == manifest_item.get("plan_commit"),
+                 f"{attempt_id}: executor failure differs from the historical context")
+        attempt_number = int(attempt_id.split("-attempt-", 1)[1][:2])
+        _require(manifest_item.get("status") == row.get("status") and
+                 manifest_item.get("group_id") == row.get("group_id") and
+                 manifest_item.get("contract_sha256") == expected_context and
+                 manifest_item.get("source_commit") == context["validated"]["plan"]["source_commit"] and
+                 manifest_item.get("plan_commit") == context["plan_commit"] and
+                 manifest_item.get("ledger_line_sha256") == line_sha and
+                 recovered.get("attempt_number") == attempt_number,
+                 f"{attempt_id}: retained failure is not the exact historical ledger row")
+        _verify_manifest_receipt_ref(manifest_item, attempt_id, "completed")
+        _verify_manifest_receipt_ref(manifest_item, attempt_id, "started")
+        origins[attempt_id] = (row, line_sha, expected_context, False,
+                               manifest_item["completed_receipt"]["sha256"])
+
+    _require(sum(1 for row, _sha256 in prefix_rows if row.get("status") == "completed") == 25 and
+             sum(1 for row, _sha256 in prefix_rows if row.get("status") in FAILED_STATUSES) == 2,
+             "sealed historical prefix has a completion/failure count outside its authorized roster")
+    _require(prefix_rows[0][0].get("attempt_id") == "bifrost-c-kernel-attempt-01-series-01" and
+             prefix_rows[-1][0].get("attempt_id") == "codeql-java-modeling-attempt-01-series-01",
+             "sealed historical prefix does not preserve the C1 failure and final C2 failure boundaries")
+
+    current_rows = [(row, line_sha) for row, line_sha in ledger_rows[len(prefix_rows):]]
+    _require(bool(current_rows), "C3 ledger has no fresh attempts after the sealed historical prefix")
+    commit_values = [row.get("plan_commit") for row, _line_sha in current_rows]
+    _require(all(isinstance(value, str) and COMMIT.fullmatch(value) is not None for value in commit_values) and
+             len(set(commit_values)) == 1,
+             "C3 attempts were not dispatched from one exact committed contract")
+    plan_commit = commit_values[0]
+    source_commit = plan.get("source_commit")
+    _require(isinstance(source_commit, str) and COMMIT.fullmatch(source_commit) is not None,
+             "C3 execution plan lacks an exact source commit")
+
+    by_group: dict[str, list[tuple]] = collections.defaultdict(list)
+    failures: list[tuple] = []
+    for index, (row, line_sha) in enumerate(ledger_rows):
+        group_id = row.get("group_id")
+        _require(isinstance(group_id, str) and group_id in groups,
+                 f"execution ledger contains unknown group id {group_id!r}")
+        attempt_id = row.get("attempt_id")
+        _require(isinstance(attempt_id, str), f"{group_id}: attempt ID is missing")
+        if index < len(prefix_rows):
+            _require(attempt_id in origins and origins[attempt_id][0] == row and
+                     origins[attempt_id][1] == line_sha,
+                     f"{attempt_id}: historical row is outside the exact retained roster")
+            _row, _line, origin_sha, retained, receipt_sha = origins[attempt_id]
+            origin = contexts[origin_sha]
+            origin_validated = origin["validated"]
+            origin_plan_commit = origin["plan_commit"]
+        else:
+            _require(row.get("contract_sha256") == contract_sha256 and
+                     row.get("plan_commit") == plan_commit and
+                     row.get("source_commit") == source_commit,
+                     f"{attempt_id}: post-prefix row has mismatched C3 contract, plan commit, or source")
+            origin_sha = contract_sha256
+            origin_validated = None
+            origin_plan_commit = plan_commit
+            retained = False
+            receipt_sha = None
+        pattern = re.compile(rf"{re.escape(group_id)}-attempt-(\d{{2}})-series-(\d{{2}})\Z")
+        match = pattern.fullmatch(attempt_id)
+        _require(match is not None, f"{group_id}: attempt id is malformed or belongs to another group")
+        attempt_number, attempt_series = (int(value) for value in match.groups())
+        current_group = groups[group_id]
+        maximum = current_group.get("maximum_attempts", 1)
+        _require(type(maximum) is int and 1 <= maximum <= MAX_ATTEMPTS_PER_GROUP and
+                 1 <= attempt_number <= maximum and attempt_series == 1 and
+                 row.get("execution_series") == 1,
+                 f"{group_id}: attempt number or series exceeds the shared reviewed plan")
+        row_plan = origin_validated["plan"] if origin_validated is not None else plan
+        origin_groups = {item["id"]: item for item in row_plan["groups"]}
+        origin_group = origin_groups.get(group_id)
+        _require(isinstance(origin_group, dict), f"{group_id}: historical context lacks its planned group")
+        for key, expected in (
+            ("contract_sha256", origin_sha),
+            ("plan_commit", origin_plan_commit),
+            ("source_commit", row_plan["source_commit"]),
+            ("tool", origin_group.get("tool")),
+            ("case_ids", origin_group.get("case_ids")),
+        ):
+            _require(row.get(key) == expected, f"{group_id}: attempt {attempt_number} has mismatched {key}")
+        for key in ("tool", "family", "case_ids", "maximum_attempts", "deadline_seconds", "output_roots"):
+            _require(origin_group.get(key) == current_group.get(key),
+                     f"{group_id}: historical and C3 plans differ in {key}")
+        status = row.get("status")
+        _require(status == "completed" or status in FAILED_STATUSES,
+                 f"{group_id}: attempt has an unknown or non-terminal status")
+        if index < len(prefix_rows):
+            _require((status == "completed") == retained,
+                     f"{attempt_id}: historical completion was not authorized for retention")
+            if not retained:
+                failures.append((row, line_sha, attempt_number, origin_validated,
+                                 origin_plan_commit, receipt_sha, origin_sha))
+            else:
+                _require(attempt_id in complete_by_id,
+                         f"{attempt_id}: historical completion is outside the exact C2 roster")
+        elif status in FAILED_STATUSES:
+            failures.append((row, line_sha, attempt_number, None, plan_commit, None, contract_sha256))
+        by_group[group_id].append((row, line_sha, attempt_number, origin_validated,
+                                   origin_plan_commit, origin_sha, retained))
+
+    _require(set(by_group) == set(groups), "execution ledger does not contain every planned group")
+    selected: dict[str, tuple] = {}
+    for group_id, attempts in by_group.items():
+        numbers = [item[2] for item in attempts]
+        _require(numbers == list(range(1, len(attempts) + 1)) and len(attempts) <= MAX_ATTEMPTS_PER_GROUP,
+                 f"{group_id}: attempts are duplicated, missing, out of order, or exceed the shared limit")
+        completed_indexes = [index for index, item in enumerate(attempts) if item[0].get("status") == "completed"]
+        _require(len(completed_indexes) == 1 and completed_indexes[0] == len(attempts) - 1,
+                 f"{group_id}: expected one final completed attempt and no attempt after completion")
+        chosen = attempts[completed_indexes[0]]
+        if chosen[6]:
+            _require(chosen[0]["attempt_id"] in complete_by_id,
+                     f"{group_id}: historical completion is not in the authorized C2 roster")
+        else:
+            _require(chosen[5] == contract_sha256,
+                     f"{group_id}: selected completion must belong to C3 or the exact retained C2 roster")
+        _require(all(item[0].get("status") in FAILED_STATUSES for item in attempts[:completed_indexes[0]]),
+                 f"{group_id}: a non-failure attempt precedes its selected completion")
+        selected[group_id] = chosen
+    _require(len(selected) == EXPECTED_GROUPS,
+             "scoped-recovery ledger does not select exactly one completion for all 84 groups")
+    return plan_commit, selected, failures
+
+
+def _verify_manifest_receipt_ref(item: dict, attempt_id: str, kind: str) -> None:
+    key = f"{kind}_receipt"
+    reference = item.get(key)
+    expected_path = (ATTEMPTS_ROOT / attempt_id / ("completed.json" if kind == "completed" else "started.json")).as_posix()
+    _require(isinstance(reference, dict) and reference.get("path") == expected_path and
+             isinstance(reference.get("sha256"), str) and SHA256.fullmatch(reference["sha256"]) is not None,
+             f"{attempt_id}: scoped-recovery manifest has an invalid {kind} receipt binding")
+
+
+def _verify_scoped_recovery_bundle(root: Path, validated: dict,
+                                  ledger_rows: list[tuple[dict, str]], scoped: dict) -> None:
+    manifest = scoped["manifest"]
+    manifest_ref = validated["plan"]["scoped_recovery"]
+    manifest_path = _bound(root, manifest_ref["path"], manifest_ref["sha256"], None,
+                           "scoped-recovery manifest")
+    parsed_manifest, _manifest_bytes = _read_json(manifest_path, "scoped-recovery manifest")
+    _require(parsed_manifest == manifest and _sha(manifest_path.read_bytes()) == scoped["manifest_sha256"],
+             "executor scoped-recovery manifest differs from the committed plan reference")
+
+    prefix_ref = manifest.get("ledger_prefix")
+    prefix_path = _bound(root, prefix_ref.get("path"), prefix_ref.get("sha256"),
+                         prefix_ref.get("bytes"), "sealed historical ledger prefix")
+    prefix_rows = _read_ledger_with_hashes(prefix_path)
+    _require(len(prefix_rows) == prefix_ref.get("lines") == 27 and
+             prefix_rows == scoped.get("prefix_rows") and ledger_rows[:27] == prefix_rows,
+             "current ledger differs from the independently hashed 27-line historical prefix")
+
+    authorization_ref = manifest.get("authorization")
+    _require(isinstance(authorization_ref, dict) and
+             authorization_ref.get("path") ==
+             "reports/releases/v0.9.2/qualification/scoped-recovery-01/authorization.json",
+             "scoped-recovery authorization reference is missing or uses an unexpected path")
+    authorization_path = _bound(root, authorization_ref.get("path"), authorization_ref.get("sha256"),
+                                None, "scoped-recovery authorization")
+    authorization, _authorization_bytes = _read_json(authorization_path, "scoped-recovery authorization")
+    _require(scoped.get("authorization") == authorization and
+             authorization.get("schema") == "v092-scoped-recovery-authorization/v1" and
+             authorization.get("evidence_kind") == "human-chat-authorization-record",
+             "scoped-recovery authorization does not contain the exact recorded human authorization")
+    authorized = authorization.get("authorized_scope")
+    _require(isinstance(authorized, dict) and
+             authorized.get("retained_current_completed_groups") == 25 and
+             authorized.get("corrected_harness_for_remaining_groups") is True and
+             authorized.get("codeql_java_modeling_next_attempt") == 2 and
+             authorized.get("original_wall_origin_utc") == prefix_rows[0][0].get("start_utc") and
+             authorized.get("total_wall_budget_seconds") == validated["plan"].get("total_wall_budget_seconds") and
+             authorized.get("max_attempts_per_group_across_contracts") == 2 and
+             authorized.get("case_population") == EXPECTED_CASES and
+             authorized.get("groups") == EXPECTED_GROUPS and
+             authorized.get("report_partitions") == EXPECTED_REPORTS and
+             authorized.get("report_rows") == EXPECTED_ROWS and
+             authorized.get("minimum_launch_free_gib") == 125 and
+             authorized.get("protected_reserve_gib") == 40 and
+             authorized.get("scratch_retention_caps_gib") == 24 and
+             manifest.get("original_wall_origin_utc") == prefix_rows[0][0].get("start_utc") and
+             "Relabeling original measurements as executed under new source" in authorization.get("forbidden", []),
+             "scoped-recovery authorization does not preserve the original matrix scope and limits")
+    expected_proof_paths = {
+        "repair_patch": "reports/releases/v0.9.2/qualification/scoped-recovery-01/repair/fix-02.patch",
+        "repair_proof": "reports/releases/v0.9.2/qualification/scoped-recovery-01/repair/patch-manifest-02.json",
+        "failure_diagnosis": "reports/releases/v0.9.2/qualification/scoped-recovery-01/repair/diagnosis.json",
+    }
+    for name, expected_path in expected_proof_paths.items():
+        reference = manifest.get(name)
+        _require(isinstance(reference, dict) and reference.get("path") == expected_path,
+                 f"scoped-recovery {name} reference is missing or uses an unexpected path")
+        _bound(root, reference.get("path"), reference.get("sha256"), None,
+               f"scoped-recovery {name}")
+    for item in manifest["retained_completed"] + manifest["retained_failures"]:
+        for kind in ("started", "completed"):
+            reference = item.get(f"{kind}_receipt")
+            _require(isinstance(reference, dict),
+                     f"scoped-recovery manifest lacks a {kind} receipt entry")
+            _bound(root, reference["path"], reference["sha256"], None,
+                   f"scoped-recovery {kind} receipt")
+
+
+def _verify_historical_contract_contexts(root: Path, manifest: dict, scoped: dict,
+                                         current_head: str) -> None:
+    """Recheck old source-input and canonical-contract bytes at their original commits."""
+    contexts = scoped["contexts"]
+    for item in manifest["historical_contracts"]:
+        old_sha = item["sha256"]
+        context = contexts[old_sha]
+        old_validated = context["validated"]
+        old_plan = old_validated["plan"]
+        old_commit = item["plan_commit"]
+        canonical = item["canonical_path"]
+        archive_path = item["path"]
+        _bound(root, archive_path, old_sha, None, "archived historical contract")
+        try:
+            canonical_bytes = subprocess.check_output(
+                ["git", "show", f"{old_commit}:{canonical}"], cwd=root, stderr=subprocess.STDOUT,
+            )
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise EvidenceError(f"cannot read historical canonical contract at {old_commit}") from exc
+        _require(_sha(canonical_bytes) == old_sha == old_validated["bytes_sha256"],
+                 "historical canonical contract bytes differ from the archived contract")
+        source_commit = old_plan["source_commit"]
+        _assert_ancestor(root, source_commit, old_commit, "historical source-to-contract commit")
+        _assert_ancestor(root, old_commit, current_head, "historical contract commit")
+        source_inputs = old_validated.get("source_inputs")
+        _require(isinstance(source_inputs, list) and source_inputs,
+                 "historical contract has no independently replayable source-input inventory")
+        seen_paths = set()
+        for source_input in source_inputs:
+            _require(isinstance(source_input, dict) and isinstance(source_input.get("path"), str) and
+                     isinstance(source_input.get("sha256"), str) and
+                     SHA256.fullmatch(source_input["sha256"]) is not None,
+                     "historical source-input entry is malformed")
+            source_path = _relative(source_input["path"], "historical source-input path").as_posix()
+            _require(source_path not in seen_paths, "historical source-input inventory contains duplicates")
+            seen_paths.add(source_path)
+            try:
+                source_bytes = subprocess.check_output(
+                    ["git", "show", f"{source_commit}:{source_path}"], cwd=root,
+                    stderr=subprocess.STDOUT,
+                )
+            except (OSError, subprocess.CalledProcessError) as exc:
+                raise EvidenceError(f"historical source input is absent at {source_commit}: {source_path}") from exc
+            _require(_sha(source_bytes) == source_input["sha256"],
+                     f"historical source input differs at its origin commit: {source_path}")
+
+
+def _verify_codeql_modeling_failure_diagnosis(root: Path, manifest: dict,
+                                               failure_summary: dict) -> dict:
+    reference = manifest["failure_diagnosis"]
+    path = _bound(root, reference.get("path"), reference.get("sha256"), None,
+                  "CodeQL Java modeling failure diagnosis")
+    diagnosis, _raw = _read_json(path, "CodeQL Java modeling failure diagnosis")
+    expected = {
+        "schema": "v092-codeql-modeling-stamp-failure/v1",
+        "attempt_id": "codeql-java-modeling-attempt-01-series-01",
+        "contract_sha256": failure_summary["contract_sha256"],
+        "source_commit": failure_summary["source_commit"],
+        "plan_commit": failure_summary["plan_commit"],
+        "completed_receipt_sha256": failure_summary["completed_receipt_sha256"],
+        "status": "failed",
+        "exit_code": 1,
+        "all_50_capture_hashes_and_stream_hashes_verified": True,
+        "no_selected_reports": True,
+    }
+    _require(all(diagnosis.get(key) == value for key, value in expected.items()) and
+             len(failure_summary.get("captured_files", [])) == 50 and
+             failure_summary.get("stdout") is not None and failure_summary.get("stderr") is not None,
+             "CodeQL Java modeling diagnosis does not match the independently replayed complete failure")
+    return {"path": reference["path"], "sha256": reference["sha256"]}
 
 
 def _relative(value: object, description: str) -> PurePosixPath:
@@ -1571,14 +2054,33 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
 
     ledger_path = root / Path(*LEDGER_PATH.parts)
     ledger_rows = _read_ledger_with_hashes(ledger_path)
-    plan_commit, selected_attempts, prior_failures = _select_attempts(
-        plan, validated["bytes_sha256"], ledger_rows,
-        validated.get("prior_failed_contracts", {}),
-    )
+    scoped_mode = "scoped_recovery" in plan
+    scoped = validated.get("scoped_recovery") if scoped_mode else None
+    if scoped_mode:
+        _require(isinstance(scoped, dict), "C3 execution contract lacks validated scoped-recovery context")
+        _verify_scoped_recovery_bundle(root, validated, ledger_rows, scoped)
+        plan_commit, selected_attempts, prior_failures = _select_scoped_recovery_attempts(
+            plan, validated["bytes_sha256"], ledger_rows, scoped,
+        )
+    else:
+        plan_commit, selected_attempts, prior_failures = _select_attempts(
+            plan, validated["bytes_sha256"], ledger_rows,
+            validated.get("prior_failed_contracts", {}),
+        )
     expected_ids = set(groups)
     _require(set(selected_attempts) == expected_ids,
              "ledger must select exactly one completed attempt for each of 84 groups")
     _assert_committed_contract(root, validated, plan_commit)
+    if scoped_mode:
+        try:
+            current_head = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=root, text=True, stderr=subprocess.STDOUT,
+            ).strip()
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise EvidenceError("cannot resolve current source HEAD for scoped historical proof") from exc
+        _verify_historical_contract_contexts(
+            root, scoped["manifest"], scoped, current_head,
+        )
     all_attempt_ids = {row["attempt_id"] for row, _line_sha in ledger_rows}
     _assert_attempt_directories(root, all_attempt_ids)
     try:
@@ -1593,11 +2095,33 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
     row_count = 0
     selected_summaries = []
     for group_id in sorted(selected_attempts):
-        receipt, ledger_line_sha256, attempt_number = selected_attempts[group_id]
-        group = groups[group_id]
+        selected = selected_attempts[group_id]
+        if scoped_mode:
+            (receipt, ledger_line_sha256, attempt_number, origin_validated,
+             origin_plan_commit, origin_contract_sha256, retained) = selected
+            evidence_validated = origin_validated or validated
+            origin_groups = {item["id"]: item for item in evidence_validated["groups"]}
+            group = origin_groups[group_id]
+        else:
+            receipt, ledger_line_sha256, attempt_number = selected
+            origin_validated = None
+            origin_plan_commit = plan_commit
+            origin_contract_sha256 = validated["bytes_sha256"]
+            retained = False
+            evidence_validated = validated
+            group = groups[group_id]
         bindings, counts = _verify_one_group(
-            root, validated, group, receipt, plan_commit, attempt_number,
+            root, evidence_validated, group, receipt, origin_plan_commit, attempt_number,
         )
+        completed_bytes = (root / Path(*ATTEMPTS_ROOT.parts) / receipt["attempt_id"] / "completed.json").read_bytes()
+        if scoped_mode and retained:
+            retained_item = next(item for item in scoped["manifest"]["retained_completed"]
+                                 if item["attempt_id"] == receipt["attempt_id"])
+            _require(_sha(completed_bytes) == retained_item["completed_receipt"]["sha256"],
+                     f"{group_id}: selected historical completion differs from its manifest receipt digest")
+            started_bytes = (root / Path(*ATTEMPTS_ROOT.parts) / receipt["attempt_id"] / "started.json").read_bytes()
+            _require(_sha(started_bytes) == retained_item["started_receipt"]["sha256"],
+                     f"{group_id}: selected historical start differs from its manifest receipt digest")
         for binding in bindings:
             _require(binding["adapter"] not in report_paths, "report partition was emitted more than once")
             report_paths.add(binding["adapter"])
@@ -1607,14 +2131,17 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
             row_count += binding["rows"]
             binding["attempt_id"] = receipt["attempt_id"]
             binding["attempt_number"] = attempt_number
+            binding["evidence_contract_sha256"] = origin_contract_sha256
             bound_reports.append(binding)
         outcome_counts.update(counts)
-        completed_bytes = (root / Path(*ATTEMPTS_ROOT.parts) / receipt["attempt_id"] / "completed.json").read_bytes()
         selected_summaries.append({
             "group_id": group_id,
             "attempt_id": receipt["attempt_id"],
             "attempt_number": attempt_number,
             "status": "completed",
+            "evidence_origin": "retained-c2" if retained else ("fresh-c3" if scoped_mode else "current-contract"),
+            "evidence_contract_sha256": origin_contract_sha256,
+            "evidence_plan_commit": origin_plan_commit,
             "ledger_line_sha256": ledger_line_sha256,
             "started_receipt_sha256": _sha((root / Path(*ATTEMPTS_ROOT.parts) /
                                              receipt["attempt_id"] / "started.json").read_bytes()),
@@ -1623,6 +2150,7 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
 
     failed_summaries = []
     prior_failure_summary_rows = []
+    scoped_failure_summary_rows = []
     for (receipt, ledger_line_sha256, attempt_number, origin_validated,
          origin_plan_commit, expected_receipt_sha256, origin_contract_sha256) in prior_failures:
         failure_validated = origin_validated or validated
@@ -1633,7 +2161,31 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
             attempt_number, ledger_line_sha256, expected_receipt_sha256,
         )
         failure_summary["inherited_from_prior_contract"] = origin_contract_sha256 != validated["bytes_sha256"]
-        if failure_summary["inherited_from_prior_contract"]:
+        if scoped_mode:
+            c1_sha = next(
+                item["sha256"] for item in scoped["manifest"]["historical_contracts"]
+                if item["canonical_path"].endswith("execution-v1/contract.json")
+            )
+            if origin_contract_sha256 == c1_sha:
+                failure_summary["evidence_origin"] = "retained-c1-failure"
+                review_sha256 = _verify_preanalysis_failure_review(
+                    root, validated, failure_validated, origin_contract_sha256,
+                    origin_plan_commit, receipt, ledger_line_sha256, failure_summary,
+                )
+                failure_summary["version_gate_review"] = {
+                    "path": PREANALYSIS_FAILURE_REVIEW.as_posix(),
+                    "sha256": review_sha256,
+                }
+            elif failure_summary["inherited_from_prior_contract"]:
+                failure_summary["evidence_origin"] = "retained-c2-failure"
+                failure_summary["failure_diagnosis"] = _verify_codeql_modeling_failure_diagnosis(
+                    root, scoped["manifest"], failure_summary,
+                )
+            else:
+                failure_summary["evidence_origin"] = "fresh-c3-failure"
+            if failure_summary["inherited_from_prior_contract"]:
+                scoped_failure_summary_rows.append(failure_summary)
+        elif failure_summary["inherited_from_prior_contract"]:
             review_sha256 = _verify_preanalysis_failure_review(
                 root, validated, failure_validated, origin_contract_sha256,
                 origin_plan_commit, receipt, ledger_line_sha256, failure_summary,
@@ -1643,7 +2195,7 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
                 "sha256": review_sha256,
             }
         failed_summaries.append(failure_summary)
-        if failure_summary["inherited_from_prior_contract"]:
+        if failure_summary["inherited_from_prior_contract"] and not scoped_mode:
             prior_failure_summary_rows.append(failure_summary)
     _require(len(failed_summaries) == len(prior_failures),
              "one or more prior failed attempts lack verifiable non-selected provenance")
@@ -1695,7 +2247,36 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
         })
     _require(all(item["attempts"] for item in prior_contract_summaries),
              "a registered prior contract has no independently verified failed attempt")
-    return {
+    scoped_summary = None
+    if scoped_mode:
+        _require(len(selected_summaries) == EXPECTED_GROUPS and
+                 sum(item["evidence_origin"] == "retained-c2" for item in selected_summaries) == 25 and
+                 sum(item["evidence_origin"] == "fresh-c3" for item in selected_summaries) == 59,
+                 "C3 selection must preserve exactly 25 C2 completions and verify 59 C3 completions")
+        _require(len(scoped_failure_summary_rows) == 2 and
+                 {item["evidence_origin"] for item in scoped_failure_summary_rows} ==
+                 {"retained-c1-failure", "retained-c2-failure"},
+                 "C3 summary does not retain exactly the authorized C1 and C2 failures")
+        scoped_summary = {
+            "manifest": plan["scoped_recovery"]["path"],
+            "manifest_sha256": plan["scoped_recovery"]["sha256"],
+            "sealed_prefix_sha256": scoped["sealed_prefix_sha256"],
+            "retained_completed_groups": 25,
+            "retained_failures": [
+                {
+                    "attempt_id": item["attempt_id"],
+                    "status": item["status"],
+                    "contract_sha256": item["contract_sha256"],
+                    "plan_commit": item["plan_commit"],
+                    "ledger_line_sha256": item["ledger_line_sha256"],
+                    "evidence_origin": item["evidence_origin"],
+                    "version_gate_review": item.get("version_gate_review"),
+                    "failure_diagnosis": item.get("failure_diagnosis"),
+                }
+                for item in scoped_failure_summary_rows
+            ],
+        }
+    result = {
         "schema_version": 1,
         "release": RELEASE,
         "status": "fresh-evidence-verified",
@@ -1717,6 +2298,7 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
         "failed_attempt_count": len(failed_summaries),
         "failed_attempts": failed_summaries,
         "prior_failed_contracts": prior_contract_summaries,
+        "scoped_recovery": scoped_summary,
         "typed_outcomes": dict(sorted(outcome_counts.items())),
         "fresh_reports": sorted(bound_reports, key=lambda item: item["adapter"]),
         "configuration_hash_validation": {
@@ -1729,6 +2311,7 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
         },
         "performance_claim": "none; execution timings are diagnostic",
     }
+    return result
 
 
 if __name__ == "__main__":

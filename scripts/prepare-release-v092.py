@@ -19,6 +19,10 @@ SOURCE_CONTRACT = PurePosixPath("reports/releases/v0.9.0/execution-v1/contract.j
 PARENT_PLAN = PurePosixPath("reports/releases/v0.9.0/plan.json")
 OUTPUT = PurePosixPath("reports/releases/v0.9.2/execution-v1/contract.json")
 OUTPUT_V2 = PurePosixPath("reports/releases/v0.9.2/execution-v2/contract.json")
+OUTPUT_V3 = PurePosixPath("reports/releases/v0.9.2/execution-v3/contract.json")
+SCOPED_RECOVERY_PATH = PurePosixPath(
+    "reports/releases/v0.9.2/qualification/scoped-recovery-01/manifest.json"
+)
 DEFAULT_SWIFT_PLAN = PurePosixPath("adapters/codeql/swift-common-v2/plan-v092-01/execution-plan.json")
 DEFAULT_JOERN_PLAN = PurePosixPath("adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json")
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
@@ -56,7 +60,16 @@ def _read_object(path: Path, description: str) -> tuple[dict, bytes]:
 def _contract_output(bindings: dict, output_path: str | Path | None, root: Path) -> tuple[PurePosixPath, Path]:
     """Choose the canonical contract path from the explicitly bound history."""
     has_prior = "prior_failed_contracts" in bindings
-    expected_relative = OUTPUT_V2 if has_prior else OUTPUT
+    has_scoped_recovery = "scoped_recovery" in bindings
+    if has_prior and has_scoped_recovery:
+        raise executor.ReleaseError("execution-v3 cannot combine a scoped recovery manifest with prior_failed_contracts")
+    expected_relative = OUTPUT_V3 if has_scoped_recovery else (OUTPUT_V2 if has_prior else OUTPUT)
+    if has_scoped_recovery:
+        reference = bindings.get("scoped_recovery")
+        if (not isinstance(reference, dict) or set(reference) != {"path", "sha256"} or
+                reference.get("path") != SCOPED_RECOVERY_PATH.as_posix() or
+                not isinstance(reference.get("sha256"), str) or not SHA256.fullmatch(reference["sha256"])):
+            raise executor.ReleaseError("execution-v3 requires the exact scoped-recovery manifest reference")
     if has_prior:
         prior = bindings.get("prior_failed_contracts")
         if not isinstance(prior, list) or len(prior) != 1:
@@ -73,6 +86,118 @@ def _contract_output(bindings: dict, output_path: str | Path | None, root: Path)
             f"output must be the canonical {expected_relative.as_posix()} path"
         )
     return expected_relative, destination
+
+
+def _build_c3_contract(
+    bindings: dict,
+    tools: dict[str, dict],
+    runner_source_sha256: str,
+    *,
+    root: Path,
+    destination: Path,
+) -> dict:
+    """Carry forward C2 verbatim except for the reviewed runner and recovery metadata."""
+    archive_path = root / executor.ARCHIVED_SCOPED_CONTRACT_02_PATH.as_posix()
+    old, _old_raw = _read_object(archive_path, "immutable C2 contract archive")
+    if hashlib.sha256(_json_bytes(old)).hexdigest() != "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422":
+        raise executor.ReleaseError("immutable C2 contract archive has an unexpected digest")
+    source_commit = bindings.get("source_commit")
+    if not isinstance(source_commit, str) or not COMMIT.fullmatch(source_commit):
+        raise executor.ReleaseError("C3 bindings must name the exact source_commit")
+    if set(tools) != set(old.get("tools", {})):
+        raise executor.ReleaseError("C3 tool bindings must preserve the complete C2 alias set")
+    old_tools = old["tools"]
+    for alias in tools:
+        if alias == "runner":
+            if {key: value for key, value in tools[alias].items() if key not in ("path", "sha256")} != {
+                    key: value for key, value in old_tools[alias].items() if key not in ("path", "sha256")}:
+                raise executor.ReleaseError("C3 runner identity metadata differs from C2")
+        elif tools[alias] != old_tools[alias]:
+            raise executor.ReleaseError(f"C3 changed an analyzer/runtime binding from C2: {alias}")
+    if bindings.get("tool_components") != old.get("tool_components"):
+        raise executor.ReleaseError("C3 must preserve the exact C2 runtime component membership")
+    if bindings.get("resource_budget", old.get("resource_budget")) != old.get("resource_budget"):
+        raise executor.ReleaseError("C3 cannot change the C2 resource budget")
+    if bindings.get("total_wall_budget_seconds", old.get("total_wall_budget_seconds")) != old.get("total_wall_budget_seconds"):
+        raise executor.ReleaseError("C3 cannot reset or change the C2 wall-clock budget")
+    reservation = bindings.get("resource_reservation")
+    if not isinstance(reservation, dict):
+        raise executor.ReleaseError("C3 bindings must include a fresh resource reservation")
+    source_inputs = bindings.get("source_inputs")
+    if not isinstance(source_inputs, list):
+        raise executor.ReleaseError("C3 bindings must carry the exact historical and recovery source_inputs")
+    old_runner_path = old_tools["runner"]["path"]
+    new_runner_path = tools["runner"]["path"]
+    if old_runner_path == new_runner_path or old_tools["runner"]["sha256"] == tools["runner"]["sha256"]:
+        raise executor.ReleaseError("C3 must select the separately built corrected harness")
+
+    groups = []
+    for original in old["groups"]:
+        group = json.loads(json.dumps(original))
+        argv = group.get("argv")
+        if not isinstance(argv, list):
+            raise executor.ReleaseError(f"{group.get('id')}: C2 command vector is malformed")
+        occurrences = sum(item == old_runner_path for item in argv)
+        if occurrences > 1:
+            raise executor.ReleaseError(f"{group.get('id')}: C2 command repeats the runner path")
+        group["argv"] = [new_runner_path if item == old_runner_path else item for item in argv]
+        environment = group.get("environment")
+        if not isinstance(environment, dict):
+            raise executor.ReleaseError(f"{group.get('id')}: C2 environment is malformed")
+        group["environment"] = {
+            key: value.replace(old_runner_path, new_runner_path) if isinstance(value, str) else value
+            for key, value in environment.items()
+        }
+        groups.append(group)
+
+    replacements = bindings.get("path_replacements")
+    old_replacements = old.get("path_replacements")
+    if not isinstance(replacements, dict) or not isinstance(old_replacements, dict):
+        raise executor.ReleaseError("C3 path replacement maps are malformed")
+    expected_replacements = {
+        key: (new_runner_path if value == old_runner_path else value)
+        for key, value in old_replacements.items()
+    }
+    if replacements != expected_replacements:
+        raise executor.ReleaseError("C3 may change only the C2 runner path replacement")
+    scoped_reference = bindings["scoped_recovery"]
+
+    contract = json.loads(json.dumps(old))
+    contract.update({
+        "source_commit": source_commit,
+        "runner_source_sha256": runner_source_sha256,
+        "execution_authorized": False,
+        "tools": tools,
+        "path_replacements": replacements,
+        "resource_reservation": reservation,
+        "source_inputs": source_inputs,
+        "groups": groups,
+        "scoped_recovery": scoped_reference,
+        "generator": {
+            "path": "scripts/prepare-release-v092.py",
+            "source_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "status": "prospective-unapproved",
+        },
+    })
+    contract.pop("prior_failed_contracts", None)
+    if destination.exists() or destination.is_symlink():
+        raise executor.ReleaseError(f"contract already exists and will not be overwritten: {destination}")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    raw = _json_bytes(contract)
+    with destination.open("xb") as handle:
+        handle.write(raw)
+        handle.flush()
+        os.fsync(handle.fileno())
+    try:
+        executor.validate_plan(destination, repo_root=root)
+    except BaseException:
+        try:
+            if destination.is_file() and hashlib.sha256(destination.read_bytes()).digest() == hashlib.sha256(raw).digest():
+                destination.unlink()
+        except OSError:
+            pass
+        raise
+    return contract
 
 
 def _absolute_string(value: object, description: str) -> str:
@@ -174,6 +299,14 @@ def build_contract(
     tools, replacements, group_replacements, tool_components = _validate_bindings(bindings)
     for name, binding in tools.items():
         executor._check_tool_file(binding, name)
+    if "scoped_recovery" in bindings:
+        return _build_c3_contract(
+            bindings,
+            tools,
+            runner_source_sha256,
+            root=root,
+            destination=destination,
+        )
     group_tools = bindings.get("group_tools")
     if not isinstance(group_tools, dict):
         raise executor.ReleaseError("bindings must map every historical group in group_tools")
@@ -454,7 +587,8 @@ def main(argv: list[str] | None = None) -> int:
     bindings, _ = _read_object(args.bindings, "bindings")
     contract = build_contract(bindings, args.runner_source_sha, output_path=args.output)
     print(json.dumps({
-        "path": (OUTPUT_V2 if "prior_failed_contracts" in bindings else OUTPUT).as_posix(),
+        "path": (OUTPUT_V3 if "scoped_recovery" in bindings else
+                 (OUTPUT_V2 if "prior_failed_contracts" in bindings else OUTPUT)).as_posix(),
         "execution_authorized": contract["execution_authorized"],
         "group_count": len(contract["groups"]),
         "report_partition_count": sum(len(group["reports"]) for group in contract["groups"]),

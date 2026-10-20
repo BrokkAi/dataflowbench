@@ -634,6 +634,81 @@ class ExecutorTests(unittest.TestCase):
         with self.assertRaisesRegex(executor.ReleaseError, "unregistered contract revision"):
             executor._matrix_elapsed_wall(validated, now_seconds=1_792_432_800)
 
+    def test_scoped_recovery_keeps_exact_origin_and_all_three_contract_revisions(self):
+        origin = "2026-10-20T00:57:00.680937+00:00"
+        c1, c2, c3 = "1" * 64, "2" * 64, "3" * 64
+        validated = {
+            "repo_root": self.root,
+            "plan": {"execution_series": 1},
+            "bytes_sha256": c3,
+            "prior_failed_contracts": {},
+            "scoped_recovery": {
+                "contexts": {c1: {}, c2: {}},
+                "manifest": {"original_wall_origin_utc": origin},
+            },
+        }
+        starts = [
+            (c1, origin, 2),
+            (c2, "2026-10-20T01:10:00+00:00", 3),
+            (c3, "2026-10-20T01:20:00+00:00", 4),
+        ]
+        ledger = self.root / Path(*executor.LEDGER_PATH.parts)
+        for contract_sha, start, duration in starts:
+            executor._append_ledger(ledger, {
+                "execution_series": 1, "contract_sha256": contract_sha,
+                "start_utc": start, "duration_seconds": duration,
+            })
+        origin_seconds = executor._datetime.datetime.fromisoformat(origin).timestamp()
+        self.assertEqual(executor._matrix_elapsed_wall(validated, now_seconds=origin_seconds + 8), 9)
+
+        wrong_origin = {
+            **validated,
+            "scoped_recovery": {
+                **validated["scoped_recovery"],
+                "manifest": {"original_wall_origin_utc": "2026-10-20T00:57:01.680937+00:00"},
+            },
+        }
+        with self.assertRaisesRegex(executor.ReleaseError, "exact authorized wall origin"):
+            executor._matrix_elapsed_wall(wrong_origin, now_seconds=origin_seconds + 20)
+
+        executor._append_ledger(ledger, {
+            "execution_series": 1, "contract_sha256": "4" * 64,
+            "start_utc": origin, "duration_seconds": 1,
+        })
+        with self.assertRaisesRegex(executor.ReleaseError, "unregistered contract revision"):
+            executor._matrix_elapsed_wall(validated, now_seconds=origin_seconds + 20)
+
+    def test_scoped_retained_completions_are_skipped_and_count_against_retry_limit(self):
+        retained = {f"group-{index:02d}": {"row": {}} for index in range(25)}
+        validated = {
+            "repo_root": self.root,
+            "plan": {"execution_series": 1, "groups": []},
+            "bytes_sha256": "c" * 64,
+            "groups": [],
+            "scoped_recovery": {"retained_completed": retained},
+        }
+        ledger = self.root / Path(*executor.LEDGER_PATH.parts)
+        ledger.parent.mkdir(parents=True, exist_ok=True)
+        ledger.write_bytes(b"")
+        self.assertEqual(executor._verified_completed_groups(validated), set(retained))
+
+        group = {"id": "retained-group", "maximum_attempts": 2}
+        executor._append_ledger(ledger, {
+            "group_id": group["id"], "execution_series": 1,
+            "contract_sha256": "b" * 64, "status": "completed",
+        })
+        with self.assertRaisesRegex(executor.ReleaseError, "already has completed evidence"):
+            executor._assert_fresh(self.root, group, [], 1)
+
+        ledger.write_bytes(b"")
+        for contract_sha, status in (("a" * 64, "recorder-error"), ("b" * 64, "failed")):
+            executor._append_ledger(ledger, {
+                "group_id": group["id"], "execution_series": 1,
+                "contract_sha256": contract_sha, "status": status,
+            })
+        with self.assertRaisesRegex(executor.ReleaseError, "maximum_attempts"):
+            executor._assert_fresh(self.root, group, [], 1)
+
     def test_environment_is_explicit_and_attempt_scoped(self):
         group = {"environment": {
             "PATH": "/pinned/bin", "HOME": "@EXECUTION_ROOT@/home",
