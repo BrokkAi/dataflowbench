@@ -1,0 +1,50 @@
+{
+  "schema": "scoped-recovery-rust-validation/v1",
+  "recorded_at_utc": "2026-10-20T06:31:17Z",
+  "worktree": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+  "branch": "dave/v0.9.2-full-refresh",
+  "head": "a180c302b56f2c18a1fdfbbd1bc14489151fc54e",
+  "owned_sources": {
+    "src/modeling.rs": "d2de3d05a224b797d2b67356e57063c3ea10992f59c19c89938d72da1ca2917a",
+    "src/tests/modeling.rs": "d5c678789c5d77324c7b428984c2bc20e37f1c2248cd104d4dad618c2d04b330",
+    "combined_binary_diff_sha256": "de599efbb1b056c67d2ea6a446d6612c7831abfb63ef5faad635bd545ada860d",
+    "unchanged_from_preflight": true
+  },
+  "toolchain": {
+    "cargo": "cargo 1.97.1 (c980f4866 2026-06-30)",
+    "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "cargo_target_dir": "execution-state/v092/build"
+  },
+  "command": "env CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/build RUSTC=/Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc /usr/bin/time -p /Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/cargo test --manifest-path Cargo.toml --locked --offline -- --test-threads=2",
+  "environment": {
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_TARGET_DIR": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/build",
+    "RUSTC": "/Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc",
+    "network": "offline"
+  },
+  "log": {
+    "path": "reports/releases/v0.9.2/validation/scoped-recovery-rust-01/cargo-test.log",
+    "sha256": "182d17cfaeaa3cf2a02c39864d7a6f5d34890cbd63f9672466f4b2232c34f59d",
+    "exit_code": 0
+  },
+  "result": {
+    "tests_total": 304,
+    "passed": 304,
+    "failed": 0,
+    "ignored": 0,
+    "filtered_out": 0
+  },
+  "timing": {
+    "test_harness_seconds": 121.03,
+    "wall_seconds": 138.84,
+    "user_seconds": 166.01,
+    "system_seconds": 20.09,
+    "interpretation": "Diagnostic only; the separate Bifrost cargo-nextest/rustc build remained active, as recorded in preflight.json. This is not performance evidence."
+  },
+  "format_check": {
+    "log": "reports/releases/v0.9.2/validation/scoped-recovery-rust-01/fmt.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exit_code": 0
+  },
+  "scope": "Validation only; no analyzer was run, no release attempt was retried, and no harness binary was built or replaced. Other worktree changes were preserved."
+}

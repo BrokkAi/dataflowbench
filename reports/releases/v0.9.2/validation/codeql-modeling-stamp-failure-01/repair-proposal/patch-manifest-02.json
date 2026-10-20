@@ -1,0 +1,43 @@
+{
+  "schema": "dataflowbench-temporary-fix-proof/v1",
+  "purpose": "Prepare a minimal uncommitted fix and focused regression for the CodeQL 2.27.2 modeling configuration hash mismatch. This is a review artifact only; no qualification retry or bound harness change occurred.",
+  "attempt_source_commit": "21b76b747b72363aad4bbbc358fc2ae9aee24f1c",
+  "source_snapshot": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-03/retry-01/snapshot",
+  "temporary_source_copy": "/private/tmp/dataflowbench-codeql-java-modeling-fix-01/source",
+  "patch": {
+    "path": "/private/tmp/dataflowbench-codeql-java-modeling-fix-01/fix-02.patch",
+    "sha256": "de599efbb1b056c67d2ea6a446d6612c7831abfb63ef5faad635bd545ada860d",
+    "reverse_apply_check": "passed",
+    "changed_files": [
+      {
+        "path": "src/modeling.rs",
+        "base_git_blob": "a4524333d26deba9a44a180091765d7a86e84846",
+        "patched_sha256": "d2de3d05a224b797d2b67356e57063c3ea10992f59c19c89938d72da1ca2917a"
+      },
+      {
+        "path": "src/tests/modeling.rs",
+        "base_git_blob": "395e656e0ef297ab941f2fe0da36244d08bfab24",
+        "patched_sha256": "d5c678789c5d77324c7b428984c2bc20e37f1c2248cd104d4dad618c2d04b330"
+      }
+    ]
+  },
+  "validation": {
+    "cargo": "cargo 1.97.1 (c980f4866 2026-06-30)",
+    "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "format_command": "env RUSTC=/Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc /Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/cargo fmt --all -- --check",
+    "format_log": {
+      "path": "/private/tmp/dataflowbench-codeql-java-modeling-fix-01/fmt-02.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0
+    },
+    "focused_test_command": "env CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/build RUSTC=/Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc /Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/cargo test --manifest-path /private/tmp/dataflowbench-codeql-java-modeling-fix-01/source/Cargo.toml --locked --offline codeql_modeling_configuration_matches_v092_validator_without_changing_history",
+    "focused_test_log": {
+      "path": "/private/tmp/dataflowbench-codeql-java-modeling-fix-01/focused-test-02.log",
+      "sha256": "971af79db678ea049f19cb4837da01f0bb6bea24b7dcc75e618f5ea83f71250a",
+      "exit_code": 0,
+      "result": "1 passed; 0 failed; 303 filtered out"
+    },
+    "target_dir": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/build"
+  },
+  "scope": "Temporary source copy only. The original checkout, release reports, frozen receipts, current harness binary, and qualification state were not edited or superseded."
+}
