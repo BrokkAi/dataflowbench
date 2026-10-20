@@ -1,0 +1,91 @@
+{
+  "arm": "off",
+  "capture_output_dir": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/sanitizer_activation/dfb-taint-swift-model-sanitizer-kill-positive/off",
+  "capture_root": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+  "capture_state": "complete",
+  "case_id": "dfb-taint-swift-model-sanitizer-kill-positive",
+  "commands": [
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/sanitizer_activation/dfb-taint-swift-model-sanitizer-kill-positive/off/database-create.command.json",
+      "sha256": "d3bacde48ca53a3f13d24a3372a17adc3d7ec6143268095d101cecf98cd05b5f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/sanitizer_activation/dfb-taint-swift-model-sanitizer-kill-positive/off/resolve-database.command.json",
+      "sha256": "bb1e03c1baacb217f172c1819b1bc742ec59c81b606ace3e74933b3862a73961"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/sanitizer_activation/dfb-taint-swift-model-sanitizer-kill-positive/off/flow-query.command.json",
+      "sha256": "f0a58566447e568243f5ebb9c2afbeb5dbb67507134f60f9ad1edc71b2daa11b"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/sanitizer_activation/dfb-taint-swift-model-sanitizer-kill-positive/off/flow-decode.command.json",
+      "sha256": "1a604e487d4a632dd1be66c0e04dac56c20dc5143c45fd9e7e741ef1714fedd2"
+    }
+  ],
+  "dimension": "sanitizer_activation",
+  "execution_plan_projection_sha256": "67b35219604c650e546b2bd3b200f8c66ad5c8f4a9022a89a5b9ae41ab583084",
+  "fixture_hashes": {
+    "ModelSanitizerKillPositive.swift": "1695690d0e091d812bda0531d68ebd4180a575d415f7eedc6c3e36ac93a59aa7",
+    "main.swift": "9f9ddca24894b30fe278dd4965d18d2eacdedd5ef650b64355e6ec39fba1c31e"
+  },
+  "flow_rows": [
+    [
+      "ModelSanitizerKillPositive.swift",
+      9,
+      "ModelSanitizerKillPositive.swift",
+      10,
+      14
+    ]
+  ],
+  "group_id": "codeql-swift-common108",
+  "identity": {
+    "adapter_version": "swift-normal-v092",
+    "tool": "codeql",
+    "tool_build_identity": "codeql:d7b185e374bfe18c0484dac07a521a810eb9c4fb;swift-extractor:593eb7afe23d63c57d04461bd046e45672555bb0586353edcf27a0313249841f;schema:a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89;packs:fb47dc786441189213937dae9638efe8b0878e04e0be56c3d349ce03d6ceb4bc",
+    "tool_version": "2.27.2"
+  },
+  "identity_components": [
+    {
+      "name": "codeql-cli",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+      "sha256": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "codeql-swift-extractor",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-extractor.json",
+      "sha256": "7cd457b417b9586aaa3fc5ef77d3e8a76c98484b578a0787707f7e5a8970de7f"
+    },
+    {
+      "name": "codeql-swift-schema",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/swift-codeql/candidate-extractor/swift/swift.dbscheme",
+      "sha256": "a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "codeql-swift-packs",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-packs-entry2.json",
+      "sha256": "4698d7bdfc4940dcb78ad88a4c58d33e729872713f0890896a10d26c0a3db34b"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-toolchain",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/swift-6.3.3.json",
+      "sha256": "f31ae5b23c775e0c69227363a1a0c4e4bf87964f8bcd79b8f9de9d7acd7d4a58"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-sdk",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5.json",
+      "sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7"
+    }
+  ],
+  "observed": "reached",
+  "query_outputs": {
+    "flow": {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/sanitizer_activation/dfb-taint-swift-model-sanitizer-kill-positive/off/flow.json",
+      "sha256": "643f407673017f2607554042e7817ee2fb269dff71d133e6c692bfe8ae38e76c"
+    }
+  },
+  "schema": "codeql-activation-control-raw/v092"
+}

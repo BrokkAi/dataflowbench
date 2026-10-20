@@ -1,0 +1,243 @@
+{
+  "capture_output_dir": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative",
+  "capture_root": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+  "capture_state": "complete",
+  "commands": [
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/database-create.command.json",
+      "sha256": "f4fc5fb51d4e3c816aaf2aa78b4a8e75d3ed01330b4d1f567be50587adba8346"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/resolve-database.command.json",
+      "sha256": "86f2235632314392436b4b6a751557f3b7c13db87e17b6c83c07e9ca649c2a20"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/entry-query.command.json",
+      "sha256": "a23c8eebfb2eff7edadfa4c8d14355c1358f4f5916277b838e08532901baa32f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/entry-decode.command.json",
+      "sha256": "3687c3514e2d53039ee69a379dfc8f55f73d902cd2f9b8eaf19735f62a368953"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/diagnostics-query.command.json",
+      "sha256": "4eac0cd4a5e04309a2e7c6f203d40a6adb677e6915cf6b7a76b7732b1b9ccb03"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/diagnostics-decode.command.json",
+      "sha256": "9b118c1f2809ec90da2b24b21cb669b3d6c7fb9be34e1233d7d238efb1954bce"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/kernel-flow-query.command.json",
+      "sha256": "58e07499c381fb9445f62600514a27588b102ab1720402c6b4b1c6d3461159f8"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/kernel-flow-decode.command.json",
+      "sha256": "c2e23dc7ca860323a3fbe28a4e4a5e94cbf189305d684da9ae68b3b7ae99fcce"
+    }
+  ],
+  "control_id": "array-element-negative",
+  "entry_rows": [
+    [
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/source/main.swift",
+      "DataFlowBenchTaintSwift",
+      0,
+      4,
+      1,
+      29
+    ],
+    [
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/source/main.swift",
+      "DataFlowBenchTaintSwift",
+      1,
+      5,
+      1,
+      29
+    ],
+    [
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/source/main.swift",
+      "DataFlowBenchTaintSwift",
+      2,
+      6,
+      1,
+      29
+    ],
+    [
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/source/main.swift",
+      "DataFlowBenchTaintSwift",
+      3,
+      7,
+      1,
+      29
+    ]
+  ],
+  "exact_endpoint_rows": [
+    [
+      "main.swift",
+      2,
+      31,
+      "source",
+      1,
+      0,
+      1,
+      1,
+      1,
+      "Swift:print(_:separator:terminator:)"
+    ],
+    [
+      "main.swift",
+      2,
+      31,
+      "sink",
+      1,
+      0,
+      1,
+      1,
+      1,
+      "Swift:print(_:separator:terminator:)"
+    ],
+    [
+      "main.swift",
+      5,
+      13,
+      "source",
+      1,
+      1,
+      1,
+      1,
+      1,
+      "DataFlowBenchTaintSwift:dfb_source()"
+    ],
+    [
+      "main.swift",
+      5,
+      13,
+      "sink",
+      1,
+      0,
+      0,
+      0,
+      0,
+      "DataFlowBenchTaintSwift:dfb_source()"
+    ],
+    [
+      "main.swift",
+      7,
+      1,
+      "source",
+      1,
+      0,
+      1,
+      1,
+      1,
+      "DataFlowBenchTaintSwift:dfb_sink(_:)"
+    ],
+    [
+      "main.swift",
+      7,
+      1,
+      "sink",
+      1,
+      1,
+      1,
+      1,
+      1,
+      "DataFlowBenchTaintSwift:dfb_sink(_:)"
+    ]
+  ],
+  "execution_plan_projection_sha256": "67b35219604c650e546b2bd3b200f8c66ad5c8f4a9022a89a5b9ae41ab583084",
+  "fixture_sha256": "2bac3494f1151905b0886af55b3c6434cc3dcfd844cd798f2b3aebc4f69ace14",
+  "flow_rows": [
+    [
+      "main.swift",
+      5,
+      "main.swift",
+      7,
+      10
+    ]
+  ],
+  "group_id": "codeql-swift-common108",
+  "identity": {
+    "adapter_version": "swift-normal-v092",
+    "tool": "codeql",
+    "tool_build_identity": "codeql:d7b185e374bfe18c0484dac07a521a810eb9c4fb;swift-extractor:593eb7afe23d63c57d04461bd046e45672555bb0586353edcf27a0313249841f;schema:a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89;packs:fb47dc786441189213937dae9638efe8b0878e04e0be56c3d349ce03d6ceb4bc",
+    "tool_version": "2.27.2"
+  },
+  "identity_components": [
+    {
+      "name": "codeql-cli",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+      "sha256": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "codeql-swift-extractor",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-extractor.json",
+      "sha256": "7cd457b417b9586aaa3fc5ef77d3e8a76c98484b578a0787707f7e5a8970de7f"
+    },
+    {
+      "name": "codeql-swift-schema",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/swift-codeql/candidate-extractor/swift/swift.dbscheme",
+      "sha256": "a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "codeql-swift-packs",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-packs-entry2.json",
+      "sha256": "4698d7bdfc4940dcb78ad88a4c58d33e729872713f0890896a10d26c0a3db34b"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-toolchain",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/swift-6.3.3.json",
+      "sha256": "f31ae5b23c775e0c69227363a1a0c4e4bf87964f8bcd79b8f9de9d7acd7d4a58"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-sdk",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5.json",
+      "sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7"
+    }
+  ],
+  "observation": {
+    "diagnostic": "reached",
+    "entry_owner": {
+      "file": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/source/main.swift",
+      "module": "DataFlowBenchTaintSwift"
+    },
+    "reason": null,
+    "scored": false,
+    "sink_anchor": {
+      "column": 1,
+      "file": "main.swift",
+      "line": 7
+    },
+    "source_anchor": {
+      "column": 13,
+      "file": "main.swift",
+      "line": 5
+    },
+    "status": "DIAGNOSTIC"
+  },
+  "query_outputs": {
+    "diagnostics": {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/diagnostics.json",
+      "sha256": "fa92b825a77d42176f9c5683b99e303d4ac397ff4fd9b8281bcbfc5447509f45"
+    },
+    "entry": {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/entry.json",
+      "sha256": "10f660b7a88112ce9594f79daf0a13864f470952afcba2f69d39258c6a029ff9"
+    },
+    "kernel-flow": {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/array-element-negative/kernel-flow.json",
+      "sha256": "02e4cb809bd5ade9b28f77a73e075d5f0d8a53b9df561e33d4e43d60eae5c5e8"
+    }
+  },
+  "schema": "codeql-entry-control-raw/v092",
+  "source_files": {
+    "main.swift": {
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/array-element-negative/main.swift",
+      "sha256": "2bac3494f1151905b0886af55b3c6434cc3dcfd844cd798f2b3aebc4f69ace14"
+    }
+  }
+}

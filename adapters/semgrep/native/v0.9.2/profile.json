@@ -1,0 +1,52 @@
+{
+  "schema": "semgrep-native-profile/v1",
+  "profile": "v0.9.2",
+  "engine": {
+    "name": "Semgrep CE",
+    "version": "1.181.0"
+  },
+  "upstream": {
+    "repository": "https://github.com/semgrep/semgrep-rules",
+    "commit": "17e31e11ebac99fb7dfe1cd288f7a32151b6f3f9",
+    "commit_receipt": "reports/releases/v0.9.2/acquisition/semgrep-rules-head.json",
+    "archive_receipt": "reports/releases/v0.9.2/acquisition/semgrep-rules-acquisition.json",
+    "archive_sha256": "19e3a747961c3034337157654de88314c286f7c4cc147189f84b734b85665b82"
+  },
+  "baseline_comparison": {
+    "upstream_commit": "40b8c63f75dc7c22c8a77482d73bfb864b146f7e",
+    "selected_rule_documents": {
+      "java": 86,
+      "javascript": 30,
+      "python": 91
+    },
+    "changed_normalized_rule_documents": [],
+    "review": "All selected upstream rule paths, IDs, and LF-normalized rule bytes match the prior native snapshots. The sole raw-byte difference is CRLF versus LF in Java jackson-unsafe-deserialization.yaml."
+  },
+  "compatibility": {
+    "status": "pending-cli-validation",
+    "scored_activation": false
+  },
+  "snapshots": {
+    "java": {
+      "directory": "adapters/semgrep/native/v0.9.2/java",
+      "provenance_sha256": "a6236f54d51d0d2683bd185cecf28ad91896d57c88628466bada0d34c8b5b654",
+      "tree_sha256": "17f56d76bb8fd0b1e6e62399a388bea1b2dad39334faf31a32bd4b43fc80079b",
+      "rule_document_count": 86,
+      "rule_id_count": 86
+    },
+    "javascript": {
+      "directory": "adapters/semgrep/native/v0.9.2/javascript",
+      "provenance_sha256": "2a0932ac7d9a5706de892530658a452d0087db968baa709fc1dcea9acd6eb824",
+      "tree_sha256": "35deb3496cf70addf544597e4eca1c123917b8a3e01b3b7fa52c423037047dc0",
+      "rule_document_count": 30,
+      "rule_id_count": 30
+    },
+    "python": {
+      "directory": "adapters/semgrep/native/v0.9.2/python",
+      "provenance_sha256": "4c956361a060dde6ce59a182a070af6e61dce7998aac598a3b4ad13fa0adc18e",
+      "tree_sha256": "526295a04d9a6973c131b06ec9796146f580190ca3d323ca8c73f1cb22500ddc",
+      "rule_document_count": 91,
+      "rule_id_count": 94
+    }
+  }
+}

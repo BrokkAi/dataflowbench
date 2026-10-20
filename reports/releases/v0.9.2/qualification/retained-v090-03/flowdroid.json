@@ -1,0 +1,615 @@
+{
+  "basis": "retained-v0.9.0-controls-with-exact-tool-runtime-tree-and-command-configuration",
+  "exact_identity_evidence": {
+    "bindings_draft": {
+      "path": "execution-state/v092/bindings-draft-03.json",
+      "sha256": "46cbfb0dc0ebbb4c0a4da55b4b44aca6156e13f287efbf744d5530b76f0da667",
+      "status": "incomplete-not-executable"
+    },
+    "held_v090_component_digests": {
+      "android-platform": {
+        "id": "android-platform",
+        "path": "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+        "sha256": "6cea1df3efb77103ac3e2beb9bf4718964b0e0869ab16d39d29d5cbae1c147ad"
+      },
+      "d8": {
+        "id": "d8",
+        "path": "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+        "sha256": "4733945987ee0a840fafc34080b135259e01678412e07212b23f706334290294"
+      },
+      "flowdroid": {
+        "id": "flowdroid",
+        "path": "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+        "sha256": "51dadead47a173c494c2fa4855b1e8bd3b54e702a2c4b5ed58e60153009ae218"
+      },
+      "kotlin-stdlib": {
+        "id": "kotlin-stdlib",
+        "path": "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+        "sha256": "4ec0293bc3751423b203f1d8493251c57c42e73eb6377a6b8560d0974ff0a6df"
+      }
+    },
+    "java_and_kotlin_version_witness": {
+      "java_home": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+      "java_version_output_sha256": "685aa1129360c32e859043c5eb1309ebb42d545000e745349b953c74f5b6c9db",
+      "javac_version_output_sha256": "6de9f97e20ff9b630e1e9bbb4cee4ea86199d311251c1c25194696fcdf44988e",
+      "kotlinc_version_output_sha256": "fb9fada295df72ea5fab8ebaddefaa911180de178d84d7f1e8e4894f5f4b7950",
+      "path": "reports/releases/v0.9.0/execution-v1/dependency-version-witnesses.json",
+      "sha256": "50d7d8566cb24d1fdee789bfc7932463f3d014c8702f69822101db46ba916480",
+      "whole_v090_java_tree_digest_available": false,
+      "whole_v090_kotlinc_distribution_digest_available": false
+    },
+    "runtime_tree": {
+      "current_manifest": {
+        "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/flowdroid.json",
+        "sha256": "19a5a347916085f1852a7d04b6d043c61a835de3c8a1a8adffe18cf1234dd9ea"
+      },
+      "entry_count": 3,
+      "file_count": 3,
+      "old_manifest": {
+        "path": "reports/releases/v0.9.0/execution-v1/runtime-trees/flowdroid.json",
+        "sha256": "7dc0d4b5c82674b96ccc70693b0b2a472300b0758e10e1be13da33de35d4661e"
+      },
+      "root": "/Users/dave/.cache/dataflowbench-tools/flowdroid",
+      "symlink_count": 0,
+      "v090_live_entry_equality": true,
+      "v092_inventory_live_equality": true
+    }
+  },
+  "execution_eligible": true,
+  "expanded_group_components": {
+    "flowdroid-java-kernel": [
+      "android-platform",
+      "d8",
+      "flowdroid",
+      "flowdroid-runtime",
+      "java",
+      "java-runtime",
+      "javac"
+    ],
+    "flowdroid-java-modeling": [
+      "android-platform",
+      "d8",
+      "flowdroid",
+      "flowdroid-runtime",
+      "java",
+      "java-runtime",
+      "javac"
+    ],
+    "flowdroid-java-native": [
+      "android-platform",
+      "flowdroid",
+      "flowdroid-runtime",
+      "java-runtime"
+    ],
+    "flowdroid-kotlin-kernel": [
+      "android-platform",
+      "d8",
+      "flowdroid",
+      "flowdroid-runtime",
+      "java",
+      "java-runtime",
+      "kotlin-stdlib",
+      "kotlinc"
+    ]
+  },
+  "groups": [
+    "flowdroid-java-kernel",
+    "flowdroid-java-modeling",
+    "flowdroid-java-native",
+    "flowdroid-kotlin-kernel"
+  ],
+  "identity_components": [
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "flowdroid-runtime",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/flowdroid.json",
+      "sha256": "19a5a347916085f1852a7d04b6d043c61a835de3c8a1a8adffe18cf1234dd9ea"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "java-runtime",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/java.json",
+      "sha256": "76ddb265fbaeecf1908ea934d2d64b079372e13f1307ff5d2b94957ba40ac1a6"
+    },
+    {
+      "name": "android-platform",
+      "path": "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+      "sha256": "6cea1df3efb77103ac3e2beb9bf4718964b0e0869ab16d39d29d5cbae1c147ad"
+    },
+    {
+      "build_identity": "D8 8.5.35 (build 2c176ec131a9edb97721fb8578b7fbb462376632 from go/r8bot (luci-r8-custom-ci-archive-0-gths)); r8 jar sha256:4733945987ee0a840fafc34080b135259e01678412e07212b23f706334290294",
+      "name": "d8",
+      "path": "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+      "sha256": "4733945987ee0a840fafc34080b135259e01678412e07212b23f706334290294"
+    }
+  ],
+  "limits": [
+    "The v0.9.0 control captures are retained as qualification evidence; their normal-group reports are not copied or promoted as v0.9.2 measurements.",
+    "The v0.9.0 control inventory still labels these rows registered-pending-final-executable-plan-review; this receipt independently verifies each start/completion record, command, source script, streams, and captured output hashes.",
+    "The v0.9.0 record binds Temurin 21.0.8 and the same JAVA_HOME, but does not retain a full Java runtime tree digest; current v0.9.2 Java runtime inventory is verified against the live tree only.",
+    "Kotlin compiler 2.4.10 is version/path-bound in v0.9.0 and the current v0.9.2 compiler file is hashed, but v0.9.0 did not retain a full Kotlin compiler distribution digest.",
+    "These receipts authorize attempts for the listed groups; they do not assert v0.9.2 analyzer coverage, completeness, or group outcomes. The v0.9.2 bindings draft remains incomplete until unrelated pending components are qualified."
+  ],
+  "release": "v0.9.2",
+  "review_implementation": {
+    "path": "scripts/bind-v092-retained-qualification-v2.py",
+    "sha256": "5b8600108de11ca5a1870d410f0b30463d8dfd349a66525d64d6376177eebed1"
+  },
+  "schema": "v092-retained-tool-qualification/v1",
+  "status": "measurement-with-known-limits",
+  "tool": {
+    "path": "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "sha256": "51dadead47a173c494c2fa4855b1e8bd3b54e702a2c4b5ed58e60153009ae218",
+    "version": "2.15.1"
+  },
+  "v090_configuration": {
+    "contract": {
+      "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/contract.json",
+      "sha256": "4a4c27f07671443c01d15d485b02d49dc4d0968491a008af416a3fadf847c757"
+    },
+    "controls": [
+      {
+        "argv_sha256": "645cdbf27a56bfdd4806e98cf8644a4157ed98412f201d568908ab6e60440e87",
+        "capture_count": 11,
+        "capture_manifest_sha256": "e0a0958a24253b5271124740e48eb978def2e729914efbfacd951b3da32b353b",
+        "captured_files": [
+          {
+            "bytes": 700,
+            "path": "reports/raw/load-bearing-java-modeling/flowdroid-entrypoint-parameter-undeclarable.json",
+            "sha256": "6f0e61786b32513ee17c5255c3e1e208fb744623a071b3c461491f80c2df3925"
+          },
+          {
+            "bytes": 639,
+            "path": "reports/raw/load-bearing-java-modeling/flowdroid-opaque-propagator-with-model.json",
+            "sha256": "f68304b4e46030537a19f0f0048d9743e4a57e7710069dc0adf143b5db4f7ca3"
+          },
+          {
+            "bytes": 607,
+            "path": "reports/raw/load-bearing-java-modeling/flowdroid-opaque-propagator-without-model.json",
+            "sha256": "73a18f7b3bbb00895d88b40769d9bbe2cc717e93fdd6ad4c8b51d15ec5e18838"
+          },
+          {
+            "bytes": 648,
+            "path": "reports/raw/load-bearing-java-modeling/flowdroid-propagator-position-declared-position.json",
+            "sha256": "db71f5e6918647581c4a8577a1b24a420c66fea8b9e3b9fa2bd28915d295a2d2"
+          },
+          {
+            "bytes": 644,
+            "path": "reports/raw/load-bearing-java-modeling/flowdroid-propagator-position-undeclared-position.json",
+            "sha256": "e14d987c808e3c4d46832f256d68270cdf20f53c8376387b0e82009c4e678af3"
+          },
+          {
+            "bytes": 596,
+            "path": "reports/raw/load-bearing-java-modeling/flowdroid-sanitizer-kill-with-model.json",
+            "sha256": "0fab4a264b14952f175e7d55b4670914599e23cba42638105a21612abaae1001"
+          },
+          {
+            "bytes": 607,
+            "path": "reports/raw/load-bearing-java-modeling/flowdroid-sanitizer-kill-without-model.json",
+            "sha256": "7eb8cc1e8eb88fec118a0a464e80f41a12bed702fffb994b7a8b49f460ffc5b7"
+          },
+          {
+            "bytes": 702,
+            "path": "reports/raw/load-bearing-java-modeling/flowdroid-sanitizer-selectivity-undecidable.json",
+            "sha256": "70731325a2fdf28886c736ad0988b35b7b3f2750df85f3fe909b6da83ee12382"
+          },
+          {
+            "bytes": 604,
+            "path": "reports/raw/load-bearing-java-modeling/flowdroid-summary-field-sibling.json",
+            "sha256": "b2cdea2f7fff4e9fc0bdbf2f337fb4416c9b05f53be42edd45e3fb5a6f749bd4"
+          },
+          {
+            "bytes": 653,
+            "path": "reports/raw/load-bearing-java-modeling/flowdroid-summary-field-with-model.json",
+            "sha256": "51911dfee4492b4fff2c49c24f7a4700445bb54d20d286e80d58d500fde3506b"
+          },
+          {
+            "bytes": 633,
+            "path": "reports/raw/load-bearing-java-modeling/flowdroid-summary-field-without-model.json",
+            "sha256": "4e1a523536ad2b23b9b3f24fa3ba9c32598dce219f9211df68b4bd1f5e795861"
+          }
+        ],
+        "completion_receipt": {
+          "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-flowdroid-modeling-load-bearing/attempt-01/completed.json",
+          "sha256": "2b7df686375c79467da24064098ac1d4b031c132e17bc2357e5611c4bd597f99"
+        },
+        "component_aliases_used": [
+          "android-platform",
+          "d8",
+          "flowdroid",
+          "flowdroid-runtime",
+          "java",
+          "javac"
+        ],
+        "control_inventory_status": "registered-pending-final-executable-plan-review",
+        "duration_seconds": 13.390691333,
+        "environment_sha256": "9a6eac6094dcf88943e0d2a3063b87ebba9ada959953d5262379fa0e2485302c",
+        "exit_code": 0,
+        "id": "probe-flowdroid-modeling-load-bearing",
+        "script": {
+          "path": "scripts/probe-flowdroid-modeling-load-bearing.sh",
+          "sha256": "62075cc2af9ab50f274d29ea80c85f169746fe4237901f9635c93742e831928c"
+        },
+        "started_receipt": {
+          "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-flowdroid-modeling-load-bearing/attempt-01/started.json",
+          "sha256": "2a682e6c3726a337e9974887cd1235848a38e2e4b2f0f6a7bbd62751a6897813"
+        },
+        "status": "completed",
+        "streams": {
+          "stderr": {
+            "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-flowdroid-modeling-load-bearing/attempt-01/stderr.txt",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-flowdroid-modeling-load-bearing/attempt-01/stdout.txt",
+            "sha256": "83c3f9aab5b4e50b39b00a9ebc3f68dd727518df9970744dbd41f425b02282e0"
+          }
+        }
+      },
+      {
+        "argv_sha256": "f1dc16b5980db71ab1275bc6416d99becd2fd77e7178bf1345bbdf696794fdbd",
+        "capture_count": 38,
+        "capture_manifest_sha256": "87477c4e7fecb201e406369c4e7751df7b476e63656a1cc00a5b6d07e30c34ce",
+        "captured_files": [
+          {
+            "bytes": 400,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/catalog-structure.txt",
+            "sha256": "1ff8124b5a3da2f2515fcd35252306c6a977337476040936eb5c9facedf8549e"
+          },
+          {
+            "bytes": 1192,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/control-results.xml",
+            "sha256": "cab36c8d883ce893bbc25cd562b7e32114928c02709092dbd49d5eeb31a444f3"
+          },
+          {
+            "bytes": 42329,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/control-sources-sinks.txt",
+            "sha256": "1757266bc0c76f7e05f694e2232e7926c7f3276281e6b9f344f2baa0e55e48a1"
+          },
+          {
+            "bytes": 10619,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/control.log",
+            "sha256": "69fcd4bba91d61369f466b88d1ef68fca209d12ca05afd99fd1adc98449377ba"
+          },
+          {
+            "bytes": 1909,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/endpoint-search.txt",
+            "sha256": "ff234428e14448da892c3115fcdd05cd5a5e7c7d7337a32406f9e51b250e7311"
+          },
+          {
+            "bytes": 1021,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/no-sources-sinks-flag.log",
+            "sha256": "0ecd9ca82610b7837bf2dabd1edbe5f0935ece56292569cd097a89e4325daaed"
+          },
+          {
+            "bytes": 25875,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-AndroidCallbacks.txt",
+            "sha256": "3dd696d0850e3e468127e545bd564e7036aa6eaa50d51d35b29a3418708ed091"
+          },
+          {
+            "bytes": 33750,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-EasyTaintWrapperSource.txt",
+            "sha256": "ffd8d6ad489ca3378f4ac99b38278f93ec16986ee3f5047baa407929b3f657a2"
+          },
+          {
+            "bytes": 42031,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-SourcesAndSinks.txt",
+            "sha256": "06e288dd12067a9068458b0abf664dc2878760077786044436210b1875b6e6ef"
+          },
+          {
+            "bytes": 649,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-entrypoint-negative.json",
+            "sha256": "7f9c1178cf329bd9a0eb029d1e2341298b7c6c7b102a870f989f11cb7f96e909"
+          },
+          {
+            "bytes": 8450,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-entrypoint-negative.log",
+            "sha256": "7a43992aa4596e033f46f9de4ffb2c4c57720bb1743473c1265dda6fc9f1f403"
+          },
+          {
+            "bytes": 649,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-entrypoint-positive.json",
+            "sha256": "c19dd4d5d54151dad3e0c9d62b6d737867aa0f3c2ec8026c36a6d8fbcabd7008"
+          },
+          {
+            "bytes": 8456,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-entrypoint-positive.log",
+            "sha256": "f14d4fe09ce98de2dd36a4f4daecec945bd856db867e73a43d9e55c9d7af2bd4"
+          },
+          {
+            "bytes": 650,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-persistence-negative.json",
+            "sha256": "3d4fe345831332bcd82a798bc02a3bbb6075fe6d9d47df2f1636c6c86ad63195"
+          },
+          {
+            "bytes": 8457,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-persistence-negative.log",
+            "sha256": "17e013135810970142d3b360f02c7f5f7ce73a57fd38b11f4d595664ef475c3f"
+          },
+          {
+            "bytes": 650,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-persistence-positive.json",
+            "sha256": "9d81cf4b80115d51068eeb525c5d95cbfd475b52be69e65dba6cfd63da175f69"
+          },
+          {
+            "bytes": 8456,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-persistence-positive.log",
+            "sha256": "34a2348f3c003a5408985ec50a1078947811cbbb9e69b4f7c4b6c66b914936a0"
+          },
+          {
+            "bytes": 649,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-propagator-negative.json",
+            "sha256": "711f210919e9e80dfbb8681c87bc9fe539ead681a32e985fd7f0083c45e69aac"
+          },
+          {
+            "bytes": 8454,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-propagator-negative.log",
+            "sha256": "a6d59ed244eca52f41ae2a06e558ebfad00f013621c2cf9bab86e70506249b15"
+          },
+          {
+            "bytes": 649,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-propagator-positive.json",
+            "sha256": "d883c16158904e19894de833444f31d9fab13bd815a24824585c70f44457bfbd"
+          },
+          {
+            "bytes": 8456,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-propagator-positive.log",
+            "sha256": "60ac1a7122359d8c6ac2df77945e9a7c376eaf4e455a81e7adae67788607c84b"
+          },
+          {
+            "bytes": 648,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-sanitizer-negative.json",
+            "sha256": "79cc56c02713c63505b5f6f465349bd3293a14ef39fe485399295e47e6821a8c"
+          },
+          {
+            "bytes": 8454,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-sanitizer-negative.log",
+            "sha256": "03f17b4de77e0f85c20b311f7c14cd921fd54fe33396422e51db5c1a3cc7bd94"
+          },
+          {
+            "bytes": 648,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-sanitizer-positive.json",
+            "sha256": "3130db7e15f7a09468665b1c6611837d11d3176316681877ad2e7116c3d1b63b"
+          },
+          {
+            "bytes": 8454,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-sanitizer-positive.log",
+            "sha256": "d6f4056dd3cc5a81e5d88042daf41411ba45cfb21c80b4072972d7b2930a92f3"
+          },
+          {
+            "bytes": 650,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-source-sink-negative.json",
+            "sha256": "e15a03b44c046eba284d75d561efc04ebfd36e16ee5408b22e6b4cb2056bdf14"
+          },
+          {
+            "bytes": 8458,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-source-sink-negative.log",
+            "sha256": "2de33c1e63f113fdfceca3c558de22c5d9d952d51b0e56942108462093f8ef6e"
+          },
+          {
+            "bytes": 650,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-source-sink-positive.json",
+            "sha256": "3a91180b631ca02677d2920bfe9664a8d97a46857ba44b05b78192832a965f84"
+          },
+          {
+            "bytes": 8458,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-source-sink-positive.log",
+            "sha256": "d1028904c013e531575d657acf4fe924dac29ca3b0f127f9b2cb934018ffabbc"
+          },
+          {
+            "bytes": 646,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-summary-negative.json",
+            "sha256": "2c75056b50f80e91a80b0c2c47e8d662a2e0861dc25c32612484bc11e7f1e8a7"
+          },
+          {
+            "bytes": 8449,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-summary-negative.log",
+            "sha256": "26799597cf1ff92498906d5982bb29caa68068709abe5ba29250e9b67d4e1ed3"
+          },
+          {
+            "bytes": 646,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-summary-positive.json",
+            "sha256": "72473e416f9b74083f670036e1e4ffd1fcacd27f8634e91625b8633f5276b509"
+          },
+          {
+            "bytes": 8450,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-catalog-native-summary-positive.log",
+            "sha256": "d065a4e9116a836b4e16e3f5c43df00fbadf19e09b6b1b7e9a4e1336926440bf"
+          },
+          {
+            "bytes": 907,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-summary-java.lang.System.xml",
+            "sha256": "6034e137493c1d6d259ba21f7c7667f2f6976b96f075bf688f86865cd090344c"
+          },
+          {
+            "bytes": 17161,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-surface-inventory.txt",
+            "sha256": "3f5ce0d0692b397b8d69fcecceec17f354540fbb6970151ed4a81c7c9a889ee6"
+          },
+          {
+            "bytes": 513,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-surface-notes.txt",
+            "sha256": "faed6ab30f6352ddcafe10c8513fcfdc40680a2697f43e8c06e249fe8a094677"
+          },
+          {
+            "bytes": 61824,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/shipped-virtualedges.xml",
+            "sha256": "e3ef856607616c011fe03e3d9d55771f25f7094c871c4fc36725ffea2b094897"
+          },
+          {
+            "bytes": 329,
+            "path": "reports/raw/amendment-a29-flowdroid-shipped-surface/witnessed-identity.txt",
+            "sha256": "831e841f141b74392e78ebb9c10bbf849858bd8234625ac8836494c129320601"
+          }
+        ],
+        "completion_receipt": {
+          "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-flowdroid-native-shipped-surface/attempt-01/completed.json",
+          "sha256": "3dbbae1bf0c5a9023aa6a2c912c349bd8e2451f9cdf0226a2845e177f97efd3c"
+        },
+        "component_aliases_used": [
+          "android-platform",
+          "d8",
+          "flowdroid",
+          "flowdroid-runtime"
+        ],
+        "control_inventory_status": "registered-pending-final-executable-plan-review",
+        "duration_seconds": 25.663777,
+        "environment_sha256": "840c0310a5672b894fd4f46b4fca2e1999861a47a00a8b3e6a43f7498eea9eff",
+        "exit_code": 0,
+        "id": "probe-flowdroid-native-shipped-surface",
+        "script": {
+          "path": "scripts/probe-flowdroid-native-shipped-surface.sh",
+          "sha256": "e19b888159f5e67a2c7419df4d59cf59e38046353e0c882588d438942872ed4a"
+        },
+        "started_receipt": {
+          "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-flowdroid-native-shipped-surface/attempt-01/started.json",
+          "sha256": "c61adc243881aac1058b78d8ebe804335ada340cf1a46aa3e2b4012518ffa949"
+        },
+        "status": "completed",
+        "streams": {
+          "stderr": {
+            "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-flowdroid-native-shipped-surface/attempt-01/stderr.txt",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-flowdroid-native-shipped-surface/attempt-01/stdout.txt",
+            "sha256": "eead309bfb2999092087d3f558e7e086a5134e45b1487607275dd7d5e82dd737"
+          }
+        }
+      }
+    ],
+    "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+    "groups": [
+      {
+        "argv_sha256": "6400e19100af1005079870a05b5a2aed78de6a8dfe04bf6bd7cadddd9e674dc6",
+        "binding_flags_verified": [
+          "--android-platform",
+          "--d8-jar",
+          "--flowdroid-jar",
+          "--java",
+          "--javac"
+        ],
+        "case_count": 70,
+        "case_ids_sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c",
+        "case_language_counts": {
+          "java": 70
+        },
+        "case_languages": [
+          "java"
+        ],
+        "environment_sha256": "62927fa37cbb307251e3ff917039eed1fae4a673dc1a9a74dbfbda56c220d876",
+        "group_id": "flowdroid-java-kernel",
+        "status": "historical-v090-configuration-only",
+        "tool": "flowdroid"
+      },
+      {
+        "argv_sha256": "9bc3f32e48979aa475a4cb99c41b514d173b8fa4bb431e73fe82e01de9428c06",
+        "binding_flags_verified": [
+          "--android-platform",
+          "--d8-jar",
+          "--flowdroid-jar",
+          "--java",
+          "--javac"
+        ],
+        "case_count": 24,
+        "case_ids_sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3",
+        "case_language_counts": {
+          "java": 24
+        },
+        "case_languages": [
+          "java"
+        ],
+        "environment_sha256": "62927fa37cbb307251e3ff917039eed1fae4a673dc1a9a74dbfbda56c220d876",
+        "group_id": "flowdroid-java-modeling",
+        "status": "historical-v090-configuration-only",
+        "tool": "flowdroid"
+      },
+      {
+        "argv_sha256": "f939fd2273e57de347795fd0c303e17789e8c138c8150b81805a5d3bfbdbb591",
+        "binding_flags_verified": [
+          "--android-platform",
+          "--flowdroid-jar"
+        ],
+        "case_count": 12,
+        "case_ids_sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949",
+        "case_language_counts": {
+          "java": 12
+        },
+        "case_languages": [
+          "java"
+        ],
+        "environment_sha256": "62927fa37cbb307251e3ff917039eed1fae4a673dc1a9a74dbfbda56c220d876",
+        "group_id": "flowdroid-java-native",
+        "status": "historical-v090-configuration-only",
+        "tool": "flowdroid"
+      },
+      {
+        "argv_sha256": "7eea0c4d4565083206634d7284deb44547d9948ac1ab18db88f787be20d954d3",
+        "binding_flags_verified": [
+          "--android-platform",
+          "--d8-jar",
+          "--flowdroid-jar",
+          "--java",
+          "--kotlin-stdlib",
+          "--kotlinc"
+        ],
+        "case_count": 70,
+        "case_ids_sha256": "b2049da842a7c1770e4710c100dd55d7431bb014600c1c1e773d0d6d1815b259",
+        "case_language_counts": {
+          "kotlin": 70
+        },
+        "case_languages": [
+          "kotlin"
+        ],
+        "environment_sha256": "62927fa37cbb307251e3ff917039eed1fae4a673dc1a9a74dbfbda56c220d876",
+        "group_id": "flowdroid-kotlin-kernel",
+        "status": "historical-v090-configuration-only",
+        "tool": "flowdroid"
+      }
+    ],
+    "population": {
+      "path": "populations/v0.9.0.json",
+      "sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+    },
+    "population_fixture_tree": {
+      "corpus_commit": "2637211a21f22aabedf7bcf0d1b30fc09a349673",
+      "fixture_roots": [
+        {
+          "git_tree_object": "42969d1d4268122ef24f3fde9f811d50ea9a8376",
+          "path": "cases/taint",
+          "tracked_diff_clean": true,
+          "tracked_entry_count": 2246,
+          "untracked_content_absent": true
+        },
+        {
+          "git_tree_object": "79f36bb281c4f128daf66e772417bd7d49344843",
+          "path": "populations/swift-opaque-v3",
+          "tracked_diff_clean": true,
+          "tracked_entry_count": 8,
+          "untracked_content_absent": true
+        }
+      ],
+      "git_tree_object": "42969d1d4268122ef24f3fde9f811d50ea9a8376",
+      "path": "cases/taint",
+      "population_case_count": 1108,
+      "population_case_language_counts": {
+        "c": 58,
+        "cpp": 68,
+        "csharp": 70,
+        "go": 70,
+        "java": 108,
+        "javascript": 106,
+        "kotlin": 70,
+        "php": 70,
+        "python": 106,
+        "ruby": 70,
+        "rust": 64,
+        "scala": 70,
+        "swift": 108,
+        "typescript": 70
+      },
+      "tracked_diff_clean": true,
+      "untracked_content_absent": true
+    }
+  }
+}

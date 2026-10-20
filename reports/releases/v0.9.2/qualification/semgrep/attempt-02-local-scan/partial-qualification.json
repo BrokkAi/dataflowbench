@@ -1,0 +1,468 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "--version",
+        "--disable-version-check"
+      ],
+      "budget_kind": "wall-clock process timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 5.433,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "identify pinned Semgrep CLI",
+      "id": "semgrep-version",
+      "stderr": {
+        "bytes": 393,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/semgrep-version.bin",
+        "sha256": "fce546d307e7745398b8e7d26d10ebe0c2df404d7f8454da5d1883c2b51e67d6"
+      },
+      "stdout": {
+        "bytes": 8,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/semgrep-version.bin",
+        "sha256": "6c6e9c0c95928a60570a564f1531624a0e6d1a055642fdf50fc9179a1a1a5b28"
+      },
+      "timed_out": false,
+      "timeout_seconds": 20
+    },
+    {
+      "argv": [
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/lib/python3.15/site-packages/semgrep/bin/semgrep-core",
+        "--version"
+      ],
+      "budget_kind": "wall-clock process timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 0.464,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 2,
+      "expectation": "identify Semgrep core; command unsupported by this binary",
+      "id": "semgrep-core-version",
+      "stderr": {
+        "bytes": 9608,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/semgrep-core-version.bin",
+        "sha256": "a44581d966a14f324bd043ca92407e498d2ea454a289bc8ef221347af29788db"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/semgrep-core-version.bin",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timed_out": false,
+      "timeout_seconds": 20
+    },
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "scan",
+        "--disable-version-check",
+        "--metrics=off",
+        "--oss-only",
+        "--jobs=1",
+        "--no-git-ignore",
+        "--json",
+        "--config",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/configs/model-source-with.yaml",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-declared-source-positive",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-declared-source-negative"
+      ],
+      "budget_kind": "wall-clock process timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 26.431,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "source model positive and near-miss",
+      "id": "model-source-with",
+      "json_summary": {
+        "errors": [],
+        "results": [
+          {
+            "check_id": "reports.releases.v0.9.2.qualification.semgrep.attempt-02-local-scan.configs.dfb-taint-python-modeling",
+            "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-declared-source-positive/config.py",
+            "start_line": 14
+          }
+        ],
+        "results_count": 1
+      },
+      "stderr": {
+        "bytes": 950,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/model-source-with.bin",
+        "sha256": "574cc4dd12d8f1fe6414da76c608b64ff4f6a84a83aa0c6340622256b822b111"
+      },
+      "stdout": {
+        "bytes": 2252,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/model-source-with.bin",
+        "sha256": "276609fff1ce161f22ff54977cf28d2bf966c43b52fc2bc2ec6b588593fdc99b"
+      },
+      "timed_out": false,
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "scan",
+        "--disable-version-check",
+        "--metrics=off",
+        "--oss-only",
+        "--jobs=1",
+        "--no-git-ignore",
+        "--json",
+        "--config",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/configs/model-source-without.yaml",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-declared-source-positive",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-declared-source-negative"
+      ],
+      "budget_kind": "wall-clock process timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 25.947,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "source-removal activation control",
+      "id": "model-source-without",
+      "json_summary": {
+        "errors": [],
+        "results": [],
+        "results_count": 0
+      },
+      "stderr": {
+        "bytes": 951,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/model-source-without.bin",
+        "sha256": "f3b636f3f9a3d8bd8a03035b3864c9cdd6d248ec5df4cc4cd2ea7e499eeabdd5"
+      },
+      "stdout": {
+        "bytes": 1550,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/model-source-without.bin",
+        "sha256": "4c25c1fe45b8566e6de515f42d7e0706b80b40373c39da40079890cfb13652e9"
+      },
+      "timed_out": false,
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "scan",
+        "--disable-version-check",
+        "--metrics=off",
+        "--oss-only",
+        "--jobs=1",
+        "--no-git-ignore",
+        "--json",
+        "--config",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/configs/model-sink-with.yaml",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-declared-sink-positive",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-declared-sink-negative"
+      ],
+      "budget_kind": "wall-clock process timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 22.371,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "sink model positive and near-miss",
+      "id": "model-sink-with",
+      "json_summary": {
+        "errors": [],
+        "results": [
+          {
+            "check_id": "reports.releases.v0.9.2.qualification.semgrep.attempt-02-local-scan.configs.dfb-taint-python-modeling",
+            "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-declared-sink-positive/audit.py",
+            "start_line": 14
+          }
+        ],
+        "results_count": 1
+      },
+      "stderr": {
+        "bytes": 950,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/model-sink-with.bin",
+        "sha256": "49cf3e7bcbc6c8085f0de2547116bcb5eb16ee14896cf353a1a619c7af036e73"
+      },
+      "stdout": {
+        "bytes": 2240,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/model-sink-with.bin",
+        "sha256": "edfc4fc1dba2061de7e6041424407d4da126e2b416917ee3b9b24385d487390a"
+      },
+      "timed_out": false,
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "scan",
+        "--disable-version-check",
+        "--metrics=off",
+        "--oss-only",
+        "--jobs=1",
+        "--no-git-ignore",
+        "--json",
+        "--config",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/configs/model-sink-without.yaml",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-declared-sink-positive",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-declared-sink-negative"
+      ],
+      "budget_kind": "wall-clock process timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 24.846,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "sink-removal activation control",
+      "id": "model-sink-without",
+      "json_summary": {
+        "errors": [],
+        "results": [],
+        "results_count": 0
+      },
+      "stderr": {
+        "bytes": 951,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/model-sink-without.bin",
+        "sha256": "44f8a9727467f10905bff656757c2899974cee80f6676901041e9be5b8620c27"
+      },
+      "stdout": {
+        "bytes": 1544,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/model-sink-without.bin",
+        "sha256": "0dbf55229abc095ebcf0f28b2f0e536947276daf4dd4e28a842539fb1b93b595"
+      },
+      "timed_out": false,
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "scan",
+        "--disable-version-check",
+        "--metrics=off",
+        "--oss-only",
+        "--jobs=1",
+        "--no-git-ignore",
+        "--json",
+        "--config",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/configs/model-sanitizer-safe-functions.yaml",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-sanitizer-selectivity-positive",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-sanitizer-selectivity-negative"
+      ],
+      "budget_kind": "wall-clock process timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 25.433,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "sanitizer/selectivity control with safe-functions assumption",
+      "id": "model-sanitizer-safe-functions",
+      "json_summary": {
+        "errors": [],
+        "results": [],
+        "results_count": 0
+      },
+      "stderr": {
+        "bytes": 951,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/model-sanitizer-safe-functions.bin",
+        "sha256": "5c414c2e2ac0c40fdafe7408108f927fd7aacd4aa32cf92f63941a02fba44d39"
+      },
+      "stdout": {
+        "bytes": 1717,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/model-sanitizer-safe-functions.bin",
+        "sha256": "605a2b5d9fc23e86c16cd3ee400b52be4341156d5012833050819ec0b55c0a62"
+      },
+      "timed_out": false,
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "scan",
+        "--disable-version-check",
+        "--metrics=off",
+        "--oss-only",
+        "--jobs=1",
+        "--no-git-ignore",
+        "--json",
+        "--config",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/configs/model-sanitizer-default-functions.yaml",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-sanitizer-selectivity-positive",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-sanitizer-selectivity-negative"
+      ],
+      "budget_kind": "wall-clock process timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-02/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": null,
+      "expectation": "sanitizer/selectivity control with default functions behavior",
+      "id": "model-sanitizer-default-functions",
+      "interrupted": true,
+      "raw_output_captured": false,
+      "timeout_seconds": 60
+    }
+  ],
+  "offline_controls": {
+    "all configs local paths": true,
+    "auto-config": false,
+    "metrics": "off",
+    "proxy_variables_cleared": true,
+    "version_check_disabled": true
+  },
+  "qualification_kind": "non-scored controls; no fixed-matrix denominator/results changed",
+  "schema": "semgrep-v092-local-qualification-partial/1",
+  "semgrep_cli_version": "1.181.0",
+  "semgrep_core_binary": {
+    "bytes": 208435728,
+    "path": "execution-state/v092/tools/semgrep-env/lib/python3.15/site-packages/semgrep/bin/semgrep-core",
+    "reported_version": "unavailable: semgrep-core --version exits 2 with unknown-option",
+    "sha256": "7636986e9277763a842700ad6f60b9acfc62871c084df1daf31d9bec2089f5f2"
+  },
+  "status": "interrupted at parent request; latest native profile activation and C# controls did not start"
+}

@@ -1,13 +1,30 @@
 //! Regression tests for `crate::results`.
 
 use crate::results::{
-    GeneratedCaseMeta, SCORE_TIER_ORDER, build_index_page, build_scorecard, generate_results_at,
-    scorecard_identifier,
+    GeneratedCaseMeta, SCORE_TIER_ORDER, build_index_page, build_result_artifacts, build_scorecard,
+    generate_results_at, scorecard_identifier,
 };
 use crate::tests::support::FreezeFixture;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
-use std::{collections::BTreeMap, fs};
+use std::{collections::BTreeMap, fs, path::Path};
+
+#[test]
+pub(crate) fn baseline_results_builder_accepts_historical_codeql_2271_freeze() {
+    let artifacts =
+        build_result_artifacts(Path::new("."), Path::new("reports/freeze.json")).unwrap();
+    let results: Value = serde_json::from_slice(&artifacts["results.json"]).unwrap();
+    let java = results["scorecards"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|scorecard| scorecard["id"] == "codeql-java-kernel-taint-taint-benchmark-controlled")
+        .expect("the baseline freeze produces a CodeQL Java scorecard");
+    assert!(
+        java.get("stale_configuration").is_none(),
+        "the historical 2.27.1 baseline configuration hash must derive from its original closure"
+    );
+}
 
 #[test]
 pub(crate) fn generate_results_writes_deterministic_artifacts() {

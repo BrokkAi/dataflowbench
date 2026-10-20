@@ -7,6 +7,7 @@
 
 use crate::adapters::ToolIdentity;
 use crate::adapters::normalized_report;
+use crate::adapters::pins;
 use crate::adapters::semgrep::{SEMGREP_SINK_PLACEHOLDER, SEMGREP_SOURCE_PLACEHOLDER};
 use crate::adapters::write_runner_error;
 use crate::adapters::{KernelPopulation, select_kernel_cases};
@@ -121,10 +122,10 @@ pub(crate) const PYSA_NATIVE_SINK_MODEL: &str = "os.system";
 
 /// The pinned pyre-check release, self-reported by the client as
 /// `Client version:`.
-pub(crate) const PYSA_PINNED_PYRE_VERSION: &str = "0.10.0";
+pub(crate) const PYSA_PINNED_PYRE_VERSION: &str = pins::PYRE_VERSION;
 
 /// The pinned Pyrefly release the client drives.
-pub(crate) const PYSA_PINNED_PYREFLY_VERSION: &str = "1.3.1";
+pub(crate) const PYSA_PINNED_PYREFLY_VERSION: &str = pins::PYREFLY_VERSION;
 
 pub(crate) const PYSA_CONFIG_DIR: &str = "adapters/pysa";
 

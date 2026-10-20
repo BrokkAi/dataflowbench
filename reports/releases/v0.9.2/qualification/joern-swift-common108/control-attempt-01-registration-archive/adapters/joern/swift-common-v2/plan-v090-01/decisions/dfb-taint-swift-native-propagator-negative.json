@@ -1,0 +1,86 @@
+{
+  "schema": "joern-current108-partition-decision/v1",
+  "case_id": "dfb-taint-swift-native-propagator-negative",
+  "population_sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+  "fixture_revision": "sha256:f9f2afd8566f7d0d833eb6b3b1383b5ed633eafba43320a6477d1c61472323af",
+  "configuration_hash": "3c6dd3a9fb38496eea9372b20bf2eafa1f85e7f12c35901372dc30072ee01d76",
+  "identity": {
+    "tool": "joern",
+    "tool_version": "4.0.628",
+    "tool_build_identity": "joern-cli:4.0.628;engine:e63635788249ef86d87bb75c9f37929ab2309fd557e7e147765b73dbd0ac077b;frontend:4ff227bc75781d846d1076221032df8b47c0ee7f4fa1687a161c791e59006f19",
+    "adapter_version": "joern-normal-v1"
+  },
+  "outcome": "unsupported",
+  "reviewed_at_unix_seconds": 1790688790,
+  "reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification.",
+  "evidence": [
+    {
+      "path": "adapters/joern/swift-normal-v1/plan-2026-09-28-04/native-applicability.json",
+      "sha256": "54e073c586f55e7e68f289696faa3f73830245dde0fa8c891b1e75c569c59786"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/decision.json",
+      "sha256": "5ee1558706ba5249ea11da66f66cb6b4a7325dff5e16f278e0f77d04717ba2eb"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/audit.md",
+      "sha256": "4888e7195fa8ce1cf9af1774d84813e867d1c8d317d6abe7e9ba3f94e66f44df"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/pinned-file-inventory.json",
+      "sha256": "4fe8af144fb9ebdba63bc85133d862f50da7c7fb3e5e2988a57cafac78a00421"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/jar-inventory.json",
+      "sha256": "11417e543e704b9403d45c2a15596c4decaae587415be935b27f6e8f99167db2"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/first-party-class-inventory.json",
+      "sha256": "0406ada552a51c4f610b523aa4659fad91b745dcd7b8773205b9bbc2ab252f42"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/resource-inventory.json",
+      "sha256": "771220d799e9564fd3b85c0dda4045e5c675854679b695c0ee1bfd662899019b"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/javap-DefaultSemantics-object-bytecode.txt",
+      "sha256": "1cd383f7bb72b6bc5fded7b9fcc57b09d99a3972765b71b42fb4c0d0a7d269b6"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/javap-DefaultSemantics-object.txt",
+      "sha256": "5eae0ac8dc567e6b36ffd1157f6c01ff82c05548ae779f72ac1f84cf92f2ad7b"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/upstream-source/FullNameSemantics.scala",
+      "sha256": "dfd4348bb90f8381d2f44b386ef783ab5f0ae23badff7fc2a742e40d16b43354"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/upstream-source/Semantics.scala",
+      "sha256": "bd8c6aeaeef5864b90bf656d4b2975e2f2e4091290f1a9cbaaa5461d36bcf11c"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/javap-FlowSemantic.txt",
+      "sha256": "64f96afd781f3af320c04840553a69e08c75ef98e6a4c4f7a3bbf0cbed41f665"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/prior-vendor-evidence/structural-catalog.json",
+      "sha256": "7223dc571451493bb0470ef1b0fab5f53f3b69243eaf93cf23944b7c56b6ced2"
+    },
+    {
+      "path": "cases/taint/swift/native-propagator-negative/case.json",
+      "sha256": "0ad539fdca3e389289cbbd5b0cb013f5b76280fe7c3ded43fd77a7eb51042e02"
+    },
+    {
+      "path": "cases/taint/swift/native-propagator-negative/main.swift",
+      "sha256": "f32ed5bf15ea5491e0b80b4f721b4d90e71d89ac3811b6a119da1c3028de026a"
+    }
+  ],
+  "current_case_sha256": "0ad539fdca3e389289cbbd5b0cb013f5b76280fe7c3ded43fd77a7eb51042e02",
+  "current_fixture_digests": [
+    {
+      "path": "cases/taint/swift/native-propagator-negative/main.swift",
+      "sha256": "f32ed5bf15ea5491e0b80b4f721b4d90e71d89ac3811b6a119da1c3028de026a"
+    }
+  ],
+  "scope": "Exact4.0.628 shipped-native qualification; not runtime result, not inference from config rejection, not claim about external/custom models"
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "swift-extractor-build-wrapper-preflight/v1",
+  "attempt_id": "02",
+  "command": "python3 execution-state/v092/swift-source/run-extractor-build-attempt-02.py",
+  "exit_code": 1,
+  "stdout": "Refusing repeat attempt; output already exists: .../swift-source/build-attempt-01",
+  "bazel_started": false,
+  "compiler_action_started": false,
+  "cause": "runpy.run_path returned a mapping distinct from the globals used by the runner main function; the first wrapper version changed the mapping's OUT value, but main still saw build-attempt-01 and stopped at the one-shot output guard",
+  "correction": "Set OUT and the JSON writer in namespace['main'].__globals__, then invoke that same main function; keep attempt01 and the bounded base runner unchanged",
+  "preserved_attempt01": true
+}

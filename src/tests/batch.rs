@@ -19,8 +19,8 @@ use std::{
 
 const MANIFEST: &str = "batch-manifest.json";
 const IDENTITY: TestIdentity = TestIdentity {
-    version: "bifrost 1.0.0",
-    build_identity: "test-build-1",
+    version: crate::adapters::pins::BIFROST_VERSION,
+    build_identity: crate::adapters::pins::BIFROST_BUILD_IDENTITY,
 };
 
 struct TestIdentity {
@@ -32,7 +32,10 @@ fn fixture() -> ReportSweepFixture {
     let fixture = ReportSweepFixture::new();
     fs::write(
         fixture.root.join("bifrost"),
-        b"#!/bin/sh\ncase \"$1\" in\n  --version) echo 'bifrost 1.0.0' ;;\n  --build-identity) echo 'test-build-1' ;;\nesac\n",
+        format!(
+            "#!/bin/sh\ncase \"$1\" in\n  --version) echo '{}' ;;\n  --build-identity) echo '{}' ;;\nesac\n",
+            IDENTITY.version, IDENTITY.build_identity
+        ),
     )
     .unwrap();
     fs::set_permissions(
@@ -269,7 +272,10 @@ fn atomic_manifest_writes_leave_no_staging_file() {
     fs::write(root.join("reports/raw/own-kernel/case.json"), b"{}\n").unwrap();
     fs::write(
         root.join("bifrost"),
-        b"#!/bin/sh\ncase \"$1\" in\n  --version) echo 'bifrost 1.0.0' ;;\n  --build-identity) echo 'test-build-1' ;;\nesac\n",
+        format!(
+            "#!/bin/sh\ncase \"$1\" in\n  --version) echo '{}' ;;\n  --build-identity) echo '{}' ;;\nesac\n",
+            IDENTITY.version, IDENTITY.build_identity
+        ),
     )
     .unwrap();
     #[cfg(unix)]

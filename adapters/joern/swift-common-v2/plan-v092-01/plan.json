@@ -1,0 +1,26 @@
+{
+  "schema": "swift-normal-qualification-plan/v1",
+  "profile": "v0.9.2",
+  "engine": "joern",
+  "supersedes": "adapters/joern/swift-common-v2/plan-v090-01/plan.json",
+  "identity": {
+    "tool_version": "4.0.660",
+    "tool_build_identity": "pending-fresh-runtime-capture",
+    "root_hash": "pending-fresh-capture",
+    "swift_frontend_hash": "pending-fresh-capture"
+  },
+  "scope": {
+    "swift_common_case_count": 108,
+    "input_manifest": "pending-v0.9.2-population-registration"
+  },
+  "scored_activation": false,
+  "aggregate_resource_qualification": "unavailable",
+  "status": "fresh-engine-qualification-required",
+  "required_checks": [
+    "capture fresh Joern root, frontend, and runtime identities from the acquired 4.0.660 distribution",
+    "run typecheck, Swift frontend, normal-flow, and native-activation controls from a clean runtime state",
+    "exercise exact positive and near-miss API controls across the common-108 Swift cases",
+    "retain the existing 75-second per-case wall-clock bound and 512-MiB fixture peak-memory limit",
+    "qualify aggregate resource requirements before any scored activation"
+  ]
+}

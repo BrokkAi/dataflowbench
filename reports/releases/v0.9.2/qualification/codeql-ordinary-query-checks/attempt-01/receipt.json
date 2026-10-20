@@ -1,0 +1,1429 @@
+{
+  "duration_seconds": 195.773042875,
+  "ended_at": "2026-10-19T23:22:31.318026+00:00",
+  "implementation_sha256": "a87f971261a96430a2db7c4d62108435511896c516bd37eb58af789c1918f9e1",
+  "packs_component": {
+    "kind": "runtime-tree-manifest",
+    "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-packs.json",
+    "sha256": "99e4bd13860c4ce184898836edd68acd533fee2a47e71b6af732f52f0ae170bd"
+  },
+  "per_command_deadline_seconds": 120,
+  "queries": [
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/cpp/queries/CKernel.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.6491134169999997,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/00-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/00-resolve.stdout",
+            "sha256": "4ad83a6644445e81d2ccf60cf44f2fe64ffd69076069d33e8cc7306e59853123"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/cpp/queries/CKernel.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 7.362593916,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/00-compile.stderr",
+            "sha256": "fae11c281d02a8a943613b84db1d67eabab872c42941e879929935017987edd7"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/00-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/cpp/queries/CKernel.ql",
+      "sha256": "9e272e01f0a0354f29061340c5e421e39f0e92b5a079f87f3adb0067d63f7cae"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/cpp/queries/CKernelEndpointProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.525800417000001,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/01-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/01-resolve.stdout",
+            "sha256": "14acf089ab373c4b027fd28249bbe27238628062f9e8d57af67a814e34539e95"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/cpp/queries/CKernelEndpointProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 6.091542582999999,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/01-compile.stderr",
+            "sha256": "034ebbbb9ec638c33bdd3c7b7f602002ec9f5413216f280bc1eea0b975913ceb"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/01-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/cpp/queries/CKernelEndpointProbe.ql",
+      "sha256": "13f35362a5ed3f33026c197af708ae7e3ac2dd64dfe1431f635ab19fd11f9051"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/cpp/queries/CppKernel.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5094495409999986,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/02-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/02-resolve.stdout",
+            "sha256": "956d5b3254f9e09ba66a224773264ac5c19ff600973f8cd38fc214b9df2126f8"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/cpp/queries/CppKernel.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 7.948140375000001,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/02-compile.stderr",
+            "sha256": "20869c7a461b38275b99e93e8970ba2199919b31aab399c5010dabc08edc85ca"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/02-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/cpp/queries/CppKernel.ql",
+      "sha256": "6d1b22aaf3b4432148e703b9c38f38d8dd55741be797c96bf96de315ea4d6a03"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/cpp/queries/CppKernelEndpointProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5718608329999988,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/03-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/03-resolve.stdout",
+            "sha256": "e9925284c5a89ea8ece7eb6a8bfa2ce2c865a1e5ce79ef91fa5ac5de3103fbb6"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/cpp/queries/CppKernelEndpointProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 6.145790082999998,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/03-compile.stderr",
+            "sha256": "bb16d00757fd7c7cec8c2e95d97a2cf5286e7a2946cf55fe1efdf9ad8a7958f8"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/03-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/cpp/queries/CppKernelEndpointProbe.ql",
+      "sha256": "b9301bf46d2e092661b9e8e0949ab9fa078ab3f726a934628c0c30a7877b95ec"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/csharp/queries/CSharpKernel.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5792742909999973,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/04-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/04-resolve.stdout",
+            "sha256": "9f954f82b303a0f5c385b0363030d5bc60acbf4b011934562abd7aa5fc4a8879"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/csharp/queries/CSharpKernel.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 5.969266583,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/04-compile.stderr",
+            "sha256": "c44a7d50ade914b54b113d8f7feaebba56cc2bc025d16bf67dbe71058985a528"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/04-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/csharp/queries/CSharpKernel.ql",
+      "sha256": "350be56e3c789b08b51e06618d5f9e631271b395f09d644f7de643039db44013"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/csharp/queries/CSharpKernelEndpointProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.519121209000005,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/05-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/05-resolve.stdout",
+            "sha256": "8b975ae14bb8698cbace742e3160fdd8a8c211b43f0dd947988cf91e49004cf2"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/csharp/queries/CSharpKernelEndpointProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 5.547815125,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/05-compile.stderr",
+            "sha256": "22e2696babbe96d5d1d1332f25db2cd98b641aa92cf66e654f0b70201aaedd37"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/05-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/csharp/queries/CSharpKernelEndpointProbe.ql",
+      "sha256": "12064957ce22623237eca45588d2e67dc84060fcd5c66a7cae13122dc812ffe2"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/go/queries/GoKernel.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5532867920000015,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/06-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/06-resolve.stdout",
+            "sha256": "e9cee341e73f8008cfd539a9e173d096b7043a0a51c05e87fa0bd811eeda2868"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/go/queries/GoKernel.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 5.375999583000002,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/06-compile.stderr",
+            "sha256": "a68e7263619f7b03f424ca31ec6c78468a4cc5856741de010498753fc2f40c2f"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/06-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/go/queries/GoKernel.ql",
+      "sha256": "960c3c2aa6d60e169ebbe170ae0265d270ee0fd522994c483969e316e62dc84c"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/go/queries/GoKernelEndpointProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5752735410000014,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/07-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/07-resolve.stdout",
+            "sha256": "3c5e32d3c8afe1297451490edb395bd52f6f155fbb442078f31565ea11df3e5d"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/go/queries/GoKernelEndpointProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 4.847914249999995,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/07-compile.stderr",
+            "sha256": "7de4a7936a26d46d75553409493b04573293f1b11a12eb076fea91ac1e974c45"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/07-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/go/queries/GoKernelEndpointProbe.ql",
+      "sha256": "57455ca0f1d98e490ef9b472c6701c3291a70afe549a75ecfc91f352a8343cfc"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/javascript/queries/JavaScriptKernel.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.572220042000005,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/08-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/08-resolve.stdout",
+            "sha256": "533e12235c5081c2b8d8df84a124feb77f497a1545d8be801c3281d32a318c86"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/javascript/queries/JavaScriptKernel.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 9.152324290999992,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/08-compile.stderr",
+            "sha256": "f7842586a9c087a8351a554808b99c2f33598e492d9c66ded07f67436c820c4a"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/08-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/javascript/queries/JavaScriptKernel.ql",
+      "sha256": "1407888351365657ba8a62f8169ef29dd0b9dfc49faab194e02d49861c742b5b"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/javascript/queries/JavaScriptKernelEndpointProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5861161250000038,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/09-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/09-resolve.stdout",
+            "sha256": "06e4b1e5abd0b44f8087af928dce9bd8c0effb80687c95d27fc303c49e762716"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/javascript/queries/JavaScriptKernelEndpointProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 8.5229815,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/09-compile.stderr",
+            "sha256": "e6385a130fc6d815cd4fc04a22865cb9caf13748ca0e77b12e81373df946fc81"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/09-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/javascript/queries/JavaScriptKernelEndpointProbe.ql",
+      "sha256": "e926c7a859e00c6c1650e1e280f2a8e8fb287026673cd76e742506ff6bde3bd3"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/javascript/queries/JavaScriptModeling.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5341080419999997,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/10-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/10-resolve.stdout",
+            "sha256": "2ae58330a043363d7e5b49b44a07701f5dea1e1a71f1b06ff67b069663609aad"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/javascript/queries/JavaScriptModeling.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 8.166128083000004,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/10-compile.stderr",
+            "sha256": "f1b275bb55f318016cdc1b9e9ae02ecc5f874fac1b9a8109cb5b77a387370967"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/10-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/javascript/queries/JavaScriptModeling.ql",
+      "sha256": "5c31d8a6aecd80627a8eb0e25eb8f822bed996526e30a8d4b3ac4fe206a62cb3"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/kotlin/queries/KotlinKernel.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5174004999999937,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/11-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/11-resolve.stdout",
+            "sha256": "6671c163e5e7577066cdfce076f9d0e2268a1717046cf8af4a479a7af7562412"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/kotlin/queries/KotlinKernel.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 6.9030521669999985,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/11-compile.stderr",
+            "sha256": "59934494863c92b1155643b141f46e2ca2266bd32d7e9ee817d83226a35c5931"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/11-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/kotlin/queries/KotlinKernel.ql",
+      "sha256": "f6ded847e24ad2cdf683bdc55209b95df99cf99ad1022382e226e5d7e253c4fc"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/kotlin/queries/KotlinKernelEndpointProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5566322909999997,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/12-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/12-resolve.stdout",
+            "sha256": "4653fe07a2001dacbd0df6406aef677690542fe881f3abf9f66b12ef9216937a"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/kotlin/queries/KotlinKernelEndpointProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 6.669291125000001,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/12-compile.stderr",
+            "sha256": "a67781eb4efeb1fbd9c462f7a5fe1ba836e8cda05eea76452bd7358a208cab5c"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/12-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/kotlin/queries/KotlinKernelEndpointProbe.ql",
+      "sha256": "21b03f6650a78561d683b019c87073350cfa3f25511e541416bc9d7e21d15b24"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/python/queries/PythonKernel.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5698040839999976,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/13-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/13-resolve.stdout",
+            "sha256": "4e536bd451a98fc5da67e61d4d14b97c15aeb90e40627b968814d0fe33f4ff90"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/python/queries/PythonKernel.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 6.062914250000006,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/13-compile.stderr",
+            "sha256": "8f58edb6e311fa74c7836179ed40ef432f69b7a880d08e640ea947a835363d8d"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/13-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/python/queries/PythonKernel.ql",
+      "sha256": "ec37167b4d026e4f6dde5d47b9dde503b9491806402d2c4a48fded0d81561974"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/python/queries/PythonKernelEndpointProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5741760420000048,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/14-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/14-resolve.stdout",
+            "sha256": "c4e3a5afed34fffbe62b0c4df735a09e51ef143882f9cae30f6277b87f995f50"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/python/queries/PythonKernelEndpointProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 6.415469916999996,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/14-compile.stderr",
+            "sha256": "7b1a4b20d5286122474018c9d6d93f135fbb2816b4aebeb640421b2939ba404a"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/14-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/python/queries/PythonKernelEndpointProbe.ql",
+      "sha256": "b1397a5c85de074b0f6c06ce25f62f36a6fd2c1f07cf0ef5fd5d98ae0f38ae52"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/python/queries/PythonModeling.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.7062846670000056,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/15-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/15-resolve.stdout",
+            "sha256": "5b6b4d1f50c72f003ee497f565990326435acf9858b8a39f0ad059b924cc5e2b"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/python/queries/PythonModeling.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 5.9420424999999994,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/15-compile.stderr",
+            "sha256": "8920dbdf676151603c5bf1c68bf77d829a637b8b3ca37181352715179b4f429f"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/15-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/python/queries/PythonModeling.ql",
+      "sha256": "267a9bb77a68abebbb30d8e7746fce7bd4eb466f79352044bb6c51013a126c24"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/python/queries/PythonModelingProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5626379170000035,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/16-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/16-resolve.stdout",
+            "sha256": "34c0f9b0e1fb925c4711de06f852d747d533ef2d192e0aed4d8cd75241443ba6"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/python/queries/PythonModelingProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 6.011731499999996,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/16-compile.stderr",
+            "sha256": "f48eaed6f2271b402e9e1ccde994f415a3fde01167387ad83eea696fee57395c"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/16-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/python/queries/PythonModelingProbe.ql",
+      "sha256": "0c4ab27099113ea1dab793f2ec7b01f5ed7358968f7a0042ce732d2115375223"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/queries/JavaKernel.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5302559579999979,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/17-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/17-resolve.stdout",
+            "sha256": "65f4daf10c5bd9033702f72e03203ad479d4f2218b53a8078f1d15fc17ae9013"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/queries/JavaKernel.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 6.789656915999998,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/17-compile.stderr",
+            "sha256": "6cc82a8b558e9564f6a1615558e1784389a931cff1f97b43e0b5796b20332278"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/17-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/queries/JavaKernel.ql",
+      "sha256": "9166fe24a7d449d7be1ee9c88711fa5e7416f98b28b56987b140eecc23e4aded"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/queries/JavaKernelEndpointProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5276682080000228,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/18-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/18-resolve.stdout",
+            "sha256": "8eb40639e8e76898fc2190408943997c41beb89bd4180a57b7c8613016f8324e"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/queries/JavaKernelEndpointProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 6.449547625000008,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/18-compile.stderr",
+            "sha256": "5ff12bbdb8c09a0d727f32fd70d1716eb3b6ca6e179b1d1e46521354d76650b6"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/18-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/queries/JavaKernelEndpointProbe.ql",
+      "sha256": "48b39cbc46c792a694fc8477b0572b7989731c67776525e094ecc9228f22121b"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/queries/JavaModeling.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.52669558300002,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/19-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/19-resolve.stdout",
+            "sha256": "aee26070059ac9a7e4a19cf511564f9d46b427a1364026ad454bd456fd979697"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/queries/JavaModeling.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 6.981437458000016,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/19-compile.stderr",
+            "sha256": "210c85b859e06df7f8e27581e42b5388b83a770d9359e4e2091d27824cf47405"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/19-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/queries/JavaModeling.ql",
+      "sha256": "0b399c499b2735a09740e1595719c2a207fa2ebf6c77868e89ef5d3e6ec69ed6"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/ruby/queries/RubyKernel.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.573996459,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/20-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/20-resolve.stdout",
+            "sha256": "27b42e17c0c670e5b46dae0872ab476cc0108c279d401c520aaec5709511774a"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/ruby/queries/RubyKernel.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 9.446093082999994,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/20-compile.stderr",
+            "sha256": "d9fad3757cfc985341f75518bf61e08917ba83c13834a6c98f96fad13e76596d"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/20-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/ruby/queries/RubyKernel.ql",
+      "sha256": "60f54c73f86f71a96f7a64f698e837d6c5ba1775bd0f6dbaa680dcb088d1357d"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/ruby/queries/RubyKernelEndpointProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5256066249999947,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/21-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/21-resolve.stdout",
+            "sha256": "0fcb93a895305ceb65292d5bc03e310c80fc906402a9e36c27c36ee86f631244"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/ruby/queries/RubyKernelEndpointProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 8.923820000000006,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/21-compile.stderr",
+            "sha256": "53b6f2dd0ba1bfa76ba2ea41d0a67b467570ad400f75b2a4b5a7df1ed21e1aaf"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/21-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/ruby/queries/RubyKernelEndpointProbe.ql",
+      "sha256": "2a263d9c50b0160ecc15c30195b60aee85de0a137823d1b2bd22da27ce832875"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/rust/queries/RustKernel.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5276632089999964,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/22-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/22-resolve.stdout",
+            "sha256": "929b55424905da84077c9276a8b398f6e98009db91569b22e70de37a34af1857"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/rust/queries/RustKernel.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 7.130315208000013,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/22-compile.stderr",
+            "sha256": "e6a8421e254954740229360233bfddc092b0fa4c4a312f6d15304f7ea39398da"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/22-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/rust/queries/RustKernel.ql",
+      "sha256": "443d79c04a925d65070d63451f294d2030d28a14cf0ab1385899684d251261ed"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/rust/queries/RustKernelEndpointProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5721765409999762,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/23-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/23-resolve.stdout",
+            "sha256": "95eca2d9e3481c83c505463ef28edfca5221d5a5bb2e9ce1c52d9ee98f4d4927"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/rust/queries/RustKernelEndpointProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 6.467922249999987,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/23-compile.stderr",
+            "sha256": "962dee1e2d72f6d883b445c53291c5115c185baa9089d6a8ee1cfcec5ba68c9f"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/23-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/rust/queries/RustKernelEndpointProbe.ql",
+      "sha256": "f0eb90a108d4a13f5f8f272a714d692cdde95969fe529ff0f293b457c0111102"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/typescript/queries/TypeScriptKernel.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5512397079999971,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/24-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/24-resolve.stdout",
+            "sha256": "30270f47681fd92d65b03db2374ceba6c304fc077046fe550fa883a8ea29fba7"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/typescript/queries/TypeScriptKernel.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 8.19989908300002,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/24-compile.stderr",
+            "sha256": "c2c56f25cfaf67ea887f06ba75f66d9de504070469e8c1b3e70e78525a57843f"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/24-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/typescript/queries/TypeScriptKernel.ql",
+      "sha256": "b4c950ecd733a79b0a00ab4e8ba7bbe60891a95ab056b1684500efdaf8a970ce"
+    },
+    {
+      "commands": [
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "resolve",
+            "library-path",
+            "--query=/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/typescript/queries/TypeScriptKernelEndpointProbe.ql",
+            "--format=json",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 0.5208548329999871,
+          "exit_code": 0,
+          "phase": "resolve",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/25-resolve.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/25-resolve.stdout",
+            "sha256": "2c54dc7bd4b30f7ee84e30dbd7aa140de064efda1744fa72a14af36250dc5c60"
+          },
+          "timed_out": false
+        },
+        {
+          "argv": [
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+            "query",
+            "compile",
+            "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/v0.9.2/typescript/queries/TypeScriptKernelEndpointProbe.ql",
+            "--check-only",
+            "--threads=2",
+            "--ram=2048",
+            "--additional-packs=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+          ],
+          "capacity_loss": null,
+          "duration_seconds": 7.706019083000001,
+          "exit_code": 0,
+          "phase": "compile",
+          "stderr": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/25-compile.stderr",
+            "sha256": "26de81ee5c8b03bc0cf8443eda31441d316f40cc37f88b65f2278902e6d5f62a"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.2/qualification/codeql-ordinary-query-checks/attempt-01/25-compile.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "timed_out": false
+        }
+      ],
+      "path": "adapters/codeql/v0.9.2/typescript/queries/TypeScriptKernelEndpointProbe.ql",
+      "sha256": "727f32c2a6fb50403b06cdd1f137db81f0547123fcd16b86dd5766303b816f8c"
+    }
+  ],
+  "query_count": 26,
+  "schema": "v092-ordinary-codeql-query-checks/v1",
+  "started_at": "2026-10-19T23:19:15.544054+00:00",
+  "status": "completed-pending-review",
+  "tool": {
+    "build_identity": "d7b185e374bfe18c0484dac07a521a810eb9c4fb",
+    "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+    "report_version": "2.27.2",
+    "sha256": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413",
+    "version": "2.27.2"
+  },
+  "total_wall_budget_seconds": 900
+}

@@ -1,0 +1,377 @@
+{
+  "schema_version": 1,
+  "kind": "derived",
+  "artifact": "semgrep-native-ruleset",
+  "profile": "v0.9.2",
+  "language": "javascript",
+  "engine": {
+    "name": "Semgrep CE",
+    "version": "1.181.0",
+    "compatibility_validation": "pending"
+  },
+  "upstream": {
+    "repository": "https://github.com/semgrep/semgrep-rules",
+    "commit": "17e31e11ebac99fb7dfe1cd288f7a32151b6f3f9",
+    "commit_committed_at": "2026-10-15T21:04:55Z",
+    "branch": "develop",
+    "path": "javascript/lang/security",
+    "archive_sha256": "19e3a747961c3034337157654de88314c286f7c4cc147189f84b734b85665b82",
+    "archive_receipt": "reports/releases/v0.9.2/acquisition/semgrep-rules-acquisition.json",
+    "commit_receipt": "reports/releases/v0.9.2/acquisition/semgrep-rules-head.json",
+    "license": "Semgrep Rules License v1.0",
+    "license_url": "https://semgrep.dev/legal/rules-license",
+    "license_file": "LICENSE",
+    "license_sha256": "1a6466ae5f1c68631bbd13e3f1aa8f380d84219853c08f0456b853fccfacee1d"
+  },
+  "selection": "Every *.yaml rule document under the upstream per-language security directory, preserving the upstream relative path. Co-located language test sources are excluded because they are test fixtures, not rule documents.",
+  "line_endings": "Upstream CRLF bytes are normalized to LF; the upstream hash and normalized vendored hash are both recorded for every document.",
+  "baseline_comparison": {
+    "profile": "adapters/semgrep/native/javascript",
+    "upstream_commit": "40b8c63f75dc7c22c8a77482d73bfb864b146f7e",
+    "rule_document_count_before": 30,
+    "rule_document_count_after": 30,
+    "added_rule_documents": [],
+    "removed_rule_documents": [],
+    "normalized_content_changes": [],
+    "review_result": "same selected rule documents and normalized contents"
+  },
+  "activation": "semgrep scan --oss-only --config adapters/semgrep/native/v0.9.2/javascript",
+  "snapshot": {
+    "local_root": "adapters/semgrep/native/v0.9.2/javascript/rules",
+    "rule_document_count": 30,
+    "rule_id_count": 30,
+    "tree_sha256": "35deb3496cf70addf544597e4eca1c123917b8a3e01b3b7fa52c423037047dc0",
+    "files": [
+      {
+        "path": "rules/audit/code-string-concat.yaml",
+        "upstream_path": "javascript/lang/security/audit/code-string-concat.yaml",
+        "upstream_sha256": "6a1d29327dd908382bdf9109e223f6ed4ca6167ae2be6617b59191c892e3c0cc",
+        "sha256": "6a1d29327dd908382bdf9109e223f6ed4ca6167ae2be6617b59191c892e3c0cc",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "code-string-concat"
+        ],
+        "baseline_sha256": "6a1d29327dd908382bdf9109e223f6ed4ca6167ae2be6617b59191c892e3c0cc"
+      },
+      {
+        "path": "rules/audit/dangerous-spawn-shell.yaml",
+        "upstream_path": "javascript/lang/security/audit/dangerous-spawn-shell.yaml",
+        "upstream_sha256": "1a81f91e9ad9ea4c62a9b0bda4dcf3cf2fc1bb6f2d9e2580ea3effa6bfe9ba74",
+        "sha256": "1a81f91e9ad9ea4c62a9b0bda4dcf3cf2fc1bb6f2d9e2580ea3effa6bfe9ba74",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "dangerous-spawn-shell"
+        ],
+        "baseline_sha256": "1a81f91e9ad9ea4c62a9b0bda4dcf3cf2fc1bb6f2d9e2580ea3effa6bfe9ba74"
+      },
+      {
+        "path": "rules/audit/detect-non-literal-fs-filename.yaml",
+        "upstream_path": "javascript/lang/security/audit/detect-non-literal-fs-filename.yaml",
+        "upstream_sha256": "3a7da5626cf3186380f3be1daf1ed38ba766075912d9b0dcd7ae73b7c51bb42e",
+        "sha256": "3a7da5626cf3186380f3be1daf1ed38ba766075912d9b0dcd7ae73b7c51bb42e",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "detect-non-literal-fs-filename"
+        ],
+        "baseline_sha256": "3a7da5626cf3186380f3be1daf1ed38ba766075912d9b0dcd7ae73b7c51bb42e"
+      },
+      {
+        "path": "rules/audit/detect-non-literal-regexp.yaml",
+        "upstream_path": "javascript/lang/security/audit/detect-non-literal-regexp.yaml",
+        "upstream_sha256": "cc2b78967131265c24e9700f36195ef1f3ba11f651598ee8a583e900c60e03fc",
+        "sha256": "cc2b78967131265c24e9700f36195ef1f3ba11f651598ee8a583e900c60e03fc",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "detect-non-literal-regexp"
+        ],
+        "baseline_sha256": "cc2b78967131265c24e9700f36195ef1f3ba11f651598ee8a583e900c60e03fc"
+      },
+      {
+        "path": "rules/audit/detect-non-literal-require.yaml",
+        "upstream_path": "javascript/lang/security/audit/detect-non-literal-require.yaml",
+        "upstream_sha256": "f02a0340092111bfea7df82492e9f1ad12071403984b9c863c3f755bc815d8c5",
+        "sha256": "f02a0340092111bfea7df82492e9f1ad12071403984b9c863c3f755bc815d8c5",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "detect-non-literal-require"
+        ],
+        "baseline_sha256": "f02a0340092111bfea7df82492e9f1ad12071403984b9c863c3f755bc815d8c5"
+      },
+      {
+        "path": "rules/audit/detect-redos.yaml",
+        "upstream_path": "javascript/lang/security/audit/detect-redos.yaml",
+        "upstream_sha256": "c649d508a43408dee1339e4f49415cbfb1cacfc7b1cafb7cb22ba81f335665bb",
+        "sha256": "c649d508a43408dee1339e4f49415cbfb1cacfc7b1cafb7cb22ba81f335665bb",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "detect-redos"
+        ],
+        "baseline_sha256": "c649d508a43408dee1339e4f49415cbfb1cacfc7b1cafb7cb22ba81f335665bb"
+      },
+      {
+        "path": "rules/audit/hardcoded-hmac-key.yaml",
+        "upstream_path": "javascript/lang/security/audit/hardcoded-hmac-key.yaml",
+        "upstream_sha256": "fdca07b8fc42fa0d1e24be2a372e719f21b09c060f09716ee7008a1df1dfd52a",
+        "sha256": "fdca07b8fc42fa0d1e24be2a372e719f21b09c060f09716ee7008a1df1dfd52a",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "hardcoded-hmac-key"
+        ],
+        "baseline_sha256": "fdca07b8fc42fa0d1e24be2a372e719f21b09c060f09716ee7008a1df1dfd52a"
+      },
+      {
+        "path": "rules/audit/incomplete-sanitization.yaml",
+        "upstream_path": "javascript/lang/security/audit/incomplete-sanitization.yaml",
+        "upstream_sha256": "54b042cc05900fd624852cac1bb4962c2d33a0674d468b4a61a6fae8d2a64250",
+        "sha256": "54b042cc05900fd624852cac1bb4962c2d33a0674d468b4a61a6fae8d2a64250",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "incomplete-sanitization"
+        ],
+        "baseline_sha256": "54b042cc05900fd624852cac1bb4962c2d33a0674d468b4a61a6fae8d2a64250"
+      },
+      {
+        "path": "rules/audit/md5-used-as-password.yaml",
+        "upstream_path": "javascript/lang/security/audit/md5-used-as-password.yaml",
+        "upstream_sha256": "95f8166a5066f012641c89fbc59e9ee98299f886cb70d2057b1e6cc741561b33",
+        "sha256": "95f8166a5066f012641c89fbc59e9ee98299f886cb70d2057b1e6cc741561b33",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "md5-used-as-password"
+        ],
+        "baseline_sha256": "95f8166a5066f012641c89fbc59e9ee98299f886cb70d2057b1e6cc741561b33"
+      },
+      {
+        "path": "rules/audit/path-traversal/path-join-resolve-traversal.yaml",
+        "upstream_path": "javascript/lang/security/audit/path-traversal/path-join-resolve-traversal.yaml",
+        "upstream_sha256": "d9a1c9b559fee5b993bb9150fead40a48570a58f08762d7b6674125f6e0784bc",
+        "sha256": "d9a1c9b559fee5b993bb9150fead40a48570a58f08762d7b6674125f6e0784bc",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "path-join-resolve-traversal"
+        ],
+        "baseline_sha256": "d9a1c9b559fee5b993bb9150fead40a48570a58f08762d7b6674125f6e0784bc"
+      },
+      {
+        "path": "rules/audit/prototype-pollution/prototype-pollution-assignment.yaml",
+        "upstream_path": "javascript/lang/security/audit/prototype-pollution/prototype-pollution-assignment.yaml",
+        "upstream_sha256": "c494050bfb86b17b96497f1acb6f2cffe68890c2658e3ccf36945c6fda61e67d",
+        "sha256": "c494050bfb86b17b96497f1acb6f2cffe68890c2658e3ccf36945c6fda61e67d",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "prototype-pollution-assignment"
+        ],
+        "baseline_sha256": "c494050bfb86b17b96497f1acb6f2cffe68890c2658e3ccf36945c6fda61e67d"
+      },
+      {
+        "path": "rules/audit/prototype-pollution/prototype-pollution-loop.yaml",
+        "upstream_path": "javascript/lang/security/audit/prototype-pollution/prototype-pollution-loop.yaml",
+        "upstream_sha256": "f781360a7d929bea0dacf339e30060e441f9e738aee0d1b6481219fea49126c5",
+        "sha256": "f781360a7d929bea0dacf339e30060e441f9e738aee0d1b6481219fea49126c5",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "prototype-pollution-loop"
+        ],
+        "baseline_sha256": "f781360a7d929bea0dacf339e30060e441f9e738aee0d1b6481219fea49126c5"
+      },
+      {
+        "path": "rules/audit/spawn-shell-true.yaml",
+        "upstream_path": "javascript/lang/security/audit/spawn-shell-true.yaml",
+        "upstream_sha256": "452fb593301edca721a151ed3c051f428ca1df1fc1af613380d58b076601b5ba",
+        "sha256": "452fb593301edca721a151ed3c051f428ca1df1fc1af613380d58b076601b5ba",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "spawn-shell-true"
+        ],
+        "baseline_sha256": "452fb593301edca721a151ed3c051f428ca1df1fc1af613380d58b076601b5ba"
+      },
+      {
+        "path": "rules/audit/sqli/node-knex-sqli.yaml",
+        "upstream_path": "javascript/lang/security/audit/sqli/node-knex-sqli.yaml",
+        "upstream_sha256": "074be35c73756917896e051a8d77a8a705c7ef54d4846d7a93c829e4d68aabd2",
+        "sha256": "074be35c73756917896e051a8d77a8a705c7ef54d4846d7a93c829e4d68aabd2",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "node-knex-sqli"
+        ],
+        "baseline_sha256": "074be35c73756917896e051a8d77a8a705c7ef54d4846d7a93c829e4d68aabd2"
+      },
+      {
+        "path": "rules/audit/sqli/node-mssql-sqli.yaml",
+        "upstream_path": "javascript/lang/security/audit/sqli/node-mssql-sqli.yaml",
+        "upstream_sha256": "a3c995249bdd6ffbf3d36ba42cdd1f1c04798bb0e41765bd396a218516e59ee9",
+        "sha256": "a3c995249bdd6ffbf3d36ba42cdd1f1c04798bb0e41765bd396a218516e59ee9",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "node-mssql-sqli"
+        ],
+        "baseline_sha256": "a3c995249bdd6ffbf3d36ba42cdd1f1c04798bb0e41765bd396a218516e59ee9"
+      },
+      {
+        "path": "rules/audit/sqli/node-mysql-sqli.yaml",
+        "upstream_path": "javascript/lang/security/audit/sqli/node-mysql-sqli.yaml",
+        "upstream_sha256": "152d5848cbcb5bdd3555507eb4a55b5ee2cd7276effbd5975a7da97d82bba0d0",
+        "sha256": "152d5848cbcb5bdd3555507eb4a55b5ee2cd7276effbd5975a7da97d82bba0d0",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "node-mysql-sqli"
+        ],
+        "baseline_sha256": "152d5848cbcb5bdd3555507eb4a55b5ee2cd7276effbd5975a7da97d82bba0d0"
+      },
+      {
+        "path": "rules/audit/sqli/node-postgres-sqli.yaml",
+        "upstream_path": "javascript/lang/security/audit/sqli/node-postgres-sqli.yaml",
+        "upstream_sha256": "23709e35b9ce213d8306c793a3174320dcf3141043e31297fcdec48735c1bbd8",
+        "sha256": "23709e35b9ce213d8306c793a3174320dcf3141043e31297fcdec48735c1bbd8",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "node-postgres-sqli"
+        ],
+        "baseline_sha256": "23709e35b9ce213d8306c793a3174320dcf3141043e31297fcdec48735c1bbd8"
+      },
+      {
+        "path": "rules/audit/unknown-value-with-script-tag.yaml",
+        "upstream_path": "javascript/lang/security/audit/unknown-value-with-script-tag.yaml",
+        "upstream_sha256": "c22e6be10888c9c457ddfb8d75dd70e812d0c9667e9b3bd910e3f3bc504d8892",
+        "sha256": "c22e6be10888c9c457ddfb8d75dd70e812d0c9667e9b3bd910e3f3bc504d8892",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "unknown-value-with-script-tag"
+        ],
+        "baseline_sha256": "c22e6be10888c9c457ddfb8d75dd70e812d0c9667e9b3bd910e3f3bc504d8892"
+      },
+      {
+        "path": "rules/audit/unsafe-dynamic-method.yaml",
+        "upstream_path": "javascript/lang/security/audit/unsafe-dynamic-method.yaml",
+        "upstream_sha256": "3608be77e1a11f4a4b756b9ccf8cd95e8e93c311f84a69e5483c5af560d5d790",
+        "sha256": "3608be77e1a11f4a4b756b9ccf8cd95e8e93c311f84a69e5483c5af560d5d790",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "unsafe-dynamic-method"
+        ],
+        "baseline_sha256": "3608be77e1a11f4a4b756b9ccf8cd95e8e93c311f84a69e5483c5af560d5d790"
+      },
+      {
+        "path": "rules/audit/unsafe-formatstring.yaml",
+        "upstream_path": "javascript/lang/security/audit/unsafe-formatstring.yaml",
+        "upstream_sha256": "6e0f93aaccf1eb08bd02bd160768d41dda2a3b5de2a26d55e18f417ee0ff408c",
+        "sha256": "6e0f93aaccf1eb08bd02bd160768d41dda2a3b5de2a26d55e18f417ee0ff408c",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "unsafe-formatstring"
+        ],
+        "baseline_sha256": "6e0f93aaccf1eb08bd02bd160768d41dda2a3b5de2a26d55e18f417ee0ff408c"
+      },
+      {
+        "path": "rules/detect-buffer-noassert.yaml",
+        "upstream_path": "javascript/lang/security/detect-buffer-noassert.yaml",
+        "upstream_sha256": "e6566d2c7138b038e1c3167f3e9ff98550cf81a2d70caa94a5362a55294077f6",
+        "sha256": "e6566d2c7138b038e1c3167f3e9ff98550cf81a2d70caa94a5362a55294077f6",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "detect-buffer-noassert"
+        ],
+        "baseline_sha256": "e6566d2c7138b038e1c3167f3e9ff98550cf81a2d70caa94a5362a55294077f6"
+      },
+      {
+        "path": "rules/detect-child-process.yaml",
+        "upstream_path": "javascript/lang/security/detect-child-process.yaml",
+        "upstream_sha256": "baee696b05b3c38fa5a82435ae458026ec81ce9a6e6a73116d68dc963496296c",
+        "sha256": "baee696b05b3c38fa5a82435ae458026ec81ce9a6e6a73116d68dc963496296c",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "detect-child-process"
+        ],
+        "baseline_sha256": "baee696b05b3c38fa5a82435ae458026ec81ce9a6e6a73116d68dc963496296c"
+      },
+      {
+        "path": "rules/detect-disable-mustache-escape.yaml",
+        "upstream_path": "javascript/lang/security/detect-disable-mustache-escape.yaml",
+        "upstream_sha256": "8d6d81249121230be2d11fd7a2cce2ce23837520f8e0fc1df45868ec159edb09",
+        "sha256": "8d6d81249121230be2d11fd7a2cce2ce23837520f8e0fc1df45868ec159edb09",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "detect-disable-mustache-escape"
+        ],
+        "baseline_sha256": "8d6d81249121230be2d11fd7a2cce2ce23837520f8e0fc1df45868ec159edb09"
+      },
+      {
+        "path": "rules/detect-eval-with-expression.yaml",
+        "upstream_path": "javascript/lang/security/detect-eval-with-expression.yaml",
+        "upstream_sha256": "3b8fe2524b094c72c34aaa6d21b0408ffdac2471a335125cf726993253777951",
+        "sha256": "3b8fe2524b094c72c34aaa6d21b0408ffdac2471a335125cf726993253777951",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "detect-eval-with-expression"
+        ],
+        "baseline_sha256": "3b8fe2524b094c72c34aaa6d21b0408ffdac2471a335125cf726993253777951"
+      },
+      {
+        "path": "rules/detect-insecure-websocket.yaml",
+        "upstream_path": "javascript/lang/security/detect-insecure-websocket.yaml",
+        "upstream_sha256": "65935c49d62e264a6b85a496455989137d7e82d4698855d511d173ed08ad3099",
+        "sha256": "65935c49d62e264a6b85a496455989137d7e82d4698855d511d173ed08ad3099",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "detect-insecure-websocket"
+        ],
+        "baseline_sha256": "65935c49d62e264a6b85a496455989137d7e82d4698855d511d173ed08ad3099"
+      },
+      {
+        "path": "rules/detect-no-csrf-before-method-override.yaml",
+        "upstream_path": "javascript/lang/security/detect-no-csrf-before-method-override.yaml",
+        "upstream_sha256": "d361537a89c773a4940f107a2e787c6309d121e965a88f471b55d0db15ccb859",
+        "sha256": "d361537a89c773a4940f107a2e787c6309d121e965a88f471b55d0db15ccb859",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "detect-no-csrf-before-method-override"
+        ],
+        "baseline_sha256": "d361537a89c773a4940f107a2e787c6309d121e965a88f471b55d0db15ccb859"
+      },
+      {
+        "path": "rules/detect-pseudoRandomBytes.yaml",
+        "upstream_path": "javascript/lang/security/detect-pseudoRandomBytes.yaml",
+        "upstream_sha256": "d3c2b2168e6b1efdfc305a783387634e3ead8e0db6d4bdd3417381e177da4058",
+        "sha256": "d3c2b2168e6b1efdfc305a783387634e3ead8e0db6d4bdd3417381e177da4058",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "detect-pseudoRandomBytes"
+        ],
+        "baseline_sha256": "d3c2b2168e6b1efdfc305a783387634e3ead8e0db6d4bdd3417381e177da4058"
+      },
+      {
+        "path": "rules/html-in-template-string.yaml",
+        "upstream_path": "javascript/lang/security/html-in-template-string.yaml",
+        "upstream_sha256": "1c32479fb6228a0a3a3618e6308b5bdfec14f05f7cf12a2321519b4095cf117d",
+        "sha256": "1c32479fb6228a0a3a3618e6308b5bdfec14f05f7cf12a2321519b4095cf117d",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "html-in-template-string"
+        ],
+        "baseline_sha256": "1c32479fb6228a0a3a3618e6308b5bdfec14f05f7cf12a2321519b4095cf117d"
+      },
+      {
+        "path": "rules/insecure-object-assign.yaml",
+        "upstream_path": "javascript/lang/security/insecure-object-assign.yaml",
+        "upstream_sha256": "bc5a5fdef1a8a4889f1d3efebdd3cb1f1e58f5261418928ae6c765eb7f1b2397",
+        "sha256": "bc5a5fdef1a8a4889f1d3efebdd3cb1f1e58f5261418928ae6c765eb7f1b2397",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "insecure-object-assign"
+        ],
+        "baseline_sha256": "bc5a5fdef1a8a4889f1d3efebdd3cb1f1e58f5261418928ae6c765eb7f1b2397"
+      },
+      {
+        "path": "rules/spawn-git-clone.yaml",
+        "upstream_path": "javascript/lang/security/spawn-git-clone.yaml",
+        "upstream_sha256": "d87fdf812e1a61f137bde701d75415525ea66c45c593374a6f9ec2081609539f",
+        "sha256": "d87fdf812e1a61f137bde701d75415525ea66c45c593374a6f9ec2081609539f",
+        "line_endings_normalized": false,
+        "rule_ids": [
+          "spawn-git-clone"
+        ],
+        "baseline_sha256": "d87fdf812e1a61f137bde701d75415525ea66c45c593374a6f9ec2081609539f"
+      }
+    ]
+  }
+}

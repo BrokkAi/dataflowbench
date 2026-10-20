@@ -1,0 +1,11 @@
+--- a/adapters/codeql/v0.9.2/swift/queries/standard/modeling-flow.ql
++++ b/adapters/codeql/v0.9.2/swift/queries/standard/modeling-flow-sanitizer-off.ql
+@@ -7,7 +7,7 @@
+ module Config implements DataFlow::ConfigSig {
+  predicate isSource(DataFlow::Node n) { stringSource(n) or declaredSource(n) }
+  predicate isSink(DataFlow::Node n) { stringSink(n) or declaredSink(n) }
+- predicate isBarrier(DataFlow::Node n) { sanitizer(n) or summaryBarrier(n) }
++ predicate isBarrier(DataFlow::Node n) { summaryBarrier(n) }
+  predicate isAdditionalFlowStep(DataFlow::Node a, DataFlow::Node b) { declaredStep(a,b) }
+ }
+ module Flow = TaintTracking::Global<Config>;

@@ -11,6 +11,7 @@ pub(crate) use swift::{joern_swift_configuration_paths, run_joern_swift_kernel};
 use crate::adapters::ToolIdentity;
 use crate::adapters::codeql::write_rust_cargo_manifest;
 use crate::adapters::normalized_report;
+use crate::adapters::pins;
 use crate::adapters::write_runner_error;
 use crate::adapters::{KernelPopulation, select_kernel_cases};
 use crate::adapters::{ModelingLanguage, ModelingTool};
@@ -258,6 +259,14 @@ pub(crate) fn joern_version_identity(binary: &Path) -> Result<ToolIdentity> {
         .filter(|version| !version.is_empty())
         .context("Joern did not report a version")?
         .to_string();
+    if version != pins::JOERN_VERSION {
+        bail!(
+            "the Joern binary at {} witnessed version {version:?}, but profile {} pins {}; refusing to publish a report for another release",
+            binary.display(),
+            pins::PROFILE,
+            pins::JOERN_VERSION
+        );
+    }
     let build_identity = format!("joern-cli:{version}");
     Ok(ToolIdentity::new(version, build_identity))
 }

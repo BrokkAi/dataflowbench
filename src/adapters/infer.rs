@@ -9,6 +9,7 @@ use crate::adapters::ModelingTool;
 use crate::adapters::ToolIdentity;
 use crate::adapters::normalized_report;
 use crate::adapters::opentaint::jvm_fixture_package;
+use crate::adapters::pins;
 use crate::adapters::semgrep::{SEMGREP_SINK_PLACEHOLDER, SEMGREP_SOURCE_PLACEHOLDER};
 use crate::adapters::write_runner_error;
 use crate::adapters::{KernelPopulation, select_kernel_cases};
@@ -127,7 +128,7 @@ pub(crate) fn require_infer_modeling_load_bearing(config: &str, path: &str) -> R
 /// The pinned Infer release this adapter's evidence was produced under. The
 /// binary self-reports this version, and every run witnesses it from the
 /// binary actually invoked, per the identity-witnessing convention (#87).
-pub(crate) const INFER_PINNED_VERSION: &str = "v1.3.0";
+pub(crate) const INFER_PINNED_VERSION: &str = pins::INFER_VERSION;
 
 pub(crate) const INFER_CONFIG_DIR: &str = "adapters/infer/config";
 

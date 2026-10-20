@@ -13,6 +13,7 @@ use crate::adapters::ModelingLanguage;
 use crate::adapters::ToolIdentity;
 use crate::adapters::bifrost::{BIFROST_C_POLICY, BIFROST_CPP_POLICY};
 use crate::adapters::normalized_report;
+use crate::adapters::pins;
 use crate::adapters::write_runner_error;
 use crate::cases::{
     LoadedCases, case_paths, csharp_core_case, fixture_revision, go_core_case, kotlin_core_case,
@@ -98,6 +99,36 @@ pub(crate) const CODEQL_RUBY_ENDPOINT_PROBE: &str =
     "adapters/codeql/ruby/queries/RubyKernelEndpointProbe.ql";
 pub(crate) const CODEQL_RUBY_RAW_DIR: &str = "reports/raw/codeql-ruby-kernel";
 pub(crate) const CODEQL_RUBY_REPORT: &str = "reports/codeql-ruby-kernel.json";
+pub(crate) const CODEQL_V092_PROFILE: &str = "adapters/codeql/v0.9.2/profile.json";
+
+/// Resolve a historical benchmark query/config path to its prospective
+/// versioned copy. Case declarations remain frozen at their original paths;
+/// only the path passed to CodeQL or included in a new report hash is moved.
+/// Swift has its own independently versioned qualification plan and pack, so
+/// its paths are intentionally left to that plan.
+pub(crate) fn codeql_v092_path(path: &Path) -> PathBuf {
+    let text = path.to_string_lossy();
+    let Some(rest) = text.strip_prefix("adapters/codeql/") else {
+        return path.to_path_buf();
+    };
+    if rest.starts_with("swift") || rest.starts_with("v0.9.2/") {
+        return path.to_path_buf();
+    }
+    PathBuf::from(format!("adapters/codeql/v0.9.2/{rest}"))
+}
+
+pub(crate) fn codeql_v092_configuration_paths(paths: &BTreeSet<PathBuf>) -> BTreeSet<PathBuf> {
+    let mut paths = paths
+        .iter()
+        .map(|path| codeql_v092_path(path))
+        .collect::<BTreeSet<_>>();
+    paths.insert(PathBuf::from(CODEQL_V092_PROFILE));
+    paths
+}
+
+fn hash_codeql_v092_configuration(paths: &BTreeSet<PathBuf>) -> Result<String> {
+    hash_paths(&codeql_v092_configuration_paths(paths))
+}
 /// The module manifest written into every Go CodeQL workspace. The Go
 /// extractor has no `none` build mode, so it must observe a real `go build`;
 /// supplying the manifest keeps that build hermetic and offline instead of
@@ -116,9 +147,9 @@ pub(crate) const GO_MODULE_MANIFEST: &str = "module dataflowbench\n\ngo 1.21\n";
 /// measure the shipped product as shipped — and is one more reason the two are
 /// never pooled.
 pub(crate) const CODEQL_NATIVE_QUERY_PACKS: [(&str, &str); 3] = [
-    ("codeql/java-queries", "1.11.10"),
-    ("codeql/javascript-queries", "2.4.5"),
-    ("codeql/python-queries", "1.8.10"),
+    ("codeql/java-queries", "1.11.12"),
+    ("codeql/javascript-queries", "2.4.7"),
+    ("codeql/python-queries", "1.8.12"),
 ];
 
 /// The shipped suite the native profile selects. `security-extended` is the
@@ -435,7 +466,7 @@ pub(crate) fn run_codeql_java_kernel(binary: &Path, packs: Option<&Path>) -> Res
     configuration_paths.insert(PathBuf::from(CODEQL_JAVA_ENDPOINT_PROBE));
     configuration_paths.insert(PathBuf::from("adapters/codeql/qlpack.yml"));
     configuration_paths.insert(PathBuf::from("adapters/codeql/codeql-pack.lock.yml"));
-    let configuration_hash = hash_paths(&configuration_paths)?;
+    let configuration_hash = hash_codeql_v092_configuration(&configuration_paths)?;
     let report = normalized_report(
         "codeql",
         &identity,
@@ -610,7 +641,7 @@ pub(crate) fn run_codeql_ecma_kernel(
     if pack_lock.is_file() {
         configuration_paths.insert(pack_lock);
     }
-    let configuration_hash = hash_paths(&configuration_paths)?;
+    let configuration_hash = hash_codeql_v092_configuration(&configuration_paths)?;
     let report = normalized_report(
         kernel.tool(),
         &identity,
@@ -666,7 +697,7 @@ pub(crate) fn run_codeql_python_kernel(binary: &Path, packs: Option<&Path>) -> R
     }
 
     let configuration_paths = codeql_python_configuration_paths(&query_paths);
-    let configuration_hash = hash_paths(&configuration_paths)?;
+    let configuration_hash = hash_codeql_v092_configuration(&configuration_paths)?;
     let report = normalized_report(
         "codeql",
         &identity,
@@ -722,7 +753,7 @@ pub(crate) fn run_codeql_kotlin_kernel(
         ));
     }
 
-    let configuration_hash = hash_paths(&codeql_kotlin_configuration_paths())?;
+    let configuration_hash = hash_codeql_v092_configuration(&codeql_kotlin_configuration_paths())?;
     let report = normalized_report(
         "codeql",
         &identity,
@@ -774,7 +805,7 @@ pub(crate) fn run_codeql_csharp_kernel(binary: &Path, packs: Option<&Path>) -> R
         ));
     }
 
-    let configuration_hash = hash_paths(&codeql_csharp_configuration_paths())?;
+    let configuration_hash = hash_codeql_v092_configuration(&codeql_csharp_configuration_paths())?;
     let report = normalized_report(
         "codeql",
         &identity,
@@ -826,7 +857,7 @@ pub(crate) fn run_codeql_go_kernel(binary: &Path, packs: Option<&Path>, go: &Pat
         ));
     }
 
-    let configuration_hash = hash_paths(&codeql_go_configuration_paths())?;
+    let configuration_hash = hash_codeql_v092_configuration(&codeql_go_configuration_paths())?;
     let report = normalized_report(
         "codeql",
         &identity,
@@ -937,7 +968,8 @@ pub(crate) fn run_codeql_c_family_kernel(
         ));
     }
 
-    let configuration_hash = hash_paths(&codeql_c_family_configuration_paths(kernel))?;
+    let configuration_hash =
+        hash_codeql_v092_configuration(&codeql_c_family_configuration_paths(kernel))?;
     let report = normalized_report(
         "codeql",
         &identity,
@@ -1056,7 +1088,7 @@ pub(crate) fn run_codeql_rust_kernel(binary: &Path, packs: Option<&Path>) -> Res
         ));
     }
 
-    let configuration_hash = hash_paths(&codeql_rust_configuration_paths())?;
+    let configuration_hash = hash_codeql_v092_configuration(&codeql_rust_configuration_paths())?;
     let report = normalized_report(
         "codeql",
         &identity,
@@ -1109,7 +1141,7 @@ pub(crate) fn run_codeql_ruby_kernel(binary: &Path, packs: Option<&Path>) -> Res
         ));
     }
 
-    let configuration_hash = hash_paths(&codeql_ruby_configuration_paths())?;
+    let configuration_hash = hash_codeql_v092_configuration(&codeql_ruby_configuration_paths())?;
     let report = normalized_report(
         "codeql",
         &identity,
@@ -1348,6 +1380,14 @@ pub(crate) fn codeql_version_identity(binary: &Path) -> Result<ToolIdentity> {
         .as_str()
         .context("CodeQL version JSON lacks version")?
         .to_string();
+    if version != pins::CODEQL_VERSION {
+        bail!(
+            "the CodeQL binary at {} witnessed version {version:?}, but profile {} pins {}; refusing to publish a report for another release",
+            binary.display(),
+            pins::PROFILE,
+            pins::CODEQL_VERSION
+        );
+    }
     let build_identity = version_json["sha"]
         .as_str()
         .map(|sha| format!("codeql-cli:{sha}"))
@@ -1528,12 +1568,14 @@ pub(crate) fn run_codeql_ecma_case(
         }
 
         let mut analyze = Command::new(binary);
+        let runtime_query = codeql_v092_path(query);
+        let runtime_endpoint_probe = codeql_v092_path(Path::new(kernel.endpoint_probe()));
         analyze
             .arg("database")
             .arg("analyze")
             .arg(&database)
-            .arg(query)
-            .arg(kernel.endpoint_probe())
+            .arg(&runtime_query)
+            .arg(&runtime_endpoint_probe)
             .arg("--format=sarif-latest")
             .arg(format!("--output={}", raw_path.display()))
             .arg("--rerun");
@@ -1993,11 +2035,19 @@ pub(crate) fn codeql_sarif_for_case(
 
     let raw_path = raw_dir.join(format!("{id}.sarif.json"));
     let mut analyze = Command::new(binary);
+    let runtime_analysis = analysis
+        .iter()
+        .map(|item| {
+            codeql_v092_path(Path::new(item))
+                .to_string_lossy()
+                .into_owned()
+        })
+        .collect::<Vec<_>>();
     analyze
         .arg("database")
         .arg("analyze")
         .arg(&database)
-        .args(analysis)
+        .args(&runtime_analysis)
         .arg("--format=sarif-latest")
         .arg(format!("--output={}", raw_path.display()))
         .arg("--rerun");
@@ -2532,11 +2582,12 @@ pub(crate) fn overhead_run_codeql(
     }
 
     let mut analyze = Command::new(binary);
+    let runtime_query = codeql_v092_path(Path::new(query));
     analyze
         .arg("database")
         .arg("analyze")
         .arg(&database)
-        .arg(query)
+        .arg(&runtime_query)
         .arg("--format=sarif-latest")
         .arg(format!("--output={}", sarif.display()))
         .arg("--rerun");

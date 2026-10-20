@@ -7,11 +7,11 @@ use crate::adapters::codeql::CODEQL_JAVASCRIPT_REPORT;
 use crate::adapters::joern::{JOERN_JAVA_RAW_DIR, JOERN_JAVA_REPORT};
 use crate::adapters::semgrep::{
     CHALLENGE_SEMGREP_PARTITION, SEMGREP_MODELING_ASSUME_SAFE_OPTION,
-    SEMGREP_NATIVE_PROVENANCE_FILE, SEMGREP_NATIVE_UPSTREAM, SEMGREP_SINK_PLACEHOLDER,
-    SEMGREP_SOURCE_PLACEHOLDER, SemgrepKernel, challenge_semgrep_exclusion, native_semgrep_outcome,
-    require_semgrep_modeling_load_bearing, select_semgrep_cases, semgrep_capability_exclusion,
-    semgrep_finding_outcome, semgrep_maturity_diagnostic, semgrep_native_rules_dir,
-    semgrep_rule_paths,
+    SEMGREP_NATIVE_PROVENANCE_FILE, SEMGREP_NATIVE_UPSTREAM, SEMGREP_NATIVE_V092_DIR,
+    SEMGREP_SINK_PLACEHOLDER, SEMGREP_SOURCE_PLACEHOLDER, SemgrepKernel,
+    challenge_semgrep_exclusion, native_semgrep_outcome, require_semgrep_modeling_load_bearing,
+    select_semgrep_cases, semgrep_capability_exclusion, semgrep_finding_outcome,
+    semgrep_maturity_diagnostic, semgrep_native_rules_dir, semgrep_rule_paths,
 };
 use crate::adapters::{ModelingLanguage, ModelingTool};
 use crate::evidence::{AnchorDialect, benchmark_endpoint_names};
@@ -598,7 +598,7 @@ pub(crate) fn the_semgrep_native_vendoring_convention_is_pinned() {
         let dir = semgrep_native_rules_dir(language);
         assert_eq!(
             dir,
-            PathBuf::from(format!("adapters/semgrep/native/{}", language.key()))
+            PathBuf::from(format!("{SEMGREP_NATIVE_V092_DIR}/{}", language.key()))
         );
         let modeling_rule = PathBuf::from(language.artifact(ModelingTool::Semgrep).unwrap());
         assert!(!modeling_rule.starts_with(&dir));
@@ -629,6 +629,8 @@ pub(crate) fn the_semgrep_native_vendoring_convention_is_pinned() {
                 }
             };
             assert_eq!(provenance["kind"], "derived");
+            assert_eq!(provenance["profile"], "v0.9.2");
+            assert_eq!(provenance["engine"]["version"], "1.181.0");
             assert_eq!(
                 fact("upstream_repository", "repository"),
                 SEMGREP_NATIVE_UPSTREAM,
@@ -646,6 +648,20 @@ pub(crate) fn the_semgrep_native_vendoring_convention_is_pinned() {
             );
             assert!(fact("upstream_license", "license").is_string());
             assert!(dir.join("rules").is_dir());
+            assert_eq!(
+                provenance["upstream"]["commit"],
+                "17e31e11ebac99fb7dfe1cd288f7a32151b6f3f9"
+            );
+            assert_eq!(
+                provenance["baseline_comparison"]["review_result"],
+                "same selected rule documents and normalized contents",
+                "the Semgrep native rule refresh must explicitly record its review"
+            );
+            assert_eq!(
+                provenance["baseline_comparison"]["normalized_content_changes"],
+                json!([]),
+                "unexpected rule changes require a separate compatibility review"
+            );
         }
     }
     assert_eq!(SEMGREP_NATIVE_PROVENANCE_FILE, "provenance.json");

@@ -1,0 +1,2818 @@
+{
+  "schema": "joern-structural-inventory/v1",
+  "metadata": [
+    {
+      "language": "SWIFTSRC",
+      "overlays": [
+        "base",
+        "controlflow",
+        "typerel",
+        "callgraph",
+        "dataflowOss"
+      ]
+    }
+  ],
+  "types": [
+    {
+      "id": "158913789952",
+      "full_name": "()",
+      "type_decl_full_name": "()"
+    },
+    {
+      "id": "158913789953",
+      "full_name": "ANY",
+      "type_decl_full_name": "ANY"
+    },
+    {
+      "id": "158913789954",
+      "full_name": "DataFlowBenchTaintSwift.Opaque",
+      "type_decl_full_name": "DataFlowBenchTaintSwift.Opaque"
+    },
+    {
+      "id": "158913789955",
+      "full_name": "DataFlowBenchTaintSwift.run:()->()",
+      "type_decl_full_name": "DataFlowBenchTaintSwift.run:()->()"
+    },
+    {
+      "id": "158913789956",
+      "full_name": "Foundation._KeyValueCodingAndObserving",
+      "type_decl_full_name": "Foundation._KeyValueCodingAndObserving"
+    },
+    {
+      "id": "158913789957",
+      "full_name": "Foundation._KeyValueCodingAndObservingPublishing",
+      "type_decl_full_name": "Foundation._KeyValueCodingAndObservingPublishing"
+    },
+    {
+      "id": "158913789958",
+      "full_name": "NSString",
+      "type_decl_full_name": "NSString"
+    },
+    {
+      "id": "158913789959",
+      "full_name": "ObjectiveC.Selector",
+      "type_decl_full_name": "ObjectiveC.Selector"
+    },
+    {
+      "id": "158913789960",
+      "full_name": "Swift.AnyObject",
+      "type_decl_full_name": "Swift.AnyObject"
+    },
+    {
+      "id": "158913789961",
+      "full_name": "Swift.Array",
+      "type_decl_full_name": "Swift.Array"
+    },
+    {
+      "id": "158913789962",
+      "full_name": "Swift.Bool",
+      "type_decl_full_name": "Swift.Bool"
+    },
+    {
+      "id": "158913789963",
+      "full_name": "Swift.CVarArg",
+      "type_decl_full_name": "Swift.CVarArg"
+    },
+    {
+      "id": "158913789964",
+      "full_name": "Swift.Character",
+      "type_decl_full_name": "Swift.Character"
+    },
+    {
+      "id": "158913789965",
+      "full_name": "Swift.Class",
+      "type_decl_full_name": "Swift.Class"
+    },
+    {
+      "id": "158913789966",
+      "full_name": "Swift.Copyable",
+      "type_decl_full_name": "Swift.Copyable"
+    },
+    {
+      "id": "158913789967",
+      "full_name": "Swift.CustomDebugStringConvertible",
+      "type_decl_full_name": "Swift.CustomDebugStringConvertible"
+    },
+    {
+      "id": "158913789968",
+      "full_name": "Swift.CustomStringConvertible",
+      "type_decl_full_name": "Swift.CustomStringConvertible"
+    },
+    {
+      "id": "158913789969",
+      "full_name": "Swift.Dictionary",
+      "type_decl_full_name": "Swift.Dictionary"
+    },
+    {
+      "id": "158913789970",
+      "full_name": "Swift.Double",
+      "type_decl_full_name": "Swift.Double"
+    },
+    {
+      "id": "158913789971",
+      "full_name": "Swift.Equatable",
+      "type_decl_full_name": "Swift.Equatable"
+    },
+    {
+      "id": "158913789972",
+      "full_name": "Swift.Escapable",
+      "type_decl_full_name": "Swift.Escapable"
+    },
+    {
+      "id": "158913789973",
+      "full_name": "Swift.Float",
+      "type_decl_full_name": "Swift.Float"
+    },
+    {
+      "id": "158913789974",
+      "full_name": "Swift.Function",
+      "type_decl_full_name": "Swift.Function"
+    },
+    {
+      "id": "158913789975",
+      "full_name": "Swift.Function<(_:Swift.Optional,with:Swift.Optional,with:Swift.Optional)->Swift.Optional>",
+      "type_decl_full_name": "Swift.Function<(_:Swift.Optional,with:Swift.Optional,with:Swift.Optional)->Swift.Optional>"
+    },
+    {
+      "id": "158913789976",
+      "full_name": "Swift.Function<(__C.NSObject)->(Swift.Optional,Swift.Optional)->Swift.Optional>",
+      "type_decl_full_name": "Swift.Function<(__C.NSObject)->(Swift.Optional,Swift.Optional)->Swift.Optional>"
+    },
+    {
+      "id": "158913789977",
+      "full_name": "Swift.Hashable",
+      "type_decl_full_name": "Swift.Hashable"
+    },
+    {
+      "id": "158913789978",
+      "full_name": "Swift.Int",
+      "type_decl_full_name": "Swift.Int"
+    },
+    {
+      "id": "158913789979",
+      "full_name": "Swift.Iterator",
+      "type_decl_full_name": "Swift.Iterator"
+    },
+    {
+      "id": "158913789980",
+      "full_name": "Swift.Nil",
+      "type_decl_full_name": "Swift.Nil"
+    },
+    {
+      "id": "158913789981",
+      "full_name": "Swift.Optional",
+      "type_decl_full_name": "Swift.Optional"
+    },
+    {
+      "id": "158913789982",
+      "full_name": "Swift.String",
+      "type_decl_full_name": "Swift.String"
+    },
+    {
+      "id": "158913789983",
+      "full_name": "Swift.Tuple",
+      "type_decl_full_name": "Swift.Tuple"
+    },
+    {
+      "id": "158913789984",
+      "full_name": "Swift.Unmanaged",
+      "type_decl_full_name": "Swift.Unmanaged"
+    },
+    {
+      "id": "158913789985",
+      "full_name": "__C.NSObject",
+      "type_decl_full_name": "__C.NSObject"
+    },
+    {
+      "id": "158913789986",
+      "full_name": "__C.NSString",
+      "type_decl_full_name": "__C.NSString"
+    },
+    {
+      "id": "158913789987",
+      "full_name": "cobjc(pl)NSObject",
+      "type_decl_full_name": "cobjc(pl)NSObject"
+    },
+    {
+      "id": "158913789988",
+      "full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+      "type_decl_full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY"
+    },
+    {
+      "id": "158913789989",
+      "full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+      "type_decl_full_name": "main.swift:<global>.dfb_source:()->Swift.String"
+    }
+  ],
+  "type_declarations": [
+    {
+      "id": "167503724544",
+      "full_name": "DataFlowBenchTaintSwift.Opaque",
+      "external": false,
+      "filename": "main.swift",
+      "method_ids": [
+        "107374182400",
+        "107374182401",
+        "107374182402",
+        "107374182403",
+        "107374182404",
+        "107374182405"
+      ]
+    },
+    {
+      "id": "167503724545",
+      "full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+      "external": false,
+      "filename": "main.swift",
+      "method_ids": []
+    },
+    {
+      "id": "167503724546",
+      "full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+      "external": false,
+      "filename": "main.swift",
+      "method_ids": []
+    },
+    {
+      "id": "167503724547",
+      "full_name": "DataFlowBenchTaintSwift.run:()->()",
+      "external": false,
+      "filename": "main.swift",
+      "method_ids": []
+    },
+    {
+      "id": "167503724548",
+      "full_name": "main.swift:<global>",
+      "external": false,
+      "filename": "main.swift",
+      "method_ids": [
+        "107374182406"
+      ]
+    },
+    {
+      "id": "167503724549",
+      "full_name": "Swift.Nil",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724550",
+      "full_name": "Swift.Character",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724551",
+      "full_name": "Swift.String",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724552",
+      "full_name": "Swift.Int",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724553",
+      "full_name": "Swift.Float",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724554",
+      "full_name": "Swift.Double",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724555",
+      "full_name": "Swift.Bool",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724556",
+      "full_name": "Swift.Tuple",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724557",
+      "full_name": "Swift.Function",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724558",
+      "full_name": "Swift.Class",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724559",
+      "full_name": "Swift.Array",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724560",
+      "full_name": "Swift.Dictionary",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724561",
+      "full_name": "Swift.Iterator",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724562",
+      "full_name": "()",
+      "external": true,
+      "filename": "builtintypes",
+      "method_ids": []
+    },
+    {
+      "id": "167503724563",
+      "full_name": "ANY",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724564",
+      "full_name": "Foundation._KeyValueCodingAndObserving",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724565",
+      "full_name": "Foundation._KeyValueCodingAndObservingPublishing",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724566",
+      "full_name": "NSString",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724567",
+      "full_name": "ObjectiveC.Selector",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724568",
+      "full_name": "Swift.AnyObject",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724569",
+      "full_name": "Swift.CVarArg",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724570",
+      "full_name": "Swift.Copyable",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724571",
+      "full_name": "Swift.CustomDebugStringConvertible",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724572",
+      "full_name": "Swift.CustomStringConvertible",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724573",
+      "full_name": "Swift.Equatable",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724574",
+      "full_name": "Swift.Escapable",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724575",
+      "full_name": "Swift.Function<(_:Swift.Optional,with:Swift.Optional,with:Swift.Optional)->Swift.Optional>",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724576",
+      "full_name": "Swift.Function<(__C.NSObject)->(Swift.Optional,Swift.Optional)->Swift.Optional>",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724577",
+      "full_name": "Swift.Hashable",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724578",
+      "full_name": "Swift.Optional",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724579",
+      "full_name": "Swift.Unmanaged",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724580",
+      "full_name": "__C.NSObject",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724581",
+      "full_name": "__C.NSString",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    },
+    {
+      "id": "167503724582",
+      "full_name": "cobjc(pl)NSObject",
+      "external": true,
+      "filename": "<unknown>",
+      "method_ids": []
+    }
+  ],
+  "namespace_blocks": [
+    {
+      "id": "137438953472",
+      "full_name": "main.swift:<global>",
+      "filename": "main.swift"
+    },
+    {
+      "id": "137438953473",
+      "full_name": "<global>",
+      "filename": "builtintypes"
+    },
+    {
+      "id": "137438953474",
+      "full_name": "<speculatedMethods>",
+      "filename": "<empty>"
+    }
+  ],
+  "methods": [
+    {
+      "id": "107374182400",
+      "full_name": "DataFlowBenchTaintSwift.Opaque.init:()->DataFlowBenchTaintSwift.Opaque",
+      "external": false,
+      "node": {
+        "id": "107374182400",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 4,
+        "code": "init"
+      },
+      "ast_parent": {
+        "id": "167503724544",
+        "label": "TYPE_DECL",
+        "full_name": "DataFlowBenchTaintSwift.Opaque",
+        "method_ids": [
+          "107374182400",
+          "107374182401",
+          "107374182402",
+          "107374182403",
+          "107374182404",
+          "107374182405"
+        ]
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Opaque",
+          "node": {
+            "id": "111669149696",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 4,
+            "code": "self"
+          }
+        }
+      ],
+      "return": {
+        "type": "DataFlowBenchTaintSwift.Opaque",
+        "node": {
+          "id": "124554051584",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 4,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182401",
+      "full_name": "main.swift:<global>.Opaque.relay:(_:NSString)->NSString",
+      "external": false,
+      "node": {
+        "id": "107374182401",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 5,
+        "code": "func relay(_ value: NSString) -> NSString { value }"
+      },
+      "ast_parent": {
+        "id": "167503724544",
+        "label": "TYPE_DECL",
+        "full_name": "DataFlowBenchTaintSwift.Opaque",
+        "method_ids": [
+          "107374182400",
+          "107374182401",
+          "107374182402",
+          "107374182403",
+          "107374182404",
+          "107374182405"
+        ]
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Opaque",
+          "node": {
+            "id": "111669149697",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 5,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "type": "__C.NSString",
+          "node": {
+            "id": "111669149698",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 5,
+            "code": "_ value: NSString"
+          }
+        }
+      ],
+      "return": {
+        "type": "NSString",
+        "node": {
+          "id": "124554051585",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 5,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182402",
+      "full_name": "main.swift:<global>.Opaque.choose:(_:NSString,second:NSString)->NSString",
+      "external": false,
+      "node": {
+        "id": "107374182402",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 6,
+        "code": "func choose(_ first: NSString, second: NSString) -> NSString { second }"
+      },
+      "ast_parent": {
+        "id": "167503724544",
+        "label": "TYPE_DECL",
+        "full_name": "DataFlowBenchTaintSwift.Opaque",
+        "method_ids": [
+          "107374182400",
+          "107374182401",
+          "107374182402",
+          "107374182403",
+          "107374182404",
+          "107374182405"
+        ]
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Opaque",
+          "node": {
+            "id": "111669149699",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 6,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "type": "NSString",
+          "node": {
+            "id": "111669149700",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 6,
+            "code": "_ first: NSString"
+          }
+        },
+        {
+          "index": 2,
+          "type": "NSString",
+          "node": {
+            "id": "111669149701",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 6,
+            "code": "second: NSString"
+          }
+        }
+      ],
+      "return": {
+        "type": "NSString",
+        "node": {
+          "id": "124554051586",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 6,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182403",
+      "full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182403",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 8,
+        "code": "func carry(_ value: String) -> String {\n        let name = [\"dfb\", \"Relay\", \":\"].joined()\n        return perform(NSSelectorFromString(name), with: value as NSString).takeUnretainedValue() as! String\n    }"
+      },
+      "ast_parent": {
+        "id": "167503724544",
+        "label": "TYPE_DECL",
+        "full_name": "DataFlowBenchTaintSwift.Opaque",
+        "method_ids": [
+          "107374182400",
+          "107374182401",
+          "107374182402",
+          "107374182403",
+          "107374182404",
+          "107374182405"
+        ]
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Opaque",
+          "node": {
+            "id": "111669149702",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 8,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149703",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 8,
+            "code": "_ value: String"
+          }
+        }
+      ],
+      "return": {
+        "type": "Swift.String",
+        "node": {
+          "id": "124554051587",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 8,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182404",
+      "full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182404",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 12,
+        "code": "func block(_ value: String) -> String {\n        let name = [\"dfb\", \"Relay\", \":\"].joined()\n        return perform(NSSelectorFromString(name), with: value as NSString).takeUnretainedValue() as! String\n    }"
+      },
+      "ast_parent": {
+        "id": "167503724544",
+        "label": "TYPE_DECL",
+        "full_name": "DataFlowBenchTaintSwift.Opaque",
+        "method_ids": [
+          "107374182400",
+          "107374182401",
+          "107374182402",
+          "107374182403",
+          "107374182404",
+          "107374182405"
+        ]
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Opaque",
+          "node": {
+            "id": "111669149704",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 12,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149705",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 12,
+            "code": "_ value: String"
+          }
+        }
+      ],
+      "return": {
+        "type": "Swift.String",
+        "node": {
+          "id": "124554051588",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 12,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182405",
+      "full_name": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182405",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 16,
+        "code": "func select(_ first: String, _ second: String) -> String {\n        let name = [\"dfb\", \"Choose\", \":\", \"second\", \":\"].joined()\n        return perform(NSSelectorFromString(name), with: first as NSString, with: second as NSString).takeUnretainedValue() as! String\n    }"
+      },
+      "ast_parent": {
+        "id": "167503724544",
+        "label": "TYPE_DECL",
+        "full_name": "DataFlowBenchTaintSwift.Opaque",
+        "method_ids": [
+          "107374182400",
+          "107374182401",
+          "107374182402",
+          "107374182403",
+          "107374182404",
+          "107374182405"
+        ]
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "DataFlowBenchTaintSwift.Opaque",
+          "node": {
+            "id": "111669149706",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 16,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149707",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 16,
+            "code": "_ first: String"
+          }
+        },
+        {
+          "index": 2,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149708",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 16,
+            "code": "_ second: String"
+          }
+        }
+      ],
+      "return": {
+        "type": "Swift.String",
+        "node": {
+          "id": "124554051589",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 16,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182406",
+      "full_name": "main.swift:<global>",
+      "external": false,
+      "node": {
+        "id": "107374182406",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 1,
+        "code": "<global>"
+      },
+      "ast_parent": {
+        "id": "167503724548",
+        "label": "TYPE_DECL",
+        "full_name": "main.swift:<global>",
+        "method_ids": [
+          "107374182406"
+        ]
+      },
+      "parameters": [],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051593",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182407",
+      "full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+      "external": false,
+      "node": {
+        "id": "107374182407",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 22,
+        "code": "@inline(never) func dfb_source() -> String { \"tainted\" }"
+      },
+      "ast_parent": {
+        "id": "107374182406",
+        "label": "METHOD"
+      },
+      "parameters": [],
+      "return": {
+        "type": "Swift.String",
+        "node": {
+          "id": "124554051590",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 22,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182408",
+      "full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+      "external": false,
+      "node": {
+        "id": "107374182408",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 23,
+        "code": "@inline(never) func dfb_sink(_ value: String) { print(value) }"
+      },
+      "ast_parent": {
+        "id": "107374182406",
+        "label": "METHOD"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "Swift.String",
+          "node": {
+            "id": "111669149709",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "main.swift",
+            "line": 23,
+            "code": "_ value: String"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051591",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 23,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182409",
+      "full_name": "DataFlowBenchTaintSwift.run:()->()",
+      "external": false,
+      "node": {
+        "id": "107374182409",
+        "label": "METHOD",
+        "file": "main.swift",
+        "line": 24,
+        "code": "func run() {\n    let opaque = Opaque()\n    let tainted = dfb_source() // DFB-SOURCE: model-opaque-propagator-input\n    dfb_sink(opaque.carry(tainted)) // DFB-SINK: model-opaque-propagator-sink\n}"
+      },
+      "ast_parent": {
+        "id": "107374182406",
+        "label": "METHOD"
+      },
+      "parameters": [],
+      "return": {
+        "type": "()",
+        "node": {
+          "id": "124554051592",
+          "label": "METHOD_RETURN",
+          "file": "main.swift",
+          "line": 24,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182410",
+      "full_name": "<operator>.assignment",
+      "external": true,
+      "node": {
+        "id": "107374182410",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149710",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149711",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051594",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182411",
+      "full_name": "Swift.BidirectionalCollection<whereA.Element==Swift.String><extension>.joined:(separator:Swift.String)->Swift.String",
+      "external": true,
+      "node": {
+        "id": "107374182411",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149712",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051595",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182412",
+      "full_name": "<operator>.arrayInitializer",
+      "external": true,
+      "node": {
+        "id": "107374182412",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149713",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149714",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        },
+        {
+          "index": 3,
+          "type": "ANY",
+          "node": {
+            "id": "111669149715",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p3"
+          }
+        },
+        {
+          "index": 4,
+          "type": "ANY",
+          "node": {
+            "id": "111669149716",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p4"
+          }
+        },
+        {
+          "index": 5,
+          "type": "ANY",
+          "node": {
+            "id": "111669149717",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p5"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051596",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182413",
+      "full_name": "<operator>.cast",
+      "external": true,
+      "node": {
+        "id": "107374182413",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149718",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149719",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051597",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182414",
+      "full_name": "Swift.Unmanaged.takeUnretainedValue:()->A",
+      "external": true,
+      "node": {
+        "id": "107374182414",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149720",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051598",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182415",
+      "full_name": "cobjc:(pl)NSObject(im)performSelectorwithObject",
+      "external": true,
+      "node": {
+        "id": "107374182415",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149721",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149722",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149723",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051599",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182416",
+      "full_name": "c@F@NSSelectorFromString:()",
+      "external": true,
+      "node": {
+        "id": "107374182416",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149724",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149725",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051600",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182417",
+      "full_name": "cobjc:(pl)NSObject(im)performSelectorwithObjectwithObject",
+      "external": true,
+      "node": {
+        "id": "107374182417",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149726",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149727",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        },
+        {
+          "index": 2,
+          "type": "ANY",
+          "node": {
+            "id": "111669149728",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p2"
+          }
+        },
+        {
+          "index": 3,
+          "type": "ANY",
+          "node": {
+            "id": "111669149729",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p3"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051601",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182418",
+      "full_name": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "external": true,
+      "node": {
+        "id": "107374182418",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149730",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051602",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182419",
+      "full_name": "<operator>.alloc",
+      "external": true,
+      "node": {
+        "id": "107374182419",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149731",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051603",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182420",
+      "full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+      "external": true,
+      "node": {
+        "id": "107374182420",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149732",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051604",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    },
+    {
+      "id": "107374182421",
+      "full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+      "external": true,
+      "node": {
+        "id": "107374182421",
+        "label": "METHOD",
+        "file": "builtintypes",
+        "line": -1,
+        "code": "<empty>"
+      },
+      "ast_parent": {
+        "id": "137438953473",
+        "label": "NAMESPACE_BLOCK",
+        "full_name": "<global>"
+      },
+      "parameters": [
+        {
+          "index": 0,
+          "type": "ANY",
+          "node": {
+            "id": "111669149733",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p0"
+          }
+        },
+        {
+          "index": 1,
+          "type": "ANY",
+          "node": {
+            "id": "111669149734",
+            "label": "METHOD_PARAMETER_IN",
+            "file": "builtintypes",
+            "line": -1,
+            "code": "p1"
+          }
+        }
+      ],
+      "return": {
+        "type": "ANY",
+        "node": {
+          "id": "124554051605",
+          "label": "METHOD_RETURN",
+          "file": "builtintypes",
+          "line": -1,
+          "code": "RET"
+        }
+      }
+    }
+  ],
+  "calls": [
+    {
+      "node": {
+        "id": "30064771072",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 9,
+        "code": "let name = [\"dfb\", \"Relay\", \":\"].joined()"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182410"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476738",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 9,
+            "code": "name"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771073",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 9,
+            "code": "[\"dfb\", \"Relay\", \":\"].joined()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771073",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 9,
+        "code": "[\"dfb\", \"Relay\", \":\"].joined()"
+      },
+      "method_full_name": "Swift.BidirectionalCollection<whereA.Element==Swift.String><extension>.joined:(separator:Swift.String)->Swift.String",
+      "callee_ids": [
+        "107374182411"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "30064771074",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 9,
+            "code": "[\"dfb\", \"Relay\", \":\"]"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771074",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 9,
+        "code": "[\"dfb\", \"Relay\", \":\"]"
+      },
+      "method_full_name": "<operator>.arrayInitializer",
+      "callee_ids": [
+        "107374182412"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "90194313216",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 9,
+            "code": "\"dfb\""
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "90194313217",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 9,
+            "code": "\"Relay\""
+          }
+        },
+        {
+          "index": 3,
+          "node": {
+            "id": "90194313218",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 9,
+            "code": "\":\""
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771075",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "perform(NSSelectorFromString(name), with: value as NSString).takeUnretainedValue() as! String"
+      },
+      "method_full_name": "<operator>.cast",
+      "callee_ids": [
+        "107374182413"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "176093659136",
+            "label": "TYPE_REF",
+            "file": "main.swift",
+            "line": 10,
+            "code": "String"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771076",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 10,
+            "code": "perform(NSSelectorFromString(name), with: value as NSString).takeUnretainedValue()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771076",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "perform(NSSelectorFromString(name), with: value as NSString).takeUnretainedValue()"
+      },
+      "method_full_name": "Swift.Unmanaged.takeUnretainedValue:()->A",
+      "callee_ids": [
+        "107374182414"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "30064771077",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 10,
+            "code": "perform(NSSelectorFromString(name), with: value as NSString)"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771077",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "perform(NSSelectorFromString(name), with: value as NSString)"
+      },
+      "method_full_name": "cobjc:(pl)NSObject(im)performSelectorwithObject",
+      "callee_ids": [
+        "107374182415"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476739",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771078",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 10,
+            "code": "NSSelectorFromString(name)"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771079",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 10,
+            "code": "value as NSString"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771078",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "NSSelectorFromString(name)"
+      },
+      "method_full_name": "c@F@NSSelectorFromString:()",
+      "callee_ids": [
+        "107374182416"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476740",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476741",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "name"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771079",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 10,
+        "code": "value as NSString"
+      },
+      "method_full_name": "<operator>.cast",
+      "callee_ids": [
+        "107374182413"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "176093659137",
+            "label": "TYPE_REF",
+            "file": "main.swift",
+            "line": 10,
+            "code": "NSString"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "68719476742",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 10,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771080",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 13,
+        "code": "let name = [\"dfb\", \"Relay\", \":\"].joined()"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182410"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476743",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 13,
+            "code": "name"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771081",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 13,
+            "code": "[\"dfb\", \"Relay\", \":\"].joined()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771081",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 13,
+        "code": "[\"dfb\", \"Relay\", \":\"].joined()"
+      },
+      "method_full_name": "Swift.BidirectionalCollection<whereA.Element==Swift.String><extension>.joined:(separator:Swift.String)->Swift.String",
+      "callee_ids": [
+        "107374182411"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "30064771082",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 13,
+            "code": "[\"dfb\", \"Relay\", \":\"]"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771082",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 13,
+        "code": "[\"dfb\", \"Relay\", \":\"]"
+      },
+      "method_full_name": "<operator>.arrayInitializer",
+      "callee_ids": [
+        "107374182412"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "90194313219",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 13,
+            "code": "\"dfb\""
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "90194313220",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 13,
+            "code": "\"Relay\""
+          }
+        },
+        {
+          "index": 3,
+          "node": {
+            "id": "90194313221",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 13,
+            "code": "\":\""
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771083",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 14,
+        "code": "perform(NSSelectorFromString(name), with: value as NSString).takeUnretainedValue() as! String"
+      },
+      "method_full_name": "<operator>.cast",
+      "callee_ids": [
+        "107374182413"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "176093659138",
+            "label": "TYPE_REF",
+            "file": "main.swift",
+            "line": 14,
+            "code": "String"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771084",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 14,
+            "code": "perform(NSSelectorFromString(name), with: value as NSString).takeUnretainedValue()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771084",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 14,
+        "code": "perform(NSSelectorFromString(name), with: value as NSString).takeUnretainedValue()"
+      },
+      "method_full_name": "Swift.Unmanaged.takeUnretainedValue:()->A",
+      "callee_ids": [
+        "107374182414"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "30064771085",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 14,
+            "code": "perform(NSSelectorFromString(name), with: value as NSString)"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771085",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 14,
+        "code": "perform(NSSelectorFromString(name), with: value as NSString)"
+      },
+      "method_full_name": "cobjc:(pl)NSObject(im)performSelectorwithObject",
+      "callee_ids": [
+        "107374182415"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476744",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 14,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771086",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 14,
+            "code": "NSSelectorFromString(name)"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771087",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 14,
+            "code": "value as NSString"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771086",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 14,
+        "code": "NSSelectorFromString(name)"
+      },
+      "method_full_name": "c@F@NSSelectorFromString:()",
+      "callee_ids": [
+        "107374182416"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476745",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 14,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476746",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 14,
+            "code": "name"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771087",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 14,
+        "code": "value as NSString"
+      },
+      "method_full_name": "<operator>.cast",
+      "callee_ids": [
+        "107374182413"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "176093659139",
+            "label": "TYPE_REF",
+            "file": "main.swift",
+            "line": 14,
+            "code": "NSString"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "68719476747",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 14,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771088",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 17,
+        "code": "let name = [\"dfb\", \"Choose\", \":\", \"second\", \":\"].joined()"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182410"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476748",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 17,
+            "code": "name"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771089",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 17,
+            "code": "[\"dfb\", \"Choose\", \":\", \"second\", \":\"].joined()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771089",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 17,
+        "code": "[\"dfb\", \"Choose\", \":\", \"second\", \":\"].joined()"
+      },
+      "method_full_name": "Swift.BidirectionalCollection<whereA.Element==Swift.String><extension>.joined:(separator:Swift.String)->Swift.String",
+      "callee_ids": [
+        "107374182411"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "30064771090",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 17,
+            "code": "[\"dfb\", \"Choose\", \":\", \"second\", \":\"]"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771090",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 17,
+        "code": "[\"dfb\", \"Choose\", \":\", \"second\", \":\"]"
+      },
+      "method_full_name": "<operator>.arrayInitializer",
+      "callee_ids": [
+        "107374182412"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "90194313222",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 17,
+            "code": "\"dfb\""
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "90194313223",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 17,
+            "code": "\"Choose\""
+          }
+        },
+        {
+          "index": 3,
+          "node": {
+            "id": "90194313224",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 17,
+            "code": "\":\""
+          }
+        },
+        {
+          "index": 4,
+          "node": {
+            "id": "90194313225",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 17,
+            "code": "\"second\""
+          }
+        },
+        {
+          "index": 5,
+          "node": {
+            "id": "90194313226",
+            "label": "LITERAL",
+            "file": "main.swift",
+            "line": 17,
+            "code": "\":\""
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771091",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 18,
+        "code": "perform(NSSelectorFromString(name), with: first as NSString, with: second as NSString).takeUnretainedValue() as! String"
+      },
+      "method_full_name": "<operator>.cast",
+      "callee_ids": [
+        "107374182413"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "176093659140",
+            "label": "TYPE_REF",
+            "file": "main.swift",
+            "line": 18,
+            "code": "String"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771092",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 18,
+            "code": "perform(NSSelectorFromString(name), with: first as NSString, with: second as NSString).takeUnretainedValue()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771092",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 18,
+        "code": "perform(NSSelectorFromString(name), with: first as NSString, with: second as NSString).takeUnretainedValue()"
+      },
+      "method_full_name": "Swift.Unmanaged.takeUnretainedValue:()->A",
+      "callee_ids": [
+        "107374182414"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "30064771093",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 18,
+            "code": "perform(NSSelectorFromString(name), with: first as NSString, with: second as NSString)"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771093",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 18,
+        "code": "perform(NSSelectorFromString(name), with: first as NSString, with: second as NSString)"
+      },
+      "method_full_name": "cobjc:(pl)NSObject(im)performSelectorwithObjectwithObject",
+      "callee_ids": [
+        "107374182417"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476749",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 18,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771094",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 18,
+            "code": "NSSelectorFromString(name)"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771095",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 18,
+            "code": "first as NSString"
+          }
+        },
+        {
+          "index": 3,
+          "node": {
+            "id": "30064771096",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 18,
+            "code": "second as NSString"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771094",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 18,
+        "code": "NSSelectorFromString(name)"
+      },
+      "method_full_name": "c@F@NSSelectorFromString:()",
+      "callee_ids": [
+        "107374182416"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476750",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 18,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476751",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 18,
+            "code": "name"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771095",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 18,
+        "code": "first as NSString"
+      },
+      "method_full_name": "<operator>.cast",
+      "callee_ids": [
+        "107374182413"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "176093659141",
+            "label": "TYPE_REF",
+            "file": "main.swift",
+            "line": 18,
+            "code": "NSString"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "68719476752",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 18,
+            "code": "first"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771096",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 18,
+        "code": "second as NSString"
+      },
+      "method_full_name": "<operator>.cast",
+      "callee_ids": [
+        "107374182413"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "176093659142",
+            "label": "TYPE_REF",
+            "file": "main.swift",
+            "line": 18,
+            "code": "NSString"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "68719476753",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 18,
+            "code": "second"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771097",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 23,
+        "code": "print(value)"
+      },
+      "method_full_name": "Swift.print:(_:Any...,separator:Swift.String,terminator:Swift.String)->()",
+      "callee_ids": [
+        "107374182418"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476754",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 23,
+            "code": "value"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771098",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 25,
+        "code": "let opaque = Opaque()"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182410"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476755",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 25,
+            "code": "opaque"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "25769803785",
+            "label": "BLOCK",
+            "file": "main.swift",
+            "line": 25,
+            "code": "Opaque()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771099",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 25,
+        "code": "<tmp>0 = <operator>.alloc"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182410"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476756",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 25,
+            "code": "<tmp>0"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771100",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 25,
+            "code": "<operator>.alloc"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771100",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 25,
+        "code": "<operator>.alloc"
+      },
+      "method_full_name": "<operator>.alloc",
+      "callee_ids": [
+        "107374182419"
+      ],
+      "arguments": []
+    },
+    {
+      "node": {
+        "id": "30064771101",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 25,
+        "code": "Opaque()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.Opaque.init:()->DataFlowBenchTaintSwift.Opaque",
+      "callee_ids": [
+        "107374182400"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476757",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 25,
+            "code": "<tmp>0"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771102",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 26,
+        "code": "let tainted = dfb_source()"
+      },
+      "method_full_name": "<operator>.assignment",
+      "callee_ids": [
+        "107374182410"
+      ],
+      "arguments": [
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476759",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 26,
+            "code": "tainted"
+          }
+        },
+        {
+          "index": 2,
+          "node": {
+            "id": "30064771103",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 26,
+            "code": "dfb_source()"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771103",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 26,
+        "code": "dfb_source()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+      "callee_ids": [
+        "107374182420"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476760",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 26,
+            "code": "self"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771104",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 27,
+        "code": "dfb_sink(opaque.carry(tainted))"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+      "callee_ids": [
+        "107374182421"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476761",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 27,
+            "code": "self"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "30064771105",
+            "label": "CALL",
+            "file": "main.swift",
+            "line": 27,
+            "code": "opaque.carry(tainted)"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771105",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 27,
+        "code": "opaque.carry(tainted)"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+      "callee_ids": [
+        "107374182403"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476762",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 27,
+            "code": "opaque"
+          }
+        },
+        {
+          "index": 1,
+          "node": {
+            "id": "68719476763",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 27,
+            "code": "tainted"
+          }
+        }
+      ]
+    },
+    {
+      "node": {
+        "id": "30064771106",
+        "label": "CALL",
+        "file": "main.swift",
+        "line": 29,
+        "code": "run()"
+      },
+      "method_full_name": "DataFlowBenchTaintSwift.run:()->()",
+      "callee_ids": [
+        "107374182409"
+      ],
+      "arguments": [
+        {
+          "index": 0,
+          "node": {
+            "id": "68719476764",
+            "label": "IDENTIFIER",
+            "file": "main.swift",
+            "line": 29,
+            "code": "self"
+          }
+        }
+      ]
+    }
+  ]
+}

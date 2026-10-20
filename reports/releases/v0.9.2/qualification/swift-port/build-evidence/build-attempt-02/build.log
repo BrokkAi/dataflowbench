@@ -1,0 +1,66 @@
+OpenJDK 64-Bit Server VM warning: Options -Xverify:none and -noverify were deprecated in JDK 13 and will likely be removed in a future release.
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+Computing main repo mapping: 
+WARNING: For repository 'platforms', the root module requires module version platforms@1.0.0, but got platforms@1.1.0 in the resolved dependency graph. Please update the version in your MODULE.bazel or set --check_direct_dependencies=off
+Computing main repo mapping: 
+Computing main repo mapping: 
+Loading: 
+Loading: 3 packages loaded
+Analyzing: target //swift/extractor:extractor.real (8 packages loaded, 6 targets configured)
+Analyzing: target //swift/extractor:extractor.real (8 packages loaded, 6 targets configured)
+
+Analyzing: target //swift/extractor:extractor.real (83 packages loaded, 15 targets configured)
+
+Analyzing: target //swift/extractor:extractor.real (111 packages loaded, 1825 targets configured)
+
+INFO: Repo +swift_deps+picosha2 defined by rule lfs_archive in @@//misc/bazel:lfs.bzl
+ERROR: /Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/swift-source/codeql-a7057b836bf29767461026718b14d20790b9085f/misc/bazel/lfs.bzl:15:17: An error occurred during the fetch of repository '+swift_deps+picosha2':
+   Traceback (most recent call last):
+	File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/swift-source/codeql-a7057b836bf29767461026718b14d20790b9085f/misc/bazel/lfs.bzl", line 54, column 15, in _download_and_extract_lfs_archive
+		lfs_smudge(repository_ctx, [repository_ctx.path(attr.src)], extract = True, stripPrefix = attr.strip_prefix)
+	File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/swift-source/codeql-a7057b836bf29767461026718b14d20790b9085f/misc/bazel/lfs.bzl", line 32, column 22, in lfs_smudge
+		infos = probe(remote)
+	File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/swift-source/codeql-a7057b836bf29767461026718b14d20790b9085f/misc/bazel/lfs.bzl", line 15, column 17, in probe
+		fail("git LFS probing failed while instantiating @%s:\n%s" % (repository_ctx.name, res.stderr))
+Error in fail: git LFS probing failed while instantiating @+swift_deps+picosha2:
+ERROR: no valid endpoints found, your git authentication method might be currently unsupported by this script.
+You can bypass this error by running from semmle-code (this might take a while):
+  git config lfs.fetchexclude ""
+  git -C ql config lfs.fetchinclude \*
+  git lfs fetch && git lfs checkout
+  cd ql
+  git lfs fetch && git lfs checkout
+ERROR: no such package '@@+swift_deps+picosha2//': git LFS probing failed while instantiating @+swift_deps+picosha2:
+ERROR: no valid endpoints found, your git authentication method might be currently unsupported by this script.
+You can bypass this error by running from semmle-code (this might take a while):
+  git config lfs.fetchexclude ""
+  git -C ql config lfs.fetchinclude \*
+  git lfs fetch && git lfs checkout
+  cd ql
+  git lfs fetch && git lfs checkout
+ERROR: /Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/swift-source/codeql-a7057b836bf29767461026718b14d20790b9085f/swift/extractor/infra/BUILD.bazel:3:17: //swift/extractor/infra:internal/infra depends on @@+swift_deps+picosha2//:picosha2 in repository @@+swift_deps+picosha2 which failed to fetch. no such package '@@+swift_deps+picosha2//': git LFS probing failed while instantiating @+swift_deps+picosha2:
+ERROR: no valid endpoints found, your git authentication method might be currently unsupported by this script.
+You can bypass this error by running from semmle-code (this might take a while):
+  git config lfs.fetchexclude ""
+  git -C ql config lfs.fetchinclude \*
+  git lfs fetch && git lfs checkout
+  cd ql
+  git lfs fetch && git lfs checkout
+ERROR: Analysis of target '//swift/extractor:extractor.real' failed; build aborted: Analysis failed
+INFO: Elapsed time: 20.316s, Critical Path: 0.01s
+INFO: 1 process: 1 internal.
+ERROR: Build did NOT complete successfully
+FAILED: 
