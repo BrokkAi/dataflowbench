@@ -17,3 +17,5 @@ Finished-candidate cleanup verified 6,020 capture hashes plus original/staged re
 No C4 analyzer measurement has started while these changes are being prepared. The original C3 supervisor13 remains unlaunched and must not be used for C4.
 
 Final Python validation passed all 155 tests across executor, checker, generator, guard, recovery-packet, failure-replay, and staging suites. Process-ownership tests ran with live process-table access; the final elevated run had no platform skips. Logs and source hashes are sealed in test-run-01/receipt.json. Rust and analyzer runtime inputs were not changed or rebuilt.
+
+The first prospective-plan replay exposed an existing checker representation bug: FlowDroid build identity received the raw group instead of its validated group, omitting the derived D8 component list. Preflight stopped before any C4 attempt. The refused prospective contract and diagnosis remain in plan-preflight-01/. The checker now uses the validated group; a regression replays the actual retained Java kernel receipt and rejects a missing-D8 near miss. The final test-run-02 rerun passed all 156 tests.

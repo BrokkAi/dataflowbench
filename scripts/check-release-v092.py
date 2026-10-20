@@ -2212,7 +2212,7 @@ def _verify_one_group(root: Path, validated: dict, group: dict, receipt: dict,
                      f"{group_id}: report runtime identity differs from its executable plan")
             _verify_swift_raw_provenance(root, group, swift_plan_path, swift_plan, report, raw_by_case)
         else:
-            _verify_report_build_identity(group, report, validated)
+            _verify_report_build_identity(expected_group, report, validated)
         _require(isinstance(report.get("tool_build_identity"), str) and report["tool_build_identity"],
                  f"{group_id}: report lacks a witnessed tool build identity")
         bindings.append({

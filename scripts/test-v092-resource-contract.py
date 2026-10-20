@@ -154,4 +154,22 @@ class GuardReceiptSchemaTests(unittest.TestCase):
         value['actual_signature']=['1',2,6,7,8]
         with self.assertRaises(checker.EvidenceError):checker._verify_resource_guard_error('group',value,capacity_loss=False)
 
+class RetainedFlowDroidReplayTests(unittest.TestCase):
+    def test_actual_retained_flowdroid_receipt_uses_validated_d8_components(self):
+        root=Path(__file__).resolve().parents[1]
+        spec=importlib.util.spec_from_file_location('flowdroid_replay_checker',root/'scripts/check-release-v092.py')
+        checker=importlib.util.module_from_spec(spec);spec.loader.exec_module(checker)
+        raw=(root/'reports/releases/v0.9.2/execution-v3/contract.json').read_bytes();plan=json.loads(raw)
+        group=next(item for item in plan['groups'] if item['id']=='flowdroid-java-kernel')
+        self.assertNotIn('identity_components',group)
+        normalized={**group,'identity_components':plan['tool_components']['flowdroid']}
+        self.assertIn('d8',normalized['identity_components'])
+        row=json.loads((root/'reports/releases/v0.9.2/attempts/flowdroid-java-kernel-attempt-01-series-01/completed.json').read_bytes())
+        validated={'repo_root':root,'plan':plan,'groups':[normalized],'tools':plan['tools'],'source_inputs':row['source_inputs'],'qualification':{'flowdroid':row['qualification']},'fixture_revision':row['fixture_revision'],'bytes_sha256':hashlib.sha256(raw).hexdigest()}
+        bindings,_counts=checker._verify_one_group(root,validated,group,row,row['plan_commit'],1)
+        self.assertEqual(len(bindings),1)
+        self.assertEqual(bindings[0]['adapter'],group['reports'][0]['path'])
+        normalized['identity_components']=[name for name in normalized['identity_components'] if name!='d8']
+        with self.assertRaises(checker.EvidenceError):checker._verify_one_group(root,validated,group,row,row['plan_commit'],1)
+
 if __name__ == '__main__': unittest.main()
