@@ -27,6 +27,9 @@ CONTRACT_PATH = RELEASE_ROOT / "execution-v1/contract.json"
 LEDGER_PATH = RELEASE_ROOT / "ledger-v1.jsonl"
 ATTEMPTS_ROOT = RELEASE_ROOT / "attempts"
 NORMAL_ROOT = RELEASE_ROOT / "normal/attempts"
+PREANALYSIS_FAILURE_REVIEW = (
+    RELEASE_ROOT / "qualification/bifrost-preanalysis-version-gate-failure-review-01.json"
+)
 POPULATION_PATH = PurePosixPath("populations/v0.9.0.json")
 EXPECTED_GROUPS = 84
 EXPECTED_REPORTS = 92
@@ -208,8 +211,15 @@ def _read_ledger_with_hashes(path: Path) -> list[tuple[dict, str]]:
 
 
 def _select_attempts(plan: dict, contract_sha256: str,
-                     ledger_rows: list[tuple[dict, str]]) -> tuple[str, dict[str, tuple[dict, str, int]], list[tuple[dict, str, int]]]:
-    """Select one successful attempt per group and retain only earlier failures."""
+                     ledger_rows: list[tuple[dict, str]],
+                     prior_failed_contracts: dict | None = None
+                     ) -> tuple[str, dict[str, tuple[dict, str, int]], list[tuple]]:
+    """Select current-contract completions and explicitly bound earlier failures.
+
+    A successor contract may inherit only its single registered, pre-analysis
+    Bifrost C version-gate failure. That row remains an attempt in the same
+    series and consumes the group's existing retry allowance.
+    """
     planned = plan.get("groups")
     _require(isinstance(planned, list), "execution plan groups are malformed")
     groups = {item.get("id"): item for item in planned if isinstance(item, dict)}
@@ -223,23 +233,131 @@ def _select_attempts(plan: dict, contract_sha256: str,
              COMMIT.fullmatch(source_commit) is not None,
              "execution plan lacks an exact source commit or positive series")
 
-    commit_values = [row.get("plan_commit") for row, _line_sha in ledger_rows]
+    if prior_failed_contracts is None:
+        prior_failed_contracts = {}
+    _require(isinstance(prior_failed_contracts, dict) and len(prior_failed_contracts) <= 1,
+             "at most one exact prior failed contract may be continued")
+    _require(not prior_failed_contracts or series == 1,
+             "a prior failed contract may only continue execution series 1")
+
+    prior_contracts: dict[str, dict] = {}
+    prior_attempt_refs: dict[str, tuple[str, dict, str]] = {}
+    for prior_sha, prior_binding in prior_failed_contracts.items():
+        _require(isinstance(prior_sha, str) and SHA256.fullmatch(prior_sha) is not None and
+                 isinstance(prior_binding, dict),
+                 "prior failed contract binding is malformed")
+        old_validated = prior_binding.get("validated")
+        old_commit = prior_binding.get("plan_commit")
+        _require(isinstance(old_validated, dict) and old_validated.get("bytes_sha256") == prior_sha and
+                 isinstance(old_commit, str) and COMMIT.fullmatch(old_commit) is not None,
+                 "prior failed contract identity or committed plan binding is invalid")
+        old_plan = old_validated.get("plan")
+        old_groups_raw = old_plan.get("groups") if isinstance(old_plan, dict) else None
+        old_groups = {item.get("id"): item for item in old_groups_raw if isinstance(item, dict)} \
+            if isinstance(old_groups_raw, list) else {}
+        old_normalized_raw = old_validated.get("groups")
+        old_normalized = {item.get("id"): item for item in old_normalized_raw if isinstance(item, dict)} \
+            if isinstance(old_normalized_raw, list) else {}
+        _require(isinstance(old_plan, dict) and old_plan.get("execution_series") == series and
+                 old_plan.get("source_commit") != source_commit and
+                 set(old_groups) == set(groups) and set(old_normalized) == set(groups),
+                 "prior failed contract is not a distinct-source contract for the same series and groups")
+        _require(old_plan.get("total_wall_budget_seconds") == plan.get("total_wall_budget_seconds") and
+                 old_plan.get("resource_budget") == plan.get("resource_budget") and
+                 old_plan.get("population") == plan.get("population"),
+                 "prior failed contract changes the series budgets or population")
+        _require(prior_sha != contract_sha256,
+                 "current contract cannot also be registered as its own predecessor")
+        refs = prior_binding.get("attempts")
+        _require(isinstance(refs, list) and len(refs) == 1,
+                 "the prior failed contract must bind exactly one earlier failed attempt")
+        for ref in refs:
+            _require(isinstance(ref, dict) and isinstance(ref.get("attempt_id"), str) and
+                     isinstance(ref.get("ledger_line_sha256"), str) and
+                     SHA256.fullmatch(ref["ledger_line_sha256"]) is not None,
+                     "prior failed attempt reference is malformed")
+            attempt_id = ref["attempt_id"]
+            _require(attempt_id == "bifrost-c-kernel-attempt-01-series-01" and
+                     attempt_id not in prior_attempt_refs,
+                     "only the registered first Bifrost C version-gate failure may be inherited")
+            _require(isinstance(ref.get("receipt_sha256"), str) and
+                     SHA256.fullmatch(ref["receipt_sha256"]) is not None,
+                     "prior failed receipt digest is missing or malformed")
+            prior_attempt_refs[attempt_id] = (prior_sha, prior_binding, ref["ledger_line_sha256"])
+        prior_contracts[prior_sha] = prior_binding
+
+    declared = plan.get("prior_failed_contracts", [])
+    _require(isinstance(declared, list) and len(declared) <= 1,
+             "execution plan may bind at most one prior failed contract")
+    declared_by_sha = {}
+    for ref in declared:
+        _require(isinstance(ref, dict) and isinstance(ref.get("sha256"), str) and
+                 SHA256.fullmatch(ref["sha256"]) is not None and ref["sha256"] not in declared_by_sha,
+                 "execution plan prior-contract reference is malformed or duplicated")
+        _require(ref.get("path") == "reports/releases/v0.9.2/acquisition/failed-contract-01.json",
+                 "execution plan prior-contract path is not the registered immutable archive")
+        _require(ref.get("plan_commit") == prior_contracts.get(ref["sha256"], {}).get("plan_commit"),
+                 "execution plan prior-contract commit differs from the validated predecessor")
+        declared_by_sha[ref["sha256"]] = ref
+    _require(set(declared_by_sha) == set(prior_contracts),
+             "execution plan and executor prior-contract bindings differ")
+    for prior_sha, ref in declared_by_sha.items():
+        prior_binding = prior_contracts[prior_sha]
+        bound_attempts = prior_binding["attempts"]
+        _require(ref.get("attempts") == [
+            {key: item[key] for key in ("attempt_id", "ledger_line_sha256")}
+            for item in bound_attempts
+        ], "execution plan prior-attempt references differ from the exact validated predecessor")
+
+    commit_values = [row.get("plan_commit") for row, _line_sha in ledger_rows
+                     if row.get("contract_sha256") == contract_sha256]
     _require(all(isinstance(value, str) for value in commit_values) and
-             len(set(commit_values)) == 1,
-             "attempts were not all dispatched from one committed execution contract")
+             bool(commit_values) and len(set(commit_values)) == 1,
+             "current attempts were not all dispatched from one committed execution contract")
     plan_commit = commit_values[0]
     _require(COMMIT.fullmatch(plan_commit) is not None, "attempt plan_commit is not an exact Git commit")
 
-    by_group: dict[str, list[tuple[dict, str, int]]] = collections.defaultdict(list)
-    for row, line_sha in ledger_rows:
+    by_group: dict[str, list[tuple]] = collections.defaultdict(list)
+    seen_prior_attempts: set[str] = set()
+    for row_index, (row, line_sha) in enumerate(ledger_rows):
         group_id = row.get("group_id")
         _require(isinstance(group_id, str) and group_id in groups,
                  f"execution ledger contains unknown group id {group_id!r}")
-        group = groups[group_id]
+        attempt_id = row.get("attempt_id")
+        prior_ref = prior_attempt_refs.get(attempt_id) if isinstance(attempt_id, str) else None
+        if prior_ref is not None:
+            prior_sha, prior_binding, expected_line_sha = prior_ref
+            _require(row_index == 0,
+                     "the registered prior failure must be the first attempt in the shared ledger")
+            _require(line_sha == expected_line_sha,
+                     "prior failed attempt ledger line differs from its registered digest")
+            old_validated = prior_binding["validated"]
+            old_plan = old_validated["plan"]
+            old_groups = {item["id"]: item for item in old_plan["groups"]}
+            group = old_groups[group_id]
+            origin_plan_commit = prior_binding["plan_commit"]
+            origin_source_commit = old_plan["source_commit"]
+            origin_contract_sha = prior_sha
+            _require(group_id == "bifrost-c-kernel" and
+                     attempt_id == "bifrost-c-kernel-attempt-01-series-01",
+                     "prior contract contains a failure outside the exact Bifrost C first attempt")
+            _require(row.get("status") == "recorder-error" and row.get("exit_code") == 1 and
+                     row.get("timed_out") is False and row.get("capacity_loss") is None and
+                     row.get("reports") == [] and row.get("captured_files") == [] and
+                     row.get("failed_staging_artifacts", []) == [],
+                     "prior contract attempt is not the report-free pre-analysis Bifrost C version-gate failure")
+            seen_prior_attempts.add(attempt_id)
+        else:
+            origin_plan_commit = plan_commit
+            origin_source_commit = source_commit
+            origin_contract_sha = contract_sha256
+            _require(row.get("contract_sha256") == contract_sha256,
+                     "execution ledger contains an unregistered predecessor or successor contract")
+            group = groups[group_id]
+
         maximum = group.get("maximum_attempts", 1)
         _require(type(maximum) is int and 1 <= maximum <= MAX_ATTEMPTS_PER_GROUP,
                  f"{group_id}: reviewed maximum_attempts must be one or two")
-        attempt_id = row.get("attempt_id")
         pattern = re.compile(rf"{re.escape(group_id)}-attempt-(\d{{2}})-series-(\d{{2}})\Z")
         match = pattern.fullmatch(attempt_id) if isinstance(attempt_id, str) else None
         _require(match is not None, f"{group_id}: attempt id is malformed or belongs to another group")
@@ -248,28 +366,40 @@ def _select_attempts(plan: dict, contract_sha256: str,
                  row.get("execution_series") == series,
                  f"{group_id}: attempt number or series exceeds the reviewed execution plan")
         for key, expected in (
-            ("source_commit", source_commit),
-            ("contract_sha256", contract_sha256),
+            ("source_commit", origin_source_commit),
+            ("contract_sha256", origin_contract_sha),
+            ("plan_commit", origin_plan_commit),
             ("group_id", group_id),
             ("tool", group.get("tool")),
             ("case_ids", group.get("case_ids")),
         ):
             _require(row.get(key) == expected,
                      f"{group_id}: attempt {attempt_number} has mismatched {key}")
+        if prior_ref is not None:
+            current_group = groups[group_id]
+            for key in ("tool", "family", "case_ids", "maximum_attempts", "deadline_seconds", "output_roots"):
+                _require(group.get(key) == current_group.get(key),
+                         f"{group_id}: predecessor and successor differ in {key}")
         status = row.get("status")
         _require(isinstance(status, str) and
                  (status == "completed" or status in FAILED_STATUSES),
                  f"{group_id}: attempt has an unknown or non-terminal status")
-        by_group[group_id].append((row, line_sha, attempt_number))
+        if prior_ref is not None:
+            _require(status != "completed", "a prior contract may contribute failures only, never completions")
+        by_group[group_id].append((row, line_sha, attempt_number, origin_contract_sha,
+                                   origin_plan_commit, prior_ref is not None))
+
+    _require(seen_prior_attempts == set(prior_attempt_refs),
+             "one or more declared prior failed attempts are absent from the shared ledger")
 
     _require(set(by_group) == set(groups), "execution ledger does not contain every planned group")
     selected: dict[str, tuple[dict, str, int]] = {}
     failures: list[tuple[dict, str, int]] = []
     for group_id, attempts in by_group.items():
-        numbers = [number for _row, _line_sha, number in attempts]
+        numbers = [number for _row, _line_sha, number, _origin_sha, _origin_commit, _is_prior in attempts]
         _require(numbers == list(range(1, len(attempts) + 1)),
                  f"{group_id}: attempts are duplicated, missing, or out of order")
-        completed = [index for index, (row, _line_sha, _number) in enumerate(attempts)
+        completed = [index for index, (row, _line_sha, _number, _origin_sha, _origin_commit, _is_prior) in enumerate(attempts)
                      if row.get("status") == "completed"]
         _require(len(completed) == 1,
                  f"{group_id}: expected exactly one completed attempt, found {len(completed)}")
@@ -277,10 +407,22 @@ def _select_attempts(plan: dict, contract_sha256: str,
         _require(selected_index == len(attempts) - 1,
                  f"{group_id}: an attempt appears after its completed attempt")
         _require(all(row.get("status") in FAILED_STATUSES
-                     for row, _line_sha, _number in attempts[:selected_index]),
+                     for row, _line_sha, _number, _origin_sha, _origin_commit, _is_prior in attempts[:selected_index]),
                  f"{group_id}: a non-failure attempt precedes its selected completion")
-        selected[group_id] = attempts[selected_index]
-        failures.extend(attempts[:selected_index])
+        selected_attempt = attempts[selected_index]
+        _require(selected_attempt[3] == contract_sha256 and not selected_attempt[5],
+                 f"{group_id}: selected completion must belong to the current contract")
+        selected[group_id] = selected_attempt[:3]
+        for row, line_sha, number, origin_sha, origin_commit, is_prior in attempts[:selected_index]:
+            if is_prior:
+                binding = prior_contracts[origin_sha]
+                old_validated = binding["validated"]
+                receipt_sha = next(item["receipt_sha256"] for item in binding["attempts"]
+                                   if item["attempt_id"] == row["attempt_id"])
+                failures.append((row, line_sha, number, old_validated, origin_commit,
+                                 receipt_sha, origin_sha))
+            else:
+                failures.append((row, line_sha, number, None, origin_commit, None, origin_sha))
     return plan_commit, selected, failures
 
 
@@ -1029,7 +1171,8 @@ def _verify_one_group(root: Path, validated: dict, group: dict, receipt: dict,
 
 def _verify_failed_attempt(root: Path, validated: dict, group: dict, receipt: dict,
                            plan_commit: str, attempt_number: int,
-                           ledger_line_sha256: str) -> dict:
+                           ledger_line_sha256: str,
+                           expected_receipt_sha256: str | None = None) -> dict:
     """Validate a non-selected terminal failure without admitting its reports."""
     plan = validated["plan"]
     group_id = group["id"]
@@ -1110,6 +1253,9 @@ def _verify_failed_attempt(root: Path, validated: dict, group: dict, receipt: di
 
     completed, completed_bytes = _read_json(attempt / "completed.json", f"{group_id} failed completed receipt")
     _require(completed == receipt, f"{group_id}: failed completed receipt differs from its ledger row")
+    if expected_receipt_sha256 is not None:
+        _require(_sha(completed_bytes) == expected_receipt_sha256,
+                 f"{group_id}: failed completed receipt differs from its predecessor digest")
     started, _started_bytes = _read_json(attempt / "started.json", f"{group_id} failed started receipt")
     started_fields = set(expected_fields) | {"schema_version", "release", "status", "start_utc", "end_utc"}
     _require(isinstance(started, dict) and set(started) == started_fields and
@@ -1214,6 +1360,9 @@ def _verify_failed_attempt(root: Path, validated: dict, group: dict, receipt: di
         "attempt_id": attempt_id,
         "attempt_number": attempt_number,
         "status": status,
+        "contract_sha256": validated["bytes_sha256"],
+        "plan_commit": plan_commit,
+        "source_commit": plan["source_commit"],
         "ledger_line_sha256": ledger_line_sha256,
         "started_receipt_sha256": _sha((attempt / "started.json").read_bytes()),
         "completed_receipt_sha256": _sha(completed_bytes),
@@ -1302,6 +1451,93 @@ def _validate_wall_budget(ledger_rows: list[tuple[dict, str]], total_budget_seco
     return elapsed
 
 
+def _verify_preanalysis_failure_review(root: Path, current_validated: dict,
+                                       prior_validated: dict, prior_contract_sha256: str,
+                                       prior_plan_commit: str, receipt: dict,
+                                       ledger_line_sha256: str, failure_summary: dict) -> str:
+    """Bind the sole inherited failure to its reviewed version-gate evidence."""
+    review_relative = PREANALYSIS_FAILURE_REVIEW.as_posix()
+    review_path = root / Path(*PREANALYSIS_FAILURE_REVIEW.parts)
+    _assert_no_symlink_path(root, review_path, "pre-analysis failure review")
+    review, review_bytes = _read_json(review_path, "pre-analysis Bifrost version-gate review")
+    source_inputs = current_validated.get("source_inputs")
+    _require(isinstance(source_inputs, list), "successor contract lacks its source-input inventory")
+    matches = [item for item in source_inputs
+               if isinstance(item, dict) and item.get("path") == review_relative]
+    _require(len(matches) == 1 and matches[0].get("sha256") == _sha(review_bytes),
+             "successor contract does not bind the exact pre-analysis failure review")
+
+    old_plan = prior_validated["plan"]
+    _require(isinstance(review, dict) and
+             review.get("schema") == "v092-preanalysis-version-gate-failure-review/v1" and
+             review.get("attempt_id") == "bifrost-c-kernel-attempt-01-series-01" and
+             review.get("status") == "recorder-error" and
+             review.get("case_analysis_ran") is False and
+             review.get("basis") == (
+                 "stderr rejects exact two-line Bifrost version witness; stdout contains only validation "
+                 "messages; no analyzer case outputs/report artifacts"
+             ) and
+             review.get("prior_contract") == {
+                 "path": "reports/releases/v0.9.2/acquisition/failed-contract-01.json",
+                 "sha256": prior_contract_sha256,
+                 "plan_commit": prior_plan_commit,
+             } and
+             review.get("ledger_line_sha256") == ledger_line_sha256 and
+             review.get("original_start_utc") == receipt.get("start_utc"),
+             "pre-analysis failure review does not identify the exact prior version-gate attempt")
+    expected_constraints = {
+        "execution_series": old_plan["execution_series"],
+        "maximum_attempts_per_group": 2,
+        "total_wall_budget_seconds": old_plan["total_wall_budget_seconds"],
+        "wall_origin_must_be_preserved": True,
+        "no_report_carry_forward": True,
+        "prior_failure_counts_as_attempt": True,
+    }
+    _require(review.get("constraints") == expected_constraints,
+             "pre-analysis failure review does not preserve the series, retry, wall-budget, and no-carry constraints")
+    _require(failure_summary.get("status") == "recorder-error" and
+             failure_summary.get("attempt_id") == review["attempt_id"] and
+             failure_summary.get("contract_sha256") == prior_contract_sha256 and
+             failure_summary.get("plan_commit") == prior_plan_commit and
+             failure_summary.get("ledger_line_sha256") == ledger_line_sha256 and
+             failure_summary.get("started_receipt_sha256") is not None and
+             failure_summary.get("completed_receipt_sha256") is not None,
+             "verified predecessor failure differs from its pre-analysis review")
+
+    attempt_root = f"reports/releases/v0.9.2/attempts/{review['attempt_id']}"
+    expected_files = {
+        f"{attempt_root}/completed.json": (failure_summary["completed_receipt_sha256"], None),
+        f"{attempt_root}/started.json": (failure_summary["started_receipt_sha256"], None),
+    }
+    for stream in ("stdout", "stderr"):
+        item = failure_summary.get(stream)
+        _require(isinstance(item, dict), f"reviewed prior failure lacks its {stream} evidence")
+        expected_files[f"{attempt_root}/{stream}.txt"] = (item.get("sha256"), item.get("bytes"))
+    review_files = review.get("files")
+    _require(isinstance(review_files, list) and len(review_files) == len(expected_files),
+             "pre-analysis failure review must bind exactly the four attempt evidence files")
+    actual_review_files = {}
+    for item in review_files:
+        _require(isinstance(item, dict) and set(item) == {"path", "sha256", "bytes"} and
+                 isinstance(item.get("path"), str) and item["path"] not in actual_review_files and
+                 isinstance(item.get("sha256"), str) and SHA256.fullmatch(item["sha256"]) is not None and
+                 type(item.get("bytes")) is int and item["bytes"] >= 0,
+                 "pre-analysis failure review file entry is malformed or duplicated")
+        actual_review_files[item["path"]] = item
+    _require(set(actual_review_files) == set(expected_files),
+             "pre-analysis failure review file roster differs from the four expected attempt files")
+    for relative, (expected_sha, expected_size) in expected_files.items():
+        path = root / Path(*PurePosixPath(relative).parts)
+        _require(path.is_file() and not path.is_symlink(), f"missing or symlinked reviewed failure file: {relative}")
+        data = path.read_bytes()
+        item = actual_review_files[relative]
+        _require(_sha(data) == item["sha256"] and len(data) == item["bytes"] and
+                 item["sha256"] == expected_sha and
+                 (expected_size is None or item["bytes"] == expected_size),
+                 f"pre-analysis failure review differs from verified attempt file: {relative}")
+    return _sha(review_bytes)
+
+
 def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> dict:
     root = Path(root).resolve()
     contract_input = Path(contract_path) if contract_path is not None else Path(*CONTRACT_PATH.parts)
@@ -1337,6 +1573,7 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
     ledger_rows = _read_ledger_with_hashes(ledger_path)
     plan_commit, selected_attempts, prior_failures = _select_attempts(
         plan, validated["bytes_sha256"], ledger_rows,
+        validated.get("prior_failed_contracts", {}),
     )
     expected_ids = set(groups)
     _require(set(selected_attempts) == expected_ids,
@@ -1384,13 +1621,30 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
             "completed_receipt_sha256": _sha(completed_bytes),
         })
 
-    normalized_groups = {item["id"]: item for item in validated["groups"]}
     failed_summaries = []
-    for receipt, ledger_line_sha256, attempt_number in prior_failures:
-        group = normalized_groups[receipt["group_id"]]
-        failed_summaries.append(_verify_failed_attempt(
-            root, validated, group, receipt, plan_commit, attempt_number, ledger_line_sha256,
-        ))
+    prior_failure_summary_rows = []
+    for (receipt, ledger_line_sha256, attempt_number, origin_validated,
+         origin_plan_commit, expected_receipt_sha256, origin_contract_sha256) in prior_failures:
+        failure_validated = origin_validated or validated
+        failure_groups = {item["id"]: item for item in failure_validated["groups"]}
+        group = failure_groups[receipt["group_id"]]
+        failure_summary = _verify_failed_attempt(
+            root, failure_validated, group, receipt, origin_plan_commit,
+            attempt_number, ledger_line_sha256, expected_receipt_sha256,
+        )
+        failure_summary["inherited_from_prior_contract"] = origin_contract_sha256 != validated["bytes_sha256"]
+        if failure_summary["inherited_from_prior_contract"]:
+            review_sha256 = _verify_preanalysis_failure_review(
+                root, validated, failure_validated, origin_contract_sha256,
+                origin_plan_commit, receipt, ledger_line_sha256, failure_summary,
+            )
+            failure_summary["version_gate_review"] = {
+                "path": PREANALYSIS_FAILURE_REVIEW.as_posix(),
+                "sha256": review_sha256,
+            }
+        failed_summaries.append(failure_summary)
+        if failure_summary["inherited_from_prior_contract"]:
+            prior_failure_summary_rows.append(failure_summary)
     _require(len(failed_summaries) == len(prior_failures),
              "one or more prior failed attempts lack verifiable non-selected provenance")
     execution_interval_seconds = _validate_wall_budget(
@@ -1417,6 +1671,30 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
 
     completed = EXECUTOR._verified_completed_groups(validated)
     _require(completed == expected_ids, "executor's durable receipt verifier rejected one or more fresh groups")
+    prior_contract_summaries = []
+    for contract_sha256, binding in sorted(validated.get("prior_failed_contracts", {}).items()):
+        old_validated = binding["validated"]
+        prior_ref = next(item for item in plan.get("prior_failed_contracts", [])
+                         if item.get("sha256") == contract_sha256)
+        prior_contract_summaries.append({
+            "path": prior_ref["path"],
+            "contract_sha256": contract_sha256,
+            "plan_commit": binding["plan_commit"],
+            "source_commit": old_validated["plan"]["source_commit"],
+            "attempts": [
+                {
+                    "attempt_id": failure["attempt_id"],
+                    "status": failure["status"],
+                    "ledger_line_sha256": failure["ledger_line_sha256"],
+                    "completed_receipt_sha256": failure["completed_receipt_sha256"],
+                    "version_gate_review": failure.get("version_gate_review"),
+                }
+                for failure in prior_failure_summary_rows
+                if failure["contract_sha256"] == contract_sha256
+            ],
+        })
+    _require(all(item["attempts"] for item in prior_contract_summaries),
+             "a registered prior contract has no independently verified failed attempt")
     return {
         "schema_version": 1,
         "release": RELEASE,
@@ -1438,6 +1716,7 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
         "selected_attempts": selected_summaries,
         "failed_attempt_count": len(failed_summaries),
         "failed_attempts": failed_summaries,
+        "prior_failed_contracts": prior_contract_summaries,
         "typed_outcomes": dict(sorted(outcome_counts.items())),
         "fresh_reports": sorted(bound_reports, key=lambda item: item["adapter"]),
         "configuration_hash_validation": {

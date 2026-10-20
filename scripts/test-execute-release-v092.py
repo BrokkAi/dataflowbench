@@ -304,6 +304,23 @@ class ExecutorTests(unittest.TestCase):
             (self.root / joern["joern_plan"]["path"]).read_bytes()
         ).hexdigest())
 
+    def test_execution_v1_cannot_carry_predecessor_history(self):
+        self.plan["prior_failed_contracts"] = []
+        self._write_contract()
+        with self.assertRaisesRegex(executor.ReleaseError, "execution-v1 contract cannot carry predecessor"):
+            self.validate()
+
+    def test_execution_v2_requires_exactly_one_prior_failure_reference(self):
+        path = self.root / Path(*executor.V2_CONTRACT_PATH.parts)
+        path.parent.mkdir(parents=True)
+        path.write_text(json.dumps(self.plan, sort_keys=True) + "\n")
+        with self.assertRaisesRegex(executor.ReleaseError, "execution-v2 contract must bind exactly one"):
+            executor.validate_plan(path, repo_root=self.root)
+        self.plan["prior_failed_contracts"] = [{}, {}]
+        path.write_text(json.dumps(self.plan, sort_keys=True) + "\n")
+        with self.assertRaisesRegex(executor.ReleaseError, "execution-v2 contract must bind exactly one"):
+            executor.validate_plan(path, repo_root=self.root)
+
     def test_swift_plan_must_bind_the_exact_custom_pack_manifest(self):
         swift = next(group for group in self.plan["groups"] if group["id"] == "codeql-swift-common108")
         plan_path = self.root / swift["argv"][swift["argv"].index("--plan") + 1]
@@ -582,6 +599,41 @@ class ExecutorTests(unittest.TestCase):
         with self.assertRaisesRegex(executor.ReleaseError, "wall clock"):
             executor._matrix_elapsed_wall(validated, now_seconds=start - 1)
 
+    def test_successor_matrix_wall_budget_includes_the_verified_predecessor(self):
+        old_sha = "b" * 64
+        current_sha = "a" * 64
+        validated = {
+            "repo_root": self.root,
+            "plan": {"execution_series": 1},
+            "bytes_sha256": current_sha,
+            "prior_failed_contracts": {old_sha: {"validated": {}, "attempts": [{}]}},
+        }
+        old_row = {"execution_series": 1, "contract_sha256": old_sha,
+                   "start_utc": "2026-10-20T00:00:00+00:00", "duration_seconds": 5}
+        current_row = {"execution_series": 1, "contract_sha256": current_sha,
+                       "start_utc": "2026-10-20T00:10:00+00:00", "duration_seconds": 9}
+        ledger = self.root / Path(*executor.LEDGER_PATH.parts)
+        executor._append_ledger(ledger, old_row)
+        executor._append_ledger(ledger, current_row)
+        start = executor._datetime.datetime.fromisoformat(old_row["start_utc"]).timestamp()
+        self.assertEqual(executor._matrix_elapsed_wall(validated, now_seconds=start + 3600), 3600)
+        self.assertEqual(executor._matrix_elapsed_wall(validated, now_seconds=start + 2), 14)
+
+    def test_successor_wall_budget_rejects_an_unregistered_contract_revision(self):
+        validated = {
+            "repo_root": self.root,
+            "plan": {"execution_series": 1},
+            "bytes_sha256": "a" * 64,
+            "prior_failed_contracts": {"b" * 64: {}},
+        }
+        executor._append_ledger(
+            self.root / Path(*executor.LEDGER_PATH.parts),
+            {"execution_series": 1, "contract_sha256": "c" * 64,
+             "start_utc": "2026-10-20T00:00:00+00:00", "duration_seconds": 1},
+        )
+        with self.assertRaisesRegex(executor.ReleaseError, "unregistered contract revision"):
+            executor._matrix_elapsed_wall(validated, now_seconds=1_792_432_800)
+
     def test_environment_is_explicit_and_attempt_scoped(self):
         group = {"environment": {
             "PATH": "/pinned/bin", "HOME": "@EXECUTION_ROOT@/home",
@@ -827,6 +879,285 @@ class ExecutorTests(unittest.TestCase):
         self.contract_path.write_text("{}\n")
         with self.assertRaisesRegex(executor.ReleaseError, "changed after validation"):
             executor._assert_contract_snapshot(validated)
+
+
+class SuccessorContractEquivalenceTests(unittest.TestCase):
+    @staticmethod
+    def plans():
+        old_runner = "/private/tmp/old/dataflowbench"
+        current_runner = "/private/tmp/new/dataflowbench"
+        ids = ["codeql-swift-common108", "joern-swift-common108"] + [
+            f"analyzer-group-{index:02d}" for index in range(82)
+        ]
+        old_groups = []
+        new_groups = []
+        for group_id in ids:
+            argv = (["python3", "wrapper.py", "--group", group_id]
+                    if group_id.endswith("common108") else [old_runner, "--group", group_id])
+            old_groups.append({"id": group_id, "argv": argv, "case_ids": [group_id + "-case"],
+                               "environment": {"MODE": "fixed"}, "deadline_seconds": 600})
+            new_groups.append({**old_groups[-1], "argv": [
+                current_runner if item == old_runner else item for item in argv
+            ]})
+        qualification = {
+            "bifrost": {
+                "status": "measurement-with-known-limits",
+                "execution_eligible": True,
+                "groups": ["analyzer-group-00"],
+            }
+        }
+        old = {
+            "execution_series": 1,
+            "source_commit": "1" * 40,
+            "runner_source_sha256": "2" * 64,
+            "execution_authorized": True,
+            "resource_reservation": {"expires_at_unix_seconds": 1},
+            "source_inputs": [{"path": "src/fixed.rs", "sha256": "3" * 64}],
+            "tools": {
+                "runner": {"path": old_runner, "sha256": "4" * 64, "version": "harness"},
+                "bifrost": {"path": "/tools/bifrost", "sha256": "5" * 64},
+            },
+            "groups": old_groups,
+            "generator": {"path": "scripts/prepare-release-v092.py", "source_sha256": "6" * 64},
+            "path_replacements": {"/historical/harness": old_runner},
+            "group_path_replacements": {},
+            "qualifications": qualification,
+            "release": "v0.9.2",
+            "population": {"sha256": "7" * 64},
+            "resource_budget": {"serial_analyzers": 1, "minimum_launch_free_gib": 125},
+            "total_wall_budget_seconds": 102960,
+        }
+        current = {
+            **old,
+            "source_commit": "8" * 40,
+            "runner_source_sha256": "9" * 64,
+            "execution_authorized": False,
+            "resource_reservation": {"expires_at_unix_seconds": 2},
+            "source_inputs": [*old["source_inputs"], {"path": "reports/review.json", "sha256": "a" * 64}],
+            "tools": {
+                **old["tools"],
+                "runner": {"path": current_runner, "sha256": "b" * 64, "version": "harness"},
+            },
+            "groups": new_groups,
+            "generator": {"path": "scripts/prepare-release-v092.py", "source_sha256": "c" * 64},
+            "path_replacements": {"/historical/harness": current_runner},
+            "qualifications": {"bifrost": {"status": "pending", "execution_eligible": False, "groups": []}},
+        }
+        return old, current
+
+    def test_prospective_successor_accepts_only_pending_qualifications(self):
+        old, current = self.plans()
+        executor._assert_successor_contract_equivalent(old, current)
+        current["qualifications"]["bifrost"]["execution_eligible"] = True
+        with self.assertRaisesRegex(executor.ReleaseError, "remain pending and ineligible"):
+            executor._assert_successor_contract_equivalent(old, current)
+
+    def test_authorized_successor_must_preserve_exact_qualifications(self):
+        old, current = self.plans()
+        current["execution_authorized"] = True
+        current["qualifications"] = json.loads(json.dumps(old["qualifications"]))
+        executor._assert_successor_contract_equivalent(old, current)
+        current["qualifications"]["bifrost"]["status"] = "qualified"
+        with self.assertRaisesRegex(executor.ReleaseError, "exact reviewed qualifications"):
+            executor._assert_successor_contract_equivalent(old, current)
+
+    def test_successor_rejects_path_replacement_and_budget_drift(self):
+        old, current = self.plans()
+        current["path_replacements"]["/unrelated"] = "/tmp/changed"
+        with self.assertRaisesRegex(executor.ReleaseError, "path replacements"):
+            executor._assert_successor_contract_equivalent(old, current)
+        old, current = self.plans()
+        old["path_replacements"] = {}
+        current["path_replacements"] = {}
+        with self.assertRaisesRegex(executor.ReleaseError, "exactly one replacement path"):
+            executor._assert_successor_contract_equivalent(old, current)
+        old, current = self.plans()
+        current["total_wall_budget_seconds"] += 1
+        with self.assertRaisesRegex(executor.ReleaseError, "budget field"):
+            executor._assert_successor_contract_equivalent(old, current)
+
+
+class PreanalysisFailureReplayTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name).resolve()
+        self.old_validated, self.row, self.ledger_rows, self.attempt = self._fixture()
+
+    def _fixture(self):
+        group_id = "bifrost-c-kernel"
+        attempt_id = f"{group_id}-attempt-01-series-01"
+        tool_path = "/tools/bifrost"
+        tool_binding = {
+            "path": tool_path,
+            "sha256": "1" * 64,
+            "version": "0.13.1",
+            "report_version": "bifrost 0.13.1",
+        }
+        group = {
+            "id": group_id,
+            "tool": "bifrost",
+            "argv": [tool_path, "--population", "v0.9.0", "run-bifrost-c-kernel"],
+            "environment": {"PATH": "/usr/bin"},
+            "output_roots": ["reports/bifrost-c-kernel.json", "reports/raw/bifrost-c-kernel"],
+            "case_ids": ["dfb-taint-c-direct-positive"],
+            "deadline_seconds": 600,
+        }
+        normalized_group = {"id": group_id, "identity_components": []}
+        qualification = {
+            "status": "measurement-with-known-limits",
+            "execution_eligible": True,
+            "groups": [group_id],
+        }
+        source_commit = "2" * 40
+        plan_commit = "3" * 40
+        contract_sha = "4" * 64
+        runner_sha = "5" * 64
+        fixture_revision = "sha256:" + "6" * 64
+        population = {"path": "populations/v0.9.0.json", "sha256": "7" * 64}
+        cache = self.root / Path(*executor.CACHE_ROOT.parts) / "series-01" / group_id / "attempt-01"
+        execution = self.root / Path(*executor.EXECUTION_ROOT.parts) / "series-01" / group_id / "attempt-01"
+        attempt = self.root / Path(*executor.ATTEMPTS_ROOT.parts) / attempt_id
+        started = {
+            "schema_version": 1,
+            "release": "v0.9.2",
+            "execution_series": 1,
+            "group_id": group_id,
+            "attempt_id": attempt_id,
+            "status": "started",
+            "start_utc": "2026-10-20T00:57:00.680937+00:00",
+            "end_utc": None,
+            "source_commit": source_commit,
+            "plan_commit": plan_commit,
+            "contract_sha256": contract_sha,
+            "runner_source_sha256": runner_sha,
+            "fixture_revision": fixture_revision,
+            "population": population,
+            "tool": "bifrost",
+            "tool_binding": tool_binding,
+            "identity_components": [],
+            "swift_plan": None,
+            "joern_plan": None,
+            "qualification": qualification,
+            "source_inputs": [],
+            "cache_root": str(cache),
+            "argv": group["argv"],
+            "environment": executor._child_environment(group, execution, attempt, cache),
+            "execution_root": str(execution),
+            "output_roots": group["output_roots"],
+            "case_ids": group["case_ids"],
+            "deadline_seconds": 600,
+            "started_receipt": "started.json",
+        }
+        stdout = (
+            b"validated 1108 cases\n"
+            b"validated 6 real-project pin records\n"
+            b"validated 219 real-project R2 frame candidates\n"
+            b"validated 6 real-project R2 selections\n"
+            b"validated 6 real-project R2 selected repositories\n"
+            b"validated 6 real-project R2 pin records\n"
+            b"validated 616 real-project R2 review-packet artifacts\n"
+        )
+        stderr = (
+            f'Error: the Bifrost binary at {tool_path} witnessed version '
+            '"bifrost 0.13.1\\nbuiltin-policy-catalog '
+            'sha256=f9d3b4efcf20e0ca8e8a976d6524556f114f4a4ccab3f4b0cc761f0b9248d206", '
+            'but profile v0.9.2 pins bifrost 0.13.1; refusing to publish a report for another release\n'
+        ).encode()
+        row = {
+            **started,
+            "status": "recorder-error",
+            "end_utc": "2026-10-20T00:57:38.816557+00:00",
+            "exit_code": 1,
+            "timed_out": False,
+            "duration_seconds": 2.5612819999999985,
+            "capacity_loss": None,
+            "stdout": {"path": "stdout.txt", "sha256": executor._sha(stdout), "bytes": len(stdout)},
+            "stderr": {"path": "stderr.txt", "sha256": executor._sha(stderr), "bytes": len(stderr)},
+            "captured_files": [],
+            "failed_staging_artifacts": [],
+            "reports": [],
+            "recorder_error": (
+                "ReleaseError: declared output root is missing or symlinked: "
+                f"{execution / group['output_roots'][0]}"
+            ),
+            "process_ownership": {
+                "schema": "invocation-process-ownership/v1",
+                "root_pid": 123,
+                "tracking_interval_seconds": 2.0,
+                "tracked_processes": [{"pid": 123, "start_identity": "1792457828:810498"}],
+                "signals_sent": [],
+                "descendant_containment": "unproven",
+                "cleanup_status": "tracked-processes-stopped",
+            },
+        }
+        attempt.mkdir(parents=True)
+        (attempt / "started.json").write_bytes(executor._json_bytes(started))
+        (attempt / "completed.json").write_bytes(executor._json_bytes(row))
+        (attempt / "stdout.txt").write_bytes(stdout)
+        (attempt / "stderr.txt").write_bytes(stderr)
+        old_validated = {
+            "repo_root": self.root,
+            "plan": {
+                "source_commit": source_commit,
+                "runner_source_sha256": runner_sha,
+                "execution_series": 1,
+                "population": population,
+                "groups": [group],
+            },
+            "bytes_sha256": contract_sha,
+            "fixture_revision": fixture_revision,
+            "tools": {"bifrost": tool_binding},
+            "qualification": {"bifrost": qualification},
+            "source_inputs": [],
+            "groups": [normalized_group],
+        }
+        line_sha = executor._sha(executor._json_bytes(row))
+        return old_validated, row, [(row, line_sha)], attempt
+
+    def test_exact_preanalysis_failure_replays(self):
+        replayed = executor._verify_preanalysis_bifrost_failure(
+            self.old_validated, "3" * 40, self.row["attempt_id"],
+            self.ledger_rows[0][1], self.ledger_rows,
+        )
+        self.assertEqual(replayed["ledger_line_sha256"], self.ledger_rows[0][1])
+        self.assertEqual(replayed["streams"]["stderr"]["bytes"], self.row["stderr"]["bytes"])
+
+    def test_prior_ledger_reader_accepts_executor_compact_encoding_only(self):
+        ledger = self.root / Path(*executor.LEDGER_PATH.parts)
+        compact = (json.dumps(self.row, sort_keys=True, separators=(",", ":")) + "\n").encode()
+        ledger.parent.mkdir(parents=True, exist_ok=True)
+        ledger.write_bytes(compact)
+        self.assertEqual(executor._read_prior_ledger(self.root)[0][1], executor._sha(compact))
+        ledger.write_bytes((json.dumps(self.row, sort_keys=True) + "\n").encode())
+        with self.assertRaisesRegex(executor.ReleaseError, "not canonical JSON"):
+            executor._read_prior_ledger(self.root)
+
+    def test_preanalysis_failure_replay_rejects_tampered_version_stream(self):
+        (self.attempt / "stderr.txt").write_bytes(b"different witness\n")
+        with self.assertRaisesRegex(executor.ReleaseError, "exact version-gate witness"):
+            executor._verify_preanalysis_bifrost_failure(
+                self.old_validated, "3" * 40, self.row["attempt_id"],
+                self.ledger_rows[0][1], self.ledger_rows,
+            )
+
+    def test_preanalysis_failure_replay_rejects_analyzer_output(self):
+        output = Path(self.row["execution_root"]) / self.row["output_roots"][0]
+        output.parent.mkdir(parents=True)
+        output.write_text("{}");
+        with self.assertRaisesRegex(executor.ReleaseError, "unexpectedly produced its report"):
+            executor._verify_preanalysis_bifrost_failure(
+                self.old_validated, "3" * 40, self.row["attempt_id"],
+                self.ledger_rows[0][1], self.ledger_rows,
+            )
+
+    def test_preanalysis_failure_replay_requires_exact_completion_receipt(self):
+        (self.attempt / "completed.json").write_text("{}\n")
+        with self.assertRaisesRegex(executor.ReleaseError, "completed receipt differs"):
+            executor._verify_preanalysis_bifrost_failure(
+                self.old_validated, "3" * 40, self.row["attempt_id"],
+                self.ledger_rows[0][1], self.ledger_rows,
+            )
 
 
 if __name__ == "__main__":

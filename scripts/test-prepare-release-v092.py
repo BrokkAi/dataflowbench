@@ -239,6 +239,33 @@ class ContractGeneratorTests(unittest.TestCase):
             generator.build_contract(self.bindings, "b" * 64, repo_root=self.root)
         self.assertEqual(path.read_bytes(), original)
 
+    def test_successor_output_requires_an_explicit_single_predecessor(self):
+        relative, destination = generator._contract_output(self.bindings, None, self.root)
+        self.assertEqual(relative, generator.OUTPUT)
+        self.assertEqual(destination, self.root / generator.OUTPUT)
+
+        successor_bindings = {
+            **self.bindings,
+            "prior_failed_contracts": [{
+                "path": executor.ARCHIVED_FAILED_CONTRACT_PATH.as_posix(),
+                "sha256": "a" * 64,
+                "plan_commit": "b" * 40,
+                "attempts": [{
+                    "attempt_id": "bifrost-c-kernel-attempt-01-series-01",
+                    "ledger_line_sha256": "c" * 64,
+                }],
+            }],
+        }
+        relative, destination = generator._contract_output(successor_bindings, None, self.root)
+        self.assertEqual(relative, generator.OUTPUT_V2)
+        self.assertEqual(destination, self.root / generator.OUTPUT_V2)
+        with self.assertRaisesRegex(executor.ReleaseError, "canonical .*execution-v2"):
+            generator._contract_output(successor_bindings, self.root / generator.OUTPUT, self.root)
+        with self.assertRaisesRegex(executor.ReleaseError, "canonical .*execution-v1"):
+            generator._contract_output(self.bindings, self.root / generator.OUTPUT_V2, self.root)
+        with self.assertRaisesRegex(executor.ReleaseError, "exactly one prior"):
+            generator._contract_output({**self.bindings, "prior_failed_contracts": []}, None, self.root)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -41,6 +41,11 @@ EXECUTION_ROOT = PurePosixPath("execution-state/v092/groups")
 CACHE_ROOT = PurePosixPath("execution-state/v092/cache")
 ATTEMPTS_ROOT = PurePosixPath("reports/releases/v0.9.2/attempts")
 LEDGER_PATH = PurePosixPath("reports/releases/v0.9.2/ledger-v1.jsonl")
+V1_CONTRACT_PATH = PurePosixPath("reports/releases/v0.9.2/execution-v1/contract.json")
+V2_CONTRACT_PATH = PurePosixPath("reports/releases/v0.9.2/execution-v2/contract.json")
+ARCHIVED_FAILED_CONTRACT_PATH = PurePosixPath(
+    "reports/releases/v0.9.2/acquisition/failed-contract-01.json"
+)
 NORMAL_ROOT = PurePosixPath("reports/releases/v0.9.2/normal")
 SAFE_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\Z")
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
@@ -194,6 +199,18 @@ def _git_show(root: Path, commit: str, relative: str) -> bytes:
         )
     except (OSError, subprocess.CalledProcessError) as exc:
         raise ReleaseError(f"source commit lacks {relative}") from exc
+
+
+def _require_ancestor(root: Path, ancestor: str, descendant: str, description: str) -> None:
+    if not COMMIT.fullmatch(ancestor) or not COMMIT.fullmatch(descendant):
+        raise ReleaseError(f"{description} must use exact Git commits")
+    try:
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", ancestor, descendant],
+            cwd=root, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise ReleaseError(f"{description} is not an ancestor") from exc
 
 
 def _assert_source_snapshot(
@@ -818,17 +835,546 @@ def _validate_joern_common_plan(group: Mapping[str, object], repo_root: Path) ->
     return relative.as_posix(), _sha(raw)
 
 
-def validate_plan(plan_path: str | Path, *, repo_root: str | Path | None = None) -> dict:
+def _assert_successor_contract_equivalent(old_plan: dict, current_plan: dict) -> None:
+    """Restrict v2 to the reviewed runner fix and exact same matrix contract."""
+    old_tools = old_plan.get("tools")
+    current_tools = current_plan.get("tools")
+    if not isinstance(old_tools, dict) or not isinstance(current_tools, dict):
+        raise ReleaseError("prior-failure contract has malformed tool bindings")
+    if set(old_tools) != set(current_tools) or "runner" not in old_tools:
+        raise ReleaseError("successor contract changed the bound tool alias set")
+    old_runner = old_tools["runner"]
+    current_runner = current_tools["runner"]
+    if not isinstance(old_runner, dict) or not isinstance(current_runner, dict):
+        raise ReleaseError("successor contract has malformed runner bindings")
+    if (old_runner.get("path") == current_runner.get("path") or
+            old_runner.get("sha256") == current_runner.get("sha256")):
+        raise ReleaseError("successor contract must bind a fresh, separately retained runner binary")
+    if ({key: value for key, value in old_runner.items() if key not in ("path", "sha256")} !=
+            {key: value for key, value in current_runner.items() if key not in ("path", "sha256")}):
+        raise ReleaseError("successor contract changed runner identity metadata beyond its fresh path and digest")
+    if ({key: value for key, value in old_tools.items() if key != "runner"} !=
+            {key: value for key, value in current_tools.items() if key != "runner"}):
+        raise ReleaseError("successor contract changed a pinned analyzer or runtime binding")
+
+    old_runner_path = old_runner.get("path")
+    current_runner_path = current_runner.get("path")
+    if not isinstance(old_runner_path, str) or not isinstance(current_runner_path, str):
+        raise ReleaseError("successor contract runner paths are malformed")
+    old_groups = old_plan.get("groups")
+    current_groups = current_plan.get("groups")
+    if (not isinstance(old_groups, list) or not isinstance(current_groups, list) or
+            len(old_groups) != 84 or len(current_groups) != 84):
+        raise ReleaseError("successor contract must preserve all 84 groups")
+    old_by_id = {item.get("id"): item for item in old_groups if isinstance(item, dict)}
+    current_by_id = {item.get("id"): item for item in current_groups if isinstance(item, dict)}
+    if set(old_by_id) != set(current_by_id) or len(old_by_id) != 84:
+        raise ReleaseError("successor contract changed group membership")
+    wrapper_groups = {"codeql-swift-common108", "joern-swift-common108"}
+    for group_id, old_group in old_by_id.items():
+        current_group = current_by_id[group_id]
+        old_argv = old_group.get("argv")
+        current_argv = current_group.get("argv")
+        if not isinstance(old_argv, list) or not isinstance(current_argv, list):
+            raise ReleaseError(f"{group_id}: successor command is malformed")
+        occurrences = sum(item == old_runner_path for item in old_argv)
+        if group_id in wrapper_groups:
+            if occurrences != 0:
+                raise ReleaseError(f"{group_id}: legacy wrapper unexpectedly uses the replaced runner path")
+            expected_argv = list(old_argv)
+        else:
+            if occurrences != 1:
+                raise ReleaseError(f"{group_id}: successor must replace exactly one runner path")
+            expected_argv = [current_runner_path if item == old_runner_path else item
+                             for item in old_argv]
+        if current_argv != expected_argv:
+            raise ReleaseError(f"{group_id}: successor changed arguments beyond the runner path")
+        old_without_argv = {key: value for key, value in old_group.items() if key != "argv"}
+        current_without_argv = {key: value for key, value in current_group.items() if key != "argv"}
+        if old_without_argv != current_without_argv:
+            raise ReleaseError(f"{group_id}: successor changed group membership, environment, or budget")
+
+    old_inputs = old_plan.get("source_inputs", [])
+    current_inputs = current_plan.get("source_inputs", [])
+    if not isinstance(old_inputs, list) or not isinstance(current_inputs, list):
+        raise ReleaseError("successor contract source input lists are malformed")
+    current_by_path = {
+        item.get("path"): item.get("sha256") for item in current_inputs if isinstance(item, dict)
+    }
+    if any(not isinstance(item, dict) or current_by_path.get(item.get("path")) != item.get("sha256")
+           for item in old_inputs):
+        raise ReleaseError("successor contract does not preserve every prior source-input digest")
+
+    old_replacements = old_plan.get("path_replacements")
+    current_replacements = current_plan.get("path_replacements")
+    if not isinstance(old_replacements, dict) or not isinstance(current_replacements, dict):
+        raise ReleaseError("successor contract path replacement maps are malformed")
+    if sum(value == old_runner_path for value in old_replacements.values()) != 1:
+        raise ReleaseError("prior contract must bind the runner at exactly one replacement path")
+    expected_replacements = {
+        key: (current_runner_path if value == old_runner_path else value)
+        for key, value in old_replacements.items()
+    }
+    if current_replacements != expected_replacements:
+        raise ReleaseError("successor contract changed path replacements beyond the exact runner path")
+
+    # The reservation and generated contract record are refreshed for the
+    # successor commit. All other matrix, qualification, runtime, and budget
+    # fields remain byte-for-byte equivalent as parsed JSON values.
+    excluded = {
+        "source_commit", "runner_source_sha256", "execution_authorized",
+        "resource_reservation", "source_inputs", "tools", "groups",
+        "generator", "prior_failed_contracts", "qualifications", "path_replacements",
+    }
+    old_rest = {key: value for key, value in old_plan.items() if key not in excluded}
+    current_rest = {key: value for key, value in current_plan.items() if key not in excluded}
+    if old_rest != current_rest:
+        raise ReleaseError("successor contract changed a pinned population, qualification, or budget field")
+    old_qualifications = old_plan.get("qualifications")
+    current_qualifications = current_plan.get("qualifications")
+    if not isinstance(old_qualifications, dict) or not isinstance(current_qualifications, dict):
+        raise ReleaseError("successor contract qualifications are malformed")
+    if current_plan.get("execution_authorized") is True:
+        if current_qualifications != old_qualifications:
+            raise ReleaseError("authorized successor changed the exact reviewed qualifications")
+    else:
+        pending = {
+            name: {"status": "pending", "execution_eligible": False, "groups": []}
+            for name in sorted(old_qualifications)
+        }
+        if current_qualifications != pending:
+            raise ReleaseError("prospective successor qualifications must all remain pending and ineligible")
+    old_generator = old_plan.get("generator")
+    current_generator = current_plan.get("generator")
+    if (not isinstance(old_generator, dict) or not isinstance(current_generator, dict) or
+            {key: value for key, value in old_generator.items() if key != "source_sha256"} !=
+            {key: value for key, value in current_generator.items() if key != "source_sha256"}):
+        raise ReleaseError("successor contract changed generator provenance beyond its source digest")
+
+
+def _read_prior_ledger(root: Path) -> list[tuple[dict, str]]:
+    path = root / Path(*LEDGER_PATH.parts)
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise ReleaseError(f"prior failure ledger is missing: {path}") from exc
+    rows = []
+    for number, line in enumerate(raw.splitlines(keepends=True), 1):
+        if not line.endswith(b"\n") or line == b"\n" or line.endswith(b"\r\n"):
+            raise ReleaseError(f"execution ledger line {number} is blank or non-canonical")
+        try:
+            row = json.loads(line[:-1])
+        except (UnicodeError, json.JSONDecodeError) as exc:
+            raise ReleaseError(f"execution ledger line {number} is invalid JSON") from exc
+        if not isinstance(row, dict):
+            raise ReleaseError(f"execution ledger line {number} must be an object")
+        canonical_line = (json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+        if line != canonical_line:
+            raise ReleaseError(f"execution ledger line {number} is not canonical JSON")
+        rows.append((row, _sha(line)))
+    return rows
+
+
+def _read_regular_receipt(path: Path, description: str, *, max_bytes: int = 1024 * 1024) -> tuple[dict, bytes]:
+    try:
+        info = path.lstat()
+        if not stat.S_ISREG(info.st_mode) or info.st_size > max_bytes:
+            raise ReleaseError(f"{description} is not a bounded regular file: {path}")
+        data = path.read_bytes()
+    except OSError as exc:
+        raise ReleaseError(f"cannot read {description} {path}: {exc}") from exc
+    try:
+        value = json.loads(data)
+    except (UnicodeError, json.JSONDecodeError) as exc:
+        raise ReleaseError(f"{description} is invalid JSON: {path}") from exc
+    if not isinstance(value, dict):
+        raise ReleaseError(f"{description} must be an object: {path}")
+    return value, data
+
+
+def _verify_preanalysis_bifrost_failure(
+    old_validated: dict,
+    old_plan_commit: str,
+    attempt_id: str,
+    ledger_line_sha256: str,
+    ledger_rows: Sequence[tuple[dict, str]],
+) -> dict:
+    """Replay the one explicitly admitted pre-analysis version-gate failure."""
+    group_id = "bifrost-c-kernel"
+    expected_attempt_id = f"{group_id}-attempt-01-series-01"
+    if attempt_id != expected_attempt_id:
+        raise ReleaseError("prior failure scope admits only the first Bifrost C kernel attempt")
+    matches = [(row, digest) for row, digest in ledger_rows if digest == ledger_line_sha256]
+    if len(matches) != 1:
+        raise ReleaseError("prior failure ledger-line digest is absent or ambiguous")
+    row, actual_line_sha256 = matches[0]
+    plan = old_validated["plan"]
+    group = next((item for item in plan["groups"] if item.get("id") == group_id), None)
+    normalized_group = next((item for item in old_validated["groups"] if item.get("id") == group_id), None)
+    if group is None or normalized_group is None:
+        raise ReleaseError("prior contract does not contain the admitted Bifrost C group")
+    attempt = old_validated["repo_root"] / Path(*ATTEMPTS_ROOT.parts) / attempt_id
+    execution = (old_validated["repo_root"] / Path(*EXECUTION_ROOT.parts) /
+                 "series-01" / group_id / "attempt-01")
+    cache = (old_validated["repo_root"] / Path(*CACHE_ROOT.parts) /
+             "series-01" / group_id / "attempt-01")
+
+    required = {
+        "schema_version": 1,
+        "release": RELEASE,
+        "execution_series": 1,
+        "group_id": group_id,
+        "attempt_id": attempt_id,
+        "status": "recorder-error",
+        "source_commit": plan["source_commit"],
+        "plan_commit": old_plan_commit,
+        "contract_sha256": old_validated["bytes_sha256"],
+        "runner_source_sha256": plan["runner_source_sha256"],
+        "fixture_revision": old_validated["fixture_revision"],
+        "population": plan["population"],
+        "tool": "bifrost",
+        "tool_binding": old_validated["tools"]["bifrost"],
+        "identity_components": [
+            _component_identity(alias, old_validated["tools"][alias])
+            for alias in normalized_group["identity_components"]
+        ],
+        "qualification": old_validated["qualification"]["bifrost"],
+        "source_inputs": old_validated["source_inputs"],
+        "swift_plan": None,
+        "joern_plan": None,
+        "cache_root": str(cache),
+        "argv": group["argv"],
+        "environment": _child_environment(group, execution, attempt, cache),
+        "execution_root": str(execution),
+        "output_roots": group["output_roots"],
+        "case_ids": group["case_ids"],
+        "deadline_seconds": group["deadline_seconds"],
+        "started_receipt": "started.json",
+        "exit_code": 1,
+        "timed_out": False,
+        "capacity_loss": None,
+        "captured_files": [],
+        "failed_staging_artifacts": [],
+        "reports": [],
+        "recorder_error": (
+            "ReleaseError: declared output root is missing or symlinked: "
+            f"{execution / Path(*PurePosixPath(group['output_roots'][0]).parts)}"
+        ),
+    }
+    for key, expected in required.items():
+        if row.get(key) != expected:
+            raise ReleaseError(f"prior Bifrost version-gate receipt differs from its contract: {key}")
+    duration = row.get("duration_seconds")
+    if (type(duration) not in (int, float) or not math.isfinite(duration) or
+            duration < 0 or duration >= group["deadline_seconds"]):
+        raise ReleaseError("prior Bifrost version-gate duration is invalid")
+    ownership = row.get("process_ownership")
+    if (not isinstance(ownership, dict) or
+            set(ownership) != {"schema", "root_pid", "tracking_interval_seconds", "tracked_processes",
+                               "signals_sent", "descendant_containment", "cleanup_status"} or
+            ownership.get("schema") != "invocation-process-ownership/v1" or
+            type(ownership.get("root_pid")) is not int or ownership["root_pid"] <= 0 or
+            ownership.get("tracking_interval_seconds") != 2.0 or
+            ownership.get("descendant_containment") != "unproven" or
+            ownership.get("cleanup_status") != "tracked-processes-stopped" or
+            ownership.get("signals_sent") != []):
+        raise ReleaseError("prior Bifrost version-gate process cleanup is not terminal")
+    tracked = ownership.get("tracked_processes")
+    if (not isinstance(tracked, list) or len(tracked) != 1 or
+            not isinstance(tracked[0], dict) or
+            set(tracked[0]) != {"pid", "start_identity"} or
+            tracked[0].get("pid") != ownership["root_pid"] or
+            not isinstance(tracked[0].get("start_identity"), str) or
+            not re.fullmatch(r"[0-9]+:[0-9]+", tracked[0]["start_identity"])):
+        raise ReleaseError("prior Bifrost version-gate process ownership evidence is malformed")
+    expected_row_keys = {
+        "schema_version", "release", "execution_series", "group_id", "attempt_id", "status",
+        "start_utc", "end_utc", "source_commit", "plan_commit", "contract_sha256",
+        "runner_source_sha256", "fixture_revision", "population", "tool", "tool_binding",
+        "identity_components", "swift_plan", "joern_plan", "qualification", "source_inputs",
+        "cache_root", "argv", "environment", "execution_root", "output_roots", "case_ids",
+        "deadline_seconds", "started_receipt", "exit_code", "timed_out", "duration_seconds",
+        "capacity_loss", "stdout", "stderr", "captured_files", "failed_staging_artifacts",
+        "reports", "recorder_error", "process_ownership",
+    }
+    if set(row) != expected_row_keys:
+        raise ReleaseError("prior Bifrost version-gate receipt has unreviewed fields")
+    try:
+        start_time = _datetime.datetime.fromisoformat(row["start_utc"])
+        end_time = _datetime.datetime.fromisoformat(row["end_utc"])
+        if start_time.tzinfo is None or end_time.tzinfo is None or end_time < start_time:
+            raise ValueError("invalid wall timestamps")
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ReleaseError("prior Bifrost version-gate timestamps are invalid") from exc
+
+    if old_validated["tools"]["bifrost"].get("version") != "0.13.1" or old_validated["tools"]["bifrost"].get("report_version") != "bifrost 0.13.1":
+        raise ReleaseError("prior Bifrost version-gate witness is not the pinned 0.13.1 identity")
+    stdout_expected = (
+        b"validated 1108 cases\n"
+        b"validated 6 real-project pin records\n"
+        b"validated 219 real-project R2 frame candidates\n"
+        b"validated 6 real-project R2 selections\n"
+        b"validated 6 real-project R2 selected repositories\n"
+        b"validated 6 real-project R2 pin records\n"
+        b"validated 616 real-project R2 review-packet artifacts\n"
+    )
+    stderr_expected = (
+        f'Error: the Bifrost binary at {old_validated["tools"]["bifrost"]["path"]} '
+        'witnessed version "bifrost 0.13.1\\nbuiltin-policy-catalog '
+        'sha256=f9d3b4efcf20e0ca8e8a976d6524556f114f4a4ccab3f4b0cc761f0b9248d206", '
+        'but profile v0.9.2 pins bifrost 0.13.1; refusing to publish a report for another release\n'
+    ).encode()
+    streams = {}
+    for field, expected in (("stdout", stdout_expected), ("stderr", stderr_expected)):
+        reference = row.get(field)
+        if not isinstance(reference, dict) or reference.get("path") != f"{field}.txt":
+            raise ReleaseError(f"prior Bifrost version-gate receipt lacks exact {field} binding")
+        try:
+            info = (attempt / (field + ".txt")).lstat()
+            actual = (attempt / (field + ".txt")).read_bytes()
+        except OSError as exc:
+            raise ReleaseError(f"cannot read prior Bifrost {field}: {exc}") from exc
+        if (not stat.S_ISREG(info.st_mode) or actual != expected or
+                reference.get("bytes") != len(actual) or reference.get("sha256") != _sha(actual)):
+            raise ReleaseError(f"prior Bifrost {field} differs from the exact version-gate witness")
+        streams[field] = {"sha256": _sha(actual), "bytes": len(actual)}
+
+    started, started_raw = _read_regular_receipt(attempt / "started.json", "prior started receipt")
+    if started.get("status") != "started" or started.get("end_utc") is not None:
+        raise ReleaseError("prior started receipt has an invalid state")
+    if any(row.get(key) != value for key, value in started.items()
+           if key not in ("status", "end_utc")):
+        raise ReleaseError("prior started receipt differs from its ledger completion")
+    if started_raw != _json_bytes(started):
+        raise ReleaseError("prior started receipt is not the exact canonical receipt file")
+    completed, completed_raw = _read_regular_receipt(attempt / "completed.json", "prior completed receipt")
+    if completed != row or completed_raw != _json_bytes(row):
+        raise ReleaseError("prior completed receipt differs from its exact ledger row")
+
+    # The ledger line digest binds the complete terminal row, including both
+    # streams, while these file checks prove the referenced bytes still exist.
+    actual_line = next((digest for candidate, digest in ledger_rows if candidate == row), None)
+    if actual_line != actual_line_sha256:
+        raise ReleaseError("prior ledger row changed during receipt replay")
+    capture = attempt / "capture"
+    if capture.exists() and (capture.is_symlink() or not capture.is_dir() or any(capture.iterdir())):
+        raise ReleaseError("prior Bifrost attempt contains unrecorded analyzer capture output")
+    staged = old_validated["repo_root"] / Path(*NORMAL_ROOT.parts) / "attempts" / attempt_id
+    if staged.exists() and (staged.is_symlink() or not staged.is_dir() or any(staged.iterdir())):
+        raise ReleaseError("prior Bifrost attempt contains unrecorded staged reports")
+    report_path = execution / Path(*PurePosixPath(group["output_roots"][0]).parts)
+    if report_path.exists() or report_path.is_symlink():
+        raise ReleaseError("prior Bifrost version-gate attempt unexpectedly produced its report")
+    raw_root = execution / Path(*PurePosixPath(group["output_roots"][1]).parts)
+    if raw_root.exists() and (raw_root.is_symlink() or not raw_root.is_dir() or any(raw_root.iterdir())):
+        raise ReleaseError("prior Bifrost version-gate attempt contains raw analyzer output")
+
+    return {
+        "attempt_id": attempt_id,
+        "ledger_line_sha256": actual_line_sha256,
+        "receipt_sha256": _sha(completed_raw),
+        "receipt_bytes": len(completed_raw),
+        "started_receipt_sha256": _sha(started_raw),
+        "started_receipt_bytes": len(started_raw),
+        "streams": streams,
+        "start_utc": row["start_utc"],
+    }
+
+
+def _verify_preanalysis_failure_review(
+    validated: dict,
+    old_validated: dict,
+    old_plan_commit: str,
+    old_contract_sha256: str,
+    attempt: dict,
+) -> None:
+    review_path = PurePosixPath(
+        "reports/releases/v0.9.2/qualification/bifrost-preanalysis-version-gate-failure-review-01.json"
+    )
+    inputs = {item["path"]: item["sha256"] for item in validated["source_inputs"]}
+    expected_sha = inputs.get(review_path.as_posix())
+    if not isinstance(expected_sha, str):
+        raise ReleaseError("successor source_inputs must bind the pre-analysis version-gate review")
+    root = validated["repo_root"]
+    path = root / Path(*review_path.parts)
+    review, raw = _read_regular_receipt(path, "pre-analysis version-gate review")
+    if _sha(raw) != expected_sha:
+        raise ReleaseError("pre-analysis version-gate review differs from its source-input digest")
+    if _git_show(root, validated["plan"]["source_commit"], review_path.as_posix()) != raw:
+        raise ReleaseError("successor source commit does not contain the exact version-gate review")
+    if (review.get("schema") != "v092-preanalysis-version-gate-failure-review/v1" or
+            review.get("attempt_id") != attempt["attempt_id"] or
+            review.get("status") != "recorder-error" or
+            review.get("case_analysis_ran") is not False or
+            review.get("ledger_line_sha256") != attempt["ledger_line_sha256"] or
+            review.get("original_start_utc") != attempt["start_utc"]):
+        raise ReleaseError("pre-analysis review does not replay the exact retained failure")
+    contract_ref = review.get("prior_contract")
+    expected_contract_ref = {
+        "path": ARCHIVED_FAILED_CONTRACT_PATH.as_posix(),
+        "sha256": old_contract_sha256,
+        "plan_commit": old_plan_commit,
+    }
+    if contract_ref != expected_contract_ref:
+        raise ReleaseError("pre-analysis review names a different prior contract")
+    expected_files = {
+        (ATTEMPTS_ROOT / attempt["attempt_id"] / "completed.json").as_posix():
+            (attempt["receipt_sha256"], attempt["receipt_bytes"]),
+        (ATTEMPTS_ROOT / attempt["attempt_id"] / "started.json").as_posix():
+            (attempt["started_receipt_sha256"], attempt["started_receipt_bytes"]),
+        (ATTEMPTS_ROOT / attempt["attempt_id"] / "stdout.txt").as_posix():
+            (attempt["streams"]["stdout"]["sha256"], attempt["streams"]["stdout"]["bytes"]),
+        (ATTEMPTS_ROOT / attempt["attempt_id"] / "stderr.txt").as_posix():
+            (attempt["streams"]["stderr"]["sha256"], attempt["streams"]["stderr"]["bytes"]),
+    }
+    entries = review.get("files")
+    if not isinstance(entries, list) or len(entries) != len(expected_files):
+        raise ReleaseError("pre-analysis review must bind exactly the four retained receipt and stream files")
+    found = {}
+    for entry in entries:
+        if not isinstance(entry, dict) or set(entry) != {"path", "sha256", "bytes"}:
+            raise ReleaseError("pre-analysis review file entry has an unknown or missing field")
+        file_path = entry["path"]
+        if file_path in found:
+            raise ReleaseError("pre-analysis review contains duplicate file entries")
+        found[file_path] = (entry["sha256"], entry["bytes"])
+    if found != expected_files:
+        raise ReleaseError("pre-analysis review file digests differ from independently replayed bytes")
+    constraints = review.get("constraints")
+    expected_constraints = {
+        "execution_series": old_validated["plan"]["execution_series"],
+        "maximum_attempts_per_group": 2,
+        "total_wall_budget_seconds": old_validated["total_wall_budget_seconds"],
+        "wall_origin_must_be_preserved": True,
+        "no_report_carry_forward": True,
+        "prior_failure_counts_as_attempt": True,
+    }
+    if constraints != expected_constraints:
+        raise ReleaseError("pre-analysis review does not preserve the original execution limits")
+
+
+def _validate_prior_failed_contracts(validated: dict) -> dict[str, dict]:
+    """Load and verify the one immutable v1 failure admitted by an execution-v2 successor."""
+    plan = validated["plan"]
+    references = plan.get("prior_failed_contracts")
+    if not isinstance(references, list) or len(references) != 1:
+        raise ReleaseError("execution-v2 must bind exactly one prior failed contract")
+    reference = references[0]
+    if not isinstance(reference, dict) or set(reference) != {"path", "sha256", "plan_commit", "attempts"}:
+        raise ReleaseError("prior_failed_contracts entry has an unknown or missing field")
+    if reference.get("path") != ARCHIVED_FAILED_CONTRACT_PATH.as_posix():
+        raise ReleaseError("successor contract may reference only the registered failed-contract-01 archive")
+    archive_sha = _bound_sha(reference.get("sha256"), "prior_failed_contracts.sha256")
+    plan_commit = reference.get("plan_commit")
+    if not isinstance(plan_commit, str) or not COMMIT.fullmatch(plan_commit):
+        raise ReleaseError("prior failed contract must bind its exact plan commit")
+    attempts = reference.get("attempts")
+    if (not isinstance(attempts, list) or len(attempts) != 1 or
+            not isinstance(attempts[0], dict) or
+            set(attempts[0]) != {"attempt_id", "ledger_line_sha256"}):
+        raise ReleaseError("prior failed contract must bind exactly one attempt and ledger-line digest")
+    attempt_ref = attempts[0]
+    attempt_id = attempt_ref.get("attempt_id")
+    if attempt_id != "bifrost-c-kernel-attempt-01-series-01":
+        raise ReleaseError("successor contract admits only the recorded first Bifrost C kernel failure")
+    line_sha = _bound_sha(attempt_ref.get("ledger_line_sha256"), "prior failed ledger line SHA-256")
+
+    root = validated["repo_root"]
+    archive_path = root / Path(*ARCHIVED_FAILED_CONTRACT_PATH.parts)
+    try:
+        info = archive_path.lstat()
+        archive_bytes = archive_path.read_bytes()
+    except OSError as exc:
+        raise ReleaseError(f"cannot read archived v1 contract: {exc}") from exc
+    if not stat.S_ISREG(info.st_mode) or _sha(archive_bytes) != archive_sha:
+        raise ReleaseError("archived v1 contract is not the exact digest-bound regular file")
+    canonical_v1 = V1_CONTRACT_PATH.as_posix()
+    if _git_show(root, plan_commit, canonical_v1) != archive_bytes:
+        raise ReleaseError("archived v1 contract differs from its committed canonical bytes")
+    _require_ancestor(root, plan_commit, plan["source_commit"],
+                      "prior execution-plan commit to successor source commit")
+    if _git_show(root, plan["source_commit"], ARCHIVED_FAILED_CONTRACT_PATH.as_posix()) != archive_bytes:
+        raise ReleaseError("successor source commit does not contain the exact archived v1 contract")
+
+    old_validated = validate_plan(archive_path, repo_root=root, _archived=True)
+    old_plan = old_validated["plan"]
+    if old_plan.get("prior_failed_contracts"):
+        raise ReleaseError("archived prior contract may not itself have predecessors")
+    _require_ancestor(root, old_plan["source_commit"], plan_commit,
+                      "prior source commit to prior execution-plan commit")
+    _require_ancestor(root, old_plan["source_commit"], plan["source_commit"],
+                      "prior source commit to successor source commit")
+    runner_source = _git_show(root, old_plan["source_commit"], "scripts/execute-release-v092.py")
+    if _sha(runner_source) != old_plan["runner_source_sha256"]:
+        raise ReleaseError("archived contract runner source differs from its own source commit")
+    for source_input in old_validated["source_inputs"]:
+        if _sha(_git_show(root, old_plan["source_commit"], source_input["path"])) != source_input["sha256"]:
+            raise ReleaseError(f"prior source input differs at its own source commit: {source_input['path']}")
+    _assert_successor_contract_equivalent(old_plan, plan)
+    current_inputs = {item["path"]: item["sha256"] for item in validated["source_inputs"]}
+    if any(current_inputs.get(item["path"]) != item["sha256"]
+           for item in old_validated["source_inputs"]):
+        raise ReleaseError("successor contract does not preserve all prior qualification and acquisition inputs")
+
+    ledger_rows = _read_prior_ledger(root)
+    old_digest = old_validated["bytes_sha256"]
+    if not ledger_rows or ledger_rows[0][1] != line_sha:
+        raise ReleaseError("admitted pre-analysis version-gate failure is not the first ledger line")
+    old_rows = [(row, digest) for row, digest in ledger_rows
+                if row.get("contract_sha256") == old_digest]
+    if len(old_rows) != 1 or old_rows[0][1] != line_sha:
+        raise ReleaseError("prior contract ledger history differs from its one declared failed attempt")
+    foreign_series_rows = [row for row, _digest in ledger_rows
+                           if row.get("execution_series") == plan["execution_series"] and
+                           row.get("contract_sha256") not in (old_digest, validated["bytes_sha256"])]
+    if foreign_series_rows:
+        raise ReleaseError("execution series contains an unregistered contract revision")
+    # The current revision may be resumed after new attempts. Every retained
+    # prior-revision row is forbidden except the one above; its own checker
+    # will validate all current-revision attempts against this contract.
+    replayed = _verify_preanalysis_bifrost_failure(
+        old_validated, plan_commit, attempt_id, line_sha, ledger_rows,
+    )
+    _verify_preanalysis_failure_review(
+        validated, old_validated, plan_commit, old_digest, replayed,
+    )
+    return {
+        old_digest: {
+            "validated": old_validated,
+            "plan_commit": plan_commit,
+            "attempts": [replayed],
+        }
+    }
+
+
+def validate_plan(
+    plan_path: str | Path,
+    *,
+    repo_root: str | Path | None = None,
+    _archived: bool = False,
+) -> dict:
     """Validate the immutable v0.9.2 execution contract without launching tools."""
     path = Path(plan_path).expanduser().resolve()
-    if path.name != "contract.json" or path.parts[-5:-1] != ("reports", "releases", "v0.9.2", "execution-v1"):
-        raise ReleaseError("contract must be reports/releases/v0.9.2/execution-v1/contract.json")
     root = Path(repo_root).expanduser().resolve() if repo_root is not None else _repo_root(path.parent)
     if not _under(path, root):
         raise ReleaseError("plan must be inside the execution repository")
+    relative_path = path.relative_to(root).as_posix()
+    if _archived:
+        if relative_path != ARCHIVED_FAILED_CONTRACT_PATH.as_posix():
+            raise ReleaseError("archived contract validation is limited to failed-contract-01.json")
+    elif relative_path not in (V1_CONTRACT_PATH.as_posix(), V2_CONTRACT_PATH.as_posix()):
+        raise ReleaseError("contract must be the canonical execution-v1 or execution-v2 contract")
     plan, plan_raw = _read_json(path, "release plan")
     if plan.get("schema_version") != 1 or plan.get("release") != RELEASE:
         raise ReleaseError("plan schema or release identity mismatch")
+    if _archived:
+        if plan.get("prior_failed_contracts"):
+            raise ReleaseError("archived predecessor contract may not itself have predecessors")
+    elif relative_path == V1_CONTRACT_PATH.as_posix():
+        if "prior_failed_contracts" in plan:
+            raise ReleaseError("execution-v1 contract cannot carry predecessor history")
+    elif not isinstance(plan.get("prior_failed_contracts"), list) or len(plan["prior_failed_contracts"]) != 1:
+        raise ReleaseError("execution-v2 contract must bind exactly one prior failed contract")
     if type(plan.get("execution_series")) is not int or plan["execution_series"] < 1:
         raise ReleaseError("contract must bind a positive execution_series")
     if not isinstance(plan.get("execution_authorized"), bool):
@@ -978,7 +1524,7 @@ def validate_plan(plan_path: str | Path, *, repo_root: str | Path | None = None)
     total_wall_budget = _wall_budget(plan)
     qualification = _qualification_gate(plan, root, tools, tool_components)
     source_inputs = _source_inputs(plan, root, qualification)
-    return {
+    result = {
         "path": str(path),
         "bytes_sha256": _sha(plan_raw),
         "repo_root": root,
@@ -997,6 +1543,11 @@ def validate_plan(plan_path: str | Path, *, repo_root: str | Path | None = None)
         "total_wall_budget_seconds": total_wall_budget,
         "groups": validated,
     }
+    if _archived or relative_path == V1_CONTRACT_PATH.as_posix():
+        result["prior_failed_contracts"] = {}
+    else:
+        result["prior_failed_contracts"] = _validate_prior_failed_contracts(result)
+    return result
 
 
 def _source_file(root: Path, commit: str, relative: str, expected: str) -> bytes:
@@ -1502,9 +2053,13 @@ def _ledger_rows(path: Path) -> list[dict]:
 def _matrix_elapsed_wall(validated: dict, *, now_seconds: float | None = None) -> float:
     """A resumed invocation retains the original series wall-clock ceiling."""
     rows = _ledger_rows(validated["repo_root"] / Path(*LEDGER_PATH.parts))
-    selected = [row for row in rows
-                if row.get("execution_series") == validated["plan"]["execution_series"]
-                and row.get("contract_sha256") == validated["bytes_sha256"]]
+    series = validated["plan"]["execution_series"]
+    registered_contracts = {validated["bytes_sha256"]}
+    registered_contracts.update(validated.get("prior_failed_contracts", {}).keys())
+    series_rows = [row for row in rows if row.get("execution_series") == series]
+    if any(row.get("contract_sha256") not in registered_contracts for row in series_rows):
+        raise ReleaseError("execution series has an unregistered contract revision")
+    selected = [row for row in series_rows if row.get("contract_sha256") in registered_contracts]
     if not selected:
         return 0.0
     starts = []

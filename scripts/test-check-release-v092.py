@@ -567,6 +567,271 @@ class RetrySelectionTests(unittest.TestCase):
             checker._validate_wall_budget(rows, 1800)
 
 
+class SuccessorContractSelectionTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.current_sha = "b" * 64
+        self.prior_sha = "c" * 64
+        self.current_commit = "d" * 40
+        self.prior_commit = "e" * 40
+        self.current_source = "f" * 40
+        self.prior_source = "a" * 40
+        self.receipt_sha = "9" * 64
+        groups = [
+            {
+                "id": "bifrost-c-kernel" if index == 0 else f"fixture-group-{index:03d}",
+                "tool": "bifrost",
+                "case_ids": [f"case-{index:03d}"],
+                "maximum_attempts": 2,
+            }
+            for index in range(checker.EXPECTED_GROUPS)
+        ]
+        budget = {"serial_analyzers": 1, "minimum_launch_free_gib": 125}
+        population = {"path": "populations/v0.9.0.json", "sha256": "5" * 64}
+        self.plan = {
+            "execution_series": 1,
+            "source_commit": self.current_source,
+            "groups": groups,
+            "resource_budget": budget,
+            "population": population,
+            "total_wall_budget_seconds": 100_000,
+        }
+        old_plan = {
+            **self.plan,
+            "source_commit": self.prior_source,
+            "groups": json.loads(json.dumps(groups)),
+        }
+        old_groups = [
+            {**group, "identity_components": [], "swift_plan": None, "joern_plan": None}
+            for group in old_plan["groups"]
+        ]
+        self.old_validated = {
+            "bytes_sha256": self.prior_sha,
+            "plan": old_plan,
+            "groups": old_groups,
+        }
+        old_group = groups[0]
+        old_row = {
+            "group_id": old_group["id"],
+            "attempt_id": "bifrost-c-kernel-attempt-01-series-01",
+            "execution_series": 1,
+            "plan_commit": self.prior_commit,
+            "source_commit": self.prior_source,
+            "contract_sha256": self.prior_sha,
+            "tool": old_group["tool"],
+            "case_ids": old_group["case_ids"],
+            "status": "recorder-error",
+            "exit_code": 1,
+            "timed_out": False,
+            "capacity_loss": None,
+            "reports": [],
+            "captured_files": [],
+            "failed_staging_artifacts": [],
+        }
+        old_line_sha = self._line_sha(old_row)
+        ref_attempt = {
+            "attempt_id": old_row["attempt_id"],
+            "ledger_line_sha256": old_line_sha,
+            "receipt_sha256": self.receipt_sha,
+        }
+        self.plan["prior_failed_contracts"] = [{
+            "path": "reports/releases/v0.9.2/acquisition/failed-contract-01.json",
+            "sha256": self.prior_sha,
+            "plan_commit": self.prior_commit,
+            "attempts": [{key: ref_attempt[key] for key in ("attempt_id", "ledger_line_sha256")}],
+        }]
+        self.prior = {
+            self.prior_sha: {
+                "validated": self.old_validated,
+                "plan_commit": self.prior_commit,
+                "attempts": [ref_attempt],
+            },
+        }
+        self.rows = [old_row]
+        for group in groups:
+            number = 2 if group["id"] == "bifrost-c-kernel" else 1
+            self.rows.append(self._row(group, number, "completed"))
+        self.ledger = [(row, self._line_sha(row)) for row in self.rows]
+
+    @staticmethod
+    def _line_sha(row):
+        raw = (json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode()
+        return hashlib.sha256(raw).hexdigest()
+
+    def _row(self, group, number, status):
+        return {
+            "group_id": group["id"],
+            "attempt_id": f"{group['id']}-attempt-{number:02d}-series-01",
+            "execution_series": 1,
+            "plan_commit": self.current_commit,
+            "source_commit": self.current_source,
+            "contract_sha256": self.current_sha,
+            "tool": group["tool"],
+            "case_ids": group["case_ids"],
+            "status": status,
+        }
+
+    def _select(self):
+        return checker._select_attempts(self.plan, self.current_sha, self.ledger, self.prior)
+
+    def _rehash_prior_row(self):
+        row = self.rows[0]
+        digest = self._line_sha(row)
+        self.ledger[0] = (row, digest)
+        self.plan["prior_failed_contracts"][0]["attempts"][0]["ledger_line_sha256"] = digest
+        self.prior[self.prior_sha]["attempts"][0]["ledger_line_sha256"] = digest
+
+    def test_successor_selects_only_current_completions_and_retains_old_failure(self):
+        plan_commit, selected, failures = self._select()
+        self.assertEqual(plan_commit, self.current_commit)
+        self.assertEqual(len(selected), checker.EXPECTED_GROUPS)
+        self.assertEqual(selected["bifrost-c-kernel"][2], 2)
+        self.assertEqual(len(failures), 1)
+        self.assertEqual(failures[0][0]["contract_sha256"], self.prior_sha)
+        self.assertEqual(failures[0][3], self.old_validated)
+        self.assertEqual(failures[0][4], self.prior_commit)
+        self.assertEqual(failures[0][5], self.receipt_sha)
+
+    def test_wrong_prior_contract_hash_is_rejected(self):
+        self.old_validated["bytes_sha256"] = "8" * 64
+        with self.assertRaisesRegex(checker.EvidenceError, "identity or committed plan"):
+            self._select()
+
+    def test_wrong_prior_ledger_line_hash_is_rejected(self):
+        self.plan["prior_failed_contracts"][0]["attempts"][0]["ledger_line_sha256"] = "7" * 64
+        self.prior[self.prior_sha]["attempts"][0]["ledger_line_sha256"] = "7" * 64
+        with self.assertRaisesRegex(checker.EvidenceError, "ledger line differs"):
+            self._select()
+
+    def test_wrong_prior_source_or_commit_is_rejected(self):
+        for field, value in (("source_commit", "8" * 40), ("plan_commit", "7" * 40)):
+            with self.subTest(field=field):
+                original = self.rows[0][field]
+                self.rows[0][field] = value
+                self._rehash_prior_row()
+                with self.assertRaisesRegex(checker.EvidenceError, f"mismatched {field}"):
+                    self._select()
+                self.rows[0][field] = original
+                self._rehash_prior_row()
+
+    def test_missing_registered_predecessor_failure_is_rejected(self):
+        self.ledger = self.ledger[1:]
+        with self.assertRaisesRegex(checker.EvidenceError, "declared prior failed attempts are absent"):
+            self._select()
+
+    def test_prior_contract_completion_is_never_selected(self):
+        self.rows[0]["status"] = "completed"
+        self._rehash_prior_row()
+        with self.assertRaisesRegex(checker.EvidenceError, "pre-analysis .* failure"):
+            self._select()
+
+    def test_predecessor_failure_consumes_the_second_and_final_attempt(self):
+        group = self.plan["groups"][0]
+        self.rows[1] = self._row(group, 3, "completed")
+        self.ledger[1] = (self.rows[1], self._line_sha(self.rows[1]))
+        with self.assertRaisesRegex(checker.EvidenceError, "attempt number or series"):
+            self._select()
+
+    def test_wall_budget_keeps_original_predecessor_start(self):
+        rows = [
+            ({"start_utc": "2026-10-20T10:00:00+00:00", "end_utc": "2026-10-20T10:00:01+00:00"}, "a" * 64),
+            ({"start_utc": "2026-10-20T10:30:00+00:00", "end_utc": "2026-10-20T10:30:01+00:00"}, "b" * 64),
+        ]
+        with self.assertRaisesRegex(checker.EvidenceError, "including pauses"):
+            checker._validate_wall_budget(rows, 1800)
+
+    def test_preanalysis_review_binds_exact_failure_and_attempt_files(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        root = Path(temporary.name).resolve()
+        attempt_id = "bifrost-c-kernel-attempt-01-series-01"
+        attempt_root = root / "reports/releases/v0.9.2/attempts" / attempt_id
+        attempt_root.mkdir(parents=True)
+        payloads = {
+            "completed.json": b"completed receipt\n",
+            "started.json": b"started receipt\n",
+            "stdout.txt": b"validated version\n",
+            "stderr.txt": b"version witness mismatch\n",
+        }
+        files = []
+        for name, data in payloads.items():
+            (attempt_root / name).write_bytes(data)
+            files.append({
+                "path": f"reports/releases/v0.9.2/attempts/{attempt_id}/{name}",
+                "sha256": hashlib.sha256(data).hexdigest(),
+                "bytes": len(data),
+            })
+        receipt = {
+            "attempt_id": attempt_id,
+            "start_utc": "2026-10-20T00:57:00.680937+00:00",
+        }
+        failure_summary = {
+            "attempt_id": attempt_id,
+            "status": "recorder-error",
+            "contract_sha256": self.prior_sha,
+            "plan_commit": self.prior_commit,
+            "ledger_line_sha256": "1" * 64,
+            "started_receipt_sha256": files[1]["sha256"],
+            "completed_receipt_sha256": files[0]["sha256"],
+            "stdout": {"sha256": files[2]["sha256"], "bytes": files[2]["bytes"]},
+            "stderr": {"sha256": files[3]["sha256"], "bytes": files[3]["bytes"]},
+        }
+        review = {
+            "schema": "v092-preanalysis-version-gate-failure-review/v1",
+            "attempt_id": attempt_id,
+            "status": "recorder-error",
+            "case_analysis_ran": False,
+            "basis": (
+                "stderr rejects exact two-line Bifrost version witness; stdout contains only validation "
+                "messages; no analyzer case outputs/report artifacts"
+            ),
+            "prior_contract": {
+                "path": "reports/releases/v0.9.2/acquisition/failed-contract-01.json",
+                "sha256": self.prior_sha,
+                "plan_commit": self.prior_commit,
+            },
+            "ledger_line_sha256": failure_summary["ledger_line_sha256"],
+            "original_start_utc": receipt["start_utc"],
+            "constraints": {
+                "execution_series": 1,
+                "maximum_attempts_per_group": 2,
+                "total_wall_budget_seconds": 100_000,
+                "wall_origin_must_be_preserved": True,
+                "no_report_carry_forward": True,
+                "prior_failure_counts_as_attempt": True,
+            },
+            "files": files,
+        }
+        review_path = root / checker.PREANALYSIS_FAILURE_REVIEW
+        review_path.parent.mkdir(parents=True)
+        review_bytes = json.dumps(review, sort_keys=True).encode()
+        review_path.write_bytes(review_bytes)
+        current_validated = {"source_inputs": [{
+            "path": checker.PREANALYSIS_FAILURE_REVIEW.as_posix(),
+            "sha256": hashlib.sha256(review_bytes).hexdigest(),
+        }]}
+        prior_validated = {"plan": {
+            "execution_series": 1,
+            "total_wall_budget_seconds": 100_000,
+        }}
+
+        self.assertEqual(
+            checker._verify_preanalysis_failure_review(
+                root, current_validated, prior_validated, self.prior_sha,
+                self.prior_commit, receipt, failure_summary["ledger_line_sha256"], failure_summary,
+            ),
+            hashlib.sha256(review_bytes).hexdigest(),
+        )
+
+        review["case_analysis_ran"] = True
+        review_path.write_text(json.dumps(review, sort_keys=True))
+        current_validated["source_inputs"][0]["sha256"] = hashlib.sha256(review_path.read_bytes()).hexdigest()
+        with self.assertRaisesRegex(checker.EvidenceError, "exact prior version-gate attempt"):
+            checker._verify_preanalysis_failure_review(
+                root, current_validated, prior_validated, self.prior_sha,
+                self.prior_commit, receipt, failure_summary["ledger_line_sha256"], failure_summary,
+            )
+
+
 class FailedStagingInventoryTests(unittest.TestCase):
     def test_global_staging_inventory_keeps_recorder_leftovers_separate_from_selected_reports(self):
         selected = {"reports/releases/v0.9.2/normal/attempts/selected/report.json"}
