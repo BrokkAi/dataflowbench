@@ -20,6 +20,7 @@ PARENT_PLAN = PurePosixPath("reports/releases/v0.9.0/plan.json")
 OUTPUT = PurePosixPath("reports/releases/v0.9.2/execution-v1/contract.json")
 OUTPUT_V2 = PurePosixPath("reports/releases/v0.9.2/execution-v2/contract.json")
 OUTPUT_V3 = PurePosixPath("reports/releases/v0.9.2/execution-v3/contract.json")
+OUTPUT_V4 = PurePosixPath("reports/releases/v0.9.2/execution-v4/contract.json")
 SCOPED_RECOVERY_PATH = PurePosixPath(
     "reports/releases/v0.9.2/qualification/scoped-recovery-01/manifest.json"
 )
@@ -63,7 +64,9 @@ def _contract_output(bindings: dict, output_path: str | Path | None, root: Path)
     has_scoped_recovery = "scoped_recovery" in bindings
     if has_prior and has_scoped_recovery:
         raise executor.ReleaseError("execution-v3 cannot combine a scoped recovery manifest with prior_failed_contracts")
-    expected_relative = OUTPUT_V3 if has_scoped_recovery else (OUTPUT_V2 if has_prior else OUTPUT)
+    expected_relative = OUTPUT_V4 if "resource_recovery" in bindings else (OUTPUT_V3 if has_scoped_recovery else (OUTPUT_V2 if has_prior else OUTPUT))
+    if "resource_recovery" in bindings and (not has_scoped_recovery or has_prior):
+        raise executor.ReleaseError("C4 must preserve scoped recovery and bind resource recovery")
     if has_scoped_recovery:
         reference = bindings.get("scoped_recovery")
         if (not isinstance(reference, dict) or set(reference) != {"path", "sha256"} or
@@ -200,6 +203,44 @@ def _build_c3_contract(
     return contract
 
 
+
+def _build_c4_contract(bindings, tools, runner_source_sha256, *, root, destination):
+    """Produce only the authorized resource successor of the immutable C3 contract."""
+    old, raw = _read_object(root / executor.ARCHIVED_RESOURCE_CONTRACT_03_PATH, "immutable C3 contract")
+    if hashlib.sha256(raw).hexdigest() != "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063":
+        raise executor.ReleaseError("C3 resource recovery archive digest changed")
+    if tools != old["tools"] or bindings.get("tool_components") != old["tool_components"]:
+        raise executor.ReleaseError("resource-only C4 cannot change analyzer or runner runtime bindings")
+    if bindings.get("scoped_recovery") != old["scoped_recovery"]:
+        raise executor.ReleaseError("C4 must preserve the original scoped recovery reference")
+    if bindings.get("path_replacements") != old["path_replacements"]:
+        raise executor.ReleaseError("C4 cannot change command path replacements")
+    contract = json.loads(json.dumps(old))
+    contract.update({
+        "source_commit":bindings["source_commit"],
+        "runner_source_sha256":runner_source_sha256,
+        "execution_authorized":False,
+        "source_inputs":bindings["source_inputs"],
+        "resource_reservation":bindings["resource_reservation"],
+        "resource_budget":dict(old["resource_budget"], minimum_launch_free_gib=110),
+        "resource_guards":{"stop_free_gib":48,"working_set_gib":12},
+        "resource_recovery":bindings["resource_recovery"],
+        "generator":{"path":"scripts/prepare-release-v092.py",
+                     "source_sha256":hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                     "status":"prospective-unapproved"},
+    })
+    if destination.exists() or destination.is_symlink():
+        raise executor.ReleaseError("C4 contract already exists; refusing replacement")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with destination.open("xb") as handle:
+        handle.write(_json_bytes(contract))
+        handle.flush()
+        os.fsync(handle.fileno())
+    # A refused prospective contract remains evidence in its fresh namespace.
+    executor.validate_plan(destination, repo_root=root)
+    return contract
+
+
 def _absolute_string(value: object, description: str) -> str:
     if not isinstance(value, str) or not value or not Path(value).is_absolute():
         raise executor.ReleaseError(f"{description} must be an absolute path")
@@ -299,6 +340,8 @@ def build_contract(
     tools, replacements, group_replacements, tool_components = _validate_bindings(bindings)
     for name, binding in tools.items():
         executor._check_tool_file(binding, name)
+    if "resource_recovery" in bindings:
+        return _build_c4_contract(bindings, tools, runner_source_sha256, root=root, destination=destination)
     if "scoped_recovery" in bindings:
         return _build_c3_contract(
             bindings,
@@ -587,8 +630,8 @@ def main(argv: list[str] | None = None) -> int:
     bindings, _ = _read_object(args.bindings, "bindings")
     contract = build_contract(bindings, args.runner_source_sha, output_path=args.output)
     print(json.dumps({
-        "path": (OUTPUT_V3 if "scoped_recovery" in bindings else
-                 (OUTPUT_V2 if "prior_failed_contracts" in bindings else OUTPUT)).as_posix(),
+        "path": (OUTPUT_V4 if "resource_recovery" in bindings else (OUTPUT_V3 if "scoped_recovery" in bindings else
+                 (OUTPUT_V2 if "prior_failed_contracts" in bindings else OUTPUT))).as_posix(),
         "execution_authorized": contract["execution_authorized"],
         "group_count": len(contract["groups"]),
         "report_partition_count": sum(len(group["reports"]) for group in contract["groups"]),

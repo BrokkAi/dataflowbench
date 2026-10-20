@@ -40,6 +40,52 @@ OUTCOMES = {"reached", "not-reached", "inconclusive", "unsupported", "runner-err
 FAILED_STATUSES = {"failed", "timed-out", "capacity-lost", "recorder-error"}
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 COMMIT = re.compile(r"[0-9a-f]{40}\Z")
+RESOURCE_GUARD_ERROR_CODES = {
+    "accounting_path_unavailable", "capacity_unavailable", "category_ceiling",
+    "copy_io_failed", "copy_write_failed", "file_unavailable", "invalid_budget",
+    "invalid_category", "invalid_path", "invalid_phase", "launch_floor", "missing_file",
+    "not_regular_file", "source_changed", "source_grew", "source_open_failed",
+    "source_plan_changed", "stop_floor", "symlink_accounting_path", "symlink_path",
+    "target_exists", "target_open_failed", "target_parent_unavailable", "target_unavailable",
+    "unsafe_target_parent", "unsupported_accounting_path",
+}
+RESOURCE_CAPACITY_ERROR_CODES = {
+    "capacity_unavailable", "category_ceiling", "launch_floor", "stop_floor",
+}
+RESOURCE_CAPACITY_ERROR_METADATA = {
+    "allowed_categories": list,
+    "accounting_paths": list,
+    "actual_projected_bytes": int,
+    "actual_signature": list,
+    "actual_size_bytes": int,
+    "additional_current_bytes": int,
+    "category": str,
+    "category_limit_bytes": int,
+    "capacity_path": str,
+    "copied_bytes": int,
+    "current_bytes": int,
+    "expected_projected_bytes": int,
+    "expected_signature": list,
+    "expected_size_bytes": int,
+    "field": str,
+    "free_bytes": int,
+    "mode": int,
+    "observed_size_bytes": int,
+    "partial_bytes": int,
+    "path": str,
+    "phase": str,
+    "post_write_free_bytes": int,
+    "protected_reserve_bytes": int,
+    "projected_bytes": int,
+    "required_free_bytes": int,
+    "result_type": str,
+    "role": str,
+    "source_path": str,
+    "stop_floor_bytes": int,
+    "target_path": str,
+    "total_projected_bytes": int,
+    "value": (str, int),
+}
 D8_VERSION_WITNESS_PATH = "reports/releases/v0.9.2/acquisition/d8-version-witness-01.json"
 D8_VERSION_WITNESS_SHA256 = "7aca9c89f40d14448aa11fe508e21bb6dda781595dcb7bdfa449358dea4829bb"
 D8_VERSION_LINE = (
@@ -55,6 +101,22 @@ SCOPED_C2_PLAN_COMMIT = "a180c302b56f2c18a1fdfbbd1bc14489151fc54e"
 SCOPED_C2_SOURCE_COMMIT = "21b76b747b72363aad4bbbc358fc2ae9aee24f1c"
 SCOPED_PREFIX_SHA256 = "48e5a5eb985fa3dde72c62dee2cfa55e6c291050c68d7c5b8b4212d970aebd29"
 SCOPED_PREFIX_BYTES = 7_738_871
+RESOURCE_RECOVERY_MANIFEST_PATH = (
+    RELEASE_ROOT / "qualification/resource-recovery-01/manifest.json"
+)
+RESOURCE_RECOVERY_PREFIX_PATH = (
+    RELEASE_ROOT / "qualification/resource-recovery-01/ledger-prefix.jsonl"
+)
+RESOURCE_C3_ARCHIVE_PATH = RELEASE_ROOT / "acquisition/resource-recovery-contract-03.json"
+RESOURCE_C3_CANONICAL_PATH = RELEASE_ROOT / "execution-v3/contract.json"
+RESOURCE_C1_SHA256 = SCOPED_C1_SHA256
+RESOURCE_C2_SHA256 = SCOPED_C2_SHA256
+RESOURCE_C3_SHA256 = "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063"
+RESOURCE_C3_PLAN_COMMIT = "216bbaaf6513f334a31111983bf6cd35de6232e2"
+RESOURCE_C3_SOURCE_COMMIT = "3b583cd10fd66f27977d17d43fb06afc5006f4c3"
+RESOURCE_PREFIX_SHA256 = "31ea08cf5f0fa04fe07697bb8d3683e2a313140e6e12e15fe7e7963a82cdc1f2"
+RESOURCE_PREFIX_BYTES = 16_086_045
+RESOURCE_PREFIX_LINES = 57
 CODEQL_NATIVE_PACKS = {
     "java": "1.11.12",
     "javascript": "2.4.7",
@@ -86,6 +148,26 @@ def _load_executor():
     spec = importlib.util.spec_from_file_location("execute_release_v092_for_checker", path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot load v0.9.2 executor: {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _load_resource_recovery_module():
+    path = Path(__file__).with_name("v092_resource_recovery.py")
+    spec = importlib.util.spec_from_file_location("v092_resource_recovery_for_checker", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"cannot load v0.9.2 resource recovery parser: {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _load_scoped_recovery_module():
+    path = Path(__file__).with_name("v092_scoped_recovery.py")
+    spec = importlib.util.spec_from_file_location("v092_scoped_recovery_for_checker", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"cannot load v0.9.2 scoped recovery parser: {path}")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -183,6 +265,68 @@ def _verify_process_ownership(group_id: str, status: str, ownership: object,
         _require(cleanup_status == "tracked-processes-stopped" and root_pid is not None and
                  tracked.get(root_pid) is not None and not errors,
                  f"{group_id}: completed attempt lacks confirmed tracked-process cleanup")
+
+
+def _verify_resource_guard_error(group_id: str, value: object, *, capacity_loss: bool) -> dict:
+    """Validate a typed C4 disk-guard failure receipt."""
+    _require(isinstance(value, dict) and {"code", "message"} <= set(value),
+             f"{group_id}: C4 capacity loss lacks its typed guard code and message")
+    code = value.get("code")
+    message = value.get("message")
+    allowed_codes = RESOURCE_CAPACITY_ERROR_CODES if capacity_loss else RESOURCE_GUARD_ERROR_CODES
+    _require(isinstance(code, str) and code in allowed_codes and
+             isinstance(message, str) and bool(message.strip()),
+             f"{group_id}: C4 disk-guard error has an unknown code or empty message")
+    _require(set(value) <= {"code", "message", *RESOURCE_CAPACITY_ERROR_METADATA},
+             f"{group_id}: C4 disk-guard error contains unknown metadata")
+    for key, item in value.items():
+        if key in ("code", "message"):
+            continue
+        expected_type = RESOURCE_CAPACITY_ERROR_METADATA[key]
+        if key == "value":
+            valid = ((isinstance(item, str) or type(item) is int))
+        elif key in {"expected_signature", "actual_signature"}:
+            valid = (isinstance(item, list) and len(item) == 5 and
+                     all(type(part) is int for part in item) and all(part >= 0 for part in item[:3]))
+        elif expected_type is list:
+            valid = isinstance(item, list) and all(isinstance(path, str) for path in item)
+        else:
+            valid = type(item) is expected_type and (expected_type is not str or bool(item.strip()))
+        _require(valid, f"{group_id}: C4 disk-guard metadata {key} has the wrong type")
+
+    required_metadata = {
+        "launch_floor": {"phase", "free_bytes", "required_free_bytes", "projected_bytes", "capacity_path"},
+        "stop_floor": {"phase", "free_bytes", "projected_bytes", "post_write_free_bytes",
+                        "required_free_bytes", "protected_reserve_bytes", "capacity_path"},
+        "category_ceiling": {"category", "current_bytes", "projected_bytes", "total_projected_bytes",
+                             "category_limit_bytes", "accounting_paths"},
+        "capacity_unavailable": {"capacity_path"},
+        "source_plan_changed": {"expected_projected_bytes", "actual_projected_bytes"},
+    }
+    _require(required_metadata.get(code, set()) <= set(value),
+             f"{group_id}: C4 disk-guard code lacks its required measurements")
+    if "phase" in value:
+        _require(value["phase"] in {"launch", "active"},
+                 f"{group_id}: C4 disk-guard phase is invalid")
+    for key, item in value.items():
+        if key in RESOURCE_CAPACITY_ERROR_METADATA and key not in {"mode", "value", "post_write_free_bytes"} and type(item) is int:
+            _require(item >= 0, f"{group_id}: C4 disk-guard measurement {key} is negative")
+    if "post_write_free_bytes" in value:
+        _require(code == "stop_floor",
+                 f"{group_id}: negative post-write capacity is valid only for a stop-floor refusal")
+    if code == "stop_floor":
+        _require(value["post_write_free_bytes"] == value["free_bytes"] - value["projected_bytes"] and
+                 value["post_write_free_bytes"] < value["required_free_bytes"],
+                 f"{group_id}: C4 stop-floor projection is arithmetically inconsistent")
+    elif code == "launch_floor":
+        _require(value["free_bytes"] < value["required_free_bytes"],
+                 f"{group_id}: C4 launch-floor measurement does not establish a refusal")
+    elif code == "category_ceiling":
+        _require(value["total_projected_bytes"] == value["current_bytes"] + value["projected_bytes"] and
+                 value["total_projected_bytes"] > value["category_limit_bytes"] and
+                 value.get("additional_current_bytes", 0) <= value["current_bytes"],
+                 f"{group_id}: C4 category-ceiling projection is arithmetically inconsistent")
+    return value
 
 
 def _sha(data: bytes) -> str:
@@ -760,6 +904,227 @@ def _select_scoped_recovery_attempts(
     return plan_commit, selected, failures
 
 
+def _select_resource_recovery_attempts(
+    plan: dict,
+    contract_sha256: str,
+    ledger_rows: list[tuple[dict, str]],
+    resource: dict,
+) -> tuple[str, dict[str, tuple], list[tuple]]:
+    """Select C4 attempts while retaining C2/C3 rows under their original contracts."""
+    planned = plan.get("groups")
+    _require(isinstance(planned, list), "C4 execution plan groups are malformed")
+    groups = {item.get("id"): item for item in planned if isinstance(item, dict)}
+    _require(len(groups) == len(planned) == EXPECTED_GROUPS,
+             "C4 execution plan must contain exactly 84 unique groups")
+    _require(isinstance(resource, dict), "executor did not return resource-recovery validation")
+    manifest = resource.get("manifest")
+    _require(isinstance(manifest, dict) and manifest.get("schema") == "v092-resource-recovery-manifest/v1",
+             "resource-recovery manifest is missing or has an unsupported schema")
+    manifest_sha = resource.get("manifest_sha256")
+    reference = plan.get("resource_recovery")
+    _require(isinstance(manifest_sha, str) and SHA256.fullmatch(manifest_sha) is not None and
+             isinstance(reference, dict) and set(reference) == {"path", "sha256"} and
+             reference.get("path") == RESOURCE_RECOVERY_MANIFEST_PATH.as_posix() and
+             reference.get("sha256") == manifest_sha,
+             "C4 plan does not bind the exact resource-recovery manifest")
+    _require(plan.get("execution_series") == 1 and
+             manifest.get("execution_series") == 1 and
+             plan.get("maximum_attempts_per_group", 2) == 2 and
+             manifest.get("maximum_attempts_per_group") == 2 and
+             manifest.get("original_wall_origin_utc") == "2026-10-20T00:57:00.680937+00:00" and
+             manifest.get("deadline_utc") == "2026-10-21T05:33:00.680937+00:00" and
+             manifest.get("total_wall_budget_seconds") == plan.get("total_wall_budget_seconds") == 102960,
+             "resource recovery changed the original deadline, wall budget, series, or attempt cap")
+
+    contexts = resource.get("contexts")
+    _require(isinstance(contexts, dict) and set(contexts) == {
+        RESOURCE_C1_SHA256, RESOURCE_C2_SHA256, RESOURCE_C3_SHA256,
+    }, "resource-recovery does not expose the exact original C1/C2/C3 contexts")
+    c3_validated = contexts[RESOURCE_C3_SHA256]["validated"]
+    c3_plan = c3_validated["plan"]
+    _require(c3_validated.get("bytes_sha256") == RESOURCE_C3_SHA256 and
+             contexts[RESOURCE_C3_SHA256].get("plan_commit") == RESOURCE_C3_PLAN_COMMIT and
+             c3_plan.get("source_commit") == RESOURCE_C3_SOURCE_COMMIT and
+             plan.get("tools") == c3_plan.get("tools") and
+             plan.get("tool_components") == c3_plan.get("tool_components") and
+             plan.get("scoped_recovery") == c3_plan.get("scoped_recovery"),
+             "C4 changed original C3 analyzer/runtime bindings or scoped history")
+    c3_groups = {group.get("id"): group for group in c3_plan.get("groups", [])
+                 if isinstance(group, dict)}
+    _require(set(c3_groups) == set(groups), "original C3 group set differs from C4")
+    for group_id, current_group in groups.items():
+        original_group = c3_groups[group_id]
+        for key in ("tool", "family", "case_ids", "maximum_attempts", "deadline_seconds",
+                    "output_roots", "argv", "environment"):
+            _require(current_group.get(key) == original_group.get(key),
+                     f"{group_id}: resource-only C4 changed the C3 {key}")
+
+    prefix_rows = resource.get("prefix_rows")
+    retained_completed = resource.get("retained_completed")
+    retained_failures = resource.get("retained_failures")
+    completed_manifest = manifest.get("retained_completed")
+    failures_manifest = manifest.get("retained_failures")
+    _require(isinstance(prefix_rows, list) and len(prefix_rows) == RESOURCE_PREFIX_LINES and
+             isinstance(retained_completed, dict) and len(retained_completed) == 55 and
+             isinstance(completed_manifest, list) and len(completed_manifest) == 55,
+             "resource-recovery must retain exactly 55 C2/C3 completed rows")
+    _require(isinstance(retained_failures, dict) and len(retained_failures) == 2 and
+             isinstance(failures_manifest, list) and len(failures_manifest) == 2,
+             "resource-recovery must retain exactly its two C1/C2 failures")
+    _require(ledger_rows[:RESOURCE_PREFIX_LINES] == prefix_rows and
+             len(ledger_rows) <= EXPECTED_GROUPS * MAX_ATTEMPTS_PER_GROUP,
+             "current ledger differs from the exact 57-row C1/C2/C3 prefix or exceeds the shared attempt cap")
+    if len(ledger_rows) > RESOURCE_PREFIX_LINES:
+        _require(all(row.get("contract_sha256") == contract_sha256
+                     for row, _line_sha in ledger_rows[RESOURCE_PREFIX_LINES:]),
+                 "ledger rows after the C1/C2/C3 prefix must belong only to the current C4 contract")
+
+    completed_by_group = {item.get("group_id"): item for item in completed_manifest if isinstance(item, dict)}
+    failures_by_id = {item.get("attempt_id"): item for item in failures_manifest if isinstance(item, dict)}
+    _require(len(completed_by_group) == 55 and len(failures_by_id) == 2 and
+             set(completed_by_group) == set(retained_completed) and
+             set(failures_by_id) == set(retained_failures),
+             "executor retained attempts differ from the exact resource-recovery roster")
+    by_line = {line_sha: row for row, line_sha in prefix_rows}
+    _require(len(by_line) == RESOURCE_PREFIX_LINES, "resource-recovery prefix contains duplicate rows")
+    contexts_by_sha = contexts
+    origins: dict[str, tuple[dict, str, str, bool, str | None]] = {}
+    expected_completed_by_contract = {RESOURCE_C2_SHA256: 0, RESOURCE_C3_SHA256: 0}
+    expected_failures = {
+        "bifrost-c-kernel-attempt-01-series-01": RESOURCE_C1_SHA256,
+        "codeql-java-modeling-attempt-01-series-01": RESOURCE_C2_SHA256,
+    }
+    for attempt_id, item in failures_by_id.items():
+        _require(item.get("contract_sha256") == expected_failures.get(attempt_id),
+                 "resource-recovery failure roster differs from the original C1/C2 failures")
+
+    for item in completed_manifest + failures_manifest:
+        line_sha = item.get("ledger_line_sha256")
+        row = by_line.get(line_sha)
+        _require(row is not None and all(item.get(key) == row.get(key) for key in (
+            "group_id", "attempt_id", "status", "contract_sha256", "source_commit", "plan_commit",
+        )), "resource-recovery roster entry is not the exact sealed ledger row")
+        context_sha = row.get("contract_sha256")
+        context = contexts_by_sha.get(context_sha)
+        _require(isinstance(context, dict) and isinstance(context.get("validated"), dict),
+                 "historical row has no matching validated C1/C2/C3 context")
+        old_validated = context["validated"]
+        old_plan = old_validated.get("plan", {})
+        _require(old_validated.get("bytes_sha256") == context_sha and
+                 context.get("plan_commit") == row.get("plan_commit") and
+                 old_plan.get("source_commit") == row.get("source_commit"),
+                 "historical row provenance differs from its validated original contract context")
+        attempt_number = int(row["attempt_id"].split("-attempt-", 1)[1][:2])
+        old_group = next((group for group in old_plan.get("groups", [])
+                          if isinstance(group, dict) and group.get("id") == row.get("group_id")), None)
+        _require(isinstance(old_group, dict), "historical row group is absent from its original contract")
+        current_group = groups[row["group_id"]]
+        for key in ("tool", "family", "case_ids", "maximum_attempts", "deadline_seconds", "output_roots"):
+            _require(old_group.get(key) == current_group.get(key),
+                     f"{row['group_id']}: historical and C4 plans differ in {key}")
+        if row["status"] == "completed":
+            _require(context_sha in expected_completed_by_contract,
+                     "only C2 and C3 completed measurements may be retained")
+            expected_completed_by_contract[context_sha] += 1
+            recovered = retained_completed.get(row["group_id"])
+            is_retained = True
+            expected_receipt_sha = item.get("completed_receipt", {}).get("sha256")
+        else:
+            _require(row["attempt_id"] in expected_failures and context_sha == expected_failures[row["attempt_id"]],
+                     "retained failure differs from the original C1/C2 failure pair")
+            recovered = retained_failures.get(row["attempt_id"])
+            is_retained = False
+            expected_receipt_sha = item.get("completed_receipt", {}).get("sha256")
+        _require(isinstance(recovered, dict) and recovered.get("row") == row and
+                 recovered.get("ledger_line_sha256") == line_sha and
+                 recovered.get("context_sha256") == context_sha and
+                 recovered.get("plan_commit") == context["plan_commit"] and
+                 recovered.get("attempt_number") == attempt_number,
+                 "executor retained record differs from its exact manifest roster entry")
+        origins[row["attempt_id"]] = (row, line_sha, context_sha, is_retained, expected_receipt_sha)
+    _require(expected_completed_by_contract == {RESOURCE_C2_SHA256: 25, RESOURCE_C3_SHA256: 30} and
+             set(origins) == {row["attempt_id"] for row, _line in prefix_rows} and
+             set(completed_by_group) == {row["group_id"] for row, _line in prefix_rows
+                                        if row.get("status") == "completed"},
+             "resource-recovery roster is not exactly 25 C2 plus 30 C3 completions and two failures")
+
+    c4_rows = [(row, line_sha) for row, line_sha in ledger_rows[RESOURCE_PREFIX_LINES:]]
+    _require(c4_rows, "C4 ledger has no fresh attempts after the sealed historical prefix")
+    plan_commits = {row.get("plan_commit") for row, _line_sha in c4_rows}
+    _require(len(plan_commits) == 1 and isinstance(next(iter(plan_commits)), str) and
+             COMMIT.fullmatch(next(iter(plan_commits))) is not None,
+             "C4 attempts were not dispatched from one exact committed contract")
+    plan_commit = next(iter(plan_commits))
+    source_commit = plan.get("source_commit")
+    _require(isinstance(source_commit, str) and COMMIT.fullmatch(source_commit) is not None,
+             "C4 execution plan lacks an exact source commit")
+
+    by_group: dict[str, list[tuple]] = collections.defaultdict(list)
+    failures: list[tuple] = []
+    counts: dict[str, int] = collections.Counter(row.get("group_id") for row, _line in prefix_rows)
+    for row, line_sha in prefix_rows:
+        attempt_id = row["attempt_id"]
+        context_sha = row["contract_sha256"]
+        context = contexts[context_sha]
+        old_validated = context["validated"]
+        old_plan = old_validated["plan"]
+        attempt_number = int(attempt_id.split("-attempt-", 1)[1][:2])
+        retained_record = origins[attempt_id]
+        if row.get("status") != "completed":
+            failures.append((row, line_sha, attempt_number, old_validated,
+                             context["plan_commit"], retained_record[4], context_sha))
+        by_group[row["group_id"]].append((row, line_sha, attempt_number, old_validated,
+                                          context["plan_commit"], context_sha, retained_record[3]))
+
+    for row, line_sha in c4_rows:
+        group_id = row.get("group_id")
+        _require(isinstance(group_id, str) and group_id in groups,
+                 f"C4 ledger contains unknown group id {group_id!r}")
+        counts[group_id] = counts.get(group_id, 0) + 1
+        expected_attempt_id = f"{group_id}-attempt-{counts[group_id]:02d}-series-01"
+        _require(row.get("attempt_id") == expected_attempt_id and counts[group_id] <= 2 and
+                 row.get("contract_sha256") == contract_sha256 and
+                 row.get("source_commit") == source_commit and
+                 row.get("plan_commit") == plan_commit and
+                 row.get("execution_series") == 1,
+                 f"{group_id}: C4 row changed original attempt numbering or source/contract identity")
+        group = groups[group_id]
+        for key, expected in (("tool", group.get("tool")), ("case_ids", group.get("case_ids"))):
+            _require(row.get(key) == expected, f"{group_id}: C4 row has mismatched {key}")
+        status = row.get("status")
+        _require(status == "completed" or status in FAILED_STATUSES,
+                 f"{group_id}: C4 attempt has an unknown or non-terminal status")
+        record = (row, line_sha, counts[group_id], None, plan_commit, contract_sha256, False)
+        by_group[group_id].append(record)
+        if status in FAILED_STATUSES:
+            failures.append((row, line_sha, counts[group_id], None, plan_commit, None, contract_sha256))
+
+    _require(set(by_group) == set(groups), "resource-recovery ledger does not contain every planned group")
+    selected: dict[str, tuple] = {}
+    for group_id, attempts in by_group.items():
+        numbers = [item[2] for item in attempts]
+        _require(numbers == list(range(1, len(attempts) + 1)) and len(attempts) <= MAX_ATTEMPTS_PER_GROUP,
+                 f"{group_id}: attempts are duplicated, missing, out of order, or exceed the shared limit")
+        completed_indexes = [index for index, item in enumerate(attempts)
+                             if item[0].get("status") == "completed"]
+        _require(len(completed_indexes) == 1 and completed_indexes[0] == len(attempts) - 1,
+                 f"{group_id}: expected one final completed attempt and no attempt after completion")
+        chosen = attempts[completed_indexes[0]]
+        if chosen[6]:
+            _require(chosen[5] in {RESOURCE_C2_SHA256, RESOURCE_C3_SHA256},
+                     f"{group_id}: retained completion is not an authorized C2/C3 row")
+        else:
+            _require(chosen[5] == contract_sha256,
+                     f"{group_id}: selected completion must belong to C4 or its retained C2/C3 roster")
+        _require(all(item[0].get("status") in FAILED_STATUSES
+                     for item in attempts[:completed_indexes[0]]),
+                 f"{group_id}: a non-failure attempt precedes its selected completion")
+        selected[group_id] = chosen
+    _require(len(selected) == EXPECTED_GROUPS,
+             "resource-recovery ledger does not select exactly one completion for all 84 groups")
+    return plan_commit, selected, failures
+
+
 def _verify_manifest_receipt_ref(item: dict, attempt_id: str, kind: str) -> None:
     key = f"{kind}_receipt"
     reference = item.get(key)
@@ -835,6 +1200,214 @@ def _verify_scoped_recovery_bundle(root: Path, validated: dict,
                      f"scoped-recovery manifest lacks a {kind} receipt entry")
             _bound(root, reference["path"], reference["sha256"], None,
                    f"scoped-recovery {kind} receipt")
+
+
+def _verify_resource_recovery_bundle(root: Path, validated: dict,
+                                     ledger_rows: list[tuple[dict, str]], resource: dict,
+                                     current_head: str) -> None:
+    """Independently parse the C4 packet and bind executor contexts to it."""
+    parser = _load_resource_recovery_module()
+    try:
+        packet = parser.validate_packet(
+            root, validated["plan"].get("resource_recovery"),
+        )
+    except parser.ResourceRecoveryError as exc:
+        raise EvidenceError(f"resource-recovery packet rejected: {exc}") from exc
+
+    plan = validated["plan"]
+    manifest = packet["manifest"]
+    _require(isinstance(resource, dict) and resource.get("manifest") == manifest and
+             resource.get("manifest_sha256") == packet["manifest_sha256"] and
+             resource.get("prefix_rows") == packet["prefix_rows"] and
+             resource.get("tail_rows") == packet["tail_rows"] and
+             resource.get("sealed_prefix_sha256") == RESOURCE_PREFIX_SHA256,
+             "executor resource-recovery result differs from the independently parsed packet")
+    _require(len(ledger_rows) >= RESOURCE_PREFIX_LINES and
+             ledger_rows[:RESOURCE_PREFIX_LINES] == packet["prefix_rows"] and
+             ledger_rows[RESOURCE_PREFIX_LINES:] == packet["tail_rows"],
+             "execution ledger differs from the exact resource-recovery prefix and tail")
+    _require(plan.get("execution_series") == 1 and
+             plan.get("maximum_attempts_per_group", 2) == MAX_ATTEMPTS_PER_GROUP and
+             plan.get("total_wall_budget_seconds") == manifest["total_wall_budget_seconds"] and
+             plan.get("resource_guards") == {"stop_free_gib": 48, "working_set_gib": 12},
+             "C4 plan changed the original series, retry cap, deadline budget, or resource guards")
+    c3_plan = packet["historical_contract"].get("resource_budget")
+    current_budget = plan.get("resource_budget")
+    _require(isinstance(c3_plan, dict) and isinstance(current_budget, dict) and
+             current_budget == dict(c3_plan, minimum_launch_free_gib=110) and
+             current_budget.get("protected_reserve_gib") == 40 and
+             current_budget.get("scratch_gib") == 24 and
+             current_budget.get("proposed_total_retention_ceiling_gib") == 24,
+             "C4 resource budget must preserve C3 limits except for the authorized 110 GiB launch floor")
+    _require(manifest.get("resource_budget") == {
+        key: current_budget[key] for key in (
+            "minimum_launch_free_gib", "protected_reserve_gib", "scratch_gib",
+            "proposed_total_retention_ceiling_gib",
+        )
+    }, "resource-recovery manifest differs from the C4 plan resource budget")
+
+    expected_source_inputs = {
+        plan["resource_recovery"]["path"]: plan["resource_recovery"]["sha256"],
+        manifest["authorization"]["path"]: manifest["authorization"]["sha256"],
+        manifest["ledger_prefix"]["path"]: manifest["ledger_prefix"]["sha256"],
+        manifest["historical_contract"]["path"]: manifest["historical_contract"]["sha256"],
+    }
+    source_inputs = {item.get("path"): item.get("sha256") for item in validated.get("source_inputs", [])
+                     if isinstance(item, dict)}
+    _require(all(source_inputs.get(path) == digest for path, digest in expected_source_inputs.items()),
+             "C4 source_inputs do not bind every exact resource-recovery packet artifact")
+    for relative, digest in expected_source_inputs.items():
+        try:
+            source_bytes = subprocess.check_output(
+                ["git", "show", f"{plan['source_commit']}:{relative}"],
+                cwd=root, stderr=subprocess.STDOUT,
+            )
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise EvidenceError(f"C4 source commit lacks resource-recovery input: {relative}") from exc
+        _require(_sha(source_bytes) == digest,
+                 f"C4 source commit differs from the exact resource-recovery input: {relative}")
+
+    c3_ref = manifest["historical_contract"]
+    _require(c3_ref == {
+        "path": RESOURCE_C3_ARCHIVE_PATH.as_posix(),
+        "sha256": RESOURCE_C3_SHA256,
+        "canonical_path": RESOURCE_C3_CANONICAL_PATH.as_posix(),
+        "plan_commit": RESOURCE_C3_PLAN_COMMIT,
+        "source_commit": RESOURCE_C3_SOURCE_COMMIT,
+    }, "resource-recovery manifest changed the original C3 contract identity")
+    archive = _bound(root, c3_ref["path"], c3_ref["sha256"], None, "archived original C3 contract")
+    archive_raw = archive.read_bytes()
+    _require(_sha(archive_raw) == RESOURCE_C3_SHA256 and
+             packet["historical_contract"] == json.loads(archive_raw),
+             "archived original C3 contract bytes differ from the independently parsed contract")
+    try:
+        canonical = subprocess.check_output(
+            ["git", "show", f"{RESOURCE_C3_PLAN_COMMIT}:{RESOURCE_C3_CANONICAL_PATH.as_posix()}"],
+            cwd=root, stderr=subprocess.STDOUT,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise EvidenceError("cannot independently read the original C3 canonical contract") from exc
+    _require(canonical == archive_raw, "C3 archive differs from its original canonical contract bytes")
+    _assert_ancestor(root, RESOURCE_C3_SOURCE_COMMIT, RESOURCE_C3_PLAN_COMMIT,
+                     "original C3 source-to-plan commit")
+    _assert_ancestor(root, RESOURCE_C3_PLAN_COMMIT, current_head, "original C3 plan commit")
+    _assert_ancestor(root, RESOURCE_C3_PLAN_COMMIT, plan["source_commit"],
+                     "original C3 plan to C4 source commit")
+    _assert_ancestor(root, RESOURCE_C3_SOURCE_COMMIT, plan["source_commit"],
+                     "original C3 source to C4 source commit")
+
+    historical_contract = packet["historical_contract"]
+    _require(plan.get("scoped_recovery") == historical_contract.get("scoped_recovery"),
+             "C4 must preserve the C3 scoped-recovery reference exactly")
+    contexts = resource.get("contexts")
+    expected_contexts = {
+        RESOURCE_C1_SHA256: (SCOPED_C1_PLAN_COMMIT, SCOPED_C1_SOURCE_COMMIT,
+                             "reports/releases/v0.9.2/acquisition/failed-contract-01.json"),
+        RESOURCE_C2_SHA256: (SCOPED_C2_PLAN_COMMIT, SCOPED_C2_SOURCE_COMMIT,
+                             "reports/releases/v0.9.2/acquisition/scoped-recovery-contract-02.json"),
+        RESOURCE_C3_SHA256: (RESOURCE_C3_PLAN_COMMIT, RESOURCE_C3_SOURCE_COMMIT,
+                             RESOURCE_C3_ARCHIVE_PATH.as_posix()),
+    }
+    _require(isinstance(contexts, dict) and set(contexts) == set(expected_contexts),
+             "executor resource-recovery result lacks the exact C1/C2/C3 historical contexts")
+    for contract_sha, (plan_commit, source_commit, archive_path) in expected_contexts.items():
+        entry = contexts.get(contract_sha)
+        _require(isinstance(entry, dict) and isinstance(entry.get("validated"), dict),
+                 "resource-recovery historical context is malformed")
+        old = entry["validated"]
+        _require(old.get("bytes_sha256") == contract_sha and
+                 entry.get("plan_commit") == plan_commit and
+                 old.get("plan", {}).get("source_commit") == source_commit and
+                 Path(old.get("path", "")).resolve() == (root / archive_path).resolve(),
+                 "resource-recovery historical context lost its original contract/source/plan identity")
+
+    c3_context = contexts[RESOURCE_C3_SHA256]["validated"]
+    c3_plan = c3_context.get("plan", {})
+    c3_source_inputs = c3_context.get("source_inputs")
+    _require(isinstance(c3_source_inputs, list) and c3_source_inputs,
+             "archived C3 context lacks its original source-input inventory")
+    _require(isinstance(c3_plan.get("runner_source_sha256"), str) and
+             SHA256.fullmatch(c3_plan["runner_source_sha256"]) is not None,
+             "archived C3 context lacks its original runner digest")
+    try:
+        c3_runner = subprocess.check_output(
+            ["git", "show", f"{RESOURCE_C3_SOURCE_COMMIT}:scripts/execute-release-v092.py"],
+            cwd=root, stderr=subprocess.STDOUT,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise EvidenceError("cannot independently read the original C3 runner") from exc
+    _require(_sha(c3_runner) == c3_plan["runner_source_sha256"],
+             "original C3 runner bytes differ from its historical receipt binding")
+    for source_input in c3_source_inputs:
+        _require(isinstance(source_input, dict) and isinstance(source_input.get("path"), str) and
+                 isinstance(source_input.get("sha256"), str) and
+                 SHA256.fullmatch(source_input["sha256"]) is not None,
+                 "archived C3 source-input inventory is malformed")
+        source_path = _relative(source_input["path"], "original C3 source-input path").as_posix()
+        try:
+            source_bytes = subprocess.check_output(
+                ["git", "show", f"{RESOURCE_C3_SOURCE_COMMIT}:{source_path}"],
+                cwd=root, stderr=subprocess.STDOUT,
+            )
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise EvidenceError(f"original C3 source input is absent at its origin commit: {source_path}") from exc
+        _require(_sha(source_bytes) == source_input["sha256"],
+                 f"original C3 source input differs at its origin commit: {source_path}")
+    c3_scoped = c3_context.get("scoped_recovery")
+    _require(isinstance(c3_scoped, dict) and isinstance(c3_scoped.get("manifest"), dict),
+             "archived C3 context lacks its original scoped-recovery validation")
+    scoped_parser = _load_scoped_recovery_module()
+    try:
+        c3_packet = scoped_parser.validate_packet(
+            root, historical_contract.get("scoped_recovery"),
+        )
+    except scoped_parser.ScopedRecoveryError as exc:
+        raise EvidenceError(f"original C3 scoped-recovery packet rejected: {exc}") from exc
+    _require(c3_scoped.get("manifest") == c3_packet["manifest"] and
+             c3_scoped.get("manifest_sha256") == c3_packet["manifest_sha256"] and
+             c3_scoped.get("prefix_rows") == c3_packet["prefix_rows"],
+             "archived C3 executor context differs from the independently parsed scoped-recovery packet")
+    _verify_scoped_recovery_bundle(
+        root, c3_context, packet["prefix_rows"], c3_scoped,
+    )
+    _verify_historical_contract_contexts(root, c3_scoped["manifest"], c3_scoped, current_head)
+
+    completed_manifest = manifest.get("retained_completed")
+    failures_manifest = manifest.get("retained_failures")
+    completed_map = resource.get("retained_completed")
+    failure_map = resource.get("retained_failures")
+    _require(isinstance(completed_manifest, list) and len(completed_manifest) == 55 and
+             isinstance(completed_map, dict) and len(completed_map) == 55,
+             "resource-recovery must retain exactly 55 validated completions")
+    _require(isinstance(failures_manifest, list) and len(failures_manifest) == 2 and
+             isinstance(failure_map, dict) and len(failure_map) == 2,
+             "resource-recovery must retain exactly two validated historical failures")
+    prefix_by_line = {line_sha: row for row, line_sha in packet["prefix_rows"]}
+    for item in completed_manifest + failures_manifest:
+        line_sha = item.get("ledger_line_sha256")
+        row = prefix_by_line.get(line_sha)
+        _require(row is not None and all(item.get(key) == row.get(key) for key in (
+            "group_id", "attempt_id", "status", "contract_sha256", "source_commit", "plan_commit",
+        )), "resource-recovery roster differs from an original sealed ledger row")
+        context_sha = row["contract_sha256"]
+        context = contexts[context_sha]
+        attempt_number = int(row["attempt_id"].split("-attempt-", 1)[1][:2])
+        if row["status"] == "completed":
+            recovered = completed_map.get(row["group_id"])
+            _require(isinstance(recovered, dict) and recovered.get("row") == row and
+                     recovered.get("ledger_line_sha256") == line_sha and
+                     recovered.get("context_sha256") == context_sha and
+                     recovered.get("plan_commit") == context["plan_commit"] and
+                     recovered.get("attempt_number") == attempt_number,
+                     "executor retained-completion map differs from the sealed historical roster")
+        else:
+            recovered = failure_map.get(row["attempt_id"])
+            _require(isinstance(recovered, dict) and recovered.get("row") == row and
+                     recovered.get("ledger_line_sha256") == line_sha and
+                     recovered.get("context_sha256") == context_sha and
+                     recovered.get("plan_commit") == context["plan_commit"] and
+                     recovered.get("attempt_number") == attempt_number,
+                     "executor retained-failure map differs from the sealed historical roster")
 
 
 def _verify_historical_contract_contexts(root: Path, manifest: dict, scoped: dict,
@@ -1668,6 +2241,16 @@ def _verify_failed_attempt(root: Path, validated: dict, group: dict, receipt: di
              f"series-{plan['execution_series']:02d}" / group_id /
              f"attempt-{attempt_number:02d}")
     status = receipt.get("status")
+    c4_attempt = ("resource_recovery" in plan and
+                  receipt.get("contract_sha256") == validated.get("bytes_sha256"))
+    c4_prelaunch_refusal = (
+        c4_attempt and status in {"capacity-lost", "recorder-error"} and
+        "process_ownership" not in receipt
+    )
+    c4_postprocess_capacity_failure = (
+        c4_attempt and status == "capacity-lost" and
+        "process_ownership" in receipt and "recorder_error" in receipt
+    )
     _require(status in FAILED_STATUSES, f"{group_id}: non-selected attempt is not a terminal failure")
     _require(receipt.get("schema_version") == 1 and receipt.get("release") == RELEASE,
              f"{group_id}: failed attempt receipt schema or release mismatch")
@@ -1716,21 +2299,44 @@ def _verify_failed_attempt(root: Path, validated: dict, group: dict, receipt: di
     allowed_receipt_fields = (set(expected_fields) | {
         "schema_version", "release", "status", "start_utc", "end_utc", "snapshot_git_head",
         "exit_code", "timed_out", "duration_seconds", "capacity_loss", "stdout", "stderr",
-        "captured_files", "reports", "recorder_error", "failed_staging_artifacts", "process_ownership",
+        "captured_files", "reports", "recorder_error", "disk_guard_error",
+        "failed_staging_artifacts", "process_ownership",
     })
     _require(set(receipt) <= allowed_receipt_fields,
              f"{group_id}: failed attempt receipt contains unknown fields")
+    if "disk_guard_error" in receipt:
+        _require(c4_attempt and status == "recorder-error",
+                 f"{group_id}: disk_guard_error is valid only on a C4 recorder-error receipt")
     if status == "recorder-error":
         _require({"recorder_error", "captured_files", "failed_staging_artifacts"} <= set(receipt),
                  f"{group_id}: recorder-error receipt is missing its error or capture inventory")
         _verify_process_ownership(group_id, status, receipt.get("process_ownership"), required=False)
+        if "disk_guard_error" in receipt:
+            _require(c4_attempt,
+                     f"{group_id}: legacy recorder-error contains C4 disk-guard metadata")
+            guard_error = _verify_resource_guard_error(
+                group_id, receipt["disk_guard_error"], capacity_loss=False,
+            )
+            _require(receipt.get("recorder_error") ==
+                     f"DiskGuardError: {guard_error['message']}",
+                     f"{group_id}: C4 recorder detail differs from its disk-guard error")
     else:
-        _verify_process_ownership(group_id, status, receipt.get("process_ownership"), required=True)
-        _require("failed_staging_artifacts" not in receipt,
-                 f"{group_id}: non-recorder failure contains recorder-only staging artifacts")
-        _require({"exit_code", "timed_out", "duration_seconds", "capacity_loss", "stdout", "stderr",
-                  "captured_files", "reports"} <= set(receipt),
-                 f"{group_id}: terminal process failure receipt is incomplete")
+        if c4_prelaunch_refusal:
+            _require({"exit_code", "timed_out", "duration_seconds", "capacity_loss", "stdout", "stderr",
+                      "captured_files", "reports", "recorder_error", "failed_staging_artifacts"} <= set(receipt),
+                     f"{group_id}: pre-launch C4 refusal receipt is incomplete")
+        elif c4_postprocess_capacity_failure:
+            _verify_process_ownership(group_id, status, receipt.get("process_ownership"), required=True)
+            _require({"exit_code", "timed_out", "duration_seconds", "capacity_loss", "stdout", "stderr",
+                      "captured_files", "reports", "recorder_error", "failed_staging_artifacts"} <= set(receipt),
+                     f"{group_id}: post-process C4 capacity receipt is incomplete")
+        else:
+            _verify_process_ownership(group_id, status, receipt.get("process_ownership"), required=True)
+            _require("failed_staging_artifacts" not in receipt,
+                     f"{group_id}: non-recorder failure contains recorder-only staging artifacts")
+            _require({"exit_code", "timed_out", "duration_seconds", "capacity_loss", "stdout", "stderr",
+                      "captured_files", "reports"} <= set(receipt),
+                     f"{group_id}: terminal process failure receipt is incomplete")
     _require(receipt.get("snapshot_git_head") in (None, plan["source_commit"]),
              f"{group_id}: failed attempt source snapshot differs from source_commit")
 
@@ -1760,13 +2366,47 @@ def _verify_failed_attempt(root: Path, validated: dict, group: dict, receipt: di
         _require(exit_code == 124 and timed_out is True and capacity_loss is None,
                  f"{group_id}: timed-out status contradicts its process result")
     elif status == "capacity-lost":
-        _require(type(exit_code) is int and type(timed_out) is bool and
-                 isinstance(capacity_loss, str) and bool(capacity_loss),
-                 f"{group_id}: capacity-lost status lacks the measured capacity failure")
+        if c4_attempt:
+            guard_error = _verify_resource_guard_error(
+                group_id, capacity_loss, capacity_loss=True,
+            )
+            if c4_prelaunch_refusal:
+                _require(exit_code == 125 and timed_out is False and
+                         type(receipt.get("duration_seconds")) in (int, float) and
+                         receipt["duration_seconds"] == 0,
+                         f"{group_id}: C4 pre-launch capacity sentinel claims an analyzer result")
+                _require(receipt.get("recorder_error") ==
+                         f"DiskGuardError: {guard_error['message']}" and
+                         receipt.get("snapshot_git_head") is None,
+                         f"{group_id}: C4 pre-launch capacity detail differs from its guard receipt")
+                _require(receipt.get("captured_files") == [] and receipt.get("reports") == [] and
+                         receipt.get("failed_staging_artifacts") == [],
+                         f"{group_id}: C4 pre-launch capacity receipt contains analyzer or staging evidence")
+            elif c4_postprocess_capacity_failure:
+                ownership = receipt["process_ownership"]
+                _require(exit_code == 0 and timed_out is False and
+                         ownership.get("cleanup_status") == "tracked-processes-stopped" and
+                         receipt.get("recorder_error") ==
+                         f"DiskGuardError: {guard_error['message']}" and
+                         receipt.get("reports") == [] and
+                         isinstance(receipt.get("failed_staging_artifacts"), list),
+                         f"{group_id}: C4 post-process capacity receipt contradicts completed analyzer/staging failure")
+        else:
+            _require(type(exit_code) is int and type(timed_out) is bool and
+                     isinstance(capacity_loss, str) and bool(capacity_loss),
+                     f"{group_id}: capacity-lost status lacks the measured capacity failure")
     else:
         recorder_error = receipt.get("recorder_error")
         _require(isinstance(recorder_error, str) and bool(recorder_error.strip()),
                  f"{group_id}: recorder-error status lacks its failure detail")
+        if c4_prelaunch_refusal:
+            _require(exit_code == 125 and timed_out is False and
+                     type(receipt.get("duration_seconds")) in (int, float) and
+                     receipt["duration_seconds"] == 0 and capacity_loss is None and
+                     receipt.get("snapshot_git_head") is None and
+                     receipt.get("captured_files") == [] and receipt.get("reports") == [] and
+                     receipt.get("failed_staging_artifacts") == [],
+                     f"{group_id}: C4 pre-launch recorder failure claims analyzer evidence")
     if status != "recorder-error":
         duration = receipt.get("duration_seconds")
         _require(type(duration) in (int, float) and math.isfinite(duration) and duration >= 0,
@@ -1788,6 +2428,9 @@ def _verify_failed_attempt(root: Path, validated: dict, group: dict, receipt: di
             "sha256": stream["sha256"],
             "bytes": stream["bytes"],
         }
+        if c4_prelaunch_refusal:
+            _require(stream["bytes"] == 0,
+                     f"{group_id}: C4 pre-launch refusal contains analyzer {field} output")
         allowed_attempt_files.add(stream["path"])
     allowed_attempt_files.update(f"capture/{relative}" for relative in captured)
 
@@ -1808,7 +2451,7 @@ def _verify_failed_attempt(root: Path, validated: dict, group: dict, receipt: di
         artifact_paths.append(relative)
     _require(len(artifact_paths) == len(set(artifact_paths)),
              f"{group_id}: duplicate failed staging artifact path")
-    _require((status == "recorder-error") or not artifact_paths,
+    _require((status == "recorder-error" or c4_postprocess_capacity_failure) or not artifact_paths,
              f"{group_id}: non-recorder failure retains staging artifacts")
 
     original_root = attempt / "original"
@@ -1838,7 +2481,7 @@ def _verify_failed_attempt(root: Path, validated: dict, group: dict, receipt: di
     _require(actual_attempt_files == allowed_attempt_files,
              f"{group_id}: failed attempt contains orphaned or unbound files")
 
-    return {
+    summary = {
         "group_id": group_id,
         "attempt_id": attempt_id,
         "attempt_number": attempt_number,
@@ -1862,6 +2505,11 @@ def _verify_failed_attempt(root: Path, validated: dict, group: dict, receipt: di
             )
         ],
     }
+    if c4_prelaunch_refusal:
+        summary["analyzer_started"] = False
+    elif c4_postprocess_capacity_failure:
+        summary["analyzer_started"] = True
+    return summary
 
 
 def _assert_attempt_directories(root: Path, attempt_ids: set[str]) -> None:
@@ -2055,8 +2703,25 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
     ledger_path = root / Path(*LEDGER_PATH.parts)
     ledger_rows = _read_ledger_with_hashes(ledger_path)
     scoped_mode = "scoped_recovery" in plan
+    resource_mode = "resource_recovery" in plan
+    _require(not (scoped_mode and resource_mode),
+             "execution contract cannot combine C3 scoped recovery and C4 resource recovery")
+    recovery_mode = scoped_mode or resource_mode
     scoped = validated.get("scoped_recovery") if scoped_mode else None
-    if scoped_mode:
+    resource = validated.get("resource_recovery") if resource_mode else None
+    if resource_mode:
+        try:
+            current_head = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=root, text=True, stderr=subprocess.STDOUT,
+            ).strip()
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise EvidenceError("cannot resolve current source HEAD for resource-recovery history") from exc
+        _require(isinstance(resource, dict), "C4 execution contract lacks validated resource-recovery context")
+        _verify_resource_recovery_bundle(root, validated, ledger_rows, resource, current_head)
+        plan_commit, selected_attempts, prior_failures = _select_resource_recovery_attempts(
+            plan, validated["bytes_sha256"], ledger_rows, resource,
+        )
+    elif scoped_mode:
         _require(isinstance(scoped, dict), "C3 execution contract lacks validated scoped-recovery context")
         _verify_scoped_recovery_bundle(root, validated, ledger_rows, scoped)
         plan_commit, selected_attempts, prior_failures = _select_scoped_recovery_attempts(
@@ -2096,7 +2761,7 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
     selected_summaries = []
     for group_id in sorted(selected_attempts):
         selected = selected_attempts[group_id]
-        if scoped_mode:
+        if recovery_mode:
             (receipt, ledger_line_sha256, attempt_number, origin_validated,
              origin_plan_commit, origin_contract_sha256, retained) = selected
             evidence_validated = origin_validated or validated
@@ -2114,8 +2779,9 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
             root, evidence_validated, group, receipt, origin_plan_commit, attempt_number,
         )
         completed_bytes = (root / Path(*ATTEMPTS_ROOT.parts) / receipt["attempt_id"] / "completed.json").read_bytes()
-        if scoped_mode and retained:
-            retained_item = next(item for item in scoped["manifest"]["retained_completed"]
+        if recovery_mode and retained:
+            recovery_manifest = resource["manifest"] if resource_mode else scoped["manifest"]
+            retained_item = next(item for item in recovery_manifest["retained_completed"]
                                  if item["attempt_id"] == receipt["attempt_id"])
             _require(_sha(completed_bytes) == retained_item["completed_receipt"]["sha256"],
                      f"{group_id}: selected historical completion differs from its manifest receipt digest")
@@ -2139,7 +2805,12 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
             "attempt_id": receipt["attempt_id"],
             "attempt_number": attempt_number,
             "status": "completed",
-            "evidence_origin": "retained-c2" if retained else ("fresh-c3" if scoped_mode else "current-contract"),
+            "evidence_origin": (
+                ("retained-c3" if origin_contract_sha256 == RESOURCE_C3_SHA256 else "retained-c2")
+                if resource_mode and retained else
+                ("fresh-c4" if resource_mode else
+                 ("retained-c2" if retained else ("fresh-c3" if scoped_mode else "current-contract")))
+            ),
             "evidence_contract_sha256": origin_contract_sha256,
             "evidence_plan_commit": origin_plan_commit,
             "ledger_line_sha256": ledger_line_sha256,
@@ -2161,11 +2832,11 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
             attempt_number, ledger_line_sha256, expected_receipt_sha256,
         )
         failure_summary["inherited_from_prior_contract"] = origin_contract_sha256 != validated["bytes_sha256"]
-        if scoped_mode:
+        if recovery_mode:
             c1_sha = next(
                 item["sha256"] for item in scoped["manifest"]["historical_contracts"]
                 if item["canonical_path"].endswith("execution-v1/contract.json")
-            )
+            ) if scoped_mode else RESOURCE_C1_SHA256
             if origin_contract_sha256 == c1_sha:
                 failure_summary["evidence_origin"] = "retained-c1-failure"
                 review_sha256 = _verify_preanalysis_failure_review(
@@ -2179,10 +2850,13 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
             elif failure_summary["inherited_from_prior_contract"]:
                 failure_summary["evidence_origin"] = "retained-c2-failure"
                 failure_summary["failure_diagnosis"] = _verify_codeql_modeling_failure_diagnosis(
-                    root, scoped["manifest"], failure_summary,
+                    root,
+                    (scoped["manifest"] if scoped_mode else
+                     resource["contexts"][RESOURCE_C3_SHA256]["validated"]["scoped_recovery"]["manifest"]),
+                    failure_summary,
                 )
             else:
-                failure_summary["evidence_origin"] = "fresh-c3-failure"
+                failure_summary["evidence_origin"] = "fresh-c4-failure" if resource_mode else "fresh-c3-failure"
             if failure_summary["inherited_from_prior_contract"]:
                 scoped_failure_summary_rows.append(failure_summary)
         elif failure_summary["inherited_from_prior_contract"]:
@@ -2195,7 +2869,7 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
                 "sha256": review_sha256,
             }
         failed_summaries.append(failure_summary)
-        if failure_summary["inherited_from_prior_contract"] and not scoped_mode:
+        if failure_summary["inherited_from_prior_contract"] and not recovery_mode:
             prior_failure_summary_rows.append(failure_summary)
     _require(len(failed_summaries) == len(prior_failures),
              "one or more prior failed attempts lack verifiable non-selected provenance")
@@ -2248,6 +2922,7 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
     _require(all(item["attempts"] for item in prior_contract_summaries),
              "a registered prior contract has no independently verified failed attempt")
     scoped_summary = None
+    resource_summary = None
     if scoped_mode:
         _require(len(selected_summaries) == EXPECTED_GROUPS and
                  sum(item["evidence_origin"] == "retained-c2" for item in selected_summaries) == 25 and
@@ -2262,6 +2937,44 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
             "manifest_sha256": plan["scoped_recovery"]["sha256"],
             "sealed_prefix_sha256": scoped["sealed_prefix_sha256"],
             "retained_completed_groups": 25,
+            "retained_failures": [
+                {
+                    "attempt_id": item["attempt_id"],
+                    "status": item["status"],
+                    "contract_sha256": item["contract_sha256"],
+                    "plan_commit": item["plan_commit"],
+                    "ledger_line_sha256": item["ledger_line_sha256"],
+                    "evidence_origin": item["evidence_origin"],
+                    "version_gate_review": item.get("version_gate_review"),
+                    "failure_diagnosis": item.get("failure_diagnosis"),
+                }
+                for item in scoped_failure_summary_rows
+            ],
+        }
+    if resource_mode:
+        _require(len(selected_summaries) == EXPECTED_GROUPS and
+                 sum(item["evidence_origin"] == "retained-c2" for item in selected_summaries) == 25 and
+                 sum(item["evidence_origin"] == "retained-c3" for item in selected_summaries) == 30 and
+                 sum(item["evidence_origin"] == "fresh-c4" for item in selected_summaries) == 29,
+                 "C4 selection must preserve 25 C2 plus 30 C3 completions and verify 29 C4 completions")
+        _require(len(scoped_failure_summary_rows) == 2 and
+                 {item["evidence_origin"] for item in scoped_failure_summary_rows} ==
+                 {"retained-c1-failure", "retained-c2-failure"},
+                 "C4 summary does not retain the exact two original C1/C2 failures")
+        resource_summary = {
+            "manifest": plan["resource_recovery"]["path"],
+            "manifest_sha256": plan["resource_recovery"]["sha256"],
+            "sealed_prefix_sha256": resource["sealed_prefix_sha256"],
+            "retained_completed_groups": 55,
+            "retained_c2_completed_groups": 25,
+            "retained_c3_completed_groups": 30,
+            "fresh_c4_completed_groups": 29,
+            "original_c3": {
+                "contract_sha256": RESOURCE_C3_SHA256,
+                "path": RESOURCE_C3_ARCHIVE_PATH.as_posix(),
+                "plan_commit": RESOURCE_C3_PLAN_COMMIT,
+                "source_commit": RESOURCE_C3_SOURCE_COMMIT,
+            },
             "retained_failures": [
                 {
                     "attempt_id": item["attempt_id"],
@@ -2299,6 +3012,7 @@ def verify(root: str | Path = ROOT, contract_path: str | Path | None = None) -> 
         "failed_attempts": failed_summaries,
         "prior_failed_contracts": prior_contract_summaries,
         "scoped_recovery": scoped_summary,
+        "resource_recovery": resource_summary,
         "typed_outcomes": dict(sorted(outcome_counts.items())),
         "fresh_reports": sorted(bound_reports, key=lambda item: item["adapter"]),
         "configuration_hash_validation": {

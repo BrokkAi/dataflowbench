@@ -44,6 +44,9 @@ LEDGER_PATH = PurePosixPath("reports/releases/v0.9.2/ledger-v1.jsonl")
 V1_CONTRACT_PATH = PurePosixPath("reports/releases/v0.9.2/execution-v1/contract.json")
 V2_CONTRACT_PATH = PurePosixPath("reports/releases/v0.9.2/execution-v2/contract.json")
 V3_CONTRACT_PATH = PurePosixPath("reports/releases/v0.9.2/execution-v3/contract.json")
+V4_CONTRACT_PATH = PurePosixPath("reports/releases/v0.9.2/execution-v4/contract.json")
+ARCHIVED_RESOURCE_CONTRACT_03_PATH = PurePosixPath("reports/releases/v0.9.2/acquisition/resource-recovery-contract-03.json")
+RESOURCE_RECOVERY_MANIFEST_PATH = PurePosixPath("reports/releases/v0.9.2/qualification/resource-recovery-01/manifest.json")
 ARCHIVED_FAILED_CONTRACT_PATH = PurePosixPath(
     "reports/releases/v0.9.2/acquisition/failed-contract-01.json"
 )
@@ -1910,7 +1913,7 @@ def _historical_group_for_replay(context: dict, row: dict) -> dict:
     return matches[0]
 
 
-def _validate_scoped_recovery(validated: dict) -> dict:
+def _validate_scoped_recovery(validated: dict, historical_rows=None) -> dict:
     plan = validated["plan"]
     root = validated["repo_root"]
     packet_module = _scoped_recovery_module()
@@ -2097,6 +2100,12 @@ def _validate_scoped_recovery(validated: dict) -> dict:
         except checker.EvidenceError as exc:
             raise ReleaseError(f"historical attempt replay failed: {row['attempt_id']}: {exc}") from exc
 
+    if historical_rows is not None:
+        actual = _ledger_rows(root / Path(*LEDGER_PATH.parts))
+        supplied = [row for row, _digest in historical_rows]
+        if actual[:len(supplied)] != supplied or supplied[:len(packet["prefix_rows"]) ] != [row for row, _digest in packet["prefix_rows"]]:
+            raise ReleaseError("archived C3 historical ledger is not an exact live-ledger prefix")
+        packet["tail_rows"] = list(historical_rows[len(packet["prefix_rows"]):])
     _validate_scoped_tail(validated, packet)
     return {
         **packet,
@@ -2136,6 +2145,107 @@ def _validate_scoped_tail(validated: dict, packet: dict) -> None:
         raise ReleaseError("C3 cannot re-execute a group with a retained completed C2 measurement")
 
 
+
+def _validate_resource_successor_equivalent(old: dict, current: dict) -> None:
+    """The human authorized resource handling only; measurement semantics stay C3."""
+    before, after = old["plan"], current["plan"]
+    mutable = {"source_commit", "runner_source_sha256", "execution_authorized", "source_inputs",
+               "resource_reservation", "resource_budget", "resource_guards", "resource_recovery", "generator"}
+    if {k:v for k,v in before.items() if k not in mutable} != {k:v for k,v in after.items() if k not in mutable}:
+        raise ReleaseError("C4 changes measurement semantics outside its resource-only authorization")
+    expected = dict(before["resource_budget"], minimum_launch_free_gib=110)
+    if after.get("resource_budget") != expected:
+        raise ReleaseError("C4 may change only the resource budget launch floor from 125 to 110 GiB")
+    if after.get("resource_guards") != {"stop_free_gib":48, "working_set_gib":12}:
+        raise ReleaseError("C4 stronger disk guards differ from the authorized scope")
+    if current["total_wall_budget_seconds"] != 102960:
+        raise ReleaseError("C4 changed the original wall budget")
+    reservation = after.get("resource_reservation", {})
+    if (reservation.get("expires_at_unix_seconds") != 1792560780.680937 or
+            reservation.get("exclusive_analyzer_slot") is not True or
+            reservation.get("serial_analyzers") != 1):
+        raise ReleaseError("C4 reservation must preserve the original absolute deadline and exclusive slot")
+    if {k:v for k,v in before.get("generator", {}).items() if k != "source_sha256"} != {
+            k:v for k,v in after.get("generator", {}).items() if k != "source_sha256"}:
+        raise ReleaseError("C4 cannot change generator identity beyond its source digest")
+    _require_ancestor(current["repo_root"], "216bbaaf6513f334a31111983bf6cd35de6232e2",
+                      after["source_commit"], "C3 plan to C4 resource-only source")
+    old_inputs = {item["path"]:item["sha256"] for item in old["source_inputs"]}
+    current_inputs = {item["path"]:item["sha256"] for item in current["source_inputs"]}
+    if any(current_inputs.get(path) != digest for path,digest in old_inputs.items()):
+        raise ReleaseError("C4 must preserve every original C3 source-input digest")
+    root = current["repo_root"]
+    changed = subprocess.check_output(["git","diff","--name-only",before["source_commit"],after["source_commit"],"--",
+        "src","adapters","cases","populations","schemas","corpus","Cargo.toml","Cargo.lock"], cwd=root,text=True)
+    if changed.strip():
+        raise ReleaseError("C4 source changes analyzer, adapter, fixture, schema, or harness semantics")
+    allowed_scripts = {
+        "scripts/execute-release-v092.py", "scripts/check-release-v092.py", "scripts/prepare-release-v092.py",
+        "scripts/v092_disk_guard.py", "scripts/v092_resource_recovery.py", "scripts/test-v092-disk-guard.py",
+        "scripts/test-v092-resource-recovery.py", "scripts/test-v092-disk-integration.py",
+        "scripts/test-v092-resource-contract.py", "scripts/test-check-resource-recovery-v092.py",
+    }
+    changed_scripts = set(subprocess.check_output(["git","diff","--name-only",before["source_commit"],after["source_commit"],"--","scripts"],cwd=root,text=True).splitlines())
+    if changed_scripts - allowed_scripts:
+        raise ReleaseError("C4 source changes scripts outside the reviewed resource-only implementation")
+
+
+def _validate_resource_recovery(validated: dict) -> dict:
+    root, plan = validated["repo_root"], validated["plan"]
+    module_path = Path(__file__).with_name("v092_resource_recovery.py")
+    spec = importlib.util.spec_from_file_location("v092_resource_recovery", module_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    try:
+        packet = module.validate_packet(root, plan["resource_recovery"])
+    except module.ResourceRecoveryError as exc:
+        raise ReleaseError(f"resource recovery packet rejected: {exc}") from exc
+    manifest = packet["manifest"]
+    references = {
+        RESOURCE_RECOVERY_MANIFEST_PATH.as_posix(): plan["resource_recovery"]["sha256"],
+        manifest["authorization"]["path"]: manifest["authorization"]["sha256"],
+        manifest["ledger_prefix"]["path"]: manifest["ledger_prefix"]["sha256"],
+        ARCHIVED_RESOURCE_CONTRACT_03_PATH.as_posix(): manifest["historical_contract"]["sha256"],
+    }
+    inputs = {item["path"]:item["sha256"] for item in validated["source_inputs"]}
+    for path, digest in references.items():
+        if inputs.get(path) != digest or _sha(_git_show(root, plan["source_commit"], path)) != digest:
+            raise ReleaseError(f"C4 source does not bind the exact resource recovery input: {path}")
+    old = validate_plan(root / ARCHIVED_RESOURCE_CONTRACT_03_PATH, repo_root=root,
+                        _archived=True, _historical_ledger_rows=packet["prefix_rows"])
+    _validate_resource_successor_equivalent(old, validated)
+    expected_inputs = {item["path"]:item["sha256"] for item in old["source_inputs"]}
+    expected_inputs.update(references)
+    if inputs != expected_inputs:
+        raise ReleaseError("C4 source-input closure differs beyond the four exact resource-recovery records")
+    contexts = dict(old["scoped_recovery"]["contexts"])
+    contexts[old["bytes_sha256"]] = {"validated":old, "plan_commit":module.C3_PLAN_COMMIT}
+    retained_completed, retained_failures = {}, {}
+    checker_spec = importlib.util.spec_from_file_location("check_release_v092_resource_replay", Path(__file__).with_name("check-release-v092.py"))
+    checker = importlib.util.module_from_spec(checker_spec)
+    checker_spec.loader.exec_module(checker)
+    for row, line_sha in packet["prefix_rows"]:
+        entry = contexts.get(row["contract_sha256"])
+        if entry is None or row["source_commit"] != entry["validated"]["plan"]["source_commit"] or row["plan_commit"] != entry["plan_commit"]:
+            raise ReleaseError("retained C4 predecessor row lost its exact source/plan identity")
+        number = int(row["attempt_id"].split("-attempt-")[-1].split("-series-")[0])
+        record = {"row":row,"ledger_line_sha256":line_sha,"context_sha256":row["contract_sha256"],
+                  "plan_commit":entry["plan_commit"],"attempt_number":number}
+        if row["status"] == "completed":
+            retained_completed[row["group_id"]] = record
+            if row["contract_sha256"] == old["bytes_sha256"]:
+                try:
+                    checker._verify_one_group(root, old, _historical_group_for_replay(old,row), row, entry["plan_commit"], number)
+                except checker.EvidenceError as exc:
+                    raise ReleaseError(f"C3 retained completion failed deep replay: {row['attempt_id']}: {exc}") from exc
+        else:
+            retained_failures[row["attempt_id"]] = record
+    if len(retained_completed) != 55 or len(retained_failures) != 2:
+        raise ReleaseError("C4 must preserve exactly 55 completions and two historical failures")
+    _validate_scoped_tail(validated, packet)
+    return {**packet,"contexts":contexts,"retained_completed":retained_completed,"retained_failures":retained_failures}
+
+
 def validate_plan(
     plan_path: str | Path,
     *,
@@ -2153,17 +2263,30 @@ def validate_plan(
         if relative_path not in (
             ARCHIVED_FAILED_CONTRACT_PATH.as_posix(),
             ARCHIVED_SCOPED_CONTRACT_02_PATH.as_posix(),
+            ARCHIVED_RESOURCE_CONTRACT_03_PATH.as_posix(),
         ):
-            raise ReleaseError("archived contract validation is limited to the registered C1/C2 contracts")
+            raise ReleaseError("archived contract validation is limited to the registered C1/C2/C3 contracts")
     elif relative_path not in (
-        V1_CONTRACT_PATH.as_posix(), V2_CONTRACT_PATH.as_posix(), V3_CONTRACT_PATH.as_posix(),
+        V1_CONTRACT_PATH.as_posix(), V2_CONTRACT_PATH.as_posix(), V3_CONTRACT_PATH.as_posix(), V4_CONTRACT_PATH.as_posix(),
     ):
-        raise ReleaseError("contract must be the canonical execution-v1, execution-v2, or execution-v3 contract")
+        raise ReleaseError("contract must use a canonical execution-v1 through execution-v4 path")
     plan, plan_raw = _read_json(path, "release plan")
     if plan.get("schema_version") != 1 or plan.get("release") != RELEASE:
         raise ReleaseError("plan schema or release identity mismatch")
     is_c1_archive = _archived and relative_path == ARCHIVED_FAILED_CONTRACT_PATH.as_posix()
     is_c2_archive = _archived and relative_path == ARCHIVED_SCOPED_CONTRACT_02_PATH.as_posix()
+    is_c3_archive = _archived and relative_path == ARCHIVED_RESOURCE_CONTRACT_03_PATH.as_posix()
+    is_c4 = not _archived and relative_path == V4_CONTRACT_PATH.as_posix()
+    if is_c3_archive:
+        sealed_rows = _historical_ledger_rows
+        sealed_raw = b"" if sealed_rows is None else b"".join(
+            (json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode()
+            for row, _digest in sealed_rows
+        )
+        if (sealed_rows is None or len(sealed_rows) != 57 or
+                _sha(sealed_raw) != "31ea08cf5f0fa04fe07697bb8d3683e2a313140e6e12e15fe7e7963a82cdc1f2"):
+            raise ReleaseError("archived C3 validation requires the exact sealed 57-row historical ledger")
+
     if is_c1_archive or (not _archived and relative_path == V1_CONTRACT_PATH.as_posix()):
         if "prior_failed_contracts" in plan:
             raise ReleaseError("execution-v1 contract cannot carry predecessor history")
@@ -2174,7 +2297,7 @@ def validate_plan(
             raise ReleaseError("execution-v2 contract must bind exactly one prior failed contract")
         if "scoped_recovery" in plan:
             raise ReleaseError("execution-v2 contract cannot carry scoped recovery")
-    elif not _archived and relative_path == V3_CONTRACT_PATH.as_posix():
+    elif is_c3_archive or is_c4 or (not _archived and relative_path == V3_CONTRACT_PATH.as_posix()):
         if "prior_failed_contracts" in plan:
             raise ReleaseError("execution-v3 cannot carry prior_failed_contracts")
         recovery = plan.get("scoped_recovery")
@@ -2184,6 +2307,14 @@ def validate_plan(
             raise ReleaseError("execution-v3 must bind the exact scoped-recovery manifest path and digest")
     else:
         raise ReleaseError("execution-v2 contract must bind exactly one prior failed contract")
+    if is_c4:
+        reference = plan.get("resource_recovery")
+        if (not isinstance(reference, dict) or set(reference) != {"path", "sha256"} or
+                reference.get("path") != RESOURCE_RECOVERY_MANIFEST_PATH.as_posix() or
+                not isinstance(reference.get("sha256"), str) or not SHA256.fullmatch(reference["sha256"])):
+            raise ReleaseError("C4 must bind the exact resource-recovery manifest")
+    elif "resource_recovery" in plan or "resource_guards" in plan:
+        raise ReleaseError("resource recovery is reserved for the canonical C4 successor")
     if type(plan.get("execution_series")) is not int or plan["execution_series"] < 1:
         raise ReleaseError("contract must bind a positive execution_series")
     if not isinstance(plan.get("execution_authorized"), bool):
@@ -2320,8 +2451,10 @@ def validate_plan(
     if not isinstance(resource, dict) or resource.get("serial_analyzers") != 1:
         raise ReleaseError("contract must reserve one serial analyzer slot")
     minimum_gib = resource.get("minimum_launch_free_gib")
-    if type(minimum_gib) is not int or minimum_gib < 125:
+    if type(minimum_gib) is not int or (minimum_gib != 110 if is_c4 else minimum_gib < 125):
         raise ReleaseError("contract must preserve the 125 GiB minimum launch reserve")
+    if is_c4 and plan.get("resource_guards") != {"stop_free_gib": 48, "working_set_gib": 12}:
+        raise ReleaseError("C4 must bind the stronger 48 GiB stop and 12 GiB working-set guards")
     if resource.get("protected_reserve_gib") != 40:
         raise ReleaseError("contract must preserve the 40 GiB protected reserve")
     for key in ("scratch_gib", "proposed_total_retention_ceiling_gib"):
@@ -2360,7 +2493,10 @@ def validate_plan(
         )
     else:
         result["prior_failed_contracts"] = {}
-        result["scoped_recovery"] = _validate_scoped_recovery(result)
+        if is_c4:
+            result["resource_recovery"] = _validate_resource_recovery(result)
+        else:
+            result["scoped_recovery"] = _validate_scoped_recovery(result, _historical_ledger_rows if is_c3_archive else None)
     return result
 
 
@@ -2409,12 +2545,20 @@ def _materialize_source(
     source_commit: str,
     destination: Path,
     explicit_files: Sequence[str] = (),
-) -> None:
+    *,
+    disk_guard=None,
+    working_paths: Sequence[Path] = (),
+    working_baseline_bytes: int = 0,
+    preflight_only: bool = False,
+    expected_projected_bytes: int | None = None,
+) -> int | None:
     """Extract only the committed source inputs required by the runner."""
-    destination.parent.mkdir(parents=True, exist_ok=True)
+    if disk_guard is None:
+        destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.exists() or destination.is_symlink():
         raise ReleaseError(f"execution root already exists: {destination}")
-    destination.mkdir()
+    if disk_guard is None:
+        destination.mkdir()
     required = list(SNAPSHOT_DIRECTORIES) + ["Cargo.toml", "Cargo.lock"]
     optional = list(SNAPSHOT_FILES[2:])
     explicit = list(explicit_files)
@@ -2431,6 +2575,61 @@ def _materialize_source(
         except OSError as exc:
             raise ReleaseError("cannot inspect source snapshot paths") from exc
         archive_paths.append(snapshot_path)
+
+    if disk_guard is not None:
+        # Read the archive metadata once before any C4 attempt/source output is
+        # created. This bounds the complete materialization, not just each
+        # individual tar member.
+        preflight = subprocess.Popen(
+            ["git", "archive", "--format=tar", source_commit, "--", *archive_paths],
+            cwd=repo_root, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        )
+        assert preflight.stdout is not None
+        projected = 0
+        try:
+            with tarfile.open(fileobj=preflight.stdout, mode="r|") as archive:
+                for member in archive:
+                    relative = _safe_member(member.name, set(explicit))
+                    if relative is None:
+                        continue
+                    if member.isdir():
+                        continue
+                    if not member.isfile():
+                        raise ReleaseError(f"source snapshot contains unsupported entry: {member.name}")
+                    projected += member.size
+        finally:
+            _preflight_stdout, preflight_stderr = preflight.communicate()
+        if preflight.returncode != 0:
+            raise ReleaseError(
+                f"git archive preflight failed: {preflight_stderr.decode(errors='replace').strip()}"
+            )
+        if preflight_only:
+            disk_guard.check(
+                projected_bytes=projected,
+                additional_current_bytes=working_baseline_bytes,
+                category="working",
+                paths=working_paths,
+                capacity_path=repo_root,
+                phase="launch",
+            )
+            return projected
+        if expected_projected_bytes is not None and projected != expected_projected_bytes:
+            raise disk_guard.error(
+                "source_plan_changed",
+                "source archive size differs from the preflight projection",
+                expected_projected_bytes=expected_projected_bytes,
+                actual_projected_bytes=projected,
+            )
+        disk_guard.check(
+            projected_bytes=projected,
+            additional_current_bytes=working_baseline_bytes,
+            category="working",
+            paths=working_paths,
+            capacity_path=repo_root,
+        )
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.mkdir()
+
     process = subprocess.Popen(
         ["git", "archive", "--format=tar", source_commit, "--", *archive_paths], cwd=repo_root,
         stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -2452,7 +2651,37 @@ def _materialize_source(
                 source = archive.extractfile(member)
                 if source is None:
                     raise ReleaseError(f"cannot read source snapshot entry: {member.name}")
-                target.write_bytes(source.read())
+                if disk_guard is None:
+                    target.write_bytes(source.read())
+                else:
+                    copied = 0
+                    with target.open("xb") as output:
+                        while True:
+                            disk_guard.check_capacity(capacity_path=destination)
+                            chunk = source.read(disk_guard.chunk_bytes)
+                            if not chunk:
+                                break
+                            if copied + len(chunk) > member.size:
+                                raise disk_guard.error(
+                                    "source_grew",
+                                    "source archive member exceeded its preflight size",
+                                    source_path=member.name,
+                                    expected_size_bytes=member.size,
+                                    partial_bytes=copied,
+                                )
+                            disk_guard.check_capacity(
+                                projected_bytes=len(chunk), capacity_path=destination,
+                            )
+                            output.write(chunk)
+                            copied += len(chunk)
+                    if copied != member.size:
+                        raise disk_guard.error(
+                            "source_changed",
+                            "source archive member ended before its preflight size",
+                            source_path=member.name,
+                            expected_size_bytes=member.size,
+                            partial_bytes=copied,
+                        )
                 target.chmod(stat.S_IMODE(member.mode))
     finally:
         stdout, stderr = process.communicate()
@@ -2461,6 +2690,9 @@ def _materialize_source(
     for required in ("src", "cases", "populations"):
         if not (destination / required).is_dir():
             raise ReleaseError(f"source snapshot lacks required {required}/ tree")
+    if disk_guard is not None:
+        disk_guard.check_capacity(capacity_path=destination)
+    return None
 
 
 def _register_source_snapshot(repo_root: Path, source_commit: str, destination: Path) -> str:
@@ -2496,22 +2728,51 @@ def _resolve_runtime_path(execution_root: Path, value: object, description: str)
     return (execution_root / Path(*relative.parts)).resolve(strict=False)
 
 
-def _copy_file(source: Path, target: Path) -> dict:
+def _copy_file(source: Path, target: Path, *, disk_guard=None,
+               disk_guard_module=None,
+               accounting_paths: Sequence[Path] = (),
+               category_preflight: bool = True,
+               expected_source_signature: tuple[int, int, int, int, int] | None = None) -> dict:
     if source.is_symlink() or not source.is_file():
         raise ReleaseError(f"capture source is not a regular file: {source}")
     target.parent.mkdir(parents=True, exist_ok=True)
     if target.exists() or target.is_symlink():
         raise ReleaseError(f"capture destination already exists: {target}")
+    if disk_guard is not None:
+        if disk_guard_module is None:
+            spec = importlib.util.spec_from_file_location(
+                "v092_disk_guard_runtime", Path(__file__).with_name("v092_disk_guard.py"),
+            )
+            if spec is None or spec.loader is None:
+                raise ReleaseError("cannot load the v0.9.2 disk guard")
+            disk_guard_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(disk_guard_module)
+        copied = disk_guard_module.bounded_regular_copy(
+            source,
+            target,
+            disk_guard,
+            category="retention",
+            accounting_paths=accounting_paths,
+            category_preflight=category_preflight,
+            expected_source_signature=expected_source_signature,
+        )
+        return {"sha256": copied["sha256"], "bytes": copied["copied_bytes"]}
     data = source.read_bytes()
     target.write_bytes(data)
     return {"sha256": _sha(data), "bytes": len(data)}
 
 
-def _copy_tree(source: Path, target: Path, execution_root: Path, capture_root: Path) -> list[dict]:
+def _copy_tree(source: Path, target: Path, execution_root: Path, capture_root: Path, *,
+               disk_guard=None, disk_guard_module=None,
+               accounting_paths: Sequence[Path] = (),
+               preflight_only: bool = False,
+               planned_files: Sequence[dict] | None = None) -> list[dict]:
     if source.is_symlink() or not source.exists():
         raise ReleaseError(f"declared output root is missing or symlinked: {source}")
     files = []
-    if source.is_file():
+    if planned_files is not None:
+        files = list(planned_files)
+    elif source.is_file():
         files = [source]
     elif source.is_dir():
         for current, directories, names in os.walk(source, topdown=True, followlinks=False):
@@ -2522,15 +2783,82 @@ def _copy_tree(source: Path, target: Path, execution_root: Path, capture_root: P
             files.extend(current_path / name for name in names)
     else:
         raise ReleaseError(f"declared output root is neither file nor directory: {source}")
+    planned = []
+    if planned_files is not None:
+        planned = [dict(item) for item in files]
+    else:
+        for item in files:
+            if item.is_symlink() or not item.is_file():
+                raise ReleaseError(f"declared output tree contains non-regular file: {item}")
+            relative = item.resolve(strict=True).relative_to(execution_root.resolve())
+            target_item = capture_root / Path(*relative.parts)
+            source_info = item.lstat()
+            item_plan = {
+                "source": item,
+                "target": target_item,
+                "relative": relative.as_posix(),
+                "bytes": source_info.st_size,
+            }
+            if disk_guard is not None:
+                item_plan["source_signature"] = (
+                    source_info.st_dev, source_info.st_ino, source_info.st_size,
+                    source_info.st_mtime_ns, source_info.st_ctime_ns,
+                )
+            planned.append(item_plan)
+    if preflight_only:
+        return planned
+    if disk_guard is not None and planned_files is None:
+        disk_guard.check(
+            projected_bytes=sum(item["bytes"] for item in planned),
+            category="retention",
+            paths=accounting_paths,
+            capacity_path=target.parent,
+        )
     rows = []
-    for item in files:
+    for planned_item in planned:
+        item = planned_item["source"]
+        target_item = planned_item["target"]
+        relative_value = planned_item["relative"]
         if item.is_symlink() or not item.is_file():
             raise ReleaseError(f"declared output tree contains non-regular file: {item}")
-        relative = item.resolve(strict=True).relative_to(execution_root.resolve())
-        target_item = capture_root / Path(*relative.parts)
-        identity = _copy_file(item, target_item)
+        expected_signature = planned_item.get("source_signature")
+        if expected_signature is not None:
+            try:
+                source_info = item.lstat()
+            except OSError as exc:
+                if disk_guard is None:
+                    raise ReleaseError(f"declared output changed after capture preflight: {item}") from exc
+                raise disk_guard.error(
+                    "source_changed",
+                    f"declared output changed after capture preflight: {item}",
+                    source_path=str(item),
+                    expected_signature=list(expected_signature),
+                ) from exc
+            actual_signature = (
+                source_info.st_dev, source_info.st_ino, source_info.st_size,
+                source_info.st_mtime_ns, source_info.st_ctime_ns,
+            )
+            if actual_signature != tuple(expected_signature):
+                if disk_guard is None:
+                    raise ReleaseError(f"declared output changed after capture preflight: {item}")
+                raise disk_guard.error(
+                    "source_changed",
+                    f"declared output changed after capture preflight: {item}",
+                    source_path=str(item),
+                    expected_signature=list(expected_signature),
+                    actual_signature=list(actual_signature),
+                )
+        identity = _copy_file(
+            item,
+            target_item,
+            disk_guard=disk_guard,
+            disk_guard_module=disk_guard_module,
+            accounting_paths=accounting_paths,
+            category_preflight=planned_files is None,
+            expected_source_signature=tuple(expected_signature) if expected_signature is not None else None,
+        )
         rows.append({
-            "execution_relative": relative.as_posix(),
+            "execution_relative": relative_value,
             "capture_path": str(target_item),
             **identity,
         })
@@ -2719,7 +3047,25 @@ def _matrix_capacity_paths(validated: dict, execution_root: Path,
 
 
 def _capacity_loss(cwd: Path, retained_paths: Sequence[Path], retention_limit: int,
-                   scratch_paths: Sequence[Path] = (), scratch_limit: int = MAX_RETAINED_BYTES) -> str | None:
+                   scratch_paths: Sequence[Path] = (), scratch_limit: int = MAX_RETAINED_BYTES,
+                   *, disk_guard=None, working_paths: Sequence[Path] = (),
+                   working_baseline_bytes: int = 0) -> object | None:
+    if disk_guard is not None:
+        try:
+            disk_guard.check(category="retention", paths=retained_paths, capacity_path=cwd)
+            disk_guard.check(category="scratch", paths=scratch_paths, capacity_path=cwd)
+            disk_guard.check(
+                category="working", paths=working_paths,
+                additional_current_bytes=working_baseline_bytes, capacity_path=cwd,
+            )
+        except RuntimeError as exc:
+            if hasattr(exc, "as_dict"):
+                if getattr(exc, "code", None) in {
+                        "launch_floor", "stop_floor", "category_ceiling", "capacity_unavailable"}:
+                    return exc.as_dict()
+                raise
+            raise
+        return None
     free = shutil.disk_usage(cwd).free
     if free < PROTECTED_FREE_BYTES:
         return f"protected disk reserve lost: {free} bytes free"
@@ -2737,6 +3083,8 @@ def _run_process(argv: Sequence[str], cwd: Path, env: Mapping[str, str], stdout:
                  retention_limit: int = MAX_RETAINED_BYTES,
                  scratch_paths: Sequence[Path] = (),
                  scratch_limit: int = MAX_RETAINED_BYTES,
+                 disk_guard=None, working_paths: Sequence[Path] = (),
+                 working_baseline_bytes: int = 0,
                  ownership: dict | None = None) -> tuple[int, bool, float, str | None]:
     started = time.monotonic()
     timed_out = False
@@ -2747,7 +3095,11 @@ def _run_process(argv: Sequence[str], cwd: Path, env: Mapping[str, str], stdout:
                       "cleanup_status": "not-started", "descendant_containment": "unproven",
                       "tracking_interval_seconds": 2.0})
     with stdout.open("wb") as out, stderr.open("wb") as err:
-        capacity_loss = _capacity_loss(cwd, retained_paths, retention_limit, scratch_paths, scratch_limit)
+        capacity_loss = _capacity_loss(
+            cwd, retained_paths, retention_limit, scratch_paths, scratch_limit,
+            disk_guard=disk_guard, working_paths=working_paths,
+            working_baseline_bytes=working_baseline_bytes,
+        )
         if capacity_loss:
             return 125, False, time.monotonic() - started, capacity_loss
         tracker = _process_tracker()
@@ -2764,7 +3116,11 @@ def _run_process(argv: Sequence[str], cwd: Path, env: Mapping[str, str], stdout:
             tracked[process.pid] = table[process.pid][1]
             while process.poll() is None:
                 tracked.update(tracker._descendants(tracker._process_table(), tracked))
-                capacity_loss = _capacity_loss(cwd, retained_paths, retention_limit, scratch_paths, scratch_limit)
+                capacity_loss = _capacity_loss(
+                    cwd, retained_paths, retention_limit, scratch_paths, scratch_limit,
+                    disk_guard=disk_guard, working_paths=working_paths,
+                    working_baseline_bytes=working_baseline_bytes,
+                )
                 if capacity_loss:
                     break
                 remaining = timeout - (time.monotonic() - started)
@@ -2794,7 +3150,11 @@ def _run_process(argv: Sequence[str], cwd: Path, env: Mapping[str, str], stdout:
                 ownership["tracked_processes"] = [
                     {"pid": pid, "start_identity": birth} for pid, birth in sorted(tracked.items())
                 ]
-        capacity_loss = capacity_loss or _capacity_loss(cwd, retained_paths, retention_limit, scratch_paths, scratch_limit)
+        capacity_loss = capacity_loss or _capacity_loss(
+            cwd, retained_paths, retention_limit, scratch_paths, scratch_limit,
+            disk_guard=disk_guard, working_paths=working_paths,
+            working_baseline_bytes=working_baseline_bytes,
+        )
     return (124 if timed_out else process.returncode), timed_out, time.monotonic() - started, capacity_loss
 
 
@@ -2870,7 +3230,7 @@ def _matrix_elapsed_wall(validated: dict, *, now_seconds: float | None = None) -
     series = validated["plan"]["execution_series"]
     registered_contracts = {validated["bytes_sha256"]}
     registered_contracts.update(validated.get("prior_failed_contracts", {}).keys())
-    scoped = validated.get("scoped_recovery")
+    scoped = validated.get("resource_recovery", validated.get("scoped_recovery"))
     if isinstance(scoped, dict):
         registered_contracts.update(scoped.get("contexts", {}).keys())
     series_rows = [row for row in rows if row.get("execution_series") == series]
@@ -2913,7 +3273,7 @@ def _verified_completed_groups(validated: dict) -> set[str]:
     if not ledger.exists():
         return set()
     rows = _ledger_rows(ledger)
-    scoped = validated.get("scoped_recovery")
+    scoped = validated.get("resource_recovery", validated.get("scoped_recovery"))
     verified = set(scoped.get("retained_completed", {})) if isinstance(scoped, dict) else set()
     current_series = validated["plan"]["execution_series"]
     expected_groups = {item["id"]: item for item in validated["plan"]["groups"]}
@@ -3057,6 +3417,9 @@ def _stage_report(
     capture_rows: Mapping[str, dict],
     output_roots: Sequence[Path],
     fixture: str,
+    *,
+    disk_guard=None,
+    retained_paths: Sequence[Path] = (),
 ) -> dict:
     execution_root = execution_root.resolve()
     source_rel = _relative(report["source_path"], "normalized report source")
@@ -3092,16 +3455,53 @@ def _stage_report(
         row["raw_output"] = staged_raw
     original_rel = PurePosixPath("original") / PurePosixPath(report["path"])
     original_path = attempt / Path(*original_rel.parts)
-    original_path.parent.mkdir(parents=True, exist_ok=True)
-    with original_path.open("xb") as target:
-        target.write(original)
     report_path = PurePosixPath(report["path"])
     staged_rel = NORMAL_ROOT / "attempts" / attempt_id / report_path.relative_to(NORMAL_ROOT)
     destination = repo_root / Path(*staged_rel.parts)
-    destination.parent.mkdir(parents=True, exist_ok=True)
     staged = _json_bytes(normalized)
-    with destination.open("xb") as target:
-        target.write(staged)
+    if disk_guard is None:
+        original_path.parent.mkdir(parents=True, exist_ok=True)
+        with original_path.open("xb") as target:
+            target.write(original)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        with destination.open("xb") as target:
+            target.write(staged)
+    else:
+        for path in (original_path, destination):
+            if path.exists() or path.is_symlink():
+                raise ReleaseError(f"staged report destination already exists: {path}")
+        disk_guard.check(
+            projected_bytes=len(original) + len(staged),
+            category="retention",
+            paths=retained_paths,
+            capacity_path=repo_root,
+        )
+
+        def write_projected(data: bytes, path: Path) -> None:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open("xb") as target:
+                offset = 0
+                while offset < len(data):
+                    chunk = data[offset:offset + disk_guard.chunk_bytes]
+                    disk_guard.check_capacity(
+                        projected_bytes=len(chunk), capacity_path=repo_root,
+                    )
+                    view = memoryview(chunk)
+                    while view:
+                        written = target.write(view)
+                        if written is None or written <= 0:
+                            raise disk_guard.error(
+                                "copy_write_failed",
+                                f"failed writing report artifact {path}",
+                                target_path=str(path),
+                                partial_bytes=offset,
+                            )
+                        view = view[written:]
+                    offset += len(chunk)
+            disk_guard.check_capacity(capacity_path=repo_root)
+
+        write_projected(original, original_path)
+        write_projected(staged, destination)
     return {
         "source_path": report["source_path"],
         "staged_path": staged_rel.as_posix(),
@@ -3204,18 +3604,132 @@ def run_group(validated: dict, group_id: str) -> dict:
         if (reservation.get("exclusive_analyzer_slot") is not True or
                 reservation.get("expires_at_unix_seconds", 0) <= time.time()):
             raise ReleaseError("fresh exclusive analyzer reservation is required")
-        _check_resources(repo_root, plan["resource_budget"]["minimum_launch_free_gib"] * 1024**3)
+        c4 = isinstance(plan.get("resource_recovery"), dict)
+        if not c4:
+            _check_resources(repo_root, plan["resource_budget"]["minimum_launch_free_gib"] * 1024**3)
+        else:
+            busy = _contenders(_process_table())
+            if busy:
+                raise ReleaseError("contending build/analyzer processes: " + "; ".join(busy))
         series = plan["execution_series"]
         attempt, execution_root, cache_root, ledger, attempt_id = _assert_fresh(
             repo_root, group, reports, series
         )
-        attempt.mkdir(parents=True)
+        disk_guard_module = None
+        disk_guard = None
+        if c4:
+            spec = importlib.util.spec_from_file_location(
+                "v092_disk_guard_runtime", Path(__file__).with_name("v092_disk_guard.py"),
+            )
+            if spec is None or spec.loader is None:
+                raise ReleaseError("cannot load the v0.9.2 disk guard")
+            disk_guard_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(disk_guard_module)
+            gib = 1024**3
+            resource = plan["resource_budget"]
+            guards = plan["resource_guards"]
+            disk_guard = disk_guard_module.DiskGuard(
+                launch_floor_bytes=resource["minimum_launch_free_gib"] * gib,
+                protected_reserve_bytes=resource["protected_reserve_gib"] * gib,
+                stop_margin_bytes=(guards["stop_free_gib"] - resource["protected_reserve_gib"]) * gib,
+                stop_floor_bytes=guards["stop_free_gib"] * gib,
+                scratch_ceiling_bytes=resource["scratch_gib"] * gib,
+                retention_ceiling_bytes=resource["proposed_total_retention_ceiling_gib"] * gib,
+                working_ceiling_bytes=guards["working_set_gib"] * gib,
+            )
+        if c4:
+            env = _child_environment(group, execution_root, attempt, cache_root)
+            output_roots = [execution_root / Path(*_relative(value, "output root").parts)
+                            for value in group["output_roots"]]
+            retained_paths, scratch_paths = _matrix_capacity_paths(
+                validated, execution_root, env, output_roots,
+            )
+        else:
+            retained_paths, scratch_paths = [], []
+        working_paths: list[Path] = []
+        working_baseline_bytes = 0
+        if disk_guard is not None:
+            source_members = tuple(SNAPSHOT_DIRECTORIES) + tuple(SNAPSHOT_FILES) + tuple(
+                item["path"] for item in validated["source_inputs"]
+            ) + (".git",)
+            source_roots = [execution_root]
+            for previous_row in _ledger_rows(repo_root / Path(*LEDGER_PATH.parts)):
+                previous = Path(previous_row.get("execution_root", ""))
+                if not previous.is_absolute() or not _under(
+                        previous, repo_root / Path(*EXECUTION_ROOT.parts)):
+                    raise ReleaseError("capacity ledger execution root escapes task outputs")
+                source_roots.append(previous)
+            execution_base = repo_root / Path(*EXECUTION_ROOT.parts)
+            if execution_base.exists():
+                for series_root in execution_base.iterdir():
+                    if series_root.is_symlink() or not series_root.is_dir():
+                        raise ReleaseError("execution-state contains an unsafe source-snapshot path")
+                    for group_root in series_root.iterdir():
+                        if group_root.is_symlink() or not group_root.is_dir():
+                            raise ReleaseError("execution-state contains an unsafe source-snapshot path")
+                        for attempt_root in group_root.iterdir():
+                            if attempt_root.is_symlink() or not attempt_root.is_dir():
+                                raise ReleaseError("execution-state contains an unsafe source-snapshot path")
+                            source_roots.append(attempt_root)
+            source_roots = list(dict.fromkeys(source_roots))
+            historical_working_paths: list[Path] = []
+            for source_root in source_roots:
+                source_paths = [
+                    source_root / Path(*_relative(value, "working source path").parts)
+                    for value in source_members
+                ]
+                if source_root == execution_root:
+                    working_paths.extend(source_paths)
+                else:
+                    historical_working_paths.extend(source_paths)
+            working_baseline_bytes = disk_guard.logical_size(historical_working_paths)
+            projected_source_bytes = _materialize_source(
+                repo_root,
+                plan["source_commit"],
+                execution_root,
+                [item["path"] for item in validated["source_inputs"]],
+                disk_guard=disk_guard,
+                working_paths=working_paths,
+                working_baseline_bytes=working_baseline_bytes,
+                preflight_only=True,
+            )
+            assert projected_source_bytes is not None
+            completed_groups = _verified_completed_groups(validated)
+            known_groups = {item["id"] for item in validated["groups"]}
+            remaining_groups = len(known_groups - completed_groups)
+            # Reserve per-snapshot Git metadata conservatively for every
+            # remaining attempt, including groups without a registered index.
+            metadata_projection = 1024**2
+            disk_guard.check(
+                projected_bytes=(projected_source_bytes + metadata_projection) * remaining_groups,
+                additional_current_bytes=working_baseline_bytes,
+                category="working",
+                paths=working_paths,
+                capacity_path=repo_root,
+                phase="launch",
+            )
+            disk_guard.check(
+                projected_bytes=1024**2,
+                category="retention", paths=retained_paths,
+                capacity_path=repo_root, phase="launch",
+            )
+            disk_guard.check(
+                projected_bytes=1024**2,
+                category="scratch", paths=scratch_paths,
+                capacity_path=repo_root, phase="launch",
+            )
+        if c4:
+            attempt.mkdir(parents=True)
+            cache_root.parent.mkdir(parents=True, exist_ok=True)
+            cache_root.mkdir()
+        else:
+            attempt.mkdir(parents=True)
+            cache_root.parent.mkdir(parents=True, exist_ok=True)
+            cache_root.mkdir()
+            env = _child_environment(group, execution_root, attempt, cache_root)
+            output_roots = [execution_root / Path(*_relative(value, "output root").parts)
+                            for value in group["output_roots"]]
         start = _timestamp()
-        cache_root.parent.mkdir(parents=True, exist_ok=True)
-        cache_root.mkdir()
-        env = _child_environment(group, execution_root, attempt, cache_root)
-        output_roots = [execution_root / Path(*_relative(value, "output root").parts)
-                         for value in group["output_roots"]]
         receipt = {
             "schema_version": 1,
             "release": RELEASE,
@@ -3256,18 +3770,31 @@ def run_group(validated: dict, group_id: str) -> dict:
             _materialize_source(
                 repo_root, plan["source_commit"], execution_root,
                 [item["path"] for item in validated["source_inputs"]],
+                disk_guard=disk_guard,
+                working_paths=working_paths,
+                working_baseline_bytes=working_baseline_bytes,
+                expected_projected_bytes=projected_source_bytes if disk_guard is not None else None,
             )
             if any(Path(value).name == "run-swift-common-v092.py" for value in group["argv"]):
+                if disk_guard is not None:
+                    disk_guard.check_capacity(
+                        projected_bytes=1024**2, capacity_path=repo_root,
+                    )
                 row["snapshot_git_head"] = _register_source_snapshot(
                     repo_root, plan["source_commit"], execution_root,
                 )
+                if disk_guard is not None:
+                    disk_guard.check_capacity(capacity_path=repo_root)
             Path(env["HOME"]).mkdir(parents=True, exist_ok=True)
             scratch_path = Path(env["TMPDIR"])
             if group["tool"] == "pysa":
                 scratch_path.mkdir()  # Freshness includes external task-owned scratch.
             else:
                 scratch_path.mkdir(parents=True, exist_ok=True)
-            retained_paths, scratch_paths = _matrix_capacity_paths(validated, execution_root, env, output_roots)
+            if disk_guard is None:
+                retained_paths, scratch_paths = _matrix_capacity_paths(
+                    validated, execution_root, env, output_roots,
+                )
             stdout = attempt / "stdout.txt"
             stderr = attempt / "stderr.txt"
             row["process_ownership"] = {}
@@ -3278,6 +3805,9 @@ def run_group(validated: dict, group_id: str) -> dict:
                 retention_limit=plan["resource_budget"]["proposed_total_retention_ceiling_gib"] * 1024**3,
                 scratch_paths=scratch_paths,
                 scratch_limit=plan["resource_budget"]["scratch_gib"] * 1024**3,
+                disk_guard=disk_guard,
+                working_paths=working_paths,
+                working_baseline_bytes=working_baseline_bytes,
             )
             row.update({
                 "exit_code": exit_code,
@@ -3287,6 +3817,19 @@ def run_group(validated: dict, group_id: str) -> dict:
                 "stdout": _file_receipt(stdout, "stdout.txt"),
                 "stderr": _file_receipt(stderr, "stderr.txt"),
             })
+            capacity_error_codes = {
+                "launch_floor", "stop_floor", "category_ceiling", "capacity_unavailable",
+            }
+            if (disk_guard_module is not None and isinstance(capacity_loss, dict) and
+                    (row["process_ownership"].get("root_pid") is None or
+                     capacity_loss.get("code") not in capacity_error_codes)):
+                details = {key: value for key, value in capacity_loss.items()
+                           if key not in {"code", "message"}}
+                raise disk_guard_module.DiskGuardError(
+                    str(capacity_loss.get("code", "capacity_lost")),
+                    str(capacity_loss.get("message", "capacity lost before process start")),
+                    **details,
+                )
             _assert_source_snapshot(
                 repo_root, plan["source_commit"], plan["runner_source_sha256"], validated["source_inputs"]
             )
@@ -3294,14 +3837,45 @@ def run_group(validated: dict, group_id: str) -> dict:
                 _check_tool_file(binding, tool_name)
             capture_root = attempt / "capture"
             capture_rows = []
-            for output_root in output_roots:
-                capture_rows.extend(_copy_tree(output_root, execution_root, execution_root, capture_root))
+            if disk_guard is None:
+                for output_root in output_roots:
+                    capture_rows.extend(_copy_tree(output_root, execution_root, execution_root, capture_root))
+            else:
+                capture_plans = [
+                    _copy_tree(
+                        output_root, execution_root, execution_root, capture_root,
+                        disk_guard=disk_guard,
+                        disk_guard_module=disk_guard_module,
+                        accounting_paths=retained_paths,
+                        preflight_only=True,
+                    )
+                    for output_root in output_roots
+                ]
+                capture_projection = sum(
+                    item["bytes"] for group_plan in capture_plans for item in group_plan
+                )
+                disk_guard.check(
+                    projected_bytes=capture_projection,
+                    category="retention",
+                    paths=retained_paths,
+                    capacity_path=repo_root,
+                )
+                for output_root, planned_files in zip(output_roots, capture_plans):
+                    capture_rows.extend(_copy_tree(
+                        output_root, execution_root, execution_root, capture_root,
+                        disk_guard=disk_guard,
+                        disk_guard_module=disk_guard_module,
+                        accounting_paths=retained_paths,
+                        planned_files=planned_files,
+                    ))
             row["captured_files"] = sorted(capture_rows, key=lambda item: item["execution_relative"])
             capture_by_relative = {item["execution_relative"]: item for item in capture_rows}
             capacity_loss = capacity_loss or _capacity_loss(
                 repo_root, retained_paths,
                 plan["resource_budget"]["proposed_total_retention_ceiling_gib"] * 1024**3,
                 scratch_paths, plan["resource_budget"]["scratch_gib"] * 1024**3,
+                disk_guard=disk_guard, working_paths=working_paths,
+                working_baseline_bytes=working_baseline_bytes,
             )
             row["capacity_loss"] = capacity_loss
             if exit_code == 0 and not timed_out and capacity_loss is None:
@@ -3309,7 +3883,9 @@ def run_group(validated: dict, group_id: str) -> dict:
                     _stage_report(repo_root, attempt, execution_root, attempt_id, report,
                                   capture_by_relative,
                                   output_roots,
-                                  validated["fixture_revision"])
+                                  validated["fixture_revision"],
+                                  disk_guard=disk_guard,
+                                  retained_paths=retained_paths)
                     for report in reports
                 ]
             else:
@@ -3317,8 +3893,29 @@ def run_group(validated: dict, group_id: str) -> dict:
             row["status"] = ("capacity-lost" if capacity_loss else
                              "timed-out" if timed_out else ("completed" if exit_code == 0 else "failed"))
         except BaseException as exc:
-            row["status"] = "recorder-error"
-            row["recorder_error"] = f"{type(exc).__name__}: {exc}"
+            if disk_guard_module is not None and isinstance(
+                    exc, disk_guard_module.DiskGuardError):
+                guard_error = exc.as_dict()
+                if exc.code in {
+                        "launch_floor", "stop_floor", "category_ceiling", "capacity_unavailable"}:
+                    row["status"] = "capacity-lost"
+                    row["capacity_loss"] = guard_error
+                else:
+                    row["status"] = "recorder-error"
+                    row["disk_guard_error"] = guard_error
+                    row["capacity_loss"] = None
+                row["recorder_error"] = f"{type(exc).__name__}: {exc}"
+                row.setdefault("exit_code", 125)
+                row.setdefault("timed_out", False)
+                row.setdefault("duration_seconds", 0.0)
+                for field in ("stdout", "stderr"):
+                    path = attempt / (field + ".txt")
+                    if not path.exists():
+                        path.write_bytes(b"")
+                    row[field] = _file_receipt(path, field + ".txt")
+            else:
+                row["status"] = "recorder-error"
+                row["recorder_error"] = f"{type(exc).__name__}: {exc}"
             _preserve_recorder_failure(repo_root, attempt, attempt_id, row)
         finally:
             row["end_utc"] = _timestamp()
