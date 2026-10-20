@@ -26,6 +26,49 @@ SPEC.loader.exec_module(executor)
 
 
 class ExecutorTests(unittest.TestCase):
+    def test_build04_receipt_replays_real_pre_and_post_build_schema(self):
+        build_root = ROOT / Path(*executor.HARNESS_BUILD_04_ROOT.parts)
+        receipt = json.loads((build_root / "receipt.json").read_text())
+        prebuild = json.loads((build_root / "prebuild-inputs.json").read_text())
+        postbuild = json.loads((build_root / "postbuild-inputs.json").read_text())
+        self.assertNotIn("compile_inputs_unchanged_from_prebuild", receipt)
+        compile_inputs = executor._validate_build04_input_snapshots(
+            receipt, prebuild, postbuild, "550a86b89bc7c51ddb577c07b307183f84bd13e7",
+        )
+        self.assertEqual(len(compile_inputs), 7)
+
+        changed_postflight = {**postbuild, "compile_inputs_unchanged_from_prebuild": False}
+        with self.assertRaisesRegex(executor.ReleaseError, "compile-input snapshots"):
+            executor._validate_build04_input_snapshots(receipt, prebuild, changed_postflight,
+                                                       prebuild["source_commit"])
+        changed_preflight = {**prebuild, "compile_inputs": []}
+        with self.assertRaisesRegex(executor.ReleaseError, "compile-input snapshots"):
+            executor._validate_build04_input_snapshots(receipt, changed_preflight, postbuild,
+                                                       prebuild["source_commit"])
+
+    def test_scoped_c3_allowlist_is_limited_to_unchanged_historical_evidence(self):
+        expected = executor.SCOPED_RECOVERY_PRESERVED_EVIDENCE_BLOBS
+        self.assertEqual(len(expected), 11)
+        with patch.object(executor, "_require_ancestor") as ancestor:
+            with patch.object(executor, "_git_blob", side_effect=lambda _root, _commit, path: expected[path]):
+                executor._validate_scoped_preserved_evidence(self.root, "f" * 40)
+        ancestor.assert_called_once_with(
+            self.root,
+            executor.SCOPED_RECOVERY_PRESERVED_EVIDENCE_COMMIT,
+            "f" * 40,
+            "preserved C2 approval and source-preflight evidence to C3 source",
+        )
+
+        first_path = next(iter(expected))
+        def changed_source_blob(_root, commit, path):
+            if commit != executor.SCOPED_RECOVERY_PRESERVED_EVIDENCE_COMMIT and path == first_path:
+                return "changed-blob"
+            return expected[path]
+        with patch.object(executor, "_require_ancestor"):
+            with patch.object(executor, "_git_blob", side_effect=changed_source_blob):
+                with self.assertRaisesRegex(executor.ReleaseError, "changed preserved historical"):
+                    executor._validate_scoped_preserved_evidence(self.root, "f" * 40)
+
     def test_only_exact_extractor_provenance_is_allowed_outside_evidence(self):
         relative = "execution-state/v092/swift-source/patch-application/applied-patch.json"
         target = self.root / relative

@@ -58,6 +58,31 @@ HARNESS_V3_PATH = PurePosixPath("execution-state/v092/tools/harness-v3/dataflowb
 C2_CONTRACT_SHA256 = "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422"
 C2_SOURCE_COMMIT = "21b76b747b72363aad4bbbc358fc2ae9aee24f1c"
 C2_PLAN_COMMIT = "a180c302b56f2c18a1fdfbbd1bc14489151fc54e"
+SCOPED_RECOVERY_PRESERVED_EVIDENCE_COMMIT = "00207c228a55b4c1bd6373d9ff1358c0f2654393"
+SCOPED_RECOVERY_PRESERVED_EVIDENCE_BLOBS = {
+    "reports/releases/v0.9.2/qualification/source-snapshot-preflight-03/preflight.log":
+        "66b573e967c0bdc67617b6b6d13eb6d04951a1c9",
+    "reports/releases/v0.9.2/qualification/source-snapshot-preflight-03/receipt.json":
+        "63f19ce9df8d8bc0336e6c2e7a634a7d26e0720f",
+    "reports/releases/v0.9.2/qualification/source-snapshot-preflight-03/retry-01/preflight.log":
+        "466b7cf81381e87f045a4d223d44636b4e864301",
+    "reports/releases/v0.9.2/qualification/source-snapshot-preflight-03/retry-01/receipt.json":
+        "841cb2e058d0c2381a8fdca21f9662cbc224357f",
+    "reports/releases/v0.9.2/validation/codeql-modeling-stamp-failure-01/diagnosis.json":
+        "ca13e48a15e8063472e021f6d53344bc66f407e0",
+    "reports/releases/v0.9.2/validation/codeql-modeling-stamp-failure-01/repair-proposal/diagnosis-02.md":
+        "42a8a04ee1a45fac4facef19659ca08a2e731212",
+    "reports/releases/v0.9.2/validation/codeql-modeling-stamp-failure-01/repair-proposal/fix-02.patch":
+        "895739f26024d9d52d39436adf534dc68c8e9632",
+    "reports/releases/v0.9.2/validation/codeql-modeling-stamp-failure-01/repair-proposal/fix.patch":
+        "29c02a65843da190cd821d3f4a5886ba935ec174",
+    "reports/releases/v0.9.2/validation/codeql-modeling-stamp-failure-01/repair-proposal/patch-manifest-02.json":
+        "47940a65b8aeea46b156d3c6d64200db04bdf472",
+    "reports/releases/v0.9.2/validation/codeql-modeling-stamp-failure-01/repair-proposal/patch-manifest.json":
+        "ffd3ba6f5e281a46250c399caec394153c3bc282",
+    "reports/releases/v0.9.2/validation/codeql-modeling-stamp-failure-01/repair-proposal/proposal.json":
+        "3554b95fd399ce24eee7dc9db3837e6593c64892",
+}
 NORMAL_ROOT = PurePosixPath("reports/releases/v0.9.2/normal")
 SAFE_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\Z")
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
@@ -1441,6 +1466,27 @@ def _build04_path(root: Path, value: object, description: str, expected: PurePos
     return selected
 
 
+def _validate_build04_input_snapshots(
+    receipt: dict,
+    prebuild: dict,
+    postbuild: dict,
+    build_commit: str,
+) -> list[dict]:
+    """Replay the build's recorded pre/post compile-input closure."""
+    compile_inputs = receipt.get("compile_inputs")
+    if (prebuild.get("schema") != "harness-release-build-preflight/v1" or
+            postbuild.get("schema") != "harness-release-build-postflight/v1" or
+            prebuild.get("source_commit") != build_commit or
+            postbuild.get("source_commit") != build_commit or
+            receipt.get("source_inputs_clean_and_unchanged") is not True or
+            postbuild.get("compile_inputs_unchanged_from_prebuild") is not True or
+            prebuild.get("compile_inputs") != compile_inputs or
+            postbuild.get("compile_inputs") != compile_inputs or
+            not isinstance(compile_inputs, list) or not compile_inputs):
+        raise ReleaseError("harness build-04 compile-input snapshots do not replay")
+    return compile_inputs
+
+
 def _validate_harness_build_04(validated: dict, c2_source: str) -> dict:
     """Replay the exact corrected harness build and its smoke logs."""
     root = validated["repo_root"]
@@ -1511,15 +1557,9 @@ def _validate_harness_build_04(validated: dict, c2_source: str) -> dict:
             raise ReleaseError(f"harness build-04 {label} digest differs from receipt")
     prebuild, _ = _read_json(root / Path(*preflight_path.parts), "harness build-04 prebuild inputs")
     postbuild, _ = _read_json(root / Path(*postflight_path.parts), "harness build-04 postbuild inputs")
-    compile_inputs = receipt.get("compile_inputs")
-    if (prebuild.get("schema") != "harness-release-build-preflight/v1" or
-            postbuild.get("schema") != "harness-release-build-postflight/v1" or
-            prebuild.get("source_commit") != build_commit or postbuild.get("source_commit") != build_commit or
-            receipt.get("compile_inputs_unchanged_from_prebuild") is not True or
-            prebuild.get("compile_inputs") != compile_inputs or
-            postbuild.get("compile_inputs") != compile_inputs or
-            not isinstance(compile_inputs, list) or not compile_inputs):
-        raise ReleaseError("harness build-04 compile-input snapshots do not replay")
+    compile_inputs = _validate_build04_input_snapshots(
+        receipt, prebuild, postbuild, build_commit,
+    )
     for item in compile_inputs:
         if (not isinstance(item, dict) or item.get("worktree_status") != "clean" or
                 not isinstance(item.get("path"), str)):
@@ -1600,6 +1640,20 @@ def _git_blob(root: Path, commit: str, relative: str) -> str:
         ).strip()
     except (OSError, subprocess.CalledProcessError) as exc:
         raise ReleaseError(f"cannot resolve historical source blob: {relative}") from exc
+
+
+def _validate_scoped_preserved_evidence(root: Path, source_commit: str) -> None:
+    """Keep prior C2 approval and source-preflight artifacts byte-identical."""
+    _require_ancestor(
+        root,
+        SCOPED_RECOVERY_PRESERVED_EVIDENCE_COMMIT,
+        source_commit,
+        "preserved C2 approval and source-preflight evidence to C3 source",
+    )
+    for relative, expected_blob in SCOPED_RECOVERY_PRESERVED_EVIDENCE_BLOBS.items():
+        if (_git_blob(root, SCOPED_RECOVERY_PRESERVED_EVIDENCE_COMMIT, relative) != expected_blob or
+                _git_blob(root, source_commit, relative) != expected_blob):
+            raise ReleaseError(f"C3 changed preserved historical approval/preflight evidence: {relative}")
 
 
 def _validate_scoped_successor_equivalent(
@@ -1786,6 +1840,8 @@ def _validate_scoped_successor_equivalent(
             diagnosis.get("all_50_capture_hashes_and_stream_hashes_verified") is not True):
         raise ReleaseError("C3 repair proof is not tied to the exact retained Java modeling failure")
 
+    _validate_scoped_preserved_evidence(root, new_source)
+
     allowed_changed = {
         "src/modeling.rs", "src/tests/modeling.rs",
         V2_CONTRACT_PATH.as_posix(),
@@ -1796,6 +1852,7 @@ def _validate_scoped_successor_equivalent(
     }
     allowed_changed.update(old_by_path)
     allowed_changed.update(current_by_path)
+    allowed_changed.update(SCOPED_RECOVERY_PRESERVED_EVIDENCE_BLOBS)
     allowed_changed.update(_retained_attempt_paths(packet))
     allowed_changed.update(_retained_normal_report_paths(packet))
     allowed_changed.update(build["source_inputs"])
