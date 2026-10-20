@@ -172,4 +172,52 @@ class RetainedFlowDroidReplayTests(unittest.TestCase):
         normalized['identity_components']=[name for name in normalized['identity_components'] if name!='d8']
         with self.assertRaises(checker.EvidenceError):checker._verify_one_group(root,validated,group,row,row['plan_commit'],1)
 
+class LastMomentAdmissionTests(unittest.TestCase):
+    def integration(self):
+        spec=importlib.util.spec_from_file_location('last_moment_guard_fixture',Path(__file__).with_name('test-v092-disk-integration.py'))
+        module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        class Error(RuntimeError):
+            def __init__(self,code,message,**details):
+                super().__init__(message);self.code=code;self.details=details
+            def as_dict(self):return {'code':self.code,'message':str(self),**self.details}
+        module.FakeDiskGuardError=Error
+        return module,module.DiskGuardExecutorTests()
+    def test_final_pre_popen_capacity_refusal_keeps_zero_analyzer_duration(self):
+        module,fixture=self.integration()
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);validated,attempt,execution,cache,ledger=fixture.make_validated(root)
+            def materialize(_repo,_commit,destination,_inputs,*,preflight_only=False,**_kwargs):
+                if preflight_only:return 128
+                destination.mkdir(parents=True);(destination/'src').mkdir()
+            def refuse(_argv,_cwd,_env,stdout,stderr,_timeout,*,ownership,**_kwargs):
+                stdout.write_bytes(b'');stderr.write_bytes(b'');ownership['root_pid']=None
+                gib=1024**3
+                return 125,False,0.125,{'code':'stop_floor','message':'reserve fell before Popen','phase':'active','free_bytes':45*gib,'projected_bytes':0,'post_write_free_bytes':45*gib,'required_free_bytes':48*gib,'protected_reserve_bytes':40*gib,'capacity_path':str(root)}
+            with fixture.patch_executor(validated,attempt,execution,cache,ledger,materialize,refuse):
+                row=module.executor.run_group(validated,'guard-test')
+            self.assertEqual(row['status'],'capacity-lost')
+            self.assertEqual(row['duration_seconds'],0.0)
+            self.assertEqual(row['exit_code'],125)
+            self.assertEqual(row['reports'],[])
+            self.assertNotIn('process_ownership',row)
+            self.assertFalse((execution/'out').exists())
+    def test_generic_source_setup_error_has_replayable_no_child_sentinel(self):
+        module,fixture=self.integration()
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);validated,attempt,execution,cache,ledger=fixture.make_validated(root)
+            def materialize(_repo,_commit,_destination,_inputs,*,preflight_only=False,**_kwargs):
+                if preflight_only:return 128
+                raise RuntimeError('source setup failed before analyzer launch')
+            def forbidden(*_args,**_kwargs):self.fail('analyzer must not start')
+            with fixture.patch_executor(validated,attempt,execution,cache,ledger,materialize,forbidden):
+                row=module.executor.run_group(validated,'guard-test')
+            self.assertEqual(row['status'],'recorder-error')
+            self.assertEqual(row['exit_code'],125)
+            self.assertEqual(row['duration_seconds'],0.0)
+            self.assertFalse(row['timed_out'])
+            self.assertIsNone(row['capacity_loss'])
+            self.assertEqual(row['stdout']['bytes'],0)
+            self.assertEqual(row['stderr']['bytes'],0)
+            self.assertNotIn('process_ownership',row)
+
 if __name__ == '__main__': unittest.main()

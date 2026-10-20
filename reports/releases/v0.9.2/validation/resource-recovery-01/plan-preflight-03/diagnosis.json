@@ -1,0 +1,19 @@
+{
+  "schema": "v092-resource-preinvocation-review/v1",
+  "utc": "2026-10-20T21:45:20.980613+00:00",
+  "unexecuted_plan_commit": "b6e1c57403a41953eeb309ff5aaa8f96e279e372",
+  "source_commit": "4603fa6bcbc793d4190d3140f9518febf2acc9ab",
+  "unexecuted_contract_sha256": "77fde43449b8d551644530b512580c0c9bcce4f917650c227f4973931f08c1cd",
+  "C4_actual_attempts": 0,
+  "ledger_rows": 57,
+  "ledger_sha256": "31ea08cf5f0fa04fe07697bb8d3683e2a313140e6e12e15fe7e7963a82cdc1f2",
+  "actual_issue": "A last-moment capacity refusal already converted to DiskGuardError, but its pre-Popen guard duration survived setdefault instead of the zero-analyzer sentinel required by independent replay. Generic source setup failures also needed explicit empty stream/sentinel fields.",
+  "clarification": "The initial capture-fallthrough hypothesis was disproved: existing code already raises the typed capacity error before capture. The bounded repair normalizes only failures before any child PID exists.",
+  "repair": "For C4 failures with no child PID, retain executor sentinel125/timed_out=false/duration0 and empty stream receipts; preserve typed errors and all partial source evidence.",
+  "regressions": [
+    "Last-moment refusal with0.125s guard overhead yields0 analyzer duration and no process/capture claim.",
+    "Generic source setup error receives replayable no-child sentinel and empty streams."
+  ],
+  "measurement_semantics_changed": false,
+  "original_deadline_utc": "2026-10-21T05:33:00.680937+00:00"
+}

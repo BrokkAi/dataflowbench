@@ -3916,6 +3916,17 @@ def run_group(validated: dict, group_id: str) -> dict:
             else:
                 row["status"] = "recorder-error"
                 row["recorder_error"] = f"{type(exc).__name__}: {exc}"
+            if c4 and not row.get("process_ownership", {}).get("root_pid"):
+                # No child exists: guard/setup overhead is not analyzer time.
+                # Keep the executor sentinel and empty streams replayable even
+                # when the final admission check returned a measured duration.
+                row.update({"exit_code": 125, "timed_out": False, "duration_seconds": 0.0})
+                row.setdefault("capacity_loss", None)
+                for field in ("stdout", "stderr"):
+                    stream = attempt / (field + ".txt")
+                    if not stream.exists():
+                        stream.write_bytes(b"")
+                    row[field] = _file_receipt(stream, field + ".txt")
             _preserve_recorder_failure(repo_root, attempt, attempt_id, row)
         finally:
             row["end_utc"] = _timestamp()
