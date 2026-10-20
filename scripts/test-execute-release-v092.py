@@ -721,6 +721,34 @@ class ExecutorTests(unittest.TestCase):
         with self.assertRaisesRegex(executor.ReleaseError, "unregistered contract revision"):
             executor._matrix_elapsed_wall(validated, now_seconds=origin_seconds + 20)
 
+    def test_historical_replay_uses_normalized_group_for_failed_attempts(self):
+        raw_group = {"id": "bifrost-c-kernel", "argv": ["runner"]}
+        normalized_group = {
+            "id": "bifrost-c-kernel",
+            "argv": ["runner"],
+            "identity_components": ["bifrost"],
+        }
+        context = {
+            "plan": {"groups": [raw_group]},
+            "groups": [normalized_group],
+        }
+
+        completion_group = executor._historical_group_for_replay(
+            context, {"group_id": "bifrost-c-kernel", "status": "completed"},
+        )
+        failure_group = executor._historical_group_for_replay(
+            context, {"group_id": "bifrost-c-kernel", "status": "recorder-error"},
+        )
+        self.assertIs(completion_group, raw_group)
+        self.assertIs(failure_group, normalized_group)
+        self.assertEqual(failure_group["identity_components"], ["bifrost"])
+
+        with self.assertRaisesRegex(executor.ReleaseError, "exactly one matching group"):
+            executor._historical_group_for_replay(
+                {"plan": {"groups": [raw_group]}, "groups": []},
+                {"group_id": "bifrost-c-kernel", "status": "failed"},
+            )
+
     def test_scoped_retained_completions_are_skipped_and_count_against_retry_limit(self):
         retained = {f"group-{index:02d}": {"row": {}} for index in range(25)}
         validated = {

@@ -1887,6 +1887,29 @@ def _validate_scoped_successor_equivalent(
                            ", ".join(sorted(disallowed)))
 
 
+def _historical_group_for_replay(context: dict, row: dict) -> dict:
+    """Select the group representation expected by the evidence checker."""
+    group_id = row.get("group_id")
+    status = row.get("status")
+    if not isinstance(group_id, str) or not group_id:
+        raise ReleaseError("historical replay row lacks a group id")
+    if status == "completed":
+        groups = context.get("plan", {}).get("groups")
+    elif status in {"failed", "timed-out", "capacity-lost", "recorder-error"}:
+        # _verify_failed_attempt consumes the validated group, which includes
+        # normalized identity_components. Successful receipt replay consumes
+        # the raw plan group instead.
+        groups = context.get("groups")
+    else:
+        raise ReleaseError("historical replay row has an unsupported status")
+    if not isinstance(groups, list):
+        raise ReleaseError("historical replay context has no matching group collection")
+    matches = [group for group in groups if isinstance(group, dict) and group.get("id") == group_id]
+    if len(matches) != 1:
+        raise ReleaseError("historical replay context does not have exactly one matching group")
+    return matches[0]
+
+
 def _validate_scoped_recovery(validated: dict) -> dict:
     plan = validated["plan"]
     root = validated["repo_root"]
@@ -2053,7 +2076,7 @@ def _validate_scoped_recovery(validated: dict) -> dict:
         context_entry = contexts[record["context_sha256"]]
         context = context_entry["validated"]
         row = record["row"]
-        group = next(item for item in context["plan"]["groups"] if item["id"] == row["group_id"])
+        group = _historical_group_for_replay(context, row)
         try:
             if row["status"] == "completed":
                 checker._verify_one_group(
