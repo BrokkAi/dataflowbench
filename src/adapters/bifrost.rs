@@ -94,6 +94,7 @@ pub(crate) const BIFROST_SCALA_POLICY: &str = "adapters/bifrost/policies/core-sc
 /// positive without the propagator declaration ever being read. A modeling
 /// policy that kept that default would not be measuring activation.
 pub(crate) const BIFROST_MODELING_CALL_MODELING: &str = "require-model";
+const BIFROST_V0_9_2_VERSION_EVIDENCE: &str = "reports/releases/v0.9.2/acquisition/version.txt";
 
 /// Apply the prospective v0.9.2 process boundary that prevents Bifrost 0.13.1
 /// from implicitly acquiring host open packs. The benchmark's shipped-catalog
@@ -116,12 +117,32 @@ pub(crate) fn witness_bifrost_identity(binary: &Path) -> Result<ToolIdentity> {
             binary.display()
         )
     })?;
-    if version != pins::BIFROST_VERSION {
+    let evidence = fs::read_to_string(BIFROST_V0_9_2_VERSION_EVIDENCE).with_context(|| {
+        format!("read the exact Bifrost v0.9.2 version and catalog witness from {BIFROST_V0_9_2_VERSION_EVIDENCE}")
+    })?;
+    let evidence_lines: Vec<_> = evidence.lines().collect();
+    if evidence_lines.len() != 2 || evidence_lines[0] != pins::BIFROST_VERSION {
         bail!(
-            "the Bifrost binary at {} witnessed version {version:?}, but profile {} pins {}; refusing to publish a report for another release",
+            "Bifrost v0.9.2 version evidence at {BIFROST_V0_9_2_VERSION_EVIDENCE} must contain exactly the pinned version line and one catalog witness"
+        );
+    }
+    let Some(catalog_digest) = evidence_lines[1].strip_prefix("builtin-policy-catalog sha256=")
+    else {
+        bail!(
+            "Bifrost v0.9.2 version evidence at {BIFROST_V0_9_2_VERSION_EVIDENCE} lacks the exact built-in catalog witness"
+        );
+    };
+    if catalog_digest.len() != 64 || !catalog_digest.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        bail!(
+            "Bifrost v0.9.2 version evidence at {BIFROST_V0_9_2_VERSION_EVIDENCE} has a malformed catalog digest"
+        );
+    }
+    let expected_version = format!("{}\n{}", evidence_lines[0], evidence_lines[1]);
+    if version != expected_version {
+        bail!(
+            "the Bifrost binary at {} witnessed version banner {version:?}, but profile {} requires the exact version and catalog banner {expected_version:?}; refusing to publish a report for another release or catalog",
             binary.display(),
-            pins::PROFILE,
-            pins::BIFROST_VERSION
+            pins::PROFILE
         );
     }
     let build_identity = command_output(Command::new(binary).arg("--build-identity"))
@@ -139,7 +160,11 @@ pub(crate) fn witness_bifrost_identity(binary: &Path) -> Result<ToolIdentity> {
             pins::BIFROST_BUILD_IDENTITY
         );
     }
-    Ok(ToolIdentity::new(version, build_identity))
+    // Keep the complete banner bound to acquisition evidence and validate it
+    // above, but normalized reports identify the product by its pinned first
+    // line. The catalog digest is a separate compatibility witness, not part
+    // of the report's tool_version field.
+    Ok(ToolIdentity::new(pins::BIFROST_VERSION, build_identity))
 }
 
 /// Enforce the load-bearing-model requirement on a Bifrost modeling policy.

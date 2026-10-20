@@ -8,7 +8,7 @@ use crate::adapters::bifrost::{
     BIFROST_MODELING_CALL_MODELING, BIFROST_SCALA_POLICY, BifrostRun, CaseWorkspace,
     bifrost_anchor_dialect, bifrost_policy_for, incompleteness_reasons,
     materialize_bifrost_workspace, normalize_bifrost as normalize_bifrost_report,
-    require_bifrost_modeling_load_bearing, selected_bifrost_case,
+    require_bifrost_modeling_load_bearing, selected_bifrost_case, witness_bifrost_identity,
 };
 use crate::adapters::codeql::rust_kernel_case;
 use crate::cases::{case_paths, ruby_core_case, scala_core_case, validate_kernel_population_with};
@@ -20,6 +20,8 @@ use crate::templates::{
 };
 use crate::tests::support::unique_test_dir;
 use serde_json::{Value, json};
+#[cfg(unix)]
+use std::os::unix::fs::PermissionsExt;
 use std::{fs, path::Path, path::PathBuf};
 
 /// Older focused fixtures predate the external report envelope and omit its
@@ -37,6 +39,94 @@ fn normalize_bifrost(
         report["schema_version"] = json!(4);
     }
     normalize_bifrost_report(case_path, case, &report, status, dialect)
+}
+
+#[cfg(unix)]
+fn fake_bifrost_binary(
+    root: &Path,
+    name: &str,
+    version_banner: &str,
+    build_identity: &str,
+) -> PathBuf {
+    fn shell_literal(value: &str) -> String {
+        format!("'{}'", value.replace('\'', "'\"'\"'"))
+    }
+
+    let version_output = version_banner
+        .lines()
+        .map(|line| format!("    printf '%s\\n' {}\n", shell_literal(line)))
+        .collect::<String>();
+    let script = format!(
+        "#!/bin/sh\ncase \"$1\" in\n  --version)\n{version_output}    ;;\n  --build-identity)\n    printf '%s\\n' {}\n    ;;\n  *) exit 2 ;;\nesac\n",
+        shell_literal(build_identity)
+    );
+    let path = root.join(name);
+    fs::write(&path, script).unwrap();
+    let mut permissions = fs::metadata(&path).unwrap().permissions();
+    permissions.set_mode(0o755);
+    fs::set_permissions(&path, permissions).unwrap();
+    path
+}
+
+#[cfg(unix)]
+#[test]
+pub(crate) fn bifrost_identity_requires_exact_version_and_catalog_banner() {
+    let evidence_path = Path::new("reports/releases/v0.9.2/acquisition/version.txt");
+    let evidence = fs::read_to_string(evidence_path).unwrap();
+    let lines: Vec<_> = evidence.lines().collect();
+    assert_eq!(lines.len(), 2);
+    assert_eq!(lines[0], crate::adapters::pins::BIFROST_VERSION);
+    let expected_banner = evidence.trim_end().to_string();
+    let root = unique_test_dir("dataflowbench-bifrost-version-witness");
+
+    let exact_binary = fake_bifrost_binary(
+        &root,
+        "bifrost-exact",
+        &expected_banner,
+        crate::adapters::pins::BIFROST_BUILD_IDENTITY,
+    );
+    let identity = witness_bifrost_identity(&exact_binary).unwrap();
+    assert_eq!(identity.version, crate::adapters::pins::BIFROST_VERSION);
+    assert_eq!(
+        identity.build_identity,
+        crate::adapters::pins::BIFROST_BUILD_IDENTITY
+    );
+
+    let near_miss_banners = [
+        format!("bifrost 0.13.1-dev\n{}", lines[1]),
+        format!(
+            "{}\nbuiltin-policy-catalog sha256={}",
+            lines[0],
+            "0".repeat(64)
+        ),
+        format!("{}\n{}\nextra catalog data", lines[0], lines[1]),
+    ];
+    for (index, banner) in near_miss_banners.iter().enumerate() {
+        let binary = fake_bifrost_binary(
+            &root,
+            &format!("bifrost-near-miss-{index}"),
+            banner,
+            crate::adapters::pins::BIFROST_BUILD_IDENTITY,
+        );
+        let error = witness_bifrost_identity(&binary).unwrap_err();
+        assert!(
+            error
+                .to_string()
+                .contains("exact version and catalog banner"),
+            "unexpected rejection: {error:#}"
+        );
+    }
+
+    let wrong_build = fake_bifrost_binary(
+        &root,
+        "bifrost-wrong-build",
+        &expected_banner,
+        "wrong-build",
+    );
+    let error = witness_bifrost_identity(&wrong_build).unwrap_err();
+    assert!(error.to_string().contains("build identity"));
+
+    fs::remove_dir_all(root).unwrap();
 }
 
 /// The Bifrost mirror of the per-adapter sink-anchor tests: a finding on

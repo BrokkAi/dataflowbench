@@ -28,16 +28,25 @@ struct TestIdentity {
     build_identity: &'static str,
 }
 
+fn fake_bifrost_binary_contents() -> String {
+    let version_evidence = fs::read_to_string("reports/releases/v0.9.2/acquisition/version.txt")
+        .expect("read the pinned Bifrost version banner for the test binary");
+    let version_lines: Vec<_> = version_evidence.lines().collect();
+    assert_eq!(
+        version_lines.len(),
+        2,
+        "Bifrost banner has exactly two lines"
+    );
+    assert_eq!(version_lines[0], IDENTITY.version);
+    format!(
+        "#!/bin/sh\ncase \"$1\" in\n  --version) printf '%s\\n' '{}' '{}' ;;\n  --build-identity) echo '{}' ;;\nesac\n",
+        version_lines[0], version_lines[1], IDENTITY.build_identity
+    )
+}
+
 fn fixture() -> ReportSweepFixture {
     let fixture = ReportSweepFixture::new();
-    fs::write(
-        fixture.root.join("bifrost"),
-        format!(
-            "#!/bin/sh\ncase \"$1\" in\n  --version) echo '{}' ;;\n  --build-identity) echo '{}' ;;\nesac\n",
-            IDENTITY.version, IDENTITY.build_identity
-        ),
-    )
-    .unwrap();
+    fs::write(fixture.root.join("bifrost"), fake_bifrost_binary_contents()).unwrap();
     fs::set_permissions(
         fixture.root.join("bifrost"),
         fs::Permissions::from_mode(0o755),
@@ -270,14 +279,7 @@ fn atomic_manifest_writes_leave_no_staging_file() {
     let root = unique_test_dir("dataflowbench-batch-atomic");
     fs::create_dir_all(root.join("reports/raw/own-kernel")).unwrap();
     fs::write(root.join("reports/raw/own-kernel/case.json"), b"{}\n").unwrap();
-    fs::write(
-        root.join("bifrost"),
-        format!(
-            "#!/bin/sh\ncase \"$1\" in\n  --version) echo '{}' ;;\n  --build-identity) echo '{}' ;;\nesac\n",
-            IDENTITY.version, IDENTITY.build_identity
-        ),
-    )
-    .unwrap();
+    fs::write(root.join("bifrost"), fake_bifrost_binary_contents()).unwrap();
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
