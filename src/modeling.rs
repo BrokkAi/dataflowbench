@@ -4,7 +4,9 @@
 //! docs/modeling-matrix.md.
 
 use crate::adapters::bifrost::{require_bifrost_modeling_load_bearing, run_bifrost_modeling_case};
-use crate::adapters::codeql::{modeling_codeql_language, run_codeql_case_for_language};
+use crate::adapters::codeql::{
+    codeql_v092_configuration_paths, modeling_codeql_language, run_codeql_case_for_language,
+};
 use crate::adapters::flowdroid::{
     FLOWDROID_CONFIG_DIR, FLOWDROID_MODELING_SUMMARY_FILES, FLOWDROID_TEMPLATE_DIR,
     require_flowdroid_modeling_declarations,
@@ -990,8 +992,15 @@ pub(crate) fn plan_modeling_run(
         }
     }
 
-    let configuration_paths = modeling_configuration_paths(tool, language)?
+    let mut configuration_paths = modeling_configuration_paths(tool, language)?
         .expect("the applicability gate above resolved the artifact");
+    if tool == ModelingTool::Codeql {
+        // The current CodeQL runner executes the versioned v0.9.2 query copy,
+        // and the report validator binds that copy plus the profile manifest.
+        // Keep `modeling_configuration_paths` historical so frozen 2.27.0/2.27.1
+        // reports continue to derive their original one-file closure.
+        configuration_paths = codeql_v092_configuration_paths(&configuration_paths);
+    }
 
     Ok(ModelingRunPlan {
         tool,
