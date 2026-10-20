@@ -7,7 +7,7 @@ script=root/'execution-state/v092/supervise-matrix-14.py'
 archived=root/'reports/releases/v0.9.2/acquisition/matrix-supervisor-14.py'
 contract=root/'reports/releases/v0.9.2/execution-v4/contract.json'
 raw=contract.read_bytes();plan=json.loads(raw)
-assert hashlib.sha256(raw).hexdigest()=='77fde43449b8d551644530b512580c0c9bcce4f917650c227f4973931f08c1cd'
+assert hashlib.sha256(raw).hexdigest()=='1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb'
 assert script.read_bytes()==archived.read_bytes()
 assert plan['execution_authorized'] is True
 spec=importlib.util.spec_from_file_location('matrix_launch_gate',root/'scripts/execute-release-v092.py')
