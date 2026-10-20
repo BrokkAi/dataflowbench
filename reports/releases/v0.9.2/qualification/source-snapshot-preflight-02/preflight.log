@@ -1,0 +1,49 @@
+
+=== owner-source-assertion ===
+passed
+source_commit=c3c5cecb4b80f49ec04913549abc5a36572d4d6c
+runner_source_sha256=ab57a19c0d0a067e8a0f93850424264ed44d6df007b58687869887d421da3670
+source_inputs=752
+interpreter=Python 3.9.6
+Rust_Cargo_population_inputs_unchanged_from=c0f914c81689f253cb29f1cbb84018756a2cf993
+
+=== materialization ===
+passed
+source_inputs=752
+snapshot=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-02/snapshot
+
+=== snapshot-git-registration ===
+passed
+HEAD=c3c5cecb4b80f49ec04913549abc5a36572d4d6c
+object_alternates=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-02/snapshot/.git/objects/info/alternates
+
+=== codeql-verify-plan ===
+argv=["/usr/bin/python3", "scripts/run-swift-common-v092.py", "verify-plan", "--plan", "adapters/codeql/swift-common-v2/plan-v092-01/execution-plan.json"]
+returncode=0
+stdout:
+{
+  "mode": "preflight",
+  "engine": "codeql",
+  "release_group_id": "codeql-swift-common108",
+  "plan_sha256": "aaaa5f20a5ece1aadc472c575c313a4a4c081cb20e498a25dbced32d82ef8293",
+  "qualification_status": "measurement-with-known-limits",
+  "case_count": 108,
+  "scored_activation": false
+}
+
+stderr:
+
+=== joern-verify-plan ===
+argv=["/usr/bin/python3", "scripts/run-joern-common-v092.py", "verify-plan", "--plan", "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json"]
+returncode=0
+stdout:
+{
+  "mode": "preflight",
+  "group_id": "joern-swift-common108",
+  "tool_version": "4.0.660",
+  "qualification_status": "measurement-with-known-limits",
+  "case_count": 108,
+  "scored_activation": false
+}
+
+stderr:
