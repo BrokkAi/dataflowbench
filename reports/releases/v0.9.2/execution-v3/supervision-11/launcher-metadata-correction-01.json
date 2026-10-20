@@ -1,0 +1,17 @@
+{
+  "schema": "v092-launch-receipt-metadata-correction/v1",
+  "utc": "2026-10-20T18:08:50.285665+00:00",
+  "original_launcher_receipt_sha256": "b137379d809111f519563ffd9e12a78a178ed2e989815a229c19620a88b33657",
+  "original_launcher_script_sha256": "4313e8ddabcea26ccddb6795c211118b40212122d8f242744572ac8a3e4bf8ea",
+  "field": "retained_original_wall_origin_utc",
+  "recorded_value": "2026-11-20T00:57:00.680937+00:00",
+  "correct_value": "2026-10-20T00:57:00.680937+00:00",
+  "cause": "Namespace-only generator used broad -10 to -11 replacement and also changed the display-only hardcoded month in launcher receipt. Original launcher/script/receipt remain immutable.",
+  "runtime_enforcement_unaffected": true,
+  "runtime_enforcement_basis": "scripts/execute-release-v092.py:_matrix_elapsed_wall reads earliest registered retained series ledger start, never this launcher metadata field. Executor and contract bytes unchanged.",
+  "total_wall_budget_seconds": 102960,
+  "deadline_utc": "2026-10-21T05:33:00.680937+00:00",
+  "contract_sha256": "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063",
+  "plan_commit": "216bbaaf6513f334a31111983bf6cd35de6232e2",
+  "future_launcher_rule": "Replace exact namespace/path tokens only; assert unchanged original wall literal before launch."
+}
