@@ -544,7 +544,11 @@ def _source_inputs(plan: dict, repo_root: Path, qualifications: Mapping[str, dic
             PurePosixPath("reports/releases/v0.9.2/acquisition"),
             PurePosixPath("reports/releases/v0.9.2/qualification"),
         )
-        if not any(relative.parts[:len(prefix.parts)] == prefix.parts for prefix in prefixes):
+        committed_extractor_provenance = (
+            relative.as_posix()
+            == "execution-state/v092/swift-source/patch-application/applied-patch.json"
+        )
+        if not committed_extractor_provenance and not any(relative.parts[:len(prefix.parts)] == prefix.parts for prefix in prefixes):
             raise ReleaseError("source input must be under the v0.9.2 acquisition or qualification directory")
         digest = _bound_sha(item.get("sha256"), f"source_inputs.{relative.as_posix()}.sha256")
         role = item.get("role", "release-input")

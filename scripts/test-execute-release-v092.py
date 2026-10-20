@@ -26,6 +26,18 @@ SPEC.loader.exec_module(executor)
 
 
 class ExecutorTests(unittest.TestCase):
+    def test_only_exact_extractor_provenance_is_allowed_outside_evidence(self):
+        relative = "execution-state/v092/swift-source/patch-application/applied-patch.json"
+        target = self.root / relative
+        target.parent.mkdir(parents=True)
+        target.write_bytes(b"provenance")
+        item = {"path": relative, "sha256": hashlib.sha256(target.read_bytes()).hexdigest()}
+        resolved = executor._source_inputs({"source_inputs": [item]}, self.root, {})
+        self.assertEqual(resolved[0]["path"], relative)
+        item["path"] = relative + ".other"
+        with self.assertRaises(executor.ReleaseError):
+            executor._source_inputs({"source_inputs": [item]}, self.root, {})
+
     def setUp(self) -> None:
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)

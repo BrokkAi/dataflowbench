@@ -1,0 +1,67 @@
+{
+  "schema": "dataflowbench-v092-harness-build-input/v1",
+  "captured_at_utc": "2026-10-20T00:47:55Z",
+  "branch": "dave/v0.9.2-full-refresh",
+  "source_commit": "c0f914c81689f253cb29f1cbb84018756a2cf993",
+  "worktree_clean_before_build": true,
+  "repository": "BrokkAi/dataflowbench",
+  "toolchain": {
+    "cargo": "cargo 1.97.1 (c980f4866 2026-06-30)",
+    "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "rustc_commit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "host_target": "aarch64-apple-darwin",
+    "llvm": "22.1.6"
+  },
+  "platform": "Darwin 27.0.0 arm64",
+  "command": [
+    "/Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/cargo",
+    "build",
+    "--release",
+    "--locked",
+    "--offline"
+  ],
+  "environment": {
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_HOME": "/Users/dave/.cargo",
+    "CARGO_TARGET_DIR": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/build",
+    "RUSTC": "/Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc",
+    "PATH": "/Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/homebrew/bin:/Library/Apple/usr/bin",
+    "RUST_LOG": "unset",
+    "RUSTFLAGS": "unset",
+    "CARGO_ENCODED_RUSTFLAGS": "unset",
+    "CARGO_BUILD_TARGET": "unset; Cargo host target used"
+  },
+  "inputs": {
+    "git_objects": {
+      "src/ (tree)": "dc5c5ca57fc312152d9c2fa88b3e698d52ad3b79",
+      "Cargo.toml": "165c44fb51d1e218c2a33194cc84f83a2e953b19",
+      "Cargo.lock": "e6dbbaaf5e44760661a59af1105cd45c88db5e4c",
+      "populations/v0.7.0.json": "1bd9f09ab20fc40252670ce6a9aa1159c766b48b",
+      "populations/swift-synthetic-v1.json": "a1575f9ae5e0091e375f5f4e09e76ec8dc5e5674",
+      "populations/swift-synthetic-v2.json": "1ede05a2c6d88ebd3fbc687e3d65f7dcf1f71282",
+      "populations/swift-synthetic-v3.json": "fe1aebf74897bdc7c0252548bae6ad06ec7494b4",
+      "populations/v0.9.0.json": "a5779d0af3a63262f759dab6391ab418858268ed"
+    },
+    "sha256": {
+      "Cargo.toml": "91ecd4bffc145c2f70590eca7c5dbb3976f26194b80e3f225ffda41fc4006876",
+      "Cargo.lock": "1b02175cfa099803e999364b30f145e7dd218c94ebabc7f5312338543c7cc5b1",
+      "populations/v0.7.0.json": "6323c36ef5790e447b8f0990ac5670a619165ea40fd56adda20d3fff3bd54519",
+      "populations/swift-synthetic-v1.json": "95e3075b26ebd55cff6dc5fa0fc413ed15733c2ae9d8e21014f80395ca24c4f5",
+      "populations/swift-synthetic-v2.json": "b6c29ff47942c73c34bd479c7ce1137b5bf97d0fbede1204f8eae16aa32007bb",
+      "populations/swift-synthetic-v3.json": "8a324597f77a2948920c0471ac6fce6809e202afdc3c3e30c062809b8a863efa",
+      "populations/v0.9.0.json": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+    },
+    "compile_time_population_embeds": [
+      "populations/v0.7.0.json",
+      "populations/swift-synthetic-v1.json",
+      "populations/swift-synthetic-v2.json",
+      "populations/swift-synthetic-v3.json",
+      "populations/v0.9.0.json"
+    ],
+    "cargo_build_script": null,
+    "repository_cargo_config": null,
+    "user_cargo_config": null
+  },
+  "expected_output": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/build/release/dataflowbench",
+  "log_path": "reports/releases/v0.9.2/acquisition/harness-build-02/cargo-build.log"
+}
