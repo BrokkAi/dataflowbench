@@ -1,0 +1,1324 @@
+{
+  "artifacts": {
+    "capability_evidence": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+      "sha256": "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005"
+    },
+    "continuation_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/joern-capability-repair-04-contract.json",
+      "sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827"
+    },
+    "continuation_source": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+      "sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+    },
+    "joern_shim": {
+      "path": "scripts/joern_capability_repair_v092.py",
+      "sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+    },
+    "repaired_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/execution-plan.json",
+      "sha256": "76264424ddfa31b11788459368ae9b65058685cb7bab60d14353d9c96fca102f"
+    }
+  },
+  "authorization": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/authorization.json",
+    "sha256": "8268eb27d8f9f8ef3c00b90007b729973719aa1e83f30e95d6b157d95ed33d3b"
+  },
+  "base_contract": {
+    "path": "reports/releases/v0.9.2/execution-v4/contract.json",
+    "sha256": "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb"
+  },
+  "codeql": {
+    "argv": [
+      "/usr/bin/python3",
+      "scripts/run-swift-common-v092.py",
+      "execute",
+      "--plan",
+      "adapters/codeql/swift-common-v2/plan-v092-01/execution-plan.json",
+      "--output",
+      "reports/raw/swift-common-v2/current108-v092-01",
+      "--query-receipt",
+      "reports/releases/v0.9.2/qualification/codeql-swift-common108/query-check-02/receipt.json"
+    ],
+    "attempt_id": "codeql-swift-common108-attempt-01-series-01",
+    "contract_sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827",
+    "group_id": "codeql-swift-common108",
+    "maximum_attempts": 2,
+    "output_roots": [
+      "reports/raw/swift-common-v2/current108-v092-01"
+    ],
+    "plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+    "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79"
+  },
+  "continuation_contract": {
+    "path": "reports/releases/v0.9.2/execution-v4/continuations/joern-capability-repair-04-contract.json",
+    "sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827"
+  },
+  "cutoff_utc": "2026-10-23T21:33:00.680937+00:00",
+  "execution_admission": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/execution-admission-03.json",
+    "sha256": "bff52a5fe497c4bac35932fb75cb0c11552981f6e582c3f274384da4dadf7e7b"
+  },
+  "expected": {
+    "known_stale": 0,
+    "ledger_rows": 88,
+    "partitions": 92,
+    "rows": 4252,
+    "selected_groups": 84
+  },
+  "final_review": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/final-continuation-independent-review-06.json",
+    "sha256": "dac59010aa334d8d7b1531ae193ead8bca1542ae4a19b77fe0035ef29851f73c"
+  },
+  "finalized": true,
+  "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+  "independent_review": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-bootstrap-independent-review-01.json",
+    "sha256": "47faef0104b9cddefaa4b2ef747d64074271c273372775af25eee52c361502bf"
+  },
+  "joern": {
+    "argv": [
+      "/usr/bin/python3",
+      "scripts/joern_capability_repair_v092.py",
+      "execute",
+      "--plan",
+      "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/execution-plan.json",
+      "--evidence",
+      "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+      "--plan-sha256",
+      "76264424ddfa31b11788459368ae9b65058685cb7bab60d14353d9c96fca102f",
+      "--evidence-sha256",
+      "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005",
+      "--output",
+      "reports/raw/joern-common-v2/current108-v092-02"
+    ],
+    "attempt_id": "joern-swift-common108-attempt-03-series-01",
+    "contract_sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827",
+    "group_id": "joern-swift-common108",
+    "maximum_attempts": 3,
+    "output_root": "reports/raw/joern-common-v2/current108-v092-02",
+    "plan_binding": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/execution-plan.json",
+      "sha256": "76264424ddfa31b11788459368ae9b65058685cb7bab60d14353d9c96fca102f"
+    },
+    "plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+    "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79"
+  },
+  "ledger_prefix": {
+    "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "rows": 86,
+    "sha256": "ca7152afb422160b30c2f38677aa539a1463b45e3b41131848b3d9e81d4a1084"
+  },
+  "original_origin_utc": "2026-10-20T00:57:00.680937+00:00",
+  "plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+  "schema": "v092-joern-capability-continuation/v1",
+  "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79",
+  "source_inputs_delta": [
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-alias-propagation-negative/raw.json",
+      "sha256": "031fcedc107d5a071021ad46c0fd46538eaa65f6fc9855f4044f55436341a0b9"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-alias-propagation-positive/raw.json",
+      "sha256": "37b72e68b249002dd6bc35ffdf28f446f283d5abba130fe27599b9501a22e04c"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-argument-position-negative/raw.json",
+      "sha256": "b17621a6591d3186856ace5ef418402525219da94757738fe98ca02ce4381818"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-argument-position-positive/raw.json",
+      "sha256": "c4d5667d204283abdcaf3bfa5fc41494747312b6b07f39ef0215b5109fec53d2"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-array-element-negative/raw.json",
+      "sha256": "50fc3681cb2cf16861394b6b84138704fab73d3b2d1384aff0f52abe2897ff0f"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-array-element-positive/raw.json",
+      "sha256": "63751afb0c1dd3617e5d91d764c8ccdf95dd6afd19102f248c6c46eff3e5bced"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-branch-join-negative/raw.json",
+      "sha256": "8847c7c10a35e075f223f3212f5fec1748334ededb6785e55cf8389473632d61"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-branch-join-positive/raw.json",
+      "sha256": "bf68ac68eb0cf3a823b6798cc643a32d0009394b85b2e36269848d29194cd6d1"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-call-context-negative/raw.json",
+      "sha256": "0d730cf75d4607f3f58038eba035acc0b3403a4a3e2dfc18e4c408ab5ee2cd08"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-call-context-positive/raw.json",
+      "sha256": "c5f95906cdeb15c18641f04c340076f43a868cd4c96d4edf37679d3a46ea04ca"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-callback-registration-negative/raw.json",
+      "sha256": "00297bab4ba7ec94e45ebba0de4ba105bd8b44caa682e0d4c63f708387e4897a"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-callback-registration-positive/raw.json",
+      "sha256": "178449573ad3e8094acc7f363b1078fd444bdbfec324ce6066f6f62f60f4b3ad"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-closure-capture-negative/raw.json",
+      "sha256": "b59155767b876c5515259b3e8d832ea96a9e4aeac1a58d1d87aeece5780e158c"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-closure-capture-positive/raw.json",
+      "sha256": "eb8a60543c1232e33b847f58906840be1f665da78561748b40503fd0dc15adf9"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-computed-property-negative/raw.json",
+      "sha256": "473e77ab8717a2d06c0545caf8bfb495929a333f29accc545c7e3b6a7b51977a"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-computed-property-positive/raw.json",
+      "sha256": "b4d6f582113e4198fbcda0ff9204757b41fa41d0ebb59e11e17745b26aefac65"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-context-pair-depth2-negative/raw.json",
+      "sha256": "c1346a5e6b7ae7884a7c1a412ee99dd45c42c4a76b94ce7db730421f51ee7a90"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-context-pair-depth2-positive/raw.json",
+      "sha256": "a6d003a747f147bbf66c51a400c874eb76f7109e660335d35230f0bcfaf7601c"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-deep-relay-chain-negative/raw.json",
+      "sha256": "52de6a30239eaeb20c2130bc7e8df6df1dbf170b7485be6a95d41ed6e3092c63"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-deep-relay-chain-positive/raw.json",
+      "sha256": "3868e0e13771782a8d50ac61b226ea92698f66b246398783ce0a5311ab1c21a7"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-direct-negative/raw.json",
+      "sha256": "e6768c78f301447f8f9a58075effbb69acfe30fc05b6cddcb6e871a0d4a63141"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-direct-positive/raw.json",
+      "sha256": "3f52a14faf696b5ee6b9a6843c8868dc7555a6434524c8363fa76e8bc7071b2d"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-dispatch-table-negative/raw.json",
+      "sha256": "54aa6f40ab60f9313aa9453c652e4feb6883d9997c2be6dbaf74538f0fcaf470"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-dispatch-table-positive/raw.json",
+      "sha256": "c0131d959f68cd02354050b6b8973ca6ade64949a926f20bf9fc6ec8bf4c39ab"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-element-object-negative/raw.json",
+      "sha256": "ea2c8ae6ed66a6ed6bab9c13cb48027d2bf2eadd38617deaa6282e68a40af813"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-element-object-positive/raw.json",
+      "sha256": "3c46e92925ae033d82f279891606addc0f2e0edc7b3cab23d2b7f25628bde815"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-exception-catch-negative/raw.json",
+      "sha256": "3abbd6f54770d8f85c4c76ee8a57decabb6e73e0002e6257dc0654338d27ebc1"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-exception-catch-positive/raw.json",
+      "sha256": "fe22a5dc18c2f959a57cb080bd79bfe7e4cc945dc9967d96c905872b4af87bec"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-expression-negative/raw.json",
+      "sha256": "c6da31833ce122bd4ee58c960c0a91b646548820fb8a76334a866a6733a11e1e"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-expression-positive/raw.json",
+      "sha256": "679d511cc50263ec22658addeb98a640719adca54cf98e9ef05fb009c6a46c86"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-function-field-negative/raw.json",
+      "sha256": "6d379140b3e7b6dfd6f92e687eb8cc2bb1563bde2ce708b97e4048a87b564418"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-function-field-positive/raw.json",
+      "sha256": "dc518a96238fff0581a728380aee35ff152012ddd5640ef2291693481969e729"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-infeasible-branch-negative/raw.json",
+      "sha256": "59501c72945640578c6309eb033ab8741257f4dd77fafcd7b98e9791748de472"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-infeasible-branch-positive/raw.json",
+      "sha256": "fc2e7c1f69583bbc4728293e5d217ec15c2438d7a5dd45f5356f996c6e5dc9c3"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-interprocedural-exception-persistence-negative/raw.json",
+      "sha256": "001fefb3b2d03e9fee736b7d7426c154a610fb74ef7694ea33b63a3b7c489c49"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-interprocedural-exception-persistence-positive/raw.json",
+      "sha256": "dffc3d2881580569070facd0119dbae78dcf63ec32ea076149a843929a353994"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-local-chain-negative/raw.json",
+      "sha256": "d01a3960ae41c66a61c512d3143c703daae46be77ccf48fce84216918e5ef26f"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-local-chain-positive/raw.json",
+      "sha256": "bc6fa641f297a7637fabedaf5a71eb7e2325f29d8413d60dae9e791253256799"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-local-overwrite-negative/raw.json",
+      "sha256": "554c0630e0c8e864245821cbefa24714eac223f8c400396afafc489196634d43"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-local-overwrite-positive/raw.json",
+      "sha256": "f60a42075a0aced2fc9e293467799293ebf4a2fb8da9eaa1d730c24b3d0c4775"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-loop-carried-negative/raw.json",
+      "sha256": "324b8481c56ba2a0b32a03e6f033824370ac2f86fda150d76f71a8919086ad55"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-loop-carried-positive/raw.json",
+      "sha256": "acd8703c75659d9b633436bf3d1484808dd0bf1c8fd18d3e4c92e62eed761214"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-map-iteration-negative/raw.json",
+      "sha256": "a90af516c61e9b6c7101f03f21c421b64078d8f535a61d0fd30a959c0582d29e"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-map-iteration-positive/raw.json",
+      "sha256": "fb44fcdd1193ff4bf6ce26557a104737f80720a46573d97d6a23535147f67910"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-declared-sink-negative/raw.json",
+      "sha256": "aeb42d0471661c2647969ee54939c825f6a580abef196b1790a25dbb263a50cb"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-declared-sink-positive/raw.json",
+      "sha256": "3f5c2e3a872d128f82b9fac6ec844a368a823877758589272a66fcce82160662"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-declared-source-negative/raw.json",
+      "sha256": "130379a0245629c27206e1b65497dfd8e5741da718afc7d389dc6f2cb29cd268"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-declared-source-positive/raw.json",
+      "sha256": "8ca32187ae71d114d782acf5d6b16857e5330853f2fd1f93555a5a2fbb008bc9"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-entrypoint-parameter-negative/raw.json",
+      "sha256": "694cfc35c5aa2fe61ce50cf678c8aa9cf153cbf6f98b6b12f734716b8eb6e876"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-entrypoint-parameter-positive/raw.json",
+      "sha256": "4354c3d4aef12c414b7bd7180ac56f7c5b847e67728351c6fd06847f5426f95d"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-entrypoint-selectivity-negative/raw.json",
+      "sha256": "379cf51314ebedfce3783605bf5c6fe617fddfd7ce8e63e0581c48993595da51"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-entrypoint-selectivity-positive/raw.json",
+      "sha256": "f169ae20f41f3752bc5a140a05810ca54ffbf44f6ba4a5aaf671b1b5cecf0970"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-opaque-propagator-negative/raw.json",
+      "sha256": "488328f6ab0a71d2264e533a040de7d67abc21e56253aae9c3fe2786456c513d"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-opaque-propagator-positive/raw.json",
+      "sha256": "6b21ee2441c28465e04f43c83073d5061aa36d025a513f8b1f1c4877401241f6"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-propagator-position-negative/raw.json",
+      "sha256": "a386838a7604ff1692016f3ae944638496aa29a45680600ebebcd6016dedc2b2"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-propagator-position-positive/raw.json",
+      "sha256": "436d355bcb6a82a3e3ceb438bbc61ecb5bbe68a94c0948c0ef1725abc7b16a1a"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-sanitizer-kill-negative/raw.json",
+      "sha256": "8f7ae1440eddf80d757e21fba6a6b3aeab9bca7359ead1ef4153d66ab10869b4"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-sanitizer-kill-positive/raw.json",
+      "sha256": "b5e56a00c7c160c5ef848fbeaea4545926e62e1a5c94f4b54116bbab99d96b62"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-sanitizer-selectivity-negative/raw.json",
+      "sha256": "308cf50beecd907472f88685c6c2499faedd13809f192b812f51978e4c902702"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-sanitizer-selectivity-positive/raw.json",
+      "sha256": "eb3991e6fd92261fd63725928653f9cbd1bb1e4d923bd952628da8ec1ed54adf"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-store-roundtrip-negative/raw.json",
+      "sha256": "8e90d53494bcea58d612bfdc2474d10a30c9f6aba843be82979055a7d3af0f67"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-store-roundtrip-positive/raw.json",
+      "sha256": "3b9e6530ed1d7bfdad85b916f47dae06206be5911a7827fafcda23a4be1301fd"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-store-separation-negative/raw.json",
+      "sha256": "3b76e6d01748225709fb39cd6a61db82ef9bc7aef2f7fcf66182348a7b10b16e"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-store-separation-positive/raw.json",
+      "sha256": "475c20f125f01d234863b67eb918d7c1302afebda384888abd528207311b02c0"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-summary-field-negative/raw.json",
+      "sha256": "e918d63e1ffd4601b90015d2a6efeac32e1984085bd69ffb83bc0e4d41771e03"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-summary-field-positive/raw.json",
+      "sha256": "3e41af16af97f452c96e04e1891dec24406a8f0d2cb9ad885c8eda57af05f213"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-summary-through-negative/raw.json",
+      "sha256": "d75dc28e7babe503cf12a6f3ae526fa696859c365aa86bd12ae05b92c618553c"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-model-summary-through-positive/raw.json",
+      "sha256": "d0476cdcff7a8ce0d5a9b31ab56eaf5d816eb164d5fd36dc190307db40cb45dc"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-modeled-external-summary-negative/raw.json",
+      "sha256": "e95ca44bc845c739589df5bd62a55bd7f9441b4eef81cb69a8276e4af50cd2e3"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-modeled-external-summary-positive/raw.json",
+      "sha256": "79059b98fd3cfbe0b1e693ef82761f095ea11ffeafa1f4729f16dfa46103f273"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-mutual-recursive-transform-negative/raw.json",
+      "sha256": "009bc5fdd8b674024de3cd5418a8b6f25acfe5e186b9aae918885bf688038b1c"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-mutual-recursive-transform-positive/raw.json",
+      "sha256": "0fb8004729af66c050cc8245f921b193db19b01c60cd8f3b163cfe8e04e7bdc8"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-nested-access-path-negative/raw.json",
+      "sha256": "23ffffab76d9d594ac87adc92732431c5b35aab28a9c6716ac5a1f1e840e7368"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-nested-access-path-positive/raw.json",
+      "sha256": "af7d7c89fc99fd9311e48e71fa7e5ee9f7cca45baea3b590560e8e14ba3f7c91"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-object-separation-negative/raw.json",
+      "sha256": "8c8a15754d98dadfa3c0c62153c7908439b457b405ca4f595f61e35b66643eab"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-object-separation-positive/raw.json",
+      "sha256": "25a8e82d8b7deeed55ce1bb088aee3b33ff0131d3659e39e5043cdbda9410647"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-one-hop-relay-negative/raw.json",
+      "sha256": "bdf09f54e852d174b91ea32ca0ec24ec4df625c2d61664396d8cf1b853af8b80"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-one-hop-relay-positive/raw.json",
+      "sha256": "e7b253796a4742adff9637c911807f632c6a0dcb5e0caee7e7269e4548df79d0"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-recursive-callback-transform-negative/raw.json",
+      "sha256": "e128ef8ff0ab798eedf8efe107b72fa0a74acaea39809e5ddc43198e8f6a2539"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-recursive-callback-transform-positive/raw.json",
+      "sha256": "9440dacd8e4f86ec4bc3e586817ab2b4b77aedafd742f21909a1320f253fd697"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-recursive-carry-negative/raw.json",
+      "sha256": "f6b180bb5af914179b079e9d6c3dadaa8722964cd1529e0de1d3482072823eee"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-recursive-carry-positive/raw.json",
+      "sha256": "c23e65a2d13ec5c49e68b22ccece7882d64186f496c22009a32e0a7ef397c2b9"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-recursive-exception-persistence-negative/raw.json",
+      "sha256": "5c7e26be3e8e2edc8140f4868b032c69b1e07120240a35400318cacd6927794d"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-recursive-exception-persistence-positive/raw.json",
+      "sha256": "3920a8dd43aca10858358acdc25e3a8dc4068e4b8a592ef2b3720cb0de98cf6a"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-recursive-heap-unwind-negative/raw.json",
+      "sha256": "5e6261d540dce363941e01370b668d917bc767c5fd43d5d3b1797172c679daad"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-recursive-heap-unwind-positive/raw.json",
+      "sha256": "498d565ffa6a4b64f7c39f5745ca3d7f219997388aeaa0e964b5efc0c6af68da"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-recursive-payload-transform-negative/raw.json",
+      "sha256": "affda7a9d90c8ea4bbb4d64c1607c94309c617d23eb87ca9a983599b34f9dcf8"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-recursive-payload-transform-positive/raw.json",
+      "sha256": "e9993aeff7526025ed5eef2ea6be2bce7dae014a5ebd75a883c465659fed0f16"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-result-error-propagation-negative/raw.json",
+      "sha256": "375651de25f1137eb40600c90fe01e716da4801adc9cc4e97be21c2d7ebf0652"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-result-error-propagation-positive/raw.json",
+      "sha256": "0aaf4fddd1428828d9e1df73264c40a5d965d190536bc369b17774d65b9653e8"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-return-relay-one-hop-negative/raw.json",
+      "sha256": "6d52b4c31ea93803e4fad04936b2195eb245e81274ec202e7c0fa0c56559d49e"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-return-relay-one-hop-positive/raw.json",
+      "sha256": "3201157e1d0351b1965743140f00bba2ddee56def4a170f3fdb8dfad961741a6"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-return-relay-two-hop-negative/raw.json",
+      "sha256": "af197d614a76a9d382e693f9e529f407e3e12c10bba95c57ff7327d857b30a90"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-return-relay-two-hop-positive/raw.json",
+      "sha256": "2bf3dca9e80bb63427dbf8b5a667dd5135017715ae54c4ff40d3ac5408679b3f"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-same-object-field-negative/raw.json",
+      "sha256": "532b5703c36398a687ae08697dbcca85f201c4bcafc99387139a76b1029d754c"
+    },
+    {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-same-object-field-positive/raw.json",
+      "sha256": "4471e7663b4eac3bb7063b2a5f83aef7757e350481ffec2cc8c563a655323ddb"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+      "sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/test-joern-capability-continuation-01.py",
+      "sha256": "9eef52992edc1699584521496c3036c1595c6616ae453de336ffcb315627f1e9"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+      "sha256": "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/build.log",
+      "sha256": "875eda635f26bafbb7fbb450d855bb4f386b2d085035726d1a233daa62905531"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/config.json",
+      "sha256": "f2fd396c0c6028566b0d633b6a87e7e5ce9f5fe0776d84e6fb8591c3f7629149"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/cpg.bin",
+      "sha256": "485741575d7da539ab4a4d8baaab6b60eb5ad42daae35a732908f19a355f614b"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/fixture-hashes.json",
+      "sha256": "b1e1d25a5f1a1f1c66eb980d9803db9543ceeca87095e13eb24affa2248e7f2f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.command.json",
+      "sha256": "373c77e22b387500819e9e4ac68ae8674d56a0b38f1a8d53501487e8419305f5"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.stdout",
+      "sha256": "3e9c80a4eb2422c424c5a304a2cdad2e146e64ca825410a579929f2f2c576fb1"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/graph.json",
+      "sha256": "4e1e05aca8492c9712877ddc821d27b4bda8b7ae1e9b4b664b24c91782a90389"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/query.command.json",
+      "sha256": "ae211ecaff921b19ebb812e2a10217abeaa357ae0bafad62aa3402187f4d9d37"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/query.stderr",
+      "sha256": "6ab497a2d2ee311172f08ff14ac7d4162bc730070b82f71fe889332fabb5ea47"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/raw.json",
+      "sha256": "cc26aa3a58a3b5d3f6e0f6ce1c88b7a443409ee303741a4cee265697da0e1525"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/source-closure.json",
+      "sha256": "a3f9381c1478570e32a111237c7800b0b90153c6563b5df1b96bf3f48532e87d"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.command.json",
+      "sha256": "0ce309403cb53f407aba1301796a7b53c57667acff03d79f37a41e4af8119f78"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/build.log",
+      "sha256": "5b95b0a80846b95cb2eaf090772d230693ac72a93a09eed6faf3cb254b3bd0fc"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/config.json",
+      "sha256": "028706de49497716fec82fe998ca05035ed3088cbb95785ba2c11d9a301e5c1c"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/cpg.bin",
+      "sha256": "ad8b6c09ef835716e6d865329ce4424e7f32b39626d7c1e6feae802a33369ea0"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/fixture-hashes.json",
+      "sha256": "b1e1d25a5f1a1f1c66eb980d9803db9543ceeca87095e13eb24affa2248e7f2f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/frontend.command.json",
+      "sha256": "e7d35718539ea683921e1f7d4a193352865ddaaa4cd34c16b6f013756080a709"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/frontend.stdout",
+      "sha256": "ac240efc8f0b1612658dad1fce81137a05ea53a8a8697f4a32343cf9074162bb"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/graph.json",
+      "sha256": "7f9672ee0fc75f86adf75c5f7f99f7d0ef1c04fff0da444ffee1df1dd604e570"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/query.command.json",
+      "sha256": "5a8397ec3be483abee296d0e06161c6cd30240ef4a3f67d9f02264f2d5ed080c"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/query.stderr",
+      "sha256": "1c41bba46d7d88ec9c5e4c778508d4a7f2dd540a3171963212e5c9ef01776f38"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/raw.json",
+      "sha256": "3297f37593b332ecd9fc536046b502fc75aa21d871febdb25fc2715b7d3c1713"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/source-closure.json",
+      "sha256": "47e7e94c5b7075e3d1633a5fbd724dda4fd6cdb4a69572953aae4240d31fe695"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/typecheck.command.json",
+      "sha256": "30ded7fd95c5dc29c55a56ed4eec5f814cc2a56186adf063fd4314e6c6458882"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/build.log",
+      "sha256": "63c3abd6abce2c8df1ba8c02cdf65841a7fd67a33935f78d958fd1690b7c749a"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/config.json",
+      "sha256": "a9678fd14f76fc561d19df0a8786ee8da19f18599e7542af0add69834de914c4"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/cpg.bin",
+      "sha256": "3453d1de060d6451298e49f59799caf41aa4e1a783bee539791af6861e2ec754"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/fixture-hashes.json",
+      "sha256": "5c74b8da4aa4d1bf72f1b169c44bd77667dcddb47f5efd220cb461031e845e11"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/frontend.command.json",
+      "sha256": "0498294b0131938e7827741ea53919610f21f12e5035c61055ac13557de35423"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/frontend.stdout",
+      "sha256": "81a6acb01da026f561235003acdfc72b8bb7b6400702e59f9ccf7070af86018e"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/graph.json",
+      "sha256": "f8a33ef73f05d39acac91728d84fc8af874bf516e1e9bd0dc50de394c6f75058"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/query.command.json",
+      "sha256": "7225dc191087fe8f8c3a6b630cf4dc04ad665c2253c20c751d406a25bab03660"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/query.stderr",
+      "sha256": "6c813c1a2a2c6dba3dea7c5fff43279f663ea5d2eec13bc2b6d40c8e88d0879d"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/raw.json",
+      "sha256": "2edf2bf3b89afdb658e6990ac21b4d7299140b3d80cec656e98e11713ac1d746"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/source-closure.json",
+      "sha256": "4b75a84c66539d7d92587de597b0a775bd7b4505fa6a1d680d79e56cac67e9ed"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/typecheck.command.json",
+      "sha256": "5f0726c136a7a44c2780c7a3bff78a4e4ad106f8ed5ab7e62d15a5b2cf893cc8"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/build.log",
+      "sha256": "b570ba0985c25b353eb72d843bc055661afa85f055b1e3c8bbe39f0a1cb96d6e"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/config.json",
+      "sha256": "3ecc71719bb0d52450452e175c00920ae0af9b7850d0d4a5e4ef9fc74a00dcf6"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/cpg.bin",
+      "sha256": "0e4ab6c449677f1e177cb5ce9b7b4f241038da9373c01658d5df9ef456ebf0d3"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/fixture-hashes.json",
+      "sha256": "5c74b8da4aa4d1bf72f1b169c44bd77667dcddb47f5efd220cb461031e845e11"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/frontend.command.json",
+      "sha256": "0df763389a74ca7bc7b35c8e512d1e764dd0f06baf20a9caf35a9f70f05bbd88"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/frontend.stdout",
+      "sha256": "7d7ab6d91b7eeb67c3f8e3d3b350ac34644430dddf042baad5a7e36111317df2"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/graph.json",
+      "sha256": "bb50e5577f95d96e5dab5f1294c75802025baa40f93f38a937d23dc58c5be2ba"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/query.command.json",
+      "sha256": "2640824243ba7a181ce20bfdbf0bed6c252fcf5f1813fa38747451324ebefa57"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/query.stderr",
+      "sha256": "24269cc4d0df0e96a3af5979ebdc2afc8e2e0ebff198958892b630c211fb3fa7"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/raw.json",
+      "sha256": "9bfd72387f1406d3f51faf7de0bf014106a580c6fe0255b5270a909d184fc4ba"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/source-closure.json",
+      "sha256": "4620b0a310ceb7cd14f3c54394055c1d506f73e98f9d7ec5143c04c5b3ee2b17"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/typecheck.command.json",
+      "sha256": "0ee35a4dcd10ddc94a5ad9d98df61c12e358eb69defe4f920e8b586335d765d3"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/build.log",
+      "sha256": "76b3fdb9c6fbac3fee40e9559a53e7049737cd75fb1ca384d43e4b22dac0df1f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/config.json",
+      "sha256": "d583dcb30b2ebbe36d3481bbca2343a399966c1e6c4e8979238fe58cd50abf70"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/cpg.bin",
+      "sha256": "97c5d6085eac5f5e5bbbeaca0a612b859a774893cdafa701d934854e5f5657a6"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/fixture-hashes.json",
+      "sha256": "7e0d259694fc99894a2c98a0dd078c92380260872cff36a042ed44ab8cd1dfe0"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/frontend.command.json",
+      "sha256": "8aba54e85698306fe4f05356588d63eee518733134b60db28f38244a973103e5"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/frontend.stdout",
+      "sha256": "ca7a837c39583d68d8c57f0d5898e447ffc23ff56e023d79fbee26809e57e78c"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/graph.json",
+      "sha256": "55c793d2a91b925d03ab3c187300893551b9343023c095cb6125d82a6b594abf"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/query.command.json",
+      "sha256": "5e4ff613b174ea5846753052c2a4e5bfd5bf9b17d87dc2e773cb20700c34fb0e"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/query.stderr",
+      "sha256": "c2632e0e775ad40e4b7f410c3338d95377fd81e26cdf87b7909b93975cb6d48c"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/raw.json",
+      "sha256": "0ecf4cd9c04d738e96541224c4239736391897053319fc6f97b92521758ed056"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/source-closure.json",
+      "sha256": "10fc9d71f6df45edc93abe4c2b9913f60f8da82342114a8dbd9b1d3fb7e6be0a"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/typecheck.command.json",
+      "sha256": "a8917bab023232186b740a8a4ea7b7067f7ce8636a8e4af177962efb223f12a1"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/build.log",
+      "sha256": "dafcc886664ca1265506a83de0d3b89f22b8cb9496e1c44c4bc56b6ae3c43202"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/config.json",
+      "sha256": "92a9f2f947e484a8bd1871ef039e50dd94a98f2fc370d739f7c0782ef63eb886"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/cpg.bin",
+      "sha256": "dbb801382fca8bf86db6319ced4e3d3c5ccac391b93b5e6bcc7333ab26ace533"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/fixture-hashes.json",
+      "sha256": "7e0d259694fc99894a2c98a0dd078c92380260872cff36a042ed44ab8cd1dfe0"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/frontend.command.json",
+      "sha256": "dac9206137a3af0e26573084e74ce8688412a00c70f13ed804ba808804f6165d"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/frontend.stdout",
+      "sha256": "7354c513f9aa022a638f5d4f747c3a216904badd2bdc7ec2ff9b9c6840a2fe74"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/graph.json",
+      "sha256": "e777032f85d61d0b5bc3ed65647c09523c5a075009c6af709fc48798d91d1055"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/query.command.json",
+      "sha256": "b965a7a09e825baac3d6501a61c9a736499c87c4e715bc0a34865fe53454479b"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/query.stderr",
+      "sha256": "6287a1e93b8601ee9c5fc0265f646f65088555d419dd504839dd0d985788a59e"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/raw.json",
+      "sha256": "a5287842bfbb74f6b3a226b80b637b24e17b415d13a37d4a7c05c5b377bac1b4"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/source-closure.json",
+      "sha256": "dbd13759dcffee547c1ec61e3276633d5572fdbbf3019d7e246a38cb58dc93fc"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/typecheck.command.json",
+      "sha256": "2a34a4084ec5ebd2a16c2804081295fa727b684fa4149055181208e7f1342f4d"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/build.log",
+      "sha256": "a97bd96c209c877bb5bb98942452d80a30bc75521b4ec394877c6761e4d4d330"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/config.json",
+      "sha256": "d583dcb30b2ebbe36d3481bbca2343a399966c1e6c4e8979238fe58cd50abf70"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/cpg.bin",
+      "sha256": "1abe27d6b326d543cb59196ca688e4105a8e790a51f0a11e56437e5aa24a92cd"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/fixture-hashes.json",
+      "sha256": "2d1ff22a57d84e0ca1b40ba357836a691064b8e4db8e382483a0e9c468472a21"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/frontend.command.json",
+      "sha256": "63129956ff4fe91d524a0048946f526390d28e2998006e006f676db999b7c178"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/frontend.stdout",
+      "sha256": "46694feb18d4de7ec7edc678972fa8b4baaae3885cd85ecfc315d98af48e2cbd"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/graph.json",
+      "sha256": "f326f4f97e6f51597c910489442e9ca1f4b344bda6c3193bcd54fb671fcaa32e"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/query.command.json",
+      "sha256": "439e3bf09b0a6ddf9e63c1aa80f67a4d9b703d2fa81388b147c75ba66981a40d"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/query.stderr",
+      "sha256": "c3c6336de6ce8e1f903fb8ec16d30bdb889395b8033fa905548897f5cb7faaa4"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/raw.json",
+      "sha256": "da062e97bd031e39e924fc2550cf56c22894716a02b17d2b7067fbd504a82aa9"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/source-closure.json",
+      "sha256": "e2d886992b200205de5f088412a7743cf51dad8dd9f685f62442d4eb57cf4c98"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/typecheck.command.json",
+      "sha256": "d55e40cf8ed9aeea2a82dc95cd94c8e63a54d6ac7c423b4003858cbae0c8e7a0"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/build.log",
+      "sha256": "08967bf1bed30b1868f497cac28691cdf3ef9a7c9f0ee976f714ccfe470c7ebf"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/config.json",
+      "sha256": "92a9f2f947e484a8bd1871ef039e50dd94a98f2fc370d739f7c0782ef63eb886"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/cpg.bin",
+      "sha256": "032631c15f7a3993af815f12b5a530696a4cb2150319f1b6b28a00e664496f5c"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/fixture-hashes.json",
+      "sha256": "2d1ff22a57d84e0ca1b40ba357836a691064b8e4db8e382483a0e9c468472a21"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/frontend.command.json",
+      "sha256": "93550567a44dbd88ba8981a78c21bcef2fe474620280b6ed0f2f948cb96a2fd9"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/frontend.stdout",
+      "sha256": "027fe191b423b341038c8e36d0750a8963bb136faf01e2169cc84d1ac81d5d3b"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/graph.json",
+      "sha256": "c6f97d54b227759478a4971fb55be6c06c485888229981e6c02ec581d5f5e865"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/query.command.json",
+      "sha256": "bb9b2383c15bb3aef7dcb84269eb0a0687a03e0938d721ac718b9b755eee6d90"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/query.stderr",
+      "sha256": "1e0f4f4b59a0e52170e19bdd2eaf964e1ab498351911a107baea87b9266def43"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/raw.json",
+      "sha256": "0028c34246c434aaa84e8370f612ed367df8a1e5fe20ae1cb68b53e45086e38d"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/source-closure.json",
+      "sha256": "e515c418a5ddfba639df5d1e1a80f56595b8303195307fb33c52ac3ed25ec70c"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/typecheck.command.json",
+      "sha256": "1b8d9868496c8a343d9940e40dc60a5e6e8e90aa86a6017d49c8fe8e2fdaf355"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/diagnostic-admission-review-01.json",
+      "sha256": "55c52e46c66770701316f252ae317bdfe378749a2916f7ac5f61d42398ce67b5"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/build.log",
+      "sha256": "43dd23d71e4d59dd7c7d790e60f26c2bcb23665cf95033dcadd7329d5520c3de"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/config.json",
+      "sha256": "a5afddaf879a98953e734e7d1ad5c85210d17db3058aa8190f156570c93f8a20"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/cpg.bin",
+      "sha256": "beed4d551358d0091637f859a929b2b6162e1ba91235b71d893082a9b8b114df"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/fixture-hashes.json",
+      "sha256": "32d21f42512aa3769ec9349dfd766780ce6ac260c647c5321343db121360b13b"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/frontend.command.json",
+      "sha256": "38eeb0c66fa35fd940ff60f5167926a988899663d29440fae08f741d59be817f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/frontend.stdout",
+      "sha256": "7b23f180bf0a703b7d049632c58c7c4403e4d744e03d236d98b0b7e409cb1cc0"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/graph.json",
+      "sha256": "8bb0dc707d7f3ba3c4969bbb4ac6aa7d8de3a7663f7d7ba4fc24247d8dc3c358"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/query.command.json",
+      "sha256": "913be9d3653dedf1ebd9b44082269e7641864a8d4d3486bfe981b01538132854"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/query.stderr",
+      "sha256": "6bbb8ed3d79782f6dd28a3378e0e2f1e13b18988c2bc51d72acacd4dd7a577b6"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/raw.json",
+      "sha256": "a04d87183f44ad13d2fb5b1a45c9683f6cf892b107f367162f3d7be2a38637ac"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/source-closure.json",
+      "sha256": "88f5018894405bcdb83f200682e89e7908e64adbe96031e030a9cdb320f9685f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/typecheck.command.json",
+      "sha256": "3f2a1719e33701561b1ced67b1a9d8b647d74d8fed1c2b4932ade2f649b2c7ad"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/off/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/build.log",
+      "sha256": "c1cecf8920d163167eb395700ba890a61ae79aee4a09a7f85d9cecd2c70380f7"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/config.json",
+      "sha256": "a5afddaf879a98953e734e7d1ad5c85210d17db3058aa8190f156570c93f8a20"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/cpg.bin",
+      "sha256": "dd978446cbdf888cc2a62263ca4b81d5d8d0382cd7823480085e83eeecb10fe5"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/fixture-hashes.json",
+      "sha256": "32d21f42512aa3769ec9349dfd766780ce6ac260c647c5321343db121360b13b"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/frontend.command.json",
+      "sha256": "1c08f5d24ce8bd1e9f49e54b0a81be3be7f179cb378de48308e312ca0a158bde"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/frontend.stdout",
+      "sha256": "00a8cd9d540020563d9236ab63d5cec852d1e713e2c711cbbd64f868b6e393a9"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/graph.json",
+      "sha256": "8bb0dc707d7f3ba3c4969bbb4ac6aa7d8de3a7663f7d7ba4fc24247d8dc3c358"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/query.command.json",
+      "sha256": "dedf5ee743eaebe8d6fe2a07bdd12f1414e95e7a676fadac3906956db33cbfc9"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/query.stderr",
+      "sha256": "06578b45e9ddb7bf67c83f0bad60d2985a894c12a14b58f7b575d283fbd9583d"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/raw.json",
+      "sha256": "fba5d354aef73aaf6a25e623a333d351a79692961ec4ef578e983ccb92b8d707"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/source-closure.json",
+      "sha256": "ece2625265fd55be399c0a3c04381c9d13fe418f85e388ba88423aef1ab80835"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/typecheck.command.json",
+      "sha256": "87a7d927a75d4f135e2cc47dcfffb3825ad648647c07dd668e6466133e14c037"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-negative/on/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/build.log",
+      "sha256": "5a3d61b8b3905a9c95571a10cb7bbb6099dcf73f04088aa0442651c784e1d6a4"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/config.json",
+      "sha256": "5f51d2f1981464c13fa29b4faa1aab9dd492a089028e08c14f870e27f3836d05"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/cpg.bin",
+      "sha256": "b9ea2c2eecbe36c4af1b97861713782678d17ce49e84ab4f95a852e8801bc07c"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/fixture-hashes.json",
+      "sha256": "9c8d0a2d633873299d113b0a25c4704bd7f887006671501a9c84fb56d7d8d17d"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/frontend.command.json",
+      "sha256": "d223c739c4b73dc2cba79ce65d856b82d5f531fc4159221353b44adcb8048b3f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/frontend.stdout",
+      "sha256": "d0d497f64bb922072d53475c4d18e608994c446b59208d6be246b03ab1d61df3"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/graph.json",
+      "sha256": "149473e678d9de49c3a8c2232f40438d8a48f3cb0bb908dfd1c6218a5188deaf"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/query.command.json",
+      "sha256": "a61c242767cedd1c2b7ad3757e5364767d0eb86ab5217cab9c6436ce15d9e62f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/query.stderr",
+      "sha256": "df3a24ef7aa83b94faae7205bd2015886c3e140571b6db4f2224af9b4721bebb"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/raw.json",
+      "sha256": "4e76bcd2b451b0f5ff14c1068d5dbc76136bf72f821e869a1bf5c44330c37b06"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/source-closure.json",
+      "sha256": "48791e394b920067ecf5677b2cc8d83a04b1b35ba919586fafe4981c4840e423"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/typecheck.command.json",
+      "sha256": "5f3840c1e946b99f08cc4f6b3ab9f308033a09645634249758c3f2e8f8ce44e9"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/off/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/build.log",
+      "sha256": "245be47b2f57f6777e93b66cb10551969450faf772a10e0c9e809d29f871a163"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/config.json",
+      "sha256": "5f51d2f1981464c13fa29b4faa1aab9dd492a089028e08c14f870e27f3836d05"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/cpg.bin",
+      "sha256": "0951d7799d9762370083e703869b9b3d1ca161909c61ab629274a6304bfc2d01"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/fixture-hashes.json",
+      "sha256": "9c8d0a2d633873299d113b0a25c4704bd7f887006671501a9c84fb56d7d8d17d"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/frontend.command.json",
+      "sha256": "fc3a900fe224a250eca3b7350c8033d1e86f7e953e95f4055f1c0715e046fdc0"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/frontend.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/frontend.stdout",
+      "sha256": "005de46ebb9b9cbbc5f090453640939cf2378534fb60c2213a49d4b676a74730"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/graph.json",
+      "sha256": "149473e678d9de49c3a8c2232f40438d8a48f3cb0bb908dfd1c6218a5188deaf"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/query.command.json",
+      "sha256": "cc6829629f16d52ff4e4029495d10532135ab2689dadd88908fc47b1b87c3b30"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/query.stderr",
+      "sha256": "1863f623c4d2cc8066d096f6346e496a1a66440dd7ba1713b6a3ad4f96bd8e6d"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/query.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/raw.json",
+      "sha256": "2baab9f87e1063425db15f17540d6f3faf7edd2d63dbdcb68a8099b656d7f674"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/source-closure.json",
+      "sha256": "f7f587fe92e806f425161eceeb489359c2ca6c7da5d9a1842effbb98ced90dbd"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/typecheck.command.json",
+      "sha256": "381e40e10b85169b361e1709a873d5c5d9bd57bb49b9691c2eb4c96a3bc4efa2"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/typecheck.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/direct-positive/on/typecheck.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/identity.json",
+      "sha256": "3ba8c3b6d9c0403fb6774550dbfe1db04494a0212df8ca91899c836070a65c50"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/qualification-receipt-01.json",
+      "sha256": "91183615329771d82edf9f46fa0afa088b8e9d858b2d315c6e86f86554b8272a"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/run.json",
+      "sha256": "d9c77fe9affacbb27bc3b56d5a73645943502368653905f77435126223637394"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/version.stdout",
+      "sha256": "e866ca4a6c0134fbec891b101de19e22c6bd44c40a186ce5ab9b3ede978cf3b1"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/control-plan-01.json",
+      "sha256": "ad02fc04ed5e81765160f9e32b9b84d0ee55dfd0460f7a4156c2e6404fe5c7a5"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/execution-plan.json",
+      "sha256": "76264424ddfa31b11788459368ae9b65058685cb7bab60d14353d9c96fca102f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/qualification-finalization-01.json",
+      "sha256": "850aaaa182c385c3b9d0982450375c70f3334b571314a0a4fd3bbb2a6548eb75"
+    },
+    {
+      "path": "scripts/joern_capability_repair_v092.py",
+      "sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+    },
+    {
+      "path": "scripts/test-joern-capability-repair-v092.py",
+      "sha256": "5684e40aed6a8eee082e4f1573a8d64e8469289a6d47efdccdf7dbd5e3928f67"
+    }
+  ],
+  "total_wall_budget_seconds": 333360
+}

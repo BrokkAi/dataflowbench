@@ -1,0 +1,204 @@
+{
+  "attempt": {
+    "argv": [
+      "/usr/bin/python3",
+      "scripts/joern_capability_repair_v092.py",
+      "execute",
+      "--plan",
+      "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/execution-plan.json",
+      "--evidence",
+      "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+      "--plan-sha256",
+      "76264424ddfa31b11788459368ae9b65058685cb7bab60d14353d9c96fca102f",
+      "--evidence-sha256",
+      "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005",
+      "--output",
+      "reports/raw/joern-common-v2/current108-v092-02"
+    ],
+    "attempt_id": "joern-swift-common108-attempt-03-series-01",
+    "capacity_loss": null,
+    "captured_files": [],
+    "contract_sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827",
+    "end_utc": "2026-10-23T08:24:47.542941+00:00",
+    "exit_code": 1,
+    "group_id": "joern-swift-common108",
+    "plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+    "receipt": {
+      "completed": {
+        "path": "reports/releases/v0.9.2/attempts/joern-swift-common108-attempt-03-series-01/completed.json",
+        "sha256": "c084ed40bd5a8ddb9ad5180c6f20138c12434f4f2238ff4910a1c2ea3abb1a14"
+      },
+      "started": {
+        "path": "reports/releases/v0.9.2/attempts/joern-swift-common108-attempt-03-series-01/started.json",
+        "sha256": "056df16c37e2d294aa8e72ccb53d59cc98885656950c2403dcda3b43f2b5a7d9"
+      }
+    },
+    "runner_source_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8",
+    "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79",
+    "start_utc": "2026-10-23T08:23:34.021870+00:00",
+    "status": "recorder-error",
+    "stderr": {
+      "bytes": 1651,
+      "path": "reports/releases/v0.9.2/attempts/joern-swift-common108-attempt-03-series-01/stderr.txt",
+      "sha256": "30c01eeb89cdeb55a35458aa7958fa807613c8f426f5d98c26e99efe90e2b067"
+    },
+    "stdout": {
+      "bytes": 0,
+      "path": "reports/releases/v0.9.2/attempts/joern-swift-common108-attempt-03-series-01/stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "timed_out": false
+  },
+  "automatic_retry": false,
+  "control24": {
+    "codeql_started": false,
+    "continuation_stderr": {
+      "path": "execution-state/v092/matrix-supervision-24/joern-swift-common108-stderr.txt",
+      "sha256": "6bc916a7bf2920b00df07308252e9c5af9fb79b78c6fe361175f4bf41452a0d6",
+      "summary": "continuation rejected after the Joern child did not complete successfully"
+    },
+    "control24_stopped": true,
+    "dispatch": {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+        "-E",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+        "execute",
+        "--manifest-sha256",
+        "fa81d5f6aee3cf5099eab6aeafabcbf59c3020b9cc2cdbe88a19a56167e2b73f",
+        "--group",
+        "joern-swift-common108"
+      ],
+      "automatic_retry": false,
+      "path": "reports/releases/v0.9.2/execution-v4/supervision-24/joern-swift-common108-dispatch.json",
+      "pid": 62135,
+      "sha256": "52bfa1680c1671b9d7d40cd4ab405514f703a35b04601805504b9b09fcf7d2e4",
+      "utc": "2026-10-23T08:20:11.497939+00:00"
+    },
+    "joern_exit": {
+      "exit_code": 2,
+      "path": "reports/releases/v0.9.2/execution-v4/supervision-24/joern-swift-common108-exit.json",
+      "sha256": "7b1ec2a050c3889b3cb4da7e21ab6291f9a173e685ef76b7f6e3b1ae12acbc9a",
+      "stderr_sha256": "6bc916a7bf2920b00df07308252e9c5af9fb79b78c6fe361175f4bf41452a0d6",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "utc": "2026-10-23T08:24:47.641039+00:00"
+    },
+    "supervisor_error": {
+      "automatic_retry": false,
+      "error": "continuation stopped after joern-swift-common108",
+      "path": "reports/releases/v0.9.2/execution-v4/supervision-24/supervisor-error.json",
+      "sha256": "59ed7a5d6fce980e3723bca2fa9ceaaa1fca2b6cfb75b17e4c0be88e3dd65fc8"
+    },
+    "supervisor_module": {
+      "command_construction_lines": "89-107",
+      "first_nonzero_stops_before_codeql": true,
+      "path": "reports/releases/v0.9.2/acquisition/matrix-supervision-24.py",
+      "sha256": "6560df47dfc135a2a9b1044667aabe50def242e4adbe5e9d5fac83074be1244f"
+    }
+  },
+  "decision": "stopped-no-retry",
+  "diagnosis": {
+    "classification": "launch-guard integration mismatch",
+    "not_a_timeout": true,
+    "not_an_analyzer_result": true,
+    "not_capacity_loss": true,
+    "not_source_plan_contract_mismatch": true,
+    "output_was_not_created": true,
+    "root_cause": "Control-24 directly admitted the continuation module. The shim called immutable runner.execute with the repaired plan but did not inject DATAFLOWBENCH_V092_RELEASE_EXECUTION=1 or DATAFLOWBENCH_V092_GROUP_ID=joern-swift-common108. The frozen runner therefore rejected the child at its launch guard before Joern execution."
+  },
+  "disposition": {
+    "automatic_retry": false,
+    "codeql_replacement_not_started": true,
+    "joern_attempt_03_consumed": true,
+    "maximum_attempts_for_group": 3,
+    "next_joern_attempt_requires_new_human_exception": true,
+    "required_boundary": "stop after recorder-error; any future repair or launch requires a new explicit human exception and a separately reviewed guard-compatible path"
+  },
+  "guard_path": {
+    "exact_failure": {
+      "attempt_stderr_line": "ValueError: Joern v0.9.2 runner must be launched by the guarded release workflow",
+      "phase": "after immutable validate_plan and before engine/version/output/analyzer work",
+      "traceback_call_chain": [
+        "joern_capability_repair_v092.py:547 execute -> runner.execute",
+        "joern_normal_runner_v092.py:609 execute -> _require_launch_guard",
+        "joern_normal_runner_v092.py:476 require missing release marker"
+      ]
+    },
+    "immutable_runner": {
+      "execute_guard_call_line": 609,
+      "guard_lines": "474-477",
+      "guard_mode": "release-execution-default",
+      "path": "scripts/joern_normal_runner_v092.py",
+      "required_environment": {
+        "DATAFLOWBENCH_V092_GROUP_ID": "joern-swift-common108",
+        "DATAFLOWBENCH_V092_RELEASE_EXECUTION": "1"
+      },
+      "sha256": "683a1bb22a2ec943d357cd4b86982dd7ee62c22a47c28ee3c32e91d114f977f4"
+    },
+    "recorded_attempt_environment": {
+      "DATAFLOWBENCH_V092_GROUP_ID": null,
+      "DATAFLOWBENCH_V092_QUALIFICATION": null,
+      "DATAFLOWBENCH_V092_RELEASE_EXECUTION": null,
+      "source": "reports/releases/v0.9.2/attempts/joern-swift-common108-attempt-03-series-01/started.json"
+    },
+    "regular_guarded_workflow": {
+      "child_env_pass_lines": "3801-3802",
+      "direct_shim_is_entrypoint": false,
+      "marker_condition": "run-swift-common-v092.py or run-joern-common-v092.py entrypoint",
+      "marker_injection_lines": "3191-3199",
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    },
+    "shim": {
+      "calls_immutable_runner_execute_directly": true,
+      "execute_lines": "539-547",
+      "path": "scripts/joern_capability_repair_v092.py",
+      "sets_launch_guard_environment": false,
+      "sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+    }
+  },
+  "ledger": {
+    "last_row_matches_attempt": true,
+    "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "rows": 87,
+    "sha256": "57d8265e8eb0c216c56e184a5fed36f9931bcb5b36ea1043f4a0c71f0a096"
+  },
+  "manifest_and_admission": {
+    "admission": {
+      "admission_source_sha256": "cd4865c1171cd27b68edcf2d77046307f22dfc511cb1706d931fdbea4cb69e44",
+      "automatic_retry": false,
+      "materialized_projection_sha256": "aab7ae8939cb963e88b629cd2247ecba5ab71431456f3b94d18028d2e227ec41",
+      "materialized_source_projected_bytes": 161018434,
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/execution-admission-03.json",
+      "sha256": "bff52a5fe497c4bac35932fb75cb0c11552981f6e582c3f274384da4dadf7e7b",
+      "status": "ready-to-execute"
+    },
+    "manifest": {
+      "ledger_prefix_rows": 86,
+      "ledger_prefix_sha256": "ca7152afb422160b30c2f38677aa539a1463b45e3b41131848b3d9e81d4a1084",
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/continuation-manifest-02.json",
+      "plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+      "sha256": "fa81d5f6aee3cf5099eab6aeafabcbf59c3020b9cc2cdbe88a19a56167e2b73f",
+      "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79"
+    },
+    "prior_control_review": {
+      "automatic_retry": false,
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/supervision24-independent-review-01.json",
+      "sha256": "76e7f99d8a82e349731137539f21038f943b8a8a9cedf09ea71c3e07c2d3ad58",
+      "status": "approved"
+    }
+  },
+  "review_scope": {
+    "analyzer_invoked_by_review": false,
+    "fix_performed": false,
+    "launch_performed_by_review": false,
+    "read_only": true,
+    "retry_performed": false,
+    "source_or_contract_changed": false
+  },
+  "review_type": "independent-read-only-stopped-attempt-diagnosis",
+  "reviewed_at_utc": "2026-10-23T08:29:16.479043+00:00",
+  "reviewer": "joern_amendment_design",
+  "schema": "v092-supervision24-stop-independent-review/v1",
+  "status": "recorder-error-before-joern-runner-launch"
+}
