@@ -1,0 +1,108 @@
+{
+  "schema": "v092-joern-capability-launch-marker-design-independent-review/v9",
+  "status": "blocked-recursive-c3-tail-adapter-bypass",
+  "review_type": "independent-read-only-continuation03-review",
+  "reviewer": "joern_repair_independent",
+  "reviewed_at_utc": "2026-10-23T09:37:43Z",
+  "review_scope": "Independent static and focused-test review of continuation-03's in-memory frozen C4 historical-tail adapter, immutable 87-row handling, and valid 88/89-row future-tail guards. No source, frozen input, ledger, contract, manifest, admission, or evidence mutation was performed. No admission, preflight, materialization, analyzer, build, or replay-heavy validation was run.",
+  "bindings": {
+    "continuation_source": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-03.py",
+      "sha256": "eb888b5e29beb954fa1ee49916ba8638bf12a35d1ee2fb18bb897e1f1e5069b9"
+    },
+    "continuation_tests": {
+      "path": "reports/releases/v0.9.2/acquisition/test-joern-capability-continuation-03.py",
+      "sha256": "552dd8bc4377eef5ae3b100c57f47994292d4ada3d0493d5259a7cefdfb0ea2b"
+    },
+    "admission_source": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-admission-05.py",
+      "sha256": "85dd72ab1c17371f927db19352da675876a3ac8dcb5e9cde8365ef153ab21e14"
+    },
+    "supervisor_source": {
+      "path": "reports/releases/v0.9.2/acquisition/matrix-supervision-26.py",
+      "sha256": "2733e9cb858053d0ac71a489c891f393b083a928e96399679650121e35922047"
+    },
+    "frozen_executor": {
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    },
+    "frozen_resource_recovery": {
+      "path": "scripts/v092_resource_recovery.py",
+      "sha256": "c0dc2ef56cd1cb20cb0d96b156438e2ee876081e85c0f8ff43ca4afb3091830d"
+    },
+    "live_ledger": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "sha256": "57d8265e8eb0c216c56e184a5fed36f9931bcb5b36ea1047ae3f4a0c71f0a096",
+      "rows": 87
+    },
+    "pre_joern03_boundary": {
+      "rows": 86,
+      "sha256": "ca7152afb422160b30c2f38677aa539a1463b45e3b41131848b3d9e81d4a1084"
+    },
+    "base_c4_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/contract.json",
+      "sha256": "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb"
+    }
+  },
+  "checks": [
+    {
+      "id": "focused-continuation03-tests",
+      "status": "passed-read-only",
+      "severity": "none",
+      "evidence": {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 reports/releases/v0.9.2/acquisition/test-joern-capability-continuation-03.py",
+        "result": "19 tests passed",
+        "scope": "Pure Python guards, packet projection, future 88/89 structural tails, frozen marker probes, materialized receipt checks, and supervisor permit checks; no analyzer/build/materialization/replay launch."
+      }
+    },
+    {
+      "id": "actual-packet-projection",
+      "status": "passed-read-only-focused",
+      "severity": "high",
+      "evidence": "The actual 87-row resource-recovery packet is rejected by the original frozen _validate_scoped_tail because row 86 is foreign to the base C4 contract. The adapter verifies packet prefix+tail equals the exact live rows and derives the first 86 rows with SHA ca7152afb422...; direct frozen-tail validation of that projected packet passes in the focused test."
+    },
+    {
+      "id": "future-88-89-guards",
+      "status": "passed-read-only-focused",
+      "severity": "high",
+      "evidence": "Focused tests append a valid Joern04 row and valid Joern04+CodeQL01 rows, preserve the 87-row sealed prefix, keep the frozen C4 projection at 29 C4 tail rows, and reach exact source/plan/argv/output-root identity checks. Wrong future argv, unknown group, wrong attempt, failed Joern followed by CodeQL, and more than two tail rows are rejected."
+    },
+    {
+      "id": "recursive-archived-c3-call-path",
+      "status": "blocked-static",
+      "severity": "critical",
+      "evidence": "_validate_base_with_historical_boundary replaces executor._validate_scoped_tail for the entire call to frozen executor.validate_plan. Frozen C4 _validate_resource_recovery calls validate_plan on the archived C3 contract with the 27-row scoped-recovery packet; that recursive C3 path calls the same module-global _validate_scoped_tail. The continuation wrapper unconditionally calls _project_frozen_resource_recovery_packet on that C3 packet. Its packet prefix+tail cannot equal the live 87-row snapshot, so the wrapper raises 'frozen resource-recovery packet is not the exact live ledger snapshot' before the original C3 tail validator runs."
+    },
+    {
+      "id": "restoration-on-exception",
+      "status": "passed-read-only-focused",
+      "severity": "high",
+      "evidence": "The focused fake-executor test confirms the patched executor function is restored in finally after validator failure. This does not resolve the recursive-C3 dispatch error."
+    }
+  ],
+  "required_fix": {
+    "scope": "Continuation03 source and focused tests only; preserve frozen executor/resource-recovery bytes and live ledger.",
+    "dispatch_rule": "The temporary wrapper must project only the outer live C4 resource packet. It must identify that packet from the validated plan's exact resource_recovery binding (and still require packet prefix+tail equals the full live rows); for recursive archived C3/scoped-recovery packets it must call the original frozen _validate_scoped_tail unchanged.",
+    "fail_closed_rule": "Do not dispatch by 'supplied != actual' alone: that would let a tampered outer C4 packet bypass projection. Any packet selected as the outer C4 packet must still pass exact live snapshot, boundary SHA, row count, and packet identity checks; all other packets must be proven historical C3 contexts before delegation.",
+    "focused_regressions": [
+      "A fake executor.validate_plan must invoke the patched function once with the outer 87-row packet and once with a 27-prefix C3 packet; the first must receive exactly 86 projected rows and the second must reach the original function unchanged.",
+      "A tampered outer packet with a changed row, line digest, or missing tail must fail rather than delegate to the original function.",
+      "A valid one-row Joern04 and valid two-row Joern04+CodeQL01 tail must continue to pass exact identity gates after the adapter fix."
+    ]
+  },
+  "decision": {
+    "source_commit_ready": false,
+    "admission_eligible": false,
+    "execution_eligible": false,
+    "blocking_reasons": [
+      "The current global monkeypatch cannot complete frozen C4 validation because it intercepts the recursive archived-C3 scoped-tail call.",
+      "The current focused suite does not exercise that recursive packet dispatch; its 19 passes therefore do not establish a positive full continuation validation.",
+      "No admission or analyzer attempt may proceed until the adapter dispatch is narrowed and the required recursive/tamper regressions pass."
+    ],
+    "preservation": "No analyzer, build, admission, preflight, materialization, replay-heavy validation, ledger mutation, retry, or execution is authorized by this review."
+  },
+  "nonclaims": [
+    "The valid 88/89 structural tail tests prove only the continuation's local tail guards and adapter projection shape; they do not prove frozen base validation succeeds.",
+    "This review does not approve the source or any later admission receipt."
+  ]
+}

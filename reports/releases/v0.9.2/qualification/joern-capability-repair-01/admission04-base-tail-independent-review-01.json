@@ -1,0 +1,203 @@
+{
+  "schema": "v092-joern-capability-admission-base-tail-independent-review/v1",
+  "status": "blocked-base-validator-sees-foreign-continuation-tail",
+  "review_type": "independent-read-only-admission-boundary-review",
+  "reviewer": "joern_repair_independent",
+  "reviewed_at_utc": "2026-10-23T09:33:37Z",
+  "review_scope": "Independent read-only review of the failed admission-04 validation boundary. The frozen C4 executor is asked to validate the live ledger while the live 87th row is already bound to the reviewed continuation-04 contract, so its resource-recovery tail checker rejects that row as foreign to the C4 contract. This review assesses an additive in-memory C4 historical-tail projection. No source, frozen input, resource manifest, contract, ledger, or evidence file was modified; no analyzer, build, materialization, replay, or launch was performed.",
+  "bindings": {
+    "continuation_module": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-02.py",
+      "sha256": "2a661f91cab8877acffcd8104c7710237a321432091d0a1ac2765bee3a340798"
+    },
+    "admission_helper": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-admission-04.py",
+      "sha256": "fe3461286f7af680cb28585cded974e05614f9f0f39d97a4987b499fcd93527e"
+    },
+    "frozen_executor": {
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    },
+    "frozen_resource_recovery": {
+      "path": "scripts/v092_resource_recovery.py",
+      "sha256": "c0dc2ef56cd1cb20cb0d96b156438e2ee876081e85c0f8ff43ca4afb3091830d"
+    },
+    "base_c4_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/contract.json",
+      "sha256": "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb",
+      "source_commit": "0f105a6f4bd6a954fd09cb222e8a519162393aec",
+      "plan_commit": "8ac35a2b8feb77dececa8f5a7de695524210bdd1"
+    },
+    "resource_recovery_manifest": {
+      "path": "reports/releases/v0.9.2/qualification/resource-recovery-01/manifest.json",
+      "sha256": "37f8b9638d8c6d70b382f888f7ababf0cc03c5774575e54eddfc590b9929bff7"
+    },
+    "resource_recovery_c3_archive": {
+      "path": "reports/releases/v0.9.2/acquisition/resource-recovery-contract-03.json",
+      "sha256": "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063"
+    },
+    "live_ledger": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "sha256": "57d8265e8eb0c216c56e184a5fed36f9931bcb5b36ea1047ae3f4a0c71f0a096",
+      "rows": 87
+    },
+    "sealed_ledger_snapshot": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/sealed-ledger-prefix-87.jsonl",
+      "sha256": "57d8265e8eb0c216c56e184a5fed36f9931bcb5b36ea1047ae3f4a0c71f0a096",
+      "rows": 87
+    },
+    "previous_continuation_source": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+      "sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa",
+      "sealed_rows": 86,
+      "sealed_sha256": "ca7152afb422160b30c2f38677aa539a1463b45e3b41131848b3d9e81d4a1084"
+    },
+    "admission_stop": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/admission-prelaunch-stop-04.json",
+      "sha256": "f078dbd8180a7dbeb137a7399c0e33d82337cb977049bf4a9fd4311cdf94ed69"
+    },
+    "provisional_manifest": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/continuation-manifest-admission-07.json",
+      "sha256": "858dd3bbb8ec54d066aab8c75fffab811bd2eb21291a762adaec64c2482c84fb",
+      "ledger_prefix_rows": 87,
+      "ledger_prefix_sha256": "57d8265e8eb0c216c56e184a5fed36f9931bcb5b36ea1047ae3f4a0c71f0a096"
+    }
+  },
+  "observations": {
+    "live_ledger_identity": {
+      "status": "passed-read-only",
+      "rows": 87,
+      "full_sha256": "57d8265e8eb0c216c56e184a5fed36f9931bcb5b36ea1047ae3f4a0c71f0a096",
+      "sealed_snapshot_byte_equal": true,
+      "prefix_57_sha256": "31ea08cf5f0fa04fe07697bb8d3683e2a313140e6e12e15fe7e7963a82cdc1f2",
+      "prefix_87_sha256": "57d8265e8eb0c216c56e184a5fed36f9931bcb5b36ea1047ae3f4a0c71f0a096"
+    },
+    "failure": {
+      "status": "passed-read-only",
+      "site": "joern-capability-continuation-02.py:1444 -> execute-release-v092.py:_validate_resource_recovery -> _validate_scoped_tail",
+      "error": "post-prefix ledger row is not registered to the exact C3 contract",
+      "analyzer_invoked": false,
+      "benchmark_attempt_consumed": false,
+      "retained_preflight_created": false,
+      "materialized_preflight_created": false,
+      "execution_admission_created": false
+    },
+    "c4_tail_before_new_row": {
+      "row_range": "57:86",
+      "rows": 29,
+      "sha256": "ca7152afb422160b30c2f38677aa539a1463b45e3b41131848b3d9e81d4a1084",
+      "contract_sha256": "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb",
+      "source_commit": "0f105a6f4bd6a954fd09cb222e8a519162393aec",
+      "plan_commit": "8ac35a2b8feb77dececa8f5a7de695524210bdd1",
+      "execution_series": 1,
+      "status_counts": {
+        "completed": 27,
+        "recorder-error": 1,
+        "failed": 1
+      }
+    },
+    "new_continuation_row": {
+      "row_index": 86,
+      "attempt_id": "joern-swift-common108-attempt-03-series-01",
+      "status": "recorder-error",
+      "contract_sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827",
+      "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79",
+      "plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+      "reason": "This is the sealed Joern03 continuation-04 failure and is intentionally foreign to the frozen base C4 contract. It must remain an old continuation context, never be relabeled as a C4 row."
+    }
+  },
+  "projection_design": {
+    "decision": "conditionally-feasible-additive-in-memory-only",
+    "purpose": "Let the frozen C4 validator inspect exactly the historical C4 ledger it was authored to validate while the continuation validator independently retains the full live 87-row ledger and binds row 86 to its continuation-04 context.",
+    "derived_view": {
+      "source": "The already-read, canonical, hash-checked live ledger bytes; no second filesystem ledger and no reconstructed JSON rows.",
+      "bytes": "live_raw split at the byte boundary before row index 86",
+      "rows": 86,
+      "sha256": "ca7152afb422160b30c2f38677aa539a1463b45e3b41131848b3d9e81d4a1084",
+      "required_prefix": "The first 57 bytes remain the exact resource-recovery prefix SHA 31ea08cf...; rows 57:86 remain byte-for-byte current C4 rows.",
+      "row_86_excluded": "Only the live row at index 86 is outside the projected C4 view; it is retained in the full live rows and later attached to OLD_CONTRACT_SHA by _historical_contexts."
+    },
+    "required_sequence": [
+      "Read and canonicalize the actual live ledger; verify the full 87-row SHA and sealed snapshot equality before deriving any view.",
+      "Verify the exact derived 86-row SHA, all 29 C4 tail row contract/source/plan/series identities, and the expected 27/1/1 status counts.",
+      "Invoke the frozen base C4 validation only through a tightly scoped, non-global in-memory ledger reader/overlay. It must be restored in a finally block, run under the exclusive admission lock, and never write, rename, truncate, or replace ledger-v1.jsonl.",
+      "Retain the frozen validator's complete resource-recovery packet and all its checker replays; do not synthesize or copy a prevalidated base context.",
+      "Run continuation-01 predecessor recovery against the same exact 86-row bytes, then add the live row 86 as OLD_CONTRACT_SHA with its recorded line digest, source commit, plan commit, and attempt number 3.",
+      "Use the full live rows for current _tail/_validate_tail_identity and every future Joern04/CodeQL01 row. The projected 86-row view must never be used to admit or select a future tail."
+    ],
+    "required_result": {
+      "frozen_base_context": "base bytes_sha256 remains 1194072f... and resource recovery retains the original 55 completions and two historical failures.",
+      "historical_contexts": "The continuation context map contains the original C1/C2/C3/C4 contexts plus OLD_CONTRACT_SHA; all 82 completions and five noncompleted historical rows retain exact provenance.",
+      "future_tail": "The full live ledger currently has no rows after sealed row 87; a later Joern04 row must be validated against the repaired contract SHA and a later CodeQL01 row against that same new context."
+    }
+  },
+  "checks": [
+    {
+      "id": "full-live-ledger-before-projection",
+      "status": "passed-read-only",
+      "severity": "critical",
+      "evidence": "The current ledger has exactly 87 canonical rows, equals sealed-ledger-prefix-87.jsonl byte-for-byte, and hashes to 57d8265e... . The row 86 continuation failure is therefore part of the immutable reviewed prefix."
+    },
+    {
+      "id": "frozen-c4-rejection-is-real",
+      "status": "passed-read-only",
+      "severity": "critical",
+      "evidence": "The admission stop records the frozen executor failing before replay/materialization with post-prefix ledger row not registered to the exact C3 contract. The 29 rows from 57 through 85 are exact C4 rows; row 86 is the only foreign continuation row."
+    },
+    {
+      "id": "derived-86-view",
+      "status": "passed-read-only-derived-input",
+      "severity": "high",
+      "evidence": "The exact byte prefix through row 85 is 23,784,024 bytes and hashes to ca7152afb422160b30c2f38677aa539a1463b45e3b41131848b3d9e81d4a1084, matching continuation-01's sealed 86-row identity and the prior reviewed manifests."
+    },
+    {
+      "id": "historical-context-rebinding",
+      "status": "required-after-fix",
+      "severity": "critical",
+      "evidence": "The current continuation code already requires row 86 to be recorder-error, OLD_CONTRACT_SHA, source 131fbe..., and plan ce3db..., then inserts it into a copied retained-failure map. The fix must make that code run only after frozen base validation succeeds and must preserve the line hash and attempt number."
+    },
+    {
+      "id": "future-tail-separation",
+      "status": "required-after-fix",
+      "severity": "critical",
+      "evidence": "Current SEALED_ROWS is 87 and _tail(rows) starts after row 86. Any implementation that validates only the projected 86 rows globally, or treats the current live 87th row as absent, would bypass the immutable-prefix and future-tail guards."
+    },
+    {
+      "id": "old-checker-replay-preservation",
+      "status": "required-after-fix",
+      "severity": "critical",
+      "evidence": "The frozen C4 resource-recovery validator must still execute its original packet validation and retained checker replay over the projected C4 view. Replacing its output with copied maps, skipping _validate_scoped_tail, or replaying only the 29 C4 rows would weaken historical evidence."
+    }
+  ],
+  "negative_acceptance_probes": [
+    "Mutating any byte of the live 87-row ledger or sealed snapshot must fail before deriving the 86-row view.",
+    "Changing, deleting, reordering, or relabeling row 86 must fail full live-prefix or OLD_CONTRACT_SHA provenance checks; it must never be silently converted to the base C4 identity.",
+    "Deriving 85 rows, 87 rows, a reconstructed JSON serialization, or a view with any altered rows 57:86 must fail the exact ca7152... projection hash and per-row C4 identity checks.",
+    "Injecting a foreign row into the projected C4 view must still fail frozen _validate_scoped_tail; the projection cannot be an arbitrary filtered ledger.",
+    "Using the projected view for current _tail, future Joern04/CodeQL01 selection, or execution-admission receipt checks must fail; those checks must consume the full live rows and current manifest.",
+    "Any exception during the scoped reader override must restore the original reader and leave no ledger or evidence mutation; no admission receipt may be written on failure."
+  ],
+  "decision": {
+    "admission_eligible": false,
+    "execution_eligible": false,
+    "blocking_reasons": [
+      "Admission-04 stopped before retained replay/materialization because the frozen base C4 validator reads the live 87-row ledger and rejects the continuation-04 row as foreign to C4.",
+      "No implementation of the bounded in-memory historical C4 projection has been reviewed or positively tested yet.",
+      "A derived historical view is admissible only if full live-ledger validation, exact 86-row derivation, frozen packet/replay validation, old continuation context recovery, and full future-tail checks remain separate and hash-bound."
+    ],
+    "preservation": "This review authorizes no analyzer, build, replay, materialization, continuation execution, ledger mutation, retry, release, or admission receipt."
+  },
+  "validation": {
+    "commands": [
+      "Python read-only canonical parse and SHA comparison of ledger-v1.jsonl, sealed-ledger-prefix-87.jsonl, and derived 57/86/87-row byte prefixes",
+      "Python read-only status/provenance count of rows 57:86 and exact row-86 identity inspection",
+      "Read-only SHA inspection of continuation/admission/frozen/resource-recovery sources and the prelaunch-stop artifact"
+    ],
+    "result": "Live 87-row identity, exact derived 86-row identity, C4 tail provenance, and prelaunch failure evidence passed read-only. No analyzer, build, replay, materialization, or launch was performed."
+  },
+  "nonclaims": [
+    "This artifact does not approve the continuation or authorize a new admission attempt.",
+    "The exact in-memory reader mechanism, its restoration behavior, and frozen validator positive result remain unproven until an additive implementation and focused negative/positive tests exist.",
+    "The existing admission failure proves no Joern03 analyzer attempt was consumed; it does not establish any fresh qualification or execution eligibility."
+  ]
+}
