@@ -58,7 +58,7 @@ DEFAULT_MANIFEST = (
 )
 DEFAULT_CONTRACT = (
     "reports/releases/v0.9.2/execution-v4/continuations/"
-    "joern-capability-repair-02-contract.json"
+    "joern-capability-repair-03-contract.json"
 )
 QUAL_ROOT = "reports/releases/v0.9.2/qualification/joern-capability-repair-01"
 FRESH_CAPTURE_PREFIX = f"{QUAL_ROOT}/control-capture-01/"
@@ -171,14 +171,19 @@ def _git(root: Path, *args: str) -> str:
 
 def _verify_commit_blobs(root: Path, commit: str,
                          bindings: dict[str, str], description: str) -> None:
-    """Verify many source-input blobs in one read-only git cat-file session."""
+    """Verify source-input blobs with bounded bidirectional cat-file I/O.
+
+    ``git cat-file --batch`` can block if its request pipe is filled before its
+    response pipe is drained.  Keep at most one request outstanding so the
+    verifier remains bounded even for a large continuation source closure.
+    """
     require(RE_COMMIT.fullmatch(commit), f"{description} commit is malformed")
     if not bindings:
         return
     try:
         process = subprocess.Popen(
             ["git", "cat-file", "--batch"], cwd=root,
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
         )
     except OSError as exc:
         raise ContinuationError(f"cannot inspect {description} blobs") from exc
@@ -186,8 +191,7 @@ def _verify_commit_blobs(root: Path, commit: str,
     try:
         for path, expected in bindings.items():
             process.stdin.write(f"{commit}:{path}\n".encode())
-        process.stdin.close()
-        for path, expected in bindings.items():
+            process.stdin.flush()
             header = process.stdout.readline()
             require(header, f"{description} blob response is truncated: {path}")
             fields = header.decode("ascii", "strict").rstrip("\n").split()
@@ -199,14 +203,27 @@ def _verify_commit_blobs(root: Path, commit: str,
             require(process.stdout.read(1) == b"\n", f"{description} blob framing changed: {path}")
             require(sha_bytes(data) == expected,
                     f"{description} digest changed at {commit}: {path}")
+        process.stdin.close()
         return_code = process.wait()
         require(return_code == 0, f"git blob inspection failed for {description}")
-    except (UnicodeError, BrokenPipeError, OSError) as exc:
+    except (UnicodeError, BrokenPipeError, OSError, ValueError) as exc:
         raise ContinuationError(f"cannot inspect {description} blobs") from exc
     finally:
+        for stream in (process.stdin, process.stdout):
+            if stream is not None:
+                try:
+                    stream.close()
+                except OSError:
+                    pass
         if process.poll() is None:
-            process.kill()
-            process.wait()
+            try:
+                process.kill()
+            except OSError:
+                pass
+            try:
+                process.wait()
+            except OSError:
+                pass
 
 
 def _load_frozen(root: Path, name: str) -> Any:

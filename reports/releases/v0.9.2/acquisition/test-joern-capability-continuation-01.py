@@ -5,6 +5,8 @@ from __future__ import annotations
 import importlib.util
 import json
 from pathlib import Path
+import signal
+import subprocess
 import tempfile
 from types import SimpleNamespace
 import unittest
@@ -44,8 +46,73 @@ class ContinuationAdmissionTests(unittest.TestCase):
     def tearDown(self) -> None:
         self.patcher.stop()
 
-    def test_default_contract_uses_append_only_repair02_artifact(self) -> None:
-        self.assertTrue(MODULE.DEFAULT_CONTRACT.endswith("joern-capability-repair-02-contract.json"))
+    def test_default_contract_uses_append_only_repair03_artifact(self) -> None:
+        self.assertTrue(MODULE.DEFAULT_CONTRACT.endswith("joern-capability-repair-03-contract.json"))
+
+    def test_commit_blob_verifier_streams_large_real_repository_closure(self) -> None:
+        """Large real-tree requests and blobs must not deadlock cat-file --batch."""
+        tree = subprocess.check_output(
+            ["git", "ls-tree", "-r", "-z", "HEAD"],
+            cwd=MODULE.ROOT,
+        )
+        objects = []
+        for record in tree.split(b"\0"):
+            if not record:
+                continue
+            header, path_raw = record.split(b"\t", 1)
+            _mode, kind, object_sha = header.split()
+            if kind != b"blob":
+                continue
+            path = path_raw.decode("utf-8")
+            objects.append((object_sha.decode("ascii"), path))
+            if len(objects) == 2_000:
+                break
+        self.assertEqual(len(objects), 2_000)
+        commit = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=MODULE.ROOT, text=True
+        ).strip()
+        request_bytes = sum(len(f"{commit}:{path}\n".encode()) for _sha, path in objects)
+        self.assertGreater(request_bytes, 64 * 1024)
+        blobs = subprocess.check_output(
+            ["git", "cat-file", "--batch"],
+            cwd=MODULE.ROOT,
+            input=b"".join(f"{object_sha}\n".encode() for object_sha, _path in objects),
+        )
+        bindings = {}
+        blob_bytes = 0
+        offset = 0
+        for _object_sha, path in objects:
+            header_end = blobs.index(b"\n", offset)
+            fields = blobs[offset:header_end].split()
+            self.assertEqual(len(fields), 3)
+            size = int(fields[2])
+            data_start = header_end + 1
+            data_end = data_start + size
+            self.assertEqual(len(blobs[data_start:data_end]), size)
+            self.assertEqual(blobs[data_end:data_end + 1], b"\n")
+            bindings[path] = MODULE.sha_bytes(blobs[data_start:data_end])
+            blob_bytes += size
+            offset = data_end + 1
+        self.assertGreater(blob_bytes, 64 * 1024)
+
+        class Timeout(Exception):
+            pass
+
+        def alarm(_signum, _frame):
+            raise Timeout()
+
+        previous = signal.getsignal(signal.SIGALRM)
+        signal.signal(signal.SIGALRM, alarm)
+        signal.setitimer(signal.ITIMER_REAL, 20.0)
+        try:
+            MODULE._verify_commit_blobs(
+                MODULE.ROOT, commit, bindings, "large real repository closure"
+            )
+        except Timeout as exc:
+            self.fail(f"large real repository blob verification timed out: {exc}")
+        finally:
+            signal.setitimer(signal.ITIMER_REAL, 0)
+            signal.signal(signal.SIGALRM, previous)
 
     def test_prefix_preserves_history_and_allows_only_two_tail_rows(self) -> None:
         joern = {"attempt_id": MODULE.JOERN_ATTEMPT, "group_id": MODULE.JOERN_GROUP,
