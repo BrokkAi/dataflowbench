@@ -44,6 +44,9 @@ class ContinuationAdmissionTests(unittest.TestCase):
     def tearDown(self) -> None:
         self.patcher.stop()
 
+    def test_default_contract_uses_append_only_repair02_artifact(self) -> None:
+        self.assertTrue(MODULE.DEFAULT_CONTRACT.endswith("joern-capability-repair-02-contract.json"))
+
     def test_prefix_preserves_history_and_allows_only_two_tail_rows(self) -> None:
         joern = {"attempt_id": MODULE.JOERN_ATTEMPT, "group_id": MODULE.JOERN_GROUP,
                  "execution_series": 1, "status": "completed", "exit_code": 0,
@@ -202,9 +205,39 @@ class ContinuationAdmissionTests(unittest.TestCase):
             {"path": "reports/plain.json", "sha256": "b" * 64},
         ]
         self.assertEqual(MODULE._source_input_map(value, "inputs"), {
-            "reports/recovery.json": ("a" * 64, "resource-recovery-evidence"),
-            "reports/plain.json": ("b" * 64, None),
+            "reports/recovery.json": ("a" * 64, "resource-recovery-evidence", True),
+            "reports/plain.json": ("b" * 64, "release-input", False),
         })
+        self.assertEqual(MODULE._normalized_source_inputs(value, "inputs"), [
+            {"path": "reports/recovery.json", "sha256": "a" * 64,
+             "role": "resource-recovery-evidence"},
+            {"path": "reports/plain.json", "sha256": "b" * 64,
+             "role": "release-input"},
+        ])
+        self.assertEqual(MODULE._normalized_source_inputs(
+            value, "inputs", {"reports/plain.json": "qualification-evidence"}
+        )[1], {
+            "path": "reports/plain.json", "sha256": "b" * 64,
+            "role": "qualification-evidence",
+        })
+
+    def test_frozen_base_raw_inputs_get_actual_qualification_role_enrichment(self) -> None:
+        raw = json.loads((MODULE.ROOT / MODULE.BASE_CONTRACT).read_bytes())
+        qualification = {
+            name: {"path": binding["evidence"]["path"]}
+            for name, binding in raw["qualifications"].items()
+        }
+        effective = MODULE._effective_source_input_map(
+            raw["source_inputs"], "raw frozen base source inputs",
+            MODULE._qualification_role_overrides({"qualification": qualification}),
+        )
+        self.assertEqual(len(effective), 789)
+        self.assertEqual(sum(role == "resource-recovery-evidence"
+                             for _digest, role, _explicit in effective.values()), 4)
+        self.assertEqual(sum(role == "qualification-evidence"
+                             for _digest, role, _explicit in effective.values()), 8)
+        self.assertEqual(sum(role == "release-input"
+                             for _digest, role, _explicit in effective.values()), 777)
 
     def test_contract_contexts_are_mixed_by_exact_contract_digest(self) -> None:
         base = {"validated": {"plan": {"source_commit": MODULE.BASE_SOURCE_COMMIT}},

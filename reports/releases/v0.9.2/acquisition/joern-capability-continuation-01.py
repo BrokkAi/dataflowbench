@@ -58,7 +58,7 @@ DEFAULT_MANIFEST = (
 )
 DEFAULT_CONTRACT = (
     "reports/releases/v0.9.2/execution-v4/continuations/"
-    "joern-capability-repair-01-contract.json"
+    "joern-capability-repair-02-contract.json"
 )
 QUAL_ROOT = "reports/releases/v0.9.2/qualification/joern-capability-repair-01"
 FRESH_CAPTURE_PREFIX = f"{QUAL_ROOT}/control-capture-01/"
@@ -76,6 +76,7 @@ CONTINUATION_TEST = "reports/releases/v0.9.2/acquisition/test-joern-capability-c
 SHIM_TEST = "scripts/test-joern-capability-repair-v092.py"
 RE_SHA = re.compile(r"[0-9a-f]{64}\Z")
 RE_COMMIT = re.compile(r"[0-9a-f]{40}\Z")
+DEFAULT_SOURCE_INPUT_ROLE = "release-input"
 
 FROZEN = {
     "execute": (
@@ -272,17 +273,19 @@ def _path_sha_refs(value: object) -> list[tuple[str, str]]:
     return found
 
 
-def _source_input_map(value: object, description: str) -> dict[str, tuple[str, str | None]]:
+def _source_input_map(value: object, description: str) -> dict[str, tuple[str, str, bool]]:
     """Validate source-input entries while retaining reviewed role metadata.
 
     The frozen contract has four inherited entries carrying a ``role`` field.
     That metadata is part of each inherited entry and must survive the
-    continuation byte-for-byte.  Additive entries emitted by the builder are
-    plain path/SHA bindings, so a role on a newly added path is rejected by the
-    continuation closure check rather than silently becoming unbound metadata.
+    continuation byte-for-byte.  The frozen validator enriches every raw
+    path/SHA entry with the default ``release-input`` role, so comparison uses
+    that effective role while separately retaining whether the raw role field
+    was present.  Additive entries emitted by the builder remain plain
+    path/SHA bindings and therefore use the same default role.
     """
     require(isinstance(value, list), f"{description} is not a list")
-    result: dict[str, tuple[str, str | None]] = {}
+    result: dict[str, tuple[str, str, bool]] = {}
     for item in value:
         require(isinstance(item, dict) and
                 set(item).issubset({"path", "sha256", "role"}) and
@@ -292,12 +295,57 @@ def _source_input_map(value: object, description: str) -> dict[str, tuple[str, s
                 f"{description} contains a malformed binding")
         path = item["path"]
         _relative(path, description)
-        role = item.get("role")
-        if "role" in item:
+        explicit_role = "role" in item
+        role = item.get("role", DEFAULT_SOURCE_INPUT_ROLE)
+        if explicit_role:
             require(isinstance(role, str) and role,
                     f"{description} contains malformed role metadata")
         require(path not in result, f"{description} contains a duplicate path: {path}")
-        result[path] = (item["sha256"], role if isinstance(role, str) else None)
+        result[path] = (item["sha256"], role, explicit_role)
+    return result
+
+
+def _qualification_role_overrides(validated: dict[str, Any]) -> dict[str, str]:
+    """Return the frozen validator's role enrichment for qualification files."""
+    qualifications = validated.get("qualification")
+    require(isinstance(qualifications, dict), "frozen qualification map is missing")
+    result: dict[str, str] = {}
+    for item in qualifications.values():
+        require(isinstance(item, dict), "frozen qualification binding is malformed")
+        path = item.get("path")
+        if path is None:
+            continue
+        require(isinstance(path, str), "frozen qualification path is malformed")
+        require(path not in result or result[path] == "qualification-evidence",
+                f"frozen qualification role conflicts for {path}")
+        result[path] = "qualification-evidence"
+    return result
+
+
+def _effective_source_input_map(
+    value: object, description: str, role_overrides: dict[str, str]
+) -> dict[str, tuple[str, str, bool]]:
+    """Apply the frozen validator's qualification-role enrichment."""
+    result = _source_input_map(value, description)
+    for path, (digest, role, explicit) in list(result.items()):
+        if not explicit and path in role_overrides:
+            result[path] = (digest, role_overrides[path], False)
+    return result
+
+
+def _normalized_source_inputs(value: object, description: str,
+                              role_overrides: dict[str, str] | None = None) -> list[dict[str, str]]:
+    """Materialize the frozen validator's effective source-input records."""
+    overrides = role_overrides or {}
+    entries = _effective_source_input_map(value, description, overrides)
+    require(isinstance(value, list), f"{description} is not a list")
+    result: list[dict[str, str]] = []
+    for item in value:
+        assert isinstance(item, dict)
+        normalized = copy.deepcopy(item)
+        path = normalized["path"]
+        normalized["role"] = entries[path][1]
+        result.append(normalized)
     return result
 
 
@@ -808,7 +856,11 @@ def _derive_context(base: dict[str, Any], contract: dict[str, Any], contract_raw
     validated["bytes_sha256"] = sha_bytes(contract_raw)
     validated["plan_raw"] = contract_raw
     validated["plan"] = contract
-    validated["source_inputs"] = contract.get("source_inputs", base.get("source_inputs", []))
+    validated["source_inputs"] = _normalized_source_inputs(
+        contract.get("source_inputs", base.get("source_inputs", [])),
+        "continuation source inputs",
+        _qualification_role_overrides(base),
+    )
     validated["total_wall_budget_seconds"] = TOTAL_WALL_SECONDS
     validated["qualification"] = copy.deepcopy(base["qualification"])
     validated["qualification"]["joern"] = copy.deepcopy(joern_qualification)
@@ -907,18 +959,36 @@ def _validate_source_closure(root: Path, base: dict[str, Any], contract: dict[st
     the registered source commit; this is what prevents a manifest from naming
     arbitrary evidence files after the source snapshot was reviewed.
     """
-    old_inputs = _source_input_map(base.get("source_inputs"), "base source inputs")
+    # The frozen executor enriches raw path/SHA entries with its default role
+    # before returning ``base``.  Compare raw continuation metadata against the
+    # raw frozen contract, while separately proving that the normalized frozen
+    # view has the same effective path/digest/role values.
+    role_overrides = _qualification_role_overrides(base)
+    old_inputs = _source_input_map(base.get("source_inputs"), "normalized base source inputs")
+    raw_base = _json(root, BASE_CONTRACT, "frozen base contract")
+    raw_old_inputs = _source_input_map(raw_base.get("source_inputs"), "raw base source inputs")
+    effective_raw_old_inputs = _effective_source_input_map(
+        raw_base.get("source_inputs"), "raw base source inputs", role_overrides
+    )
+    require({path: binding[:2] for path, binding in old_inputs.items()} ==
+            {path: binding[:2] for path, binding in effective_raw_old_inputs.items()},
+            "frozen validator changed effective base source-input metadata")
     new_inputs = _source_input_map(contract.get("source_inputs"), "continuation source inputs")
-    require(old_inputs and all(new_inputs.get(path) == binding
-                               for path, binding in old_inputs.items()),
+    effective_new_inputs = _effective_source_input_map(
+        contract.get("source_inputs"), "continuation source inputs", role_overrides
+    )
+    require(effective_raw_old_inputs and all(new_inputs.get(path, (None, None, None))[2] == binding[2]
+                                             and effective_new_inputs.get(path, (None, None, None))[:2] == binding[:2]
+                                             for path, binding in effective_raw_old_inputs.items()),
             "continuation source closure removed, changed, or stripped frozen input metadata")
-    # The reviewed builder keeps role-bearing metadata only on inherited
-    # entries; newly added source files are represented by the explicit
-    # path/SHA delta and therefore carry no unbound role field.
-    require(all(new_inputs[path][1] is None for path in set(new_inputs) - set(old_inputs)),
-            "continuation source closure added unbound role metadata")
-    old_digests = {path: binding[0] for path, binding in old_inputs.items()}
-    new_digests = {path: binding[0] for path, binding in new_inputs.items()}
+    # The reviewed builder keeps additive entries as plain path/SHA objects;
+    # their effective role is the frozen validator's default and they carry no
+    # raw role field that could alter source provenance.
+    require(all(effective_new_inputs[path][1] == DEFAULT_SOURCE_INPUT_ROLE and
+                new_inputs[path][2] is False for path in set(effective_new_inputs) - set(old_inputs)),
+            "continuation source closure added non-default or unbound role metadata")
+    old_digests = {path: binding[0] for path, binding in effective_raw_old_inputs.items()}
+    new_digests = {path: binding[0] for path, binding in effective_new_inputs.items()}
     delta = {item["path"]: item["sha256"] for item in manifest["source_inputs_delta"]}
     require(set(delta).isdisjoint(old_digests),
             "continuation source-input delta repeats an inherited input")
