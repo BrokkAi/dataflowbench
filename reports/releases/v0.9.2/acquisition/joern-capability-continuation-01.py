@@ -54,11 +54,11 @@ JOERN_ATTEMPT = "joern-swift-common108-attempt-03-series-01"
 CODEQL_ATTEMPT = "codeql-swift-common108-attempt-01-series-01"
 DEFAULT_MANIFEST = (
     "reports/releases/v0.9.2/qualification/joern-capability-repair-01/"
-    "continuation-manifest.json"
+    "continuation-manifest-02.json"
 )
 DEFAULT_CONTRACT = (
     "reports/releases/v0.9.2/execution-v4/continuations/"
-    "joern-capability-repair-03-contract.json"
+    "joern-capability-repair-04-contract.json"
 )
 QUAL_ROOT = "reports/releases/v0.9.2/qualification/joern-capability-repair-01"
 FRESH_CAPTURE_PREFIX = f"{QUAL_ROOT}/control-capture-01/"
@@ -1278,8 +1278,10 @@ def _runtime_plan_with_cutoff_reservation(validated: dict[str, Any]) -> dict[str
 def _require_live_execution_gates(context: dict[str, Any], group_id: str) -> None:
     """Recheck the live capacity and original-clock reserve before dispatch."""
     require(group_id in {JOERN_GROUP, CODEQL_GROUP}, "unknown continuation group")
-    admission = context["manifest"].get("execution_admission")
-    require(isinstance(admission, dict), "execution admission is missing before live dispatch")
+    admission = _check_execution_admission(
+        context["root"], context["manifest"].get("execution_admission"),
+        context["manifest"], group_id=group_id,
+    )
     # The receipt's phase map is an admission lower bound; this live check
     # prevents a stale receipt from authorizing dispatch after the original
     # cutoff window can no longer fit the reviewed phase reserve.

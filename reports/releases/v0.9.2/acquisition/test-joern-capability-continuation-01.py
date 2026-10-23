@@ -46,8 +46,8 @@ class ContinuationAdmissionTests(unittest.TestCase):
     def tearDown(self) -> None:
         self.patcher.stop()
 
-    def test_default_contract_uses_append_only_repair03_artifact(self) -> None:
-        self.assertTrue(MODULE.DEFAULT_CONTRACT.endswith("joern-capability-repair-03-contract.json"))
+    def test_default_contract_uses_append_only_repair04_artifact(self) -> None:
+        self.assertTrue(MODULE.DEFAULT_CONTRACT.endswith("joern-capability-repair-04-contract.json"))
 
     def test_commit_blob_verifier_streams_large_real_repository_closure(self) -> None:
         """Large real-tree requests and blobs must not deadlock cat-file --batch."""
@@ -179,28 +179,89 @@ class ContinuationAdmissionTests(unittest.TestCase):
                          {k: v for k, v in original.items() if k != "expires_at_unix_seconds"})
 
     def test_live_execution_gate_checks_reserve_and_127_gib_resource_hook(self) -> None:
-        observed = []
-        executor = SimpleNamespace(
-            _check_resources=lambda root, minimum: observed.append((root, minimum))
-        )
-        context = {
-            "executor": executor,
-            "root": Path("."),
-            "manifest": {"execution_admission": {
+        """Live gates load the hash-bound receipt before reading its phase map."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            replay_path = root / "replay.json"
+            replay_raw = json.dumps({
+                "status": "continuation-preflight-passed",
+                "ledger_rows": MODULE.SEALED_ROWS,
+                "selected_groups": 82,
+                "known_stale": 0,
+            }, sort_keys=True, separators=(",", ":")).encode()
+            replay_path.write_bytes(replay_raw)
+            replay_ref = {"path": "replay.json", "sha256": MODULE.sha_bytes(replay_raw)}
+            continuation_test = root / Path(*MODULE.CONTINUATION_TEST.split("/"))
+            continuation_test.parent.mkdir(parents=True)
+            continuation_test.write_bytes(b"continuation test\n")
+            artifacts = {
+                key: {"path": f"artifacts/{key}.json", "sha256": "a" * 64}
+                for key in ("continuation_source", "continuation_contract",
+                            "repaired_plan", "capability_evidence", "joern_shim")
+            }
+            manifest = {
+                "execution_admission": None,
+                "authorization": {"path": MODULE.AUTHORIZATION_PATH,
+                                   "sha256": MODULE.AUTHORIZATION_SHA},
+                "ledger_prefix": {"path": MODULE.LEDGER,
+                                  "sha256": MODULE.SEALED_LEDGER_SHA,
+                                  "rows": MODULE.SEALED_ROWS},
+                "source_commit": "1" * 40,
+                "plan_commit": "2" * 40,
+                "final_review": {"path": "review.json", "sha256": "b" * 64},
+                "artifacts": artifacts,
+            }
+            receipt = {
+                "schema": "v092-joern-capability-continuation-admission/v1",
+                "status": "ready-to-execute",
+                "automatic_retry": False,
+                "release_group_attempt": False,
+                "original_origin_utc": MODULE.ORIGIN,
+                "cutoff_utc": MODULE.CUTOFF,
+                "total_wall_budget_seconds": MODULE.TOTAL_WALL_SECONDS,
+                "authorization": manifest["authorization"],
+                "ledger_prefix": manifest["ledger_prefix"],
+                "source_commit": manifest["source_commit"],
+                "plan_commit": manifest["plan_commit"],
+                "final_review": manifest["final_review"],
+                "artifacts": {
+                    **artifacts,
+                    "continuation_test": {
+                        "path": MODULE.CONTINUATION_TEST,
+                        "sha256": MODULE.sha(continuation_test),
+                    },
+                },
+                "retained_replay_output": replay_ref,
                 "phase_remaining_reserved_seconds": {
-                    MODULE.JOERN_GROUP: 29400,
-                    MODULE.CODEQL_GROUP: 28032,
-                }
-            }},
-        }
-        with mock.patch.object(MODULE.time, "time",
-                               return_value=1792791180.680937 - 29400 + 1):
-            with self.assertRaises(MODULE.ContinuationError):
+                    MODULE.JOERN_GROUP: MODULE.FULL_REMAINING_RESERVE_SECONDS,
+                    MODULE.CODEQL_GROUP: MODULE.CODEQL_PHASE_REMAINING_RESERVE_SECONDS,
+                },
+                "no_foreign_processes": True,
+                "resource_floor_bytes": MODULE.LIVE_RESOURCE_FLOOR_BYTES,
+                "resource_floor_checked": True,
+                "remaining_reserved_seconds": MODULE.FULL_REMAINING_RESERVE_SECONDS,
+                "exclusive_lock_checked": True,
+                "fresh_attempt_namespaces": True,
+                "fresh_sidecar_namespaces": True,
+            }
+            admission_raw = (json.dumps(receipt, sort_keys=True,
+                                         separators=(",", ":")) + "\n").encode()
+            (root / "admission.json").write_bytes(admission_raw)
+            admission_ref = {"path": "admission.json",
+                             "sha256": MODULE.sha_bytes(admission_raw)}
+            manifest["execution_admission"] = admission_ref
+            observed = []
+            executor = SimpleNamespace(
+                _check_resources=lambda path, minimum: observed.append((path, minimum))
+            )
+            context = {"executor": executor, "root": root, "manifest": manifest}
+            cutoff = 1792791180.680937
+            with mock.patch.object(MODULE.time, "time", return_value=cutoff - 29400 + 1):
+                with self.assertRaises(MODULE.ContinuationError):
+                    MODULE._require_live_execution_gates(context, MODULE.JOERN_GROUP)
+            with mock.patch.object(MODULE.time, "time", return_value=cutoff - 29400 - 10):
                 MODULE._require_live_execution_gates(context, MODULE.JOERN_GROUP)
-        with mock.patch.object(MODULE.time, "time",
-                               return_value=1792791180.680937 - 29400 - 10):
-            MODULE._require_live_execution_gates(context, MODULE.JOERN_GROUP)
-        self.assertEqual(observed, [(Path("."), 127 * 1024 ** 3)])
+            self.assertEqual(observed, [(root, 127 * 1024 ** 3)])
 
     def test_attempt_number_field_cannot_override_attempt_id(self) -> None:
         joern = {"attempt_id": MODULE.JOERN_ATTEMPT, "group_id": MODULE.JOERN_GROUP,
