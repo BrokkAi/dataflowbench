@@ -1,0 +1,585 @@
+{
+  "approval_boundary": "Approve one guarded fresh six-fixture off/on control bootstrap under the repaired projection. Do not reuse or rewrite retained captures, and do not approve Joern attempt03 analyzer execution, final qualification, full model qualification, scoring or activation.",
+  "bootstrap_guard_review": {
+    "pending_bootstrap_validation_read_only": {
+      "diagnostic_execution_eligible": false,
+      "execution_eligible": false,
+      "fresh_qualification": null,
+      "pending_status": "qualification-pending",
+      "projection_sha256": "aab7ae8939cb963e88b629cd2247ecba5ab71431456f3b94d18028d2e227ec41",
+      "result": "passed"
+    },
+    "pending_control_binding_checks": {
+      "arms": true,
+      "case_arm_budget_seconds": true,
+      "case_arm_count": true,
+      "controls": true,
+      "endpoint_identities_equal": true,
+      "fixture_revision": true,
+      "identity": true,
+      "identity_components": true,
+      "maximum_phase_invocations": true,
+      "population_sha256": true,
+      "scratch_allowance_bytes": true,
+      "total_budget_seconds": true
+    },
+    "required_arms": [
+      "off",
+      "on"
+    ],
+    "required_budgets": {
+      "case_arm_seconds": 75,
+      "scratch_bytes": 4294967296,
+      "total_seconds": 900
+    },
+    "required_case_arm_count": 12,
+    "required_control_roster": {
+      "dfb-taint-swift-model-opaque-propagator-negative": "dfb-taint-swift-model-opaque-propagator-negative",
+      "dfb-taint-swift-model-opaque-propagator-positive": "dfb-taint-swift-model-opaque-propagator-positive",
+      "dfb-taint-swift-model-propagator-position-negative": "dfb-taint-swift-model-propagator-position-negative",
+      "dfb-taint-swift-model-propagator-position-positive": "dfb-taint-swift-model-propagator-position-positive",
+      "direct-negative": "dfb-taint-swift-direct-negative",
+      "direct-positive": "dfb-taint-swift-direct-positive"
+    },
+    "required_phase_invocations": 36,
+    "source_paths_and_guards": [
+      {
+        "finding": "bootstrap requires immutable old-plan validation, all 96 evidence rows, exact case delta, new projection, and a new control-plan binding while permitting no receipt yet.",
+        "lines": "450-505",
+        "path": "scripts/joern_capability_repair_v092.py",
+        "sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+      },
+      {
+        "finding": "canonical historical runner remains bound to plan-v092-01.",
+        "lines": "508-515",
+        "path": "scripts/joern_capability_repair_v092.py",
+        "sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+      },
+      {
+        "finding": "controls is a separate guarded analyzer entry point; this review never called it.",
+        "lines": "564-582",
+        "path": "scripts/joern_capability_repair_v092.py",
+        "sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+      },
+      {
+        "finding": "immutable runner rechecks repaired projection, identity, endpoint identities, six controls, off/on arms, 12 arms, 36 phases and budgets before launch.",
+        "lines": "191-215",
+        "path": "scripts/joern_normal_runner_v092.py",
+        "sha256": "683a1bb22a2ec943d357cd4b86982dd7ee62c22a47c28ee3c32e91d114f977f4"
+      }
+    ]
+  },
+  "capability_mapping_review": {
+    "checks": {
+      "attempt_count_96": true,
+      "old_projection_self_consistent": true,
+      "parent_capability_exact_for_all_96": true,
+      "pending_attempt_rows_add_only_exact_capability": true,
+      "pending_case_set_108_exact": true,
+      "pending_projection_expected": true,
+      "pending_unsupported_rows_unchanged": true,
+      "proposal_raw_capability_and_executed_for_all_96": true,
+      "proposal_raw_case_set_exact": true,
+      "unsupported_count_12": true
+    },
+    "conclusion": "Exact all-96 metadata is evidence-backed from parent v0.9.0 rows and raw reports. That evidence supplies the plan delta only; it is not current v0.9.2 qualification evidence.",
+    "fresh_runtime_identity": {
+      "adapter_version": "joern-normal-v092",
+      "tool": "joern",
+      "tool_build_identity": "joern-cli:4.0.660;engine:309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00;frontend:d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+      "tool_version": "4.0.660"
+    },
+    "historical_raw_manifest": {
+      "case_count": 96,
+      "root": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01",
+      "sha256": "70859fa7314ec8715f23f219fd2471029874ae222c264fb4171f64e9e415ea19",
+      "source_identity": {
+        "adapter_version": "joern-normal-v1",
+        "tool": "joern",
+        "tool_build_identity": "joern-cli:4.0.628;engine:e63635788249ef86d87bb75c9f37929ab2309fd557e7e147765b73dbd0ac077b;frontend:4ff227bc75781d846d1076221032df8b47c0ee7f4fa1687a161c791e59006f19",
+        "tool_version": "4.0.628"
+      }
+    },
+    "required_capability": {
+      "identity_gate": "exact-native-edges",
+      "model_mode": "off",
+      "model_status": "unqualified"
+    }
+  },
+  "control_plan_sha256": "ad02fc04ed5e81765160f9e32b9b84d0ee55dfd0460f7a4156c2e6404fe5c7a5",
+  "evidence_sha256": "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005",
+  "exact_contract": {
+    "control_plan_sha256": "ad02fc04ed5e81765160f9e32b9b84d0ee55dfd0460f7a4156c2e6404fe5c7a5",
+    "evidence_path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+    "evidence_sha256": "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005",
+    "execution_contract": {
+      "path": "adapters/joern/swift-common-v2/plan-v090-01/contract.json",
+      "sha256": "b92e3770547619de78a4c667fe606326abf18b0ec86f32dd9ac308972a35b642"
+    },
+    "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+    "implementation_path": "scripts/joern_capability_repair_v092.py",
+    "implementation_sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f",
+    "launcher_path": "reports/releases/v0.9.2/acquisition/joern-capability-controls-01.py",
+    "launcher_sha256": "f1f663af4d0272a5469ee85d7b059fb5c4a66df328476e66995f3f913a07f05b",
+    "old_plan": {
+      "path": "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json",
+      "sha256": "e5cfd9d5473fd47f54de25d74a6f945c667c086ce471d5f6cdcead797bf9e3ab"
+    },
+    "old_projection_sha256": "e85aa5b1b7d8159f57113cf173ab28b90629fa45102b6e279f64938f22557a55",
+    "pending_control_plan_path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/control-plan-01.json",
+    "pending_plan_path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/pending-execution-plan-01.json",
+    "pending_plan_sha256": "b4f2d8ed15f6c9055baaad7afa71ece638da80b1d87e643aad40ca1f66a18293",
+    "population": {
+      "path": "populations/v0.9.0.json",
+      "sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+    },
+    "population_sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+    "repaired_projection_sha256": "aab7ae8939cb963e88b629cd2247ecba5ab71431456f3b94d18028d2e227ec41",
+    "tests_path": "scripts/test-joern-capability-repair-v092.py",
+    "tests_sha256": "5684e40aed6a8eee082e4f1573a8d64e8469289a6d47efdccdf7dbd5e3928f67"
+  },
+  "fresh_controls_only_procedure": [
+    "Require the parent guarded launcher to pass this exact review SHA, implementation SHA, evidence SHA, pending plan SHA and pending control-plan SHA before any analyzer process.",
+    "Use one fresh output root under the repair qualification directory and the exact existing 86-prefix/no-attempt03 reservation, exclusive lock, capacity and cutoff gates supplied by the parent continuation.",
+    "Capture a fresh Joern 4.0.660 version witness, then exactly six controls times two explicit off/on arms, three ordered phases per arm, for 36 invocations. Record the exact historical control environment: one environment across all retained commands, JAVA_HOME=/Users/dave/.sdkman/candidates/java/21.0.8-tem, SWIFTASTGEN_BIN pinned to the Joern 4.0.660 astgen binary, _JAVA_OPTIONS=null, the retained PATH string, empty measurement_wrapper, role analysis and non-scored probe deadline.",
+    "Keep old control-plan/run/receipt/raw/command files untouched. New raw paths and new capture directories are mandatory; derived or copied run/raw artifacts are rejected by the shim.",
+    "After the fresh run, compare all 12 control/case/arm keys, fixture SHA maps, arm configs, runtime identity/components, and all 36 normalized command input signatures against the retained manifest. Bind a new projection-matching receipt only after replay passes.",
+    "Preserve inconclusive model arms, absence_completeness=unproven, full_model_qualification=false, aggregate_resource_qualification=unavailable and scored_activation=false. A successful bootstrap is not a successful full qualification."
+  ],
+  "implementation_sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f",
+  "known_hardening_condition": {
+    "finding": "The shim now explicitly compares every pre-existing attempted-row field to the retained row before accepting the capability-only delta.",
+    "fix_path": "scripts/joern_capability_repair_v092.py",
+    "fix_sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f",
+    "regression_test": "scripts/test-joern-capability-repair-v092.py::test_existing_case_field_mutation_rejected",
+    "status": "resolved-before-controls-approval"
+  },
+  "launcher_sha256": "f1f663af4d0272a5469ee85d7b059fb5c4a66df328476e66995f3f913a07f05b",
+  "negative_probes_and_tests": {
+    "analyzer_build_launch_performed": false,
+    "covered_negative_cases": [
+      "changed model mode",
+      "disposition mutation",
+      "evidence path traversal",
+      "evidence source digest mismatch",
+      "identity mutation",
+      "missing capability",
+      "stale/missing projection",
+      "preflight analyzer non-execution",
+      "pre-existing case field mutation"
+    ],
+    "freshness_negative_probe": "_validate_control_command_equivalence(old_run, old_run) rejected RepairError: repaired control reused retained raw path",
+    "implementation_sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f",
+    "read_only_bootstrap_command": "PYTHONPATH=scripts python3 -u -c validate_bootstrap_inputs with expected plan/evidence hashes",
+    "read_only_bootstrap_result": "passed; projection aab7ae8939cb963e88b629cd2247ecba5ab71431456f3b94d18028d2e227ec41",
+    "tests_sha256": "5684e40aed6a8eee082e4f1573a8d64e8469289a6d47efdccdf7dbd5e3928f67",
+    "unit_command": "PYTHONPATH=scripts python3 -m unittest -v scripts/test-joern-capability-repair-v092.py",
+    "unit_result": "11 tests passed"
+  },
+  "nonclaims": [
+    "No old projection artifact is rebound as a repaired capture.",
+    "No current Joern 4.0.660 analyzer output under the repaired projection exists in this review.",
+    "No analyzer attempt03 execution, full 108 result, model qualification, score or activation is approved."
+  ],
+  "pending_plan_sha256": "b4f2d8ed15f6c9055baaad7afa71ece638da80b1d87e643aad40ca1f66a18293",
+  "retained_control_baseline": {
+    "control_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-plan-04.json",
+      "sha256": "c35307ad152fc385ecf5abb86ee7d5821fc661b6e875fa9f6a03cd3f4ee6f66a"
+    },
+    "control_run": {
+      "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/run.json",
+      "sha256": "a4f68131bce1b79151ad361a2e05b861f37a1c43f74d1fcb660d4082f9bf4ada"
+    },
+    "diagnostic_review": {
+      "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04-diagnostic-admission-review.json",
+      "sha256": "4cfddcfbb1234205274a3068adaff8716c17f531e206def4e1f05303adc992c1"
+    },
+    "environment": {
+      "exact_values": [
+        {
+          "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+          "PATH": "/Users/dave/Library/Application Support/mbx/bin:/Applications/ChatGPT.app/Contents/Resources/codex-cli/codex-path:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.railway/bin:/Users/dave/Library/pnpm:/Users/dave/.jbang/bin:/Users/dave/.local/bin:/Users/dave/.sdkman/candidates/sbt/current/bin:/Users/dave/.sdkman/candidates/java/current/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/go/bin:/opt/homebrew/bin:/Users/dave/Library/Application Support/mbx/bin:/Users/dave/.cargo/bin:/Users/dave/.codex/tmp/arg0-macos/codex-arg0AYmNIg:/Applications/ChatGPT.app/Contents/Resources/codex-cli/codex-path:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/dave/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources:/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS:/Users/dave/Library/Application Support/JetBrains/Toolbox/scripts:/Users/dave/async-profiler-4.3-macos/bin:/Users/dave/.dotnet:/Users/dave/.dotnet/tools:/Users/dave/scripts",
+          "SWIFTASTGEN_BIN": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/joern/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+          "_JAVA_OPTIONS": null
+        }
+      ],
+      "measurement_wrapper_unique": [
+        []
+      ],
+      "role_deadline_unique": [
+        [
+          "analysis",
+          "non-scored probe phase; not a scored analysis outcome"
+        ]
+      ],
+      "unique_count": 1
+    },
+    "phase_invocation_count": 36,
+    "phase_manifest": [
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-negative",
+        "control": "dfb-taint-swift-model-opaque-propagator-negative",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "d7783b42fa6b7b44e16c59bb66ed044f26856c0fd18a79ea4f9253effc6767a1"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-negative",
+        "control": "dfb-taint-swift-model-opaque-propagator-negative",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "38dbbda795498c83fc6409c5a192934ba61b47337056c53813f9ab66f7eebfc5"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-negative",
+        "control": "dfb-taint-swift-model-opaque-propagator-negative",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-negative/off/query.command.json",
+        "phase": "query",
+        "sha256": "17ae6e8b565ff144680e55caa00db77b7a2e7680967caea27a36d7fd4e5798b6"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-negative",
+        "control": "dfb-taint-swift-model-opaque-propagator-negative",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-negative/on/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "50bae34ea8e6208403a2aafeeed3346ee92187d2dcc7f46742468959543acded"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-negative",
+        "control": "dfb-taint-swift-model-opaque-propagator-negative",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-negative/on/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "79c4c190296be72a1427faabe31218953fb106ef958bd4f598e8579fd2a798a5"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-negative",
+        "control": "dfb-taint-swift-model-opaque-propagator-negative",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-negative/on/query.command.json",
+        "phase": "query",
+        "sha256": "0fb9d409b0ab439df6e070afef7793e853b200bf9bad11ed05e1871894c63db2"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-positive",
+        "control": "dfb-taint-swift-model-opaque-propagator-positive",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-positive/off/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "11d429b3c1876b49de5aa26916590618cf464da23cfe5e3fb59551e77972acd4"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-positive",
+        "control": "dfb-taint-swift-model-opaque-propagator-positive",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-positive/off/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "b8ca465cf801a06bdccbcf3eb5ec25f06304409ff5f136c43b4dfa363894fdb2"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-positive",
+        "control": "dfb-taint-swift-model-opaque-propagator-positive",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-positive/off/query.command.json",
+        "phase": "query",
+        "sha256": "3de5457e778a7477fd2acc49a229984363867713a511580b3071532692f9faf4"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-positive",
+        "control": "dfb-taint-swift-model-opaque-propagator-positive",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-positive/on/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "88e75f22c7a39ab191ac3f96754f46c81f1512268aae05f7624367436d14735d"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-positive",
+        "control": "dfb-taint-swift-model-opaque-propagator-positive",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-positive/on/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "92754655ccae2727f085942a15fbe68b1774927d3fdee59b50a72970ecf3308d"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-positive",
+        "control": "dfb-taint-swift-model-opaque-propagator-positive",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-opaque-propagator-positive/on/query.command.json",
+        "phase": "query",
+        "sha256": "30a38f4d1da238e5583f46cd5dce4647f3893e221d6864206f4fecf6d7a9b705"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-propagator-position-negative",
+        "control": "dfb-taint-swift-model-propagator-position-negative",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-negative/off/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "92ce2256dd063d7c3d2c4311f4c316bea8ff5b85794e0cba29005dbb8636c862"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-propagator-position-negative",
+        "control": "dfb-taint-swift-model-propagator-position-negative",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-negative/off/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "d75a05f27cc7ef6286ec35959211def554501fad0bbe64ec3983f593bce0bbf8"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-propagator-position-negative",
+        "control": "dfb-taint-swift-model-propagator-position-negative",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-negative/off/query.command.json",
+        "phase": "query",
+        "sha256": "155a34ba79a6e03e2a1c6d93d3ba76edfff19b0f7fda218dd5f7762062dd5966"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-propagator-position-negative",
+        "control": "dfb-taint-swift-model-propagator-position-negative",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-negative/on/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "f529adcacc840e5daca6464261feb9a4ebf6ef0e71c3216f10e250bd37a97c18"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-propagator-position-negative",
+        "control": "dfb-taint-swift-model-propagator-position-negative",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-negative/on/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "4b4662c912fcbb90cd2890d679c9463d76197c2cc76efb0ce0a892b627f2cc30"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-propagator-position-negative",
+        "control": "dfb-taint-swift-model-propagator-position-negative",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-negative/on/query.command.json",
+        "phase": "query",
+        "sha256": "51ea8830dfce7263c05f4fda83440baf9ef6f23239782060670285532fd11976"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-propagator-position-positive",
+        "control": "dfb-taint-swift-model-propagator-position-positive",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-positive/off/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "e88bfb92a7ea0f866c2f12c3776e70f4100d365773836ab383eff6610b8668c6"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-propagator-position-positive",
+        "control": "dfb-taint-swift-model-propagator-position-positive",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-positive/off/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "e94fc323cb867279a491df6fbc31a36d32c4e621481a0284c57281a18c523b77"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-propagator-position-positive",
+        "control": "dfb-taint-swift-model-propagator-position-positive",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-positive/off/query.command.json",
+        "phase": "query",
+        "sha256": "77f3d57cbdc1eef6e61feea2c317cd85c6c42dfb617e962b9c623bcc70f32d90"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-propagator-position-positive",
+        "control": "dfb-taint-swift-model-propagator-position-positive",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-positive/on/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "cf21aebfe8b4b9da028b578a7319b757ce23382947fefe6d994a7156766403bc"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-propagator-position-positive",
+        "control": "dfb-taint-swift-model-propagator-position-positive",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-positive/on/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "967086fa9d2f60a0e431c8ce7f12840d9a0f5a532d0da91bd175f469968e8c90"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-model-propagator-position-positive",
+        "control": "dfb-taint-swift-model-propagator-position-positive",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/dfb-taint-swift-model-propagator-position-positive/on/query.command.json",
+        "phase": "query",
+        "sha256": "7a527760612e957ddb6506a2176c7f946faa465d3e5cb535f5b1c77f7144c354"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-direct-negative",
+        "control": "direct-negative",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-negative/off/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "07dc5a8ea14fbb5ad4c58e5917acaa7e6d43f6337548124817e8009ec48b6f8d"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-direct-negative",
+        "control": "direct-negative",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-negative/off/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "277d394402459452754ed167643d3f829a76661ac990a21a9a4b41f6fc4fd44a"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-direct-negative",
+        "control": "direct-negative",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-negative/off/query.command.json",
+        "phase": "query",
+        "sha256": "f87c499561e22f3d769335cbffcef09b00606d46c0b4cbcad6eb490707ad9848"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-direct-negative",
+        "control": "direct-negative",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-negative/on/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "6e717a63752b6c712b0ccb305ed5ab5a0f2eee3b8278ad1f1dabbe81209b7cf0"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-direct-negative",
+        "control": "direct-negative",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-negative/on/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "4e4dc4a4c2a63456c68f950fbe0d6f69b2be7f2e792e3a72eeaf9f14bd7db0e2"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-direct-negative",
+        "control": "direct-negative",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-negative/on/query.command.json",
+        "phase": "query",
+        "sha256": "a5cb29803550c21ce5a59a830929d9da29e79ce27c0607fa415f112cdc33061c"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-direct-positive",
+        "control": "direct-positive",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-positive/off/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "3e297dcec0302c8cc247dd86e74cee1aa1148bc377ea4e51acd6e1da1b356118"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-direct-positive",
+        "control": "direct-positive",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-positive/off/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "20336e57237b74254d45899538c7225d576957a21fc67ce782297e06b8473310"
+      },
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-direct-positive",
+        "control": "direct-positive",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-positive/off/query.command.json",
+        "phase": "query",
+        "sha256": "7d88850556e2cd33ce3eff825fc1a1ec5f7a58ec942f4bb600976ce30950b494"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-direct-positive",
+        "control": "direct-positive",
+        "input_signature_sha256": "11b92f0034ab79ad52398f596d92af489d1b53934d7d0f2483cecd20c39a0ec6",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-positive/on/typecheck.command.json",
+        "phase": "typecheck",
+        "sha256": "cdb8193145c2f164c9daf4b77a472d14a3073ec45a89ce9f4d5b94691db872e5"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-direct-positive",
+        "control": "direct-positive",
+        "input_signature_sha256": "60042b11389852829afa9888a4b8e43a3669eae55f670108b226789e3364f01b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-positive/on/frontend.command.json",
+        "phase": "frontend",
+        "sha256": "eb11cb2628941412940bcf6a41e51f58f639d57bb0f890cd80dbdf4086e0468e"
+      },
+      {
+        "arm": "on",
+        "case_id": "dfb-taint-swift-direct-positive",
+        "control": "direct-positive",
+        "input_signature_sha256": "ed91f71f81978fca2df0dd59fa42659827fe0308c628e15c1418febcb846103b",
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/direct-positive/on/query.command.json",
+        "phase": "query",
+        "sha256": "0430fd34aca07344c93318d36e2a02901f559ae682c4d4f3484956a0634b7e7e"
+      }
+    ],
+    "phase_manifest_definition": "36 rows; retained command path/SHA plus shim-equivalent normalized input signature SHA; capture paths normalized only.",
+    "phase_manifest_sha256": "076281dcc32897287f8f8c731d3dec0150e05cd1377b50d6a5ce108b4f718401",
+    "qualification_receipt": {
+      "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/qualification-receipt-02.json",
+      "sha256": "c38aae7b1d4179bcd505ef32d3220f218efd25a16d5ce4eee0bf5d8eb4afc1bb"
+    },
+    "records": 12,
+    "replay_checks": {
+      "all_12_case_arms": true,
+      "all_36_commands": true,
+      "argv_cwd_tags_completion_exact": true,
+      "fixture_and_config_bindings_exact": true,
+      "old_projection_only": true,
+      "runtime_identity_4_0_660": true
+    },
+    "static_check_failures": [],
+    "typed_outcome_preservation": {
+      "absence_completeness": "unproven",
+      "full_model_qualification": false,
+      "model_arm_failure_count": 8,
+      "old_assessment_status": "incomplete",
+      "receipt_status": "measurement-with-known-limits",
+      "scored_activation": null
+    },
+    "unique_case_arms": 12
+  },
+  "review_type": "independent-read-only-control-bootstrap-review",
+  "reviewed_at_utc": "2026-10-23T06:03:26.953709Z",
+  "reviewer_independence": {
+    "analyzer_build_or_launch_by_review": false,
+    "capability_evidence_author": "separate capability-evidence worker",
+    "retained_inputs_modified": false,
+    "reviewed_by": "joern_repair_independent",
+    "shim_author": "separate shim worker",
+    "shim_hardening_authorized_by_parent": true,
+    "shim_hardening_source_edit_by_review": true,
+    "source_or_fixture_edits_by_review": false
+  },
+  "schema": "v092-joern-control-bootstrap-independent-review/v1",
+  "status": "approved-for-fresh-controls-only"
+}
