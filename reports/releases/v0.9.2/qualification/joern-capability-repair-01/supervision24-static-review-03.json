@@ -1,0 +1,138 @@
+{
+  "schema": "v092-matrix-supervision24-static-review/v3",
+  "review_kind": "independent-read-only-hardened-static-rereview",
+  "reviewed_at_utc": "2026-10-23T06:29:40Z",
+  "reviewer": "joern_repair_independent",
+  "review_scope": "Read-only rereview of the final-control-hardened parent-owned supervisor, its no-analyzer tests, and the recorded harmless GATE probes. No analyzer, build, continuation, CodeQL, attempt-03, or release process was launched by this review.",
+  "decision": "conditional-static-approval-pending-final-manifest-review",
+  "approval_boundary": "The hardened supervisor is conditionally acceptable for final manifest review. It is not approved for continuation or qualification launch until the continuation source and final manifest are frozen and a separate final review records status=approved, automatic_retry=false, and exact supervisor_sha256/continuation_sha256/manifest_sha256 bindings.",
+  "source_bindings": {
+    "supervisor": {
+      "path": "reports/releases/v0.9.2/acquisition/matrix-supervision-24.py",
+      "sha256": "6560df47dfc135a2a9b1044667aabe50def242e4adbe5e9d5fac83074be1244f"
+    },
+    "test": {
+      "path": "reports/releases/v0.9.2/acquisition/test-matrix-supervision-24.py",
+      "sha256": "f90d1380859d874c7feb022f65e603f06ae5335748ca9c0e9b3dd613ad3f2e2c"
+    },
+    "continuation_snapshot": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+      "sha256": "71a38db0697a0f6ef46bc5e245a8b786abbbf962c56d824235945d8fd4d3d993",
+      "binding_is_provisional": true
+    },
+    "permit_probe_evidence": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/supervision24-permit-probes-01.json",
+      "sha256": "a8edc054ff074ec1e02ea4b95b41eaf88900b571b07ad5f552716748a4f63299",
+      "evidence_source_sha256": "6560df47dfc135a2a9b1044667aabe50def242e4adbe5e9d5fac83074be1244f"
+    },
+    "final_review": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/supervision24-independent-review-01.json",
+      "present_at_review": false,
+      "manifest_sha256": null
+    }
+  },
+  "static_tests": {
+    "command": "python3 reports/releases/v0.9.2/acquisition/test-matrix-supervision-24.py",
+    "result": "3 tests passed",
+    "compile_bytes": "supervisor, test, and continuation compile from bytes",
+    "analyzer_build_launch_performed": false,
+    "namespace_mkdir_probe": {
+      "result": "passed",
+      "outcomes": ["created", "rejected"],
+      "description": "Repeated exclusive mkdir of one temporary namespace produced one creator and one FileExistsError; no duplicate child was started."
+    },
+    "real_gate_probe": {
+      "result": "passed-in-recorded-evidence",
+      "evidence_path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/supervision24-permit-probes-01.json",
+      "execution_context": "Parent-run harmless probe with ps-backed birth witness permitted; not re-executed in this sandbox.",
+      "probes": {
+        "valid": {"exit_code": 0, "marker_written": true},
+        "wrong-birth": {"exit_code": 126, "marker_written": false},
+        "wrong-token": {"exit_code": 126, "marker_written": false},
+        "wrong-argv": {"exit_code": 126, "marker_written": false}
+      },
+      "analyzer_invoked": false
+    },
+    "test_limitations": [
+      "The checked-in tests use mocked Popen and patched birth/validate; they do not independently exercise the real ps-backed gate or durable permit bytes.",
+      "The recorded real-gate probes bind the exact supervisor source hash and cover valid, wrong-birth, wrong-token, and wrong-argv admission, but were executed by the parent in an elevated environment rather than by this sandbox review."
+    ]
+  },
+  "guard_review": {
+    "exact_hash_admission": true,
+    "review_status_requires_approved": true,
+    "review_requires_automatic_retry_false": true,
+    "review_bindings_require_supervisor_continuation_manifest": true,
+    "permit_is_durable_json": true,
+    "permit_fields": ["pid", "birth", "token", "argv_sha256"],
+    "gate_checks_exact_permit_object": true,
+    "gate_checks_pid_and_birth": true,
+    "gate_checks_token_and_argv_digest": true,
+    "direct_supervise_rechecks_parent_permit": true,
+    "launcher_binds_pid_birth_and_preflight_digest": true,
+    "supervisor_validates_launcher_and_preflight": true,
+    "launcher_automatic_retry_false_checked": true,
+    "preflight_automatic_retry_false_checked": true,
+    "namespace_exclusive_mkdir": true,
+    "first_nonzero_stops_before_codeql": true,
+    "automatic_retry": false,
+    "admission_exception_reaps_child": true,
+    "groups_ordered": ["joern-swift-common108", "codeql-swift-common108"],
+    "no_retry_loop": true
+  },
+  "resolved_prior_findings": [
+    {
+      "id": "SUP24-001",
+      "finding": "Namespace check-then-create race",
+      "resolution": "STATE.mkdir() and PUBLIC.mkdir() use default exclusive creation; a competing launch cannot create the same STATE namespace and the first failed/partial namespace remains consumed."
+    },
+    {
+      "id": "SUP24-002",
+      "finding": "Path-only stale/forged permit",
+      "resolution": "The gate requires exact JSON content including child PID, birth string, nonce token, and argv SHA-256; the recorded probes show valid admission and rejection for wrong birth, token, and argv."
+    },
+    {
+      "id": "SUP24-004",
+      "finding": "Missing launcher/preflight receipt admission",
+      "resolution": "supervise() now validates the exact supervisor permit against the durable launcher identity, checks launcher and parent-preflight bindings, and explicitly requires automatic_retry=false in both receipts."
+    },
+    {
+      "id": "SUP24-005",
+      "finding": "Admission exception could leave child",
+      "resolution": "Each admitted child is waited and reaped in a finally block; parent launch also waits the supervisor on launch exceptions and performs no kill/retry."
+    },
+    {
+      "id": "SUP24-006",
+      "finding": "Direct --supervise permit admission was only outer-gate protected",
+      "resolution": "supervise() now reads and exact-compares allow-supervisor-start against its current PID/birth, launcher token, and full argv digest before dispatch."
+    },
+    {
+      "id": "SUP24-007",
+      "finding": "Launcher/preflight automatic_retry was not explicitly checked",
+      "resolution": "supervise() now requires automatic_retry is false in launcher.json and parent-preflight.json."
+    }
+  ],
+  "remaining_hardening": [
+    {
+      "id": "SUP24-008",
+      "severity": "low",
+      "status": "final-review-hardening",
+      "location": "reports/releases/v0.9.2/acquisition/matrix-supervision-24.py:117-119",
+      "finding": "Per-group exit receipts do not carry an explicit automatic_retry=false field, although the launcher, preflight, dispatch, final exit, and error receipts do and the supervisor has no retry loop.",
+      "evidence": "The group exit writer contains utc, exit_code, stdout_sha256, and stderr_sha256 only. This is an evidence-schema completeness gap rather than an observed retry path.",
+      "required_fix_or_final_proof": "Add automatic_retry=false to each group exit receipt or have the final manifest review explicitly establish that the receipt schema is intentionally exempt and that no consumer treats its absence as an inferred retry state."
+    }
+  ],
+  "final_review_requirements": [
+    "Freeze the continuation source and final manifest, then recompute exact SHA-256 bindings.",
+    "Create the final review at supervision24-independent-review-01.json with status=approved, automatic_retry=false, and exact continuation source, test, contract, manifest, and authorization bindings.",
+    "Retain the recorded real-GATE probe evidence bound to supervisor SHA 6560df47dfc135a2a9b1044667aabe50def242e4adbe5e9d5fac83074be1244f.",
+    "Recheck the final namespace is unused and the continuation preflight succeeds before any one-shot launch."
+  ],
+  "nonclaims": [
+    "This is conditional static approval only; no continuation execution is approved.",
+    "No analyzer, build, Joern03, CodeQL, scoring, or activation process was launched by this review.",
+    "The continuation hash recorded here is provisional until parent edits stop.",
+    "The recorded real-GATE probes are parent-run evidence reviewed read-only, not an execution performed by this sandbox review."
+  ]
+}

@@ -1,0 +1,185 @@
+{
+  "schema": "v092-joern-capability-continuation-static-review/v3",
+  "review_kind": "independent-final-static-security-review-snapshot",
+  "reviewed_at_utc": "2026-10-23T06:33:00Z",
+  "reviewer": "joern_repair_independent",
+  "review_scope": "Read-only security review of the latest parent-owned continuation module and focused tests. The review covers source closure, recovered historical contexts, contract and plan deltas, live resource and reserve gates, sidecar and attempt freshness delegation, runtime expiry overlay, clock preservation, and terminal state admission. No analyzer, build, continuation execution, replay-heavy verifier, CodeQL, attempt-03, or release process was launched by this review.",
+  "decision": "conditional-static-approval-pending-final-manifest-and-live-admission-review",
+  "execution_eligible": false,
+  "approval_boundary": "The source snapshot is conditionally acceptable for final manifest assembly. It does not approve Joern03 or CodeQL01 execution. Execution requires a frozen source/plan/contract/manifest closure, an exact final independent review, a one-shot admission receipt with a live expiry and current resource/process/lock/freshness proof, and exact final hashes after all edits stop.",
+  "source_bindings": {
+    "continuation_source": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+      "sha256": "e42ce0df7edef73cbdd59c9a93c8d172556333e07f084c679ba5e2234e194846"
+    },
+    "continuation_test": {
+      "path": "reports/releases/v0.9.2/acquisition/test-joern-capability-continuation-01.py",
+      "sha256": "fb8f96c243815e5c8758d392513caf05415ceced68595caf9810e0380c4cfdaa"
+    },
+    "continuation_builder": {
+      "path": "reports/releases/v0.9.2/acquisition/build-joern-capability-continuation-01.py",
+      "sha256": "464f2fd7be2369a26a0d2426f4bdc99a4b4e7025f687c9dc961f62c26dd5eede"
+    },
+    "frozen_executor": {
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    },
+    "frozen_checker": {
+      "path": "scripts/check-release-v092.py",
+      "sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+    },
+    "frozen_configuration_checker": {
+      "path": "scripts/validate-v092-report-configurations.py",
+      "sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858"
+    },
+    "repaired_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/execution-plan.json",
+      "sha256": "76264424ddfa31b11788459368ae9b65058685cb7bab60d14353d9c96fca102f"
+    },
+    "capability_evidence": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+      "sha256": "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005",
+      "historical_raw_case_reports": 96
+    },
+    "fresh_qualification": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/qualification-receipt-01.json",
+      "sha256": "91183615329771d82edf9f46fa0afa088b8e9d858b2d315c6e86f86554b8272a",
+      "projection_sha256": "aab7ae8939cb963e88b629cd2247ecba5ab71431456f3b94d18028d2e227ec41"
+    },
+    "final_manifest": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/continuation-manifest.json",
+      "present_at_review": false,
+      "sha256": null
+    },
+    "final_review": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/continuation-independent-review-01.json",
+      "present_at_review": false,
+      "sha256": null
+    }
+  },
+  "static_validation": {
+    "test_command": "python3 reports/releases/v0.9.2/acquisition/test-joern-capability-continuation-01.py",
+    "test_result": "15 tests passed",
+    "compile_bytes": "continuation source and test compile from bytes",
+    "analyzer_build_launch_or_replay_performed": false,
+    "prior_read_only_closure_evidence": {
+      "source_inputs_delta_count": 301,
+      "fresh_control_paths": 197,
+      "historical_raw_witnesses": 96,
+      "fresh_control_graph_json_nodes": 100,
+      "fresh_control_nested_references": 196,
+      "graph_roots": ["run.json", "qualification-receipt-01.json", "diagnostic-admission-review-01.json", "identity.json"],
+      "builder_module_set_equality": true,
+      "single_omitted_edge_near_miss_detected": true,
+      "evidence_source": "continuation-integration-review-02.json"
+    }
+  },
+  "guard_assessment": {
+    "authorization_exact_and_clock_unchanged": true,
+    "sealed_prefix_exact_86_rows": true,
+    "sealed_prefix_completed_successes": 82,
+    "historical_contexts_rebound_by_exact_contract_digest": true,
+    "historical_context_roster_must_equal_sealed_rows": true,
+    "role_metadata_preserved_for_inherited_inputs": true,
+    "fresh_control_fixed_point_closure": true,
+    "complete_source_input_delta_is_explicit_and_commit_verified": true,
+    "strict_contract_top_level_and_group_delta": true,
+    "repaired_qualification_bound_to_fresh_evidence": true,
+    "joern_only_max_attempt_exception": true,
+    "codeql_order_requires_completed_joern03": true,
+    "tail_bound_at_two_rows": true,
+    "terminal_success_requires_exit_zero_timeout_false_capacity_loss_null": true,
+    "exact_head_required_before_execute": true,
+    "preflight_replay_required_before_execute": true,
+    "live_phase_reserve_rechecked": true,
+    "live_cutoff_reserve_rechecked": true,
+    "live_127_gib_resource_gate_rechecked": true,
+    "runtime_overlay_changes_only_resource_expiry": true,
+    "original_clock_guard_preserved": true,
+    "frozen_runner_rechecks_exclusive_lock_processes_and_fresh_namespaces": true,
+    "automatic_retry": false
+  },
+  "resolved_static_findings": [
+    {
+      "id": "CONT-001",
+      "finding": "Circular manifest/plan commit binding",
+      "resolution": "The current loader treats the finalized manifest as an external hash-bound admission artifact while requiring continuation artifacts at the ordered source/plan commits; the continuation contract is separately committed and does not contain its own containing plan commit. Final non-circular commit closure remains unexercised."
+    },
+    {
+      "id": "CONT-002",
+      "finding": "Historical context map omitted retained contract revisions",
+      "resolution": "validate() now invokes _historical_contexts(), requires the exact context-key set represented by sealed rows, preserves each row's source/plan identity, and maintains retained completed/failure maps."
+    },
+    {
+      "id": "CONT-003",
+      "finding": "Incomplete source closure and ignored role metadata",
+      "resolution": "validate() now invokes _validate_source_closure(); inherited role-bearing inputs are compared byte-for-byte, the explicit delta must equal the deterministic 301-path closure, all 96 witnesses are required, and every resulting input is checked against source_commit blobs."
+    },
+    {
+      "id": "CONT-006",
+      "finding": "Direct execute could bypass retained replay and admission",
+      "resolution": "execute() requires the exact execution admission receipt, exact registered HEAD, verify(final=false), exact sealed-prefix/tail state, and live dispatch gates before calling the frozen runner."
+    },
+    {
+      "id": "CONT-007",
+      "finding": "Tail order and terminal-state checks were weak",
+      "resolution": "The current tail and execution-result guards bind Joern03/CodeQL01 IDs and groups, enforce the Joern-before-CodeQL order, cap the tail at two rows, reject a fourth attempt, and require exit 0, timed_out=false, and capacity_loss=null for completed rows."
+    },
+    {
+      "id": "CONT-008",
+      "finding": "No live resource/reserve gate or runtime reservation overlay",
+      "resolution": "The current source rechecks the per-phase reserve, remaining original cutoff time, and frozen executor's 127 GiB resource hook immediately before dispatch, then overlays only the in-memory reservation expiry to the unchanged original cutoff."
+    },
+    {
+      "id": "CONT-009",
+      "finding": "CodeQL continuation provenance mismatch",
+      "resolution": "The continuation context binds CodeQL01 to the new continuation contract/source/plan while requiring its argv/output roots to remain byte-equal to the frozen CodeQL group; historical rows route through their original contexts."
+    },
+    {
+      "id": "CONT-010",
+      "finding": "Authorization, final review, and execution admission were not bound",
+      "resolution": "The loader now requires exact authorization, bootstrap review, separate final review, and an execution-admission artifact with exact continuation artifact bindings and one-shot flags."
+    }
+  ],
+  "remaining_blockers_and_hardening": [
+    {
+      "id": "CONT-011",
+      "severity": "high",
+      "status": "pending-live-admission-proof",
+      "location": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py:428-497,1191-1214",
+      "finding": "The module validates static admission booleans and rechecks reserve, cutoff, and resource floor, but the execution-admission schema has no required lease/expiry field and the live gate does not recheck no-foreign-processes, exclusive-lock ownership, or fresh attempt/sidecar namespace identity at the moment of dispatch.",
+      "evidence": "_check_execution_admission() requires no_foreign_processes, exclusive_lock_checked, fresh_attempt_namespaces, and fresh_sidecar_namespaces to be true, while _require_live_execution_gates() only rechecks phase reserve, cutoff remaining time, and _check_resources(). The frozen runner later acquires its own lock and checks contenders/fresh paths, but a stale admission receipt can survive until that later check and receipt freshness is not independently bounded.",
+      "required_final_proof_or_fix": "Require an exact admission lease/expiry bounded by the original cutoff and verify it against current time, bind the current reservation/lock/namespace identities, and retain the frozen runner's final lock/process/freshness checks. A final admission receipt without this runtime-expiry proof is not sufficient for execution approval."
+    },
+    {
+      "id": "CONT-012",
+      "severity": "medium",
+      "status": "final-closure-proof-required",
+      "location": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py:500-621,1026-1084",
+      "finding": "The source/plan/contract closure is strongly guarded in the working tree, but no committed source commit, plan commit, continuation contract, finalized manifest, final review, or admission receipt exists in this snapshot.",
+      "evidence": "The loader checks committed blobs only after reading the future manifest; current worktree inspection found no finalized continuation manifest or continuation contract at the bound default path.",
+      "required_final_proof_or_fix": "After parent commits the additive closure, recompute all exact hashes, verify every 301 source-input blob at source_commit/plan_commit, materialize the committed contract, and regenerate the independent final review if any bound byte changes."
+    },
+    {
+      "id": "CONT-013",
+      "severity": "low",
+      "status": "schema-hardening",
+      "location": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py:653-670",
+      "finding": "The attempt_number field is accepted when absent because the attempt ID is authoritative; exact attempt identity is still enforced through the ID parser.",
+      "evidence": "The tail checks allow attempt_number to be None or the expected value, while requiring the exact Joern03 and CodeQL01 attempt IDs and parsed numbers.",
+      "required_final_proof_or_fix": "If the finalized ledger schema requires explicit attempt_number, require the field rather than relying solely on the encoded attempt ID; otherwise record the intentional compatibility rule in the final review."
+    }
+  ],
+  "final_review_requirements": [
+    "Freeze the latest continuation source and test; any source change invalidates this snapshot hash.",
+    "Materialize and commit the non-circular continuation contract and manifest closure, then verify the exact 301-path source-input set at committed blobs.",
+    "Create a final independent review with status=approved, automatic_retry=false, and exact authorization, ledger-prefix, source-commit, plan-commit, continuation-contract, repaired-plan, evidence, shim, source, and test bindings.",
+    "Create a one-shot execution-admission receipt with exact manifest/final-review/artifact hashes, current HEAD, retained replay output, 127 GiB floor, full Joern reserve, conditional CodeQL reserve, no foreign processes, exclusive lock, fresh attempt namespace, fresh sidecar namespaces, and a live expiry bounded by the original cutoff.",
+    "Run committed preflight only after the final admission receipt and final independent review are bound; do not infer approval from this static snapshot."
+  ],
+  "nonclaims": [
+    "No analyzer, build, continuation, Joern03, CodeQL01, replay-heavy verifier, scoring, or activation process was launched by this review.",
+    "The 301-path closure and 15-test result are static/read-only evidence; they do not certify a committed manifest or runtime qualification.",
+    "This artifact is a source snapshot review. A later module, test, contract, manifest, or admission-receipt edit requires a new exact-hash review."
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "control_run": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/run.json",
+    "sha256": "d9c77fe9affacbb27bc3b56d5a73645943502368653905f77435126223637394"
+  },
+  "diagnostic_admission_review": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/diagnostic-admission-review-01.json",
+    "sha256": "55c52e46c66770701316f252ae317bdfe378749a2916f7ac5f61d42398ce67b5"
+  },
+  "diagnostic_execution_eligible": true,
+  "dimensions": {
+    "common108_controls": {
+      "case_arm_count": 12,
+      "case_count": 6,
+      "control_run": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/run.json",
+        "sha256": "d9c77fe9affacbb27bc3b56d5a73645943502368653905f77435126223637394"
+      },
+      "full_model_qualification": false,
+      "phase_invocation_count": 36,
+      "status": "measurement-with-known-limits",
+      "strict_assessment": {
+        "absence_completeness": "unproven",
+        "failures": [
+          {
+            "arm": "off",
+            "control": "dfb-taint-swift-model-opaque-propagator-positive",
+            "observed": "inconclusive",
+            "required": "not-reached"
+          },
+          {
+            "arm": "on",
+            "control": "dfb-taint-swift-model-opaque-propagator-positive",
+            "observed": "inconclusive",
+            "required": "reached"
+          },
+          {
+            "arm": "off",
+            "control": "dfb-taint-swift-model-opaque-propagator-negative",
+            "observed": "inconclusive",
+            "required": "reached"
+          },
+          {
+            "arm": "on",
+            "control": "dfb-taint-swift-model-opaque-propagator-negative",
+            "observed": "inconclusive",
+            "required": "not-reached"
+          },
+          {
+            "arm": "off",
+            "control": "dfb-taint-swift-model-propagator-position-positive",
+            "observed": "inconclusive",
+            "required": "not-reached"
+          },
+          {
+            "arm": "on",
+            "control": "dfb-taint-swift-model-propagator-position-positive",
+            "observed": "inconclusive",
+            "required": "reached"
+          },
+          {
+            "arm": "off",
+            "control": "dfb-taint-swift-model-propagator-position-negative",
+            "observed": "inconclusive",
+            "required": "not-reached"
+          },
+          {
+            "arm": "on",
+            "control": "dfb-taint-swift-model-propagator-position-negative",
+            "observed": "inconclusive",
+            "required": "not-reached"
+          }
+        ],
+        "partition_registered": false,
+        "scored_activation": false,
+        "status": "incomplete"
+      }
+    },
+    "joern_diagnostic_admission": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/diagnostic-admission-review-01.json",
+      "sha256": "55c52e46c66770701316f252ae317bdfe378749a2916f7ac5f61d42398ce67b5"
+    }
+  },
+  "execution_eligible": true,
+  "execution_plan_projection_sha256": "aab7ae8939cb963e88b629cd2247ecba5ab71431456f3b94d18028d2e227ec41",
+  "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+  "full_model_qualification": false,
+  "group_id": "joern-swift-common108",
+  "groups": [
+    "joern-swift-common108"
+  ],
+  "identity": {
+    "adapter_version": "joern-normal-v092",
+    "tool": "joern",
+    "tool_build_identity": "joern-cli:4.0.660;engine:309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00;frontend:d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+    "tool_version": "4.0.660"
+  },
+  "identity_components": [
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "joern-root",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/joern.json",
+      "sha256": "c848b12fd54138219c3bd5c647071eceab1ae4c9f785967c24274d509554c2fc"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "java-home",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/java.json",
+      "sha256": "76ddb265fbaeecf1908ea934d2d64b079372e13f1307ff5d2b94957ba40ac1a6"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-toolchain",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/swift-6.3.3.json",
+      "sha256": "f31ae5b23c775e0c69227363a1a0c4e4bf87964f8bcd79b8f9de9d7acd7d4a58"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-sdk",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5.json",
+      "sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7"
+    }
+  ],
+  "population_sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+  "schema": "analyzer-qualification-receipt/v092",
+  "scored_activation": false,
+  "status": "measurement-with-known-limits"
+}
