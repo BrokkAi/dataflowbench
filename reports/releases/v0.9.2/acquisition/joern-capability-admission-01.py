@@ -41,6 +41,9 @@ def main():
     executor = context['executor']
     validated = context['repaired']['validated']
     manifest = context['manifest']
+    review = json.loads((ROOT / manifest['final_review']['path']).read_bytes())
+    mod.require(review.get('admission_source') == ref(Path(__file__).resolve().relative_to(ROOT).as_posix()),
+                'final review does not bind this admission helper')
     source = manifest['source_commit']
     report_path = BASE + 'retained-preflight-01.json'
     replay = subprocess.run([sys.executable, '-E', str(ROOT / MODULE), 'preflight',
@@ -62,6 +65,12 @@ def main():
             normalized = next(g for g in validated['groups'] if g['id'] == group_id)
             executor._assert_fresh(ROOT, group, normalized['reports'], validated['plan']['execution_series'])
         class Projection:
+            chunk_bytes = 1024**2
+            def error(self, reason, message, **kw):
+                return ValueError(reason + ': ' + message)
+            def check_capacity(self, *, projected_bytes=0, **kw):
+                mod.require(shutil.disk_usage(ROOT).free - projected_bytes >= 127 * 1024**3,
+                            'materialization would cross protected scheduling capacity')
             def check(self, **kw):
                 projected = kw['projected_bytes']
                 mod.require(projected <= 12 * 1024**3 and
@@ -71,7 +80,8 @@ def main():
             [x['path'] for x in validated['source_inputs']],
             disk_guard=Projection(), preflight_only=True)
         executor._materialize_source(ROOT, source, destination,
-                                     [x['path'] for x in validated['source_inputs']])
+            [x['path'] for x in validated['source_inputs']],
+            disk_guard=Projection(), expected_projected_bytes=projected)
         sys.path.insert(0, str(destination / 'scripts'))
         shim_spec = importlib.util.spec_from_file_location('materialized_repair',
                          destination / manifest['artifacts']['joern_shim']['path'])
