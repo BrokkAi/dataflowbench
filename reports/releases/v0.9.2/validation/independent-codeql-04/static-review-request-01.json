@@ -1,0 +1,49 @@
+{
+  "blocked_until": [
+    "independent review of provider04 source and tests",
+    "parent-controlled production recovery/admission decision"
+  ],
+  "predecessor": {
+    "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+    "sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8"
+  },
+  "production_execution": false,
+  "read_only_prefix_probe": {
+    "bytes": 114106120,
+    "historical_88_sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476",
+    "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/sealed-ledger-prefix-89.jsonl",
+    "result": "read-only _verified_89_prefix accepted exact sealed 88-row head and did not read or mutate the live tail",
+    "rows": 89,
+    "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+  },
+  "schema": "v092-codeql-terminal-history-provider-review-request/v1",
+  "scope": {
+    "fail_closed": [
+      "tampered prefix",
+      "oversize prefix",
+      "symlinked ledger",
+      "noncanonical JSONL",
+      "changed predecessor bytes"
+    ],
+    "nested_input": "only v092_scoped_recovery_packet current execution ledger read is scoped to the exact sealed 88-row prefix",
+    "outer_input": "exact live 89-row prefix is delegated unchanged to predecessor recover_bifrost_history",
+    "restoration": "importlib.util.module_from_spec and nested _regular_bytes are restored on normal and exceptional exits",
+    "unchanged": "all other frozen readers, terminal-row checking, source/plan/contract checks, and contexts remain predecessor-owned"
+  },
+  "sealed_prefix": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/sealed-ledger-prefix-88.jsonl",
+    "rows": 88,
+    "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476"
+  },
+  "source": {
+    "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+    "sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e"
+  },
+  "status": "pending-independent-review",
+  "tests": {
+    "command": "python3 reports/releases/v0.9.2/acquisition/test-codeql-terminal-history-04.py",
+    "path": "reports/releases/v0.9.2/acquisition/test-codeql-terminal-history-04.py",
+    "result": "8 tests passed",
+    "sha256": "e436f19b769cff47ffc74e9f74f31efb17446a868d19ee3827f0ea4d7496c006"
+  }
+}

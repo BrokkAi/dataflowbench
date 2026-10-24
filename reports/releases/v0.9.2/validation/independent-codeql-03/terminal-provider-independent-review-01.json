@@ -1,0 +1,126 @@
+{
+  "analyzer_invocations_by_this_review": 0,
+  "approval_scope": "one-read-only-recovery-invocation only; no production replay, admission, analyzer launch, retry, or terminal finalization authority",
+  "automatic_retry": false,
+  "conclusion": "Approved for one exact read-only CodeQL history recovery. The provider supplies the 88-row historical bytes only to the nested bounded reader, preserves the frozen 64 MiB default and all other reads, and delegates the full 89-row terminal validation to the pinned predecessor. Later live ledger rows are checked only through the bounded supplied-head comparison. No production execution authority is granted.",
+  "exact_bindings": {
+    "completed_receipt_sha256": "24795ec582742b39ba8e5851ce39fa4249aa66bd79d1a0cdcd9823d5f6fc9d0d",
+    "manifest_path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/codeql-continuation-manifest-03.json",
+    "manifest_sha256": "09fef48f6140397500776f764d4a6d2ff74e5174009cba57a912d45173112d41",
+    "nested_default_maximum_bytes": 67108864,
+    "nested_ledger_path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "nested_module_name": "v092_scoped_recovery_packet",
+    "predecessor_sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8",
+    "predecessor_source": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+    "sealed_prefix_path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/sealed-ledger-prefix-88.jsonl",
+    "sealed_prefix_rows": 88,
+    "sealed_prefix_sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476",
+    "terminal_input_rows": 89
+  },
+  "execution_authorized": false,
+  "independent_evidence": {
+    "live_ledger": {
+      "bytes": 114106120,
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 89,
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    },
+    "live_prefix_89": {
+      "bytes": 114106120,
+      "equals_live_head": true,
+      "rows": 89,
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    },
+    "sealed_prefix_88": {
+      "bytes": 25380022,
+      "equals_live_head": true,
+      "rows": 88,
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476"
+    },
+    "synthetic_109_live_tail_probe": "_verified_89_prefix accepted exact 89-row supplied input while the synthetic canonical live ledger contained 109 rows; PASS",
+    "synthetic_tests": "PYTHONDONTWRITEBYTECODE=1 python3 reports/releases/v0.9.2/acquisition/test-codeql-terminal-history-04.py; 8 tests passed",
+    "test_execution_scope": "isolated temporary fixtures only; no production recovery function or analyzer was invoked"
+  },
+  "production_actions_by_this_review": {
+    "admission": false,
+    "build": false,
+    "launch": false,
+    "ledger_mutation": false,
+    "materialization": false,
+    "replay": false,
+    "source_mutation": false
+  },
+  "recorded_utc": "2026-10-24T14:31:05.881579+00:00",
+  "remaining_boundary_conditions": [
+    "The focused tests use isolated dynamic-loader fixtures rather than invoking production recover_bifrost_history; the root-owned single read-only recovery must capture its actual return/error and preserve all streams.",
+    "Approval covers one read-only recovery invocation against the exact manifest/source/prefix bindings above. It does not approve terminal finalization or any analyzer attempt.",
+    "Any changed provider, predecessor, manifest, live-prefix bytes, or nested module identity requires a new independent review."
+  ],
+  "review_type": "independent-static-provider-review",
+  "reviewed_sources": {
+    "frozen_executor": {
+      "bytes": 216310,
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    },
+    "nested_frozen_reader": {
+      "bytes": 21033,
+      "path": "scripts/v092_scoped_recovery.py",
+      "sha256": "6f8b025aae344709e1ecc9722db8943877e6f08851e423f9ab735d8d7d311c0d"
+    },
+    "predecessor": {
+      "bytes": 97209,
+      "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+      "sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8"
+    },
+    "provider": {
+      "bytes": 11688,
+      "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+      "sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e"
+    },
+    "provider_tests": {
+      "bytes": 6893,
+      "path": "reports/releases/v0.9.2/acquisition/test-codeql-terminal-history-04.py",
+      "sha256": "e436f19b769cff47ffc74e9f74f31efb17446a868d19ee3827f0ea4d7496c006"
+    }
+  },
+  "schema": "v092-codeql-terminal-provider-independent-review/v1",
+  "static_review_findings": [
+    {
+      "code": "EXACT-NESTED-IMPORT",
+      "detail": "The provider patches importlib.util.module_from_spec only for the exact v092_scoped_recovery_packet name, matching execute-release-v092.py::_scoped_recovery_module, and validates the nested LEDGER_PATH and _regular_bytes/validate_packet API.",
+      "status": "pass"
+    },
+    {
+      "code": "PREFIX-88-BOUND",
+      "detail": "The nested reader receives only canonical bytes whose SHA and 88-row count match the sealed historical prefix. The outer provider separately requires an exact canonical 89-row input beginning with those 88 rows and matching the live ledger head.",
+      "status": "pass"
+    },
+    {
+      "code": "TERMINAL-89-DELEGATION",
+      "detail": "recover_bifrost_history delegates the caller's exact 89-row bytes unchanged to the pinned predecessor, preserving its full frozen terminal checker/replay and receipt validation.",
+      "status": "pass"
+    },
+    {
+      "code": "LATER-LIVE-TAIL",
+      "detail": "_prefix_bytes reads only the supplied 89-row head and does not require live-file equality; a later 109-row live ledger remains admissible while the recovery input stays exactly 89 rows. No extra tail is handed to the historical nested reader.",
+      "status": "pass"
+    },
+    {
+      "code": "HOOK-RESTORATION",
+      "detail": "The nested module _regular_bytes wrapper restores in finally, and the importlib module_from_spec hook restores in the outer finally, including validation exceptions.",
+      "status": "pass"
+    },
+    {
+      "code": "FROZEN-LIMIT",
+      "detail": "The frozen scripts/v092_scoped_recovery.py source and 64 MiB default are untouched; non-target paths and descriptions delegate to the original reader.",
+      "status": "pass"
+    },
+    {
+      "code": "NO-EXECUTION-MODE",
+      "detail": "Provider has no CLI, subprocess, analyzer, admission, replay, evidence-write, or ledger-write path; its sole integration entry point returns validated in-process history.",
+      "status": "pass"
+    }
+  ],
+  "status": "approved"
+}
