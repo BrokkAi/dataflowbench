@@ -210,7 +210,7 @@ class RuntimeCoreSchema14Tests(unittest.TestCase):
 
 
 
-class SourceDesign08SchemaTests(unittest.TestCase):
+class SourceDesign09SchemaTests(unittest.TestCase):
     """Actual immutable06 shape, with successor values confined to a temp fixture.
 
     These exercise protocol schema bindings only. The production full Git
@@ -237,9 +237,9 @@ class SourceDesign08SchemaTests(unittest.TestCase):
     def bind(self, value=None):
         value = self.value if value is None else value
         raw = p.canonical_json(value)
-        path = self.root / p.SOURCE_DESIGN_08_PATH
+        path = self.root / p.SOURCE_DESIGN_09_PATH
         path.write_bytes(raw)
-        self.core["source_design"] = {"path": p.SOURCE_DESIGN_08_PATH,
+        self.core["source_design"] = {"path": p.SOURCE_DESIGN_09_PATH,
                                       "sha256": p.sha256(raw)}
         return self.core
 
@@ -252,8 +252,8 @@ class SourceDesign08SchemaTests(unittest.TestCase):
 
     def test_wrong_predecessor04_or07_rejected(self):
         for predecessor in (p.SOURCE_DESIGN_04,
-                {"path": p.SOURCE_DESIGN_08_PATH.replace("-08.json", "-07.json"),
-                 "sha256": p.sha256((self.repo / p.SOURCE_DESIGN_08_PATH.replace("-08.json", "-07.json")).read_bytes())}):
+                {"path": p.SOURCE_DESIGN_09_PATH.replace("-09.json", "-07.json"),
+                 "sha256": p.sha256((self.repo / p.SOURCE_DESIGN_09_PATH.replace("-09.json", "-07.json")).read_bytes())}):
             value = json.loads(json.dumps(self.value)); value["predecessor_design"] = predecessor
             with self.assertRaisesRegex(p.Replacement14Error, "predecessor/authority/baseline"):
                 p.validate_source_design(self.root, self.bind(value))
@@ -288,13 +288,174 @@ class SourceDesign08SchemaTests(unittest.TestCase):
         with self.assertRaises(p.Replacement14Error): p.validate_source_design(self.root, self.bind())
 
     def test_legacy14_design07_binding_is_not_promoted(self):
-        legacy = p.SOURCE_DESIGN_08_PATH.replace("-08.json", "-07.json")
+        legacy = p.SOURCE_DESIGN_09_PATH.replace("-09.json", "-07.json")
         raw = (self.repo / legacy).read_bytes()
         core = {**self.core, "source_design": {"path": legacy, "sha256": p.sha256(raw)},
                 "contract": {"path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-14-contract.json",
                              "sha256": "f" * 64}}
-        with self.assertRaisesRegex(p.Replacement14Error, "successor08"):
+        with self.assertRaisesRegex(p.Replacement14Error, "successor09"):
             p.validate_source_design(self.root, core)
+
+
+class FullActualCore14Tests(unittest.TestCase):
+    """Bounded local integration: actual config03/contract15, projected only in temp.
+
+    Requires the exact preserved preparation config03. This is static schema
+    validation, not replay, qualification, or approval of future source bindings.
+    Every validator runs unmodified, including real committed-script Git reads.
+    """
+    @classmethod
+    def setUpClass(cls):
+        import copy
+        import os
+        import shutil
+        cls.tmp = tempfile.TemporaryDirectory(prefix="bf14-full-core-schema-")
+        cls.root = Path(cls.tmp.name).resolve()
+        repository = BASE.parents[3]
+        cfgraw = Path('/private/tmp/bf14-core-config-03.json').read_bytes()
+        assert p.sha256(cfgraw) == '6278f9141b37c228da681fe90ff5f97922250204503ca6b824649e3dd2db0cfc'
+        cfg = json.loads(cfgraw)
+        cls.cfg = cfg
+        def put(path, raw):
+            target = cls.root/path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(raw)
+            return {'path':path, 'sha256':p.sha256(raw)}
+        cls.put = staticmethod(put)
+        def copy_ref(ref):
+            raw = (repository/ref['path']).read_bytes()
+            if p.sha256(raw) != ref['sha256'] and ref['path'] in {
+                    'reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-14.py',
+                    'reports/releases/v0.9.2/acquisition/test-bifrost-v0140-replacement-14.py'}:
+                raw = subprocess.check_output(['git','show',cfg['source_commit']+':'+ref['path']], cwd=repository)
+            assert p.sha256(raw) == ref['sha256'], ref['path']
+            put(ref['path'], raw)
+            return json.loads(raw) if ref['path'].endswith('.json') else None
+        incoming = copy_ref(cfg['incoming_contract'])
+        replacement = copy_ref(cfg['contract'])
+        v = copy.deepcopy(cfg['bindings'])
+        # Preserve all real historical bindings; no historical source is relabelled.
+        for ref in (p.WINDOW_AUTHORITY, p.WORKING_CAP_AUTHORITY, p.BREADTH_FIRST_AUTHORITY,
+                    p.SOURCE_DESIGN_06, v['original_prefix'], v['continuation_prefix'],
+                    v['source_evidence']):
+            copy_ref(ref)
+        seal = copy_ref(v['incoming_history'])
+        for key in ('codeql_terminal_receipt', 'recovery_module', 'recovery_manifest'):
+            copy_ref(seal[key])
+        ledger = cls.root/p.LEDGER_PATH
+        ledger.parent.mkdir(parents=True, exist_ok=True)
+        os.link(cls.root/v['continuation_prefix']['path'], ledger)
+        for ref in v['runtime_module_graph'].values():
+            copy_ref(ref)
+        # Synthetic prospective source09 and new source-input hashes are confined
+        # to this tempfile. They are never written as production evidence.
+        design = copy_ref(v['source_design'])
+        v['source_design'] = put(p.SOURCE_DESIGN_09_PATH, p.canonical_json(design))
+        current_refs = {}
+        for name in ('bifrost-v0140-replacement-14.py', 'test-bifrost-v0140-replacement-14.py'):
+            path = 'reports/releases/v0.9.2/acquisition/' + name
+            current_refs[path] = put(path, (BASE/name).read_bytes())
+        for name, ref in v['runtime_module_graph'].items():
+            if ref['path'] in current_refs:
+                v['runtime_module_graph'][name] = current_refs[ref['path']]
+        for entry in v['source_inputs']:
+            if entry['path'] in current_refs:
+                entry['sha256'] = current_refs[entry['path']]['sha256']
+        replacement['source_inputs'] = copy.deepcopy(v['source_inputs'])
+        contract_ref = put(cfg['contract']['path'], p.canonical_json(replacement))
+        # Only a private Git repository is initialized. Read-only object access
+        # to the actual source commit proves every script ref against real blobs.
+        subprocess.run(['git','init','-q',str(cls.root)], check=True)
+        common = Path(subprocess.check_output(['git','rev-parse','--git-common-dir'], cwd=repository,
+                                            text=True).strip())
+        common = common if common.is_absolute() else repository/common
+        (cls.root/'.git/objects/info/alternates').write_text(str((common/'objects').resolve())+'\n')
+        r = load('full_core14_replacement05_constants', BASE/'bifrost-v0140-replacement-05.py')
+        v.update(schema=p.IDENTITY_SCHEMA, original_origin_utc=p.ORIGIN, cutoff_utc=None,
+                 total_wall_budget_seconds=None, execution_window_authority=p.WINDOW_AUTHORITY,
+                 aggregate_source_working_authority=p.WORKING_CAP_AUTHORITY,
+                 breadth_first_authority=p.BREADTH_FIRST_AUTHORITY,
+                 source_commit=cfg['source_commit'], plan_commit=cfg['plan_commit'], contract=contract_ref,
+                 continuation={'schema':'v092-bifrost-v0140-continuation-context/v1',
+                     'contract':cfg['incoming_contract'], 'source_commit':incoming['source_commit'],
+                     'plan_commit':cfg['incoming_plan_commit'], 'source_inputs':incoming['source_inputs']},
+                 runner=replacement['tools']['runner'], binary=replacement['tools']['bifrost'],
+                 qualification=r.QUALIFICATION_REF, control_review=r.CONTROL_REVIEW_REF,
+                 replacement_groups=[g['id'] for g in replacement['groups'] if g['tool']=='bifrost'],
+                 resource_policy=p.RESOURCE_POLICY, lock_path=p.CANONICAL_LOCK_PATH)
+        for key, path in {
+            'implementation':'reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-14.py',
+            'implementation_test':'reports/releases/v0.9.2/acquisition/test-bifrost-v0140-replacement-14.py',
+            'bifrost_admission_source':p.ADMISSION_SOURCE_PATH,
+            'bifrost_supervisor_source':p.SUPERVISOR_SOURCE_PATH,
+            'frozen_bridge_source':p.BRIDGE_SOURCE_PATH,
+            'frozen_bridge_tests':p.BRIDGE_TEST_PATH,
+        }.items():
+            v[key] = put(path, (repository/path).read_bytes())
+        for key in ('runner','binary'):
+            if not Path(v[key]['path']).is_absolute():
+                copy_ref({'path':v[key]['path'],'sha256':v[key]['sha256']})
+        v['review_policy'] = {'schema':'v092-bifrost-v0140-review-policy/v1',
+            'review_types':p.REVIEW_TYPES, 'reviewed_sources':dict(zip(p.SOURCE_NAMES,
+                [v[k] for k in ('implementation','implementation_test','bifrost_admission_source',
+                               'bifrost_supervisor_source','frozen_bridge_source','frozen_bridge_tests')]))}
+        assert set(v) == p.CORE_FIELDS
+        cls.core = v
+        cls.roundtrip = json.loads(p.canonical_json(v))
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def validate(self, value):
+        p._validate_core(self.root, value, {'path':p.IDENTITY_PATH,'sha256':p.sha256(p.canonical_json(value))})
+
+    def clone(self):
+        return json.loads(json.dumps(self.roundtrip))
+
+    def test_complete_actual_shape_roundtrips_all_static_validators(self):
+        self.assertEqual(self.core, self.roundtrip)
+        self.assertEqual(set(self.roundtrip), p.CORE_FIELDS)
+        self.assertEqual(len(self.roundtrip['runtime_module_graph']), 88)
+        self.assertEqual(len(self.roundtrip['replacement_groups']), 20)
+        self.validate(self.roundtrip)
+
+    def test_wrong_canonical_manifest_path_and_missing_root_reject(self):
+        for path in ('reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-13/manifest.json',
+                     '/private/tmp/manifest.json', None):
+            value = self.clone()
+            value['manifest_path'] = path
+            with self.assertRaisesRegex(p.Replacement14Error, 'manifest path'):
+                self.validate(value)
+        value = self.clone(); del value['manifest_path']
+        with self.assertRaisesRegex(p.Replacement14Error, 'field set'):
+            self.validate(value)
+
+    def test_nested_manifest_and_all_other_runtime_review_keys_reject(self):
+        # Both permissive environment objects and arbitrarily deep list nesting
+        # must reach the unchanged recursive prohibition after all prior gates.
+        for field in sorted(p._FORBIDDEN_CORE_KEYS):
+            value = self.clone()
+            value['executor_environment']['nested_probe'] = [{'inner':{field:p.MANIFEST_PATH}}]
+            with self.assertRaisesRegex(p.Replacement14Error, 'runtime/review field '+field):
+                self.validate(value)
+
+    def test_extra_root_runtime_review_fields_reject(self):
+        for field in ('independent_review', 'permit', 'manifest_sha256', 'extra_field'):
+            value = self.clone(); value[field] = 'forbidden'
+            with self.assertRaisesRegex(p.Replacement14Error, 'field set'):
+                self.validate(value)
+
+    def test_unrelated_full_core_guards_remain_active(self):
+        mutations = [
+            ('resource_policy', {**p.RESOURCE_POLICY, 'working_set_gib':12}),
+            ('source_commit', self.roundtrip['plan_commit']),
+            ('review_policy', {**self.roundtrip['review_policy'], 'review_types':[]}),
+            ('replacement_groups', self.roundtrip['replacement_groups']*2),
+        ]
+        for field, replacement in mutations:
+            value = self.clone(); value[field] = replacement
+            with self.assertRaises(p.Replacement14Error):self.validate(value)
 
 
 if __name__ == "__main__":

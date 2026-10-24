@@ -377,6 +377,22 @@ def _forbidden_core(value: Any, where: str = "core_identity") -> None:
             _forbidden_core(child, f"{where}[{index}]")
 
 
+def _forbidden_root_core(identity: dict[str, Any]) -> None:
+    """Allow only the canonical root manifest path, never runtime receipts.
+
+    The path is a static cycle-free identity field; the recursive prohibition
+    still applies unchanged to every other value and to all nested mappings.
+    """
+    require(identity.get("manifest_path") == MANIFEST_PATH,
+            "core manifest path is not canonical replacement14")
+    for key, child in identity.items():
+        if key == "manifest_path":
+            continue
+        require(key not in _FORBIDDEN_CORE_KEYS,
+                f"core_identity contains runtime/review field {key}")
+        _forbidden_core(child, f"core_identity.{key}")
+
+
 def _attempt_id(group: str) -> str:
     require(isinstance(group, str) and group.startswith("bifrost-") and group != "bifrost-",
             "replacement group is not a Bifrost group")
@@ -499,31 +515,31 @@ SOURCE_DESIGN_06 = {
     "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-06.json",
     "sha256": "fe6208f98fbdc626dbc67056300b0d3c477581c60169d5a637b14902c0ff4dbc",
 }
-SOURCE_DESIGN_08_PATH = "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-08.json"
+SOURCE_DESIGN_09_PATH = "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-09.json"
 
 
 def validate_source_design(root: Path, core: Mapping[str, Any]) -> dict[str, Any]:
-    ref = _ref(core.get("source_design"), "actual post-CodeQL source design08")
-    require(ref["path"] == SOURCE_DESIGN_08_PATH, "source design must be actual reviewed successor08")
-    design = _json(_bound(root, ref, "actual source design08"), "source design08")
+    ref = _ref(core.get("source_design"), "actual post-CodeQL source design09")
+    require(ref["path"] == SOURCE_DESIGN_09_PATH, "source design must be actual reviewed successor09")
+    design = _json(_bound(root, ref, "actual source design09"), "source design09")
     previous = _json(_bound(root, SOURCE_DESIGN_06, "corrected source design06"), "source design06")
     require(design.get("schema") == "v092-bifrost-source-post-codeql-rebase/v1" and
             design.get("predecessor_design") == SOURCE_DESIGN_06 and
             design.get("scheduling_authority") == BREADTH_FIRST_AUTHORITY and
             design.get("reviewed_baseline_head") == previous["reviewed_baseline_head"],
-            "source08 predecessor/authority/baseline differs")
+            "source09 predecessor/authority/baseline differs")
     for key in ("historical_outputs_immutable", "historical_evidence_strategy",
                 "actual_historical_bifrost_contexts", "actual_historical_bifrost_rows",
                 "allowed_source_delta", "unchanged_source_patch", "incoming_codeql"):
-        require(design.get(key) == previous.get(key), f"source08 changes immutable source06 {key}")
+        require(design.get(key) == previous.get(key), f"source09 changes immutable source06 {key}")
     incoming = design.get("incoming_codeql")
     continuation = core.get("continuation", {})
     require(isinstance(incoming, dict) and set(incoming) == {"source_commit", "plan_commit", "contract"} and
             all(incoming.get(key) == continuation.get(key) for key in incoming),
-            "source08 does not bind actual incoming CodeQL source/plan/contract")
-    _commit(design.get("immediate_patch_base"), "source08 immediate patch base")
+            "source09 does not bind actual incoming CodeQL source/plan/contract")
+    _commit(design.get("immediate_patch_base"), "source09 immediate patch base")
     require(isinstance(design.get("reviewed_intervening_changes"), list),
-            "source08 reviewed intervening closure is absent")
+            "source09 reviewed intervening closure is absent")
     return design
 
 
@@ -769,7 +785,7 @@ def _validate_core(root: Path, identity: dict[str, Any], identity_ref: dict[str,
     for name in SOURCE_NAMES:
         _same_ref(policy["reviewed_sources"][name], expected_sources[name],
                   f"review policy {name}")
-    _forbidden_core(identity)
+    _forbidden_root_core(identity)
     # The identity ref itself is checked by the caller; this assertion guards
     # against accidentally passing a runtime receipt as the core artifact.
     _same_ref(identity_ref, {"path": IDENTITY_PATH, "sha256": identity_ref["sha256"]},
