@@ -1,0 +1,211 @@
+{
+  "analyzer_dispatched": false,
+  "attempt_consumed": false,
+  "automatic_retry": false,
+  "bindings": {
+    "bridge": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-11.py",
+      "sha256": "371a8ee8118b5b68692f45c6240e6a1e66a9078c0956953ec9c5b83bec82dc36"
+    },
+    "contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-18-contract.json",
+      "sha256": "c1ad4bc271246566b133f1751365055f3aa560c044adef3554d699f1c2e5db3a"
+    },
+    "core_identity": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-16/manifest-identity.json",
+      "sha256": "948e4a521823d20bf0410fe2b846b6f2029957306d4c405323a961a63b4b417c"
+    },
+    "core_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/independent-core-review-01.json",
+      "sha256": "6fd89d392cbf8a35bedb5bec98a0adc6b0f2786604ff118908c6ca4dbcea0330"
+    },
+    "incoming_ledger_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/sealed-ledger-prefix-89.jsonl",
+      "rows": 89,
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    },
+    "manifest": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-16/manifest.json",
+      "sha256": "f059433bc8f1b34aa5e9e1e618fe4491c670f6c775601e0eaf36dd93b0420480"
+    },
+    "qualification_invocation_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/actual-stage-invocation-review-01.json",
+      "sha256": "c0afb20426d25fc750e45ba6c80ccecd0ea1a683765e36573f1ff11641ffc7fe"
+    },
+    "qualification_script": {
+      "path": "/private/tmp/bf16-actual-stage-qualification-01.py",
+      "sha256": "1d95cce37752e6ca1f0bf2d40d37e2f84ebd41e6ad3e361d09c2b07b649f7716"
+    },
+    "runtime_loaders": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-16.py",
+      "sha256": "4eeddc732eb1474dddada8661252f2f0ad89ef559c28d2a234fa21a44107efce"
+    },
+    "stage_runtime": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-03.py",
+      "sha256": "93f3b9a5ad5aa3cad6d433de2b16a1c05f660894c9535705a698144bb849b524"
+    },
+    "wrapper": {
+      "path": "/private/tmp/bf16-actual-stage-run-01.py",
+      "sha256": "f6d31ac6ace61a0833ce088d23ca50aaafa551821544d90deeac2e7643257cdf"
+    }
+  },
+  "exception": {
+    "message": "stage loader spec metadata is not factory-owned",
+    "phase": "parent-stage runtime construction after the qualification script entered its held lock, before a stage receipt, group command construction, attempt namespace, child, group replay, or analyzer dispatch",
+    "traceback_location": {
+      "bridge": {
+        "functions": [
+          "create_parent_stage",
+          "_load_bound_ledger_runtime",
+          "load_stage_runtime",
+          "load_runtime_stage",
+          "_module_from_spec"
+        ],
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-11.py",
+        "sha256": "371a8ee8118b5b68692f45c6240e6a1e66a9078c0956953ec9c5b83bec82dc36"
+      },
+      "frozen_executor_path": {
+        "functions": [
+          "validate_plan",
+          "_validate_resource_recovery"
+        ],
+        "lines": [
+          2497,
+          2197
+        ],
+        "path": "scripts/execute-release-v092.py"
+      },
+      "nested_history_path": {
+        "functions": [
+          "recover_bifrost_history",
+          "factory"
+        ],
+        "line": 243,
+        "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py"
+      },
+      "ownership_invariant": "stage-runtime-03._record requires record.factory is the active stage factory and record.spec.loader is record.loader; the nested factory chain hands a spec through independent-pending-codeql-03.factory and codeql-terminal-history-04.factory before stage-runtime-03.module_from_spec, so the actual graph-owned factory identity is lost.",
+      "predecessor_path": {
+        "functions": [
+          "recover_bifrost_history",
+          "validate",
+          "_validate_base",
+          "factory"
+        ],
+        "lines": [
+          1673,
+          1633,
+          581,
+          550
+        ],
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py"
+      },
+      "qualification_script": {
+        "line": 61,
+        "operation": "bridge.create_parent_stage",
+        "path": "/private/tmp/bf16-actual-stage-qualification-01.py"
+      },
+      "stage_runtime": {
+        "factory_record_check_line": 1981,
+        "functions": [
+          "load_runtime_context",
+          "_stage_build_runtime",
+          "_stage_build_runtime_full",
+          "scoped_legacy_load_and_validate",
+          "_stage_incoming_pinned",
+          "_stage_incoming"
+        ],
+        "legacy_loader_line": 1590,
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-03.py",
+        "sha256": "93f3b9a5ad5aa3cad6d433de2b16a1c05f660894c9535705a698144bb849b524"
+      }
+    },
+    "type": "FrozenBridgeError"
+  },
+  "execution_authorized_by_this_review": false,
+  "findings": [
+    {
+      "detail": "The actual create_parent_stage path enters bridge11._load_bound_ledger_runtime and stage-runtime03._stage_build_runtime_full. Its legacy validator reaches stage-runtime03._stage_incoming_pinned, codeql-terminal-history-04.recover_bifrost_history, and independent-pending-codeql-03.validate(final=True,replay=True). During the frozen executor resource-recovery import, the nested factory wrappers ultimately call stage-runtime03.module_from_spec with metadata whose factory is not the active stage facade, and _record fails closed. This is a concrete provenance failure before any replacement group command or attempt.",
+      "id": "BF16-STAGE-FACTORY-OWNERSHIP-01",
+      "required_correction": "Add an append-only successor that routes every affected nested importlib module_from_spec call through the exact active graph-owned factory/spec registry for that stage, preserving the actual frozen source path/SHA, module identity, loader identity, spec metadata, nested late-loader bindings, and restoration on success and failure. Reject foreign, changed, ambiguous, or reordered specs; do not accept the mismatch, use global sys.path/sys.modules aliases, duplicate canonical modules, or fabricate a diagnostic runtime. Prove the actual create_parent_stage path with positive and near-miss ownership tests before any new qualification invocation.",
+      "severity": "blocking",
+      "title": "Nested frozen history recovery crosses stage-owned module-spec factory boundaries"
+    },
+    {
+      "detail": "The durable exit records exit code 1 and empty stdout; no stage proof, stage receipt, admission, attempt namespace, group replay, or analyzer dispatch was emitted. Automatic retry remains false and the 89-row ledger is unchanged.",
+      "id": "BF16-STAGE-NO-RETRY-01",
+      "required_correction": "Keep this failed invocation immutable and require a separately reviewed append-only successor; do not reinterpret it as partial qualification or silently retry it.",
+      "severity": "informational-boundary",
+      "title": "One-shot qualification stop is preserved"
+    }
+  ],
+  "invocation": {
+    "argv_manifest_sha256": "f059433bc8f1b34aa5e9e1e618fe4491c670f6c775601e0eaf36dd93b0420480",
+    "argv_review_sha256": "c0afb20426d25fc750e45ba6c80ccecd0ea1a683765e36573f1ff11641ffc7fe",
+    "birth_identity": "Sat Oct 24 22:45:08 2026",
+    "ended_utc": "2026-10-24T20:45:37.591312+00:00",
+    "exit_code": 1,
+    "exit_path": "execution-state/v092/monitor-checks/bf16-actual-stage-01/exit.json",
+    "exit_sha256": "77adef6bb949860e89776a5f1ee6f23669ecddfef8a10264637f8787a5a61763",
+    "pid": 35159,
+    "processes_gone_after_exit": true,
+    "started_path": "execution-state/v092/monitor-checks/bf16-actual-stage-01/started.json",
+    "started_sha256": "b6e3d7484c422f83c32d472d17eced5e0c250dca015e770ef0df5c1ea2f0fc2e",
+    "started_utc": "2026-10-24T20:45:08.574095+00:00",
+    "stderr_bytes": 8570,
+    "stderr_path": "execution-state/v092/monitor-checks/bf16-actual-stage-01/stderr.txt",
+    "stderr_sha256": "c89b1d8ae5f4d93932dd9efe4fb4ad8dbaa5c8c0e49125b1ae3db10cce0efb0a",
+    "stdout_bytes": 0,
+    "stdout_path": "execution-state/v092/monitor-checks/bf16-actual-stage-01/stdout.txt",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrapper_path": "execution-state/v092/monitor-checks/bf16-actual-stage-01",
+    "wrapper_pid": 35156
+  },
+  "ledger_mutation_performed": false,
+  "limitations": [
+    "This artifact diagnoses the actual stopped process; it does not qualify BF16, authorize another invocation, classify analyzer capability, or approve a launch.",
+    "The failure occurred during parent-stage runtime construction under the held qualification lock; no group replay or analyzer execution was reached.",
+    "The loader ownership repair design and implementation require independent review before any future stage qualification attempt."
+  ],
+  "prelaunch_evidence": {
+    "live_ledger": {
+      "equals_incoming_prefix": true,
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 89,
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    },
+    "no_analyzer_dispatch": true,
+    "no_attempt_namespace_created": true,
+    "no_execution_admission": true,
+    "no_group_replay_started": true,
+    "no_production_retry": true,
+    "no_stage_qualification_proof": true,
+    "no_stage_receipt": true,
+    "old_history_preserved": true,
+    "sidecar_state": {
+      "admission_files": 0,
+      "completion_files": 0,
+      "directories": 20,
+      "files": 20,
+      "path": "reports/releases/v0.9.2/execution-v4/bifrost-v0140-replacement-16",
+      "phase_gate_files": 0,
+      "predecessor_files": 20
+    },
+    "source_contract_manifest_inputs_preserved": true
+  },
+  "production_operations_performed": false,
+  "required_successor_properties": [
+    "Keep BF16 source, plan, contract, core, finalized manifest, continuation prefix, authorization, and runtime graph identities bound; a repair must be a new append-only candidate.",
+    "Preserve exact stage-owned factory/spec/loader provenance through the nested codeql-terminal-history-04 and independent-pending-codeql-03 recovery calls and the frozen resource-recovery module_from_spec path.",
+    "Cover all equivalent nested module_from_spec sites and late loader paths, with exact path/SHA routing and restoration on both success and failure; no global import-path or bare-alias workaround.",
+    "Prove the actual create_parent_stage path with harmless positive and near-miss factory/spec ownership tests before any future stage qualification invocation.",
+    "Preserve the 89-row ledger, zero-attempt state, original clock, resource guards, and automatic_retry false policy."
+  ],
+  "review_type": "independent-actual-stage-stop-review",
+  "reviewed_at_utc": "2026-10-24T20:49:14.282398+00:00",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-bifrost-v0140-actual-stage-stop-independent-review/v1",
+  "scope": "Independent read-only diagnosis of the single BF16 actual-stage qualification stop. No source, bridge, loader, manifest, ledger, runtime, analyzer, replay, admission, build, or launch mutation was performed.",
+  "source_mutation_performed": false,
+  "stage_qualification_consumed": false,
+  "status": "stopped-before-stage-qualification"
+}

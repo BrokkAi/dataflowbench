@@ -1,0 +1,68 @@
+{
+  "approval_boundary": {
+    "approved": "Append-only implementation and focused tests for the BF16 loader-ownership successor, subject to the exact closure contract and tests above.",
+    "not_approved": "No read-only admission, materialization, qualification, replay, analyzer, launch, retry, or release readiness authority.",
+    "preserved": "BF16 source/plan/contract/core/manifest, sealed 89-row prefix, stop evidence, ledger, timing/resource/reserve guards, and prior reviews remain immutable."
+  },
+  "automatic_retry": false,
+  "bindings": {
+    "codeql03": {
+      "bytes": 97209,
+      "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+      "sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8"
+    },
+    "design03": {
+      "bytes": 33081,
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/loader-ownership-stop-design-03.json",
+      "sha256": "e0dc00b82e13f94bbf6285ec2c8538f65b12100089ba7839230c70191dce07dc"
+    },
+    "prior_changes_required_review": {
+      "bytes": 6163,
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/design-review-04.json",
+      "sha256": "c373d9a80c53d24faa7b1193cd794fbd6e286457ee19e213d42c9033548b9c81"
+    },
+    "provider04": {
+      "bytes": 11688,
+      "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+      "sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e"
+    },
+    "stage_runtime03": {
+      "bytes": 166386,
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-03.py",
+      "sha256": "93f3b9a5ad5aa3cad6d433de2b16a1c05f660894c9535705a698144bb849b524"
+    }
+  },
+  "exact_closure_contract": {
+    "codeql03_factory": "The actual local factory freevars are exactly (\"_LoaderProxy\", \"original_factory\"); the class cell must be the invocation-produced local class and original_factory the exact stage/outer predecessor callable.",
+    "contextmanager_helper": "For both fixed routes, the exported owner attribute is the exact contextlib.contextmanager helper. Require helper.__closure__ to have co_freevars exactly (\"func\",) and its sole cell contents to be helper.__wrapped__. Require helper.__wrapped__ to be the exact repository generator from the sealed owner module, with __globals__ is owner.__dict__, canonical co_filename/line/code binding, and source SHA bound. The helper itself retains contextlib-owned globals/code and is never misclassified as repository code.",
+    "provider04_factory": "The actual local factory freevars are exactly (\"_NestedLoader\", \"original_factory\"); the class cell must be the invocation-produced local class and original_factory the exact stage/outer predecessor callable.",
+    "selector_and_observer": "Bind selector from the exact spec.name/route table, and bind stage nonce, owner module/facade, context depth, arguments, and observer token in the external InvocationBinding. Compare the combined tuple at stage acceptance; no individual component or display name is authoritative.",
+    "static_basis": "Compilation of the frozen files showed the actual freevar topology above; contextlib.contextmanager helpers expose a single func cell equal to __wrapped__. No source was imported or executed.",
+    "wrapper_methods": "The local class and exec_module method closure carries raw or historical_raw. Require that exact cell and SHA; do not require raw bytes or selector cells on the factory. Require the wrapper instance exact {\"_loader\": underlying_loader} shape and exact class/inner-loader identity."
+  },
+  "execution_authorized_by_this_review": false,
+  "implementation_requirements": [
+    "Use the exact contextlib helper and __wrapped__ generator identity path; call the saved helper unchanged and let the real generator finalizer run before observer cleanup.",
+    "Capture local factory/class objects only after the real context has entered; accept decorated specs only while the route-specific InvocationBinding is active.",
+    "Preserve the real wrapper exec_module behavior, target module identity, bounded reader semantics, and restoration of validate_packet, _regular_bytes, metadata, facade, observer, and registry on success, exception, and second entry.",
+    "Exercise the actual bridge create_parent_stage nested provider04 -> CodeQL03 -> frozen resource-recovery path. Direct factory fixtures or generated shells cannot satisfy implementation proof.",
+    "Reject copied/reimported helpers, generators, classes, factories, specs, loaders, targets, wrong delegate order, stale scope bindings, and leaked global state.",
+    "Keep all future source/plan/contract/core/manifest/review artifacts append-only with fresh hashes."
+  ],
+  "limitations": [
+    "This is implementation-only design approval; no successor source exists or was executed.",
+    "A later independent source review and actual qualification/control reviews remain required."
+  ],
+  "production_operations": false,
+  "resolved_finding": {
+    "id": "BF16-DESIGN3-CLOSURE-001",
+    "implementation_test": "Add a positive assertion for the exact fixed freevar sets and negative assertions for missing/extra cells, wrong class/predecessor, wrong wrapper raw cell, selector mismatch, wrong context bytes, and foreign observer binding.",
+    "resolution": "The prior review correctly identified that design-03 wording could require absent factory cells. This approval makes the exact topology above mandatory and explicitly separates factory closure, wrapper method closure, spec selector, and observer state. The implementation must not fabricate an expanded closure or require selector/raw bytes directly on factory.__closure__."
+  },
+  "review_type": "independent-bifrost-loader-ownership-stop-design-review",
+  "reviewed_at_utc": "2026-10-24T20:59:52.600788+00:00",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-bifrost-v0140-loader-ownership-stop-design-independent-review/v5",
+  "scope": "Append-only clarification and approval of the design-03 loader-ownership contract. Read-only static inspection only; no implementation, graph import, replay, build, admission, qualification, analyzer, launch, retry, or source mutation was performed.",
+  "status": "approved-for-implementation-only"
+}

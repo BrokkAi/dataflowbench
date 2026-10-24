@@ -1,0 +1,297 @@
+{
+  "schema": "v092-bifrost-v0140-loader-ownership-stop-design/v3",
+  "status": "design-only-pending-independent-review",
+  "supersedes": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/loader-ownership-stop-design-02.json",
+    "sha256": "dd3eacede0c74ca6d758867711455e7eb7ac9165424f91bfff0cfe8d3b5c035c",
+    "reason": "Design02 bound owner globals to the exported contextmanager object itself. Because contextlib.contextmanager returns a helper whose globals/code belong to contextlib, this successor separates exact helper identity from the repository generator in helper.__wrapped__."
+  },
+  "created_utc": "2026-10-24T20:58:37.363923000Z",
+  "scope": {
+    "purpose": "Read-only, implementation-grade diagnosis of the BF16 parent-stage stop and a bounded append-only successor design. This artifact does not authorize implementation, qualification, admission, replay, build, analyzer dispatch, launch, retry, or source mutation.",
+    "ownership": "Only this new design artifact is owned here. BF16 source, plan, contract, core, manifest, ledger, predecessor stop records, and existing runtime sources remain immutable evidence.",
+    "execution_authorized_by_this_artifact": false,
+    "operations_performed": [
+      "Read-only inspection of the durable BF16 traceback, the exact frozen context-manager bodies, the stage factory, the predecessor design, and the local-class/closure failure mechanism.",
+      "Direct SHA-256 calculation of this artifact and its referenced evidence files."
+    ],
+    "operations_forbidden_until_independent_review": [
+      "Changing frozen16 or predecessor sources",
+      "Running create_parent_stage, replay, materialization, admission, qualification, analyzer, build, launch, or retry",
+      "Mutating the live ledger or any production namespace"
+    ]
+  },
+  "immutable_stop": {
+    "status": "qualification-stopped-before-analyzer",
+    "created_utc": "2026-10-24T20:47:17.922030+00:00",
+    "ended_utc": "2026-10-24T20:45:37.591312+00:00",
+    "exit_code": 1,
+    "analyzer_dispatches": 0,
+    "replacement_attempts_consumed": 0,
+    "stage_receipt_present": false,
+    "qualification_proof_present": false,
+    "automatic_retry": false,
+    "ledger_rows": 89,
+    "ledger": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/sealed-ledger-prefix-89.jsonl",
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    },
+    "stop_diagnosis": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/actual-stage-stop-diagnosis-01.json",
+      "sha256": "b523fbc2b66872f1ac187f290360ddf64c10acd07138faed2950f0407de480cb"
+    },
+    "independent_stop_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/actual-stage-stop-independent-review-01.json",
+      "sha256": "e3fe272533830ce5d3113fad20a8bd08389e4ee569932ba8dcb1903a9e5d98a9"
+    },
+    "stderr": {
+      "path": "execution-state/v092/monitor-checks/bf16-actual-stage-01/stderr.txt",
+      "sha256": "c89b1d8ae5f4d93932dd9efe4fb4ad8dbaa5c8c0e49125b1ae3db10cce0efb0a"
+    },
+    "exit_receipt": {
+      "path": "execution-state/v092/monitor-checks/bf16-actual-stage-01/exit.json",
+      "sha256": "77adef6bb949860e89776a5f1ee6f23669ecddfef8a10264637f8787a5a61763"
+    },
+    "boundary": "The failure occurred during bridge11.create_parent_stage -> stage-runtime03 full copied validation -> provider04 recovery -> CodeQL03 base validation -> frozen executor _validate_resource_recovery -> stage factory module_from_spec. No stage receipt, attempt namespace, group command, replay completion, or analyzer dispatch was reached."
+  },
+  "frozen_bindings": {
+    "source_commit": "7a807b5f3b04c3dbc4fd14b96576ddefb6a4289f",
+    "plan_commit": "b1ca4167f0e1f1232ffec2e11446c42051fceacf",
+    "contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-18-contract.json",
+      "sha256": "c1ad4bc271246566b133f1751365055f3aa560c044adef3554d699f1c2e5db3a"
+    },
+    "core_identity": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-16/manifest-identity.json",
+      "sha256": "948e4a521823d20bf0410fe2b846b6f2029957306d4c405323a961a63b4b417c"
+    },
+    "manifest": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-16/manifest.json",
+      "sha256": "f059433bc8f1b34aa5e9e1e618fe4491c670f6c775601e0eaf36dd93b0420480"
+    },
+    "existing_stage_runtime": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-03.py",
+      "sha256": "93f3b9a5ad5aa3cad6d433de2b16a1c05f660894c9535705a698144bb849b524"
+    },
+    "existing_bridge": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-11.py",
+      "sha256": "371a8ee8118b5b68692f45c6240e6a1e66a9078c0956953ec9c5b83bec82dc36"
+    },
+    "existing_runtime_loaders": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-16.py",
+      "sha256": "4eeddc732eb1474dddada8661252f2f0ad89ef559c28d2a234fa21a44107efce"
+    }
+  },
+  "actual_call_path": [
+    {
+      "order": 1,
+      "entry": "bridge11.create_parent_stage -> stage-runtime03._stage_build_runtime_full",
+      "evidence": "The actual BF16 qualification reached the copied full validator and its stage-local importlib scope; the failure is not a synthetic count or serialized-context path."
+    },
+    {
+      "order": 2,
+      "entry": "provider04._scoped_nested_ledger -> provider04.recover_bifrost_history -> CodeQL03._scoped_resource_recovery_ledger -> validate/_validate_base",
+      "selectors": [
+        "v092_scoped_recovery_packet",
+        "v092_resource_recovery"
+      ],
+      "evidence": "The two reviewed context managers are module-level functions, but their factory functions and loader proxy classes are created locally on each invocation. Their actual closures carry the active predecessor factory and bounded ledger bytes."
+    },
+    {
+      "order": 3,
+      "entry": "CodeQL03 local factory -> provider04 local factory -> stage-runtime03._StageImportFactory.module_from_spec -> _record",
+      "evidence": "Each local factory captures the currently installed importlib.util.module_from_spec and delegates to it after changing spec.loader. In BF16 the captured predecessor is the active stage factory, whose exact-spec record sees the decorated loader."
+    },
+    {
+      "order": 4,
+      "entry": "stage-runtime03._StageImportFactory._record",
+      "evidence": "The frozen check requires the exact registered spec and record.spec.loader is record.loader. It has no reviewed exception for the two invocation-produced reader-scope decorators, so rejecting the changed loader is correct until provenance is bound."
+    }
+  ],
+  "source_observations": [
+    {
+      "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+      "sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8",
+      "observations": [
+        "_scoped_resource_recovery_ledger captures importlib.util.module_from_spec at line 511.",
+        "Its local factory at lines 544-550 recognizes exactly v092_resource_recovery, creates a local _LoaderProxy instance around the incoming loader, and delegates to the captured predecessor factory.",
+        "_LoaderProxy.exec_module delegates to the original loader before installing the bounded current-ledger reader; unwrapping it would lose the intended reader scope.",
+        "_LoaderProxy is a local class and is not a module attribute; module-name, class-name, or qualname checks cannot establish invocation provenance."
+      ]
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+      "sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e",
+      "observations": [
+        "_scoped_nested_ledger captures importlib.util.module_from_spec at line 164.",
+        "Its local factory at lines 203-209 recognizes exactly v092_scoped_recovery_packet, creates a local _NestedLoader instance, and delegates to the captured predecessor factory.",
+        "_NestedLoader.exec_module delegates to the original loader, verifies the packet API and ledger path, installs the sealed 88-row reader, and restores the reader in finally.",
+        "_NestedLoader is a local class and is not a module attribute; a copied class with equal display names must be rejected."
+      ]
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-03.py",
+      "sha256": "93f3b9a5ad5aa3cad6d433de2b16a1c05f660894c9535705a698144bb849b524",
+      "observations": [
+        "_StageImportFactory captures true stdlib spec_from_file_location and module_from_spec before a facade is installed and registers exact spec/loader/target tuples.",
+        "_stage_provider_scope installs the stage-local facade into provider and historical helper owners, so each frozen context manager captures the active stage factory or the exact preceding local factory.",
+        "The current _record accepts only factory-owned unmodified loaders; the successor must add a route-specific invocation token without weakening ordinary foreign-spec rejection."
+      ]
+    }
+  ],
+  "root_cause": {
+    "primary": "The frozen context managers intentionally replace spec.loader after the stage-owned standard ModuleSpec has been registered. CodeQL03's local _LoaderProxy is installed for v092_resource_recovery and provider04's local _NestedLoader is installed for v092_scoped_recovery_packet. Each calls its captured original_factory, which in BF16 is the active stage factory. The stage factory therefore sees the exact spec but a new loader object and rejects it.",
+    "local_class_provenance_gap": "The proxy classes do not exist as codeql03._LoaderProxy or provider04._NestedLoader module attributes. They are created inside each context-manager invocation. A module path, class name, qualname, code filename, or method shape alone is insufficient: a copied module or forged local class could satisfy those predicates. Provenance must be captured from the real context-manager invocation while it is active, and tied to the active stage factory, owner module object, closure cells, bounded raw bytes, selector, and exact inner loader.",
+    "why_the_error_is_correct": "Accepting any changed loader would permit foreign code to execute through the frozen validator and would erase the graph ownership boundary. Unwrapping the proxy would also remove the intended current-ledger reader scope.",
+    "not_causes": [
+      "No ledger, capacity, timeout, analyzer, or resource failure occurred.",
+      "The 89-row history and frozen source/plan/contract were not disproved.",
+      "The stop did not consume an attempt and must not be relabeled as qualification."
+    ]
+  },
+  "successor_design": {
+    "candidate_family": [
+      "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-12.py",
+      "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py",
+      "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-17.py",
+      "matching append-only parser and focused test sources"
+    ],
+    "predecessor_policy": "Freeze BF16 source, plan, contract, core, manifest, 89-row prefix, authorization, stop diagnosis, independent stop review, and all existing runtime bytes as predecessor evidence. The successor receives fresh source/plan/contract/manifest/review bindings; no old artifact is overwritten or relabeled.",
+    "stage_factory_pair": {
+      "capture": "Create one StageImportFactoryPair per active stage graph. Capture true stdlib spec_from_file_location, module_from_spec, ModuleSpec, and the unmodified owner importlib views before any stage facade is installed. The pair has a nonce and is the only factory accepted by all stage/provider/CodeQL/executor/checker/resource scopes. Graph facade specs remain a separate type system.",
+      "ordinary_spec_rule": "Ordinary pinned specs still require the original exact spec/loader/target/factory record. A second factory, facade-to-facade delegation, detached spec, changed path/SHA/name/origin/target, or unregistered module is rejected.",
+      "decorated_spec_rule": "A changed spec.loader is accepted only when an active InvocationBinding below matches the exact spec selector, actual wrapper class object, wrapper instance, closure chain, owner module, factory nonce, delegate chain, source/path/SHA, and bounded raw bytes. The true captured stdlib module_from_spec is still called with the wrapper intact, so the reviewed exec_module behavior runs."
+    },
+    "invocation_provenance_capture": {
+      "purpose": "Bind the classes and closures that the real frozen context-manager invocation creates, without editing or re-executing the frozen source.",
+      "exact_contextmanager_routes": [
+        {
+          "role": "provider04-nested",
+          "module_path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+          "module_sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e",
+          "attribute": "_scoped_nested_ledger",
+          "selector": "v092_scoped_recovery_packet",
+          "raw_binding": "historical_raw must equal the sealed 88-row prefix bytes and SHA already bound by the stage, and root/ledger path must equal the exact reviewed provider inputs."
+        },
+        {
+          "role": "codeql03-resource",
+          "module_path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+          "module_sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8",
+          "attribute": "_scoped_resource_recovery_ledger",
+          "selector": "v092_resource_recovery",
+          "raw_binding": "raw must equal the exact stage-bound historical ledger bytes used for this resource boundary; no caller-selected substitute bytes are accepted."
+        }
+      ],
+      "temporary_observer": {
+        "mechanism": "Before the actual copied legacy body runs, stage-runtime04 saves the exact route function object, module attribute, module-local importlib facade, and current module_from_spec callable. It temporarily replaces only that exact module attribute with a stage-owned observer. The observer calls the saved real context-manager function object unchanged, enters its returned context manager, then captures the facade's newly installed module_from_spec callable and registers an InvocationBinding for the active stage nonce. It yields the original context-manager value and restores the saved attribute and all observer state in finally.",
+        "no_global_mutation": "The observer changes only the two hash-bound graph module attributes for the duration of the actual call. It does not modify process-global importlib, sys.path, sys.modules, source files, or frozen function bodies. If the exact owner attribute is not the saved function object, the route fails closed rather than replacing an alias or scanning arbitrary modules.",
+        "scope_entry_checks": [
+          "The saved exported helper is the exact object in the exact hash-bound graph module dictionary. Its contextlib-owned code/globals are checked only as contextlib primitives; helper.__wrapped__ must be the exact repository generator whose code filename, code-object digest/line range, globals dictionary, and source SHA match the route table.",
+          "The owner module's importlib facade is the stage-owned facade for this nonce, and its previous module_from_spec is the exact current predecessor callable. The exported helper is verified as contextlib.contextmanager output and helper.__wrapped__ as the exact owner generator before entry.",
+          "The context-manager arguments are typed and their raw ledger bytes match the route-specific bound SHA before entering the real body.",
+          "The exported helper must be contextlib-produced with helper.__wrapped__ as the exact owner generator; helper and generator identities are recorded before entry and compared after exit."
+        ],
+        "after_enter_capture": [
+          "The installed callable is captured by identity, not reconstructed from name or qualname. Its code object, globals dictionary/module object, source path/SHA, and exact closure-cell names are checked against the route table.",
+          "The closure cell named original_factory must contain the exact previous callable captured immediately before entry: the stage pair for the outer route, or the exact outer local factory for the nested route. This proves the actual delegate order rather than a same-shaped standalone function.",
+          "The closure cell named _LoaderProxy or _NestedLoader must contain the actual local class object created by this invocation. The stage registry retains that class object and rejects any wrapper whose type is not exactly this object.",
+          "The local class's __init__, create_module, and exec_module code objects must be owned by the same hash-bound graph module/source and the class's exec_module closure must contain the exact route raw bytes. The wrapper instance must have exactly the reviewed inner-loader field and that field must be the exact registered underlying loader.",
+          "The active InvocationBinding records owner module identity, observer token, stage nonce, context depth, function object, factory function, previous delegate, local class object, closure-cell identities/digests, raw-byte SHA, selector, and route source binding in memory.",
+          "The observed factory.__globals__ and every local class method __globals__ must be the exact owner.__dict__; owner dictionary identity is recorded in the InvocationBinding and compared at every decorated-spec acceptance.",
+          "The wrapper instance __dict__ must equal exactly {\"_loader\": registered_underlying_loader}; no extra, missing, replaced, or inherited state is accepted. The instance type must be the exact class object captured from the active factory closure.",
+          "The selector, owner route, factory nonce, facade identity, entry depth, and predecessor callable are checked together; no field is independently sufficient."
+        ],
+        "exit_checks": [
+          "The real context manager must restore its module-local module_from_spec to the exact predecessor callable before the observer restores the owner attribute; a changed or leaked callable is a hard failure.",
+          "All InvocationBindings must be removed only after no decorated spec remains active; nested bindings unwind in exact LIFO order. Ambiguous or reordered active bindings are rejected.",
+          "The observer restores the saved context-manager attribute and module-local facade state on success and exception.",
+          "Nested facade bindings unwind in strict reverse entry order. A provider binding cannot be removed while its inner CodeQL binding remains active, and a binding from another stage or facade cannot satisfy the current stage.",
+          "The owner module dictionary, local importlib facade, exported helper attribute, helper.__wrapped__ identity, and context-manager observer attributes must compare by identity to their saved snapshots after normal and exceptional unwinding.",
+          "The helper.__wrapped__ generator must complete or unwind through its real contextlib finalizer before observer cleanup; a manually invoked generator, skipped finalizer, or helper/generator mismatch is rejected."
+        ],
+        "owner_dictionary_binding": "The route owner must be the exact graph module object and owner.__dict__ must be that module's actual globals dictionary. The saved exported helper is owner.__dict__[attribute]; helper.__wrapped__ is the exact repository generator, and helper.__wrapped__.__globals__ is owner.__dict__. The observed local factory.__globals__ and local class method globals are also that same dictionary. A copied globals mapping, module with equal __name__, or function imported from a different graph member is rejected. The observer snapshots owner.__dict__[attribute] by identity, verifies replacement/restoration against that exact entry, and never scans or replaces aliases in unrelated modules.",
+        "nested_facade_capture_order": [
+          "At outer provider04 entry, capture the stage pair module_from_spec callable and register provider04 local factory as the first active facade binding.",
+          "At inner CodeQL03 entry, capture the currently installed provider04 local factory as CodeQL03 original_factory, then register CodeQL03 local factory above it. The inner closure must point to the exact provider binding; the provider closure must point to the exact stage pair callable.",
+          "A resource spec may therefore traverse CodeQL03 -> provider04 -> stage without provider decoration; a scoped-packet spec may traverse CodeQL03 delegate -> provider04 decoration -> stage. The route table rejects any other order or cross-selector decoration.",
+          "Each binding carries the owner module object, facade object identity, stage nonce, entry depth, and predecessor callable. A factory observed from another stage, another owner facade, a closed scope, or a reordered stack is rejected even when its source and class names match."
+        ],
+        "contextmanager_export_provenance": {
+          "decorator_semantics": "Both routes are decorated with contextlib.contextmanager. The module attribute is the helper returned by contextlib.contextmanager; its __globals__ and __code__ are contextlib-owned and must not be incorrectly attributed to the repository module.",
+          "exact_exported_helper": "The route snapshot binds owner.__dict__[attribute] by object identity before observation. The helper must be the exact graph member object, with expected contextlib helper behavior and no replacement. Equal name, __module__, qualname, or source text is insufficient.",
+          "exact_wrapped_generator": "The helper.__wrapped__ object must be the exact repository generator retained by that helper. Validate helper.__closure__ contains that same generator where present; validate helper.__wrapped__.__globals__ is the exact owner.__dict__, helper.__wrapped__.__code__.co_filename is the canonical route source, its code-object digest/line range matches the hash-bound route, and its source SHA matches the graph member. A copied helper/generator or reconstructed function is rejected.",
+          "invocation_rule": "The observer invokes the saved exported helper(*args, **kwargs) unchanged and enters the returned _GeneratorContextManager. It never calls __wrapped__ directly, replaces the contextlib helper internals, or bypasses generator finalization. Local factory/class objects are captured only after the real generator reaches its yield.",
+          "factory_and_class_provenance": "After real entry, the installed local factory is captured from the stage-owned module-local facade. Its __globals__ and the local class method globals must be owner.__dict__; the factory closure must contain the exact wrapped-generator invocation state, previous factory, local class, route selector, and raw bytes described by the route table. The wrapper instance type must be the class cell produced by that invocation.",
+          "restoration": "On exit, the real helper/generator finalizer must run first. The observer then verifies the facade returned to the exact predecessor callable, restores the exported helper attribute and owner dictionary snapshot, removes the invocation binding, and restores target reader/callback/metadata state even on exception."
+        }
+      },
+      "factory_acceptance": {
+        "resource_route": "For v092_resource_recovery, require an active codeql03-resource InvocationBinding, exact local _LoaderProxy class identity, exact _loader inner delegate, exact closure raw bytes, and exact previous delegate chain. A provider04 wrapper or any class copied from the same source is rejected.",
+        "nested_route": "For v092_scoped_recovery_packet, require an active provider04-nested InvocationBinding, exact local _NestedLoader class identity, exact _loader inner delegate, exact closure historical_raw, and exact previous delegate chain. A codeql03 wrapper or any class copied from the same source is rejected.",
+        "multi_wrapper": "The actual route table allows one wrapper for each disjoint selector. A same-spec multi-wrapper chain, unexpected additional closure cell, extra instance field, changed delegate order, or wrapper active outside its observer is rejected and requires a fresh reviewed route.",
+        "execution": "After acceptance, call the captured true stdlib module_from_spec with the decorated spec intact. Record target metadata before the call and require the exact graph target after create_module/exec_module. Do not unwrap, call a facade factory, or re-execute graph source."
+      }
+    },
+    "reader_and_target_restoration": {
+      "reason": "The frozen wrappers patch module._regular_bytes and module.validate_packet. The existing code restores _regular_bytes inside validation but leaves validate_packet patched on the loaded module. Stage04 must prevent a reused pinned target from accumulating wrappers across stages.",
+      "mechanism": "Before each approved wrapper exec_module, stage04 snapshots the exact target module attributes and metadata it owns. The wrapper remains active for the whole real context-manager body, preserving the frozen reader semantics. On context exit, including an exception, stage04 restores the exact saved validate_packet, _regular_bytes, __spec__, loader metadata, and registry state. A second entry must observe the original target objects, not an earlier scoped callback.",
+      "guards": [
+        "Only the exact target graph object returned by the registered true factory can be snapshotted/restored.",
+        "Unexpected target mutation or a callback belonging to a different InvocationBinding fails closed before restoration completes; restoration is still attempted in finally.",
+        "Tests must prove success, bounded downstream exception, and second-entry restoration without assuming fresh module objects."
+      ]
+    },
+    "late_routes": "Keep runtime-loaders17's six existing late getter routes unchanged except for passing the same stage pair and active graph registry. Do not introduce a name-only decorator exception or a second factory. Any actual late route that creates a standard spec is subject to the same ordinary/decorated acceptance rules.",
+    "bridge12_boundary": "bridge12 supplies the exact stage pair, hash-bound provider04/codeql03 module objects, graph owner facades, and stage nonce. It accepts no caller-supplied wrapper class, closure, callback, serialized runtime context, or source path override.",
+    "future_source_closure": "A later source closure must include bridge12, stage-runtime04, runtime-loaders17, parser/tests, and the exact immutable predecessor modules used for the InvocationBinding route. Future source/plan/contract/manifest hashes remain unresolved until actual bytes exist and are independently reviewed."
+  },
+  "required_regressions": {
+    "actual_nested_entrypoint": {
+      "id": "BF17-ACTUAL-INVOCATION-PROVENANCE",
+      "method": "Use the actual successor bridge12.create_parent_stage -> stage-runtime04 full copied validator -> provider04 recovery -> CodeQL03 validate/_validate_base -> frozen executor _validate_resource_recovery path. Temporarily observe the two real context-manager attributes, enter their real bodies, and stop only at a bounded downstream evidence read after the wrapper exec_module seam. Do not replace the context managers, local factories, copied validator, provider, CodeQL, or resource loader with generated shells.",
+      "assertions": [
+        "The observer captures invocation-produced local factory and class objects, and the stage factory accepts only those exact objects while their context scope is active.",
+        "The resource and scoped-packet selectors each use the correct disjoint route; the exact previous-factory closure chain is provider->stage for the outer route and CodeQL->provider->stage for the nested call sequence.",
+        "The real proxy exec_module methods run, install the intended bounded reader, and restore the target reader/callback after the context exits.",
+        "The frozen executor resource-recovery function body is reached; stopping occurs only at the bounded mocked downstream evidence operation.",
+        "No graph source is re-executed, no process-global importlib/sys state changes, and every saved module/facade/observer/target binding restores exactly."
+      ]
+    },
+    "actual_nested_context_positive": "Run the real provider04._scoped_nested_ledger and CodeQL03._scoped_resource_recovery_ledger in the same nesting order as the traceback, with the real module-local stage facade. Exercise both selectors and force a bounded exception after both wrapper exec_module bodies have run. Assert invocation token LIFO, exact delegates, reader restoration, target metadata restoration, and no accumulated validate_packet wrapper on a second entry.",
+    "near_miss_rejections": [
+      "A copied or re-imported provider04/CodeQL03 module with equal source text, class names, qualnames, or code filenames but a different module object, function object, globals dictionary, or graph SHA.",
+      "A locally manufactured _LoaderProxy/_NestedLoader instance whose class has the same display name but is not the class cell captured from the active real context-manager invocation.",
+      "A factory closure whose original_factory is a detached bound method, wrong stage pair, wrong outer local factory, altered closure cell, wrong raw-byte object/SHA, or wrong observer token.",
+      "A wrapper with a foreign, detached, reordered, or second-pair inner loader; an extra instance field; changed selector/name/origin/path/SHA/target/nonce; or an unknown same-spec wrapper chain.",
+      "A context-manager attribute alias that bypasses the exact owner route, a saved function replaced before observation, or a wrapper used after its context-manager scope exits.",
+      "A detached/reconstructed standard ModuleSpec with equal visible fields, a GraphSpec passed to the stage pair, a Stage spec passed to the graph facade, or a source re-execution that creates a second graph module.",
+      "A leak of module_from_spec, validate_packet, _regular_bytes, target metadata, synthetic selector, or observer registry after success or exception."
+    ],
+    "coverage_requirement": "The suite must include the actual nested provider/executor callback path and real frozen context-manager bodies. Direct StageImportFactory calls and generated caller frames are insufficient."
+  },
+  "preserved_guards_and_nonclaims": {
+    "preserve": [
+      "89-row sealed ledger and unchanged live-ledger SHA at the stop",
+      "zero consumed attempts and automatic_retry false",
+      "BF16 source/plan/contract/core/manifest and original clock/resource/reserve/one-slot/deadline guards",
+      "exact graph/source/plan/contract identities and opaque in-process runtime requirement",
+      "all full frozen validator, history, source, resource, checker, configuration, and late-loader semantics"
+    ],
+    "nonclaims": [
+      "This design does not qualify BF16, CodeQL, Joern, Bifrost, analyzer coverage, or release readiness.",
+      "The failed BF16 process is not reinterpreted as a partial stage proof and is not retried by this artifact.",
+      "A future implementation review would authorize only implementation of the append-only successor, not qualification or launch."
+    ]
+  },
+  "review_gate": {
+    "required_before_implementation": [
+      "Independent review confirms that invocation-produced class/closure provenance is captured from the actual hash-bound context-manager bodies and cannot be satisfied by a copied class, class-name match, or forged closure.",
+      "Independent review confirms both actual route selectors and delegate order, including the provider04 nested route and CodeQL03 resource route, with no generic wrapper unwrapping.",
+      "Any successor implementation proves the real create_parent_stage nested callback path with bounded downstream I/O, target/callback restoration, and all near-miss regressions.",
+      "New source, plan, contract, manifest, admission, and qualification artifacts receive fresh owners and hashes; no old BF16 artifact is overwritten or relabeled.",
+      "Independent review checks explicit owner.__dict__/__globals__ identity, exact local instance state, provider->CodeQL facade capture order, cross-stage rejection, and restoration/no-accumulation behavior.",
+      "Independent review checks the contextlib helper versus __wrapped__ generator distinction and confirms that owner-module provenance is asserted on the generator/factory/class, not incorrectly on contextlib helper globals."
+    ],
+    "current_authority": "No implementation or future qualification is authorized by this design-only artifact."
+  }
+}
