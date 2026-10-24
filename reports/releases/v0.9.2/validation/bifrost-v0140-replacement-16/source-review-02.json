@@ -1,0 +1,240 @@
+{
+  "automatic_retry": false,
+  "conclusion": "The stable 17-file BF16 source and test roster is internally consistent and evidence-bound for the separate source-commit transaction. The approval is source-commit-only and carries no execution or qualification authority.",
+  "created_utc": "2026-10-24T20:26:28.163645+00:00",
+  "evidence": {
+    "actual_import_smoke": {
+      "dynamic_routes": 43,
+      "graph_members": 88,
+      "late_loader_bindings": 6,
+      "nonstdlib_module_leaks": [],
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/actual16-import-smoke-02.json",
+      "production_operations": {
+        "admission": false,
+        "analyzer": false,
+        "build": false,
+        "launch": false,
+        "qualification": false,
+        "replay": false,
+        "source_commit": false
+      },
+      "sha256": "ce78d8b7b2a909b77bccaca9f06fa65fb12afaf424dcf2a5e9c3245ad7b0bc35",
+      "status": "import-only-passed"
+    },
+    "designer_tests": {
+      "boundaries": [
+        "88-member graph/43 dynamic-route/six late-loader import smoke",
+        "actual copied-validator call chain stops at downstream evidence I/O",
+        "production supervisor guard and qualification remain separate"
+      ],
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/designer-tests-02.json",
+      "production_operations": {
+        "admission": false,
+        "analyzer": false,
+        "build": false,
+        "launch": false,
+        "qualification": false,
+        "replay": false,
+        "source_commit": false
+      },
+      "sha256": "08576a4f968ecd953a74ca6bbdbf63882b2bc6df3bb0607a0fea9353ae6ab6d0",
+      "status": "import-only-tested",
+      "tests_passed": 85
+    },
+    "prior_coverage_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/actual-function-coverage-review-01.json",
+      "sha256": "207bb4e673e560c233f27fa3d9f8a03a7d38a181412772b571902dbeb1a89ae5"
+    },
+    "prior_supervisor_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/supervisor-source-review-01.json",
+      "sha256": "610a35e904416efa4b8b52ff9379c84acd335d45b4bb8fc14bb1dce2ef411be7"
+    },
+    "root_tests": {
+      "analyzer_or_replay_started": false,
+      "git_mutations": false,
+      "limitations": "Synthetic fixtures, real copied-validator bodies stopped at downstream evidence I/O, real child-ready guard and mocked external process/analyzer boundaries; actual qualification remains separate.",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/root-tests-01.json",
+      "sha256": "e32c4d7386ee216537fce0633c0e31b56b333d03bce64bdcdd82133077460ad7",
+      "status": "passed",
+      "tests_passed": 157
+    }
+  },
+  "execution_authorized": false,
+  "production_operations_performed": false,
+  "remaining_boundaries": [
+    "No fresh qualification/admission/replay/materialization/analyzer/build/launch was performed or authorized by this review.",
+    "The copied-validator regression intentionally stops at downstream evidence I/O; it is not a successful validator or analyzer capture.",
+    "The 88-member import smoke and 43-route/six-late-loader result is import-only and does not establish full runtime qualification.",
+    "Configuration remains a deferred explicit hardhold; no full matrix result is inferred.",
+    "A separate final packet/control review is required after the reviewed source transaction and any future actual qualification evidence."
+  ],
+  "resolved_prior_findings": [
+    {
+      "id": "BF16-COVERAGE-001",
+      "prior_review": {
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/actual-function-coverage-review-01.json",
+        "sha256": "207bb4e673e560c233f27fa3d9f8a03a7d38a181412772b571902dbeb1a89ae5"
+      },
+      "resolution": "Current bridge11 bytes are 371a8ee... and current designer/import receipts are freshly bound to that exact hash; direct recheck and smoke receipt both match the current 17-file evidence set."
+    },
+    {
+      "id": "BF16-COVERAGE-002",
+      "prior_review": {
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/actual-function-coverage-review-01.json",
+        "sha256": "207bb4e673e560c233f27fa3d9f8a03a7d38a181412772b571902dbeb1a89ae5"
+      },
+      "resolution": "The current stage-runtime03 suite retains the handmade-facade test as a synthetic seam test but adds test_create_parent_reaches_real_copied_body_policy_factory, which reaches the actual bridge/stage/full-graph/legacy-validator body chain and fails closed at downstream evidence I/O. This closes the source-coverage gap for source-commit review while preserving the typed qualification boundary."
+    },
+    {
+      "id": "BF16-COVERAGE-003",
+      "prior_review": {
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/actual-function-coverage-review-01.json",
+        "sha256": "207bb4e673e560c233f27fa3d9f8a03a7d38a181412772b571902dbeb1a89ae5"
+      },
+      "resolution": "Root-tests-01 now records the production-shaped supervisor test with 11 passing tests, including the two real child-ready/admission guard positions and stale/expired/restoration near misses. The separate import smoke remains explicitly import-only."
+    },
+    {
+      "id": "SUP16-CHILD-READY-001",
+      "prior_review": {
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/supervisor-source-review-01.json",
+        "sha256": "610a35e904416efa4b8b52ff9379c84acd335d45b4bb8fc14bb1dce2ef411be7"
+      },
+      "resolution": "Current supervisor16 calls the pinned admission/bridge child-ready path twice in _run_frozen_group: after child construction and inside the final scoped guard immediately before executor.run_group. The current production-shaped suite passed 11 tests and root receipt is bound to current supervisor/bridge/admission hashes."
+    },
+    {
+      "id": "SUP16-PROVENANCE-002",
+      "prior_review": {
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/supervisor-source-review-01.json",
+        "sha256": "610a35e904416efa4b8b52ff9379c84acd335d45b4bb8fc14bb1dce2ef411be7"
+      },
+      "resolution": "Current source/provenance names are source-bound through the BF16 graph, manifest, and receipt checks. Legacy compatibility labels remain diagnostic historical strings where applicable; no numeric lease/resource or source guard is weakened. The source pack binds current bytes and all review provenance."
+    }
+  ],
+  "review_type": "independent-bf16-source-review",
+  "reviewer_independence": {
+    "git_mutations_this_review": false,
+    "production_invocations_this_review": 0,
+    "reviewed_concurrently_owned_sources": true,
+    "source_or_frozen_input_mutation": false,
+    "static_ast_check": "all 17 current roster files compile in memory"
+  },
+  "schema": "v092-bf16-independent-source-review/v2",
+  "scope": "Independent read-only review of the stable BF16 17-file acquisition roster and its source-bound test evidence. This approval permits the separate reviewed source transaction only; it does not authorize qualification, admission, replay, materialization, analyzer, build, launch, configuration validation, or release.",
+  "source_commit_authorized": true,
+  "source_roster": {
+    "bindings": [
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-16.py",
+        "sha256": "ee1314561af81e201fd0b9d63dd946b0fbdf7b3b399fff8b2173999137ddfb95"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-16.py",
+        "sha256": "67ff3079e9c28b45fa565c084b71f3e8829a2ef959b0154d2ac4bd58fdcbbaf0"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-16.py",
+        "sha256": "bea3aaa70cda3c1e8a7239eea7f853a4b2a50241324916b89cf8cebfda1d609d"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-packet-16.py",
+        "sha256": "73a36608d6853fe23364ffb670fe93ec0a41a59168f784129447cb78d19a9955"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-no-expiry-16.py",
+        "sha256": "bd0c66bdcb896e5e4b83561bfac55588a60694df49a4cc143507fe2c46d27002"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-11.py",
+        "sha256": "371a8ee8118b5b68692f45c6240e6a1e66a9078c0956953ec9c5b83bec82dc36"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-03.py",
+        "sha256": "93f3b9a5ad5aa3cad6d433de2b16a1c05f660894c9535705a698144bb849b524"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-16.py",
+        "sha256": "4eeddc732eb1474dddada8661252f2f0ad89ef559c28d2a234fa21a44107efce"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-replacement-16.py",
+        "sha256": "647d5ab330d954e0b35b12d8953f520abc83826d5a1e0c9f4baffca177b44c8a"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-admission-16.py",
+        "sha256": "22611e78c565093ac449b73c88f710346d3236671d1b8b65a2c835881ab856a1"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-supervisor-16.py",
+        "sha256": "39df36f036723902d1b3b95b82fe1f008da28ec4b9da3076b52593306fb38d7d"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-supervisor-16-production.py",
+        "sha256": "86b5a78a99bbcb54d30604d6151b64231483485c3fae94a60a39fd328e101a72"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-packet-16.py",
+        "sha256": "636d3ab8517f877a47e9a1c4cc6208e2dfbe743a0f042a517201c9fdeb7fc98d"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-no-expiry-16.py",
+        "sha256": "105f32d3b12c7cbfa5b6bbcb1c162b1c97834a405e6e5ecfe0ff2632aa8543a5"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-11.py",
+        "sha256": "0fddc2a667f505ebf205ed646280ef034ee63e9f93e36ce465b65092af87c8ab"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-stage-runtime-03.py",
+        "sha256": "9b1090a6fbd2cacc13190c2f62bc51c423c49732ee76a6620c899ada677a15ce"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-runtime-loaders-16.py",
+        "sha256": "17428aa14a0de474efda3a9983ea38dc730e84fcc8a2a5f4b9e126023a6aa864"
+      }
+    ],
+    "count": 17,
+    "policy": "8 production acquisition modules + 9 BF16 tests; no private control scripts are source-roster inputs",
+    "root_receipt_exact_match": true
+  },
+  "static_checks": {
+    "actual_copied_validator_body": {
+      "evidence": "stage-runtime03 test_create_parent_reaches_real_copied_body_policy_factory reaches the actual bridge/stage/legacy validator body chain and stops only at downstream Git evidence I/O; its altered historical-policy near miss rejects and import facade restores.",
+      "limit": "This is a harmless synthetic downstream stop, not a qualification or replay proof.",
+      "status": "bounded_regression_passed"
+    },
+    "ast_compile_all_17": true,
+    "child_ready_production_call_path": {
+      "evidence": "supervisor16._run_frozen_group defines one check_child_ready closure that calls admission16.validate_child_stage_from_receipt, invokes it after child creation and again immediately before executor.run_group; test-supervisor16-production exercises positive, expired, stale-source, and restoration cases.",
+      "guard_components": [
+        "opaque child stage",
+        "parent/child canonical receipt identity",
+        "graph/core/manifest/source/plan/contract identity",
+        "lock PID/birth/inode",
+        "live ledger and ordered sidecar inventory",
+        "positive finite lease",
+        "source/resource/fresh-attempt guards"
+      ],
+      "status": "resolved"
+    },
+    "child_stage_sidecars": {
+      "evidence": "bridge11 build_child_stage/assert_child_ready_from_receipt enforce inherited parent sidecars plus exactly three disjoint current dispatch refs, canonical stage-{index:02d}.json identity, current parent/child ledger and graph bindings, and restoration/fail-closed behavior.",
+      "status": "resolved"
+    },
+    "configuration_boundary": {
+      "detail": "Configuration CLI/matrix validation remains explicitly rejected/deferred and is not qualified by this source review or the 157 tests.",
+      "status": "deferred-hardhold"
+    },
+    "graph_import_scope": {
+      "evidence": "stage-runtime03/bridge11/runtime-loaders16 use graph-owned paired stdlib factories, named late-loader routing, scoped restoration, foreign-spec rejection, and no non-stdlib process-global leaks; current smoke records 88/43/6.",
+      "limit": "Import smoke does not execute the analyzer or establish qualified runtime output.",
+      "status": "passed_bounded_smoke"
+    },
+    "root_receipt_binds_all_17_current_sources": true,
+    "source_hashes_rechecked_directly": true,
+    "timing_resource_attempt_guards": {
+      "evidence": "no-expiry16 retains the original origin and no wall cutoff; supervisor16 retains one Popen-origin lease, 120-second handshake/600-second startup behavior, exact 21 parent and 20 child stages, aggregate/per-source/resource floors, and no automatic retry branch.",
+      "status": "preserved"
+    }
+  },
+  "status": "approved-for-source-commit-only"
+}

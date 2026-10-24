@@ -1,0 +1,111 @@
+{
+  "schema": "v092-bifrost-v0140-graph-spec-stop-design-review/v1",
+  "review_type": "independent-graph-spec-stop-design-review",
+  "reviewer": "joern_repair_independent",
+  "reviewed_at_utc": "2026-10-24T19:46:00Z",
+  "status": "approved-for-implementation-only",
+  "automatic_retry": false,
+  "execution_authorized_by_this_review": false,
+  "implementation_authorized_by_this_review": true,
+  "bindings": {
+    "design": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/graph-spec-stop-design-01.json",
+      "sha256": "4390d62aab46fa5c724bf6271a4dcd11ad70a7870ec08f0f3f587487588e3421"
+    },
+    "stop_diagnosis": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/actual-stage-stop-diagnosis-01.json",
+      "sha256": "c0e562d3b0ad2cc8effab983cb96690b47e3cf8b6ce67ecf8d3e217966a779c8"
+    },
+    "independent_stop_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/actual-stage-stop-independent-review-01.json",
+      "sha256": "ee0227bb895c0f0ab4dcfd2e3aaf078d95d470ad19fdfac93e5360ea18c78356"
+    },
+    "manifest": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-15/manifest.json",
+      "sha256": "fcde9884666b80a14ba62f637c2259959c334bcfc89aebc30c195c606cde8589"
+    },
+    "core_identity": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-15/manifest-identity.json",
+      "sha256": "cb88e22458996a62da4f700a4b799767b9df95a5622342294a4cf928018f646c"
+    },
+    "bridge10": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-10.py",
+      "sha256": "996d213f39e83fbb473e38033d0a67aea7bc543522eac4defcce974607da4cd2"
+    },
+    "stage_runtime02": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-02.py",
+      "sha256": "f8f028617fa929d21d43c0f2750151cbb6aab761b09e55fea6f96fff04baf125"
+    },
+    "incoming_ledger_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/sealed-ledger-prefix-89.jsonl",
+      "rows": 89,
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    }
+  },
+  "root_cause_verified": {
+    "observed_failure": "stage-runtime02 legacy load_and_validate constructs a standard policy ModuleSpec while its util.module_from_spec resolves to the active bridge10 graph-only facade; bridge10 rejects the foreign spec before frozen policy authority checks.",
+    "latent_ordinary_route": "The ordinary pinned graph route has the same split-factory risk: a standard ModuleSpec can reach a graph-only module_from_spec. Repairing only the observed policy branch would move the failure to a late executor, checker, or resource loader.",
+    "actual_call_path": [
+      "bridge10.create_parent_stage",
+      "bridge10._load_bound_ledger_runtime",
+      "stage-runtime02.load_runtime_context/_stage_build_runtime_full",
+      "stage-runtime02.load_and_validate at line 1172",
+      "bridge10._module_from_spec rejecting a foreign graph import spec"
+    ]
+  },
+  "design_checks": {
+    "paired_factories": {
+      "legacy_policy_compatibility": "covered by a StageImportFactoryPair compatibility route bound to the exact historical policy path, SHA, selector, and pinned policy object; no source re-execution",
+      "ordinary_graph_spec": "covered by an explicit graph-pinned route with exact member/path/SHA/loader binding; the implementation must exercise it through the actual frozen route, not a generated projection",
+      "graph_facade_separation": "the graph-owned _GraphSpec facade and stage-owned factory pair remain distinct and reject each other's specs"
+    },
+    "strong_registry": [
+      "strong spec reference and identity check",
+      "per-stage factory nonce and graph context identity",
+      "explicit route kind, selector/name, canonical path and source SHA",
+      "exact target module object and exact loader object",
+      "rejection of copied/reconstructed specs, foreign scopes, wrong routes, changed bytes, and changed targets"
+    ],
+    "identity_and_lifetime": "One immutable pair is reused by the stage and every nested legacy/provider/checker/resource owner in one stage scope; nested scopes detect and reuse the marked pair rather than wrapping it with a second registry. A later stage may have a fresh graph, but no serialized runtime object is treated as authority.",
+    "metadata_and_restoration": "The design snapshots target metadata, owner importlib attributes, stage globals, and local synthetic registrations, then restores exact prior values in reverse order on success and exception.",
+    "stdlib_capture": "The real stdlib spec_from_file_location, module_from_spec, and ModuleSpec constructor are captured before any graph facade installation and passed explicitly; the implementation cannot rediscover them through an already-patched stage global.",
+    "global_patch_rejection": "No global sys.path, process-global importlib, or unbound sys.modules alias is permitted; foreign specs, duplicate routes, ambiguous first matches, and second source execution fail closed.",
+    "full_validator_preserved": "The copied load_and_validate/load_runtime_context body and all source, contract, qualification, executor, checker, configuration, historical, resource, and context checks remain in the successor; only scoped factory and exact route bindings change."
+  },
+  "required_implementation_evidence": {
+    "actual_frozen_policy_path": "Drive the real successor create_parent_stage through the actual load_and_validate policy import at stage-runtime02 line 1172 and show that the exact pinned policy object reaches the frozen validator.",
+    "actual_frozen_pinned_path": "Drive one real ordinary graph-pinned route and one late executor/checker/resource loader through the same stage pair; show exact target identity and zero source re-execution.",
+    "actual_composed_scopes": "Exercise full graph scope plus provider/nested scope, proving pair reuse, exact route selection, policy compatibility, ordinary graph-spec handling, and complete restoration after success.",
+    "near_miss_rejections": [
+      "GraphImportContext _GraphSpec passed to StageImportFactory.module_from_spec",
+      "StageImportFactory standard spec passed to GraphImportlibFacade.module_from_spec",
+      "copied/reconstructed standard spec with equal visible fields but no registry identity",
+      "wrong historical policy path/SHA or successor policy under the historical selector",
+      "ambiguous, reordered, wrong-name, wrong-path, changed-SHA, or foreign graph member",
+      "second pair nonce or nested wrapper around the same graph",
+      "loader/source re-execution or leaked metadata/importlib/module state after an exception"
+    ],
+    "route_coverage": "All 88 graph members, the known bare/dynamic routes, eager SCC ordering, and all known late executor/checker/resource imports must be bound and tested; key/count-only or synthetic-frame tests are insufficient.",
+    "fresh_successor_binding": "Successor bridge/stage/runtime-loader sources, tests, source closure, plan, contract, manifest, and qualification hashes must be produced append-only and independently reviewed. Future hashes are intentionally unknown in this design artifact."
+  },
+  "preserved_boundaries": [
+    "BF15 source, plan, contract, manifest, core, graph, ledger prefix, stop records, and reviews remain immutable predecessor evidence.",
+    "The 89-row ledger and zero-attempt state at the stopped boundary remain unchanged.",
+    "Original clock, no-expiry authority, resource/reserve/scratch/retention/per-attempt/one-slot/analyzer guards, and automatic_retry false remain bound.",
+    "Configuration remains deferred and outside this implementation-only decision."
+  ],
+  "findings": [],
+  "conditional_followups": [
+    "This approval authorizes implementation preparation only; it does not authorize source commit, build, graph/runtime qualification, replay, admission, analyzer dispatch, retry, or launch.",
+    "The successor implementation must receive a fresh independent source/graph review with actual-function-path tests before any new qualification invocation.",
+    "A later candidate must preserve the exact BF15 stop evidence and bind any new source/plan/contract/manifest identities without relabeling historical files."
+  ],
+  "scope": {
+    "read_only_audit": true,
+    "implementation_scope_only": true,
+    "production_operations_performed": false,
+    "source_mutation_performed": false,
+    "ledger_mutation_performed": false,
+    "execution_authorized_by_this_review": false
+  }
+}

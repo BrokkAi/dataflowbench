@@ -1,0 +1,47 @@
+{
+  "automatic_retry": false,
+  "binding_corrections": [
+    "Inventory is exact ordered equality: tuple(ref.as_dict() for ref in child.inventory) equals receipt.inventory_refs; first ref equals receipt.ledger_ref and child.live_ledger equals receipt.live_ledger_ref, including None. Reorder/add/remove/substitution is rejected.",
+    "Current architecture has parent inherited sidecars and three NEW dispatch sidecars, so literal child.sidecars==parent.sidecars would discard required dispatch evidence. Change build_child_stage to inherit every exact parent sidecar StageRef, then add the exact three supplied dispatch refs (admission, phase, raw permit). Duplicate names are rejected even if bytes match. Guard receives dispatch_sidecars from the supervisor fixed three-ref mapping, requires the precise child.sidecars keyset/refs equals disjoint union(receipt.sidecar_refs, dispatch_sidecars), and validates all refs current. Receipt sidecar keyset must equal its exact sorted sidecars names. No inherited evidence omitted. Same-process parent branch inherits opaque parent sidecars identically.",
+    "Guard receives core (already exact validated) and requires type(index) is int, 0<=index<=20, receipt.stage_index==receipt.stage_identity.index==child.identity.index. Only accepted path is core.sidecar_namespace/stages/stage-{index:02d}.json using existing _stage_receipt pattern. Reject aliases, alternate copies, symlinks, path/index mismatch; stable-read exact ref hash. Include canonical parent path/index in diagnostic.",
+    "Initial index0 requires parent-stage-verified and no predecessor_identity_sha256/predecessor_receipt_ref. Successors index1..20 require actual FinalizedParentStage, successor-stage-verified, predecessor_identity_sha256 emitted from that opaque finalized object, and predecessor_receipt_ref passed by supervisor from its previous exact stage_ref. Writer validates predecessor receipt canonical index-1 and identity digest against opaque finalized predecessor identity before emitting. _stage_receipt gets optional predecessor_receipt_ref; run_groups saves old stage_ref and supplies it after finalization.",
+    "Child ready guard validates successor predecessor_identity_sha256 against stable-read exact predecessor_receipt_ref stage identity digest; validates canonical previous path/index and exact manifest/core/source/plan/contract/graph/lock crossbindings. Recursively validate metadata chain to stage0 using only recorded predecessor refs, never discover hashes from current files or reconstruct any runtime authority. Bounded at20; no evidence replay, no clock reset. Child parent identity remains bound to exact raw dispatch permit, hence transition digest commits this receipt identity and its validated chain.",
+    "Keep same-process assert_child_ready and real immutable opaque runtime authority. New assert_child_ready_from_receipt(root,child,parent_receipt_ref,graph,manifest_ref,core_identity,core,dispatch_sidecars,now_monotonic) requires exact opaque child graph and positive original lease; validates all receipt/current-child refs plus bounded parent metadata lineage at BOTH entry and immediately-before-run_group guards. Admission16 wrapper calls exact pinned bridge. No serialized diagnostic confers authority."
+  ],
+  "created_utc": "2026-10-24T20:07:41.737470+00:00",
+  "design": [
+    "Keep existing same-process assert_child_ready unchanged; add process-boundary-safe assert_child_ready_from_receipt(root,child,parent_receipt_ref,graph,manifest_ref,core_identity,now_monotonic). It requires actual opaque ChildStage and its exact graph; parent receipt is stable witness metadata only, never runtime authority.",
+    "Extend unsealed v11 compact receipt with complete inventory_refs and sidecar_refs emitted from opaque parent StageRef objects (path/SHA/stat) plus existing exact sorted sidecar names. Do not reconstruct, project, omit or reclassify inherited evidence. Require passed sidecar_names exactly equals sorted(stage.sidecars).",
+    "New guard stable-reads/hash-validates parent receipt, checks exact manifest/core/source/plan/contract/graph/parentidentity/lock binding vs opaque child, exact stage schema/status/index, and all identity crossfields. Parent status must be parent-stage-verified or successor-stage-verified.",
+    "Validate exact inventory_refs first entry equals ledger_ref, unique canonical paths; every StageRef stat/SHA/current metadata via existing _current_ref. Validate sidecar_refs exact keys equal existing sorted names and current stat/SHA; do not synthesize from present files. Validate live_ledger_ref if present equals child bound live ledger and current witness.",
+    "Assert child actual graph complete/current and actual opaque child inventory/sidecars current. Validate positive unchanged setup lease using original actual Popen monotonic and registered timeout+600; no timer reset/replay. Existing child PID/birth/lock inode checks remain mandatory in supervisor.",
+    "Add admission16.validate_child_stage_from_receipt that calls exact pinned bridge guard and returns diagnostic admission only; supervisor actual _run_frozen_group invokes it immediately after child stage creation and again immediately before executor.run_group, with current monotonic each time. No extra frozen replay, no parent opaque object serialization.",
+    "Fix misleading supervisor loader/provenance diagnostics to exact16/bridge11; preserve numeric startup600 and all oldguardvalues."
+  ],
+  "execution_authorized": false,
+  "predecessor_design": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/child-ready-integration-design-01.json",
+    "sha256": "63a0c9432efc8b88e2f8d89b3f2e9a926c886c7b50480cb40c71a398bff0d0a8"
+  },
+  "predecessor_review": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/child-ready-integration-design-review-01.json",
+    "sha256": "f386b3a6a935cb741b6a2bec5a5c00969b6a8ef9e63ae917a3e9b656c2adf3e4"
+  },
+  "problem": "SUP16-CHILD-READY-001: actual child path creates opaque child but never invokes explicit child-ready guard; compact parent lacks exact inherited sidecar refs needed for current-parent check.",
+  "production": "No source freeze/build/core/qualification/launch until design approval, implementation tests, final exact17source independent review and normal reviewed pipeline.",
+  "resolution_note": "The reviewer literal sidecar equality is resolved by an explicitly exact disjoint-union child collection, because existing parent does not yet contain current dispatch three refs. Independent review must assess this correction before implementation.",
+  "review": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/supervisor-source-review-01.json",
+    "sha256": "610a35e904416efa4b8b52ff9379c84acd335d45b4bb8fc14bb1dce2ef411be7"
+  },
+  "schema": "v092-bf16-child-ready-integration-design/v2",
+  "scope": "Unsealed BF16 bridge11/admission16/supervisor16 and matching tests only. All15 immutable, no new core fields/clock/attempt/resource/timeout changes.",
+  "status": "proposed-for-independent-design-review",
+  "tests": [
+    "Real _run_frozen_group fixture proves new admission guard invoked before any run_group; stale parent-sidecar mutation and expired lease reject without dispatch.",
+    "Bridge exact parent receipt/current child positive across distinct parent/child module objects; mutated inventory/sidecar/source/hash/stat/lock/manifest/core/parent identity/graph/lease negative; restoration/immutable input preserved.",
+    "Inherited complete parser/stage/loaders regressions plus mandatory actual frozen function import tests remain required; no synthetic count can replace them.",
+    "Exact union positive including inherited and current dispatch sidecars; inherited or dispatch missing/extra/overlap/replacement, inventory reorder, liveledger None mismatch negatives.",
+    "Canonical alternate copy/symlink/index21/bool index/wrong predecessor/altered predecessor hash/chain skip/cycle/initial predecessor/status mismatch negatives; no runtime reconstruction. Real supervisor dispatch fixture asserts both guard positions and no run_group on either failure."
+  ]
+}
