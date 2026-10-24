@@ -1,0 +1,95 @@
+{
+  "checks": [
+    "Config exact SHA and stable regular lstat/hash/lstat; canonical non-symlink absolute config path must equal fixed reviewed input.",
+    "Source entries canonical repository-relative and selected paths strictly acquisition/qualification; unique additions cannot collide with inherited entries.",
+    "Every inherited and selected entry is a committed regular blob (100644/100755), exact current regular non-symlink working bytes equal committed bytes. Inherited SHA/role/entry fields preserved unchanged.",
+    "New entries typed role release-input. Real pinned normalizers must return exact sorted combined entries.",
+    "Module definitions execute from already verified source bytes under temporary sys.modules names, then are removed; full validators/loaders are never called.",
+    "Stable source/config signatures and hashes plus live HEAD rechecked after normalization/inventory.",
+    "Complete explicit unselected eligible committed inventory; nonregular entries remain visibly excluded rather than automatically admitted.",
+    "Output fixed path with exclusive xb creation/fsync; existing output rejected."
+  ],
+  "created_utc": "2026-10-24T17:08:30.082578+00:00",
+  "execution_authorized": false,
+  "files": [
+    {
+      "path": "/private/tmp/bf14-source-inputs-collector-01.py",
+      "sha256": "aed366117a18089b1c0a333162446b3271a5e2cf0e6c537c7f1378c6b4c7141f"
+    },
+    {
+      "path": "/private/tmp/bf14-source-inputs-collector-01-tests.py",
+      "sha256": "dfbbcc989b4cb1140a15a1d57e49e85424547ff80dc98d69949a42ab73aca807"
+    }
+  ],
+  "inputs": {
+    "config_exact_fields": [
+      "source_commit",
+      "inherited_source_inputs",
+      "selected_new_paths"
+    ],
+    "input_path": "/private/tmp/bf14-source-inputs-actual-01.cfg.json",
+    "required_cli": [
+      "--root",
+      "--input",
+      "--input-sha256",
+      "--source-commit",
+      "--output"
+    ],
+    "root": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+    "source_requirement": "Exact40hexsource_commit must equal config.source_commit and live committed HEAD at entry and exit. No fixed future source hash is invented."
+  },
+  "limitations": [
+    "Production input config does not yet exist at review time and source14 commit is not fabricated.",
+    "No production collector main or source collection invoked.",
+    "Self-review of candidate plus focused tests only; independent final review remains for root before execution."
+  ],
+  "normalization_pins": [
+    {
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    },
+    {
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py",
+      "sha256": "d964c524cfec26e296a44e4c09ce3a606dcdfaec7c83114a1be3801222e35189"
+    }
+  ],
+  "output": {
+    "compatibility": "Legacy unselected_eligible_committed_paths remains a sorted string list; separate unselected_committed_inventory records exact Git mode/object/type/bytes/hash and regular-file eligibility.",
+    "fresh_exclusive": true,
+    "keys_for_integration": [
+      "source_commit",
+      "source_inputs_delta",
+      "source_inputs",
+      "eligible_committed_paths_not_in_inherited",
+      "unselected_eligible_committed_paths",
+      "unselected_committed_inventory"
+    ],
+    "path": "/private/tmp/bf14-source-inputs-actual-01.json"
+  },
+  "production_actions_performed": false,
+  "schema": "bf14-source-inputs-collector-preparation/v1",
+  "status": "prepared-focused-synthetic-tests-passed-independent-final-review-pending",
+  "synthetic_near_misses": [
+    "wrong root/source/config SHA/source identity",
+    "unknown config fields, malformed inherited roles/hashes, duplicate inherited entries",
+    "duplicate/traversal/out-of-scope/colliding selected entries",
+    "dirty inherited or selected working bytes",
+    "new committed inherited byte changes",
+    "wrong frozen module even when committed",
+    "committed selected symlink and unselected nonregular inventory",
+    "symlink parent directory",
+    "config mutation during read",
+    "source mutation after actual normalization",
+    "wrong or preexisting output"
+  ],
+  "test": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/python3.13 /private/tmp/bf14-source-inputs-collector-01-tests.py",
+    "exit_code": 0,
+    "log": {
+      "path": "/private/tmp/bf14-source-inputs-collector-01-tests.log",
+      "sha256": "7e8720af45b76a14f96b0a3e734947223306b0bf5f537de749f658f59f664d21"
+    },
+    "passed": 12,
+    "scope": "Isolated miniature temporary Git repositories; actual immutable executor._source_inputs + bridge08._resolve_replacement_source_inputs invoked, no replacement full validator/replay/materialization/admission/build/analyzer. Synthetic commits only inside disposable fixture repositories; production Git untouched."
+  }
+}
