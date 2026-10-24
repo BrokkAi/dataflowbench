@@ -1,0 +1,130 @@
+{
+  "actual_identity": {
+    "contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-12-contract.json",
+      "sha256": "6cc5952d28215b7a030c39f3ebb8c92942efbfc50ccdea7df4b40c75f683ce87"
+    },
+    "plan_commit": "df586571d4fc3a53f25afc7e870adc65d29868f9",
+    "runner_artifact": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-12/runner-artifact-01.json",
+      "sha256": "bd27265fc3b6e5225b3226a48d86ec640aa1d2cff7d8dddf8ee371bfdfd4fffa"
+    },
+    "source_commit": "955dc97c9eb634f4b095533568f94936a7b534b9",
+    "source_evidence": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-12/source-evidence-01.json",
+      "sha256": "653761d5ada666ac229eff3ca0f71f2c4d738fcdef5a9bf70b19594713bf8221"
+    }
+  },
+  "bounded_checks": [
+    {
+      "details": "Called only replacement05._contract_delta on actual incoming03 contract and actual replacement12 contract with actual source-evidence/core manifest-shaped fields. No production validation/replay. Returned permitted delta list.",
+      "name": "Actual contract delta API",
+      "result": "PASS"
+    },
+    {
+      "details": "Bridge runtime sink retains mixed_context validated object by identity and modules roster replacement05/executor/checker/configuration. Supervisor _actual_runtime_context checks identical object/root/module roster and consumes actual Path/module objects; does not reconstruct from JSON.",
+      "name": "Runtime object API wiring static review",
+      "result": "No additional mismatch identified in inspected paths"
+    },
+    {
+      "details": "Actual live/sealed89 ledger is 114106120 bytes. Bridge07/admission12/supervisor12 _read use safe regular path plus read_bytes without 64MiB cap. Incoming seal routes recover_bifrost_history through exact provider04, which bounds89 to256MiB, verifies exact88 prefix and scopes nested v092_scoped_recovery_packet current-ledger read to immutable25380022-byte88prefix. Other nested readers retain64MiB default. No retained replay repeated.",
+      "name": "Historical reader composition static review",
+      "result": "Scoped predecessor repair present"
+    },
+    {
+      "details": {
+        "actual_contract_source_inputs": 1516,
+        "core_context_type": "mapping keyed by contract SHA",
+        "inherited_source_inputs": 1200,
+        "notes": "These are intentionally different shapes at typed core versus immutable manifest boundaries; bridge uses core map for runtime and evidence list for source-input provenance. Existing bridge scoped exact inherited paths handles1200 incoming entries and316 additions.",
+        "source_context_entries": 8,
+        "source_evidence_context_type": "list"
+      },
+      "name": "Context/source closure shape",
+      "result": "Consistent inspected shapes"
+    },
+    {
+      "details": "Supervisor dispatch lease shallow-copies validated and deep-copies plan; modifies finite runtime wall/reservation only. Original contract snapshot checks raw bytes/HEAD independently, so actual path/raw identity persists. C03 freshness adapter receives bridge-restored maximum_attempts3 and delegates generic freshness; all other caps retained. No automatic retry inferred.",
+      "name": "Dispatch scope static review",
+      "result": "No additional mismatch identified"
+    }
+  ],
+  "created_utc": "2026-10-24T15:01:01.436592+00:00",
+  "findings": [
+    {
+      "actual_contract_path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-12-contract.json",
+      "bound_path_exists": true,
+      "bound_population_path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/populations/v0.9.0.json",
+      "computed_path_exists": false,
+      "computed_population_path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/populations/v0.9.0.json",
+      "id": "BF12-API-01",
+      "location": {
+        "bridge_function": "acquisition/bifrost-v0140-frozen-bridge-07.py::_validate_replacement_with_scoped_resource_boundary",
+        "bridge_validate_line": 907,
+        "frozen_function": "scripts/execute-release-v092.py::_population",
+        "frozen_line": 502
+      },
+      "mechanism": "The scoped V4_CONTRACT_PATH alias admits the actual execution-v4/continuations/file.json path, but does not adapt _population, which derives repository root from plan_path.parents[4]. The extra continuations level changes this to repo/reports. Explicit repo_root does not reach _population. The current parser07 positive test uses execution-v5-bifrost-v0140/contract.json and therefore has canonical depth, masking this composition error.",
+      "reproduction": {
+        "narrow_projection_probe": "Same synthetic exact-depth positive test passes when an in-memory _population wrapper delegates to the original function with canonical-depth root/reports/releases/v0.9.2/execution-v4/contract.json. No source or artifact was changed.",
+        "observed_exception_chain": [
+          "FrozenBridgeError: frozen validator rejected replacement after scoped resource checks",
+          "ReleaseError: cannot read population /Users/dave/.codex/worktrees/9f01/dataflowbench/reports/populations/v0.9.0.json",
+          "FileNotFoundError"
+        ],
+        "probe_1": "Extract actual frozen _population AST, use actual core contract/plan, intercept _read_json before any population I/O; computed repo/reports/populations/v0.9.0.json.",
+        "probe_2": "Compile existing parser07 synthetic test in memory changing ONLY its candidate path literal to actual core contract path; execute positive test with existing engine-hash/history mocks."
+      },
+      "required_resolution": "Use an independently reviewed append-only successor or other exact sealed integration correction. Preserve actual contract path/result identity and verify population raw/SHA/fixture/cases with original frozen validator. Scope root adaptation to exact replacement contract and restore hooks in finally; add actual contract-depth positive and path/root near-miss regression. Do not create/copy population files at the wrongly derived location.",
+      "severity": "execution-blocker",
+      "title": "Frozen population resolver computes wrong repository root at actual successor contract depth"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-12/manifest-identity.json",
+      "sha256": "65f2a5d2fa64c839324c9706f1f7a24ab608efaef7ed97931c16daa5178e3647"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-07.py",
+      "sha256": "7403aa8d54050655f699c338e5a1bad1a6eb1ad7dc54e7e6089732f62d74d8d6"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-12.py",
+      "sha256": "a4ea7f06989bfd3f824e8d934a1b2494e0d8b0cb0a088d12cffa792a58d930b0"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-12.py",
+      "sha256": "94325a7c79423efa630000bdd58a194776e380dddb407868a066de6354fb1a29"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-12.py",
+      "sha256": "9257f4cae87a5b00467d4e2d7876a01bc16a30a14d332ffdf1c2b55be1014c3b"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-07.py",
+      "sha256": "f30f2ca6fc2da8126699eed301ce9f56dba58cc4530d0a52ff813d222158f409"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+      "sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e"
+    },
+    {
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    }
+  ],
+  "limitations": [
+    "This is not production bridge success or execution admission. Retained checker replay and actual runtime resource/liveness checks remain parent-owned.",
+    "The one reproduced entry blocker prevents claiming full actual core composition currently succeeds.",
+    "No synthetic measured rows, future receipts, qualification claims or final84 proofs were generated."
+  ],
+  "schema": "v092-bifrost-v0140-actual-core-api-audit/v1",
+  "scope": "Independent bounded static/API composition review of sealed core and bridge07/admission12/supervisor12. No production wrappers, retained replay, admission, build, materialization, analyzer, launch, or commit invoked.",
+  "status": "changes-required",
+  "unchanged_scope": {
+    "only_output": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-12/actual-core-api-audit-01.json",
+    "pinned_sources_edited": false,
+    "production_actions_invoked": false
+  }
+}

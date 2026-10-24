@@ -113,7 +113,7 @@ impl ModelingTool {
     /// freeze cannot survive.
     pub(crate) fn pinned_identity(self) -> &'static str {
         match self {
-            Self::Bifrost => "Bifrost v0.14.0",
+            Self::Bifrost => "Bifrost v0.13.1",
             Self::Codeql => "CodeQL CLI 2.27.2",
             Self::Flowdroid => "FlowDroid 2.15.1",
             Self::Infer => "Infer v1.3.0",
