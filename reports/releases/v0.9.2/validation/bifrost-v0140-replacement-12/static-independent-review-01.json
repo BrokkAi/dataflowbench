@@ -1,0 +1,146 @@
+{
+  "automatic_retry": false,
+  "bindings": {
+    "admission": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-12.py",
+      "sha256": "e01c1a06294816da22f5786cc2ab6a3915b9927154bf8ec2548932f621bb8e94"
+    },
+    "breadth_authority": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/authorization-01.json",
+      "sha256": "0f8413d52c348a9d89079c70d8cebdea3179c35a8b84a98d390c53227e6f5478"
+    },
+    "bridge": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-07.py",
+      "sha256": "7403aa8d54050655f699c338e5a1bad1a6eb1ad7dc54e7e6089732f62d74d8d6"
+    },
+    "bridge_test": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-bridge-07.py",
+      "sha256": "411da4ddba1a94d1b823519774c9b73951dc0c4e43ab66808332fc6a07511db6"
+    },
+    "expiry_test": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-no-expiry-12.py",
+      "sha256": "e6ccceb041060b0791b7bd055bdc719479218dbc944f25c1fba4afcc43b7f154"
+    },
+    "handoff": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-12/preparation-handoff-01.json",
+      "sha256": "0af2b3ad11d61c410df41818c227c24dfcd90f63360b8cdef1176ada86fa73cc"
+    },
+    "implementation": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-12.py",
+      "sha256": "a4ea7f06989bfd3f824e8d934a1b2494e0d8b0cb0a088d12cffa792a58d930b0"
+    },
+    "implementation_test": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-replacement-12.py",
+      "sha256": "4f9f44046bff36297eb19801a5636019a15f18dd70c8be63b73f5bee2c74c4fd"
+    },
+    "no_expiry_authority": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/no-expiry-authorization-01.json",
+      "sha256": "acb13ecc94ee191cf164cc4cdc6cd804bbe34fbb5dbe4dfb6e33c6a173f80edc"
+    },
+    "packet": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-packet-12.py",
+      "sha256": "859687cad8c64106158218d2f1d55078b9e563d6346e4e2b937645fa9a5e1930"
+    },
+    "parser_test": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-07.py",
+      "sha256": "52e799a8fcf0c1ac736392f25a4c41c4ce90d580dc0ec4005a4dd99983aa502e"
+    },
+    "source_design04": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-04.json",
+      "sha256": "97de7a841b371deae7d52f41188d13f2df7011eb48ed113ad182257145f8baaf"
+    },
+    "supervisor": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-12.py",
+      "sha256": "9257f4cae87a5b00467d4e2d7876a01bc16a30a14d332ffdf1c2b55be1014c3b"
+    },
+    "working_cap_authority": {
+      "exists": true,
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/source-working-cap-30gib-authorization-01.json",
+      "sha256": "bcba59ae10ea1cea565641249a0dc3bddfd063c66f298e19ce2ce0b86743cdbe"
+    }
+  },
+  "deferred_prerequisites": [
+    "The actual source-design-05 artifact, replacement-12 core/manifest, incoming provider04 terminal context, and production source closure are not present in this worktree; their later exact hashes must be bound before any admission review.",
+    "No production frozen bridge validation or admission was performed by this review; synthetic parser tests do not establish fresh qualification."
+  ],
+  "execution_authorized": false,
+  "findings": [
+    {
+      "direct_probe": {
+        "admission_required_substring": "test-bifrost-v0140-frozen-bridge-07",
+        "legacy_bridge_test_exists": true,
+        "protocol_bridge_test_path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-07.py",
+        "protocol_test_exists": true,
+        "substring_matches_protocol_path": false
+      },
+      "evidence": [
+        "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-12.py:69",
+        "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-12.py:539-542",
+        "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-12.py:241-255",
+        "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-12/preparation-handoff-01.json:47-60"
+      ],
+      "execution_blocker": true,
+      "finding": "The protocol and admission loader disagree on the immutable focused-test identity. replacement-12.BRIDGE_TEST_PATH is reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-07.py, and _validate_core requires that exact binding. admission-12._load_bridge instead rejects unless the bound tests path contains the literal test-bifrost-v0140-frozen-bridge-07. A core generated from the protocol constant therefore fails admission before it can validate the actual bridge, even though both files exist.",
+      "id": "BIFROST12-ADMISSION-TEST-BINDING-001",
+      "required_correction": "Bind admission-12 to the exact reviewed protocol BRIDGE_TEST_PATH (or an exact equivalent shared constant) and add a focused admission-loader positive/near-miss regression. Preserve the parser-07 test bytes selected by the protocol; do not silently switch the core to the predecessor-named synthetic test or weaken the exact source/hash binding.",
+      "severity": "blocker",
+      "status": "open"
+    }
+  ],
+  "fresh_qualification_claim": false,
+  "nonclaims": [
+    "No analyzer, Bifrost, replay, materialization, admission, build, launch, ledger mutation, or source mutation was performed.",
+    "This review does not approve execution or fresh qualification; status remains changes-required until the test-binding blocker is corrected and independently tested."
+  ],
+  "production_actions_performed": false,
+  "review_type": "independent-static-integration-review-01",
+  "reviewed_at_utc": "2026-10-24T14:42:56.001145Z",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-bifrost-v0140-independent-static-review/v1",
+  "scope": "Read-only source/API audit of Bifrost replacement-12 and frozen bridge-07; synthetic focused tests only. This artifact does not approve admission, replay, materialization, analyzer execution, build, launch, or qualification.",
+  "static_positive_results": [
+    "Bridge07’s new inherited source-input resolver requires every inherited path and exact hash/role, permits exceptional paths only when byte-identical inherited entries, and keeps ordinary paths on frozen acquisition/qualification normalization.",
+    "The C03 maximum-attempts=3, aggregate working-set=30 GiB, no-user-expiry, rich qualification bytes/public_tag_commit, and V4 canonical-path adaptations are narrowly projected for frozen parsing and restored in finally; other fields and historical C4 identity remain guarded.",
+    "Admission/supervisor defaults require real production marker, exact canonical lock, live resource/process checks, fresh namespaces, exact context/command/permit bindings, and no automatic retry; bridge execution functions remain explicit unsupported boundaries.",
+    "Packet12 preserves historical predecessor receipt bytes and rejects occupied/changed sidecars before publication; focused tests cover this path."
+  ],
+  "static_verification": {
+    "actual_frozen_parser_boundary": "The 22-test parser suite exercises a real frozen validate_plan in temporary Git fixtures, including complete 84/92/4252/1108 shape, C03 cap projection/restoration, exact source-input normalization, rich qualification projection, V4 path alias restoration, source guard, and fail-closed near misses. It is not a production core/admission receipt.",
+    "bridge_static_path": "load_and_validate production mode loads exact frozen modules, invokes executor.validate_plan through the scoped C4 adapter, invokes replacement-05 source/qualification/runner gates, invokes _assert_source_snapshot, retains typed incoming contexts, and rejects execution APIs explicitly.",
+    "compile_bytes": "passed for implementation, bridge, admission, supervisor, packet and focused tests",
+    "focused_tests": {
+      "actual_frozen_parser": {
+        "passed": 22,
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-07.py"
+      },
+      "bridge": {
+        "passed": 19,
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-bridge-07.py"
+      },
+      "no_expiry": {
+        "passed": 14,
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-no-expiry-12.py"
+      },
+      "production_invoked": false,
+      "protocol": {
+        "passed": 17,
+        "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-replacement-12.py"
+      },
+      "total_passed": 72
+    }
+  },
+  "status": "changes-required-before-admission"
+}
