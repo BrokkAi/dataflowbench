@@ -1,0 +1,198 @@
+{
+  "automatic_retry": false,
+  "bindings": {
+    "continuation_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/codeql-independent-pending-01-contract.json",
+      "sha256": "60904a590871aebd5dc5e7f130ef9aae6c4742c54bb02c5d485e2608224ea724"
+    },
+    "continuation_source": {
+      "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-01.py",
+      "sha256": "d04a7eee3d0e8767a843ab0465acf945768d41392890aeeb90259868ef2ef37c"
+    },
+    "current_codeql_contract_sha256": "60904a590871aebd5dc5e7f130ef9aae6c4742c54bb02c5d485e2608224ea724",
+    "frozen_executor": {
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    },
+    "frozen_resource_recovery": {
+      "path": "scripts/v092_resource_recovery.py",
+      "sha256": "c0dc2ef56cd1cb20cb0d96b156438e2ee876081e85c0f8ff43ca4afb3091830d"
+    },
+    "head_commit": "b55a5124b57d5b85608d9b96ed46c4acadd90283",
+    "plan_commit": "b55a5124b57d5b85608d9b96ed46c4acadd90283",
+    "prior_final_review": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/final-codeql-independent-review-01.json",
+      "sha256": "379a233a559bff41ffa9b12a4d49e0dbce93836c9a86cdbbccd10e166013374f"
+    },
+    "provisional_manifest": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/codeql-continuation-admission-01.json",
+      "sha256": "1d66a893ea09c249f6d9458ac4497bb16a05ab7b6741d389e59520c34f56a8e3"
+    },
+    "sealed_ledger_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/sealed-ledger-prefix-88.jsonl",
+      "rows": 88,
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476"
+    },
+    "source_commit": "d1b97b711a668a6fff488d39081fb3067ccb0281"
+  },
+  "execution_authorized": false,
+  "finding": {
+    "before_attempt_creation": true,
+    "call_order": "run_group:3588-3592 calls _matrix_elapsed_wall under the exclusive lock; _assert_fresh is later at 3615-3617 and attempt.mkdir is later at 3721-3728.",
+    "frozen_check": "scripts/execute-release-v092.py:3227-3238",
+    "id": "CODEQL-RUNTIME-REGISTRATION-001",
+    "impact": "The current 88-row sealed prefix contains 29 C4 rows, one Joern03 row, and one Joern04 row that are absent from the runtime registration set. A CodeQL execute path will stop at the wall-accounting guard before creating the CodeQL attempt/cache directories or appending a tail row. Supervisor state outside run_group must be assessed separately and is not evidence of an analyzer attempt.",
+    "mechanism": "execute() invokes _runtime_lease(ctx[\"successor\"]) and frozen executor.run_group without installing the normalized ctx._historical_replay_contexts map into the runtime successor. Frozen _matrix_elapsed_wall registers only validated.bytes_sha256, prior_failed_contracts keys, and resource_recovery/scoped_recovery.contexts keys, then rejects any sealed-series row whose contract hash is absent.",
+    "observed_error": "ReleaseError: execution series has an unregistered contract revision",
+    "severity": "blocker",
+    "status": "confirmed"
+  },
+  "ledger_roster": {
+    "completed_rows": 82,
+    "contract_hashes": {
+      "1014ceb38510222d32887a17780d3a612afad80c5250714b0e60dc90f3cd37c3": {
+        "rows": 1,
+        "statuses": {
+          "failed": 1
+        }
+      },
+      "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb": {
+        "rows": 29,
+        "statuses": {
+          "completed": 27,
+          "failed": 1,
+          "recorder-error": 1
+        }
+      },
+      "43aa0cc5185e46f284f0fa07f5b8af123ddd0345d7918ca4ec37ef61cbb02ac3": {
+        "rows": 1,
+        "statuses": {
+          "recorder-error": 1
+        }
+      },
+      "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422": {
+        "rows": 26,
+        "statuses": {
+          "completed": 25,
+          "failed": 1
+        }
+      },
+      "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827": {
+        "rows": 1,
+        "statuses": {
+          "recorder-error": 1
+        }
+      },
+      "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063": {
+        "rows": 30,
+        "statuses": {
+          "completed": 30
+        }
+      }
+    },
+    "noncompleted_rows": 6,
+    "rows": 88
+  },
+  "nonclaims": [
+    "This review did not invoke admission, retained replay, materialization, run_group, analyzer, build, or production launch.",
+    "The direct positive probe validates only the frozen wall-accounting registration boundary with synthetic normalized-entry values; it is not a qualification or execution result.",
+    "No historical row may be relabeled, deleted, or made current to hide the mismatch.",
+    "The prior final CodeQL review remains immutable but is superseded for any execution path by this confirmed blocker."
+  ],
+  "production_actions_performed": false,
+  "read_only_probes": {
+    "fresh_namespaces_at_review": {
+      "attempt": false,
+      "execution_root": false,
+      "output_root": false
+    },
+    "frozen_matrix_elapsed_negative": {
+      "method": "direct helper call with exact current successor hash plus C1/C2/C3 resource contexts and actual sealed ledger; no run_group/admission/replay/analyzer",
+      "result": "ReleaseError: execution series has an unregistered contract revision",
+      "writes": false
+    },
+    "frozen_matrix_elapsed_registration_positive": {
+      "method": "direct helper call with C1/C2/C3/C4/Joern03/Joern04 context keys plus current successor hash and original origin metadata",
+      "result": "wall-accounting helper returned an elapsed value without the registration error; no runner or attempt path invoked",
+      "writes": false
+    },
+    "ledger_roster_probe": {
+      "production_action": false,
+      "rows": 88,
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476"
+    }
+  },
+  "registration_analysis": {
+    "frozen_resource_recovery_contexts": {
+      "contract_sha256s": [
+        "43aa0cc5185e46f284f0fa07f5b8af123ddd0345d7918ca4ec37ef61cbb02ac3",
+        "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422",
+        "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063"
+      ],
+      "count": 3,
+      "source": "execute-release-v092.py:2217-2223 plus v092_resource_recovery C1/C2/C3 constants"
+    },
+    "normalized_historical_contexts_derived_elsewhere": {
+      "expected_sha256s": [
+        "1014ceb38510222d32887a17780d3a612afad80c5250714b0e60dc90f3cd37c3",
+        "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb",
+        "43aa0cc5185e46f284f0fa07f5b8af123ddd0345d7918ca4ec37ef61cbb02ac3",
+        "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422",
+        "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827",
+        "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063"
+      ],
+      "runtime_overlay_missing": [
+        "1014ceb38510222d32887a17780d3a612afad80c5250714b0e60dc90f3cd37c3",
+        "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb",
+        "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827"
+      ],
+      "source": "independent-pending-codeql-01.py:993-1055",
+      "stored_location": "ctx._historical_replay_contexts during replay=True only"
+    },
+    "successor_context_registration": {
+      "operation": "deepcopy(base), replace plan/source inputs/CodeQL group, preserve base resource_recovery contexts",
+      "prior_failed_contracts": [],
+      "registered_contract_sha256s": [
+        "43aa0cc5185e46f284f0fa07f5b8af123ddd0345d7918ca4ec37ef61cbb02ac3",
+        "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422",
+        "60904a590871aebd5dc5e7f130ef9aae6c4742c54bb02c5d485e2608224ea724",
+        "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063"
+      ],
+      "resource_recovery_context_sha256s": [
+        "43aa0cc5185e46f284f0fa07f5b8af123ddd0345d7918ca4ec37ef61cbb02ac3",
+        "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422",
+        "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063"
+      ],
+      "source": "independent-pending-codeql-01.py:564-578",
+      "validated_successor_sha256": "60904a590871aebd5dc5e7f130ef9aae6c4742c54bb02c5d485e2608224ea724"
+    },
+    "unregistered_ledger_contracts": {
+      "breakdown": {
+        "1014ceb38510222d32887a17780d3a612afad80c5250714b0e60dc90f3cd37c3": 1,
+        "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb": 29,
+        "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827": 1
+      },
+      "rows": 31,
+      "sha256s": [
+        "1014ceb38510222d32887a17780d3a612afad80c5250714b0e60dc90f3cd37c3",
+        "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb",
+        "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827"
+      ]
+    }
+  },
+  "required_correction": {
+    "identity_checks": "For every inserted entry require the key equals validated.bytes_sha256 and preserve its original plan_commit/source_commit; reject raw plan groups, caller-provided contexts, unknown hashes, duplicate/conflicting entries, or missing six-row historical roster.",
+    "minimal_scope": "new append-only CodeQL continuation source/test packet; do not edit frozen execute-release-v092.py, old contract, provisional manifest, sealed ledger, or final-review-01",
+    "negative_regression": "A synthetic/runtime probe with any one of C4, Joern03, or Joern04 omitted must still fail closed with the frozen unregistered-contract error.",
+    "packet_strategy": "Rebuild a new source closure/contract and final manifest/review after the source/test change; bind the new source and contract hashes, retain old contract/provisional manifest/final-review-01 unchanged, and obtain a new read-only admission review. Do not reuse the old approval for execution.",
+    "positive_regression": "A probe through the actual execute-to-run_group argument construction must reach frozen _matrix_elapsed_wall registration without that error while performing no attempt mkdir or analyzer launch.",
+    "runtime_overlay": "In execute(), obtain the exact normalized historical map from _historical_replay_contexts(ctx) before _runtime_lease/run_group when replay=True was not used; deep-copy runtime.resource_recovery.contexts and add only the exact C4, Joern03, and Joern04 normalized entries, preserving C1/C2/C3 bytes and all resource/recovery fields. Keep the current successor hash separately registered by frozen code.",
+    "status": "required-before-any-admission-or-execution"
+  },
+  "review_type": "independent-codeql-runtime-registration-review",
+  "reviewed_at_utc": "2026-10-24T11:26:22.709666Z",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-codeql-runtime-registration-independent-review/v1",
+  "scope": "Read-only diagnosis of the CodeQL continuation runtime registration boundary after final review-01 and before any admission, replay, materialization, analyzer, build, or launch.",
+  "status": "changes-required"
+}

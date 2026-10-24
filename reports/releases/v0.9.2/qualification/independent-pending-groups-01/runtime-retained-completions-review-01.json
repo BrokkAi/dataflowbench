@@ -1,0 +1,356 @@
+{
+  "automatic_retry": false,
+  "bindings": {
+    "admission_helper": {
+      "path": "reports/releases/v0.9.2/acquisition/admission-independent-pending-codeql-01.py",
+      "sha256": "8688c7b605621adbfeaa1de4730b9abe8f1c2bbbbe395a6de6acd88538cc16b0"
+    },
+    "continuation_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/codeql-independent-pending-01-contract.json",
+      "sha256": "60904a590871aebd5dc5e7f130ef9aae6c4742c54bb02c5d485e2608224ea724"
+    },
+    "continuation_source": {
+      "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-01.py",
+      "sha256": "d04a7eee3d0e8767a843ab0465acf945768d41392890aeeb90259868ef2ef37c"
+    },
+    "frozen_base_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/contract.json",
+      "sha256": "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb"
+    },
+    "frozen_executor": {
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    },
+    "frozen_resource_recovery": {
+      "path": "scripts/v092_resource_recovery.py",
+      "sha256": "c0dc2ef56cd1cb20cb0d96b156438e2ee876081e85c0f8ff43ca4afb3091830d"
+    },
+    "head_commit": "b55a5124b57d5b85608d9b96ed46c4acadd90283",
+    "plan_commit": "b55a5124b57d5b85608d9b96ed46c4acadd90283",
+    "prior_final_review": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/final-codeql-independent-review-01.json",
+      "sha256": "379a233a559bff41ffa9b12a4d49e0dbce93836c9a86cdbbccd10e166013374f"
+    },
+    "prior_registration_review": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/runtime-registration-review-01.json",
+      "sha256": "ac2ff44d7473749e16ded2cbff4f7e3819e7817930808b984e7e65b5db7a6f62"
+    },
+    "provisional_manifest": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/codeql-continuation-admission-01.json",
+      "sha256": "1d66a893ea09c249f6d9458ac4497bb16a05ab7b6741d389e59520c34f56a8e3"
+    },
+    "resource_recovery_manifest": {
+      "path": "reports/releases/v0.9.2/qualification/resource-recovery-01/manifest.json",
+      "sha256": "37f8b9638d8c6d70b382f888f7ababf0cc03c5774575e54eddfc590b9929bff7"
+    },
+    "sealed_ledger_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/sealed-ledger-prefix-88.jsonl",
+      "rows": 88,
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476"
+    },
+    "source_commit": "d1b97b711a668a6fff488d39081fb3067ccb0281"
+  },
+  "call_chain_audit": {
+    "remaining_pre_attempt_path": [
+      "validate() calls _validate_base and then _successor_context; no retained-completion overlay is installed.",
+      "admission.admit() calls module.materialized_preflight(ctx) after its retained replay; materialized_preflight invokes frozen _verified_completed_groups before any run_group call.",
+      "execute() repeats materialized_preflight, then _runtime_lease and frozen run_group. The same completed-set mismatch would fail again under the frozen C4 disk guard if admission were bypassed.",
+      "frozen run_group checks _matrix_elapsed_wall, source snapshot, tools, reservation, _assert_fresh, and only then creates the attempt directory. The retained overlay must not suppress any of these checks."
+    ],
+    "runtime_registration_related_blocker": {
+      "review": {
+        "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/runtime-registration-review-01.json",
+        "sha256": "ac2ff44d7473749e16ded2cbff4f7e3819e7817930808b984e7e65b5db7a6f62"
+      },
+      "status": "already-recorded-separately",
+      "summary": "The successor also needs the six historical contract contexts registered for frozen _matrix_elapsed_wall; this review does not relabel that prior finding."
+    },
+    "static_no_additional_mismatch_found": [
+      "The current successor keeps its current CodeQL source_inputs, tool bindings, qualifications, group identity, source projection limit, aggregate working cap, and per-attempt lease fields; these remain separately guarded and are not evidence of the missing retained overlay.",
+      "The overlay must be installed on the runtime successor object used by _runtime_lease/run_group, while preserving the frozen base object and its 55/2 packet byte-for-byte."
+    ]
+  },
+  "execution_authorized": false,
+  "finding": {
+    "before_attempt_creation": true,
+    "candidate_preflight": {
+      "admission_requirement": {
+        "lines": "98-107",
+        "path": "reports/releases/v0.9.2/acquisition/admission-independent-pending-codeql-01.py",
+        "required_remaining_group_count": 2
+      },
+      "calculation": "55 inherited retained completions + 0 current-CodeQL rows = 55 verified; 84 known plan groups - 55 = 29 remaining",
+      "known_groups": 84,
+      "lines": "839-929",
+      "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-01.py",
+      "reported_result": {
+        "remaining_group_count": 29,
+        "verified_completed_groups": 55
+      },
+      "verification_call": "line 899: executor._verified_completed_groups(validated)"
+    },
+    "frozen_check": {
+      "current_row_contract_filter": "row.contract_sha256 == validated.bytes_sha256",
+      "lines": "3270-3335",
+      "path": "scripts/execute-release-v092.py",
+      "seed": "set(scoped.get(\"retained_completed\", {}))"
+    },
+    "id": "CODEQL-RUNTIME-RETAINED-COMPLETIONS-001",
+    "mechanism": "The frozen _verified_completed_groups seeds from successor.resource_recovery.retained_completed and then accepts current ledger rows only when their contract_sha256 equals the current successor bytes_sha256. The 27 completed C4-tail rows retain the old C4 hash, so they are neither in the inherited 55 map nor eligible for the current-contract scan.",
+    "severity": "blocker",
+    "status": "confirmed",
+    "why_the_local_context_map_does_not_fix_it": "The _historical_replay_contexts map is used by _replay_completed for checker inputs, but _verified_completed_groups reads successor.resource_recovery, not ctx[\"_historical_replay_contexts\"]. Deriving contexts alone therefore cannot make the frozen capacity/remaining-group check see the 27 C4 completions."
+  },
+  "ledger_roster": {
+    "completed_rows": 82,
+    "continuation_contract_plan_group_count": 84,
+    "contract_hashes": {
+      "1014ceb38510222d32887a17780d3a612afad80c5250714b0e60dc90f3cd37c3": {
+        "rows": 1,
+        "statuses": {
+          "failed": 1
+        }
+      },
+      "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb": {
+        "rows": 29,
+        "statuses": {
+          "completed": 27,
+          "failed": 1,
+          "recorder-error": 1
+        }
+      },
+      "43aa0cc5185e46f284f0fa07f5b8af123ddd0345d7918ca4ec37ef61cbb02ac3": {
+        "rows": 1,
+        "statuses": {
+          "recorder-error": 1
+        }
+      },
+      "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422": {
+        "rows": 26,
+        "statuses": {
+          "completed": 25,
+          "failed": 1
+        }
+      },
+      "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827": {
+        "rows": 1,
+        "statuses": {
+          "recorder-error": 1
+        }
+      },
+      "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063": {
+        "rows": 30,
+        "statuses": {
+          "completed": 30
+        }
+      }
+    },
+    "noncompleted_rows": 6,
+    "noncompleted_rows_detail": [
+      {
+        "attempt_id": "bifrost-c-kernel-attempt-01-series-01",
+        "contract_sha256": "43aa0cc5185e46f284f0fa07f5b8af123ddd0345d7918ca4ec37ef61cbb02ac3",
+        "group_id": "bifrost-c-kernel",
+        "plan_commit": "c5837c0e5b3b809cae3f347a748ef2fd03e3090f",
+        "source_commit": "4e7b1d9afd6bccf3e932e4222825afb44c436412",
+        "status": "recorder-error"
+      },
+      {
+        "attempt_id": "codeql-java-modeling-attempt-01-series-01",
+        "contract_sha256": "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422",
+        "group_id": "codeql-java-modeling",
+        "plan_commit": "a180c302b56f2c18a1fdfbbd1bc14489151fc54e",
+        "source_commit": "21b76b747b72363aad4bbbc358fc2ae9aee24f1c",
+        "status": "failed"
+      },
+      {
+        "attempt_id": "joern-swift-common108-attempt-01-series-01",
+        "contract_sha256": "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb",
+        "group_id": "joern-swift-common108",
+        "plan_commit": "8ac35a2b8feb77dececa8f5a7de695524210bdd1",
+        "source_commit": "0f105a6f4bd6a954fd09cb222e8a519162393aec",
+        "status": "recorder-error"
+      },
+      {
+        "attempt_id": "joern-swift-common108-attempt-02-series-01",
+        "contract_sha256": "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb",
+        "group_id": "joern-swift-common108",
+        "plan_commit": "8ac35a2b8feb77dececa8f5a7de695524210bdd1",
+        "source_commit": "0f105a6f4bd6a954fd09cb222e8a519162393aec",
+        "status": "failed"
+      },
+      {
+        "attempt_id": "joern-swift-common108-attempt-03-series-01",
+        "contract_sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827",
+        "group_id": "joern-swift-common108",
+        "plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+        "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79",
+        "status": "recorder-error"
+      },
+      {
+        "attempt_id": "joern-swift-common108-attempt-04-series-01",
+        "contract_sha256": "1014ceb38510222d32887a17780d3a612afad80c5250714b0e60dc90f3cd37c3",
+        "group_id": "joern-swift-common108",
+        "plan_commit": "9b71cce939ac74d9674be189ee03dbee14b868e9",
+        "source_commit": "32d09fab240f7c7399672f1283fcaed003dd735e",
+        "status": "failed"
+      }
+    ],
+    "rows": 88,
+    "status_counts": {
+      "completed": 82,
+      "failed": 3,
+      "recorder-error": 3
+    },
+    "unique_group_ids": 83
+  },
+  "nonclaims": [
+    "This is not approval for admission, execution, analyzer qualification, or a retry.",
+    "No actual frozen deep replay was performed by this review; the required 82/6 overlay must be supported by a later actual frozen replay receipt.",
+    "The immutable C4 55/2 packet remains valid historical evidence and is not being rejected or rewritten.",
+    "No historical row was relabeled, deleted, or counted as current CodeQL evidence."
+  ],
+  "production_actions_performed": false,
+  "read_only_probes": {
+    "ledger_roster_parse": {
+      "method": "Parsed the exact sealed 88-row JSONL prefix and grouped rows by contract hash/status.",
+      "result": {
+        "completed_rows": 82,
+        "contract_hashes": {
+          "1014ceb38510222d32887a17780d3a612afad80c5250714b0e60dc90f3cd37c3": {
+            "rows": 1,
+            "statuses": {
+              "failed": 1
+            }
+          },
+          "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb": {
+            "rows": 29,
+            "statuses": {
+              "completed": 27,
+              "failed": 1,
+              "recorder-error": 1
+            }
+          },
+          "43aa0cc5185e46f284f0fa07f5b8af123ddd0345d7918ca4ec37ef61cbb02ac3": {
+            "rows": 1,
+            "statuses": {
+              "recorder-error": 1
+            }
+          },
+          "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422": {
+            "rows": 26,
+            "statuses": {
+              "completed": 25,
+              "failed": 1
+            }
+          },
+          "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827": {
+            "rows": 1,
+            "statuses": {
+              "recorder-error": 1
+            }
+          },
+          "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063": {
+            "rows": 30,
+            "statuses": {
+              "completed": 30
+            }
+          }
+        },
+        "noncompleted_rows": 6,
+        "plan_group_count": 84,
+        "rows": 88
+      },
+      "writes": false
+    },
+    "runtime_execution": {
+      "admission": false,
+      "analyzer": false,
+      "build": false,
+      "launch": false,
+      "materialization": false,
+      "retained_replay": false,
+      "run_group": false
+    },
+    "static_source_audit": {
+      "method": "Read candidate _validate_base, _successor_context, _historical_replay_contexts, materialized_preflight and frozen _validate_resource_recovery, _verified_completed_groups, _matrix_elapsed_wall, and run_group call paths.",
+      "result": "Confirmed inherited 55/2 maps and the 55-to-29 preflight mismatch; no production helper was invoked.",
+      "writes": false
+    }
+  },
+  "required_correction": {
+    "append_only_delivery": "Create a new source/test closure, successor contract/manifest, and independent final review binding the overlay implementation and its actual frozen deep-replay receipt. Preserve this review, the prior runtime-registration review, the frozen C4 packet, and all historical ledger bytes.",
+    "negative_regressions_required": [
+      "Remove one C4 completed record from the overlay: frozen verification must return 81 or fail closed, and preflight must not accept remaining_group_count=2.",
+      "Change any original row contract/source/plan identity or context binding: the frozen checker/overlay validator must reject it rather than substitute the successor CodeQL identity.",
+      "Drop any of the six noncompleted records or change their typed status: validation must fail closed; they must remain failures/recorder-errors and remain part of the historical context proof.",
+      "Leave the C4 base packet at exactly 55 retained completions and two retained failures: mutating that packet to 82/6 is an invalid shortcut."
+    ],
+    "overlay_requirements": [
+      "Install all 82 verified completed records in the successor runtime retained_completed map; records must retain each original row, ledger-line hash, original context contract hash, original plan commit, and attempt number.",
+      "Install all six verified noncompleted records in the successor runtime retained_failures map with their original failed/recorder-error status and contract/source/plan identity; do not promote a failure to completion.",
+      "Merge normalized C1/C2/C3/base/Joern03/Joern04 contexts into the runtime successor resource_recovery.contexts for frozen registration, while preserving the historical base packet as a separate immutable value.",
+      "Run frozen _verified_completed_groups on the corrected successor and require 82 before any fresh CodeQL attempt; materialized_preflight must then report remaining_group_count=2.",
+      "After a successful fresh CodeQL tail, the expected verified count becomes 83 and the reviewed post-success denominator remains 89 ledger rows, 83 selected groups, 87 partitions, and 4144 rows."
+    ],
+    "strategy": "After the actual frozen deep replay has verified the immutable 88-row prefix, construct an append-only in-memory successor/runtime overlay. Do not mutate the frozen C4 resource-recovery packet or reinterpret its 55/2 values.",
+    "verification_source": "Use the frozen checker paths already used by _replay_completed: _verify_one_group for all 82 completed rows and _verify_failed_attempt for all six noncompleted rows, each with its original row contract/source/plan identity, durable receipts, report bytes, and ledger-line hash."
+  },
+  "retained_state_audit": {
+    "candidate_base_and_successor": {
+      "base_validator": {
+        "behavior": "Calls frozen validate_plan over the exact sealed 88-row prefix and returns the frozen base object unchanged.",
+        "lines": "537-561",
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-01.py"
+      },
+      "derived_historical_contexts": {
+        "behavior": "Derives normalized C1/C2/C3/base/Joern03/Joern04 contexts in a local map; current code does not install that map into successor.resource_recovery.contexts.",
+        "lines": "993-1055",
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-01.py"
+      },
+      "successor_context": {
+        "behavior": "Deep-copies base, swaps current CodeQL path/hash/plan/source_inputs/group, and does not replace resource_recovery.retained_completed or retained_failures.",
+        "inherited_retained_completed": 55,
+        "inherited_retained_failures": 2,
+        "lines": "564-578",
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-01.py"
+      }
+    },
+    "frozen_c4_validator": {
+      "interpretation": "This is the immutable C4 historical packet and must remain unchanged; it is not an 88-row successor verification result.",
+      "lines": "2193-2246",
+      "path": "scripts/execute-release-v092.py",
+      "resource_recovery_manifest": {
+        "path": "reports/releases/v0.9.2/qualification/resource-recovery-01/manifest.json",
+        "sha256": "37f8b9638d8c6d70b382f888f7ababf0cc03c5774575e54eddfc590b9929bff7"
+      },
+      "returned_retained_completed": 55,
+      "returned_retained_failures": 2
+    },
+    "required_verified_overlay": {
+      "base_packet_must_remain": {
+        "retained_completed": 55,
+        "retained_failures": 2
+      },
+      "source_rows": 88,
+      "successor_runtime_requirement": {
+        "context_contracts": [
+          "43aa0cc5185e46f284f0fa07f5b8af123ddd0345d7918ca4ec37ef61cbb02ac3",
+          "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422",
+          "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb",
+          "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063",
+          "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827",
+          "1014ceb38510222d32887a17780d3a612afad80c5250714b0e60dc90f3cd37c3"
+        ],
+        "retained_completed": 82,
+        "retained_failures": 6
+      },
+      "verified_completed": 82,
+      "verified_noncompleted": 6
+    }
+  },
+  "review_type": "independent-codeql-runtime-retained-completions-review",
+  "reviewed_at_utc": "2026-10-24T11:31:05.028496Z",
+  "schema": "v092-codeql-runtime-retained-completions-independent-review/v1",
+  "status": "changes-required"
+}
