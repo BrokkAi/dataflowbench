@@ -499,31 +499,31 @@ SOURCE_DESIGN_06 = {
     "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-06.json",
     "sha256": "fe6208f98fbdc626dbc67056300b0d3c477581c60169d5a637b14902c0ff4dbc",
 }
-SOURCE_DESIGN_07_PATH = "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-07.json"
+SOURCE_DESIGN_08_PATH = "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-08.json"
 
 
 def validate_source_design(root: Path, core: Mapping[str, Any]) -> dict[str, Any]:
-    ref = _ref(core.get("source_design"), "actual post-CodeQL source design07")
-    require(ref["path"] == SOURCE_DESIGN_07_PATH, "source design must be actual reviewed successor07")
-    design = _json(_bound(root, ref, "actual source design07"), "source design07")
+    ref = _ref(core.get("source_design"), "actual post-CodeQL source design08")
+    require(ref["path"] == SOURCE_DESIGN_08_PATH, "source design must be actual reviewed successor08")
+    design = _json(_bound(root, ref, "actual source design08"), "source design08")
     previous = _json(_bound(root, SOURCE_DESIGN_06, "corrected source design06"), "source design06")
     require(design.get("schema") == "v092-bifrost-source-post-codeql-rebase/v1" and
             design.get("predecessor_design") == SOURCE_DESIGN_06 and
             design.get("scheduling_authority") == BREADTH_FIRST_AUTHORITY and
-            design.get("reviewed_baseline_head") == previous["actual_observed_head"],
-            "source06 predecessor/authority/baseline differs")
+            design.get("reviewed_baseline_head") == previous["reviewed_baseline_head"],
+            "source08 predecessor/authority/baseline differs")
     for key in ("historical_outputs_immutable", "historical_evidence_strategy",
                 "actual_historical_bifrost_contexts", "actual_historical_bifrost_rows",
-                "allowed_source_delta", "unchanged_source_patch"):
-        require(design.get(key) == previous.get(key), f"source06 changes immutable source04 {key}")
+                "allowed_source_delta", "unchanged_source_patch", "incoming_codeql"):
+        require(design.get(key) == previous.get(key), f"source08 changes immutable source06 {key}")
     incoming = design.get("incoming_codeql")
     continuation = core.get("continuation", {})
     require(isinstance(incoming, dict) and set(incoming) == {"source_commit", "plan_commit", "contract"} and
             all(incoming.get(key) == continuation.get(key) for key in incoming),
-            "source06 does not bind actual incoming CodeQL source/plan/contract")
-    _commit(design.get("immediate_patch_base"), "source06 immediate patch base")
+            "source08 does not bind actual incoming CodeQL source/plan/contract")
+    _commit(design.get("immediate_patch_base"), "source08 immediate patch base")
     require(isinstance(design.get("reviewed_intervening_changes"), list),
-            "source06 reviewed intervening closure is absent")
+            "source08 reviewed intervening closure is absent")
     return design
 
 

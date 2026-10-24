@@ -209,5 +209,93 @@ class RuntimeCoreSchema14Tests(unittest.TestCase):
                 p.validate_runtime_core(self.root,c)
 
 
+
+class SourceDesign08SchemaTests(unittest.TestCase):
+    """Actual immutable06 shape, with successor values confined to a temp fixture.
+
+    These exercise protocol schema bindings only. The production full Git
+    intervening closure and nine-source delta remain stage-runtime authority.
+    """
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name).resolve()
+        self.repo = BASE.parents[3]
+        original = (self.repo / p.SOURCE_DESIGN_06["path"]).read_bytes()
+        self.previous = json.loads(original)
+        self.assertEqual(p.sha256(original), p.SOURCE_DESIGN_06["sha256"])
+        self.assertNotIn("actual_observed_head", self.previous)
+        predecessor = self.root / p.SOURCE_DESIGN_06["path"]
+        predecessor.parent.mkdir(parents=True)
+        predecessor.write_bytes(original)
+        self.value = json.loads(original)
+        self.value["predecessor_design"] = dict(p.SOURCE_DESIGN_06)
+        self.core = {"continuation": dict(self.previous["incoming_codeql"])}
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def bind(self, value=None):
+        value = self.value if value is None else value
+        raw = p.canonical_json(value)
+        path = self.root / p.SOURCE_DESIGN_08_PATH
+        path.write_bytes(raw)
+        self.core["source_design"] = {"path": p.SOURCE_DESIGN_08_PATH,
+                                      "sha256": p.sha256(raw)}
+        return self.core
+
+    def test_actual06_shape_accepts_correct_successor_schema(self):
+        result = p.validate_source_design(self.root, self.bind())
+        self.assertEqual(result["reviewed_baseline_head"], self.previous["reviewed_baseline_head"])
+        self.assertEqual(result["reviewed_intervening_changes"], self.previous["reviewed_intervening_changes"])
+        self.assertEqual(result["allowed_source_delta"], self.previous["allowed_source_delta"])
+        self.assertEqual(len(result["allowed_source_delta"]), 9)
+
+    def test_wrong_predecessor04_or07_rejected(self):
+        for predecessor in (p.SOURCE_DESIGN_04,
+                {"path": p.SOURCE_DESIGN_08_PATH.replace("-08.json", "-07.json"),
+                 "sha256": p.sha256((self.repo / p.SOURCE_DESIGN_08_PATH.replace("-08.json", "-07.json")).read_bytes())}):
+            value = json.loads(json.dumps(self.value)); value["predecessor_design"] = predecessor
+            with self.assertRaisesRegex(p.Replacement14Error, "predecessor/authority/baseline"):
+                p.validate_source_design(self.root, self.bind(value))
+
+    def test_foreign_or_missing_baseline_rejected_even_with_observed_head(self):
+        for baseline in ("ac0af833bc19c6c9fd343e9e60430a85fb1910e2", "b906ca907bfd11f64ab0f2099e29ccf5d1c3adf1", None):
+            value = json.loads(json.dumps(self.value))
+            value["reviewed_baseline_head"] = baseline
+            value["actual_observed_head"] = self.previous["reviewed_baseline_head"]
+            with self.assertRaisesRegex(p.Replacement14Error, "predecessor/authority/baseline"):
+                p.validate_source_design(self.root, self.bind(value))
+
+    def test_missing_closure_or_invalid_immediate_base_rejected(self):
+        for key in ("reviewed_intervening_changes", "immediate_patch_base"):
+            value = json.loads(json.dumps(self.value)); value.pop(key)
+            with self.assertRaises(p.Replacement14Error):
+                p.validate_source_design(self.root, self.bind(value))
+
+    def test_changed_history_incoming_or_nine_source_policy_rejected(self):
+        for key in ("historical_outputs_immutable", "actual_historical_bifrost_contexts",
+                    "actual_historical_bifrost_rows", "allowed_source_delta", "unchanged_source_patch",
+                    "incoming_codeql"):
+            value = json.loads(json.dumps(self.value)); value[key] = None
+            with self.assertRaisesRegex(p.Replacement14Error, "immutable source06"):
+                p.validate_source_design(self.root, self.bind(value))
+
+    def test_exact_successor_and_predecessor_hashes_required(self):
+        core = self.bind(); core["source_design"]["sha256"] = "f" * 64
+        with self.assertRaises(p.Replacement14Error): p.validate_source_design(self.root, core)
+        predecessor = self.root / p.SOURCE_DESIGN_06["path"]
+        predecessor.write_bytes(predecessor.read_bytes() + b" ")
+        with self.assertRaises(p.Replacement14Error): p.validate_source_design(self.root, self.bind())
+
+    def test_legacy14_design07_binding_is_not_promoted(self):
+        legacy = p.SOURCE_DESIGN_08_PATH.replace("-08.json", "-07.json")
+        raw = (self.repo / legacy).read_bytes()
+        core = {**self.core, "source_design": {"path": legacy, "sha256": p.sha256(raw)},
+                "contract": {"path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-14-contract.json",
+                             "sha256": "f" * 64}}
+        with self.assertRaisesRegex(p.Replacement14Error, "successor08"):
+            p.validate_source_design(self.root, core)
+
+
 if __name__ == "__main__":
     unittest.main()
