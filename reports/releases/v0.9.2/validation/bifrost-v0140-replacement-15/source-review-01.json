@@ -1,0 +1,147 @@
+{
+  "schema": "v092-bifrost-v0140-independent-source-review/v1",
+  "review_type": "independent-bifrost-v0140-source-review",
+  "reviewer": "joern_repair_independent",
+  "reviewed_at_utc": "2026-10-24T19:20:58Z",
+  "status": "approved-for-source-commit-only",
+  "source_commit_authorized": true,
+  "execution_authorized": false,
+  "qualification_authorized": false,
+  "automatic_retry": false,
+  "scope": {
+    "boundary": "Independent read-only review of the stable BF15 bridge10, stage-runtime02, runtime-loaders15, and supervisor15 source path, its embedded 88-member graph topology, the actual import-only smoke, and the supplied focused-test receipts. No source edit, source transaction, build, replay, admission, materialization, analyzer, qualification, or launch was performed by this reviewer.",
+    "source_commit_boundary": "This approval permits the reviewed source-commit preparation boundary only. It does not certify a core, manifest, contract, runtime qualification, analyzer result, release, or launch.",
+    "configuration": "The configuration controller remains an explicit later hardhold and is outside this source-only approval.",
+    "preserve": "BF14 evidence, prior source and contract identities, ledger state, and concurrent work remain unchanged and outside this review's ownership."
+  },
+  "reviewed_sources": [
+    {
+      "role": "bridge10",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-10.py",
+      "sha256": "996d213f39e83fbb473e38033d0a67aea7bc543522eac4defcce974607da4cd2"
+    },
+    {
+      "role": "stage_runtime02",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-02.py",
+      "sha256": "f8f028617fa929d21d43c0f2750151cbb6aab761b09e55fea6f96fff04baf125"
+    },
+    {
+      "role": "runtime_loaders15",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-15.py",
+      "sha256": "32276e5f69f0ea6dc5310cf43d4f0b4fbdadbda672eca1f9cee0036d08d417eb"
+    },
+    {
+      "role": "supervisor15",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-15.py",
+      "sha256": "5f4c74f11e10583d3c6aca07d922a703f7f02dca5bbc52fe4fbd7b857fe0f053"
+    }
+  ],
+  "reviewed_tests": [
+    {
+      "role": "frozen_parser10",
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-10.py",
+      "sha256": "ed397b58ca51df6a27db3f8df4591faa145e2a446ba7857a76644876cb542010"
+    },
+    {
+      "role": "stage_runtime02",
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-stage-runtime-02.py",
+      "sha256": "d8dd0d6212a8eca4aa3d55cecedc52665197f27f427004b2b421781de31045a7"
+    },
+    {
+      "role": "runtime_loaders15",
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-runtime-loaders-15.py",
+      "sha256": "82b5351d33786bcffdd53c4ae67d09393ffe76b78fde5f4dc712072c80a5b1a4"
+    },
+    {
+      "role": "supervisor15",
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-supervisor-15.py",
+      "sha256": "43446344390f728bee2e57b067d52228233d2921d6e5fe567aec0de784b958b8"
+    },
+    {
+      "role": "supervisor15_production_fixture",
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-supervisor-15-production.py",
+      "sha256": "0ffc13ed58afbf1e7d13a33054143c11ed3049643ee55226defe2a540cdfbc2f"
+    }
+  ],
+  "evidence": [
+    {
+      "role": "designer_source_tests",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/designer-source-tests-01.json",
+      "sha256": "01d40ffce8497809d3e82acbca0e915be001d02f79d2d38dd0299c4c53f2d74f",
+      "result": "68 source/import-only tests passed; no replay, admission, materialization, analyzer, build, launch, commit, or release operation"
+    },
+    {
+      "role": "actual_import_smoke",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/actual15-import-smoke-01.json",
+      "sha256": "c008c5f796a133d23990bb6a18ba098a73e68288ed3be8e0856129793e837dbf",
+      "result": "import-only-passed"
+    },
+    {
+      "role": "root_python313_import_smoke",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/root-python313-import-smoke-01.json",
+      "sha256": "dea6c74e62eb1ede48ea308f26614fa746f8f5b2441a72f07dd8b279c30f70a3",
+      "result": "production-interpreter import-only-passed; same 88-member/43-route/six-late/identity/leak result"
+    },
+    {
+      "role": "root_focused_tests",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/root-tests-01.json",
+      "sha256": "7f46c1c3a8b5a87124582d422bd8e099c357b13ae182335af0c651a5dd500337",
+      "result": "27 focused source/control tests passed; no analyzer or replay started and no Git mutation"
+    },
+    {
+      "role": "import_smoke_stdout",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/actual15-import-smoke-01.stdout.txt",
+      "sha256": "4bf8182b9129349135b4813491788653881cde1a0ec7ee4956f006a2960ca9ef"
+    }
+  ],
+  "verified_invariants": [
+    {
+      "id": "GRAPH-TOPOLOGY-01",
+      "result": "passed",
+      "detail": "The embedded reviewed topology contains 88 graph members, 22 bare-import routes, 43 dynamic routes, ordinary edges, eager initialization/SCC ordering, and the union graph. bridge10 adapts role identities only through exact current path/SHA refs and rejects a structurally different graph spec."
+    },
+    {
+      "id": "GRAPH-IDENTITY-02",
+      "result": "passed",
+      "detail": "The import smoke observed 88 eager object identities, five eager identity edges, six executor identity checks, and six late executor loader bindings across five late routes. Foreign local selector and wrong dynamic path near misses were rejected."
+    },
+    {
+      "id": "GRAPH-SCOPE-03",
+      "result": "passed",
+      "detail": "GraphImportContext owns a module-local sys.modules facade and load_graph requires the complete graph for production. The legacy-smoke switch is rejected by the real graph context and load_graph permits it only for an explicit temporary fixture. The smoke receipt reports zero non-stdlib process-global module leaks and an idempotent seal."
+    },
+    {
+      "id": "NESTED-ROUTES-04",
+      "result": "passed",
+      "detail": "stage-runtime02 uses explicit name-to-role/path/SHA routes for pinned importlib, provider scopes, full copied-validator scopes, late checker/resource imports, and restoration. runtime-loaders15 requires the graph-owned runtime-loaders15 member, exact executor identity, canonical source bytes, and explicit six-name role selection; unknown, ambiguous, changed, or foreign loader inputs fail closed."
+    },
+    {
+      "id": "STAGE-CONTINUATION-05",
+      "result": "passed",
+      "detail": "The reviewed successor path retains opaque in-process graph/runtime objects, checks predecessor graph identity, exact one-row ledger extension, immutable sidecars, and predecessor/successor identity at completion. Supervisor15 scopes the actual six late loaders around the continuation safety check and disables automatic retry."
+    },
+    {
+      "id": "CONFIG-HOLD-06",
+      "result": "passed-with-deferred-gate",
+      "detail": "Supervisor15 keeps configuration behind the explicit later experiment marker and full-matrix controller. The current source review does not enable or infer that deferred gate."
+    }
+  ],
+  "findings": [],
+  "review_method": {
+    "hash_verification": "Current source, test, smoke, and focused-receipt SHA-256 values were checked read-only against the supplied bindings.",
+    "static_inspection": "Reviewed graph loading, route adaptation, process-global restoration, nested loader routing, opaque stage identity, successor ledger/sidecar binding, supervisor continuation wiring, retry policy, and configuration hardhold.",
+    "reviewer_tests_invoked": false,
+    "owner_tests_verified_by_receipt": true,
+    "production_operations_performed": false
+  },
+  "limitations": [
+    "The actual15 smoke is import-only. Its dynamic-route caller frames and late-loader probes establish source-backed routing, exact identity, and restoration; they do not constitute frozen analyzer execution, replay, benchmark, or qualification evidence.",
+    "This artifact does not approve the later core/manifest/contract/source-closure binding, actual stage qualification, configuration, admission, analyzer execution, or launch. Those require their own exact current receipts and independent reviews.",
+    "The focused receipts are owner-provided evidence; this reviewer did not rerun their suites to avoid overlapping active work."
+  ],
+  "required_followups": [
+    "Bind the eventual BF15 source transaction, source closure, plan, contract, core, and manifest to these exact source identities without rewriting prior evidence.",
+    "Obtain a fresh independent review of the actual stage qualification and any later control/launch packet.",
+    "Keep configuration disabled until its separate full-matrix gate and authorization are satisfied."
+  ]
+}
