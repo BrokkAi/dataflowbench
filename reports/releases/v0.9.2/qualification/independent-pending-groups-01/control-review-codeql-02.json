@@ -1,0 +1,239 @@
+{
+  "admission": {
+    "attempt_id": "codeql-swift-common108-attempt-01-series-01",
+    "automatic_retry": false,
+    "base_plan_commit": "8ac35a2b8feb77dececa8f5a7de695524210bdd1",
+    "cutoff_utc": null,
+    "group_id": "codeql-swift-common108",
+    "historical_completed_groups": 82,
+    "manifest": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/codeql-continuation-manifest-02.json",
+      "sha256": "8dd7358852f704f83c4f2d6a7d5236e141865732dac124f77ca2ffd060ffc147"
+    },
+    "markers": {
+      "DATAFLOWBENCH_V092_GROUP_ID": "codeql-swift-common108",
+      "DATAFLOWBENCH_V092_RELEASE_EXECUTION": "1",
+      "__CF_USER_TEXT_ENCODING": "0x1F5:0x0:0x0"
+    },
+    "materialized_preflight": {
+      "aggregate_working_cap_bytes": 32212254720,
+      "free_bytes": 346074509312,
+      "guard_checked": true,
+      "historical_working_baseline_bytes": 12794003092,
+      "launch_guard_checked": false,
+      "projected_source_bytes": 220887173,
+      "remaining_group_count": 2,
+      "resource_floor_bytes": 136365211648,
+      "retention_total_projected_bytes": 3906130551,
+      "scratch_total_projected_bytes": 68724599,
+      "source_projection_max_bytes": 12884901888,
+      "working_total_projected_bytes": 13237874590
+    },
+    "module_sha256": "4386883c13cc9d11aaf7457f01b14878f66546d31f4390895d7e0e2499ed66a1",
+    "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/execution-admission-codeql-02.json",
+    "phase_remaining_reserved_seconds": 28032,
+    "retained_replay": {
+      "failed_attempts": 6,
+      "known_stale": 0,
+      "ledger_rows": 88,
+      "partitions": 82,
+      "rows": 4036,
+      "selected_groups": 82,
+      "status": "continuation-preflight-passed"
+    },
+    "runtime_registration": {
+      "elapsed_wall_seconds": 384661.4555029869,
+      "historical_context_count": 6,
+      "prospective_contract_sha256": "cd80a6915ca1e00b5053f342a5fd132d5b542f1220defd1615ef98f294a5b479",
+      "read_only": true,
+      "schema": "v092-codeql-runtime-context-registration/v1"
+    },
+    "schema": "v092-codeql-independent-admission/v1",
+    "sha256": "ffd60b51396d8008a1faa9def25f85eeadcb7e03633a86f4bda395534aaab771",
+    "status": "ready-to-execute",
+    "supervisor_sha256": "b1766ee28c865c9e1b0d65c6962d10c6ebe5df1b0efad62014b3562895d194f5",
+    "total_wall_budget_seconds": null
+  },
+  "approval_boundary": {
+    "approved_for": [
+      "the exact one-shot CodeQL supervisor control path bound to this final manifest, actual admission receipt, module, admission helper, supervisor, source/plan/contract and sealed ledger prefix"
+    ],
+    "execution_authorized_by_this_review": false,
+    "launch_performed_by_this_review": false,
+    "parent_launch_decision_required": true,
+    "required_before_parent_launch": [
+      "recheck the nine exact supervisor.validate bindings and current source/manifest/receipt bytes immediately before launch",
+      "recheck exclusive lock, contenders, 127 GiB floor, phase reserve, and unconsumed supervision/output/attempt namespaces",
+      "preserve automatic_retry=false, one CodeQL tail, first-nonzero stop, exact permit PID/birth/token/argv binding, and the frozen source/contract/ledger identities",
+      "treat any mutation of the source, manifest, final review, admission receipt, control review, or runtime namespaces as invalidating this review"
+    ]
+  },
+  "automatic_retry": false,
+  "bindings": {
+    "admission_helper_sha256": "23abe189e5258ba4e53beeeb128e72028877572a7e7c6892629ce0824da7d0eb",
+    "admission_sha256": "ffd60b51396d8008a1faa9def25f85eeadcb7e03633a86f4bda395534aaab771",
+    "contract_sha256": "cd80a6915ca1e00b5053f342a5fd132d5b542f1220defd1615ef98f294a5b479",
+    "ledger_prefix_sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476",
+    "manifest_sha256": "8dd7358852f704f83c4f2d6a7d5236e141865732dac124f77ca2ffd060ffc147",
+    "module_sha256": "4386883c13cc9d11aaf7457f01b14878f66546d31f4390895d7e0e2499ed66a1",
+    "plan_commit": "8193a4d7cdfe803a0658c26045fe0b0c0b7a47de",
+    "source_commit": "1c9791de6cae6bd5de477126e92c138419312bab",
+    "supervisor_sha256": "b1766ee28c865c9e1b0d65c6962d10c6ebe5df1b0efad62014b3562895d194f5"
+  },
+  "bindings_are_exact_and_only": [
+    "manifest_sha256",
+    "admission_helper_sha256",
+    "admission_sha256",
+    "module_sha256",
+    "supervisor_sha256",
+    "source_commit",
+    "plan_commit",
+    "contract_sha256",
+    "ledger_prefix_sha256"
+  ],
+  "control_checks": {
+    "actual_admission_receipt_verified": true,
+    "actual_final_manifest_verified": true,
+    "admission_helper_hash_matches_receipt_path": true,
+    "aggregate_working_projection_under_30_gib": true,
+    "attempt_and_analyzer_namespaces_unconsumed": true,
+    "automatic_retry_false_through_admission_and_control": true,
+    "canonical_ledger_unchanged_88_rows": true,
+    "contract_and_ledger_prefix_match_manifest": true,
+    "final_review_hash_matches_manifest": true,
+    "live_free_resource_floor_over_127_gib": true,
+    "manifest_module_supervisor_hashes_match_receipt": true,
+    "materialized_launch_guard_deferred_to_supervisor": true,
+    "materialized_preflight_guard_verified": true,
+    "materialized_projection_under_12_gib": true,
+    "release_group_and_cf_markers_verified": true,
+    "retained_replay_88_82_82_4036_verified": true,
+    "retained_replay_known_stale_zero": true,
+    "retention_and_scratch_projections_under_limits": true,
+    "runtime_elapsed_wall_finite_and_preserved": true,
+    "six_historical_failure_records_verified": true,
+    "six_historical_runtime_contexts_registered": true,
+    "source_and_plan_commits_match_manifest_and_packet": true,
+    "supervisor_permit_and_first_nonzero_gates_bound_by_source": true
+  },
+  "execution_authorized_by_this_review": false,
+  "manifest": {
+    "continuation_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/codeql-independent-pending-02-contract.json",
+      "sha256": "cd80a6915ca1e00b5053f342a5fd132d5b542f1220defd1615ef98f294a5b479"
+    },
+    "execution_admission": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/execution-admission-codeql-02.json"
+    },
+    "final_review": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/final-codeql-independent-review-02.json",
+      "sha256": "37fce478fd86a0f3f47bba430eadb16ed10916889d40fbf221725f1f2232c290"
+    },
+    "joern": {
+      "historical_only": true,
+      "scheduled": false
+    },
+    "ledger_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/sealed-ledger-prefix-88.jsonl",
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476"
+    },
+    "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/codeql-continuation-manifest-02.json",
+    "plan_commit": "8193a4d7cdfe803a0658c26045fe0b0c0b7a47de",
+    "sha256": "8dd7358852f704f83c4f2d6a7d5236e141865732dac124f77ca2ffd060ffc147",
+    "source_commit": "1c9791de6cae6bd5de477126e92c138419312bab",
+    "terminal_outcome": {
+      "mode": "pending"
+    }
+  },
+  "nonclaims": [
+    "This review did not launch the supervisor, CodeQL analyzer, release runner, build, or qualification.",
+    "The admission receipt is pre-dispatch evidence: materialized_launch_guard_checked is false and the supervisor must repeat its live lock/resource/freshness and permit checks.",
+    "This approval does not claim CodeQL success, failure, fresh qualification, or a completed 89-row terminal ledger.",
+    "Automatic retries remain prohibited; any first nonzero result stops the control path.",
+    "Any source, manifest, final review, admission receipt, control review, ledger, or runtime namespace mutation invalidates this review."
+  ],
+  "production_actions_performed": false,
+  "review_type": "independent-final-control-review",
+  "reviewed_at_utc": "2026-10-24T11:50:36.637252Z",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-codeql-independent-control-review/v1",
+  "source_bindings": {
+    "admission_helper": {
+      "path": "reports/releases/v0.9.2/acquisition/admission-independent-pending-codeql-02.py",
+      "sha256": "23abe189e5258ba4e53beeeb128e72028877572a7e7c6892629ce0824da7d0eb"
+    },
+    "admission_receipt": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/execution-admission-codeql-02.json",
+      "sha256": "ffd60b51396d8008a1faa9def25f85eeadcb7e03633a86f4bda395534aaab771"
+    },
+    "breadth_first_authorization": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/authorization-01.json",
+      "sha256": "0f8413d52c348a9d89079c70d8cebdea3179c35a8b84a98d390c53227e6f5478"
+    },
+    "continuation": {
+      "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-02.py",
+      "sha256": "4386883c13cc9d11aaf7457f01b14878f66546d31f4390895d7e0e2499ed66a1"
+    },
+    "contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/codeql-independent-pending-02-contract.json",
+      "sha256": "cd80a6915ca1e00b5053f342a5fd132d5b542f1220defd1615ef98f294a5b479"
+    },
+    "final_manifest": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/codeql-continuation-manifest-02.json",
+      "sha256": "8dd7358852f704f83c4f2d6a7d5236e141865732dac124f77ca2ffd060ffc147"
+    },
+    "final_review": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/final-codeql-independent-review-02.json",
+      "sha256": "37fce478fd86a0f3f47bba430eadb16ed10916889d40fbf221725f1f2232c290"
+    },
+    "no_expiry_authorization": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/no-expiry-authorization-01.json",
+      "sha256": "acb13ecc94ee191cf164cc4cdc6cd804bbe34fbb5dbe4dfb6e33c6a173f80edc"
+    },
+    "parent_focused_tests": {
+      "path": "reports/releases/v0.9.2/validation/independent-codeql-02/parent-focused-tests-02.json",
+      "sha256": "a3fae9da8090612a32fd3cf212fe26f99c7b863fd01bd7449a41e08eccaf7af0"
+    },
+    "sealed_ledger_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/sealed-ledger-prefix-88.jsonl",
+      "rows": 88,
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476"
+    },
+    "source_working_cap_authorization": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/source-working-cap-30gib-authorization-01.json",
+      "sha256": "bcba59ae10ea1cea565641249a0dc3bddfd063c66f298e19ce2ce0b86743cdbe"
+    },
+    "supervisor": {
+      "path": "reports/releases/v0.9.2/acquisition/supervisor-independent-pending-codeql-02.py",
+      "sha256": "b1766ee28c865c9e1b0d65c6962d10c6ebe5df1b0efad62014b3562895d194f5"
+    }
+  },
+  "status": "approved",
+  "validation": {
+    "actual_admission_verified": true,
+    "analyzer_invocations": 0,
+    "build_performed": false,
+    "launch_performed": false,
+    "ledger_mutated_by_this_review": false,
+    "live_ledger": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 88,
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476",
+      "status_counts": {
+        "completed": 82,
+        "failed": 3,
+        "recorder-error": 3
+      }
+    },
+    "parent_focused_tests": {
+      "analyzer_launched": false,
+      "path": "reports/releases/v0.9.2/validation/independent-codeql-02/parent-focused-tests-02.json",
+      "production_admission_run": false,
+      "sha256": "a3fae9da8090612a32fd3cf212fe26f99c7b863fd01bd7449a41e08eccaf7af0",
+      "status": "passed",
+      "tests_passed": 41
+    },
+    "read_only": true,
+    "replay_performed_by_this_review": false
+  }
+}
