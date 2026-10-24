@@ -1,0 +1,75 @@
+{
+  "automatic_retry": false,
+  "boundary": {
+    "analyzer_dispatches": 0,
+    "command_constructions": 0,
+    "completion_claimed": false,
+    "parent_stage_created": false,
+    "partial_frozen_validation_performed": true,
+    "qualification_proof_exists": false,
+    "replacement_attempts_consumed": 0,
+    "stage_receipt_exists": false
+  },
+  "core_identity": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-17/manifest-identity.json",
+    "sha256": "60668f7debfe0c537d3ff7f410f7739e9ea844970cc23dc04b599a30b636239f"
+  },
+  "created_utc": "2026-10-24T22:10:45.495343+00:00",
+  "ended_utc": "2026-10-24T22:08:58.744319+00:00",
+  "exact_owned_births_gone": [
+    {
+      "birth": "Sun Oct 25 00:06:54 2026",
+      "pid": 54824
+    },
+    {
+      "birth": "Sun Oct 25 00:06:54 2026",
+      "pid": 54825
+    }
+  ],
+  "execution_authorized": false,
+  "failure": {
+    "caller": "independent-pending-codeql-03.py::_load_pinned_helper via _load_historical_replay_helper/_historical_replay_contexts/_enrich_successor_historical_contexts",
+    "error": "stage graph route is not explicitly bound",
+    "existing_graph_roles": [
+      "incoming_historical_replay_helper05",
+      "nested_014_codeql_pending_historical_replay_helper"
+    ],
+    "guard": "bifrost-v0140-stage-runtime-04.py::_StageImportFactory._graph_member",
+    "prior_nested_loader_guard_passed": true,
+    "requested_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+    "requested_selector": "codeql_pending_historical_replay_helper",
+    "requested_sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+  },
+  "invocation_review": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-17/actual-stage-invocation-review-01.json",
+    "sha256": "b3fae8fa69a08033cde7cb2986e3681d5a8ad177b920f3918d52f0e33080296b"
+  },
+  "ledger": {
+    "completed": 83,
+    "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "rows": 89,
+    "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+  },
+  "manifest": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-17/manifest.json",
+    "sha256": "5034fad6d291b23eeb65be69d5f71a95f0132757737a0f9e441bb4051fb7715c"
+  },
+  "next": "Complete evidence-backed actual late-route selector audit/design and independent implementation-only review; append-only successor only. Never reuse17 qualification or launch17. No blind retry, source/pin/clock/resource or attempt relabeling.",
+  "observed_exit_code": 1,
+  "plan_commit": "278f07d486e17dfb19140d563e83f02038e43550",
+  "schema": "v092-bifrost-v0140-actual-stage-stop-diagnosis/v1",
+  "source_commit": "fa9eaf236cf524788e802f5807aad0766ef0fd65",
+  "status": "failed-before-parent-stage-and-analyzer",
+  "stderr": {
+    "path": "execution-state/v092/monitor-checks/bf17-actual-stage-01/stderr.txt",
+    "sha256": "07c708b45e650ede0e1e1c9bc969ad99fe788f255f2e00e482b372e9986a46d5"
+  },
+  "stdout": {
+    "path": "execution-state/v092/monitor-checks/bf17-actual-stage-01/stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "terminal": {
+    "path": "execution-state/v092/monitor-checks/bf17-actual-stage-01/exit.json",
+    "sha256": "86b9fa96a5269e22f1d7bf37c0a18a3f3e142a03142ccff9ce5bbdf41fdaf217"
+  }
+}

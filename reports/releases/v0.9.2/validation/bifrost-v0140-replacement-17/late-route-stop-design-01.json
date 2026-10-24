@@ -1,0 +1,2678 @@
+{
+  "audit": {
+    "additional_callsite_not_in_43_routes": {
+      "caller": "scripts/joern_normal_controls_v1.py:config_for",
+      "line": 27,
+      "minimum_graph_extension": "No new source needed; exact existing local_010 graph instance exists.",
+      "reachability": "Only non-OPAQUE benchmark-controlled configuration branch, not observed before current stop. Present in complete source inventory but omitted from current dynamic route table; must be explicitly covered or bounded as unreachable on read-only parent/terminal path with exact regression, never silently treated covered.",
+      "selector": "joern_historical_configuration",
+      "target": {
+        "path": "scripts/run-joern-swift-case.py",
+        "sha256": "1a033f1c563003e91fe43fb4c4612d67539c9aad420e351d7a45782da7353516"
+      }
+    },
+    "all_call_sites": [
+      {
+        "call": "importlib.util.spec_from_file_location(f'v092_replacement10_{name}', path)",
+        "function": "_load_module",
+        "line": 231,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-17.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_module",
+        "line": 233,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-17.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_module",
+        "line": 234,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-17.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('v092_replacement10_frozen_bridge', path)",
+        "function": "_load_bridge",
+        "line": 258,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-17.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_bridge",
+        "line": 260,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-17.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_bridge",
+        "line": 261,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-17.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location(f'v092_frozen_bridge_02_{name}', root / ref['path'])",
+        "function": "_load_module",
+        "line": 167,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_module",
+        "line": 169,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_module",
+        "line": 170,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('bridge06_incoming_policy', policy_path)",
+        "function": "_incoming_recovery",
+        "line": 462,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_incoming_recovery",
+        "line": 464,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py"
+      },
+      {
+        "call": "spec.loader.exec_module(policy)",
+        "function": "_incoming_recovery",
+        "line": 464,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('bridge03_window_policy', policy_path)",
+        "function": "load_and_validate",
+        "line": 1161,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(policy_spec)",
+        "function": "load_and_validate",
+        "line": 1163,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py"
+      },
+      {
+        "call": "policy_spec.loader.exec_module(policy)",
+        "function": "load_and_validate",
+        "line": 1164,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('v092_bifrost15_legacy_bridge08', path)",
+        "function": "_legacy_bridge",
+        "line": 1356,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-12.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_legacy_bridge",
+        "line": 1358,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-12.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_legacy_bridge",
+        "line": 1360,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-12.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('replacement05_' + name, root / ref['path'])",
+        "function": "_load_frozen",
+        "line": 216,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_frozen",
+        "line": 218,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_frozen",
+        "line": 219,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('replacement05_continuation', root / module_ref['path'])",
+        "function": "_load_continuation",
+        "line": 822,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_continuation",
+        "line": 824,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_continuation",
+        "line": 825,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('replacement05_continuation', root / module_ref['path'])",
+        "function": "_load_continuation",
+        "line": 837,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_continuation",
+        "line": 839,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py"
+      },
+      {
+        "call": "spec.loader.exec_module(continuation_module)",
+        "function": "_load_continuation",
+        "line": 840,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py"
+      },
+      {
+        "call": "util.spec_from_file_location(name, root / LOADERS[name])",
+        "function": "scoped_runtime_loaders",
+        "line": 149,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-17.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location(f'v092_frozen_bridge_02_{name}', root / ref['path'])",
+        "function": "_load_module",
+        "line": 177,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_module",
+        "line": 179,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_module",
+        "line": 180,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('bridge06_incoming_policy', policy_path)",
+        "function": "_incoming_recovery",
+        "line": 472,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_incoming_recovery",
+        "line": 474,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py"
+      },
+      {
+        "call": "spec.loader.exec_module(policy)",
+        "function": "_incoming_recovery",
+        "line": 474,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('bridge03_window_policy', policy_path)",
+        "function": "load_and_validate",
+        "line": 1171,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(policy_spec)",
+        "function": "load_and_validate",
+        "line": 1173,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py"
+      },
+      {
+        "call": "policy_spec.loader.exec_module(policy)",
+        "function": "load_and_validate",
+        "line": 1174,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location(f'v092_replacement17_supervisor_{name}', path)",
+        "function": "_load_module",
+        "line": 174,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-17.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_module",
+        "line": 176,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-17.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_module",
+        "line": 178,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-17.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('codeql_terminal_history_03', path)",
+        "function": "load_predecessor",
+        "line": 224,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "load_predecessor",
+        "line": 227,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "load_predecessor",
+        "line": 228,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py"
+      },
+      {
+        "call": "self._loader.exec_module(module)",
+        "function": "exec_module",
+        "line": 175,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location(name, path)",
+        "function": "_load_module",
+        "line": 245,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_module",
+        "line": 247,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_module",
+        "line": 248,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location(f\"codeql_pending_{name.replace('-', '_').replace(' ', '_')}\", path)",
+        "function": "_load_pinned_helper",
+        "line": 986,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_pinned_helper",
+        "line": 990,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_pinned_helper",
+        "line": 991,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py"
+      },
+      {
+        "call": "self._loader.exec_module(module)",
+        "function": "exec_module",
+        "line": 522,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location(f'joern_continuation_frozen_{name}', path)",
+        "function": "_load_frozen",
+        "line": 234,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_frozen",
+        "line": 238,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_frozen",
+        "line": 239,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('joern_capability_repair_continuation_shim', root / Path(*_relative(relative).parts))",
+        "function": "_invoke_repair_shim",
+        "line": 1102,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_invoke_repair_shim",
+        "line": 1104,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py"
+      },
+      {
+        "call": "spec.loader.exec_module(shim)",
+        "function": "_invoke_repair_shim",
+        "line": 1105,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location(f'joern_continuation_frozen_{name}', path)",
+        "function": "_load_frozen",
+        "line": 360,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_frozen",
+        "line": 364,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_frozen",
+        "line": 365,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('joern_continuation_repair_shim', shim_path)",
+        "function": "_recompute_repaired_projection",
+        "line": 799,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_recompute_repaired_projection",
+        "line": 802,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "spec.loader.exec_module(shim)",
+        "function": "_recompute_repaired_projection",
+        "line": 803,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('joern_capability_continuation_01_historical', path)",
+        "function": "_load_previous_continuation",
+        "line": 1682,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_previous_continuation",
+        "line": 1687,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_previous_continuation",
+        "line": 1688,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('joern_capability_repair_continuation_shim', root / Path(*_relative(relative).parts))",
+        "function": "_invoke_repair_shim",
+        "line": 1782,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_invoke_repair_shim",
+        "line": 1784,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "spec.loader.exec_module(shim)",
+        "function": "_invoke_repair_shim",
+        "line": 1785,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('joern_continuation_disk_guard', guard_path)",
+        "function": "_preflight_source_working_capacity",
+        "line": 2072,
+        "operation": "spec_from_file_location",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_preflight_source_working_capacity",
+        "line": 2075,
+        "operation": "module_from_spec",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "spec.loader.exec_module(guard_module)",
+        "function": "_preflight_source_working_capacity",
+        "line": 2076,
+        "operation": "exec_module",
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('execute_release_v092_for_checker', path)",
+        "function": "_load_executor",
+        "line": 148,
+        "operation": "spec_from_file_location",
+        "path": "scripts/check-release-v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_executor",
+        "line": 151,
+        "operation": "module_from_spec",
+        "path": "scripts/check-release-v092.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_executor",
+        "line": 152,
+        "operation": "exec_module",
+        "path": "scripts/check-release-v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('v092_resource_recovery_for_checker', path)",
+        "function": "_load_resource_recovery_module",
+        "line": 158,
+        "operation": "spec_from_file_location",
+        "path": "scripts/check-release-v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_resource_recovery_module",
+        "line": 161,
+        "operation": "module_from_spec",
+        "path": "scripts/check-release-v092.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_resource_recovery_module",
+        "line": 162,
+        "operation": "exec_module",
+        "path": "scripts/check-release-v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('v092_scoped_recovery_for_checker', path)",
+        "function": "_load_scoped_recovery_module",
+        "line": 168,
+        "operation": "spec_from_file_location",
+        "path": "scripts/check-release-v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_scoped_recovery_module",
+        "line": 171,
+        "operation": "module_from_spec",
+        "path": "scripts/check-release-v092.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_scoped_recovery_module",
+        "line": 172,
+        "operation": "exec_module",
+        "path": "scripts/check-release-v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('v092_scoped_recovery_packet', module_path)",
+        "function": "_scoped_recovery_module",
+        "line": 158,
+        "operation": "spec_from_file_location",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_scoped_recovery_module",
+        "line": 161,
+        "operation": "module_from_spec",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_scoped_recovery_module",
+        "line": 162,
+        "operation": "exec_module",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('check_release_v092_scoped_replay', checker_path)",
+        "function": "_validate_scoped_recovery",
+        "line": 2073,
+        "operation": "spec_from_file_location",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(checker_spec)",
+        "function": "_validate_scoped_recovery",
+        "line": 2076,
+        "operation": "module_from_spec",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "checker_spec.loader.exec_module(checker)",
+        "function": "_validate_scoped_recovery",
+        "line": 2077,
+        "operation": "exec_module",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('v092_resource_recovery', module_path)",
+        "function": "_validate_resource_recovery",
+        "line": 2196,
+        "operation": "spec_from_file_location",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_validate_resource_recovery",
+        "line": 2197,
+        "operation": "module_from_spec",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_validate_resource_recovery",
+        "line": 2198,
+        "operation": "exec_module",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('check_release_v092_resource_replay', Path(__file__).with_name('check-release-v092.py'))",
+        "function": "_validate_resource_recovery",
+        "line": 2224,
+        "operation": "spec_from_file_location",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(checker_spec)",
+        "function": "_validate_resource_recovery",
+        "line": 2225,
+        "operation": "module_from_spec",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "checker_spec.loader.exec_module(checker)",
+        "function": "_validate_resource_recovery",
+        "line": 2226,
+        "operation": "exec_module",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('v092_process_tracker', path)",
+        "function": "_process_tracker",
+        "line": 2960,
+        "operation": "spec_from_file_location",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_process_tracker",
+        "line": 2963,
+        "operation": "module_from_spec",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_process_tracker",
+        "line": 2964,
+        "operation": "exec_module",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('v092_disk_guard_runtime', Path(__file__).with_name('v092_disk_guard.py'))",
+        "function": "_copy_file",
+        "line": 2743,
+        "operation": "spec_from_file_location",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_copy_file",
+        "line": 2748,
+        "operation": "module_from_spec",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "spec.loader.exec_module(disk_guard_module)",
+        "function": "_copy_file",
+        "line": 2749,
+        "operation": "exec_module",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('v092_disk_guard_runtime', Path(__file__).with_name('v092_disk_guard.py'))",
+        "function": "run_group",
+        "line": 3621,
+        "operation": "spec_from_file_location",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "run_group",
+        "line": 3626,
+        "operation": "module_from_spec",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "spec.loader.exec_module(disk_guard_module)",
+        "function": "run_group",
+        "line": 3627,
+        "operation": "exec_module",
+        "path": "scripts/execute-release-v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('joern_normal_runner_v092_repair_pinned', path)",
+        "function": "_load_runner",
+        "line": 115,
+        "operation": "spec_from_file_location",
+        "path": "scripts/joern_capability_repair_v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_runner",
+        "line": 117,
+        "operation": "module_from_spec",
+        "path": "scripts/joern_capability_repair_v092.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_runner",
+        "line": 118,
+        "operation": "exec_module",
+        "path": "scripts/joern_capability_repair_v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location(PROJECTION_MODULE, path)",
+        "function": "_load_projection_module",
+        "line": 132,
+        "operation": "spec_from_file_location",
+        "path": "scripts/joern_capability_repair_v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_projection_module",
+        "line": 134,
+        "operation": "module_from_spec",
+        "path": "scripts/joern_capability_repair_v092.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_projection_module",
+        "line": 136,
+        "operation": "exec_module",
+        "path": "scripts/joern_capability_repair_v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('joern_normal_reports_v092_repair_pinned', reports_path)",
+        "function": "execute",
+        "line": 554,
+        "operation": "spec_from_file_location",
+        "path": "scripts/joern_capability_repair_v092.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "execute",
+        "line": 556,
+        "operation": "module_from_spec",
+        "path": "scripts/joern_capability_repair_v092.py"
+      },
+      {
+        "call": "spec.loader.exec_module(reports)",
+        "function": "execute",
+        "line": 557,
+        "operation": "exec_module",
+        "path": "scripts/joern_capability_repair_v092.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location('joern_historical_configuration', root / 'scripts/run-joern-swift-case.py')",
+        "function": "config_for",
+        "line": 27,
+        "operation": "spec_from_file_location",
+        "path": "scripts/joern_normal_controls_v1.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "config_for",
+        "line": 28,
+        "operation": "module_from_spec",
+        "path": "scripts/joern_normal_controls_v1.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "config_for",
+        "line": 28,
+        "operation": "exec_module",
+        "path": "scripts/joern_normal_controls_v1.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location(name, path)",
+        "function": "_load_private_module",
+        "line": 250,
+        "operation": "spec_from_file_location",
+        "path": "scripts/swift_common_population_v2.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_private_module",
+        "line": 252,
+        "operation": "module_from_spec",
+        "path": "scripts/swift_common_population_v2.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_private_module",
+        "line": 258,
+        "operation": "exec_module",
+        "path": "scripts/swift_common_population_v2.py"
+      },
+      {
+        "call": "importlib.util.spec_from_file_location(name, path)",
+        "function": "_load_module",
+        "line": 50,
+        "operation": "spec_from_file_location",
+        "path": "scripts/validate-v092-report-configurations.py"
+      },
+      {
+        "call": "importlib.util.module_from_spec(spec)",
+        "function": "_load_module",
+        "line": 53,
+        "operation": "module_from_spec",
+        "path": "scripts/validate-v092-report-configurations.py"
+      },
+      {
+        "call": "spec.loader.exec_module(module)",
+        "function": "_load_module",
+        "line": 54,
+        "operation": "exec_module",
+        "path": "scripts/validate-v092-report-configurations.py"
+      }
+    ],
+    "bare_import_route_table": [
+      {
+        "bare_name": "codeql_swift_qualification_v092",
+        "target_path": "scripts/codeql_swift_qualification_v092.py",
+        "target_role": "local_004_codeql_swift_qualification_v092",
+        "target_sha256": "adaf4ba27f45870ac500f30a7a89f63019efc9429d1377891aea5834bc1b781c"
+      },
+      {
+        "bare_name": "joern_diagnostic_admission_v092",
+        "target_path": "scripts/joern_diagnostic_admission_v092.py",
+        "target_role": "local_005_joern_diagnostic_admission_v092",
+        "target_sha256": "c2faeeb5ef99f539ad8a4bee6fbc85656c0cc142f92196c02f5f26a446140a9e"
+      },
+      {
+        "bare_name": "joern_execution_revalidation_v1",
+        "target_path": "scripts/joern_execution_revalidation_v1.py",
+        "target_role": "local_006_joern_execution_revalidation_v1",
+        "target_sha256": "8b08b9022ac8eac0fd822d53980d0fcc49e352e8736bce9f2e42b0a488612126"
+      },
+      {
+        "bare_name": "joern_normal_controls_v1",
+        "target_path": "scripts/joern_normal_controls_v1.py",
+        "target_role": "local_007_joern_normal_controls_v1",
+        "target_sha256": "78123e5f9247aca543f0c841f6adf0040859f1e8d1006d9fb45116535aa4ff21"
+      },
+      {
+        "bare_name": "joern_normal_execution_v1",
+        "target_path": "scripts/joern_normal_execution_v1.py",
+        "target_role": "local_008_joern_normal_execution_v1",
+        "target_sha256": "01caead3c7e86880b9893128a0a65d7175f857b580d161ecbf586514e295577d"
+      },
+      {
+        "bare_name": "joern_normal_reports_v1",
+        "target_path": "scripts/joern_normal_reports_v1.py",
+        "target_role": "nested_043_dfb_common_v2_joern_reports__root_token",
+        "target_sha256": "a3fba23a07317be139a587186f529f3cccc4766a56b0c3d839886e7ce41f0b47"
+      },
+      {
+        "bare_name": "joern_normal_runner_v092",
+        "target_path": "scripts/joern_normal_runner_v092.py",
+        "target_role": "nested_037_joern_normal_runner_v092_repair_pinned",
+        "target_sha256": "683a1bb22a2ec943d357cd4b86982dd7ee62c22a47c28ee3c32e91d114f977f4"
+      },
+      {
+        "bare_name": "joern_normal_runner_v1",
+        "target_path": "scripts/joern_normal_runner_v1.py",
+        "target_role": "nested_042_dfb_common_v2_joern_runner__root_token",
+        "target_sha256": "4103ef8d9d2dc671408389dad57ee934ae01333a2cf5eecc8330ab9feb3be330"
+      },
+      {
+        "bare_name": "joern_swift",
+        "target_path": "scripts/joern_swift.py",
+        "target_role": "local_009_joern_swift",
+        "target_sha256": "c0c2322939ee61e39b85a80391192a27cd6323dcb6b234609985dee4fdc85822"
+      },
+      {
+        "bare_name": "swift_artifact_closure",
+        "target_path": "scripts/swift_artifact_closure.py",
+        "target_role": "local_011_swift_artifact_closure",
+        "target_sha256": "fe00daf7b75263e7add65675560f8731988333f75af3944e373599a85d7215c3"
+      },
+      {
+        "bare_name": "swift_common_population_v2",
+        "target_path": "scripts/swift_common_population_v2.py",
+        "target_role": "local_012_swift_common_population_v2",
+        "target_sha256": "3dee12724faf7a3937a3741a086a9858518ed27271644bbb788b458caef6b6c6"
+      },
+      {
+        "bare_name": "swift_entry_observation",
+        "target_path": "scripts/swift_entry_observation.py",
+        "target_role": "local_013_swift_entry_observation",
+        "target_sha256": "930b80478e989974a89c4f82ad01cae3c5e3bcdd7df16c4eb7ecdf0363cb6596"
+      },
+      {
+        "bare_name": "swift_extraction_integrity",
+        "target_path": "scripts/swift_extraction_integrity.py",
+        "target_role": "local_014_swift_extraction_integrity",
+        "target_sha256": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156"
+      },
+      {
+        "bare_name": "swift_normal_reports_v092",
+        "target_path": "scripts/swift_normal_reports_v092.py",
+        "target_role": "local_015_swift_normal_reports_v092",
+        "target_sha256": "fb682d4b48d5c1a2ee32eb2d3d271bc624c28466e98e55318f9582efe8123b8a"
+      },
+      {
+        "bare_name": "swift_normal_reports_v1",
+        "target_path": "scripts/swift_normal_reports_v1.py",
+        "target_role": "nested_041_dfb_common_v2_codeql_reports__root_token",
+        "target_sha256": "4a9ee1c8708ab368452492b87f01d721bb31aa31bd6f526ddb18890f82d01ff3"
+      },
+      {
+        "bare_name": "swift_normal_runner_v092",
+        "target_path": "scripts/swift_normal_runner_v092.py",
+        "target_role": "local_016_swift_normal_runner_v092",
+        "target_sha256": "f70fb98ee9b9073a1a31064c413a9278ad3ac3c8c8e95826190d58ce7fac1bfc"
+      },
+      {
+        "bare_name": "swift_normal_runner_v1",
+        "target_path": "scripts/swift_normal_runner_v1.py",
+        "target_role": "nested_040_dfb_common_v2_codeql_runner__root_token",
+        "target_sha256": "f046c917c5c809199d37956ba950a4267523a74872ee8291ac4a732b7882cafb"
+      },
+      {
+        "bare_name": "swift_persistence_coverage",
+        "target_path": "scripts/swift_persistence_coverage.py",
+        "target_role": "local_017_swift_persistence_coverage",
+        "target_sha256": "62017833ad9e666a405f2650618173b97ab2d1568fb14b13cce8fed722dc4ec3"
+      },
+      {
+        "bare_name": "swift_v2_process",
+        "target_path": "scripts/swift_v2_process.py",
+        "target_role": "local_018_swift_v2_process",
+        "target_sha256": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd"
+      },
+      {
+        "bare_name": "swift_v3_reports",
+        "target_path": "scripts/swift_v3_reports.py",
+        "target_role": "local_019_swift_v3_reports",
+        "target_sha256": "5d5fd2c2046a9886de261037dca6d529a9841b7f889790e8723404fc5da501af"
+      },
+      {
+        "bare_name": "swift_v3_runner",
+        "target_path": "scripts/swift_v3_runner.py",
+        "target_role": "local_020_swift_v3_runner",
+        "target_sha256": "454944d5ca461e8ae49361055408daaa9037388a151dcd8e5f3d34c8a3c2b954"
+      },
+      {
+        "bare_name": "v092_qualification",
+        "target_path": "scripts/v092_qualification.py",
+        "target_role": "nested_038_v092_qualification",
+        "target_sha256": "f673a5b5133c1101e7379fc365a83a47a7525c3daf15efa34a6eed12858e7cb5"
+      }
+    ],
+    "computed_selector_expansions": {
+      "CodeQL_helpers": [
+        {
+          "label": "historical-replay-helper",
+          "selector": "codeql_pending_historical_replay_helper",
+          "target": {
+            "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+            "sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+          }
+        },
+        {
+          "label": "historical-previous-helper",
+          "selector": "codeql_pending_historical_previous_helper",
+          "target": {
+            "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+            "sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+          }
+        }
+      ],
+      "common_private_engine": "_dfb_common_v2_{codeql|joern}_{runner|reports}_<exact token from private_engine(actual root)>; bind exact computed token and path, not wildcard regex/first matching path.",
+      "host_bootstrap_helpers": "admission17._load_module/_load_bridge and supervisor17._load_module are outside stage factory ownership and receive already pinned stage/graph API in production stage path. _legacy_bridge import is not evidence of actual stage-loader coverage.",
+      "load_frozen": [
+        "replacement05_executor",
+        "replacement05_checker",
+        "replacement05_configuration",
+        "joern_continuation_frozen_execute",
+        "joern_continuation_frozen_checker",
+        "joern_continuation_frozen_configuration"
+      ]
+    },
+    "eager_objects": {
+      "already_materialized_graph_identity": "checker.EXECUTOR/configuration.EXECUTOR and all helper EXECUTOR/CHECKER exports must be rebound/restored to explicitly intended graph objects. Merely retaining source paths or eager closure declarations does not prove identity.",
+      "cache_sensitive_modules": [
+        "scripts/joern_capability_repair_v092.py:_load_projection_module uses sys.modules[PROJECTION_MODULE]",
+        "scripts/swift_common_population_v2.py:_load_private_module registers root-token selectors and private builtins"
+      ],
+      "graph_import_scope": "GraphImportContext admits caller-role/function/selector/path routes at import time. _StageImportFactory has a different selector table at validation time. Import-only 43-route smoke did not establish equivalence."
+    },
+    "graph_import_dynamic_route_rows": 43,
+    "graph_instances": 88,
+    "other_factory_call_sites": 80,
+    "python_factory_call_sites": 120,
+    "route_rows": [
+      {
+        "caller_function": "load_dependencies",
+        "caller_graph_roles": [
+          "local_001_bifrost_v0140_frozen_bridge_08"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py",
+        "caller_sha256": "d964c524cfec26e296a44e4c09ce3a606dcdfaec7c83114a1be3801222e35189",
+        "classification": "unbound-stage-selector-at-recorded-route; cover-exact-body-or-prove-scoped-bypass-before-successor-freeze",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "v092_frozen_bridge_02_replacement05",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-001",
+        "selected_target_role": "nested_001_v092_frozen_bridge_02_replacement05",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "v092_frozen_bridge_02_replacement05",
+        "target_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py",
+        "target_role_candidates": [
+          "nested_001_v092_frozen_bridge_02_replacement05",
+          "replacement05"
+        ],
+        "target_sha256": "32e0f1811972eec57e9cf5f8e892f77bea0da68d063b19db9d324fa0ad30dafd"
+      },
+      {
+        "caller_function": "_load_frozen",
+        "caller_graph_roles": [
+          "nested_001_v092_frozen_bridge_02_replacement05",
+          "replacement05"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py",
+        "caller_sha256": "32e0f1811972eec57e9cf5f8e892f77bea0da68d063b19db9d324fa0ad30dafd",
+        "classification": "named-_load_frozen-scope-bypasses-factory-on-production-stage-path; require-actual-helper-body-regression",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "replacement05_executor",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-002",
+        "selected_target_role": "nested_002_replacement05_executor",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "replacement05_executor",
+        "target_path": "scripts/execute-release-v092.py",
+        "target_role_candidates": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "target_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+      },
+      {
+        "caller_function": "load_frozen",
+        "caller_graph_roles": [
+          "incoming_predecessor03",
+          "nested_013_codeql_terminal_history_03"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+        "caller_sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "codeql_pending_executor",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-003",
+        "selected_target_role": "nested_003_codeql_pending_executor",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/execute-release-v092.py",
+          "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+        },
+        "stage04_selector_lookup": "incoming_nested_executor",
+        "target_path": "scripts/execute-release-v092.py",
+        "target_role_candidates": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "target_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+      },
+      {
+        "caller_function": "_load_frozen",
+        "caller_graph_roles": [
+          "nested_001_v092_frozen_bridge_02_replacement05",
+          "replacement05"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py",
+        "caller_sha256": "32e0f1811972eec57e9cf5f8e892f77bea0da68d063b19db9d324fa0ad30dafd",
+        "classification": "named-_load_frozen-scope-bypasses-factory-on-production-stage-path; require-actual-helper-body-regression",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "replacement05_checker",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-004",
+        "selected_target_role": "nested_004_replacement05_checker",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "replacement05_checker",
+        "target_path": "scripts/check-release-v092.py",
+        "target_role_candidates": [
+          "checker",
+          "incoming_nested_checker",
+          "nested_004_replacement05_checker",
+          "nested_005_codeql_pending_checker",
+          "nested_016_check_release_v092_for_config_validation",
+          "nested_022_check_release_v092_scoped_replay",
+          "nested_023_check_release_v092_resource_replay",
+          "nested_028_joern_continuation_frozen_checker",
+          "nested_032_joern_continuation_frozen_checker"
+        ],
+        "target_sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+      },
+      {
+        "caller_function": "load_frozen",
+        "caller_graph_roles": [
+          "incoming_predecessor03",
+          "nested_013_codeql_terminal_history_03"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+        "caller_sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "codeql_pending_checker",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-005",
+        "selected_target_role": "nested_005_codeql_pending_checker",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/check-release-v092.py",
+          "sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+        },
+        "stage04_selector_lookup": "incoming_nested_checker",
+        "target_path": "scripts/check-release-v092.py",
+        "target_role_candidates": [
+          "checker",
+          "incoming_nested_checker",
+          "nested_004_replacement05_checker",
+          "nested_005_codeql_pending_checker",
+          "nested_016_check_release_v092_for_config_validation",
+          "nested_022_check_release_v092_scoped_replay",
+          "nested_023_check_release_v092_resource_replay",
+          "nested_028_joern_continuation_frozen_checker",
+          "nested_032_joern_continuation_frozen_checker"
+        ],
+        "target_sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+      },
+      {
+        "caller_function": "_load_frozen",
+        "caller_graph_roles": [
+          "nested_001_v092_frozen_bridge_02_replacement05",
+          "replacement05"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py",
+        "caller_sha256": "32e0f1811972eec57e9cf5f8e892f77bea0da68d063b19db9d324fa0ad30dafd",
+        "classification": "named-_load_frozen-scope-bypasses-factory-on-production-stage-path; require-actual-helper-body-regression",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "replacement05_configuration",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-006",
+        "selected_target_role": "nested_006_replacement05_configuration",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "replacement05_configuration",
+        "target_path": "scripts/validate-v092-report-configurations.py",
+        "target_role_candidates": [
+          "configuration",
+          "incoming_nested_configuration",
+          "nested_006_replacement05_configuration",
+          "nested_007_codeql_pending_configuration",
+          "nested_029_joern_continuation_frozen_configuration",
+          "nested_033_joern_continuation_frozen_configuration"
+        ],
+        "target_sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858"
+      },
+      {
+        "caller_function": "load_frozen",
+        "caller_graph_roles": [
+          "incoming_predecessor03",
+          "nested_013_codeql_terminal_history_03"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+        "caller_sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "codeql_pending_configuration",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-007",
+        "selected_target_role": "nested_007_codeql_pending_configuration",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/validate-v092-report-configurations.py",
+          "sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858"
+        },
+        "stage04_selector_lookup": "incoming_nested_configuration",
+        "target_path": "scripts/validate-v092-report-configurations.py",
+        "target_role_candidates": [
+          "configuration",
+          "incoming_nested_configuration",
+          "nested_006_replacement05_configuration",
+          "nested_007_codeql_pending_configuration",
+          "nested_029_joern_continuation_frozen_configuration",
+          "nested_033_joern_continuation_frozen_configuration"
+        ],
+        "target_sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858"
+      },
+      {
+        "caller_function": "load_frozen",
+        "caller_graph_roles": [
+          "incoming_predecessor03",
+          "nested_013_codeql_terminal_history_03"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+        "caller_sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "codeql_pending_disk_guard",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-008",
+        "selected_target_role": "disk_guard",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/v092_disk_guard.py",
+          "sha256": "fa4201b0aa4ae73273c4d6ba9f2dbb4315e6fb9d52c7469c8be3d46f0b570e21"
+        },
+        "stage04_selector_lookup": "disk_guard",
+        "target_path": "scripts/v092_disk_guard.py",
+        "target_role_candidates": [
+          "disk_guard",
+          "nested_008_codeql_pending_disk_guard",
+          "nested_025_v092_disk_guard_runtime",
+          "nested_026_v092_replacement09_supervisor_terminal_disk_guard"
+        ],
+        "target_sha256": "fa4201b0aa4ae73273c4d6ba9f2dbb4315e6fb9d52c7469c8be3d46f0b570e21"
+      },
+      {
+        "caller_function": "_incoming_recovery",
+        "caller_graph_roles": [
+          "local_001_bifrost_v0140_frozen_bridge_08"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py",
+        "caller_sha256": "d964c524cfec26e296a44e4c09ce3a606dcdfaec7c83114a1be3801222e35189",
+        "classification": "dedicated-exact-historical-policy-proxy-not-ordinary-member-lookup",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "bridge06_incoming_policy",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-009",
+        "selected_target_role": "nested_009_bridge06_incoming_policy",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "bridge06_incoming_policy",
+        "target_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-13.py",
+        "target_role_candidates": [
+          "nested_009_bridge06_incoming_policy",
+          "nested_010_bridge03_window_policy",
+          "nested_011_v092_frozen_bridge_02_source_design04_policy"
+        ],
+        "target_sha256": "6fdc08000f673b5ac904aeb315be7dfa174747e31d7ff2f32b4090b161253842"
+      },
+      {
+        "caller_function": "load_and_validate",
+        "caller_graph_roles": [
+          "local_001_bifrost_v0140_frozen_bridge_08"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py",
+        "caller_sha256": "d964c524cfec26e296a44e4c09ce3a606dcdfaec7c83114a1be3801222e35189",
+        "classification": "dedicated-exact-historical-policy-proxy-not-ordinary-member-lookup",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "bridge03_window_policy",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-010",
+        "selected_target_role": "nested_010_bridge03_window_policy",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "bridge03_window_policy",
+        "target_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-13.py",
+        "target_role_candidates": [
+          "nested_009_bridge06_incoming_policy",
+          "nested_010_bridge03_window_policy",
+          "nested_011_v092_frozen_bridge_02_source_design04_policy"
+        ],
+        "target_sha256": "6fdc08000f673b5ac904aeb315be7dfa174747e31d7ff2f32b4090b161253842"
+      },
+      {
+        "caller_function": "load_and_validate",
+        "caller_graph_roles": [
+          "local_001_bifrost_v0140_frozen_bridge_08"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py",
+        "caller_sha256": "d964c524cfec26e296a44e4c09ce3a606dcdfaec7c83114a1be3801222e35189",
+        "classification": "dedicated-exact-historical-policy-proxy-not-ordinary-member-lookup",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "v092_frozen_bridge_02_source_design04_policy",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-011",
+        "selected_target_role": "nested_011_v092_frozen_bridge_02_source_design04_policy",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "v092_frozen_bridge_02_source_design04_policy",
+        "target_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-13.py",
+        "target_role_candidates": [
+          "nested_009_bridge06_incoming_policy",
+          "nested_010_bridge03_window_policy",
+          "nested_011_v092_frozen_bridge_02_source_design04_policy"
+        ],
+        "target_sha256": "6fdc08000f673b5ac904aeb315be7dfa174747e31d7ff2f32b4090b161253842"
+      },
+      {
+        "caller_function": "_incoming_recovery",
+        "caller_graph_roles": [
+          "local_001_bifrost_v0140_frozen_bridge_08"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py",
+        "caller_sha256": "d964c524cfec26e296a44e4c09ce3a606dcdfaec7c83114a1be3801222e35189",
+        "classification": "unbound-stage-selector-at-recorded-route; cover-exact-body-or-prove-scoped-bypass-before-successor-freeze",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "v092_frozen_bridge_02_independent_codeql_history",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-012",
+        "selected_target_role": "nested_012_v092_frozen_bridge_02_independent_codeql_history",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "v092_frozen_bridge_02_independent_codeql_history",
+        "target_path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+        "target_role_candidates": [
+          "incoming_recovery",
+          "nested_012_v092_frozen_bridge_02_independent_codeql_history"
+        ],
+        "target_sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e"
+      },
+      {
+        "caller_function": "load_predecessor",
+        "caller_graph_roles": [
+          "incoming_recovery",
+          "nested_012_v092_frozen_bridge_02_independent_codeql_history"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+        "caller_sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "codeql_terminal_history_03",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-013",
+        "selected_target_role": "nested_013_codeql_terminal_history_03",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+          "sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8"
+        },
+        "stage04_selector_lookup": "incoming_predecessor03",
+        "target_path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+        "target_role_candidates": [
+          "incoming_predecessor03",
+          "nested_013_codeql_terminal_history_03"
+        ],
+        "target_sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8"
+      },
+      {
+        "caller_function": "_load_historical_replay_helper",
+        "caller_graph_roles": [
+          "incoming_predecessor03",
+          "nested_013_codeql_terminal_history_03"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+        "caller_sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8",
+        "classification": "confirmed-current-or-next-historical-enrichment-blocker",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "codeql_pending_historical_replay_helper",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-014",
+        "selected_target_role": "nested_014_codeql_pending_historical_replay_helper",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "codeql_pending_historical_replay_helper",
+        "target_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "target_role_candidates": [
+          "incoming_historical_replay_helper05",
+          "nested_014_codeql_pending_historical_replay_helper"
+        ],
+        "target_sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+      },
+      {
+        "caller_function": "_load_historical_previous_helper",
+        "caller_graph_roles": [
+          "incoming_predecessor03",
+          "nested_013_codeql_terminal_history_03"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+        "caller_sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8",
+        "classification": "confirmed-current-or-next-historical-enrichment-blocker",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "codeql_pending_historical_previous_helper",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-015",
+        "selected_target_role": "nested_015_codeql_pending_historical_previous_helper",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "codeql_pending_historical_previous_helper",
+        "target_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+        "target_role_candidates": [
+          "incoming_historical_previous_helper01",
+          "nested_015_codeql_pending_historical_previous_helper",
+          "nested_035_joern_capability_continuation_01_historical"
+        ],
+        "target_sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+      },
+      {
+        "caller_function": "<module>",
+        "caller_graph_roles": [
+          "configuration",
+          "incoming_nested_configuration",
+          "nested_006_replacement05_configuration",
+          "nested_007_codeql_pending_configuration",
+          "nested_029_joern_continuation_frozen_configuration",
+          "nested_033_joern_continuation_frozen_configuration"
+        ],
+        "caller_path": "scripts/validate-v092-report-configurations.py",
+        "caller_sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "check_release_v092_for_config_validation",
+        "phase": "import_time",
+        "reachability": "import-time-mandatory",
+        "route_id": "dynamic-016",
+        "selected_target_role": "incoming_nested_checker",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/check-release-v092.py",
+          "sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+        },
+        "stage04_selector_lookup": "incoming_nested_checker",
+        "target_path": "scripts/check-release-v092.py",
+        "target_role_candidates": [
+          "checker",
+          "incoming_nested_checker",
+          "nested_004_replacement05_checker",
+          "nested_005_codeql_pending_checker",
+          "nested_016_check_release_v092_for_config_validation",
+          "nested_022_check_release_v092_scoped_replay",
+          "nested_023_check_release_v092_resource_replay",
+          "nested_028_joern_continuation_frozen_checker",
+          "nested_032_joern_continuation_frozen_checker"
+        ],
+        "target_sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+      },
+      {
+        "caller_function": "<module>/_load_executor",
+        "caller_graph_roles": [
+          "checker",
+          "incoming_nested_checker",
+          "nested_004_replacement05_checker",
+          "nested_005_codeql_pending_checker",
+          "nested_016_check_release_v092_for_config_validation",
+          "nested_022_check_release_v092_scoped_replay",
+          "nested_023_check_release_v092_resource_replay",
+          "nested_028_joern_continuation_frozen_checker",
+          "nested_032_joern_continuation_frozen_checker"
+        ],
+        "caller_path": "scripts/check-release-v092.py",
+        "caller_sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "execute_release_v092_for_checker",
+        "phase": "import_time",
+        "reachability": "import-time-mandatory",
+        "route_id": "dynamic-017",
+        "selected_target_role": "incoming_nested_executor",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/execute-release-v092.py",
+          "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+        },
+        "stage04_selector_lookup": "incoming_nested_executor",
+        "target_path": "scripts/execute-release-v092.py",
+        "target_role_candidates": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "target_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+      },
+      {
+        "caller_function": "_load_resource_recovery_module",
+        "caller_graph_roles": [
+          "checker",
+          "incoming_nested_checker",
+          "nested_004_replacement05_checker",
+          "nested_005_codeql_pending_checker",
+          "nested_016_check_release_v092_for_config_validation",
+          "nested_022_check_release_v092_scoped_replay",
+          "nested_023_check_release_v092_resource_replay",
+          "nested_028_joern_continuation_frozen_checker",
+          "nested_032_joern_continuation_frozen_checker"
+        ],
+        "caller_path": "scripts/check-release-v092.py",
+        "caller_sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "v092_resource_recovery_for_checker",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-018",
+        "selected_target_role": "nested_018_v092_resource_recovery_for_checker",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/v092_resource_recovery.py",
+          "sha256": "c0dc2ef56cd1cb20cb0d96b156438e2ee876081e85c0f8ff43ca4afb3091830d"
+        },
+        "stage04_selector_lookup": "incoming_nested_resource_recovery",
+        "target_path": "scripts/v092_resource_recovery.py",
+        "target_role_candidates": [
+          "incoming_nested_resource_recovery",
+          "nested_018_v092_resource_recovery_for_checker",
+          "nested_021_v092_resource_recovery"
+        ],
+        "target_sha256": "c0dc2ef56cd1cb20cb0d96b156438e2ee876081e85c0f8ff43ca4afb3091830d"
+      },
+      {
+        "caller_function": "_load_scoped_recovery_module",
+        "caller_graph_roles": [
+          "checker",
+          "incoming_nested_checker",
+          "nested_004_replacement05_checker",
+          "nested_005_codeql_pending_checker",
+          "nested_016_check_release_v092_for_config_validation",
+          "nested_022_check_release_v092_scoped_replay",
+          "nested_023_check_release_v092_resource_replay",
+          "nested_028_joern_continuation_frozen_checker",
+          "nested_032_joern_continuation_frozen_checker"
+        ],
+        "caller_path": "scripts/check-release-v092.py",
+        "caller_sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "v092_scoped_recovery_for_checker",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-019",
+        "selected_target_role": "nested_019_v092_scoped_recovery_for_checker",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/v092_scoped_recovery.py",
+          "sha256": "6f8b025aae344709e1ecc9722db8943877e6f08851e423f9ab735d8d7d311c0d"
+        },
+        "stage04_selector_lookup": "incoming_nested_scoped_recovery",
+        "target_path": "scripts/v092_scoped_recovery.py",
+        "target_role_candidates": [
+          "incoming_nested_scoped_recovery",
+          "nested_019_v092_scoped_recovery_for_checker",
+          "nested_020_v092_scoped_recovery_packet"
+        ],
+        "target_sha256": "6f8b025aae344709e1ecc9722db8943877e6f08851e423f9ab735d8d7d311c0d"
+      },
+      {
+        "caller_function": "_scoped_recovery_module",
+        "caller_graph_roles": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "caller_path": "scripts/execute-release-v092.py",
+        "caller_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "v092_scoped_recovery_packet",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-020",
+        "selected_target_role": "nested_020_v092_scoped_recovery_packet",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/v092_scoped_recovery.py",
+          "sha256": "6f8b025aae344709e1ecc9722db8943877e6f08851e423f9ab735d8d7d311c0d"
+        },
+        "stage04_selector_lookup": "incoming_nested_scoped_recovery",
+        "target_path": "scripts/v092_scoped_recovery.py",
+        "target_role_candidates": [
+          "incoming_nested_scoped_recovery",
+          "nested_019_v092_scoped_recovery_for_checker",
+          "nested_020_v092_scoped_recovery_packet"
+        ],
+        "target_sha256": "6f8b025aae344709e1ecc9722db8943877e6f08851e423f9ab735d8d7d311c0d"
+      },
+      {
+        "caller_function": "_validate_resource_recovery",
+        "caller_graph_roles": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "caller_path": "scripts/execute-release-v092.py",
+        "caller_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "v092_resource_recovery",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-021",
+        "selected_target_role": "nested_021_v092_resource_recovery",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/v092_resource_recovery.py",
+          "sha256": "c0dc2ef56cd1cb20cb0d96b156438e2ee876081e85c0f8ff43ca4afb3091830d"
+        },
+        "stage04_selector_lookup": "incoming_nested_resource_recovery",
+        "target_path": "scripts/v092_resource_recovery.py",
+        "target_role_candidates": [
+          "incoming_nested_resource_recovery",
+          "nested_018_v092_resource_recovery_for_checker",
+          "nested_021_v092_resource_recovery"
+        ],
+        "target_sha256": "c0dc2ef56cd1cb20cb0d96b156438e2ee876081e85c0f8ff43ca4afb3091830d"
+      },
+      {
+        "caller_function": "_validate_scoped_recovery",
+        "caller_graph_roles": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "caller_path": "scripts/execute-release-v092.py",
+        "caller_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "check_release_v092_scoped_replay",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-022",
+        "selected_target_role": "nested_022_check_release_v092_scoped_replay",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/check-release-v092.py",
+          "sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+        },
+        "stage04_selector_lookup": "incoming_nested_checker",
+        "target_path": "scripts/check-release-v092.py",
+        "target_role_candidates": [
+          "checker",
+          "incoming_nested_checker",
+          "nested_004_replacement05_checker",
+          "nested_005_codeql_pending_checker",
+          "nested_016_check_release_v092_for_config_validation",
+          "nested_022_check_release_v092_scoped_replay",
+          "nested_023_check_release_v092_resource_replay",
+          "nested_028_joern_continuation_frozen_checker",
+          "nested_032_joern_continuation_frozen_checker"
+        ],
+        "target_sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+      },
+      {
+        "caller_function": "_validate_resource_recovery",
+        "caller_graph_roles": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "caller_path": "scripts/execute-release-v092.py",
+        "caller_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "check_release_v092_resource_replay",
+        "phase": "function_late",
+        "reachability": "mandatory-retained-replay",
+        "route_id": "dynamic-023",
+        "selected_target_role": "nested_023_check_release_v092_resource_replay",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/check-release-v092.py",
+          "sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+        },
+        "stage04_selector_lookup": "incoming_nested_checker",
+        "target_path": "scripts/check-release-v092.py",
+        "target_role_candidates": [
+          "checker",
+          "incoming_nested_checker",
+          "nested_004_replacement05_checker",
+          "nested_005_codeql_pending_checker",
+          "nested_016_check_release_v092_for_config_validation",
+          "nested_022_check_release_v092_scoped_replay",
+          "nested_023_check_release_v092_resource_replay",
+          "nested_028_joern_continuation_frozen_checker",
+          "nested_032_joern_continuation_frozen_checker"
+        ],
+        "target_sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+      },
+      {
+        "caller_function": "_process_tracker",
+        "caller_graph_roles": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "caller_path": "scripts/execute-release-v092.py",
+        "caller_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8",
+        "classification": "execution-or-terminal-only-separate-loader18-scope; not-proof-of-stage-factory-coverage",
+        "duplicate_path_identity_policy": "single exact graph role",
+        "loader_selector": "v092_process_tracker",
+        "phase": "function_late",
+        "reachability": "actual-attempt-monitoring",
+        "route_id": "dynamic-024",
+        "selected_target_role": "nested_024_v092_process_tracker",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "v092_process_tracker",
+        "target_path": "scripts/swift_v2_scored_process.py",
+        "target_role_candidates": [
+          "nested_024_v092_process_tracker"
+        ],
+        "target_sha256": "09cc57d0893d3ab17c75f7934aba8ebd9cc736bd118e77163e5c5fd2fbf0456e"
+      },
+      {
+        "caller_function": "run_group/_copy_file",
+        "caller_graph_roles": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "caller_path": "scripts/execute-release-v092.py",
+        "caller_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "v092_disk_guard_runtime",
+        "phase": "function_late",
+        "reachability": "actual-attempt-retention",
+        "route_id": "dynamic-025",
+        "selected_target_role": "disk_guard",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "scripts/v092_disk_guard.py",
+          "sha256": "fa4201b0aa4ae73273c4d6ba9f2dbb4315e6fb9d52c7469c8be3d46f0b570e21"
+        },
+        "stage04_selector_lookup": "disk_guard",
+        "target_path": "scripts/v092_disk_guard.py",
+        "target_role_candidates": [
+          "disk_guard",
+          "nested_008_codeql_pending_disk_guard",
+          "nested_025_v092_disk_guard_runtime",
+          "nested_026_v092_replacement09_supervisor_terminal_disk_guard"
+        ],
+        "target_sha256": "fa4201b0aa4ae73273c4d6ba9f2dbb4315e6fb9d52c7469c8be3d46f0b570e21"
+      },
+      {
+        "caller_function": "terminal_continuation_safety",
+        "caller_graph_roles": [
+          "host_supervisor14",
+          "supervisor14"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-14.py",
+        "caller_sha256": "acb8fed0b9fdffd7ee866b0b8bb107b6fec067469535a4c0666bd89ef70d5811",
+        "classification": "execution-or-terminal-only-separate-loader18-scope; not-proof-of-stage-factory-coverage",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "v092_replacement09_supervisor_terminal disk guard",
+        "phase": "function_late",
+        "reachability": "actual-terminal-containment",
+        "route_id": "dynamic-026",
+        "selected_target_role": "disk_guard",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "v092_replacement09_supervisor_terminal disk guard",
+        "target_path": "scripts/v092_disk_guard.py",
+        "target_role_candidates": [
+          "disk_guard",
+          "nested_008_codeql_pending_disk_guard",
+          "nested_025_v092_disk_guard_runtime",
+          "nested_026_v092_replacement09_supervisor_terminal_disk_guard"
+        ],
+        "target_sha256": "fa4201b0aa4ae73273c4d6ba9f2dbb4315e6fb9d52c7469c8be3d46f0b570e21"
+      },
+      {
+        "caller_function": "_load_frozen",
+        "caller_graph_roles": [
+          "incoming_historical_previous_helper01",
+          "nested_015_codeql_pending_historical_previous_helper",
+          "nested_035_joern_capability_continuation_01_historical"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+        "caller_sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa",
+        "classification": "named-_load_frozen-scope-bypasses-factory-on-production-stage-path; require-actual-helper-body-regression",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "joern_continuation_frozen_execute",
+        "phase": "function_late",
+        "reachability": "historical-helper-full-validate branch; context-derivation path does not automatically imply call",
+        "route_id": "dynamic-027",
+        "selected_target_role": "nested_027_joern_continuation_frozen_execute",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "joern_continuation_frozen_execute",
+        "target_path": "scripts/execute-release-v092.py",
+        "target_role_candidates": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "target_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+      },
+      {
+        "caller_function": "_load_frozen",
+        "caller_graph_roles": [
+          "incoming_historical_previous_helper01",
+          "nested_015_codeql_pending_historical_previous_helper",
+          "nested_035_joern_capability_continuation_01_historical"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+        "caller_sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa",
+        "classification": "named-_load_frozen-scope-bypasses-factory-on-production-stage-path; require-actual-helper-body-regression",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "joern_continuation_frozen_checker",
+        "phase": "function_late",
+        "reachability": "historical-helper-full-validate branch; context-derivation path does not automatically imply call",
+        "route_id": "dynamic-028",
+        "selected_target_role": "nested_028_joern_continuation_frozen_checker",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "joern_continuation_frozen_checker",
+        "target_path": "scripts/check-release-v092.py",
+        "target_role_candidates": [
+          "checker",
+          "incoming_nested_checker",
+          "nested_004_replacement05_checker",
+          "nested_005_codeql_pending_checker",
+          "nested_016_check_release_v092_for_config_validation",
+          "nested_022_check_release_v092_scoped_replay",
+          "nested_023_check_release_v092_resource_replay",
+          "nested_028_joern_continuation_frozen_checker",
+          "nested_032_joern_continuation_frozen_checker"
+        ],
+        "target_sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+      },
+      {
+        "caller_function": "_load_frozen",
+        "caller_graph_roles": [
+          "incoming_historical_previous_helper01",
+          "nested_015_codeql_pending_historical_previous_helper",
+          "nested_035_joern_capability_continuation_01_historical"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+        "caller_sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa",
+        "classification": "named-_load_frozen-scope-bypasses-factory-on-production-stage-path; require-actual-helper-body-regression",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "joern_continuation_frozen_configuration",
+        "phase": "function_late",
+        "reachability": "historical-helper-full-validate branch; context-derivation path does not automatically imply call",
+        "route_id": "dynamic-029",
+        "selected_target_role": "nested_029_joern_continuation_frozen_configuration",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "joern_continuation_frozen_configuration",
+        "target_path": "scripts/validate-v092-report-configurations.py",
+        "target_role_candidates": [
+          "configuration",
+          "incoming_nested_configuration",
+          "nested_006_replacement05_configuration",
+          "nested_007_codeql_pending_configuration",
+          "nested_029_joern_continuation_frozen_configuration",
+          "nested_033_joern_continuation_frozen_configuration"
+        ],
+        "target_sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858"
+      },
+      {
+        "caller_function": "_invoke_repair_shim",
+        "caller_graph_roles": [
+          "incoming_historical_previous_helper01",
+          "nested_015_codeql_pending_historical_previous_helper",
+          "nested_035_joern_capability_continuation_01_historical"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+        "caller_sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa",
+        "classification": "wrong-existing-stage-alias-path; exact-shim-ref-required-if-invoked",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "joern_capability_repair_continuation_shim",
+        "phase": "function_late",
+        "reachability": "conditional historical validation shim",
+        "route_id": "dynamic-030",
+        "selected_target_role": "nested_030_joern_capability_repair_continuation_shim",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": {
+          "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+          "sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+        },
+        "stage04_selector_lookup": "incoming_historical_replay_helper05",
+        "target_path": "scripts/joern_capability_repair_v092.py",
+        "target_role_candidates": [
+          "nested_030_joern_capability_repair_continuation_shim",
+          "nested_034_joern_capability_repair_continuation_shim",
+          "nested_036_joern_continuation_repair_shim"
+        ],
+        "target_sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+      },
+      {
+        "caller_function": "_load_frozen",
+        "caller_graph_roles": [
+          "incoming_historical_replay_helper05",
+          "nested_014_codeql_pending_historical_replay_helper"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "caller_sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6",
+        "classification": "named-_load_frozen-scope-bypasses-factory-on-production-stage-path; require-actual-helper-body-regression",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "joern_continuation_frozen_execute",
+        "phase": "function_late",
+        "reachability": "historical-helper-full-validate branch; context-derivation path does not automatically imply call",
+        "route_id": "dynamic-031",
+        "selected_target_role": "nested_031_joern_continuation_frozen_execute",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "joern_continuation_frozen_execute",
+        "target_path": "scripts/execute-release-v092.py",
+        "target_role_candidates": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "target_sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+      },
+      {
+        "caller_function": "_load_frozen",
+        "caller_graph_roles": [
+          "incoming_historical_replay_helper05",
+          "nested_014_codeql_pending_historical_replay_helper"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "caller_sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6",
+        "classification": "named-_load_frozen-scope-bypasses-factory-on-production-stage-path; require-actual-helper-body-regression",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "joern_continuation_frozen_checker",
+        "phase": "function_late",
+        "reachability": "historical-helper-full-validate branch; context-derivation path does not automatically imply call",
+        "route_id": "dynamic-032",
+        "selected_target_role": "nested_032_joern_continuation_frozen_checker",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "joern_continuation_frozen_checker",
+        "target_path": "scripts/check-release-v092.py",
+        "target_role_candidates": [
+          "checker",
+          "incoming_nested_checker",
+          "nested_004_replacement05_checker",
+          "nested_005_codeql_pending_checker",
+          "nested_016_check_release_v092_for_config_validation",
+          "nested_022_check_release_v092_scoped_replay",
+          "nested_023_check_release_v092_resource_replay",
+          "nested_028_joern_continuation_frozen_checker",
+          "nested_032_joern_continuation_frozen_checker"
+        ],
+        "target_sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+      },
+      {
+        "caller_function": "_load_frozen",
+        "caller_graph_roles": [
+          "incoming_historical_replay_helper05",
+          "nested_014_codeql_pending_historical_replay_helper"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "caller_sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6",
+        "classification": "named-_load_frozen-scope-bypasses-factory-on-production-stage-path; require-actual-helper-body-regression",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "joern_continuation_frozen_configuration",
+        "phase": "function_late",
+        "reachability": "historical-helper-full-validate branch; context-derivation path does not automatically imply call",
+        "route_id": "dynamic-033",
+        "selected_target_role": "nested_033_joern_continuation_frozen_configuration",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "joern_continuation_frozen_configuration",
+        "target_path": "scripts/validate-v092-report-configurations.py",
+        "target_role_candidates": [
+          "configuration",
+          "incoming_nested_configuration",
+          "nested_006_replacement05_configuration",
+          "nested_007_codeql_pending_configuration",
+          "nested_029_joern_continuation_frozen_configuration",
+          "nested_033_joern_continuation_frozen_configuration"
+        ],
+        "target_sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858"
+      },
+      {
+        "caller_function": "_invoke_repair_shim",
+        "caller_graph_roles": [
+          "incoming_historical_replay_helper05",
+          "nested_014_codeql_pending_historical_replay_helper"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "caller_sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6",
+        "classification": "wrong-existing-stage-alias-path; exact-shim-ref-required-if-invoked",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "joern_capability_repair_continuation_shim",
+        "phase": "function_late",
+        "reachability": "conditional historical validation shim",
+        "route_id": "dynamic-034",
+        "selected_target_role": "nested_034_joern_capability_repair_continuation_shim",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": {
+          "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+          "sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+        },
+        "stage04_selector_lookup": "incoming_historical_replay_helper05",
+        "target_path": "scripts/joern_capability_repair_v092.py",
+        "target_role_candidates": [
+          "nested_030_joern_capability_repair_continuation_shim",
+          "nested_034_joern_capability_repair_continuation_shim",
+          "nested_036_joern_continuation_repair_shim"
+        ],
+        "target_sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+      },
+      {
+        "caller_function": "_load_previous_continuation",
+        "caller_graph_roles": [
+          "incoming_historical_replay_helper05",
+          "nested_014_codeql_pending_historical_replay_helper"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "caller_sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6",
+        "classification": "stage-factory-explicit-path-bound-alias",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "joern_capability_continuation_01_historical",
+        "phase": "function_late",
+        "reachability": "conditional historical05 predecessor validation",
+        "route_id": "dynamic-035",
+        "selected_target_role": "nested_035_joern_capability_continuation_01_historical",
+        "stage04_graph_lookup_matches_path": true,
+        "stage04_lookup_ref": {
+          "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+          "sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+        },
+        "stage04_selector_lookup": "incoming_historical_previous_helper01",
+        "target_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+        "target_role_candidates": [
+          "incoming_historical_previous_helper01",
+          "nested_015_codeql_pending_historical_previous_helper",
+          "nested_035_joern_capability_continuation_01_historical"
+        ],
+        "target_sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+      },
+      {
+        "caller_function": "_recompute_repaired_projection",
+        "caller_graph_roles": [
+          "incoming_historical_replay_helper05",
+          "nested_014_codeql_pending_historical_replay_helper"
+        ],
+        "caller_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "caller_sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6",
+        "classification": "wrong-existing-stage-alias-path; exact-shim-ref-required-if-invoked",
+        "duplicate_path_identity_policy": "target candidates remain distinct graph objects; this caller/selector selects exactly the named role",
+        "loader_selector": "joern_continuation_repair_shim",
+        "phase": "function_late",
+        "reachability": "conditional historical projection validation",
+        "route_id": "dynamic-036",
+        "selected_target_role": "nested_036_joern_continuation_repair_shim",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": {
+          "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+          "sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+        },
+        "stage04_selector_lookup": "incoming_historical_replay_helper05",
+        "target_path": "scripts/joern_capability_repair_v092.py",
+        "target_role_candidates": [
+          "nested_030_joern_capability_repair_continuation_shim",
+          "nested_034_joern_capability_repair_continuation_shim",
+          "nested_036_joern_continuation_repair_shim"
+        ],
+        "target_sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+      },
+      {
+        "caller_function": "_load_runner",
+        "caller_graph_roles": [
+          "nested_030_joern_capability_repair_continuation_shim",
+          "nested_034_joern_capability_repair_continuation_shim",
+          "nested_036_joern_continuation_repair_shim"
+        ],
+        "caller_path": "scripts/joern_capability_repair_v092.py",
+        "caller_sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f",
+        "classification": "unbound-stage-selector-at-recorded-route; cover-exact-body-or-prove-scoped-bypass-before-successor-freeze",
+        "duplicate_path_identity_policy": "single exact graph role",
+        "loader_selector": "joern_normal_runner_v092_repair_pinned",
+        "phase": "function_late",
+        "reachability": "conditional shim validation or execution; not all branches mandatory for context derivation",
+        "route_id": "dynamic-037",
+        "selected_target_role": "nested_037_joern_normal_runner_v092_repair_pinned",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "joern_normal_runner_v092_repair_pinned",
+        "target_path": "scripts/joern_normal_runner_v092.py",
+        "target_role_candidates": [
+          "nested_037_joern_normal_runner_v092_repair_pinned"
+        ],
+        "target_sha256": "683a1bb22a2ec943d357cd4b86982dd7ee62c22a47c28ee3c32e91d114f977f4"
+      },
+      {
+        "caller_function": "_load_projection_module",
+        "caller_graph_roles": [
+          "nested_030_joern_capability_repair_continuation_shim",
+          "nested_034_joern_capability_repair_continuation_shim",
+          "nested_036_joern_continuation_repair_shim"
+        ],
+        "caller_path": "scripts/joern_capability_repair_v092.py",
+        "caller_sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f",
+        "classification": "unbound-stage-selector-at-recorded-route; cover-exact-body-or-prove-scoped-bypass-before-successor-freeze",
+        "duplicate_path_identity_policy": "single exact graph role",
+        "loader_selector": "v092_qualification",
+        "phase": "function_late",
+        "reachability": "conditional shim validation or execution; not all branches mandatory for context derivation",
+        "route_id": "dynamic-038",
+        "selected_target_role": "nested_038_v092_qualification",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "v092_qualification",
+        "target_path": "scripts/v092_qualification.py",
+        "target_role_candidates": [
+          "nested_038_v092_qualification"
+        ],
+        "target_sha256": "f673a5b5133c1101e7379fc365a83a47a7525c3daf15efa34a6eed12858e7cb5"
+      },
+      {
+        "caller_function": "execute_repaired",
+        "caller_graph_roles": [
+          "nested_030_joern_capability_repair_continuation_shim",
+          "nested_034_joern_capability_repair_continuation_shim",
+          "nested_036_joern_continuation_repair_shim"
+        ],
+        "caller_path": "scripts/joern_capability_repair_v092.py",
+        "caller_sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f",
+        "classification": "unbound-stage-selector-at-recorded-route; cover-exact-body-or-prove-scoped-bypass-before-successor-freeze",
+        "duplicate_path_identity_policy": "single exact graph role",
+        "loader_selector": "joern_normal_reports_v092_repair_pinned",
+        "phase": "function_late",
+        "reachability": "conditional shim validation or execution; not all branches mandatory for context derivation",
+        "route_id": "dynamic-039",
+        "selected_target_role": "nested_039_joern_normal_reports_v092_repair_pinned",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "joern_normal_reports_v092_repair_pinned",
+        "target_path": "scripts/joern_normal_reports_v092.py",
+        "target_role_candidates": [
+          "nested_039_joern_normal_reports_v092_repair_pinned"
+        ],
+        "target_sha256": "75531186a9091e9e907a2c42388efea0e33d4872787a28fa9fc20b3643131db1"
+      },
+      {
+        "caller_function": "private_engine",
+        "caller_graph_roles": [
+          "local_012_swift_common_population_v2"
+        ],
+        "caller_path": "scripts/swift_common_population_v2.py",
+        "caller_sha256": "3dee12724faf7a3937a3741a086a9858518ed27271644bbb788b458caef6b6c6",
+        "classification": "finite-runtime-computed-private-engine-selector-family; exact-actual-root-token-and-kind-required",
+        "duplicate_path_identity_policy": "single exact graph role",
+        "loader_selector": "_dfb_common_v2_codeql_runner_<root-token>",
+        "phase": "function_late",
+        "reachability": "conditional private-engine construction",
+        "route_id": "dynamic-040",
+        "selected_target_role": "nested_040_dfb_common_v2_codeql_runner__root_token",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "_dfb_common_v2_codeql_runner_<root-token>",
+        "target_path": "scripts/swift_normal_runner_v1.py",
+        "target_role_candidates": [
+          "nested_040_dfb_common_v2_codeql_runner__root_token"
+        ],
+        "target_sha256": "f046c917c5c809199d37956ba950a4267523a74872ee8291ac4a732b7882cafb"
+      },
+      {
+        "caller_function": "private_engine",
+        "caller_graph_roles": [
+          "local_012_swift_common_population_v2"
+        ],
+        "caller_path": "scripts/swift_common_population_v2.py",
+        "caller_sha256": "3dee12724faf7a3937a3741a086a9858518ed27271644bbb788b458caef6b6c6",
+        "classification": "finite-runtime-computed-private-engine-selector-family; exact-actual-root-token-and-kind-required",
+        "duplicate_path_identity_policy": "single exact graph role",
+        "loader_selector": "_dfb_common_v2_codeql_reports_<root-token>",
+        "phase": "function_late",
+        "reachability": "conditional private-engine construction",
+        "route_id": "dynamic-041",
+        "selected_target_role": "nested_041_dfb_common_v2_codeql_reports__root_token",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "_dfb_common_v2_codeql_reports_<root-token>",
+        "target_path": "scripts/swift_normal_reports_v1.py",
+        "target_role_candidates": [
+          "nested_041_dfb_common_v2_codeql_reports__root_token"
+        ],
+        "target_sha256": "4a9ee1c8708ab368452492b87f01d721bb31aa31bd6f526ddb18890f82d01ff3"
+      },
+      {
+        "caller_function": "private_engine",
+        "caller_graph_roles": [
+          "local_012_swift_common_population_v2"
+        ],
+        "caller_path": "scripts/swift_common_population_v2.py",
+        "caller_sha256": "3dee12724faf7a3937a3741a086a9858518ed27271644bbb788b458caef6b6c6",
+        "classification": "finite-runtime-computed-private-engine-selector-family; exact-actual-root-token-and-kind-required",
+        "duplicate_path_identity_policy": "single exact graph role",
+        "loader_selector": "_dfb_common_v2_joern_runner_<root-token>",
+        "phase": "function_late",
+        "reachability": "conditional private-engine construction",
+        "route_id": "dynamic-042",
+        "selected_target_role": "nested_042_dfb_common_v2_joern_runner__root_token",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "_dfb_common_v2_joern_runner_<root-token>",
+        "target_path": "scripts/joern_normal_runner_v1.py",
+        "target_role_candidates": [
+          "nested_042_dfb_common_v2_joern_runner__root_token"
+        ],
+        "target_sha256": "4103ef8d9d2dc671408389dad57ee934ae01333a2cf5eecc8330ab9feb3be330"
+      },
+      {
+        "caller_function": "private_engine",
+        "caller_graph_roles": [
+          "local_012_swift_common_population_v2"
+        ],
+        "caller_path": "scripts/swift_common_population_v2.py",
+        "caller_sha256": "3dee12724faf7a3937a3741a086a9858518ed27271644bbb788b458caef6b6c6",
+        "classification": "finite-runtime-computed-private-engine-selector-family; exact-actual-root-token-and-kind-required",
+        "duplicate_path_identity_policy": "single exact graph role",
+        "loader_selector": "_dfb_common_v2_joern_reports_<root-token>",
+        "phase": "function_late",
+        "reachability": "conditional private-engine construction",
+        "route_id": "dynamic-043",
+        "selected_target_role": "nested_043_dfb_common_v2_joern_reports__root_token",
+        "stage04_graph_lookup_matches_path": false,
+        "stage04_lookup_ref": null,
+        "stage04_selector_lookup": "_dfb_common_v2_joern_reports_<root-token>",
+        "target_path": "scripts/joern_normal_reports_v1.py",
+        "target_role_candidates": [
+          "nested_043_dfb_common_v2_joern_reports__root_token"
+        ],
+        "target_sha256": "a3fba23a07317be139a587186f529f3cccc4766a56b0c3d839886e7ce41f0b47"
+      }
+    ],
+    "scope": "Complete static import-call inventory of all 45 unique currently bound graph source files; includes every AST spec_from_file_location/module_from_spec/exec_module call, finite selector expansions, eager/bare dependencies, and stage-versus-graph-import routing distinction. This is not a runtime qualification or proof all branches executed.",
+    "source_inventory": [
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-17.py",
+        "sha256": "d9cbbcd7faf001ea36ab17c8e7f7649ecb10b5cc1454fb4695af90c0bedf0d6e"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py",
+        "sha256": "d964c524cfec26e296a44e4c09ce3a606dcdfaec7c83114a1be3801222e35189"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-12.py",
+        "sha256": "9d00af2d4f64e2618bb4934e18c5dc771db1a609411548bd0c354db236b608db"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py",
+        "sha256": "32e0f1811972eec57e9cf5f8e892f77bea0da68d063b19db9d324fa0ad30dafd"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-13.py",
+        "sha256": "6fdc08000f673b5ac904aeb315be7dfa174747e31d7ff2f32b4090b161253842"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-17.py",
+        "sha256": "3c7e2713002c00e7534d98f20f95302060a9209499834b82a3d3ac993adc4aa3"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-17.py",
+        "sha256": "bca65ca1d46205517acc8c2d772fe25bb115a1870b9d8451738508b5ee331c25"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py",
+        "sha256": "c906d8100bb3ef12d5b0bc4216b07a22956bb3600eaee001cdd59095d29f33bf"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-17.py",
+        "sha256": "9bc4a6828f29d7f55464b1a9ed684a1e75b1bdc730019aa404e2f15135eade6b"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+        "sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+        "sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+        "sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+      },
+      {
+        "path": "scripts/check-release-v092.py",
+        "sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+      },
+      {
+        "path": "scripts/codeql_swift_qualification_v092.py",
+        "sha256": "adaf4ba27f45870ac500f30a7a89f63019efc9429d1377891aea5834bc1b781c"
+      },
+      {
+        "path": "scripts/execute-release-v092.py",
+        "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+      },
+      {
+        "path": "scripts/joern_capability_repair_v092.py",
+        "sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+      },
+      {
+        "path": "scripts/joern_diagnostic_admission_v092.py",
+        "sha256": "c2faeeb5ef99f539ad8a4bee6fbc85656c0cc142f92196c02f5f26a446140a9e"
+      },
+      {
+        "path": "scripts/joern_execution_revalidation_v1.py",
+        "sha256": "8b08b9022ac8eac0fd822d53980d0fcc49e352e8736bce9f2e42b0a488612126"
+      },
+      {
+        "path": "scripts/joern_normal_controls_v1.py",
+        "sha256": "78123e5f9247aca543f0c841f6adf0040859f1e8d1006d9fb45116535aa4ff21"
+      },
+      {
+        "path": "scripts/joern_normal_execution_v1.py",
+        "sha256": "01caead3c7e86880b9893128a0a65d7175f857b580d161ecbf586514e295577d"
+      },
+      {
+        "path": "scripts/joern_normal_reports_v092.py",
+        "sha256": "75531186a9091e9e907a2c42388efea0e33d4872787a28fa9fc20b3643131db1"
+      },
+      {
+        "path": "scripts/joern_normal_reports_v1.py",
+        "sha256": "a3fba23a07317be139a587186f529f3cccc4766a56b0c3d839886e7ce41f0b47"
+      },
+      {
+        "path": "scripts/joern_normal_runner_v092.py",
+        "sha256": "683a1bb22a2ec943d357cd4b86982dd7ee62c22a47c28ee3c32e91d114f977f4"
+      },
+      {
+        "path": "scripts/joern_normal_runner_v1.py",
+        "sha256": "4103ef8d9d2dc671408389dad57ee934ae01333a2cf5eecc8330ab9feb3be330"
+      },
+      {
+        "path": "scripts/joern_swift.py",
+        "sha256": "c0c2322939ee61e39b85a80391192a27cd6323dcb6b234609985dee4fdc85822"
+      },
+      {
+        "path": "scripts/run-joern-swift-case.py",
+        "sha256": "1a033f1c563003e91fe43fb4c4612d67539c9aad420e351d7a45782da7353516"
+      },
+      {
+        "path": "scripts/swift_artifact_closure.py",
+        "sha256": "fe00daf7b75263e7add65675560f8731988333f75af3944e373599a85d7215c3"
+      },
+      {
+        "path": "scripts/swift_common_population_v2.py",
+        "sha256": "3dee12724faf7a3937a3741a086a9858518ed27271644bbb788b458caef6b6c6"
+      },
+      {
+        "path": "scripts/swift_entry_observation.py",
+        "sha256": "930b80478e989974a89c4f82ad01cae3c5e3bcdd7df16c4eb7ecdf0363cb6596"
+      },
+      {
+        "path": "scripts/swift_extraction_integrity.py",
+        "sha256": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156"
+      },
+      {
+        "path": "scripts/swift_normal_reports_v092.py",
+        "sha256": "fb682d4b48d5c1a2ee32eb2d3d271bc624c28466e98e55318f9582efe8123b8a"
+      },
+      {
+        "path": "scripts/swift_normal_reports_v1.py",
+        "sha256": "4a9ee1c8708ab368452492b87f01d721bb31aa31bd6f526ddb18890f82d01ff3"
+      },
+      {
+        "path": "scripts/swift_normal_runner_v092.py",
+        "sha256": "f70fb98ee9b9073a1a31064c413a9278ad3ac3c8c8e95826190d58ce7fac1bfc"
+      },
+      {
+        "path": "scripts/swift_normal_runner_v1.py",
+        "sha256": "f046c917c5c809199d37956ba950a4267523a74872ee8291ac4a732b7882cafb"
+      },
+      {
+        "path": "scripts/swift_persistence_coverage.py",
+        "sha256": "62017833ad9e666a405f2650618173b97ab2d1568fb14b13cce8fed722dc4ec3"
+      },
+      {
+        "path": "scripts/swift_v2_process.py",
+        "sha256": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd"
+      },
+      {
+        "path": "scripts/swift_v2_scored_process.py",
+        "sha256": "09cc57d0893d3ab17c75f7934aba8ebd9cc736bd118e77163e5c5fd2fbf0456e"
+      },
+      {
+        "path": "scripts/swift_v3_reports.py",
+        "sha256": "5d5fd2c2046a9886de261037dca6d529a9841b7f889790e8723404fc5da501af"
+      },
+      {
+        "path": "scripts/swift_v3_runner.py",
+        "sha256": "454944d5ca461e8ae49361055408daaa9037388a151dcd8e5f3d34c8a3c2b954"
+      },
+      {
+        "path": "scripts/v092_disk_guard.py",
+        "sha256": "fa4201b0aa4ae73273c4d6ba9f2dbb4315e6fb9d52c7469c8be3d46f0b570e21"
+      },
+      {
+        "path": "scripts/v092_qualification.py",
+        "sha256": "f673a5b5133c1101e7379fc365a83a47a7525c3daf15efa34a6eed12858e7cb5"
+      },
+      {
+        "path": "scripts/v092_resource_recovery.py",
+        "sha256": "c0dc2ef56cd1cb20cb0d96b156438e2ee876081e85c0f8ff43ca4afb3091830d"
+      },
+      {
+        "path": "scripts/v092_scoped_recovery.py",
+        "sha256": "6f8b025aae344709e1ecc9722db8943877e6f08851e423f9ab735d8d7d311c0d"
+      },
+      {
+        "path": "scripts/validate-v092-report-configurations.py",
+        "sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858"
+      }
+    ],
+    "spec_factory_call_sites": 40,
+    "stage_ordinary_lookup_mismatched_route_rows": 25,
+    "stage_static_alias_count": 23,
+    "unique_source_files": 45
+  },
+  "automatic_retry": false,
+  "cause": {
+    "actual_caller": {
+      "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+      "sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8"
+    },
+    "actual_failed_selector": "codeql_pending_historical_replay_helper",
+    "actual_target": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+      "sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+    },
+    "callee": "stage04._StageImportFactory.spec_from_file_location -> _graph_member",
+    "callee_lines": [
+      2025,
+      2039
+    ],
+    "exact_graph_source_already_available": true,
+    "function": "_load_pinned_helper",
+    "lines": [
+      983,
+      991
+    ],
+    "next_deterministic_selector": "codeql_pending_historical_previous_helper",
+    "next_target": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+      "sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+    },
+    "scope_bug": "_stage_provider_scope patches provider04 first. Its helper loop only patches _load_pinned_helper/_load_module after requiring helper._load_frozen. CodeQL03 exposes load_frozen, not _load_frozen, so its computed helper selectors take the real stage factory path. Unprefixed historical-replay-helper aliases therefore cannot cover the actual spec selectors.",
+    "scope_lines": [
+      2496,
+      2511,
+      2559,
+      2574
+    ],
+    "selector_expression": "f\"codeql_pending_{name.replace('-', '_').replace(' ', '_')}\""
+  },
+  "core_identity": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-17/manifest-identity.json",
+    "sha256": "60668f7debfe0c537d3ff7f410f7739e9ea844970cc23dc04b599a30b636239f"
+  },
+  "created_utc": "2026-10-24T22:12:58.486693+00:00",
+  "execution_authorized": false,
+  "frozen_bindings": {
+    "continuation_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/sealed-ledger-prefix-89.jsonl",
+      "rows": 89,
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    },
+    "contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-19-contract.json",
+      "sha256": "39d7bb97b30d096a007def0ffc767d73a42d0c96afbb794d885671abe0958cde"
+    },
+    "original_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/sealed-ledger-prefix-88.jsonl",
+      "rows": 88,
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476"
+    },
+    "plan_commit": "278f07d486e17dfb19140d563e83f02038e43550",
+    "source_commit": "fa9eaf236cf524788e802f5807aad0766ef0fd65",
+    "source_design": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-12.json",
+      "sha256": "7647d1874825a69a019e47a973dd03b80942cbcac12262477e541c34cb2d7ee7"
+    },
+    "source_evidence": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-17/source-evidence-01.json",
+      "sha256": "c20f7970a30fc1487d39f15db519a2031ba16d64c279f8a4aca64d51681dd043"
+    }
+  },
+  "implementation_authorized_by_this_design": false,
+  "known_proof_limits": [
+    "Static complete callsite inventory does not prove a production parent stage succeeds or that every route is reachable. Fresh actual-stage qualification is still mandatory after independently reviewed successor source/core/seal.",
+    "Existing 169-check/import-smoke evidence is historical BF17 evidence and did not execute historical enrichment past the observed stop.",
+    "No implementation or execution authorization is created by this proposal; parent retains repair judgment and production ownership."
+  ],
+  "observed_stop": {
+    "analyzer_dispatches": 0,
+    "independent_process_check_performed": false,
+    "parent_reported_exit_utc": "2026-10-24T22:08:58+00:00",
+    "qualification_result": "failed-before-parent-stage-and-command-construction",
+    "replacement_attempts_consumed": 0,
+    "root_verified_owned_births_gone": [
+      54824,
+      54825
+    ]
+  },
+  "production_operations_performed": false,
+  "required_batched_repairs": [
+    {
+      "action": "Register both actual CodeQL computed selectors against their exact semantic incoming historical roles, paths and SHA, retaining unprefixed helper aliases only for their separate callable seam.",
+      "bindings": {
+        "codeql_pending_historical_previous_helper": {
+          "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+          "sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+        },
+        "codeql_pending_historical_replay_helper": {
+          "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+          "sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+        }
+      },
+      "id": "R1"
+    },
+    {
+      "action": "Decouple named-loader replacement eligibility from possession of _load_frozen. Patch each declared export independently with exact owner/graph role checks, or deliberately retain real helper body through factory and prove every computed selector. No skipping CodeQL historical enrichment. Avoid blanket monkeypatch of actual helper body in regression.",
+      "id": "R2"
+    },
+    {
+      "action": "Reconcile all 43 route rows with the stage runtime registry and explicit policy/scoped-loader exclusions. Record exact caller, selector, path, digest and chosen module instance for duplicate-source aliases. Never select candidates[0], accept arbitrary graph-name fallback for unknown selectors, or widen path matching. Fix shim aliases to scripts/joern_capability_repair_v092.py semantic shim role; continuation05 is a different path.",
+      "id": "R3"
+    },
+    {
+      "action": "Cover joern_historical_configuration (44th discovered source-level dynamic route) and four finite common-engine computed-selector families, or prove exact read-only replay/terminal nonreachability with actual bodies. Six execution/terminal late imports remain separately bound by loaders18.PRODUCTION_MODULE_NAMES and actual supervisor scopes; not assumed covered by stage factory.",
+      "id": "R4"
+    },
+    {
+      "action": "Preserve exact factory/spec/module pair ownership, contextmanager observer owner provenance, prior delegated factory closure identity, restoration and eager global object checks. Route repair may not bypass loader ownership checks, resource recovery, historical checker replay, source guard or qualifier command construction.",
+      "id": "R5"
+    }
+  ],
+  "required_realistic_regressions": [
+    {
+      "path": "Use actual CodeQL03._load_historical_replay_helper and _load_historical_previous_helper -> actual _load_pinned_helper body -> actual successor factory spec/module/exec. Exact graph-owned continuation objects and API constants must return; do not replace _load_pinned_helper, manufacture helper bodies or directly call _graph_member as sole positive.",
+      "test": "actual-helper-selector-pair"
+    },
+    {
+      "path": "actual bridge13.create_parent_stage(fixture_only=False) -> stage05 full builder -> copied legacy.load_and_validate -> provider04.recover_bifrost_history -> CodeQL03.validate -> _enrich_successor_historical_contexts -> actual _historical_replay_contexts -> both actual helper loaders -> actual _raw_plan_delta/_derive_context for both historical contexts. Stop only at a downstream evidence I/O/checker sentinel AFTER both contexts, not at first resource.validate_packet. Mock I/O data shapes and prevent analyzer entry; do not inject executor resource calls or precomputed historical context map.",
+      "test": "full-parent-historical-enrichment"
+    },
+    {
+      "path": "Use real child run/terminal safety entrypoints and six real late loader helper bodies with explicit production module_names; validate exact corresponding stage graph identity. No analyzer is needed; mock process/evidence I/O only after loaders.",
+      "test": "terminal-late-regression"
+    },
+    {
+      "path": "Exercise every remaining reachable route with real owning helper body and exact call args, including computed selectors/eager objects. Generated synthetic caller frames are supplemental only, not evidence of real body reachability.",
+      "test": "all-route-bodies-and-ownership"
+    },
+    {
+      "cases": [
+        "correct selector + wrong path or SHA",
+        "correct path + unknown selector",
+        "correct selector + other same-path graph alias object",
+        "foreign caller/module facade/spec/module/delegate or nonce",
+        "wrong root token/kind in private engine selector",
+        "unrecognized new computed selector label",
+        "tampered helper constants",
+        "nested scope helper replacement or restoration leak",
+        "success/exception/second entry restores all scoped helpers/factories/global objects",
+        "unknown sys.modules cache hit is never promoted to graph authority"
+      ],
+      "test": "near-misses"
+    }
+  ],
+  "schema": "v092-bifrost-v0140-late-route-stop-design/v1",
+  "status": "proposed-for-independent-design-review",
+  "stop_evidence": {
+    "path": "execution-state/v092/monitor-checks/bf17-actual-stage-01/stderr.txt",
+    "sha256": "07c708b45e650ede0e1e1c9bc969ad99fe788f255f2e00e482b372e9986a46d5"
+  },
+  "successor_scope": {
+    "C_global_attempt": 3,
+    "aggregate_source_working_gib": 30,
+    "append_only": "BF18 protocol/admission/packet/noexpiry/supervisor and matching tests; bridge13/stage05/loaders18 and matching tests, same 17-source roster shape. Only stage routing semantics change; other copies perform canonical successor binding.",
+    "no_expiry": true,
+    "one_slot": true,
+    "original_origin": "2026-10-20T00:57:00.680937+00:00",
+    "other_Bifrost_global_attempt": 2,
+    "per_source_projection_gib": 12,
+    "preserve_immutable": [
+      "all BF17 sources/tests/contract19/source-design12/source evidence/core/manifest/auth/streams/reviews",
+      "original historical modules and all raw evidence",
+      "ledger89 CodeQL completed row; no CodeQL rerun"
+    ],
+    "runtime_fields": "No core field widening, deadline/resource/clock/counter changes or serialized context authority. Reuse complete graph construction and explicit module-instance semantics, update only successor root roles and stage/runtime binding.",
+    "source_lineage": "Fresh actual source/plan/contract and new source-design13 predecessor exact12 with full 508 predecessor closure, fixed9Rust delta authority unchanged; collect actual new closure instead of inventing future hashes. No entire graph source rewrite required: all exact helper/shim targets already exist in graph88."
+  }
+}
