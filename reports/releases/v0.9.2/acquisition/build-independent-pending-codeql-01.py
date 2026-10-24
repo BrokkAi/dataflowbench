@@ -370,7 +370,7 @@ def build(root: Path, source_commit: str, plan_commit: str, output: str) -> dict
     value = draft_contract(root, source_commit, refs)
     validate_draft(root, value, source_commit)
     raw = json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False).encode() + b"\n"
-    out = _path(root, output, "contract output")
+    out = _path(root, output)
     require(not out.exists() and not out.is_symlink(), "refusing to overwrite contract output")
     out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("xb") as stream:
