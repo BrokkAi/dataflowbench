@@ -61,6 +61,26 @@ class CodeQLSupervisorTests(unittest.TestCase):
                 "DATAFLOWBENCH_V092_GROUP_ID": "wrong-group",
             })
 
+    def test_manifest_binding_rejects_tamper_and_symlink(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest = root / "manifest.json"
+            manifest.write_text('{"status":"approved"}\n')
+            digest = self.m.sha(manifest)
+            self.assertEqual(
+                self.m.read_bound_manifest(root, "manifest.json", digest)["status"],
+                "approved",
+            )
+            manifest.write_text('{"status":"tampered"}\n')
+            with self.assertRaises(self.m.CodeQLSupervisorError):
+                self.m.read_bound_manifest(root, "manifest.json", digest)
+            manifest.unlink()
+            target = root / "target.json"
+            target.write_text('{"status":"approved"}\n')
+            manifest.symlink_to(target)
+            with self.assertRaises(self.m.CodeQLSupervisorError):
+                self.m.read_bound_manifest(root, "manifest.json", digest)
+
     def test_gate_binds_the_single_codeql_command(self):
         args = type("Args", (), {
             "manifest": self.m.MANIFEST,

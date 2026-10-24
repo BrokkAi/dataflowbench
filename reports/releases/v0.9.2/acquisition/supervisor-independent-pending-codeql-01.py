@@ -44,6 +44,24 @@ def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def read_bound_manifest(root: Path, relative: str, expected_sha256: str) -> dict[str, Any]:
+    """Read the registered manifest only after regular-file/hash validation."""
+    relative_path = Path(*relative.split("/"))
+    require(not relative_path.is_absolute() and relative_path.as_posix() == relative,
+            "CodeQL manifest path is not relative and canonical")
+    path = root / relative_path
+    require(path.is_file() and not path.is_symlink(),
+            "CodeQL manifest is missing or is a symlink")
+    require(sha(path) == expected_sha256,
+            "CodeQL manifest bytes differ from the bound SHA")
+    try:
+        value = json.loads(path.read_bytes())
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise CodeQLSupervisorError("CodeQL manifest is not valid JSON") from exc
+    require(isinstance(value, dict), "CodeQL manifest is not an object")
+    return value
+
+
 def _load_continuation(root: Path) -> Any:
     path = root / Path(*MODULE.split("/"))
     spec = importlib.util.spec_from_file_location("independent_pending_codeql_supervisor", path)
@@ -184,8 +202,10 @@ def validate(args: argparse.Namespace) -> dict[str, Any]:
     require(receipt.get("expected_after_success") == {
         "ledger_rows": 89, "selected_groups": 83, "partitions": 87, "rows": 4144, "known_stale": 0,
     }, "CodeQL admission receipt denominator differs")
-    manifest_path = ROOT / Path(*MANIFEST.split("/"))
-    manifest = json.loads(manifest_path.read_bytes())
+    # This check is deliberately before control-review parsing and before the
+    # launch path can create STATE/PUBLIC.  The manifest is an immutable
+    # regular file binding, not merely a JSON path that happens to parse.
+    manifest = read_bound_manifest(ROOT, MANIFEST, args.manifest_sha256)
     control_path = ROOT / Path(*CONTROL_REVIEW.split("/"))
     require(control_path.is_file() and not control_path.is_symlink(),
             "CodeQL control review is missing")
