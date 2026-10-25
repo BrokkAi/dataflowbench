@@ -1,0 +1,26 @@
+F....E
+======================================================================
+ERROR: test_worker_gate_precedes_controls_and_launch_gates_precede_popen (__main__.RealPendingPlanGateTests.test_worker_gate_precedes_controls_and_launch_gates_precede_popen)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/joern05-native-qualifier-06/test_pending_plan_gate.py", line 120, in test_worker_gate_precedes_controls_and_launch_gates_precede_popen
+    popen=min(line for line,callee in calls if callee=='subprocess.Popen')
+ValueError: min() iterable argument is empty
+
+======================================================================
+FAIL: test_actual_late_query_missing_after_runtime_checks (__main__.RealPendingPlanGateTests.test_actual_late_query_missing_after_runtime_checks)
+----------------------------------------------------------------------
+ValueError: missing or escaped evidence file
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/private/tmp/joern05-native-qualifier-06/test_pending_plan_gate.py", line 108, in test_actual_late_query_missing_after_runtime_checks
+    with self.assertRaisesRegex(ValueError,'query/model inputs are missing'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "query/model inputs are missing" does not match "missing or escaped evidence file"
+
+----------------------------------------------------------------------
+Ran 6 tests in 30.645s
+
+FAILED (failures=1, errors=1)

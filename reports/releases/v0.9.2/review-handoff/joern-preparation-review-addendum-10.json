@@ -1,0 +1,272 @@
+{
+  "actual_stop": {
+    "boundary": {
+      "accepted_jvm_witness": false,
+      "automatic_retry": false,
+      "benchmark_attempt_consumed": false,
+      "control_result_present": false,
+      "joern05_attempt_present": false,
+      "native_control_capture_present": false,
+      "observer_controls_entered": true,
+      "qualification_inferred": false,
+      "run_case_invoked": false,
+      "version_command_completed": false,
+      "wrapper_entered": true
+    },
+    "ended_utc": "2026-10-25T19:18:56.702226+00:00",
+    "exit": {
+      "bytes": 1399,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/exit.json",
+      "sha256": "414f05cf477967d9e04c2ba8b33405da44fae7eb83823e1afd39d13fe0393416"
+    },
+    "exit_code": 1,
+    "failed_input": {
+      "bytes": 48124,
+      "error": "Joern v0.9.2 plan must be registered before execution",
+      "is_integral": false,
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/pending-execution-plan-01.json",
+      "python_type": "float",
+      "registered_at_unix_seconds": 1792947417.994006,
+      "sha256": "08ef4108097f399732ed84b4d81fa46fbf869edafaebb79fb156785cc4888888"
+    },
+    "failure_message": "child failed/incomplete/late native control capture",
+    "failure_type": "ValueError",
+    "frozen_runner_guard": {
+      "expression": "type(stamp) is int and stamp < int(time.time())",
+      "line": 385,
+      "path": "scripts/joern_normal_runner_v092.py",
+      "sha256": "683a1bb22a2ec943d357cd4b86982dd7ee62c22a47c28ee3c32e91d114f977f4"
+    },
+    "independent_reviewed_at_utc": "2026-10-25T19:22:44.613538+00:00",
+    "independent_stop_review": {
+      "bytes": 12934,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls03-stop-independent-review-01.json",
+      "sha256": "4b77f2897ae3eed324e9095b205f8158f31d04814e24b977eafe5d113672ec83"
+    },
+    "phase_sequence": [
+      "ready",
+      "controls-started"
+    ],
+    "root_recorded_utc": "2026-10-25T19:20:55.759252+00:00",
+    "root_stop_check": {
+      "bytes": 5754,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls03-root-stop-check-01.json",
+      "sha256": "77ac1bf5f493462df05710085e08703618ce4f3913705dc76a5094c103dd2208"
+    },
+    "supervision_result": {
+      "bytes": 1794,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03-supervision/result.json",
+      "sha256": "edfee90932919c216ccd7d1f974c7fbbbf60196aa5edc49eff331056f3682b64"
+    },
+    "supervision_started": {
+      "bytes": 1579,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03-supervision/started.json",
+      "sha256": "56866e5f2cd13b6fa40281693271ea1cdceda1c46aa5b202f5580778247c963d"
+    }
+  },
+  "environment_and_process_evidence": {
+    "cleanup": {
+      "coordinator_reaped": true,
+      "foreign_cleanup": false,
+      "independent_descendant_containment": "unknown",
+      "root_all_owned_pids_gone": true,
+      "root_owned_pids": [
+        78659,
+        78661,
+        80999,
+        82812,
+        83571
+      ],
+      "root_ps_returncode": 1,
+      "term_or_kill_sent": false
+    },
+    "darwin_environment_repair": {
+      "child_environment_key_count": 18,
+      "child_started": {
+        "bytes": 2273,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/child-started.json",
+        "sha256": "332fc083d8320653dd84bad865bb4541d24e967f14e5003d32338e9d48d8e082"
+      },
+      "exact_key": "__CF_USER_TEXT_ENCODING",
+      "exact_value": "0x1F5:0x0:0x0",
+      "interpretation": "The repaired environment binding passed and the worker reached the plan guard. This is not a native-control success.",
+      "strict_environment_gate_passed": true,
+      "worker_environment_sha256": "ec53d42cc82868a22aba5b88a802c9fa716dc252b6b59cd41e54524d18f3104b",
+      "worker_invocation": {
+        "bytes": 5559,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/worker-invocation.json",
+        "sha256": "e8d12d3e8862c8c0e86efa6426ceb2db3b064318b661a87af6707db2db844b11"
+      }
+    },
+    "startup_and_version_boundary": {
+      "child_birth_identity": "Sun Oct 25 21:18:12 2026",
+      "child_pid": 80999,
+      "interpretation": "Parent/worker process records existed, so no JVM-absence claim is valid. The sidecar produced no accepted witness and no version result; this does not prove no JVM or version probe existed.",
+      "parent_started": {
+        "bytes": 3598,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/parent-started.json",
+        "sha256": "cb50c5635f9edabd673c0e340aff26e462ec57f3d57aab5911fd47a02f5a9cf9"
+      },
+      "startup_event_count": 0,
+      "startup_property_witness": "unavailable",
+      "startup_summary": {
+        "bytes": 3204,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/capture.startup-observation/summary.json",
+        "sha256": "413b3fc5788078e8fb7942445b05bd75d436f608a3efad39ffce8bb7ce0f75d1"
+      },
+      "tracked_descendant_pids": [
+        82812,
+        83571
+      ],
+      "version_command_completed": false
+    }
+  },
+  "non_claims_and_holds": {
+    "engine_or_analyzer_result": false,
+    "engine_run_case": false,
+    "full_matrix_qualified": false,
+    "joern05_result": false,
+    "native_control_qualification": false,
+    "no_automatic_retry": true,
+    "no_git_mutation_in_diagnosis": true,
+    "no_lfs_or_upload_or_release_action": true,
+    "no_relabeling_of_failed03_or_prior_failures": true,
+    "publication_authorized": false,
+    "publication_hold": true,
+    "unsupported_decision_issued": false
+  },
+  "preserved_attempt_and_pending_successor": {
+    "known_pending_12_control_qualification": {
+      "count": 12,
+      "source_boundary": "The pending plan retains the 108-case roster with 12 unsupported candidates and 96 attempted candidates; this stop produced no accepted result for either set.",
+      "status": "still-missing; no control qualification or Unsupported issuance was produced by this stop"
+    },
+    "namespace_reuse": false,
+    "original_native03_failure_preserved": true,
+    "plan05_reviewed_successor_pending": {
+      "changed_field_only": "registered_at_unix_seconds: integer 1792956319 replacing the failed float; all other plan values were reported identical",
+      "control_plan_unchanged": {
+        "bytes": 12269,
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/control-plan-01.json",
+        "sha256": "cdae69200755312a80137426e70250dd7e521100ca91dbe71355bb9c8b11475f"
+      },
+      "execution_eligible": false,
+      "fresh_qualification": null,
+      "not_launched": true,
+      "pending_plan": {
+        "bytes": 48117,
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-05/pending-execution-plan-01.json",
+        "sha256": "c79f93dca045d8fbf2b7221fbf20e042d7546d403567a821ed1594fda8411137"
+      },
+      "prior_plan": {
+        "bytes": 48124,
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/pending-execution-plan-01.json",
+        "sha256": "08ef4108097f399732ed84b4d81fa46fbf869edafaebb79fb156785cc4888888"
+      },
+      "registration_handoff": {
+        "bytes": 1288,
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-05/registration-source-handoff-01.json",
+        "sha256": "188c52cbc2743cdce794e60464c01bf37d0369169045677f50a41eeee53d50d8"
+      },
+      "status": "source-candidate-not-qualified"
+    },
+    "prior_addendum09": {
+      "bytes": 15212,
+      "path": "reports/releases/v0.9.2/review-handoff/joern-preparation-review-addendum-09.json",
+      "sha256": "700db5381f1d9d85cfbc62cc2944341e070d150e091b3d8b7bf79da507de1272"
+    },
+    "private06_work_pending_review": {
+      "candidate_files": [
+        {
+          "bytes": 1911,
+          "path": "/private/tmp/joern05-native-qualifier-06/README-05.md",
+          "sha256": "e37150056fc27af65f06d63941d4fdae6c084e4364bbfeb03e47f6222ac5ef9a"
+        },
+        {
+          "bytes": 1346,
+          "path": "/private/tmp/joern05-native-qualifier-06/fresh_worker_probe.py",
+          "sha256": "be37fddd4e85f562990863452d628474557b110dc380d7ccb1fad6be50248d22"
+        },
+        {
+          "bytes": 57640,
+          "path": "/private/tmp/joern05-native-qualifier-06/native_qualifier.py",
+          "sha256": "dc28240b101022f79cf5b1bc495fa2df49e5444036e4930ab0d081d9713af847"
+        },
+        {
+          "bytes": 943,
+          "path": "/private/tmp/joern05-native-qualifier-06/request-template.json",
+          "sha256": "43975407dc9f41e2184e5c53bb8d0ac40fbbcec39830d11ea6340f25c439d81e"
+        },
+        {
+          "bytes": 4873,
+          "path": "/private/tmp/joern05-native-qualifier-06/retained_resources.py",
+          "sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08"
+        },
+        {
+          "bytes": 46880,
+          "path": "/private/tmp/joern05-native-qualifier-06/test_native_qualifier.py",
+          "sha256": "709e4684c8d2fc10c8909b5f0978103e9bd963c97d82a667b472610f3d8d01fa"
+        }
+      ],
+      "design": {
+        "bytes": 12391,
+        "path": "/private/tmp/joern05-native03-registration-successor-design-01.json",
+        "sha256": "b7265e9e9bf9e8f9c10bcabe8724173013339dedc416e36fd2f6e054b824acfe"
+      },
+      "required_before_any_future_attempt": [
+        "independent review of successor source and meaningful positive/near-miss production-schema validation",
+        "new source closure and committed HEAD binding",
+        "new request, exact invocation review, and fresh admission",
+        "never reuse native-controls03 namespace or retry this attempt"
+      ],
+      "status": "private successor work only; no canonical installation, request, admission, launch, or qualification claim"
+    }
+  },
+  "recorded_utc": "2026-10-25T19:26:13.975500Z",
+  "request_and_admission_chain": {
+    "exact_invocation_review": {
+      "bytes": 12194,
+      "execution_authorized": false,
+      "native_control_invocation_approved": true,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls03-exact-invocation-review-01.json",
+      "qualification_authorized": false,
+      "sha256": "f2fc8aa920988ffb00bfdfed6aa6aa608ef2609c94ff2534f61bcfc62eaf9007",
+      "status": "approved-for-native-control-qualification-only"
+    },
+    "fresh_admission": {
+      "bootstrap_invoked": false,
+      "bytes": 2555,
+      "contenders": 0,
+      "engine_invoked": false,
+      "graph_closed_successfully": true,
+      "namespace_absent_before_start": true,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls03-fresh-admission-01.json",
+      "sha256": "2c24ce7eafd97e21cf16a3825b92e181687496e883e2c98636ec748f17dfceda"
+    },
+    "request03": {
+      "bytes": 522853,
+      "expected_head": "0ad5fcaf482eee32127868a9c3f5f2ce000e9ced",
+      "inherited_refs_preserved": 2240,
+      "namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03",
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-03.json",
+      "sha256": "ae78aba6c82d1ed10ee59990caa20f5d41b46e7fa29ceafb593f47c486d48fd8",
+      "source_refs": 2287
+    },
+    "source_commit_check": {
+      "bytes": 923,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-source-commit-request-check-03.json",
+      "sha256": "009558b8f1d03f51f28341086b9c9dce39b2bec0211785fd162837a5ccb02d23"
+    },
+    "source_ledger": {
+      "bytes": 123908716,
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 109,
+      "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851",
+      "unchanged": true
+    }
+  },
+  "schema": "v092-joern-preparation-review-addendum/v10",
+  "scope": "Append-only handoff of the one actual native-controls03 stop and its independent read-only diagnosis. This receipt preserves the attempted namespace and does not approve qualification, Joern05, engine execution, release, or publication.",
+  "source_head": "0ad5fcaf482eee32127868a9c3f5f2ce000e9ced",
+  "status": "native-controls03-stopped-before-matrix-plan-schema-defect"
+}

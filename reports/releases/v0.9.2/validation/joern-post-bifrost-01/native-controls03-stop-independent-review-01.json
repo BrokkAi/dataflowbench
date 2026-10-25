@@ -1,0 +1,251 @@
+{
+  "bindings": {
+    "exact_invocation_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls03-exact-invocation-review-01.json",
+      "sha256": "f2fc8aa920988ffb00bfdfed6aa6aa608ef2609c94ff2534f61bcfc62eaf9007",
+      "status": "approved-for-native-control-qualification-only"
+    },
+    "fresh_admission": {
+      "bootstrap_invoked": false,
+      "engine_invoked": false,
+      "graph_closed_successfully": true,
+      "namespace_absent": true,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls03-fresh-admission-01.json",
+      "sha256": "2c24ce7eafd97e21cf16a3825b92e181687496e883e2c98636ec748f17dfceda"
+    },
+    "ledger": {
+      "completed_rows": 103,
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 109,
+      "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851"
+    },
+    "observer": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-06.py",
+      "sha256": "aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551"
+    },
+    "request": {
+      "bytes": 522853,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-03.json",
+      "sha256": "ae78aba6c82d1ed10ee59990caa20f5d41b46e7fa29ceafb593f47c486d48fd8"
+    },
+    "source_head": "0ad5fcaf482eee32127868a9c3f5f2ce000e9ced",
+    "wrapper": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-03/native_qualifier.py",
+      "sha256": "4f3e8e9af3ba3f4d8f46b5de9f842103dc9a97b2e01d20a14e6ae597d70be33a"
+    }
+  },
+  "disposition": {
+    "attempt_consumption": "Preserve this one started-and-failed native-control invocation; no control result, qualification, unsupported decision or benchmark attempt is inferred.",
+    "automatic_retry": false,
+    "native_control_qualification": "not-qualified",
+    "next_gate": "Prepare and independently review a new integer-timestamp pending-plan successor, refresh request/source closure and exact invocation review, then run full read-only production validate_plan before any fresh admission or bootstrap. No retry of native-controls03.",
+    "publication_hold": true,
+    "source_repair_required": true
+  },
+  "finding": {
+    "diagnosis": "Immutable pending-plan registration-type defect; no native graph, Joern engine, analyzer, or semantic qualification failure is established. The plan is request03-bound and must not be edited in place.",
+    "exception": {
+      "message": "Joern v0.9.2 plan must be registered before execution",
+      "type": "ValueError"
+    },
+    "guard": {
+      "line": 385,
+      "path": "scripts/joern_normal_runner_v092.py",
+      "sha256": "683a1bb22a2ec943d357cd4b86982dd7ee62c22a47c28ee3c32e91d114f977f4",
+      "source": "require(type(stamp) is int and stamp < int(time.time()), \"Joern v0.9.2 plan must be registered before execution\")"
+    },
+    "input": {
+      "bytes": 48124,
+      "is_integral": false,
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/pending-execution-plan-01.json",
+      "python_type": "float",
+      "registered_at_unix_seconds": 1792947417.994006,
+      "sha256": "08ef4108097f399732ed84b4d81fa46fbf869edafaebb79fb156785cc4888888"
+    },
+    "summary": "The one native-controls03 invocation reached ready and controls-started, entered observer.controls, and failed closed in the frozen runner validate_plan registration guard before the version command or any engine.run_case control phase."
+  },
+  "minimal_repair": {
+    "automatic_retry": false,
+    "guard_or_budget_changes": false,
+    "immutable_input_edit": false,
+    "request_review_consequences": "Recompute successor plan digest, control projection if affected, source closure, request hash and a fresh exact invocation review. Do not reuse request03, native-controls03 namespace, or this exact invocation review.",
+    "scope": "Create an append-only pending-plan successor with registered_at_unix_seconds as an integer strictly earlier than current time; preserve qualification-pending, execution_eligible=false, diagnostic_execution_eligible=false, full_model_qualification=false, scored_activation=false, all existing case/control/resource/identity fields and budgets.",
+    "source_repair_required": true
+  },
+  "phase_interpretation": {
+    "engine_run_case_invoked": false,
+    "native_control_wrapper_entered": true,
+    "no_scored_joern05_attempt": true,
+    "observer_controls_entered": true,
+    "ready_and_controls_started": true,
+    "reason": "The traceback reaches scripts/joern_normal_runner_v092.py:validate_plan and its strict registration check before run_controls reaches _require_launch_guard, engine.process.run(version), or the engine.run_case loop.",
+    "startup_observer_evidence": "The sidecar is retained and reports zero observed events, qualification_safe=false and property_witness unavailable. This does not claim that no JVM could have existed; it records that no accepted JVM witness or version result was produced.",
+    "version_command_completed": false
+  },
+  "preservation": {
+    "automatic_retry": false,
+    "ledger_rows": 109,
+    "ledger_sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851",
+    "native_controls03_namespace_preserved": true,
+    "prior_failures_preserved": true,
+    "publication_hold": true
+  },
+  "read_only_validate_plan_followup": {
+    "current_result": "The actual production validate_plan was invoked read-only with observer-equivalent EXECUTION_PLAN_PATH rebinding and allow_qualification_pending=true; it reproduced the registration-type failure before later schema/runtime checks.",
+    "feasible_before_future_launch": true,
+    "pass_claimed": false,
+    "probe": {
+      "bytes": 6898,
+      "checks_passed": 16,
+      "path": "/private/tmp/joern05-native-controls03-stop-independent-probe-01.json",
+      "sha256": "244d2e237a0630602af295f352441b68088025d9260dbff8914065f7bc3e05b9"
+    },
+    "qualification_or_execution_authorized": false,
+    "successor_gate": "After the append-only successor and fresh request are prepared, invoke the same production validate_plan in an isolated read-only preflight with allow_qualification_pending=true. This can expose later plan/schema/runtime-identity failures before bootstrap; record a pass separately and do not launch version, JVM, engine, or controls."
+  },
+  "resources_and_cleanup": {
+    "cleanup_disposition": "Exit records coordinator reaped and no TERM/KILL sent; descendant containment remains explicitly unknown even though root reported all owned PIDs gone. No foreign cleanup or retry occurred.",
+    "fresh_admission": {
+      "common_lock": {
+        "dev": 16777233,
+        "existing_only": true,
+        "ino": 794756418,
+        "path": "/private/tmp/dataflowbench-v0.9.0-exclusive-analyzer.lock"
+      },
+      "contenders": [],
+      "free_bytes": 271242891264,
+      "retention_bytes": 24080434142,
+      "scratch_bytes": 1624576735,
+      "working_bytes": 19296408140
+    },
+    "owned_processes": {
+      "parent": 78659,
+      "root_post_exit_check": "parent terminal reconciliation reported all five owned PIDs gone at 19:19 UTC",
+      "tracked_descendants": [
+        82812,
+        83571
+      ],
+      "worker": 80999
+    }
+  },
+  "review_type": "independent-read-only-native-control-stop-diagnosis",
+  "reviewed_at_utc": "2026-10-25T19:22:44.613538+00:00",
+  "reviewer": "joern_native_controls03_stop_independent",
+  "schema": "v092-joern-native-controls03-stop-independent-review/v1",
+  "scope": {
+    "admission_invoked": false,
+    "analyzer_invoked": false,
+    "bootstrap_retried": false,
+    "engine_invoked": false,
+    "git_mutated": false,
+    "jvm_invoked": "not-established-by-accepted-witness",
+    "ledger_mutated": false,
+    "native_controls_invoked": true,
+    "publication_or_release_action": false,
+    "qualification_invoked": false,
+    "read_only": true,
+    "replay_invoked": false,
+    "source_edited": false,
+    "statement": "This review inspects the one preserved native-controls03 bootstrap/parent/worker terminal, exact streams, startup sidecar and frozen plan guard, and runs only a read-only production validate_plan reproduction. It does not retry, edit frozen inputs, invoke JVM/analyzer/engine controls, run qualification, mutate Git, or publish.",
+    "version_command_completed": false
+  },
+  "status": "stop-confirmed-plan-schema-defect",
+  "terminal": {
+    "child_started": {
+      "birth_identity": "Sun Oct 25 21:18:12 2026",
+      "bytes": 2273,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/child-started.json",
+      "pid": 80999,
+      "sha256": "332fc083d8320653dd84bad865bb4541d24e967f14e5003d32338e9d48d8e082"
+    },
+    "control_result_present": false,
+    "exit": {
+      "automatic_retry": false,
+      "bytes": 1399,
+      "controls_returned": false,
+      "coordinator_reaped": true,
+      "descendant_containment": "polling-unknown-even-if-no-tracked-survivors",
+      "ended_utc": "2026-10-25T19:18:56.702226+00:00",
+      "exit_code": 1,
+      "failure_message": "child failed/incomplete/late native control capture",
+      "failure_type": "ValueError",
+      "ledger_unchanged": true,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/exit.json",
+      "phases": [
+        "ready",
+        "controls-started"
+      ],
+      "qualification_inferred": false,
+      "sha256": "414f05cf477967d9e04c2ba8b33405da44fae7eb83823e1afd39d13fe0393416"
+    },
+    "namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03",
+    "parent_started": {
+      "birth_identity": "Sun Oct 25 21:17:12 2026",
+      "bytes": 3598,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/parent-started.json",
+      "pid": 78659,
+      "sha256": "cb50c5635f9edabd673c0e340aff26e462ec57f3d57aab5911fd47a02f5a9cf9",
+      "status": "verified"
+    },
+    "result": {
+      "automatic_retry": false,
+      "bytes": 1794,
+      "execution_terminal_observed": false,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03-supervision/result.json",
+      "qualification_inferred": false,
+      "sha256": "edfee90932919c216ccd7d1f974c7fbbbf60196aa5edc49eff331056f3682b64",
+      "status": "owned-parent-started"
+    },
+    "started": {
+      "automatic_retry": false,
+      "bytes": 1579,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03-supervision/started.json",
+      "sha256": "56866e5f2cd13b6fa40281693271ea1cdceda1c46aa5b202f5580778247c963d",
+      "status": "admission-receipt"
+    },
+    "startup_observation": {
+      "accepted_jvm_witness": false,
+      "bytes": 3204,
+      "event_count": 0,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/capture.startup-observation/summary.json",
+      "property_witness": "unavailable",
+      "qualification_safe": false,
+      "sha256": "413b3fc5788078e8fb7942445b05bd75d436f608a3efad39ffce8bb7ce0f75d1",
+      "status": "startup-agent-observed"
+    },
+    "streams": {
+      "parent_stderr": {
+        "bytes": 1240,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03-supervision/parent.stderr",
+        "sha256": "5d3b012ce79be5e028a5ff78255459823b401eea19ce8f15e35dea1264af3ea9"
+      },
+      "parent_stdout": {
+        "bytes": 0,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03-supervision/parent.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 2596,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/stderr.txt",
+        "sha256": "ecd7fdc9f2fbe045326139340d276a25c7a633f462ad04d561dbe5f67ec2da7c"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "supervision_namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03-supervision",
+    "worker_invocation": {
+      "bytes": 5559,
+      "configured_native_identity_exact": true,
+      "darwin_text_encoding": "0x1F5:0x0:0x0",
+      "environment_sha256": "ec53d42cc82868a22aba5b88a802c9fa716dc252b6b59cd41e54524d18f3104b",
+      "interpreter_argv_after_argv0_exact": true,
+      "parent_identity_exact": true,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/worker-invocation.json",
+      "pid": 80999,
+      "sha256": "e8d12d3e8862c8c0e86efa6426ceb2db3b064318b661a87af6707db2db844b11"
+    }
+  }
+}
