@@ -1,0 +1,106 @@
+{
+  "schema": "v092-bifrost-v0140-source-closure-repair-design-review/v1",
+  "review_type": "independent-source-closure-repair-design-review",
+  "reviewer": "joern_repair_independent",
+  "reviewed_at_utc": "2026-10-25T00:03:16.589926+00:00",
+  "status": "approved-for-implementation-only",
+  "automatic_retry": false,
+  "execution_authorized_by_this_review": false,
+  "implementation_authorized_by_this_review": true,
+  "scope": "Read-only review of the narrow BF18 typed source-roster to strict stage-reference boundary repair. Approval covers append-only implementation and focused harmless regression tests only; it authorizes no source commit, build, admission, qualification, replay, analyzer, launch, retry, or release.",
+  "bindings": {
+    "design": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-18/source-closure-repair-design-01.json",
+      "sha256": "ce0ee3fc3829e6e7d3081c6f41fce0d5ace74f44bccd4b72b2243a65b3b9b2e7"
+    },
+    "bridge13": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-13.py",
+      "sha256": "b9c893eafac61664436cc12bdf2f20a0d425ddd7a3a6b2c675e0e580cefc9513"
+    },
+    "core_identity": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-18/manifest-identity.json",
+      "sha256": "7997e1a14cb21b953e4cd0854ad2e8eb23bb503603fb536002752b350a6f57d1"
+    },
+    "replacement_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-20-contract.json",
+      "sha256": "ff5d8982f1d211b590ce8ed5197a405c3c143a5892e09900780e7b90363ae3a7"
+    },
+    "stop_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-18/actual-stage-stop-independent-review-01.json",
+      "sha256": "aa6f7c370385150dfbcf8e723ced4eace26e948aeb1694df9c0de4c5bd097946"
+    },
+    "stop_diagnosis": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-18/actual-stage-stop-diagnosis-01.json",
+      "sha256": "d93bed821a9e3b158f01b06872c8ecd5033b2eb75d1d3bf8e04eed775dd07627"
+    },
+    "source_closure_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-18/actual-source-closure-review-01.json",
+      "sha256": "1ff74e15b950e246e1e9b147093bd978129f22e3785fb5e7fcf61f7a41d7d63e"
+    }
+  },
+  "observed_stop": {
+    "exception": "stage source closure 0 has unexpected fields",
+    "phase": "after graph-owned runtime loading and before parent-stage inventory/identity construction",
+    "source_record_count": 1610,
+    "first_record": {
+      "path": "execution-state/v092/swift-source/patch-application/applied-patch.json",
+      "role": "release-input",
+      "sha256": "de3b1334bc868dd4037750f82b04e9df1443320540665bb2dbe877e7e121c20f"
+    },
+    "completed_parent_stage": false,
+    "attempt_consumed": false,
+    "analyzer_dispatches": 0,
+    "ledger_rows": 89,
+    "ledger_sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+  },
+  "static_validation": {
+    "actual_core_and_contract_shape": {
+      "actual_core_records_exact_typed_release_inputs": true,
+      "actual_contract_records_exact_typed_release_inputs": true,
+      "core_contract_source_inputs_equal": true,
+      "core_contract_source_commit_equal": true,
+      "source_paths_unique": true,
+      "bridge_failure_matches_design_boundary": true,
+      "implementation_is_append_only_successor": true
+    },
+    "current_core_source_commit": "706315e7eee64ca41eaa580f0634447dacd22cdd",
+    "current_contract_source_commit": "706315e7eee64ca41eaa580f0634447dacd22cdd",
+    "current_source_input_count": 1610,
+    "current_source_input_role": "release-input",
+    "strict_boundary": {
+      "accepted_stage_ref_fields": [
+        "path",
+        "sha256",
+        "rows",
+        "stat"
+      ],
+      "generic_ref_unchanged": true
+    }
+  },
+  "design_assessment": [
+    "The diagnosis is correct: canonical source_inputs records carry the required release-input role metadata, while bridge13._ref/_stage_ref intentionally accept only strict file-reference fields. The repair belongs at one shared canonical source-roster boundary rather than by widening _ref or stripping fields at each builder.",
+    "The proposed adapter preserves the complete ordered raw roster and its provenance checks, then projects one exact {path, sha256} reference per record for the strict stage inventory. This resolves parent, successor, and child composition without weakening stable_read, stat, symlink, hash, ledger, or generic-ref checks.",
+    "The canonical source_inputs branch must receive root (or an equivalent bound-reader context) and re-read the exact core contract through stable_read, verify the contract digest/path, compare the full raw ordered records and source_commit, and only then project refs. This is a required implementation detail of the approved design, not permission to trust a caller-provided core mapping.",
+    "The source_refs compatibility branch remains separate and strict: it continues to accept only ordinary _ref-compatible mappings and must reject role metadata rather than silently normalizing arbitrary fixture or ledger refs. Continuation fallback must bind its own source_inputs and contract context, never the replacement contract by accidental default.",
+    "The proposed positive and near-miss tests exercise actual create_parent_stage, successor create_parent_stage, and create_child_stage through the real builders; they cover reordered, missing, duplicate, changed, foreign, malformed, extra-field, source/contract mismatch, symlink, and mutation failures without invoking production replay."
+  ],
+  "implementation_conditions": [
+    "Thread the repository root/bound reader through the two production create_parent_stage/create_child_stage adapter call sites. Do not leave the adapter as an unbound _core_source_refs(core) trust point.",
+    "For canonical core.source_inputs, validate exact fields path/sha256/role, role release-input, canonical relative paths, lowercase 64-hex SHA values, ordered uniqueness, and full equality to the hash-bound replacement contract source_inputs and source_commit before projection.",
+    "Project only path and sha256 to the builders in original order; do not mutate core/contract/runtime normalized plan/source evidence or widen generic _ref. Preserve all raw role metadata in its existing contract/source-roster authority.",
+    "For continuation fallback, load and bind the continuation contract/source context separately. For explicit source_refs fixture input, keep strict _ref semantics and do not treat it as canonical source_inputs.",
+    "Before any future qualification, run the design-specified actual parent/successor/child path and all near-miss tests against the exact successor source. A passing synthetic adapter unit test alone is insufficient."
+  ],
+  "preserved_boundaries": [
+    "BF18 source, plan, contract20, core, manifest, source closure, 88-member graph, authorization, ledger, stop evidence, and prior reviews remain immutable.",
+    "The 89-row ledger, original clock, no-expiry authority, resource/attempt/one-slot guards, and automatic_retry false remain unchanged.",
+    "The failed qualification is not relabeled as a completed stage, replay, analyzer result, or consumed attempt."
+  ],
+  "findings": [],
+  "limitations": [
+    "This approval is implementation-only for the narrow source-record boundary repair. It is not source-commit, build, admission, qualification, replay, analyzer, or launch approval.",
+    "The successor must receive a fresh source/closure/core review and a separate actual qualification/invocation review after implementation and tests.",
+    "No implementation, source mutation, Git mutation, build, replay, admission, analyzer, launch, or production operation was performed by this review."
+  ],
+  "conclusion": "The proposed repair is a sound narrow adapter at the canonical source-roster boundary. It preserves full typed provenance and strict generic file references while projecting the exact stage inventory shape required by the frozen bridge. Implementation is approved only under the root-bound contract re-read, separate continuation/fixture branches, and actual parent/successor/child regression conditions above."
+}
