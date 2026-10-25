@@ -1,0 +1,664 @@
+{
+  "automatic_retry": false,
+  "complete_marker_closure": {
+    "current_child_path": [
+      "Popen uses spec.environment from actual _environment",
+      "_run_frozen_group:876 requires current20=1",
+      "actual child graph/receipt/lease/identity readiness checks",
+      "admission.validate_child_stage_from_receipt delegates opaque child guard; does not read experiment marker",
+      "frozen executor dispatch uses registered analyzer environment; does not require replacement experiment markers"
+    ],
+    "current_group_parent_path": [
+      "supervisor20._environment:377-387 starts exact explicit group environment, sets current20=1 and GROUP_ID",
+      "build_group_command:420 requires current20=1",
+      "admission20.admit_group:914 requires stale18=1 in PARENT environment",
+      "admission20.write_phase_gate:995 requires stale18=1 in PARENT environment",
+      "admission20.write_completion:1048 requires stale18=1 in PARENT environment"
+    ],
+    "current_parent_path": [
+      "bootstrap copies ambient environment; no replacement-marker authority itself",
+      "launcher20.launch:762-764 copies ambient, sets current20=1, removes fixture20",
+      "supervisor20.run_groups:1157 requires current20=1",
+      "create_parent_stage and write stage receipt",
+      "validate_authorization_bundle validates receipt authority, not environment permission",
+      "parent permit created",
+      "admission20.admit_parent:775 requires stale18=1: failure"
+    ],
+    "graph_role_count": 88,
+    "historical_runtime_boundary": "The complete graph census found no other replacement EXPERIMENT/FIXTURE literal outside current admission/supervisor. Historical provider04/CodeQL03/continuations/replacement05 validation/replay do not consume a replacement marker. Preserve their exact source identities and historical contracts. Frozen executor._child_environment:3161-3200 separately sets RELEASE_EXECUTION/QUALIFICATION plus GROUP_ID for registered Joern/Swift analyzer runners; those guards are distinct and unchanged, and do not authorize replacement admission.",
+    "marker_bearing_graph_sources": [
+      {
+        "literals": [
+          {
+            "line": 35,
+            "value": "DATAFLOWBENCH_V092_REPLACEMENT18_FIXTURE_SEAM"
+          },
+          {
+            "line": 36,
+            "value": "DATAFLOWBENCH_V092_REPLACEMENT18_EXPERIMENT"
+          }
+        ],
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-20.py"
+      },
+      {
+        "literals": [
+          {
+            "line": 46,
+            "value": "DATAFLOWBENCH_V092_REPLACEMENT20_FIXTURE_SEAM"
+          },
+          {
+            "line": 47,
+            "value": "DATAFLOWBENCH_V092_REPLACEMENT20_EXPERIMENT"
+          }
+        ],
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-20.py"
+      }
+    ],
+    "marker_free_current_modules": [
+      "packet20",
+      "noexpiry20",
+      "protocol20 (environment only removes GIT_* for Git read operations)",
+      "bridge15",
+      "stage07",
+      "runtime-loaders20"
+    ],
+    "method": "Static AST string census over all88 graph-role refs (45 unique source files), plus direct parent/child/launcher/qualification callsite inspection. No modules executed. Exact graph refs bound below.",
+    "other_current_writers": [
+      "admit_configuration:821 also uses same production permission guard; deferred configuration must inherit current21 parent marker",
+      "validate_preparation/validate_authorization_bundle and protocol receipt validation have no independent replacement marker requirement"
+    ],
+    "qualification_gap": "qualifier:48 checks supervisor marker only; its one parent replay +20 command constructions do not execute admission production permission. Successful qualification20 therefore did not establish composed launch permission compatibility.",
+    "sources": [
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-20.py",
+        "replacement_marker_literals": [
+          {
+            "line": 35,
+            "value": "DATAFLOWBENCH_V092_REPLACEMENT18_FIXTURE_SEAM"
+          },
+          {
+            "line": 36,
+            "value": "DATAFLOWBENCH_V092_REPLACEMENT18_EXPERIMENT"
+          }
+        ],
+        "roles": [
+          "admission20",
+          "host_admission20"
+        ],
+        "sha256": "91b2880b1affa8d35c9d7f0f5753c803c4ddc6d7fcfc2132536b72b20ad976ab"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_001_bifrost_v0140_frozen_bridge_08"
+        ],
+        "sha256": "d964c524cfec26e296a44e4c09ce3a606dcdfaec7c83114a1be3801222e35189"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-15.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "bridge15",
+          "host_bridge15"
+        ],
+        "sha256": "5d9072cbb310ddfbc58f9c96da0d0334ae49165310495b1de5c9f8ee2149e7b4"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-05.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "nested_001_v092_frozen_bridge_02_replacement05",
+          "replacement05"
+        ],
+        "sha256": "32e0f1811972eec57e9cf5f8e892f77bea0da68d063b19db9d324fa0ad30dafd"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-13.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "nested_009_bridge06_incoming_policy",
+          "nested_010_bridge03_window_policy",
+          "nested_011_v092_frozen_bridge_02_source_design04_policy"
+        ],
+        "sha256": "6fdc08000f673b5ac904aeb315be7dfa174747e31d7ff2f32b4090b161253842"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-20.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "host_protocol20",
+          "policy_runtime",
+          "policy_source",
+          "protocol20",
+          "replacement20"
+        ],
+        "sha256": "32ed42c82f06dab182daa492c6db580415fbd3a530922fd3151fa355cbfb679f"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-20.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "runtime_loaders20"
+        ],
+        "sha256": "05d223538ca0678f86cf5cd482fe67e44ebb9882caa97e9a9e09f50404bd597a"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-07.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "stage_runtime07"
+        ],
+        "sha256": "f6eb9892c23186ed7aff564ea0164ae7f4f68a0f17957ad118ffccb2dae1f11b"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-20.py",
+        "replacement_marker_literals": [
+          {
+            "line": 46,
+            "value": "DATAFLOWBENCH_V092_REPLACEMENT20_FIXTURE_SEAM"
+          },
+          {
+            "line": 47,
+            "value": "DATAFLOWBENCH_V092_REPLACEMENT20_EXPERIMENT"
+          }
+        ],
+        "roles": [
+          "host_supervisor20",
+          "supervisor20"
+        ],
+        "sha256": "376e92bb172c59e137d46ba9388599dd5b2857fa070e4884268c7b0c81f36b92"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "incoming_recovery",
+          "nested_012_v092_frozen_bridge_02_independent_codeql_history"
+        ],
+        "sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "incoming_predecessor03",
+          "nested_013_codeql_terminal_history_03"
+        ],
+        "sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "incoming_historical_previous_helper01",
+          "nested_015_codeql_pending_historical_previous_helper",
+          "nested_035_joern_capability_continuation_01_historical"
+        ],
+        "sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+      },
+      {
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "incoming_historical_replay_helper05",
+          "nested_014_codeql_pending_historical_replay_helper"
+        ],
+        "sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+      },
+      {
+        "path": "scripts/check-release-v092.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "checker",
+          "incoming_nested_checker",
+          "nested_004_replacement05_checker",
+          "nested_005_codeql_pending_checker",
+          "nested_016_check_release_v092_for_config_validation",
+          "nested_022_check_release_v092_scoped_replay",
+          "nested_023_check_release_v092_resource_replay",
+          "nested_028_joern_continuation_frozen_checker",
+          "nested_032_joern_continuation_frozen_checker"
+        ],
+        "sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+      },
+      {
+        "path": "scripts/codeql_swift_qualification_v092.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_004_codeql_swift_qualification_v092"
+        ],
+        "sha256": "adaf4ba27f45870ac500f30a7a89f63019efc9429d1377891aea5834bc1b781c"
+      },
+      {
+        "path": "scripts/execute-release-v092.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "executor",
+          "incoming_nested_executor",
+          "nested_002_replacement05_executor",
+          "nested_003_codeql_pending_executor",
+          "nested_017_execute_release_v092_for_checker",
+          "nested_027_joern_continuation_frozen_execute",
+          "nested_031_joern_continuation_frozen_execute"
+        ],
+        "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+      },
+      {
+        "path": "scripts/joern_capability_repair_v092.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "nested_030_joern_capability_repair_continuation_shim",
+          "nested_034_joern_capability_repair_continuation_shim",
+          "nested_036_joern_continuation_repair_shim"
+        ],
+        "sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+      },
+      {
+        "path": "scripts/joern_diagnostic_admission_v092.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_005_joern_diagnostic_admission_v092"
+        ],
+        "sha256": "c2faeeb5ef99f539ad8a4bee6fbc85656c0cc142f92196c02f5f26a446140a9e"
+      },
+      {
+        "path": "scripts/joern_execution_revalidation_v1.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_006_joern_execution_revalidation_v1"
+        ],
+        "sha256": "8b08b9022ac8eac0fd822d53980d0fcc49e352e8736bce9f2e42b0a488612126"
+      },
+      {
+        "path": "scripts/joern_normal_controls_v1.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_007_joern_normal_controls_v1"
+        ],
+        "sha256": "78123e5f9247aca543f0c841f6adf0040859f1e8d1006d9fb45116535aa4ff21"
+      },
+      {
+        "path": "scripts/joern_normal_execution_v1.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_008_joern_normal_execution_v1"
+        ],
+        "sha256": "01caead3c7e86880b9893128a0a65d7175f857b580d161ecbf586514e295577d"
+      },
+      {
+        "path": "scripts/joern_normal_reports_v092.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "nested_039_joern_normal_reports_v092_repair_pinned"
+        ],
+        "sha256": "75531186a9091e9e907a2c42388efea0e33d4872787a28fa9fc20b3643131db1"
+      },
+      {
+        "path": "scripts/joern_normal_reports_v1.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "nested_043_dfb_common_v2_joern_reports__root_token"
+        ],
+        "sha256": "a3fba23a07317be139a587186f529f3cccc4766a56b0c3d839886e7ce41f0b47"
+      },
+      {
+        "path": "scripts/joern_normal_runner_v092.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "nested_037_joern_normal_runner_v092_repair_pinned"
+        ],
+        "sha256": "683a1bb22a2ec943d357cd4b86982dd7ee62c22a47c28ee3c32e91d114f977f4"
+      },
+      {
+        "path": "scripts/joern_normal_runner_v1.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "nested_042_dfb_common_v2_joern_runner__root_token"
+        ],
+        "sha256": "4103ef8d9d2dc671408389dad57ee934ae01333a2cf5eecc8330ab9feb3be330"
+      },
+      {
+        "path": "scripts/joern_swift.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_009_joern_swift"
+        ],
+        "sha256": "c0c2322939ee61e39b85a80391192a27cd6323dcb6b234609985dee4fdc85822"
+      },
+      {
+        "path": "scripts/run-joern-swift-case.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_010_run_joern_swift_case"
+        ],
+        "sha256": "1a033f1c563003e91fe43fb4c4612d67539c9aad420e351d7a45782da7353516"
+      },
+      {
+        "path": "scripts/swift_artifact_closure.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_011_swift_artifact_closure"
+        ],
+        "sha256": "fe00daf7b75263e7add65675560f8731988333f75af3944e373599a85d7215c3"
+      },
+      {
+        "path": "scripts/swift_common_population_v2.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_012_swift_common_population_v2"
+        ],
+        "sha256": "3dee12724faf7a3937a3741a086a9858518ed27271644bbb788b458caef6b6c6"
+      },
+      {
+        "path": "scripts/swift_entry_observation.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_013_swift_entry_observation"
+        ],
+        "sha256": "930b80478e989974a89c4f82ad01cae3c5e3bcdd7df16c4eb7ecdf0363cb6596"
+      },
+      {
+        "path": "scripts/swift_extraction_integrity.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_014_swift_extraction_integrity"
+        ],
+        "sha256": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156"
+      },
+      {
+        "path": "scripts/swift_normal_reports_v092.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_015_swift_normal_reports_v092"
+        ],
+        "sha256": "fb682d4b48d5c1a2ee32eb2d3d271bc624c28466e98e55318f9582efe8123b8a"
+      },
+      {
+        "path": "scripts/swift_normal_reports_v1.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "nested_041_dfb_common_v2_codeql_reports__root_token"
+        ],
+        "sha256": "4a9ee1c8708ab368452492b87f01d721bb31aa31bd6f526ddb18890f82d01ff3"
+      },
+      {
+        "path": "scripts/swift_normal_runner_v092.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_016_swift_normal_runner_v092"
+        ],
+        "sha256": "f70fb98ee9b9073a1a31064c413a9278ad3ac3c8c8e95826190d58ce7fac1bfc"
+      },
+      {
+        "path": "scripts/swift_normal_runner_v1.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "nested_040_dfb_common_v2_codeql_runner__root_token"
+        ],
+        "sha256": "f046c917c5c809199d37956ba950a4267523a74872ee8291ac4a732b7882cafb"
+      },
+      {
+        "path": "scripts/swift_persistence_coverage.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_017_swift_persistence_coverage"
+        ],
+        "sha256": "62017833ad9e666a405f2650618173b97ab2d1568fb14b13cce8fed722dc4ec3"
+      },
+      {
+        "path": "scripts/swift_v2_process.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_018_swift_v2_process"
+        ],
+        "sha256": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd"
+      },
+      {
+        "path": "scripts/swift_v2_scored_process.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "nested_024_v092_process_tracker"
+        ],
+        "sha256": "09cc57d0893d3ab17c75f7934aba8ebd9cc736bd118e77163e5c5fd2fbf0456e"
+      },
+      {
+        "path": "scripts/swift_v3_reports.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_019_swift_v3_reports"
+        ],
+        "sha256": "5d5fd2c2046a9886de261037dca6d529a9841b7f889790e8723404fc5da501af"
+      },
+      {
+        "path": "scripts/swift_v3_runner.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "local_020_swift_v3_runner"
+        ],
+        "sha256": "454944d5ca461e8ae49361055408daaa9037388a151dcd8e5f3d34c8a3c2b954"
+      },
+      {
+        "path": "scripts/v092_disk_guard.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "disk_guard",
+          "nested_008_codeql_pending_disk_guard",
+          "nested_025_v092_disk_guard_runtime",
+          "nested_026_v092_replacement09_supervisor_terminal_disk_guard"
+        ],
+        "sha256": "fa4201b0aa4ae73273c4d6ba9f2dbb4315e6fb9d52c7469c8be3d46f0b570e21"
+      },
+      {
+        "path": "scripts/v092_qualification.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "nested_038_v092_qualification"
+        ],
+        "sha256": "f673a5b5133c1101e7379fc365a83a47a7525c3daf15efa34a6eed12858e7cb5"
+      },
+      {
+        "path": "scripts/v092_resource_recovery.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "incoming_nested_resource_recovery",
+          "nested_018_v092_resource_recovery_for_checker",
+          "nested_021_v092_resource_recovery"
+        ],
+        "sha256": "c0dc2ef56cd1cb20cb0d96b156438e2ee876081e85c0f8ff43ca4afb3091830d"
+      },
+      {
+        "path": "scripts/v092_scoped_recovery.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "incoming_nested_scoped_recovery",
+          "nested_019_v092_scoped_recovery_for_checker",
+          "nested_020_v092_scoped_recovery_packet"
+        ],
+        "sha256": "6f8b025aae344709e1ecc9722db8943877e6f08851e423f9ab735d8d7d311c0d"
+      },
+      {
+        "path": "scripts/validate-v092-report-configurations.py",
+        "replacement_marker_literals": [],
+        "roles": [
+          "configuration",
+          "incoming_nested_configuration",
+          "nested_006_replacement05_configuration",
+          "nested_007_codeql_pending_configuration",
+          "nested_029_joern_continuation_frozen_configuration",
+          "nested_033_joern_continuation_frozen_configuration"
+        ],
+        "sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858"
+      }
+    ],
+    "unique_sources": 45
+  },
+  "created_utc": "2026-10-25T01:34:20.428368+00:00",
+  "evidence": {
+    "contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-22-contract.json",
+      "sha256": "4bf7fbdda6621298890d984ceaef82b2184cd2c01c571d5c49a38222ca6ae04c"
+    },
+    "core": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-20/manifest-identity.json",
+      "sha256": "72e0f3ec5ab9eaf5a6bb136186200ac11cbf7bf09b41265a13a4cfe76148458d"
+    },
+    "launcher": {
+      "path": "/private/tmp/dfb-bf20-durable-launch-01.py",
+      "sha256": "dd43a47c261c4b73f8318c2d6e65fc27cede287c02fb5ea2869a20a6c37b3ab3"
+    },
+    "manifest": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-20/manifest.json",
+      "sha256": "60e12e495fcdb31e5ed4eb33981c52f32dbfd3bad726742fdf39d610bdc24e6c"
+    },
+    "plan_commit": "d2b67c918eae534993596f5bd3742c9c8a8bda29",
+    "qualification_wrapper": {
+      "path": "/private/tmp/bf20-actual-stage-run-01.py",
+      "sha256": "9695d56cd66e2a840e4da129a2ce1247e36c88af8b16b63a9bb17d13a3f2e3f4"
+    },
+    "qualifier": {
+      "path": "/private/tmp/bf20-actual-stage-qualification-01.py",
+      "sha256": "715b2e0aca0c358e5096711bf302daa4069a6b65b8f8078adfdd8e7fcf3f356a"
+    },
+    "runtime_graph_config": {
+      "path": "/private/tmp/bf20-runtime-graph-config-03.json",
+      "sha256": "9eabe5e41aefae46f0317150538c2d2677ae60e92c024602bb6095e51af2b6e4"
+    },
+    "source_commit": "9569b3870dd7351369c343394f578ceefb622889",
+    "source_design": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-15.json",
+      "sha256": "ff8cf00886d221b1b7d57df00afbdf26a0f051ecee7eab9f35cccbbb9cb486b7"
+    },
+    "stderr": {
+      "path": "reports/releases/v0.9.2/execution-v4/bifrost-v0140-replacement-20/supervision-01/supervisor-stderr.txt",
+      "sha256": "222b6e80e9d62499188a9cef19e7da8839db25010437c2e54cb77d173c158d0b"
+    },
+    "stop": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-20/supervision-stop-diagnosis-01.json",
+      "sha256": "bc19d4c5ab2ebe7bfbb999b5cd5c21cbdbf334e1de005bd849cc997dac98aeab"
+    }
+  },
+  "execution_followthrough": "Independent design review -> bounded successor implementation/tests -> exact new source closure review/transaction (same9Rust bytes) -> isolated provenance build13 -> contract23/plan/core21/manifest21/23derivedauths -> exact static and invocation reviews -> one qualification21 -> actual terminal and ownedgone -> exact external launch review/fresh live capacity -> fresh durable launch21. No production step is performed or authorized solely by this design.",
+  "implementation_authorized_by_this_artifact": false,
+  "limits": "Design only. No implementation, imports, tests, production replay, build, Git mutation, cleanup, admission, analyzer, retry or launch performed. Process absence statements are attributed to root receipts. Independent design review required before implementation.",
+  "narrow_repair": {
+    "current_version_map": {
+      "bridge": "15 ->16",
+      "contract": "22 ->23",
+      "replacement": "20 ->21",
+      "runtime_loaders": "20 ->21",
+      "source_design": "15 ->16, predecessor exact15",
+      "stage_runtime": "07 ->08"
+    },
+    "historical_refs": "Only current roles/paths/schemas advance. Preserve historical BF14 template keys, replacement05, provider04/CodeQL03, all existing frozen20/source/plan/contracts/reviews and ledger rows.",
+    "minimality": "Two stale admission environment constants are the functional defect. New17-file/source/core/namespace generation is required by sealed20 path/SHA graph bindings, not by new analyzer semantics.",
+    "no_new_runtime_policy": "No changes to generic import route guards, immutable graph validation, full-source refs, elapsed clock, analyzer dispatch or limits. Marker equality is tested across actual consumers/producers; no new core field/schema widening needed.",
+    "production_files": [
+      "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-21.py",
+      "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-21.py",
+      "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-21.py",
+      "reports/releases/v0.9.2/acquisition/bifrost-v0140-packet-21.py",
+      "reports/releases/v0.9.2/acquisition/bifrost-v0140-no-expiry-21.py",
+      "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-16.py",
+      "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-08.py",
+      "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-21.py"
+    ],
+    "production_guard": "Keep _require_execution_permission(root, fixture_only=False) exact value==string1. Keep fixture temporary-root constraint unchanged. Preserve all receipt/authorization/permit/lock/stage validation around writers.",
+    "roster_count": 17,
+    "semantic_change": "Successor admission21 EXPERIMENT_ENV must be DATAFLOWBENCH_V092_REPLACEMENT21_EXPERIMENT, matching successor supervisor21/launcher21/wrapper21. Admission21 FIXTURE_ENV must also be current21 and match supervisor/launcher; never retain18 as current execution authority. Do not set a historical marker to satisfy frozen20. Do not OR/alias historical markers into the current guard.",
+    "test_files": [
+      "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-replacement-21.py",
+      "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-admission-21.py",
+      "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-supervisor-21.py",
+      "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-packet-21.py",
+      "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-no-expiry-21.py",
+      "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-stage-runtime-08.py",
+      "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-runtime-loaders-21.py",
+      "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-16.py",
+      "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-supervisor-21-production.py"
+    ]
+  },
+  "observed_failure": {
+    "actual_admission_marker": "DATAFLOWBENCH_V092_REPLACEMENT18_EXPERIMENT",
+    "also_stale_fixture_constant": "DATAFLOWBENCH_V092_REPLACEMENT18_FIXTURE_SEAM",
+    "boundary": "admit_parent -> _require_execution_permission at admission20:775/329-335",
+    "expected_parent_marker": "DATAFLOWBENCH_V092_REPLACEMENT20_EXPERIMENT",
+    "live_process_statement": "All exact owned births gone per root stop receipt; this design did not independently poll processes.",
+    "not_reached": [
+      "parent admission write",
+      "group loop",
+      "child Popen",
+      "replacement analyzer",
+      "replacement attempt creation"
+    ],
+    "reached_before_stop": [
+      "parent stage00",
+      "parent raw permit"
+    ],
+    "replacement_attempts_consumed": 0
+  },
+  "preserved_invariants": {
+    "aggregate_gib": 30,
+    "analyzer_deadlines": "unchanged per-group registered finite deadlines",
+    "completed": 83,
+    "expiry": null,
+    "global_attempts": "C03; all other replacement02; no replacement consumed by20 stop",
+    "handshake_seconds": 120,
+    "launch_floor_gib": 127,
+    "ledger_rows": 89,
+    "ledger_sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6",
+    "noncompleted": 6,
+    "ordering": "20 independent Bifrost014 groups first, contained failures retained and next independent group allowed only after exact cleanup/resources; global containment/resource/integrity failures stop batch",
+    "original_origin": "2026-10-20T00:57:00.680937+00:00",
+    "per_source_gib": 12,
+    "protected_gib": 40,
+    "retention_gib": 24,
+    "scratch_gib": 24,
+    "slot_count": 1,
+    "source_inputs_count_caveat": "1644 inherited existing roster +17 successor source/test records, subject to actual collector; no future hashes or completed evidence asserted.",
+    "source_inputs_prospective_count": 1661,
+    "startup_seconds": 600,
+    "stop_gib": 48,
+    "typed_limits": "unchanged; v0131 never selected as fallback; no inferred84 completion"
+  },
+  "regression_plan": [
+    {
+      "id": "M1",
+      "method": "Exercise real successor launcher launch environment construction through the actual Popen call boundary; intercept process dispatch only so no supervisor/analyzer runs. Do not provide a hand-authored substitute environment. Capture exact env argument and assert current21=1 and fixture21 absent. Preserve normal launch validation separately; harmless temporary output namespace only, not frozen20 namespace.",
+      "test": "Actual launcher launch function environment capture"
+    },
+    {
+      "id": "M2",
+      "method": "Feed M1 captured environment to real admission21._require_execution_permission at canonical production ROOT with fixture_only=False. Require success. Never patch the guard, admission EXPERIMENT_ENV, root identity or fixture_only into a passing seam. Repeat missing/current0/currenttrue/only18/only20/fixture21-only/fixture18-only negatives. Historical extra markers cannot substitute for missing current21; no requirement to reject irrelevant ambient historical keys when current21=1.",
+      "test": "Actual admission production guard, launcher-derived environment"
+    },
+    {
+      "id": "M3",
+      "method": "Through actual supervisor21 run_groups/admit_parent path in production mode, retain real marker guard and derive environment from real launcher construction. Downstream evidence/process I/O may be replaced with explicit stopping sentinels for harmless regression, but no marker/permission/stage success callback. Assert guard is reached/passes before downstream sentinel. Missing/wrong/historical-only environment must fail actual permission before write. Do not claim this harmless regression is full production admission or qualification.",
+      "test": "Parent writer composed production ordering"
+    },
+    {
+      "id": "M4",
+      "method": "Use actual supervisor21._environment with registered explicit group environment, plus actual build_group_command environment result. Real _run_frozen_group production entry must pass current21 marker check and reach inherited-lock/identity boundary with downstream no-dispatch sentinel. Missing/wrong/historical-only markers fail before child graph/replay/attempt work. No fixture_only seam and no patched marker guard. Assert child group ID remains exact and group environment does not depend on ambient old markers.",
+      "test": "Actual supervisor child producer and consumer"
+    },
+    {
+      "id": "M5",
+      "method": "Enumerate actual AST/call graph of admit_parent/admit_group/write_phase_gate/write_completion/admit_configuration; prove each calls same guard with unmodified fixture_only parameter. Actual production guard matrix applies to all. Packet/noexpiry/protocol/bridge/stage have no marker consumer; assert their schema/env paths do not introduce historical-marker authorization.",
+      "test": "All admission write endpoints share marker contract"
+    },
+    {
+      "id": "M6",
+      "method": "Add a bounded check to successor qualifier using its actual inherited production environment: invoke real admission production guard at canonical root with fixture_only=False before expensive full parent replay, in addition to existing supervisor marker assertion. This is the existing launch permission predicate, not an execution authorization or admission write. Preserve one replay/20 commands/zero analyzers and non-reusable runtime authority.",
+      "test": "Qualification integration catches defect before another launch"
+    },
+    {
+      "id": "M7",
+      "method": "Retain all existing190 tests and actual direct-file CLI parent/child88-graph identity/digest/restoration regressions. Refresh import smoke exact successor graph. Functional new matrix is marker contract only; reuse unaffected body evidence only with exact dependency hashes and explicit version/path rebinding evidence.",
+      "test": "Preserve proven actual CLI and graph behavior"
+    }
+  ],
+  "schema": "v092-bifrost-v0140-launch-marker-repair-design/v1",
+  "scope": "Append-only successor21 current execution-marker compatibility; no historical marker rewriting or analyzer/runtime semantics change.",
+  "status": "proposed-for-independent-design-review"
+}
