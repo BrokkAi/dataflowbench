@@ -1,0 +1,145 @@
+{
+  "automatic_retry": false,
+  "bindings": {
+    "bridge17": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-17.py",
+      "sha256": "c13a5d71c27ce3c2139185838a282232811645c3e6e3163c201aa97e9e48b8f0"
+    },
+    "contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-24-contract.json",
+      "sha256": "8afc4753caca64fe244653bf937a4d5533ef2828bb8638851855222f4f34b5b1"
+    },
+    "core_identity": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-22/manifest-identity.json",
+      "sha256": "8322374975d128b86fed1677bde418188dc573273076c1cfbe0b58b5b7ebe075"
+    },
+    "design": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-22/child-ledger-reference-repair-design-01.json",
+      "sha256": "a39ed7d0c3824254846450e5ce8be3a14a6b21c2df9970beaeac08df1c43fb94"
+    },
+    "ledger": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    },
+    "manifest": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-22/manifest.json",
+      "sha256": "81094fda41f117cdf432545c23c26602ce36b2e89338e0a50ed3dfb9e3e72bdc"
+    },
+    "stop_diagnosis": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-22/durable-stop-diagnosis-01.json",
+      "sha256": "be76f06d950cac62df3296c7d9b5af230d27d7dff87339608df3d7397cf599f0"
+    },
+    "supervisor22": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-22.py",
+      "sha256": "514ab7f8df77939b3d8f541480f68a71a7a42754a0c18de7831d562135a28c8e"
+    },
+    "transition_audit": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-22/child-ledger-reference-transition-audit-01.json",
+      "sha256": "260d1bcbcf015454739e5d875fb480e9c01ae5a75fa4308a60dfc95f89ab9bb3"
+    }
+  },
+  "conclusion": "The proposed successor repair is a sound, minimal projection at the only confirmed producer-consumer loss boundary. Implementation is approved only with the unchanged strict consumer, receipt/stat/hash provenance, real initial and successor parent-to-child composition, and all listed near-miss regressions.",
+  "design_assessment": [
+    "The failure boundary is correctly isolated to the sole reachable supervisor child call: the verified compact parent has an integer ledger_rows beside a strict path/SHA/stat ledger_ref, but _run_frozen_group forwards only the latter.",
+    "The proposed selector {**parent[ledger_ref], rows: parent[ledger_rows]} is the minimum semantic repair. It copies rows only after _read_compact_parent and all existing manifest/core/graph/process/lock/lease checks, preserves the original receipt and stat/hash witness, and leaves the strict bridge loader unchanged.",
+    "The design correctly keeps generic StageRef/_ref shape, compact receipt serialization, exact inventory/stat equality, stable snapshot reads, runtime row/hash/stat checks, source closure, authorization, resource, clock, attempt, namespace, and child-ready guards unchanged.",
+    "The reachable-transition audit correctly finds no analogous successor loss: _stage_ledger creates a fresh rows-bearing selector for each successor. The implementation must derive rows from each verified current receipt rather than hardcode 89 or reuse the initial prefix.",
+    "The actual qualification only constructed S0 and twenty command specifications, so it did not exercise _run_frozen_group/create_child_stage. The required real composition therefore closes a genuine untested producer-consumer seam."
+  ],
+  "execution_authorized_by_this_review": false,
+  "findings": [],
+  "implementation_authorized_by_this_review": true,
+  "implementation_conditions": [
+    "Implement only the successor supervisor call-boundary projection in the fresh BF23 namespace; do not edit frozen BF22 bridge17, stage-runtime09, receipt writer, generic refs, or runtime row/hash/stat gates.",
+    "Use the already verified parent ledger_ref and parent ledger_rows; require the existing positive-int/equality guards to remain authoritative and never derive a count from live bytes or silently accept missing rows.",
+    "Preserve all BF22 source/core/manifest/contract/ledger/attempt/clock/resource/namespace/history evidence and bind any BF23 source/contract/closure hashes only after actual source collection and independent review. Do not invent future hashes or claim BF23 qualification.",
+    "Keep the failed BF22 launch namespace and receipts as immutable evidence; the root stop accounting reports no attempt consumed and must not be reinterpreted."
+  ],
+  "limitations": [
+    "This approval is implementation-only for the narrow successor supervisor projection and harmless regression tests. It is not source-commit, build, admission, qualification, replay, analyzer, launch, retry, or release approval.",
+    "BF23 requires fresh source closure, core/contract/manifest reviews, focused tests, actual qualification invocation review, and independent terminal evidence after implementation.",
+    "No implementation, source mutation, Git mutation, build, replay, admission, analyzer, launch, or production operation was performed by this review."
+  ],
+  "observed_failure": {
+    "analyzer_dispatches": 0,
+    "attempt_consumed": false,
+    "consumer": "supervisor22._run_frozen_group passes parent[ledger_ref] without rows to bridge17.create_child_stage; bridge17._load_bound_ledger_runtime rejects the missing typed row count before runtime acquisition.",
+    "ledger_rows_unchanged": true,
+    "parent_ledger_sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6",
+    "parent_receipt_rows": 89,
+    "parent_stage_receipt_sha256": "a37b9aafdabdbaec43efcdfe333a230f4673500685be4e29ebf51e6f6180f4df",
+    "producer": "compact parent receipt intentionally stores ledger_ref as path/SHA/stat and ledger_rows separately; changing StageRef or receipt serialization would widen the repair unnecessarily."
+  },
+  "preserved_limits": {
+    "aggregate_source_working_gib": 30,
+    "attempt_limits": "unchanged pending authoritative accounting",
+    "automatic_retry": false,
+    "expiry": null,
+    "minimum_free_gib": 127,
+    "one_analyzer_slot": true,
+    "original_origin": "2026-10-20T00:57:00.680937+00:00",
+    "per_source_projection_gib": 12,
+    "protected_reserve_gib": 40,
+    "scratch_retention_gib": 24,
+    "startup_seconds": 600,
+    "stop_free_gib": 48
+  },
+  "prospective_successor_boundary": {
+    "bridge_version": 18,
+    "contract": "bifrost-v0140-replacement-25-contract.json",
+    "historical_namespace": "Fresh BF23 qualification/launcher/bootstrap/config/source namespaces; never reuse failed BF22 execution namespace.",
+    "source_inputs": "Current BF22 actual 1,678 roster plus 17 successor source/test paths only after actual Git collection and review; no future hashes inferred.",
+    "stage_runtime_version": 10,
+    "supervisor_version": 23,
+    "version": 23
+  },
+  "required_regressions": [
+    {
+      "id": "positive-initial-parent",
+      "requirement": "Real compact parent receipt without nested rows plus separate ledger_rows=89 flows through actual supervisor _run_frozen_group, actual create_child_stage, actual _load_bound_ledger_runtime, real child construction, and both child-ready checks before a downstream analyzer sentinel."
+    },
+    {
+      "id": "positive-successor-parent",
+      "requirement": "A real one-row successor receipt reaches rows=90 through the same path; test derives 90 from that receipt and compares inventory path/SHA/stat tuples before and after."
+    },
+    {
+      "id": "missing-selector-rows",
+      "requirement": "The original unadapted ledger_ref fails at the unchanged strict consumer before runtime acquisition; a sentinel proves no downstream bypass."
+    },
+    {
+      "id": "wrong-rows-type-count",
+      "requirement": "Missing, bool, string, zero, and mismatched positive counts are rejected by existing predicates before runtime acquisition."
+    },
+    {
+      "id": "wrong-path-hash-stat",
+      "requirement": "Changed bytes, hash, stat, path, same-content foreign path, and stale witness are rejected without refreshing witnesses."
+    },
+    {
+      "id": "wrong-parent-authority",
+      "requirement": "Changed receipt identity, source/plan/contract/manifest/core/graph/namespace, and stale parent references are rejected by the actual compact-parent/ready guards."
+    },
+    {
+      "id": "actual-cli-child-producer",
+      "requirement": "The regression uses actual production-mode _run_frozen_group and launcher-derived environment; it does not replace create_child_stage, _load_bound_ledger_runtime, or child-ready guards with mocks. Only downstream evidence acquisition/analyzer dispatch may be bounded by an explicit fixture sentinel."
+    }
+  ],
+  "review_type": "independent-child-ledger-reference-repair-design-review",
+  "reviewed_at_utc": "2026-10-25T03:24:58.300599+00:00",
+  "reviewer": "bifrost014_external_controls",
+  "schema": "v092-bf22-child-ledger-reference-repair-design-review/v1",
+  "scope": "Read-only review of the narrow BF22 child-ledger row projection design. Approval permits append-only successor implementation and focused harmless regression tests only; it authorizes no source transaction, build, qualification, admission, replay, analyzer, launch, retry, publication, or release.",
+  "static_validation": {
+    "analyzer_dispatches": 0,
+    "attempt_consumed": false,
+    "bridge_semantic_repair_required": false,
+    "design_reproduces_actual_missing_rows": true,
+    "index_clean_at_stop": true,
+    "ledger_rows": 89,
+    "ledger_sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6",
+    "owned_processes_gone": true,
+    "real_parent_successor_child_composition_required": true,
+    "strict_consumer_unchanged_required": true,
+    "transition_audit_identifies_only_rows_loss_boundary": true
+  },
+  "status": "approved-for-implementation-only"
+}
