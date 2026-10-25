@@ -1,0 +1,105 @@
+{
+  "schema": "v092-joern-native-control-sealed-independent-review/v1",
+  "recorded_utc": "2026-10-25T20:46:40Z",
+  "review_mode": "read-only-private09-sealed-source-build-probe-evidence-review",
+  "candidate": {
+    "handoff_path": "/private/tmp/joern05-native-control-09/implementation-handoff-09.json",
+    "handoff_sha256": "f0c2d1e10a16b610dabc77361926e51902310b5e7a7cdb91320e45e3df45edbe",
+    "predecessor_path": "/private/tmp/joern05-native-control-08/implementation-handoff-08.json",
+    "predecessor_sha256": "5d21bfe12e557cc7202dcd422cb231f7e3f02a07107e88471225bbbd4164f75e",
+    "source_path": "/private/tmp/joern05-native-control-09/joern_native_control_observer_v07.py",
+    "source_sha256": "4e3998dfb3f32b5d377c8697ea644d247f147220679eb784cc64fc501f7bc199",
+    "java_source_sha256": "d7c4b65acf156278ab650dac993fe1e900ac4dd5b5b6e1d83453a809ce57fefa",
+    "java_test_sha256": "aaa11f0f85fc8906bc04f416c91297e4a3d9df3463034c461ad2ef26d68dac6f"
+  },
+  "timing_provenance": {
+    "prior_review_path": "/private/tmp/joern05-native-control-08-independent-source-review-01.json",
+    "prior_review_sha256": "8f596c451e708b6e59698b9bad5d6ce20d553412a7071550dee8398695c4ff74",
+    "prior_recorded_utc": "2026-10-25T20:55:00Z",
+    "prior_timestamp_status": "invalid-future-timestamp relative to the current UTC clock; prior review bytes are preserved unchanged",
+    "current_review_timestamp_source": "date -u / datetime.now UTC at review generation"
+  },
+  "sealing": {
+    "status": "approved-sealed-source-and-diagnostic-evidence",
+    "operative_delta": "AGENT_SHA256 UNSEALED -> 1e30a6a5c88abb0216c5f205bd337f18fc30dd91345a8aeae244398cc0803261",
+    "jar_path": "/private/tmp/joern05-native-control-09/evidence/build/joern-startup-witness-agent-05.jar",
+    "jar_sha256": "1e30a6a5c88abb0216c5f205bd337f18fc30dd91345a8aeae244398cc0803261",
+    "jar_bytes": 8842,
+    "source_semantics": "Java source, traversal source, 32-node/32-edge ancestry bound, diagnostic-only ancestry, semantic native/direct-parent strictness, and native tracking semantics unchanged from private08",
+    "test_delta": "Only the sealed digest assertion and explicit synthetic UNSEALED rejection were added; no tests removed"
+  },
+  "copy_provenance": {
+    "path": "/private/tmp/joern05-native-control-09/copy-provenance-09.json",
+    "sha256": "6c9a792a3a6cfec50f7c5f693a59e5b2592cdd75ecf097ec87c1de193a6a9bdc",
+    "entries": 28,
+    "all_declared_original_and_copy_hashes_match": true,
+    "copied_build_and_probe_evidence": true
+  },
+  "build_evidence": {
+    "build_result_path": "/private/tmp/joern05-native-control-09/evidence/build/build-result-01.json",
+    "build_result_sha256": "56f5f820331252d1f28275ead5e7d6ba80f2a3363ef63cd027be69a8cbc7d652",
+    "build_review_path": "/private/tmp/joern05-native-control-09/evidence/build/joern05-agent05-build-independent-review-01.json",
+    "build_review_sha256": "5a4c3a408c5f6b755bd12c715d031a75dcbd2df9f2e4530cc42136eac9c6a62b",
+    "compiler_invocations": 1,
+    "fake_handle_jvms": 1,
+    "fake_handle_tests": 9,
+    "packaging_repeat": "byte-identical packaging only; no second compilation inferred",
+    "native_controls": 0,
+    "scored_attempts": 0
+  },
+  "python_evidence": {
+    "tests": 36,
+    "status": "passed",
+    "log_path": "/private/tmp/joern05-native-control-09/tests-09.log",
+    "log_sha256": "5ca64a54bd834770a60d60dcf894d528d7234625addf82ad47fabb4cb81be5df",
+    "ast_check_path": "/private/tmp/joern05-native-control-09/ast-check-09.json",
+    "ast_check_sha256": "8a6127860827645b847f370b05e6c98c51f30a66459d059488b583f4424349bb",
+    "source_parse": "passed"
+  },
+  "probe_evidence": {
+    "status": "passed-diagnostic-only",
+    "receipt_path": "/private/tmp/joern05-native-control-09/evidence/probe/receipt.json",
+    "receipt_sha256": "bb81bd45dd4a5609acbe007d1ec19e99d2e804d6b693a526b2542dc88137b1c5",
+    "receipt_bytes": 4566,
+    "actual_java_invocations": 1,
+    "returncode": 0,
+    "timeout_seconds": 15,
+    "automatic_retry": false,
+    "witness_path": "/private/tmp/joern05-native-control-09/evidence/probe/witnesses/jvm-4839.json",
+    "witness_sha256": "29ac05ae466f3ca3925451090562e7c7d39ed961bfc3f7b77f1c3f89bef90530",
+    "ancestry": {
+      "termination": "root",
+      "edges_anchored": 2,
+      "anchor_pid": 4837,
+      "anchor_source": "invocation-host",
+      "birth_comparison": "java-millisecond-floor",
+      "complete_descendant_coverage": false,
+      "diagnostic_only": true
+    },
+    "host_birth_stable": true,
+    "direct_child_reaped": true,
+    "descendant_containment": "unproven",
+    "native_self_birth_verified": false,
+    "semantic_qualification": false,
+    "native_control_matrix_executed": false
+  },
+  "decision": {
+    "status": "approved-bounded-source-and-canonical-copy-only-if-exact",
+    "blockers": [],
+    "canonical_copy": "Permitted only as a separate exact-byte integration action after required policy/decision/plan/projection/wrapper/request/source-closure/admission gates; no canonical copy performed here.",
+    "runtime_scope": "The actual standalone probe is accepted as diagnostic evidence only. It does not qualify semantic JVMs, native containment, Joern controls, or any scored result.",
+    "jar_digest": "sealed in private09 source to the exact built JAR SHA above"
+  },
+  "pure_helper_scope": {
+    "source_review": "The probe's Python validation used only the frozen module's _validate_ancestry and _ancestry_anchor helpers; no StartupObserver instance, process_runner, controls, or analyzer was invoked.",
+    "actual_probe_receipt": "The executed standalone script itself imported the frozen module for those pure helper calls only; its Java process was the single diagnostic -version invocation.",
+    "no_inference": "The two observed parent edges do not establish complete containment or native self birth."
+  },
+  "preservation": {
+    "candidate_bytes_preserved": true,
+    "canonical_or_git_mutation": false,
+    "source_or_jar_mutation": false,
+    "publication_hold": true,
+    "old_v4_evidence_unchanged": true
+  }
+}

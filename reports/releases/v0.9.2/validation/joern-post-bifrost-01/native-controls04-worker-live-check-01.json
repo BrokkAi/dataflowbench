@@ -1,0 +1,96 @@
+{
+  "actual_worker_environment_and_ownership_guard_passed": true,
+  "actual_worker_full_pending_validator_returned": true,
+  "automatic_retry": false,
+  "benchmark_attempt_consumed": false,
+  "control_result_present": false,
+  "exact_expected_births_verified": {
+    "93055": "Sun Oct 25 22:02:38 2026",
+    "93057": "Sun Oct 25 22:02:38 2026",
+    "95468": "Sun Oct 25 22:03:50 2026"
+  },
+  "exit_receipt_present": false,
+  "ledger": {
+    "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851"
+  },
+  "native_qualification_inferred": false,
+  "observed_owned_processes": [
+    {
+      "args": "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -B -E /Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-04/native_qualifier.py parent --request reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-04.json --request-sha256 e5fef8bf3a9d3b234c88f0b36731f5231ddde9dac044aa4029555780908459ea --review reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls04-exact-invocation-review-02.json --review-sha256 0fd14dcc585cfab28fc1c2331602f7a57320a36193da8ae483827c33c08a4d3c --lock-fd 3 --bootstrap-read-fd 4 --token e3aaa685d20e4174ac21a25e51af6eff",
+      "birth": "Sun Oct 25 22:02:38 2026",
+      "pid": 93055,
+      "ppid": 1,
+      "state": "Rs"
+    },
+    {
+      "args": "/usr/bin/caffeinate -w 93055",
+      "birth": "Sun Oct 25 22:02:38 2026",
+      "pid": 93057,
+      "ppid": 1,
+      "state": "Ss"
+    },
+    {
+      "args": "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python -B -E /Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-04/native_qualifier.py worker --request reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-04.json --request-sha256 e5fef8bf3a9d3b234c88f0b36731f5231ddde9dac044aa4029555780908459ea --review reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls04-exact-invocation-review-02.json --review-sha256 0fd14dcc585cfab28fc1c2331602f7a57320a36193da8ae483827c33c08a4d3c --lock-fd 3 --witness-fd 5 --token 74330d3c065840c98da6d1211399180b --parent-pid 93055 --parent-birth Sun Oct 25 22:02:38 2026",
+      "birth": "Sun Oct 25 22:03:50 2026",
+      "pid": 95468,
+      "ppid": 93055,
+      "state": "Ss"
+    },
+    {
+      "args": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swift-frontend -frontend -typecheck -primary-file /Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/DataFlowBenchTaintSwift/main.swift -target arm64-apple-macosx27.0.0 -Xllvm -aarch64-use-tbi -enable-objc-interop -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk -no-color-diagnostics -Xcc -fno-color-diagnostics -module-cache-path /Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/cache -swift-version 6 -Onone -empty-abi-descriptor -no-auto-bridging-header-chaining -module-name DataFlowBenchTaintSwift -in-process-plugin-server-path /Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -plugin-path /Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/lib/swift/host/plugins -plugin-path /Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/local/lib/swift/host/plugins -target-sdk-version 26.5 -target-sdk-name macosx26.5 -external-plugin-path /Library/Developer/Developer/usr/lib/swift/host/plugins#/Library/Developer/Developer/usr/bin/swift-plugin-server -external-plugin-path /Library/Developer/Developer/usr/local/lib/swift/host/plugins#/Library/Developer/Developer/usr/bin/swift-plugin-server",
+      "birth": "Sun Oct 25 22:05:06 2026",
+      "pid": 98688,
+      "ppid": 95468,
+      "state": "Rs"
+    },
+    {
+      "args": "(ps)",
+      "birth": "Sun Oct 25 22:05:15 2026",
+      "pid": 98881,
+      "ppid": 95468,
+      "state": "R"
+    },
+    {
+      "args": "(ps)",
+      "birth": "Sun Oct 25 22:05:15 2026",
+      "pid": 98883,
+      "ppid": 93055,
+      "state": "R"
+    }
+  ],
+  "publication_hold": true,
+  "recorded_utc": "2026-10-25T20:05:15.606707+00:00",
+  "request": {
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-04.json",
+    "sha256": "e5fef8bf3a9d3b234c88f0b36731f5231ddde9dac044aa4029555780908459ea"
+  },
+  "schema": "v092-native-controls-live-check/v1",
+  "sealed_receipts": [
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04-supervision/result.json",
+      "sha256": "63c7c77f21537ff3e79a6b34cae7335e2a9eb664903211f7b107d21021c02c0e"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04-supervision/started.json",
+      "sha256": "37577c110217d571ae96d26baac59ea692ea3f79c1135208cfe6032b7e50a614"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/parent-started.json",
+      "sha256": "b57588d1f8e06601fdb67133aaf732cd7f2225db02101b8fa7a1a19a71b6870a"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/child-started.json",
+      "sha256": "dfbd70db6be607c13baf8559d801a690ca42fc730b2bd97bab79767dc5500972"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/worker-invocation.json",
+      "sha256": "d351ccae705cf69735020293204c0600ef9bed368b3bda4826b292c77d9abd42"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/pending-schema-check.json",
+      "sha256": "5322467302aeb85f35234f006e03554ff64ceb3ac5e0395d1c7612fa7cb0099a"
+    }
+  ],
+  "source_head": "76e6121651e94be113fd0d5f027419f7d0f0859b"
+}

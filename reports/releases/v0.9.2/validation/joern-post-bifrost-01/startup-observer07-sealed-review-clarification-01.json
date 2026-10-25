@@ -1,0 +1,43 @@
+{
+  "schema": "v092-joern-native-control-sealed-review-clarification/v1",
+  "recorded_utc": "2026-10-25T20:52:25.947024+00:00",
+  "clarification_only": true,
+  "original_review": {
+    "path": "/private/tmp/joern05-native-control-09-independent-sealed-review-01.json",
+    "sha256": "5321a682b3fe8ac1aa9ff5136a9bce57146fac3f8fee15cc7e5b694cc80566bd",
+    "preserved_unchanged": true
+  },
+  "timing_correction": {
+    "prior_review_field": "timing_provenance.prior_review_path in the original private09 review",
+    "incorrect_reference": {
+      "path": "/private/tmp/joern05-native-control-08-independent-source-review-01.json",
+      "sha256": "8f596c451e708b6e59698b9bad5d6ce20d553412a7071550dee8398695c4ff74"
+    },
+    "invalid_future_timestamp": "2026-10-25T20:55:00Z",
+    "correct_review_for_that_timestamp": {
+      "path": "/private/tmp/joern05-agent05-build-independent-review-01.json",
+      "sha256": "5a4c3a408c5f6b755bd12c715d031a75dcbd2df9f2e4530cc42136eac9c6a62b"
+    },
+    "root_timing_note": {
+      "path": "/private/tmp/joern05-agent05-review-timing-root-note-01.json",
+      "sha256": "98e01924025c2c861fa8c6a1714e439c3b2fdc369b502a3d498bb50d2cd82b1f"
+    },
+    "interpretation": "The original private09 review remains substantive evidence, but its prior-review timestamp pointer is invalid and must not be used as an observation time."
+  },
+  "integration_order": {
+    "source_integration_decision": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls05-source-integration-decision-01.json",
+      "status": "approved-source-preparation-only"
+    },
+    "exact_byte_source_preparation": "Exact canonical source/JAR/evidence copies may be prepared first, preserving hashes and provenance.",
+    "subsequent_gates": "After source preparation, construct and verify the successor wrapper, source closure, request, plan/control/projection/decision bindings, and admission gates.",
+    "runtime_activation": "Runtime activation remains gated until all subsequent gates pass; source preparation does not grant runtime authority, native qualification, or scored execution.",
+    "canonical_copy_performed_in_this_clarification": false
+  },
+  "preservation": {
+    "implementation_changes": false,
+    "runtime_execution": false,
+    "tests_run": false,
+    "git_or_canonical_mutation": false
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "schema": "joern05-native04-ancestry-design-review/v1",
+  "recorded_utc": "2026-10-25T20:20:15Z",
+  "reviewed_design": {
+    "path": "/private/tmp/joern05-native04-ancestry-repair-design-01.json",
+    "sha256": "ccb5688ecfe6c84338cc233177cc11e506c47ad7d1a150603266fc8fd5f3a096",
+    "bytes": 22752
+  },
+  "reviewer_context": {
+    "workspace": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+    "source_commit": "76e6121651e94be113fd0d5f027419f7d0f0859b",
+    "branch": "dave/v0.9.2-full-refresh",
+    "worktree_dirty": true,
+    "repository_files_modified": false,
+    "review_mode": "read-only-source-and-evidence-review",
+    "implementation_build_jvm_validator_control_runtime_executed": false
+  },
+  "decision": {
+    "status": "approved-bounded-source-implementation",
+    "approve": true,
+    "blockers": [],
+    "authority_classification": "Evidence-strengthening diagnosed harness repair under the existing autonomous reviewed-repair authority. It does not add an engine feature, change a case or denominator, alter the semantic model, or grant a new human decision.",
+    "new_human_design_required": false,
+    "execution_authorized_by_review": false,
+    "publication_hold": true,
+    "separate_parent_monitor_repair": true
+  },
+  "failure_assessment": {
+    "diagnosis": {
+      "path": "/private/tmp/joern05-native04-partial-arm-diagnosis-01.json",
+      "sha256": "66433a98d99f0da94d7ca7a7d1711b42e0947f00b9221ed8c7a2e2a50ac219fc",
+      "bytes": 51166
+    },
+    "observed_error": "startup witness parent pid is outside the invocation: jvm-99172.json",
+    "invocation_host_pid": 95468,
+    "witness_pid": 99172,
+    "witness_parent_pid": 99171,
+    "native_tracked_pids": [99147, 99152, 99195],
+    "interpretation": "The retained observer correctly rejected an untracked direct parent. The records do not establish that 99171/99172 belonged to this invocation, and no historical ownership or successful control result is inferred. A later parent-stop observation is independent of the already-materialized OFF ownership rejection."
+  },
+  "design_soundness": {
+    "positive_boundary": [
+      "Only a command-absent, version-check JVM that is already diagnostic-only may use the new chain, and only when the direct self/parent native proof is unavailable.",
+      "A chain is accepted only after a nonempty contiguous prefix reaches an existing native tracked PID or the exact invocation-host PID with a matching PID/birth identity at the existing documented precision.",
+      "A tracked semantic JVM keeps the existing exact self birth proof and exact direct-parent tracked/host proof. An ancestry record cannot satisfy a missing semantic JVM, bridge, frontend, query-script-fork, or required-role witness.",
+      "The untracked helper remains diagnostic-only: native birth_verified stays false and ancestry correlation is recorded separately. The helper PID is never promoted into the native tracker or containment proof.",
+      "The first matching PID is the only candidate anchor. A wrong or recycled birth fails immediately; the algorithm cannot skip it to find a later favorable ancestor.",
+      "Event-directory membership, filename/PID, role classification, user.home, predef state, agent version, invocation token, or shared witness files never substitute for an exact PID/birth anchor."
+    ],
+    "fail_closed_conditions": [
+      "Missing or malformed ancestry object, bool-as-integer PID, duplicate PID, cycle, noncontiguous link, inconsistent repeated identity, impossible child-before-parent birth, wrong directory, wrong schema, wrong agent version, wrong JAR, or malformed birth precision.",
+      "Unknown, foreign, root-without-anchor, unavailable, or truncated ancestry before the trusted anchor.",
+      "Missing required semantic JVM, semantic JVM with untracked birth, semantic JVM with an unproven direct parent, or any observer failure. The result remains null and raw failure evidence is retained.",
+      "An unavailable or truncated suffix after an already-proven anchor is diagnostic only and must never be represented as complete descendant coverage or containment."
+    ],
+    "sampling_limit": "ProcessHandle is a bounded prospective sample, not an atomic descendant/ownership proof. A short-lived or reparented helper can still be missed; that remains an explicit fail-closed outcome.",
+    "birth_precision_limit": "The existing Java/native comparison remains the authority: Java millisecond values are compared using the documented native-microsecond floor, exact microsecond values are accepted when available, and unsupported sub-microsecond values fail. The design does not claim stronger identity than this precision.",
+    "historical_limit": "The new chain may explain a future observed witness only. It cannot retroactively assign ownership to 99171/99172 or reinterpret the partial OFF arm as successful."
+  },
+  "implementation_invariants": [
+    {
+      "id": "anchor-representation",
+      "severity": "required",
+      "text": "Define the trusted anchor unambiguously in the implementation and receipts: the anchor must be represented by a node PID plus birth, or by the terminal parent edge PID plus birth when the non-Java invocation host is not emitted as a node. Compare the exact host/native identity before accepting the prefix. The untracked witness PID itself can never be its own anchor."
+    },
+    {
+      "id": "tracked-semantic-strictness",
+      "severity": "required",
+      "text": "Apply the ancestry exception only to the untracked command-absent version helper. A self-tracked witness with an untracked direct parent continues to fail the existing direct-parent rule unless the frozen policy explicitly proves that exact case; do not broaden semantic or tracked-JVM acceptance through the chain."
+    },
+    {
+      "id": "exact-v5-bindings",
+      "severity": "required",
+      "text": "Require exact v5 schema, exact agent_version joern05-native-control-05, exact ancestry key sets and node key sets, exact v5 policy equality, exact v5 JAR source/build/digest bindings, and exact new decision references. Reject merely nonempty agent versions and reject extra or missing policy/ancestry fields."
+    },
+    {
+      "id": "sampling-consistency",
+      "severity": "required",
+      "text": "Capture node0 self/direct-parent from the same ProcessHandle sample, bind each following node to the preceding parent PID and birth, and record race/unavailable/inconsistent termination explicitly. Do not synthesize null parent births or treat a missing startInstant as root."
+    },
+    {
+      "id": "cascade-and-closure",
+      "severity": "required",
+      "text": "The v5 policy/JAR/12 decision copies/new plan/new control plan/new projection/new wrapper/request/source closure must be append-only and independently hash-bound. The old v4 observer, old JAR, old decisions, plan05, control04, and projection 326487c047812a20f6c4f22f184a7faa4fc276e7c78ae1af317d5a750c0e884 remain immutable and cannot be reused as if they covered the new observer."
+    },
+    {
+      "id": "future-gate",
+      "severity": "required",
+      "text": "Before any native run, perform the source-only exact pending-validator, source/import closure, policy/decision/projection, resource/time/lock/marker, and invocation-review gates. Preserve the 6 controls, 12 arms, 36 phase invocations, 75-second phase budget, 900-second total budget, 4 GiB scratch allowance, no-expiry/origin, publication hold, and no automatic retry."
+    }
+  ],
+  "hash_bindings_reviewed": {
+    "immutable_refs": [
+      {"path": "reports/releases/v0.9.2/acquisition/StartupWitnessAgent-04.java", "sha256": "ba8aa4d5f353c4d6ac9bfbe269a3388ac8502c84793e13e1b4f7188f51f8a31a", "bytes": 7068, "verified": true},
+      {"path": "reports/releases/v0.9.2/acquisition/joern-startup-witness-agent-04.jar", "sha256": "ba02fe9c3782c377279e60198e4b4e1631d9d3431a4ce5fc7376d8dc6eff4eac", "bytes": 4456, "verified": true},
+      {"path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-06.py", "sha256": "aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551", "bytes": 49461, "verified": true},
+      {"path": "reports/releases/v0.9.2/acquisition/joern-native-controls-04/native_qualifier.py", "sha256": "f10c01896b28f8d85551c4d7d4e4ac5f1171af48dca5b227e0ad9b7a9c74c991", "bytes": 59130, "verified": true},
+      {"path": "scripts/joern_capability_repair_v092_03.py", "sha256": "8e3d986f20c2262045d8473837d1bf5a56b61da1bc23fee6e778bd0ac47d2b51", "bytes": 51429, "verified": true},
+      {"path": "scripts/joern_normal_runner_v092.py", "sha256": "683a1bb22a2ec943d357cd4b86982dd7ee62c22a47c28ee3c32e91d114f977f4", "bytes": 42755, "verified": true},
+      {"path": "scripts/v092_qualification.py", "sha256": "f673a5b5133c1101e7379fc365a83a47a7525c3daf15efa34a6eed12858e7cb5", "bytes": 10641, "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-05/pending-execution-plan-01.json", "sha256": "c79f93dca045d8fbf2b7221fbf20e042d7546d403567a821ed1594fda8411137", "bytes": 48117, "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/control-plan-01.json", "sha256": "cdae69200755312a80137426e70250dd7e521100ca91dbe71355bb9c8b11475f", "bytes": 12269, "verified": true},
+      {"path": "/private/tmp/joern05-native04-partial-arm-diagnosis-01.json", "sha256": "66433a98d99f0da94d7ca7a7d1711b42e0947f00b9221ed8c7a2e2a50ac219fc", "bytes": 51166, "verified": true}
+    ],
+    "current_v4_decisions_to_replace_append_only": [
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-entrypoint-negative.json", "sha256": "254d3f1e38d58d5fdaf0d76c8fe899b31c8b8f034cd4a8545e1f731f34e469e2", "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-entrypoint-positive.json", "sha256": "3305798f4d23829f03ba0105643bb4678d983f4d9b2b7481863cef86573212ab", "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-persistence-negative.json", "sha256": "8da0fa0c0164a1ab07b5b3f75d13c75056a79a0cb3dbb57cf5f0e21859307e44", "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-persistence-positive.json", "sha256": "893e0e3ff0447449b4614893e6e578392f4ca49ac738591f8f13129cbfe1e8d2", "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-propagator-negative.json", "sha256": "1cbca4d55fb46197bd464ad91065a1065021366d29965771d08ecc24cde14d9e", "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-propagator-positive.json", "sha256": "4766884cb122d08a2fd94f603b3113d4d54f88a7db3203b380cbd8edeccf68b5", "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-sanitizer-negative.json", "sha256": "31cccae29d2c6bfb34e12eeb688846d44f76cbebebd974f1361d36f7fc0e6ac5", "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-sanitizer-positive.json", "sha256": "96c0146cb785c6e329dadea1c8e00061553908f88f265d85f1e334e3b49bf63f", "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-source-sink-negative.json", "sha256": "52cf288cf1228afd59809d13c4ddbf0c0c152178223034b0780ce5c2b4805d06", "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-source-sink-positive.json", "sha256": "1f4d210fc99c86499b4ec5dfdf6e980e942ad932213aa9683d12269bb44a3972", "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-summary-negative.json", "sha256": "fcb36e9503e15fe98cc0e82a874dfe6121609046ebf32146d9bf37d0c800e6bc", "verified": true},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-summary-positive.json", "sha256": "0fa939881848a0d373a488064f46d24441069996722c6dede14a8e5c88a87e0a", "verified": true}
+    ],
+    "old_projection_sha256": "326487c047812a20f6c4f22f184a7faa4fc276e7c78ae1af317d5a750c0e884",
+    "future_v5_refs": "Not yet materialized by this design review; no future source, JAR, decision, plan, control, request, or receipt hash is invented."
+  },
+  "cascade_review": {
+    "observer06": "The retained observer requires v4 policy/witness and the frozen v4 JAR. A successor observer must reject v4 at its schema boundary and adapt only the retained v1 helper in memory to the exact v5 policy; old source/JAR/evidence remain immutable.",
+    "agent04": "The retained premain emits only one parent edge. It is reviewed as immutable diagnostic evidence and cannot be rewritten to claim ancestry for 99171/99172.",
+    "decision_and_plan": "The frozen repair helper requires exact policy equality in each Unsupported decision and validates the twelve decision references. The new v5 decision copies necessarily alter cases and therefore the projection digest.",
+    "projection_and_control": "The projection API includes cases and configurations while excluding the control-plan reference, so a new projection and structurally copied control plan are required; retaining control04/projection would be an invalid hash binding.",
+    "qualification_wrapper": "The current native-controls04 wrapper pins observer06, plan05, control04, and the old projection. A new wrapper/source closure/request must bind observer07, plan06, the new control and projection, and the new reviewed policy/JAR/decisions while retaining all old resource, time, lock, marker, origin, and publication gates."
+  },
+  "validation": {
+    "performed": [
+      "Read-only inspection of the design, actual partial-arm diagnosis, observer06 witness acceptance, StartupWitnessAgent04, frozen repair helper, runner, projection helper, native-controls04 wrapper, plan05, control04, and all twelve current decision files.",
+      "SHA-256 verification of every immutable_ref and current decision ref in the design; all declared bindings matched the current bytes.",
+      "Confirmed current source HEAD equals the design source_commit and preserved the unrelated dirty worktree."
+    ],
+    "not_performed": [
+      "No repository edits, implementation, Java compilation/JAR build, JVM launch, analyzer/control invocation, validator import/probe, subprocess, Git mutation, or publication/deployment action."
+    ]
+  }
+}

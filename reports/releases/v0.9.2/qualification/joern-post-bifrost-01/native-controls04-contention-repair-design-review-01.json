@@ -1,0 +1,97 @@
+{
+  "critical_integration_requirement": {
+    "finding": "contenders() currently returns only rows. If the new native snapshot discovers owned descendants locally but does not return or mutate the augmented tracked map, supervise() cleanup will not retain those identities and the next loop will rediscover them. The repair must return (updated_tracked, contender_rows) or use an equally explicit caller-owned update before classification/cleanup.",
+    "required_invariant": "Every exact-birth child admitted by the fresh join must be present in the outer supervise tracked map used for later polling and owned-only cleanup; an identity discovered only in a local helper is insufficient.",
+    "status": "blocker-unless-explicitly-addressed"
+  },
+  "diagnostic_receipt_requirement": {
+    "finding": "On failure, preserve the rejected command rows plus each row PID, command text, native birth/PPID observation when available, tracked parent birth comparison, and a list of rows proven owned and filtered. Keep the original ValueError primary and set automatic_retry false.",
+    "no_claim": "An empty or missing contender-row receipt must not be used to claim no foreign process existed.",
+    "status": "required"
+  },
+  "disposition": {
+    "design_direction_approved": true,
+    "implementation_approved": false,
+    "publication_hold": true,
+    "required_next_step": "Candidate07 may implement the bounded commands-first/native-after join only if the augmented tracked-set handoff, fail-closed near misses, and diagnostic rejected-row receipt are explicit and independently tested. Then obtain a new source review and exact request/invocation review; do not reuse native04.",
+    "runtime_or_admission_authorized": false,
+    "source_only": true
+  },
+  "proposed_repair": {
+    "accepted_boundary": "Within the existing polling identity boundary, this is a safe minimal repair: it can admit only a child observed in the command snapshot whose PID/start identity is present in the later native snapshot and whose parent chain reaches a tracked exact-birth owner.",
+    "no_exemptions": [
+      "no argv/path exemption",
+      "no PID-only suppression",
+      "no blind retry",
+      "no sleep/defer after a rejected row",
+      "no foreign cleanup"
+    ],
+    "sequence": [
+      "executor._process_table() command snapshot first",
+      "proc.process_table() native PID/PPID/start-identity snapshot second",
+      "proc.descendants(native_snapshot, tracked) to extend only through currently birth-matching owned parents",
+      "unchanged exact-birth filtering against the same native snapshot",
+      "unchanged executor._contenders plus controller._hashed_bifrost_contenders classification"
+    ]
+  },
+  "required_candidate_tests": {
+    "near_miss_fail_closed": [
+      "wrong birth",
+      "foreign heavy child",
+      "foreign same-argv child",
+      "foreign hashed-Bifrost row",
+      "recycled parent PID",
+      "reparented child",
+      "native process table unavailable",
+      "child disappears before native snapshot",
+      "stale command row after child exit"
+    ],
+    "positive": [
+      "fresh owned child appears in command snapshot then native snapshot and exact parent/birth registration removes only that row",
+      "multiple owned descendants are extended and retained in outer tracked map for cleanup"
+    ],
+    "preserve": [
+      "unchanged executor and hashed-Bifrost classifiers",
+      "existing cleanup and polling containment semantics",
+      "original failure as primary exception",
+      "no retry/defer or guard weakening"
+    ]
+  },
+  "review_type": "bounded source-design safety review; no implementation or runtime",
+  "reviewed_at_utc": "2026-10-25T20:12:15.929631+00:00",
+  "reviewer": "/root/joern05_lock_handoff",
+  "safety_analysis": {
+    "disappeared_child": "Conservative rejection: if a command row disappears before the native snapshot, it cannot be proven owned and must remain a contender. This may fail a very short-lived owned child but does not weaken containment.",
+    "exited_rows": "The design must preserve rejected-row diagnostics; an exited row cannot be silently dropped or treated as owned.",
+    "foreign_hashed_bifrost": "Safe fail-closed if the unchanged controller classifier remains active after ownership filtering; no hashed-Bifrost row is exempted by command ordering.",
+    "foreign_same_argv": "Safe fail-closed: matching command text cannot pass without the exact native PID/start identity and owned parent chain.",
+    "native_unavailable": "Safe fail-closed only if process_table errors propagate as guard failure; the candidate must not treat missing/native-unavailable data as empty.",
+    "parent_exit_between_snapshots": "Conservative rejection: no descendant extension occurs when the tracked parent is absent or its birth no longer matches.",
+    "pid_reuse": "Safe fail-closed: proc.descendants requires the parent PID start identity to equal the tracked birth, and filtering requires the candidate PID native birth to equal the tracked birth. A reused PID or wrong birth remains a contender.",
+    "polling_boundary": "The sequence is acceptable without a stronger atomic Darwin join for this bounded repair, but it inherits the existing ps-to-proc_pidinfo polling race. Stronger atomic pbi_pid/ppid/start identity would improve evidence quality, not justify any exemption.",
+    "reparenting": "Safe fail-closed: a child whose current native PPID is no longer an exact-birth tracked parent is not extended and remains rejected if its command row is heavy.",
+    "stale_command_row": "Conservative rejection: a row present in the command snapshot but absent from native identity data is not trusted."
+  },
+  "schema": "v092-native-controls04-contention-repair-design-review/v1",
+  "scope": {
+    "admission_invoked": false,
+    "canonical_edited": false,
+    "engine_invoked": false,
+    "git_mutated": false,
+    "jvm_invoked": false,
+    "native_controls_invoked": false,
+    "read_only": true,
+    "runtime_invoked": false,
+    "source_edited": false,
+    "statement": "This artifact reviews only the proposed contention-repair design against the existing canonical polling boundary and stop evidence. It does not implement, run, admit, retry, or authorize candidate07 or native controls."
+  },
+  "source": {
+    "prior_probe_path": "/private/tmp/joern05-native04-stop-independent-probe-01.json",
+    "prior_probe_sha256": "46cbefa6e722dde16fa5090e90ce6bb52e0c86f5d811de395c6de97c60dcb992",
+    "root_stop_check_path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls04-root-stop-check-01.json",
+    "root_stop_check_sha256": "6d8958898aacaa53e6affb6708f1e3bcf2c008c0d33c7f2f4ffcc4390acd3e32",
+    "wrapper_path": "reports/releases/v0.9.2/acquisition/joern-native-controls-04/native_qualifier.py",
+    "wrapper_sha256": "f10c01896b28f8d85551c4d7d4e4ac5f1171af48dca5b227e0ad9b7a9c74c991"
+  },
+  "status": "design-acceptable-with-explicit-tracked-set-handoff"
+}

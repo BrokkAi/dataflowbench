@@ -1,0 +1,58 @@
+{
+  "schema": "v092-joern-native05-source-integration-review-clarification/v1",
+  "recorded_utc": "2026-10-25T20:57:48.575725000Z",
+  "recorded_utc_source": "date -u at clarification generation",
+  "scope": "Append-only metadata clarification; review01 is preserved byte-for-byte and no repository, canonical, Git, JVM, control, validator, or runtime action was performed.",
+  "prior_review": {
+    "path": "/private/tmp/joern05-native05-source-integration-independent-review-01.json",
+    "sha256": "e8f5af5a8f9ac6b5a4e0842dc1ffcaa5fa7fa52ec2961a2c0cb6d64e289c411c",
+    "preserved": true,
+    "metadata_correction": "Its source-handoff digest string was recorded with 63 hexadecimal characters and omitted the final f. This clarification supplies the live 64-character digest; the prior receipt is not rewritten."
+  },
+  "source_handoff_digest_correction": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/source-handoff-01.json",
+    "live_sha256": "6dc591d2dab1ac327438055768e3281402ae9dfe41cce09ecd1a05956720e51f",
+    "live_sha256_length": 64,
+    "prior_review_recorded_sha256": "6dc591d2dab1ac327438055768e3281402ae9dfe41cce09ecd1a05956720e51",
+    "prior_review_recorded_length": 63,
+    "effect": "Metadata only. The actual source-handoff file and all source artifacts remain unchanged."
+  },
+  "ancestry_review_classification": {
+    "preserved_rejected_variant": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/startup-observer07-independent-source-review-01.json",
+      "sha256": "f45bb755898cc9f5e701ac0fe4547f96e6a27725a75637d43c2cdb9a140fa916",
+      "decision_status": "blocked-source-only-boundedness-gap",
+      "role": "Historical rejected revision07 review retained for provenance. It is not approval authority for observer07 or agent05."
+    },
+    "corrected_private08_review": {
+      "path": "/private/tmp/joern05-native-control-08-independent-source-review-01.json",
+      "sha256": "8f596c451e708b6e59698b9bad5d6ce20d553412a7071550dee8398695c4ff74",
+      "decision_status": "approved-source-only-next-bounded-build-stage",
+      "role": "Approved the corrected 32-node/32-edge source for the bounded build stage; it did not authorize runtime or canonical changes."
+    },
+    "sealed_private09_review": {
+      "path": "/private/tmp/joern05-native-control-09-independent-sealed-review-01.json",
+      "sha256": "5321a682b3fe8ac1aa9ff5136a9bce57146fac3f8fee15cc7e5b694cc80566bd",
+      "decision_status": "approved-bounded-source-and-canonical-copy-only-if-exact",
+      "role": "Approval authority for the sealed agent05 source/build/probe evidence and exact canonical copy, subject to the later plan/decision/wrapper/request/source-closure/admission gates."
+    },
+    "canonical_copy_receipt": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/startup-observer07-canonical-copy-01.json",
+      "sha256": "608fcea04d29489d65ca10f748e66d6fab4ea0394ccfa1c4ed7b7e9fecf92adf",
+      "role": "Copy provenance only; it does not replace the corrected private08 or sealed private09 independent review."
+    }
+  },
+  "combined_verdict": {
+    "source_copy_and_plan_delta": "Approved as previously recorded: canonical observer07/JAR05, decisions03, plan06 and control06 bindings are exact and source-only.",
+    "native_load_original": "The exact in-memory v1-to-v5 adaptation remains valid for the private native path and preserves the frozen v1 source snapshot.",
+    "runtime_or_admission": "Not approved by this clarification. Exact committed source closure, request fields, independent authority/reviews, fresh admission and all resource/time/one-slot/publication gates remain required.",
+    "semantic_limits": "Inherited v4 evidence remains historical source material; no historical ownership, complete containment, semantic qualification, or scored result is inferred."
+  },
+  "verification": {
+    "performed": [
+      "Rehashed the live plan06 source-handoff file and confirmed the full 64-character digest.",
+      "Read the prior review statuses and classified the rejected revision07 review separately from corrected private08 and sealed private09 approval evidence.",
+      "Did not rerun tests or probes and performed no runtime or repository mutation."
+    ]
+  }
+}
