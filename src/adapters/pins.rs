@@ -7,8 +7,8 @@
 
 pub(crate) const PROFILE: &str = "v0.9.2";
 
-pub(crate) const BIFROST_VERSION: &str = "bifrost 0.13.1";
-pub(crate) const BIFROST_BUILD_IDENTITY: &str = "271a0bd840372a1ce6e6e11fc60a788e997ed353";
+pub(crate) const BIFROST_VERSION: &str = "bifrost 0.14.0";
+pub(crate) const BIFROST_BUILD_IDENTITY: &str = "c11a13ffa03ebea154f587b899954e412b5b871e";
 pub(crate) const BIFROST_OPEN_PACKS_DISABLE_ENV: &str = "BIFROST_OPEN_PACKS_DISABLE";
 pub(crate) const BIFROST_OPEN_PACKS_DISABLE_VALUE: &str = "1";
 

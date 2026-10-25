@@ -94,9 +94,10 @@ pub(crate) const BIFROST_SCALA_POLICY: &str = "adapters/bifrost/policies/core-sc
 /// positive without the propagator declaration ever being read. A modeling
 /// policy that kept that default would not be measuring activation.
 pub(crate) const BIFROST_MODELING_CALL_MODELING: &str = "require-model";
-const BIFROST_V0_9_2_VERSION_EVIDENCE: &str = "reports/releases/v0.9.2/acquisition/version.txt";
+const BIFROST_V0_9_2_VERSION_EVIDENCE: &str =
+    "reports/releases/v0.9.2/qualification/bifrost-v0140-01/version.stdout.txt";
 
-/// Apply the prospective v0.9.2 process boundary that prevents Bifrost 0.13.1
+/// Apply the prospective v0.9.2 process boundary that prevents Bifrost 0.14.0
 /// from implicitly acquiring host open packs. The benchmark's shipped-catalog
 /// profile is measured with acquisition disabled; explicitly supplied files
 /// and native catalog evidence remain separate inputs.

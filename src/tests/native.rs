@@ -17,8 +17,8 @@ use crate::modeling::{
     modeling_case, modeling_supported_templates, validate_modeling_cases,
 };
 use crate::native::{
-    BIFROST_V0_13_1_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_13_1_VERSION,
-    BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_13_VERSION, NATIVE_CASE_COUNT,
+    BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_13_VERSION,
+    BIFROST_V0_14_0_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_14_0_VERSION, NATIVE_CASE_COUNT,
     NATIVE_MODEL_PROFILE, NATIVE_PARTITION, NATIVE_PARTITION_AMENDMENTS, NATIVE_TEMPLATE_IDS,
     NATIVE_TEMPLATE_PREFIX, benchmark_model_artifacts, native_activation,
     native_anchor_tally_outcome, native_case, native_category, native_configuration_hash,
@@ -466,49 +466,55 @@ pub(crate) fn bifrost_v013_native_amendment_is_exact_and_version_scoped() {
     assert!(!unknown_reason.contains("reports/releases/v0.9.1"));
 }
 
-/// The v0.13.1 amendment binds only the fresh v0.9.2 acquisition and its
+/// The v0.14.0 amendment binds only the fresh v0.9.2 acquisition and its
 /// explicit open-pack boundary. The earlier v0.13.0 evidence remains an
 /// independent activation profile with its original paths and identity.
 #[test]
-pub(crate) fn bifrost_v0131_native_amendment_binds_fresh_evidence_and_env() {
-    let v0131 = native_activation(
+pub(crate) fn bifrost_v0140_native_amendment_binds_fresh_evidence_and_env() {
+    let v0140 = native_activation(
         ModelingTool::Bifrost,
         ModelingLanguage::Python,
-        BIFROST_V0_13_1_VERSION,
+        BIFROST_V0_14_0_VERSION,
     )
     .unwrap();
     assert_eq!(
-        v0131.identity,
+        v0140.identity,
         format!(
-            "{BIFROST_V0_13_1_VERSION} — {BIFROST_V0_13_1_NATIVE_ACTIVATION_IDENTITY}; BIFROST_OPEN_PACKS_DISABLE=1"
+            "{BIFROST_V0_14_0_VERSION} — {BIFROST_V0_14_0_NATIVE_ACTIVATION_IDENTITY}; BIFROST_OPEN_PACKS_DISABLE=1"
         )
     );
     assert_eq!(
-        v0131.arguments,
+        v0140.arguments,
         vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG.to_string()]
     );
     let expected_paths = BTreeSet::from([
-        PathBuf::from("reports/releases/v0.9.2/acquisition/version.txt"),
-        PathBuf::from("reports/releases/v0.9.2/acquisition/build-identity.txt"),
-        PathBuf::from("reports/releases/v0.9.2/acquisition/builtin-policy-catalog.json"),
-        PathBuf::from("reports/releases/v0.9.2/acquisition/help.txt"),
-        PathBuf::from("reports/releases/v0.9.2/acquisition/bifrost-binary.json"),
-        PathBuf::from("adapters/pins/v0.9.2.json"),
+        PathBuf::from("reports/releases/v0.9.2/qualification/bifrost-v0140-01/version.stdout.txt"),
+        PathBuf::from(
+            "reports/releases/v0.9.2/qualification/bifrost-v0140-01/build-identity.stdout.txt",
+        ),
+        PathBuf::from(
+            "reports/releases/v0.9.2/qualification/bifrost-v0140-01/catalog-list-policies.stdout.txt",
+        ),
+        PathBuf::from("reports/releases/v0.9.2/qualification/bifrost-v0140-01/help.stdout.txt"),
+        PathBuf::from("reports/releases/v0.9.2/qualification/bifrost-v0140-01/acquisition.json"),
+        PathBuf::from("adapters/pins/v0.9.2-bifrost-v0140.json"),
     ]);
-    assert_eq!(v0131.configuration_paths, expected_paths);
-    assert!(v0131.configuration_paths.iter().all(|path| path.is_file()));
+    assert_eq!(v0140.configuration_paths, expected_paths);
+    assert!(v0140.configuration_paths.iter().all(|path| path.is_file()));
 
     let reason = native_unsupported_reason(
         ModelingTool::Bifrost,
         ModelingLanguage::Python,
         "dfb-template-native-source-sink",
-        BIFROST_V0_13_1_VERSION,
+        BIFROST_V0_14_0_VERSION,
     )
     .unwrap()
-    .expect("v0.13.1 native cell is declined");
+    .expect("v0.14.0 native cell is declined");
     assert!(reason.contains("schema version 2 with `packs: []`"));
     assert!(reason.contains("BIFROST_OPEN_PACKS_DISABLE=1"));
-    assert!(reason.contains("reports/releases/v0.9.2/acquisition/bifrost-binary.json"));
+    assert!(
+        reason.contains("reports/releases/v0.9.2/qualification/bifrost-v0140-01/acquisition.json")
+    );
     assert!(reason.contains("unsupported"));
     assert!(reason.contains("never a clean `not-reached` negative"));
     assert!(!reason.contains("reports/releases/v0.9.1"));
