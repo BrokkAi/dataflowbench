@@ -29,8 +29,10 @@ struct TestIdentity {
 }
 
 fn fake_bifrost_binary_contents() -> String {
-    let version_evidence = fs::read_to_string("reports/releases/v0.9.2/acquisition/version.txt")
-        .expect("read the pinned Bifrost version banner for the test binary");
+    let version_evidence = fs::read_to_string(
+        "reports/releases/v0.9.2/qualification/bifrost-v0140-01/version.stdout.txt",
+    )
+    .expect("read the pinned Bifrost version banner for the test binary");
     let version_lines: Vec<_> = version_evidence.lines().collect();
     assert_eq!(
         version_lines.len(),
