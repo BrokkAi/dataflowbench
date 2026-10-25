@@ -1,0 +1,213 @@
+{
+  "automatic_retry": false,
+  "created_utc": "2026-10-25T00:41:42.882740+00:00",
+  "failure": {
+    "actual_qualification_was_named_import": "Named supervisor qualification did not exercise direct-file __main__ host composition; qualification PASS does not cover durable CLI entry.",
+    "before_stage_and_attempt": true,
+    "boundary": "run_groups -> prepare_graph -> GraphImportContext.execute_all -> ensure(host_supervisor19) -> duplicate supervisor top-level CLI main -> _static/_load_module -> exact dynamic route guard rejection",
+    "stderr": {
+      "path": "reports/releases/v0.9.2/execution-v4/bifrost-v0140-replacement-19/supervision-01/supervisor-stderr.txt",
+      "sha256": "f2cbd3c96ac0b117bde43c7fc8e17d7c8867f40ab919244d17e13c97f5d3e14b"
+    }
+  },
+  "host_inventory": [
+    {
+      "actual_batch_other_host": "duplicate shell or current supervisor",
+      "actual_supported_batch_child_host": true,
+      "can_be_supplied_live_main": true,
+      "guard": "__name__ == __main__",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-19.py",
+      "role": "supervisor19",
+      "sha256": "b560bfd25b311cdc705ac7bdcd0fe08c828f45f3bd096126964dd212e4b8e2b5"
+    },
+    {
+      "actual_batch_other_host": "duplicate shell or current supervisor",
+      "actual_supported_batch_child_host": false,
+      "can_be_supplied_live_main": false,
+      "guard": "__name__ == __main__",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-19.py",
+      "role": "host_supervisor19",
+      "sha256": "b560bfd25b311cdc705ac7bdcd0fe08c828f45f3bd096126964dd212e4b8e2b5"
+    },
+    {
+      "actual_batch_other_host": "loaded by pinned named import",
+      "actual_supported_batch_child_host": false,
+      "can_be_supplied_live_main": true,
+      "guard": "__name__ == __main__",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-19.py",
+      "role": "protocol19",
+      "sha256": "5ade2852eb62da46327321c957e2ed3cd0f0198e11a6433bd99407a783c6f067"
+    },
+    {
+      "actual_batch_other_host": "duplicate shell or current supervisor",
+      "actual_supported_batch_child_host": false,
+      "can_be_supplied_live_main": false,
+      "guard": "__name__ == __main__",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-19.py",
+      "role": "host_protocol19",
+      "sha256": "5ade2852eb62da46327321c957e2ed3cd0f0198e11a6433bd99407a783c6f067"
+    },
+    {
+      "actual_batch_other_host": "loaded by pinned named import",
+      "actual_supported_batch_child_host": false,
+      "can_be_supplied_live_main": true,
+      "guard": "__name__ == __main__",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-19.py",
+      "role": "admission19",
+      "sha256": "0ad9c6c203d802daa19f9a448bb22fcf85c17bc159c999904b26cb06972401e9"
+    },
+    {
+      "actual_batch_other_host": "duplicate shell or current supervisor",
+      "actual_supported_batch_child_host": false,
+      "can_be_supplied_live_main": false,
+      "guard": "__name__ == __main__",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-admission-19.py",
+      "role": "host_admission19",
+      "sha256": "0ad9c6c203d802daa19f9a448bb22fcf85c17bc159c999904b26cb06972401e9"
+    },
+    {
+      "actual_batch_other_host": "loaded by pinned named import",
+      "actual_supported_batch_child_host": false,
+      "can_be_supplied_live_main": true,
+      "guard": "__name__ == __main__",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-14.py",
+      "role": "bridge14",
+      "sha256": "90546ba9fe66d94a6131dd4280458f31b9cb753264ec4e2a08ebc4836d0c08d3"
+    },
+    {
+      "actual_batch_other_host": "duplicate shell or current supervisor",
+      "actual_supported_batch_child_host": false,
+      "can_be_supplied_live_main": false,
+      "guard": "__name__ == __main__",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-14.py",
+      "role": "host_bridge14",
+      "sha256": "90546ba9fe66d94a6131dd4280458f31b9cb753264ec4e2a08ebc4836d0c08d3"
+    }
+  ],
+  "implementation_authorized_by_this_design": false,
+  "recommended_minimum_fix": {
+    "location": "NEW successor supervisor20 top-level CLI entrypoint guard",
+    "optional_symmetric_current_host_guards": "Apply the same direct-file entrypoint predicate to successor protocol20/admission20/bridge15 if retaining those independently runnable host entrypoints. This guards all four current host source families against a live __main__ host; actual durable batch/child only exposes supervisor. Keep historical graph members byte-identical.",
+    "predicate": "if __name__ == \"__main__\" and __spec__ is None: raise SystemExit(main())",
+    "reason": "The approved invocation is Python direct-file execution: real CLI __main__ has __spec__ None. Graph-created duplicate shells already have a non-null ModuleSpec and GraphLoader; their complete module definitions execute but their CLI entrypoint does not. No identity is renamed, no raw source AST is filtered, no process registry binding is added, and no dynamic route rule changes.",
+    "supported_invocation_boundary": "Direct-file argv remains exact existing launcher command; no new python -m or runpy.run_module execution mode is introduced. Named imports must never launch CLI."
+  },
+  "rejected_shortcuts": [
+    "Do not allow the failing supervisor _load_module route merely to permit recursive CLI execution.",
+    "Do not collapse duplicate same-path roles onto the live __main__ object.",
+    "Do not change process-global sys.modules or host module __name__/function globals.",
+    "Do not compile an edited AST or suppress arbitrary top-level statements.",
+    "Do not temporarily rename graph shells: that risks dataclass and globals identity inconsistencies."
+  ],
+  "required_regressions": [
+    {
+      "assertions": [
+        "Outer actual main is entered exactly once; duplicate same-source host shell is distinct and fully initialized without recursive main.",
+        "Graph supervisor member is exact live __main__ host; host_supervisor duplicate retains its expected module name/spec and distinct globals.",
+        "Actual parent stage boundary reached; no child/analyzer dispatch before downstream sentinel.",
+        "Globals and sys.modules __main__ identity, graph callbacks/facades restored after success and deliberate downstream exception."
+      ],
+      "name": "real_direct_file_main_batch_graph",
+      "path": "Successor production supervisor test with exact direct-file __main__ globals, actual main -> actual run_groups -> actual graph.prepare_graph/ensure/execute_all; use actual pinned host objects and full graph refs. Mock downstream evidence I/O/full replay only at documented stage boundary, not main/run_groups/graph ensure."
+    },
+    {
+      "assertions": [
+        "No recursive main in duplicate shell.",
+        "Child stage readiness guard reached with exact graph/module identity, no analyzer fixture dispatch required.",
+        "Restoration after successful synthetic downstream boundary and exception."
+      ],
+      "name": "real_direct_file_child_graph",
+      "path": "Exact successor child argv through actual main and actual _run_frozen_group graph preparation with real graph and actual host identities; isolate runtime/process I/O only."
+    },
+    {
+      "assertions": [
+        "Direct-file __main__/spec None enters main once.",
+        "Graph shell __main__/nonnull owned ModuleSpec does not enter main.",
+        "Named module does not enter main.",
+        "Foreign malformed host path/SHA, wrong role, duplicate same-path foreign object and unregistered dynamic selector continue to fail closed."
+      ],
+      "name": "entrypoint_truth_table"
+    },
+    {
+      "assertions": [
+        "Approved launcher and build_group_command retain exact python3.13 -B -E direct-file successor path and existing flags.",
+        "A harmless real subprocess --help direct-file CLI exits zero without graph/replay/analyzer; named import has no CLI output or argparse."
+      ],
+      "name": "command_shape"
+    }
+  ],
+  "review_gate": "Independent design review before implementation; later source/core/qualification/invocation/launch reviews remain distinct. This design is not execution authorization.",
+  "schema": "v092-bifrost-cli-host-execution-repair-design/v1",
+  "scope": "Append-only BF20 CLI-host entrypoint repair. Read-only source/trace inspection only; no runtime replay, graph execution, source edit, build, analyzer, admission, launch, or Git mutation.",
+  "source_evidence": {
+    "bridge": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-14.py",
+      "sha256": "90546ba9fe66d94a6131dd4280458f31b9cb753264ec4e2a08ebc4836d0c08d3"
+    },
+    "callsites": [
+      {
+        "lines": [
+          499,
+          507,
+          536,
+          888,
+          904
+        ],
+        "meaning": "_bind_host records live host __name__ by exact path; _build_shells preserves that name on distinct same-source shell; ensure executes complete raw source in that shell globals.",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-14.py"
+      },
+      {
+        "lines": [
+          886,
+          887,
+          1162,
+          1163,
+          1644,
+          1645
+        ],
+        "meaning": "Child and batch use the actual sys.modules[__name__] as supervisor host; direct-file bottom guard admits duplicate graph shell named __main__.",
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-19.py"
+      }
+    ],
+    "supervisor": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-19.py",
+      "sha256": "b560bfd25b311cdc705ac7bdcd0fe08c828f45f3bd096126964dd212e4b8e2b5"
+    }
+  },
+  "status": "proposed-for-independent-design-review",
+  "successor_scope": {
+    "functional_change_minimum": "Current supervisor entrypoint predicate only; optional symmetric direct-file predicates on other three current host entrypoints explicitly reviewed. Bridge15/stage07/loaders20 otherwise mechanical path/schema/role successors preserving full graph semantics.",
+    "graph": "Retain88 roles/43 dynamic routes/6 late bindings; preserve distinct same-path object instances and exact actual caller/target ownership.",
+    "pipeline": "Fresh design15 predecessor actual design14, contract22, new source/evidence/runner artifacts and prospective build12 namespace; derive exact paths/hashes only from actual reviewed source pipeline. Current BF19 design14/contract21/build11 and all receipts remain immutable.",
+    "source_input_count": "Expected inherited1627 +17 =1644, confirmed only against actual later collector; no synthetic future inputs.",
+    "source_roster": [
+      "bifrost-v0140-replacement-20.py",
+      "bifrost-v0140-admission-20.py",
+      "bifrost-v0140-packet-20.py",
+      "bifrost-v0140-no-expiry-20.py",
+      "bifrost-v0140-supervisor-20.py",
+      "bifrost-v0140-frozen-bridge-15.py",
+      "bifrost-v0140-stage-runtime-07.py",
+      "bifrost-v0140-runtime-loaders-20.py",
+      "test-bifrost-v0140-replacement-20.py",
+      "test-bifrost-v0140-admission-20.py",
+      "test-bifrost-v0140-packet-20.py",
+      "test-bifrost-v0140-no-expiry-20.py",
+      "test-bifrost-v0140-supervisor-20.py",
+      "test-bifrost-v0140-supervisor-20-production.py",
+      "test-bifrost-v0140-frozen-parser-15.py",
+      "test-bifrost-v0140-stage-runtime-07.py",
+      "test-bifrost-v0140-runtime-loaders-20.py"
+    ],
+    "validation_reuse": "Reuse prior exact-hash unchanged dependency proof only with explicit comparison; full actual direct-file batch/child composition regressions are mandatory because named qualification cannot cover this failure."
+  },
+  "unchanged_invariants": {
+    "attempts": "C global03; others global02; no retry or v0131 release fallback introduced.",
+    "clock": "Original provenance origin/no execution-window expiry; finite per-attempt/handshake/startup bounds unchanged.",
+    "history": "Exact89 rows/83completed/6noncompleted and all failed attempts retained; no attempt consumed by this pre-stage stop.",
+    "ledger_sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6",
+    "resources": "30GiB aggregate/12GiB per-source; all free/reserve/stop/scratch/retention/one-slot guards unchanged.",
+    "rust": "Exact existing nine Rust source bytes and harness behavior unchanged.",
+    "typed_source_repair": "Keep full role=release-input records, strict generic _ref, source projection and all parent/successor/child validation from BF19."
+  }
+}
