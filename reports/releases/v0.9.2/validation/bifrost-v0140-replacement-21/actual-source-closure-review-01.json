@@ -1,0 +1,120 @@
+{
+  "actual_collector": {
+    "all_roles": "release-input",
+    "inherited_count": 1200,
+    "input_config": {
+      "path": "/private/tmp/bf21-source-inputs-actual-01.cfg.json",
+      "sha256": "0ad55bd2baa36161b46ea5e106fb14ffffb50de6dd777d4e2ff9434f3723e295"
+    },
+    "output": {
+      "path": "/private/tmp/bf21-source-inputs-actual-01.json",
+      "sha256": "a257bf5325b28c96a1b238d6451956f7a958a01c51fc36d33db5aebd4b530b7d"
+    },
+    "schema": "v092-bf21-source-input-collection/v1",
+    "selected_count": 461,
+    "source_commit": "8abae4f3472732101cf953983c8d859cb1763594",
+    "source_inputs_delta": 461,
+    "total_source_inputs": 1661
+  },
+  "automatic_retry": false,
+  "build_evidence": {
+    "binary": {
+      "bytes": 10970000,
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/builds/bifrost0140-02-target/release/dataflowbench",
+      "sha256": "ecaf5c50673b1314b9eaf11c0284d3d5044d2feb81f85f0da4a0791f23ab82ac"
+    },
+    "receipt": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-21/build13-terminal-check-01.json",
+      "sha256": "c0d8f680fed7b130248e8dfac79dd347efe9ce084d3a89611a47fd330ca7c71c"
+    },
+    "source_commit": "8abae4f3472732101cf953983c8d859cb1763594",
+    "status": "passed"
+  },
+  "conclusion": "Actual collector closure passed: 1200 inherited plus 461 selected inputs, all 1661 unique and release-input typed, exactly match the source commit tree bytes and selected inventory. Design16\u2019s 618-entry closure and predecessor design15\u2019s 591-entry closure are current-hash exact; the nine typed Rust outputs, successful transaction proof, build13 receipt, branch/HEAD/index and original 89-row ledger remain consistent. No production operation was performed by this review.",
+  "conditions": [
+    "This receipt approves only the actual source-closure evidence for later root-controlled contract/core preparation. It does not approve qualification, admission, replay, analyzer, measurement or launch.",
+    "The 1661-input collector output is bound to source commit 8abae4f3 and config SHA 0ad55bd2; any source, design, config, collector, ledger, index or contract change requires a new exact review.",
+    "Keep design16\u2019s 618 provenance refs and the 1661 committed release-input inventory as distinct evidence sets; do not infer that every validation/contract provenance file is a runner source input."
+  ],
+  "created_utc": "2026-10-25T02:05:39.919929+00:00",
+  "design_closure": {
+    "actual_design16": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-16.json",
+      "sha256": "558b7b56fe95b3f1d0f7366a482df47610335a5fbc95bff8571d9fe5ab1e6e35"
+    },
+    "design16_allowed_source_delta_paths": 9,
+    "design16_closure_boundary": "The 618 design provenance refs are preserved and hash-verified separately from the 1661 committed release-input inventory; validation/contract evidence refs are not relabeled as source inputs.",
+    "design16_immediate_patch_base": "96e915ab57f41f96f4950ef8f1ba8f9498e39e38",
+    "design16_intervening_changes": 618,
+    "design16_refs_exact_current_bytes": true,
+    "design16_reviewed_baseline_head": "9b71cce939ac74d9674be189ee03dbee14b868e9",
+    "predecessor_design15": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-15.json",
+      "sha256": "ff8cf00886d221b1b7d57df00afbdf26a0f051ecee7eab9f35cccbbb9cb486b7"
+    },
+    "predecessor_design15_intervening_changes": 591
+  },
+  "execution_authorized": false,
+  "findings": [],
+  "index_snapshot": {
+    "ctime_ns": 1792893498688060907,
+    "dev": 16777233,
+    "index_lock_present": false,
+    "ino": 798066484,
+    "mode": 33188,
+    "mtime_ns": 1792893498687877741,
+    "path": "/Users/dave/Workspace/BrokkAi/dataflowbench/.git/worktrees/dataflowbench2/index",
+    "sha256": "599e6eb79f64fb5a4bce27eb35d3cc778c9f017e7402d74dcd43f929d8e8061f",
+    "size": 68666866,
+    "staged_paths": []
+  },
+  "ledger": {
+    "bytes": 114106120,
+    "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "rows": 89,
+    "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6",
+    "staged": false
+  },
+  "production_operations_performed": false,
+  "review_type": "independent-actual-source-closure-review",
+  "reviewer": "bifrost014_qualification",
+  "schema": "v092-bifrost-v0140-actual-source-closure-review/v1",
+  "scope": "Read-only review of the actual post-source BF21 source-input closure. This receipt binds the successful source transaction, design16 closure, actual collector output, exact source-commit tree, build13 evidence, current Git/index/ledger state, and preserved historical boundaries. It grants no contract/core, qualification, admission, replay, analyzer, measurement, or launch authority.",
+  "source_commit": "8abae4f3472732101cf953983c8d859cb1763594",
+  "source_transaction": {
+    "acquisition_base": "96e915ab57f41f96f4950ef8f1ba8f9498e39e38",
+    "input_sha256": "bd687852bde8932fab20cbd892c78214939cc55dc85b0663d2c58dce21b808a2",
+    "proof": {
+      "path": "/private/tmp/bf21-source-transaction-proof-01.json",
+      "sha256": "4da342b9680ba6124d54038e69dc999ec7ac18c0375204858f0375479ba773a5"
+    },
+    "review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-21/source-transaction-review-01.json",
+      "sha256": "abfbf907683ced15dcfcb654d8130b3fde204f05036aa7deb5d3b36dcc135d79"
+    },
+    "source_commit": "8abae4f3472732101cf953983c8d859cb1763594",
+    "working_rust_files_rewritten": false
+  },
+  "status": "approved-for-source-closure-only",
+  "verified": {
+    "actual_config_sets_and_hashes_match": true,
+    "actual_inherited_inputs_exact": 1200,
+    "actual_selected_delta_exact": 461,
+    "actual_source_inputs_exact": 1661,
+    "actual_source_inputs_unique": true,
+    "all_source_input_roles_release_input": true,
+    "build13_passed_same_source_commit": true,
+    "current_branch_exact": true,
+    "current_head_exact": true,
+    "design15_closure_591_preserved": true,
+    "design16_closure_618_current_refs_match": true,
+    "historical_outputs_and_clock_attempt_resource_guards_untouched_by_review": true,
+    "nine_typed_rust_paths_expected_after_match": true,
+    "only_tracked_dirty_path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "original_89_row_ledger_preserved": true,
+    "real_index_clean_and_lock_absent": true,
+    "selected_inventory_hashes_and_bytes_match": true,
+    "source_commit_git_tree_bytes_match_all_1661": true,
+    "source_transaction_proof_exact": true
+  }
+}
