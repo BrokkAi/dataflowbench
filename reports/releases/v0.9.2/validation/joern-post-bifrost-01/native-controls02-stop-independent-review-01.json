@@ -1,0 +1,399 @@
+{
+  "bindings": {
+    "exact_invocation_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls02-exact-invocation-review-01.json",
+      "sha256": "fed9913b77f1badb3423149e26ec96098bab84949d9e7aa579f0bbcf71f81b9a"
+    },
+    "ledger": {
+      "bytes": 123908716,
+      "completed_rows": 103,
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 109,
+      "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851"
+    },
+    "request": {
+      "bytes": 513264,
+      "namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-02.json",
+      "schema": "v092-joern-native-control-request/v1",
+      "sha256": "33028b7ba59f81f1494dbf40f22f8c3c7040f19b0f9642410385ddff9ba60720"
+    },
+    "root_stop_receipt": {
+      "bytes": 3342,
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls02-root-stop-check-01.json",
+      "sha256": "c68ea1d7a496f3bc06b01499be8df269d7038fedf52a21cb19cbb9b47c582119",
+      "status": "stopped-before-ready-and-controls"
+    },
+    "source_head": "34fdf80bdb6a386af43e3001fc2205c0661560fb",
+    "source_review": {
+      "bytes": 10105,
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier-independent-review-04.json",
+      "sha256": "7043af9bd594b72a4a22ade090347f47ebb450aad94ae8e070013c7126631093",
+      "status": "approved-for-source-commit-only"
+    },
+    "wrapper": {
+      "bytes": 54139,
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-02/native_qualifier.py",
+      "sha256": "b45f429b2c52947f896af9daf6916b2cfac4ba81bdc44d0a81cd6ce5c09943e3",
+      "source_line": "expected_environment at lines 166-180; strict worker comparison at line 714"
+    }
+  },
+  "classification": "read-only environment stop diagnosis",
+  "disposition": {
+    "attempt_consumption": "Preserve this one started-and-failed invocation; no native control result or qualification is inferred.",
+    "automatic_retry": false,
+    "native_control_qualification": "not-qualified",
+    "next_gate": "Writer may prepare an append-only narrowly scoped environment repair and focused positive/near-miss tests. A new independent source review and exact invocation review are required before any successor control invocation.",
+    "publication_hold": true,
+    "source_repair_required": true,
+    "startup_invocation": "failed-closed-before-ready-and-controls"
+  },
+  "environment_diagnosis": {
+    "child_started_key_count": 17,
+    "child_started_matches_expected": true,
+    "classification": "The extra key is added by the bound Homebrew Python/macOS startup before user code: the exact input env and /usr/bin/env contain no key, Python 3.13 -B -E -S adds it before the script body, and wrapper/observer/controller imports add no keys. It is not evidence of observer mutation or an arbitrary ambient environment leak.",
+    "expected_environment_source": "native_qualifier.py:166-180 expected_environment returns the exact 17-key dict; the child-started record matches those 17 keys and values.",
+    "expected_key_count": 17,
+    "explicit_key_probe": {
+      "added": {},
+      "changed": {},
+      "command": [
+        "/opt/homebrew/bin/python3.13",
+        "-B",
+        "-E",
+        "-S",
+        "-c",
+        "import os,json; print(json.dumps(dict(os.environ),sort_keys=True,separators=(\",\",\":\")))"
+      ],
+      "input_has_cf": "0x1F5:0x0:0x0",
+      "path": "/private/tmp/joern05-native-controls02-environment-explicit-key-01.json",
+      "removed": [],
+      "sha256": "c548f6db8d0e1f9fdde0e10d6ce1224301a101c4abd8f6b465e6d0eb85fbd8dc"
+    },
+    "observer_import_mutation_probe": {
+      "birth_process_probe_boundary": "The private supervisor _birth/_process calls could not obtain a sandbox process identity; this does not weaken the actual worker traceback, which reached line 714 after its parent-birth, argv, lock and self-identity guards.",
+      "controller_loaded": true,
+      "environment_diff_at_wrapper_observer_controller_stages": {
+        "controller_to_self_birth": {
+          "added": {},
+          "changed": {},
+          "removed": {}
+        },
+        "full_pre_ready": {
+          "added": {},
+          "changed": {},
+          "removed": {}
+        },
+        "observer_to_controller_import": {
+          "added": {},
+          "changed": {},
+          "removed": {}
+        },
+        "self_birth_to_self_process": {
+          "added": {},
+          "changed": {},
+          "removed": {}
+        },
+        "startup_to_wrapper_import": {
+          "added": {},
+          "changed": {},
+          "removed": {}
+        },
+        "wrapper_to_observer_import": {
+          "added": {},
+          "changed": {},
+          "removed": {}
+        }
+      },
+      "observer_controls_called": false,
+      "observer_loaded": true,
+      "receipt": {
+        "bytes": 9665,
+        "path": "/private/tmp/joern05-native-controls02-environment-probe-01.json",
+        "sha256": "6f094fec19ea203b79d37d4c12f81be4badf1d5bf13250051c9889adc8a59a81"
+      },
+      "receipt_sha256": "6f094fec19ea203b79d37d4c12f81be4badf1d5bf13250051c9889adc8a59a81",
+      "returncode": 0,
+      "script": {
+        "bytes": 3870,
+        "path": "/private/tmp/joern05-native-controls02-environment-probe-01.py",
+        "sha256": "e3374ee5699b28f4855e761a8b8b63a950b27dbe9244a65d46aa28f5ba41d40c"
+      },
+      "status": "observed"
+    },
+    "python_startup_added_key": {
+      "name": "__CF_USER_TEXT_ENCODING",
+      "value": "0x1F5:0x0:0x0"
+    },
+    "python_startup_diff": {
+      "env_binary_has_cf_key": false,
+      "exact_input_has_cf_key": false,
+      "path": "/private/tmp/joern05-native-controls02-environment-startup-diff-01.json",
+      "probe_sha256": "6f094fec19ea203b79d37d4c12f81be4badf1d5bf13250051c9889adc8a59a81",
+      "python_added_keys": {
+        "__CF_USER_TEXT_ENCODING": "0x1F5:0x0:0x0"
+      },
+      "python_changed_keys": {},
+      "python_cmd": [
+        "/opt/homebrew/bin/python3.13",
+        "-B",
+        "-E",
+        "-S",
+        "-c",
+        "import os,json; print(json.dumps(dict(os.environ),sort_keys=True,separators=(\",\",\":\")))"
+      ],
+      "python_removed_keys": [],
+      "python_startup_has_cf_key": true,
+      "sha256": "4063280824443ca87d70641b0c8ff8c9238885230262d51cea3b14ac50e48252"
+    },
+    "worker_actual_os_environ_receipt_present": false,
+    "worker_receipt_absence_reason": "Worker failed at the environment assertion before worker-invocation.json was written."
+  },
+  "findings": [
+    {
+      "evidence": {
+        "child_started_environment_key_count": 17,
+        "env_binary_added_key": false,
+        "expected_environment_key_count": 17,
+        "observer_or_controller_import_added_key": false,
+        "python_added_key": "__CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0",
+        "request_sha256": "33028b7ba59f81f1494dbf40f22f8c3c7040f19b0f9642410385ddff9ba60720",
+        "source_head": "34fdf80bdb6a386af43e3001fc2205c0661560fb",
+        "worker_error": "ValueError: worker environment differs",
+        "worker_traceback_line": "native_qualifier.py:714"
+      },
+      "finding": "The native-controls02 worker fails closed at the exact environment equality check because the bound Homebrew Python startup adds __CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0 to os.environ. The parent-generated Popen environment itself exactly matches expected_environment; the added key is outside the worker source assertion.",
+      "id": "NATIVE-CONTROL02-STOP-ENV-001",
+      "required_repair": "Prepare a narrowly bound source repair that accounts for this exact platform/interpreter startup field without accepting arbitrary unknown environment keys. Preserve exact equality for all reviewed fields and reject unknown extras, wrong __CF_USER_TEXT_ENCODING values, changed expected values, and observer/import mutations. Do not retry or run controls until independently reviewed.",
+      "severity": "blocker",
+      "status": "demonstrated"
+    }
+  ],
+  "method": "Read-only receipt/hash inspection plus bounded /opt/homebrew/bin/python3.13 -B -E/-S environment and actual wrapper/observer/controller import probes. No native controls, observer.controls, engine, JVM, analyzer, replay, admission, qualification, Git mutation, source edit, retry or publication action.",
+  "observed_invocation": {
+    "child_started": {
+      "argv_guard_input": [
+        "/opt/homebrew/bin/python3.13",
+        "-B",
+        "-E",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-02/native_qualifier.py",
+        "worker",
+        "--request",
+        "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-02.json",
+        "--request-sha256",
+        "33028b7ba59f81f1494dbf40f22f8c3c7040f19b0f9642410385ddff9ba60720",
+        "--review",
+        "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls02-exact-invocation-review-01.json",
+        "--review-sha256",
+        "fed9913b77f1badb3423149e26ec96098bab84949d9e7aa579f0bbcf71f81b9a",
+        "--lock-fd",
+        "3",
+        "--witness-fd",
+        "5",
+        "--token",
+        "373c00a64f7b4228ac8a139727a22bb8",
+        "--parent-pid",
+        "62505",
+        "--parent-birth",
+        "Sun Oct 25 20:24:18 2026"
+      ],
+      "birth_identity": "Sun Oct 25 20:25:15 2026",
+      "bytes": 2233,
+      "environment_key_count": 17,
+      "environment_keys": [
+        "BIFROST_CACHE_ROOT",
+        "CLASSPATH",
+        "DATAFLOWBENCH_V092_GROUP_ID",
+        "DATAFLOWBENCH_V092_QUALIFICATION",
+        "DATAFLOWBENCH_V092_RELEASE_EXECUTION",
+        "DFB_CACHE_ROOT",
+        "HOME",
+        "JAVA_HOME",
+        "JAVA_OPTS",
+        "JDK_JAVA_OPTIONS",
+        "LANG",
+        "LC_ALL",
+        "PATH",
+        "PYTHONDONTWRITEBYTECODE",
+        "SWIFTASTGEN_BIN",
+        "TMPDIR",
+        "_JAVA_OPTIONS"
+      ],
+      "environment_sha256": "450336a6864f95acb19f641bd6298f5682838a3b7b1b6ea7f9be3e8a36779450",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02/child-started.json",
+      "pid": 64817,
+      "request_sha256": "33028b7ba59f81f1494dbf40f22f8c3c7040f19b0f9642410385ddff9ba60720",
+      "sha256": "4cf26378fabe1921739bc56d474e8cce8d70e7ec36b095acf9e5a94645c82b11"
+    },
+    "exit": {
+      "automatic_retry": false,
+      "bytes": 1082,
+      "cleanup": {
+        "coordinator_reaped": true,
+        "descendant_containment": "unknown",
+        "identity_probe": "unavailable",
+        "kill_seconds": 5.0,
+        "kill_sent": false,
+        "signal_scope": "popen-owned-direct-child-only",
+        "status": "reaped",
+        "term_seconds": 5.0,
+        "term_sent": false
+      },
+      "exit_code": 1,
+      "ledger_unchanged": true,
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02/exit.json",
+      "phases": [],
+      "qualification_inferred": false,
+      "sha256": "71e3a36091762b83d5075f73f0387de8d4c4cae85506a5806be700fd04845a93",
+      "status": "failed"
+    },
+    "root_stop": {
+      "automatic_retry": false,
+      "benchmark_attempt_consumed": false,
+      "capture_present": false,
+      "engine_run_inferred": false,
+      "failure": "exact worker environment differs at native_qualifier.py:714; argv/interpreter guard passed",
+      "ledger": {
+        "bytes": 123908716,
+        "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+        "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851"
+      },
+      "native_namespace_consumed": true,
+      "next_gate": "Evidence-backed independent environment diagnosis and reviewed append-only source repair before any successor. No blind retry.",
+      "owned_processes_checked_gone": [
+        62505,
+        62507,
+        64817,
+        66304,
+        67322
+      ],
+      "phases": [],
+      "publication_hold": true,
+      "receipt": {
+        "bytes": 3342,
+        "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls02-root-stop-check-01.json",
+        "sha256": "c68ea1d7a496f3bc06b01499be8df269d7038fedf52a21cb19cbb9b47c582119"
+      },
+      "receipts_and_streams": [
+        {
+          "bytes": 2233,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02/child-started.json",
+          "sha256": "4cf26378fabe1921739bc56d474e8cce8d70e7ec36b095acf9e5a94645c82b11"
+        },
+        {
+          "bytes": 1082,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02/exit.json",
+          "sha256": "71e3a36091762b83d5075f73f0387de8d4c4cae85506a5806be700fd04845a93"
+        },
+        {
+          "bytes": 3598,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02/parent-started.json",
+          "sha256": "5faa5f66769177552c903a35cd86b002f1ee712ba49e65cb36c1279d23520e64"
+        },
+        {
+          "bytes": 1673,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02/stderr.txt",
+          "sha256": "5f1e3c7000fa04ac8e58b9bf201c9d0bff11c0382249dc942797fb101104e979"
+        },
+        {
+          "bytes": 0,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02/stdout.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 1240,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02-supervision/parent.stderr",
+          "sha256": "dae0d55246f84b290f6bd961f856324b6ac9277f208bb7fadaf19853e8213fa7"
+        },
+        {
+          "bytes": 0,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02-supervision/parent.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "bytes": 1794,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02-supervision/result.json",
+          "sha256": "8f6fd24d2b0aff1f8bfe633227c38ecaa964752fc7df0230ef84b9c9dea408df"
+        },
+        {
+          "bytes": 1579,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02-supervision/started.json",
+          "sha256": "33b1c5f453ebb7605657ba121ee6f374e405d4bfacf86073c64c95ac42ba6ac9"
+        }
+      ],
+      "recorded_utc": "2026-10-25T18:26:43.823889+00:00",
+      "schema": "v092-native-controls-root-stop-check/v2",
+      "source_head": "34fdf80bdb6a386af43e3001fc2205c0661560fb",
+      "status": "stopped-before-ready-and-controls",
+      "terminal": {
+        "bytes": 1082,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02/exit.json",
+        "sha256": "71e3a36091762b83d5075f73f0387de8d4c4cae85506a5806be700fd04845a93"
+      },
+      "worker_invocation_receipt_present": false
+    },
+    "supervision": {
+      "owned_processes_checked_gone": [
+        62505,
+        62507,
+        64817,
+        66304,
+        67322
+      ],
+      "parent_stderr": {
+        "bytes": 1240,
+        "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02-supervision/parent.stderr",
+        "sha256": "dae0d55246f84b290f6bd961f856324b6ac9277f208bb7fadaf19853e8213fa7"
+      },
+      "result": {
+        "bytes": 1794,
+        "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02-supervision/result.json",
+        "sha256": "8f6fd24d2b0aff1f8bfe633227c38ecaa964752fc7df0230ef84b9c9dea408df",
+        "status": "owned-parent-started"
+      }
+    },
+    "worker_failure": {
+      "argv_interpreter_guard_passed": true,
+      "bytes": 1673,
+      "capture_present": false,
+      "controls_started_observed": false,
+      "observer_controls_called": false,
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02/stderr.txt",
+      "ready_observed": false,
+      "sha256": "5f1e3c7000fa04ac8e58b9bf201c9d0bff11c0382249dc942797fb101104e979",
+      "traceback_boundary": "native_qualifier.py:714 require(dict(os.environ) == expected_environment(...), worker environment differs)"
+    }
+  },
+  "regression_requirements": {
+    "execution_boundary": "No retry, extra analyzer, JVM, engine, replay, admission, qualification, or publication action while repairing the pre-ready environment boundary.",
+    "near_miss": [
+      "An arbitrary extra environment key remains a hard failure.",
+      "A wrong or changed __CF_USER_TEXT_ENCODING value remains a hard failure.",
+      "A changed JAVA_OPTS, HOME, PATH, locale, marker, cache, or temporary path remains a hard failure.",
+      "An observer/controller import that mutates os.environ remains a hard failure; do not use a broad whitelist."
+    ],
+    "positive": [
+      "With the exact reviewed Homebrew Python startup and an explicitly bound __CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0 value, the worker reaches its worker-owned pre-ready environment receipt/ready boundary without treating the platform field as an unknown extra.",
+      "Record the worker-owned pre-ready environment and its digest before ready; retain exact request/review/parent/lock bindings."
+    ]
+  },
+  "review_type": "independent-read-only-native-control-stop-diagnosis",
+  "reviewed_at_utc": "2026-10-25T18:28:51.602080+00:00",
+  "schema": "v092-joern-native-controls02-stop-independent-review/v1",
+  "scope": {
+    "admission_invoked": false,
+    "analyzer_invoked": false,
+    "bootstrap_retried": false,
+    "engine_invoked": false,
+    "git_mutated": false,
+    "jvm_invoked": false,
+    "native_controls_invoked": false,
+    "publication_or_release_action": false,
+    "qualification_invoked": false,
+    "replay_invoked": false,
+    "runtime_retried": false,
+    "source_edited": false,
+    "statement": "This review inspects the one preserved native-controls02 stop and runs only bounded private Homebrew-Python environment/import probes. It does not authorize retry, controls, analyzer, JVM, admission, qualification, Git, source repair, or publication."
+  },
+  "status": "stop-confirmed-environment-defect"
+}

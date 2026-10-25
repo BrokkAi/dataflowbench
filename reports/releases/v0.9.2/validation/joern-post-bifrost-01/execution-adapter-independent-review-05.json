@@ -1,0 +1,242 @@
+{
+  "schema": "v092-joern05-execution-adapter-independent-review/v5",
+  "review_type": "independent-read-only-execution-adapter05-ownership-review",
+  "reviewer": "joern_execution_adapter_independent",
+  "reviewed_at_utc": "2026-10-25T18:20:00Z",
+  "status": "approved-for-source-commit-only",
+  "scope": {
+    "statement": "Read-only independent review of frozen execution-adapter05 ownership repairs against canonical adapter04 and the sealed outer-loader ownership audit. Only packet.py and bridge.py are changed runtime sources; no canonical source, Git, runtime control, replay, admission, qualification or publication action was performed.",
+    "private_handoff": {
+      "path": "/private/tmp/joern05-execution-adapter-05/implementation-handoff-05.json",
+      "bytes": 6468,
+      "sha256": "a490d53f93805eba764e28ee9e727c8296d0b556996a99de6b207f2c6271147a",
+      "status": "private-source-ready-for-independent-review-only",
+      "snapshot_frozen": true
+    },
+    "ownership_audit": {
+      "path": "/private/tmp/joern05-outer-loader-ownership-audit-01.json",
+      "bytes": 3646,
+      "sha256": "c00942c92266d057b27db7739fa93e5ab7b6721a33da5934b87f27c67b892d54",
+      "status": "changes-required-before-future-outer-integration"
+    },
+    "prior_canonical_boundary": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04",
+      "packet_sha256": "73350e80e0861bba89cb138e14b742cccb88a274b86b64dac9673bb14a4c8644",
+      "bridge_sha256": "538dd5a9b75201e640c1630f9517bb64597a9629d22afcc52492348aa00627c4"
+    },
+    "not_performed": [
+      "canonical source copy or source commit",
+      "Git mutation, ledger mutation or replay",
+      "native controls, engine, JVM, analyzer, actual bootstrap, admission, qualification or launch",
+      "production success, release or publication action"
+    ]
+  },
+  "source_bindings": {
+    "changed_runtime_sources": [
+      {
+        "name": "packet.py",
+        "path": "/private/tmp/joern05-execution-adapter-05/packet.py",
+        "bytes": 8733,
+        "sha256": "b4d01f007ab7a9857a87732d7d1d0246bbd7bd063f6a2bcac54a81788b18be18"
+      },
+      {
+        "name": "bridge.py",
+        "path": "/private/tmp/joern05-execution-adapter-05/bridge.py",
+        "bytes": 18221,
+        "sha256": "d250b20f8d811b81ace10eee4837201ab8b46852a466e3d8b4077153c276cc5d"
+      }
+    ],
+    "runtime_delta": {
+      "path": "/private/tmp/joern05-execution-adapter-05/runtime-diff-vs-04.patch",
+      "bytes": 5284,
+      "sha256": "2486f9acf8c0eab1fca47dfdad0a129175fc24cff443606e60cd103958e9e056",
+      "summary": "Only packet.py failed-load/outer-scope cleanup and bridge.py per-name adapter disposal/exception cleanup changed."
+    },
+    "unchanged_sources_exact": [
+      {
+        "name": "history.py",
+        "sha256": "5844d039786cc513895a020774c202caaed1c0cfef6bc858c7a2e2136bfd696e"
+      },
+      {
+        "name": "protocol.py",
+        "sha256": "4caf6cd997b75da405b1789ce26cc816dc9244634263f5b000c3de3eed6d49ae"
+      },
+      {
+        "name": "supervisor.py",
+        "sha256": "fdcec6914b3aad124d5a2af270b62d4f189aa211292516784ef9fb658c2916ee"
+      },
+      {
+        "name": "stage_runtime.py",
+        "sha256": "9ab0e86068a6504b8b38a83573afe6c2ce086b07f47d1af6e56cba16974755e3"
+      },
+      {
+        "name": "admission.py",
+        "sha256": "7807d6a0a1759932f1cbd07cefa739d38aae533d437ec8a8a8465322072c39a0"
+      },
+      {
+        "name": "test_adapter.py",
+        "sha256": "dc359995e495ba4014a772e6ace292faef4d01ebd0aa34ecc78ddc478ad8270d"
+      },
+      {
+        "name": "test_durable.py",
+        "sha256": "e47d65307fd2258aaf0f1eb5f07aab443f52a3d5e490cb8e98941f6a797901a8"
+      },
+      {
+        "name": "test_graph95.py",
+        "sha256": "ecac2d7a029fac6e862295b88515e7a92cc37b764c3017299026d3ff7d16fe10"
+      },
+      {
+        "name": "test_startup_handoff.py",
+        "sha256": "2019156e5c82a17681d096c64d89393d81d33588479b299dbdb6e8d7cfea5"
+      }
+    ]
+  },
+  "independent_validation": {
+    "interpreter": "/opt/homebrew/bin/python3.13 -B -E",
+    "ownership_tests": {
+      "command": [
+        "/opt/homebrew/bin/python3.13",
+        "-B",
+        "-E",
+        "-m",
+        "unittest",
+        "test_ownership"
+      ],
+      "working_directory": "/private/tmp/joern05-execution-adapter-05",
+      "passed": 6,
+      "total": 6,
+      "result": "OK",
+      "log": {
+        "path": "/private/tmp/joern05-execution-adapter-05-independent-ownership.log",
+        "bytes": 104,
+        "sha256": "ce014eba599d1ae399afb4e31ec7045ebec188cc6a5aee336418c5fbe5103e73"
+      },
+      "coverage": [
+        "failed execution exact-owned and foreign replacement identity",
+        "actual inherited88 plus adapter7 two-entry teardown",
+        "inherited88 close after adapter95 disposal and before host cleanup",
+        "foreign host and unknown addition preservation with fail-closed error",
+        "foreign and cross-role adapter replacement preservation with fail-closed error",
+        "original operation exception primary with cleanup diagnostic",
+        "partial graph95 preparation failure closes inherited88 and hosts"
+      ]
+    },
+    "graph95_targeted_tests": {
+      "command": [
+        "/opt/homebrew/bin/python3.13",
+        "-B",
+        "-E",
+        "-m",
+        "unittest",
+        "test_graph95.Graph95Tests.test_exact95_preserves88_objects_and_local_imports",
+        "test_graph95.Graph95Tests.test_close_restores_registry_and_error_disposes_new_modules"
+      ],
+      "working_directory": "/private/tmp/joern05-execution-adapter-05",
+      "passed": 2,
+      "total": 2,
+      "result": "OK",
+      "log": {
+        "path": "/private/tmp/joern05-execution-adapter-05-independent-graph95.log",
+        "bytes": 100,
+        "sha256": "fd19289abd63cc3361559a736f3822d83f1290a96b25a131938289cc7dafc54c"
+      },
+      "coverage": [
+        "current graph95 preserves inherited88 objects and local adapter imports",
+        "adapter registrations are removed and failed graph preparation disposes newly registered modules"
+      ]
+    },
+    "static_delta_probe": {
+      "script": "/private/tmp/joern05-execution-adapter-05-independent-static-probe.py",
+      "log": "/private/tmp/joern05-execution-adapter-05-independent-static-probe.log",
+      "log_bytes": 799,
+      "log_sha256": "6eda2ae9d20d17933cd0f3b281d05ec70987f445efaa7e8a0ce821b2ad0274b9",
+      "all_checks_passed": true,
+      "checks": [
+        "handoff and ownership audit exact SHA bindings",
+        "runtime delta exact SHA binding",
+        "all nine retained source/test files byte-identical to canonical04",
+        "failed-load cleanup removes only exact module object",
+        "adapter disposal removes only exact per-name module object",
+        "inherited88 close occurs after adapter95 disposal and before host cleanup",
+        "original exception and cleanup diagnostics remain separated",
+        "graph95 shape remains inherited88 plus exactly adapter7 with distinct graph identity",
+        "no old broad sys.modules pop or membership-in-any-module disposal remains"
+      ]
+    },
+    "frozen_full_suite_receipt": {
+      "command": "/opt/homebrew/bin/python3.13 -B -E -m unittest discover -s /private/tmp/joern05-execution-adapter-05 -p 'test_*.py'",
+      "passed": 68,
+      "total": 68,
+      "result": "PASS",
+      "retained": 62,
+      "retained_startup_tests": 4,
+      "new_ownership_tests": 6,
+      "log": {
+        "path": "/private/tmp/joern05-execution-adapter-05/all-tests-final-01.log",
+        "bytes": 168,
+        "sha256": "e0c26b6356ac3b8b64de2e90bbbae250d90fc913c97fee0ba6ba28a13f6e6214"
+      },
+      "interpretation": "Used as the frozen handoff receipt; independent review reran the six changed-behavior ownership tests and two graph95 tests rather than duplicating all 68 tests."
+    }
+  },
+  "findings": [
+    {
+      "id": "ADAPTER05-LOAD-OWNERSHIP-001",
+      "severity": "passed",
+      "status": "corrected-and-tested",
+      "finding": "load_bound_module now removes a failed module registration only when the current sys.modules value is the exact object created for that name. A foreign replacement or missing value remains preserved, while the original module-body exception stays primary and receives a separate adapter_cleanup_errors diagnostic when needed.",
+      "evidence": {
+        "source": "/private/tmp/joern05-execution-adapter-05/packet.py:71-94",
+        "audit_finding": "OUTER-LOAD-001",
+        "ownership_tests": "6/6 independent ownership tests passed, including both failed-load branches"
+      },
+      "required_preservation": "Keep exact name/object identity, foreign preservation, original exception priority and structured secondary cleanup diagnostics."
+    },
+    {
+      "id": "ADAPTER05-OUTER-TEARDOWN-002",
+      "severity": "passed",
+      "status": "corrected-and-tested",
+      "finding": "The outer scope now attempts adapter95 disposal, unchanged inherited88 import_context.close_on_error, and exact host cleanup in that order. Each step continues after a prior cleanup failure; primary operation exceptions remain primary and cleanup failures are attached separately. Foreign host/unknown values and cross-role adapter values are preserved and fail closed.",
+      "evidence": {
+        "source": "/private/tmp/joern05-execution-adapter-05/packet.py:136-190",
+        "audit_finding": "OUTER-HOST-002",
+        "teardown_order_test": "test_actual_scope_two_entries_closes_inherited_after_adapter_before_hosts",
+        "error_primary_test": "test_original_operation_error_stays_primary_with_cleanup_diagnostic"
+      },
+      "required_preservation": "Retain all-owned-cleanup attempts, exact identity checks, inherited boundary timing and no broad registry deletion."
+    },
+    {
+      "id": "ADAPTER05-GRAPH-BOUNDARY-003",
+      "severity": "passed",
+      "status": "corrected-and-tested",
+      "finding": "Bridge disposal stores each adapter name with its original module object and removes only exact per-name registrations. Replacements, cross-role identities and unknown additions remain visible and fail closed. Partial graph95 preparation disposes adapter registrations and packet scope still closes inherited88 before exact host cleanup. The graph remains a distinct current95 view over unchanged inherited88 objects.",
+      "evidence": {
+        "source": "/private/tmp/joern05-execution-adapter-05/bridge.py:186-248 and packet.py:136-190",
+        "audit_finding": "OUTER-GRAPH-003",
+        "graph95_tests": "2/2 targeted tests passed",
+        "ownership_tests": "6/6 independent ownership tests passed",
+        "graph_shape": "exact inherited88 plus adapter7 equals 95; distinct graph identity and unchanged opaque boundary"
+      },
+      "required_preservation": "Keep exact per-name disposal, fail-closed replacement handling, separate inherited/current graph provenance, and the adapter95-before-inherited88-before-host teardown order."
+    },
+    {
+      "id": "ADAPTER05-BOUNDARY-004",
+      "severity": "boundary",
+      "status": "disclosed",
+      "finding": "The frozen 68-test suite and independent ownership/graph probes establish source and bounded lifecycle composition only. They do not establish actual history replay, native controls, JVM/engine/analyzer execution, fresh admission, qualification, production dispatch, release or publication readiness.",
+      "required_preservation": "Keep source commit, native-control, stage-qualification, fresh-admission, external execution and publication gates separate."
+    }
+  ],
+  "disposition": {
+    "status": "approved-for-source-commit-only",
+    "source_commit_approval": true,
+    "source_commit_scope": "Private05 packet.py and bridge.py, together with their unchanged retained closure and six ownership tests, may proceed to root's separate canonical copy/source-selection/commit review.",
+    "execution_authorized": false,
+    "qualification_authorized": false,
+    "automatic_retry": false,
+    "publication_authorized": false,
+    "publication_hold": true,
+    "next_gate": "Root must independently canonicalize the selected private05 closure, bind the new source/request/namespace and perform exact invocation review and fresh live admission before any execution. This report grants no runtime or controls authority."
+  },
+  "method": "Read-only comparison of frozen private05 against canonical04, exact ownership-audit inspection, one independent six-test ownership run, two targeted graph95 runtime-composition tests using temporary synthetic fixtures, and one static delta probe. No canonical/Git/source integration, runtime control, replay, engine, JVM, analyzer, admission, qualification or publication action was performed."
+}

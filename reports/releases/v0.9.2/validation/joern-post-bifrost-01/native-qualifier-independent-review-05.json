@@ -1,0 +1,200 @@
+{
+  "disposition": {
+    "automatic_retry": false,
+    "execution_authorized": false,
+    "next_gate": "Root must independently canonicalize the selected bytes, construct the new request/namespace/source closure, perform exact invocation review and obtain fresh live admission before any runtime or native controls action. This report grants no controls, qualification or publication authority.",
+    "publication_authorized": false,
+    "publication_hold": true,
+    "qualification_authorized": false,
+    "source_commit_approval": true,
+    "source_commit_scope": "Private05 native_qualifier.py, unchanged retained_resources.py, and the fresh worker test/probe sources may proceed to root's separate canonical source-only copy and commit review.",
+    "status": "approved-for-source-commit-only"
+  },
+  "findings": [
+    {
+      "evidence": {
+        "explicit_probe": "c548f6db8d0e1f9fdde0e10d6ce1224301a101c4abd8f6b465e6d0eb85fbd8dc",
+        "fresh_positive": "FreshDarwinWorkerEnvironmentTests positive subprocess observed exact key and wrote worker-invocation.json before ready.",
+        "independent_tests": "5/5 fresh-worker tests and 48/48 full suite passed",
+        "near_misses": "Wrong key value, arbitrary extra, changed JAVA_OPTS and observer import mutation all failed before receipt/capture.",
+        "source": "/private/tmp/joern05-native-qualifier-05/native_qualifier.py:166-182",
+        "stop_diagnosis": "native-controls02-stop-independent-review-01.json / NATIVE-CONTROL02-STOP-ENV-001"
+      },
+      "finding": "The worker now receives the exact Darwin startup field observed in the actual native-controls02 stop: expected_environment adds __CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0 only when sys.platform is darwin. This accounts for the configured Homebrew Python startup field without filtering ambient values or accepting a wildcard.",
+      "id": "NATIVE05-ENV-REPAIR-001",
+      "required_preservation": "Keep the exact Darwin value, Darwin-only branch, Popen environment binding, exact whole-dictionary worker equality, and fail-closed rejection of arbitrary extras or changed values.",
+      "severity": "passed",
+      "status": "corrected-and-tested"
+    },
+    {
+      "evidence": {
+        "delta": "diff-vs-04.patch SHA fa638a280bf7ebd5a5108bea5c9365228031d47770312a062c0613167636f464",
+        "retained_resources": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08",
+        "static_probe": "6df4ceeb4aa7e073fbc965d2aa10f777082de314b2191f559745b986302d228b",
+        "suite": "48/48 OK"
+      },
+      "finding": "The private05 delta leaves private04 failed-execution ownership, exact worker argv/interpreter identity, parent/worker receipt binding, common flock inode/held-lock checks, owned module cleanup, resource guards, lifecycle clocks, containment, and automatic_retry false unchanged. The retained resource helper is byte-identical.",
+      "id": "NATIVE05-INHERITED-GUARDS-002",
+      "required_preservation": "Carry forward all private04 lifecycle, resource, lock, source, argv, interpreter, ownership, cleanup, containment, clock and no-retry guards through canonicalization.",
+      "severity": "passed",
+      "status": "preserved-by-delta-review"
+    },
+    {
+      "finding": "This review establishes source shape and bounded real-worker pre-ready environment behavior only. It does not establish native controls, engine/JVM/analyzer execution, actual bootstrap, fresh admission, qualification, production dispatch, release or publication readiness.",
+      "id": "NATIVE05-BOUNDARY-003",
+      "required_preservation": "Keep source commit, canonicalization, exact request/invocation review, fresh live admission, native-control, qualification and publication gates separate.",
+      "severity": "boundary",
+      "status": "disclosed"
+    }
+  ],
+  "independent_validation": {
+    "fresh_worker_suite": {
+      "command": "/opt/homebrew/bin/python3.13 -B -E -m unittest test_native_qualifier.FreshDarwinWorkerEnvironmentTests",
+      "coverage": [
+        "fresh positive configured Homebrew Python worker reaches pre-ready body and writes worker receipt with exact Darwin key",
+        "wrong Darwin key value fails exact worker environment equality before receipt/capture",
+        "arbitrary extra environment key fails exact worker environment equality before receipt/capture",
+        "changed JAVA_OPTS fails exact worker environment equality before receipt/capture",
+        "observer-load import mutation fails exact worker environment equality before receipt/capture"
+      ],
+      "log": {
+        "bytes": 103,
+        "path": "/private/tmp/joern05-native-qualifier-05-independent-fresh-worker-tests.log",
+        "sha256": "00428865fcf8e3675973c24d90d0b0e1468e0f8c2978e1cc61b4d49a3f144016"
+      },
+      "passed": 5,
+      "result": "OK",
+      "total": 5,
+      "working_directory": "/private/tmp/joern05-native-qualifier-05"
+    },
+    "full_suite": {
+      "command": "/opt/homebrew/bin/python3.13 -B -E /private/tmp/joern05-native-qualifier-05/test_native_qualifier.py",
+      "coverage": "All 43 private04 tests plus five fresh real-worker tests; no engine, JVM, analyzer, native controls, replay, actual bootstrap, admission, qualification, ledger or Git operation.",
+      "log": {
+        "bytes": 147,
+        "path": "/private/tmp/joern05-native-qualifier-05-independent-tests.log",
+        "sha256": "ed7021fe5eef8711176230465201f40c97d31408b1112839fac11a1ec84985f6"
+      },
+      "passed": 48,
+      "result": "OK",
+      "total": 48,
+      "working_directory": "/private/tmp/joern05-native-qualifier-05"
+    },
+    "handoff_suite": {
+      "bytes": 147,
+      "path": "/private/tmp/joern05-native-qualifier-05/tests-01.log",
+      "result": "48/48 OK",
+      "sha256": "86d8e5a0e8901c325e6e9b66ecee1b86416f94e9344340d75bdf71a9ce529508"
+    },
+    "interpreter": "/opt/homebrew/bin/python3.13 -B -E",
+    "static_delta_probe": {
+      "all_checks_passed": true,
+      "checks": [
+        "private05, private04, prior stop diagnosis and explicit platform probe exact SHA bindings",
+        "native_qualifier.py delta has exactly one replacement and one insertion for the local env plus Darwin key",
+        "retained_resources.py is byte-identical to private04",
+        "exact whole-environment equality remains required in validate_environment and _run_worker_body",
+        "actual fresh-worker modes and import mutation are bound in new tests/probe",
+        "no lifecycle/resource/lock/argv/import guard change outside explicit Darwin key"
+      ],
+      "log": "/private/tmp/joern05-native-qualifier-05-independent-static-probe.log",
+      "log_bytes": 676,
+      "log_sha256": "6df4ceeb4aa7e073fbc965d2aa10f777082de314b2191f559745b986302d228b",
+      "script": "/private/tmp/joern05-native-qualifier-05-independent-static-probe.py"
+    }
+  },
+  "method": "Read-only comparison of frozen private05 against private04 and the actual stop diagnosis; exact SHA/source/delta bindings; one independent static delta probe; one independent full 48-test run; and one independent five-test fresh-worker run. No canonical/Git/source integration, runtime control, replay, engine, JVM, analyzer, admission, qualification or publication action was performed.",
+  "review_type": "independent-read-only-private05-native-qualifier-source-review",
+  "reviewed_at_utc": "2026-10-25T18:44:00Z",
+  "reviewer": "joern_native_qualifier_independent",
+  "schema": "v092-joern-native-qualifier-independent-review/v5",
+  "scope": {
+    "explicit_platform_probe": {
+      "bytes": 281,
+      "path": "/private/tmp/joern05-native-controls02-environment-explicit-key-01.json",
+      "result": "No added, changed or removed environment fields; input Darwin key is exactly 0x1F5:0x0:0x0.",
+      "sha256": "c548f6db8d0e1f9fdde0e10d6ce1224301a101c4abd8f6b465e6d0eb85fbd8dc"
+    },
+    "not_performed": [
+      "canonical source copy or source commit",
+      "Git, ledger mutation or replay",
+      "native controls, engine, JVM, analyzer, actual bootstrap, admission, qualification or launch",
+      "release, publication, tag or workflow action"
+    ],
+    "prior_handoff": {
+      "bytes": 3798,
+      "path": "/private/tmp/joern05-native-qualifier-04/implementation-handoff-04.json",
+      "sha256": "9e91ef7fcfc53e95db5e19a58e819877019426fa165287fdfa1b5ab4b592add4"
+    },
+    "prior_private04_review": {
+      "bytes": 10105,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier-independent-review-04.json",
+      "sha256": "7043af9bd594b72a4a22ade090347f47ebb450aad94ae8e070013c7126631093",
+      "status": "approved-for-source-commit-only"
+    },
+    "prior_stop_diagnosis": {
+      "bytes": 18929,
+      "finding": "The native-controls02 child failed at exact worker environment equality because fresh configured Homebrew Python added __CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0 outside the parent expected dictionary.",
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls02-stop-independent-review-01.json",
+      "sha256": "ea6bcf5a3aaa0bc3516beb6138d306a1ad2f8c9a89e70f4a100aba15415e9eb0"
+    },
+    "private_handoff": {
+      "bytes": 4606,
+      "path": "/private/tmp/joern05-native-qualifier-05/implementation-handoff-05.json",
+      "schema": "v092-joern-native-qualifier-implementation-handoff/v5",
+      "sha256": "af7cfcd2ba42cbc43dca7f3f2829a96f1d319c7fcf02caf6c6dfa19c7d68a8ee",
+      "snapshot_frozen": true,
+      "status": "private-source-ready-for-independent-review-only"
+    },
+    "statement": "Read-only independent review of frozen private05 against private04 and the actual native-controls02 environment-stop diagnosis. The delta explicitly binds the Darwin startup key __CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0 in expected_environment while preserving exact whole-dictionary equality and all inherited lifecycle, resource, lock, argv, interpreter, module, containment and no-retry guards. No canonical source, Git, runtime control, replay, admission, qualification or publication action was performed."
+  },
+  "source_bindings": {
+    "changed_runtime_source": {
+      "bytes": 54243,
+      "name": "native_qualifier.py",
+      "path": "/private/tmp/joern05-native-qualifier-05/native_qualifier.py",
+      "prior_private04_sha256": "b45f429b2c52947f896af9daf6916b2cfac4ba81bdc44d0a81cd6ce5c09943e3",
+      "sha256": "4f3e8e9af3ba3f4d8f46b5de9f842103dc9a97b2e01d20a14e6ae597d70be33a"
+    },
+    "runtime_delta": {
+      "bytes": 4790,
+      "path": "/private/tmp/joern05-native-qualifier-05/diff-vs-04.patch",
+      "sha256": "fa638a280bf7ebd5a5108bea5c9365228031d47770312a062c0613167636f464",
+      "summary": "Only expected_environment changes from a direct return to a local env dict followed by the Darwin-only exact __CF_USER_TEXT_ENCODING assignment and return. No lifecycle, resource, clock, lock, argv, interpreter, module ownership, cleanup, containment, retry or guard code changes are present."
+    },
+    "tests_and_probe_sources": [
+      {
+        "bytes": 46688,
+        "name": "test_native_qualifier.py",
+        "path": "/private/tmp/joern05-native-qualifier-05/test_native_qualifier.py",
+        "sha256": "3fb48060debf820fa1fcd8d0f5ce84f756f8fabe48e9b04784eaf331772160e6"
+      },
+      {
+        "bytes": 1346,
+        "name": "fresh_worker_probe.py",
+        "path": "/private/tmp/joern05-native-qualifier-05/fresh_worker_probe.py",
+        "sha256": "be37fddd4e85f562990863452d628474557b110dc380d7ccb1fad6be50248d22"
+      },
+      {
+        "bytes": 1911,
+        "name": "README-05.md",
+        "path": "/private/tmp/joern05-native-qualifier-05/README-05.md",
+        "sha256": "e37150056fc27af65f06d63941d4fdae6c084e4364bbfeb03e47f6222ac5ef9a"
+      },
+      {
+        "bytes": 943,
+        "name": "request-template.json",
+        "path": "/private/tmp/joern05-native-qualifier-05/request-template.json",
+        "sha256": "43975407dc9f41e2184e5c53bb8d0ac40fbbcec39830d11ea6340f25c439d81e"
+      }
+    ],
+    "unchanged_retained_resource": {
+      "bytes": 4873,
+      "name": "retained_resources.py",
+      "path": "/private/tmp/joern05-native-qualifier-05/retained_resources.py",
+      "prior_private04_sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08",
+      "sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08"
+    }
+  },
+  "status": "approved-for-source-commit-only"
+}
