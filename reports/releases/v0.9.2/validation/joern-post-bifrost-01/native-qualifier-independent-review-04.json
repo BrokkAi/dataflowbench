@@ -1,0 +1,166 @@
+{
+  "schema": "v092-joern-native-qualifier-independent-review/v4",
+  "review_type": "independent-read-only-private04-source-review",
+  "reviewed_at_utc": "2026-10-25T18:14:50Z",
+  "status": "approved-for-source-commit-only",
+  "scope": {
+    "private_handoff": {
+      "path": "/private/tmp/joern05-native-qualifier-04/implementation-handoff-04.json",
+      "bytes": 3798,
+      "sha256": "9e91ef7fcfc53e95db5e19a58e819877019426fa165287fdfa1b5ab4b592add4",
+      "status": "private-source-ready-for-independent-review-only",
+      "snapshot_frozen": true
+    },
+    "wrapper": {
+      "path": "/private/tmp/joern05-native-qualifier-04/native_qualifier.py",
+      "bytes": 54139,
+      "sha256": "b45f429b2c52947f896af9daf6916b2cfac4ba81bdc44d0a81cd6ce5c09943e"
+    },
+    "retained_resources": {
+      "path": "/private/tmp/joern05-native-qualifier-04/retained_resources.py",
+      "bytes": 4873,
+      "sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08",
+      "byte_identical_to_private03": true
+    },
+    "tests": {
+      "path": "/private/tmp/joern05-native-qualifier-04/test_native_qualifier.py",
+      "bytes": 44692,
+      "sha256": "4c6acb6ba55da282ad43d7888eb911ffe3d58f785587690eacbbceaf7770bfea"
+    },
+    "delta": {
+      "path": "/private/tmp/joern05-native-qualifier-04/diff-vs-03.patch",
+      "bytes": 5067,
+      "sha256": "bd513f88680fe02c9b84bc802791bc78a433eb5962fad9a24f5a13f55abd0121",
+      "wrapper_change": "single load() execution-exception branch: delete sys.modules[name] only when its current object is the exact wrapper-created module; otherwise preserve the foreign value and attach a cleanup diagnostic",
+      "test_change": "single insertion of two failed-execution ownership regressions",
+      "readme_change": "single appended snapshot04 description"
+    },
+    "prior_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier-independent-review-03.json",
+      "sha256": "14cd8f6a8100f4ea1f1aeeb9541258c15605b7725377f9f33dc5271299ca5591",
+      "prior_blocker": "NATIVE03-LOAD-EXCEPTION-003 demonstrated unowned deletion of a foreign sys.modules replacement during failed module execution"
+    },
+    "not_performed": [
+      "canonical copy or source commit",
+      "Git mutation",
+      "actual bootstrap, native controls, JVM, engine, analyzer, replay, admission, qualification or publication",
+      "request, authority, namespace or exact invocation approval"
+    ]
+  },
+  "independent_validation": {
+    "interpreter": "/opt/homebrew/bin/python3.13 -B -E",
+    "suite": {
+      "command": [
+        "/opt/homebrew/bin/python3.13",
+        "-B",
+        "-E",
+        "/private/tmp/joern05-native-qualifier-04/test_native_qualifier.py"
+      ],
+      "passed": 43,
+      "total": 43,
+      "result": "OK",
+      "prior41_retained": true,
+      "handoff_log": {
+        "path": "/private/tmp/joern05-native-qualifier-04/tests-01.log",
+        "bytes": 142,
+        "sha256": "23f6113612567b819ac6f886aef1e1676eee6158096100899d3eda7d5c0621b4"
+      },
+      "independent_log": {
+        "path": "/private/tmp/joern05-native-qualifier-review-04-tests.log",
+        "bytes": 142,
+        "sha256": "9f61e26c3fe76663fe542146d930cd19c8a57b3590a94c534dcd5098fe664ce5"
+      },
+      "scope": "Temporary Python child/module fixtures and the retained 41 private03 tests. No engine, JVM, analyzer, native controls, replay, actual bootstrap, admission, qualification, ledger or Git operation ran."
+    },
+    "failed_execution_probe": {
+      "script": "/private/tmp/joern05-native-qualifier-review-04-failed-load-probe.py",
+      "log": "/private/tmp/joern05-native-qualifier-review-04-failed-load-probe.log",
+      "log_bytes": 457,
+      "log_sha256": "90d1e98c7a11337988e27e155d1220d1542bff409c2af87742727eaa107e005f",
+      "result": {
+        "exact_owned_entry": "removed after original RuntimeError; no cleanup diagnostic attached",
+        "foreign_replacement": "preserved after original RuntimeError; one ValueError cleanup diagnostic records registry identity change",
+        "primary_exception": "RuntimeError: original-execution-failure in both branches"
+      }
+    },
+    "static_delta_probe": {
+      "script": "/private/tmp/joern05-native-qualifier-review-04-static-probe.py",
+      "log": "/private/tmp/joern05-native-qualifier-review-04-static-probe.log",
+      "log_bytes": 699,
+      "log_sha256": "901c805c4119eec31315aac60d6e44afdd404ac16ceb587d5c3d998fcf15ce42",
+      "all_checks_passed": true,
+      "checks": [
+        "private03 to private04 wrapper has one replacement operation with exact-object identity guard",
+        "private04 tests have one insertion containing exactly the two failed-execution ownership regressions",
+        "private04 README has one appended snapshot04 description",
+        "retained_resources.py is byte-identical to private03",
+        "no unguarded sys.modules.pop(name, None) remains in private04 wrapper",
+        "frozen graph source remains exact SHA 9007c6d44c1255996726f58bfe38d8c9e5838b7e7fcd218002530f5ec41ed121"
+      ]
+    },
+    "inherited_evidence": {
+      "private03_static_probe": {
+        "path": "/private/tmp/joern05-native-qualifier-review-03-probe.log",
+        "sha256": "fc60c66c63cd0bfbbd62dbd1c6fac28470652b06e16ed6889e4881403c72430a",
+        "status": "all prior argv, environment, worker receipt, owned graph cleanup, guard, clock and lock checks passed"
+      },
+      "platform_identity": {
+        "path": "/private/tmp/joern05-native-qualifier-04/platform-identity-01.json",
+        "bytes": 710,
+        "sha256": "3c544d911f9f4f744badfd180b3b0b84af665064b61085589b12cab1acc95258",
+        "configured_path": "/opt/homebrew/bin/python3.13",
+        "configured_resolved": "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+        "raw_executable": "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+        "all_arguments_after_argv0_exact": true
+      },
+      "frozen_graph_source": {
+        "path": "/private/tmp/bf24-canonical-tests-01/bifrost-v0140-frozen-bridge-19.py",
+        "sha256": "9007c6d44c1255996726f58bfe38d8c9e5838b7e7fcd218002530f5ec41ed121"
+      }
+    }
+  },
+  "findings": [
+    {
+      "id": "NATIVE04-LOAD-EXCEPTION-001",
+      "severity": "passed",
+      "status": "corrected-and-tested",
+      "finding": "Private04 fixes the private03 failed-execution ownership defect. load() removes its registration only when sys.modules[name] is the exact module object inserted by the wrapper. A foreign replacement remains in sys.modules and receives a cleanup diagnostic; the original module execution exception is re-raised as primary. The exact-owned branch removes the entry without a diagnostic.",
+      "evidence": {
+        "source": "/private/tmp/joern05-native-qualifier-04/native_qualifier.py:126-137",
+        "delta_sha256": "bd513f88680fe02c9b84bc802791bc78a433eb5962fad9a24f5a13f55abd0121",
+        "independent_probe_log_sha256": "90d1e98c7a11337988e27e155d1220d1542bff409c2af87742727eaa107e005f",
+        "regressions": "43/43, including the two new failed-execution exact-owned and foreign-replacement tests"
+      },
+      "required_preservation": "Keep exact-object identity, foreign replacement preservation, cleanup diagnostics as secondary evidence, original exception priority and post-assertion fixture cleanup."
+    },
+    {
+      "id": "NATIVE04-INHERITED-REPAIRS-002",
+      "severity": "passed",
+      "status": "preserved-by-delta-review",
+      "finding": "The private04 delta leaves private03's repaired argv/interpreter identity, exact args suffix, expected environment and worker receipt checks, ContextVar-owned module lifecycle, foreign graph identity rejection, frozen graph close, inherited resource and lock guards, and lifecycle clocks unchanged. The static delta is confined to the failed-load exception branch, its two regressions and descriptive README text.",
+      "evidence": {
+        "private03_review_sha256": "14cd8f6a8100f4ea1f1aeeb9541258c15605b7725377f9f33dc5271299ca5591",
+        "private04_static_probe_sha256": "901c805c4119eec31315aac60d6e44afdd404ac16ceb587d5c3d998fcf15ce42",
+        "retained_resources_sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08",
+        "frozen_graph_source_sha256": "9007c6d44c1255996726f58bfe38d8c9e5838b7e7fcd218002530f5ec41ed121",
+        "suite": "43/43 passed"
+      },
+      "required_preservation": "Root must carry forward the private03 argv/env/worker-receipt, graph ownership, cleanup, resource, lock, timing, containment and no-retry boundaries when canonicalizing private04."
+    }
+  ],
+  "disposition": {
+    "source_commit_approval": true,
+    "source_commit_scope": "Private04 wrapper, tests and unchanged retained_resources may proceed to root's separate canonical new-path source-only copy and commit review. This is approval of source shape only.",
+    "execution_authorized": false,
+    "qualification_authorized": false,
+    "automatic_retry": false,
+    "publication_hold": true,
+    "not_performed": [
+      "engine, JVM, native controls, analyzer, replay, actual qualification, admission or launch",
+      "Git mutation, canonical source integration, ledger or attempt mutation",
+      "release, publication, tag or workflow action"
+    ],
+    "next_gate": "Root must independently canonicalize the selected private04 bytes, construct the new request/source closure/namespace, and obtain a fresh exact invocation review and live admission before any native controls. This report supplies no controls authority or success claim."
+  },
+  "method": "Read-only inspection of the frozen private04 handoff, delta, source, tests and platform identity; one independent 43-test run; one tiny Python failed-module-execution probe covering exact-owned and foreign-replacement branches; and one static delta probe. No source/Git/canonical/runtime/native-control/JVM/analyzer/admission/qualification/replay/publication action was performed."
+}

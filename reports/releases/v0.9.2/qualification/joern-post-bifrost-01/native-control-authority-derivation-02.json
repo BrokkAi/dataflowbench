@@ -1,0 +1,86 @@
+{
+  "allowed_namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02",
+  "authority_chain": [
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/no-expiry-authorization-01.json",
+      "sha256": "acb13ecc94ee191cf164cc4cdc6cd804bbe34fbb5dbe4dfb6e33c6a173f80edc"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/source-working-cap-30gib-authorization-01.json",
+      "sha256": "bcba59ae10ea1cea565641249a0dc3bddfd063c66f298e19ce2ce0b86743cdbe"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/authorization-01.json",
+      "sha256": "0f8413d52c348a9d89079c70d8cebdea3179c35a8b84a98d390c53227e6f5478"
+    }
+  ],
+  "authority_kind": "root-scoped-derivation-of-existing-human-autonomy-not-new-human-approval",
+  "automatic_retry": false,
+  "execution_window_seconds": null,
+  "global_guards_gib": {
+    "aggregate_source": 30,
+    "joern_inner": 125,
+    "outer": 110,
+    "per_source": 12,
+    "reserve": 40,
+    "retention": 24,
+    "schedule": 127,
+    "scratch": 24,
+    "stop": 48
+  },
+  "native_control_limits": {
+    "arms": 12,
+    "control_scratch_bytes": 4294967296,
+    "fixtures": 6,
+    "inner_total_seconds": 900,
+    "maximum_phases": 36,
+    "per_arm_seconds": 75
+  },
+  "no_new_time_or_attempt_authorization_claimed": true,
+  "one_analyzer_slot": true,
+  "original_origin_utc": "2026-10-20T00:57:00.680937+00:00",
+  "prior_consumed_invocation": {
+    "benchmark_attempt_consumed": false,
+    "control_phases": 0,
+    "independent_diagnosis": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls01-stop-independent-review-01.json",
+      "sha256": "1edfd95dab8fd432f4d8c73a521afbe717be4a05f2c1eee43274a3a589484000"
+    },
+    "namespace": "native-controls-01",
+    "preserved": true,
+    "terminal": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01/exit.json",
+      "sha256": "2bf5965d20ce32c9bc04c370b95c2becd0286f4e12602a408d6a72cabae8c229"
+    }
+  },
+  "prohibited": [
+    "reusing any consumed namespace",
+    "rerunning completed CodeQL or 20 Bifrost groups",
+    "relabeling historical attempts",
+    "publishing, release tags, deploys, automerge",
+    "v0.14.1 experiment or silent pins",
+    "foreign process kills or cleanup"
+  ],
+  "publication_hold": true,
+  "publication_hold_ref": {
+    "path": "reports/releases/v0.9.2/review-handoff/human-publication-hold-01.json",
+    "sha256": "fd3973aecc7a001d0bb2deffa6a1f494b1581e8f64ad1b6762aa64b7b5a0657d"
+  },
+  "recorded_utc": "2026-10-25T18:01:23.617692+00:00",
+  "repair_required": [
+    "Evidence-backed interpreter identity with exact argv[1:] and worker-observed immutable preflight evidence",
+    "Wrapper-owned module cleanup before frozen boundary close, retaining rejection of foreign additions/replacements and preserving original exceptions"
+  ],
+  "requires": [
+    "independently approved source and namespace/lifecycle amendment",
+    "actual committed source closure",
+    "independent exact invocation review",
+    "fresh real resource/process/lock admission",
+    "Realistic positive and near-miss regression evidence for both diagnosed faults",
+    "Fresh new source/request/exact invocation review; no reuse of prior request or review"
+  ],
+  "runtime_qualification_performed": false,
+  "schema": "v092-joern-native-control-authority-derivation/v1",
+  "scope": "One fresh independently reviewed native startup qualification after the diagnosed argv/interpreter and wrapper-owned import lifecycle repairs. Supersedes no historical result or review; native-controls-01 remains failed and preserved. No benchmark attempt, Unsupported issuance or publication.",
+  "status": "approved"
+}
