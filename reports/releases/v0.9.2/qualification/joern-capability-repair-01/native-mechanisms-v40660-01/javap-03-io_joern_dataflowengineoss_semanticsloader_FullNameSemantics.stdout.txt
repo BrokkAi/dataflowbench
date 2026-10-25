@@ -1,0 +1,213 @@
+Compiled from "FullNameSemantics.scala"
+public class io.joern.dataflowengineoss.semanticsloader.FullNameSemantics implements io.joern.dataflowengineoss.semanticsloader.Semantics {
+  private final scala.collection.immutable.Map<java.lang.String, io.joern.dataflowengineoss.semanticsloader.FlowSemantic> methodToSemantic;
+
+  private final scala.collection.mutable.HashMap<java.lang.String, java.lang.String> regexMatchedFullNames;
+
+  public io.joern.dataflowengineoss.semanticsloader.FullNameSemantics(scala.collection.immutable.Map<java.lang.String, io.joern.dataflowengineoss.semanticsloader.FlowSemantic>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #36                 // Field methodToSemantic:Lscala/collection/immutable/Map;
+       5: aload_0
+       6: invokespecial #39                 // Method java/lang/Object."<init>":()V
+       9: aload_0
+      10: getstatic     #45                 // Field scala/collection/mutable/HashMap$.MODULE$:Lscala/collection/mutable/HashMap$;
+      13: invokevirtual #49                 // Method scala/collection/mutable/HashMap$.empty:()Lscala/collection/mutable/HashMap;
+      16: putfield      #51                 // Field regexMatchedFullNames:Lscala/collection/mutable/HashMap;
+      19: return
+
+  public io.joern.dataflowengineoss.semanticsloader.Semantics after(io.joern.dataflowengineoss.semanticsloader.Semantics);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #60                 // InterfaceMethod io/joern/dataflowengineoss/semanticsloader/Semantics.after$:(Lio/joern/dataflowengineoss/semanticsloader/Semantics;Lio/joern/dataflowengineoss/semanticsloader/Semantics;)Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+       5: areturn
+
+  public void initialize(io.shiftleft.codepropertygraph.generated.Cpg);
+    Code:
+       0: aload_0
+       1: getfield      #36                 // Field methodToSemantic:Lscala/collection/immutable/Map;
+       4: invokedynamic #86,  0             // InvokeDynamic #0:apply:()Lscala/Function1;
+       9: invokeinterface #92,  2           // InterfaceMethod scala/collection/immutable/Map.filter:(Lscala/Function1;)Ljava/lang/Object;
+      14: checkcast     #94                 // class scala/collection/IterableOnceOps
+      17: aload_0
+      18: aload_1
+      19: invokedynamic #107,  0            // InvokeDynamic #1:applyVoid:(Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;Lio/shiftleft/codepropertygraph/generated/Cpg;)Lscala/runtime/function/JProcedure1;
+      24: invokeinterface #111,  2          // InterfaceMethod scala/collection/IterableOnceOps.foreach:(Lscala/Function1;)V
+      29: return
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> elements();
+    Code:
+       0: aload_0
+       1: getfield      #36                 // Field methodToSemantic:Lscala/collection/immutable/Map;
+       4: invokeinterface #119,  1          // InterfaceMethod scala/collection/immutable/Map.values:()Lscala/collection/Iterable;
+       9: invokeinterface #124,  1          // InterfaceMethod scala/collection/Iterable.toList:()Lscala/collection/immutable/List;
+      14: areturn
+
+  private scala.Option<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> forMethod(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #51                 // Field regexMatchedFullNames:Lscala/collection/mutable/HashMap;
+       4: aload_1
+       5: invokevirtual #134                // Method scala/collection/mutable/HashMap.get:(Ljava/lang/Object;)Lscala/Option;
+       8: astore_2
+       9: aload_2
+      10: instanceof    #136                // class scala/Some
+      13: ifeq          38
+      16: aload_2
+      17: checkcast     #136                // class scala/Some
+      20: invokevirtual #140                // Method scala/Some.value:()Ljava/lang/Object;
+      23: checkcast     #142                // class java/lang/String
+      26: astore_3
+      27: aload_0
+      28: getfield      #36                 // Field methodToSemantic:Lscala/collection/immutable/Map;
+      31: aload_3
+      32: invokeinterface #143,  2          // InterfaceMethod scala/collection/immutable/Map.get:(Ljava/lang/Object;)Lscala/Option;
+      37: areturn
+      38: getstatic     #148                // Field scala/None$.MODULE$:Lscala/None$;
+      41: aload_2
+      42: invokevirtual #152                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      45: ifeq          59
+      48: aload_0
+      49: getfield      #36                 // Field methodToSemantic:Lscala/collection/immutable/Map;
+      52: aload_1
+      53: invokeinterface #143,  2          // InterfaceMethod scala/collection/immutable/Map.get:(Ljava/lang/Object;)Lscala/Option;
+      58: areturn
+      59: new           #154                // class scala/MatchError
+      62: dup
+      63: aload_2
+      64: invokespecial #156                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      67: athrow
+
+  public scala.Option<io.joern.dataflowengineoss.semanticsloader.FlowSemantic> forMethod(io.shiftleft.codepropertygraph.generated.nodes.Method);
+    Code:
+       0: aload_0
+       1: getstatic     #166                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFullName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFullName$;
+       4: getstatic     #171                // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       7: aload_1
+       8: invokevirtual #175                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyFullName:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      11: invokevirtual #179                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFullName$.fullName$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      14: invokespecial #181                // Method forMethod:(Ljava/lang/String;)Lscala/Option;
+      17: areturn
+
+  public java.lang.String serialize();
+    Code:
+       0: aload_0
+       1: invokevirtual #186                // Method elements:()Lscala/collection/immutable/List;
+       4: invokedynamic #193,  0            // InvokeDynamic #2:apply:()Lscala/Function1;
+       9: getstatic     #196                // Field scala/math/Ordering$String$.MODULE$:Lscala/math/Ordering$String$;
+      12: invokevirtual #202                // Method scala/collection/immutable/List.sortBy:(Lscala/Function1;Lscala/math/Ordering;)Ljava/lang/Object;
+      15: checkcast     #198                // class scala/collection/immutable/List
+      18: invokedynamic #207,  0            // InvokeDynamic #3:apply:()Lscala/Function1;
+      23: invokevirtual #211                // Method scala/collection/immutable/List.map:(Lscala/Function1;)Lscala/collection/immutable/List;
+      26: ldc           #213                // String \n
+      28: invokevirtual #217                // Method scala/collection/immutable/List.mkString:(Ljava/lang/String;)Ljava/lang/String;
+      31: areturn
+
+  public io.joern.dataflowengineoss.semanticsloader.FullNameSemantics plus(scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic>);
+    Code:
+       0: getstatic     #226                // Field io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics$;
+       3: aload_0
+       4: invokevirtual #186                // Method elements:()Lscala/collection/immutable/List;
+       7: aload_1
+       8: invokevirtual #230                // Method scala/collection/immutable/List.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+      11: checkcast     #198                // class scala/collection/immutable/List
+      14: invokevirtual #233                // Method io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$.fromList:(Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;
+      17: areturn
+
+  private static final boolean initialize$$anonfun$1(scala.Tuple2);
+    Code:
+       0: aload_0
+       1: invokevirtual #240                // Method scala/Tuple2._2:()Ljava/lang/Object;
+       4: checkcast     #242                // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+       7: invokevirtual #246                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic.regex:()Z
+      10: ireturn
+
+  private final scala.Option initialize$$anonfun$2$$anonfun$1(java.lang.String, java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #51                 // Field regexMatchedFullNames:Lscala/collection/mutable/HashMap;
+       4: aload_2
+       5: aload_1
+       6: invokevirtual #255                // Method scala/collection/mutable/HashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Option;
+       9: areturn
+
+  private final void initialize$$anonfun$2(io.shiftleft.codepropertygraph.generated.Cpg, scala.Tuple2);
+    Code:
+       0: aload_2
+       1: astore_3
+       2: aload_3
+       3: ifnull        73
+       6: aload_3
+       7: invokevirtual #260                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #142                // class java/lang/String
+      13: astore        4
+      15: getstatic     #171                // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      18: getstatic     #171                // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      21: getstatic     #171                // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      24: aload_1
+      25: invokevirtual #264                // Method io/shiftleft/semanticcpg/language/package$.toGeneratedNodeStarters:(Lio/shiftleft/codepropertygraph/generated/Cpg;)Lio/shiftleft/codepropertygraph/generated/CpgNodeStarters;
+      28: invokevirtual #269                // Method io/shiftleft/codepropertygraph/generated/CpgNodeStarters.method:()Lscala/collection/Iterator;
+      31: invokevirtual #273                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyFullNameTraversal:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      34: astore        6
+      36: getstatic     #278                // Field io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyFullName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyFullName$;
+      39: aload         6
+      41: aload         4
+      43: invokevirtual #281                // Method io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyFullName$.fullName$extension:(Lscala/collection/Iterator;Ljava/lang/String;)Lscala/collection/Iterator;
+      46: invokevirtual #273                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyFullNameTraversal:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      49: astore        5
+      51: getstatic     #278                // Field io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyFullName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyFullName$;
+      54: aload         5
+      56: invokevirtual #284                // Method io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyFullName$.fullName$extension:(Lscala/collection/Iterator;)Lscala/collection/Iterator;
+      59: aload_0
+      60: aload         4
+      62: invokedynamic #291,  0            // InvokeDynamic #4:apply:(Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;Ljava/lang/String;)Lscala/Function1;
+      67: invokeinterface #294,  2          // InterfaceMethod scala/collection/Iterator.foreach:(Lscala/Function1;)V
+      72: return
+      73: new           #154                // class scala/MatchError
+      76: dup
+      77: aload_3
+      78: invokespecial #156                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      81: athrow
+
+  private static final java.lang.String serialize$$anonfun$1(io.joern.dataflowengineoss.semanticsloader.FlowSemantic);
+    Code:
+       0: aload_0
+       1: invokevirtual #299                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic.methodFullName:()Ljava/lang/String;
+       4: areturn
+
+  private static final java.lang.String serialize$$anonfun$2(io.joern.dataflowengineoss.semanticsloader.FlowSemantic);
+    Code:
+       0: aload_0
+       1: invokevirtual #299                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic.methodFullName:()Ljava/lang/String;
+       4: aload_0
+       5: invokevirtual #304                // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic.mappings:()Lscala/collection/immutable/List;
+       8: new           #10                 // class io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$$anon$1
+      11: dup
+      12: invokespecial #305                // Method io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$$anon$1."<init>":()V
+      15: invokevirtual #309                // Method scala/collection/immutable/List.collect:(Lscala/PartialFunction;)Lscala/collection/immutable/List;
+      18: ldc_w         #311                // String
+      21: invokevirtual #217                // Method scala/collection/immutable/List.mkString:(Ljava/lang/String;)Ljava/lang/String;
+      24: invokedynamic #323,  0            // InvokeDynamic #5:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      29: areturn
+
+  public static io.joern.dataflowengineoss.semanticsloader.FullNameSemantics empty();
+    Code:
+       0: getstatic     #226                // Field io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics$;
+       3: invokevirtual #326                // Method io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$.empty:()Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;
+       6: areturn
+
+  public static io.joern.dataflowengineoss.semanticsloader.FullNameSemantics fromList(scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowSemantic>);
+    Code:
+       0: getstatic     #226                // Field io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics$;
+       3: aload_0
+       4: invokevirtual #233                // Method io/joern/dataflowengineoss/semanticsloader/FullNameSemantics$.fromList:(Lscala/collection/immutable/List;)Lio/joern/dataflowengineoss/semanticsloader/FullNameSemantics;
+       7: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #338,  0            // InvokeDynamic #6:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

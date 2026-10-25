@@ -1,0 +1,153 @@
+{
+  "schema": "v092-joern-startup-observer-independent-review/v2",
+  "reviewed_at_utc": "2026-10-25T16:55:00Z",
+  "reviewer": "joern_observer_independent",
+  "review_type": "independent-read-only-startup-observer-v6-delta-review",
+  "scope": {
+    "production_source_edited": false,
+    "canonical_source_integrated": false,
+    "git_mutated": false,
+    "ledger_mutated": false,
+    "java_invoked": false,
+    "jvm_invoked": false,
+    "engine_invoked": false,
+    "analyzer_invoked": false,
+    "control_invoked": false,
+    "replay_invoked": false,
+    "qualification_invoked": false,
+    "statement": "Read-only review of the exact observer-v6 correction and synthetic regressions. This receipt approves source-commit-only preparation and does not approve canonical integration, execution, qualification, or publication."
+  },
+  "handoff": {
+    "path": "/private/tmp/joern05-native-control-06/implementation-handoff-06.json",
+    "sha256": "388c68354c48498a08964219bc37b22beca5dcc4af3eba75515e2da26abd8077",
+    "status": "source-only-independent-review-required",
+    "qualification_or_execution_authorized": false,
+    "prior_handoff": {
+      "path": "/private/tmp/joern05-native-control-05/implementation-handoff-05.json",
+      "sha256": "09fb73ef1ddbf1115cd4779cfdc855c888114cac910a46b6ad93808013e00ee4"
+    },
+    "prior_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/startup-observer05-independent-review-01.json",
+      "sha256": "649d5932d0b15f2d89b0536f0578d7c2360c0baf1feef09adfd756c1114b09c2"
+    }
+  },
+  "exact_binding": {
+    "all_handoff_refs_match": true,
+    "observer_source": {
+      "path": "/private/tmp/joern05-native-control-06/joern_native_control_observer_v06.py",
+      "sha256": "31d5efaba30009a4b2cb644f583b71cd397c268352851d48018be733c63d8773",
+      "bytes": 49424
+    },
+    "test_source": {
+      "path": "/private/tmp/joern05-native-control-06/test_native_control_observer_v06.py",
+      "sha256": "5e46b7a4c8e52b6215b1916c42c27f4d5853a574f1730ddffc247b13c26f6347",
+      "bytes": 27129
+    },
+    "java_source_v4_unchanged": {
+      "path": "/private/tmp/joern05-native-control-06/StartupWitnessAgent.java",
+      "sha256": "ba8aa4d5f353c4d6ac9bfbe269a3388ac8502c84793e13e1b4f7188f51f8a31a"
+    },
+    "existing_v4_jar": {
+      "path": "/private/tmp/joern05-native-control-04/standalone-probe/startup-witness-agent.jar",
+      "sha256": "ba02fe9c3782c377279e60198e4b4e1631d9d3431a4ce5fc7376d8dc6eff4eac"
+    },
+    "actual_existing_probe": {
+      "path": "/private/tmp/joern05-native-control-06/actual-probe-01.json",
+      "sha256": "c7c911b98dcce8aa0e07e3980ed69a1464299d951c29c8f2668ed7c87895f919",
+      "engine_invoked": false
+    }
+  },
+  "delta_review": {
+    "prior_source_sha256": "14b5909d8ee107374f5a76124a3293c09e232e98d28c5d0326055bd76f0d7611",
+    "changed_logic": [
+      {
+        "location": "_failure_evidence observed_record initialization",
+        "change": "Initialize observed_record from a callback-returned dict so validation failures retain the failure-only process record."
+      },
+      {
+        "location": "observed_run receipt result",
+        "change": "Serialize result as null whenever an error is present; preserve callback record only under failure_process_record."
+      }
+    ],
+    "schema_changes": [
+      "OBSERVER_SCHEMA v5 -> v6",
+      "RECEIPT_SCHEMA v5 -> v6",
+      "SUMMARY_SCHEMA v5 -> v6"
+    ],
+    "unchanged": [
+      "v4 startup policy and v4 witness schema",
+      "existing Java witness source and existing JAR bytes",
+      "JVM birth/property/predef validation",
+      "scoped factory/phase/process restoration"
+    ],
+    "unexpected_logic_changes": false
+  },
+  "tests": {
+    "handoff_claim": {
+      "passed": 15,
+      "failed": 0,
+      "log": {
+        "path": "/private/tmp/joern05-native-control-06/tests-01.log",
+        "sha256": "667546f3175ddb30970bd7716627aa53262c6eb5bda94194f5a12ae554dba7f8",
+        "bytes": 2675
+      }
+    },
+    "independent_rerun": {
+      "command": "/opt/homebrew/bin/python3.13 -B -E /private/tmp/joern05-native-control-06/test_native_control_observer_v06.py",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "passed": 15,
+      "failed": 0,
+      "log": {
+        "path": "/private/tmp/joern05-native-control-06/independent-review-01-tests.log",
+        "sha256": "d3aecf55185a8258560a790c86b89a5e006bd8ba99b8482007d814c7efbceb36"
+      },
+      "scope": "Synthetic callbacks and sealed existing fixture only; no Java/JVM, engine, analyzer, replay, control, or qualification."
+    },
+    "new_regressions": [
+      "returned process record with missing witness -> result null and failure_process_record retained",
+      "returned process record with malformed witness -> result null and failure_process_record retained"
+    ]
+  },
+  "verified_boundaries": {
+    "failure_sidecar": [
+      "Any observed_run error now serializes result as null.",
+      "A callback-returned process record is retained as failure_process_record.",
+      "Raw witness refs and parse errors remain bounded and retained.",
+      "Original runner exceptions remain re-raised by identity in the existing tests.",
+      "Failure summary remains status=failed and qualification_safe=false."
+    ],
+    "near_miss_coverage": [
+      "missing witness",
+      "malformed witness",
+      "unclassified witness",
+      "wrong user.home",
+      "present or symlink predef",
+      "untracked short version witness",
+      "typed Java/native birth mismatch"
+    ]
+  },
+  "planned_canonical_jar_path_adaptation": {
+    "status": "conditionally-accepted-path-only",
+    "current_private_path": "/private/tmp/joern05-native-control-04/standalone-probe/startup-witness-agent.jar",
+    "prospective_canonical_path": "reports/releases/v0.9.2/acquisition/joern-startup-witness-agent-04.jar",
+    "required_sha256": "ba02fe9c3782c377279e60198e4b4e1631d9d3431a4ce5fc7376d8dc6eff4eac",
+    "semantic_assessment": "Changing only AGENT_PATH to the canonical file while retaining AGENT_SHA256 and all policy/witness fields preserves the reviewed behavior.",
+    "conditions": [
+      "Root must copy the exact existing JAR bytes and verify the required SHA256 before integration.",
+      "The target must be a regular non-symlink file under the canonical repository root.",
+      "The final diff must show path-only adaptation; no policy, Java witness, or observer logic changes may be bundled.",
+      "A root-controlled post-copy binding check remains required; this receipt does not claim the canonical file exists or is installed."
+    ],
+    "observed_current_target": "missing-at-review-time"
+  },
+  "findings": [],
+  "disposition": {
+    "status": "approved-for-source-commit-only",
+    "source_commit_approval": true,
+    "canonical_source_integration_approval": false,
+    "execution_authorized": false,
+    "qualification_authorized": false,
+    "publication_authorized": false,
+    "next_gate": "Root independently verifies the canonical JAR copy/path diff and continues separate runtime/control/qualification review."
+  }
+}

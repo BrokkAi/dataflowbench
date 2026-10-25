@@ -1,0 +1,1604 @@
+Compiled from "JoernScan.scala"
+public final class io.joern.joerncli.JoernScan$ implements io.joern.console.BridgeBase {
+  public static final io.joern.joerncli.JoernScan$ MODULE$;
+
+  private static final java.lang.String applicationName;
+
+  private static final java.lang.String implementationVersion;
+
+  private static final scopt.OptionParser<io.joern.joerncli.JoernScanConfig> optionParser;
+
+  private io.joern.joerncli.JoernScan$();
+    Code:
+       0: aload_0
+       1: invokespecial #49                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class io/joern/joerncli/JoernScan$
+       3: dup
+       4: invokespecial #52                 // Method "<init>":()V
+       7: putstatic     #54                 // Field MODULE$:Lio/joern/joerncli/JoernScan$;
+      10: ldc           #56                 // String joern
+      12: putstatic     #58                 // Field applicationName:Ljava/lang/String;
+      15: getstatic     #54                 // Field MODULE$:Lio/joern/joerncli/JoernScan$;
+      18: invokevirtual #62                 // Method getClass:()Ljava/lang/Class;
+      21: invokevirtual #68                 // Method java/lang/Class.getPackage:()Ljava/lang/Package;
+      24: invokevirtual #74                 // Method java/lang/Package.getImplementationVersion:()Ljava/lang/String;
+      27: putstatic     #76                 // Field implementationVersion:Ljava/lang/String;
+      30: new           #12                 // class io/joern/joerncli/JoernScan$$anon$1
+      33: dup
+      34: invokespecial #77                 // Method io/joern/joerncli/JoernScan$$anon$1."<init>":()V
+      37: putstatic     #79                 // Field optionParser:Lscopt/OptionParser;
+      40: return
+
+  public void startInteractiveShell(io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #88                 // InterfaceMethod io/joern/console/InteractiveShell.startInteractiveShell$:(Lio/joern/console/InteractiveShell;Lio/joern/console/Config;)V
+       5: return
+
+  public scala.util.Try<scala.runtime.BoxedUnit> runScript(io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #98                 // InterfaceMethod io/joern/console/ScriptExecution.runScript$:(Lio/joern/console/ScriptExecution;Lio/joern/console/Config;)Lscala/util/Try;
+       5: areturn
+
+  public void printPluginsAndLayerCreators(io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #105                // InterfaceMethod io/joern/console/PluginHandling.printPluginsAndLayerCreators$:(Lio/joern/console/PluginHandling;Lio/joern/console/Config;)V
+       5: return
+
+  public void runPlugin(io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #109                // InterfaceMethod io/joern/console/PluginHandling.runPlugin$:(Lio/joern/console/PluginHandling;Lio/joern/console/Config;)V
+       5: return
+
+  public void startHttpServer(io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #116                // InterfaceMethod io/joern/console/ServerHandling.startHttpServer$:(Lio/joern/console/ServerHandling;Lio/joern/console/Config;)V
+       5: return
+
+  public io.joern.console.Config parseConfig(java.lang.String[]);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #123                // InterfaceMethod io/joern/console/BridgeBase.parseConfig$:(Lio/joern/console/BridgeBase;[Ljava/lang/String;)Lio/joern/console/Config;
+       5: areturn
+
+  public void run(io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #129                // InterfaceMethod io/joern/console/BridgeBase.run$:(Lio/joern/console/BridgeBase;Lio/joern/console/Config;)V
+       5: return
+
+  public scala.collection.immutable.Seq<java.lang.String> buildRunBeforeCode(io.joern.console.Config, boolean, boolean);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: iload_3
+       4: invokestatic  #138                // InterfaceMethod io/joern/console/BridgeBase.buildRunBeforeCode$:(Lio/joern/console/BridgeBase;Lio/joern/console/Config;ZZ)Lscala/collection/immutable/Seq;
+       7: areturn
+
+  public boolean buildRunBeforeCode$default$2();
+    Code:
+       0: aload_0
+       1: invokestatic  #145                // InterfaceMethod io/joern/console/BridgeBase.buildRunBeforeCode$default$2$:(Lio/joern/console/BridgeBase;)Z
+       4: ireturn
+
+  public boolean buildRunBeforeCode$default$3();
+    Code:
+       0: aload_0
+       1: invokestatic  #149                // InterfaceMethod io/joern/console/BridgeBase.buildRunBeforeCode$default$3$:(Lio/joern/console/BridgeBase;)Z
+       4: ireturn
+
+  public scala.collection.immutable.Seq<java.lang.String> buildRunAfterCode(io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #156                // InterfaceMethod io/joern/console/BridgeBase.buildRunAfterCode$:(Lio/joern/console/BridgeBase;Lio/joern/console/Config;)Lscala/collection/immutable/Seq;
+       5: areturn
+
+  public java.lang.String runAfterCode();
+    Code:
+       0: aload_0
+       1: invokestatic  #161                // InterfaceMethod io/joern/console/BridgeBase.runAfterCode$:(Lio/joern/console/BridgeBase;)Ljava/lang/String;
+       4: areturn
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #165                // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class io/joern/joerncli/JoernScan$
+       6: invokespecial #168                // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public java.lang.String applicationName();
+    Code:
+       0: getstatic     #58                 // Field applicationName:Ljava/lang/String;
+       3: areturn
+
+  public java.lang.String implementationVersion();
+    Code:
+       0: getstatic     #76                 // Field implementationVersion:Ljava/lang/String;
+       3: areturn
+
+  public void main(java.lang.String[]);
+    Code:
+       0: getstatic     #175                // Field io/joern/joerncli/CpgBasedTool$.MODULE$:Lio/joern/joerncli/CpgBasedTool$;
+       3: aload_1
+       4: invokevirtual #179                // Method io/joern/joerncli/CpgBasedTool$.splitArgs:([Ljava/lang/String;)Lscala/Tuple2;
+       7: astore_3
+       8: aload_3
+       9: ifnull        38
+      12: aload_3
+      13: invokevirtual #184                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      16: checkcast     #186                // class scala/collection/immutable/List
+      19: astore        4
+      21: aload_3
+      22: invokevirtual #189                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      25: checkcast     #186                // class scala/collection/immutable/List
+      28: astore        5
+      30: aload_3
+      31: astore        6
+      33: aload         6
+      35: goto          47
+      38: new           #191                // class scala/MatchError
+      41: dup
+      42: aload_3
+      43: invokespecial #194                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      46: athrow
+      47: astore_2
+      48: aload_2
+      49: invokevirtual #184                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      52: checkcast     #186                // class scala/collection/immutable/List
+      55: astore        7
+      57: aload_2
+      58: invokevirtual #189                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      61: checkcast     #186                // class scala/collection/immutable/List
+      64: astore        8
+      66: aload_0
+      67: invokevirtual #197                // Method optionParser:()Lscopt/OptionParser;
+      70: aload         7
+      72: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+      75: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+      78: invokevirtual #205                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$1:()Ljava/lang/String;
+      81: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+      84: invokevirtual #208                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$2:()Z
+      87: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+      90: invokevirtual #211                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$3:()Z
+      93: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+      96: invokevirtual #214                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$4:()Z
+      99: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+     102: invokevirtual #217                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$5:()Ljava/lang/String;
+     105: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+     108: invokevirtual #220                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$6:()Z
+     111: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+     114: invokevirtual #223                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$7:()Z
+     117: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+     120: invokevirtual #226                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$8:()Ljava/lang/String;
+     123: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+     126: invokevirtual #230                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$9:()I
+     129: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+     132: invokevirtual #233                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$10:()Ljava/lang/String;
+     135: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+     138: invokevirtual #236                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$11:()Ljava/lang/String;
+     141: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+     144: invokevirtual #240                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$12:()Lscala/Option;
+     147: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+     150: invokevirtual #243                // Method io/joern/joerncli/JoernScanConfig$.$lessinit$greater$default$13:()Z
+     153: invokevirtual #247                // Method io/joern/joerncli/JoernScanConfig$.apply:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+     156: invokevirtual #253                // Method scopt/OptionParser.parse:(Lscala/collection/Seq;Ljava/lang/Object;)Lscala/Option;
+     159: astore        9
+     161: aload         9
+     163: instanceof    #255                // class scala/Some
+     166: ifeq          191
+     169: aload         9
+     171: checkcast     #255                // class scala/Some
+     174: invokevirtual #258                // Method scala/Some.value:()Ljava/lang/Object;
+     177: checkcast     #260                // class io/joern/joerncli/JoernScanConfig
+     180: astore        10
+     182: aload_0
+     183: aload         10
+     185: aload         8
+     187: invokespecial #263                // Method run:(Lio/joern/joerncli/JoernScanConfig;Lscala/collection/immutable/List;)V
+     190: return
+     191: getstatic     #268                // Field scala/None$.MODULE$:Lscala/None$;
+     194: aload         9
+     196: invokevirtual #272                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     199: ifeq          207
+     202: iconst_1
+     203: invokestatic  #278                // Method java/lang/System.exit:(I)V
+     206: return
+     207: new           #191                // class scala/MatchError
+     210: dup
+     211: aload         9
+     213: invokespecial #194                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     216: athrow
+
+  public scopt.OptionParser<io.joern.joerncli.JoernScanConfig> optionParser();
+    Code:
+       0: getstatic     #79                 // Field optionParser:Lscopt/OptionParser;
+       3: areturn
+
+  private void run(io.joern.joerncli.JoernScanConfig, scala.collection.immutable.List<java.lang.String>);
+    Code:
+       0: aload_1
+       1: invokevirtual #292                // Method io/joern/joerncli/JoernScanConfig.dump:()Z
+       4: ifeq          16
+       7: aload_0
+       8: aload_1
+       9: invokevirtual #295                // Method io/joern/joerncli/JoernScanConfig.dumpDestination:()Ljava/lang/String;
+      12: invokespecial #299                // Method dumpQueriesAsJson:(Ljava/lang/String;)V
+      15: return
+      16: aload_1
+      17: invokevirtual #302                // Method io/joern/joerncli/JoernScanConfig.listQueryNames:()Z
+      20: ifeq          28
+      23: aload_0
+      24: invokespecial #304                // Method listQueryNames:()V
+      27: return
+      28: aload_1
+      29: invokevirtual #307                // Method io/joern/joerncli/JoernScanConfig.listLanguages:()Z
+      32: ifeq          40
+      35: aload_0
+      36: invokespecial #309                // Method listLanguages:()V
+      39: return
+      40: aload_1
+      41: invokevirtual #312                // Method io/joern/joerncli/JoernScanConfig.updateQueryDb:()Z
+      44: ifeq          56
+      47: aload_0
+      48: aload_1
+      49: invokevirtual #315                // Method io/joern/joerncli/JoernScanConfig.queryDbVersion:()Ljava/lang/String;
+      52: invokespecial #318                // Method updateQueryDatabase:(Ljava/lang/String;)V
+      55: return
+      56: aload_0
+      57: aload_1
+      58: aload_2
+      59: invokespecial #321                // Method runScanPlugin:(Lio/joern/joerncli/JoernScanConfig;Lscala/collection/immutable/List;)V
+      62: return
+
+  private void dumpQueriesAsJson(java.lang.String);
+    Code:
+       0: getstatic     #327                // Field io/joern/dataflowengineoss/queryengine/EngineContext$.MODULE$:Lio/joern/dataflowengineoss/queryengine/EngineContext$;
+       3: getstatic     #332                // Field io/joern/dataflowengineoss/semanticsloader/NoSemantics$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/NoSemantics$;
+       6: getstatic     #327                // Field io/joern/dataflowengineoss/queryengine/EngineContext$.MODULE$:Lio/joern/dataflowengineoss/queryengine/EngineContext$;
+       9: invokevirtual #335                // Method io/joern/dataflowengineoss/queryengine/EngineContext$.$lessinit$greater$default$2:()Lio/joern/dataflowengineoss/queryengine/EngineConfig;
+      12: invokevirtual #338                // Method io/joern/dataflowengineoss/queryengine/EngineContext$.apply:(Lio/joern/dataflowengineoss/semanticsloader/Semantics;Lio/joern/dataflowengineoss/queryengine/EngineConfig;)Lio/joern/dataflowengineoss/queryengine/EngineContext;
+      15: astore_2
+      16: new           #340                // class io/joern/console/QueryDatabase
+      19: dup
+      20: new           #342                // class io/joern/joerncli/JoernDefaultArgumentProvider
+      23: dup
+      24: iconst_0
+      25: aload_2
+      26: invokespecial #345                // Method io/joern/joerncli/JoernDefaultArgumentProvider."<init>":(ILio/joern/dataflowengineoss/queryengine/EngineContext;)V
+      29: getstatic     #350                // Field io/joern/console/QueryDatabase$.MODULE$:Lio/joern/console/QueryDatabase$;
+      32: invokevirtual #352                // Method io/joern/console/QueryDatabase$.$lessinit$greater$default$2:()Ljava/lang/String;
+      35: invokespecial #355                // Method io/joern/console/QueryDatabase."<init>":(Lio/joern/console/DefaultArgumentProvider;Ljava/lang/String;)V
+      38: astore_3
+      39: aload_1
+      40: iconst_0
+      41: anewarray     #357                // class java/lang/String
+      44: invokestatic  #363                // Method java/nio/file/Paths.get:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+      47: astore        4
+      49: aload         4
+      51: getstatic     #368                // Field io/joern/console/QueryJsonSerialization$.MODULE$:Lio/joern/console/QueryJsonSerialization$;
+      54: aload_3
+      55: invokevirtual #372                // Method io/joern/console/QueryDatabase.allQueries:()Lscala/collection/immutable/List;
+      58: invokevirtual #376                // Method io/joern/console/QueryJsonSerialization$.write:(Lscala/collection/immutable/List;)Ljava/lang/String;
+      61: iconst_0
+      62: anewarray     #378                // class java/nio/file/OpenOption
+      65: invokestatic  #384                // Method java/nio/file/Files.writeString:(Ljava/nio/file/Path;Ljava/lang/CharSequence;[Ljava/nio/file/OpenOption;)Ljava/nio/file/Path;
+      68: pop
+      69: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      72: aload_1
+      73: invokedynamic #401,  0            // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      78: invokevirtual #404                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+      81: return
+
+  private void listQueryNames();
+    Code:
+       0: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       3: aload_0
+       4: invokespecial #413                // Method queryNames:()Lscala/collection/immutable/List;
+       7: getstatic     #416                // Field scala/math/Ordering$String$.MODULE$:Lscala/math/Ordering$String$;
+      10: invokevirtual #420                // Method scala/collection/immutable/List.sorted:(Lscala/math/Ordering;)Ljava/lang/Object;
+      13: checkcast     #422                // class scala/collection/IterableOnceOps
+      16: ldc_w         #424                // String \n
+      19: invokeinterface #427,  2          // InterfaceMethod scala/collection/IterableOnceOps.mkString:(Ljava/lang/String;)Ljava/lang/String;
+      24: invokevirtual #404                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+      27: return
+
+  private void listLanguages();
+    Code:
+       0: new           #429                // class scala/collection/mutable/StringBuilder
+       3: dup
+       4: invokespecial #430                // Method scala/collection/mutable/StringBuilder."<init>":()V
+       7: astore_1
+       8: aload_1
+       9: ldc_w         #432                // String Available languages (case insensitive):\n
+      12: invokevirtual #436                // Method scala/collection/mutable/StringBuilder.$plus$plus$eq:(Ljava/lang/String;)Lscala/collection/mutable/StringBuilder;
+      15: pop
+      16: aload_1
+      17: getstatic     #441                // Field scala/jdk/CollectionConverters$.MODULE$:Lscala/jdk/CollectionConverters$;
+      20: getstatic     #447                // Field io/shiftleft/codepropertygraph/generated/Languages.ALL:Ljava/util/Set;
+      23: invokevirtual #450                // Method scala/jdk/CollectionConverters$.SetHasAsScala:(Ljava/util/Set;)Lscala/collection/convert/AsScalaExtensions$SetHasAsScala;
+      26: invokevirtual #454                // Method scala/collection/convert/AsScalaExtensions$SetHasAsScala.asScala:()Lscala/collection/mutable/Set;
+      29: invokedynamic #473,  0            // InvokeDynamic #1:apply:()Lscala/Function1;
+      34: invokeinterface #479,  2          // InterfaceMethod scala/collection/mutable/Set.map:(Lscala/Function1;)Ljava/lang/Object;
+      39: checkcast     #422                // class scala/collection/IterableOnceOps
+      42: ldc_w         #424                // String \n
+      45: invokeinterface #427,  2          // InterfaceMethod scala/collection/IterableOnceOps.mkString:(Ljava/lang/String;)Ljava/lang/String;
+      50: invokevirtual #436                // Method scala/collection/mutable/StringBuilder.$plus$plus$eq:(Ljava/lang/String;)Lscala/collection/mutable/StringBuilder;
+      53: pop
+      54: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      57: aload_1
+      58: invokevirtual #482                // Method scala/collection/mutable/StringBuilder.toString:()Ljava/lang/String;
+      61: invokevirtual #404                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+      64: return
+
+  private void runScanPlugin(io.joern.joerncli.JoernScanConfig, scala.collection.immutable.List<java.lang.String>);
+    Code:
+       0: aload_1
+       1: invokevirtual #487                // Method io/joern/joerncli/JoernScanConfig.src:()Ljava/lang/String;
+       4: ldc_w         #489                // String
+       7: invokestatic  #494                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      10: ifeq          30
+      13: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      16: aload_0
+      17: invokevirtual #197                // Method optionParser:()Lscopt/OptionParser;
+      20: invokevirtual #497                // Method scopt/OptionParser.usage:()Ljava/lang/String;
+      23: invokevirtual #404                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+      26: iconst_1
+      27: invokestatic  #278                // Method java/lang/System.exit:(I)V
+      30: aload_0
+      31: invokespecial #413                // Method queryNames:()Lscala/collection/immutable/List;
+      34: invokevirtual #500                // Method scala/collection/immutable/List.isEmpty:()Z
+      37: ifeq          52
+      40: aload_0
+      41: aload_1
+      42: invokevirtual #315                // Method io/joern/joerncli/JoernScanConfig.queryDbVersion:()Ljava/lang/String;
+      45: invokevirtual #503                // Method downloadAndInstallQueryDatabase:(Ljava/lang/String;)V
+      48: iconst_2
+      49: invokestatic  #278                // Method java/lang/System.exit:(I)V
+      52: getstatic     #508                // Field io/joern/joerncli/Scan$.MODULE$:Lio/joern/joerncli/Scan$;
+      55: invokevirtual #512                // Method io/joern/joerncli/Scan$.defaultOpts:()Lio/joern/joerncli/ScanOptions;
+      58: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      61: aload_1
+      62: invokevirtual #515                // Method io/joern/joerncli/JoernScanConfig.names:()Ljava/lang/String;
+      65: ldc_w         #517                // String ,
+      68: invokevirtual #521                // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+      71: invokevirtual #525                // Method scala/Predef$.refArrayOps:([Ljava/lang/Object;)Ljava/lang/Object;
+      74: astore_3
+      75: getstatic     #530                // Field scala/collection/ArrayOps$.MODULE$:Lscala/collection/ArrayOps$;
+      78: aload_3
+      79: invokedynamic #538,  0            // InvokeDynamic #2:apply:()Lscala/Function1;
+      84: invokevirtual #542                // Method scala/collection/ArrayOps$.filterNot$extension:(Ljava/lang/Object;Lscala/Function1;)Ljava/lang/Object;
+      87: checkcast     #285                // class "[Ljava/lang/String;"
+      90: invokevirtual #547                // Method io/joern/joerncli/ScanOptions.names_$eq:([Ljava/lang/String;)V
+      93: getstatic     #508                // Field io/joern/joerncli/Scan$.MODULE$:Lio/joern/joerncli/Scan$;
+      96: invokevirtual #512                // Method io/joern/joerncli/Scan$.defaultOpts:()Lio/joern/joerncli/ScanOptions;
+      99: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     102: aload_1
+     103: invokevirtual #550                // Method io/joern/joerncli/JoernScanConfig.tags:()Ljava/lang/String;
+     106: ldc_w         #517                // String ,
+     109: invokevirtual #521                // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+     112: invokevirtual #525                // Method scala/Predef$.refArrayOps:([Ljava/lang/Object;)Ljava/lang/Object;
+     115: astore        4
+     117: getstatic     #530                // Field scala/collection/ArrayOps$.MODULE$:Lscala/collection/ArrayOps$;
+     120: aload         4
+     122: invokedynamic #555,  0            // InvokeDynamic #3:apply:()Lscala/Function1;
+     127: invokevirtual #542                // Method scala/collection/ArrayOps$.filterNot$extension:(Ljava/lang/Object;Lscala/Function1;)Ljava/lang/Object;
+     130: checkcast     #285                // class "[Ljava/lang/String;"
+     133: invokevirtual #558                // Method io/joern/joerncli/ScanOptions.tags_$eq:([Ljava/lang/String;)V
+     136: getstatic     #508                // Field io/joern/joerncli/Scan$.MODULE$:Lio/joern/joerncli/Scan$;
+     139: invokevirtual #512                // Method io/joern/joerncli/Scan$.defaultOpts:()Lio/joern/joerncli/ScanOptions;
+     142: aload_1
+     143: invokevirtual #561                // Method io/joern/joerncli/JoernScanConfig.maxCallDepth:()I
+     146: invokevirtual #564                // Method io/joern/joerncli/ScanOptions.maxCallDepth_$eq:(I)V
+     149: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     152: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     155: invokevirtual #571                // Method io/joern/console/Config$.$lessinit$greater$default$1:()Lscala/Option;
+     158: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     161: invokevirtual #573                // Method io/joern/console/Config$.$lessinit$greater$default$2:()Lscala/Option;
+     164: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     167: invokevirtual #576                // Method io/joern/console/Config$.$lessinit$greater$default$3:()Lscala/collection/immutable/Map;
+     170: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     173: invokevirtual #579                // Method io/joern/console/Config$.$lessinit$greater$default$4:()Lscala/collection/immutable/Seq;
+     176: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     179: invokevirtual #581                // Method io/joern/console/Config$.$lessinit$greater$default$5:()Lscala/collection/immutable/Seq;
+     182: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     185: invokevirtual #583                // Method io/joern/console/Config$.$lessinit$greater$default$6:()Lscala/collection/immutable/Seq;
+     188: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     191: invokevirtual #585                // Method io/joern/console/Config$.$lessinit$greater$default$7:()Lscala/collection/immutable/Seq;
+     194: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     197: invokevirtual #587                // Method io/joern/console/Config$.$lessinit$greater$default$8:()Lscala/Option;
+     200: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     203: invokevirtual #589                // Method io/joern/console/Config$.$lessinit$greater$default$9:()Lscala/Option;
+     206: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     209: invokevirtual #591                // Method io/joern/console/Config$.$lessinit$greater$default$10:()Lscala/Option;
+     212: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     215: invokevirtual #593                // Method io/joern/console/Config$.$lessinit$greater$default$11:()Z
+     218: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     221: invokevirtual #594                // Method io/joern/console/Config$.$lessinit$greater$default$12:()Lscala/Option;
+     224: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     227: invokevirtual #596                // Method io/joern/console/Config$.$lessinit$greater$default$13:()Lscala/Option;
+     230: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     233: invokevirtual #599                // Method io/joern/console/Config$.$lessinit$greater$default$14:()Z
+     236: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     239: invokevirtual #602                // Method io/joern/console/Config$.$lessinit$greater$default$15:()Z
+     242: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     245: invokevirtual #605                // Method io/joern/console/Config$.$lessinit$greater$default$16:()Z
+     248: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     251: invokevirtual #608                // Method io/joern/console/Config$.$lessinit$greater$default$17:()Ljava/lang/String;
+     254: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     257: invokevirtual #611                // Method io/joern/console/Config$.$lessinit$greater$default$18:()I
+     260: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     263: invokevirtual #614                // Method io/joern/console/Config$.$lessinit$greater$default$19:()Lscala/Option;
+     266: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     269: invokevirtual #617                // Method io/joern/console/Config$.$lessinit$greater$default$20:()Lscala/Option;
+     272: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     275: invokevirtual #620                // Method io/joern/console/Config$.$lessinit$greater$default$21:()Z
+     278: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     281: invokevirtual #623                // Method io/joern/console/Config$.$lessinit$greater$default$22:()Lscala/Option;
+     284: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     287: invokevirtual #626                // Method io/joern/console/Config$.$lessinit$greater$default$23:()Lscala/Option;
+     290: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     293: invokevirtual #630                // Method io/joern/console/Config$.$lessinit$greater$default$24:()[Ljava/lang/String;
+     296: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     299: invokevirtual #633                // Method io/joern/console/Config$.$lessinit$greater$default$25:()Z
+     302: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     305: invokevirtual #636                // Method io/joern/console/Config$.$lessinit$greater$default$26:()Lscala/collection/immutable/Seq;
+     308: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     311: invokevirtual #639                // Method io/joern/console/Config$.$lessinit$greater$default$27:()Lscala/collection/immutable/Seq;
+     314: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     317: invokevirtual #642                // Method io/joern/console/Config$.$lessinit$greater$default$28:()Lscala/Option;
+     320: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     323: invokevirtual #645                // Method io/joern/console/Config$.$lessinit$greater$default$29:()Lscala/Option;
+     326: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     329: invokevirtual #648                // Method io/joern/console/Config$.$lessinit$greater$default$30:()[Ljava/lang/String;
+     332: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     335: invokevirtual #651                // Method io/joern/console/Config$.$lessinit$greater$default$31:()[Ljava/lang/String;
+     338: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     341: invokevirtual #654                // Method io/joern/console/Config$.$lessinit$greater$default$32:()Lscala/collection/immutable/Seq;
+     344: invokevirtual #657                // Method io/joern/console/Config$.apply:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     347: astore        6
+     349: getstatic     #662                // Field scala/Some$.MODULE$:Lscala/Some$;
+     352: ldc_w         #664                // String scan
+     355: invokevirtual #667                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+     358: astore        7
+     360: getstatic     #662                // Field scala/Some$.MODULE$:Lscala/Some$;
+     363: aload_1
+     364: invokevirtual #487                // Method io/joern/joerncli/JoernScanConfig.src:()Ljava/lang/String;
+     367: invokevirtual #667                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+     370: astore        8
+     372: aload_2
+     373: getstatic     #672                // Field scala/reflect/ClassTag$.MODULE$:Lscala/reflect/ClassTag$;
+     376: ldc_w         #357                // class java/lang/String
+     379: invokevirtual #675                // Method scala/reflect/ClassTag$.apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+     382: invokevirtual #679                // Method scala/collection/immutable/List.toArray:(Lscala/reflect/ClassTag;)Ljava/lang/Object;
+     385: checkcast     #285                // class "[Ljava/lang/String;"
+     388: astore        9
+     390: getstatic     #662                // Field scala/Some$.MODULE$:Lscala/Some$;
+     393: getstatic     #508                // Field io/joern/joerncli/Scan$.MODULE$:Lio/joern/joerncli/Scan$;
+     396: invokevirtual #512                // Method io/joern/joerncli/Scan$.defaultOpts:()Lio/joern/joerncli/ScanOptions;
+     399: invokevirtual #680                // Method io/joern/joerncli/ScanOptions.maxCallDepth:()I
+     402: invokestatic  #686                // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+     405: invokevirtual #667                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+     408: astore        10
+     410: getstatic     #508                // Field io/joern/joerncli/Scan$.MODULE$:Lio/joern/joerncli/Scan$;
+     413: invokevirtual #512                // Method io/joern/joerncli/Scan$.defaultOpts:()Lio/joern/joerncli/ScanOptions;
+     416: invokevirtual #688                // Method io/joern/joerncli/ScanOptions.names:()[Ljava/lang/String;
+     419: astore        11
+     421: getstatic     #508                // Field io/joern/joerncli/Scan$.MODULE$:Lio/joern/joerncli/Scan$;
+     424: invokevirtual #512                // Method io/joern/joerncli/Scan$.defaultOpts:()Lio/joern/joerncli/ScanOptions;
+     427: invokevirtual #690                // Method io/joern/joerncli/ScanOptions.tags:()[Ljava/lang/String;
+     430: astore        12
+     432: aload         6
+     434: invokevirtual #695                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+     437: astore        13
+     439: aload         6
+     441: invokevirtual #698                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+     444: astore        14
+     446: aload         6
+     448: invokevirtual #701                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+     451: astore        15
+     453: aload         6
+     455: invokevirtual #704                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+     458: astore        16
+     460: aload         6
+     462: invokevirtual #707                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+     465: astore        17
+     467: aload         6
+     469: invokevirtual #710                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+     472: astore        18
+     474: aload         6
+     476: invokevirtual #713                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+     479: astore        19
+     481: aload         6
+     483: invokevirtual #716                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+     486: astore        20
+     488: aload         6
+     490: invokevirtual #719                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+     493: astore        21
+     495: aload         6
+     497: invokevirtual #722                // Method io/joern/console/Config.copy$default$11:()Z
+     500: istore        22
+     502: aload         6
+     504: invokevirtual #725                // Method io/joern/console/Config.copy$default$16:()Z
+     507: istore        23
+     509: aload         6
+     511: invokevirtual #728                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     514: astore        24
+     516: aload         6
+     518: invokevirtual #731                // Method io/joern/console/Config.copy$default$18:()I
+     521: istore        25
+     523: aload         6
+     525: invokevirtual #734                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     528: astore        26
+     530: aload         6
+     532: invokevirtual #737                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     535: astore        27
+     537: aload         6
+     539: invokevirtual #740                // Method io/joern/console/Config.copy$default$21:()Z
+     542: istore        28
+     544: aload         6
+     546: invokevirtual #743                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     549: astore        29
+     551: aload         6
+     553: invokevirtual #746                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     556: astore        30
+     558: aload         6
+     560: invokevirtual #749                // Method io/joern/console/Config.copy$default$25:()Z
+     563: istore        31
+     565: aload         6
+     567: invokevirtual #752                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     570: astore        32
+     572: aload         6
+     574: invokevirtual #755                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     577: astore        33
+     579: aload         6
+     581: invokevirtual #758                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     584: astore        34
+     586: aload         6
+     588: invokevirtual #761                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     591: astore        35
+     593: aload         6
+     595: aload         13
+     597: aload         14
+     599: aload         15
+     601: aload         16
+     603: aload         17
+     605: aload         18
+     607: aload         19
+     609: aload         20
+     611: aload         21
+     613: aload         7
+     615: iload         22
+     617: aload         8
+     619: aload_1
+     620: invokevirtual #764                // Method io/joern/joerncli/JoernScanConfig.language:()Lscala/Option;
+     623: aload_1
+     624: invokevirtual #767                // Method io/joern/joerncli/JoernScanConfig.overwrite:()Z
+     627: aload_1
+     628: invokevirtual #770                // Method io/joern/joerncli/JoernScanConfig.store:()Z
+     631: iload         23
+     633: aload         24
+     635: iload         25
+     637: aload         26
+     639: aload         27
+     641: iload         28
+     643: aload         29
+     645: aload         30
+     647: aload         9
+     649: iload         31
+     651: aload         32
+     653: aload         33
+     655: aload         34
+     657: aload         10
+     659: aload         11
+     661: aload         12
+     663: aload         35
+     665: invokevirtual #773                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     668: astore        5
+     670: aload_0
+     671: aload         5
+     673: invokevirtual #775                // Method run:(Lio/joern/console/Config;)V
+     676: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     679: aload_1
+     680: invokevirtual #487                // Method io/joern/joerncli/JoernScanConfig.src:()Ljava/lang/String;
+     683: invokedynamic #778,  0            // InvokeDynamic #4:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     688: invokevirtual #404                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+     691: return
+
+  private scala.collection.immutable.List<java.lang.String> queryNames();
+    Code:
+       0: getstatic     #327                // Field io/joern/dataflowengineoss/queryengine/EngineContext$.MODULE$:Lio/joern/dataflowengineoss/queryengine/EngineContext$;
+       3: getstatic     #332                // Field io/joern/dataflowengineoss/semanticsloader/NoSemantics$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/NoSemantics$;
+       6: getstatic     #327                // Field io/joern/dataflowengineoss/queryengine/EngineContext$.MODULE$:Lio/joern/dataflowengineoss/queryengine/EngineContext$;
+       9: invokevirtual #335                // Method io/joern/dataflowengineoss/queryengine/EngineContext$.$lessinit$greater$default$2:()Lio/joern/dataflowengineoss/queryengine/EngineConfig;
+      12: invokevirtual #338                // Method io/joern/dataflowengineoss/queryengine/EngineContext$.apply:(Lio/joern/dataflowengineoss/semanticsloader/Semantics;Lio/joern/dataflowengineoss/queryengine/EngineConfig;)Lio/joern/dataflowengineoss/queryengine/EngineContext;
+      15: astore_1
+      16: aload_0
+      17: new           #342                // class io/joern/joerncli/JoernDefaultArgumentProvider
+      20: dup
+      21: iconst_0
+      22: aload_1
+      23: invokespecial #345                // Method io/joern/joerncli/JoernDefaultArgumentProvider."<init>":(ILio/joern/dataflowengineoss/queryengine/EngineContext;)V
+      26: invokevirtual #784                // Method getQueriesFromQueryDb:(Lio/joern/console/DefaultArgumentProvider;)Lscala/collection/immutable/List;
+      29: invokedynamic #791,  0            // InvokeDynamic #5:apply:()Lscala/Function1;
+      34: invokevirtual #794                // Method scala/collection/immutable/List.map:(Lscala/Function1;)Lscala/collection/immutable/List;
+      37: areturn
+
+  public scala.collection.immutable.List<io.joern.console.Query> getQueriesFromQueryDb(io.joern.console.DefaultArgumentProvider);
+    Code:
+       0: new           #340                // class io/joern/console/QueryDatabase
+       3: dup
+       4: aload_1
+       5: getstatic     #350                // Field io/joern/console/QueryDatabase$.MODULE$:Lio/joern/console/QueryDatabase$;
+       8: invokevirtual #352                // Method io/joern/console/QueryDatabase$.$lessinit$greater$default$2:()Ljava/lang/String;
+      11: invokespecial #355                // Method io/joern/console/QueryDatabase."<init>":(Lio/joern/console/DefaultArgumentProvider;Ljava/lang/String;)V
+      14: invokevirtual #372                // Method io/joern/console/QueryDatabase.allQueries:()Lscala/collection/immutable/List;
+      17: areturn
+
+  private void updateQueryDatabase(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokespecial #801                // Method removeQueryDatabase:()V
+       4: aload_0
+       5: aload_1
+       6: invokevirtual #503                // Method downloadAndInstallQueryDatabase:(Ljava/lang/String;)V
+       9: return
+
+  public void downloadAndInstallQueryDatabase(java.lang.String);
+    Code:
+       0: getstatic     #806                // Field scala/Option$.MODULE$:Lscala/Option$;
+       3: aload_1
+       4: invokevirtual #809                // Method scala/Option$.apply:(Ljava/lang/Object;)Lscala/Option;
+       7: invokedynamic #814,  0            // InvokeDynamic #6:apply:()Lscala/Function1;
+      12: invokevirtual #818                // Method scala/Option.filter:(Lscala/Function1;)Lscala/Option;
+      15: invokedynamic #827,  0            // InvokeDynamic #7:apply:()Lscala/Function0;
+      20: invokevirtual #831                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      23: checkcast     #357                // class java/lang/String
+      26: astore_2
+      27: getstatic     #836                // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+      30: ldc_w         #838                // String joern-scan
+      33: aload_2
+      34: invokedynamic #850,  0            // InvokeDynamic #8:applyVoid:(Ljava/lang/String;)Lscala/runtime/function/JProcedure1;
+      39: invokevirtual #854                // Method io/shiftleft/semanticcpg/utils/FileUtil$.usingTemporaryDirectory:(Ljava/lang/String;Lscala/Function1;)Ljava/lang/Object;
+      42: pop
+      43: return
+
+  public java.lang.String downloadAndInstallQueryDatabase$default$1();
+    Code:
+       0: ldc_w         #489                // String
+       3: areturn
+
+  private java.lang.String downloadDefaultQueryDatabase(java.lang.String, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #862                // Method urlForVersion:(Ljava/lang/String;)Ljava/lang/String;
+       5: astore_3
+       6: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       9: aload_3
+      10: invokedynamic #865,  0            // InvokeDynamic #9:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      15: invokevirtual #404                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+      18: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+      21: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+      24: aload_3
+      25: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+      28: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+      31: invokevirtual #879                // Method requests/Requester.apply$default$2:()Lrequests/RequestAuth;
+      34: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+      37: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+      40: invokevirtual #883                // Method requests/Requester.apply$default$3:()Lscala/collection/Iterable;
+      43: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+      46: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+      49: invokevirtual #886                // Method requests/Requester.apply$default$4:()Lscala/collection/Iterable;
+      52: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+      55: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+      58: invokevirtual #890                // Method requests/Requester.apply$default$5:()Lrequests/RequestBlob;
+      61: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+      64: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+      67: invokevirtual #893                // Method requests/Requester.apply$default$6:()I
+      70: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+      73: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+      76: invokevirtual #896                // Method requests/Requester.apply$default$7:()I
+      79: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+      82: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+      85: invokevirtual #900                // Method requests/Requester.apply$default$8:()Lscala/Tuple2;
+      88: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+      91: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+      94: invokevirtual #904                // Method requests/Requester.apply$default$9:()Lrequests/Cert;
+      97: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+     100: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+     103: invokevirtual #908                // Method requests/Requester.apply$default$10:()Ljavax/net/ssl/SSLContext;
+     106: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+     109: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+     112: invokevirtual #911                // Method requests/Requester.apply$default$11:()Lscala/collection/immutable/Map;
+     115: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+     118: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+     121: invokevirtual #914                // Method requests/Requester.apply$default$12:()Lscala/collection/immutable/Map;
+     124: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+     127: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+     130: invokevirtual #917                // Method requests/Requester.apply$default$13:()I
+     133: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+     136: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+     139: invokevirtual #920                // Method requests/Requester.apply$default$14:()Z
+     142: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+     145: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+     148: invokevirtual #923                // Method requests/Requester.apply$default$15:()Z
+     151: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+     154: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+     157: invokevirtual #927                // Method requests/Requester.apply$default$16:()Lrequests/Compress;
+     160: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+     163: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+     166: invokevirtual #930                // Method requests/Requester.apply$default$17:()Z
+     169: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+     172: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+     175: invokevirtual #933                // Method requests/Requester.apply$default$18:()Z
+     178: getstatic     #870                // Field requests/package$.MODULE$:Lrequests/package$;
+     181: invokevirtual #873                // Method requests/package$.get:()Lrequests/Requester;
+     184: invokevirtual #936                // Method requests/Requester.apply$default$19:()Z
+     187: invokevirtual #939                // Method requests/Requester.apply:(Ljava/lang/String;Lrequests/RequestAuth;Lscala/collection/Iterable;Lscala/collection/Iterable;Lrequests/RequestBlob;IILscala/Tuple2;Lrequests/Cert;Ljavax/net/ssl/SSLContext;Lscala/collection/immutable/Map;Lscala/collection/immutable/Map;IZZLrequests/Compress;ZZZ)Lrequests/Response;
+     190: astore        4
+     192: getstatic     #836                // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+     195: aload_2
+     196: invokevirtual #942                // Method io/shiftleft/semanticcpg/utils/FileUtil$.PathExt:(Ljava/nio/file/Path;)Lio/shiftleft/semanticcpg/utils/FileUtil$PathExt;
+     199: ldc_w         #944                // String querydb.zip
+     202: invokevirtual #948                // Method io/shiftleft/semanticcpg/utils/FileUtil$PathExt.$div:(Ljava/lang/String;)Ljava/nio/file/Path;
+     205: astore        5
+     207: getstatic     #836                // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+     210: aload         5
+     212: invokevirtual #942                // Method io/shiftleft/semanticcpg/utils/FileUtil$.PathExt:(Ljava/nio/file/Path;)Lio/shiftleft/semanticcpg/utils/FileUtil$PathExt;
+     215: invokevirtual #951                // Method io/shiftleft/semanticcpg/utils/FileUtil$PathExt.absolutePathAsString:()Ljava/lang/String;
+     218: astore        6
+     220: getstatic     #836                // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+     223: aload         5
+     225: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     228: aload         4
+     230: invokevirtual #957                // Method requests/Response.bytes:()[B
+     233: invokevirtual #961                // Method scala/Predef$.wrapByteArray:([B)Lscala/collection/mutable/ArraySeq$ofByte;
+     236: getstatic     #836                // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+     239: invokevirtual #964                // Method io/shiftleft/semanticcpg/utils/FileUtil$.writeBytes$default$3:()I
+     242: invokevirtual #968                // Method io/shiftleft/semanticcpg/utils/FileUtil$.writeBytes:(Ljava/nio/file/Path;Lscala/collection/Iterable;I)V
+     245: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     248: getstatic     #836                // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+     251: aload         5
+     253: invokevirtual #942                // Method io/shiftleft/semanticcpg/utils/FileUtil$.PathExt:(Ljava/nio/file/Path;)Lio/shiftleft/semanticcpg/utils/FileUtil$PathExt;
+     256: invokevirtual #972                // Method io/shiftleft/semanticcpg/utils/FileUtil$PathExt.size:()J
+     259: aload         6
+     261: invokedynamic #977,  0            // InvokeDynamic #10:makeConcatWithConstants:(JLjava/lang/String;)Ljava/lang/String;
+     266: invokevirtual #404                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+     269: aload         6
+     271: areturn
+
+  private void removeQueryDatabase();
+    Code:
+       0: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       3: ldc_w         #984                // String Removing current version of query database
+       6: invokevirtual #404                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+       9: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      12: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      15: invokevirtual #571                // Method io/joern/console/Config$.$lessinit$greater$default$1:()Lscala/Option;
+      18: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      21: invokevirtual #573                // Method io/joern/console/Config$.$lessinit$greater$default$2:()Lscala/Option;
+      24: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      27: invokevirtual #576                // Method io/joern/console/Config$.$lessinit$greater$default$3:()Lscala/collection/immutable/Map;
+      30: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      33: invokevirtual #579                // Method io/joern/console/Config$.$lessinit$greater$default$4:()Lscala/collection/immutable/Seq;
+      36: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      39: invokevirtual #581                // Method io/joern/console/Config$.$lessinit$greater$default$5:()Lscala/collection/immutable/Seq;
+      42: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      45: invokevirtual #583                // Method io/joern/console/Config$.$lessinit$greater$default$6:()Lscala/collection/immutable/Seq;
+      48: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      51: invokevirtual #585                // Method io/joern/console/Config$.$lessinit$greater$default$7:()Lscala/collection/immutable/Seq;
+      54: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      57: invokevirtual #587                // Method io/joern/console/Config$.$lessinit$greater$default$8:()Lscala/Option;
+      60: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      63: invokevirtual #589                // Method io/joern/console/Config$.$lessinit$greater$default$9:()Lscala/Option;
+      66: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      69: invokevirtual #591                // Method io/joern/console/Config$.$lessinit$greater$default$10:()Lscala/Option;
+      72: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      75: invokevirtual #593                // Method io/joern/console/Config$.$lessinit$greater$default$11:()Z
+      78: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      81: invokevirtual #594                // Method io/joern/console/Config$.$lessinit$greater$default$12:()Lscala/Option;
+      84: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      87: invokevirtual #596                // Method io/joern/console/Config$.$lessinit$greater$default$13:()Lscala/Option;
+      90: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      93: invokevirtual #599                // Method io/joern/console/Config$.$lessinit$greater$default$14:()Z
+      96: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      99: invokevirtual #602                // Method io/joern/console/Config$.$lessinit$greater$default$15:()Z
+     102: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     105: invokevirtual #605                // Method io/joern/console/Config$.$lessinit$greater$default$16:()Z
+     108: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     111: invokevirtual #608                // Method io/joern/console/Config$.$lessinit$greater$default$17:()Ljava/lang/String;
+     114: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     117: invokevirtual #611                // Method io/joern/console/Config$.$lessinit$greater$default$18:()I
+     120: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     123: invokevirtual #614                // Method io/joern/console/Config$.$lessinit$greater$default$19:()Lscala/Option;
+     126: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     129: invokevirtual #617                // Method io/joern/console/Config$.$lessinit$greater$default$20:()Lscala/Option;
+     132: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     135: invokevirtual #620                // Method io/joern/console/Config$.$lessinit$greater$default$21:()Z
+     138: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     141: invokevirtual #623                // Method io/joern/console/Config$.$lessinit$greater$default$22:()Lscala/Option;
+     144: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     147: invokevirtual #626                // Method io/joern/console/Config$.$lessinit$greater$default$23:()Lscala/Option;
+     150: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     153: invokevirtual #630                // Method io/joern/console/Config$.$lessinit$greater$default$24:()[Ljava/lang/String;
+     156: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     159: invokevirtual #633                // Method io/joern/console/Config$.$lessinit$greater$default$25:()Z
+     162: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     165: invokevirtual #636                // Method io/joern/console/Config$.$lessinit$greater$default$26:()Lscala/collection/immutable/Seq;
+     168: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     171: invokevirtual #639                // Method io/joern/console/Config$.$lessinit$greater$default$27:()Lscala/collection/immutable/Seq;
+     174: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     177: invokevirtual #642                // Method io/joern/console/Config$.$lessinit$greater$default$28:()Lscala/Option;
+     180: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     183: invokevirtual #645                // Method io/joern/console/Config$.$lessinit$greater$default$29:()Lscala/Option;
+     186: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     189: invokevirtual #648                // Method io/joern/console/Config$.$lessinit$greater$default$30:()[Ljava/lang/String;
+     192: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     195: invokevirtual #651                // Method io/joern/console/Config$.$lessinit$greater$default$31:()[Ljava/lang/String;
+     198: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     201: invokevirtual #654                // Method io/joern/console/Config$.$lessinit$greater$default$32:()Lscala/collection/immutable/Seq;
+     204: invokevirtual #657                // Method io/joern/console/Config$.apply:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     207: astore_2
+     208: aload_2
+     209: aload_2
+     210: invokevirtual #695                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+     213: aload_2
+     214: invokevirtual #698                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+     217: aload_2
+     218: invokevirtual #701                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+     221: aload_2
+     222: invokevirtual #704                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+     225: aload_2
+     226: invokevirtual #707                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+     229: aload_2
+     230: invokevirtual #710                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+     233: aload_2
+     234: invokevirtual #713                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+     237: aload_2
+     238: invokevirtual #716                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+     241: getstatic     #662                // Field scala/Some$.MODULE$:Lscala/Some$;
+     244: ldc_w         #986                // String querydb
+     247: invokevirtual #667                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+     250: aload_2
+     251: invokevirtual #989                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+     254: aload_2
+     255: invokevirtual #722                // Method io/joern/console/Config.copy$default$11:()Z
+     258: aload_2
+     259: invokevirtual #992                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+     262: aload_2
+     263: invokevirtual #995                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+     266: aload_2
+     267: invokevirtual #998                // Method io/joern/console/Config.copy$default$14:()Z
+     270: aload_2
+     271: invokevirtual #1001               // Method io/joern/console/Config.copy$default$15:()Z
+     274: aload_2
+     275: invokevirtual #725                // Method io/joern/console/Config.copy$default$16:()Z
+     278: aload_2
+     279: invokevirtual #728                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     282: aload_2
+     283: invokevirtual #731                // Method io/joern/console/Config.copy$default$18:()I
+     286: aload_2
+     287: invokevirtual #734                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     290: aload_2
+     291: invokevirtual #737                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     294: aload_2
+     295: invokevirtual #740                // Method io/joern/console/Config.copy$default$21:()Z
+     298: aload_2
+     299: invokevirtual #743                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     302: aload_2
+     303: invokevirtual #746                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     306: aload_2
+     307: invokevirtual #1004               // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     310: aload_2
+     311: invokevirtual #749                // Method io/joern/console/Config.copy$default$25:()Z
+     314: aload_2
+     315: invokevirtual #752                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     318: aload_2
+     319: invokevirtual #755                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     322: aload_2
+     323: invokevirtual #758                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     326: aload_2
+     327: invokevirtual #1007               // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     330: aload_2
+     331: invokevirtual #1010               // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     334: aload_2
+     335: invokevirtual #1013               // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     338: aload_2
+     339: invokevirtual #761                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     342: invokevirtual #773                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     345: astore_1
+     346: aload_0
+     347: aload_1
+     348: invokevirtual #775                // Method run:(Lio/joern/console/Config;)V
+     351: return
+
+  private void addQueryDatabase(java.lang.String);
+    Code:
+       0: getstatic     #389                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       3: ldc_w         #1017               // String Adding updated version of query database
+       6: invokevirtual #404                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+       9: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      12: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      15: invokevirtual #571                // Method io/joern/console/Config$.$lessinit$greater$default$1:()Lscala/Option;
+      18: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      21: invokevirtual #573                // Method io/joern/console/Config$.$lessinit$greater$default$2:()Lscala/Option;
+      24: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      27: invokevirtual #576                // Method io/joern/console/Config$.$lessinit$greater$default$3:()Lscala/collection/immutable/Map;
+      30: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      33: invokevirtual #579                // Method io/joern/console/Config$.$lessinit$greater$default$4:()Lscala/collection/immutable/Seq;
+      36: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      39: invokevirtual #581                // Method io/joern/console/Config$.$lessinit$greater$default$5:()Lscala/collection/immutable/Seq;
+      42: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      45: invokevirtual #583                // Method io/joern/console/Config$.$lessinit$greater$default$6:()Lscala/collection/immutable/Seq;
+      48: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      51: invokevirtual #585                // Method io/joern/console/Config$.$lessinit$greater$default$7:()Lscala/collection/immutable/Seq;
+      54: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      57: invokevirtual #587                // Method io/joern/console/Config$.$lessinit$greater$default$8:()Lscala/Option;
+      60: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      63: invokevirtual #589                // Method io/joern/console/Config$.$lessinit$greater$default$9:()Lscala/Option;
+      66: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      69: invokevirtual #591                // Method io/joern/console/Config$.$lessinit$greater$default$10:()Lscala/Option;
+      72: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      75: invokevirtual #593                // Method io/joern/console/Config$.$lessinit$greater$default$11:()Z
+      78: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      81: invokevirtual #594                // Method io/joern/console/Config$.$lessinit$greater$default$12:()Lscala/Option;
+      84: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      87: invokevirtual #596                // Method io/joern/console/Config$.$lessinit$greater$default$13:()Lscala/Option;
+      90: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      93: invokevirtual #599                // Method io/joern/console/Config$.$lessinit$greater$default$14:()Z
+      96: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      99: invokevirtual #602                // Method io/joern/console/Config$.$lessinit$greater$default$15:()Z
+     102: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     105: invokevirtual #605                // Method io/joern/console/Config$.$lessinit$greater$default$16:()Z
+     108: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     111: invokevirtual #608                // Method io/joern/console/Config$.$lessinit$greater$default$17:()Ljava/lang/String;
+     114: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     117: invokevirtual #611                // Method io/joern/console/Config$.$lessinit$greater$default$18:()I
+     120: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     123: invokevirtual #614                // Method io/joern/console/Config$.$lessinit$greater$default$19:()Lscala/Option;
+     126: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     129: invokevirtual #617                // Method io/joern/console/Config$.$lessinit$greater$default$20:()Lscala/Option;
+     132: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     135: invokevirtual #620                // Method io/joern/console/Config$.$lessinit$greater$default$21:()Z
+     138: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     141: invokevirtual #623                // Method io/joern/console/Config$.$lessinit$greater$default$22:()Lscala/Option;
+     144: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     147: invokevirtual #626                // Method io/joern/console/Config$.$lessinit$greater$default$23:()Lscala/Option;
+     150: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     153: invokevirtual #630                // Method io/joern/console/Config$.$lessinit$greater$default$24:()[Ljava/lang/String;
+     156: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     159: invokevirtual #633                // Method io/joern/console/Config$.$lessinit$greater$default$25:()Z
+     162: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     165: invokevirtual #636                // Method io/joern/console/Config$.$lessinit$greater$default$26:()Lscala/collection/immutable/Seq;
+     168: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     171: invokevirtual #639                // Method io/joern/console/Config$.$lessinit$greater$default$27:()Lscala/collection/immutable/Seq;
+     174: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     177: invokevirtual #642                // Method io/joern/console/Config$.$lessinit$greater$default$28:()Lscala/Option;
+     180: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     183: invokevirtual #645                // Method io/joern/console/Config$.$lessinit$greater$default$29:()Lscala/Option;
+     186: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     189: invokevirtual #648                // Method io/joern/console/Config$.$lessinit$greater$default$30:()[Ljava/lang/String;
+     192: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     195: invokevirtual #651                // Method io/joern/console/Config$.$lessinit$greater$default$31:()[Ljava/lang/String;
+     198: getstatic     #569                // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     201: invokevirtual #654                // Method io/joern/console/Config$.$lessinit$greater$default$32:()Lscala/collection/immutable/Seq;
+     204: invokevirtual #657                // Method io/joern/console/Config$.apply:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     207: astore_3
+     208: aload_3
+     209: aload_3
+     210: invokevirtual #695                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+     213: aload_3
+     214: invokevirtual #698                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+     217: aload_3
+     218: invokevirtual #701                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+     221: aload_3
+     222: invokevirtual #704                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+     225: aload_3
+     226: invokevirtual #707                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+     229: aload_3
+     230: invokevirtual #710                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+     233: aload_3
+     234: invokevirtual #713                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+     237: getstatic     #662                // Field scala/Some$.MODULE$:Lscala/Some$;
+     240: aload_1
+     241: invokevirtual #667                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+     244: aload_3
+     245: invokevirtual #719                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+     248: aload_3
+     249: invokevirtual #989                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+     252: aload_3
+     253: invokevirtual #722                // Method io/joern/console/Config.copy$default$11:()Z
+     256: aload_3
+     257: invokevirtual #992                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+     260: aload_3
+     261: invokevirtual #995                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+     264: aload_3
+     265: invokevirtual #998                // Method io/joern/console/Config.copy$default$14:()Z
+     268: aload_3
+     269: invokevirtual #1001               // Method io/joern/console/Config.copy$default$15:()Z
+     272: aload_3
+     273: invokevirtual #725                // Method io/joern/console/Config.copy$default$16:()Z
+     276: aload_3
+     277: invokevirtual #728                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     280: aload_3
+     281: invokevirtual #731                // Method io/joern/console/Config.copy$default$18:()I
+     284: aload_3
+     285: invokevirtual #734                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     288: aload_3
+     289: invokevirtual #737                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     292: aload_3
+     293: invokevirtual #740                // Method io/joern/console/Config.copy$default$21:()Z
+     296: aload_3
+     297: invokevirtual #743                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     300: aload_3
+     301: invokevirtual #746                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     304: aload_3
+     305: invokevirtual #1004               // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     308: aload_3
+     309: invokevirtual #749                // Method io/joern/console/Config.copy$default$25:()Z
+     312: aload_3
+     313: invokevirtual #752                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     316: aload_3
+     317: invokevirtual #755                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     320: aload_3
+     321: invokevirtual #758                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     324: aload_3
+     325: invokevirtual #1007               // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     328: aload_3
+     329: invokevirtual #1010               // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     332: aload_3
+     333: invokevirtual #1013               // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     336: aload_3
+     337: invokevirtual #761                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     340: invokevirtual #773                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     343: astore_2
+     344: aload_0
+     345: aload_2
+     346: invokevirtual #775                // Method run:(Lio/joern/console/Config;)V
+     349: return
+
+  private java.lang.String urlForVersion(java.lang.String);
+    Code:
+       0: aload_1
+       1: ldc_w         #1020               // String latest
+       4: invokestatic  #494                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+       7: ifeq          14
+      10: ldc_w         #1022               // String https://github.com/joernio/joern/releases/latest/download/querydb.zip
+      13: areturn
+      14: aload_1
+      15: invokedynamic #1025,  0           // InvokeDynamic #11:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      20: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> runBeforeCode();
+    Code:
+       0: getstatic     #1032               // Field io/joern/joerncli/console/ReplBridge$.MODULE$:Lio/joern/joerncli/console/ReplBridge$;
+       3: invokevirtual #1034               // Method io/joern/joerncli/console/ReplBridge$.runBeforeCode:()Lscala/collection/immutable/Seq;
+       6: areturn
+
+  public java.lang.String promptStr();
+    Code:
+       0: getstatic     #1032               // Field io/joern/joerncli/console/ReplBridge$.MODULE$:Lio/joern/joerncli/console/ReplBridge$;
+       3: invokevirtual #1037               // Method io/joern/joerncli/console/ReplBridge$.promptStr:()Ljava/lang/String;
+       6: areturn
+
+  public java.lang.String greeting();
+    Code:
+       0: getstatic     #1032               // Field io/joern/joerncli/console/ReplBridge$.MODULE$:Lio/joern/joerncli/console/ReplBridge$;
+       3: invokevirtual #1040               // Method io/joern/joerncli/console/ReplBridge$.greeting:()Ljava/lang/String;
+       6: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$1(java.lang.String, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_0
+       2: aload_1
+       3: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+       6: aload_1
+       7: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      10: aload_1
+      11: invokevirtual #1050               // Method io/joern/joerncli/JoernScanConfig.copy$default$4:()Z
+      14: aload_1
+      15: invokevirtual #1052               // Method io/joern/joerncli/JoernScanConfig.copy$default$5:()Ljava/lang/String;
+      18: aload_1
+      19: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      22: aload_1
+      23: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      26: aload_1
+      27: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      30: aload_1
+      31: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      34: aload_1
+      35: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      38: aload_1
+      39: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      42: aload_1
+      43: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      50: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      53: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$2(scala.runtime.BoxedUnit, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+       5: iconst_1
+       6: aload_1
+       7: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      10: aload_1
+      11: invokevirtual #1050               // Method io/joern/joerncli/JoernScanConfig.copy$default$4:()Z
+      14: aload_1
+      15: invokevirtual #1052               // Method io/joern/joerncli/JoernScanConfig.copy$default$5:()Ljava/lang/String;
+      18: aload_1
+      19: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      22: aload_1
+      23: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      26: aload_1
+      27: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      30: aload_1
+      31: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      34: aload_1
+      35: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      38: aload_1
+      39: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      42: aload_1
+      43: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      50: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      53: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$3(scala.runtime.BoxedUnit, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+       5: aload_1
+       6: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+       9: iconst_1
+      10: aload_1
+      11: invokevirtual #1050               // Method io/joern/joerncli/JoernScanConfig.copy$default$4:()Z
+      14: aload_1
+      15: invokevirtual #1052               // Method io/joern/joerncli/JoernScanConfig.copy$default$5:()Ljava/lang/String;
+      18: aload_1
+      19: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      22: aload_1
+      23: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      26: aload_1
+      27: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      30: aload_1
+      31: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      34: aload_1
+      35: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      38: aload_1
+      39: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      42: aload_1
+      43: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      50: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      53: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$4(scala.runtime.BoxedUnit, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+       3: invokevirtual #1082               // Method io/joern/joerncli/JoernScanConfig$.defaultDumpQueryDestination:()Ljava/lang/String;
+       6: astore_2
+       7: aload_1
+       8: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+      11: astore_3
+      12: aload_1
+      13: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+      16: istore        4
+      18: aload_1
+      19: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      22: istore        5
+      24: aload_1
+      25: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      28: istore        6
+      30: aload_1
+      31: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      34: istore        7
+      36: aload_1
+      37: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      40: astore        8
+      42: aload_1
+      43: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      46: istore        9
+      48: aload_1
+      49: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      52: astore        10
+      54: aload_1
+      55: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      58: astore        11
+      60: aload_1
+      61: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      64: astore        12
+      66: aload_1
+      67: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      70: istore        13
+      72: aload_1
+      73: aload_3
+      74: iload         4
+      76: iload         5
+      78: iconst_1
+      79: aload_2
+      80: iload         6
+      82: iload         7
+      84: aload         8
+      86: iload         9
+      88: aload         10
+      90: aload         11
+      92: aload         12
+      94: iload         13
+      96: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      99: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$5(java.lang.String, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+       5: aload_1
+       6: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+       9: aload_1
+      10: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      13: iconst_1
+      14: aload_0
+      15: aload_1
+      16: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      19: aload_1
+      20: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      23: aload_1
+      24: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      27: aload_1
+      28: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      31: aload_1
+      32: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      35: aload_1
+      36: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      39: aload_1
+      40: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      43: aload_1
+      44: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      47: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      50: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$6(scala.runtime.BoxedUnit, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+       5: aload_1
+       6: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+       9: aload_1
+      10: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      13: aload_1
+      14: invokevirtual #1050               // Method io/joern/joerncli/JoernScanConfig.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #1052               // Method io/joern/joerncli/JoernScanConfig.copy$default$5:()Ljava/lang/String;
+      21: iconst_1
+      22: aload_1
+      23: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      26: aload_1
+      27: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      30: aload_1
+      31: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      34: aload_1
+      35: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      38: aload_1
+      39: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      42: aload_1
+      43: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      50: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      53: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$7(scala.runtime.BoxedUnit, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+       5: aload_1
+       6: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+       9: aload_1
+      10: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      13: aload_1
+      14: invokevirtual #1050               // Method io/joern/joerncli/JoernScanConfig.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #1052               // Method io/joern/joerncli/JoernScanConfig.copy$default$5:()Ljava/lang/String;
+      21: aload_1
+      22: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      25: iconst_1
+      26: aload_1
+      27: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      30: aload_1
+      31: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      34: aload_1
+      35: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      38: aload_1
+      39: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      42: aload_1
+      43: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      50: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      53: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$8(java.lang.String, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+       5: aload_1
+       6: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+       9: aload_1
+      10: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      13: aload_1
+      14: invokevirtual #1050               // Method io/joern/joerncli/JoernScanConfig.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #1052               // Method io/joern/joerncli/JoernScanConfig.copy$default$5:()Ljava/lang/String;
+      21: aload_1
+      22: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      25: aload_1
+      26: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      29: aload_0
+      30: aload_1
+      31: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      34: aload_1
+      35: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      38: aload_1
+      39: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      42: aload_1
+      43: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      50: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      53: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$9(java.lang.String, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+       5: aload_1
+       6: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+       9: aload_1
+      10: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      13: aload_1
+      14: invokevirtual #1050               // Method io/joern/joerncli/JoernScanConfig.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #1052               // Method io/joern/joerncli/JoernScanConfig.copy$default$5:()Ljava/lang/String;
+      21: aload_1
+      22: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      25: aload_1
+      26: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      29: aload_1
+      30: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      33: aload_1
+      34: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      37: aload_0
+      38: aload_1
+      39: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      42: aload_1
+      43: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      50: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      53: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$10(java.lang.String, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+       5: aload_1
+       6: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+       9: aload_1
+      10: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      13: aload_1
+      14: invokevirtual #1050               // Method io/joern/joerncli/JoernScanConfig.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #1052               // Method io/joern/joerncli/JoernScanConfig.copy$default$5:()Ljava/lang/String;
+      21: aload_1
+      22: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      25: aload_1
+      26: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      29: aload_1
+      30: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      33: aload_1
+      34: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      37: aload_1
+      38: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      41: aload_0
+      42: aload_1
+      43: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      50: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      53: areturn
+
+  private static final io.joern.joerncli.JoernScanConfig $init$$$anonfun$11(int, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+       5: aload_1
+       6: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+       9: aload_1
+      10: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      13: aload_1
+      14: invokevirtual #1050               // Method io/joern/joerncli/JoernScanConfig.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #1052               // Method io/joern/joerncli/JoernScanConfig.copy$default$5:()Ljava/lang/String;
+      21: aload_1
+      22: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      25: aload_1
+      26: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      29: aload_1
+      30: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      33: iload_0
+      34: aload_1
+      35: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      38: aload_1
+      39: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      42: aload_1
+      43: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      50: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      53: areturn
+
+  public static io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$adapted$1(java.lang.Object, java.lang.Object);
+    Code:
+       0: aload_0
+       1: invokestatic  #1099               // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+       4: aload_1
+       5: checkcast     #260                // class io/joern/joerncli/JoernScanConfig
+       8: invokestatic  #1101               // Method $init$$$anonfun$11:(ILio/joern/joerncli/JoernScanConfig;)Lio/joern/joerncli/JoernScanConfig;
+      11: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$12(java.lang.String, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+       5: aload_1
+       6: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+       9: aload_1
+      10: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      13: aload_1
+      14: invokevirtual #1050               // Method io/joern/joerncli/JoernScanConfig.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #1052               // Method io/joern/joerncli/JoernScanConfig.copy$default$5:()Ljava/lang/String;
+      21: aload_1
+      22: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      25: aload_1
+      26: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      29: aload_1
+      30: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      33: aload_1
+      34: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      37: aload_1
+      38: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      41: aload_1
+      42: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      45: getstatic     #662                // Field scala/Some$.MODULE$:Lscala/Some$;
+      48: aload_0
+      49: invokevirtual #667                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      52: aload_1
+      53: invokevirtual #1067               // Method io/joern/joerncli/JoernScanConfig.copy$default$13:()Z
+      56: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      59: areturn
+
+  public static final io.joern.joerncli.JoernScanConfig io$joern$joerncli$JoernScan$$anon$1$$_$$lessinit$greater$$anonfun$13(scala.runtime.BoxedUnit, io.joern.joerncli.JoernScanConfig);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #1074               // Method io/joern/joerncli/JoernScanConfig.copy$default$1:()Ljava/lang/String;
+       5: aload_1
+       6: invokevirtual #1046               // Method io/joern/joerncli/JoernScanConfig.copy$default$2:()Z
+       9: aload_1
+      10: invokevirtual #1048               // Method io/joern/joerncli/JoernScanConfig.copy$default$3:()Z
+      13: aload_1
+      14: invokevirtual #1050               // Method io/joern/joerncli/JoernScanConfig.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #1052               // Method io/joern/joerncli/JoernScanConfig.copy$default$5:()Ljava/lang/String;
+      21: aload_1
+      22: invokevirtual #1054               // Method io/joern/joerncli/JoernScanConfig.copy$default$6:()Z
+      25: aload_1
+      26: invokevirtual #1056               // Method io/joern/joerncli/JoernScanConfig.copy$default$7:()Z
+      29: aload_1
+      30: invokevirtual #1058               // Method io/joern/joerncli/JoernScanConfig.copy$default$8:()Ljava/lang/String;
+      33: aload_1
+      34: invokevirtual #1060               // Method io/joern/joerncli/JoernScanConfig.copy$default$9:()I
+      37: aload_1
+      38: invokevirtual #1062               // Method io/joern/joerncli/JoernScanConfig.copy$default$10:()Ljava/lang/String;
+      41: aload_1
+      42: invokevirtual #1064               // Method io/joern/joerncli/JoernScanConfig.copy$default$11:()Ljava/lang/String;
+      45: aload_1
+      46: invokevirtual #1065               // Method io/joern/joerncli/JoernScanConfig.copy$default$12:()Lscala/Option;
+      49: iconst_1
+      50: invokevirtual #1069               // Method io/joern/joerncli/JoernScanConfig.copy:(Ljava/lang/String;ZZZLjava/lang/String;ZZLjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lscala/Option;Z)Lio/joern/joerncli/JoernScanConfig;
+      53: areturn
+
+  private static final java.lang.String listLanguages$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokevirtual #1109               // Method java/lang/String.toLowerCase:()Ljava/lang/String;
+       4: invokedynamic #1112,  0           // InvokeDynamic #12:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+       9: areturn
+
+  private static final boolean runScanPlugin$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokevirtual #1114               // Method java/lang/String.isEmpty:()Z
+       4: ireturn
+
+  private static final boolean runScanPlugin$$anonfun$2(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokevirtual #1114               // Method java/lang/String.isEmpty:()Z
+       4: ireturn
+
+  private static final java.lang.String queryNames$$anonfun$1(io.joern.console.Query);
+    Code:
+       0: aload_0
+       1: invokevirtual #1121               // Method io/joern/console/Query.name:()Ljava/lang/String;
+       4: areturn
+
+  private static final boolean $anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: ldc_w         #489                // String
+       4: invokestatic  #494                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+       7: ifne          14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: ireturn
+
+  private static final java.lang.String $anonfun$2();
+    Code:
+       0: getstatic     #202                // Field io/joern/joerncli/JoernScanConfig$.MODULE$:Lio/joern/joerncli/JoernScanConfig$;
+       3: invokevirtual #1126               // Method io/joern/joerncli/JoernScanConfig$.defaultDbVersion:()Ljava/lang/String;
+       6: areturn
+
+  private static final void downloadAndInstallQueryDatabase$$anonfun$1(java.lang.String, java.nio.file.Path);
+    Code:
+       0: getstatic     #54                 // Field MODULE$:Lio/joern/joerncli/JoernScan$;
+       3: aload_0
+       4: aload_1
+       5: invokespecial #1130               // Method downloadDefaultQueryDatabase:(Ljava/lang/String;Ljava/nio/file/Path;)Ljava/lang/String;
+       8: astore_2
+       9: getstatic     #54                 // Field MODULE$:Lio/joern/joerncli/JoernScan$;
+      12: aload_2
+      13: invokespecial #1132               // Method addQueryDatabase:(Ljava/lang/String;)V
+      16: return
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #1145,  0           // InvokeDynamic #13:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

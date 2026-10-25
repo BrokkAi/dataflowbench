@@ -1,0 +1,261 @@
+Compiled from "UsingDirectives.scala"
+public final class replpp.UsingDirectives$ {
+  public static final replpp.UsingDirectives$ MODULE$;
+
+  private static final java.lang.String LibDirective;
+
+  private static final java.lang.String FileDirective;
+
+  private static final java.lang.String ResolverDirective;
+
+  private static final java.lang.String ClasspathDirective;
+
+  private replpp.UsingDirectives$();
+    Code:
+       0: aload_0
+       1: invokespecial #24                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class replpp/UsingDirectives$
+       3: dup
+       4: invokespecial #27                 // Method "<init>":()V
+       7: putstatic     #29                 // Field MODULE$:Lreplpp/UsingDirectives$;
+      10: ldc           #31                 // String //> using
+      12: astore_0
+      13: aload_0
+      14: invokedynamic #43,  0             // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      19: putstatic     #45                 // Field LibDirective:Ljava/lang/String;
+      22: aload_0
+      23: invokedynamic #48,  0             // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      28: putstatic     #50                 // Field FileDirective:Ljava/lang/String;
+      31: aload_0
+      32: invokedynamic #53,  0             // InvokeDynamic #2:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      37: putstatic     #55                 // Field ResolverDirective:Ljava/lang/String;
+      40: aload_0
+      41: invokedynamic #58,  0             // InvokeDynamic #3:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      46: putstatic     #60                 // Field ClasspathDirective:Ljava/lang/String;
+      49: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #65                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class replpp/UsingDirectives$
+       6: invokespecial #68                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public java.lang.String LibDirective();
+    Code:
+       0: getstatic     #45                 // Field LibDirective:Ljava/lang/String;
+       3: areturn
+
+  public java.lang.String FileDirective();
+    Code:
+       0: getstatic     #50                 // Field FileDirective:Ljava/lang/String;
+       3: areturn
+
+  public java.lang.String ResolverDirective();
+    Code:
+       0: getstatic     #55                 // Field ResolverDirective:Ljava/lang/String;
+       3: areturn
+
+  public java.lang.String ClasspathDirective();
+    Code:
+       0: getstatic     #60                 // Field ClasspathDirective:Ljava/lang/String;
+       3: areturn
+
+  public scala.collection.immutable.Seq<java.nio.file.Path> findImportedFilesRecursively(java.nio.file.Path, scala.collection.immutable.Set<java.nio.file.Path>);
+    Code:
+       0: aload_1
+       1: iconst_0
+       2: anewarray     #76                 // class java/nio/file/LinkOption
+       5: invokestatic  #82                 // Method java/nio/file/Files.isDirectory:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+       8: ifeq          15
+      11: aload_1
+      12: goto          26
+      15: aload_1
+      16: invokeinterface #88,  1           // InterfaceMethod java/nio/file/Path.toAbsolutePath:()Ljava/nio/file/Path;
+      21: invokeinterface #91,  1           // InterfaceMethod java/nio/file/Path.getParent:()Ljava/nio/file/Path;
+      26: astore_3
+      27: aload_0
+      28: getstatic     #96                 // Field replpp/util/package$.MODULE$:Lreplpp/util/package$;
+      31: aload_1
+      32: invokevirtual #100                // Method replpp/util/package$.linesFromFile:(Ljava/nio/file/Path;)Lscala/collection/immutable/Seq;
+      35: aload_3
+      36: invokevirtual #104                // Method findImportedFiles:(Lscala/collection/IterableOnce;Ljava/nio/file/Path;)Lscala/collection/immutable/Seq;
+      39: astore        4
+      41: aload         4
+      43: aload_2
+      44: invokedynamic #126,  0            // InvokeDynamic #4:apply:(Lscala/collection/immutable/Set;)Lscala/Function1;
+      49: invokeinterface #132,  2          // InterfaceMethod scala/collection/immutable/Seq.filterNot:(Lscala/Function1;)Ljava/lang/Object;
+      54: checkcast     #134                // class scala/collection/IterableOps
+      57: aload_2
+      58: invokedynamic #142,  0            // InvokeDynamic #5:apply:(Lscala/collection/immutable/Set;)Lscala/Function1;
+      63: invokeinterface #145,  2          // InterfaceMethod scala/collection/IterableOps.flatMap:(Lscala/Function1;)Ljava/lang/Object;
+      68: checkcast     #128                // class scala/collection/immutable/Seq
+      71: astore        5
+      73: aload         4
+      75: aload         5
+      77: invokeinterface #149,  2          // InterfaceMethod scala/collection/immutable/Seq.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+      82: checkcast     #151                // class scala/collection/SeqOps
+      85: invokeinterface #154,  1          // InterfaceMethod scala/collection/SeqOps.distinct:()Ljava/lang/Object;
+      90: checkcast     #128                // class scala/collection/immutable/Seq
+      93: areturn
+
+  public scala.collection.immutable.Set<java.nio.file.Path> findImportedFilesRecursively$default$2();
+    Code:
+       0: getstatic     #168                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       3: invokevirtual #172                // Method scala/Predef$.Set:()Lscala/collection/immutable/Set$;
+       6: invokevirtual #177                // Method scala/collection/immutable/Set$.empty:()Lscala/collection/immutable/Set;
+       9: areturn
+
+  public scala.collection.immutable.Seq<java.nio.file.Path> findImportedFiles(scala.collection.IterableOnce<java.lang.String>, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_0
+       2: invokevirtual #182                // Method FileDirective:()Ljava/lang/String;
+       5: aload_1
+       6: invokespecial #186                // Method scanFor:(Ljava/lang/String;Lscala/collection/IterableOnce;)Lscala/collection/immutable/Seq;
+       9: invokeinterface #190,  1          // InterfaceMethod scala/collection/immutable/Seq.iterator:()Lscala/collection/Iterator;
+      14: aload_2
+      15: invokedynamic #200,  0            // InvokeDynamic #6:apply:(Ljava/nio/file/Path;)Lscala/Function1;
+      20: invokeinterface #206,  2          // InterfaceMethod scala/collection/Iterator.map:(Lscala/Function1;)Lscala/collection/Iterator;
+      25: invokeinterface #210,  1          // InterfaceMethod scala/collection/Iterator.toSeq:()Lscala/collection/immutable/Seq;
+      30: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> findDeclaredDependencies(scala.collection.IterableOnce<java.lang.String>);
+    Code:
+       0: aload_0
+       1: aload_0
+       2: invokevirtual #216                // Method LibDirective:()Ljava/lang/String;
+       5: aload_1
+       6: invokespecial #186                // Method scanFor:(Ljava/lang/String;Lscala/collection/IterableOnce;)Lscala/collection/immutable/Seq;
+       9: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> findResolvers(scala.collection.IterableOnce<java.lang.String>);
+    Code:
+       0: aload_0
+       1: aload_0
+       2: invokevirtual #219                // Method ResolverDirective:()Ljava/lang/String;
+       5: aload_1
+       6: invokespecial #186                // Method scanFor:(Ljava/lang/String;Lscala/collection/IterableOnce;)Lscala/collection/immutable/Seq;
+       9: areturn
+
+  public scala.collection.immutable.Seq<java.nio.file.Path> findClasspathEntriesInLines(scala.collection.IterableOnce<java.lang.String>, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_0
+       2: invokevirtual #224                // Method ClasspathDirective:()Ljava/lang/String;
+       5: aload_1
+       6: invokespecial #186                // Method scanFor:(Ljava/lang/String;Lscala/collection/IterableOnce;)Lscala/collection/immutable/Seq;
+       9: aload_2
+      10: invokedynamic #229,  0            // InvokeDynamic #7:apply:(Ljava/nio/file/Path;)Lscala/Function1;
+      15: invokeinterface #231,  2          // InterfaceMethod scala/collection/immutable/Seq.map:(Lscala/Function1;)Ljava/lang/Object;
+      20: checkcast     #128                // class scala/collection/immutable/Seq
+      23: areturn
+
+  public scala.collection.immutable.Seq<java.nio.file.Path> findClasspathEntriesInFiles(scala.collection.IterableOnce<java.nio.file.Path>);
+    Code:
+       0: aload_1
+       1: invokeinterface #237,  1          // InterfaceMethod scala/collection/IterableOnce.iterator:()Lscala/collection/Iterator;
+       6: invokedynamic #244,  0            // InvokeDynamic #8:apply:()Lscala/Function1;
+      11: invokeinterface #246,  2          // InterfaceMethod scala/collection/Iterator.flatMap:(Lscala/Function1;)Lscala/collection/Iterator;
+      16: invokeinterface #210,  1          // InterfaceMethod scala/collection/Iterator.toSeq:()Lscala/collection/immutable/Seq;
+      21: areturn
+
+  private scala.collection.immutable.Seq<java.lang.String> scanFor(java.lang.String, scala.collection.IterableOnce<java.lang.String>);
+    Code:
+       0: aload_2
+       1: invokeinterface #237,  1          // InterfaceMethod scala/collection/IterableOnce.iterator:()Lscala/collection/Iterator;
+       6: invokedynamic #254,  0            // InvokeDynamic #9:apply:()Lscala/Function1;
+      11: invokeinterface #206,  2          // InterfaceMethod scala/collection/Iterator.map:(Lscala/Function1;)Lscala/collection/Iterator;
+      16: aload_1
+      17: invokedynamic #264,  0            // InvokeDynamic #10:apply:(Ljava/lang/String;)Lscala/Function1;
+      22: invokeinterface #267,  2          // InterfaceMethod scala/collection/Iterator.filter:(Lscala/Function1;)Lscala/collection/Iterator;
+      27: aload_1
+      28: invokedynamic #273,  0            // InvokeDynamic #11:apply:(Ljava/lang/String;)Lscala/Function1;
+      33: invokeinterface #206,  2          // InterfaceMethod scala/collection/Iterator.map:(Lscala/Function1;)Lscala/collection/Iterator;
+      38: invokeinterface #210,  1          // InterfaceMethod scala/collection/Iterator.toSeq:()Lscala/collection/immutable/Seq;
+      43: areturn
+
+  private static final boolean $anonfun$1(scala.collection.immutable.Set, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #281,  2          // InterfaceMethod scala/collection/immutable/Set.contains:(Ljava/lang/Object;)Z
+       7: ireturn
+
+  private static final scala.collection.IterableOnce $anonfun$2(scala.collection.immutable.Set, java.nio.file.Path);
+    Code:
+       0: getstatic     #29                 // Field MODULE$:Lreplpp/UsingDirectives$;
+       3: aload_1
+       4: aload_0
+       5: aload_1
+       6: invokeinterface #287,  2          // InterfaceMethod scala/collection/immutable/Set.$plus:(Ljava/lang/Object;)Lscala/collection/immutable/SetOps;
+      11: checkcast     #277                // class scala/collection/immutable/Set
+      14: invokevirtual #289                // Method findImportedFilesRecursively:(Ljava/nio/file/Path;Lscala/collection/immutable/Set;)Lscala/collection/immutable/Seq;
+      17: areturn
+
+  private static final java.nio.file.Path findImportedFiles$$anonfun$1(java.nio.file.Path, java.lang.String);
+    Code:
+       0: getstatic     #296                // Field replpp/package$.MODULE$:Lreplpp/package$;
+       3: aload_0
+       4: aload_1
+       5: invokevirtual #299                // Method replpp/package$.resolveFile:(Ljava/nio/file/Path;Ljava/lang/String;)Ljava/nio/file/Path;
+       8: areturn
+
+  private static final java.nio.file.Path findClasspathEntriesInLines$$anonfun$1(java.nio.file.Path, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #304,  2          // InterfaceMethod java/nio/file/Path.resolve:(Ljava/lang/String;)Ljava/nio/file/Path;
+       7: astore_2
+       8: aload_2
+       9: areturn
+
+  private static final scala.collection.IterableOnce findClasspathEntriesInFiles$$anonfun$1(java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: invokeinterface #91,  1           // InterfaceMethod java/nio/file/Path.getParent:()Ljava/nio/file/Path;
+       6: astore_1
+       7: getstatic     #29                 // Field MODULE$:Lreplpp/UsingDirectives$;
+      10: getstatic     #96                 // Field replpp/util/package$.MODULE$:Lreplpp/util/package$;
+      13: aload_0
+      14: invokevirtual #100                // Method replpp/util/package$.linesFromFile:(Ljava/nio/file/Path;)Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #307                // Method findClasspathEntriesInLines:(Lscala/collection/IterableOnce;Ljava/nio/file/Path;)Lscala/collection/immutable/Seq;
+      21: areturn
+
+  private static final java.lang.String scanFor$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokevirtual #314                // Method java/lang/String.trim:()Ljava/lang/String;
+       4: areturn
+
+  private static final boolean scanFor$$anonfun$2(java.lang.String, java.lang.String);
+    Code:
+       0: aload_1
+       1: aload_0
+       2: invokevirtual #320                // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+       5: ireturn
+
+  private static final java.lang.String scanFor$$anonfun$3(java.lang.String, java.lang.String);
+    Code:
+       0: getstatic     #327                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #168                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: aload_1
+       7: invokevirtual #330                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      10: aload_0
+      11: invokevirtual #334                // Method java/lang/String.length:()I
+      14: invokevirtual #338                // Method scala/collection/StringOps$.drop$extension:(Ljava/lang/String;I)Ljava/lang/String;
+      17: invokevirtual #314                // Method java/lang/String.trim:()Ljava/lang/String;
+      20: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #350,  0            // InvokeDynamic #12:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

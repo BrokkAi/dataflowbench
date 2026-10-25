@@ -1,0 +1,487 @@
+Compiled from "BridgeBase.scala"
+public interface io.joern.console.PluginHandling {
+  public static void printPluginsAndLayerCreators$(io.joern.console.PluginHandling, io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #34                 // InterfaceMethod printPluginsAndLayerCreators:(Lio/joern/console/Config;)V
+       5: return
+
+  public default void printPluginsAndLayerCreators(io.joern.console.Config);
+    Code:
+       0: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       3: ldc           #44                 // String Installed plugins:
+       5: invokevirtual #48                 // Method scala/Predef$.println:(Ljava/lang/Object;)V
+       8: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      11: ldc           #50                 // String ==================
+      13: invokevirtual #48                 // Method scala/Predef$.println:(Ljava/lang/Object;)V
+      16: new           #52                 // class io/joern/console/PluginManager
+      19: dup
+      20: getstatic     #57                 // Field io/joern/console/InstallConfig$.MODULE$:Lio/joern/console/InstallConfig$;
+      23: invokevirtual #61                 // Method io/joern/console/InstallConfig$.apply:()Lio/joern/console/InstallConfig;
+      26: invokevirtual #67                 // Method io/joern/console/InstallConfig.rootPath:()Ljava/nio/file/Path;
+      29: invokespecial #71                 // Method io/joern/console/PluginManager."<init>":(Ljava/nio/file/Path;)V
+      32: invokevirtual #75                 // Method io/joern/console/PluginManager.listPlugins:()Lscala/collection/immutable/List;
+      35: invokedynamic #92,  0             // InvokeDynamic #0:applyVoid:()Lscala/runtime/function/JProcedure1;
+      40: invokevirtual #98                 // Method scala/collection/immutable/List.foreach:(Lscala/Function1;)V
+      43: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      46: ldc           #100                // String Available layer creators
+      48: invokevirtual #48                 // Method scala/Predef$.println:(Ljava/lang/Object;)V
+      51: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      54: invokevirtual #103                // Method scala/Predef$.println:()V
+      57: aload_0
+      58: aload_0
+      59: invokespecial #107                // InterfaceMethod codeToListPlugins:()Ljava/lang/String;
+      62: aload_0
+      63: aload_1
+      64: invokedynamic #117,  0            // InvokeDynamic #1:applyVoid:(Lio/joern/console/PluginHandling;Lio/joern/console/Config;)Lscala/runtime/function/JProcedure1;
+      69: invokespecial #121                // InterfaceMethod withTemporaryScript:(Ljava/lang/String;Lscala/Function1;)V
+      72: return
+
+  private java.lang.String codeToListPlugins();
+    Code:
+       0: getstatic     #127                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: ldc           #129                // String \n      |println(run)\n      |\n      |
+       8: invokevirtual #133                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      11: invokevirtual #136                // Method scala/collection/StringOps$.stripMargin$extension:(Ljava/lang/String;)Ljava/lang/String;
+      14: areturn
+
+  public static void runPlugin$(io.joern.console.PluginHandling, io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #140                // InterfaceMethod runPlugin:(Lio/joern/console/Config;)V
+       5: return
+
+  public default void runPlugin(io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #146                // Method io/joern/console/Config.src:()Lscala/Option;
+       4: invokevirtual #152                // Method scala/Option.isEmpty:()Z
+       7: ifeq          19
+      10: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      13: ldc           #154                // String You must supply a source directory with the --src flag
+      15: invokevirtual #48                 // Method scala/Predef$.println:(Ljava/lang/Object;)V
+      18: return
+      19: aload_0
+      20: aload_1
+      21: aload_0
+      22: checkcast     #156                // class io/joern/console/BridgeBase
+      25: invokeinterface #159,  1          // InterfaceMethod io/joern/console/BridgeBase.applicationName:()Ljava/lang/String;
+      30: invokespecial #163                // InterfaceMethod loadOrCreateCpg:(Lio/joern/console/Config;Ljava/lang/String;)Ljava/lang/String;
+      33: astore_2
+      34: aload_0
+      35: aload_2
+      36: aload_0
+      37: aload_1
+      38: invokedynamic #168,  0            // InvokeDynamic #2:applyVoid:(Lio/joern/console/PluginHandling;Lio/joern/console/Config;)Lscala/runtime/function/JProcedure1;
+      43: invokespecial #121                // InterfaceMethod withTemporaryScript:(Ljava/lang/String;Lscala/Function1;)V
+      46: return
+
+  private java.lang.String loadOrCreateCpg(io.joern.console.Config, java.lang.String);
+    Code:
+       0: aload_1
+       1: invokevirtual #174                // Method io/joern/console/Config.pluginToRun:()Lscala/Option;
+       4: invokevirtual #178                // Method scala/Option.get:()Ljava/lang/Object;
+       7: checkcast     #180                // class java/lang/String
+      10: astore_3
+      11: getstatic     #185                // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+      14: aload_1
+      15: invokevirtual #146                // Method io/joern/console/Config.src:()Lscala/Option;
+      18: invokevirtual #178                // Method scala/Option.get:()Ljava/lang/Object;
+      21: checkcast     #180                // class java/lang/String
+      24: iconst_0
+      25: anewarray     #180                // class java/lang/String
+      28: invokestatic  #190                // Method java/nio/file/Paths.get:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+      31: invokevirtual #193                // Method io/shiftleft/semanticcpg/utils/FileUtil$.PathExt:(Ljava/nio/file/Path;)Lio/shiftleft/semanticcpg/utils/FileUtil$PathExt;
+      34: invokevirtual #196                // Method io/shiftleft/semanticcpg/utils/FileUtil$PathExt.absolutePathAsString:()Ljava/lang/String;
+      37: astore        4
+      39: aload         4
+      41: invokestatic  #201                // Method org/apache/commons/text/StringEscapeUtils.escapeJava:(Ljava/lang/String;)Ljava/lang/String;
+      44: astore        5
+      46: aload_0
+      47: aload_1
+      48: aload         5
+      50: invokespecial #204                // InterfaceMethod languageFromConfig:(Lio/joern/console/Config;Ljava/lang/String;)Ljava/lang/String;
+      53: astore        6
+      55: aload_1
+      56: invokevirtual #207                // Method io/joern/console/Config.store:()Z
+      59: ifeq          67
+      62: ldc           #209                // String save
+      64: goto          69
+      67: ldc           #211                // String
+      69: astore        7
+      71: aload_2
+      72: ldc           #213                // String ocular
+      74: invokestatic  #219                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      77: ifeq          85
+      80: ldc           #221                // String run.dataflow
+      82: goto          87
+      85: ldc           #223                // String run.ossdataflow
+      87: astore        8
+      89: aload_0
+      90: aload_1
+      91: invokespecial #227                // InterfaceMethod argsStringFromConfig:(Lio/joern/console/Config;)Ljava/lang/String;
+      94: astore        9
+      96: getstatic     #127                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      99: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     102: aload_1
+     103: invokevirtual #230                // Method io/joern/console/Config.overwrite:()Z
+     106: aload         5
+     108: aload         5
+     110: aload         6
+     112: aload         5
+     114: aload         9
+     116: aload         8
+     118: aload         5
+     120: aload_3
+     121: aload         7
+     123: invokedynamic #242,  0            // InvokeDynamic #3:makeConcatWithConstants:(ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+     128: invokevirtual #133                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+     131: invokevirtual #136                // Method scala/collection/StringOps$.stripMargin$extension:(Ljava/lang/String;)Ljava/lang/String;
+     134: areturn
+
+  private java.lang.String languageFromConfig(io.joern.console.Config, java.lang.String);
+    Code:
+       0: aload_1
+       1: invokevirtual #250                // Method io/joern/console/Config.language:()Lscala/Option;
+       4: aload_2
+       5: invokedynamic #259,  0            // InvokeDynamic #4:apply:(Ljava/lang/String;)Lscala/Function0;
+      10: invokevirtual #263                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      13: checkcast     #180                // class java/lang/String
+      16: areturn
+
+  private java.lang.String argsStringFromConfig(io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #267                // Method io/joern/console/Config.frontendArgs:()[Ljava/lang/String;
+       4: astore_2
+       5: aload_2
+       6: ifnull        32
+       9: getstatic     #272                // Field scala/Array$.MODULE$:Lscala/Array$;
+      12: aload_2
+      13: invokevirtual #276                // Method scala/Array$.unapplySeq:(Ljava/lang/Object;)Ljava/lang/Object;
+      16: astore_3
+      17: getstatic     #279                // Field scala/Array$UnapplySeqWrapper$.MODULE$:Lscala/Array$UnapplySeqWrapper$;
+      20: aload_3
+      21: iconst_0
+      22: invokevirtual #283                // Method scala/Array$UnapplySeqWrapper$.lengthCompare$extension:(Ljava/lang/Object;I)I
+      25: iconst_0
+      26: if_icmpne     32
+      29: ldc           #211                // String
+      31: areturn
+      32: aload_2
+      33: astore        4
+      35: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      38: aload         4
+      40: invokevirtual #287                // Method scala/Predef$.refArrayOps:([Ljava/lang/Object;)Ljava/lang/Object;
+      43: astore        6
+      45: getstatic     #292                // Field scala/collection/ArrayOps$.MODULE$:Lscala/collection/ArrayOps$;
+      48: aload         6
+      50: invokedynamic #301,  0            // InvokeDynamic #5:apply:()Lscala/Function1;
+      55: getstatic     #306                // Field scala/reflect/ClassTag$.MODULE$:Lscala/reflect/ClassTag$;
+      58: ldc           #180                // class java/lang/String
+      60: invokevirtual #309                // Method scala/reflect/ClassTag$.apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+      63: invokevirtual #313                // Method scala/collection/ArrayOps$.map$extension:(Ljava/lang/Object;Lscala/Function1;Lscala/reflect/ClassTag;)Ljava/lang/Object;
+      66: checkcast     #315                // class "[Ljava/lang/String;"
+      69: astore        5
+      71: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      74: aload         5
+      76: invokevirtual #319                // Method scala/Predef$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/mutable/ArraySeq$ofRef;
+      79: ldc_w         #321                // String ,
+      82: invokevirtual #324                // Method scala/collection/mutable/ArraySeq$ofRef.mkString:(Ljava/lang/String;)Ljava/lang/String;
+      85: astore        7
+      87: aload         7
+      89: invokedynamic #328,  0            // InvokeDynamic #6:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      94: areturn
+
+  private void withTemporaryScript(java.lang.String, scala.Function1<java.nio.file.Path, scala.runtime.BoxedUnit>);
+    Code:
+       0: getstatic     #185                // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+       3: aload_0
+       4: checkcast     #156                // class io/joern/console/BridgeBase
+       7: invokeinterface #159,  1          // InterfaceMethod io/joern/console/BridgeBase.applicationName:()Ljava/lang/String;
+      12: invokedynamic #335,  0            // InvokeDynamic #7:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      17: aload_1
+      18: aload_2
+      19: invokedynamic #343,  0            // InvokeDynamic #8:applyVoid:(Ljava/lang/String;Lscala/Function1;)Lscala/runtime/function/JProcedure1;
+      24: invokevirtual #347                // Method io/shiftleft/semanticcpg/utils/FileUtil$.usingTemporaryDirectory:(Ljava/lang/String;Lscala/Function1;)Ljava/lang/Object;
+      27: pop
+      28: return
+
+  private static void printPluginsAndLayerCreators$$anonfun$1(java.lang.Object);
+    Code:
+       0: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       3: aload_0
+       4: invokevirtual #48                 // Method scala/Predef$.println:(Ljava/lang/Object;)V
+       7: return
+
+  private void printPluginsAndLayerCreators$$anonfun$2(io.joern.console.Config, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: checkcast     #156                // class io/joern/console/BridgeBase
+       4: aload_1
+       5: getstatic     #356                // Field scala/Some$.MODULE$:Lscala/Some$;
+       8: aload_2
+       9: invokevirtual #359                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      12: aload_1
+      13: invokevirtual #362                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      16: aload_1
+      17: invokevirtual #366                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      20: aload_1
+      21: invokevirtual #370                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      24: aload_1
+      25: invokevirtual #373                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      28: aload_1
+      29: invokevirtual #376                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      32: aload_1
+      33: invokevirtual #379                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      36: aload_1
+      37: invokevirtual #382                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      40: aload_1
+      41: invokevirtual #385                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      44: aload_1
+      45: invokevirtual #388                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      48: aload_1
+      49: invokevirtual #391                // Method io/joern/console/Config.copy$default$11:()Z
+      52: aload_1
+      53: invokevirtual #394                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      56: aload_1
+      57: invokevirtual #397                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      60: aload_1
+      61: invokevirtual #400                // Method io/joern/console/Config.copy$default$14:()Z
+      64: aload_1
+      65: invokevirtual #403                // Method io/joern/console/Config.copy$default$15:()Z
+      68: aload_1
+      69: invokevirtual #406                // Method io/joern/console/Config.copy$default$16:()Z
+      72: aload_1
+      73: invokevirtual #409                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      76: aload_1
+      77: invokevirtual #413                // Method io/joern/console/Config.copy$default$18:()I
+      80: aload_1
+      81: invokevirtual #416                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      84: aload_1
+      85: invokevirtual #419                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      88: aload_1
+      89: invokevirtual #422                // Method io/joern/console/Config.copy$default$21:()Z
+      92: aload_1
+      93: invokevirtual #425                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      96: aload_1
+      97: invokevirtual #428                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     100: aload_1
+     101: invokevirtual #431                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     104: aload_1
+     105: invokevirtual #434                // Method io/joern/console/Config.copy$default$25:()Z
+     108: aload_1
+     109: invokevirtual #437                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     112: aload_1
+     113: invokevirtual #440                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     116: aload_1
+     117: invokevirtual #443                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     120: aload_1
+     121: invokevirtual #446                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     124: aload_1
+     125: invokevirtual #449                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     128: aload_1
+     129: invokevirtual #452                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     132: aload_1
+     133: invokevirtual #455                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     136: invokevirtual #459                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     139: invokeinterface #463,  2          // InterfaceMethod io/joern/console/BridgeBase.runScript:(Lio/joern/console/Config;)Lscala/util/Try;
+     144: invokevirtual #466                // Method scala/util/Try.get:()Ljava/lang/Object;
+     147: pop
+     148: return
+
+  private void runPlugin$$anonfun$1(io.joern.console.Config, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: checkcast     #156                // class io/joern/console/BridgeBase
+       4: aload_1
+       5: getstatic     #356                // Field scala/Some$.MODULE$:Lscala/Some$;
+       8: aload_2
+       9: invokevirtual #359                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      12: aload_1
+      13: invokevirtual #362                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      16: aload_1
+      17: invokevirtual #366                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      20: aload_1
+      21: invokevirtual #370                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      24: aload_1
+      25: invokevirtual #373                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      28: aload_1
+      29: invokevirtual #376                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      32: aload_1
+      33: invokevirtual #379                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      36: aload_1
+      37: invokevirtual #382                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      40: aload_1
+      41: invokevirtual #385                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      44: aload_1
+      45: invokevirtual #388                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      48: aload_1
+      49: invokevirtual #391                // Method io/joern/console/Config.copy$default$11:()Z
+      52: aload_1
+      53: invokevirtual #394                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      56: aload_1
+      57: invokevirtual #397                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      60: aload_1
+      61: invokevirtual #400                // Method io/joern/console/Config.copy$default$14:()Z
+      64: aload_1
+      65: invokevirtual #403                // Method io/joern/console/Config.copy$default$15:()Z
+      68: aload_1
+      69: invokevirtual #406                // Method io/joern/console/Config.copy$default$16:()Z
+      72: aload_1
+      73: invokevirtual #409                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      76: aload_1
+      77: invokevirtual #413                // Method io/joern/console/Config.copy$default$18:()I
+      80: aload_1
+      81: invokevirtual #416                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      84: aload_1
+      85: invokevirtual #419                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      88: aload_1
+      89: invokevirtual #422                // Method io/joern/console/Config.copy$default$21:()Z
+      92: aload_1
+      93: invokevirtual #425                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      96: aload_1
+      97: invokevirtual #428                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     100: aload_1
+     101: invokevirtual #431                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     104: aload_1
+     105: invokevirtual #434                // Method io/joern/console/Config.copy$default$25:()Z
+     108: aload_1
+     109: invokevirtual #437                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     112: aload_1
+     113: invokevirtual #440                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     116: aload_1
+     117: invokevirtual #443                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     120: aload_1
+     121: invokevirtual #446                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     124: aload_1
+     125: invokevirtual #449                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     128: aload_1
+     129: invokevirtual #452                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     132: aload_1
+     133: invokevirtual #455                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     136: invokevirtual #459                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     139: invokeinterface #463,  2          // InterfaceMethod io/joern/console/BridgeBase.runScript:(Lio/joern/console/Config;)Lscala/util/Try;
+     144: invokevirtual #466                // Method scala/util/Try.get:()Ljava/lang/Object;
+     147: pop
+     148: return
+
+  private static java.lang.String languageFromConfig$$anonfun$1$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: astore_1
+       2: aload_1
+       3: ifnonnull     10
+       6: iconst_0
+       7: goto          14
+      10: aload_1
+      11: invokevirtual #473                // Method java/lang/String.hashCode:()I
+      14: lookupswitch  { // 5
+           -1101867934: 64
+                    67: 81
+               2269730: 94
+               2392771: 111
+            1301389160: 124
+               default: 145
+          }
+      64: ldc_w         #475                // String JAVASRC
+      67: aload_1
+      68: invokevirtual #478                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      71: ifeq          78
+      74: ldc_w         #480                // String java
+      77: areturn
+      78: goto          145
+      81: ldc_w         #482                // String C
+      84: aload_1
+      85: invokevirtual #478                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      88: ifne          141
+      91: goto          145
+      94: ldc_w         #484                // String JAVA
+      97: aload_1
+      98: invokevirtual #478                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     101: ifeq          108
+     104: ldc_w         #486                // String jvm
+     107: areturn
+     108: goto          145
+     111: ldc_w         #488                // String NEWC
+     114: aload_1
+     115: invokevirtual #478                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     118: ifne          141
+     121: goto          145
+     124: ldc_w         #490                // String PYTHONSRC
+     127: aload_1
+     128: invokevirtual #478                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     131: ifeq          138
+     134: ldc_w         #492                // String python
+     137: areturn
+     138: goto          145
+     141: ldc_w         #494                // String c
+     144: areturn
+     145: aload_1
+     146: astore_2
+     147: aload_2
+     148: invokevirtual #497                // Method java/lang/String.toLowerCase:()Ljava/lang/String;
+     151: areturn
+
+  private static java.lang.String languageFromConfig$$anonfun$1$$anonfun$2();
+    Code:
+       0: ldc_w         #494                // String c
+       3: areturn
+
+  private static java.lang.String languageFromConfig$$anonfun$1(java.lang.String);
+    Code:
+       0: getstatic     #505                // Field io/joern/console/cpgcreation/package$.MODULE$:Lio/joern/console/cpgcreation/package$;
+       3: aload_0
+       4: invokevirtual #509                // Method io/joern/console/cpgcreation/package$.guessLanguage:(Ljava/lang/String;)Lscala/Option;
+       7: invokedynamic #513,  0            // InvokeDynamic #9:apply:()Lscala/Function1;
+      12: invokevirtual #517                // Method scala/Option.map:(Lscala/Function1;)Lscala/Option;
+      15: invokedynamic #523,  0            // InvokeDynamic #10:apply:()Lscala/Function0;
+      20: invokevirtual #263                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      23: checkcast     #180                // class java/lang/String
+      26: areturn
+
+  private static java.lang.String $anonfun$2(java.lang.String);
+    Code:
+       0: getstatic     #127                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: getstatic     #127                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       9: getstatic     #42                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      12: ldc_w         #526                // String \"
+      15: invokevirtual #133                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      18: aload_0
+      19: invokestatic  #201                // Method org/apache/commons/text/StringEscapeUtils.escapeJava:(Ljava/lang/String;)Ljava/lang/String;
+      22: invokevirtual #530                // Method scala/collection/StringOps$.$plus$plus$extension:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      25: invokevirtual #133                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      28: ldc_w         #526                // String \"
+      31: invokevirtual #530                // Method scala/collection/StringOps$.$plus$plus$extension:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      34: areturn
+
+  private static void withTemporaryScript$$anonfun$1(java.lang.String, scala.Function1, java.nio.file.Path);
+    Code:
+       0: getstatic     #185                // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+       3: aload_2
+       4: invokevirtual #193                // Method io/shiftleft/semanticcpg/utils/FileUtil$.PathExt:(Ljava/nio/file/Path;)Lio/shiftleft/semanticcpg/utils/FileUtil$PathExt;
+       7: ldc_w         #535                // String script.sc
+      10: invokevirtual #539                // Method io/shiftleft/semanticcpg/utils/FileUtil$PathExt.$div:(Ljava/lang/String;)Ljava/nio/file/Path;
+      13: astore_3
+      14: aload_3
+      15: aload_0
+      16: iconst_0
+      17: anewarray     #541                // class java/nio/file/OpenOption
+      20: invokestatic  #547                // Method java/nio/file/Files.writeString:(Ljava/nio/file/Path;Ljava/lang/CharSequence;[Ljava/nio/file/OpenOption;)Ljava/nio/file/Path;
+      23: pop
+      24: aload_1
+      25: aload_3
+      26: invokeinterface #551,  2          // InterfaceMethod scala/Function1.apply:(Ljava/lang/Object;)Ljava/lang/Object;
+      31: pop
+      32: return
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #563,  0            // InvokeDynamic #11:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

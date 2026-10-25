@@ -1,0 +1,122 @@
+Compiled from "AstCreationPass.scala"
+public final class io.joern.swiftsrc2cpg.passes.AstCreationPass$ {
+  public static final io.joern.swiftsrc2cpg.passes.AstCreationPass$ MODULE$;
+
+  public static final io.joern.swiftsrc2cpg.passes.AstCreationPass$MemberInfo$ MemberInfo;
+
+  public static final io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator$ Accumulator;
+
+  private io.joern.swiftsrc2cpg.passes.AstCreationPass$();
+    Code:
+       0: aload_0
+       1: invokespecial #33                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class io/joern/swiftsrc2cpg/passes/AstCreationPass$
+       3: dup
+       4: invokespecial #36                 // Method "<init>":()V
+       7: putstatic     #38                 // Field MODULE$:Lio/joern/swiftsrc2cpg/passes/AstCreationPass$;
+      10: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #42                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class io/joern/swiftsrc2cpg/passes/AstCreationPass$
+       6: invokespecial #45                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public io.joern.x2cpg.utils.Report $lessinit$greater$default$4();
+    Code:
+       0: new           #49                 // class io/joern/x2cpg/utils/Report
+       3: dup
+       4: invokespecial #50                 // Method io/joern/x2cpg/utils/Report."<init>":()V
+       7: areturn
+
+  public static final scala.Option io$joern$swiftsrc2cpg$passes$AstCreationPass$Accumulator$$_$addExtensionMember$$anonfun$1(io.joern.swiftsrc2cpg.passes.AstCreationPass$MemberInfo, scala.Option);
+    Code:
+       0: aload_1
+       1: astore_2
+       2: aload_2
+       3: instanceof    #56                 // class scala/Some
+       6: ifeq          32
+       9: aload_2
+      10: checkcast     #56                 // class scala/Some
+      13: invokevirtual #59                 // Method scala/Some.value:()Ljava/lang/Object;
+      16: checkcast     #61                 // class scala/collection/mutable/ArrayBuffer
+      19: astore_3
+      20: getstatic     #66                 // Field scala/Some$.MODULE$:Lscala/Some$;
+      23: aload_3
+      24: aload_0
+      25: invokevirtual #70                 // Method scala/collection/mutable/ArrayBuffer.$plus$eq:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+      28: invokevirtual #74                 // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      31: areturn
+      32: getstatic     #79                 // Field scala/None$.MODULE$:Lscala/None$;
+      35: aload_2
+      36: invokevirtual #83                 // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      39: ifeq          69
+      42: getstatic     #66                 // Field scala/Some$.MODULE$:Lscala/Some$;
+      45: getstatic     #88                 // Field scala/collection/mutable/ArrayBuffer$.MODULE$:Lscala/collection/mutable/ArrayBuffer$;
+      48: getstatic     #93                 // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      51: iconst_1
+      52: anewarray     #21                 // class io/joern/swiftsrc2cpg/passes/AstCreationPass$MemberInfo
+      55: dup
+      56: iconst_0
+      57: aload_0
+      58: aastore
+      59: invokevirtual #97                 // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      62: invokevirtual #100                // Method scala/collection/mutable/ArrayBuffer$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+      65: invokevirtual #74                 // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      68: areturn
+      69: new           #102                // class scala/MatchError
+      72: dup
+      73: aload_2
+      74: invokespecial #105                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      77: athrow
+
+  public static final scala.Option io$joern$swiftsrc2cpg$passes$AstCreationPass$Accumulator$$_$addExtensionInherits$$anonfun$1(scala.collection.immutable.Seq, scala.Option);
+    Code:
+       0: aload_1
+       1: astore_2
+       2: aload_2
+       3: instanceof    #56                 // class scala/Some
+       6: ifeq          32
+       9: aload_2
+      10: checkcast     #56                 // class scala/Some
+      13: invokevirtual #59                 // Method scala/Some.value:()Ljava/lang/Object;
+      16: checkcast     #116                // class scala/collection/mutable/LinkedHashSet
+      19: astore_3
+      20: getstatic     #66                 // Field scala/Some$.MODULE$:Lscala/Some$;
+      23: aload_3
+      24: aload_0
+      25: invokevirtual #120                // Method scala/collection/mutable/LinkedHashSet.$plus$plus$eq:(Lscala/collection/IterableOnce;)Lscala/collection/mutable/Growable;
+      28: invokevirtual #74                 // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      31: areturn
+      32: getstatic     #79                 // Field scala/None$.MODULE$:Lscala/None$;
+      35: aload_2
+      36: invokevirtual #83                 // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      39: ifeq          56
+      42: getstatic     #66                 // Field scala/Some$.MODULE$:Lscala/Some$;
+      45: getstatic     #125                // Field scala/collection/mutable/LinkedHashSet$.MODULE$:Lscala/collection/mutable/LinkedHashSet$;
+      48: aload_0
+      49: invokevirtual #129                // Method scala/collection/mutable/LinkedHashSet$.from:(Lscala/collection/IterableOnce;)Lscala/collection/mutable/LinkedHashSet;
+      52: invokevirtual #74                 // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      55: areturn
+      56: new           #102                // class scala/MatchError
+      59: dup
+      60: aload_2
+      61: invokespecial #105                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      64: athrow
+
+  public static final java.lang.String io$joern$swiftsrc2cpg$passes$AstCreationPass$Accumulator$$_$addExtensionMethodFullName$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: areturn
+
+  public static final java.lang.String io$joern$swiftsrc2cpg$passes$AstCreationPass$Accumulator$$_$addMemberPropertyFullName$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: areturn
+}

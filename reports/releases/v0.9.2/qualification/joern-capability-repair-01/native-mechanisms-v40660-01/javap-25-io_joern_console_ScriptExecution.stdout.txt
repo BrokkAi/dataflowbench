@@ -1,0 +1,150 @@
+Compiled from "BridgeBase.scala"
+public interface io.joern.console.ScriptExecution {
+  public static scala.util.Try runScript$(io.joern.console.ScriptExecution, io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #27                 // InterfaceMethod runScript:(Lio/joern/console/Config;)Lscala/util/Try;
+       5: areturn
+
+  public default scala.util.Try<scala.runtime.BoxedUnit> runScript(io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #36                 // Method io/joern/console/Config.scriptFile:()Lscala/Option;
+       4: invokedynamic #57,  0             // InvokeDynamic #0:apply:()Lscala/Function0;
+       9: invokevirtual #63                 // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      12: checkcast     #65                 // class java/nio/file/Path
+      15: astore_2
+      16: aload_2
+      17: iconst_0
+      18: anewarray     #67                 // class java/nio/file/LinkOption
+      21: invokestatic  #73                 // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      24: ifne          40
+      27: getstatic     #79                 // Field scala/util/Try$.MODULE$:Lscala/util/Try$;
+      30: aload_2
+      31: invokedynamic #89,  0             // InvokeDynamic #1:apply:(Ljava/nio/file/Path;)Lscala/Function0;
+      36: invokevirtual #92                 // Method scala/util/Try$.apply:(Lscala/Function0;)Lscala/util/Try;
+      39: areturn
+      40: getstatic     #97                 // Field replpp/scripting/ScriptRunner$.MODULE$:Lreplpp/scripting/ScriptRunner$;
+      43: aload_0
+      44: checkcast     #99                 // class io/joern/console/BridgeBase
+      47: aload_1
+      48: aload_0
+      49: checkcast     #99                 // class io/joern/console/BridgeBase
+      52: invokeinterface #103,  1          // InterfaceMethod io/joern/console/BridgeBase.buildRunBeforeCode$default$2:()Z
+      57: aload_0
+      58: checkcast     #99                 // class io/joern/console/BridgeBase
+      61: invokeinterface #106,  1          // InterfaceMethod io/joern/console/BridgeBase.buildRunBeforeCode$default$3:()Z
+      66: invokeinterface #110,  4          // InterfaceMethod io/joern/console/BridgeBase.buildRunBeforeCode:(Lio/joern/console/Config;ZZ)Lscala/collection/immutable/Seq;
+      71: astore        4
+      73: aload_0
+      74: checkcast     #99                 // class io/joern/console/BridgeBase
+      77: aload_1
+      78: invokeinterface #114,  2          // InterfaceMethod io/joern/console/BridgeBase.buildRunAfterCode:(Lio/joern/console/Config;)Lscala/collection/immutable/Seq;
+      83: astore        5
+      85: getstatic     #119                // Field scala/Option$.MODULE$:Lscala/Option$;
+      88: aload_2
+      89: invokevirtual #122                // Method scala/Option$.apply:(Ljava/lang/Object;)Lscala/Option;
+      92: astore        6
+      94: new           #124                // class scala/collection/immutable/$colon$colon
+      97: dup
+      98: ldc           #126                // String sbt-launch.*\\.jar
+     100: getstatic     #131                // Field scala/collection/immutable/Nil$.MODULE$:Lscala/collection/immutable/Nil$;
+     103: invokespecial #135                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+     106: checkcast     #137                // class scala/collection/SeqOps
+     109: checkcast     #139                // class scala/collection/immutable/Seq
+     112: astore        8
+     114: getstatic     #142                // Field replpp/Config$ForClasspath$.MODULE$:Lreplpp/Config$ForClasspath$;
+     117: invokevirtual #146                // Method replpp/Config$ForClasspath$.$lessinit$greater$default$1:()Lscala/collection/immutable/Seq;
+     120: astore        9
+     122: getstatic     #142                // Field replpp/Config$ForClasspath$.MODULE$:Lreplpp/Config$ForClasspath$;
+     125: invokevirtual #149                // Method replpp/Config$ForClasspath$.$lessinit$greater$default$3:()Lscala/collection/immutable/Seq;
+     128: astore        10
+     130: getstatic     #142                // Field replpp/Config$ForClasspath$.MODULE$:Lreplpp/Config$ForClasspath$;
+     133: aload         9
+     135: iconst_1
+     136: aload         10
+     138: aload         8
+     140: aload_1
+     141: invokevirtual #152                // Method io/joern/console/Config.dependencies:()Lscala/collection/immutable/Seq;
+     144: aload_1
+     145: invokevirtual #155                // Method io/joern/console/Config.resolvers:()Lscala/collection/immutable/Seq;
+     148: invokevirtual #158                // Method replpp/Config$ForClasspath$.apply:(Lscala/collection/immutable/Seq;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;)Lreplpp/Config$ForClasspath;
+     151: astore        7
+     153: getstatic     #163                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+     156: invokevirtual #166                // Method replpp/Config$.$lessinit$greater$default$4:()Z
+     159: istore        11
+     161: getstatic     #163                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+     164: invokevirtual #169                // Method replpp/Config$.$lessinit$greater$default$7:()Z
+     167: istore        12
+     169: getstatic     #163                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+     172: invokevirtual #172                // Method replpp/Config$.$lessinit$greater$default$9:()Lscala/Option;
+     175: astore        13
+     177: getstatic     #163                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+     180: invokevirtual #175                // Method replpp/Config$.$lessinit$greater$default$10:()Lscala/Option;
+     183: astore        14
+     185: getstatic     #163                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+     188: invokevirtual #178                // Method replpp/Config$.$lessinit$greater$default$11:()Lscala/Option;
+     191: astore        15
+     193: getstatic     #163                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+     196: aload_1
+     197: invokevirtual #181                // Method io/joern/console/Config.predefFiles:()Lscala/collection/immutable/Seq;
+     200: aload         4
+     202: aload         5
+     204: iload         11
+     206: aload_1
+     207: invokevirtual #184                // Method io/joern/console/Config.verbose:()Z
+     210: aload         7
+     212: iload         12
+     214: aload_1
+     215: invokevirtual #187                // Method io/joern/console/Config.scalacOptions:()Lscala/collection/immutable/Seq;
+     218: aload         13
+     220: aload         14
+     222: aload         15
+     224: aload         6
+     226: aload_1
+     227: invokevirtual #190                // Method io/joern/console/Config.command:()Lscala/Option;
+     230: aload_1
+     231: invokevirtual #194                // Method io/joern/console/Config.params:()Lscala/collection/immutable/Map;
+     234: invokevirtual #197                // Method replpp/Config$.apply:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     237: invokevirtual #201                // Method replpp/scripting/ScriptRunner$.exec:(Lreplpp/Config;)Lscala/util/Try;
+     240: astore_3
+     241: aload_1
+     242: invokevirtual #184                // Method io/joern/console/Config.verbose:()Z
+     245: ifeq          274
+     248: aload_3
+     249: invokevirtual #206                // Method scala/util/Try.isFailure:()Z
+     252: ifeq          274
+     255: getstatic     #211                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     258: aload_3
+     259: invokevirtual #215                // Method scala/util/Try.failed:()Lscala/util/Try;
+     262: invokevirtual #218                // Method scala/util/Try.get:()Ljava/lang/Object;
+     265: checkcast     #220                // class java/lang/Throwable
+     268: invokevirtual #224                // Method java/lang/Throwable.getMessage:()Ljava/lang/String;
+     271: invokevirtual #228                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+     274: aload_3
+     275: areturn
+
+  private static java.nio.file.Path $anonfun$1();
+    Code:
+       0: new           #234                // class java/lang/AssertionError
+       3: dup
+       4: ldc           #236                // String no script file configured
+       6: invokespecial #238                // Method java/lang/AssertionError."<init>":(Ljava/lang/Object;)V
+       9: athrow
+
+  private static scala.runtime.Nothing$ runScript$$anonfun$1(java.nio.file.Path);
+    Code:
+       0: new           #234                // class java/lang/AssertionError
+       3: dup
+       4: aload_0
+       5: invokedynamic #251,  0            // InvokeDynamic #2:makeConcatWithConstants:(Ljava/nio/file/Path;)Ljava/lang/String;
+      10: invokespecial #238                // Method java/lang/AssertionError."<init>":(Ljava/lang/Object;)V
+      13: athrow
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #263,  0            // InvokeDynamic #3:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

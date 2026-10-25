@@ -1,0 +1,300 @@
+Compiled from "package.scala"
+public final class io.joern.console.scan.package$ {
+  public static final io.joern.console.scan.package$ MODULE$;
+
+  private static final org.slf4j.Logger logger;
+
+  public static final io.joern.console.scan.package$FindingKeys$ FindingKeys;
+
+  private io.joern.console.scan.package$();
+    Code:
+       0: aload_0
+       1: invokespecial #50                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class io/joern/console/scan/package$
+       3: dup
+       4: invokespecial #53                 // Method "<init>":()V
+       7: putstatic     #55                 // Field MODULE$:Lio/joern/console/scan/package$;
+      10: getstatic     #55                 // Field MODULE$:Lio/joern/console/scan/package$;
+      13: invokevirtual #59                 // Method getClass:()Ljava/lang/Class;
+      16: invokestatic  #65                 // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/Class;)Lorg/slf4j/Logger;
+      19: putstatic     #67                 // Field logger:Lorg/slf4j/Logger;
+      22: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #71                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class io/joern/console/scan/package$
+       6: invokespecial #74                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public org.slf4j.Logger logger();
+    Code:
+       0: getstatic     #67                 // Field logger:Lorg/slf4j/Logger;
+       3: areturn
+
+  public final io.joern.console.scan.package$QueryWrapper QueryWrapper(io.joern.console.Query);
+    Code:
+       0: new           #15                 // class io/joern/console/scan/package$QueryWrapper
+       3: dup
+       4: aload_1
+       5: invokespecial #80                 // Method io/joern/console/scan/package$QueryWrapper."<init>":(Lio/joern/console/Query;)V
+       8: areturn
+
+  public final io.joern.console.scan.package$ScannerFindingStep ScannerFindingStep(scala.collection.Iterator<io.shiftleft.codepropertygraph.generated.nodes.Finding>);
+    Code:
+       0: new           #21                 // class io/joern/console/scan/package$ScannerFindingStep
+       3: dup
+       4: aload_1
+       5: invokespecial #87                 // Method io/joern/console/scan/package$ScannerFindingStep."<init>":(Lscala/collection/Iterator;)V
+       8: areturn
+
+  public final io.joern.console.scan.package$ScannerFindingExtension ScannerFindingExtension(io.shiftleft.codepropertygraph.generated.nodes.Finding);
+    Code:
+       0: new           #18                 // class io/joern/console/scan/package$ScannerFindingExtension
+       3: dup
+       4: aload_1
+       5: invokespecial #93                 // Method io/joern/console/scan/package$ScannerFindingExtension."<init>":(Lio/shiftleft/codepropertygraph/generated/nodes/Finding;)V
+       8: areturn
+
+  public io.shiftleft.codepropertygraph.generated.nodes.NewFinding finding(io.shiftleft.codepropertygraph.generated.nodes.StoredNode, java.lang.String, java.lang.String, java.lang.String, java.lang.String, double);
+    Code:
+       0: getstatic     #107                // Field io/shiftleft/codepropertygraph/generated/nodes/NewFinding$.MODULE$:Lio/shiftleft/codepropertygraph/generated/nodes/NewFinding$;
+       3: invokevirtual #111                // Method io/shiftleft/codepropertygraph/generated/nodes/NewFinding$.apply:()Lio/shiftleft/codepropertygraph/generated/nodes/NewFinding;
+       6: new           #113                // class scala/collection/immutable/$colon$colon
+       9: dup
+      10: aload_1
+      11: getstatic     #118                // Field scala/collection/immutable/Nil$.MODULE$:Lscala/collection/immutable/Nil$;
+      14: invokespecial #121                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+      17: checkcast     #5                  // class java/lang/Object
+      20: checkcast     #123                // class scala/collection/IterableOnce
+      23: invokevirtual #128                // Method io/shiftleft/codepropertygraph/generated/nodes/NewFinding.evidence:(Lscala/collection/IterableOnce;)Lio/shiftleft/codepropertygraph/generated/nodes/NewFinding;
+      26: new           #113                // class scala/collection/immutable/$colon$colon
+      29: dup
+      30: getstatic     #133                // Field io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$.MODULE$:Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$;
+      33: invokevirtual #136                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$.apply:()Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+      36: getstatic     #138                // Field io/joern/console/scan/package$FindingKeys$.MODULE$:Lio/joern/console/scan/package$FindingKeys$;
+      39: invokevirtual #141                // Method io/joern/console/scan/package$FindingKeys$.name:()Ljava/lang/String;
+      42: invokevirtual #147                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair.key:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+      45: aload_2
+      46: invokevirtual #150                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair.value:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+      49: new           #113                // class scala/collection/immutable/$colon$colon
+      52: dup
+      53: getstatic     #133                // Field io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$.MODULE$:Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$;
+      56: invokevirtual #136                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$.apply:()Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+      59: getstatic     #138                // Field io/joern/console/scan/package$FindingKeys$.MODULE$:Lio/joern/console/scan/package$FindingKeys$;
+      62: invokevirtual #152                // Method io/joern/console/scan/package$FindingKeys$.author:()Ljava/lang/String;
+      65: invokevirtual #147                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair.key:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+      68: aload_3
+      69: invokevirtual #150                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair.value:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+      72: new           #113                // class scala/collection/immutable/$colon$colon
+      75: dup
+      76: getstatic     #133                // Field io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$.MODULE$:Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$;
+      79: invokevirtual #136                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$.apply:()Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+      82: getstatic     #138                // Field io/joern/console/scan/package$FindingKeys$.MODULE$:Lio/joern/console/scan/package$FindingKeys$;
+      85: invokevirtual #154                // Method io/joern/console/scan/package$FindingKeys$.title:()Ljava/lang/String;
+      88: invokevirtual #147                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair.key:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+      91: aload         4
+      93: invokevirtual #150                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair.value:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+      96: new           #113                // class scala/collection/immutable/$colon$colon
+      99: dup
+     100: getstatic     #133                // Field io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$.MODULE$:Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$;
+     103: invokevirtual #136                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$.apply:()Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+     106: getstatic     #138                // Field io/joern/console/scan/package$FindingKeys$.MODULE$:Lio/joern/console/scan/package$FindingKeys$;
+     109: invokevirtual #156                // Method io/joern/console/scan/package$FindingKeys$.description:()Ljava/lang/String;
+     112: invokevirtual #147                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair.key:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+     115: aload         5
+     117: invokevirtual #150                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair.value:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+     120: new           #113                // class scala/collection/immutable/$colon$colon
+     123: dup
+     124: getstatic     #133                // Field io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$.MODULE$:Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$;
+     127: invokevirtual #136                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair$.apply:()Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+     130: getstatic     #138                // Field io/joern/console/scan/package$FindingKeys$.MODULE$:Lio/joern/console/scan/package$FindingKeys$;
+     133: invokevirtual #158                // Method io/joern/console/scan/package$FindingKeys$.score:()Ljava/lang/String;
+     136: invokevirtual #147                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair.key:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+     139: dload         6
+     141: invokestatic  #164                // Method scala/runtime/BoxesRunTime.boxToDouble:(D)Ljava/lang/Double;
+     144: invokevirtual #169                // Method java/lang/Double.toString:()Ljava/lang/String;
+     147: invokevirtual #150                // Method io/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair.value:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewKeyValuePair;
+     150: getstatic     #118                // Field scala/collection/immutable/Nil$.MODULE$:Lscala/collection/immutable/Nil$;
+     153: invokespecial #121                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+     156: invokespecial #121                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+     159: invokespecial #121                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+     162: invokespecial #121                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+     165: invokespecial #121                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+     168: checkcast     #5                  // class java/lang/Object
+     171: checkcast     #123                // class scala/collection/IterableOnce
+     174: invokevirtual #172                // Method io/shiftleft/codepropertygraph/generated/nodes/NewFinding.keyValuePairs:(Lscala/collection/IterableOnce;)Lio/shiftleft/codepropertygraph/generated/nodes/NewFinding;
+     177: areturn
+
+  public void outputFindings(io.shiftleft.codepropertygraph.generated.Cpg, io.shiftleft.semanticcpg.language.LocationCreator);
+    Code:
+       0: getstatic     #184                // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       3: getstatic     #184                // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_1
+       7: invokevirtual #188                // Method io/shiftleft/semanticcpg/language/package$.toGeneratedNodeStarters:(Lio/shiftleft/codepropertygraph/generated/Cpg;)Lio/shiftleft/codepropertygraph/generated/CpgNodeStarters;
+      10: invokevirtual #193                // Method io/shiftleft/codepropertygraph/generated/CpgNodeStarters.finding:()Lscala/collection/Iterator;
+      13: invokevirtual #197                // Method io/shiftleft/semanticcpg/language/package$.iterableToGenericSteps:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      16: astore_3
+      17: getstatic     #202                // Field flatgraph/traversal/GenericSteps$.MODULE$:Lflatgraph/traversal/GenericSteps$;
+      20: aload_3
+      21: invokedynamic #223,  0            // InvokeDynamic #0:apply:()Lscala/Function1;
+      26: getstatic     #226                // Field scala/math/Ordering$Int$.MODULE$:Lscala/math/Ordering$Int$;
+      29: invokevirtual #230                // Method flatgraph/traversal/GenericSteps$.sortBy$extension:(Lscala/collection/Iterator;Lscala/Function1;Lscala/math/Ordering;)Lscala/collection/immutable/Seq;
+      32: aload_2
+      33: invokedynamic #242,  0            // InvokeDynamic #1:applyVoid:(Lio/shiftleft/semanticcpg/language/LocationCreator;)Lscala/runtime/function/JProcedure1;
+      38: invokeinterface #248,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+      43: return
+
+  public static final java.lang.String io$joern$console$scan$package$ScannerFindingStep$$_$name$$anonfun$1(io.shiftleft.codepropertygraph.generated.nodes.Finding);
+    Code:
+       0: getstatic     #55                 // Field MODULE$:Lio/joern/console/scan/package$;
+       3: aload_0
+       4: invokevirtual #255                // Method ScannerFindingExtension:(Lio/shiftleft/codepropertygraph/generated/nodes/Finding;)Lio/joern/console/scan/package$ScannerFindingExtension;
+       7: invokevirtual #256                // Method io/joern/console/scan/package$ScannerFindingExtension.name:()Ljava/lang/String;
+      10: areturn
+
+  public static final java.lang.String io$joern$console$scan$package$ScannerFindingStep$$_$author$$anonfun$1(io.shiftleft.codepropertygraph.generated.nodes.Finding);
+    Code:
+       0: getstatic     #55                 // Field MODULE$:Lio/joern/console/scan/package$;
+       3: aload_0
+       4: invokevirtual #255                // Method ScannerFindingExtension:(Lio/shiftleft/codepropertygraph/generated/nodes/Finding;)Lio/joern/console/scan/package$ScannerFindingExtension;
+       7: invokevirtual #259                // Method io/joern/console/scan/package$ScannerFindingExtension.author:()Ljava/lang/String;
+      10: areturn
+
+  public static final java.lang.String io$joern$console$scan$package$ScannerFindingStep$$_$title$$anonfun$1(io.shiftleft.codepropertygraph.generated.nodes.Finding);
+    Code:
+       0: getstatic     #55                 // Field MODULE$:Lio/joern/console/scan/package$;
+       3: aload_0
+       4: invokevirtual #255                // Method ScannerFindingExtension:(Lio/shiftleft/codepropertygraph/generated/nodes/Finding;)Lio/joern/console/scan/package$ScannerFindingExtension;
+       7: invokevirtual #262                // Method io/joern/console/scan/package$ScannerFindingExtension.title:()Ljava/lang/String;
+      10: areturn
+
+  public static final java.lang.String io$joern$console$scan$package$ScannerFindingStep$$_$description$$anonfun$1(io.shiftleft.codepropertygraph.generated.nodes.Finding);
+    Code:
+       0: getstatic     #55                 // Field MODULE$:Lio/joern/console/scan/package$;
+       3: aload_0
+       4: invokevirtual #255                // Method ScannerFindingExtension:(Lio/shiftleft/codepropertygraph/generated/nodes/Finding;)Lio/joern/console/scan/package$ScannerFindingExtension;
+       7: invokevirtual #265                // Method io/joern/console/scan/package$ScannerFindingExtension.description:()Ljava/lang/String;
+      10: areturn
+
+  public static final double io$joern$console$scan$package$ScannerFindingStep$$_$score$$anonfun$1(io.shiftleft.codepropertygraph.generated.nodes.Finding);
+    Code:
+       0: getstatic     #55                 // Field MODULE$:Lio/joern/console/scan/package$;
+       3: aload_0
+       4: invokevirtual #255                // Method ScannerFindingExtension:(Lio/shiftleft/codepropertygraph/generated/nodes/Finding;)Lio/joern/console/scan/package$ScannerFindingExtension;
+       7: invokevirtual #271                // Method io/joern/console/scan/package$ScannerFindingExtension.score:()D
+      10: dreturn
+
+  public static final boolean io$joern$console$scan$package$ScannerFindingExtension$$_$getValue$$anonfun$1(java.lang.String, io.shiftleft.codepropertygraph.generated.nodes.KeyValuePair);
+    Code:
+       0: getstatic     #278                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyKey$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyKey$;
+       3: getstatic     #184                // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_1
+       7: invokevirtual #282                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyKey:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      10: invokevirtual #286                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyKey$.key$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      13: aload_0
+      14: invokestatic  #292                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      17: ifeq          24
+      20: iconst_1
+      21: goto          25
+      24: iconst_0
+      25: ireturn
+
+  public static final java.lang.String io$joern$console$scan$package$ScannerFindingExtension$$_$getValue$$anonfun$2(io.shiftleft.codepropertygraph.generated.nodes.KeyValuePair);
+    Code:
+       0: getstatic     #299                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyValue$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyValue$;
+       3: getstatic     #184                // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_0
+       7: invokevirtual #302                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyValue:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      10: invokevirtual #305                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyValue$.value$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      13: areturn
+
+  public static final java.lang.String io$joern$console$scan$package$ScannerFindingExtension$$_$getValue$$anonfun$3(java.lang.String);
+    Code:
+       0: aload_0
+       1: areturn
+
+  private static final int outputFindings$$anonfun$1(io.shiftleft.codepropertygraph.generated.nodes.Finding);
+    Code:
+       0: getstatic     #55                 // Field MODULE$:Lio/joern/console/scan/package$;
+       3: aload_0
+       4: invokevirtual #255                // Method ScannerFindingExtension:(Lio/shiftleft/codepropertygraph/generated/nodes/Finding;)Lio/joern/console/scan/package$ScannerFindingExtension;
+       7: invokevirtual #271                // Method io/joern/console/scan/package$ScannerFindingExtension.score:()D
+      10: d2i
+      11: ireturn
+
+  private static final int $anonfun$1$$anonfun$1();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  private static final java.lang.String $anonfun$1(io.shiftleft.semanticcpg.language.LocationCreator, io.shiftleft.codepropertygraph.generated.nodes.StoredNode);
+    Code:
+       0: getstatic     #320                // Field io/shiftleft/semanticcpg/language/nodemethods/NodeMethods$.MODULE$:Lio/shiftleft/semanticcpg/language/nodemethods/NodeMethods$;
+       3: getstatic     #184                // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_1
+       7: invokevirtual #324                // Method io/shiftleft/semanticcpg/language/package$.toExtendedNode:(Lio/shiftleft/codepropertygraph/generated/nodes/AbstractNode;)Lio/shiftleft/codepropertygraph/generated/nodes/AbstractNode;
+      10: aload_0
+      11: invokevirtual #328                // Method io/shiftleft/semanticcpg/language/nodemethods/NodeMethods$.location$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/AbstractNode;Lio/shiftleft/semanticcpg/language/LocationCreator;)Lio/shiftleft/semanticcpg/language/LocationInfo;
+      14: invokeinterface #333,  1          // InterfaceMethod io/shiftleft/semanticcpg/language/LocationInfo.filename:()Ljava/lang/String;
+      19: getstatic     #320                // Field io/shiftleft/semanticcpg/language/nodemethods/NodeMethods$.MODULE$:Lio/shiftleft/semanticcpg/language/nodemethods/NodeMethods$;
+      22: getstatic     #184                // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      25: aload_1
+      26: invokevirtual #324                // Method io/shiftleft/semanticcpg/language/package$.toExtendedNode:(Lio/shiftleft/codepropertygraph/generated/nodes/AbstractNode;)Lio/shiftleft/codepropertygraph/generated/nodes/AbstractNode;
+      29: aload_0
+      30: invokevirtual #328                // Method io/shiftleft/semanticcpg/language/nodemethods/NodeMethods$.location$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/AbstractNode;Lio/shiftleft/semanticcpg/language/LocationCreator;)Lio/shiftleft/semanticcpg/language/LocationInfo;
+      33: invokeinterface #337,  1          // InterfaceMethod io/shiftleft/semanticcpg/language/LocationInfo.lineNumber:()Lscala/Option;
+      38: invokedynamic #346,  0            // InvokeDynamic #2:apply:()Lscala/Function0;
+      43: invokevirtual #352                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      46: getstatic     #320                // Field io/shiftleft/semanticcpg/language/nodemethods/NodeMethods$.MODULE$:Lio/shiftleft/semanticcpg/language/nodemethods/NodeMethods$;
+      49: getstatic     #184                // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      52: aload_1
+      53: invokevirtual #324                // Method io/shiftleft/semanticcpg/language/package$.toExtendedNode:(Lio/shiftleft/codepropertygraph/generated/nodes/AbstractNode;)Lio/shiftleft/codepropertygraph/generated/nodes/AbstractNode;
+      56: aload_0
+      57: invokevirtual #328                // Method io/shiftleft/semanticcpg/language/nodemethods/NodeMethods$.location$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/AbstractNode;Lio/shiftleft/semanticcpg/language/LocationCreator;)Lio/shiftleft/semanticcpg/language/LocationInfo;
+      60: invokeinterface #355,  1          // InterfaceMethod io/shiftleft/semanticcpg/language/LocationInfo.methodFullName:()Ljava/lang/String;
+      65: invokedynamic #367,  0            // InvokeDynamic #3:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;
+      70: areturn
+
+  private static final java.lang.String $anonfun$2();
+    Code:
+       0: ldc_w         #370                // String
+       3: areturn
+
+  private static final void outputFindings$$anonfun$2(io.shiftleft.semanticcpg.language.LocationCreator, io.shiftleft.codepropertygraph.generated.nodes.Finding);
+    Code:
+       0: aload_1
+       1: invokevirtual #376                // Method io/shiftleft/codepropertygraph/generated/nodes/Finding.evidence:()Lscala/collection/immutable/IndexedSeq;
+       4: invokeinterface #381,  1          // InterfaceMethod scala/collection/immutable/IndexedSeq.headOption:()Lscala/Option;
+       9: aload_0
+      10: invokedynamic #388,  0            // InvokeDynamic #4:apply:(Lio/shiftleft/semanticcpg/language/LocationCreator;)Lscala/Function1;
+      15: invokevirtual #392                // Method scala/Option.map:(Lscala/Function1;)Lscala/Option;
+      18: invokedynamic #397,  0            // InvokeDynamic #5:apply:()Lscala/Function0;
+      23: invokevirtual #352                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      26: checkcast     #399                // class java/lang/String
+      29: astore_2
+      30: getstatic     #404                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      33: getstatic     #55                 // Field MODULE$:Lio/joern/console/scan/package$;
+      36: aload_1
+      37: invokevirtual #255                // Method ScannerFindingExtension:(Lio/shiftleft/codepropertygraph/generated/nodes/Finding;)Lio/joern/console/scan/package$ScannerFindingExtension;
+      40: invokevirtual #271                // Method io/joern/console/scan/package$ScannerFindingExtension.score:()D
+      43: getstatic     #55                 // Field MODULE$:Lio/joern/console/scan/package$;
+      46: aload_1
+      47: invokevirtual #255                // Method ScannerFindingExtension:(Lio/shiftleft/codepropertygraph/generated/nodes/Finding;)Lio/joern/console/scan/package$ScannerFindingExtension;
+      50: invokevirtual #262                // Method io/joern/console/scan/package$ScannerFindingExtension.title:()Ljava/lang/String;
+      53: aload_2
+      54: invokedynamic #409,  0            // InvokeDynamic #6:makeConcatWithConstants:(DLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      59: invokevirtual #412                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+      62: return
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #424,  0            // InvokeDynamic #7:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

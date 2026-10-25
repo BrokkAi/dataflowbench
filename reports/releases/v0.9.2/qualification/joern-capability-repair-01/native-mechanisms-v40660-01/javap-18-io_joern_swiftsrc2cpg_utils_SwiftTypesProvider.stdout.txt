@@ -1,0 +1,1352 @@
+Compiled from "SwiftTypesProvider.scala"
+public class io.joern.swiftsrc2cpg.utils.SwiftTypesProvider implements scala.Product, java.io.Serializable {
+  private static final java.lang.invoke.VarHandle swiftDemangleCommand$lzy1$lzyHandle;
+
+  private final io.joern.swiftsrc2cpg.Config config;
+
+  private final scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>> parsedSwiftInvocations;
+
+  private volatile java.lang.Object swiftDemangleCommand$lzy1;
+
+  public final java.util.concurrent.ConcurrentHashMap<java.lang.String, scala.Option<java.lang.String>> io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$mangledNameCache;
+
+  private final scala.util.matching.Regex InitNameRegex;
+
+  private final scala.util.matching.Regex ExtensionNameRegex;
+
+  private final scala.util.matching.Regex InNameRegex;
+
+  private final scala.util.matching.Regex ExtensionInSignatureRegex;
+
+  public io.joern.swiftsrc2cpg.utils.SwiftTypesProvider(io.joern.swiftsrc2cpg.Config, scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #88                 // Field config:Lio/joern/swiftsrc2cpg/Config;
+       5: aload_0
+       6: aload_2
+       7: putfield      #90                 // Field parsedSwiftInvocations:Lscala/collection/immutable/Seq;
+      10: aload_0
+      11: invokespecial #93                 // Method java/lang/Object."<init>":()V
+      14: aload_0
+      15: new           #95                 // class java/util/concurrent/ConcurrentHashMap
+      18: dup
+      19: invokespecial #96                 // Method java/util/concurrent/ConcurrentHashMap."<init>":()V
+      22: putfield      #98                 // Field io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$mangledNameCache:Ljava/util/concurrent/ConcurrentHashMap;
+      25: aload_0
+      26: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      29: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      32: ldc           #111                // String .+\\)\\s->\\s(.+?)\\(in.+\\)\\.(.+)
+      34: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      37: invokevirtual #119                // Method scala/collection/StringOps$.r$extension:(Ljava/lang/String;)Lscala/util/matching/Regex;
+      40: putfield      #121                // Field InitNameRegex:Lscala/util/matching/Regex;
+      43: aload_0
+      44: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      47: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      50: ldc           #123                // String ^\\(extension\\sin\\s([^)]+)\\):(.*)
+      52: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      55: invokevirtual #119                // Method scala/collection/StringOps$.r$extension:(Ljava/lang/String;)Lscala/util/matching/Regex;
+      58: putfield      #125                // Field ExtensionNameRegex:Lscala/util/matching/Regex;
+      61: aload_0
+      62: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      65: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      68: ldc           #127                // String ^(.*?)(\\(([^()]+)\\s+in\\s+_[^)]+\\))(.*)$
+      70: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      73: invokevirtual #119                // Method scala/collection/StringOps$.r$extension:(Ljava/lang/String;)Lscala/util/matching/Regex;
+      76: putfield      #129                // Field InNameRegex:Lscala/util/matching/Regex;
+      79: aload_0
+      80: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      83: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      86: ldc           #131                // String \\(extension in ([^)]+)\\):
+      88: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      91: invokevirtual #119                // Method scala/collection/StringOps$.r$extension:(Ljava/lang/String;)Lscala/util/matching/Regex;
+      94: putfield      #133                // Field ExtensionInSignatureRegex:Lscala/util/matching/Regex;
+      97: return
+
+  private static {};
+    Code:
+       0: invokestatic  #140                // Method java/lang/invoke/MethodHandles.lookup:()Ljava/lang/invoke/MethodHandles$Lookup;
+       3: ldc           #2                  // class io/joern/swiftsrc2cpg/utils/SwiftTypesProvider
+       5: ldc           #141                // String swiftDemangleCommand$lzy1
+       7: ldc           #5                  // class java/lang/Object
+       9: invokevirtual #145                // Method java/lang/invoke/MethodHandles$Lookup.findVarHandle:(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/invoke/VarHandle;
+      12: putstatic     #147                // Field swiftDemangleCommand$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+      15: return
+
+  public scala.collection.Iterator<java.lang.Object> productIterator();
+    Code:
+       0: aload_0
+       1: invokestatic  #154                // InterfaceMethod scala/Product.productIterator$:(Lscala/Product;)Lscala/collection/Iterator;
+       4: areturn
+
+  public scala.collection.Iterator<java.lang.String> productElementNames();
+    Code:
+       0: aload_0
+       1: invokestatic  #159                // InterfaceMethod scala/Product.productElementNames$:(Lscala/Product;)Lscala/collection/Iterator;
+       4: areturn
+
+  public int hashCode();
+    Code:
+       0: getstatic     #166                // Field scala/util/hashing/MurmurHash3$.MODULE$:Lscala/util/hashing/MurmurHash3$;
+       3: aload_0
+       4: ldc           #167                // int -778973430
+       6: iconst_1
+       7: invokevirtual #171                // Method scala/util/hashing/MurmurHash3$.productHash:(Lscala/Product;IZ)I
+      10: ireturn
+
+  public boolean equals(java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: if_acmpeq     70
+       5: aload_1
+       6: astore_2
+       7: aload_2
+       8: instanceof    #2                  // class io/joern/swiftsrc2cpg/utils/SwiftTypesProvider
+      11: ifeq          63
+      14: aload_2
+      15: checkcast     #2                  // class io/joern/swiftsrc2cpg/utils/SwiftTypesProvider
+      18: astore_3
+      19: aload_0
+      20: invokevirtual #177                // Method config:()Lio/joern/swiftsrc2cpg/Config;
+      23: aload_3
+      24: invokevirtual #177                // Method config:()Lio/joern/swiftsrc2cpg/Config;
+      27: invokestatic  #182                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      30: ifeq          59
+      33: aload_0
+      34: invokevirtual #185                // Method parsedSwiftInvocations:()Lscala/collection/immutable/Seq;
+      37: aload_3
+      38: invokevirtual #185                // Method parsedSwiftInvocations:()Lscala/collection/immutable/Seq;
+      41: invokestatic  #182                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      44: ifeq          59
+      47: aload_3
+      48: aload_0
+      49: invokevirtual #188                // Method canEqual:(Ljava/lang/Object;)Z
+      52: ifeq          59
+      55: iconst_1
+      56: goto          60
+      59: iconst_0
+      60: goto          67
+      63: iconst_0
+      64: goto          67
+      67: ifeq          74
+      70: iconst_1
+      71: goto          75
+      74: iconst_0
+      75: ireturn
+
+  public java.lang.String toString();
+    Code:
+       0: getstatic     #195                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       3: aload_0
+       4: invokevirtual #199                // Method scala/runtime/ScalaRunTime$._toString:(Lscala/Product;)Ljava/lang/String;
+       7: areturn
+
+  public boolean canEqual(java.lang.Object);
+    Code:
+       0: aload_1
+       1: instanceof    #2                  // class io/joern/swiftsrc2cpg/utils/SwiftTypesProvider
+       4: ireturn
+
+  public int productArity();
+    Code:
+       0: iconst_2
+       1: ireturn
+
+  public java.lang.String productPrefix();
+    Code:
+       0: ldc           #204                // String SwiftTypesProvider
+       2: areturn
+
+  public java.lang.Object productElement(int);
+    Code:
+       0: iload_1
+       1: istore_2
+       2: iconst_0
+       3: iload_2
+       4: if_icmpne     12
+       7: aload_0
+       8: invokevirtual #210                // Method _1:()Lio/joern/swiftsrc2cpg/Config;
+      11: areturn
+      12: iconst_1
+      13: iload_2
+      14: if_icmpne     22
+      17: aload_0
+      18: invokevirtual #213                // Method _2:()Lscala/collection/immutable/Seq;
+      21: areturn
+      22: new           #215                // class java/lang/IndexOutOfBoundsException
+      25: dup
+      26: iload_1
+      27: invokespecial #218                // Method java/lang/IndexOutOfBoundsException."<init>":(I)V
+      30: athrow
+
+  public java.lang.String productElementName(int);
+    Code:
+       0: iload_1
+       1: istore_2
+       2: iconst_0
+       3: iload_2
+       4: if_icmpne     10
+       7: ldc           #222                // String config
+       9: areturn
+      10: iconst_1
+      11: iload_2
+      12: if_icmpne     18
+      15: ldc           #223                // String parsedSwiftInvocations
+      17: areturn
+      18: new           #215                // class java/lang/IndexOutOfBoundsException
+      21: dup
+      22: iload_1
+      23: invokespecial #218                // Method java/lang/IndexOutOfBoundsException."<init>":(I)V
+      26: athrow
+
+  public io.joern.swiftsrc2cpg.Config config();
+    Code:
+       0: aload_0
+       1: getfield      #88                 // Field config:Lio/joern/swiftsrc2cpg/Config;
+       4: areturn
+
+  public scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>> parsedSwiftInvocations();
+    Code:
+       0: aload_0
+       1: getfield      #90                 // Field parsedSwiftInvocations:Lscala/collection/immutable/Seq;
+       4: areturn
+
+  private scala.collection.immutable.Seq<java.lang.String> swiftDemangleCommand();
+    Code:
+       0: aload_0
+       1: getfield      #228                // Field swiftDemangleCommand$lzy1:Ljava/lang/Object;
+       4: astore_1
+       5: aload_1
+       6: instanceof    #230                // class scala/collection/immutable/Seq
+       9: ifeq          17
+      12: aload_1
+      13: checkcast     #230                // class scala/collection/immutable/Seq
+      16: areturn
+      17: aload_1
+      18: getstatic     #233                // Field scala/runtime/LazyVals$NullValue$.MODULE$:Lscala/runtime/LazyVals$NullValue$;
+      21: if_acmpne     26
+      24: aconst_null
+      25: areturn
+      26: aload_0
+      27: invokespecial #237                // Method swiftDemangleCommand$lzyINIT1:()Ljava/lang/Object;
+      30: checkcast     #230                // class scala/collection/immutable/Seq
+      33: areturn
+
+  private java.lang.Object swiftDemangleCommand$lzyINIT1();
+    Code:
+       0: aload_0
+       1: getfield      #228                // Field swiftDemangleCommand$lzy1:Ljava/lang/Object;
+       4: astore_1
+       5: aload_1
+       6: ifnonnull     138
+       9: getstatic     #147                // Field swiftDemangleCommand$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+      12: aload_0
+      13: aconst_null
+      14: getstatic     #240                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+      17: invokevirtual #246                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+      20: ifeq          135
+      23: aconst_null
+      24: astore_2
+      25: aconst_null
+      26: astore_3
+      27: getstatic     #251                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.MODULE$:Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$;
+      30: invokevirtual #254                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$$swiftDemangleCommand:()Lscala/collection/immutable/Seq;
+      33: astore_3
+      34: aload_3
+      35: ifnonnull     45
+      38: getstatic     #233                // Field scala/runtime/LazyVals$NullValue$.MODULE$:Lscala/runtime/LazyVals$NullValue$;
+      41: astore_2
+      42: goto          47
+      45: aload_3
+      46: astore_2
+      47: goto          94
+      50: astore        4
+      52: getstatic     #147                // Field swiftDemangleCommand$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+      55: aload_0
+      56: getstatic     #240                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+      59: aload_2
+      60: invokevirtual #246                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+      63: ifne          91
+      66: aload_0
+      67: getfield      #228                // Field swiftDemangleCommand$lzy1:Ljava/lang/Object;
+      70: checkcast     #49                 // class scala/runtime/LazyVals$Waiting
+      73: astore        5
+      75: getstatic     #147                // Field swiftDemangleCommand$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+      78: aload_0
+      79: aload         5
+      81: aload_2
+      82: invokevirtual #246                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+      85: pop
+      86: aload         5
+      88: invokevirtual #257                // Method scala/runtime/LazyVals$Waiting.countDown:()V
+      91: aload         4
+      93: athrow
+      94: getstatic     #147                // Field swiftDemangleCommand$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+      97: aload_0
+      98: getstatic     #240                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+     101: aload_2
+     102: invokevirtual #246                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     105: ifne          133
+     108: aload_0
+     109: getfield      #228                // Field swiftDemangleCommand$lzy1:Ljava/lang/Object;
+     112: checkcast     #49                 // class scala/runtime/LazyVals$Waiting
+     115: astore        5
+     117: getstatic     #147                // Field swiftDemangleCommand$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     120: aload_0
+     121: aload         5
+     123: aload_2
+     124: invokevirtual #246                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     127: pop
+     128: aload         5
+     130: invokevirtual #257                // Method scala/runtime/LazyVals$Waiting.countDown:()V
+     133: aload_3
+     134: areturn
+     135: goto          0
+     138: aload_1
+     139: instanceof    #43                 // class scala/runtime/LazyVals$LazyValControlState
+     142: ifeq          190
+     145: aload_1
+     146: getstatic     #240                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+     149: if_acmpne     171
+     152: getstatic     #147                // Field swiftDemangleCommand$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     155: aload_0
+     156: aload_1
+     157: new           #49                 // class scala/runtime/LazyVals$Waiting
+     160: dup
+     161: invokespecial #258                // Method scala/runtime/LazyVals$Waiting."<init>":()V
+     164: invokevirtual #246                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     167: pop
+     168: goto          0
+     171: aload_1
+     172: instanceof    #49                 // class scala/runtime/LazyVals$Waiting
+     175: ifeq          188
+     178: aload_1
+     179: checkcast     #49                 // class scala/runtime/LazyVals$Waiting
+     182: invokevirtual #261                // Method scala/runtime/LazyVals$Waiting.await:()V
+     185: goto          0
+     188: aconst_null
+     189: areturn
+     190: aload_1
+     191: areturn
+    Exception table:
+       from    to  target type
+          27    50    50   any
+
+  private java.lang.String stripMangledName(java.lang.String);
+    Code:
+       0: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: aload_1
+       7: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      10: ldc_w         #267                // String $
+      13: invokevirtual #271                // Method scala/collection/StringOps$.stripPrefix$extension:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      16: ldc_w         #273                // String s:e:s:
+      19: ldc_w         #275                // String s:
+      22: invokevirtual #281                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      25: ldc_w         #283                // String :
+      28: ldc_w         #285                // String
+      31: invokevirtual #281                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      34: areturn
+
+  private scala.Option<java.lang.String> demangle(java.lang.String);
+    Code:
+       0: aload_1
+       1: invokevirtual #293                // Method java/lang/String.isEmpty:()Z
+       4: ifeq          11
+       7: getstatic     #298                // Field scala/None$.MODULE$:Lscala/None$;
+      10: areturn
+      11: aload_1
+      12: ldc_w         #300                // String @objc
+      15: invokevirtual #304                // Method java/lang/String.contains:(Ljava/lang/CharSequence;)Z
+      18: ifeq          77
+      21: getstatic     #309                // Field scala/Some$.MODULE$:Lscala/Some$;
+      24: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      27: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      30: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      33: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      36: aload_1
+      37: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      40: ldc_w         #311                // String c:@M@
+      43: invokevirtual #271                // Method scala/collection/StringOps$.stripPrefix$extension:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      46: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      49: ldc_w         #313                // String c:@CM@
+      52: invokevirtual #271                // Method scala/collection/StringOps$.stripPrefix$extension:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      55: ldc_w         #315                // String @objc(cs)
+      58: ldc_w         #317                // String .
+      61: invokevirtual #281                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      64: ldc_w         #319                // String (im)
+      67: ldc_w         #317                // String .
+      70: invokevirtual #281                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      73: invokevirtual #323                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      76: areturn
+      77: aload_0
+      78: aload_1
+      79: invokespecial #325                // Method stripMangledName:(Ljava/lang/String;)Ljava/lang/String;
+      82: astore_2
+      83: getstatic     #330                // Field io/joern/swiftsrc2cpg/utils/ExternalCommand$.MODULE$:Lio/joern/swiftsrc2cpg/utils/ExternalCommand$;
+      86: aload_0
+      87: invokespecial #332                // Method swiftDemangleCommand:()Lscala/collection/immutable/Seq;
+      90: aload_2
+      91: invokeinterface #336,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      96: checkcast     #230                // class scala/collection/immutable/Seq
+      99: getstatic     #330                // Field io/joern/swiftsrc2cpg/utils/ExternalCommand$.MODULE$:Lio/joern/swiftsrc2cpg/utils/ExternalCommand$;
+     102: invokevirtual #340                // Method io/joern/swiftsrc2cpg/utils/ExternalCommand$.findInStdOut$default$2:()Lscala/Function1;
+     105: invokevirtual #344                // Method io/joern/swiftsrc2cpg/utils/ExternalCommand$.findInStdOut:(Lscala/collection/immutable/Seq;Lscala/Function1;)Lscala/Option;
+     108: invokedynamic #361,  0            // InvokeDynamic #0:apply:()Lscala/Function1;
+     113: invokevirtual #367                // Method scala/Option.map:(Lscala/Function1;)Lscala/Option;
+     116: areturn
+
+  private void batchDemangle(scala.collection.Iterable<java.lang.String>);
+    Code:
+       0: aload_1
+       1: invokedynamic #380,  0            // InvokeDynamic #1:apply:()Lscala/Function1;
+       6: invokeinterface #386,  2          // InterfaceMethod scala/collection/Iterable.filter:(Lscala/Function1;)Ljava/lang/Object;
+      11: checkcast     #388                // class scala/collection/IterableOps
+      14: aload_0
+      15: invokedynamic #395,  0            // InvokeDynamic #2:apply:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;)Lscala/Function1;
+      20: invokeinterface #399,  2          // InterfaceMethod scala/collection/IterableOps.groupBy:(Lscala/Function1;)Lscala/collection/immutable/Map;
+      25: ldc_w         #285                // String
+      28: invokeinterface #405,  2          // InterfaceMethod scala/collection/immutable/Map.removed:(Ljava/lang/Object;)Lscala/collection/immutable/MapOps;
+      33: checkcast     #401                // class scala/collection/immutable/Map
+      36: astore_2
+      37: aload_2
+      38: invokeinterface #406,  1          // InterfaceMethod scala/collection/immutable/Map.isEmpty:()Z
+      43: ifeq          47
+      46: return
+      47: aload_2
+      48: invokeinterface #410,  1          // InterfaceMethod scala/collection/immutable/Map.keys:()Lscala/collection/Iterable;
+      53: invokeinterface #413,  1          // InterfaceMethod scala/collection/Iterable.toSeq:()Lscala/collection/immutable/Seq;
+      58: astore_3
+      59: aload_3
+      60: invokedynamic #418,  0            // InvokeDynamic #3:apply:()Lscala/Function1;
+      65: invokeinterface #420,  2          // InterfaceMethod scala/collection/immutable/Seq.map:(Lscala/Function1;)Ljava/lang/Object;
+      70: checkcast     #230                // class scala/collection/immutable/Seq
+      73: astore        4
+      75: getstatic     #424                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$$logger:Lorg/slf4j/Logger;
+      78: aload_3
+      79: invokeinterface #427,  1          // InterfaceMethod scala/collection/immutable/Seq.size:()I
+      84: invokedynamic #438,  0            // InvokeDynamic #4:makeConcatWithConstants:(I)Ljava/lang/String;
+      89: invokeinterface #444,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+      94: new           #30                 // class java/lang/ProcessBuilder
+      97: dup
+      98: getstatic     #449                // Field scala/runtime/Arrays$.MODULE$:Lscala/runtime/Arrays$;
+     101: aload_0
+     102: invokespecial #332                // Method swiftDemangleCommand:()Lscala/collection/immutable/Seq;
+     105: ldc_w         #277                // class java/lang/String
+     108: invokevirtual #453                // Method scala/runtime/Arrays$.seqToArray:(Lscala/collection/immutable/Seq;Ljava/lang/Class;)Ljava/lang/Object;
+     111: checkcast     #455                // class "[Ljava/lang/String;"
+     114: invokespecial #458                // Method java/lang/ProcessBuilder."<init>":([Ljava/lang/String;)V
+     117: astore        5
+     119: aload         5
+     121: getstatic     #462                // Field java/lang/ProcessBuilder$Redirect.DISCARD:Ljava/lang/ProcessBuilder$Redirect;
+     124: invokevirtual #466                // Method java/lang/ProcessBuilder.redirectError:(Ljava/lang/ProcessBuilder$Redirect;)Ljava/lang/ProcessBuilder;
+     127: pop
+     128: aload         5
+     130: invokevirtual #470                // Method java/lang/ProcessBuilder.start:()Ljava/lang/Process;
+     133: astore        6
+     135: invokestatic  #476                // Method java/util/concurrent/Executors.newSingleThreadExecutor:()Ljava/util/concurrent/ExecutorService;
+     138: astore        7
+     140: aload         7
+     142: new           #12                 // class io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$$anon$1
+     145: dup
+     146: aload         6
+     148: aload_3
+     149: aload_2
+     150: aload_0
+     151: invokespecial #479                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$$anon$1."<init>":(Ljava/lang/Process;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Map;Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;)V
+     154: invokeinterface #485,  2          // InterfaceMethod java/util/concurrent/ExecutorService.submit:(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;
+     159: astore        8
+     161: aload         7
+     163: invokeinterface #488,  1          // InterfaceMethod java/util/concurrent/ExecutorService.shutdown:()V
+     168: getstatic     #493                // Field scala/util/Using$.MODULE$:Lscala/util/Using$;
+     171: new           #495                // class java/io/BufferedWriter
+     174: dup
+     175: new           #497                // class java/io/OutputStreamWriter
+     178: dup
+     179: aload         6
+     181: invokevirtual #503                // Method java/lang/Process.getOutputStream:()Ljava/io/OutputStream;
+     184: invokespecial #506                // Method java/io/OutputStreamWriter."<init>":(Ljava/io/OutputStream;)V
+     187: invokespecial #509                // Method java/io/BufferedWriter."<init>":(Ljava/io/Writer;)V
+     190: aload         4
+     192: invokedynamic #522,  0            // InvokeDynamic #5:applyVoid:(Lscala/collection/immutable/Seq;)Lscala/runtime/function/JProcedure1;
+     197: getstatic     #525                // Field scala/util/Using$Releasable$AutoCloseableIsReleasable$.MODULE$:Lscala/util/Using$Releasable$AutoCloseableIsReleasable$;
+     200: invokevirtual #529                // Method scala/util/Using$.resource:(Ljava/lang/Object;Lscala/Function1;Lscala/util/Using$Releasable;)Ljava/lang/Object;
+     203: pop
+     204: aload         8
+     206: invokeinterface #534,  1          // InterfaceMethod java/util/concurrent/Future.get:()Ljava/lang/Object;
+     211: pop
+     212: aload         6
+     214: invokevirtual #537                // Method java/lang/Process.waitFor:()I
+     217: pop
+     218: goto          232
+     221: astore        9
+     223: aload         6
+     225: invokevirtual #540                // Method java/lang/Process.destroyForcibly:()Ljava/lang/Process;
+     228: pop
+     229: aload         9
+     231: athrow
+     232: aload         6
+     234: invokevirtual #540                // Method java/lang/Process.destroyForcibly:()Ljava/lang/Process;
+     237: pop
+     238: goto          306
+     241: astore        10
+     243: aload         10
+     245: astore        11
+     247: aload         11
+     249: ifnull        300
+     252: getstatic     #545                // Field scala/util/control/NonFatal$.MODULE$:Lscala/util/control/NonFatal$;
+     255: aload         11
+     257: invokevirtual #549                // Method scala/util/control/NonFatal$.unapply:(Ljava/lang/Throwable;)Lscala/Option;
+     260: astore        12
+     262: aload         12
+     264: invokevirtual #550                // Method scala/Option.isEmpty:()Z
+     267: ifne          300
+     270: aload         12
+     272: invokevirtual #551                // Method scala/Option.get:()Ljava/lang/Object;
+     275: checkcast     #263                // class java/lang/Throwable
+     278: astore        13
+     280: aload         13
+     282: astore        14
+     284: getstatic     #424                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$$logger:Lorg/slf4j/Logger;
+     287: ldc_w         #553                // String Batch demangling failed, falling back to per-name demangling
+     290: aload         14
+     292: invokeinterface #556,  3          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;Ljava/lang/Throwable;)V
+     297: goto          303
+     300: aload         10
+     302: athrow
+     303: goto          306
+     306: return
+    Exception table:
+       from    to  target type
+         135   221   221   any
+         128   238   241   Class java/lang/Throwable
+
+  private java.lang.String removeModifier(java.lang.String);
+    Code:
+       0: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: aload_1
+       7: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      10: bipush        32
+      12: invokevirtual #577                // Method scala/collection/StringOps$.contains$extension:(Ljava/lang/String;C)Z
+      15: ifne          20
+      18: aload_1
+      19: areturn
+      20: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      23: getstatic     #581                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$$SwiftDeclModifierPadded:[Lscala/Tuple2;
+      26: invokevirtual #585                // Method scala/Predef$.refArrayOps:([Ljava/lang/Object;)Ljava/lang/Object;
+      29: astore_2
+      30: getstatic     #590                // Field scala/collection/ArrayOps$.MODULE$:Lscala/collection/ArrayOps$;
+      33: aload_2
+      34: aload_1
+      35: invokedynamic #601,  0            // InvokeDynamic #6:apply:()Lscala/Function2;
+      40: invokevirtual #605                // Method scala/collection/ArrayOps$.foldLeft$extension:(Ljava/lang/Object;Ljava/lang/Object;Lscala/Function2;)Ljava/lang/Object;
+      43: checkcast     #277                // class java/lang/String
+      46: areturn
+
+  private scala.Option<java.lang.String> calculateTypeFullname(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #609                // Method calculateDeclFullname:(Ljava/lang/String;)Lscala/Option;
+       5: areturn
+
+  public java.lang.String io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$postProcessDemangled(java.lang.String);
+    Code:
+       0: aload_1
+       1: astore_3
+       2: aload_3
+       3: ifnull        199
+       6: aload_0
+       7: getfield      #125                // Field ExtensionNameRegex:Lscala/util/matching/Regex;
+      10: aload_3
+      11: invokevirtual #615                // Method scala/util/matching/Regex.unapplySeq:(Ljava/lang/CharSequence;)Lscala/Option;
+      14: astore        4
+      16: aload         4
+      18: invokevirtual #550                // Method scala/Option.isEmpty:()Z
+      21: ifne          109
+      24: aload         4
+      26: invokevirtual #551                // Method scala/Option.get:()Ljava/lang/Object;
+      29: checkcast     #617                // class scala/collection/immutable/List
+      32: astore        5
+      34: aload         5
+      36: iconst_2
+      37: invokevirtual #621                // Method scala/collection/immutable/List.lengthCompare:(I)I
+      40: iconst_0
+      41: if_icmpne     109
+      44: aload         5
+      46: iconst_0
+      47: invokevirtual #623                // Method scala/collection/immutable/List.apply:(I)Ljava/lang/Object;
+      50: checkcast     #277                // class java/lang/String
+      53: astore        6
+      55: aload         5
+      57: iconst_1
+      58: invokevirtual #623                // Method scala/collection/immutable/List.apply:(I)Ljava/lang/Object;
+      61: checkcast     #277                // class java/lang/String
+      64: astore        7
+      66: aload         6
+      68: astore        8
+      70: aload         7
+      72: astore        9
+      74: aload_0
+      75: aload         8
+      77: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      80: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      83: aload         9
+      85: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      88: aload         8
+      90: invokedynamic #627,  0            // InvokeDynamic #7:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      95: invokevirtual #271                // Method scala/collection/StringOps$.stripPrefix$extension:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      98: invokedynamic #631,  0            // InvokeDynamic #8:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+     103: invokespecial #633                // Method removeModifier:(Ljava/lang/String;)Ljava/lang/String;
+     106: goto          217
+     109: aload_0
+     110: getfield      #121                // Field InitNameRegex:Lscala/util/matching/Regex;
+     113: aload_3
+     114: invokevirtual #615                // Method scala/util/matching/Regex.unapplySeq:(Ljava/lang/CharSequence;)Lscala/Option;
+     117: astore        10
+     119: aload         10
+     121: invokevirtual #550                // Method scala/Option.isEmpty:()Z
+     124: ifne          199
+     127: aload         10
+     129: invokevirtual #551                // Method scala/Option.get:()Ljava/lang/Object;
+     132: checkcast     #617                // class scala/collection/immutable/List
+     135: astore        11
+     137: aload         11
+     139: iconst_2
+     140: invokevirtual #621                // Method scala/collection/immutable/List.lengthCompare:(I)I
+     143: iconst_0
+     144: if_icmpne     199
+     147: aload         11
+     149: iconst_0
+     150: invokevirtual #623                // Method scala/collection/immutable/List.apply:(I)Ljava/lang/Object;
+     153: checkcast     #277                // class java/lang/String
+     156: astore        12
+     158: aload         11
+     160: iconst_1
+     161: invokevirtual #623                // Method scala/collection/immutable/List.apply:(I)Ljava/lang/Object;
+     164: checkcast     #277                // class java/lang/String
+     167: astore        13
+     169: aload         12
+     171: astore        14
+     173: aload         13
+     175: astore        15
+     177: getstatic     #638                // Field io/joern/swiftsrc2cpg/astcreation/AstCreatorHelper$.MODULE$:Lio/joern/swiftsrc2cpg/astcreation/AstCreatorHelper$;
+     180: aload_0
+     181: aload         14
+     183: aload         15
+     185: invokedynamic #641,  0            // InvokeDynamic #9:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+     190: invokespecial #633                // Method removeModifier:(Ljava/lang/String;)Ljava/lang/String;
+     193: invokevirtual #644                // Method io/joern/swiftsrc2cpg/astcreation/AstCreatorHelper$.stripGenerics:(Ljava/lang/String;)Ljava/lang/String;
+     196: goto          217
+     199: aload_3
+     200: astore        16
+     202: getstatic     #638                // Field io/joern/swiftsrc2cpg/astcreation/AstCreatorHelper$.MODULE$:Lio/joern/swiftsrc2cpg/astcreation/AstCreatorHelper$;
+     205: aload_0
+     206: aload         16
+     208: invokespecial #633                // Method removeModifier:(Ljava/lang/String;)Ljava/lang/String;
+     211: invokevirtual #644                // Method io/joern/swiftsrc2cpg/astcreation/AstCreatorHelper$.stripGenerics:(Ljava/lang/String;)Ljava/lang/String;
+     214: goto          217
+     217: astore_2
+     218: aload_0
+     219: aload_0
+     220: aload_2
+     221: invokevirtual #647                // Method replaceExtensionInSignature:(Ljava/lang/String;)Ljava/lang/String;
+     224: invokevirtual #650                // Method replaceInQualifierInSignature:(Ljava/lang/String;)Ljava/lang/String;
+     227: ldc_w         #652                // String
+     230: ldc_w         #285                // String
+     233: invokevirtual #281                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+     236: areturn
+
+  private scala.Option<java.lang.String> calculateDeclFullname(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #98                 // Field io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$mangledNameCache:Ljava/util/concurrent/ConcurrentHashMap;
+       4: aload_1
+       5: aload_0
+       6: aload_1
+       7: invokedynamic #666,  0            // InvokeDynamic #10:apply:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;Ljava/lang/String;)Ljava/util/function/Function;
+      12: invokevirtual #670                // Method java/util/concurrent/ConcurrentHashMap.computeIfAbsent:(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;
+      15: checkcast     #363                // class scala/Option
+      18: areturn
+
+  public final java.lang.String replaceExtensionInSignature(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #133                // Field ExtensionInSignatureRegex:Lscala/util/matching/Regex;
+       4: aload_1
+       5: invokevirtual #673                // Method scala/util/matching/Regex.findFirstMatchIn:(Ljava/lang/CharSequence;)Lscala/Option;
+       8: astore_2
+       9: aload_2
+      10: instanceof    #675                // class scala/Some
+      13: ifeq          93
+      16: aload_2
+      17: checkcast     #675                // class scala/Some
+      20: invokevirtual #678                // Method scala/Some.value:()Ljava/lang/Object;
+      23: checkcast     #63                 // class scala/util/matching/Regex$Match
+      26: astore_3
+      27: aload_3
+      28: invokevirtual #682                // Method scala/util/matching/Regex$Match.before:()Ljava/lang/CharSequence;
+      31: astore        4
+      33: aload_3
+      34: iconst_1
+      35: invokevirtual #685                // Method scala/util/matching/Regex$Match.group:(I)Ljava/lang/String;
+      38: astore        5
+      40: aload_3
+      41: invokevirtual #688                // Method scala/util/matching/Regex$Match.after:()Ljava/lang/CharSequence;
+      44: invokeinterface #692,  1          // InterfaceMethod java/lang/CharSequence.toString:()Ljava/lang/String;
+      49: astore        6
+      51: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      54: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      57: aload         6
+      59: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      62: aload         5
+      64: invokedynamic #627,  0            // InvokeDynamic #7:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      69: invokevirtual #271                // Method scala/collection/StringOps$.stripPrefix$extension:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      72: astore        7
+      74: aload         4
+      76: aload         5
+      78: aload         7
+      80: invokedynamic #697,  0            // InvokeDynamic #11:makeConcatWithConstants:(Ljava/lang/CharSequence;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      85: astore        8
+      87: aload         8
+      89: astore_1
+      90: goto          0
+      93: getstatic     #298                // Field scala/None$.MODULE$:Lscala/None$;
+      96: aload_2
+      97: invokevirtual #699                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     100: ifeq          105
+     103: aload_1
+     104: areturn
+     105: new           #701                // class scala/MatchError
+     108: dup
+     109: aload_2
+     110: invokespecial #703                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     113: athrow
+
+  public final java.lang.String replaceInQualifierInSignature(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #129                // Field InNameRegex:Lscala/util/matching/Regex;
+       4: aload_1
+       5: invokevirtual #673                // Method scala/util/matching/Regex.findFirstMatchIn:(Ljava/lang/CharSequence;)Lscala/Option;
+       8: astore_2
+       9: aload_2
+      10: instanceof    #675                // class scala/Some
+      13: ifeq          67
+      16: aload_2
+      17: checkcast     #675                // class scala/Some
+      20: invokevirtual #678                // Method scala/Some.value:()Ljava/lang/Object;
+      23: checkcast     #63                 // class scala/util/matching/Regex$Match
+      26: astore_3
+      27: aload_3
+      28: iconst_1
+      29: invokevirtual #685                // Method scala/util/matching/Regex$Match.group:(I)Ljava/lang/String;
+      32: astore        4
+      34: aload_3
+      35: iconst_3
+      36: invokevirtual #685                // Method scala/util/matching/Regex$Match.group:(I)Ljava/lang/String;
+      39: astore        5
+      41: aload_3
+      42: iconst_4
+      43: invokevirtual #685                // Method scala/util/matching/Regex$Match.group:(I)Ljava/lang/String;
+      46: astore        6
+      48: aload         4
+      50: aload         5
+      52: aload         6
+      54: invokedynamic #714,  0            // InvokeDynamic #12:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      59: astore        7
+      61: aload         7
+      63: astore_1
+      64: goto          0
+      67: getstatic     #298                // Field scala/None$.MODULE$:Lscala/None$;
+      70: aload_2
+      71: invokevirtual #699                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      74: ifeq          79
+      77: aload_1
+      78: areturn
+      79: new           #701                // class scala/MatchError
+      82: dup
+      83: aload_2
+      84: invokespecial #703                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      87: athrow
+
+  private io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$ResolvedTypeInfo resolve(io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$TypeInfo);
+    Code:
+       0: aload_1
+       1: invokevirtual #723                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo.typeFullname:()Lscala/Option;
+       4: aload_0
+       5: invokedynamic #728,  0            // InvokeDynamic #13:apply:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;)Lscala/Function1;
+      10: invokevirtual #731                // Method scala/Option.flatMap:(Lscala/Function1;)Lscala/Option;
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #734                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo.declFullname:()Lscala/Option;
+      18: aload_0
+      19: invokedynamic #739,  0            // InvokeDynamic #14:apply:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;)Lscala/Function1;
+      24: invokevirtual #731                // Method scala/Option.flatMap:(Lscala/Function1;)Lscala/Option;
+      27: astore_3
+      28: aload_1
+      29: invokevirtual #742                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo.inherits:()Lscala/collection/immutable/Seq;
+      32: aload_0
+      33: invokedynamic #749,  0            // InvokeDynamic #15:apply:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;)Lscala/Function1;
+      38: invokeinterface #751,  2          // InterfaceMethod scala/collection/immutable/Seq.flatMap:(Lscala/Function1;)Ljava/lang/Object;
+      43: checkcast     #230                // class scala/collection/immutable/Seq
+      46: astore        4
+      48: getstatic     #754                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$ResolvedTypeInfo$.MODULE$:Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$ResolvedTypeInfo$;
+      51: aload_2
+      52: aload_3
+      53: aload         4
+      55: aload_1
+      56: invokevirtual #757                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo.nodeKind:()Ljava/lang/String;
+      59: aload_1
+      60: invokevirtual #760                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo.isStaticCall:()Z
+      63: invokevirtual #763                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$ResolvedTypeInfo$.apply:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Seq;Ljava/lang/String;Z)Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$ResolvedTypeInfo;
+      66: areturn
+
+  public void io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$collectTypeInfoFromJson(java.lang.String, scala.Function1<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$TypeInfo, scala.runtime.BoxedUnit>);
+    Code:
+       0: getstatic     #493                // Field scala/util/Using$.MODULE$:Lscala/util/Using$;
+       3: new           #775                // class java/io/StringReader
+       6: dup
+       7: aload_1
+       8: invokespecial #777                // Method java/io/StringReader."<init>":(Ljava/lang/String;)V
+      11: aload_2
+      12: invokedynamic #787,  0            // InvokeDynamic #16:applyVoid:(Lscala/Function1;)Lscala/runtime/function/JProcedure1;
+      17: getstatic     #525                // Field scala/util/Using$Releasable$AutoCloseableIsReleasable$.MODULE$:Lscala/util/Using$Releasable$AutoCloseableIsReleasable$;
+      20: invokevirtual #529                // Method scala/util/Using$.resource:(Ljava/lang/Object;Lscala/Function1;Lscala/util/Using$Releasable;)Ljava/lang/Object;
+      23: pop
+      24: return
+
+  private void addToMapping(io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$TypeInfo, java.util.concurrent.ConcurrentHashMap<java.lang.String, java.util.concurrent.ConcurrentHashMap<scala.Tuple2<java.lang.Object, java.lang.Object>, scala.collection.mutable.HashSet<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$ResolvedTypeInfo>>>);
+    Code:
+       0: aload_1
+       1: invokevirtual #796                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo.range:()Lscala/Tuple2;
+       4: astore_3
+       5: aload_1
+       6: invokevirtual #799                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo.filename:()Ljava/lang/String;
+       9: ldc_w         #801                // String \\
+      12: ldc_w         #803                // String /
+      15: invokevirtual #281                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      18: astore        4
+      20: aload_0
+      21: aload_1
+      22: invokespecial #805                // Method resolve:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo;)Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$ResolvedTypeInfo;
+      25: astore        5
+      27: aload_2
+      28: aload         4
+      30: aload_1
+      31: aload_3
+      32: aload         5
+      34: invokedynamic #815,  0            // InvokeDynamic #17:apply:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo;Lscala/Tuple2;Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$ResolvedTypeInfo;)Ljava/util/function/BiFunction;
+      39: invokevirtual #819                // Method java/util/concurrent/ConcurrentHashMap.compute:(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+      42: pop
+      43: return
+
+  public void mappingFromJson(java.lang.String, java.util.concurrent.ConcurrentHashMap<java.lang.String, java.util.concurrent.ConcurrentHashMap<scala.Tuple2<java.lang.Object, java.lang.Object>, scala.collection.mutable.HashSet<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$ResolvedTypeInfo>>>);
+    Code:
+       0: getstatic     #493                // Field scala/util/Using$.MODULE$:Lscala/util/Using$;
+       3: new           #775                // class java/io/StringReader
+       6: dup
+       7: aload_1
+       8: invokespecial #777                // Method java/io/StringReader."<init>":(Ljava/lang/String;)V
+      11: aload_0
+      12: aload_2
+      13: invokedynamic #833,  0            // InvokeDynamic #18:applyVoid:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;Ljava/util/concurrent/ConcurrentHashMap;)Lscala/runtime/function/JProcedure1;
+      18: getstatic     #525                // Field scala/util/Using$Releasable$AutoCloseableIsReleasable$.MODULE$:Lscala/util/Using$Releasable$AutoCloseableIsReleasable$;
+      21: invokevirtual #529                // Method scala/util/Using$.resource:(Ljava/lang/Object;Lscala/Function1;Lscala/util/Using$Releasable;)Ljava/lang/Object;
+      24: pop
+      25: return
+
+  public java.util.concurrent.ConcurrentHashMap<java.lang.String, java.util.concurrent.ConcurrentHashMap<scala.Tuple2<java.lang.Object, java.lang.Object>, scala.collection.mutable.HashSet<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$ResolvedTypeInfo>>> retrieveMappings();
+    Code:
+       0: new           #95                 // class java/util/concurrent/ConcurrentHashMap
+       3: dup
+       4: invokespecial #96                 // Method java/util/concurrent/ConcurrentHashMap."<init>":()V
+       7: astore_1
+       8: getstatic     #841                // Field scala/math/package$.MODULE$:Lscala/math/package$;
+      11: iconst_1
+      12: invokestatic  #847                // Method java/lang/Runtime.getRuntime:()Ljava/lang/Runtime;
+      15: invokevirtual #850                // Method java/lang/Runtime.availableProcessors:()I
+      18: invokevirtual #854                // Method scala/math/package$.max:(II)I
+      21: istore_2
+      22: iload_2
+      23: invokestatic  #858                // Method java/util/concurrent/Executors.newFixedThreadPool:(I)Ljava/util/concurrent/ExecutorService;
+      26: astore_3
+      27: iload_2
+      28: invokestatic  #858                // Method java/util/concurrent/Executors.newFixedThreadPool:(I)Ljava/util/concurrent/ExecutorService;
+      31: astore        4
+      33: new           #860                // class java/util/concurrent/ConcurrentLinkedQueue
+      36: dup
+      37: invokespecial #861                // Method java/util/concurrent/ConcurrentLinkedQueue."<init>":()V
+      40: astore        5
+      42: aload_0
+      43: invokevirtual #185                // Method parsedSwiftInvocations:()Lscala/collection/immutable/Seq;
+      46: aload_0
+      47: aload_3
+      48: aload         4
+      50: aload         5
+      52: invokedynamic #871,  0            // InvokeDynamic #19:apply:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;Ljava/util/concurrent/ExecutorService;Ljava/util/concurrent/ExecutorService;Ljava/util/concurrent/ConcurrentLinkedQueue;)Lscala/Function1;
+      57: invokeinterface #420,  2          // InterfaceMethod scala/collection/immutable/Seq.map:(Lscala/Function1;)Ljava/lang/Object;
+      62: checkcast     #230                // class scala/collection/immutable/Seq
+      65: astore        6
+      67: aload         6
+      69: invokedynamic #880,  0            // InvokeDynamic #20:applyVoid:()Lscala/runtime/function/JProcedure1;
+      74: invokeinterface #884,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+      79: getstatic     #889                // Field scala/collection/mutable/Set$.MODULE$:Lscala/collection/mutable/Set$;
+      82: invokevirtual #892                // Method scala/collection/mutable/Set$.empty:()Ljava/lang/Object;
+      85: checkcast     #894                // class scala/collection/mutable/Set
+      88: astore        7
+      90: aload         5
+      92: aload         7
+      94: invokedynamic #905,  0            // InvokeDynamic #21:accept:(Lscala/collection/mutable/Set;)Ljava/util/function/Consumer;
+      99: invokevirtual #909                // Method java/util/concurrent/ConcurrentLinkedQueue.forEach:(Ljava/util/function/Consumer;)V
+     102: aload_0
+     103: aload         7
+     105: invokespecial #911                // Method batchDemangle:(Lscala/collection/Iterable;)V
+     108: aload         5
+     110: aload_0
+     111: aload_1
+     112: invokedynamic #919,  0            // InvokeDynamic #22:accept:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;Ljava/util/concurrent/ConcurrentHashMap;)Ljava/util/function/Consumer;
+     117: invokevirtual #909                // Method java/util/concurrent/ConcurrentLinkedQueue.forEach:(Ljava/util/function/Consumer;)V
+     120: getstatic     #424                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$$logger:Lorg/slf4j/Logger;
+     123: aload_1
+     124: invokevirtual #920                // Method java/util/concurrent/ConcurrentHashMap.size:()I
+     127: invokedynamic #923,  0            // InvokeDynamic #23:makeConcatWithConstants:(I)Ljava/lang/String;
+     132: invokeinterface #926,  2          // InterfaceMethod org/slf4j/Logger.info:(Ljava/lang/String;)V
+     137: aload_1
+     138: goto          159
+     141: astore        8
+     143: aload_3
+     144: invokeinterface #488,  1          // InterfaceMethod java/util/concurrent/ExecutorService.shutdown:()V
+     149: aload         4
+     151: invokeinterface #488,  1          // InterfaceMethod java/util/concurrent/ExecutorService.shutdown:()V
+     156: aload         8
+     158: athrow
+     159: aload_3
+     160: invokeinterface #488,  1          // InterfaceMethod java/util/concurrent/ExecutorService.shutdown:()V
+     165: aload         4
+     167: invokeinterface #488,  1          // InterfaceMethod java/util/concurrent/ExecutorService.shutdown:()V
+     172: areturn
+    Exception table:
+       from    to  target type
+          33   141   141   any
+
+  public io.joern.swiftsrc2cpg.utils.SwiftTypesProvider copy(io.joern.swiftsrc2cpg.Config, scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>>);
+    Code:
+       0: new           #2                  // class io/joern/swiftsrc2cpg/utils/SwiftTypesProvider
+       3: dup
+       4: aload_1
+       5: aload_2
+       6: invokespecial #940                // Method "<init>":(Lio/joern/swiftsrc2cpg/Config;Lscala/collection/immutable/Seq;)V
+       9: areturn
+
+  public io.joern.swiftsrc2cpg.Config copy$default$1();
+    Code:
+       0: aload_0
+       1: invokevirtual #177                // Method config:()Lio/joern/swiftsrc2cpg/Config;
+       4: areturn
+
+  public scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>> copy$default$2();
+    Code:
+       0: aload_0
+       1: invokevirtual #185                // Method parsedSwiftInvocations:()Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public io.joern.swiftsrc2cpg.Config _1();
+    Code:
+       0: aload_0
+       1: invokevirtual #177                // Method config:()Lio/joern/swiftsrc2cpg/Config;
+       4: areturn
+
+  public scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>> _2();
+    Code:
+       0: aload_0
+       1: invokevirtual #185                // Method parsedSwiftInvocations:()Lscala/collection/immutable/Seq;
+       4: areturn
+
+  private static final java.lang.String demangle$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokevirtual #946                // Method java/lang/String.trim:()Ljava/lang/String;
+       4: areturn
+
+  private static final boolean $anonfun$1(java.lang.String);
+    Code:
+       0: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: aload_0
+       7: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      10: invokevirtual #949                // Method scala/collection/StringOps$.nonEmpty$extension:(Ljava/lang/String;)Z
+      13: ifeq          30
+      16: aload_0
+      17: ldc_w         #300                // String @objc
+      20: invokevirtual #304                // Method java/lang/String.contains:(Ljava/lang/CharSequence;)Z
+      23: ifne          30
+      26: iconst_1
+      27: goto          31
+      30: iconst_0
+      31: ireturn
+
+  private final java.lang.String $anonfun$2(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #325                // Method stripMangledName:(Ljava/lang/String;)Ljava/lang/String;
+       5: areturn
+
+  private static final java.lang.String $anonfun$3(java.lang.String);
+    Code:
+       0: aload_0
+       1: ldc_w         #951                // String s
+       4: invokevirtual #954                // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+       7: ifne          20
+      10: aload_0
+      11: ldc_w         #956                // String S
+      14: invokevirtual #954                // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+      17: ifeq          27
+      20: aload_0
+      21: invokedynamic #959,  0            // InvokeDynamic #24:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      26: areturn
+      27: aload_0
+      28: areturn
+
+  private static final void batchDemangle$$anonfun$1$$anonfun$1(java.io.BufferedWriter, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #965                // Method java/io/BufferedWriter.write:(Ljava/lang/String;)V
+       5: aload_0
+       6: invokevirtual #968                // Method java/io/BufferedWriter.newLine:()V
+       9: return
+
+  private static final void batchDemangle$$anonfun$1(scala.collection.immutable.Seq, java.io.BufferedWriter);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokedynamic #978,  0            // InvokeDynamic #25:applyVoid:(Ljava/io/BufferedWriter;)Lscala/runtime/function/JProcedure1;
+       7: invokeinterface #884,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+      12: return
+
+  private static final java.lang.String removeModifier$$anonfun$1(java.lang.String, scala.Tuple2);
+    Code:
+       0: getstatic     #985                // Field scala/Tuple2$.MODULE$:Lscala/Tuple2$;
+       3: aload_0
+       4: aload_1
+       5: invokevirtual #988                // Method scala/Tuple2$.apply:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+       8: astore_2
+       9: aload_2
+      10: ifnull        100
+      13: aload_2
+      14: invokevirtual #992                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      17: checkcast     #990                // class scala/Tuple2
+      20: astore_3
+      21: aload_2
+      22: invokevirtual #994                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      25: checkcast     #277                // class java/lang/String
+      28: astore        4
+      30: aload_3
+      31: ifnull        100
+      34: aload_3
+      35: invokevirtual #994                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      38: checkcast     #277                // class java/lang/String
+      41: astore        5
+      43: aload_3
+      44: invokevirtual #992                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      47: checkcast     #277                // class java/lang/String
+      50: astore        6
+      52: aload         4
+      54: aload         5
+      56: invokevirtual #954                // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+      59: ifne          72
+      62: aload         4
+      64: aload         6
+      66: invokevirtual #304                // Method java/lang/String.contains:(Ljava/lang/CharSequence;)Z
+      69: ifeq          97
+      72: getstatic     #104                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      75: getstatic     #109                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      78: aload         4
+      80: aload         6
+      82: ldc_w         #652                // String
+      85: invokevirtual #281                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      88: invokevirtual #115                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      91: aload         5
+      93: invokevirtual #271                // Method scala/collection/StringOps$.stripPrefix$extension:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      96: areturn
+      97: aload         4
+      99: areturn
+     100: new           #701                // class scala/MatchError
+     103: dup
+     104: aload_2
+     105: invokespecial #703                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     108: athrow
+
+  private final java.lang.String calculateDeclFullname$$anonfun$1$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #1000               // Method io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$postProcessDemangled:(Ljava/lang/String;)Ljava/lang/String;
+       5: areturn
+
+  private final scala.Option calculateDeclFullname$$anonfun$1(java.lang.String, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #1004               // Method demangle:(Ljava/lang/String;)Lscala/Option;
+       5: aload_0
+       6: invokedynamic #1008,  0           // InvokeDynamic #26:apply:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;)Lscala/Function1;
+      11: invokevirtual #367                // Method scala/Option.map:(Lscala/Function1;)Lscala/Option;
+      14: areturn
+
+  private final scala.Option $anonfun$4(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #1010               // Method calculateTypeFullname:(Ljava/lang/String;)Lscala/Option;
+       5: areturn
+
+  private final scala.Option $anonfun$5(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #609                // Method calculateDeclFullname:(Ljava/lang/String;)Lscala/Option;
+       5: areturn
+
+  private final scala.collection.IterableOnce $anonfun$6(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #1010               // Method calculateTypeFullname:(Ljava/lang/String;)Lscala/Option;
+       5: areturn
+
+  private static final void collectTypeInfoFromJson$$anonfun$1(scala.Function1, java.io.StringReader);
+    Code:
+       0: getstatic     #1017               // Field io/joern/swiftsrc2cpg/utils/GsonTypeInfoReader$.MODULE$:Lio/joern/swiftsrc2cpg/utils/GsonTypeInfoReader$;
+       3: aload_1
+       4: aload_0
+       5: invokevirtual #1021               // Method io/joern/swiftsrc2cpg/utils/GsonTypeInfoReader$.collectTypeInfo:(Ljava/io/Reader;Lscala/Function1;)V
+       8: return
+
+  private static final scala.collection.mutable.HashSet addToMapping$$anonfun$1$$anonfun$1(io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$ResolvedTypeInfo, scala.Tuple2, scala.collection.mutable.HashSet);
+    Code:
+       0: getstatic     #985                // Field scala/Tuple2$.MODULE$:Lscala/Tuple2$;
+       3: aload_1
+       4: aload_2
+       5: invokevirtual #988                // Method scala/Tuple2$.apply:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+       8: astore_3
+       9: aload_3
+      10: ifnull        50
+      13: aload_3
+      14: invokevirtual #992                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      17: checkcast     #1027               // class scala/collection/mutable/HashSet
+      20: astore        4
+      22: aload         4
+      24: ifnonnull     39
+      27: new           #1027               // class scala/collection/mutable/HashSet
+      30: dup
+      31: invokespecial #1028               // Method scala/collection/mutable/HashSet."<init>":()V
+      34: aload_0
+      35: invokevirtual #1032               // Method scala/collection/mutable/HashSet.addOne:(Ljava/lang/Object;)Lscala/collection/mutable/HashSet;
+      38: areturn
+      39: aload         4
+      41: astore        5
+      43: aload         5
+      45: aload_0
+      46: invokevirtual #1032               // Method scala/collection/mutable/HashSet.addOne:(Ljava/lang/Object;)Lscala/collection/mutable/HashSet;
+      49: areturn
+      50: new           #701                // class scala/MatchError
+      53: dup
+      54: aload_3
+      55: invokespecial #703                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      58: athrow
+
+  private static final java.util.concurrent.ConcurrentHashMap addToMapping$$anonfun$1(io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$TypeInfo, scala.Tuple2, io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$ResolvedTypeInfo, java.lang.String, java.util.concurrent.ConcurrentHashMap);
+    Code:
+       0: getstatic     #985                // Field scala/Tuple2$.MODULE$:Lscala/Tuple2$;
+       3: aload_3
+       4: aload         4
+       6: invokevirtual #988                // Method scala/Tuple2$.apply:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+       9: astore        5
+      11: aload         5
+      13: ifnull        98
+      16: aload         5
+      18: invokevirtual #992                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      21: checkcast     #95                 // class java/util/concurrent/ConcurrentHashMap
+      24: astore        6
+      26: aload         6
+      28: ifnonnull     78
+      31: getstatic     #424                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$$logger:Lorg/slf4j/Logger;
+      34: aload_0
+      35: invokevirtual #799                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo.filename:()Ljava/lang/String;
+      38: invokedynamic #1040,  0           // InvokeDynamic #27:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      43: invokeinterface #444,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+      48: new           #95                 // class java/util/concurrent/ConcurrentHashMap
+      51: dup
+      52: invokespecial #96                 // Method java/util/concurrent/ConcurrentHashMap."<init>":()V
+      55: astore        7
+      57: aload         7
+      59: aload_1
+      60: new           #1027               // class scala/collection/mutable/HashSet
+      63: dup
+      64: invokespecial #1028               // Method scala/collection/mutable/HashSet."<init>":()V
+      67: aload_2
+      68: invokevirtual #1032               // Method scala/collection/mutable/HashSet.addOne:(Ljava/lang/Object;)Lscala/collection/mutable/HashSet;
+      71: invokevirtual #1043               // Method java/util/concurrent/ConcurrentHashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      74: pop
+      75: aload         7
+      77: areturn
+      78: aload         6
+      80: astore        8
+      82: aload         8
+      84: aload_1
+      85: aload_2
+      86: invokedynamic #1051,  0           // InvokeDynamic #28:apply:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$ResolvedTypeInfo;)Ljava/util/function/BiFunction;
+      91: invokevirtual #819                // Method java/util/concurrent/ConcurrentHashMap.compute:(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+      94: pop
+      95: aload         8
+      97: areturn
+      98: new           #701                // class scala/MatchError
+     101: dup
+     102: aload         5
+     104: invokespecial #703                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     107: athrow
+
+  private final void mappingFromJson$$anonfun$1$$anonfun$1(java.util.concurrent.ConcurrentHashMap, io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$TypeInfo);
+    Code:
+       0: aload_0
+       1: aload_2
+       2: aload_1
+       3: invokespecial #1057               // Method addToMapping:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo;Ljava/util/concurrent/ConcurrentHashMap;)V
+       6: return
+
+  private final void mappingFromJson$$anonfun$1(java.util.concurrent.ConcurrentHashMap, java.io.StringReader);
+    Code:
+       0: getstatic     #1017               // Field io/joern/swiftsrc2cpg/utils/GsonTypeInfoReader$.MODULE$:Lio/joern/swiftsrc2cpg/utils/GsonTypeInfoReader$;
+       3: aload_2
+       4: aload_0
+       5: aload_1
+       6: invokedynamic #1062,  0           // InvokeDynamic #29:applyVoid:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;Ljava/util/concurrent/ConcurrentHashMap;)Lscala/runtime/function/JProcedure1;
+      11: invokevirtual #1021               // Method io/joern/swiftsrc2cpg/utils/GsonTypeInfoReader$.collectTypeInfo:(Ljava/io/Reader;Lscala/Function1;)V
+      14: return
+
+  public static final boolean io$joern$swiftsrc2cpg$utils$SwiftTypesProvider$$anon$2$$_$call$$anonfun$2$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: ldc_w         #1066               // String {
+       4: invokevirtual #954                // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+       7: ireturn
+
+  private final java.util.concurrent.Future $anonfun$7(java.util.concurrent.ExecutorService, java.util.concurrent.ExecutorService, java.util.concurrent.ConcurrentLinkedQueue, scala.collection.immutable.Seq);
+    Code:
+       0: aload_1
+       1: new           #14                 // class io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$$anon$2
+       4: dup
+       5: aload         4
+       7: aload_2
+       8: aload_3
+       9: aload_0
+      10: invokespecial #1073               // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$$anon$2."<init>":(Lscala/collection/immutable/Seq;Ljava/util/concurrent/ExecutorService;Ljava/util/concurrent/ConcurrentLinkedQueue;Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;)V
+      13: invokeinterface #485,  2          // InterfaceMethod java/util/concurrent/ExecutorService.submit:(Ljava/util/concurrent/Callable;)Ljava/util/concurrent/Future;
+      18: areturn
+
+  private static final void retrieveMappings$$anonfun$1(java.util.concurrent.Future);
+    Code:
+       0: aload_0
+       1: invokeinterface #534,  1          // InterfaceMethod java/util/concurrent/Future.get:()Ljava/lang/Object;
+       6: pop
+       7: return
+
+  private static final scala.collection.mutable.Set retrieveMappings$$anonfun$2$$anonfun$1(scala.collection.mutable.Set, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #1081,  2         // InterfaceMethod scala/collection/mutable/Set.addOne:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+       7: checkcast     #894                // class scala/collection/mutable/Set
+      10: areturn
+
+  private static final scala.collection.mutable.Set retrieveMappings$$anonfun$2$$anonfun$2(scala.collection.mutable.Set, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #1081,  2         // InterfaceMethod scala/collection/mutable/Set.addOne:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+       7: checkcast     #894                // class scala/collection/mutable/Set
+      10: areturn
+
+  private static final scala.collection.mutable.Set retrieveMappings$$anonfun$2$$anonfun$3(scala.collection.mutable.Set, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #1081,  2         // InterfaceMethod scala/collection/mutable/Set.addOne:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+       7: checkcast     #894                // class scala/collection/mutable/Set
+      10: areturn
+
+  private static final void retrieveMappings$$anonfun$2(scala.collection.mutable.Set, io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$TypeInfo);
+    Code:
+       0: aload_1
+       1: invokevirtual #723                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo.typeFullname:()Lscala/Option;
+       4: aload_0
+       5: invokedynamic #1094,  0           // InvokeDynamic #30:apply:(Lscala/collection/mutable/Set;)Lscala/Function1;
+      10: invokevirtual #1095               // Method scala/Option.foreach:(Lscala/Function1;)V
+      13: aload_1
+      14: invokevirtual #734                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo.declFullname:()Lscala/Option;
+      17: aload_0
+      18: invokedynamic #1099,  0           // InvokeDynamic #31:apply:(Lscala/collection/mutable/Set;)Lscala/Function1;
+      23: invokevirtual #1095               // Method scala/Option.foreach:(Lscala/Function1;)V
+      26: aload_1
+      27: invokevirtual #742                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo.inherits:()Lscala/collection/immutable/Seq;
+      30: aload_0
+      31: invokedynamic #1103,  0           // InvokeDynamic #32:apply:(Lscala/collection/mutable/Set;)Lscala/Function1;
+      36: invokeinterface #884,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+      41: return
+
+  private final void retrieveMappings$$anonfun$3(java.util.concurrent.ConcurrentHashMap, io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$TypeInfo);
+    Code:
+       0: aload_0
+       1: aload_2
+       2: aload_1
+       3: invokespecial #1057               // Method addToMapping:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$TypeInfo;Ljava/util/concurrent/ConcurrentHashMap;)V
+       6: return
+
+  public static scala.Option<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider> apply(io.joern.swiftsrc2cpg.Config);
+    Code:
+       0: getstatic     #251                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.MODULE$:Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$;
+       3: aload_0
+       4: invokevirtual #1109               // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.apply:(Lio/joern/swiftsrc2cpg/Config;)Lscala/Option;
+       7: areturn
+
+  public static io.joern.swiftsrc2cpg.utils.SwiftTypesProvider apply(io.joern.swiftsrc2cpg.Config, scala.collection.immutable.Seq<scala.collection.immutable.Seq<java.lang.String>>);
+    Code:
+       0: getstatic     #251                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.MODULE$:Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$;
+       3: aload_0
+       4: aload_1
+       5: invokevirtual #1111               // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.apply:(Lio/joern/swiftsrc2cpg/Config;Lscala/collection/immutable/Seq;)Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;
+       8: areturn
+
+  public static io.joern.swiftsrc2cpg.utils.SwiftTypesProvider build(io.joern.swiftsrc2cpg.Config, scala.collection.immutable.Seq<java.lang.String>);
+    Code:
+       0: getstatic     #251                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.MODULE$:Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$;
+       3: aload_0
+       4: aload_1
+       5: invokevirtual #1115               // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.build:(Lio/joern/swiftsrc2cpg/Config;Lscala/collection/immutable/Seq;)Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;
+       8: areturn
+
+  public static io.joern.swiftsrc2cpg.utils.SwiftTypesProvider fromProduct(scala.Product);
+    Code:
+       0: getstatic     #251                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.MODULE$:Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$;
+       3: aload_0
+       4: invokevirtual #1119               // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.fromProduct:(Lscala/Product;)Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;
+       7: areturn
+
+  public static io.joern.swiftsrc2cpg.utils.SwiftTypesProvider unapply(io.joern.swiftsrc2cpg.utils.SwiftTypesProvider);
+    Code:
+       0: getstatic     #251                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.MODULE$:Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$;
+       3: aload_0
+       4: invokevirtual #1122               // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.unapply:(Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;)Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider;
+       7: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #1134,  0           // InvokeDynamic #33:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

@@ -1,0 +1,177 @@
+{
+  "bounded_next_step": "Independent review may use the complete bound inventory and concrete call paths to determine whether a strictly installed/shipped-only contract admits exclusion of external additions and whether further specific static class/resource inspection closes each role. Until such review closes the gap, do not create12 Unsupported decisions, relabel historical4.0.628 evidence, or launch the retry with invented native capability evidence.",
+  "capture_errors": [
+    {
+      "command": "static-commands-01.json commands4,9",
+      "description": "Initial guesses FullNameSemanticsParser$ and io.joern.console.ReplBridge did not resolve; failures preserved.",
+      "resolution": "Actual classes FullNameSemanticsParser and io.joern.joerncli.console.ReplBridge$ discovered in complete member inventory and disassembled successfully in static-commands-02.json."
+    }
+  ],
+  "created_utc": "2026-10-24T09:39:00.712073+00:00",
+  "facts": [
+    {
+      "evidence": [
+        "runtime-manifest-comparison.json",
+        "installation-files.json"
+      ],
+      "observation": "All1201 installed files match the sealed4.0.660 tree manifest exactly; no missing/added/changed files, symlinks or inventory errors."
+    },
+    {
+      "evidence": [
+        "jar-members.json",
+        "resources.json",
+        "first-party-classes.json"
+      ],
+      "observation": "All1044 installed JAR paths (210distinct SHA256 values) enumerated with manifests/membernames;25369 nonclass/nontasty resource records and41627 firstparty class records. Duplicate per-frontend distributions are counted as separate paths."
+    },
+    {
+      "evidence": [
+        "launcher-bindings.json",
+        "classpath-and-providers.json"
+      ],
+      "observation": "Root Joern/repl/scan launcher uses94 root lib JARs. Swift frontend launcher manifest resolves62 dependency entries, allpresent, to exact hashes. Every successfully disassembled class has one distinct class hash across inspected root+Swift providers. No nested archive resources in those two runtime library scopes."
+    },
+    {
+      "evidence": [
+        "javap-01-io_joern_dataflowengineoss_DefaultSemanticsobject.stdout.txt",
+        "javap-10-io_joern_dataflowengineoss_semanticsloader_FullNameSemanticsParser.stdout.txt",
+        "javap-03-io_joern_dataflowengineoss_semanticsloader_FullNameSemantics.stdout.txt",
+        "javap-05-io_joern_dataflowengineoss_semanticsloader_FlowSemantic.stdout.txt"
+      ],
+      "observation": "DefaultSemantics.apply directly composes operatorFlows,cFlows,javaFlows into FullNameSemantics.fromList. This is a concrete shipped composition path, not nativeSwift role proof. FullNameSemanticsParser.parseFile reads caller-supplied semantics filename through ANTLR; FlowSemantic stores method/mappings/regex."
+    },
+    {
+      "evidence": [
+        "javap-12-io_joern_console_QueryDatabaseobject.stdout.txt",
+        "javap-13-io_joern_console_QueryDatabase.stdout.txt",
+        "classpath-and-providers.json"
+      ],
+      "observation": "QueryDatabase defaults to io.joern.scanners and uses Reflections ClasspathHelper.contextClassLoader/staticClassLoader and QueryBundle subtypes. No member in either scanner namespace occurs in any installed top-level JAR inventory. This is not proof against externally loaded scanner bundles."
+    },
+    {
+      "evidence": [
+        "javap-16-io_joern_console_BridgeBase.stdout.txt",
+        "javap-17-io_joern_console_Config.stdout.txt",
+        "launcher-bindings.json"
+      ],
+      "observation": "BridgeBase buildRunBeforeCode incorporates Config.runBefore code and optionally scan imports; launcher supports JVM/Java agent/config options. The static installed tree alone does not pin every external classloader/user startup state."
+    },
+    {
+      "evidence": [
+        "javap-06-io_joern_swiftsrc2cpg_SwiftSrc2Cpg.stdout.txt",
+        "javap-18-io_joern_swiftsrc2cpg_utils_SwiftTypesProvider.stdout.txt",
+        "javap-20-io_joern_x2cpg_frontendspecific_swiftsrc2cpg_SwiftTypeRecoveryPassGenerator.stdout.txt"
+      ],
+      "observation": "SwiftSrc2Cpg and SwiftTypesProvider APIs/bytecode were captured; this review did not exhaustively follow every generated pass/helper and all reflected resources to semantic endpoint closure. No absence conclusion is drawn from the text discovery index."
+    }
+  ],
+  "identity": {
+    "adapter_version": "joern-normal-v092",
+    "tool": "joern",
+    "tool_build_identity": "joern-cli:4.0.660;engine:309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00;frontend:d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+    "tool_version": "4.0.660"
+  },
+  "schema": "v092-joern-v40660-static-native-mechanisms/v1",
+  "scope": {
+    "all_installed_jars_central_directories_complete": true,
+    "analyzer_execution": false,
+    "native_fixture_execution": false,
+    "nonclass_resources_complete": true,
+    "plan_source_changes": false,
+    "runtime_files_complete": true,
+    "semantic_bytecode_closure_complete": false,
+    "unsupported_decisions_created": false
+  },
+  "six_roles": [
+    {
+      "cells": 2,
+      "conclusion": "unresolved; no current Unsupported classification supplied",
+      "contract": "ProcessInfo.processInfo.environment to exact Process.run",
+      "evidence": [
+        "classpath-and-providers.json",
+        "javap-01-io_joern_dataflowengineoss_DefaultSemanticsobject.stdout.txt",
+        "javap-13-io_joern_console_QueryDatabase.stdout.txt",
+        "javap-16-io_joern_console_BridgeBase.stdout.txt"
+      ],
+      "observed_shipped_native_binding": "none established by this capture",
+      "reason": "Complete installed-file/archive inventory and targeted loader/default-semantics inspection are available, but complete semantic/classloader closure for this exact endpoint contract has not been independently established. No keyword or incomplete-scan absence inference is used.",
+      "role": "source-sink"
+    },
+    {
+      "cells": 2,
+      "conclusion": "unresolved; no current Unsupported classification supplied",
+      "contract": "String.append preserving taint into exact sink",
+      "evidence": [
+        "classpath-and-providers.json",
+        "javap-01-io_joern_dataflowengineoss_DefaultSemanticsobject.stdout.txt",
+        "javap-13-io_joern_console_QueryDatabase.stdout.txt",
+        "javap-16-io_joern_console_BridgeBase.stdout.txt"
+      ],
+      "observed_shipped_native_binding": "none established by this capture",
+      "reason": "Complete installed-file/archive inventory and targeted loader/default-semantics inspection are available, but complete semantic/classloader closure for this exact endpoint contract has not been independently established. No keyword or incomplete-scan absence inference is used.",
+      "role": "propagator"
+    },
+    {
+      "cells": 2,
+      "conclusion": "unresolved; no current Unsupported classification supplied",
+      "contract": "Int radix parse plus safe String rendering",
+      "evidence": [
+        "classpath-and-providers.json",
+        "javap-01-io_joern_dataflowengineoss_DefaultSemanticsobject.stdout.txt",
+        "javap-13-io_joern_console_QueryDatabase.stdout.txt",
+        "javap-16-io_joern_console_BridgeBase.stdout.txt"
+      ],
+      "observed_shipped_native_binding": "none established by this capture",
+      "reason": "Complete installed-file/archive inventory and targeted loader/default-semantics inspection are available, but complete semantic/classloader closure for this exact endpoint contract has not been independently established. No keyword or incomplete-scan absence inference is used.",
+      "role": "sanitizer"
+    },
+    {
+      "cells": 2,
+      "conclusion": "unresolved; no current Unsupported classification supplied",
+      "contract": "Data Base64 encode/decode and String conversion round trip",
+      "evidence": [
+        "classpath-and-providers.json",
+        "javap-01-io_joern_dataflowengineoss_DefaultSemanticsobject.stdout.txt",
+        "javap-13-io_joern_console_QueryDatabase.stdout.txt",
+        "javap-16-io_joern_console_BridgeBase.stdout.txt"
+      ],
+      "observed_shipped_native_binding": "none established by this capture",
+      "reason": "Complete installed-file/archive inventory and targeted loader/default-semantics inspection are available, but complete semantic/classloader closure for this exact endpoint contract has not been independently established. No keyword or incomplete-scan absence inference is used.",
+      "role": "summary"
+    },
+    {
+      "cells": 2,
+      "conclusion": "unresolved; no current Unsupported classification supplied",
+      "contract": "CommandLine.arguments[1] under A37 guard",
+      "evidence": [
+        "classpath-and-providers.json",
+        "javap-01-io_joern_dataflowengineoss_DefaultSemanticsobject.stdout.txt",
+        "javap-13-io_joern_console_QueryDatabase.stdout.txt",
+        "javap-16-io_joern_console_BridgeBase.stdout.txt"
+      ],
+      "observed_shipped_native_binding": "none established by this capture",
+      "reason": "Complete installed-file/archive inventory and targeted loader/default-semantics inspection are available, but complete semantic/classloader closure for this exact endpoint contract has not been independently established. No keyword or incomplete-scan absence inference is used.",
+      "role": "entrypoint"
+    },
+    {
+      "cells": 2,
+      "conclusion": "unresolved; no current Unsupported classification supplied",
+      "contract": "UserDefaults keyed write/read with receiver and key discrimination",
+      "evidence": [
+        "classpath-and-providers.json",
+        "javap-01-io_joern_dataflowengineoss_DefaultSemanticsobject.stdout.txt",
+        "javap-13-io_joern_console_QueryDatabase.stdout.txt",
+        "javap-16-io_joern_console_BridgeBase.stdout.txt"
+      ],
+      "observed_shipped_native_binding": "none established by this capture",
+      "reason": "Complete installed-file/archive inventory and targeted loader/default-semantics inspection are available, but complete semantic/classloader closure for this exact endpoint contract has not been independently established. No keyword or incomplete-scan absence inference is used.",
+      "role": "persistence"
+    }
+  ],
+  "status": "static-capture-complete; six-role-classification-unresolved",
+  "unknowns": [
+    "Exact external classloader/query bundle/startup-code closure under benchmark launch environment; installed runtime inventory alone does not bind HOME/config/agent/code additions.",
+    "Whether every Swift frontend/type-recovery helper/class or compiled default semantics entry could supply part of each endpoint role has not been exhaustively reviewed against fixture identity.",
+    "No exact4.0.660 upstream source proof was fetched; old4.0.628 source/mechanism conclusions remain historical only."
+  ]
+}

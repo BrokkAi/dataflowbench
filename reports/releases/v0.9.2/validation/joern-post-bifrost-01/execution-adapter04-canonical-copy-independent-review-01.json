@@ -1,0 +1,245 @@
+{
+  "canonical_binding_observations": {
+    "graph": {
+      "adapter_roles": 7,
+      "history_provider_graph_role_added": false,
+      "inherited_roles": 88,
+      "opaque_context_transfer": false,
+      "total_roles": 95
+    },
+    "history_provider": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/history_provider_02.py",
+      "sha256": "da691ca16a4d1169e1f32d3524fb146bc4e60722dd99ea12bb9e03ac38436a8b"
+    },
+    "source_diff_prior_review": "The canonical bytes match the handoff04 source closure exactly; no semantic drift was observed.",
+    "startup_handoff": {
+      "identity_binding": [
+        "child PID/birth",
+        "bootstrap PID/birth",
+        "lock device/inode",
+        "graph SHA",
+        "token",
+        "manifest/core/contract"
+      ],
+      "lock_ownership": "inherited-open-file-description",
+      "retry": false,
+      "timeout_seconds": 600
+    }
+  },
+  "canonical_test_rerun": {
+    "coverage": [
+      "30 adapter tests preserve source/prerequisite/marker/first-case/no-dispatch boundaries",
+      "11 graph95 tests preserve inherited88 object identity plus seven adapter roles, opaque parent/child and strict near misses",
+      "17 durable tests cover parent/child pipe, finalization, bounded cleanup, descriptor closure, startup receipts and exception preservation",
+      "4 startup handoff tests use real tiny Python children and flocks for delayed release, timeout/no retry, inode/path swap, and peer exit"
+    ],
+    "interpreter": "/opt/homebrew/bin/python3.13 -B -E",
+    "pycache_isolated_under": "/private/tmp/joern05-execution-adapter04-canonical-copy-independent-review-01/pycache",
+    "result": "62/62 passed; four commands exited 0",
+    "tests": [
+      {
+        "log": {
+          "path": "/private/tmp/joern05-execution-adapter04-canonical-copy-independent-review-01/independent-test_adapter.log",
+          "sha256": "57dd67b77accf4314e419f453ad59871d66c85499e6ba326be05c27034729906"
+        },
+        "passed": 30,
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_adapter.py"
+      },
+      {
+        "log": {
+          "path": "/private/tmp/joern05-execution-adapter04-canonical-copy-independent-review-01/independent-test_graph95.log",
+          "sha256": "469df637633f7c4d48bf9b2fb8a2350c8575a1a99bf17d3747757df8b2bdec23"
+        },
+        "passed": 11,
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_graph95.py"
+      },
+      {
+        "log": {
+          "path": "/private/tmp/joern05-execution-adapter04-canonical-copy-independent-review-01/independent-test_durable.log",
+          "sha256": "d9b7e31444847132bde95c3cf9152bceeee1121a76b325881db6ef8c88e77369"
+        },
+        "passed": 17,
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_durable.py"
+      },
+      {
+        "log": {
+          "path": "/private/tmp/joern05-execution-adapter04-canonical-copy-independent-review-01/independent-test_startup_handoff.log",
+          "sha256": "bc3e9cd76f2510749c99ba3a161e01b518d63fee6ed8e22c8df4dd5519456d3a"
+        },
+        "passed": 4,
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_startup_handoff.py"
+      }
+    ]
+  },
+  "disposition": {
+    "execution_authorized": false,
+    "next_gate": "Root may independently decide the later selected source commit under its existing authority, then run separate native-control, stage-qualification and fresh admission/execution gates. This review does not claim that any commit or runtime installation has occurred.",
+    "qualification_authorized": false,
+    "source_commit_approval": true,
+    "status": "approved-for-source-commit-only"
+  },
+  "execution_authorized": false,
+  "findings": [
+    {
+      "evidence": {
+        "file_count": 11,
+        "receipt_sha256": "17ee769c220bb9c6d6aa82d6aa99795268975d485be16584098aa76f7d10f8d5"
+      },
+      "finding": "All 11 canonical files match their private handoff04 bytes and recorded SHA-256 values exactly; the copy receipt itself is hash-bound and states source_commit_performed=false.",
+      "id": "COPY-EXACT-001",
+      "severity": "passed",
+      "status": "resolved"
+    },
+    {
+      "evidence": {
+        "logs": [
+          {
+            "path": "/private/tmp/joern05-execution-adapter04-canonical-copy-independent-review-01/independent-test_adapter.log",
+            "sha256": "57dd67b77accf4314e419f453ad59871d66c85499e6ba326be05c27034729906"
+          },
+          {
+            "path": "/private/tmp/joern05-execution-adapter04-canonical-copy-independent-review-01/independent-test_graph95.log",
+            "sha256": "469df637633f7c4d48bf9b2fb8a2350c8575a1a99bf17d3747757df8b2bdec23"
+          },
+          {
+            "path": "/private/tmp/joern05-execution-adapter04-canonical-copy-independent-review-01/independent-test_durable.log",
+            "sha256": "d9b7e31444847132bde95c3cf9152bceeee1121a76b325881db6ef8c88e77369"
+          },
+          {
+            "path": "/private/tmp/joern05-execution-adapter04-canonical-copy-independent-review-01/independent-test_startup_handoff.log",
+            "sha256": "bc3e9cd76f2510749c99ba3a161e01b518d63fee6ed8e22c8df4dd5519456d3a"
+          }
+        ]
+      },
+      "finding": "The canonical acquisition test paths independently pass all 62 bounded tests. Startup controls use real tiny Python/flock processes; no production launch or analyzer path was invoked.",
+      "id": "COPY-TESTS-002",
+      "severity": "passed",
+      "status": "resolved"
+    },
+    {
+      "finding": "This receipt supports exact source-copy and source-test integrity only. It does not establish source commit completion, canonical runtime integration, native-control qualification, stage qualification, fresh admission, production dispatch, analyzer success, release or publication readiness.",
+      "id": "COPY-SCOPE-003",
+      "required_preservation": "Keep source_commit_performed=false and preserve the separate runtime/qualification/admission gates.",
+      "severity": "boundary",
+      "status": "disclosed"
+    }
+  ],
+  "qualification_authorized": false,
+  "review_type": "independent-read-only-canonical-byte-copy-and-test-review",
+  "reviewed_at_utc": "2026-10-25T17:40:00Z",
+  "reviewer": "joern_execution_adapter_independent",
+  "schema": "v092-exact-canonical-copy-independent-review/v1",
+  "scope": {
+    "admission_or_dispatch_invoked": false,
+    "canonical_copy_mutated": false,
+    "controls_invoked": false,
+    "engine_or_analyzer_invoked": false,
+    "git_mutated": false,
+    "ledger_mutated": false,
+    "production_source_edited": false,
+    "qualification_invoked": false,
+    "replay_invoked": false,
+    "runtime_invoked": false,
+    "source_commit_performed": false,
+    "statement": "Read-only verification of the exact canonical adapter-04 copy receipt and canonical acquisition test paths. Source-only disposition; no source commit, runtime controls, qualification, admission, dispatch, replay, analyzer, engine or Git mutation."
+  },
+  "sealed_input": {
+    "all_bytes_exact": true,
+    "copy_receipt": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/execution-adapter04-canonical-copy-01.json",
+      "schema": "v092-exact-canonical-copy/v1",
+      "sha256": "17ee769c220bb9c6d6aa82d6aa99795268975d485be16584098aa76f7d10f8d5",
+      "source_commit_performed": false
+    },
+    "file_count": 11,
+    "files": [
+      {
+        "byte_identical": true,
+        "expected_sha256": "73350e80e0861bba89cb138e14b742cccb88a274b86b64dac9673bb14a4c8644",
+        "observed_sha256": "73350e80e0861bba89cb138e14b742cccb88a274b86b64dac9673bb14a4c8644",
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/packet.py",
+        "private_source": "/private/tmp/joern05-execution-adapter-04/packet.py"
+      },
+      {
+        "byte_identical": true,
+        "expected_sha256": "5844d039786cc513895a020774c202caaed1c0cfef6bc858c7a2e2136bfd696e",
+        "observed_sha256": "5844d039786cc513895a020774c202caaed1c0cfef6bc858c7a2e2136bfd696e",
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/history.py",
+        "private_source": "/private/tmp/joern05-execution-adapter-04/history.py"
+      },
+      {
+        "byte_identical": true,
+        "expected_sha256": "4caf6cd997b75da405b1789ce26cc816dc9244634263f5b000c3de3eed6d49ae",
+        "observed_sha256": "4caf6cd997b75da405b1789ce26cc816dc9244634263f5b000c3de3eed6d49ae",
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/protocol.py",
+        "private_source": "/private/tmp/joern05-execution-adapter-04/protocol.py"
+      },
+      {
+        "byte_identical": true,
+        "expected_sha256": "9ab0e86068a6504b8b38a83573afe6c2ce086b07f47d1af6e56cba16974755e3",
+        "observed_sha256": "9ab0e86068a6504b8b38a83573afe6c2ce086b07f47d1af6e56cba16974755e3",
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/stage_runtime.py",
+        "private_source": "/private/tmp/joern05-execution-adapter-04/stage_runtime.py"
+      },
+      {
+        "byte_identical": true,
+        "expected_sha256": "538dd5a9b75201e640c1630f9517bb64597a9629d22afcc52492348aa00627c4",
+        "observed_sha256": "538dd5a9b75201e640c1630f9517bb64597a9629d22afcc52492348aa00627c4",
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/bridge.py",
+        "private_source": "/private/tmp/joern05-execution-adapter-04/bridge.py"
+      },
+      {
+        "byte_identical": true,
+        "expected_sha256": "7807d6a0a1759932f1cbd07cefa739d38aae533d437ec8a8a8465322072c39a0",
+        "observed_sha256": "7807d6a0a1759932f1cbd07cefa739d38aae533d437ec8a8a8465322072c39a0",
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/admission.py",
+        "private_source": "/private/tmp/joern05-execution-adapter-04/admission.py"
+      },
+      {
+        "byte_identical": true,
+        "expected_sha256": "fdcec6914b3aad124d5a2af270b62d4f189aa211292516784ef9fb658c2916ee",
+        "observed_sha256": "fdcec6914b3aad124d5a2af270b62d4f189aa211292516784ef9fb658c2916ee",
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/supervisor.py",
+        "private_source": "/private/tmp/joern05-execution-adapter-04/supervisor.py"
+      },
+      {
+        "byte_identical": true,
+        "expected_sha256": "dc359995e495ba4014a772e6ace292faef4d01ebd0aa34ecc78ddc478ad8270d",
+        "observed_sha256": "dc359995e495ba4014a772e6ace292faef4d01ebd0aa34ecc78ddc478ad8270d",
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_adapter.py",
+        "private_source": "/private/tmp/joern05-execution-adapter-04/test_adapter.py"
+      },
+      {
+        "byte_identical": true,
+        "expected_sha256": "ecac2d7a029fac6e862295b88515e7a92cc37b764c3017299026d3ff7d16fe10",
+        "observed_sha256": "ecac2d7a029fac6e862295b88515e7a92cc37b764c3017299026d3ff7d16fe10",
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_graph95.py",
+        "private_source": "/private/tmp/joern05-execution-adapter-04/test_graph95.py"
+      },
+      {
+        "byte_identical": true,
+        "expected_sha256": "e47d65307fd2258aaf0f1eb5f07aab443f52a3d5e490cb8e98941f6a797901a8",
+        "observed_sha256": "e47d65307fd2258aaf0f1eb5f07aab443f52a3d5e490cb8e98941f6a797901a8",
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_durable.py",
+        "private_source": "/private/tmp/joern05-execution-adapter-04/test_durable.py"
+      },
+      {
+        "byte_identical": true,
+        "expected_sha256": "2019156e5c82a17681d096c64d89393d81d33581588479b299dbdb6e8d7cfea5",
+        "observed_sha256": "2019156e5c82a17681d096c64d89393d81d33581588479b299dbdb6e8d7cfea5",
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_startup_handoff.py",
+        "private_source": "/private/tmp/joern05-execution-adapter-04/test_startup_handoff.py"
+      }
+    ],
+    "handoff": {
+      "path": "/private/tmp/joern05-execution-adapter-04/implementation-handoff-04.json",
+      "sha256": "6232b6a87998e6e5c9f6e16dd23574961e0bc908ef74c4aedbd52915a8c8ee0a"
+    },
+    "source_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/execution-adapter-independent-review-04.json",
+      "sha256": "b8b59d5043445116782aae820c563b6c50c52dc1ae8391d8563da86afdc27062"
+    }
+  },
+  "source_commit_approval": true,
+  "status": "approved-for-source-commit-only"
+}

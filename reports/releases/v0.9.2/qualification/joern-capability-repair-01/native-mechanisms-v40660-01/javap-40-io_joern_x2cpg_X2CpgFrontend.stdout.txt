@@ -1,0 +1,88 @@
+Compiled from "X2Cpg.scala"
+public interface io.joern.x2cpg.X2CpgFrontend extends java.lang.AutoCloseable {
+  public abstract io.joern.x2cpg.X2CpgConfig defaultConfig();
+
+  public abstract scala.util.Try<io.shiftleft.codepropertygraph.generated.Cpg> createCpg(io.joern.x2cpg.X2CpgConfig);
+
+  public static void run$(io.joern.x2cpg.X2CpgFrontend, io.joern.x2cpg.X2CpgConfig);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #26                 // InterfaceMethod run:(Lio/joern/x2cpg/X2CpgConfig;)V
+       5: return
+
+  public default void run(io.joern.x2cpg.X2CpgConfig) throws java/lang/Throwable;
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #33,  2           // InterfaceMethod createCpg:(Lio/joern/x2cpg/X2CpgConfig;)Lscala/util/Try;
+       7: invokedynamic #54,  0             // InvokeDynamic #0:applyVoid:()Lscala/runtime/function/JProcedure1;
+      12: invokevirtual #60                 // Method scala/util/Try.map:(Lscala/Function1;)Lscala/util/Try;
+      15: astore_2
+      16: aload_2
+      17: instanceof    #62                 // class scala/util/Failure
+      20: ifeq          33
+      23: aload_2
+      24: checkcast     #62                 // class scala/util/Failure
+      27: invokevirtual #66                 // Method scala/util/Failure.exception:()Ljava/lang/Throwable;
+      30: astore_3
+      31: aload_3
+      32: athrow
+      33: aload_2
+      34: instanceof    #68                 // class scala/util/Success
+      37: ifeq          41
+      40: return
+      41: new           #70                 // class scala/MatchError
+      44: dup
+      45: aload_2
+      46: invokespecial #73                 // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      49: athrow
+
+  public static scala.util.Try createCpgWithOverlays$(io.joern.x2cpg.X2CpgFrontend, io.joern.x2cpg.X2CpgConfig);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #80                 // InterfaceMethod createCpgWithOverlays:(Lio/joern/x2cpg/X2CpgConfig;)Lscala/util/Try;
+       5: areturn
+
+  public default scala.util.Try<io.shiftleft.codepropertygraph.generated.Cpg> createCpgWithOverlays(io.joern.x2cpg.X2CpgConfig);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #33,  2           // InterfaceMethod createCpg:(Lio/joern/x2cpg/X2CpgConfig;)Lscala/util/Try;
+       7: astore_2
+       8: aload_2
+       9: invokedynamic #92,  0             // InvokeDynamic #1:apply:()Lscala/Function1;
+      14: invokevirtual #60                 // Method scala/util/Try.map:(Lscala/Function1;)Lscala/util/Try;
+      17: areturn
+
+  public static void close$(io.joern.x2cpg.X2CpgFrontend);
+    Code:
+       0: aload_0
+       1: invokespecial #100                // InterfaceMethod close:()V
+       4: return
+
+  public default void close();
+    Code:
+       0: return
+
+  private static void run$$anonfun$1(io.shiftleft.codepropertygraph.generated.Cpg);
+    Code:
+       0: aload_0
+       1: invokevirtual #104                // Method io/shiftleft/codepropertygraph/generated/Cpg.close:()V
+       4: return
+
+  private static io.shiftleft.codepropertygraph.generated.Cpg createCpgWithOverlays$$anonfun$1(io.shiftleft.codepropertygraph.generated.Cpg);
+    Code:
+       0: getstatic     #111                // Field io/joern/x2cpg/X2Cpg$.MODULE$:Lio/joern/x2cpg/X2Cpg$;
+       3: aload_0
+       4: invokevirtual #114                // Method io/joern/x2cpg/X2Cpg$.applyDefaultOverlays:(Lio/shiftleft/codepropertygraph/generated/Cpg;)V
+       7: aload_0
+       8: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #126,  0            // InvokeDynamic #2:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

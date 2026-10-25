@@ -1,0 +1,3185 @@
+Compiled from "BridgeBase.scala"
+public interface io.joern.console.BridgeBase extends io.joern.console.InteractiveShell, io.joern.console.ScriptExecution, io.joern.console.PluginHandling, io.joern.console.ServerHandling {
+  public abstract java.lang.String applicationName();
+
+  public static io.joern.console.Config parseConfig$(io.joern.console.BridgeBase, java.lang.String[]);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #46                 // InterfaceMethod parseConfig:([Ljava/lang/String;)Lio/joern/console/Config;
+       5: areturn
+
+  public default io.joern.console.Config parseConfig(java.lang.String[]);
+    Code:
+       0: new           #16                 // class io/joern/console/BridgeBase$$anon$1
+       3: dup
+       4: aload_0
+       5: invokespecial #52                 // Method io/joern/console/BridgeBase$$anon$1."<init>":(Lio/joern/console/BridgeBase;)V
+       8: astore_2
+       9: aload_2
+      10: getstatic     #58                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      13: aload_1
+      14: invokevirtual #62                 // Method scala/Predef$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/mutable/ArraySeq$ofRef;
+      17: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      20: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      23: invokevirtual #71                 // Method io/joern/console/Config$.$lessinit$greater$default$1:()Lscala/Option;
+      26: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      29: invokevirtual #74                 // Method io/joern/console/Config$.$lessinit$greater$default$2:()Lscala/Option;
+      32: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      35: invokevirtual #78                 // Method io/joern/console/Config$.$lessinit$greater$default$3:()Lscala/collection/immutable/Map;
+      38: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      41: invokevirtual #82                 // Method io/joern/console/Config$.$lessinit$greater$default$4:()Lscala/collection/immutable/Seq;
+      44: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      47: invokevirtual #85                 // Method io/joern/console/Config$.$lessinit$greater$default$5:()Lscala/collection/immutable/Seq;
+      50: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      53: invokevirtual #88                 // Method io/joern/console/Config$.$lessinit$greater$default$6:()Lscala/collection/immutable/Seq;
+      56: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      59: invokevirtual #91                 // Method io/joern/console/Config$.$lessinit$greater$default$7:()Lscala/collection/immutable/Seq;
+      62: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      65: invokevirtual #94                 // Method io/joern/console/Config$.$lessinit$greater$default$8:()Lscala/Option;
+      68: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      71: invokevirtual #97                 // Method io/joern/console/Config$.$lessinit$greater$default$9:()Lscala/Option;
+      74: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      77: invokevirtual #100                // Method io/joern/console/Config$.$lessinit$greater$default$10:()Lscala/Option;
+      80: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      83: invokevirtual #104                // Method io/joern/console/Config$.$lessinit$greater$default$11:()Z
+      86: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      89: invokevirtual #107                // Method io/joern/console/Config$.$lessinit$greater$default$12:()Lscala/Option;
+      92: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+      95: invokevirtual #110                // Method io/joern/console/Config$.$lessinit$greater$default$13:()Lscala/Option;
+      98: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     101: invokevirtual #113                // Method io/joern/console/Config$.$lessinit$greater$default$14:()Z
+     104: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     107: invokevirtual #116                // Method io/joern/console/Config$.$lessinit$greater$default$15:()Z
+     110: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     113: invokevirtual #119                // Method io/joern/console/Config$.$lessinit$greater$default$16:()Z
+     116: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     119: invokevirtual #122                // Method io/joern/console/Config$.$lessinit$greater$default$17:()Ljava/lang/String;
+     122: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     125: invokevirtual #126                // Method io/joern/console/Config$.$lessinit$greater$default$18:()I
+     128: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     131: invokevirtual #129                // Method io/joern/console/Config$.$lessinit$greater$default$19:()Lscala/Option;
+     134: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     137: invokevirtual #132                // Method io/joern/console/Config$.$lessinit$greater$default$20:()Lscala/Option;
+     140: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     143: invokevirtual #135                // Method io/joern/console/Config$.$lessinit$greater$default$21:()Z
+     146: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     149: invokevirtual #138                // Method io/joern/console/Config$.$lessinit$greater$default$22:()Lscala/Option;
+     152: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     155: invokevirtual #141                // Method io/joern/console/Config$.$lessinit$greater$default$23:()Lscala/Option;
+     158: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     161: invokevirtual #145                // Method io/joern/console/Config$.$lessinit$greater$default$24:()[Ljava/lang/String;
+     164: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     167: invokevirtual #148                // Method io/joern/console/Config$.$lessinit$greater$default$25:()Z
+     170: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     173: invokevirtual #151                // Method io/joern/console/Config$.$lessinit$greater$default$26:()Lscala/collection/immutable/Seq;
+     176: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     179: invokevirtual #154                // Method io/joern/console/Config$.$lessinit$greater$default$27:()Lscala/collection/immutable/Seq;
+     182: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     185: invokevirtual #157                // Method io/joern/console/Config$.$lessinit$greater$default$28:()Lscala/Option;
+     188: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     191: invokevirtual #160                // Method io/joern/console/Config$.$lessinit$greater$default$29:()Lscala/Option;
+     194: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     197: invokevirtual #163                // Method io/joern/console/Config$.$lessinit$greater$default$30:()[Ljava/lang/String;
+     200: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     203: invokevirtual #166                // Method io/joern/console/Config$.$lessinit$greater$default$31:()[Ljava/lang/String;
+     206: getstatic     #67                 // Field io/joern/console/Config$.MODULE$:Lio/joern/console/Config$;
+     209: invokevirtual #169                // Method io/joern/console/Config$.$lessinit$greater$default$32:()Lscala/collection/immutable/Seq;
+     212: invokevirtual #173                // Method io/joern/console/Config$.apply:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     215: invokevirtual #179                // Method scopt/OptionParser.parse:(Lscala/collection/Seq;Ljava/lang/Object;)Lscala/Option;
+     218: invokevirtual #185                // Method scala/Option.get:()Ljava/lang/Object;
+     221: checkcast     #187                // class io/joern/console/Config
+     224: areturn
+
+  public static void run$(io.joern.console.BridgeBase, io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #197                // InterfaceMethod run:(Lio/joern/console/Config;)V
+       5: return
+
+  public default void run(io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #201                // Method io/joern/console/Config.listPlugins:()Z
+       4: ifeq          15
+       7: aload_0
+       8: aload_1
+       9: invokeinterface #204,  2          // InterfaceMethod printPluginsAndLayerCreators:(Lio/joern/console/Config;)V
+      14: return
+      15: aload_1
+      16: invokevirtual #207                // Method io/joern/console/Config.addPlugin:()Lscala/Option;
+      19: invokevirtual #210                // Method scala/Option.isDefined:()Z
+      22: ifeq          55
+      25: new           #212                // class io/joern/console/PluginManager
+      28: dup
+      29: getstatic     #217                // Field io/joern/console/InstallConfig$.MODULE$:Lio/joern/console/InstallConfig$;
+      32: invokevirtual #220                // Method io/joern/console/InstallConfig$.apply:()Lio/joern/console/InstallConfig;
+      35: invokevirtual #226                // Method io/joern/console/InstallConfig.rootPath:()Ljava/nio/file/Path;
+      38: invokespecial #229                // Method io/joern/console/PluginManager."<init>":(Ljava/nio/file/Path;)V
+      41: aload_1
+      42: invokevirtual #207                // Method io/joern/console/Config.addPlugin:()Lscala/Option;
+      45: invokevirtual #185                // Method scala/Option.get:()Ljava/lang/Object;
+      48: checkcast     #231                // class java/lang/String
+      51: invokevirtual #235                // Method io/joern/console/PluginManager.add:(Ljava/lang/String;)V
+      54: return
+      55: aload_1
+      56: invokevirtual #238                // Method io/joern/console/Config.rmPlugin:()Lscala/Option;
+      59: invokevirtual #210                // Method scala/Option.isDefined:()Z
+      62: ifeq          96
+      65: new           #212                // class io/joern/console/PluginManager
+      68: dup
+      69: getstatic     #217                // Field io/joern/console/InstallConfig$.MODULE$:Lio/joern/console/InstallConfig$;
+      72: invokevirtual #220                // Method io/joern/console/InstallConfig$.apply:()Lio/joern/console/InstallConfig;
+      75: invokevirtual #226                // Method io/joern/console/InstallConfig.rootPath:()Ljava/nio/file/Path;
+      78: invokespecial #229                // Method io/joern/console/PluginManager."<init>":(Ljava/nio/file/Path;)V
+      81: aload_1
+      82: invokevirtual #238                // Method io/joern/console/Config.rmPlugin:()Lscala/Option;
+      85: invokevirtual #185                // Method scala/Option.get:()Ljava/lang/Object;
+      88: checkcast     #231                // class java/lang/String
+      91: invokevirtual #242                // Method io/joern/console/PluginManager.rm:(Ljava/lang/String;)Lscala/collection/immutable/List;
+      94: pop
+      95: return
+      96: aload_1
+      97: invokevirtual #245                // Method io/joern/console/Config.scriptFile:()Lscala/Option;
+     100: invokevirtual #210                // Method scala/Option.isDefined:()Z
+     103: ifeq          146
+     106: aload_0
+     107: aload_1
+     108: invokeinterface #249,  2          // InterfaceMethod runScript:(Lio/joern/console/Config;)Lscala/util/Try;
+     113: astore_2
+     114: aload_2
+     115: invokevirtual #254                // Method scala/util/Try.isFailure:()Z
+     118: ifeq          145
+     121: getstatic     #58                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     124: aload_2
+     125: invokevirtual #258                // Method scala/util/Try.failed:()Lscala/util/Try;
+     128: invokevirtual #259                // Method scala/util/Try.get:()Ljava/lang/Object;
+     131: checkcast     #261                // class java/lang/Throwable
+     134: invokevirtual #264                // Method java/lang/Throwable.getMessage:()Ljava/lang/String;
+     137: invokevirtual #268                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+     140: iconst_1
+     141: invokestatic  #274                // Method java/lang/System.exit:(I)V
+     144: return
+     145: return
+     146: aload_1
+     147: invokevirtual #277                // Method io/joern/console/Config.server:()Z
+     150: ifeq          167
+     153: getstatic     #282                // Field io/joern/console/GlobalReporting$.MODULE$:Lio/joern/console/GlobalReporting$;
+     156: invokevirtual #286                // Method io/joern/console/GlobalReporting$.enable:()V
+     159: aload_0
+     160: aload_1
+     161: invokeinterface #289,  2          // InterfaceMethod startHttpServer:(Lio/joern/console/Config;)V
+     166: return
+     167: aload_1
+     168: invokevirtual #292                // Method io/joern/console/Config.pluginToRun:()Lscala/Option;
+     171: invokevirtual #210                // Method scala/Option.isDefined:()Z
+     174: ifeq          185
+     177: aload_0
+     178: aload_1
+     179: invokeinterface #295,  2          // InterfaceMethod runPlugin:(Lio/joern/console/Config;)V
+     184: return
+     185: aload_0
+     186: aload_1
+     187: invokeinterface #298,  2          // InterfaceMethod startInteractiveShell:(Lio/joern/console/Config;)V
+     192: return
+
+  public abstract scala.collection.immutable.Seq<java.lang.String> runBeforeCode();
+
+  private java.lang.String escapeForWindows(java.lang.String, boolean, boolean);
+    Code:
+       0: iload_3
+       1: ifeq          6
+       4: aload_1
+       5: areturn
+       6: iload_2
+       7: ifne          39
+      10: getstatic     #312                // Field scala/util/Properties$.MODULE$:Lscala/util/Properties$;
+      13: invokevirtual #315                // Method scala/util/Properties$.isWin:()Z
+      16: ifeq          39
+      19: aload_1
+      20: ldc_w         #317                // String \\
+      23: ldc_w         #319                // String \\\\
+      26: invokevirtual #323                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      29: ldc_w         #325                // String \"
+      32: ldc_w         #327                // String \\\"
+      35: invokevirtual #323                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      38: areturn
+      39: aload_1
+      40: areturn
+
+  private boolean escapeForWindows$default$3();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public static scala.collection.immutable.Seq buildRunBeforeCode$(io.joern.console.BridgeBase, io.joern.console.Config, boolean, boolean);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: iload_3
+       4: invokespecial #336                // InterfaceMethod buildRunBeforeCode:(Lio/joern/console/Config;ZZ)Lscala/collection/immutable/Seq;
+       7: areturn
+
+  public default scala.collection.immutable.Seq<java.lang.String> buildRunBeforeCode(io.joern.console.Config, boolean, boolean);
+    Code:
+       0: getstatic     #342                // Field scala/package$.MODULE$:Lscala/package$;
+       3: invokevirtual #346                // Method scala/package$.Seq:()Lscala/collection/immutable/Seq$;
+       6: invokevirtual #352                // Method scala/collection/immutable/Seq$.newBuilder:()Lscala/collection/mutable/Builder;
+       9: astore        4
+      11: aload         4
+      13: aload_0
+      14: invokeinterface #354,  1          // InterfaceMethod runBeforeCode:()Lscala/collection/immutable/Seq;
+      19: aload_0
+      20: iload_2
+      21: iload_3
+      22: invokedynamic #375,  0            // InvokeDynamic #0:apply:(Lio/joern/console/BridgeBase;ZZ)Lscala/Function1;
+      27: invokeinterface #381,  2          // InterfaceMethod scala/collection/immutable/Seq.map:(Lscala/Function1;)Ljava/lang/Object;
+      32: checkcast     #383                // class scala/collection/IterableOnce
+      35: invokeinterface #389,  2          // InterfaceMethod scala/collection/mutable/Builder.$plus$plus$eq:(Lscala/collection/IterableOnce;)Lscala/collection/mutable/Growable;
+      40: pop
+      41: aload_1
+      42: invokevirtual #392                // Method io/joern/console/Config.cpgToLoad:()Lscala/Option;
+      45: aload_0
+      46: iload_2
+      47: aload         4
+      49: invokedynamic #402,  0            // InvokeDynamic #1:apply:(Lio/joern/console/BridgeBase;ZLscala/collection/mutable/Builder;)Lscala/Function1;
+      54: invokevirtual #406                // Method scala/Option.foreach:(Lscala/Function1;)V
+      57: aload_1
+      58: invokevirtual #409                // Method io/joern/console/Config.forInputPath:()Lscala/Option;
+      61: aload_0
+      62: iload_2
+      63: aload         4
+      65: invokedynamic #417,  0            // InvokeDynamic #2:apply:(Lio/joern/console/BridgeBase;ZLscala/collection/mutable/Builder;)Lscala/Function1;
+      70: invokevirtual #406                // Method scala/Option.foreach:(Lscala/Function1;)V
+      73: aload         4
+      75: aload_1
+      76: invokevirtual #420                // Method io/joern/console/Config.runBefore:()Lscala/collection/immutable/Seq;
+      79: aload_0
+      80: iload_2
+      81: invokedynamic #428,  0            // InvokeDynamic #3:apply:(Lio/joern/console/BridgeBase;Z)Lscala/Function1;
+      86: invokeinterface #381,  2          // InterfaceMethod scala/collection/immutable/Seq.map:(Lscala/Function1;)Ljava/lang/Object;
+      91: checkcast     #383                // class scala/collection/IterableOnce
+      94: invokeinterface #389,  2          // InterfaceMethod scala/collection/mutable/Builder.$plus$plus$eq:(Lscala/collection/IterableOnce;)Lscala/collection/mutable/Growable;
+      99: pop
+     100: aload_1
+     101: invokevirtual #292                // Method io/joern/console/Config.pluginToRun:()Lscala/Option;
+     104: ldc_w         #430                // String scan
+     107: invokevirtual #434                // Method scala/Option.contains:(Ljava/lang/Object;)Z
+     110: ifeq          292
+     113: aload         4
+     115: ldc_w         #436                // String import io.joern.joerncli.Scan
+     118: invokeinterface #440,  2          // InterfaceMethod scala/collection/mutable/Builder.$plus$eq:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+     123: pop
+     124: aload         4
+     126: aload_0
+     127: getstatic     #58                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     130: getstatic     #58                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     133: aload_1
+     134: invokevirtual #443                // Method io/joern/console/Config.scanScriptNames:()[Ljava/lang/String;
+     137: invokevirtual #447                // Method scala/Predef$.refArrayOps:([Ljava/lang/Object;)Ljava/lang/Object;
+     140: astore        5
+     142: getstatic     #452                // Field scala/collection/ArrayOps$.MODULE$:Lscala/collection/ArrayOps$;
+     145: aload         5
+     147: invokedynamic #459,  0            // InvokeDynamic #4:apply:()Lscala/Function1;
+     152: getstatic     #464                // Field scala/reflect/ClassTag$.MODULE$:Lscala/reflect/ClassTag$;
+     155: ldc           #231                // class java/lang/String
+     157: invokevirtual #467                // Method scala/reflect/ClassTag$.apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+     160: invokevirtual #471                // Method scala/collection/ArrayOps$.map$extension:(Ljava/lang/Object;Lscala/Function1;Lscala/reflect/ClassTag;)Ljava/lang/Object;
+     163: checkcast     #473                // class "[Ljava/lang/Object;"
+     166: invokevirtual #62                 // Method scala/Predef$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/mutable/ArraySeq$ofRef;
+     169: ldc_w         #475                // String ,
+     172: invokevirtual #478                // Method scala/collection/mutable/ArraySeq$ofRef.mkString:(Ljava/lang/String;)Ljava/lang/String;
+     175: iload_2
+     176: aload_0
+     177: invokespecial #480                // InterfaceMethod escapeForWindows$default$3:()Z
+     180: invokespecial #482                // InterfaceMethod escapeForWindows:(Ljava/lang/String;ZZ)Ljava/lang/String;
+     183: invokedynamic #493,  0            // InvokeDynamic #5:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     188: invokeinterface #440,  2          // InterfaceMethod scala/collection/mutable/Builder.$plus$eq:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+     193: pop
+     194: aload         4
+     196: aload_0
+     197: getstatic     #58                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     200: getstatic     #58                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     203: aload_1
+     204: invokevirtual #496                // Method io/joern/console/Config.scanTagNames:()[Ljava/lang/String;
+     207: invokevirtual #447                // Method scala/Predef$.refArrayOps:([Ljava/lang/Object;)Ljava/lang/Object;
+     210: astore        6
+     212: getstatic     #452                // Field scala/collection/ArrayOps$.MODULE$:Lscala/collection/ArrayOps$;
+     215: aload         6
+     217: invokedynamic #501,  0            // InvokeDynamic #6:apply:()Lscala/Function1;
+     222: getstatic     #464                // Field scala/reflect/ClassTag$.MODULE$:Lscala/reflect/ClassTag$;
+     225: ldc           #231                // class java/lang/String
+     227: invokevirtual #467                // Method scala/reflect/ClassTag$.apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+     230: invokevirtual #471                // Method scala/collection/ArrayOps$.map$extension:(Ljava/lang/Object;Lscala/Function1;Lscala/reflect/ClassTag;)Ljava/lang/Object;
+     233: checkcast     #473                // class "[Ljava/lang/Object;"
+     236: invokevirtual #62                 // Method scala/Predef$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/mutable/ArraySeq$ofRef;
+     239: ldc_w         #475                // String ,
+     242: invokevirtual #478                // Method scala/collection/mutable/ArraySeq$ofRef.mkString:(Ljava/lang/String;)Ljava/lang/String;
+     245: iload_2
+     246: aload_0
+     247: invokespecial #480                // InterfaceMethod escapeForWindows$default$3:()Z
+     250: invokespecial #482                // InterfaceMethod escapeForWindows:(Ljava/lang/String;ZZ)Ljava/lang/String;
+     253: invokedynamic #504,  0            // InvokeDynamic #7:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     258: invokeinterface #440,  2          // InterfaceMethod scala/collection/mutable/Builder.$plus$eq:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+     263: pop
+     264: aload         4
+     266: aload_1
+     267: invokevirtual #507                // Method io/joern/console/Config.scanMaxCallDepth:()Lscala/Option;
+     270: invokedynamic #514,  0            // InvokeDynamic #8:apply:()Lscala/Function1;
+     275: invokevirtual #517                // Method scala/Option.map:(Lscala/Function1;)Lscala/Option;
+     278: invokedynamic #526,  0            // InvokeDynamic #9:apply:()Lscala/Function0;
+     283: invokevirtual #530                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+     286: invokeinterface #440,  2          // InterfaceMethod scala/collection/mutable/Builder.$plus$eq:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+     291: pop
+     292: aload         4
+     294: invokeinterface #533,  1          // InterfaceMethod scala/collection/mutable/Builder.result:()Ljava/lang/Object;
+     299: checkcast     #377                // class scala/collection/immutable/Seq
+     302: areturn
+
+  public static boolean buildRunBeforeCode$default$2$(io.joern.console.BridgeBase);
+    Code:
+       0: aload_0
+       1: invokespecial #540                // InterfaceMethod buildRunBeforeCode$default$2:()Z
+       4: ireturn
+
+  public default boolean buildRunBeforeCode$default$2();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public static boolean buildRunBeforeCode$default$3$(io.joern.console.BridgeBase);
+    Code:
+       0: aload_0
+       1: invokespecial #544                // InterfaceMethod buildRunBeforeCode$default$3:()Z
+       4: ireturn
+
+  public default boolean buildRunBeforeCode$default$3();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public static scala.collection.immutable.Seq buildRunAfterCode$(io.joern.console.BridgeBase, io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #550                // InterfaceMethod buildRunAfterCode:(Lio/joern/console/Config;)Lscala/collection/immutable/Seq;
+       5: areturn
+
+  public default scala.collection.immutable.Seq<java.lang.String> buildRunAfterCode(io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #554                // Method io/joern/console/Config.runAfter:()Lscala/collection/immutable/Seq;
+       4: aload_0
+       5: invokeinterface #557,  1          // InterfaceMethod runAfterCode:()Ljava/lang/String;
+      10: invokeinterface #560,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      15: checkcast     #377                // class scala/collection/immutable/Seq
+      18: areturn
+
+  public abstract java.lang.String greeting();
+
+  public abstract java.lang.String promptStr();
+
+  public static java.lang.String runAfterCode$(io.joern.console.BridgeBase);
+    Code:
+       0: aload_0
+       1: invokespecial #557                // InterfaceMethod runAfterCode:()Ljava/lang/String;
+       4: areturn
+
+  public default java.lang.String runAfterCode();
+    Code:
+       0: ldc_w         #566                // String workspace.projects.foreach(_.close)
+       3: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$1(java.nio.file.Path, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: getstatic     #575                // Field scala/Some$.MODULE$:Lscala/Some$;
+       4: aload_0
+       5: invokevirtual #578                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+       8: aload_1
+       9: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      12: aload_1
+      13: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      16: aload_1
+      17: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      20: aload_1
+      21: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      24: aload_1
+      25: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      28: aload_1
+      29: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      32: aload_1
+      33: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      36: aload_1
+      37: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      40: aload_1
+      41: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      44: aload_1
+      45: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      48: aload_1
+      49: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      52: aload_1
+      53: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      56: aload_1
+      57: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      60: aload_1
+      61: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      64: aload_1
+      65: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      68: aload_1
+      69: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      72: aload_1
+      73: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      76: aload_1
+      77: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      80: aload_1
+      81: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      84: aload_1
+      85: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      88: aload_1
+      89: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      92: aload_1
+      93: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      96: aload_1
+      97: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     100: aload_1
+     101: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     104: aload_1
+     105: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     108: aload_1
+     109: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     112: aload_1
+     113: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     116: aload_1
+     117: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     120: aload_1
+     121: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     124: aload_1
+     125: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     128: aload_1
+     129: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     132: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     135: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$2(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_0
+       1: ldc_w         #679                // String =
+       4: iconst_2
+       5: invokevirtual #683                // Method java/lang/String.split:(Ljava/lang/String;I)[Ljava/lang/String;
+       8: astore_2
+       9: aload_2
+      10: ifnull        359
+      13: getstatic     #688                // Field scala/Array$.MODULE$:Lscala/Array$;
+      16: aload_2
+      17: invokevirtual #691                // Method scala/Array$.unapplySeq:(Ljava/lang/Object;)Ljava/lang/Object;
+      20: astore_3
+      21: getstatic     #694                // Field scala/Array$UnapplySeqWrapper$.MODULE$:Lscala/Array$UnapplySeqWrapper$;
+      24: aload_3
+      25: iconst_2
+      26: invokevirtual #698                // Method scala/Array$UnapplySeqWrapper$.lengthCompare$extension:(Ljava/lang/Object;I)I
+      29: iconst_0
+      30: if_icmpne     359
+      33: getstatic     #694                // Field scala/Array$UnapplySeqWrapper$.MODULE$:Lscala/Array$UnapplySeqWrapper$;
+      36: aload_3
+      37: iconst_0
+      38: invokevirtual #702                // Method scala/Array$UnapplySeqWrapper$.apply$extension:(Ljava/lang/Object;I)Ljava/lang/Object;
+      41: checkcast     #231                // class java/lang/String
+      44: astore        4
+      46: getstatic     #694                // Field scala/Array$UnapplySeqWrapper$.MODULE$:Lscala/Array$UnapplySeqWrapper$;
+      49: aload_3
+      50: iconst_1
+      51: invokevirtual #702                // Method scala/Array$UnapplySeqWrapper$.apply$extension:(Ljava/lang/Object;I)Ljava/lang/Object;
+      54: checkcast     #231                // class java/lang/String
+      57: astore        5
+      59: aload         4
+      61: astore        6
+      63: aload         5
+      65: astore        7
+      67: aload_1
+      68: invokevirtual #705                // Method io/joern/console/Config.params:()Lscala/collection/immutable/Map;
+      71: getstatic     #58                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      74: aload         6
+      76: invokevirtual #708                // Method scala/Predef$.ArrowAssoc:(Ljava/lang/Object;)Ljava/lang/Object;
+      79: checkcast     #231                // class java/lang/String
+      82: astore        9
+      84: getstatic     #711                // Field scala/Predef$ArrowAssoc$.MODULE$:Lscala/Predef$ArrowAssoc$;
+      87: aload         9
+      89: aload         7
+      91: invokevirtual #715                // Method scala/Predef$ArrowAssoc$.$minus$greater$extension:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+      94: invokeinterface #721,  2          // InterfaceMethod scala/collection/immutable/Map.$plus:(Lscala/Tuple2;)Lscala/collection/immutable/MapOps;
+      99: checkcast     #717                // class scala/collection/immutable/Map
+     102: astore        8
+     104: aload_1
+     105: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+     108: astore        10
+     110: aload_1
+     111: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+     114: astore        11
+     116: aload_1
+     117: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+     120: astore        12
+     122: aload_1
+     123: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+     126: astore        13
+     128: aload_1
+     129: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+     132: astore        14
+     134: aload_1
+     135: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+     138: astore        15
+     140: aload_1
+     141: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+     144: astore        16
+     146: aload_1
+     147: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+     150: astore        17
+     152: aload_1
+     153: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+     156: astore        18
+     158: aload_1
+     159: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+     162: istore        19
+     164: aload_1
+     165: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+     168: astore        20
+     170: aload_1
+     171: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+     174: astore        21
+     176: aload_1
+     177: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+     180: istore        22
+     182: aload_1
+     183: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+     186: istore        23
+     188: aload_1
+     189: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+     192: istore        24
+     194: aload_1
+     195: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     198: astore        25
+     200: aload_1
+     201: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+     204: istore        26
+     206: aload_1
+     207: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     210: astore        27
+     212: aload_1
+     213: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     216: astore        28
+     218: aload_1
+     219: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+     222: istore        29
+     224: aload_1
+     225: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     228: astore        30
+     230: aload_1
+     231: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     234: astore        31
+     236: aload_1
+     237: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     240: astore        32
+     242: aload_1
+     243: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     246: istore        33
+     248: aload_1
+     249: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     252: astore        34
+     254: aload_1
+     255: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     258: astore        35
+     260: aload_1
+     261: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     264: astore        36
+     266: aload_1
+     267: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     270: astore        37
+     272: aload_1
+     273: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     276: astore        38
+     278: aload_1
+     279: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     282: astore        39
+     284: aload_1
+     285: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     288: astore        40
+     290: aload_1
+     291: aload         10
+     293: aload         11
+     295: aload         8
+     297: aload         12
+     299: aload         13
+     301: aload         14
+     303: aload         15
+     305: aload         16
+     307: aload         17
+     309: aload         18
+     311: iload         19
+     313: aload         20
+     315: aload         21
+     317: iload         22
+     319: iload         23
+     321: iload         24
+     323: aload         25
+     325: iload         26
+     327: aload         27
+     329: aload         28
+     331: iload         29
+     333: aload         30
+     335: aload         31
+     337: aload         32
+     339: iload         33
+     341: aload         34
+     343: aload         35
+     345: aload         36
+     347: aload         37
+     349: aload         38
+     351: aload         39
+     353: aload         40
+     355: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     358: areturn
+     359: new           #726                // class java/lang/IllegalArgumentException
+     362: dup
+     363: aload_0
+     364: invokedynamic #729,  0            // InvokeDynamic #10:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     369: invokespecial #731                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+     372: athrow
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$3(java.nio.file.Path, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #738                // Method io/joern/console/Config.predefFiles:()Lscala/collection/immutable/Seq;
+       4: aload_0
+       5: invokeinterface #560,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      10: checkcast     #377                // class scala/collection/immutable/Seq
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+      18: astore_3
+      19: aload_1
+      20: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      23: astore        4
+      25: aload_1
+      26: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      29: astore        5
+      31: aload_1
+      32: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      35: astore        6
+      37: aload_1
+      38: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      41: astore        7
+      43: aload_1
+      44: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      47: astore        8
+      49: aload_1
+      50: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      53: astore        9
+      55: aload_1
+      56: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      59: astore        10
+      61: aload_1
+      62: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      65: astore        11
+      67: aload_1
+      68: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      71: istore        12
+      73: aload_1
+      74: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      77: astore        13
+      79: aload_1
+      80: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      83: astore        14
+      85: aload_1
+      86: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      89: istore        15
+      91: aload_1
+      92: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      95: istore        16
+      97: aload_1
+      98: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+     101: istore        17
+     103: aload_1
+     104: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     107: astore        18
+     109: aload_1
+     110: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+     113: istore        19
+     115: aload_1
+     116: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     119: astore        20
+     121: aload_1
+     122: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     125: astore        21
+     127: aload_1
+     128: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+     131: istore        22
+     133: aload_1
+     134: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     137: astore        23
+     139: aload_1
+     140: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     143: astore        24
+     145: aload_1
+     146: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     149: astore        25
+     151: aload_1
+     152: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     155: istore        26
+     157: aload_1
+     158: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     161: astore        27
+     163: aload_1
+     164: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     167: astore        28
+     169: aload_1
+     170: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     173: astore        29
+     175: aload_1
+     176: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     179: astore        30
+     181: aload_1
+     182: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     185: astore        31
+     187: aload_1
+     188: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     191: astore        32
+     193: aload_1
+     194: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     197: astore        33
+     199: aload_1
+     200: aload_3
+     201: aload         4
+     203: aload         5
+     205: aload_2
+     206: aload         6
+     208: aload         7
+     210: aload         8
+     212: aload         9
+     214: aload         10
+     216: aload         11
+     218: iload         12
+     220: aload         13
+     222: aload         14
+     224: iload         15
+     226: iload         16
+     228: iload         17
+     230: aload         18
+     232: iload         19
+     234: aload         20
+     236: aload         21
+     238: iload         22
+     240: aload         23
+     242: aload         24
+     244: aload         25
+     246: iload         26
+     248: aload         27
+     250: aload         28
+     252: aload         29
+     254: aload         30
+     256: aload         31
+     258: aload         32
+     260: aload         33
+     262: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     265: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$4(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #420                // Method io/joern/console/Config.runBefore:()Lscala/collection/immutable/Seq;
+       4: getstatic     #744                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       7: getstatic     #58                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      10: aload_0
+      11: invokevirtual #747                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      14: invokevirtual #751                // Method scala/collection/StringOps$.linesIterator$extension:(Ljava/lang/String;)Lscala/collection/Iterator;
+      17: invokeinterface #757,  1          // InterfaceMethod scala/collection/Iterator.toIndexedSeq:()Lscala/collection/immutable/IndexedSeq;
+      22: invokeinterface #761,  2          // InterfaceMethod scala/collection/immutable/Seq.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+      27: checkcast     #377                // class scala/collection/immutable/Seq
+      30: astore_2
+      31: aload_1
+      32: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+      35: astore_3
+      36: aload_1
+      37: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      40: astore        4
+      42: aload_1
+      43: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      46: astore        5
+      48: aload_1
+      49: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      52: astore        6
+      54: aload_1
+      55: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      58: astore        7
+      60: aload_1
+      61: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      64: astore        8
+      66: aload_1
+      67: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      70: astore        9
+      72: aload_1
+      73: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      76: astore        10
+      78: aload_1
+      79: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      82: astore        11
+      84: aload_1
+      85: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      88: istore        12
+      90: aload_1
+      91: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      94: astore        13
+      96: aload_1
+      97: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+     100: astore        14
+     102: aload_1
+     103: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+     106: istore        15
+     108: aload_1
+     109: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+     112: istore        16
+     114: aload_1
+     115: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+     118: istore        17
+     120: aload_1
+     121: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     124: astore        18
+     126: aload_1
+     127: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+     130: istore        19
+     132: aload_1
+     133: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     136: astore        20
+     138: aload_1
+     139: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     142: astore        21
+     144: aload_1
+     145: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+     148: istore        22
+     150: aload_1
+     151: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     154: astore        23
+     156: aload_1
+     157: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     160: astore        24
+     162: aload_1
+     163: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     166: astore        25
+     168: aload_1
+     169: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     172: istore        26
+     174: aload_1
+     175: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     178: astore        27
+     180: aload_1
+     181: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     184: astore        28
+     186: aload_1
+     187: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     190: astore        29
+     192: aload_1
+     193: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     196: astore        30
+     198: aload_1
+     199: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     202: astore        31
+     204: aload_1
+     205: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     208: astore        32
+     210: aload_1
+     211: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     214: astore        33
+     216: aload_1
+     217: aload_3
+     218: aload         4
+     220: aload         5
+     222: aload         6
+     224: aload_2
+     225: aload         7
+     227: aload         8
+     229: aload         9
+     231: aload         10
+     233: aload         11
+     235: iload         12
+     237: aload         13
+     239: aload         14
+     241: iload         15
+     243: iload         16
+     245: iload         17
+     247: aload         18
+     249: iload         19
+     251: aload         20
+     253: aload         21
+     255: iload         22
+     257: aload         23
+     259: aload         24
+     261: aload         25
+     263: iload         26
+     265: aload         27
+     267: aload         28
+     269: aload         29
+     271: aload         30
+     273: aload         31
+     275: aload         32
+     277: aload         33
+     279: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     282: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$5(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #554                // Method io/joern/console/Config.runAfter:()Lscala/collection/immutable/Seq;
+       4: aload_0
+       5: invokeinterface #560,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      10: checkcast     #377                // class scala/collection/immutable/Seq
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+      18: astore_3
+      19: aload_1
+      20: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      23: astore        4
+      25: aload_1
+      26: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      29: astore        5
+      31: aload_1
+      32: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      35: astore        6
+      37: aload_1
+      38: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      41: astore        7
+      43: aload_1
+      44: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      47: astore        8
+      49: aload_1
+      50: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      53: astore        9
+      55: aload_1
+      56: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      59: astore        10
+      61: aload_1
+      62: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      65: astore        11
+      67: aload_1
+      68: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      71: istore        12
+      73: aload_1
+      74: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      77: astore        13
+      79: aload_1
+      80: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      83: astore        14
+      85: aload_1
+      86: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      89: istore        15
+      91: aload_1
+      92: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      95: istore        16
+      97: aload_1
+      98: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+     101: istore        17
+     103: aload_1
+     104: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     107: astore        18
+     109: aload_1
+     110: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+     113: istore        19
+     115: aload_1
+     116: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     119: astore        20
+     121: aload_1
+     122: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     125: astore        21
+     127: aload_1
+     128: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+     131: istore        22
+     133: aload_1
+     134: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     137: astore        23
+     139: aload_1
+     140: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     143: astore        24
+     145: aload_1
+     146: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     149: astore        25
+     151: aload_1
+     152: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     155: istore        26
+     157: aload_1
+     158: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     161: astore        27
+     163: aload_1
+     164: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     167: astore        28
+     169: aload_1
+     170: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     173: astore        29
+     175: aload_1
+     176: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     179: astore        30
+     181: aload_1
+     182: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     185: astore        31
+     187: aload_1
+     188: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     191: astore        32
+     193: aload_1
+     194: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     197: astore        33
+     199: aload_1
+     200: aload_3
+     201: aload         4
+     203: aload         5
+     205: aload         6
+     207: aload         7
+     209: aload_2
+     210: aload         8
+     212: aload         9
+     214: aload         10
+     216: aload         11
+     218: iload         12
+     220: aload         13
+     222: aload         14
+     224: iload         15
+     226: iload         16
+     228: iload         17
+     230: aload         18
+     232: iload         19
+     234: aload         20
+     236: aload         21
+     238: iload         22
+     240: aload         23
+     242: aload         24
+     244: aload         25
+     246: iload         26
+     248: aload         27
+     250: aload         28
+     252: aload         29
+     254: aload         30
+     256: aload         31
+     258: aload         32
+     260: aload         33
+     262: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     265: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$6(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #766                // Method io/joern/console/Config.additionalClasspathEntries:()Lscala/collection/immutable/Seq;
+       4: aload_0
+       5: invokeinterface #560,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      10: checkcast     #377                // class scala/collection/immutable/Seq
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+      18: astore_3
+      19: aload_1
+      20: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      23: astore        4
+      25: aload_1
+      26: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      29: astore        5
+      31: aload_1
+      32: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      35: astore        6
+      37: aload_1
+      38: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      41: astore        7
+      43: aload_1
+      44: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      47: astore        8
+      49: aload_1
+      50: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      53: astore        9
+      55: aload_1
+      56: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      59: astore        10
+      61: aload_1
+      62: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      65: astore        11
+      67: aload_1
+      68: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      71: istore        12
+      73: aload_1
+      74: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      77: astore        13
+      79: aload_1
+      80: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      83: astore        14
+      85: aload_1
+      86: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      89: istore        15
+      91: aload_1
+      92: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      95: istore        16
+      97: aload_1
+      98: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+     101: istore        17
+     103: aload_1
+     104: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     107: astore        18
+     109: aload_1
+     110: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+     113: istore        19
+     115: aload_1
+     116: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     119: astore        20
+     121: aload_1
+     122: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     125: astore        21
+     127: aload_1
+     128: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+     131: istore        22
+     133: aload_1
+     134: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     137: astore        23
+     139: aload_1
+     140: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     143: astore        24
+     145: aload_1
+     146: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     149: astore        25
+     151: aload_1
+     152: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     155: istore        26
+     157: aload_1
+     158: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     161: astore        27
+     163: aload_1
+     164: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     167: astore        28
+     169: aload_1
+     170: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     173: astore        29
+     175: aload_1
+     176: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     179: astore        30
+     181: aload_1
+     182: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     185: astore        31
+     187: aload_1
+     188: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     191: astore        32
+     193: aload_1
+     194: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     197: astore        33
+     199: aload_1
+     200: aload_3
+     201: aload         4
+     203: aload         5
+     205: aload         6
+     207: aload         7
+     209: aload         8
+     211: aload_2
+     212: aload         9
+     214: aload         10
+     216: aload         11
+     218: iload         12
+     220: aload         13
+     222: aload         14
+     224: iload         15
+     226: iload         16
+     228: iload         17
+     230: aload         18
+     232: iload         19
+     234: aload         20
+     236: aload         21
+     238: iload         22
+     240: aload         23
+     242: aload         24
+     244: aload         25
+     246: iload         26
+     248: aload         27
+     250: aload         28
+     252: aload         29
+     254: aload         30
+     256: aload         31
+     258: aload         32
+     260: aload         33
+     262: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     265: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$7(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #770                // Method io/joern/console/Config.dependencies:()Lscala/collection/immutable/Seq;
+       4: aload_0
+       5: invokeinterface #560,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      10: checkcast     #377                // class scala/collection/immutable/Seq
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+      18: astore_3
+      19: aload_1
+      20: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      23: astore        4
+      25: aload_1
+      26: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      29: astore        5
+      31: aload_1
+      32: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      35: astore        6
+      37: aload_1
+      38: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      41: astore        7
+      43: aload_1
+      44: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      47: astore        8
+      49: aload_1
+      50: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      53: astore        9
+      55: aload_1
+      56: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      59: astore        10
+      61: aload_1
+      62: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      65: astore        11
+      67: aload_1
+      68: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      71: astore        12
+      73: aload_1
+      74: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      77: istore        13
+      79: aload_1
+      80: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      83: astore        14
+      85: aload_1
+      86: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      89: astore        15
+      91: aload_1
+      92: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      95: istore        16
+      97: aload_1
+      98: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+     101: istore        17
+     103: aload_1
+     104: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+     107: istore        18
+     109: aload_1
+     110: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     113: astore        19
+     115: aload_1
+     116: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+     119: istore        20
+     121: aload_1
+     122: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     125: astore        21
+     127: aload_1
+     128: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     131: astore        22
+     133: aload_1
+     134: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+     137: istore        23
+     139: aload_1
+     140: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     143: astore        24
+     145: aload_1
+     146: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     149: astore        25
+     151: aload_1
+     152: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     155: astore        26
+     157: aload_1
+     158: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     161: istore        27
+     163: aload_1
+     164: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     167: astore        28
+     169: aload_1
+     170: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     173: astore        29
+     175: aload_1
+     176: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     179: astore        30
+     181: aload_1
+     182: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     185: astore        31
+     187: aload_1
+     188: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     191: astore        32
+     193: aload_1
+     194: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     197: astore        33
+     199: aload_1
+     200: aload_3
+     201: aload         4
+     203: aload         5
+     205: aload         6
+     207: aload         7
+     209: aload         8
+     211: aload         9
+     213: aload         10
+     215: aload         11
+     217: aload         12
+     219: iload         13
+     221: aload         14
+     223: aload         15
+     225: iload         16
+     227: iload         17
+     229: iload         18
+     231: aload         19
+     233: iload         20
+     235: aload         21
+     237: aload         22
+     239: iload         23
+     241: aload         24
+     243: aload         25
+     245: aload         26
+     247: iload         27
+     249: aload_2
+     250: aload         28
+     252: aload         29
+     254: aload         30
+     256: aload         31
+     258: aload         32
+     260: aload         33
+     262: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     265: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$8(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #774                // Method io/joern/console/Config.resolvers:()Lscala/collection/immutable/Seq;
+       4: aload_0
+       5: invokeinterface #560,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      10: checkcast     #377                // class scala/collection/immutable/Seq
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+      18: astore_3
+      19: aload_1
+      20: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      23: astore        4
+      25: aload_1
+      26: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      29: astore        5
+      31: aload_1
+      32: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      35: astore        6
+      37: aload_1
+      38: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      41: astore        7
+      43: aload_1
+      44: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      47: astore        8
+      49: aload_1
+      50: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      53: astore        9
+      55: aload_1
+      56: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      59: astore        10
+      61: aload_1
+      62: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      65: astore        11
+      67: aload_1
+      68: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      71: astore        12
+      73: aload_1
+      74: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      77: istore        13
+      79: aload_1
+      80: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      83: astore        14
+      85: aload_1
+      86: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      89: astore        15
+      91: aload_1
+      92: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      95: istore        16
+      97: aload_1
+      98: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+     101: istore        17
+     103: aload_1
+     104: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+     107: istore        18
+     109: aload_1
+     110: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     113: astore        19
+     115: aload_1
+     116: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+     119: istore        20
+     121: aload_1
+     122: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     125: astore        21
+     127: aload_1
+     128: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     131: astore        22
+     133: aload_1
+     134: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+     137: istore        23
+     139: aload_1
+     140: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     143: astore        24
+     145: aload_1
+     146: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     149: astore        25
+     151: aload_1
+     152: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     155: astore        26
+     157: aload_1
+     158: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     161: istore        27
+     163: aload_1
+     164: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     167: astore        28
+     169: aload_1
+     170: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     173: astore        29
+     175: aload_1
+     176: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     179: astore        30
+     181: aload_1
+     182: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     185: astore        31
+     187: aload_1
+     188: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     191: astore        32
+     193: aload_1
+     194: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     197: astore        33
+     199: aload_1
+     200: aload_3
+     201: aload         4
+     203: aload         5
+     205: aload         6
+     207: aload         7
+     209: aload         8
+     211: aload         9
+     213: aload         10
+     215: aload         11
+     217: aload         12
+     219: iload         13
+     221: aload         14
+     223: aload         15
+     225: iload         16
+     227: iload         17
+     229: iload         18
+     231: aload         19
+     233: iload         20
+     235: aload         21
+     237: aload         22
+     239: iload         23
+     241: aload         24
+     243: aload         25
+     245: aload         26
+     247: iload         27
+     249: aload         28
+     251: aload_2
+     252: aload         29
+     254: aload         30
+     256: aload         31
+     258: aload         32
+     260: aload         33
+     262: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     265: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$9(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: getstatic     #575                // Field scala/Some$.MODULE$:Lscala/Some$;
+       8: aload_0
+       9: invokevirtual #578                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      12: aload_1
+      13: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      16: aload_1
+      17: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      20: aload_1
+      21: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      24: aload_1
+      25: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      28: aload_1
+      29: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      32: aload_1
+      33: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      36: aload_1
+      37: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      40: aload_1
+      41: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      44: aload_1
+      45: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      48: aload_1
+      49: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      52: aload_1
+      53: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      56: aload_1
+      57: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      60: aload_1
+      61: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      64: aload_1
+      65: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      68: aload_1
+      69: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      72: aload_1
+      73: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      76: aload_1
+      77: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      80: aload_1
+      81: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      84: aload_1
+      85: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      88: aload_1
+      89: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      92: aload_1
+      93: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      96: aload_1
+      97: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     100: aload_1
+     101: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     104: aload_1
+     105: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     108: aload_1
+     109: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     112: aload_1
+     113: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     116: aload_1
+     117: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     120: aload_1
+     121: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     124: aload_1
+     125: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     128: aload_1
+     129: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     132: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     135: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$10(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: getstatic     #575                // Field scala/Some$.MODULE$:Lscala/Some$;
+      32: aload_0
+      33: invokevirtual #578                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      36: aload_1
+      37: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      40: aload_1
+      41: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      44: aload_1
+      45: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      48: aload_1
+      49: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      52: aload_1
+      53: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      56: aload_1
+      57: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      60: aload_1
+      61: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      64: aload_1
+      65: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      68: aload_1
+      69: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      72: aload_1
+      73: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      76: aload_1
+      77: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      80: aload_1
+      81: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      84: aload_1
+      85: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      88: aload_1
+      89: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      92: aload_1
+      93: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      96: aload_1
+      97: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     100: aload_1
+     101: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     104: aload_1
+     105: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     108: aload_1
+     109: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     112: aload_1
+     113: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     116: aload_1
+     117: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     120: aload_1
+     121: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     124: aload_1
+     125: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     128: aload_1
+     129: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     132: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     135: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$11(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: getstatic     #575                // Field scala/Some$.MODULE$:Lscala/Some$;
+      36: aload_0
+      37: invokevirtual #578                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      40: aload_1
+      41: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      44: aload_1
+      45: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      48: aload_1
+      49: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      52: aload_1
+      53: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      56: aload_1
+      57: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      60: aload_1
+      61: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      64: aload_1
+      65: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      68: aload_1
+      69: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      72: aload_1
+      73: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      76: aload_1
+      77: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      80: aload_1
+      81: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      84: aload_1
+      85: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      88: aload_1
+      89: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      92: aload_1
+      93: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      96: aload_1
+      97: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     100: aload_1
+     101: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     104: aload_1
+     105: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     108: aload_1
+     109: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     112: aload_1
+     113: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     116: aload_1
+     117: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     120: aload_1
+     121: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     124: aload_1
+     125: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     128: aload_1
+     129: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     132: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     135: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$12(scala.runtime.BoxedUnit, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: iconst_1
+      42: aload_1
+      43: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      50: aload_1
+      51: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      54: aload_1
+      55: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      58: aload_1
+      59: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      62: aload_1
+      63: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      66: aload_1
+      67: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      70: aload_1
+      71: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      74: aload_1
+      75: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      78: aload_1
+      79: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      82: aload_1
+      83: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      86: aload_1
+      87: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      90: aload_1
+      91: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+      94: aload_1
+      95: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+      98: aload_1
+      99: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     102: aload_1
+     103: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     106: aload_1
+     107: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     110: aload_1
+     111: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     114: aload_1
+     115: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     118: aload_1
+     119: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     122: aload_1
+     123: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     126: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     129: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$13(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: getstatic     #575                // Field scala/Some$.MODULE$:Lscala/Some$;
+      40: aload_0
+      41: invokevirtual #578                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      44: aload_1
+      45: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      48: aload_1
+      49: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      52: aload_1
+      53: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      56: aload_1
+      57: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      60: aload_1
+      61: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      64: aload_1
+      65: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      68: aload_1
+      69: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      72: aload_1
+      73: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      76: aload_1
+      77: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      80: aload_1
+      81: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      84: aload_1
+      85: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      88: aload_1
+      89: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      92: aload_1
+      93: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      96: aload_1
+      97: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     100: aload_1
+     101: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     104: aload_1
+     105: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     108: aload_1
+     109: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     112: aload_1
+     113: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     116: aload_1
+     117: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     120: aload_1
+     121: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     124: aload_1
+     125: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     128: aload_1
+     129: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     132: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     135: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$14(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: getstatic     #575                // Field scala/Some$.MODULE$:Lscala/Some$;
+      48: aload_0
+      49: invokevirtual #578                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      52: aload_1
+      53: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      56: aload_1
+      57: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      60: aload_1
+      61: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      64: aload_1
+      65: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      68: aload_1
+      69: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      72: aload_1
+      73: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      76: aload_1
+      77: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      80: aload_1
+      81: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      84: aload_1
+      85: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      88: aload_1
+      89: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      92: aload_1
+      93: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      96: aload_1
+      97: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     100: aload_1
+     101: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     104: aload_1
+     105: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     108: aload_1
+     109: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     112: aload_1
+     113: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     116: aload_1
+     117: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     120: aload_1
+     121: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     124: aload_1
+     125: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     128: aload_1
+     129: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     132: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     135: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$15(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: aload_1
+      46: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      49: getstatic     #575                // Field scala/Some$.MODULE$:Lscala/Some$;
+      52: aload_0
+      53: invokevirtual #578                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      56: aload_1
+      57: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      60: aload_1
+      61: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      64: aload_1
+      65: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      68: aload_1
+      69: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      72: aload_1
+      73: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      76: aload_1
+      77: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      80: aload_1
+      81: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      84: aload_1
+      85: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      88: aload_1
+      89: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      92: aload_1
+      93: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      96: aload_1
+      97: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     100: aload_1
+     101: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     104: aload_1
+     105: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     108: aload_1
+     109: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     112: aload_1
+     113: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     116: aload_1
+     117: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     120: aload_1
+     121: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     124: aload_1
+     125: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     128: aload_1
+     129: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     132: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     135: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$16(scala.runtime.BoxedUnit, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: aload_1
+      46: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      49: aload_1
+      50: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      53: iconst_1
+      54: aload_1
+      55: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      58: aload_1
+      59: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      62: aload_1
+      63: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      66: aload_1
+      67: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      70: aload_1
+      71: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      74: aload_1
+      75: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      78: aload_1
+      79: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      82: aload_1
+      83: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      86: aload_1
+      87: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      90: aload_1
+      91: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+      94: aload_1
+      95: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+      98: aload_1
+      99: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     102: aload_1
+     103: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     106: aload_1
+     107: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     110: aload_1
+     111: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     114: aload_1
+     115: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     118: aload_1
+     119: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     122: aload_1
+     123: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     126: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     129: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$17(scala.runtime.BoxedUnit, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: aload_1
+      46: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      49: aload_1
+      50: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      53: aload_1
+      54: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      57: iconst_1
+      58: aload_1
+      59: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      62: aload_1
+      63: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      66: aload_1
+      67: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      70: aload_1
+      71: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      74: aload_1
+      75: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      78: aload_1
+      79: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      82: aload_1
+      83: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      86: aload_1
+      87: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      90: aload_1
+      91: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+      94: aload_1
+      95: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+      98: aload_1
+      99: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     102: aload_1
+     103: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     106: aload_1
+     107: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     110: aload_1
+     111: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     114: aload_1
+     115: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     118: aload_1
+     119: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     122: aload_1
+     123: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     126: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     129: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$18(scala.runtime.BoxedUnit, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: aload_1
+      46: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      49: aload_1
+      50: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      53: aload_1
+      54: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      57: aload_1
+      58: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      61: iconst_1
+      62: aload_1
+      63: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      66: aload_1
+      67: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      70: aload_1
+      71: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      74: aload_1
+      75: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      78: aload_1
+      79: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      82: aload_1
+      83: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      86: aload_1
+      87: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      90: aload_1
+      91: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+      94: aload_1
+      95: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+      98: aload_1
+      99: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     102: aload_1
+     103: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     106: aload_1
+     107: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     110: aload_1
+     111: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     114: aload_1
+     115: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     118: aload_1
+     119: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     122: aload_1
+     123: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     126: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     129: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$19(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: aload_1
+      46: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      49: aload_1
+      50: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      53: aload_1
+      54: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      57: aload_1
+      58: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      61: aload_1
+      62: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      65: aload_0
+      66: aload_1
+      67: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      70: aload_1
+      71: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      74: aload_1
+      75: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      78: aload_1
+      79: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      82: aload_1
+      83: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      86: aload_1
+      87: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      90: aload_1
+      91: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+      94: aload_1
+      95: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+      98: aload_1
+      99: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     102: aload_1
+     103: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     106: aload_1
+     107: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     110: aload_1
+     111: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     114: aload_1
+     115: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     118: aload_1
+     119: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     122: aload_1
+     123: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     126: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     129: areturn
+
+  private static io.joern.console.Config $init$$$anonfun$20(int, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: aload_1
+      46: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      49: aload_1
+      50: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      53: aload_1
+      54: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      57: aload_1
+      58: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      61: aload_1
+      62: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      65: aload_1
+      66: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      69: iload_0
+      70: aload_1
+      71: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      74: aload_1
+      75: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      78: aload_1
+      79: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      82: aload_1
+      83: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      86: aload_1
+      87: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      90: aload_1
+      91: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+      94: aload_1
+      95: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+      98: aload_1
+      99: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     102: aload_1
+     103: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     106: aload_1
+     107: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     110: aload_1
+     111: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     114: aload_1
+     115: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     118: aload_1
+     119: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     122: aload_1
+     123: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     126: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     129: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$adapted$1(java.lang.Object, java.lang.Object);
+    Code:
+       0: aload_0
+       1: invokestatic  #802                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+       4: aload_1
+       5: checkcast     #187                // class io/joern/console/Config
+       8: invokestatic  #804                // InterfaceMethod $init$$$anonfun$20:(ILio/joern/console/Config;)Lio/joern/console/Config;
+      11: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$21(java.lang.String, io.joern.console.Config);
+    Code:
+       0: getstatic     #811                // Field scala/Option$.MODULE$:Lscala/Option$;
+       3: aload_0
+       4: invokevirtual #814                // Method scala/Option$.apply:(Ljava/lang/Object;)Lscala/Option;
+       7: astore_2
+       8: aload_1
+       9: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+      12: astore_3
+      13: aload_1
+      14: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      17: astore        4
+      19: aload_1
+      20: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      23: astore        5
+      25: aload_1
+      26: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      29: astore        6
+      31: aload_1
+      32: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      35: astore        7
+      37: aload_1
+      38: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      41: astore        8
+      43: aload_1
+      44: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      47: astore        9
+      49: aload_1
+      50: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      53: astore        10
+      55: aload_1
+      56: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      59: astore        11
+      61: aload_1
+      62: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      65: astore        12
+      67: aload_1
+      68: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      71: istore        13
+      73: aload_1
+      74: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      77: astore        14
+      79: aload_1
+      80: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      83: astore        15
+      85: aload_1
+      86: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      89: istore        16
+      91: aload_1
+      92: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      95: istore        17
+      97: aload_1
+      98: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+     101: istore        18
+     103: aload_1
+     104: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     107: astore        19
+     109: aload_1
+     110: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+     113: istore        20
+     115: aload_1
+     116: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     119: astore        21
+     121: aload_1
+     122: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+     125: istore        22
+     127: aload_1
+     128: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     131: astore        23
+     133: aload_1
+     134: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     137: astore        24
+     139: aload_1
+     140: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     143: astore        25
+     145: aload_1
+     146: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     149: istore        26
+     151: aload_1
+     152: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     155: astore        27
+     157: aload_1
+     158: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     161: astore        28
+     163: aload_1
+     164: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     167: astore        29
+     169: aload_1
+     170: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     173: astore        30
+     175: aload_1
+     176: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     179: astore        31
+     181: aload_1
+     182: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     185: astore        32
+     187: aload_1
+     188: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     191: astore        33
+     193: aload_1
+     194: aload_3
+     195: aload         4
+     197: aload         5
+     199: aload         6
+     201: aload         7
+     203: aload         8
+     205: aload         9
+     207: aload         10
+     209: aload         11
+     211: aload         12
+     213: iload         13
+     215: aload         14
+     217: aload         15
+     219: iload         16
+     221: iload         17
+     223: iload         18
+     225: aload         19
+     227: iload         20
+     229: aload_2
+     230: aload         21
+     232: iload         22
+     234: aload         23
+     236: aload         24
+     238: aload         25
+     240: iload         26
+     242: aload         27
+     244: aload         28
+     246: aload         29
+     248: aload         30
+     250: aload         31
+     252: aload         32
+     254: aload         33
+     256: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     259: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$22(java.lang.String, io.joern.console.Config);
+    Code:
+       0: getstatic     #811                // Field scala/Option$.MODULE$:Lscala/Option$;
+       3: aload_0
+       4: invokevirtual #814                // Method scala/Option$.apply:(Ljava/lang/Object;)Lscala/Option;
+       7: astore_2
+       8: aload_1
+       9: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+      12: astore_3
+      13: aload_1
+      14: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      17: astore        4
+      19: aload_1
+      20: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      23: astore        5
+      25: aload_1
+      26: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      29: astore        6
+      31: aload_1
+      32: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      35: astore        7
+      37: aload_1
+      38: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      41: astore        8
+      43: aload_1
+      44: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      47: astore        9
+      49: aload_1
+      50: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      53: astore        10
+      55: aload_1
+      56: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      59: astore        11
+      61: aload_1
+      62: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      65: astore        12
+      67: aload_1
+      68: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      71: istore        13
+      73: aload_1
+      74: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      77: astore        14
+      79: aload_1
+      80: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      83: astore        15
+      85: aload_1
+      86: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      89: istore        16
+      91: aload_1
+      92: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      95: istore        17
+      97: aload_1
+      98: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+     101: istore        18
+     103: aload_1
+     104: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     107: astore        19
+     109: aload_1
+     110: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+     113: istore        20
+     115: aload_1
+     116: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     119: astore        21
+     121: aload_1
+     122: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+     125: istore        22
+     127: aload_1
+     128: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     131: astore        23
+     133: aload_1
+     134: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     137: astore        24
+     139: aload_1
+     140: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     143: astore        25
+     145: aload_1
+     146: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     149: istore        26
+     151: aload_1
+     152: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     155: astore        27
+     157: aload_1
+     158: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     161: astore        28
+     163: aload_1
+     164: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     167: astore        29
+     169: aload_1
+     170: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     173: astore        30
+     175: aload_1
+     176: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     179: astore        31
+     181: aload_1
+     182: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     185: astore        32
+     187: aload_1
+     188: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     191: astore        33
+     193: aload_1
+     194: aload_3
+     195: aload         4
+     197: aload         5
+     199: aload         6
+     201: aload         7
+     203: aload         8
+     205: aload         9
+     207: aload         10
+     209: aload         11
+     211: aload         12
+     213: iload         13
+     215: aload         14
+     217: aload         15
+     219: iload         16
+     221: iload         17
+     223: iload         18
+     225: aload         19
+     227: iload         20
+     229: aload         21
+     231: aload_2
+     232: iload         22
+     234: aload         23
+     236: aload         24
+     238: aload         25
+     240: iload         26
+     242: aload         27
+     244: aload         28
+     246: aload         29
+     248: aload         30
+     250: aload         31
+     252: aload         32
+     254: aload         33
+     256: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     259: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$23(java.nio.file.Path, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: aload_1
+      46: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      49: aload_1
+      50: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      53: aload_1
+      54: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      57: aload_1
+      58: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      61: aload_1
+      62: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      65: aload_1
+      66: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      69: aload_1
+      70: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      73: aload_1
+      74: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      77: aload_1
+      78: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      81: aload_1
+      82: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      85: getstatic     #575                // Field scala/Some$.MODULE$:Lscala/Some$;
+      88: aload_0
+      89: invokevirtual #578                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      92: aload_1
+      93: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      96: aload_1
+      97: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     100: aload_1
+     101: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     104: aload_1
+     105: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     108: aload_1
+     109: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     112: aload_1
+     113: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     116: aload_1
+     117: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     120: aload_1
+     121: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     124: aload_1
+     125: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     128: aload_1
+     129: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     132: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     135: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$24(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: aload_1
+      46: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      49: aload_1
+      50: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      53: aload_1
+      54: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      57: aload_1
+      58: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      61: aload_1
+      62: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      65: aload_1
+      66: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      69: aload_1
+      70: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      73: aload_1
+      74: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      77: aload_1
+      78: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      81: aload_1
+      82: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      85: aload_1
+      86: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      89: getstatic     #575                // Field scala/Some$.MODULE$:Lscala/Some$;
+      92: aload_0
+      93: invokevirtual #578                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      96: aload_1
+      97: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     100: aload_1
+     101: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     104: aload_1
+     105: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     108: aload_1
+     109: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     112: aload_1
+     113: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     116: aload_1
+     117: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     120: aload_1
+     121: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     124: aload_1
+     125: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     128: aload_1
+     129: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     132: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     135: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$25(scala.runtime.BoxedUnit, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: aload_1
+      46: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      49: aload_1
+      50: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      53: aload_1
+      54: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      57: aload_1
+      58: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      61: aload_1
+      62: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      65: aload_1
+      66: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      69: aload_1
+      70: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      73: aload_1
+      74: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      77: aload_1
+      78: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      81: iconst_1
+      82: aload_1
+      83: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      86: aload_1
+      87: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      90: aload_1
+      91: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+      94: aload_1
+      95: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+      98: aload_1
+      99: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     102: aload_1
+     103: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     106: aload_1
+     107: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     110: aload_1
+     111: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     114: aload_1
+     115: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     118: aload_1
+     119: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     122: aload_1
+     123: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     126: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     129: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$26(scala.runtime.BoxedUnit, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: aload_1
+      46: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      49: aload_1
+      50: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      53: aload_1
+      54: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      57: aload_1
+      58: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      61: aload_1
+      62: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      65: aload_1
+      66: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      69: aload_1
+      70: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      73: aload_1
+      74: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      77: aload_1
+      78: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      81: aload_1
+      82: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      85: aload_1
+      86: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      89: aload_1
+      90: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      93: aload_1
+      94: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+      97: iconst_1
+      98: aload_1
+      99: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     102: aload_1
+     103: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     106: aload_1
+     107: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     110: aload_1
+     111: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     114: aload_1
+     115: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     118: aload_1
+     119: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     122: aload_1
+     123: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     126: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     129: areturn
+
+  private static io.joern.console.Config $init$$$anonfun$27(int, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+       5: aload_1
+       6: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+       9: aload_1
+      10: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      13: aload_1
+      14: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      17: aload_1
+      18: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      21: aload_1
+      22: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      25: aload_1
+      26: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      29: aload_1
+      30: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      33: aload_1
+      34: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      45: aload_1
+      46: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      49: aload_1
+      50: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      53: aload_1
+      54: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      57: aload_1
+      58: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+      61: aload_1
+      62: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+      65: aload_1
+      66: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+      69: aload_1
+      70: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+      73: aload_1
+      74: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+      77: aload_1
+      78: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+      81: aload_1
+      82: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+      85: aload_1
+      86: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+      89: aload_1
+      90: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+      93: aload_1
+      94: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+      97: aload_1
+      98: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     101: aload_1
+     102: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     105: aload_1
+     106: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     109: getstatic     #575                // Field scala/Some$.MODULE$:Lscala/Some$;
+     112: iload_0
+     113: invokestatic  #826                // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+     116: invokevirtual #578                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+     119: aload_1
+     120: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     123: aload_1
+     124: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     127: aload_1
+     128: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     131: aload_1
+     132: invokevirtual #671                // Method io/joern/console/Config.copy$default$32:()Lscala/collection/immutable/Seq;
+     135: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     138: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$adapted$2(java.lang.Object, java.lang.Object);
+    Code:
+       0: aload_0
+       1: invokestatic  #802                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+       4: aload_1
+       5: checkcast     #187                // class io/joern/console/Config
+       8: invokestatic  #829                // InterfaceMethod $init$$$anonfun$27:(ILio/joern/console/Config;)Lio/joern/console/Config;
+      11: areturn
+
+  public static io.joern.console.Config io$joern$console$BridgeBase$$anon$1$$_$$lessinit$greater$$anonfun$28(java.lang.String, io.joern.console.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #833                // Method io/joern/console/Config.scalacOptions:()Lscala/collection/immutable/Seq;
+       4: aload_0
+       5: invokeinterface #560,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      10: checkcast     #377                // class scala/collection/immutable/Seq
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #724                // Method io/joern/console/Config.copy$default$1:()Lscala/Option;
+      18: astore_3
+      19: aload_1
+      20: invokevirtual #581                // Method io/joern/console/Config.copy$default$2:()Lscala/Option;
+      23: astore        4
+      25: aload_1
+      26: invokevirtual #584                // Method io/joern/console/Config.copy$default$3:()Lscala/collection/immutable/Map;
+      29: astore        5
+      31: aload_1
+      32: invokevirtual #587                // Method io/joern/console/Config.copy$default$4:()Lscala/collection/immutable/Seq;
+      35: astore        6
+      37: aload_1
+      38: invokevirtual #590                // Method io/joern/console/Config.copy$default$5:()Lscala/collection/immutable/Seq;
+      41: astore        7
+      43: aload_1
+      44: invokevirtual #593                // Method io/joern/console/Config.copy$default$6:()Lscala/collection/immutable/Seq;
+      47: astore        8
+      49: aload_1
+      50: invokevirtual #596                // Method io/joern/console/Config.copy$default$7:()Lscala/collection/immutable/Seq;
+      53: astore        9
+      55: aload_1
+      56: invokevirtual #599                // Method io/joern/console/Config.copy$default$8:()Lscala/Option;
+      59: astore        10
+      61: aload_1
+      62: invokevirtual #602                // Method io/joern/console/Config.copy$default$9:()Lscala/Option;
+      65: astore        11
+      67: aload_1
+      68: invokevirtual #605                // Method io/joern/console/Config.copy$default$10:()Lscala/Option;
+      71: astore        12
+      73: aload_1
+      74: invokevirtual #608                // Method io/joern/console/Config.copy$default$11:()Z
+      77: istore        13
+      79: aload_1
+      80: invokevirtual #611                // Method io/joern/console/Config.copy$default$12:()Lscala/Option;
+      83: astore        14
+      85: aload_1
+      86: invokevirtual #614                // Method io/joern/console/Config.copy$default$13:()Lscala/Option;
+      89: astore        15
+      91: aload_1
+      92: invokevirtual #617                // Method io/joern/console/Config.copy$default$14:()Z
+      95: istore        16
+      97: aload_1
+      98: invokevirtual #620                // Method io/joern/console/Config.copy$default$15:()Z
+     101: istore        17
+     103: aload_1
+     104: invokevirtual #623                // Method io/joern/console/Config.copy$default$16:()Z
+     107: istore        18
+     109: aload_1
+     110: invokevirtual #626                // Method io/joern/console/Config.copy$default$17:()Ljava/lang/String;
+     113: astore        19
+     115: aload_1
+     116: invokevirtual #629                // Method io/joern/console/Config.copy$default$18:()I
+     119: istore        20
+     121: aload_1
+     122: invokevirtual #632                // Method io/joern/console/Config.copy$default$19:()Lscala/Option;
+     125: astore        21
+     127: aload_1
+     128: invokevirtual #635                // Method io/joern/console/Config.copy$default$20:()Lscala/Option;
+     131: astore        22
+     133: aload_1
+     134: invokevirtual #638                // Method io/joern/console/Config.copy$default$21:()Z
+     137: istore        23
+     139: aload_1
+     140: invokevirtual #641                // Method io/joern/console/Config.copy$default$22:()Lscala/Option;
+     143: astore        24
+     145: aload_1
+     146: invokevirtual #644                // Method io/joern/console/Config.copy$default$23:()Lscala/Option;
+     149: astore        25
+     151: aload_1
+     152: invokevirtual #647                // Method io/joern/console/Config.copy$default$24:()[Ljava/lang/String;
+     155: astore        26
+     157: aload_1
+     158: invokevirtual #650                // Method io/joern/console/Config.copy$default$25:()Z
+     161: istore        27
+     163: aload_1
+     164: invokevirtual #653                // Method io/joern/console/Config.copy$default$26:()Lscala/collection/immutable/Seq;
+     167: astore        28
+     169: aload_1
+     170: invokevirtual #656                // Method io/joern/console/Config.copy$default$27:()Lscala/collection/immutable/Seq;
+     173: astore        29
+     175: aload_1
+     176: invokevirtual #659                // Method io/joern/console/Config.copy$default$28:()Lscala/Option;
+     179: astore        30
+     181: aload_1
+     182: invokevirtual #662                // Method io/joern/console/Config.copy$default$29:()Lscala/Option;
+     185: astore        31
+     187: aload_1
+     188: invokevirtual #665                // Method io/joern/console/Config.copy$default$30:()[Ljava/lang/String;
+     191: astore        32
+     193: aload_1
+     194: invokevirtual #668                // Method io/joern/console/Config.copy$default$31:()[Ljava/lang/String;
+     197: astore        33
+     199: aload_1
+     200: aload_3
+     201: aload         4
+     203: aload         5
+     205: aload         6
+     207: aload         7
+     209: aload         8
+     211: aload         9
+     213: aload         10
+     215: aload         11
+     217: aload         12
+     219: iload         13
+     221: aload         14
+     223: aload         15
+     225: iload         16
+     227: iload         17
+     229: iload         18
+     231: aload         19
+     233: iload         20
+     235: aload         21
+     237: aload         22
+     239: iload         23
+     241: aload         24
+     243: aload         25
+     245: aload         26
+     247: iload         27
+     249: aload         28
+     251: aload         29
+     253: aload         30
+     255: aload         31
+     257: aload         32
+     259: aload         33
+     261: aload_2
+     262: invokevirtual #674                // Method io/joern/console/Config.copy:(Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;ZZZLjava/lang/String;ILscala/Option;Lscala/Option;ZLscala/Option;Lscala/Option;[Ljava/lang/String;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;[Ljava/lang/String;[Ljava/lang/String;Lscala/collection/immutable/Seq;)Lio/joern/console/Config;
+     265: areturn
+
+  private java.lang.String buildRunBeforeCode$$anonfun$1(boolean, boolean, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_3
+       2: iload_1
+       3: iload_2
+       4: invokespecial #482                // InterfaceMethod escapeForWindows:(Ljava/lang/String;ZZ)Ljava/lang/String;
+       7: areturn
+
+  private scala.collection.mutable.Builder buildRunBeforeCode$$anonfun$2(boolean, scala.collection.mutable.Builder, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_3
+       2: invokeinterface #844,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+       7: iload_1
+       8: aload_0
+       9: invokespecial #480                // InterfaceMethod escapeForWindows$default$3:()Z
+      12: invokespecial #482                // InterfaceMethod escapeForWindows:(Ljava/lang/String;ZZ)Ljava/lang/String;
+      15: astore        4
+      17: aload_2
+      18: aload         4
+      20: invokedynamic #847,  0            // InvokeDynamic #11:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      25: invokeinterface #440,  2          // InterfaceMethod scala/collection/mutable/Builder.$plus$eq:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+      30: checkcast     #385                // class scala/collection/mutable/Builder
+      33: areturn
+
+  private scala.collection.mutable.Builder buildRunBeforeCode$$anonfun$3(boolean, scala.collection.mutable.Builder, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_3
+       2: iload_1
+       3: aload_0
+       4: invokespecial #480                // InterfaceMethod escapeForWindows$default$3:()Z
+       7: invokespecial #482                // InterfaceMethod escapeForWindows:(Ljava/lang/String;ZZ)Ljava/lang/String;
+      10: astore        4
+      12: aload_2
+      13: getstatic     #744                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      16: getstatic     #58                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      19: aload         4
+      21: invokedynamic #854,  0            // InvokeDynamic #12:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      26: invokevirtual #747                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      29: invokevirtual #857                // Method scala/collection/StringOps$.stripMargin$extension:(Ljava/lang/String;)Ljava/lang/String;
+      32: invokeinterface #440,  2          // InterfaceMethod scala/collection/mutable/Builder.$plus$eq:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+      37: checkcast     #385                // class scala/collection/mutable/Builder
+      40: areturn
+
+  private java.lang.String buildRunBeforeCode$$anonfun$4(boolean, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_2
+       2: iload_1
+       3: aload_0
+       4: invokespecial #480                // InterfaceMethod escapeForWindows$default$3:()Z
+       7: invokespecial #482                // InterfaceMethod escapeForWindows:(Ljava/lang/String;ZZ)Ljava/lang/String;
+      10: areturn
+
+  private static java.lang.String buildRunBeforeCode$$anonfun$5(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokedynamic #862,  0            // InvokeDynamic #13:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+       6: areturn
+
+  private static java.lang.String buildRunBeforeCode$$anonfun$6(java.lang.String);
+    Code:
+       0: aload_0
+       1: invokedynamic #862,  0            // InvokeDynamic #13:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+       6: areturn
+
+  private static java.lang.String buildRunBeforeCode$$anonfun$7(int);
+    Code:
+       0: iload_0
+       1: invokedynamic #869,  0            // InvokeDynamic #14:makeConcatWithConstants:(I)Ljava/lang/String;
+       6: areturn
+
+  private static java.lang.String buildRunBeforeCode$$anonfun$adapted$1(java.lang.Object);
+    Code:
+       0: aload_0
+       1: invokestatic  #802                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+       4: invokestatic  #871                // InterfaceMethod buildRunBeforeCode$$anonfun$7:(I)Ljava/lang/String;
+       7: areturn
+
+  private static java.lang.String buildRunBeforeCode$$anonfun$8();
+    Code:
+       0: ldc_w         #873                // String
+       3: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #885,  0            // InvokeDynamic #15:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

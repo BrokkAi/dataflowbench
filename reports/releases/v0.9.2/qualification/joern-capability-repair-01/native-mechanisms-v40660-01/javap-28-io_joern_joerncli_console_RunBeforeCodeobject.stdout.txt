@@ -1,0 +1,135 @@
+Compiled from "RunBeforeCode.scala"
+public final class io.joern.joerncli.console.RunBeforeCode$ {
+  public static final io.joern.joerncli.console.RunBeforeCode$ MODULE$;
+
+  private static final scala.collection.immutable.Seq<java.lang.String> shared;
+
+  private static final scala.collection.immutable.Seq<java.lang.String> forInteractiveShell;
+
+  private io.joern.joerncli.console.RunBeforeCode$();
+    Code:
+       0: aload_0
+       1: invokespecial #18                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class io/joern/joerncli/console/RunBeforeCode$
+       3: dup
+       4: invokespecial #21                 // Method "<init>":()V
+       7: putstatic     #23                 // Field MODULE$:Lio/joern/joerncli/console/RunBeforeCode$;
+      10: getstatic     #28                 // Field scala/package$.MODULE$:Lscala/package$;
+      13: invokevirtual #32                 // Method scala/package$.Seq:()Lscala/collection/immutable/Seq$;
+      16: getstatic     #37                 // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      19: bipush        12
+      21: anewarray     #39                 // class java/lang/String
+      24: dup
+      25: iconst_0
+      26: ldc           #41                 // String import _root_.io.joern.console.*
+      28: aastore
+      29: dup
+      30: iconst_1
+      31: ldc           #43                 // String import _root_.io.joern.joerncli.console.JoernConsole.*
+      33: aastore
+      34: dup
+      35: iconst_2
+      36: ldc           #45                 // String import _root_.io.shiftleft.codepropertygraph.cpgloading.*
+      38: aastore
+      39: dup
+      40: iconst_3
+      41: ldc           #47                 // String import _root_.io.shiftleft.codepropertygraph.generated.{help => _, _}
+      43: aastore
+      44: dup
+      45: iconst_4
+      46: ldc           #49                 // String import _root_.io.shiftleft.codepropertygraph.generated.nodes.*
+      48: aastore
+      49: dup
+      50: iconst_5
+      51: ldc           #51                 // String import _root_.io.joern.dataflowengineoss.language.*
+      53: aastore
+      54: dup
+      55: bipush        6
+      57: ldc           #53                 // String import _root_.io.shiftleft.semanticcpg.language.*
+      59: aastore
+      60: dup
+      61: bipush        7
+      63: ldc           #55                 // String import scala.jdk.CollectionConverters.*
+      65: aastore
+      66: dup
+      67: bipush        8
+      69: ldc           #57                 // String import _root_.io.shiftleft.semanticcpg.sarif.SarifConfig
+      71: aastore
+      72: dup
+      73: bipush        9
+      75: ldc           #59                 // String implicit val resolver: ICallResolver = NoResolve
+      77: aastore
+      78: dup
+      79: bipush        10
+      81: ldc           #61                 // String implicit val finder: NodeExtensionFinder = DefaultNodeExtensionFinder
+      83: aastore
+      84: dup
+      85: bipush        11
+      87: ldc           #63                 // String implicit val sarifConfig: SarifConfig = SarifConfig(semanticVersion = Option(version))
+      89: aastore
+      90: invokevirtual #67                 // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      93: invokevirtual #73                 // Method scala/collection/immutable/Seq$.apply:(Lscala/collection/immutable/Seq;)Lscala/collection/SeqOps;
+      96: checkcast     #75                 // class scala/collection/immutable/Seq
+      99: putstatic     #77                 // Field shared:Lscala/collection/immutable/Seq;
+     102: getstatic     #23                 // Field MODULE$:Lio/joern/joerncli/console/RunBeforeCode$;
+     105: invokevirtual #80                 // Method shared:()Lscala/collection/immutable/Seq;
+     108: new           #82                 // class scala/collection/immutable/$colon$colon
+     111: dup
+     112: ldc           #84                 // String import _root_.io.joern.joerncli.console.Joern.*
+     114: getstatic     #89                 // Field scala/collection/immutable/Nil$.MODULE$:Lscala/collection/immutable/Nil$;
+     117: invokespecial #92                 // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+     120: checkcast     #94                 // class scala/collection/SeqOps
+     123: invokeinterface #98,  2           // InterfaceMethod scala/collection/immutable/Seq.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+     128: checkcast     #100                // class scala/collection/IterableOps
+     131: getstatic     #105                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+     134: getstatic     #110                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     137: getstatic     #115                // Field io/joern/console/Run$.MODULE$:Lio/joern/console/Run$;
+     140: getstatic     #115                // Field io/joern/console/Run$.MODULE$:Lio/joern/console/Run$;
+     143: invokevirtual #119                // Method io/joern/console/Run$.codeForRunCommand$default$1:()Lscala/collection/immutable/List;
+     146: invokevirtual #123                // Method io/joern/console/Run$.codeForRunCommand:(Lscala/collection/immutable/List;)Ljava/lang/String;
+     149: invokevirtual #127                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+     152: invokevirtual #131                // Method scala/collection/StringOps$.linesIterator$extension:(Ljava/lang/String;)Lscala/collection/Iterator;
+     155: invokeinterface #132,  2          // InterfaceMethod scala/collection/IterableOps.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+     160: checkcast     #100                // class scala/collection/IterableOps
+     163: getstatic     #105                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+     166: getstatic     #110                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     169: getstatic     #137                // Field io/joern/console/Help$.MODULE$:Lio/joern/console/Help$;
+     172: ldc           #139                // class io/joern/joerncli/console/JoernConsole
+     174: invokevirtual #143                // Method io/joern/console/Help$.codeForHelpCommand:(Ljava/lang/Class;)Ljava/lang/String;
+     177: invokevirtual #127                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+     180: invokevirtual #131                // Method scala/collection/StringOps$.linesIterator$extension:(Ljava/lang/String;)Lscala/collection/Iterator;
+     183: invokeinterface #132,  2          // InterfaceMethod scala/collection/IterableOps.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+     188: checkcast     #100                // class scala/collection/IterableOps
+     191: new           #82                 // class scala/collection/immutable/$colon$colon
+     194: dup
+     195: ldc           #145                // String ossDataFlowOptions = opts.ossdataflow
+     197: getstatic     #89                 // Field scala/collection/immutable/Nil$.MODULE$:Lscala/collection/immutable/Nil$;
+     200: invokespecial #92                 // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+     203: checkcast     #94                 // class scala/collection/SeqOps
+     206: invokeinterface #132,  2          // InterfaceMethod scala/collection/IterableOps.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+     211: checkcast     #75                 // class scala/collection/immutable/Seq
+     214: putstatic     #147                // Field forInteractiveShell:Lscala/collection/immutable/Seq;
+     217: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #151                // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class io/joern/joerncli/console/RunBeforeCode$
+       6: invokespecial #154                // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> shared();
+    Code:
+       0: getstatic     #77                 // Field shared:Lscala/collection/immutable/Seq;
+       3: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> forInteractiveShell();
+    Code:
+       0: getstatic     #147                // Field forInteractiveShell:Lscala/collection/immutable/Seq;
+       3: areturn
+}

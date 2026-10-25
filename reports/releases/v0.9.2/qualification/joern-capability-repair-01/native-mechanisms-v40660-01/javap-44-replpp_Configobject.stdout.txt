@@ -1,0 +1,1943 @@
+Compiled from "Config.scala"
+public final class replpp.Config$ implements scala.deriving.Mirror$Product {
+  public static final replpp.Config$ MODULE$;
+
+  private static final java.lang.invoke.VarHandle parser$lzy1$lzyHandle;
+
+  private volatile java.lang.Object parser$lzy1;
+
+  public static final replpp.Config$opts$ opts;
+
+  public static final replpp.Config$ForClasspath$ ForClasspath;
+
+  private replpp.Config$();
+    Code:
+       0: aload_0
+       1: invokespecial #71                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  private static {};
+    Code:
+       0: invokestatic  #77                 // Method java/lang/invoke/MethodHandles.lookup:()Ljava/lang/invoke/MethodHandles$Lookup;
+       3: ldc           #2                  // class replpp/Config$
+       5: ldc           #78                 // String parser$lzy1
+       7: ldc           #5                  // class java/lang/Object
+       9: invokevirtual #82                 // Method java/lang/invoke/MethodHandles$Lookup.findVarHandle:(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/invoke/VarHandle;
+      12: putstatic     #84                 // Field parser$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+      15: new           #2                  // class replpp/Config$
+      18: dup
+      19: invokespecial #85                 // Method "<init>":()V
+      22: putstatic     #87                 // Field MODULE$:Lreplpp/Config$;
+      25: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #91                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class replpp/Config$
+       6: invokespecial #94                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public replpp.Config apply(scala.collection.immutable.Seq<java.nio.file.Path>, scala.collection.immutable.Seq<java.lang.String>, scala.collection.immutable.Seq<java.lang.String>, boolean, boolean, replpp.Config$ForClasspath, boolean, scala.collection.immutable.Seq<java.lang.String>, scala.Option<java.lang.String>, scala.Option<java.lang.String>, scala.Option<java.lang.Object>, scala.Option<java.nio.file.Path>, scala.Option<java.lang.String>, scala.collection.immutable.Map<java.lang.String, java.lang.String>);
+    Code:
+       0: new           #19                 // class replpp/Config
+       3: dup
+       4: aload_1
+       5: aload_2
+       6: aload_3
+       7: iload         4
+       9: iload         5
+      11: aload         6
+      13: iload         7
+      15: aload         8
+      17: aload         9
+      19: aload         10
+      21: aload         11
+      23: aload         12
+      25: aload         13
+      27: aload         14
+      29: invokespecial #114                // Method replpp/Config."<init>":(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)V
+      32: areturn
+
+  public replpp.Config unapply(replpp.Config);
+    Code:
+       0: aload_1
+       1: areturn
+
+  public scala.collection.immutable.Seq<java.nio.file.Path> $lessinit$greater$default$1();
+    Code:
+       0: getstatic     #131                // Field scala/package$.MODULE$:Lscala/package$;
+       3: invokevirtual #135                // Method scala/package$.Nil:()Lscala/collection/immutable/Nil$;
+       6: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> $lessinit$greater$default$2();
+    Code:
+       0: getstatic     #131                // Field scala/package$.MODULE$:Lscala/package$;
+       3: invokevirtual #135                // Method scala/package$.Nil:()Lscala/collection/immutable/Nil$;
+       6: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> $lessinit$greater$default$3();
+    Code:
+       0: getstatic     #131                // Field scala/package$.MODULE$:Lscala/package$;
+       3: invokevirtual #135                // Method scala/package$.Nil:()Lscala/collection/immutable/Nil$;
+       6: areturn
+
+  public boolean $lessinit$greater$default$4();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public boolean $lessinit$greater$default$5();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public replpp.Config$ForClasspath $lessinit$greater$default$6();
+    Code:
+       0: getstatic     #145                // Field replpp/Config$ForClasspath$.MODULE$:Lreplpp/Config$ForClasspath$;
+       3: getstatic     #145                // Field replpp/Config$ForClasspath$.MODULE$:Lreplpp/Config$ForClasspath$;
+       6: invokevirtual #147                // Method replpp/Config$ForClasspath$.$lessinit$greater$default$1:()Lscala/collection/immutable/Seq;
+       9: getstatic     #145                // Field replpp/Config$ForClasspath$.MODULE$:Lreplpp/Config$ForClasspath$;
+      12: invokevirtual #149                // Method replpp/Config$ForClasspath$.$lessinit$greater$default$2:()Z
+      15: getstatic     #145                // Field replpp/Config$ForClasspath$.MODULE$:Lreplpp/Config$ForClasspath$;
+      18: invokevirtual #151                // Method replpp/Config$ForClasspath$.$lessinit$greater$default$3:()Lscala/collection/immutable/Seq;
+      21: getstatic     #145                // Field replpp/Config$ForClasspath$.MODULE$:Lreplpp/Config$ForClasspath$;
+      24: invokevirtual #153                // Method replpp/Config$ForClasspath$.$lessinit$greater$default$4:()Lscala/collection/immutable/Seq;
+      27: getstatic     #145                // Field replpp/Config$ForClasspath$.MODULE$:Lreplpp/Config$ForClasspath$;
+      30: invokevirtual #155                // Method replpp/Config$ForClasspath$.$lessinit$greater$default$5:()Lscala/collection/immutable/Seq;
+      33: getstatic     #145                // Field replpp/Config$ForClasspath$.MODULE$:Lreplpp/Config$ForClasspath$;
+      36: invokevirtual #157                // Method replpp/Config$ForClasspath$.$lessinit$greater$default$6:()Lscala/collection/immutable/Seq;
+      39: invokevirtual #160                // Method replpp/Config$ForClasspath$.apply:(Lscala/collection/immutable/Seq;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;)Lreplpp/Config$ForClasspath;
+      42: areturn
+
+  public boolean $lessinit$greater$default$7();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public scala.collection.immutable.Seq<java.lang.String> $lessinit$greater$default$8();
+    Code:
+       0: getstatic     #131                // Field scala/package$.MODULE$:Lscala/package$;
+       3: invokevirtual #135                // Method scala/package$.Nil:()Lscala/collection/immutable/Nil$;
+       6: areturn
+
+  public scala.Option<java.lang.String> $lessinit$greater$default$9();
+    Code:
+       0: getstatic     #170                // Field scala/None$.MODULE$:Lscala/None$;
+       3: areturn
+
+  public scala.Option<java.lang.String> $lessinit$greater$default$10();
+    Code:
+       0: getstatic     #176                // Field scala/Some$.MODULE$:Lscala/Some$;
+       3: aload_0
+       4: invokespecial #180                // Method defaultGreeting:()Ljava/lang/String;
+       7: invokevirtual #183                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      10: areturn
+
+  public scala.Option<java.lang.Object> $lessinit$greater$default$11();
+    Code:
+       0: getstatic     #170                // Field scala/None$.MODULE$:Lscala/None$;
+       3: areturn
+
+  public scala.Option<java.nio.file.Path> $lessinit$greater$default$12();
+    Code:
+       0: getstatic     #170                // Field scala/None$.MODULE$:Lscala/None$;
+       3: areturn
+
+  public scala.Option<java.lang.String> $lessinit$greater$default$13();
+    Code:
+       0: getstatic     #170                // Field scala/None$.MODULE$:Lscala/None$;
+       3: areturn
+
+  public scala.collection.immutable.Map<java.lang.String, java.lang.String> $lessinit$greater$default$14();
+    Code:
+       0: getstatic     #196                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       3: invokevirtual #200                // Method scala/Predef$.Map:()Lscala/collection/immutable/Map$;
+       6: invokevirtual #205                // Method scala/collection/immutable/Map$.empty:()Lscala/collection/immutable/Map;
+       9: areturn
+
+  private java.lang.String defaultGreeting();
+    Code:
+       0: aload_0
+       1: invokevirtual #209                // Method getClass:()Ljava/lang/Class;
+       4: invokevirtual #215                // Method java/lang/Class.getPackage:()Ljava/lang/Package;
+       7: invokevirtual #220                // Method java/lang/Package.getImplementationVersion:()Ljava/lang/String;
+      10: astore_1
+      11: ldc           #222                // class dotty/tools/dotc/Driver
+      13: invokevirtual #215                // Method java/lang/Class.getPackage:()Ljava/lang/Package;
+      16: invokevirtual #220                // Method java/lang/Package.getImplementationVersion:()Ljava/lang/String;
+      19: astore_2
+      20: getstatic     #227                // Field scala/sys/package$.MODULE$:Lscala/sys/package$;
+      23: invokevirtual #231                // Method scala/sys/package$.props:()Lscala/sys/SystemProperties;
+      26: ldc           #233                // String java.version
+      28: invokevirtual #238                // Method scala/sys/SystemProperties.apply:(Ljava/lang/Object;)Ljava/lang/Object;
+      31: checkcast     #240                // class java/lang/String
+      34: astore_3
+      35: aload_1
+      36: aload_2
+      37: aload_3
+      38: invokedynamic #252,  0            // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      43: areturn
+
+  public replpp.Config parse(java.lang.String[]);
+    Code:
+       0: getstatic     #264                // Field replpp/shaded/scopt/OParser$.MODULE$:Lreplpp/shaded/scopt/OParser$;
+       3: aload_0
+       4: invokevirtual #268                // Method parser:()Lreplpp/shaded/scopt/OParser;
+       7: getstatic     #196                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      10: aload_1
+      11: invokevirtual #272                // Method scala/Predef$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/mutable/ArraySeq$ofRef;
+      14: aload_0
+      15: aload_0
+      16: invokevirtual #273                // Method $lessinit$greater$default$1:()Lscala/collection/immutable/Seq;
+      19: aload_0
+      20: invokevirtual #275                // Method $lessinit$greater$default$2:()Lscala/collection/immutable/Seq;
+      23: aload_0
+      24: invokevirtual #276                // Method $lessinit$greater$default$3:()Lscala/collection/immutable/Seq;
+      27: aload_0
+      28: invokevirtual #278                // Method $lessinit$greater$default$4:()Z
+      31: aload_0
+      32: invokevirtual #280                // Method $lessinit$greater$default$5:()Z
+      35: aload_0
+      36: invokevirtual #282                // Method $lessinit$greater$default$6:()Lreplpp/Config$ForClasspath;
+      39: aload_0
+      40: invokevirtual #284                // Method $lessinit$greater$default$7:()Z
+      43: aload_0
+      44: invokevirtual #286                // Method $lessinit$greater$default$8:()Lscala/collection/immutable/Seq;
+      47: aload_0
+      48: invokevirtual #288                // Method $lessinit$greater$default$9:()Lscala/Option;
+      51: aload_0
+      52: invokevirtual #290                // Method $lessinit$greater$default$10:()Lscala/Option;
+      55: aload_0
+      56: invokevirtual #292                // Method $lessinit$greater$default$11:()Lscala/Option;
+      59: aload_0
+      60: invokevirtual #294                // Method $lessinit$greater$default$12:()Lscala/Option;
+      63: aload_0
+      64: invokevirtual #296                // Method $lessinit$greater$default$13:()Lscala/Option;
+      67: aload_0
+      68: invokevirtual #298                // Method $lessinit$greater$default$14:()Lscala/collection/immutable/Map;
+      71: invokevirtual #300                // Method apply:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+      74: invokevirtual #303                // Method replpp/shaded/scopt/OParser$.parse:(Lreplpp/shaded/scopt/OParser;Lscala/collection/Seq;Ljava/lang/Object;)Lscala/Option;
+      77: invokedynamic #322,  0            // InvokeDynamic #1:apply:()Lscala/Function0;
+      82: invokevirtual #328                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      85: checkcast     #19                 // class replpp/Config
+      88: areturn
+
+  public replpp.shaded.scopt.OParser<scala.runtime.BoxedUnit, replpp.Config> parser();
+    Code:
+       0: aload_0
+       1: getfield      #332                // Field parser$lzy1:Ljava/lang/Object;
+       4: astore_1
+       5: aload_1
+       6: instanceof    #334                // class replpp/shaded/scopt/OParser
+       9: ifeq          17
+      12: aload_1
+      13: checkcast     #334                // class replpp/shaded/scopt/OParser
+      16: areturn
+      17: aload_1
+      18: getstatic     #337                // Field scala/runtime/LazyVals$NullValue$.MODULE$:Lscala/runtime/LazyVals$NullValue$;
+      21: if_acmpne     26
+      24: aconst_null
+      25: areturn
+      26: aload_0
+      27: invokespecial #340                // Method parser$lzyINIT1:()Ljava/lang/Object;
+      30: checkcast     #334                // class replpp/shaded/scopt/OParser
+      33: areturn
+
+  private java.lang.Object parser$lzyINIT1();
+    Code:
+       0: aload_0
+       1: getfield      #332                // Field parser$lzy1:Ljava/lang/Object;
+       4: astore_1
+       5: aload_1
+       6: ifnonnull     617
+       9: getstatic     #84                 // Field parser$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+      12: aload_0
+      13: aconst_null
+      14: getstatic     #343                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+      17: invokevirtual #349                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+      20: ifeq          614
+      23: aconst_null
+      24: astore_2
+      25: aconst_null
+      26: astore_3
+      27: new           #351                // class scala/runtime/LazyRef
+      30: dup
+      31: invokespecial #352                // Method scala/runtime/LazyRef."<init>":()V
+      34: astore        4
+      36: getstatic     #264                // Field replpp/shaded/scopt/OParser$.MODULE$:Lreplpp/shaded/scopt/OParser$;
+      39: aload_0
+      40: aload         4
+      42: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+      45: ldc_w         #358                // String scala-repl-pp
+      48: invokevirtual #364                // Method replpp/shaded/scopt/OParserBuilder.programName:(Ljava/lang/String;)Lreplpp/shaded/scopt/OParser;
+      51: getstatic     #369                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      54: bipush        22
+      56: anewarray     #334                // class replpp/shaded/scopt/OParser
+      59: dup
+      60: iconst_0
+      61: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+      64: aload_0
+      65: aload         4
+      67: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+      70: invokedynamic #382,  0            // InvokeDynamic #2:apply:()Lscala/Function2;
+      75: invokevirtual #386                // Method replpp/Config$opts$.predef:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+      78: aastore
+      79: dup
+      80: iconst_1
+      81: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+      84: aload_0
+      85: aload         4
+      87: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+      90: invokedynamic #393,  0            // InvokeDynamic #3:apply:()Lscala/Function2;
+      95: invokevirtual #395                // Method replpp/Config$opts$.runBefore:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+      98: aastore
+      99: dup
+     100: iconst_2
+     101: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     104: aload_0
+     105: aload         4
+     107: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     110: invokedynamic #400,  0            // InvokeDynamic #4:apply:()Lscala/Function2;
+     115: invokevirtual #402                // Method replpp/Config$opts$.runAfter:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     118: aastore
+     119: dup
+     120: iconst_3
+     121: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     124: aload_0
+     125: aload         4
+     127: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     130: invokedynamic #409,  0            // InvokeDynamic #5:apply:()Lscala/Function2;
+     135: invokevirtual #411                // Method replpp/Config$opts$.nocolors:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     138: aastore
+     139: dup
+     140: iconst_4
+     141: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     144: aload_0
+     145: aload         4
+     147: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     150: invokedynamic #416,  0            // InvokeDynamic #6:apply:()Lscala/Function2;
+     155: invokevirtual #418                // Method replpp/Config$opts$.verbose:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     158: aastore
+     159: dup
+     160: iconst_5
+     161: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     164: aload_0
+     165: aload         4
+     167: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     170: invokedynamic #423,  0            // InvokeDynamic #7:apply:()Lscala/Function2;
+     175: invokevirtual #426                // Method replpp/Config$opts$.classpathEntry:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     178: aastore
+     179: dup
+     180: bipush        6
+     182: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     185: aload_0
+     186: aload         4
+     188: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     191: invokedynamic #431,  0            // InvokeDynamic #8:apply:()Lscala/Function2;
+     196: invokevirtual #434                // Method replpp/Config$opts$.inheritClasspath:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     199: aastore
+     200: dup
+     201: bipush        7
+     203: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     206: aload_0
+     207: aload         4
+     209: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     212: invokedynamic #439,  0            // InvokeDynamic #9:apply:()Lscala/Function2;
+     217: invokevirtual #442                // Method replpp/Config$opts$.classpathIncludesEntry:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     220: aastore
+     221: dup
+     222: bipush        8
+     224: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     227: aload_0
+     228: aload         4
+     230: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     233: invokedynamic #447,  0            // InvokeDynamic #10:apply:()Lscala/Function2;
+     238: invokevirtual #450                // Method replpp/Config$opts$.classpathExcludesEntry:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     241: aastore
+     242: dup
+     243: bipush        9
+     245: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     248: aload_0
+     249: aload         4
+     251: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     254: invokedynamic #455,  0            // InvokeDynamic #11:apply:()Lscala/Function2;
+     259: invokevirtual #458                // Method replpp/Config$opts$.dependency:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     262: aastore
+     263: dup
+     264: bipush        10
+     266: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     269: aload_0
+     270: aload         4
+     272: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     275: invokedynamic #463,  0            // InvokeDynamic #12:apply:()Lscala/Function2;
+     280: invokevirtual #466                // Method replpp/Config$opts$.repo:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     283: aastore
+     284: dup
+     285: bipush        11
+     287: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     290: aload_0
+     291: aload         4
+     293: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     296: invokedynamic #471,  0            // InvokeDynamic #13:apply:()Lscala/Function2;
+     301: invokevirtual #474                // Method replpp/Config$opts$.remoteJvmDebug:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     304: aastore
+     305: dup
+     306: bipush        12
+     308: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     311: aload_0
+     312: aload         4
+     314: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     317: invokedynamic #479,  0            // InvokeDynamic #14:apply:()Lscala/Function2;
+     322: invokevirtual #482                // Method replpp/Config$opts$.scalacOption:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     325: aastore
+     326: dup
+     327: bipush        13
+     329: aload_0
+     330: aload         4
+     332: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     335: ldc_w         #484                // String REPL options
+     338: invokevirtual #487                // Method replpp/shaded/scopt/OParserBuilder.note:(Ljava/lang/String;)Lreplpp/shaded/scopt/OParser;
+     341: aastore
+     342: dup
+     343: bipush        14
+     345: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     348: aload_0
+     349: aload         4
+     351: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     354: invokedynamic #492,  0            // InvokeDynamic #15:apply:()Lscala/Function2;
+     359: invokevirtual #494                // Method replpp/Config$opts$.prompt:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     362: aastore
+     363: dup
+     364: bipush        15
+     366: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     369: aload_0
+     370: aload         4
+     372: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     375: invokedynamic #499,  0            // InvokeDynamic #16:apply:()Lscala/Function2;
+     380: invokevirtual #501                // Method replpp/Config$opts$.greeting:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     383: aastore
+     384: dup
+     385: bipush        16
+     387: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     390: aload_0
+     391: aload         4
+     393: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     396: invokedynamic #508,  0            // InvokeDynamic #17:apply:()Lscala/Function2;
+     401: invokevirtual #510                // Method replpp/Config$opts$.maxHeight:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     404: aastore
+     405: dup
+     406: bipush        17
+     408: aload_0
+     409: aload         4
+     411: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     414: ldc_w         #512                // String Script execution
+     417: invokevirtual #487                // Method replpp/shaded/scopt/OParserBuilder.note:(Ljava/lang/String;)Lreplpp/shaded/scopt/OParser;
+     420: aastore
+     421: dup
+     422: bipush        18
+     424: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     427: aload_0
+     428: aload         4
+     430: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     433: invokedynamic #517,  0            // InvokeDynamic #18:apply:()Lscala/Function2;
+     438: invokevirtual #520                // Method replpp/Config$opts$.script:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     441: aastore
+     442: dup
+     443: bipush        19
+     445: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     448: aload_0
+     449: aload         4
+     451: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     454: invokedynamic #525,  0            // InvokeDynamic #19:apply:()Lscala/Function2;
+     459: invokevirtual #527                // Method replpp/Config$opts$.command:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     462: aastore
+     463: dup
+     464: bipush        20
+     466: getstatic     #371                // Field replpp/Config$opts$.MODULE$:Lreplpp/Config$opts$;
+     469: aload_0
+     470: aload         4
+     472: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     475: invokedynamic #532,  0            // InvokeDynamic #20:apply:()Lscala/Function2;
+     480: invokevirtual #535                // Method replpp/Config$opts$.param:(Lreplpp/shaded/scopt/OParserBuilder;Lscala/Function2;)Lreplpp/shaded/scopt/OParser;
+     483: aastore
+     484: dup
+     485: bipush        21
+     487: aload_0
+     488: aload         4
+     490: invokespecial #356                // Method builder$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+     493: ldc_w         #537                // String help
+     496: invokevirtual #539                // Method replpp/shaded/scopt/OParserBuilder.help:(Ljava/lang/String;)Lreplpp/shaded/scopt/OParser;
+     499: ldc_w         #541                // String Print this help text
+     502: invokevirtual #544                // Method replpp/shaded/scopt/OParser.text:(Ljava/lang/String;)Lreplpp/shaded/scopt/OParser;
+     505: aastore
+     506: invokevirtual #547                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     509: invokevirtual #551                // Method replpp/shaded/scopt/OParser$.sequence:(Lreplpp/shaded/scopt/OParser;Lscala/collection/immutable/Seq;)Lreplpp/shaded/scopt/OParser;
+     512: astore_3
+     513: aload_3
+     514: ifnonnull     524
+     517: getstatic     #337                // Field scala/runtime/LazyVals$NullValue$.MODULE$:Lscala/runtime/LazyVals$NullValue$;
+     520: astore_2
+     521: goto          526
+     524: aload_3
+     525: astore_2
+     526: goto          573
+     529: astore        5
+     531: getstatic     #84                 // Field parser$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     534: aload_0
+     535: getstatic     #343                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+     538: aload_2
+     539: invokevirtual #349                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     542: ifne          570
+     545: aload_0
+     546: getfield      #332                // Field parser$lzy1:Ljava/lang/Object;
+     549: checkcast     #57                 // class scala/runtime/LazyVals$Waiting
+     552: astore        6
+     554: getstatic     #84                 // Field parser$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     557: aload_0
+     558: aload         6
+     560: aload_2
+     561: invokevirtual #349                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     564: pop
+     565: aload         6
+     567: invokevirtual #554                // Method scala/runtime/LazyVals$Waiting.countDown:()V
+     570: aload         5
+     572: athrow
+     573: getstatic     #84                 // Field parser$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     576: aload_0
+     577: getstatic     #343                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+     580: aload_2
+     581: invokevirtual #349                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     584: ifne          612
+     587: aload_0
+     588: getfield      #332                // Field parser$lzy1:Ljava/lang/Object;
+     591: checkcast     #57                 // class scala/runtime/LazyVals$Waiting
+     594: astore        6
+     596: getstatic     #84                 // Field parser$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     599: aload_0
+     600: aload         6
+     602: aload_2
+     603: invokevirtual #349                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     606: pop
+     607: aload         6
+     609: invokevirtual #554                // Method scala/runtime/LazyVals$Waiting.countDown:()V
+     612: aload_3
+     613: areturn
+     614: goto          0
+     617: aload_1
+     618: instanceof    #51                 // class scala/runtime/LazyVals$LazyValControlState
+     621: ifeq          669
+     624: aload_1
+     625: getstatic     #343                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+     628: if_acmpne     650
+     631: getstatic     #84                 // Field parser$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     634: aload_0
+     635: aload_1
+     636: new           #57                 // class scala/runtime/LazyVals$Waiting
+     639: dup
+     640: invokespecial #555                // Method scala/runtime/LazyVals$Waiting."<init>":()V
+     643: invokevirtual #349                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     646: pop
+     647: goto          0
+     650: aload_1
+     651: instanceof    #57                 // class scala/runtime/LazyVals$Waiting
+     654: ifeq          667
+     657: aload_1
+     658: checkcast     #57                 // class scala/runtime/LazyVals$Waiting
+     661: invokevirtual #558                // Method scala/runtime/LazyVals$Waiting.await:()V
+     664: goto          0
+     667: aconst_null
+     668: areturn
+     669: aload_1
+     670: areturn
+    Exception table:
+       from    to  target type
+          27   529   529   any
+
+  public replpp.Config fromProduct(scala.Product);
+    Code:
+       0: aload_1
+       1: iconst_0
+       2: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+       7: checkcast     #571                // class scala/collection/immutable/Seq
+      10: astore_2
+      11: aload_1
+      12: iconst_1
+      13: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+      18: checkcast     #571                // class scala/collection/immutable/Seq
+      21: astore_3
+      22: aload_1
+      23: iconst_2
+      24: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+      29: checkcast     #571                // class scala/collection/immutable/Seq
+      32: astore        4
+      34: aload_1
+      35: iconst_3
+      36: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+      41: invokestatic  #577                // Method scala/runtime/BoxesRunTime.unboxToBoolean:(Ljava/lang/Object;)Z
+      44: istore        5
+      46: aload_1
+      47: iconst_4
+      48: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+      53: invokestatic  #577                // Method scala/runtime/BoxesRunTime.unboxToBoolean:(Ljava/lang/Object;)Z
+      56: istore        6
+      58: aload_1
+      59: iconst_5
+      60: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+      65: checkcast     #17                 // class replpp/Config$ForClasspath
+      68: astore        7
+      70: aload_1
+      71: bipush        6
+      73: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+      78: invokestatic  #577                // Method scala/runtime/BoxesRunTime.unboxToBoolean:(Ljava/lang/Object;)Z
+      81: istore        8
+      83: aload_1
+      84: bipush        7
+      86: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+      91: checkcast     #571                // class scala/collection/immutable/Seq
+      94: astore        9
+      96: aload_1
+      97: bipush        8
+      99: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+     104: checkcast     #324                // class scala/Option
+     107: astore        10
+     109: aload_1
+     110: bipush        9
+     112: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+     117: checkcast     #324                // class scala/Option
+     120: astore        11
+     122: aload_1
+     123: bipush        10
+     125: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+     130: checkcast     #324                // class scala/Option
+     133: astore        12
+     135: aload_1
+     136: bipush        11
+     138: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+     143: checkcast     #324                // class scala/Option
+     146: astore        13
+     148: aload_1
+     149: bipush        12
+     151: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+     156: checkcast     #324                // class scala/Option
+     159: astore        14
+     161: aload_1
+     162: bipush        13
+     164: invokeinterface #569,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+     169: checkcast     #579                // class scala/collection/immutable/Map
+     172: astore        15
+     174: new           #19                 // class replpp/Config
+     177: dup
+     178: aload_2
+     179: aload_3
+     180: aload         4
+     182: iload         5
+     184: iload         6
+     186: aload         7
+     188: iload         8
+     190: aload         9
+     192: aload         10
+     194: aload         11
+     196: aload         12
+     198: aload         13
+     200: aload         14
+     202: aload         15
+     204: invokespecial #114                // Method replpp/Config."<init>":(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)V
+     207: areturn
+
+  public java.lang.Object fromProduct(scala.Product);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #584                // Method fromProduct:(Lscala/Product;)Lreplpp/Config;
+       5: areturn
+
+  private static final replpp.Config parse$$anonfun$1();
+    Code:
+       0: new           #586                // class java/lang/AssertionError
+       3: dup
+       4: ldc_w         #588                // String error while parsing commandline args - see errors above
+       7: invokespecial #591                // Method java/lang/AssertionError."<init>":(Ljava/lang/Object;)V
+      10: athrow
+
+  private final replpp.shaded.scopt.OParserBuilder builder$lzyINIT1$1(scala.runtime.LazyRef);
+    Code:
+       0: aload_1
+       1: dup
+       2: astore_2
+       3: monitorenter
+       4: aload_1
+       5: invokevirtual #596                // Method scala/runtime/LazyRef.initialized:()Z
+       8: ifeq          18
+      11: aload_1
+      12: invokevirtual #599                // Method scala/runtime/LazyRef.value:()Ljava/lang/Object;
+      15: goto          28
+      18: aload_1
+      19: getstatic     #264                // Field replpp/shaded/scopt/OParser$.MODULE$:Lreplpp/shaded/scopt/OParser$;
+      22: invokevirtual #603                // Method replpp/shaded/scopt/OParser$.builder:()Lreplpp/shaded/scopt/OParserBuilder;
+      25: invokevirtual #606                // Method scala/runtime/LazyRef.initialize:(Ljava/lang/Object;)Ljava/lang/Object;
+      28: checkcast     #360                // class replpp/shaded/scopt/OParserBuilder
+      31: astore_3
+      32: aload_2
+      33: monitorexit
+      34: aload_3
+      35: goto          41
+      38: aload_2
+      39: monitorexit
+      40: athrow
+      41: areturn
+    Exception table:
+       from    to  target type
+           4    32    38   any
+
+  private final replpp.shaded.scopt.OParserBuilder builder$1(scala.runtime.LazyRef);
+    Code:
+       0: aload_1
+       1: invokevirtual #596                // Method scala/runtime/LazyRef.initialized:()Z
+       4: ifeq          14
+       7: aload_1
+       8: invokevirtual #599                // Method scala/runtime/LazyRef.value:()Ljava/lang/Object;
+      11: goto          19
+      14: aload_0
+      15: aload_1
+      16: invokespecial #610                // Method builder$lzyINIT1$1:(Lscala/runtime/LazyRef;)Lreplpp/shaded/scopt/OParserBuilder;
+      19: checkcast     #360                // class replpp/shaded/scopt/OParserBuilder
+      22: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$1(java.nio.file.Path, replpp.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #614                // Method replpp/Config.predefFiles:()Lscala/collection/immutable/Seq;
+       5: aload_0
+       6: invokeinterface #617,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      11: checkcast     #571                // class scala/collection/immutable/Seq
+      14: aload_1
+      15: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+      18: aload_1
+      19: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      22: aload_1
+      23: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      26: aload_1
+      27: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      30: aload_1
+      31: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      34: aload_1
+      35: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      38: aload_1
+      39: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      42: aload_1
+      43: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      50: aload_1
+      51: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+      54: aload_1
+      55: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+      58: aload_1
+      59: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+      62: aload_1
+      63: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      66: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+      69: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$2(java.lang.String, replpp.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #662                // Method replpp/Config.runBefore:()Lscala/collection/immutable/Seq;
+       4: aload_0
+       5: invokeinterface #617,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      10: checkcast     #571                // class scala/collection/immutable/Seq
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+      18: astore_3
+      19: aload_1
+      20: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      23: astore        4
+      25: aload_1
+      26: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      29: istore        5
+      31: aload_1
+      32: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      35: istore        6
+      37: aload_1
+      38: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      41: astore        7
+      43: aload_1
+      44: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      47: istore        8
+      49: aload_1
+      50: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      53: astore        9
+      55: aload_1
+      56: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      59: astore        10
+      61: aload_1
+      62: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      65: astore        11
+      67: aload_1
+      68: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+      71: astore        12
+      73: aload_1
+      74: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+      77: astore        13
+      79: aload_1
+      80: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+      83: astore        14
+      85: aload_1
+      86: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      89: astore        15
+      91: aload_1
+      92: aload_3
+      93: aload_2
+      94: aload         4
+      96: iload         5
+      98: iload         6
+     100: aload         7
+     102: iload         8
+     104: aload         9
+     106: aload         10
+     108: aload         11
+     110: aload         12
+     112: aload         13
+     114: aload         14
+     116: aload         15
+     118: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     121: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$3(java.lang.String, replpp.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #667                // Method replpp/Config.runAfter:()Lscala/collection/immutable/Seq;
+       4: aload_0
+       5: invokeinterface #617,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      10: checkcast     #571                // class scala/collection/immutable/Seq
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+      18: astore_3
+      19: aload_1
+      20: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+      23: astore        4
+      25: aload_1
+      26: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      29: istore        5
+      31: aload_1
+      32: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      35: istore        6
+      37: aload_1
+      38: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      41: astore        7
+      43: aload_1
+      44: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      47: istore        8
+      49: aload_1
+      50: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      53: astore        9
+      55: aload_1
+      56: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      59: astore        10
+      61: aload_1
+      62: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      65: astore        11
+      67: aload_1
+      68: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+      71: astore        12
+      73: aload_1
+      74: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+      77: astore        13
+      79: aload_1
+      80: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+      83: astore        14
+      85: aload_1
+      86: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      89: astore        15
+      91: aload_1
+      92: aload_3
+      93: aload         4
+      95: aload_2
+      96: iload         5
+      98: iload         6
+     100: aload         7
+     102: iload         8
+     104: aload         9
+     106: aload         10
+     108: aload         11
+     110: aload         12
+     112: aload         13
+     114: aload         14
+     116: aload         15
+     118: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     121: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$4(scala.runtime.BoxedUnit, replpp.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+       5: aload_1
+       6: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+       9: aload_1
+      10: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      13: iconst_1
+      14: aload_1
+      15: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      18: aload_1
+      19: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      22: aload_1
+      23: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      26: aload_1
+      27: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      30: aload_1
+      31: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      34: aload_1
+      35: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      38: aload_1
+      39: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+      42: aload_1
+      43: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+      50: aload_1
+      51: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      54: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+      57: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$5(scala.runtime.BoxedUnit, replpp.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+       5: aload_1
+       6: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+       9: aload_1
+      10: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      13: aload_1
+      14: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      17: iconst_1
+      18: aload_1
+      19: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      22: aload_1
+      23: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      26: aload_1
+      27: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      30: aload_1
+      31: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      34: aload_1
+      35: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      38: aload_1
+      39: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+      42: aload_1
+      43: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+      50: aload_1
+      51: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      54: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+      57: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$6(java.lang.String, replpp.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+       4: aload_1
+       5: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+       8: invokevirtual #675                // Method replpp/Config$ForClasspath.additionalClasspathEntries:()Lscala/collection/immutable/Seq;
+      11: aload_0
+      12: invokeinterface #617,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      17: checkcast     #571                // class scala/collection/immutable/Seq
+      20: aload_1
+      21: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      24: invokevirtual #677                // Method replpp/Config$ForClasspath.copy$default$2:()Z
+      27: aload_1
+      28: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      31: invokevirtual #678                // Method replpp/Config$ForClasspath.copy$default$3:()Lscala/collection/immutable/Seq;
+      34: aload_1
+      35: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      38: invokevirtual #680                // Method replpp/Config$ForClasspath.copy$default$4:()Lscala/collection/immutable/Seq;
+      41: aload_1
+      42: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      45: invokevirtual #682                // Method replpp/Config$ForClasspath.copy$default$5:()Lscala/collection/immutable/Seq;
+      48: aload_1
+      49: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      52: invokevirtual #684                // Method replpp/Config$ForClasspath.copy$default$6:()Lscala/collection/immutable/Seq;
+      55: invokevirtual #686                // Method replpp/Config$ForClasspath.copy:(Lscala/collection/immutable/Seq;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;)Lreplpp/Config$ForClasspath;
+      58: astore_2
+      59: aload_1
+      60: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+      63: astore_3
+      64: aload_1
+      65: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+      68: astore        4
+      70: aload_1
+      71: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      74: astore        5
+      76: aload_1
+      77: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      80: istore        6
+      82: aload_1
+      83: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      86: istore        7
+      88: aload_1
+      89: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      92: istore        8
+      94: aload_1
+      95: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      98: astore        9
+     100: aload_1
+     101: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+     104: astore        10
+     106: aload_1
+     107: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+     110: astore        11
+     112: aload_1
+     113: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+     116: astore        12
+     118: aload_1
+     119: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+     122: astore        13
+     124: aload_1
+     125: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+     128: astore        14
+     130: aload_1
+     131: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+     134: astore        15
+     136: aload_1
+     137: aload_3
+     138: aload         4
+     140: aload         5
+     142: iload         6
+     144: iload         7
+     146: aload_2
+     147: iload         8
+     149: aload         9
+     151: aload         10
+     153: aload         11
+     155: aload         12
+     157: aload         13
+     159: aload         14
+     161: aload         15
+     163: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     166: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$7(scala.runtime.BoxedUnit, replpp.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+       4: aload_1
+       5: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+       8: invokevirtual #688                // Method replpp/Config$ForClasspath.copy$default$1:()Lscala/collection/immutable/Seq;
+      11: iconst_1
+      12: aload_1
+      13: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      16: invokevirtual #678                // Method replpp/Config$ForClasspath.copy$default$3:()Lscala/collection/immutable/Seq;
+      19: aload_1
+      20: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      23: invokevirtual #680                // Method replpp/Config$ForClasspath.copy$default$4:()Lscala/collection/immutable/Seq;
+      26: aload_1
+      27: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      30: invokevirtual #682                // Method replpp/Config$ForClasspath.copy$default$5:()Lscala/collection/immutable/Seq;
+      33: aload_1
+      34: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      37: invokevirtual #684                // Method replpp/Config$ForClasspath.copy$default$6:()Lscala/collection/immutable/Seq;
+      40: invokevirtual #686                // Method replpp/Config$ForClasspath.copy:(Lscala/collection/immutable/Seq;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;)Lreplpp/Config$ForClasspath;
+      43: astore_2
+      44: aload_1
+      45: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+      48: astore_3
+      49: aload_1
+      50: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+      53: astore        4
+      55: aload_1
+      56: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      59: astore        5
+      61: aload_1
+      62: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      65: istore        6
+      67: aload_1
+      68: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      71: istore        7
+      73: aload_1
+      74: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      77: istore        8
+      79: aload_1
+      80: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      83: astore        9
+      85: aload_1
+      86: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      89: astore        10
+      91: aload_1
+      92: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      95: astore        11
+      97: aload_1
+      98: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+     101: astore        12
+     103: aload_1
+     104: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+     107: astore        13
+     109: aload_1
+     110: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+     113: astore        14
+     115: aload_1
+     116: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+     119: astore        15
+     121: aload_1
+     122: aload_3
+     123: aload         4
+     125: aload         5
+     127: iload         6
+     129: iload         7
+     131: aload_2
+     132: iload         8
+     134: aload         9
+     136: aload         10
+     138: aload         11
+     140: aload         12
+     142: aload         13
+     144: aload         14
+     146: aload         15
+     148: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     151: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$8(java.lang.String, replpp.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+       4: invokevirtual #691                // Method replpp/Config$ForClasspath.inheritClasspathIncludes:()Lscala/collection/immutable/Seq;
+       7: aload_0
+       8: invokeinterface #617,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      13: checkcast     #571                // class scala/collection/immutable/Seq
+      16: astore_3
+      17: aload_1
+      18: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      21: invokevirtual #688                // Method replpp/Config$ForClasspath.copy$default$1:()Lscala/collection/immutable/Seq;
+      24: astore        4
+      26: aload_1
+      27: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      30: invokevirtual #677                // Method replpp/Config$ForClasspath.copy$default$2:()Z
+      33: istore        5
+      35: aload_1
+      36: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      39: invokevirtual #680                // Method replpp/Config$ForClasspath.copy$default$4:()Lscala/collection/immutable/Seq;
+      42: astore        6
+      44: aload_1
+      45: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      48: invokevirtual #682                // Method replpp/Config$ForClasspath.copy$default$5:()Lscala/collection/immutable/Seq;
+      51: astore        7
+      53: aload_1
+      54: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      57: invokevirtual #684                // Method replpp/Config$ForClasspath.copy$default$6:()Lscala/collection/immutable/Seq;
+      60: astore        8
+      62: aload_1
+      63: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      66: aload         4
+      68: iload         5
+      70: aload_3
+      71: aload         6
+      73: aload         7
+      75: aload         8
+      77: invokevirtual #686                // Method replpp/Config$ForClasspath.copy:(Lscala/collection/immutable/Seq;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;)Lreplpp/Config$ForClasspath;
+      80: astore_2
+      81: aload_1
+      82: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+      85: astore        9
+      87: aload_1
+      88: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+      91: astore        10
+      93: aload_1
+      94: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      97: astore        11
+      99: aload_1
+     100: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+     103: istore        12
+     105: aload_1
+     106: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+     109: istore        13
+     111: aload_1
+     112: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+     115: istore        14
+     117: aload_1
+     118: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+     121: astore        15
+     123: aload_1
+     124: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+     127: astore        16
+     129: aload_1
+     130: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+     133: astore        17
+     135: aload_1
+     136: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+     139: astore        18
+     141: aload_1
+     142: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+     145: astore        19
+     147: aload_1
+     148: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+     151: astore        20
+     153: aload_1
+     154: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+     157: astore        21
+     159: aload_1
+     160: aload         9
+     162: aload         10
+     164: aload         11
+     166: iload         12
+     168: iload         13
+     170: aload_2
+     171: iload         14
+     173: aload         15
+     175: aload         16
+     177: aload         17
+     179: aload         18
+     181: aload         19
+     183: aload         20
+     185: aload         21
+     187: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     190: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$9(java.lang.String, replpp.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+       4: invokevirtual #694                // Method replpp/Config$ForClasspath.inheritClasspathExcludes:()Lscala/collection/immutable/Seq;
+       7: aload_0
+       8: invokeinterface #617,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      13: checkcast     #571                // class scala/collection/immutable/Seq
+      16: astore_3
+      17: aload_1
+      18: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      21: invokevirtual #688                // Method replpp/Config$ForClasspath.copy$default$1:()Lscala/collection/immutable/Seq;
+      24: astore        4
+      26: aload_1
+      27: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      30: invokevirtual #677                // Method replpp/Config$ForClasspath.copy$default$2:()Z
+      33: istore        5
+      35: aload_1
+      36: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      39: invokevirtual #678                // Method replpp/Config$ForClasspath.copy$default$3:()Lscala/collection/immutable/Seq;
+      42: astore        6
+      44: aload_1
+      45: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      48: invokevirtual #682                // Method replpp/Config$ForClasspath.copy$default$5:()Lscala/collection/immutable/Seq;
+      51: astore        7
+      53: aload_1
+      54: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      57: invokevirtual #684                // Method replpp/Config$ForClasspath.copy$default$6:()Lscala/collection/immutable/Seq;
+      60: astore        8
+      62: aload_1
+      63: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      66: aload         4
+      68: iload         5
+      70: aload         6
+      72: aload_3
+      73: aload         7
+      75: aload         8
+      77: invokevirtual #686                // Method replpp/Config$ForClasspath.copy:(Lscala/collection/immutable/Seq;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;)Lreplpp/Config$ForClasspath;
+      80: astore_2
+      81: aload_1
+      82: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+      85: astore        9
+      87: aload_1
+      88: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+      91: astore        10
+      93: aload_1
+      94: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      97: astore        11
+      99: aload_1
+     100: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+     103: istore        12
+     105: aload_1
+     106: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+     109: istore        13
+     111: aload_1
+     112: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+     115: istore        14
+     117: aload_1
+     118: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+     121: astore        15
+     123: aload_1
+     124: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+     127: astore        16
+     129: aload_1
+     130: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+     133: astore        17
+     135: aload_1
+     136: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+     139: astore        18
+     141: aload_1
+     142: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+     145: astore        19
+     147: aload_1
+     148: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+     151: astore        20
+     153: aload_1
+     154: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+     157: astore        21
+     159: aload_1
+     160: aload         9
+     162: aload         10
+     164: aload         11
+     166: iload         12
+     168: iload         13
+     170: aload_2
+     171: iload         14
+     173: aload         15
+     175: aload         16
+     177: aload         17
+     179: aload         18
+     181: aload         19
+     183: aload         20
+     185: aload         21
+     187: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     190: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$10(java.lang.String, replpp.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+       4: invokevirtual #697                // Method replpp/Config$ForClasspath.dependencies:()Lscala/collection/immutable/Seq;
+       7: aload_0
+       8: invokeinterface #617,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      13: checkcast     #571                // class scala/collection/immutable/Seq
+      16: astore_3
+      17: aload_1
+      18: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      21: invokevirtual #688                // Method replpp/Config$ForClasspath.copy$default$1:()Lscala/collection/immutable/Seq;
+      24: astore        4
+      26: aload_1
+      27: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      30: invokevirtual #677                // Method replpp/Config$ForClasspath.copy$default$2:()Z
+      33: istore        5
+      35: aload_1
+      36: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      39: invokevirtual #678                // Method replpp/Config$ForClasspath.copy$default$3:()Lscala/collection/immutable/Seq;
+      42: astore        6
+      44: aload_1
+      45: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      48: invokevirtual #680                // Method replpp/Config$ForClasspath.copy$default$4:()Lscala/collection/immutable/Seq;
+      51: astore        7
+      53: aload_1
+      54: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      57: invokevirtual #684                // Method replpp/Config$ForClasspath.copy$default$6:()Lscala/collection/immutable/Seq;
+      60: astore        8
+      62: aload_1
+      63: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      66: aload         4
+      68: iload         5
+      70: aload         6
+      72: aload         7
+      74: aload_3
+      75: aload         8
+      77: invokevirtual #686                // Method replpp/Config$ForClasspath.copy:(Lscala/collection/immutable/Seq;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;)Lreplpp/Config$ForClasspath;
+      80: astore_2
+      81: aload_1
+      82: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+      85: astore        9
+      87: aload_1
+      88: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+      91: astore        10
+      93: aload_1
+      94: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      97: astore        11
+      99: aload_1
+     100: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+     103: istore        12
+     105: aload_1
+     106: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+     109: istore        13
+     111: aload_1
+     112: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+     115: istore        14
+     117: aload_1
+     118: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+     121: astore        15
+     123: aload_1
+     124: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+     127: astore        16
+     129: aload_1
+     130: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+     133: astore        17
+     135: aload_1
+     136: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+     139: astore        18
+     141: aload_1
+     142: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+     145: astore        19
+     147: aload_1
+     148: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+     151: astore        20
+     153: aload_1
+     154: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+     157: astore        21
+     159: aload_1
+     160: aload         9
+     162: aload         10
+     164: aload         11
+     166: iload         12
+     168: iload         13
+     170: aload_2
+     171: iload         14
+     173: aload         15
+     175: aload         16
+     177: aload         17
+     179: aload         18
+     181: aload         19
+     183: aload         20
+     185: aload         21
+     187: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     190: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$11(java.lang.String, replpp.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+       4: invokevirtual #700                // Method replpp/Config$ForClasspath.resolvers:()Lscala/collection/immutable/Seq;
+       7: aload_0
+       8: invokeinterface #617,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      13: checkcast     #571                // class scala/collection/immutable/Seq
+      16: astore_3
+      17: aload_1
+      18: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      21: invokevirtual #688                // Method replpp/Config$ForClasspath.copy$default$1:()Lscala/collection/immutable/Seq;
+      24: astore        4
+      26: aload_1
+      27: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      30: invokevirtual #677                // Method replpp/Config$ForClasspath.copy$default$2:()Z
+      33: istore        5
+      35: aload_1
+      36: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      39: invokevirtual #678                // Method replpp/Config$ForClasspath.copy$default$3:()Lscala/collection/immutable/Seq;
+      42: astore        6
+      44: aload_1
+      45: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      48: invokevirtual #680                // Method replpp/Config$ForClasspath.copy$default$4:()Lscala/collection/immutable/Seq;
+      51: astore        7
+      53: aload_1
+      54: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      57: invokevirtual #682                // Method replpp/Config$ForClasspath.copy$default$5:()Lscala/collection/immutable/Seq;
+      60: astore        8
+      62: aload_1
+      63: invokevirtual #672                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      66: aload         4
+      68: iload         5
+      70: aload         6
+      72: aload         7
+      74: aload         8
+      76: aload_3
+      77: invokevirtual #686                // Method replpp/Config$ForClasspath.copy:(Lscala/collection/immutable/Seq;ZLscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;)Lreplpp/Config$ForClasspath;
+      80: astore_2
+      81: aload_1
+      82: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+      85: astore        9
+      87: aload_1
+      88: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+      91: astore        10
+      93: aload_1
+      94: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      97: astore        11
+      99: aload_1
+     100: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+     103: istore        12
+     105: aload_1
+     106: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+     109: istore        13
+     111: aload_1
+     112: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+     115: istore        14
+     117: aload_1
+     118: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+     121: astore        15
+     123: aload_1
+     124: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+     127: astore        16
+     129: aload_1
+     130: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+     133: astore        17
+     135: aload_1
+     136: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+     139: astore        18
+     141: aload_1
+     142: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+     145: astore        19
+     147: aload_1
+     148: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+     151: astore        20
+     153: aload_1
+     154: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+     157: astore        21
+     159: aload_1
+     160: aload         9
+     162: aload         10
+     164: aload         11
+     166: iload         12
+     168: iload         13
+     170: aload_2
+     171: iload         14
+     173: aload         15
+     175: aload         16
+     177: aload         17
+     179: aload         18
+     181: aload         19
+     183: aload         20
+     185: aload         21
+     187: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     190: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$12(scala.runtime.BoxedUnit, replpp.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+       5: aload_1
+       6: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+       9: aload_1
+      10: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      13: aload_1
+      14: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      21: aload_1
+      22: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      25: iconst_1
+      26: aload_1
+      27: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      30: aload_1
+      31: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      34: aload_1
+      35: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      38: aload_1
+      39: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+      42: aload_1
+      43: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+      46: aload_1
+      47: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+      50: aload_1
+      51: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      54: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+      57: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$13(java.lang.String, replpp.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #703                // Method replpp/Config.scalacOptions:()Lscala/collection/immutable/Seq;
+       4: aload_0
+       5: invokeinterface #617,  2          // InterfaceMethod scala/collection/immutable/Seq.$colon$plus:(Ljava/lang/Object;)Ljava/lang/Object;
+      10: checkcast     #571                // class scala/collection/immutable/Seq
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+      18: astore_3
+      19: aload_1
+      20: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+      23: astore        4
+      25: aload_1
+      26: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      29: astore        5
+      31: aload_1
+      32: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      35: istore        6
+      37: aload_1
+      38: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      41: istore        7
+      43: aload_1
+      44: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      47: astore        8
+      49: aload_1
+      50: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      53: istore        9
+      55: aload_1
+      56: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      59: astore        10
+      61: aload_1
+      62: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      65: astore        11
+      67: aload_1
+      68: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+      71: astore        12
+      73: aload_1
+      74: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+      77: astore        13
+      79: aload_1
+      80: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+      83: astore        14
+      85: aload_1
+      86: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      89: astore        15
+      91: aload_1
+      92: aload_3
+      93: aload         4
+      95: aload         5
+      97: iload         6
+      99: iload         7
+     101: aload         8
+     103: iload         9
+     105: aload_2
+     106: aload         10
+     108: aload         11
+     110: aload         12
+     112: aload         13
+     114: aload         14
+     116: aload         15
+     118: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     121: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$14(java.lang.String, replpp.Config);
+    Code:
+       0: getstatic     #708                // Field scala/Option$.MODULE$:Lscala/Option$;
+       3: aload_0
+       4: invokevirtual #711                // Method scala/Option$.apply:(Ljava/lang/Object;)Lscala/Option;
+       7: astore_2
+       8: aload_1
+       9: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+      12: astore_3
+      13: aload_1
+      14: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+      17: astore        4
+      19: aload_1
+      20: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      23: astore        5
+      25: aload_1
+      26: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      29: istore        6
+      31: aload_1
+      32: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      35: istore        7
+      37: aload_1
+      38: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      41: astore        8
+      43: aload_1
+      44: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      47: istore        9
+      49: aload_1
+      50: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      53: astore        10
+      55: aload_1
+      56: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      59: astore        11
+      61: aload_1
+      62: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+      65: astore        12
+      67: aload_1
+      68: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+      71: astore        13
+      73: aload_1
+      74: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+      77: astore        14
+      79: aload_1
+      80: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      83: astore        15
+      85: aload_1
+      86: aload_3
+      87: aload         4
+      89: aload         5
+      91: iload         6
+      93: iload         7
+      95: aload         8
+      97: iload         9
+      99: aload         10
+     101: aload_2
+     102: aload         11
+     104: aload         12
+     106: aload         13
+     108: aload         14
+     110: aload         15
+     112: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     115: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$15(java.lang.String, replpp.Config);
+    Code:
+       0: getstatic     #708                // Field scala/Option$.MODULE$:Lscala/Option$;
+       3: aload_0
+       4: invokevirtual #711                // Method scala/Option$.apply:(Ljava/lang/Object;)Lscala/Option;
+       7: astore_2
+       8: aload_1
+       9: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+      12: astore_3
+      13: aload_1
+      14: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+      17: astore        4
+      19: aload_1
+      20: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      23: astore        5
+      25: aload_1
+      26: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      29: istore        6
+      31: aload_1
+      32: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      35: istore        7
+      37: aload_1
+      38: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      41: astore        8
+      43: aload_1
+      44: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      47: istore        9
+      49: aload_1
+      50: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      53: astore        10
+      55: aload_1
+      56: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      59: astore        11
+      61: aload_1
+      62: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+      65: astore        12
+      67: aload_1
+      68: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+      71: astore        13
+      73: aload_1
+      74: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+      77: astore        14
+      79: aload_1
+      80: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      83: astore        15
+      85: aload_1
+      86: aload_3
+      87: aload         4
+      89: aload         5
+      91: iload         6
+      93: iload         7
+      95: aload         8
+      97: iload         9
+      99: aload         10
+     101: aload         11
+     103: aload_2
+     104: aload         12
+     106: aload         13
+     108: aload         14
+     110: aload         15
+     112: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     115: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$16(int, replpp.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+       5: aload_1
+       6: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+       9: aload_1
+      10: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      13: aload_1
+      14: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      21: aload_1
+      22: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      25: aload_1
+      26: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      29: aload_1
+      30: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      33: aload_1
+      34: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      41: getstatic     #176                // Field scala/Some$.MODULE$:Lscala/Some$;
+      44: iload_0
+      45: invokestatic  #717                // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+      48: invokevirtual #183                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      51: aload_1
+      52: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+      55: aload_1
+      56: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+      59: aload_1
+      60: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      63: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+      66: areturn
+
+  private static replpp.Config parser$lzyINIT1$$anonfun$adapted$1(java.lang.Object, java.lang.Object);
+    Code:
+       0: aload_0
+       1: invokestatic  #722                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+       4: aload_1
+       5: checkcast     #19                 // class replpp/Config
+       8: invokestatic  #724                // Method parser$lzyINIT1$$anonfun$16:(ILreplpp/Config;)Lreplpp/Config;
+      11: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$17(java.nio.file.Path, replpp.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+       5: aload_1
+       6: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+       9: aload_1
+      10: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      13: aload_1
+      14: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      21: aload_1
+      22: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      25: aload_1
+      26: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      29: aload_1
+      30: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      33: aload_1
+      34: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+      45: getstatic     #176                // Field scala/Some$.MODULE$:Lscala/Some$;
+      48: aload_0
+      49: invokevirtual #183                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      52: aload_1
+      53: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+      56: aload_1
+      57: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      60: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+      63: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$18(java.lang.String, replpp.Config);
+    Code:
+       0: aload_1
+       1: aload_1
+       2: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+       5: aload_1
+       6: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+       9: aload_1
+      10: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+      13: aload_1
+      14: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+      17: aload_1
+      18: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+      21: aload_1
+      22: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+      25: aload_1
+      26: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+      29: aload_1
+      30: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+      33: aload_1
+      34: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+      37: aload_1
+      38: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+      41: aload_1
+      42: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+      45: aload_1
+      46: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+      49: getstatic     #176                // Field scala/Some$.MODULE$:Lscala/Some$;
+      52: aload_0
+      53: invokevirtual #183                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      56: aload_1
+      57: invokevirtual #656                // Method replpp/Config.copy$default$14:()Lscala/collection/immutable/Map;
+      60: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+      63: areturn
+
+  private static final replpp.Config parser$lzyINIT1$$anonfun$19(java.lang.String, replpp.Config);
+    Code:
+       0: aload_0
+       1: ldc_w         #726                // String =
+       4: iconst_2
+       5: invokevirtual #730                // Method java/lang/String.split:(Ljava/lang/String;I)[Ljava/lang/String;
+       8: astore_2
+       9: aload_2
+      10: ifnull        215
+      13: getstatic     #735                // Field scala/Array$.MODULE$:Lscala/Array$;
+      16: aload_2
+      17: invokevirtual #738                // Method scala/Array$.unapplySeq:(Ljava/lang/Object;)Ljava/lang/Object;
+      20: astore_3
+      21: getstatic     #741                // Field scala/Array$UnapplySeqWrapper$.MODULE$:Lscala/Array$UnapplySeqWrapper$;
+      24: aload_3
+      25: iconst_2
+      26: invokevirtual #745                // Method scala/Array$UnapplySeqWrapper$.lengthCompare$extension:(Ljava/lang/Object;I)I
+      29: iconst_0
+      30: if_icmpne     215
+      33: getstatic     #741                // Field scala/Array$UnapplySeqWrapper$.MODULE$:Lscala/Array$UnapplySeqWrapper$;
+      36: aload_3
+      37: iconst_0
+      38: invokevirtual #749                // Method scala/Array$UnapplySeqWrapper$.apply$extension:(Ljava/lang/Object;I)Ljava/lang/Object;
+      41: checkcast     #240                // class java/lang/String
+      44: astore        4
+      46: getstatic     #741                // Field scala/Array$UnapplySeqWrapper$.MODULE$:Lscala/Array$UnapplySeqWrapper$;
+      49: aload_3
+      50: iconst_1
+      51: invokevirtual #749                // Method scala/Array$UnapplySeqWrapper$.apply$extension:(Ljava/lang/Object;I)Ljava/lang/Object;
+      54: checkcast     #240                // class java/lang/String
+      57: astore        5
+      59: aload         4
+      61: astore        6
+      63: aload         5
+      65: astore        7
+      67: aload_1
+      68: invokevirtual #751                // Method replpp/Config.params:()Lscala/collection/immutable/Map;
+      71: getstatic     #196                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      74: aload         6
+      76: invokevirtual #754                // Method scala/Predef$.ArrowAssoc:(Ljava/lang/Object;)Ljava/lang/Object;
+      79: checkcast     #240                // class java/lang/String
+      82: astore        9
+      84: getstatic     #757                // Field scala/Predef$ArrowAssoc$.MODULE$:Lscala/Predef$ArrowAssoc$;
+      87: aload         9
+      89: aload         7
+      91: invokevirtual #761                // Method scala/Predef$ArrowAssoc$.$minus$greater$extension:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+      94: invokeinterface #765,  2          // InterfaceMethod scala/collection/immutable/Map.$plus:(Lscala/Tuple2;)Lscala/collection/immutable/MapOps;
+      99: checkcast     #579                // class scala/collection/immutable/Map
+     102: astore        8
+     104: aload_1
+     105: invokevirtual #665                // Method replpp/Config.copy$default$1:()Lscala/collection/immutable/Seq;
+     108: astore        10
+     110: aload_1
+     111: invokevirtual #620                // Method replpp/Config.copy$default$2:()Lscala/collection/immutable/Seq;
+     114: astore        11
+     116: aload_1
+     117: invokevirtual #623                // Method replpp/Config.copy$default$3:()Lscala/collection/immutable/Seq;
+     120: astore        12
+     122: aload_1
+     123: invokevirtual #626                // Method replpp/Config.copy$default$4:()Z
+     126: istore        13
+     128: aload_1
+     129: invokevirtual #629                // Method replpp/Config.copy$default$5:()Z
+     132: istore        14
+     134: aload_1
+     135: invokevirtual #632                // Method replpp/Config.copy$default$6:()Lreplpp/Config$ForClasspath;
+     138: astore        15
+     140: aload_1
+     141: invokevirtual #635                // Method replpp/Config.copy$default$7:()Z
+     144: istore        16
+     146: aload_1
+     147: invokevirtual #638                // Method replpp/Config.copy$default$8:()Lscala/collection/immutable/Seq;
+     150: astore        17
+     152: aload_1
+     153: invokevirtual #641                // Method replpp/Config.copy$default$9:()Lscala/Option;
+     156: astore        18
+     158: aload_1
+     159: invokevirtual #644                // Method replpp/Config.copy$default$10:()Lscala/Option;
+     162: astore        19
+     164: aload_1
+     165: invokevirtual #647                // Method replpp/Config.copy$default$11:()Lscala/Option;
+     168: astore        20
+     170: aload_1
+     171: invokevirtual #650                // Method replpp/Config.copy$default$12:()Lscala/Option;
+     174: astore        21
+     176: aload_1
+     177: invokevirtual #653                // Method replpp/Config.copy$default$13:()Lscala/Option;
+     180: astore        22
+     182: aload_1
+     183: aload         10
+     185: aload         11
+     187: aload         12
+     189: iload         13
+     191: iload         14
+     193: aload         15
+     195: iload         16
+     197: aload         17
+     199: aload         18
+     201: aload         19
+     203: aload         20
+     205: aload         21
+     207: aload         22
+     209: aload         8
+     211: invokevirtual #659                // Method replpp/Config.copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     214: areturn
+     215: new           #767                // class java/lang/IllegalArgumentException
+     218: dup
+     219: aload_0
+     220: invokedynamic #772,  0            // InvokeDynamic #21:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     225: invokespecial #775                // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+     228: athrow
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #789,  0            // InvokeDynamic #22:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

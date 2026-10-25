@@ -1,0 +1,69 @@
+Compiled from "JoernConsole.scala"
+public final class io.joern.joerncli.console.JoernConsole$ {
+  public static final io.joern.joerncli.console.JoernConsole$ MODULE$;
+
+  private io.joern.joerncli.console.JoernConsole$();
+    Code:
+       0: aload_0
+       1: invokespecial #19                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class io/joern/joerncli/console/JoernConsole$
+       3: dup
+       4: invokespecial #22                 // Method "<init>":()V
+       7: putstatic     #24                 // Field MODULE$:Lio/joern/joerncli/console/JoernConsole$;
+      10: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #28                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class io/joern/joerncli/console/JoernConsole$
+       6: invokespecial #31                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public java.lang.String banner();
+    Code:
+       0: getstatic     #38                 // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #43                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: aload_0
+       7: invokevirtual #46                 // Method version:()Ljava/lang/String;
+      10: aload_0
+      11: invokespecial #49                 // Method helpMsg:()Ljava/lang/String;
+      14: invokedynamic #61,  0             // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      19: invokevirtual #65                 // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      22: invokevirtual #68                 // Method scala/collection/StringOps$.stripMargin$extension:(Ljava/lang/String;)Ljava/lang/String;
+      25: areturn
+
+  public java.lang.String version();
+    Code:
+       0: aload_0
+       1: invokevirtual #72                 // Method getClass:()Ljava/lang/Class;
+       4: invokevirtual #78                 // Method java/lang/Class.getPackage:()Ljava/lang/Package;
+       7: invokevirtual #83                 // Method java/lang/Package.getImplementationVersion:()Ljava/lang/String;
+      10: areturn
+
+  private java.lang.String helpMsg();
+    Code:
+       0: getstatic     #38                 // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #43                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: ldc           #85                 // String Type `help` to begin
+       8: invokevirtual #65                 // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      11: invokevirtual #68                 // Method scala/collection/StringOps$.stripMargin$extension:(Ljava/lang/String;)Ljava/lang/String;
+      14: areturn
+
+  public io.joern.console.ConsoleConfig defaultConfig();
+    Code:
+       0: new           #89                 // class io/joern/console/ConsoleConfig
+       3: dup
+       4: getstatic     #94                 // Field io/joern/console/ConsoleConfig$.MODULE$:Lio/joern/console/ConsoleConfig$;
+       7: invokevirtual #98                 // Method io/joern/console/ConsoleConfig$.$lessinit$greater$default$1:()Lio/joern/console/InstallConfig;
+      10: getstatic     #94                 // Field io/joern/console/ConsoleConfig$.MODULE$:Lio/joern/console/ConsoleConfig$;
+      13: invokevirtual #102                // Method io/joern/console/ConsoleConfig$.$lessinit$greater$default$2:()Lio/joern/console/FrontendConfig;
+      16: getstatic     #94                 // Field io/joern/console/ConsoleConfig$.MODULE$:Lio/joern/console/ConsoleConfig$;
+      19: invokevirtual #106                // Method io/joern/console/ConsoleConfig$.$lessinit$greater$default$3:()Lio/joern/console/ToolsConfig;
+      22: invokespecial #109                // Method io/joern/console/ConsoleConfig."<init>":(Lio/joern/console/InstallConfig;Lio/joern/console/FrontendConfig;Lio/joern/console/ToolsConfig;)V
+      25: areturn
+}

@@ -1,0 +1,199 @@
+Compiled from "NonForkingScriptRunner.scala"
+public final class replpp.scripting.NonForkingScriptRunner$ {
+  public static final replpp.scripting.NonForkingScriptRunner$ MODULE$;
+
+  private replpp.scripting.NonForkingScriptRunner$();
+    Code:
+       0: aload_0
+       1: invokespecial #21                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class replpp/scripting/NonForkingScriptRunner$
+       3: dup
+       4: invokespecial #24                 // Method "<init>":()V
+       7: putstatic     #26                 // Field MODULE$:Lreplpp/scripting/NonForkingScriptRunner$;
+      10: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #30                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class replpp/scripting/NonForkingScriptRunner$
+       6: invokespecial #33                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public void main(java.lang.String[]);
+    Code:
+       0: getstatic     #41                 // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: aload_1
+       4: invokevirtual #45                 // Method replpp/Config$.parse:([Ljava/lang/String;)Lreplpp/Config;
+       7: astore_2
+       8: aload_0
+       9: aload_2
+      10: invokevirtual #49                 // Method exec:(Lreplpp/Config;)V
+      13: return
+
+  public void exec(replpp.Config);
+    Code:
+       0: aload_1
+       1: invokevirtual #58                 // Method replpp/Config.scriptFile:()Lscala/Option;
+       4: invokedynamic #78,  0             // InvokeDynamic #0:apply:()Lscala/Function0;
+       9: invokevirtual #84                 // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      12: checkcast     #86                 // class java/nio/file/Path
+      15: astore_2
+      16: aload_2
+      17: iconst_0
+      18: anewarray     #88                 // class java/nio/file/LinkOption
+      21: invokestatic  #94                 // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      24: ifne          41
+      27: new           #96                 // class java/lang/AssertionError
+      30: dup
+      31: aload_2
+      32: invokedynamic #108,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/nio/file/Path;)Ljava/lang/String;
+      37: invokespecial #111                // Method java/lang/AssertionError."<init>":(Ljava/lang/Object;)V
+      40: athrow
+      41: aload_1
+      42: invokevirtual #115                // Method replpp/Config.params:()Lscala/collection/immutable/Map;
+      45: invokeinterface #121,  1          // InterfaceMethod scala/collection/immutable/Map.nonEmpty:()Z
+      50: ifeq          65
+      53: aload_1
+      54: invokevirtual #115                // Method replpp/Config.params:()Lscala/collection/immutable/Map;
+      57: invokedynamic #126,  0            // InvokeDynamic #2:makeConcatWithConstants:(Lscala/collection/immutable/Map;)Ljava/lang/String;
+      62: goto          67
+      65: ldc           #128                // String
+      67: astore_3
+      68: getstatic     #134                // Field java/lang/System.err:Ljava/io/PrintStream;
+      71: aload_2
+      72: aload_3
+      73: invokedynamic #139,  0            // InvokeDynamic #3:makeConcatWithConstants:(Ljava/nio/file/Path;Ljava/lang/String;)Ljava/lang/String;
+      78: invokevirtual #145                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+      81: aload_1
+      82: invokevirtual #148                // Method replpp/Config.command:()Lscala/Option;
+      85: invokevirtual #152                // Method scala/Option.toList:()Lscala/collection/immutable/List;
+      88: astore        5
+      90: aload_1
+      91: invokevirtual #115                // Method replpp/Config.params:()Lscala/collection/immutable/Map;
+      94: invokedynamic #163,  0            // InvokeDynamic #4:apply:()Lscala/Function1;
+      99: invokeinterface #167,  2          // InterfaceMethod scala/collection/immutable/Map.flatMap:(Lscala/Function1;)Ljava/lang/Object;
+     104: checkcast     #169                // class scala/collection/immutable/Iterable
+     107: astore        6
+     109: aload         5
+     111: aload         6
+     113: invokevirtual #175                // Method scala/collection/immutable/List.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+     116: checkcast     #177                // class scala/collection/immutable/Seq
+     119: astore        4
+     121: getstatic     #182                // Field replpp/package$.MODULE$:Lreplpp/package$;
+     124: aload_1
+     125: invokevirtual #186                // Method replpp/package$.verboseEnabled:(Lreplpp/Config;)Z
+     128: istore        7
+     130: new           #188                // class replpp/scripting/ScriptingDriver
+     133: dup
+     134: getstatic     #193                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     137: getstatic     #182                // Field replpp/package$.MODULE$:Lreplpp/package$;
+     140: aload_1
+     141: invokevirtual #197                // Method replpp/package$.compilerArgs:(Lreplpp/Config;)[Ljava/lang/String;
+     144: invokevirtual #201                // Method scala/Predef$.refArrayOps:([Ljava/lang/Object;)Ljava/lang/Object;
+     147: astore        9
+     149: getstatic     #206                // Field scala/collection/ArrayOps$.MODULE$:Lscala/collection/ArrayOps$;
+     152: aload         9
+     154: ldc           #208                // String -nowarn
+     156: getstatic     #213                // Field scala/reflect/ClassTag$.MODULE$:Lscala/reflect/ClassTag$;
+     159: ldc           #215                // class java/lang/String
+     161: invokevirtual #218                // Method scala/reflect/ClassTag$.apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+     164: invokevirtual #222                // Method scala/collection/ArrayOps$.$colon$plus$extension:(Ljava/lang/Object;Ljava/lang/Object;Lscala/reflect/ClassTag;)Ljava/lang/Object;
+     167: checkcast     #223                // class "[Ljava/lang/String;"
+     170: getstatic     #182                // Field replpp/package$.MODULE$:Lreplpp/package$;
+     173: aload_1
+     174: invokevirtual #227                // Method replpp/package$.allPredefFiles:(Lreplpp/Config;)Lscala/collection/immutable/Seq;
+     177: aload_1
+     178: invokevirtual #231                // Method replpp/Config.runBefore:()Lscala/collection/immutable/Seq;
+     181: aload_1
+     182: invokevirtual #234                // Method replpp/Config.runAfter:()Lscala/collection/immutable/Seq;
+     185: aload_2
+     186: aload         4
+     188: getstatic     #213                // Field scala/reflect/ClassTag$.MODULE$:Lscala/reflect/ClassTag$;
+     191: ldc           #215                // class java/lang/String
+     193: invokevirtual #218                // Method scala/reflect/ClassTag$.apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+     196: invokeinterface #238,  2          // InterfaceMethod scala/collection/immutable/Seq.toArray:(Lscala/reflect/ClassTag;)Ljava/lang/Object;
+     201: checkcast     #223                // class "[Ljava/lang/String;"
+     204: iload         7
+     206: invokespecial #241                // Method replpp/scripting/ScriptingDriver."<init>":([Ljava/lang/String;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Ljava/nio/file/Path;[Ljava/lang/String;Z)V
+     209: invokevirtual #245                // Method replpp/scripting/ScriptingDriver.compileAndRun:()Lscala/util/Try;
+     212: astore        8
+     214: aload         8
+     216: instanceof    #247                // class scala/util/Success
+     219: ifeq          237
+     222: iload         7
+     224: ifeq          236
+     227: getstatic     #134                // Field java/lang/System.err:Ljava/io/PrintStream;
+     230: ldc           #249                // String script finished successfully
+     232: invokevirtual #145                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     235: return
+     236: return
+     237: aload         8
+     239: instanceof    #251                // class scala/util/Failure
+     242: ifeq          265
+     245: aload         8
+     247: checkcast     #251                // class scala/util/Failure
+     250: invokevirtual #255                // Method scala/util/Failure.exception:()Ljava/lang/Throwable;
+     253: astore        10
+     255: new           #15                 // class replpp/scripting/NonForkingScriptRunner$$anon$1
+     258: dup
+     259: aload         10
+     261: invokespecial #258                // Method replpp/scripting/NonForkingScriptRunner$$anon$1."<init>":(Ljava/lang/Throwable;)V
+     264: athrow
+     265: new           #260                // class scala/MatchError
+     268: dup
+     269: aload         8
+     271: invokespecial #261                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     274: athrow
+
+  private static final java.nio.file.Path $anonfun$1();
+    Code:
+       0: new           #96                 // class java/lang/AssertionError
+       3: dup
+       4: ldc_w         #276                // String script file not defined - please specify e.g. via `--script=myscript.sc`
+       7: invokespecial #111                // Method java/lang/AssertionError."<init>":(Ljava/lang/Object;)V
+      10: athrow
+
+  private static final scala.collection.immutable.Seq $anonfun$2(scala.Tuple2);
+    Code:
+       0: aload_0
+       1: astore_1
+       2: aload_1
+       3: ifnull        53
+       6: aload_1
+       7: invokevirtual #282                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #215                // class java/lang/String
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #285                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      18: checkcast     #215                // class java/lang/String
+      21: astore_3
+      22: new           #287                // class scala/collection/immutable/$colon$colon
+      25: dup
+      26: aload_2
+      27: invokedynamic #292,  0            // InvokeDynamic #5:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      32: new           #287                // class scala/collection/immutable/$colon$colon
+      35: dup
+      36: aload_3
+      37: getstatic     #297                // Field scala/collection/immutable/Nil$.MODULE$:Lscala/collection/immutable/Nil$;
+      40: invokespecial #300                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+      43: invokespecial #300                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+      46: checkcast     #302                // class scala/collection/SeqOps
+      49: checkcast     #177                // class scala/collection/immutable/Seq
+      52: areturn
+      53: new           #260                // class scala/MatchError
+      56: dup
+      57: aload_1
+      58: invokespecial #261                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      61: athrow
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #317,  0            // InvokeDynamic #6:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

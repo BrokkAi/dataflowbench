@@ -1,0 +1,479 @@
+Compiled from "ClasspathHelper.scala"
+public final class replpp.util.ClasspathHelper$ {
+  public static final replpp.util.ClasspathHelper$ MODULE$;
+
+  private replpp.util.ClasspathHelper$();
+    Code:
+       0: aload_0
+       1: invokespecial #29                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class replpp/util/ClasspathHelper$
+       3: dup
+       4: invokespecial #32                 // Method "<init>":()V
+       7: putstatic     #34                 // Field MODULE$:Lreplpp/util/ClasspathHelper$;
+      10: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #38                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class replpp/util/ClasspathHelper$
+       6: invokespecial #41                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public java.lang.String create(replpp.Config, boolean);
+    Code:
+       0: aload_0
+       1: aload_0
+       2: aload_1
+       3: iload_2
+       4: invokevirtual #49                 // Method fromConfig:(Lreplpp/Config;Z)Lscala/collection/immutable/Seq;
+       7: invokedynamic #70,  0             // InvokeDynamic #0:apply:()Lscala/Function1;
+      12: invokeinterface #76,  2           // InterfaceMethod scala/collection/immutable/Seq.map:(Lscala/Function1;)Ljava/lang/Object;
+      17: checkcast     #72                 // class scala/collection/immutable/Seq
+      20: invokevirtual #79                 // Method create:(Lscala/collection/immutable/Seq;)Ljava/lang/String;
+      23: areturn
+
+  public boolean create$default$2();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public java.lang.String create(scala.collection.immutable.Seq<java.lang.String>);
+    Code:
+       0: aload_1
+       1: invokeinterface #88,  1           // InterfaceMethod scala/collection/immutable/Seq.distinct:()Ljava/lang/Object;
+       6: checkcast     #90                 // class scala/collection/IterableOnceOps
+       9: getstatic     #96                 // Field java/io/File.pathSeparator:Ljava/lang/String;
+      12: getstatic     #96                 // Field java/io/File.pathSeparator:Ljava/lang/String;
+      15: getstatic     #96                 // Field java/io/File.pathSeparator:Ljava/lang/String;
+      18: invokeinterface #100,  4          // InterfaceMethod scala/collection/IterableOnceOps.mkString:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      23: areturn
+
+  public scala.collection.immutable.Seq<java.nio.file.Path> fromConfig(replpp.Config, boolean);
+    Code:
+       0: getstatic     #107                // Field scala/package$.MODULE$:Lscala/package$;
+       3: invokevirtual #111                // Method scala/package$.Seq:()Lscala/collection/immutable/Seq$;
+       6: invokevirtual #117                // Method scala/collection/immutable/Seq$.newBuilder:()Lscala/collection/mutable/Builder;
+       9: astore_3
+      10: getstatic     #122                // Field replpp/package$.MODULE$:Lreplpp/package$;
+      13: aload_1
+      14: invokevirtual #126                // Method replpp/package$.verboseEnabled:(Lreplpp/Config;)Z
+      17: ifeq          28
+      20: iload_2
+      21: ifne          28
+      24: iconst_1
+      25: goto          29
+      28: iconst_0
+      29: istore        4
+      31: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      34: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      37: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      40: ldc           #133                // String java.class.path
+      42: invokestatic  #139                // Method java/lang/System.getProperty:(Ljava/lang/String;)Ljava/lang/String;
+      45: getstatic     #96                 // Field java/io/File.pathSeparator:Ljava/lang/String;
+      48: invokevirtual #145                // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+      51: invokevirtual #149                // Method scala/Predef$.refArrayOps:([Ljava/lang/Object;)Ljava/lang/Object;
+      54: astore        7
+      56: getstatic     #154                // Field scala/collection/ArrayOps$.MODULE$:Lscala/collection/ArrayOps$;
+      59: aload         7
+      61: invokedynamic #162,  0            // InvokeDynamic #1:apply:()Lscala/Function1;
+      66: invokevirtual #166                // Method scala/collection/ArrayOps$.filter$extension:(Ljava/lang/Object;Lscala/Function1;)Ljava/lang/Object;
+      69: checkcast     #168                // class "[Ljava/lang/Object;"
+      72: invokevirtual #149                // Method scala/Predef$.refArrayOps:([Ljava/lang/Object;)Ljava/lang/Object;
+      75: astore        6
+      77: getstatic     #154                // Field scala/collection/ArrayOps$.MODULE$:Lscala/collection/ArrayOps$;
+      80: aload         6
+      82: invokedynamic #175,  0            // InvokeDynamic #2:apply:()Lscala/Function1;
+      87: getstatic     #180                // Field scala/reflect/ClassTag$.MODULE$:Lscala/reflect/ClassTag$;
+      90: ldc           #182                // class java/nio/file/Path
+      92: invokevirtual #185                // Method scala/reflect/ClassTag$.apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+      95: invokevirtual #189                // Method scala/collection/ArrayOps$.map$extension:(Ljava/lang/Object;Lscala/Function1;Lscala/reflect/ClassTag;)Ljava/lang/Object;
+      98: checkcast     #168                // class "[Ljava/lang/Object;"
+     101: invokevirtual #149                // Method scala/Predef$.refArrayOps:([Ljava/lang/Object;)Ljava/lang/Object;
+     104: astore        5
+     106: getstatic     #154                // Field scala/collection/ArrayOps$.MODULE$:Lscala/collection/ArrayOps$;
+     109: aload         5
+     111: aload_0
+     112: aload_1
+     113: iload         4
+     115: aload_3
+     116: invokedynamic #202,  0            // InvokeDynamic #3:applyVoid:(Lreplpp/util/ClasspathHelper$;Lreplpp/Config;ZLscala/collection/mutable/Builder;)Lscala/runtime/function/JProcedure1;
+     121: invokevirtual #206                // Method scala/collection/ArrayOps$.foreach$extension:(Ljava/lang/Object;Lscala/Function1;)V
+     124: aload_0
+     125: ldc           #208                // class replpp/ReplDriver
+     127: invokevirtual #214                // Method java/lang/Class.getClassLoader:()Ljava/lang/ClassLoader;
+     130: invokespecial #218                // Method jarsFromClassLoaderRecursively:(Ljava/lang/ClassLoader;)Lscala/collection/immutable/Seq;
+     133: invokedynamic #225,  0            // InvokeDynamic #4:apply:()Lscala/Function1;
+     138: invokeinterface #76,  2           // InterfaceMethod scala/collection/immutable/Seq.map:(Lscala/Function1;)Ljava/lang/Object;
+     143: checkcast     #90                 // class scala/collection/IterableOnceOps
+     146: aload_0
+     147: aload_1
+     148: iload         4
+     150: aload_3
+     151: invokedynamic #230,  0            // InvokeDynamic #5:applyVoid:(Lreplpp/util/ClasspathHelper$;Lreplpp/Config;ZLscala/collection/mutable/Builder;)Lscala/runtime/function/JProcedure1;
+     156: invokeinterface #234,  2          // InterfaceMethod scala/collection/IterableOnceOps.foreach:(Lscala/Function1;)V
+     161: aload_0
+     162: aload_1
+     163: invokevirtual #238                // Method dependencyArtifacts:(Lreplpp/Config;)Lscala/collection/immutable/Seq;
+     166: astore        8
+     168: aload         8
+     170: aload_3
+     171: invokedynamic #248,  0            // InvokeDynamic #6:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+     176: invokeinterface #249,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+     181: aload         8
+     183: invokeinterface #252,  1          // InterfaceMethod scala/collection/immutable/Seq.nonEmpty:()Z
+     188: ifeq          235
+     191: iload_2
+     192: ifne          235
+     195: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     198: aload         8
+     200: invokeinterface #256,  1          // InterfaceMethod scala/collection/immutable/Seq.size:()I
+     205: invokedynamic #268,  0            // InvokeDynamic #7:makeConcatWithConstants:(I)Ljava/lang/String;
+     210: invokevirtual #271                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+     213: getstatic     #122                // Field replpp/package$.MODULE$:Lreplpp/package$;
+     216: aload_1
+     217: invokevirtual #126                // Method replpp/package$.verboseEnabled:(Lreplpp/Config;)Z
+     220: ifeq          235
+     223: aload         8
+     225: invokedynamic #278,  0            // InvokeDynamic #8:applyVoid:()Lscala/runtime/function/JProcedure1;
+     230: invokeinterface #249,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+     235: aload_3
+     236: aload_1
+     237: invokevirtual #282                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+     240: invokevirtual #286                // Method replpp/Config$ForClasspath.additionalClasspathEntries:()Lscala/collection/immutable/Seq;
+     243: invokedynamic #291,  0            // InvokeDynamic #9:apply:()Lscala/Function1;
+     248: invokeinterface #76,  2           // InterfaceMethod scala/collection/immutable/Seq.map:(Lscala/Function1;)Ljava/lang/Object;
+     253: checkcast     #293                // class scala/collection/IterableOnce
+     256: invokeinterface #299,  2          // InterfaceMethod scala/collection/mutable/Builder.addAll:(Lscala/collection/IterableOnce;)Lscala/collection/mutable/Growable;
+     261: pop
+     262: aload_3
+     263: getstatic     #304                // Field replpp/UsingDirectives$.MODULE$:Lreplpp/UsingDirectives$;
+     266: getstatic     #122                // Field replpp/package$.MODULE$:Lreplpp/package$;
+     269: aload_1
+     270: invokevirtual #307                // Method replpp/package$.allSourceFiles:(Lreplpp/Config;)Lscala/collection/immutable/Seq;
+     273: invokevirtual #311                // Method replpp/UsingDirectives$.findClasspathEntriesInFiles:(Lscala/collection/IterableOnce;)Lscala/collection/immutable/Seq;
+     276: invokeinterface #299,  2          // InterfaceMethod scala/collection/mutable/Builder.addAll:(Lscala/collection/IterableOnce;)Lscala/collection/mutable/Growable;
+     281: pop
+     282: aload_1
+     283: invokevirtual #314                // Method replpp/Config.runBefore:()Lscala/collection/immutable/Seq;
+     286: invokedynamic #321,  0            // InvokeDynamic #10:apply:()Lscala/Function1;
+     291: invokeinterface #324,  2          // InterfaceMethod scala/collection/immutable/Seq.flatMap:(Lscala/Function1;)Ljava/lang/Object;
+     296: checkcast     #72                 // class scala/collection/immutable/Seq
+     299: astore        9
+     301: aload_3
+     302: getstatic     #304                // Field replpp/UsingDirectives$.MODULE$:Lreplpp/UsingDirectives$;
+     305: aload         9
+     307: getstatic     #329                // Field replpp/util/package$.MODULE$:Lreplpp/util/package$;
+     310: invokevirtual #333                // Method replpp/util/package$.currentWorkingDirectory:()Ljava/nio/file/Path;
+     313: invokevirtual #337                // Method replpp/UsingDirectives$.findClasspathEntriesInLines:(Lscala/collection/IterableOnce;Ljava/nio/file/Path;)Lscala/collection/immutable/Seq;
+     316: invokeinterface #299,  2          // InterfaceMethod scala/collection/mutable/Builder.addAll:(Lscala/collection/IterableOnce;)Lscala/collection/mutable/Growable;
+     321: pop
+     322: aload_3
+     323: invokeinterface #340,  1          // InterfaceMethod scala/collection/mutable/Builder.result:()Ljava/lang/Object;
+     328: checkcast     #342                // class scala/collection/SeqOps
+     331: invokeinterface #343,  1          // InterfaceMethod scala/collection/SeqOps.distinct:()Ljava/lang/Object;
+     336: checkcast     #342                // class scala/collection/SeqOps
+     339: getstatic     #348                // Field scala/math/Ordering$.MODULE$:Lscala/math/Ordering$;
+     342: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     345: invokevirtual #351                // Method scala/Predef$.$conforms:()Lscala/Function1;
+     348: invokevirtual #355                // Method scala/math/Ordering$.ordered:(Lscala/Function1;)Lscala/math/Ordering;
+     351: invokeinterface #359,  2          // InterfaceMethod scala/collection/SeqOps.sorted:(Lscala/math/Ordering;)Ljava/lang/Object;
+     356: checkcast     #72                 // class scala/collection/immutable/Seq
+     359: astore        10
+     361: iload         4
+     363: ifeq          400
+     366: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     369: ldc_w         #361                // String classpath entries from config >
+     372: invokevirtual #271                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+     375: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     378: aload         10
+     380: ldc_w         #363                // String \n
+     383: invokeinterface #365,  2          // InterfaceMethod scala/collection/immutable/Seq.mkString:(Ljava/lang/String;)Ljava/lang/String;
+     388: invokevirtual #271                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+     391: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     394: ldc_w         #367                // String < classpath entries from config
+     397: invokevirtual #271                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+     400: aload         10
+     402: areturn
+
+  public boolean fromConfig$default$2();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public scala.collection.immutable.Seq<java.nio.file.Path> dependencyArtifacts(replpp.Config);
+    Code:
+       0: getstatic     #122                // Field replpp/package$.MODULE$:Lreplpp/package$;
+       3: aload_1
+       4: invokevirtual #376                // Method replpp/package$.allSourceLines:(Lreplpp/Config;)Lscala/collection/immutable/Seq;
+       7: astore_2
+       8: aload_1
+       9: invokevirtual #282                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      12: invokevirtual #379                // Method replpp/Config$ForClasspath.resolvers:()Lscala/collection/immutable/Seq;
+      15: getstatic     #304                // Field replpp/UsingDirectives$.MODULE$:Lreplpp/UsingDirectives$;
+      18: aload_2
+      19: invokevirtual #382                // Method replpp/UsingDirectives$.findResolvers:(Lscala/collection/IterableOnce;)Lscala/collection/immutable/Seq;
+      22: invokeinterface #386,  2          // InterfaceMethod scala/collection/immutable/Seq.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+      27: checkcast     #72                 // class scala/collection/immutable/Seq
+      30: astore_3
+      31: aload_1
+      32: invokevirtual #282                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      35: invokevirtual #389                // Method replpp/Config$ForClasspath.dependencies:()Lscala/collection/immutable/Seq;
+      38: getstatic     #304                // Field replpp/UsingDirectives$.MODULE$:Lreplpp/UsingDirectives$;
+      41: aload_2
+      42: invokevirtual #392                // Method replpp/UsingDirectives$.findDeclaredDependencies:(Lscala/collection/IterableOnce;)Lscala/collection/immutable/Seq;
+      45: invokeinterface #386,  2          // InterfaceMethod scala/collection/immutable/Seq.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+      50: checkcast     #72                 // class scala/collection/immutable/Seq
+      53: astore        4
+      55: getstatic     #397                // Field replpp/Dependencies$.MODULE$:Lreplpp/Dependencies$;
+      58: aload         4
+      60: aload_3
+      61: getstatic     #122                // Field replpp/package$.MODULE$:Lreplpp/package$;
+      64: aload_1
+      65: invokevirtual #126                // Method replpp/package$.verboseEnabled:(Lreplpp/Config;)Z
+      68: invokevirtual #401                // Method replpp/Dependencies$.resolve:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Z)Lscala/util/Try;
+      71: invokevirtual #406                // Method scala/util/Try.get:()Ljava/lang/Object;
+      74: checkcast     #72                 // class scala/collection/immutable/Seq
+      77: areturn
+
+  private scala.collection.immutable.Seq<java.net.URL> jarsFromClassLoaderRecursively(java.lang.ClassLoader);
+    Code:
+       0: aload_1
+       1: astore_2
+       2: aload_2
+       3: instanceof    #412                // class java/net/URLClassLoader
+       6: ifeq          41
+       9: aload_2
+      10: checkcast     #412                // class java/net/URLClassLoader
+      13: astore_3
+      14: aload_0
+      15: aload_3
+      16: invokevirtual #415                // Method java/net/URLClassLoader.getParent:()Ljava/lang/ClassLoader;
+      19: invokespecial #218                // Method jarsFromClassLoaderRecursively:(Ljava/lang/ClassLoader;)Lscala/collection/immutable/Seq;
+      22: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      25: aload_3
+      26: invokevirtual #419                // Method java/net/URLClassLoader.getURLs:()[Ljava/net/URL;
+      29: invokevirtual #423                // Method scala/Predef$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/mutable/ArraySeq$ofRef;
+      32: invokeinterface #386,  2          // InterfaceMethod scala/collection/immutable/Seq.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+      37: checkcast     #72                 // class scala/collection/immutable/Seq
+      40: areturn
+      41: getstatic     #107                // Field scala/package$.MODULE$:Lscala/package$;
+      44: invokevirtual #111                // Method scala/package$.Seq:()Lscala/collection/immutable/Seq$;
+      47: invokevirtual #427                // Method scala/collection/immutable/Seq$.empty:()Lscala/collection/SeqOps;
+      50: checkcast     #72                 // class scala/collection/immutable/Seq
+      53: areturn
+
+  private static final java.lang.String create$$anonfun$1(java.nio.file.Path);
+    Code:
+       0: getstatic     #329                // Field replpp/util/package$.MODULE$:Lreplpp/util/package$;
+       3: aload_0
+       4: invokevirtual #436                // Method replpp/util/package$.pathAsString:(Ljava/nio/file/Path;)Ljava/lang/String;
+       7: areturn
+
+  private static final boolean $anonfun$1(java.lang.String, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #444                // Method java/lang/String.matches:(Ljava/lang/String;)Z
+       5: ireturn
+
+  private static final boolean excluded$lzyINIT1$1$$anonfun$1(java.lang.String, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #444                // Method java/lang/String.matches:(Ljava/lang/String;)Z
+       5: ireturn
+
+  private final boolean excluded$lzyINIT1$1(scala.runtime.LazyBoolean, replpp.Config$ForClasspath, java.lang.String);
+    Code:
+       0: aload_1
+       1: dup
+       2: astore        4
+       4: monitorenter
+       5: aload_1
+       6: invokevirtual #457                // Method scala/runtime/LazyBoolean.initialized:()Z
+       9: ifeq          19
+      12: aload_1
+      13: invokevirtual #460                // Method scala/runtime/LazyBoolean.value:()Z
+      16: goto          38
+      19: aload_1
+      20: aload_2
+      21: invokevirtual #463                // Method replpp/Config$ForClasspath.inheritClasspathExcludes:()Lscala/collection/immutable/Seq;
+      24: aload_3
+      25: invokedynamic #469,  0            // InvokeDynamic #11:apply:(Ljava/lang/String;)Lscala/Function1;
+      30: invokeinterface #473,  2          // InterfaceMethod scala/collection/immutable/Seq.exists:(Lscala/Function1;)Z
+      35: invokevirtual #477                // Method scala/runtime/LazyBoolean.initialize:(Z)Z
+      38: istore        5
+      40: aload         4
+      42: monitorexit
+      43: iload         5
+      45: goto          52
+      48: aload         4
+      50: monitorexit
+      51: athrow
+      52: ireturn
+    Exception table:
+       from    to  target type
+           5    40    48   any
+
+  private final boolean excluded$1(scala.runtime.LazyBoolean, replpp.Config$ForClasspath, java.lang.String);
+    Code:
+       0: aload_1
+       1: invokevirtual #457                // Method scala/runtime/LazyBoolean.initialized:()Z
+       4: ifeq          12
+       7: aload_1
+       8: invokevirtual #460                // Method scala/runtime/LazyBoolean.value:()Z
+      11: ireturn
+      12: aload_0
+      13: aload_1
+      14: aload_2
+      15: aload_3
+      16: invokespecial #487                // Method excluded$lzyINIT1$1:(Lscala/runtime/LazyBoolean;Lreplpp/Config$ForClasspath;Ljava/lang/String;)Z
+      19: ireturn
+
+  private final void addToEntriesMaybe$1(replpp.Config, boolean, scala.collection.mutable.Builder, java.nio.file.Path);
+    Code:
+       0: new           #454                // class scala/runtime/LazyBoolean
+       3: dup
+       4: invokespecial #492                // Method scala/runtime/LazyBoolean."<init>":()V
+       7: astore        5
+       9: aload_1
+      10: invokevirtual #282                // Method replpp/Config.classpathConfig:()Lreplpp/Config$ForClasspath;
+      13: astore        6
+      15: aload         4
+      17: invokeinterface #495,  1          // InterfaceMethod java/nio/file/Path.getFileName:()Ljava/nio/file/Path;
+      22: invokeinterface #499,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      27: astore        7
+      29: aload         6
+      31: invokevirtual #502                // Method replpp/Config$ForClasspath.inheritClasspath:()Z
+      34: ifne          57
+      37: aload         6
+      39: invokevirtual #505                // Method replpp/Config$ForClasspath.inheritClasspathIncludes:()Lscala/collection/immutable/Seq;
+      42: aload         7
+      44: invokedynamic #509,  0            // InvokeDynamic #12:apply:(Ljava/lang/String;)Lscala/Function1;
+      49: invokeinterface #473,  2          // InterfaceMethod scala/collection/immutable/Seq.exists:(Lscala/Function1;)Z
+      54: ifeq          61
+      57: iconst_1
+      58: goto          62
+      61: iconst_0
+      62: istore        8
+      64: iload         8
+      66: ifeq          109
+      69: aload_0
+      70: aload         5
+      72: aload         6
+      74: aload         7
+      76: invokespecial #511                // Method excluded$1:(Lscala/runtime/LazyBoolean;Lreplpp/Config$ForClasspath;Ljava/lang/String;)Z
+      79: ifne          109
+      82: iload_2
+      83: ifeq          99
+      86: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      89: aload         4
+      91: invokedynamic #515,  0            // InvokeDynamic #13:makeConcatWithConstants:(Ljava/nio/file/Path;)Ljava/lang/String;
+      96: invokevirtual #271                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+      99: aload_3
+     100: aload         4
+     102: invokeinterface #519,  2          // InterfaceMethod scala/collection/mutable/Builder.addOne:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+     107: pop
+     108: return
+     109: iload_2
+     110: ifeq          139
+     113: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     116: iload         8
+     118: aload_0
+     119: aload         5
+     121: aload         6
+     123: aload         7
+     125: invokespecial #511                // Method excluded$1:(Lscala/runtime/LazyBoolean;Lreplpp/Config$ForClasspath;Ljava/lang/String;)Z
+     128: aload         4
+     130: invokedynamic #524,  0            // InvokeDynamic #14:makeConcatWithConstants:(ZZLjava/nio/file/Path;)Ljava/lang/String;
+     135: invokevirtual #271                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+     138: return
+     139: return
+
+  private static final boolean fromConfig$$anonfun$1(java.lang.String);
+    Code:
+       0: getstatic     #532                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: aload_0
+       7: invokevirtual #535                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      10: invokevirtual #538                // Method scala/collection/StringOps$.nonEmpty$extension:(Ljava/lang/String;)Z
+      13: ireturn
+
+  private static final java.nio.file.Path fromConfig$$anonfun$2(java.lang.String);
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: anewarray     #141                // class java/lang/String
+       5: invokestatic  #544                // Method java/nio/file/Paths.get:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+       8: areturn
+
+  private final void fromConfig$$anonfun$3(replpp.Config, boolean, scala.collection.mutable.Builder, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: aload_3
+       4: aload         4
+       6: invokespecial #549                // Method addToEntriesMaybe$1:(Lreplpp/Config;ZLscala/collection/mutable/Builder;Ljava/nio/file/Path;)V
+       9: return
+
+  private static final java.nio.file.Path fromConfig$$anonfun$4(java.net.URL);
+    Code:
+       0: aload_0
+       1: invokevirtual #556                // Method java/net/URL.toURI:()Ljava/net/URI;
+       4: invokestatic  #559                // Method java/nio/file/Paths.get:(Ljava/net/URI;)Ljava/nio/file/Path;
+       7: areturn
+
+  private final void fromConfig$$anonfun$5(replpp.Config, boolean, scala.collection.mutable.Builder, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: aload_3
+       4: aload         4
+       6: invokespecial #549                // Method addToEntriesMaybe$1:(Lreplpp/Config;ZLscala/collection/mutable/Builder;Ljava/nio/file/Path;)V
+       9: return
+
+  private static final scala.collection.mutable.Builder fromConfig$$anonfun$6(scala.collection.mutable.Builder, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #519,  2          // InterfaceMethod scala/collection/mutable/Builder.addOne:(Ljava/lang/Object;)Lscala/collection/mutable/Growable;
+       7: checkcast     #295                // class scala/collection/mutable/Builder
+      10: areturn
+
+  private static final void fromConfig$$anonfun$7(java.lang.Object);
+    Code:
+       0: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       3: aload_0
+       4: invokevirtual #271                // Method scala/Predef$.println:(Ljava/lang/Object;)V
+       7: return
+
+  private static final java.nio.file.Path fromConfig$$anonfun$8(java.lang.String);
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: anewarray     #141                // class java/lang/String
+       5: invokestatic  #544                // Method java/nio/file/Paths.get:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+       8: areturn
+
+  private static final scala.collection.IterableOnce $anonfun$2(java.lang.String);
+    Code:
+       0: getstatic     #532                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #131                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: aload_0
+       7: invokevirtual #535                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      10: invokevirtual #572                // Method scala/collection/StringOps$.linesIterator$extension:(Ljava/lang/String;)Lscala/collection/Iterator;
+      13: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #584,  0            // InvokeDynamic #15:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}
