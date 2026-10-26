@@ -102,6 +102,20 @@ ranking.
 
 ## Quick start
 
+Source browsing and compact results do not require raw evidence. Before running
+the full test suite or retained-evidence validation, fetch and restore the
+historical inputs (about 685 MB compressed and 5.64 GB restored):
+
+```bash
+git lfs install
+git fetch origin --tags
+git lfs pull --include='evidence-archives/main-before-20261026/**'
+python3 scripts/historical_evidence.py hydrate --root .
+```
+
+The [migration guide](docs/history-evidence-migration.md) explains verification,
+unchanged release tags, and the original evidence identities.
+
 ```bash
 cargo fmt --check
 cargo test
