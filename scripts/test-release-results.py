@@ -88,6 +88,45 @@ class ReleaseGateTests(unittest.TestCase):
         GATE.EXPECTED_REVISION = evidence
         return source, self.make_remote(source), evidence, current
 
+    def make_migrated_source(self, *, helper_verified: bool = True) -> tuple[Path, Path, str]:
+        source, remote, evidence, current = self.make_source()
+        run_git(source, "tag", GATE.RELEASE, current)
+        run_git(source, "push", "test-push", GATE.RELEASE)
+
+        # Preserve the complete tagged release tree while replacing main with
+        # a root commit, as in the supported history migration.
+        run_git(source, "checkout", "--orphan", "migrated-main")
+        archive = source / "evidence-archives" / "main-before-20261026"
+        archive.mkdir(parents=True)
+        (archive / "manifest.json").write_text(
+            json.dumps(
+                {
+                    "original_main": "1" * 40,
+                    "rewritten_base": "2" * 40,
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        helper = source / "scripts" / "historical_evidence.py"
+        helper.parent.mkdir(parents=True)
+        helper.write_text(
+            "import argparse, json\n"
+            "from pathlib import Path\n"
+            "parser = argparse.ArgumentParser()\n"
+            "parser.add_argument('command')\n"
+            "parser.add_argument('--root', required=True)\n"
+            "parser.add_argument('--revision', required=True)\n"
+            "parser.add_argument('--release', required=True)\n"
+            "args = parser.parse_args()\n"
+            "manifest = json.loads((Path(args.root) / 'evidence-archives/main-before-20261026/manifest.json').read_text())\n"
+            f"print(json.dumps({{'verified': {helper_verified!r}, 'revision': args.revision, 'release': args.release, 'original_main': manifest['original_main'], 'rewritten_base': manifest['rewritten_base']}}))\n",
+            encoding="utf-8",
+        )
+        self.commit(source, "rewrite main with archival evidence")
+        run_git(source, "push", "--force", "test-push", "migrated-main:main")
+        return source, remote, evidence
+
     def make_remote(self, source: Path) -> Path:
         remote = self.root / f"remote-{len(list(self.root.iterdir()))}"
         run_git(self.root, "init", "--bare", str(remote))
@@ -176,6 +215,104 @@ class ReleaseGateTests(unittest.TestCase):
         self.assertNotEqual(git_output(unrelated, "rev-parse", "HEAD"), evidence)
         with self.assertRaisesRegex(GATE.GateError, "not an ancestor"):
             GATE.run_gate(source, binary=self.stub_binary(), git_remote=str(remote))
+
+    @mock.patch.object(GATE, "_pull_archival_bundle")
+    def test_main_only_history_migration_uses_archival_proof_and_still_checks_tag(
+        self, pull_archival_bundle: mock.MagicMock
+    ) -> None:
+        source, remote, _evidence = self.make_migrated_source()
+        GATE.run_gate(source, binary=self.stub_binary(), git_remote=str(remote))
+        pull_archival_bundle.assert_called()
+
+    @mock.patch.object(GATE, "_pull_archival_bundle")
+    def test_main_only_history_migration_rejects_invalid_archival_proof(
+        self, pull_archival_bundle: mock.MagicMock
+    ) -> None:
+        source, remote, _evidence = self.make_migrated_source(helper_verified=False)
+        with self.assertRaisesRegex(GATE.GateError, "invalid proof"):
+            GATE.run_gate(source, binary=self.stub_binary(), git_remote=str(remote))
+        pull_archival_bundle.assert_called()
+
+    @mock.patch.object(GATE, "_pull_archival_bundle")
+    def test_legacy_release_checkout_does_not_use_lfs_archive(
+        self, pull_archival_bundle: mock.MagicMock
+    ) -> None:
+        source, remote, _evidence, _current = self.make_source()
+        GATE.run_gate(source, binary=self.stub_binary(), git_remote=str(remote))
+        pull_archival_bundle.assert_not_called()
+
+    def test_lfs_pull_uses_all_exact_manifest_bundle_part_paths(self) -> None:
+        checkout = self.root / "archive-fixture"
+        self.git_init(checkout)
+        manifest_source = (
+            Path(__file__).resolve().parents[1] / GATE.HISTORY_MIGRATION_MANIFEST
+        )
+        manifest_path = checkout / GATE.HISTORY_MIGRATION_MANIFEST
+        manifest_path.parent.mkdir(parents=True)
+        manifest_path.write_bytes(manifest_source.read_bytes())
+        self.commit(checkout, "migration manifest")
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        parts = manifest["bundle"]["parts"]
+        self.assertEqual(len(parts), 17)
+        self.assertTrue(all("/" not in part["path"] for part in parts))
+
+        original_git = GATE._git
+        lfs_commands: list[list[str]] = []
+
+        def record_lfs(
+            checkout: Path,
+            args: list[str],
+            *,
+            check: bool = True,
+            enable_lfs_smudge: bool = False,
+        ):
+            if args and args[0] == "lfs":
+                lfs_commands.append(args)
+                return subprocess.CompletedProcess(["git", *args], 0, "", "")
+            return original_git(
+                checkout,
+                args,
+                check=check,
+                enable_lfs_smudge=enable_lfs_smudge,
+            )
+
+        with mock.patch.object(GATE, "_git", side_effect=record_lfs):
+            self.assertTrue(GATE._pull_archival_bundle(checkout))
+
+        repo_paths = [
+            f"{GATE.HISTORY_MIGRATION_DIRECTORY}/{part['path']}" for part in parts
+        ]
+        self.assertEqual(
+            lfs_commands,
+            [
+                ["lfs", "pull", "--include", ",".join(repo_paths), GATE.REMOTE_NAME],
+                ["lfs", "checkout", *repo_paths],
+            ],
+        )
+
+    def test_git_checkout_skips_implicit_lfs_smudge_but_explicit_checkout_enables_it(self) -> None:
+        calls: list[tuple[list[str], dict[str, str] | None]] = []
+
+        def capture_run(
+            command: list[str],
+            *,
+            cwd: str | None = None,
+            check: bool = True,
+            env: dict[str, str] | None = None,
+        ) -> subprocess.CompletedProcess[str]:
+            calls.append((command, env))
+            return subprocess.CompletedProcess(command, 0, "", "")
+
+        with mock.patch.object(GATE, "_run", side_effect=capture_run):
+            GATE._git(self.root, ["checkout", "--detach", "revision"])
+            GATE._git(
+                self.root,
+                ["lfs", "checkout", "evidence-archives/main-before-20261026/part"],
+                enable_lfs_smudge=True,
+            )
+
+        self.assertEqual(calls[0][1]["GIT_LFS_SKIP_SMUDGE"], "1")
+        self.assertNotIn("GIT_LFS_SKIP_SMUDGE", calls[1][1])
 
     def test_dirty_source_checkout_is_rejected(self) -> None:
         source, remote, _evidence, _current = self.make_source()

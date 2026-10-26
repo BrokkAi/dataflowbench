@@ -15,6 +15,9 @@ use std::{
 };
 use walkdir::WalkDir;
 
+const HISTORY_MIGRATION_MANIFEST: &str = "evidence-archives/main-before-20261026/manifest.json";
+const HISTORY_EVIDENCE_HELPER: &str = "scripts/historical_evidence.py";
+
 pub(crate) fn validate_freeze(manifest: &Path) -> Result<()> {
     let root = repository_root()?;
     let manifest = if manifest.is_absolute() {
@@ -236,16 +239,19 @@ pub(crate) fn validate_freeze_git_state(
     scope: &str,
 ) -> Result<()> {
     let head = git_output(root, ["rev-parse", "HEAD"])?;
+    let status = git_output(root, ["status", "--porcelain", "--untracked-files=all"])?;
+    if !status.is_empty() {
+        bail!("cannot validate a freeze from a dirty checkout");
+    }
     // A commit cannot contain its own hash, so the manifest commit (and any
     // later commit adding generated artifacts) validates against the frozen
     // evidence commit as an ancestor. Byte immutability of every referenced
     // artifact is enforced separately through the manifest digests.
     if head != revision && !git_is_ancestor(root, revision, &head)? {
-        bail!("freeze revision {revision} is not checkout HEAD {head} or one of its ancestors");
-    }
-    let status = git_output(root, ["status", "--porcelain", "--untracked-files=all"])?;
-    if !status.is_empty() {
-        bail!("cannot validate a freeze from a dirty checkout");
+        if !has_committed_history_migration_manifest(root)? {
+            bail!("freeze revision {revision} is not checkout HEAD {head} or one of its ancestors");
+        }
+        prove_archived_freeze_lineage(root, revision, release)?;
     }
     if matches!(scope, "release" | "website") {
         if !release.starts_with('v') {
@@ -260,6 +266,83 @@ pub(crate) fn validate_freeze_git_state(
         }
     }
     Ok(())
+}
+
+/// The one main-only history migration keeps original release tags intact but
+/// removes the old `main` ancestry from the rewritten branch. The committed
+/// manifest is an explicit opt-in to the archival proof path; without it,
+/// freeze validation continues to require ordinary Git ancestry.
+fn has_committed_history_migration_manifest(root: &Path) -> Result<bool> {
+    let manifest = root.join(HISTORY_MIGRATION_MANIFEST);
+    if !manifest.is_file() {
+        return Ok(false);
+    }
+    let listed = Command::new("git")
+        .current_dir(root)
+        .args(["ls-files", "--error-unmatch", HISTORY_MIGRATION_MANIFEST])
+        .output()
+        .context("check whether the history migration manifest is committed")?;
+    match listed.status.code() {
+        Some(0) => Ok(true),
+        Some(1) => Ok(false),
+        _ => bail!("could not establish whether the history migration manifest is committed"),
+    }
+}
+
+/// Require the repository-owned archival verifier to prove the exact frozen
+/// revision and release. The helper's output is deliberately a small fixed
+/// protocol and its paths are fixed above; the manifest itself is immutable
+/// and the ordinary freeze byte checks still run after this ancestry proof.
+fn prove_archived_freeze_lineage(root: &Path, revision: &str, release: &str) -> Result<()> {
+    let output = Command::new("python3")
+        .current_dir(root)
+        .args([HISTORY_EVIDENCE_HELPER, "prove", "--root"])
+        .arg(root)
+        .args(["--revision", revision, "--release", release])
+        .output()
+        .context("run the historical evidence lineage verifier")?;
+    if !output.status.success() {
+        let detail = String::from_utf8_lossy(&output.stderr).trim().to_string();
+        bail!(
+            "historical evidence verifier rejected freeze revision {revision} for {release}{}",
+            if detail.is_empty() {
+                String::new()
+            } else {
+                format!(": {detail}")
+            }
+        );
+    }
+    let proof: Value = serde_json::from_slice(&output.stdout)
+        .context("historical evidence verifier returned invalid JSON")?;
+    if proof["verified"] != true
+        || proof["revision"].as_str() != Some(revision)
+        || proof["release"].as_str() != Some(release)
+        || !is_git_revision(proof["original_main"].as_str())
+        || !is_git_revision(proof["rewritten_base"].as_str())
+    {
+        bail!(
+            "historical evidence verifier returned an invalid proof for freeze revision {revision} and release {release}"
+        );
+    }
+
+    let manifest_bytes = fs::read(root.join(HISTORY_MIGRATION_MANIFEST))
+        .context("read committed historical evidence migration manifest")?;
+    let manifest: Value = serde_json::from_slice(&manifest_bytes)
+        .context("parse committed historical evidence migration manifest")?;
+    if proof["original_main"] != manifest["original_main"]
+        || proof["rewritten_base"] != manifest["rewritten_base"]
+    {
+        bail!(
+            "historical evidence verifier identity differs from the committed migration manifest"
+        );
+    }
+    Ok(())
+}
+
+fn is_git_revision(value: Option<&str>) -> bool {
+    value.is_some_and(|revision| {
+        revision.len() == 40 && revision.bytes().all(|byte| byte.is_ascii_hexdigit())
+    })
 }
 
 pub(crate) fn git_is_ancestor(root: &Path, ancestor: &str, descendant: &str) -> Result<bool> {

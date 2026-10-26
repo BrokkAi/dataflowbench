@@ -24,6 +24,9 @@ EXPECTED_REVISION = "80d4f01bb189d530849f9ceb5d775680fcedfb52"
 RELEASE = "v0.8.0"
 REQUIRED_REMOTE = "https://github.com/BrokkAi/dataflowbench.git"
 REMOTE_NAME = "release-github"
+HISTORY_MIGRATION_DIRECTORY = "evidence-archives/main-before-20261026"
+HISTORY_MIGRATION_MANIFEST = f"{HISTORY_MIGRATION_DIRECTORY}/manifest.json"
+HISTORY_EVIDENCE_HELPER = "scripts/historical_evidence.py"
 
 
 class GateError(RuntimeError):
@@ -39,6 +42,7 @@ def _run(
     *,
     cwd: Path | None = None,
     check: bool = True,
+    env: dict[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
     try:
         result = subprocess.run(
@@ -48,6 +52,7 @@ def _run(
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=False,
+            env=env,
         )
     except OSError as exc:
         raise GateError(f"could not run {_describe_command(command)}: {exc}") from exc
@@ -67,8 +72,14 @@ def _git(
     args: Sequence[str],
     *,
     check: bool = True,
+    enable_lfs_smudge: bool = False,
 ) -> subprocess.CompletedProcess[str]:
-    return _run(["git", "-C", str(checkout), *args], check=check)
+    env = os.environ.copy()
+    if enable_lfs_smudge:
+        env.pop("GIT_LFS_SKIP_SMUDGE", None)
+    else:
+        env["GIT_LFS_SKIP_SMUDGE"] = "1"
+    return _run(["git", "-C", str(checkout), *args], check=check, env=env)
 
 
 def _git_output(checkout: Path, args: Sequence[str]) -> str:
@@ -89,6 +100,121 @@ def _is_ancestor(checkout: Path, ancestor: str, descendant: str) -> bool:
     raise GateError(
         f"could not prove {ancestor} is an ancestor of {descendant}: {detail}"
     )
+
+
+def _has_committed_history_migration_manifest(checkout: Path) -> bool:
+    manifest = checkout / HISTORY_MIGRATION_MANIFEST
+    if not manifest.is_file():
+        return False
+    tracked = _git(
+        checkout,
+        ["ls-files", "--error-unmatch", HISTORY_MIGRATION_MANIFEST],
+        check=False,
+    )
+    if tracked.returncode == 0:
+        return True
+    if tracked.returncode == 1:
+        return False
+    detail = tracked.stderr.strip() or tracked.stdout.strip()
+    raise GateError(f"could not establish whether the history migration manifest is committed: {detail}")
+
+
+def _prove_archival_lineage(checkout: Path, revision: str, release: str) -> bool:
+    if not _has_committed_history_migration_manifest(checkout):
+        return False
+    helper = checkout / HISTORY_EVIDENCE_HELPER
+    result = _run(
+        [
+            "python3",
+            str(helper),
+            "prove",
+            "--root",
+            str(checkout),
+            "--revision",
+            revision,
+            "--release",
+            release,
+        ],
+        cwd=checkout,
+        check=False,
+    )
+    if result.returncode != 0:
+        detail = result.stderr.strip() or result.stdout.strip()
+        raise GateError(
+            f"historical evidence verifier rejected {revision} for {release}"
+            + (f": {detail}" if detail else "")
+        )
+    try:
+        proof = json.loads(result.stdout)
+        manifest = json.loads((checkout / HISTORY_MIGRATION_MANIFEST).read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        raise GateError(f"historical evidence verifier returned invalid proof data: {exc}") from exc
+    if (
+        not isinstance(proof, dict)
+        or proof.get("verified") is not True
+        or proof.get("revision") != revision
+        or proof.get("release") != release
+        or proof.get("original_main") != manifest.get("original_main")
+        or proof.get("rewritten_base") != manifest.get("rewritten_base")
+        or not _is_git_revision(proof.get("original_main"))
+        or not _is_git_revision(proof.get("rewritten_base"))
+    ):
+        raise GateError(
+            f"historical evidence verifier returned an invalid proof for {revision} and {release}"
+        )
+    return True
+
+
+def _is_git_revision(value: object) -> bool:
+    return isinstance(value, str) and len(value) == 40 and all(
+        character in "0123456789abcdefABCDEF" for character in value
+    )
+
+
+def _pull_archival_bundle(checkout: Path) -> bool:
+    if not _has_committed_history_migration_manifest(checkout):
+        return False
+    try:
+        manifest = json.loads(
+            (checkout / HISTORY_MIGRATION_MANIFEST).read_text(encoding="utf-8")
+        )
+        parts = manifest["bundle"]["parts"]
+        paths = [part["path"] for part in parts]
+    except (KeyError, TypeError, json.JSONDecodeError, OSError) as exc:
+        raise GateError(f"cannot read historical bundle part paths: {exc}") from exc
+    if (
+        not isinstance(parts, list)
+        or not paths
+        or any(
+            not isinstance(path, str)
+            or Path(path).is_absolute()
+            or path in {".", ".."}
+            or "/" in path
+            or "\\" in path
+            or "," in path
+            or ".git" in Path(path).parts
+            or not Path(path).name.startswith("original-history.bundle.part")
+            or not Path(path).name.removeprefix("original-history.bundle.part").isdigit()
+            for path in paths
+        )
+    ):
+        raise GateError("migration manifest contains invalid historical bundle part paths")
+    repo_paths = [f"{HISTORY_MIGRATION_DIRECTORY}/{path}" for path in paths]
+    include = ",".join(repo_paths)
+    # The disposable clone skips smudging before its remote is configured.
+    # Fetch only the LFS parts listed by the committed migration manifest now
+    # that the real release remote has been installed.
+    _git(
+        checkout,
+        ["lfs", "pull", "--include", include, REMOTE_NAME],
+        enable_lfs_smudge=True,
+    )
+    _git(
+        checkout,
+        ["lfs", "checkout", *repo_paths],
+        enable_lfs_smudge=True,
+    )
+    return True
 
 
 def _assert_clean_source(source: Path) -> str:
@@ -128,6 +254,8 @@ def _clone_without_shared_objects(source: Path, destination: Path) -> None:
     # --no-local is needed in addition to --no-hardlinks: a local clone can
     # otherwise use the source repository's object store even when hardlinks
     # are disabled by a caller's Git configuration.
+    clone_env = os.environ.copy()
+    clone_env["GIT_LFS_SKIP_SMUDGE"] = "1"
     _run(
         [
             "git",
@@ -138,7 +266,8 @@ def _clone_without_shared_objects(source: Path, destination: Path) -> None:
             "--no-single-branch",
             str(source),
             str(destination),
-        ]
+        ],
+        env=clone_env,
     )
     shallow = _git_output(destination, ["rev-parse", "--is-shallow-repository"])
     if shallow != "false":
@@ -164,11 +293,25 @@ def _fetch_github_main_and_tags(clone: Path, git_remote: str) -> str:
     fetched_main = _git_output(
         clone, ["rev-parse", f"refs/remotes/{REMOTE_NAME}/main^{{commit}}"]
     )
+    if _has_committed_history_migration_manifest(clone):
+        _pull_archival_bundle(clone)
     if not _is_ancestor(clone, EXPECTED_REVISION, fetched_main):
-        raise GateError(
-            f"required evidence revision {EXPECTED_REVISION} is not an ancestor of "
-            f"fetched main {fetched_main}"
-        )
+        previous_head = _git_output(clone, ["rev-parse", "HEAD^{commit}"])
+        _git(clone, ["checkout", "--detach", fetched_main])
+        try:
+            if _has_committed_history_migration_manifest(clone):
+                # A checkout can leave LFS pointers in place after switching
+                # commits; explicitly materialize the already-fetched parts
+                # before the helper opens the archived bundle.
+                _pull_archival_bundle(clone)
+            proved = _prove_archival_lineage(clone, EXPECTED_REVISION, RELEASE)
+        finally:
+            _git(clone, ["checkout", "--detach", previous_head])
+        if not proved:
+            raise GateError(
+                f"required evidence revision {EXPECTED_REVISION} is not an ancestor of "
+                f"fetched main {fetched_main} and no committed archival proof is available"
+            )
     return fetched_main
 
 
@@ -268,8 +411,10 @@ def run_gate(
         # validate and generate from exactly the clean source commit.
         _git(clone, ["checkout", "--detach", current_head])
         _fetch_github_main_and_tags(clone, git_remote)
-        if not _is_ancestor(clone, EXPECTED_REVISION, current_head):
-            raise GateError('current committed tree does not contain required evidence revision')
+        if not _is_ancestor(clone, EXPECTED_REVISION, current_head) and not _prove_archival_lineage(
+            clone, EXPECTED_REVISION, RELEASE
+        ):
+            raise GateError('current committed tree does not contain required evidence revision or archival proof')
         tag = _tag_commit(clone)
         if tag is None:
             source_tag = _git(source, ['show-ref', '--verify', '--quiet', f'refs/tags/{RELEASE}'], check=False)

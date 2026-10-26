@@ -2,7 +2,9 @@
 
 `scripts/package-evidence.py` creates a small review alongside a lossless,
 compressed snapshot. It uses Python 3.10 or newer and the standard library.
-No Git LFS is involved. The existing normalized-report schema, scoring,
+The packaging command itself does not require Git LFS. The repository's
+[historical evidence migration](history-evidence-migration.md) uses LFS for
+its compressed recovery archive. The existing normalized-report schema, scoring,
 freezes, adapter pins and publication gates are unchanged.
 
 ## Create a package
@@ -160,7 +162,9 @@ below individual-file limits does not make a multi-gigabyte commit suitable
 for review. Keep large delivery packages outside the source PR and adopt a
 separately authorized delivery/storage policy before changing what future
 evidence is tracked. This PR neither migrates historical evidence nor adds an
-upload, publication, Git LFS or history-rewrite workflow.
+upload or publication workflow. The separately authorized
+[main-only history migration](history-evidence-migration.md) defines archival
+provenance, Git LFS delivery and restoration for historical detailed results.
 
 Focused fixture tests (no production archives or analyzers):
 

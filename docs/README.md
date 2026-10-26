@@ -1,5 +1,9 @@
 # Documentation index
 
+For checkouts made after the main-only Git history cleanup, see
+[historical evidence recovery](history-evidence-migration.md) for Git LFS and
+byte-exact restoration before validation.
+
 This directory holds both the benchmark's contract documents and the Astro
 Starlight package for the public site (`astro.config.mjs`, `src/`,
 `public/`). The site renders only a handful of pages; the contract surface

@@ -31,6 +31,13 @@ jobs:
           # Freeze validation resolves the frozen evidence revision and the
           # release tag, so the full history and tags must be present.
           fetch-depth: 0
+          # The archival bundle and restored raw inputs are required by the
+          # current-main freeze validation path.
+          lfs: true
+      - name: Verify and restore archived historical evidence
+        run: |
+          python3 scripts/historical_evidence.py verify --root .
+          python3 scripts/historical_evidence.py hydrate --root .
       - uses: dtolnay/rust-toolchain@stable
       - name: Verify prospective v0.9 common population and plan boundaries
         run: |
@@ -210,7 +217,9 @@ jobs:
       - name: Test Swift fixture validation controls
         run: python3 scripts/test-swift-fixtures.py
       - name: Test isolated release validation gate
-        run: python3 scripts/test-release-results.py
+        run: |
+          python3 scripts/test-historical-evidence.py
+          python3 scripts/test-release-results.py
       - name: Test versioned release execution guard
         run: |
           python3 scripts/test-release-harness.py

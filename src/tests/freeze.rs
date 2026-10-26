@@ -536,6 +536,93 @@ pub(crate) fn freeze_git_state_accepts_ancestor_revisions_and_containing_tags() 
 }
 
 #[test]
+pub(crate) fn freeze_rejects_non_ancestor_without_committed_history_migration_manifest() {
+    let (root, old_revision) = make_history_migration_fixture(false, false);
+    let error = validate_freeze_git_state(&root, &old_revision, "development", "development")
+        .unwrap_err()
+        .to_string();
+    assert!(error.contains("not checkout HEAD"), "{error}");
+}
+
+#[test]
+pub(crate) fn freeze_rejects_invalid_historical_lineage_helper_response() {
+    let (root, old_revision) = make_history_migration_fixture(true, false);
+    let error = validate_freeze_git_state(&root, &old_revision, "development", "development")
+        .unwrap_err()
+        .to_string();
+    assert!(error.contains("invalid proof"), "{error}");
+}
+
+#[test]
+pub(crate) fn freeze_accepts_exact_historical_lineage_proof_and_preserved_release_tag() {
+    let (root, old_revision) = make_history_migration_fixture(true, true);
+    validate_freeze_git_state(&root, &old_revision, "v0.9.0", "release").unwrap();
+}
+
+/// Build a tiny orphaned-main fixture for the explicit historical-evidence
+/// fallback. The helper stub exercises only the Rust-to-helper protocol; the
+/// helper's own tests cover bundle and tree-integrity verification.
+fn make_history_migration_fixture(with_manifest: bool, valid_proof: bool) -> (PathBuf, String) {
+    let root = unique_test_dir("freeze-history-migration");
+    fs::create_dir_all(&root).unwrap();
+    let run_git = |args: &[&str]| {
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.email=dataflowbench-test@example.invalid",
+                    "-c",
+                    "user.name=DataFlowBench Test",
+                    "-c",
+                    "commit.gpgsign=false",
+                    "-c",
+                    "tag.gpgsign=false",
+                ])
+                .args(args)
+                .current_dir(&root)
+                .status()
+                .unwrap()
+                .success(),
+            "git command failed: {args:?}"
+        );
+    };
+
+    run_git(&["init", "-q", "--initial-branch=main"]);
+    fs::write(root.join("evidence.txt"), "original evidence\n").unwrap();
+    run_git(&["add", "."]);
+    run_git(&["commit", "-qm", "original evidence"]);
+    let old_revision = git_output(&root, ["rev-parse", "HEAD"]).unwrap();
+    run_git(&["tag", "v0.9.0"]);
+    run_git(&["checkout", "--orphan", "rewritten-main"]);
+
+    fs::create_dir_all(root.join("scripts")).unwrap();
+    fs::create_dir_all(root.join("evidence-archives/main-before-20261026")).unwrap();
+    let original_main = "1111111111111111111111111111111111111111";
+    let rewritten_base = "2222222222222222222222222222222222222222";
+    let helper = format!(
+        "import json, sys\nargs = sys.argv[1:]\nrevision = args[args.index('--revision') + 1]\nrelease = args[args.index('--release') + 1]\nprint(json.dumps({{'verified': {}, 'revision': revision, 'release': release, 'original_main': '{}', 'rewritten_base': '{}'}}))\n",
+        if valid_proof { "True" } else { "False" },
+        original_main,
+        rewritten_base
+    );
+    fs::write(root.join("scripts/historical_evidence.py"), helper).unwrap();
+    if with_manifest {
+        fs::write(
+            root.join("evidence-archives/main-before-20261026/manifest.json"),
+            serde_json::to_vec(&json!({
+                "original_main": original_main,
+                "rewritten_base": rewritten_base,
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+    }
+    run_git(&["add", "."]);
+    run_git(&["commit", "-qm", "rewritten main"]);
+    (root, old_revision)
+}
+
+#[test]
 pub(crate) fn generate_results_requires_a_valid_freeze() {
     let fixture = FreezeFixture::new("reached", json!({"state": "complete"}));
     fs::write(fixture.root.join("cases/taint/test/flow.c"), "altered\n").unwrap();
