@@ -20,6 +20,7 @@ see the glossary entry below.
 | [freeze.md](freeze.md) | The `freeze/v1` immutable evidence-manifest contract, the rule that a correction is a new freeze, never a rewrite, the freeze-prep checklist (whose pin-currency step operates the adapters.md policy), and the release-notes template with its pin table. |
 | [results.md](results.md) | The result-generation contract: byte-stable artifacts generated only from a validated freeze, provable with `--check`. |
 | [report-diff.md](report-diff.md) | The population-aware normalized-report comparison contract: stable-case-ID joins, explicit identity changes, and the prohibition on pooled scores across changed populations. |
+| [compact-evidence.md](compact-evidence.md) | Small case/attempt reviews, lossless detail bundles, verified restoration and existing report-reader integration. |
 | [applicability-matrix.md](applicability-matrix.md) | How the propagation templates port across languages: the `direct` / `adapted` / `n/a` classification and each language's core denominator. |
 | [challenge-tier.md](challenge-tier.md) | Preregistration of the thirteen challenge templates in four strata, the fold-into-core decision, and the amendment procedure. Amendment-bearing. |
 | [modeling-matrix.md](modeling-matrix.md) | Preregistration of the benchmark-controlled taint-modeling matrix, on its own `modeling` tier. Amendment-bearing. |
