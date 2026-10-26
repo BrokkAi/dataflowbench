@@ -240,6 +240,16 @@ jobs:
         working-directory: docs
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Site tests read selected historical controls removed from main;
+          # the verifier also needs the full tag set and archived LFS bundle.
+          fetch-depth: 0
+          lfs: true
+      - name: Verify and restore historical evidence for site tests
+        working-directory: .
+        run: |
+          python3 scripts/historical_evidence.py verify --root .
+          python3 scripts/historical_evidence.py hydrate --root .
       - uses: actions/setup-node@v4
         with:
           node-version: 22
