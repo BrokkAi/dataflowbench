@@ -30,6 +30,7 @@ Install Git LFS and fetch the archive before asking the helper to verify it:
 
 ```sh
 git lfs install
+git fetch origin --tags
 git lfs pull --include='evidence-archives/main-before-20261026/**'
 python3 scripts/historical_evidence.py verify --root .
 ```

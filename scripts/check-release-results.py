@@ -171,9 +171,22 @@ def _is_git_revision(value: object) -> bool:
     )
 
 
+def _install_local_lfs_filters(checkout: Path) -> None:
+    env = os.environ.copy()
+    env["GIT_LFS_SKIP_SMUDGE"] = "1"
+    _run(
+        ["git", "-C", str(checkout), "lfs", "install", "--local", "--skip-repo"],
+        env=env,
+    )
+
+
 def _pull_archival_bundle(checkout: Path) -> bool:
     if not _has_committed_history_migration_manifest(checkout):
         return False
+    # A caller may have cloned an original tag before fetching rewritten main.
+    # That source checkout has no migration manifest, so clone setup could not
+    # install local filters; install them now after the migrated commit arrives.
+    _install_local_lfs_filters(checkout)
     try:
         manifest = json.loads(
             (checkout / HISTORY_MIGRATION_MANIFEST).read_text(encoding="utf-8")
@@ -269,6 +282,11 @@ def _clone_without_shared_objects(source: Path, destination: Path) -> None:
         ],
         env=clone_env,
     )
+    if _has_committed_history_migration_manifest(destination):
+        # LFS filters are commonly installed in the source checkout's local
+        # Git config, which is not copied by clone. Install them only for
+        # migrated checkouts; --skip-repo avoids a disposable pre-push hook.
+        _install_local_lfs_filters(destination)
     shallow = _git_output(destination, ["rev-parse", "--is-shallow-repository"])
     if shallow != "false":
         raise GateError("disposable release clone is shallow; full history is required")

@@ -8,6 +8,7 @@ binary or contacting GitHub.
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 import os
@@ -103,6 +104,9 @@ class ReleaseGateTests(unittest.TestCase):
                 {
                     "original_main": "1" * 40,
                     "rewritten_base": "2" * 40,
+                    "bundle": {
+                        "parts": [{"path": "original-history.bundle.part0000"}]
+                    },
                 }
             )
             + "\n",
@@ -233,6 +237,86 @@ class ReleaseGateTests(unittest.TestCase):
             GATE.run_gate(source, binary=self.stub_binary(), git_remote=str(remote))
         pull_archival_bundle.assert_called()
 
+    def test_historical_tag_clone_installs_lfs_filters_after_fetching_migrated_main(self) -> None:
+        source, remote, _evidence = self.make_migrated_source()
+        historical_tag = git_output(source, "rev-parse", f"refs/tags/{GATE.RELEASE}^{{commit}}")
+        run_git(source, "checkout", "--detach", historical_tag)
+        clone = self.root / "historical-tag-clone"
+        GATE._clone_without_shared_objects(source, clone)
+        self.assertFalse(
+            (clone / GATE.HISTORY_MIGRATION_MANIFEST).exists()
+        )
+        self.assertEqual(
+            run_git(
+                clone,
+                "config",
+                "--local",
+                "--get",
+                "filter.lfs.process",
+                check=False,
+            ).returncode,
+            1,
+        )
+
+        original_git = GATE._git
+        lfs_commands: list[tuple[list[str], bool]] = []
+
+        def record_lfs(
+            checkout: Path,
+            args: list[str],
+            *,
+            check: bool = True,
+            enable_lfs_smudge: bool = False,
+        ):
+            if args and args[0] == "lfs":
+                lfs_commands.append((args, enable_lfs_smudge))
+                return subprocess.CompletedProcess(["git", *args], 0, "", "")
+            return original_git(
+                checkout,
+                args,
+                check=check,
+                enable_lfs_smudge=enable_lfs_smudge,
+            )
+
+        with mock.patch.object(GATE, "_git", side_effect=record_lfs):
+            fetched_main = GATE._fetch_github_main_and_tags(clone, str(remote))
+
+        self.assertEqual(
+            git_output(clone, "rev-parse", "HEAD^{commit}"),
+            historical_tag,
+        )
+        self.assertEqual(
+            run_git(clone, "config", "--local", "--get", "filter.lfs.process").stdout.strip(),
+            "git-lfs filter-process",
+        )
+        self.assertEqual(
+            lfs_commands,
+            [
+                (
+                    [
+                        "lfs",
+                        "pull",
+                        "--include",
+                        f"{GATE.HISTORY_MIGRATION_DIRECTORY}/original-history.bundle.part0000",
+                        GATE.REMOTE_NAME,
+                    ],
+                    True,
+                ),
+                (
+                    [
+                        "lfs",
+                        "checkout",
+                        f"{GATE.HISTORY_MIGRATION_DIRECTORY}/original-history.bundle.part0000",
+                    ],
+                    True,
+                ),
+            ],
+        )
+        self.assertEqual(
+            fetched_main,
+            git_output(remote, "rev-parse", "refs/heads/main^{commit}"),
+        )
+
     @mock.patch.object(GATE, "_pull_archival_bundle")
     def test_legacy_release_checkout_does_not_use_lfs_archive(
         self, pull_archival_bundle: mock.MagicMock
@@ -313,6 +397,81 @@ class ReleaseGateTests(unittest.TestCase):
 
         self.assertEqual(calls[0][1]["GIT_LFS_SKIP_SMUDGE"], "1")
         self.assertNotIn("GIT_LFS_SKIP_SMUDGE", calls[1][1])
+
+    def test_migrated_clone_installs_local_lfs_filters_and_checks_out_exact_bytes(self) -> None:
+        source = self.root / "lfs-source"
+        self.git_init(source)
+        installed = subprocess.run(
+            ["git", "-C", str(source), "lfs", "install", "--local", "--skip-repo"],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        self.assertEqual(installed.returncode, 0, installed.stderr)
+
+        archive_dir = source / GATE.HISTORY_MIGRATION_DIRECTORY
+        archive_dir.mkdir(parents=True)
+        part_name = "original-history.bundle.part0000"
+        part_path = archive_dir / part_name
+        payload = b"synthetic archival bundle bytes\n" * 1024
+        part_path.write_bytes(payload)
+        (source / ".gitattributes").write_text(
+            f"{GATE.HISTORY_MIGRATION_DIRECTORY}/{part_name} "
+            "filter=lfs diff=lfs merge=lfs -text\n",
+            encoding="utf-8",
+        )
+        (archive_dir / "manifest.json").write_text(
+            json.dumps({"bundle": {"parts": [{"path": part_name}]}}) + "\n",
+            encoding="utf-8",
+        )
+        self.commit(source, "migration LFS fixture")
+
+        clone = self.root / "lfs-clone"
+        GATE._clone_without_shared_objects(source, clone)
+        self.assertEqual(
+            run_git(clone, "config", "--local", "--get", "filter.lfs.process").stdout.strip(),
+            "git-lfs filter-process",
+        )
+        pointer = (clone / GATE.HISTORY_MIGRATION_DIRECTORY / part_name).read_bytes()
+        self.assertIn(b"version https://git-lfs.github.com/spec/v1", pointer)
+
+        oid = hashlib.sha256(payload).hexdigest()
+        source_object = source / ".git" / "lfs" / "objects" / oid[:2] / oid[2:4] / oid
+        clone_object = clone / ".git" / "lfs" / "objects" / oid[:2] / oid[2:4] / oid
+        self.assertTrue(source_object.is_file())
+        clone_object.parent.mkdir(parents=True)
+        clone_object.write_bytes(source_object.read_bytes())
+        GATE._git(
+            clone,
+            [
+                "lfs",
+                "checkout",
+                f"{GATE.HISTORY_MIGRATION_DIRECTORY}/{part_name}",
+            ],
+            enable_lfs_smudge=True,
+        )
+        restored = (clone / GATE.HISTORY_MIGRATION_DIRECTORY / part_name).read_bytes()
+        self.assertEqual(hashlib.sha256(restored).hexdigest(), oid)
+        self.assertEqual(restored, payload)
+
+    def test_non_migrated_clone_does_not_install_local_lfs_filters(self) -> None:
+        source = self.root / "legacy-source"
+        self.git_init(source)
+        (source / "README").write_text("legacy fixture\n", encoding="utf-8")
+        self.commit(source, "legacy fixture")
+
+        clone = self.root / "legacy-clone"
+        GATE._clone_without_shared_objects(source, clone)
+        configured = run_git(
+            clone,
+            "config",
+            "--local",
+            "--get",
+            "filter.lfs.process",
+            check=False,
+        )
+        self.assertEqual(configured.returncode, 1)
 
     def test_dirty_source_checkout_is_rejected(self) -> None:
         source, remote, _evidence, _current = self.make_source()
