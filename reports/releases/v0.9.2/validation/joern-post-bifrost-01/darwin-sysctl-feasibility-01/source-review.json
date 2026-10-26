@@ -1,0 +1,65 @@
+{
+  "decision": "approve-for-tiny-ordinary-user-read-only-diagnostic-only",
+  "findings": [],
+  "nonclaims": [
+    "No C compilation or execution was performed by this reviewer.",
+    "This diagnostic can assess only two current PID records; it cannot establish full-table provider completeness, process absence, historical ownership, PID nonreuse, qualification, or native06 activation."
+  ],
+  "review_scope": {
+    "compiled_by_reviewer": false,
+    "executed_by_reviewer": false,
+    "native06_invoked": false,
+    "qualification_performed": false,
+    "read_only": true,
+    "readme_path": "/private/tmp/v092-darwin-sysctl-probe-01/README.md",
+    "readme_sha256": "fdcc7419e028dbf484c30e4328e27e487f7247b387311a662ecc001407ca0793",
+    "sdk_headers_sha256": {
+      "usr/include/sys/_types/_pid_t.h": "052a6dbbec8e30623c2d33dd373992f6c5d0c57c57ed4949d2b48c4ab0976487",
+      "usr/include/sys/param.h": "10d7a9553d341c5bc0b473444802920a7ec2e6222281eeaeb61b32dfff29c4b4",
+      "usr/include/sys/proc.h": "593af71b2740ba6248995691280bcb15f8900d46b1d9868f7345084aa0692949",
+      "usr/include/sys/sysctl.h": "d6d627d3353607f4078079051e09ea0e9a3b32a6771934be1ac5d89fbe93b1c7",
+      "usr/include/sys/time.h": "89da128487ce75eca6f6bd40453d7ed8e25f583cdcdddb97bf297efac75846d2",
+      "usr/include/sys/types.h": "82111e1f1d0262bee191b4679842e5ff51de57310ce4da9f48d39af0d8e10284"
+    },
+    "sdk_path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+    "source_path": "/private/tmp/v092-darwin-sysctl-probe-01/probe.c",
+    "source_sha256": "abec184c4c529a5ad5877889be5786cbe48958f74ae44a2022a2a683ef6b328d"
+  },
+  "schema": "v092-darwin-sysctl-source-independent-review/v1",
+  "sdk_evidence": {
+    "observed_declarations": [
+      "sysctl.h defines CTL_KERN=1, KERN_PROC=14, KERN_PROC_PID=1, struct kinfo_proc.kp_proc and kp_eproc.e_ppid, and declares sysctl(int *, u_int, ..., size_t *, ..., size_t).",
+      "proc.h exposes p_starttime, p_stat, p_pid, p_comm[MAXCOMLEN + 1] and SIDL through SZOMB state constants; it includes sys/param.h and sys/time.h.",
+      "param.h defines MAXCOMLEN=16; sys/_types defines __darwin_pid_t as __int32_t and the pid_t header aliases pid_t to it."
+    ],
+    "version_path": "MacOSX27.0.sdk"
+  },
+  "static_safety_and_correctness": {
+    "error_and_identity_limits": {
+      "evidence": "Any syscall rc failure or returned-length mismatch yields a nonzero result and no accept marker. Missing/inaccessible PID is not labeled absent. A successful PID 10491 query could describe a reused current PID only; it does not prove identity or ownership of the historical process.",
+      "result": "pass"
+    },
+    "output_allowlist": {
+      "evidence": "Only requested/returned PID, PPID, birth seconds/useconds, numeric state, bounded p_comm bytes encoded as hex, syscall rc/errno/lengths, and uname platform strings are emitted. No pointer/address, credential, argv, full path, or other kinfo_proc member is printed. The full SDK record exists transiently in memory because sysctl fills it.",
+      "format_note": "stdout is line-oriented key=value text, not JSON. Its values remain allowlisted and bounded; if machine-readable JSON stdout is a literal capture requirement, change/normalize the format before using that ingestion path.",
+      "result": "pass-with-format-note"
+    },
+    "read_only_scope": {
+      "evidence": "MIB is CTL_KERN/KERN_PROC/KERN_PROC_PID/requested PID; oldp points to one stack struct kinfo_proc; newp is NULL and newlen is zero.",
+      "result": "pass"
+    },
+    "sdk_abi_and_validation": {
+      "evidence": "Uses SDK-defined struct kinfo_proc and named fields, SDK MIB/status constants, and sizeof(row); LP64/Apple guards are present. Header checks confirm int sysctl MIB signature, KERN_PROC_PID, p_pid/e_ppid/p_starttime/p_stat/p_comm, timeval, MAXCOMLEN+1, and pid_t is signed 32-bit in this SDK. The code rejects syscall errors, nonexact returned length, mismatched or nonpositive PID, negative PPID, invalid birth time, out-of-range process state, empty command, and unterminated p_comm.",
+      "result": "pass"
+    },
+    "timeout_and_invocation_boundary": {
+      "evidence": "The C source has no internal timeout, but README supplies a five-second alarm wrapper around only the one binary invocation. Compile and execution were not performed for this review. The allowed invocation must remain an ordinary-user run and must not be repeated on error.",
+      "result": "pass-with-wrapper-required"
+    },
+    "two_targeted_queries_only": {
+      "evidence": "One sysctl callsite is invoked exactly twice: fixed PID 10491 and getpid(); main(void) accepts no CLI args; no process-table query, loop, retry, signal, kill, privilege change, or elevated-privilege path exists.",
+      "result": "pass"
+    }
+  },
+  "status": "approved-bounded-static-source-review"
+}
