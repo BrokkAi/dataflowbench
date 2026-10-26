@@ -754,7 +754,9 @@ pub(crate) fn freeze_accepts_full_swift_inconclusive_export_without_promoting_ou
 #[test]
 pub(crate) fn swift_normal_configuration_hash_matches_rust_component_order() {
     let unique = unique_test_dir("swift-normal-config-order");
-    let root = PathBuf::from("target").join(unique.file_name().unwrap());
+    // Build caches may place target outside the checkout through a symlink.
+    // These inputs exercise repository-relative paths, so keep them inside it.
+    let root = PathBuf::from(format!("{}.tmp", unique.file_name().unwrap().display()));
     fs::create_dir_all(root.join("a")).unwrap();
     // String ordering puts a-z before a/x; PathBuf orders a/x first.
     let paths = BTreeSet::from([root.join("a-z"), root.join("a/x")]);
