@@ -76,3 +76,7 @@ reports/releases/v0.9.1/attempts/** -text
 reports/releases/v0.9.1/normal/** -text
 reports/releases/v0.9.1/ledger-v1.jsonl -text
 reports/releases/v0.9.1/ledger-v2.jsonl -text
+
+# Lossless historical and future detailed-evidence archives.
+evidence-archives/**/original-history.bundle.part* filter=lfs diff=lfs merge=lfs -text
+evidence-delivery/**/detail/*.part* filter=lfs diff=lfs merge=lfs -text
