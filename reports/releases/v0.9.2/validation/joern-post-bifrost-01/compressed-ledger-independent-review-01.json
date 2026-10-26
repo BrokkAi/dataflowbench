@@ -1,0 +1,112 @@
+{
+  "actual_archive_integrity": {
+    "all_109_line_hashes_and_terminal_row_validation_verified": true,
+    "archive_bytes": 12990606,
+    "archive_sha256": "1130e910b3b3198550652a90df1bdee487b0c097757cc7f785ab71c93a0813b1",
+    "current_index_sha256": "e9fa419bf07c7d86810d91c43cce03266a67d28ac7a31ac02ad35ea3dea75f30",
+    "current_raw_ledger_matches_archive_streaming": true,
+    "gzip_crc_and_eof_read_verified": true,
+    "line_count": 109,
+    "manifest_sha256": "27ebd800655237012acb0bac6869294119947955501d737eab6e8d60a3ff3bb4",
+    "pinned_prefix": {
+      "bytes": 16086045,
+      "git_blob_sha1": "aa299771be8ebce13c8e7473723aa37cdafac305",
+      "line_count": 57,
+      "matches_manifest_archive_and_current_raw_ledger": true,
+      "sha256": "31ea08cf5f0fa04fe07697bb8d3683e2a313140e6e12e15fe7e7963a82cdc1f2"
+    },
+    "raw_ledger_copy_or_new_archive_created": false,
+    "selected_manifest": "reports/releases/v0.9.2/ledger-archives/ledger-109-01/manifest.json",
+    "uncompressed_bytes": 123908716,
+    "uncompressed_sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851"
+  },
+  "checks": {
+    "ci_execution": "not-run: review required only source inspection and focused local tests; current CI state not queried.",
+    "ci_hydration_order": "pass-with-index-transition: checkout has lfs:true; historical evidence verification/hydration runs first; hydrate-current runs before all v0.9.2 tests and builds. Requires raw tracked-path removal above.",
+    "exact_prefix": "pass: both pack and hydrate validate actual 57 row/16,086,045-byte prefix, SHA256, and Git blob SHA1; actual archive and raw ledger match.",
+    "fifo_and_symlink_handling": "pass: nonblocking nofollow file opens plus regular-file checks; source, manifest, archive, ancestor, index, canonical-target symlink/FIFO cases covered.",
+    "overwrite_refusal": "pass: pack publishes only by platform no-replace directory rename; hydration writes a temp, then links canonical name without replacement; differing existing bytes are preserved.",
+    "path_confinement": "pass: strict POSIX relative paths; rooted dir-fd traversal with O_NOFOLLOW; current index restricts selection to a named ledger-archives entry; manifest archive fixed to sibling.",
+    "trusted_current_index": "pass-with-scope: exact schema and field set, size bound, duplicate/nonfinite rejection, safe archive-collection path, index-pinned manifest SHA256; authenticity derives from reviewed tracked Git tree, not a signature."
+  },
+  "findings": [
+    {
+      "expected_result_after_action": "Fresh checkout has no canonical raw ledger, actions/checkout LFS restores the selected archive, and hydrate-current creates the canonical file before v0.9.2 tests.",
+      "finding": "The current Git index still tracks reports/releases/v0.9.2/ledger-v1.jsonl at the 57-row blob, while the worktree file is the 109-row 123,908,716-byte ledger. A fresh CI checkout from a commit that retains that tracked path will have the old nonmatching file; hydrate-current correctly refuses to overwrite it and CI will fail before tests.",
+      "id": "LEDGER-INDEX-TRANSITION-REQUIRED",
+      "required_action": "Remove the raw ledger from the Git index in the final source change while preserving the local worktree file, as the parent task specified. The committed ignore rule then keeps future local hydration out of Git.",
+      "severity": "blocking-before-CI-merge",
+      "status": "known-required-integration-action"
+    }
+  ],
+  "limits": [
+    "No actual CI job or remote state was queried.",
+    "The index digest is a content binding within the selected Git checkout, not a detached signature or provenance proof.",
+    "The current archive/index/manifest are untracked in this worktree; the final change must include them and its Git LFS object before CI can hydrate.",
+    "No benchmark, release qualification, or ledger semantic correctness claim is made."
+  ],
+  "review_id": "v092-ledger-independent-review-01",
+  "reviewed_files": {
+    ".gitattributes": {
+      "bytes": 3726,
+      "sha256": "913f216eacd43318801ededc01d2c020a32311f9de2dc98562bcc4b5e2b9eecf"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 15745,
+      "sha256": "2d0c11cf00b6809245a43602b435e010303255f519794152469df9d4eb208539"
+    },
+    ".gitignore": {
+      "bytes": 2319,
+      "sha256": "d5af872c302ee82e6e7c5dc6d0af235baa01659daaf073ad6a5ae20b27f9cb44"
+    },
+    "docs/v092-execution/compressed-ledger.md": {
+      "bytes": 1776,
+      "sha256": "147f8d4926a12a861c2f196b82b8f2b59feb9c28a24b75d72f35db0e4e2e4706"
+    },
+    "reports/releases/v0.9.2/ledger-archive-index.json": {
+      "bytes": 238,
+      "sha256": "e9fa419bf07c7d86810d91c43cce03266a67d28ac7a31ac02ad35ea3dea75f30"
+    },
+    "reports/releases/v0.9.2/ledger-archives/ledger-109-01/ledger-v1.jsonl.gz": {
+      "bytes": 12990606,
+      "sha256": "1130e910b3b3198550652a90df1bdee487b0c097757cc7f785ab71c93a0813b1"
+    },
+    "reports/releases/v0.9.2/ledger-archives/ledger-109-01/manifest.json": {
+      "bytes": 8524,
+      "sha256": "27ebd800655237012acb0bac6869294119947955501d737eab6e8d60a3ff3bb4"
+    },
+    "reports/releases/v0.9.2/ledger-v1.jsonl": {
+      "bytes": 123908716,
+      "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851"
+    },
+    "scripts/test-v092-ledger-archive.py": {
+      "bytes": 24792,
+      "sha256": "f95d935a651b0c6517350ec41c6baca1bc5fbe720dc0778c76f0aeef99d691bb"
+    },
+    "scripts/v092_ledger_archive.py": {
+      "bytes": 39427,
+      "sha256": "fe0e4506d28c0785b59e4f74372d083bc7888bc7c3cf8c42c0c6122843a39ba0"
+    }
+  },
+  "schema": "dataflowbench-v092-ledger-archive-independent-review/v1",
+  "scope": "Read-only review of archive pack/hydrate implementation and tests, Git attributes/ignore, CI ordering, documentation, current index, manifest109 archive, and raw ledger bytes.",
+  "validation": {
+    "actual_124mb_ledger_copied_or_new_archive_created": false,
+    "command": "python3 -B scripts/test-v092-ledger-archive.py -v",
+    "failed": 0,
+    "passed": 26,
+    "streaming_integrity_check_read_actual_archive_and_raw_ledger_without_writing": true,
+    "tests_write_only_temporary_fixture_trees": true
+  },
+  "verdict": "implementation-approved-subject-to-raw-index-removal-before-CI-or-merge",
+  "worktree": {
+    "branch": "dave/v0.9.2-full-refresh",
+    "current_worktree_archive_index_manifest_untracked_at_review": true,
+    "existing_concurrent_dirty_state_observed": true,
+    "head": "9c542306635e0a7eb24b3898280e267a85234f12",
+    "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+    "raw_ledger_index_blob_sha1": "aa299771be8ebce13c8e7473723aa37cdafac305",
+    "raw_ledger_still_tracked_in_current_index": true,
+    "repository_files_modified_by_review": false
+  }
+}

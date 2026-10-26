@@ -13,6 +13,12 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SEALED_LEDGER_FIXTURE_PATH = PurePosixPath(
+    "reports/releases/v0.9.2/qualification/resource-recovery-01/ledger-prefix.jsonl"
+)
+SEALED_LEDGER_FIXTURE_SHA256 = "31ea08cf5f0fa04fe07697bb8d3683e2a313140e6e12e15fe7e7963a82cdc1f2"
+SEALED_LEDGER_FIXTURE_BYTES = 16_086_045
+SEALED_LEDGER_FIXTURE_LINES = 57
 MODULE_PATH = Path(__file__).with_name("v092_scoped_recovery.py")
 SPEC = importlib.util.spec_from_file_location("v092_scoped_recovery_test", MODULE_PATH)
 assert SPEC is not None and SPEC.loader is not None
@@ -38,7 +44,6 @@ class ScopedRecoveryPacketTests(unittest.TestCase):
             packet_validator.MANIFEST_PATH.as_posix(),
             packet_validator.AUTHORIZATION_PATH.as_posix(),
             packet_validator.PREFIX_PATH.as_posix(),
-            packet_validator.LEDGER_PATH.as_posix(),
             self.manifest["repair_patch"]["path"],
             self.manifest["repair_proof"]["path"],
             self.manifest["failure_diagnosis"]["path"],
@@ -51,6 +56,14 @@ class ScopedRecoveryPacketTests(unittest.TestCase):
             target = destination / Path(*PurePosixPath(relative).parts)
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, target)
+
+        ledger_fixture = ROOT.joinpath(*SEALED_LEDGER_FIXTURE_PATH.parts).read_bytes()
+        self.assertEqual(len(ledger_fixture), SEALED_LEDGER_FIXTURE_BYTES)
+        self.assertEqual(hashlib.sha256(ledger_fixture).hexdigest(), SEALED_LEDGER_FIXTURE_SHA256)
+        self.assertEqual(ledger_fixture.count(b"\n"), SEALED_LEDGER_FIXTURE_LINES)
+        ledger_target = destination.joinpath(*packet_validator.LEDGER_PATH.parts)
+        ledger_target.parent.mkdir(parents=True, exist_ok=True)
+        ledger_target.write_bytes(ledger_fixture)
         return destination
 
     def test_complete_sealed_packet_replays_from_a_relocated_copy(self):

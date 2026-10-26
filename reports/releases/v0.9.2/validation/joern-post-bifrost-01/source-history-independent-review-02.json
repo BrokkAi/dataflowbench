@@ -1,0 +1,60 @@
+{
+  "findings": [],
+  "limits": [
+    "This is a source/helper review and synthetic-test result only.",
+    "The production bundle/object cache and historical view were not created or imported.",
+    "No production source-snapshot callback, frozen replay, qualification, analyzer, or runtime was invoked."
+  ],
+  "review_scope": {
+    "production_cache_created": false,
+    "production_historical_view_created": false,
+    "production_objects_imported": false,
+    "read_only": true,
+    "readme_path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/source-history-01/README.md",
+    "readme_sha256": "4ee9b3f16b954ca0390866716a0f823b065116630e15316c3bbe1c91e51bae7f",
+    "runtime_or_frozen_replay_invoked": false,
+    "source_path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/source-history-01/source_history.py",
+    "source_sha256": "690898380f5eed6881420f7c2360d87336d50eff4c20f6af76b6cd0247853231",
+    "test_path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/source-history-01/test_source_history.py",
+    "test_sha256": "a28a6951a67d6daec243f19a3b741589dcbd720ac8458fc62cd06657d2ca0497"
+  },
+  "reviewed_controls": {
+    "graft_shallow_exclusion_before_graph_walk": {
+      "basis": [
+        "_root_and_gitdir calls _assert_current_graph_metadata_safe before resolving current HEAD commit.",
+        "_load_verified reaches ancestry checks only after _assert_current_store_has_no_alternates, which repeats the graph-metadata check.",
+        "The helper inspects info/grafts, shallow, and objects/info/grafts in both the per-worktree Git directory and rev-parse git-common-dir; it rejects symlinked/non-directory path components and any present override.",
+        "_git_env removes GIT_GRAFT_FILE and GIT_SHALLOW_FILE so inherited environment overrides do not affect the graph checks.",
+        "A synthetic graft test demonstrates that Git merge-base hides a raw old merge parent, then verifies the helper rejects the worktree before _load_verified can trust that ancestry result; linked-worktree common-dir graft rejection is separately tested."
+      ],
+      "result": "pass",
+      "tests": [
+        "test_graft_cannot_hide_raw_old_merge_parent_from_ancestry_gate",
+        "test_current_graft_and_shallow_override_paths_are_refused",
+        "test_current_graft_and_shallow_symlinks_are_refused",
+        "test_linked_worktree_common_grafts_are_refused"
+      ]
+    },
+    "pinned_historical_source_views": {
+      "basis": [
+        "historical_source_view defaults only to pinned original-source commit 2991bfb897cad98674efc2feb04388174295e885 and explicitly accepts only that commit or pinned original-core-source commit 328bebab4a60ff10c5a79cd723d44516be2da5fc.",
+        "The view-cache path includes the selected commit, and validation requires the view HEAD and sole branch ref to equal the requested pinned commit.",
+        "Synthetic tests verify default 2991 source bytes differ from explicit 328 core-source bytes and that the 328 view retains the core commit ancestry/source files."
+      ],
+      "result": "pass",
+      "tests": [
+        "test_historical_view_is_at_original_commit_with_exact_source_bytes",
+        "test_historical_core_view_supports_frozen_source_and_ancestry_checks",
+        "test_unpinned_historical_snapshot_commit_is_refused"
+      ]
+    }
+  },
+  "schema": "v092-source-history-independent-review/v1",
+  "status": "source-only-review-passed",
+  "validation": {
+    "command": "python3.13 -B -E -m unittest -v test_source_history",
+    "failed": 0,
+    "passed": 22,
+    "purpose": "synthetic temporary repositories only"
+  }
+}
