@@ -187,6 +187,30 @@ class PackageTests(unittest.TestCase):
             with self.assertRaises((ValueError, KeyError)):
                 tool.pointer([1, 2], selection)
 
+    def test_cli_compare_rejects_symlink_output_before_canonicalization(self):
+        self.create()
+        external = self.base / 'external'
+        external.mkdir()
+        alias = self.base / 'alias'
+        alias.symlink_to(external, target_is_directory=True)
+        result = self.cli('compare', '--baseline', self.scope / 'report.json',
+                          '--current', self.package, '--output', alias / 'comparison',
+                          '--binary', sys.executable)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn(b'symlink', result.stderr)
+        self.assertEqual(list(external.iterdir()), [])
+
+    def test_failed_binary_invocation_retains_input_receipt(self):
+        self.create()
+        output = self.base / 'invocation-failure'
+        with self.assertRaises(OSError):
+            tool.compare(self.scope / 'report.json', self.package, output,
+                         self.scope / 'report.json')
+        receipt = json.loads((output / 'package-inputs.json').read_bytes())
+        self.assertIsNone(receipt['exit_code'])
+        self.assertIn('invocation_error', receipt)
+        self.assertEqual((output / 'current/evidence/report.json').read_bytes(), self.report_bytes)
+
     def test_package_path_symlink_and_review_input_traversal_refused(self):
         self.create()
         file = self.package / 'review/cases.csv'

@@ -307,7 +307,12 @@ def compare(baseline, current, output, binary, allow_configuration_mismatch=Fals
     if allow_configuration_mismatch:
         command.append('--allow-configuration-mismatch')
     receipt['command'] = command
-    result = subprocess.run(command, check=False)
+    try:
+        result = subprocess.run(command, check=False)
+    except OSError as error:
+        receipt.update(exit_code=None, invocation_error=str(error))
+        (output / 'package-inputs.json').write_bytes(encoded(receipt))
+        raise
     receipt['exit_code'] = result.returncode
     (output / 'package-inputs.json').write_bytes(encoded(receipt))
     return result.returncode
@@ -346,7 +351,7 @@ def main():
             result = create(args.root, args.scope, args.output, args.report, args.attempts,
                             args.copy, args.part_mib * BLOCK)
         elif args.command == 'compare':
-            return compare(args.baseline, args.current, args.output.resolve(), args.binary,
+            return compare(args.baseline, args.current, args.output, args.binary,
                            args.allow_configuration_mismatch)
         elif args.command == 'read':
             review_manifest(args.package)
