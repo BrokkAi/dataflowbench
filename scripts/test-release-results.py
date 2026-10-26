@@ -440,7 +440,7 @@ class ReleaseGateTests(unittest.TestCase):
         source_object = source / ".git" / "lfs" / "objects" / oid[:2] / oid[2:4] / oid
         clone_object = clone / ".git" / "lfs" / "objects" / oid[:2] / oid[2:4] / oid
         self.assertTrue(source_object.is_file())
-        clone_object.parent.mkdir(parents=True)
+        clone_object.parent.mkdir(parents=True, exist_ok=True)
         clone_object.write_bytes(source_object.read_bytes())
         GATE._git(
             clone,

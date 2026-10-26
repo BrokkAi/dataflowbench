@@ -347,7 +347,7 @@ class HistoricalEvidenceTests(unittest.TestCase):
         self._write("results/results.json", b'{"rows":["changed"]}\n')
         self._git("-C", str(self.root), "add", "results/results.json")
         self._git("-C", str(self.root), "commit", "--quiet", "-m", "bad frozen result update")
-        with self.assertRaisesRegex(evidence.EvidenceError, "results/\*\* differs"):
+        with self.assertRaisesRegex(evidence.EvidenceError, r"results/\*\* differs"):
             evidence.verify(self.root)
 
     def test_traversal_path_is_rejected(self) -> None:

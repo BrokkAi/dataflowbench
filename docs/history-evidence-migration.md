@@ -24,6 +24,17 @@ does not rerun analyzers or generate replacement measurements. It preserves
 the evidence through an archival lineage proof and byte-exact recovery of the
 removed paths.
 
+## Existing clones and feature branches
+
+Keep a backup of local changes before updating an existing clone. Fetch the new
+`main`, then rebase or transplant each feature branch's unique changes onto it.
+Do not merge an old-history branch directly into rewritten `main`: that would
+make the removed history reachable again. Published release tags deliberately
+remain on their original graph and are used only as immutable release refs.
+
+The v0.9.2 evaluation worktree and its dirty ledger were preserved separately;
+they were not reset or silently rebased by this migration.
+
 ## Verify and recover historical source files
 
 Install Git LFS and fetch the archive before asking the helper to verify it:
