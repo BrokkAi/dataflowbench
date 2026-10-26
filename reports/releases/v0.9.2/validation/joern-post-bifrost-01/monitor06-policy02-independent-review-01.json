@@ -1,0 +1,83 @@
+{
+  "findings": [],
+  "nonclaims": [
+    "This review does not qualify the Darwin or Linux OS provider.",
+    "The prior incomplete live-provider receipt remains fail-closed and is not converted into an absence result.",
+    "No policy02 source was activated, copied into canonical controls, admitted, or used for a production/native06 attempt."
+  ],
+  "prior_probe": {
+    "native_failure_pid": 10491,
+    "native_failure_snapshots": [
+      "native-before",
+      "native-after"
+    ],
+    "outcome": "incomplete-provider-observation",
+    "path": "/private/tmp/dfb-v092-transplant-20261026T160424Z/monitor06-provider-probe-01.json",
+    "policy02_reran_probe": false,
+    "qualification_blocker": "The saved probe had a native proc_pidinfo short read for PID 10491, also present in the middle ps table. Policy02 adds diagnostics but does not resolve that provider failure; provider completeness and historical absence remain unestablished.",
+    "sha256": "42bbc9a7f50a0601eba2c00d9e9c961ab723f26ca4bbccc65c05870e1bf1aa59",
+    "source_sha256": "1cba28dc620adfbaf499f7797ee1760d32f1ef73425103a91e5a35c8fa11c44b"
+  },
+  "review_scope": {
+    "base_policy01_directory": "/private/tmp/joern-v092-monitor06-policy01",
+    "engine_jvm_or_native_control_invoked": false,
+    "policy01_snapshot_query_sha256": "1cba28dc620adfbaf499f7797ee1760d32f1ef73425103a91e5a35c8fa11c44b",
+    "policy01_test_reconciliation_policy_sha256": "fb8d692bf2a07dd0cbe65a2d83285bfb81cfafb17571ee6ee70e848d6d6cc5ed",
+    "policy02_diff_vs_native_controls_05_sha256": "b86bc75ee0641edc95ac5e58b78b80069698f222e24fe71390b094c3ddb0a406",
+    "policy02_handoff_sha256": "75118c9b3db330f294ad3ef9507b1dd56e5352dedbcc69e5646b758e962de458",
+    "policy02_readme_sha256": "1251cb9983020c414e493f77b5084f71d47bdba0756e50212bcc98cea1a30c49",
+    "policy02_snapshot_query_sha256": "312cbf83141c1c28440ed078becc2696134ad10264b03c27361ba3de50b0468c",
+    "policy02_test_reconciliation_policy_sha256": "2bd7d6112a6257733fc46ed468431cc14ed4d4872f552bd1e3c70562f3fff27c",
+    "production_cache_or_view_built": false,
+    "production_process_provider_invoked": false,
+    "prototype_directory": "/private/tmp/joern-v092-monitor06-policy02",
+    "qualification_performed": false,
+    "read_only": true,
+    "source_modified_by_reviewer": false
+  },
+  "reviewed_changes": {
+    "darwin_libproc_diagnostics": {
+      "details": [
+        "The Darwin CDLL is loaded with use_errno=True; errno is cleared before proc_listallpids, each proc_pidinfo call, and proc_pidpath.",
+        "Short reads and native API errors preserve provider/API, PID, returned count, expected size, and ctypes errno; identity-change and path errors retain bounded observed details.",
+        "Diagnostics propagate to both snapshot.error and coverage_errors.",
+        "All native API failure paths remain errors; no skipped PID, retry, historical absence, or complete observation is emitted."
+      ],
+      "result": "pass",
+      "test_names": [
+        "test_darwin_native_short_read_is_detailed_and_never_skips_enumerated_pid",
+        "test_darwin_proc_pidpath_error_clears_errno_and_reports_bounded_call_details"
+      ]
+    },
+    "policy01_behavior_and_source_only_limits": {
+      "details": [
+        "native_qualifier.py and process_reconciliation.py remain byte-identical to policy01; only snapshot_query.py, focused tests, README, and handoff changed.",
+        "The handoff remains private-source-prototype-only-native-probe-still-blocked and explicitly says no policy02 live provider probe or qualification was run.",
+        "The inherited synchronous receipt-writer limitation remains disclosed; no hard end-to-end wall-time claim is made."
+      ],
+      "result": "preserved"
+    },
+    "ps_row_and_argv_bounds": {
+      "details": [
+        "Introduces independent 64 KiB ps row and argv caps; leaves native MAX_COMMAND_BYTES at 4,096 bytes.",
+        "Preserves the 8 MiB aggregate ps table, 8,192 PID, parent stream, and existing absolute time limits.",
+        "The raw table and structured rows remain the same classifier input; no truncation, filtering, or row omission is added.",
+        "Tests accept an exact 9,239-byte editor-like argv and assert byte-identical raw table delivery to both frozen classifiers; tests reject over-64-KiB rows/argv and aggregate output over 8 MiB."
+      ],
+      "result": "pass",
+      "test_names": [
+        "test_ps_provider_accepts_9239_byte_editor_args_and_preserves_raw_classifier_input",
+        "test_ps_provider_rejects_rows_and_args_above_64_kib_and_table_above_8_mib"
+      ]
+    }
+  },
+  "schema": "v092-monitor06-policy02-independent-review/v1",
+  "status": "source-only-review-passed-native-provider-still-blocked",
+  "validation": {
+    "actual_os_provider_or_ps_probe": false,
+    "command": "python3.13 -B -E -m unittest -v test_reconciliation_policy test_contention_repair",
+    "failed": 0,
+    "passed": 38,
+    "test_execution": "synthetic/fake providers and fake Popen only"
+  }
+}
