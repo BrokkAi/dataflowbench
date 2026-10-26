@@ -67,6 +67,10 @@ jobs:
       - run: cargo test
       - run: cargo run -- validate
       - run: cargo run -- validate-reports
+      - name: Test compact reviews, lossless delivery and report consumer integration
+        run: |
+          python3 scripts/test-evidence-bundle.py
+          python3 scripts/test-package-evidence.py --binary target/debug/dataflowbench
       - name: Verify retained Swift CodeQL activation and fail-closed controls
         run: |
           python3 scripts/test-codeql-swift-activation.py
