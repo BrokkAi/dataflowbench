@@ -1,0 +1,146 @@
+{
+  "schema": "joern05-native-control-independent-source-review/v1",
+  "recorded_utc": "2026-10-25T20:00:00Z",
+  "review_mode": "read-only-static-source-and-python-review",
+  "candidate": {
+    "path": "/private/tmp/joern05-native-control-07/implementation-handoff-07.json",
+    "sha256": "929a0bb18e19e77a296cf35f8ac147ba90438af43a40f994ab52168c1835d368",
+    "source": {
+      "path": "/private/tmp/joern05-native-control-07/joern_native_control_observer_v07.py",
+      "bytes": 56375,
+      "sha256": "84e509e9eb88c8dc2212f181d7875cbd6b6ca31d4bb1777555c0479052333a51"
+    },
+    "java": {
+      "path": "/private/tmp/joern05-native-control-07/StartupWitnessAgent.java",
+      "bytes": 11278,
+      "sha256": "b2578c0f5e1a8f9ae2c7a45f211f34041a15c7280d22c0000e4acc9b66b534c6"
+    },
+    "java_prepared_tests": {
+      "path": "/private/tmp/joern05-native-control-07/StartupWitnessAgentTraversalTest.java",
+      "bytes": 4973,
+      "sha256": "181f7fcdc1baa126303fedd1cf841ec879c97217c95cfba4490722c5a77c3846"
+    }
+  },
+  "design_bindings": {
+    "design_path": "/private/tmp/joern05-native04-ancestry-repair-design-01.json",
+    "design_sha256": "ccb5688ecfe6c84338cc233177cc11e506c47ad7d1a150603266fc8fd5f3a096",
+    "independent_design_review_sha256": "8bcd3383cd6147977d405b30f6aa2f53b6a353581d88da648db61cc857fc5461",
+    "scope_checked": [
+      "untracked command-absent version helper only may use sampled ancestry",
+      "semantic and self-tracked JVMs retain exact native self and direct-parent requirements",
+      "first PID/birth mismatch rejects without skipping",
+      "missing, recycled, reparented, cyclic, and unavailable identities remain fail closed",
+      "ancestry is diagnostic-only and never expands native containment"
+    ]
+  },
+  "decision": {
+    "status": "blocked-source-only-boundedness-gap",
+    "approve_source_for_separate_build_runtime_decision": false,
+    "blockers": [
+      {
+        "id": "terminal-parent-edge-exceeds-maximum-links",
+        "severity": "required",
+        "summary": "A truncated 32-link Java sample emits 33 visited nodes and retains the terminal parent edge; Python _ancestry_anchor scans every node and can accept that edge as an exact anchor, accepting 33 links.",
+        "java": {
+          "loop": "StartupWitnessAgent.java:142 iterates depth <= MAX_LINKS",
+          "truncation": "StartupWitnessAgent.java:168 returns truncated after appending the node at depth MAX_LINKS",
+          "shape": "StartupWitnessAgent.java:182-199 serializes the final node's parent_pid and parent_start_identity"
+        },
+        "python": {
+          "node_bound": "joern_native_control_observer_v07.py:375 permits ANCESTRY_MAX_LINKS + 1 nodes",
+          "anchor_scan": "joern_native_control_observer_v07.py:440-457 iterates all nodes and does not reject chain termination=truncated before using a terminal parent edge"
+        },
+        "policy": "The approved design maximum_links=32 requires an anchor at or within 32 links. The final parent edge of the 33rd node is outside that bound and must be rejected or represented consistently by a successor before build/runtime review.",
+        "reproduction": {
+          "path": "/private/tmp/joern05-native-control-07/reviewer_static_01.log",
+          "probe_path": "/private/tmp/joern05-native-control-07/reviewer_probe_01.py",
+          "probe_sha256": "33b1d4062a64131751a1836fd86c37cc8a13f4205e264a4ce5248dc03d24af19",
+          "accepted": true,
+          "anchor_pid": 80,
+          "anchor_source": "invocation-host",
+          "validated_prefix_nodes": 33,
+          "links_from_helper_to_anchor": 33,
+          "policy_maximum_links": 32
+        },
+        "prepared_java_test_gap": "StartupWitnessAgentTraversalTest.java:93-99 checks only 33-node truncation shape and does not assert that the terminal parent edge is unusable as an anchor."
+      }
+    ]
+  },
+  "source_assessment": {
+    "java_sampling": {
+      "status": "otherwise-sound-under-static-review",
+      "observations": [
+        "Same sample captures node self and direct parent before node insertion.",
+        "Second self birth read rejects self birth races.",
+        "Second parent PID and birth reads reject reparenting and parent birth races.",
+        "Missing self birth fails at the first node and becomes typed unavailable after a prior node.",
+        "Parent birth missing is represented as unavailable rather than root.",
+        "Parent younger than child, repeated PID, and cycle paths terminate inconsistent.",
+        "Traversal is bounded and explicit, subject to the terminal-edge blocker above."
+      ]
+    },
+    "python_ownership_and_failure": {
+      "status": "otherwise-sound-under-static-and-frozen-test-review",
+      "observations": [
+        "Semantic native birth and direct-parent checks remain before the ancestry exception.",
+        "The ancestry exception is gated to native-untracked command-absent version-check helpers.",
+        "The first matching tracked/host PID is checked against its exact native identity; no later anchor skip is performed.",
+        "Failure evidence preserves raw witnesses, process records, and the primary process/observation error path.",
+        "ScopedObservation restores private factory, engine environment/phase/process runner, and observer runner bindings under exit paths.",
+        "The JAR digest is UNSEALED, so runtime use remains forbidden."
+      ]
+    },
+    "historical_boundary": "The old v4 actual failure fixture is evidence only; no ownership inference for PIDs 99171/99172 is made."
+  },
+  "validation": {
+    "candidate_python_suite": {
+      "command": "/opt/homebrew/bin/python3.13 -B -E -m unittest discover -s /private/tmp/joern05-native-control-07 -p 'test*.py'",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "result": "PASS",
+      "tests": 35,
+      "baseline_tests": 15,
+      "new_ancestry_tests": 20
+    },
+    "python_compile": {
+      "result": "PASS",
+      "files": [
+        "joern_native_control_observer_v07.py",
+        "test_native_control_observer_v07.py",
+        "test_ancestry_v07.py",
+        "reviewer_probe_01.py"
+      ]
+    },
+    "actual_old_failure_replay": {
+      "result": "PASS",
+      "test": "test_ancestry_v07.AncestryTests.test_retained_actual_failure_replays_unchanged_old_body_and_new_rejects_v4",
+      "log": "/private/tmp/joern05-native-control-07/reviewer_replay_01.log",
+      "sha256": "d788efda0c3b755e4cf4c32b115fe0907d0b3ab515ff6ed894d6aa8cbb589974"
+    },
+    "terminal_edge_probe": {
+      "result": "REPRODUCED_BLOCKER",
+      "log": "/private/tmp/joern05-native-control-07/reviewer_static_01.log",
+      "sha256": "8be5ae2bcd246b1abb6ec3e2833424b23ea1ddce1838983241a8940f6592c8a3"
+    },
+    "not_performed": [
+      "Java compilation",
+      "JAR build or digest sealing",
+      "JVM execution",
+      "Joern/analyzer/control invocation",
+      "validator, admission, resource, or native-control scans",
+      "Git mutation"
+    ]
+  },
+  "preservation": {
+    "candidate_files_edited": [],
+    "canonical_files_edited": [],
+    "reviewer_files_added": [
+      "/private/tmp/joern05-native-control-07/reviewer_probe_01.py",
+      "/private/tmp/joern05-native-control-07/reviewer_static_01.log",
+      "/private/tmp/joern05-native-control-07/reviewer_replay_01.log",
+      "/private/tmp/joern05-native-control-07-independent-source-review-01.json"
+    ],
+    "jar_digest": "UNSEALED",
+    "publication_hold": true,
+    "runtime_qualification": "not inferred"
+  }
+}

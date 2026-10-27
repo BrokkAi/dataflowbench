@@ -1,0 +1,136 @@
+{
+  "actual_function_coverage": {
+    "child_ready_receipt_guard": {
+      "scope": "opaque child, exact graph, recursive compact receipt, inherited inventory/sidecars, core bindings, lease, and near-miss rejection; production supervisor invocation remains separate",
+      "status": "passed",
+      "suite": "test-bifrost-v0140-frozen-parser-11.py",
+      "tests": 4
+    },
+    "production_supervisor_guard": {
+      "scope": "not claimed by this import-only receipt; root/qualifier own production-shaped guard integration",
+      "status": "deferred-production-boundary"
+    },
+    "real_body_regression": {
+      "log": {
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/test-07.stdout.txt",
+        "sha256": "78aa131081fcc9c5a8c802667fc020765c5a3a81cb67f7edd5eea7b80cd80b9d"
+      },
+      "scope": "synthetic downstream evidence stop through the actual parent-stage/legacy validator call chain; not qualification or replay",
+      "status": "passed",
+      "suite": "test-bifrost-v0140-stage-runtime-03.py",
+      "test": "test_create_parent_reaches_real_copied_body_policy_factory"
+    }
+  },
+  "automatic_retry": false,
+  "created_utc": "2026-10-24T20:21:02.482647+00:00",
+  "import_smoke": {
+    "config_ref": {
+      "path": "/private/tmp/bf16-runtime-graph-config-02.json",
+      "sha256": "dc9b96e06b498c31e7b9488b55f44593056944fb8de88b67de390ffb7b08680d"
+    },
+    "path": "/private/tmp/bf16-actual-import-smoke-02.py",
+    "result": {
+      "dynamic_routes": 43,
+      "graph_members": 88,
+      "graph_sha256": "b308915de625e902b80b5b22dc9204f7157199632cf9ad65e58ebe5accb47d78",
+      "late_loader_bindings": 6,
+      "nonstdlib_module_leaks": [],
+      "schema": "v092-bf16-actual-import-smoke/v1",
+      "status": "import-only-passed"
+    },
+    "returncode": 0,
+    "sha256": "9bcd78362def3d783c7281f8e98e24b86d6c3a891e92705b7592e74b7ad20a28",
+    "stdout_path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/actual16-import-smoke-02.stdout.txt",
+    "stdout_sha256": "7d8b1f8a1e556ccb86c2d017142bee96b93e7dbd0ea0811a7ca344bc70b824a1"
+  },
+  "production_operations": {
+    "admission": false,
+    "analyzer": false,
+    "build": false,
+    "launch": false,
+    "qualification": false,
+    "replay": false,
+    "source_commit": false
+  },
+  "runtime_guards": [
+    "module-local sys.modules facade with process-global registry restoration",
+    "exact 43 dynamic route bindings over an 88-member graph",
+    "six pinned runtime late-loader bindings",
+    "eager graph member object identity and no non-standard module leaks",
+    "paired stdlib spec/module factories with foreign-spec rejection regressions",
+    "compact parent receipt inventory/sidecar lineage and exact child-ready lease guard"
+  ],
+  "schema": "v092-bf16-designer-source-tests/v2",
+  "scope": "BF16 graph/stage/runtime-loader import-only source/test handoff; no replay, admission, materialization, analyzer, build, launch, commit, or release operation",
+  "source_files": [
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-11.py",
+      "sha256": "371a8ee8118b5b68692f45c6240e6a1e66a9078c0956953ec9c5b83bec82dc36"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-16.py",
+      "sha256": "ee1314561af81e201fd0b9d63dd946b0fbdf7b3b399fff8b2173999137ddfb95"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-03.py",
+      "sha256": "93f3b9a5ad5aa3cad6d433de2b16a1c05f660894c9535705a698144bb849b524"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-16.py",
+      "sha256": "4eeddc732eb1474dddada8661252f2f0ad89ef559c28d2a234fa21a44107efce"
+    }
+  ],
+  "status": "import-only-tested",
+  "test_files": [
+    {
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-bridge-11.py",
+      "sha256": "348da13e6ec17711bb648bd2a785047dc9b61267ab2c06241614f91b18a8fcf7"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-11.py",
+      "sha256": "0fddc2a667f505ebf205ed646280ef034ee63e9f93e36ce465b65092af87c8ab"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-stage-runtime-03.py",
+      "sha256": "9b1090a6fbd2cacc13190c2f62bc51c423c49732ee76a6620c899ada677a15ce"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-runtime-loaders-16.py",
+      "sha256": "17428aa14a0de474efda3a9983ea38dc730e84fcc8a2a5f4b9e126023a6aa864"
+    }
+  ],
+  "test_logs": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-bridge-11.py",
+      "count": 2,
+      "name": "bridge",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/test-05.stdout.txt",
+      "returncode": 0,
+      "stdout_sha256": "fa9e549b5282129682c1e092d18a744554c02e5f67a8689ec77210fa65a4947e"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-11.py",
+      "count": 28,
+      "name": "parser",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/test-06.stdout.txt",
+      "returncode": 0,
+      "stdout_sha256": "1bf37b558ddb9764e3211c710bd16c2c1b3d421af63909aabe70bf5cd6ec7199"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B reports/releases/v0.9.2/acquisition/test-bifrost-v0140-stage-runtime-03.py",
+      "count": 41,
+      "name": "stage-runtime",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/test-07.stdout.txt",
+      "returncode": 0,
+      "stdout_sha256": "78aa131081fcc9c5a8c802667fc020765c5a3a81cb67f7edd5eea7b80cd80b9d"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B reports/releases/v0.9.2/acquisition/test-bifrost-v0140-runtime-loaders-16.py",
+      "count": 14,
+      "name": "runtime-loaders",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-16/test-08.stdout.txt",
+      "returncode": 0,
+      "stdout_sha256": "4e2df60d7dc8a786a58f790582acf474b7949ad5ffbcb6b7461d6cd6bedc98f5"
+    }
+  ]
+}

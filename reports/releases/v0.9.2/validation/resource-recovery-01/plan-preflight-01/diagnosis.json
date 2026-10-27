@@ -1,0 +1,15 @@
+{
+  "schema": "v092-resource-preflight-diagnosis/v1",
+  "utc": "2026-10-20T21:32:46.208746+00:00",
+  "status": "prospective-plan-refused-before-any-C4-attempt",
+  "source_commit": "2805c815af61dc3d7043df42d44a2991a17ddc99",
+  "prospective_contract_sha256": "49589d1ca409844829cb4cf82a85dc9e3467358a0d6f8672bbd8e9245bf972fe",
+  "failure": "FlowDroid exact D8 identity check received the raw plan group instead of the validated group with derived identity_components.",
+  "repair": "Pass expected_group to _verify_report_build_identity inside _verify_one_group; retain exact D8 membership and digest requirements.",
+  "regression": "Replay the actual retained FlowDroid Java kernel completion; removing D8 from the validated component list must still fail.",
+  "analyzer_measurements_changed": false,
+  "new_group_attempts": 0,
+  "ledger_rows": 57,
+  "ledger_sha256": "31ea08cf5f0fa04fe07697bb8d3683e2a313140e6e12e15fe7e7963a82cdc1f2",
+  "original_deadline_utc": "2026-10-21T05:33:00.680937+00:00"
+}

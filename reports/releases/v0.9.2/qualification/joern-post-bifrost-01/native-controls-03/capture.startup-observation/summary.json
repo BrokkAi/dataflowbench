@@ -1,0 +1,94 @@
+{
+  "event_count": 0,
+  "failures": [],
+  "observer": "v092-joern-native-startup-observer/v6",
+  "phases": [],
+  "policy": {
+    "agent_class": "dfb.joern.StartupWitnessAgent",
+    "agent_directory_env": "DFB_JOERN_STARTUP_WITNESS_DIR",
+    "agent_jar": {
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-startup-witness-agent-04.jar",
+      "sha256": "ba02fe9c3782c377279e60198e4b4e1631d9d3431a4ce5fc7376d8dc6eff4eac"
+    },
+    "ambient_options_cleared": [
+      "_JAVA_OPTIONS",
+      "JDK_JAVA_OPTIONS",
+      "CLASSPATH"
+    ],
+    "home_relative": "jvm-home",
+    "java_property": "user.home",
+    "option_source": "JAVA_TOOL_OPTIONS",
+    "option_template": "-Duser.home={capture_home} -javaagent:{witness_agent_jar}",
+    "predef_expectation": "absent",
+    "predef_relative": ".scala-repl-pp.sc",
+    "property_witness": "in-process-System.getProperty",
+    "retained_java_opts": "-Xmx512m -XX:ActiveProcessorCount=2",
+    "schema": "v092-joern-jvm-startup-policy/v4"
+  },
+  "property_witness": {
+    "required": "Actual Java semantic processes must emit digest-bound agent witnesses.",
+    "status": "unavailable"
+  },
+  "qualification_safe": false,
+  "schema": "v092-joern-native-startup-observation-summary/v6",
+  "sidecar_root": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03/capture.startup-observation",
+  "status": "startup-agent-observed",
+  "topology": {
+    "exec_java_count": 1,
+    "property_witness": {
+      "required": "A bounded in-process System.getProperty(\"user.home\") witness for every observed semantic Java process.",
+      "status": "agent-required",
+      "uptake_is_not_property_proof": true
+    },
+    "query_forked_script_java_count": "dynamic-required",
+    "required_roles": {
+      "frontend": [
+        "frontend"
+      ],
+      "query": [
+        "bridge",
+        "query-script-fork"
+      ],
+      "typecheck": [],
+      "version": [
+        "bridge"
+      ]
+    },
+    "roles": {
+      "frontend": [
+        "frontend",
+        "version-check"
+      ],
+      "query": [
+        "bridge",
+        "query-script-fork",
+        "version-check"
+      ],
+      "typecheck": [],
+      "version": [
+        "bridge",
+        "version-check"
+      ]
+    },
+    "schema": "v092-joern-launch-topology/v2",
+    "sources": {
+      "bridge": {
+        "path": "execution-state/v092/tools/joern/joern-cli/bin/repl-bridge",
+        "sha256": "4506312bb53bcc5eb9c93b982fda29cabe2777297ec30e4c65a006bb5759ecc7"
+      },
+      "frontend": {
+        "path": "execution-state/v092/tools/joern/joern-cli/frontends/swiftsrc2cpg/bin/swiftsrc2cpg",
+        "sha256": "6aaf5a4f53088cb9a1bd515247a92bf8b29b20e2bcd72a684677fb806f626ca4"
+      },
+      "joern": {
+        "path": "execution-state/v092/tools/joern/joern-cli/joern",
+        "sha256": "0df7e8db4282ef2c6fc37998917aca694176e23192de5f0c631511d993e99736"
+      },
+      "query": {
+        "path": "adapters/joern/swift-common-v2/v0.9.2/query.sc",
+        "sha256": "8f944335630a79f5cbb444c0921d0515e565c9acff022cd1740fbb66371b8f07"
+      }
+    },
+    "version_check_java_count": 1
+  }
+}

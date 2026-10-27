@@ -1,0 +1,16 @@
+{
+  "activation_arguments": [],
+  "activation_identity": "4.0.660 DefaultSemantics only",
+  "adapter": "joern",
+  "case_id": "dfb-taint-javascript-native-source-sink-negative",
+  "evidence_kind": "retained-capability-decision",
+  "model_profile": "tool-native",
+  "modeling_category": "S",
+  "modeling_category_label": "declared sources and sinks",
+  "partition_source": "docs/native-profile.md#partition-summary",
+  "reason": "tool-native activation of dfb-template-native-source-sink (category S — declared sources and sinks) is unsupported for 4.0.660 over JavaScript by the activation partition (docs/native-profile.md#partition-summary, as amended): `DefaultSemantics` is a table of flow constraints — operator semantics, C standard library entries, and a short list of JVM method full names — and ships no source catalog and no sink catalog. Every Joern population in this benchmark selects its endpoints through the adapter's own query parameters, which the tool-native activation rule forbids. Fresh v0.9.2 Amendment A26 evidence for Joern 4.0.660 records 58 bundled queries tagged C=27, Android=10, PHP=9, Java=7, Kotlin=3, and Ghidra=2; none is tagged JavaScript or Python. All 36 positive/near-miss invocations exited successfully and imported their CPGs, but every retained report has `scan_pass_completed: false`, so its empty result set cannot be interpreted as a completed clean scan. The Java `call-to-exec` binding probe also found that the query's full-name pattern `java.lang.Runtime.exec` matches zero methods, while a structural lookup found one method named `exec` and one call with full name `List(java.lang.Runtime.exec:java.lang.Process(java.lang.String))`. These results leave the native cell unsupported; they do not establish that a completed scan would produce no finding. Evidence is retained under reports/releases/v0.9.2/qualification/profile-controls/probe-joern-scan-native-attempt-01/capture/reports/raw/amendment-a26-joern-scan-native/",
+  "stage": "preregistered-native-activation-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-native-source-sink",
+  "witnessed_tool_identity": "4.0.660"
+}

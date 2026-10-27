@@ -1,0 +1,77 @@
+{
+  "approved_correction": {
+    "extra_root_rule": "Retain set(identity) == CORE_FIELDS so unknown top-level fields remain rejected.",
+    "identity_scope": "The exception is only for the core identity root; it must not alter permit, admission, phase, completion, manifest, or configuration validators.",
+    "kind": "dedicated-root-core-walker",
+    "nested_rule": "A manifest_path at any nested dict/list position remains forbidden, as do manifest_sha256, review, admission, phase, completion, dispatch, launcher, permit, ledger transition, and other existing forbidden keys.",
+    "root_requirement": "Require identity.manifest_path == MANIFEST_PATH before walking child values.",
+    "walk_rule": "Keep _FORBIDDEN_CORE_KEYS unchanged, skip only the exact top-level identity.manifest_path key in the dedicated root walker, and invoke the unchanged recursive walker for every other top-level value."
+  },
+  "automatic_retry": false,
+  "deferred_prerequisites": [
+    "Fresh design09/source successor and contract16/core/manifest outputs must bind exact source/plan/contract identities before any core review can pass.",
+    "After implementation, independent full-core static review and actual preparation receipts are required."
+  ],
+  "exact_bindings": {
+    "implementation_source": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-14.py",
+      "sha256": "4417dbe7a4dfcdb7cbf29e07ca401c49e60bdaab400aa214cfef0ff19a4fafa3"
+    },
+    "implementation_tests": {
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-replacement-14.py",
+      "sha256": "0701983d30b9a9a47968223bf835f8ff4a9d22e0aa47ca5601ccad0c6bbee754"
+    },
+    "prior_stop": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-14/core-source-design-schema-stop-01.json",
+      "sha256": "98487a0b3595980f5a4980d1eb69916097c501a1714d5123111a55d4e0aa1a0b"
+    },
+    "source_closure_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-14/source-closure-independent-review-03.json",
+      "sha256": "cf5188ff78507be1b6db7474de962d61314667b6e69dd4c3e90c9e4c6d91475d"
+    },
+    "source_commit": "587a12c48293f01b3e0e2a9339537f2a221b2c9c"
+  },
+  "execution_authorized": false,
+  "nonclaims": [
+    "No implementation or production action was performed by this reviewer.",
+    "This approval covers only the bounded implementation design.",
+    "It does not infer core validity or execution readiness before the required regression evidence exists."
+  ],
+  "observed_blocker": {
+    "failure": "_validate_core calls the recursive forbidden-field walker on the complete identity; CORE_FIELDS and validate_runtime_core intentionally require the canonical top-level manifest_path, so a valid core is rejected before generation.",
+    "preserved_guards": [
+      "CORE_FIELDS exact root set",
+      "validate_runtime_core canonical MANIFEST_PATH check",
+      "recursive rejection of nested runtime/review/admission/permit fields"
+    ],
+    "protocol": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-14.py",
+      "sha256": "4417dbe7a4dfcdb7cbf29e07ca401c49e60bdaab400aa214cfef0ff19a4fafa3",
+      "source_commit": "587a12c48293f01b3e0e2a9339537f2a221b2c9c"
+    }
+  },
+  "production_actions_performed": false,
+  "required_regression": {
+    "full_roundtrip": "Assemble the actual core fields from the fresh source/contract inputs and run the complete _validate_core path without skipping validators; the canonical top-level manifest_path must pass.",
+    "must_preserve": [
+      "source/plan/contract identity checks",
+      "runtime graph and source closure checks",
+      "same-ref identity checks",
+      "old source and historical evidence bindings"
+    ],
+    "must_reject": [
+      "wrong top-level manifest_path",
+      "nested manifest_path in a dict",
+      "nested manifest_path in a list",
+      "nested manifest_sha256/review/permit field",
+      "extra top-level core field"
+    ],
+    "required_test_artifact": "Fresh focused protocol/core regression receipt after the source fix; no synthetic pass may substitute for the actual _validate_core round trip."
+  },
+  "review_type": "independent-core-schema-correction-design-review",
+  "reviewed_at_utc": "2026-10-24T18:09:20.112007Z",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-bf14-core-manifest-path-correction-independent-review/v1",
+  "scope": "Narrow static approval for the manifest_path root-core validator correction only. This does not approve core generation, manifest publication, admission, replay, analyzer execution, qualification, or launch.",
+  "status": "approved-for-implementation-only"
+}

@@ -1,0 +1,44 @@
+{
+  "analyzers": {
+    "flowdroid": {
+      "group": "flowdroid-java-kernel",
+      "selfcheck_evidence_sha256": "b8e62092df058a8905d2c275620d42b94097a316013912d6f6725555cc4b8588",
+      "source_receipt": "reports/releases/v0.9.2/qualification/retained-v090-02/flowdroid.json",
+      "source_receipt_sha256": "4b69f6bc43f97717beedd58ef8a0670eb92d2f22785990efdd8fb2752d4a7b20"
+    },
+    "infer": {
+      "group": "infer-c-kernel",
+      "selfcheck_evidence_sha256": "5cfb50ecbe00fb51b3926146c4f3446d5f07689b50110b88afacb2a8971c943f",
+      "source_receipt": "reports/releases/v0.9.2/qualification/retained-v090-02/infer.json",
+      "source_receipt_sha256": "a2954756a6f06e6136bc5647371a8620780740a4de77b55f464126f136635775"
+    },
+    "opentaint": {
+      "group": "opentaint-java-kernel",
+      "selfcheck_evidence_sha256": "2516a088b7e8a5c7f8cddf8f313ceda12e516d61b1357ac7383454a476c74ede",
+      "source_receipt": "reports/releases/v0.9.2/qualification/retained-v090-02/opentaint.json",
+      "source_receipt_sha256": "55ee077ecf3d52f27512a4150847f3f9e998fbdea9f77410edd7b184f6ea9113"
+    }
+  },
+  "gate_checked_analyzers": [
+    "flowdroid",
+    "infer",
+    "opentaint"
+  ],
+  "groups": [
+    {
+      "id": "infer-c-kernel",
+      "tool": "infer"
+    },
+    {
+      "id": "flowdroid-java-kernel",
+      "tool": "flowdroid"
+    },
+    {
+      "id": "opentaint-java-kernel",
+      "tool": "opentaint"
+    }
+  ],
+  "note": "The gate was called with one actual bound group per analyzer family; temporary evidence narrowed only the receipt group list to that group's exact scope.",
+  "schema": "v092-retained-qualification-gate-selfcheck/v1",
+  "status": "passed"
+}

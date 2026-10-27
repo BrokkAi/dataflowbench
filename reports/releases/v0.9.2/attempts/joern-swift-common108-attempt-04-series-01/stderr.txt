@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/groups/series-01/joern-swift-common108/attempt-04/scripts/joern_capability_repair_v092.py", line 625, in <module>
+    raise SystemExit(main())
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/groups/series-01/joern-swift-common108/attempt-04/scripts/joern_capability_repair_v092.py", line 619, in main
+    run = execute(args.root, args.output, **common)
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/groups/series-01/joern-swift-common108/attempt-04/scripts/joern_capability_repair_v092.py", line 547, in execute
+    run = runner.execute(Path(root).resolve(), result["new_plan_path"], _relative_path(Path(root).resolve(), output, "Joern output"))
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/groups/series-01/joern-swift-common108/attempt-04/scripts/joern_normal_runner_v092.py", line 658, in execute
+    decision_path = bound_file(root, decision_ref)
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/groups/series-01/joern-swift-common108/attempt-04/scripts/joern_normal_runner_v092.py", line 99, in bound_file
+    require(isinstance(ref, dict) and set(ref) == {"path", "sha256"}, "exact repository reference required")
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/groups/series-01/joern-swift-common108/attempt-04/scripts/joern_normal_runner_v092.py", line 79, in require
+    raise ValueError(message)
+ValueError: exact repository reference required

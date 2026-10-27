@@ -7,6 +7,7 @@
 
 use crate::adapters::ToolIdentity;
 use crate::adapters::normalized_report;
+use crate::adapters::pins;
 use crate::adapters::write_runner_error;
 use crate::adapters::{KernelPopulation, select_kernel_cases};
 use crate::adapters::{ModelingLanguage, ModelingTool};
@@ -41,6 +42,9 @@ use std::{collections::BTreeSet, fs, path::Path, path::PathBuf, process::Command
 /// Semgrep report hashes this whole directory, so no report can cite a
 /// configuration hash that any committed rule no longer has.
 pub(crate) const SEMGREP_RULES_DIR: &str = "adapters/semgrep/rules";
+/// The prospective Semgrep native-rule snapshot selected for the v0.9.2
+/// analyzer profile. Earlier snapshots remain at their historical paths.
+pub(crate) const SEMGREP_NATIVE_V092_DIR: &str = "adapters/semgrep/native/v0.9.2";
 /// The placeholder tokens in a committed rule file. Nothing else is templated.
 pub(crate) const SEMGREP_SOURCE_PLACEHOLDER: &str = "__DFB_SOURCE__";
 pub(crate) const SEMGREP_SINK_PLACEHOLDER: &str = "__DFB_SINK__";
@@ -60,11 +64,11 @@ pub(crate) fn require_semgrep_modeling_load_bearing(rule: &str, path: &str) -> R
     Ok(())
 }
 
-/// Where a language's pinned snapshot of the official Semgrep rulesets is
-/// vendored. Registry configurations are network-fetched and unpinnable at run
-/// time, so the native profile vendors instead of fetching.
+/// Where a language's pinned v0.9.2 snapshot of the official Semgrep rulesets
+/// is vendored. Registry configurations are network-fetched and unpinnable at
+/// run time, so the native profile vendors instead of fetching.
 pub(crate) fn semgrep_native_rules_dir(language: ModelingLanguage) -> PathBuf {
-    PathBuf::from(format!("adapters/semgrep/native/{}", language.key()))
+    PathBuf::from(format!("{SEMGREP_NATIVE_V092_DIR}/{}", language.key()))
 }
 
 /// The provenance document a vendored snapshot must carry. A snapshot with no
@@ -533,6 +537,14 @@ pub(crate) fn semgrep_version_identity(binary: &Path) -> Result<ToolIdentity> {
         .find(|line| !line.is_empty())
         .context("Semgrep did not report a version")?
         .to_string();
+    if version != pins::SEMGREP_VERSION {
+        bail!(
+            "the Semgrep binary at {} witnessed version {version:?}, but profile {} pins {}; refusing to publish a report for another release",
+            binary.display(),
+            pins::PROFILE,
+            pins::SEMGREP_VERSION
+        );
+    }
     let build_identity = format!("semgrep-oss:{version}");
     Ok(ToolIdentity::new(version, build_identity))
 }

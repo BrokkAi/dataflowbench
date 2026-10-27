@@ -1,18 +1,34 @@
 //! Regression tests for `crate::report`.
 
 use crate::adapters::ToolIdentity;
-use crate::adapters::bifrost::normalize_bifrost;
+use crate::adapters::bifrost::normalize_bifrost as normalize_bifrost_report;
 use crate::evidence::AnchorDialect;
 use crate::report::{
     ConfigurationHashState, KNOWN_STALE_CONFIGURATIONS, configuration_hash_state,
-    current_configuration_paths, hash_paths, validate_reports, validate_reports_in,
-    write_and_validate_report_in,
+    configuration_hash_state_for_report, current_configuration_paths, hash_paths, validate_reports,
+    validate_reports_in, write_and_validate_report_in,
 };
 use crate::runtime::{write_case_phase_timings, write_run_environment};
 use crate::tests::support::{ReportSweepFixture, unique_test_dir};
 use anyhow::Result;
 use serde_json::{Value, json};
 use std::{collections::BTreeSet, fs, path::Path, time::Duration};
+
+/// Keep legacy normalization fixtures explicitly on Bifrost schema 4 while
+/// production report parsing requires a witnessed report schema.
+fn normalize_bifrost(
+    case_path: &Path,
+    case: &Value,
+    report: &Value,
+    status: Option<i32>,
+    dialect: AnchorDialect,
+) -> Result<(&'static str, Vec<String>, Vec<Value>)> {
+    let mut report = report.clone();
+    if report.get("schema_version").is_none() {
+        report["schema_version"] = json!(4);
+    }
+    normalize_bifrost_report(case_path, case, &report, status, dialect)
+}
 
 #[test]
 pub(crate) fn report_directory_validates() {
@@ -261,6 +277,237 @@ pub(crate) fn configuration_hash_comparison_distinguishes_current_from_drifted()
     }
 }
 
+#[test]
+pub(crate) fn codeql_configuration_hashes_follow_the_reported_tool_version() {
+    let mut case_scan = None;
+    let historical: Value =
+        serde_json::from_str(&fs::read_to_string("reports/codeql-java-kernel.json").unwrap())
+            .unwrap();
+    let stamped = historical["configuration_hash"].as_str().unwrap();
+    assert_eq!(historical["tool_version"], "2.27.0");
+    assert_eq!(
+        configuration_hash_state_for_report(
+            "codeql-java-kernel",
+            "2.27.0",
+            historical["adapter_version"].as_str().unwrap(),
+            stamped,
+            &mut case_scan,
+        )
+        .unwrap(),
+        ConfigurationHashState::Current,
+        "the frozen CLI profile must retain its original configuration bytes"
+    );
+
+    let prospective = current_configuration_paths("codeql-java-kernel", &mut case_scan)
+        .unwrap()
+        .expect("the current CodeQL kernel profile is derivable");
+    assert!(prospective.contains(Path::new("adapters/codeql/v0.9.2/profile.json")));
+    assert_ne!(hash_paths(&prospective).unwrap(), stamped);
+    let prospective_hash = hash_paths(&prospective).unwrap();
+    assert_eq!(
+        configuration_hash_state_for_report(
+            "codeql-java-kernel",
+            crate::adapters::pins::CODEQL_VERSION,
+            historical["adapter_version"].as_str().unwrap(),
+            &prospective_hash,
+            &mut case_scan,
+        )
+        .unwrap(),
+        ConfigurationHashState::Current
+    );
+    let baseline: Value =
+        serde_json::from_slice(&fs::read("reports/freeze.json").unwrap()).unwrap();
+    let baseline_java = baseline["adapters"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|adapter| adapter["id"] == "codeql-java-kernel")
+        .expect("the checked-in baseline freeze includes CodeQL Java");
+    assert_eq!(baseline_java["tool_version"], "2.27.1");
+    assert_eq!(
+        configuration_hash_state_for_report(
+            "codeql-java-kernel",
+            baseline_java["tool_version"].as_str().unwrap(),
+            baseline_java["adapter_version"].as_str().unwrap(),
+            baseline_java["configuration_hash"].as_str().unwrap(),
+            &mut case_scan,
+        )
+        .unwrap(),
+        ConfigurationHashState::Current,
+        "the v0.9.0/v0.9.1 baseline freeze keeps its witnessed 2.27.1 path closure"
+    );
+    assert!(
+        configuration_hash_state_for_report(
+            "codeql-java-kernel",
+            "2.27.9",
+            historical["adapter_version"].as_str().unwrap(),
+            stamped,
+            &mut case_scan,
+        )
+        .is_err(),
+        "unknown CodeQL versions must not inherit another version's profile"
+    );
+    assert!(
+        configuration_hash_state_for_report(
+            "codeql-swift-kernel",
+            crate::adapters::pins::CODEQL_VERSION,
+            "not-the-v092-adapter",
+            stamped,
+            &mut case_scan,
+        )
+        .is_err(),
+        "Swift 2.27.2 reports must bind the new adapter identity"
+    );
+    assert_eq!(
+        configuration_hash_state_for_report(
+            "codeql-swift-kernel",
+            "2.27.9",
+            "unknown-historical-adapter",
+            stamped,
+            &mut case_scan,
+        )
+        .unwrap(),
+        ConfigurationHashState::NotDerivable,
+        "unregistered historical common-Swift closures stay honestly non-derivable"
+    );
+}
+
+#[test]
+pub(crate) fn v092_common_swift_partition_hashes_follow_the_registered_plan_without_rederiving_old_native_freezes()
+ {
+    let mut case_scan = None;
+    let current_partitions = [
+        (
+            "codeql-swift-kernel",
+            crate::adapters::pins::CODEQL_VERSION,
+            "swift-normal-v092",
+        ),
+        (
+            "codeql-swift-core",
+            crate::adapters::pins::CODEQL_VERSION,
+            "swift-normal-v092",
+        ),
+        (
+            "codeql-swift-modeling",
+            crate::adapters::pins::CODEQL_VERSION,
+            "swift-normal-v092",
+        ),
+        (
+            "codeql-swift-calibration",
+            crate::adapters::pins::CODEQL_VERSION,
+            "swift-normal-v092",
+        ),
+        (
+            "codeql-swift-native",
+            crate::adapters::pins::CODEQL_VERSION,
+            "swift-normal-v092",
+        ),
+        (
+            "codeql-swift-language-extension",
+            crate::adapters::pins::CODEQL_VERSION,
+            "swift-normal-v092",
+        ),
+        (
+            "joern-swift-kernel",
+            crate::adapters::pins::JOERN_VERSION,
+            "joern-normal-v092",
+        ),
+        (
+            "joern-swift-core",
+            crate::adapters::pins::JOERN_VERSION,
+            "joern-normal-v092",
+        ),
+        (
+            "joern-swift-modeling",
+            crate::adapters::pins::JOERN_VERSION,
+            "joern-normal-v092",
+        ),
+        (
+            "joern-swift-calibration",
+            crate::adapters::pins::JOERN_VERSION,
+            "joern-normal-v092",
+        ),
+        (
+            "joern-swift-native",
+            crate::adapters::pins::JOERN_VERSION,
+            "joern-normal-v092",
+        ),
+        (
+            "joern-swift-language-extension",
+            crate::adapters::pins::JOERN_VERSION,
+            "joern-normal-v092",
+        ),
+    ];
+
+    for (stem, tool_version, adapter_version) in current_partitions {
+        let stamped = "0".repeat(64);
+        let current = match configuration_hash_state_for_report(
+            stem,
+            tool_version,
+            adapter_version,
+            &stamped,
+            &mut case_scan,
+        )
+        .unwrap()
+        {
+            ConfigurationHashState::Drifted { current } => current,
+            state => panic!("{stem} must resolve the v0.9.2 plan closure, got {state:?}"),
+        };
+        assert_eq!(
+            configuration_hash_state_for_report(
+                stem,
+                tool_version,
+                adapter_version,
+                &current,
+                &mut case_scan,
+            )
+            .unwrap(),
+            ConfigurationHashState::Current,
+            "{stem} must compare against its registered v0.9.2 configuration closure"
+        );
+    }
+}
+
+#[test]
+pub(crate) fn historical_common_swift_core_native_and_extension_freezes_remain_not_derivable() {
+    let mut case_scan = None;
+    let freeze: Value = serde_json::from_slice(&fs::read("reports/freeze.json").unwrap()).unwrap();
+    let historical_native_partitions = [
+        ("codeql-swift-core", "codeql-swift-core"),
+        ("codeql-swift-native", "codeql-swift-native"),
+        (
+            "codeql-swift-language-extension",
+            "codeql-swift-language-extension",
+        ),
+        ("joern-swift-core", "joern-swift-core"),
+        ("joern-swift-native", "joern-swift-native"),
+        (
+            "joern-swift-language-extension",
+            "joern-swift-language-extension",
+        ),
+    ];
+    for (stem, adapter_id) in historical_native_partitions {
+        let frozen = freeze["adapters"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|adapter| adapter["id"] == adapter_id)
+            .unwrap_or_else(|| panic!("the historical freeze must retain {adapter_id}"));
+        assert_eq!(
+            configuration_hash_state_for_report(
+                stem,
+                frozen["tool_version"].as_str().unwrap(),
+                frozen["adapter_version"].as_str().unwrap(),
+                frozen["configuration_hash"].as_str().unwrap(),
+                &mut case_scan,
+            )
+            .unwrap(),
+            ConfigurationHashState::NotDerivable,
+            "{adapter_id} has no original repository-local closure and stays honestly non-derivable"
+        );
+    }
+}
+
 /// Every committed report whose configuration hash is derivable in-repo
 /// still matches the current configuration — except the populations
 /// `KNOWN_STALE_CONFIGURATIONS` records against issue #138, each of which
@@ -282,7 +529,14 @@ pub(crate) fn committed_reports_match_current_configuration_except_known_stale()
         }
         let stem = path.file_stem().unwrap().to_str().unwrap().to_string();
         let stamped = report["configuration_hash"].as_str().unwrap();
-        let state = configuration_hash_state(&stem, stamped, &mut case_scan).unwrap();
+        let state = configuration_hash_state_for_report(
+            &stem,
+            report["tool_version"].as_str().unwrap(),
+            report["adapter_version"].as_str().unwrap(),
+            stamped,
+            &mut case_scan,
+        )
+        .unwrap();
         if KNOWN_STALE_CONFIGURATIONS.contains(&stem.as_str()) {
             seen_stale.insert(stem.clone());
             assert!(

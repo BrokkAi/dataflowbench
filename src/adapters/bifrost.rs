@@ -9,6 +9,7 @@ use crate::adapters::ModelingTool;
 use crate::adapters::ToolIdentity;
 use crate::adapters::codeql::{CFamilyKernel, c_family_selected_case, rust_kernel_case};
 use crate::adapters::normalized_report;
+use crate::adapters::pins;
 use crate::cases::{
     LoadedCases, case_paths, csharp_core_case, fixture_revision, go_core_case, java_core_case,
     javascript_core_case, kotlin_core_case, php_core_case, ruby_core_case, scala_core_case,
@@ -93,6 +94,79 @@ pub(crate) const BIFROST_SCALA_POLICY: &str = "adapters/bifrost/policies/core-sc
 /// positive without the propagator declaration ever being read. A modeling
 /// policy that kept that default would not be measuring activation.
 pub(crate) const BIFROST_MODELING_CALL_MODELING: &str = "require-model";
+const BIFROST_V0_9_2_VERSION_EVIDENCE: &str =
+    "reports/releases/v0.9.2/qualification/bifrost-v0140-01/version.stdout.txt";
+
+/// Apply the prospective v0.9.2 process boundary that prevents Bifrost 0.14.0
+/// from implicitly acquiring host open packs. The benchmark's shipped-catalog
+/// profile is measured with acquisition disabled; explicitly supplied files
+/// and native catalog evidence remain separate inputs.
+pub(crate) fn configure_bifrost_environment(command: &mut Command) {
+    command.env(
+        pins::BIFROST_OPEN_PACKS_DISABLE_ENV,
+        pins::BIFROST_OPEN_PACKS_DISABLE_VALUE,
+    );
+}
+
+/// Witness and enforce the exact prospective Bifrost release build. A version
+/// banner alone does not distinguish locally rebuilt artifacts from the
+/// acquisition whose shipped catalog was reviewed for v0.9.2.
+pub(crate) fn witness_bifrost_identity(binary: &Path) -> Result<ToolIdentity> {
+    let version = command_output(Command::new(binary).arg("--version")).with_context(|| {
+        format!(
+            "witness the pinned Bifrost version with {} --version; a report may not assert a version it could not read",
+            binary.display()
+        )
+    })?;
+    let evidence = fs::read_to_string(BIFROST_V0_9_2_VERSION_EVIDENCE).with_context(|| {
+        format!("read the exact Bifrost v0.9.2 version and catalog witness from {BIFROST_V0_9_2_VERSION_EVIDENCE}")
+    })?;
+    let evidence_lines: Vec<_> = evidence.lines().collect();
+    if evidence_lines.len() != 2 || evidence_lines[0] != pins::BIFROST_VERSION {
+        bail!(
+            "Bifrost v0.9.2 version evidence at {BIFROST_V0_9_2_VERSION_EVIDENCE} must contain exactly the pinned version line and one catalog witness"
+        );
+    }
+    let Some(catalog_digest) = evidence_lines[1].strip_prefix("builtin-policy-catalog sha256=")
+    else {
+        bail!(
+            "Bifrost v0.9.2 version evidence at {BIFROST_V0_9_2_VERSION_EVIDENCE} lacks the exact built-in catalog witness"
+        );
+    };
+    if catalog_digest.len() != 64 || !catalog_digest.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        bail!(
+            "Bifrost v0.9.2 version evidence at {BIFROST_V0_9_2_VERSION_EVIDENCE} has a malformed catalog digest"
+        );
+    }
+    let expected_version = format!("{}\n{}", evidence_lines[0], evidence_lines[1]);
+    if version != expected_version {
+        bail!(
+            "the Bifrost binary at {} witnessed version banner {version:?}, but profile {} requires the exact version and catalog banner {expected_version:?}; refusing to publish a report for another release or catalog",
+            binary.display(),
+            pins::PROFILE
+        );
+    }
+    let build_identity = command_output(Command::new(binary).arg("--build-identity"))
+        .with_context(|| {
+            format!(
+                "witness the pinned Bifrost build identity with {} --build-identity",
+                binary.display()
+            )
+        })?;
+    if build_identity != pins::BIFROST_BUILD_IDENTITY {
+        bail!(
+            "the Bifrost binary at {} witnessed build identity {build_identity:?}, but profile {} pins {}; refusing to publish a report for another build",
+            binary.display(),
+            pins::PROFILE,
+            pins::BIFROST_BUILD_IDENTITY
+        );
+    }
+    // Keep the complete banner bound to acquisition evidence and validate it
+    // above, but normalized reports identify the product by its pinned first
+    // line. The catalog digest is a separate compatibility witness, not part
+    // of the report's tool_version field.
+    Ok(ToolIdentity::new(pins::BIFROST_VERSION, build_identity))
+}
 
 /// Enforce the load-bearing-model requirement on a Bifrost modeling policy.
 ///
@@ -285,11 +359,7 @@ pub(crate) fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
     };
     fs::create_dir_all(raw_dir)?;
     let started = now_seconds()?;
-    let identity = ToolIdentity::new(
-        command_output(Command::new(binary).arg("--version")).unwrap_or_else(|_| "unknown".into()),
-        command_output(Command::new(binary).arg("--build-identity"))
-            .unwrap_or_else(|_| "unknown".into()),
-    );
+    let identity = witness_bifrost_identity(binary)?;
     write_run_environment(raw_dir, "bifrost", &identity)?;
     let identity = identity.version_line_only();
     let revision = fixture_revision()?;
@@ -330,6 +400,7 @@ pub(crate) fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
             policy_paths.insert(PathBuf::from(policy));
             let workspace = materialize_bifrost_workspace(&path, &case, policy)?;
             let mut command = Command::new(binary);
+            configure_bifrost_environment(&mut command);
             command
                 .arg("--root")
                 .arg(workspace.path())
@@ -820,10 +891,15 @@ pub(crate) fn normalize_bifrost(
     dialect: AnchorDialect,
 ) -> Result<(&'static str, Vec<String>, Vec<Value>)> {
     let mut report_diagnostics = diagnostics(report);
+    let contract_errors = report_contract_errors(report);
+    report_diagnostics.extend(contract_errors.iter().cloned());
     let incompleteness = incompleteness_reasons(report);
     report_diagnostics.extend(incompleteness.iter().cloned());
     report_diagnostics.sort();
     report_diagnostics.dedup();
+    if !contract_errors.is_empty() {
+        return Ok(("runner-error", report_diagnostics, Vec::new()));
+    }
     match status {
         Some(0..=2) => {}
         Some(status) => {
@@ -1015,28 +1091,200 @@ pub(crate) fn incompleteness_reasons(value: &Value) -> Vec<String> {
         let Some(completion_type) = run["completion"]["type"].as_str() else {
             continue;
         };
-        if completion_type == "complete" {
-            continue;
-        }
-        let mut run_reasons = run["completion"]["reasons"]
-            .as_array()
-            .into_iter()
-            .flatten()
-            .filter_map(Value::as_str)
-            .map(str::to_string)
-            .collect::<Vec<_>>();
-        if run_reasons.is_empty() {
-            run_reasons.push(format!("completion_type={completion_type}"));
-        }
-        reasons.extend(
-            run_reasons
+        if completion_type != "complete" {
+            let mut run_reasons = run["completion"]["reasons"]
+                .as_array()
                 .into_iter()
-                .map(|reason| format!("Bifrost reported incomplete analysis: {reason}")),
-        );
+                .flatten()
+                .filter_map(Value::as_str)
+                .map(str::to_string)
+                .collect::<Vec<_>>();
+            if run_reasons.is_empty() {
+                run_reasons.push(format!("completion_type={completion_type}"));
+            }
+            reasons.extend(
+                run_reasons
+                    .into_iter()
+                    .map(|reason| format!("Bifrost reported incomplete analysis: {reason}")),
+            );
+
+            // Schema 6 adds a structured completion scope. Keep the actual
+            // partition and truncation evidence attached to the typed reason;
+            // the reason string alone can otherwise make a partial discovery
+            // look like an undifferentiated engine warning.
+            if let Some(scope) = run["completion"].get("scope") {
+                reasons.push(format!(
+                    "Bifrost incomplete analysis scope: {}",
+                    scope_summary(scope)
+                ));
+            }
+        }
+
+        // Unmet negative-proof obligations are first-class incompleteness
+        // evidence in Bifrost's report contract. Never turn an absent finding
+        // into a clean negative when the run says an obligation was unmet or
+        // omitted by retention limits.
+        if let Some(obligations) = run["obligations"].as_array()
+            && (!obligations.is_empty()
+                || run["obligations_truncated"] == true
+                || run["omitted_obligations_lower_bound"].as_u64().unwrap_or(0) > 0)
+        {
+            let mut kinds = obligations
+                .iter()
+                .filter_map(|obligation| obligation["kind"].as_str())
+                .collect::<Vec<_>>();
+            kinds.sort_unstable();
+            kinds.dedup();
+            reasons.push(format!(
+                "Bifrost reported unmet policy obligations: retained={}, kinds=[{}], truncated={}, omitted_lower_bound={}",
+                obligations.len(),
+                kinds.join(","),
+                run["obligations_truncated"].as_bool().unwrap_or(false),
+                run["omitted_obligations_lower_bound"].as_u64().unwrap_or(0),
+            ));
+        }
     }
     reasons.sort();
     reasons.dedup();
     reasons
+}
+
+/// Validate the report-contract guarantees needed to interpret schema 5/6
+/// obligations. Schema 4 is retained for historical reports and focused
+/// adapter fixtures. Missing schema versions are accepted only for the small
+/// unit fixtures that exercise normalization independently of acquisition.
+fn report_contract_errors(value: &Value) -> Vec<String> {
+    let Some(schema_version) = value.get("schema_version").and_then(Value::as_u64) else {
+        return vec![
+            "Bifrost report lacks a numeric schema_version; cannot safely interpret completion semantics"
+                .to_string(),
+        ];
+    };
+    if !(4..=6).contains(&schema_version) {
+        return vec![format!(
+            "Bifrost report schema version {schema_version} is not reviewed by the v0.9.2 adapter (supported: 4, 5, 6)"
+        )];
+    }
+
+    let obligations_required = schema_version >= 5;
+    let mut errors = Vec::new();
+    for (index, run) in value["runs"].as_array().into_iter().flatten().enumerate() {
+        if schema_version >= 6 {
+            let completion_type = run["completion"]["type"].as_str();
+            match (completion_type, run["completion"].get("scope")) {
+                (Some("inconclusive"), Some(scope)) => {
+                    if let Some(reason) = invalid_inconclusive_scope(scope) {
+                        errors.push(format!(
+                            "Bifrost schema {schema_version} run {index} has invalid completion scope: {reason}"
+                        ));
+                    }
+                }
+                (Some("inconclusive"), None) => errors.push(format!(
+                    "Bifrost schema {schema_version} run {index} lacks the typed inconclusive completion scope"
+                )),
+                (_, Some(_)) => errors.push(format!(
+                    "Bifrost schema {schema_version} run {index} attaches completion scope to a non-inconclusive run"
+                )),
+                _ => {}
+            }
+        }
+        let has_obligation_fields = run.get("obligations").is_some()
+            || run.get("obligations_truncated").is_some()
+            || run.get("omitted_obligations_lower_bound").is_some();
+        if !obligations_required && !has_obligation_fields {
+            continue;
+        }
+        let Some(obligations) = run.get("obligations").and_then(Value::as_array) else {
+            errors.push(format!(
+                "Bifrost schema {schema_version} run {index} lacks an obligations array"
+            ));
+            continue;
+        };
+        let Some(truncated) = run.get("obligations_truncated").and_then(Value::as_bool) else {
+            errors.push(format!(
+                "Bifrost schema {schema_version} run {index} lacks a boolean obligations_truncated field"
+            ));
+            continue;
+        };
+        let Some(omitted) = run
+            .get("omitted_obligations_lower_bound")
+            .and_then(Value::as_u64)
+        else {
+            errors.push(format!(
+                "Bifrost schema {schema_version} run {index} lacks an unsigned omitted_obligations_lower_bound"
+            ));
+            continue;
+        };
+        if truncated != (omitted > 0) {
+            errors.push(format!(
+                "Bifrost schema {schema_version} run {index} has inconsistent obligation truncation metadata"
+            ));
+        }
+        if obligations.iter().any(|obligation| {
+            !obligation.is_object() || obligation.get("kind").and_then(Value::as_str).is_none()
+        }) {
+            errors.push(format!(
+                "Bifrost schema {schema_version} run {index} contains an obligation without a typed kind"
+            ));
+        }
+        if (!obligations.is_empty() || truncated) && run["completion"]["type"] != "inconclusive" {
+            errors.push(format!(
+                "Bifrost schema {schema_version} run {index} reports unmet obligations without inconclusive completion"
+            ));
+        }
+    }
+    errors
+}
+
+fn invalid_inconclusive_scope(scope: &Value) -> Option<String> {
+    match scope.get("type").and_then(Value::as_str) {
+        Some("run") => None,
+        Some("files") => {
+            let Some(files) = scope.get("files").and_then(Value::as_array) else {
+                return Some("files scope requires a files array".to_string());
+            };
+            if files.is_empty() {
+                return Some("files scope must name at least one file".to_string());
+            }
+            let files = files
+                .iter()
+                .map(Value::as_str)
+                .collect::<Option<Vec<_>>>()
+                .ok_or_else(|| "files scope must contain only string paths".to_string());
+            let files = match files {
+                Ok(files) => files,
+                Err(reason) => return Some(reason),
+            };
+            if files.windows(2).any(|pair| pair[0] >= pair[1]) {
+                return Some("files scope paths must be sorted and distinct".to_string());
+            }
+            if scope.get("truncated").and_then(Value::as_bool).is_none() {
+                return Some("files scope requires a boolean truncated field".to_string());
+            }
+            None
+        }
+        Some(other) => Some(format!("unknown scope type {other:?}")),
+        None => Some("scope requires a string type".to_string()),
+    }
+}
+
+fn scope_summary(scope: &Value) -> String {
+    match scope["type"].as_str() {
+        Some("files") => {
+            let files = scope["files"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .filter_map(Value::as_str)
+                .collect::<Vec<_>>();
+            format!(
+                "files=[{}], truncated={}",
+                files.join(","),
+                scope["truncated"].as_bool().unwrap_or(false)
+            )
+        }
+        _ => scope.to_string(),
+    }
 }
 
 pub(crate) fn bifrost_runner_error_reason(value: &Value) -> Option<String> {
@@ -1144,6 +1392,7 @@ pub(crate) fn run_bifrost_modeling_case(
     fs::copy(policy, scratch.join("policy.rqlp"))?;
 
     let mut command = Command::new(binary);
+    configure_bifrost_environment(&mut command);
     command
         .arg("--root")
         .arg(&scratch)
@@ -1247,6 +1496,7 @@ pub(crate) fn overhead_run_bifrost(
     let report = scratch.join("report.json");
 
     let mut command = Command::new(binary);
+    configure_bifrost_environment(&mut command);
     command
         .arg("--root")
         .arg(&workspace)

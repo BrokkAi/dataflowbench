@@ -6,8 +6,9 @@ use crate::adapters::bifrost::{
     BIFROST_DIRECT_POLICY, BIFROST_DIRECT_POSITIVE_POLICY, BIFROST_EXPLICIT_NEGATIVE_POLICY,
     BIFROST_JAVA_POLICY, BIFROST_JAVASCRIPT_POLICY, BIFROST_KOTLIN_POLICY,
     BIFROST_MODELING_CALL_MODELING, BIFROST_SCALA_POLICY, BifrostRun, CaseWorkspace,
-    bifrost_anchor_dialect, bifrost_policy_for, materialize_bifrost_workspace, normalize_bifrost,
-    require_bifrost_modeling_load_bearing, selected_bifrost_case,
+    bifrost_anchor_dialect, bifrost_policy_for, incompleteness_reasons,
+    materialize_bifrost_workspace, normalize_bifrost as normalize_bifrost_report,
+    require_bifrost_modeling_load_bearing, selected_bifrost_case, witness_bifrost_identity,
 };
 use crate::adapters::codeql::rust_kernel_case;
 use crate::cases::{case_paths, ruby_core_case, scala_core_case, validate_kernel_population_with};
@@ -19,7 +20,116 @@ use crate::templates::{
 };
 use crate::tests::support::unique_test_dir;
 use serde_json::{Value, json};
+#[cfg(unix)]
+use std::os::unix::fs::PermissionsExt;
 use std::{fs, path::Path, path::PathBuf};
+
+/// Older focused fixtures predate the external report envelope and omit its
+/// schema marker. Give only those fixtures the historical schema-4 contract;
+/// production normalization rejects an unversioned report.
+fn normalize_bifrost(
+    case_path: &Path,
+    case: &Value,
+    report: &Value,
+    status: Option<i32>,
+    dialect: AnchorDialect,
+) -> anyhow::Result<(&'static str, Vec<String>, Vec<Value>)> {
+    let mut report = report.clone();
+    if report.get("schema_version").is_none() {
+        report["schema_version"] = json!(4);
+    }
+    normalize_bifrost_report(case_path, case, &report, status, dialect)
+}
+
+#[cfg(unix)]
+fn fake_bifrost_binary(
+    root: &Path,
+    name: &str,
+    version_banner: &str,
+    build_identity: &str,
+) -> PathBuf {
+    fn shell_literal(value: &str) -> String {
+        format!("'{}'", value.replace('\'', "'\"'\"'"))
+    }
+
+    let version_output = version_banner
+        .lines()
+        .map(|line| format!("    printf '%s\\n' {}\n", shell_literal(line)))
+        .collect::<String>();
+    let script = format!(
+        "#!/bin/sh\ncase \"$1\" in\n  --version)\n{version_output}    ;;\n  --build-identity)\n    printf '%s\\n' {}\n    ;;\n  *) exit 2 ;;\nesac\n",
+        shell_literal(build_identity)
+    );
+    let path = root.join(name);
+    fs::write(&path, script).unwrap();
+    let mut permissions = fs::metadata(&path).unwrap().permissions();
+    permissions.set_mode(0o755);
+    fs::set_permissions(&path, permissions).unwrap();
+    path
+}
+
+#[cfg(unix)]
+#[test]
+pub(crate) fn bifrost_identity_requires_exact_version_and_catalog_banner() {
+    let evidence_path =
+        Path::new("reports/releases/v0.9.2/qualification/bifrost-v0140-01/version.stdout.txt");
+    let evidence = fs::read_to_string(evidence_path).unwrap();
+    let lines: Vec<_> = evidence.lines().collect();
+    assert_eq!(lines.len(), 2);
+    assert_eq!(lines[0], crate::adapters::pins::BIFROST_VERSION);
+    let expected_banner = evidence.trim_end().to_string();
+    let root = unique_test_dir("dataflowbench-bifrost-version-witness");
+
+    let exact_binary = fake_bifrost_binary(
+        &root,
+        "bifrost-exact",
+        &expected_banner,
+        crate::adapters::pins::BIFROST_BUILD_IDENTITY,
+    );
+    let identity = witness_bifrost_identity(&exact_binary).unwrap();
+    assert_eq!(identity.version, crate::adapters::pins::BIFROST_VERSION);
+    assert_eq!(
+        identity.build_identity,
+        crate::adapters::pins::BIFROST_BUILD_IDENTITY
+    );
+
+    let near_miss_banners = [
+        format!("bifrost 0.13.1\n{}", lines[1]),
+        format!("bifrost 0.14.0-dev\n{}", lines[1]),
+        format!(
+            "{}\nbuiltin-policy-catalog sha256={}",
+            lines[0],
+            "0".repeat(64)
+        ),
+        format!("{}\n{}\nextra catalog data", lines[0], lines[1]),
+    ];
+    for (index, banner) in near_miss_banners.iter().enumerate() {
+        let binary = fake_bifrost_binary(
+            &root,
+            &format!("bifrost-near-miss-{index}"),
+            banner,
+            crate::adapters::pins::BIFROST_BUILD_IDENTITY,
+        );
+        let error = witness_bifrost_identity(&binary).unwrap_err();
+        assert!(
+            error
+                .to_string()
+                .contains("exact version and catalog banner"),
+            "unexpected rejection: {error:#}"
+        );
+    }
+
+    let wrong_build = fake_bifrost_binary(
+        &root,
+        "bifrost-wrong-build",
+        &expected_banner,
+        "wrong-build",
+    );
+    let error = witness_bifrost_identity(&wrong_build).unwrap_err();
+    assert!(error.to_string().contains("build identity"));
+
+    fs::remove_dir_all(root).unwrap();
+}
 
 /// The Bifrost mirror of the per-adapter sink-anchor tests: a finding on
 /// the anchored sink's callsite is `reached`; a finding anywhere else in
@@ -192,6 +302,125 @@ pub(crate) fn incomplete_or_unexpected_bifrost_status_never_becomes_clean_negati
         .0,
         "runner-error"
     );
+}
+
+/// Schema 5/6 obligation records are a negative-proof boundary: retained or
+/// omitted unmet obligations cannot normalize to a clean miss. The separate
+/// completion scope is retained alongside its typed reason for review.
+#[test]
+pub(crate) fn bifrost_schema6_preserves_obligations_and_completion_scope() {
+    let report = json!({
+        "schema_version": 6,
+        "runs": [{
+            "completion": {
+                "type": "inconclusive",
+                "reasons": ["partial_discovery"],
+                "scope": {"type": "files", "files": ["Audit.js"], "truncated": false}
+            },
+            "findings": [],
+            "obligations": [{
+                "assertion": "bounded-absence",
+                "kind": "absence_requires_exhaustive_coverage",
+                "group": "taint-flow",
+                "reasons": ["partial_discovery"]
+            }],
+            "obligations_truncated": true,
+            "omitted_obligations_lower_bound": 2
+        }]
+    });
+    let diagnostics = incompleteness_reasons(&report);
+    assert!(diagnostics.iter().any(|reason| {
+        reason.contains("partial_discovery") && reason.contains("incomplete analysis")
+    }));
+    assert!(
+        diagnostics
+            .iter()
+            .any(|reason| { reason.contains("scope: files=[Audit.js], truncated=false") })
+    );
+    assert!(diagnostics.iter().any(|reason| {
+        reason.contains("retained=1")
+            && reason.contains("absence_requires_exhaustive_coverage")
+            && reason.contains("truncated=true")
+            && reason.contains("omitted_lower_bound=2")
+    }));
+    let normalized = normalize_bifrost(
+        Path::new("cases/never/case.json"),
+        &json!({"expected_flows": []}),
+        &report,
+        Some(0),
+        AnchorDialect::Java,
+    )
+    .unwrap();
+    assert_eq!(normalized.0, "inconclusive");
+    assert!(
+        normalized
+            .1
+            .iter()
+            .any(|reason| reason.contains("Audit.js"))
+    );
+}
+
+/// Schema-6's explicit empty-obligation tuple leaves a complete no-finding run
+/// eligible for a decisive miss; the adapter does not manufacture uncertainty.
+#[test]
+pub(crate) fn bifrost_schema6_empty_obligations_preserve_complete_negative() {
+    let normalized = normalize_bifrost(
+        Path::new("cases/never/case.json"),
+        &json!({"expected_flows": []}),
+        &json!({
+            "schema_version": 6,
+            "runs": [{
+                "completion": {"type": "complete"},
+                "findings": [],
+                "obligations": [],
+                "obligations_truncated": false,
+                "omitted_obligations_lower_bound": 0
+            }]
+        }),
+        Some(0),
+        AnchorDialect::Java,
+    )
+    .unwrap();
+    assert_eq!(normalized.0, "not-reached");
+}
+
+/// Broken obligation metadata and obligations attached to a complete run are
+/// adapter-contract errors, never clean negative evidence.
+#[test]
+pub(crate) fn bifrost_rejects_inconsistent_schema6_obligation_contracts() {
+    for run in [
+        json!({
+            "completion": {"type": "complete"},
+            "findings": [],
+            "obligations": [{"kind": "verdict_requires_witnessed_rows"}],
+            "obligations_truncated": false,
+            "omitted_obligations_lower_bound": 0
+        }),
+        json!({
+            "completion": {"type": "inconclusive", "reasons": ["partial_discovery"]},
+            "findings": [],
+            "obligations": [],
+            "obligations_truncated": true,
+            "omitted_obligations_lower_bound": 0
+        }),
+        json!({"completion": {"type": "complete"}, "findings": []}),
+    ] {
+        let normalized = normalize_bifrost(
+            Path::new("cases/never/case.json"),
+            &json!({"expected_flows": []}),
+            &json!({"schema_version": 6, "runs": [run]}),
+            Some(0),
+            AnchorDialect::Java,
+        )
+        .unwrap();
+        assert_eq!(normalized.0, "runner-error");
+        assert!(
+            normalized
+                .1
+                .iter()
+                .any(|reason| reason.contains("Bifrost schema 6"))
+        );
+    }
 }
 
 #[test]

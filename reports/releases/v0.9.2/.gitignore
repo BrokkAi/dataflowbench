@@ -1,0 +1,10 @@
+# Retained local rebuildable cache; inventory is published beside it.
+/qualification/bifrost-attempt-02/cache/
+# Full databases, compiler caches and Joern workspaces stay local. Publish the
+# digest-bound native tables, graph outputs, commands, logs and input closures.
+/qualification/codeql-swift-common108/control-attempt-*/**/database/
+/qualification/codeql-swift-common108/control-attempt-*/**/cache/
+/qualification/joern-swift-common108/control-attempt-*/**/cache/
+/qualification/joern-swift-common108/control-attempt-*/**/workspace/
+# These logs are digest-bound benchmark evidence.
+!/qualification/**/*.log

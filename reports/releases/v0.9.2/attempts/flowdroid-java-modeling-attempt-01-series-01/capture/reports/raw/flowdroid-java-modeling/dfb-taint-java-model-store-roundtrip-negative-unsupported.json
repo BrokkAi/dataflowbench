@@ -1,0 +1,13 @@
+{
+  "adapter": "flowdroid",
+  "case_id": "dfb-taint-java-model-store-roundtrip-negative",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "B",
+  "modeling_category_label": "persistence boundaries",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "reason": "category B — persistence boundaries — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): no FlowDroid declaration surface carries a store identity or a key position: the sources-and-sinks formats declare source/sink/both roles, the EasyTaintWrapper lists declare taint/exclude/kill per method, and a StubDroid summary's positions are parameters, fields, and the return value — none can express the `store:` and `key:` bindings templates 11 and 12 declare, so a persistence declaration has no encoding on the pinned 2.15.1",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-store-roundtrip",
+  "witnessed_tool_identity": "2.15.1"
+}

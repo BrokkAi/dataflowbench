@@ -1,0 +1,149 @@
+{
+  "binding_implementation": {
+    "path": "scripts/bind-v092-swift-qualification-envelopes.py",
+    "sha256": "b6793fbc4a4f9c76a4bcb87aaa13da25bb225ed2566485884c155f220b0fc35d"
+  },
+  "bindings_draft": {
+    "path": "execution-state/v092/bindings-draft-03.json",
+    "sha256": "46cbfb0dc0ebbb4c0a4da55b4b44aca6156e13f287efbf744d5530b76f0da667"
+  },
+  "component_aliases": [
+    "joern-runtime",
+    "java-runtime",
+    "swift-toolchain",
+    "swift-sdk"
+  ],
+  "evidence": {
+    "native_review": {
+      "cleanliness_claimed": false,
+      "completion_markers": 0,
+      "coverage_claimed": false,
+      "execution_eligible": false,
+      "replay_command": {
+        "argv": [
+          "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/scripts/review-v092-joern-native.py",
+          "--capture",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/profile-controls/probe-joern-scan-native-attempt-01",
+          "--output",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/.joern-native-review-replay-0u1g1kiw.json"
+        ],
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "{\"queries\": 58, \"scans\": 36, \"completion_markers\": 0, \"status\": \"measurement-with-known-limits\"}\n"
+      },
+      "replay_matches_retained_review": true,
+      "review": {
+        "path": "reports/releases/v0.9.2/qualification/joern-native-review-01.json",
+        "sha256": "d0aafb20bf37c924a7609b6f8b1240ee530efcea7c3299b9f182d07ecf2deffc"
+      },
+      "reviewer": {
+        "path": "scripts/review-v092-joern-native.py",
+        "sha256": "efc50c79f562c1e3e86c744ca4bf2043a518dabb49d3222bd870ca0e3b8ede76"
+      },
+      "scan_count": 36,
+      "status": "measurement-with-known-limits"
+    },
+    "swift": {
+      "control_case_arms": 12,
+      "control_plan": {
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-plan-04.json",
+        "sha256": "c35307ad152fc385ecf5abb86ee7d5821fc661b6e875fa9f6a03cd3f4ee6f66a"
+      },
+      "control_run": {
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/run.json",
+        "sha256": "a4f68131bce1b79151ad361a2e05b861f37a1c43f74d1fcb660d4082f9bf4ada"
+      },
+      "diagnostic_admission_review": {
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04-diagnostic-admission-review.json",
+        "sha256": "4cfddcfbb1234205274a3068adaff8716c17f531e206def4e1f05303adc992c1"
+      },
+      "diagnostic_execution_eligible": true,
+      "endpoint_identity_gaps": 8,
+      "execution_eligible": true,
+      "full_model_qualification": false,
+      "phase_invocations": 36,
+      "plan": {
+        "path": "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json",
+        "sha256": "e5cfd9d5473fd47f54de25d74a6f945c667c086ce471d5f6cdcead797bf9e3ab"
+      },
+      "qualification_receipt": {
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/qualification-receipt-02.json",
+        "sha256": "c38aae7b1d4179bcd505ef32d3220f218efd25a16d5ce4eee0bf5d8eb4afc1bb"
+      },
+      "replay_validator": {
+        "argv": [
+          "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+          "scripts/run-joern-common-v092.py",
+          "verify-plan",
+          "--plan",
+          "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json"
+        ],
+        "exit_code": 0,
+        "path": "scripts/run-joern-common-v092.py",
+        "sha256": "454a38d2e7a99dd441390d195a8d0756f84cd3d6ac421120fe35e8a0bd208b7b",
+        "stderr": "",
+        "stdout": "{\n  \"mode\": \"preflight\",\n  \"group_id\": \"joern-swift-common108\",\n  \"tool_version\": \"4.0.660\",\n  \"qualification_status\": \"measurement-with-known-limits\",\n  \"case_count\": 108,\n  \"scored_activation\": false\n}\n"
+      },
+      "scored_activation": false,
+      "status": "measurement-with-known-limits",
+      "strict_assessment_status": "incomplete",
+      "strict_model_qualification": false
+    }
+  },
+  "execution_eligible": true,
+  "groups": [
+    "joern-java-kernel",
+    "joern-java-modeling",
+    "joern-java-native",
+    "joern-javascript-kernel",
+    "joern-javascript-modeling",
+    "joern-javascript-native",
+    "joern-php-kernel",
+    "joern-python-kernel",
+    "joern-python-modeling",
+    "joern-python-native",
+    "joern-ruby-kernel",
+    "joern-rust-kernel",
+    "joern-swift-common108"
+  ],
+  "identity_components": [
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "joern-runtime",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/joern.json",
+      "sha256": "c848b12fd54138219c3bd5c647071eceab1ae4c9f785967c24274d509554c2fc"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "java-runtime",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/java.json",
+      "sha256": "76ddb265fbaeecf1908ea934d2d64b079372e13f1307ff5d2b94957ba40ac1a6"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-toolchain",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/swift-6.3.3.json",
+      "sha256": "f31ae5b23c775e0c69227363a1a0c4e4bf87964f8bcd79b8f9de9d7acd7d4a58"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-sdk",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5.json",
+      "sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7"
+    }
+  ],
+  "limits": [
+    "Joern Swift diagnostic controls retain eight Incomplete:EndpointIdentity arms; full-model qualification and scored activation remain false.",
+    "The independent native review remains execution-ineligible, with zero completion markers across 36 scans; no cleanliness or coverage claim is made.",
+    "This envelope authorizes only the listed group attempts; it does not establish completed v0.9.2 report coverage."
+  ],
+  "schema": "v092-tool-qualification-envelope/v1",
+  "status": "measurement-with-known-limits",
+  "tool": {
+    "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/joern/joern-cli/joern",
+    "sha256": "0df7e8db4282ef2c6fc37998917aca694176e23192de5f0c631511d993e99736",
+    "version": "4.0.660"
+  },
+  "tool_name": "joern"
+}

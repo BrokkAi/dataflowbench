@@ -6,5 +6,6 @@ mod flowdroid;
 mod infer;
 mod joern;
 mod opentaint;
+mod pins;
 mod pysa;
 mod semgrep;

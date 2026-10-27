@@ -1,0 +1,260 @@
+{
+  "disposition": {
+    "execution_authorized": false,
+    "next_gate": "Root must independently bind the successor source/contract/core/manifest closure and run the separate native-control, stage-qualification, fresh-admission and external execution gates. This review does not claim canonical installation, runtime execution, release or publication readiness.",
+    "qualification_authorized": false,
+    "source_commit_approval": true,
+    "status": "approved-for-source-commit-only"
+  },
+  "execution_authorized": false,
+  "findings": [
+    {
+      "evidence": {
+        "independent_probe": {
+          "path": "/private/tmp/joern05-execution-adapter-independent-review-04/descriptor-handoff-probe.json",
+          "sha256": "8ced1e45b4e3f0356b413e1ee0886d3d4291da2b648e18104d7aa5e3ccc186f4"
+        },
+        "sealed_startup_tests": {
+          "passed": 4,
+          "path": "/private/tmp/joern05-execution-adapter-04/startup-handoff-tests-final.log",
+          "sha256": "c33f1da6f91ca3d3557cee9eeb4fc65424528b9b0c46a502218397d83aed7399"
+        },
+        "source": {
+          "bootstrap_lines": [
+            834,
+            900,
+            919,
+            921,
+            947
+          ],
+          "execution_lines": [
+            991,
+            1008
+          ],
+          "path": "/private/tmp/joern05-execution-adapter-04/supervisor.py",
+          "sha256": "fdcec6914b3aad124d5a2af270b62d4f189aa211292516784ef9fb658c2916ee",
+          "startup_child_ready_lines": [
+            31,
+            105
+          ]
+        }
+      },
+      "finding": "The handoff04 repair addresses the prior bootstrap flock race by passing the already-held lock open-file descriptor and a one-record readiness pipe to the detached parent. The child verifies descriptor ownership, canonical path device/inode, exact child and parent PID/birth identities, token, graph and source bindings, writes an fsynced immutable receipt, then emits the bounded frame. Bootstrap waits up to 600 seconds before releasing its references; no retry is introduced.",
+      "id": "ADAPTER-LOCK-HANDOFF-001",
+      "required_preservation": "Retain inherited-open-file-description ownership, bounded 600-second wait, single frame/immutable receipt, no retry, exact inode/PID/birth checks, and owned direct-child cleanup in any later source integration.",
+      "severity": "resolved",
+      "status": "passed"
+    },
+    {
+      "evidence": {
+        "bridge": {
+          "closure_lines": [
+            271,
+            282,
+            286
+          ],
+          "path": "/private/tmp/joern05-execution-adapter-04/bridge.py",
+          "sha256": "538dd5a9b75201e640c1630f9517bb64597a9629d22afcc52492348aa00627c4"
+        },
+        "canonical_dependency": {
+          "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/history_provider_02.py",
+          "sha256": "da691ca16a4d1169e1f32d3524fb146bc4e60722dd99ea12bb9e03ac38436a8b"
+        },
+        "packet": {
+          "history_ref_line": 15,
+          "path": "/private/tmp/joern05-execution-adapter-04/packet.py",
+          "relative_path_line": 12,
+          "sha256": "73350e80e0861bba89cb138e14b742cccb88a274b86b64dac9673bb14a4c8644"
+        }
+      },
+      "finding": "The prior absolute private history-provider dependency is replaced by HISTORY_RELATIVE_PATH and HISTORY_REF bound to reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/history_provider_02.py with SHA da691ca1. bridge.include_adapter_source_refs adds or verifies that exact closure entry without adding a graph role; the graph remains 88 plus 7 equals 95. No additional private history-provider path appears in the seven adapter runtime modules.",
+      "id": "ADAPTER-PATH-PRIVATE-002",
+      "required_preservation": "Keep the canonical relative source closure and exact provider hash; packet.ROOT is the declared canonical/test checkout root, not an additional provider path.",
+      "severity": "resolved",
+      "status": "passed"
+    },
+    {
+      "evidence": {
+        "prior_correction": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/execution-adapter-independent-review-01-correction.json"
+      },
+      "finding": "The earlier UnboundLocalError concern remains withdrawn and is not reopened.",
+      "id": "ADAPTER-EXC-001",
+      "severity": "withdrawn",
+      "status": "false-positive-preserved"
+    },
+    {
+      "finding": "The 62 tests and private tiny-process probes establish source and bounded lifecycle composition only. They do not establish actual history replay, native control qualification, current stage qualification, production admission/dispatch, analyzer completion, release, or publication.",
+      "id": "ADAPTER-BOUNDARY-003",
+      "required_correction": "Keep native qualifier, stage qualification, fresh admission, external launch, and publication gates separate.",
+      "severity": "boundary",
+      "status": "disclosed"
+    }
+  ],
+  "independent_descriptor_probe": {
+    "near_miss_errno": 35,
+    "near_miss_independent_path": "blocked",
+    "parent_held_lock": true,
+    "positive_inherited_descriptor": "acquired",
+    "production_invoked": false,
+    "result": {
+      "path": "/private/tmp/joern05-execution-adapter-independent-review-04/descriptor-handoff-probe.json",
+      "sha256": "8ced1e45b4e3f0356b413e1ee0886d3d4291da2b648e18104d7aa5e3ccc186f4"
+    },
+    "schema": "v092-private-inherited-lock-descriptor-probe/v1",
+    "script": {
+      "path": "/private/tmp/joern05-execution-adapter-independent-review-04/descriptor_handoff_probe.py",
+      "sha256": "9df22dc31bb56b17e8599ab3f8bdcd2772c3477e7c0f4157c1c6876556e95351"
+    }
+  },
+  "independent_test_rerun": {
+    "coverage_observed": [
+      "graph95 retains exact inherited88 objects and adds exactly seven adapter roles; graph and import topology near misses reject",
+      "opaque parent/child construction, child producer/consumer, parent successor/finalization, callback restoration, descriptor closure and immutable exit receipts pass",
+      "real tiny Python startup child inherits the already-held descriptor and retains the flock after bootstrap closes its references; independent pathname acquisition is blocked",
+      "startup near misses cover bounded timeout/no retry, lock inode/path replacement before readiness, and peer exit before acknowledgement",
+      "first-case markers, exact source bindings, cleanup containment, nonzero/late phase, Popen/birth failures and no-dispatch qualification boundaries remain passing"
+    ],
+    "fixture_boundaries": [
+      "synthetic core/manifest/ledger/terminal and typed evidence I/O seams remain disclosed; no actual history replay or analyzer work",
+      "native process identity is mocked in graph/durable fixtures, while startup handoff uses real tiny Python Popen/flock controls"
+    ],
+    "interpreter": "/opt/homebrew/bin/python3.13 -B -E",
+    "pycache_isolated_under": "/private/tmp/joern05-execution-adapter-independent-review-04",
+    "result": "62/62 passed; four commands exited 0",
+    "tests": [
+      {
+        "independent_log": {
+          "path": "/private/tmp/joern05-execution-adapter-independent-review-04/independent-adapter-tests.log",
+          "sha256": "057dee5a5f8b9a401aedcb3d190b2903fa923671b34db50f9b7a42f6df9fe26f"
+        },
+        "passed": 30,
+        "script": "/private/tmp/joern05-execution-adapter-04/test_adapter.py",
+        "sealed_log": {
+          "path": "/private/tmp/joern05-execution-adapter-04/adapter-tests-final.log",
+          "sha256": "6e46ef20388285048612f4393c648b2d06faa1b735d3fe71de539f6584adc8c5"
+        }
+      },
+      {
+        "independent_log": {
+          "path": "/private/tmp/joern05-execution-adapter-independent-review-04/independent-graph95-tests.log",
+          "sha256": "1bd5d9392b013b3b53e9ab20f74ae32f24dd9d7c47f401c2bf6f3793eb1741f7"
+        },
+        "passed": 11,
+        "script": "/private/tmp/joern05-execution-adapter-04/test_graph95.py",
+        "sealed_log": {
+          "path": "/private/tmp/joern05-execution-adapter-04/graph95-tests-final.log",
+          "sha256": "4ad4c4005c57404fdd13b2c0b9c0fad640e5e46e7b2a780604ff4104ac2ba541"
+        }
+      },
+      {
+        "independent_log": {
+          "path": "/private/tmp/joern05-execution-adapter-independent-review-04/independent-durable-tests.log",
+          "sha256": "7288fd4971ce5aa1b7c9e88d963efae3d8fac8775c70d8e9defc3342019af6e1"
+        },
+        "passed": 17,
+        "script": "/private/tmp/joern05-execution-adapter-04/test_durable.py",
+        "sealed_log": {
+          "path": "/private/tmp/joern05-execution-adapter-04/durable-tests-final.log",
+          "sha256": "e58021e3a532c1725b8cef22f697b15943c92fc024fcb476d7bd2f736168f5d1"
+        }
+      },
+      {
+        "independent_log": {
+          "path": "/private/tmp/joern05-execution-adapter-independent-review-04/independent-startup-handoff-tests.log",
+          "sha256": "d30a08d524f014ccf55c6121a18b4234f9c92499c4467de24b322c68b1a44f51"
+        },
+        "passed": 4,
+        "script": "/private/tmp/joern05-execution-adapter-04/test_startup_handoff.py",
+        "sealed_log": {
+          "path": "/private/tmp/joern05-execution-adapter-04/startup-handoff-tests-final.log",
+          "sha256": "c33f1da6f91ca3d3557cee9eeb4fc65424528b9b0c46a502218397d83aed7399"
+        }
+      }
+    ]
+  },
+  "qualification_authorized": false,
+  "review_type": "independent-read-only-startup-handoff-descriptor-graph95-review",
+  "reviewed_at_utc": "2026-10-25T17:25:00Z",
+  "reviewer": "joern_execution_adapter_independent",
+  "schema": "v092-joern05-execution-adapter-independent-review/v4",
+  "scope": {
+    "admission_or_dispatch_invoked": false,
+    "analyzer_invoked": false,
+    "canonical_source_integrated": false,
+    "engine_invoked": false,
+    "git_mutated": false,
+    "java_or_joern_invoked": false,
+    "ledger_mutated": false,
+    "production_source_edited": false,
+    "qualification_invoked": false,
+    "replay_invoked": false,
+    "statement": "Read-only independent review of sealed handoff04, exact adapter source/test closure, and bounded standalone tiny-Python descriptor probes. This approves source-commit-only preparation; it does not approve canonical installation, runtime qualification, admission, dispatch, analyzer execution, release, or publication."
+  },
+  "sealed_input_check": {
+    "canonical_dependencies": {
+      "history_provider02": {
+        "bound_as": "exact stage source closure metadata reader",
+        "graph_role": null,
+        "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/history_provider_02.py",
+        "sha256": "da691ca16a4d1169e1f32d3524fb146bc4e60722dd99ea12bb9e03ac38436a8b"
+      },
+      "inherited_core_manifest": {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-24/manifest-identity.json",
+        "sha256": "b1b405d1f28bae9b84632de4830352ae9a27f352f47bbb49a3a046e2567add6d"
+      }
+    },
+    "handoff": {
+      "execution_authorized": false,
+      "graph": {
+        "adapter_roles": 7,
+        "hidden_history_provider_role_added": false,
+        "inherited_roles": 88,
+        "opaque_context_transfer": false,
+        "ordinary_import_topology_changed": false,
+        "total_roles": 95
+      },
+      "path": "/private/tmp/joern05-execution-adapter-04/implementation-handoff-04.json",
+      "predecessor": {
+        "path": "/private/tmp/joern05-execution-adapter-03/implementation-handoff-03.json",
+        "sha256": "69818155eff4a58073cc7acee2233f34a9f25d4bfe6b302b424b1eaed869ea97"
+      },
+      "prior_review": {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/execution-adapter-independent-review-03.json",
+        "sha256": "43b36c0bf8d74eba889354519c68209457d212f9f2193a0de6726ef2c5a2f5b4"
+      },
+      "schema": "v092-joern05-execution-adapter-handoff/v4",
+      "sha256": "6232b6a87998e6e5c9f6e16dd23574961e0bc908ef74c4aedbd52915a8c8ee0a",
+      "status": "private-source-only-startup-lock-handoff-repaired"
+    },
+    "source_diff_03_to_04": {
+      "changed_only": [
+        "packet.py: canonical relative HISTORY_RELATIVE_PATH/HISTORY_REF and same da691 SHA",
+        "bridge.py: include HISTORY_REF in exact stage source closure",
+        "supervisor.py: inherited-descriptor startup readiness and bounded handoff"
+      ],
+      "unchanged": [
+        "admission.py",
+        "history.py",
+        "protocol.py",
+        "stage_runtime.py"
+      ]
+    },
+    "source_hashes": {
+      "admission.py": "7807d6a0a1759932f1cbd07cefa739d38aae533d437ec8a8a8465322072c39a0",
+      "bridge.py": "538dd5a9b75201e640c1630f9517bb64597a9629d22afcc52492348aa00627c4",
+      "history.py": "5844d039786cc513895a020774c202caaed1c0cfef6bc858c7a2e2136bfd696e",
+      "packet.py": "73350e80e0861bba89cb138e14b742cccb88a274b86b64dac9673bb14a4c8644",
+      "protocol.py": "4caf6cd997b75da405b1789ce26cc816dc9244634263f5b000c3de3eed6d49ae",
+      "stage_runtime.py": "9ab0e86068a6504b8b38a83573afe6c2ce086b07f47d1af6e56cba16974755e3",
+      "supervisor.py": "fdcec6914b3aad124d5a2af270b62d4f189aa211292516784ef9fb658c2916ee"
+    },
+    "test_hashes": {
+      "test_adapter.py": "dc359995e495ba4014a772e6ace292faef4d01ebd0aa34ecc78ddc478ad8270d",
+      "test_durable.py": "e47d65307fd2258aaf0f1eb5f07aab443f52a3d5e490cb8e98941f6a797901a8",
+      "test_graph95.py": "ecac2d7a029fac6e862295b88515e7a92cc37b764c3017299026d3ff7d16fe10",
+      "test_startup_handoff.py": "2019156e5c82a17681d096c64d89393d81d33581588479b299dbdb6e8d7cfea5"
+    }
+  },
+  "source_commit_approval": true,
+  "status": "approved-for-source-commit-only"
+}

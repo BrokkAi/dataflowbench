@@ -1,0 +1,160 @@
+{
+  "schema": "v092-joern-agent05-build-independent-review/v1",
+  "recorded_utc": "2026-10-25T20:55:00Z",
+  "review_mode": "read-only-built-artifact-and-recipe-review",
+  "inputs": {
+    "source": {
+      "path": "/private/tmp/joern05-native-control-08/StartupWitnessAgent.java",
+      "bytes": 11281,
+      "sha256": "d7c4b65acf156278ab650dac993fe1e900ac4dd5b5b6e1d83453a809ce57fefa"
+    },
+    "traversal_test_source": {
+      "path": "/private/tmp/joern05-native-control-08/StartupWitnessAgentTraversalTest.java",
+      "bytes": 5231,
+      "sha256": "aaa11f0f85fc8906bc04f416c91297e4a3d9df3463034c461ad2ef26d68dac6f"
+    },
+    "source_review": {
+      "path": "/private/tmp/joern05-native-control-08-independent-source-review-01.json",
+      "bytes": 6945,
+      "sha256": "8f596c451e708b6e59698b9bad5d6ce20d553412a7071550dee8398695c4ff74"
+    },
+    "build_recipe": {
+      "path": "/private/tmp/joern05-agent05-build-once-01.py",
+      "bytes": 5207,
+      "sha256": "e7baf81f407bcbab1e395be0ac57f8b0a69dce15798da25f39b6d171be1bc785"
+    },
+    "build_decision": {
+      "path": "/private/tmp/joern05-agent05-build-decision-01.json",
+      "bytes": 1750,
+      "sha256": "ac357b9b22ff48fb076135b02d675eb5b68963b003d20ba4408266463b1db0a3"
+    },
+    "build_result": {
+      "path": "/private/tmp/joern05-agent05-build-01/build-result-01.json",
+      "bytes": 5367,
+      "sha256": "56f5f820331252d1f28275ead5e7d6ba80f2a3363ef63cd027be69a8cbc7d652"
+    }
+  },
+  "artifact": {
+    "jar": {
+      "path": "/private/tmp/joern05-agent05-build-01/joern-startup-witness-agent-05.jar",
+      "bytes": 8842,
+      "sha256": "1e30a6a5c88abb0216c5f205bd337f18fc30dd91345a8aeae244398cc0803261"
+    },
+    "packaging_repeat": {
+      "path": "/private/tmp/joern05-agent05-build-01/packaging-repeat.jar",
+      "bytes": 8842,
+      "sha256": "1e30a6a5c88abb0216c5f205bd337f18fc30dd91345a8aeae244398cc0803261",
+      "interpretation": "Byte-identical deterministic second packaging from the same compiled classes; this is packaging evidence, not a second compilation reproducibility result."
+    },
+    "manifest": {
+      "bytes": "Manifest-Version: 1.0\\r\\nPremain-Class: dfb.joern.StartupWitnessAgent\\r\\n\\r\\n",
+      "premain_class": "dfb.joern.StartupWitnessAgent"
+    },
+    "entry_set": {
+      "exact": true,
+      "entries": [
+        "META-INF/MANIFEST.MF",
+        "dfb/joern/StartupWitnessAgent$Chain.class",
+        "dfb/joern/StartupWitnessAgent$Handle.class",
+        "dfb/joern/StartupWitnessAgent$NativeHandle.class",
+        "dfb/joern/StartupWitnessAgent$Node.class",
+        "dfb/joern/StartupWitnessAgent.class"
+      ],
+      "traversal_test_in_jar": false
+    },
+    "classfiles": {
+      "all_classfile_major_version": 65,
+      "compiled_class_hashes_match_build_result": true,
+      "production_classes": 5,
+      "test_classes_excluded_from_jar": true
+    }
+  },
+  "build_evidence": {
+    "compiler_invocations": 1,
+    "compiler_command": [
+      "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin/javac",
+      "-J-Xmx128m",
+      "-J-XX:ActiveProcessorCount=2",
+      "--release",
+      "21",
+      "-encoding",
+      "UTF-8"
+    ],
+    "compiler_exit_code": 0,
+    "fake_traversal_test_jvm_invocations": 1,
+    "fake_traversal_test_exit_code": 0,
+    "fake_traversal_test_output": "9 actual collectAncestry fake-handle tests passed",
+    "source_build_jdk": "Java 21.0.8-tem; classfile major 65",
+    "resource_bounds": {
+      "javac_heap": "128MiB",
+      "test_jvm_heap": "64MiB",
+      "active_processors": 2,
+      "timeout_seconds_each": 30
+    },
+    "automatic_retry": false,
+    "native_control_matrix_executed": false,
+    "qualification_inferred": false,
+    "semantic_jvm_proof_inferred": false
+  },
+  "decision": {
+    "status": "approved-one-bounded-standalone-diagnostic-probe",
+    "blockers": [],
+    "scope": "The exact source, one successful bounded compile, one successful nine-case fake-handle JVM, exact manifest/entry set, and byte-identical packaging repeat support one standalone premain version probe.",
+    "probe_is_not": [
+      "a Joern or analyzer invocation",
+      "a native control or qualification run",
+      "a scored attempt",
+      "semantic JVM proof",
+      "a JAR publication or canonical sealing operation"
+    ]
+  },
+  "approved_probe_envelope": {
+    "invocations": 1,
+    "automatic_retry": false,
+    "java_executable": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin/java",
+    "jar": "/private/tmp/joern05-agent05-build-01/joern-startup-witness-agent-05.jar",
+    "jar_sha256": "1e30a6a5c88abb0216c5f205bd337f18fc30dd91345a8aeae244398cc0803261",
+    "bounded_command_shape": [
+      "java",
+      "-Xmx64m",
+      "-XX:ActiveProcessorCount=2",
+      "-Duser.home=<fresh-private-home>",
+      "-javaagent:/private/tmp/joern05-agent05-build-01/joern-startup-witness-agent-05.jar",
+      "-version"
+    ],
+    "timeout_seconds": 30,
+    "fresh_private_namespace": true,
+    "required_environment": [
+      "DFB_JOERN_STARTUP_WITNESS_DIR=<fresh regular non-symlink witness directory>",
+      "HOME=<fresh private home>",
+      "TMPDIR=<fresh private temporary directory>",
+      "PATH=<Java21 bin plus /usr/bin:/bin>",
+      "LANG=C",
+      "LC_ALL=C",
+      "_JAVA_OPTIONS unset",
+      "JDK_JAVA_OPTIONS unset",
+      "CLASSPATH unset"
+    ],
+    "expected_scope": [
+      "Capture exit status/stdout/stderr and one jvm-<pid>.json witness receipt.",
+      "Verify the receipt schema/agent version and exact witness directory binding.",
+      "Preserve the result as diagnostic evidence only.",
+      "Do not invoke observer07, native controls, Joern, analyzers, or scoring."
+    ],
+    "failure_behavior": "Any missing, malformed, duplicate, or mismatched receipt is a bounded diagnostic failure; preserve it and do not retry or reinterpret it."
+  },
+  "reviewer_checks": {
+    "probe_path": "/private/tmp/joern05-agent05-build-01/review_probe_build_01.py",
+    "probe_sha256": "99f23823ecfd8e534d4442d85f1aff6ac8e00d68227d4f5d6e2b1be2285f882a",
+    "log_path": "/private/tmp/joern05-agent05-build-01/reviewer_build_static_01.log",
+    "log_sha256": "8a97b61e3f81bfb6a688b7e53224b88d5fddda47e3c05e265cfe9df6a6dc6671",
+    "result": "PASS"
+  },
+  "preservation": {
+    "canonical_or_git_changes": false,
+    "source_or_jar_mutation": false,
+    "publication_hold": true,
+    "native_qualification": "not inferred",
+    "scored_run": "not performed"
+  }
+}

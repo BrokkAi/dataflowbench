@@ -52,7 +52,7 @@ use std::{collections::BTreeSet, fs, path::Path, path::PathBuf, process::Command
 /// The pinned OpenTaint semantic release. Its full distribution identifies
 /// the bundled analyzer as `analyzer/2026.09.04.c51dc3e`; the jar and model
 /// digests below bind the exact components this adapter invokes.
-pub(crate) const OPENTAINT_RELEASE_TAG: &str = "v0.4.6";
+pub(crate) const OPENTAINT_RELEASE_TAG: &str = crate::adapters::pins::OPENTAINT_VERSION;
 
 /// SHA-256 of the pinned `opentaint-project-analyzer.jar` release asset. The
 /// jar self-reports no version at all — no manifest attribute, no `--version`

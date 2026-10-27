@@ -1,0 +1,299 @@
+{
+  "schema": "v092-semgrep-release-qualification/v1",
+  "status": "measurement-with-known-limits",
+  "execution_eligible": true,
+  "groups": [
+    "semgrep-c-kernel",
+    "semgrep-cpp-kernel",
+    "semgrep-go-kernel",
+    "semgrep-java-kernel",
+    "semgrep-java-modeling",
+    "semgrep-java-native",
+    "semgrep-javascript-kernel",
+    "semgrep-javascript-modeling",
+    "semgrep-javascript-native",
+    "semgrep-kotlin-kernel",
+    "semgrep-php-kernel",
+    "semgrep-python-kernel",
+    "semgrep-python-modeling",
+    "semgrep-python-native",
+    "semgrep-ruby-kernel",
+    "semgrep-rust-kernel",
+    "semgrep-typescript-kernel"
+  ],
+  "tool": {
+    "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin/semgrep",
+    "sha256": "423cf0214fb653739f2c904f48eec595ea7c8907130b15eade9c9e00e75745c0",
+    "version": "1.181.0"
+  },
+  "identity_components": [
+    {
+      "name": "semgrep-runtime",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/semgrep.json",
+      "sha256": "cdc63bc30e9b4b519de05cc371dfadd9c58d2052d62401a9e1c2c52d9c692ffe",
+      "kind": "runtime-tree-manifest"
+    }
+  ],
+  "control_receipts": [
+    {
+      "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/partial-qualification.json",
+      "sha256": "593c8459bbf4876988ae68146fd2d86999181b0cb71645ab52fb31623e935b1d"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/qualification.json",
+      "sha256": "734e7dbe41ae298e36ed001385c5b305ba1be19b318a86da06e7a82b885a170f"
+    }
+  ],
+  "reviewed_controls": [
+    {
+      "id": "model-source-with",
+      "scanned": [
+        {
+          "path": "cases/taint/python/model-declared-source-negative/config.py",
+          "sha256": "c34b82f4f0df26465b0691fec77e4f9e12f125637acdb2eabbc2d85370d9652c"
+        },
+        {
+          "path": "cases/taint/python/model-declared-source-positive/config.py",
+          "sha256": "1a8cdce8688dcea5b7e7bc518300f275839863e2213f78d64c1da89b9cc9bbac"
+        }
+      ],
+      "results": 1,
+      "stdout": {
+        "bytes": 2252,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/model-source-with.bin",
+        "sha256": "276609fff1ce161f22ff54977cf28d2bf966c43b52fc2bc2ec6b588593fdc99b"
+      },
+      "stderr": {
+        "bytes": 950,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/model-source-with.bin",
+        "sha256": "574cc4dd12d8f1fe6414da76c608b64ff4f6a84a83aa0c6340622256b822b111"
+      }
+    },
+    {
+      "id": "model-source-without",
+      "scanned": [
+        {
+          "path": "cases/taint/python/model-declared-source-negative/config.py",
+          "sha256": "c34b82f4f0df26465b0691fec77e4f9e12f125637acdb2eabbc2d85370d9652c"
+        },
+        {
+          "path": "cases/taint/python/model-declared-source-positive/config.py",
+          "sha256": "1a8cdce8688dcea5b7e7bc518300f275839863e2213f78d64c1da89b9cc9bbac"
+        }
+      ],
+      "results": 0,
+      "stdout": {
+        "bytes": 1550,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/model-source-without.bin",
+        "sha256": "4c25c1fe45b8566e6de515f42d7e0706b80b40373c39da40079890cfb13652e9"
+      },
+      "stderr": {
+        "bytes": 951,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/model-source-without.bin",
+        "sha256": "f3b636f3f9a3d8bd8a03035b3864c9cdd6d248ec5df4cc4cd2ea7e499eeabdd5"
+      }
+    },
+    {
+      "id": "model-sink-with",
+      "scanned": [
+        {
+          "path": "cases/taint/python/model-declared-sink-negative/audit.py",
+          "sha256": "8abe434a70ff65d905b566bb3de6137e847582e5b148ba14efb7919e0929cf02"
+        },
+        {
+          "path": "cases/taint/python/model-declared-sink-positive/audit.py",
+          "sha256": "016276011bd9a5b9f05e72c46cc77759f70b3307a761da02f148acbc7e379171"
+        }
+      ],
+      "results": 1,
+      "stdout": {
+        "bytes": 2240,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/model-sink-with.bin",
+        "sha256": "edfc4fc1dba2061de7e6041424407d4da126e2b416917ee3b9b24385d487390a"
+      },
+      "stderr": {
+        "bytes": 950,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/model-sink-with.bin",
+        "sha256": "49cf3e7bcbc6c8085f0de2547116bcb5eb16ee14896cf353a1a619c7af036e73"
+      }
+    },
+    {
+      "id": "model-sink-without",
+      "scanned": [
+        {
+          "path": "cases/taint/python/model-declared-sink-negative/audit.py",
+          "sha256": "8abe434a70ff65d905b566bb3de6137e847582e5b148ba14efb7919e0929cf02"
+        },
+        {
+          "path": "cases/taint/python/model-declared-sink-positive/audit.py",
+          "sha256": "016276011bd9a5b9f05e72c46cc77759f70b3307a761da02f148acbc7e379171"
+        }
+      ],
+      "results": 0,
+      "stdout": {
+        "bytes": 1544,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/model-sink-without.bin",
+        "sha256": "0dbf55229abc095ebcf0f28b2f0e536947276daf4dd4e28a842539fb1b93b595"
+      },
+      "stderr": {
+        "bytes": 951,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/model-sink-without.bin",
+        "sha256": "44f8a9727467f10905bff656757c2899974cee80f6676901041e9be5b8620c27"
+      }
+    },
+    {
+      "id": "model-sanitizer-safe-functions",
+      "scanned": [
+        {
+          "path": "cases/taint/python/model-sanitizer-selectivity-negative/clean.py",
+          "sha256": "f7c48dde841b5e1ac5ab6d7a491978293871208a3ae6bffaf7a417209ec7d1e5"
+        },
+        {
+          "path": "cases/taint/python/model-sanitizer-selectivity-positive/clean.py",
+          "sha256": "9f4e5ed0fe6f538902887752cb79a837aa50e0daf9abb463539339235fa5cf7d"
+        }
+      ],
+      "results": 0,
+      "stdout": {
+        "bytes": 1717,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stdout/model-sanitizer-safe-functions.bin",
+        "sha256": "605a2b5d9fc23e86c16cd3ee400b52be4341156d5012833050819ec0b55c0a62"
+      },
+      "stderr": {
+        "bytes": 951,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-02-local-scan/stderr/model-sanitizer-safe-functions.bin",
+        "sha256": "5c414c2e2ac0c40fdafe7408108f927fd7aacd4aa32cf92f63941a02fba44d39"
+      }
+    },
+    {
+      "id": "model-sanitizer-default-functions",
+      "scanned": [
+        {
+          "path": "cases/taint/python/model-sanitizer-selectivity-negative/clean.py",
+          "sha256": "f7c48dde841b5e1ac5ab6d7a491978293871208a3ae6bffaf7a417209ec7d1e5"
+        },
+        {
+          "path": "cases/taint/python/model-sanitizer-selectivity-positive/clean.py",
+          "sha256": "9f4e5ed0fe6f538902887752cb79a837aa50e0daf9abb463539339235fa5cf7d"
+        }
+      ],
+      "results": 1,
+      "stdout": {
+        "bytes": 2268,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stdout/model-sanitizer-default-functions.bin",
+        "sha256": "57333856102b21a4af334e481069ea3791b33d834524268b2bf058dd007597a1"
+      },
+      "stderr": {
+        "bytes": 950,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stderr/model-sanitizer-default-functions.bin",
+        "sha256": "c5a524bb6350a6e9a560992fb51f92574e338bacf72fd878fd5fededaa68e831"
+      }
+    },
+    {
+      "id": "native-python-profile",
+      "scanned": [
+        {
+          "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/python/negative/main.py",
+          "sha256": "4ac1b38b32b9cf4d94c5922ef9545ecf02e164370e161ad5331357231379b440"
+        },
+        {
+          "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/python/positive/main.py",
+          "sha256": "105d2840ac2551f90cb335b22166ec2ba00a5b4bde4976015b827eca178fb5b5"
+        }
+      ],
+      "results": 1,
+      "stdout": {
+        "bytes": 3368,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stdout/native-python-profile.bin",
+        "sha256": "c8878daafa27c3254588f0f1c53d0ed9f8da20ceab8d421eaa5cbde65b1b4516"
+      },
+      "stderr": {
+        "bytes": 976,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stderr/native-python-profile.bin",
+        "sha256": "d8fa734329c6d704a3d6b92a47fe9ed4c9a5e54edf01e72ecdccad8a7aa5ac37"
+      }
+    },
+    {
+      "id": "native-java-profile",
+      "scanned": [
+        {
+          "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/java/negative/Main.java",
+          "sha256": "66c931c496b3aaa03b9210793809fa8816327543de7e972eaac32fc8549273c7"
+        },
+        {
+          "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/java/positive/Main.java",
+          "sha256": "508fdc49c5cea535cce87b8b1685bafd2ac5e710e69f621650f684723b0937f0"
+        }
+      ],
+      "results": 1,
+      "stdout": {
+        "bytes": 3059,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stdout/native-java-profile.bin",
+        "sha256": "5bc454ca39a532e63f878740641bf3d65a239289f370781a09b7a7c2daee9f01"
+      },
+      "stderr": {
+        "bytes": 974,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stderr/native-java-profile.bin",
+        "sha256": "3b6b596d5561e487a2f1cf1f84f0b09c3e1634b1676eb45aae343e9e03417759"
+      }
+    },
+    {
+      "id": "native-javascript-profile",
+      "scanned": [
+        {
+          "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/javascript/negative/main.js",
+          "sha256": "8520bdb5166a28fa74b3c0a7a1bfcaa2a5d6cbe1622f0869af66c0c980cb9498"
+        },
+        {
+          "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/javascript/positive/main.js",
+          "sha256": "a9255bbecf97c9886cc96b83671fd59041cfd85a6658dc80e18db67997e6fc45"
+        }
+      ],
+      "results": 1,
+      "stdout": {
+        "bytes": 3084,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stdout/native-javascript-profile.bin",
+        "sha256": "c31b8bf653bc3279a9eb4fbd4dd0456e83a162166b64923cb4761d0505c8c886"
+      },
+      "stderr": {
+        "bytes": 1751,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stderr/native-javascript-profile.bin",
+        "sha256": "b1bb4d182e10f4bb9f43e8c712aec47f7eb4809e7a9fe07c43afebe53c440385"
+      }
+    },
+    {
+      "id": "csharp-single-function-taint",
+      "scanned": [
+        {
+          "path": "cases/taint/csharp/direct-negative/DirectFlow.cs",
+          "sha256": "5d7fcf5845d6bb1e063c53053ea597f218814d567c084ef22f5e595dc30fb20a"
+        },
+        {
+          "path": "cases/taint/csharp/direct-positive/DirectFlow.cs",
+          "sha256": "f30140127d52644d6c69712397ba74b16706857ed44df6a17e22ae3f6c28ddf9"
+        }
+      ],
+      "results": 1,
+      "stdout": {
+        "bytes": 2234,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stdout/csharp-single-function-taint.bin",
+        "sha256": "6bdbf1bbb9361a26c0eef5e7dd3631a4403639371204e17d94ec4731a7528a3b"
+      },
+      "stderr": {
+        "bytes": 950,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stderr/csharp-single-function-taint.bin",
+        "sha256": "29380852476629f6b35c315e87cc858fb080f798ab2cc0d0e58a9b3e2e1c4535"
+      }
+    }
+  ],
+  "review_implementation": {
+    "path": "scripts/bind-v092-semgrep-qualification.py",
+    "sha256": "6796bb3b90728b42b69a17a227098fa3b4e647e850312fe339a7089871cafa09"
+  },
+  "limits": [
+    "Remote p/semgrep-rule-lints validation failed; local scans establish parser/activation evidence only.",
+    "The partial earlier attempt stays partial; only its completed controls are replayed here.",
+    "C# basic CE taint support was observed, but remains outside the fixed matrix pending separate adapter preregistration.",
+    "No completed release-group run is implied by control eligibility."
+  ]
+}

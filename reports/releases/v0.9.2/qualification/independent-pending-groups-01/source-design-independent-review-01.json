@@ -1,0 +1,400 @@
+{
+  "automatic_retry": false,
+  "bindings": {
+    "actual_observed_head": "9b71cce939ac74d9674be189ee03dbee14b868e9",
+    "base_source_design": {
+      "bytes": 7787,
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-01/source-design-02.json",
+      "sha256": "3e49c2651b4c8297c1d24b34eafbd2968d7a10f910b6b36960d678f5b39f9a00"
+    },
+    "current_old_profile": {
+      "bytes": 1078,
+      "path": "adapters/pins/v0.9.2.json",
+      "sha256": "d3b771f2fec32c4c725c958acc5b6579b9b484a13ca8be72164820d35d0d587f"
+    },
+    "frozen_execution_contract": {
+      "bytes": 824234,
+      "path": "reports/releases/v0.9.2/execution-v4/contract.json",
+      "sha256": "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb"
+    },
+    "ledger": {
+      "bytes": 25380022,
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 88,
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476"
+    },
+    "scheduling_authority": {
+      "bytes": 1504,
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/authorization-01.json",
+      "sha256": "0f8413d52c348a9d89079c70d8cebdea3179c35a8b84a98d390c53227e6f5478"
+    },
+    "source_design": {
+      "bytes": 5713,
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-03.json",
+      "sha256": "d973d6bbc373b9b32aacf1702552cc7ff36c37bd61761444da0aa4d21491a78d"
+    },
+    "source_patch": {
+      "bytes": 20350,
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-source-change-02.patch",
+      "sha256": "6b4cd812bbc03d1c75a0139eb16ed90a258683708a8d119005184409efa121e6"
+    }
+  },
+  "execution_authorized_by_this_review": false,
+  "findings": [
+    {
+      "evidence": [
+        "patch_and_scope_evidence.patch_check",
+        "patch_and_scope_evidence.before_hash_checks",
+        "patch_and_scope_evidence.after_hash_checks_in_temporary_copy"
+      ],
+      "id": "SOURCE-SCOPE-001",
+      "severity": "pass",
+      "summary": "The patch is an exact nine-path Bifrost-scoped delta with all current before hashes and all expected after hashes matching."
+    },
+    {
+      "follow_up": "Bind the exact acquisition.json and all five witness files in the successor contract/source closure; the native helper alone accepts any 64-hex binary field and does not prove the recorded binary digest.",
+      "id": "PROFILE-SEMANTICS-002",
+      "severity": "pass-with-followup-gate",
+      "summary": "The v0.14.0 profile pins the exact observed version/build/catalog/open-pack boundary and leaves every non-Bifrost tool and swift_common_108 field unchanged."
+    },
+    {
+      "evidence": [
+        "src/native.rs patch hunks replace BIFROST_V0_13_1_* with BIFROST_V0_14_0_*",
+        "historical_ledger_evidence"
+      ],
+      "id": "HISTORICAL-CONTEXT-003",
+      "required_correction": "Before applying or admitting a successor, either retain separately callable v0.13.1 evidence validation or provide a checked historical-context bridge that replays every stored old source/contract/source-input binding without passing the row through the current v0.14.0 pin. A stored row must never be relabeled as v0.14.0 merely because the checkout now has v0.14.0 pins.",
+      "severity": "blocker-before-application-or-admission",
+      "summary": "The patch replaces the v0.13.1 native constants, evidence validator, and test with v0.14.0 and does not retain an additive v0.13.1 validator. The historical Bifrost rows still require their v0.13.1-era context."
+    },
+    {
+      "evidence": [
+        "historical_ledger_evidence.design_historical_measured_source_git_show",
+        "historical_ledger_evidence.historical_bifrost_source_commits"
+      ],
+      "id": "HISTORICAL-SOURCE-BINDING-004",
+      "required_correction": "Replace this single ambiguous field with an exact historical Bifrost context list, or correct it to bind all old Bifrost source commits/contracts/source-input closures. Do not treat the Joern commit as the Bifrost historical source and do not silently infer equivalence.",
+      "severity": "blocker-before-application-or-admission",
+      "summary": "bifrost-source-design-03.historical_measured_source is 32d09fab..., a Joern continuation commit, while the 21 historical Bifrost ledger rows use 21b76b... (20 rows) and 4e7b... (one recorder-error row)."
+    },
+    {
+      "id": "LIMITS-IDENTITY-005",
+      "required_correction": "Carry these exact limits and the scheduling authority hash into the final source/contract/manifest; a later execution must recheck them against current live resources.",
+      "severity": "pass-with-contract-gate",
+      "summary": "The design preserves aggregate 30 GiB, individual 12 GiB, replacement attempt accounting, reserves, timeouts, and other guards as declared, and the patch does not change those controls."
+    },
+    {
+      "id": "NO-RELABEL-006",
+      "required_correction": "Keep the old rows and their typed recorder-error/completed outcomes unchanged, and make the successor bridge reject any context that lacks the original row-level source/contract/input identity.",
+      "severity": "pass-with-historical-gate",
+      "summary": "The patch and design do not mutate the ledger or claim qualification/measurement; the acquisition record is explicitly qualification_status=not-run and measurement_status=not-run."
+    },
+    {
+      "id": "ORDER-PREREQUISITE-007",
+      "required_correction": "Wait for that terminal CodeQL boundary and then run the declared fmt, affected tests, and real harness build from the committed source before any Bifrost replacement measurement.",
+      "severity": "required-gate",
+      "summary": "The design requires an independent terminal CodeQL result or an explicitly recorded core blocker before source mutation, and this review performed neither analyzer work nor source mutation."
+    }
+  ],
+  "focused_validation": [
+    {
+      "mutated_checkout": false,
+      "operation": "git apply --check of the exact patch",
+      "result": "passed"
+    },
+    {
+      "mutated_checkout": false,
+      "operation": "temporary-copy patch application followed by all nine expected-after SHA checks",
+      "result": "passed"
+    },
+    {
+      "mutated_checkout": false,
+      "operation": "direct SHA checks for all five acquisition inputs, current nine before files, old profile, frozen contract, ledger, design, patch, authorization",
+      "result": "passed"
+    },
+    {
+      "mutated_checkout": false,
+      "operation": "profile comparison and ledger/source provenance assertions",
+      "result": "passed for scope; historical context findings recorded above"
+    }
+  ],
+  "historical_ledger_evidence": {
+    "bifrost_contract_sha256_counts": {
+      "43aa0cc5185e46f284f0fa07f5b8af123ddd0345d7918ca4ec37ef61cbb02ac3": 1,
+      "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422": 20
+    },
+    "bifrost_rows_total": 21,
+    "bifrost_source_commit_counts": {
+      "21b76b747b72363aad4bbbc358fc2ae9aee24f1c": 20,
+      "4e7b1d9afd6bccf3e932e4222825afb44c436412": 1
+    },
+    "bifrost_status_counts": {
+      "completed": 20,
+      "recorder-error": 1
+    },
+    "completed_old_bifrost_rows_with_bifrost_binary_json": 20,
+    "completed_old_bifrost_rows_with_version_txt": 20,
+    "design_historical_measured_source": "32d09fab240f7c7399672f1283fcaed003dd735e",
+    "design_historical_measured_source_git_show": "32d09fab240f7c7399672f1283fcaed003dd735e\tAdd reviewed aggregate source working cap continuation",
+    "historical_bifrost_source_commits": [
+      "21b76b747b72363aad4bbbc358fc2ae9aee24f1c",
+      "4e7b1d9afd6bccf3e932e4222825afb44c436412"
+    ],
+    "historical_measured_source_is_a_bifrost_row_source": false,
+    "historical_rows_preserved_in_ledger_bytes": true,
+    "interpretation": "The current ledger preserves 20 completed old Bifrost rows plus one recorder-error row. The old rows are bound to the v0.13.1-era acquisition/profile paths and old source/contract identities; the source patch does not rewrite them.",
+    "ledger_rows_total": 88
+  },
+  "patch_and_scope_evidence": {
+    "after_hash_checks_in_temporary_copy": [
+      {
+        "actual_after_sha256": "c3b3638c5e6c258a955204adf1114677e71e4e2628ba58a31c0f1dcd8d880cd5",
+        "expected_after_sha256": "c3b3638c5e6c258a955204adf1114677e71e4e2628ba58a31c0f1dcd8d880cd5",
+        "match": true,
+        "path": "src/adapters/pins.rs"
+      },
+      {
+        "actual_after_sha256": "01cf7c4be3fb32921c83ac2f5ed71ba4eee66edaa08c981ac9558ce289c1479f",
+        "expected_after_sha256": "01cf7c4be3fb32921c83ac2f5ed71ba4eee66edaa08c981ac9558ce289c1479f",
+        "match": true,
+        "path": "src/adapters/mod.rs"
+      },
+      {
+        "actual_after_sha256": "4e72d21c5d8d6d23e2486f0a32c0f9b1ac321c62063974ccb68155ad48090860",
+        "expected_after_sha256": "4e72d21c5d8d6d23e2486f0a32c0f9b1ac321c62063974ccb68155ad48090860",
+        "match": true,
+        "path": "src/adapters/bifrost.rs"
+      },
+      {
+        "actual_after_sha256": "94b6296a347de5e7887c30173a19ec9898ddf77817c3ae072dbea42cd2e8c365",
+        "expected_after_sha256": "94b6296a347de5e7887c30173a19ec9898ddf77817c3ae072dbea42cd2e8c365",
+        "match": true,
+        "path": "src/native.rs"
+      },
+      {
+        "actual_after_sha256": "a6949fe350ec69e0ee651a6c04cb59282ac9b5c505c30e885e0e0b69be769c8c",
+        "expected_after_sha256": "a6949fe350ec69e0ee651a6c04cb59282ac9b5c505c30e885e0e0b69be769c8c",
+        "match": true,
+        "path": "src/tests/adapters/pins.rs"
+      },
+      {
+        "actual_after_sha256": "413a42d3e7af439649d3831e345c143be3405377c8f9001c6946e608626ea39a",
+        "expected_after_sha256": "413a42d3e7af439649d3831e345c143be3405377c8f9001c6946e608626ea39a",
+        "match": true,
+        "path": "src/tests/adapters/bifrost.rs"
+      },
+      {
+        "actual_after_sha256": "b9fc6d1dbbadb3308a5d1c1d9c88fb9cc17c17d3d07d1214c34dd5714466f7bf",
+        "expected_after_sha256": "b9fc6d1dbbadb3308a5d1c1d9c88fb9cc17c17d3d07d1214c34dd5714466f7bf",
+        "match": true,
+        "path": "src/tests/batch.rs"
+      },
+      {
+        "actual_after_sha256": "21336ddc0a90be6898ca6c00132db1b454ae50464575862be9cc56f6702630ae",
+        "expected_after_sha256": "21336ddc0a90be6898ca6c00132db1b454ae50464575862be9cc56f6702630ae",
+        "match": true,
+        "path": "src/tests/native.rs"
+      },
+      {
+        "actual_after_sha256": "783f3983eb66c7c1af43c4008b97e89406e9d0eda61a44a8ba8d6b161b4a7951",
+        "expected_after_sha256": "783f3983eb66c7c1af43c4008b97e89406e9d0eda61a44a8ba8d6b161b4a7951",
+        "match": true,
+        "path": "adapters/pins/v0.9.2-bifrost-v0140.json"
+      }
+    ],
+    "aggregate_source_limit_gib": 30,
+    "all_current_before_hashes_match": true,
+    "all_expected_after_hashes_match": true,
+    "allowed_delta_count": 9,
+    "before_hash_checks": [
+      {
+        "actual_current_sha256": "67e4df4e21652857d339b806ac388af87bb16cf82c9dcdfd3fabf7c0f1f34e19",
+        "expected_after_sha256": "c3b3638c5e6c258a955204adf1114677e71e4e2628ba58a31c0f1dcd8d880cd5",
+        "expected_current_before_sha256": "67e4df4e21652857d339b806ac388af87bb16cf82c9dcdfd3fabf7c0f1f34e19",
+        "match": true,
+        "path": "src/adapters/pins.rs"
+      },
+      {
+        "actual_current_sha256": "8caa61fc2eb8a68042961c25362b42dfad8b74e39ae44e102803a1febe173fe1",
+        "expected_after_sha256": "01cf7c4be3fb32921c83ac2f5ed71ba4eee66edaa08c981ac9558ce289c1479f",
+        "expected_current_before_sha256": "8caa61fc2eb8a68042961c25362b42dfad8b74e39ae44e102803a1febe173fe1",
+        "match": true,
+        "path": "src/adapters/mod.rs"
+      },
+      {
+        "actual_current_sha256": "44aca69fa585fba0ffcb3470aab54617853ce03bb7bee23913fbbff02b54b1f3",
+        "expected_after_sha256": "4e72d21c5d8d6d23e2486f0a32c0f9b1ac321c62063974ccb68155ad48090860",
+        "expected_current_before_sha256": "44aca69fa585fba0ffcb3470aab54617853ce03bb7bee23913fbbff02b54b1f3",
+        "match": true,
+        "path": "src/adapters/bifrost.rs"
+      },
+      {
+        "actual_current_sha256": "7b905fabeb2a946bc97508eafdb8098dea7bdca59715ac4714a27f83004a7d2a",
+        "expected_after_sha256": "94b6296a347de5e7887c30173a19ec9898ddf77817c3ae072dbea42cd2e8c365",
+        "expected_current_before_sha256": "7b905fabeb2a946bc97508eafdb8098dea7bdca59715ac4714a27f83004a7d2a",
+        "match": true,
+        "path": "src/native.rs"
+      },
+      {
+        "actual_current_sha256": "c3e5a10420bd9ce27ac2ecb492bffe8db630710ff18e5006bca51c2575eab57c",
+        "expected_after_sha256": "a6949fe350ec69e0ee651a6c04cb59282ac9b5c505c30e885e0e0b69be769c8c",
+        "expected_current_before_sha256": "c3e5a10420bd9ce27ac2ecb492bffe8db630710ff18e5006bca51c2575eab57c",
+        "match": true,
+        "path": "src/tests/adapters/pins.rs"
+      },
+      {
+        "actual_current_sha256": "cb890b8abf2c982cfcbbdcd14ce39cf794d9bf426dc4e6a0076d55f68e1e76b7",
+        "expected_after_sha256": "413a42d3e7af439649d3831e345c143be3405377c8f9001c6946e608626ea39a",
+        "expected_current_before_sha256": "cb890b8abf2c982cfcbbdcd14ce39cf794d9bf426dc4e6a0076d55f68e1e76b7",
+        "match": true,
+        "path": "src/tests/adapters/bifrost.rs"
+      },
+      {
+        "actual_current_sha256": "203cb734ad7888a38ae3f0c036ca64388dd47a3c4986daefafda8179df8b6063",
+        "expected_after_sha256": "b9fc6d1dbbadb3308a5d1c1d9c88fb9cc17c17d3d07d1214c34dd5714466f7bf",
+        "expected_current_before_sha256": "203cb734ad7888a38ae3f0c036ca64388dd47a3c4986daefafda8179df8b6063",
+        "match": true,
+        "path": "src/tests/batch.rs"
+      },
+      {
+        "actual_current_sha256": "9e7841129384ace05324b88b3aecf67164e634ab58dccd74c6648c512784b55d",
+        "expected_after_sha256": "21336ddc0a90be6898ca6c00132db1b454ae50464575862be9cc56f6702630ae",
+        "expected_current_before_sha256": "9e7841129384ace05324b88b3aecf67164e634ab58dccd74c6648c512784b55d",
+        "match": true,
+        "path": "src/tests/native.rs"
+      },
+      {
+        "actual_current_sha256": null,
+        "expected_after_sha256": "783f3983eb66c7c1af43c4008b97e89406e9d0eda61a44a8ba8d6b161b4a7951",
+        "expected_current_before_sha256": null,
+        "match": true,
+        "path": "adapters/pins/v0.9.2-bifrost-v0140.json"
+      }
+    ],
+    "individual_source_limit_gib": 12,
+    "native_case_population_partition_changed": false,
+    "other_guards_reserves_timeouts_unchanged_claimed_by_design": true,
+    "patch_check": {
+      "command": "git apply --check reports/releases/v0.9.2/acquisition/bifrost-v0140-source-change-02.patch",
+      "result": "passed"
+    },
+    "patch_path_set_matches_design": true,
+    "patch_paths": [
+      "src/adapters/pins.rs",
+      "src/adapters/mod.rs",
+      "src/adapters/bifrost.rs",
+      "src/native.rs",
+      "src/tests/adapters/pins.rs",
+      "src/tests/adapters/bifrost.rs",
+      "src/tests/batch.rs",
+      "src/tests/native.rs",
+      "adapters/pins/v0.9.2-bifrost-v0140.json"
+    ],
+    "population_case_fixture_scripts_changed": false,
+    "replacement_global_attempts": {
+      "bifrost-c-kernel": 3,
+      "other_bifrost_groups": 2
+    },
+    "source_delta_is_bifrost_scoped": true
+  },
+  "production_actions_performed": false,
+  "profile_and_native_evidence": {
+    "acquisition_record": {
+      "measurement_status": "not-run",
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-01/acquisition.json",
+      "preserved_v0131_evidence": true,
+      "qualification_status": "not-run",
+      "sha256": "32e9af98e11bbcc77ff3badc125a1572cfb2080af45f207b0b1e0b2643488681"
+    },
+    "exact_acquisition_inputs": [
+      {
+        "actual_sha256": "c257ca5224d05c7e157d64b4cc74d3549db98ad738b6b12276c9beac9425eec5",
+        "expected_sha256": "c257ca5224d05c7e157d64b4cc74d3549db98ad738b6b12276c9beac9425eec5",
+        "match": true,
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-01/version.stdout.txt"
+      },
+      {
+        "actual_sha256": "a700a3479c31d73ede780e65416c4f56901bdba4fa6696de3a17eb28fa2606fd",
+        "expected_sha256": "a700a3479c31d73ede780e65416c4f56901bdba4fa6696de3a17eb28fa2606fd",
+        "match": true,
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-01/build-identity.stdout.txt"
+      },
+      {
+        "actual_sha256": "d94fc23317c6236039e456319f97973f560c3ff55d86a6fb1c2d9d5bd42a5927",
+        "expected_sha256": "d94fc23317c6236039e456319f97973f560c3ff55d86a6fb1c2d9d5bd42a5927",
+        "match": true,
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-01/catalog-list-policies.stdout.txt"
+      },
+      {
+        "actual_sha256": "d79fb8d9ce5054ce9ade339d96c36b0d2c0ca568a97be92035a4d04a4746930e",
+        "expected_sha256": "d79fb8d9ce5054ce9ade339d96c36b0d2c0ca568a97be92035a4d04a4746930e",
+        "match": true,
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-01/help.stdout.txt"
+      },
+      {
+        "actual_sha256": "32e9af98e11bbcc77ff3badc125a1572cfb2080af45f207b0b1e0b2643488681",
+        "expected_sha256": "32e9af98e11bbcc77ff3badc125a1572cfb2080af45f207b0b1e0b2643488681",
+        "match": true,
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-01/acquisition.json"
+      }
+    ],
+    "exact_binary_identity": {
+      "binary_sha256": "fc9a2a4cff4e73b91a1b4e15f403bf572052bc796a362440e347336be46385e6",
+      "build_identity": "c11a13ffa03ebea154f587b899954e412b5b871e",
+      "catalog_packs": [],
+      "catalog_schema": 2,
+      "catalog_witness_sha256": "f9d3b4efcf20e0ca8e8a976d6524556f114f4a4ccab3f4b0cc761f0b9248d206",
+      "version": "bifrost 0.14.0"
+    },
+    "new_bifrost_profile": {
+      "build_identity": "c11a13ffa03ebea154f587b899954e412b5b871e",
+      "environment": {
+        "BIFROST_OPEN_PACKS_DISABLE": "1"
+      },
+      "native_evidence": "reports/releases/v0.9.2/qualification/bifrost-v0140-01",
+      "version": "bifrost 0.14.0"
+    },
+    "new_profile_expected_sha256": "783f3983eb66c7c1af43c4008b97e89406e9d0eda61a44a8ba8d6b161b4a7951",
+    "new_profile_hash_matches_design": true,
+    "new_profile_patch_sha256": "783f3983eb66c7c1af43c4008b97e89406e9d0eda61a44a8ba8d6b161b4a7951",
+    "non_bifrost_tool_profiles_unchanged": true,
+    "old_bifrost_profile": {
+      "build_identity": "271a0bd840372a1ce6e6e11fc60a788e997ed353",
+      "environment": {
+        "BIFROST_OPEN_PACKS_DISABLE": "1"
+      },
+      "native_evidence": "reports/releases/v0.9.2/acquisition",
+      "version": "bifrost 0.13.1"
+    },
+    "swift_common_108_profile_unchanged": true,
+    "typed_native_semantics_observed": [
+      "pins and ModelingTool identity move from Bifrost v0.13.1 to Bifrost v0.14.0",
+      "native activation checks the exact v0.14.0 version/build/catalog/help/acquisition evidence paths",
+      "catalog schema is 2 with packs [] and BIFROST_OPEN_PACKS_DISABLE=1 remains explicit",
+      "native case population, NATIVE_MODEL_PROFILE, partition, and non-Bifrost tool identities are outside the patch delta",
+      "runtime validator checks the acquisition binary field is a 64-hex digest; exact binary identity must be enforced by the bound acquisition record/source closure"
+    ]
+  },
+  "required_next_gates": [
+    "Resolve the historical_measured_source provenance mismatch and bind all historical Bifrost contexts explicitly.",
+    "Use an additive v0.13.1 historical validator or a lossless bridge that never interprets historical rows through the v0.14.0 native pin.",
+    "Complete the independent CodeQL terminal boundary before source mutation.",
+    "At application time recheck all nine current before hashes, then run cargo fmt, affected tests, and the real harness build from the committed source.",
+    "Bind exact source, plan, contract, manifest, acquisition witnesses, limits, and reviewed admission before any Bifrost replacement execution."
+  ],
+  "review_type": "independent-read-only-source-design-review",
+  "reviewed_at_utc": "2026-10-24T10:30:58.121451+00:00",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-bifrost-source-design-independent-review/v1",
+  "scope": {
+    "analyzer_invoked": false,
+    "build_or_measurement_performed": false,
+    "checkout_branch": "dave/v0.9.2-full-refresh",
+    "concurrent_dirty_worktree_preserved": true,
+    "ledger_or_frozen_inputs_mutated": false,
+    "observed_git_head": "9b71cce939ac74d9674be189ee03dbee14b868e9",
+    "read_only": true,
+    "source_application_performed": false
+  },
+  "status": "changes-required-before-source-application"
+}

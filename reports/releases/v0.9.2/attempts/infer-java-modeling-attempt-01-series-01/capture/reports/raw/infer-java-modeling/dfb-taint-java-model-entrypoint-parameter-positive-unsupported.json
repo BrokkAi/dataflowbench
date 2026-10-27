@@ -1,0 +1,13 @@
+{
+  "adapter": "infer",
+  "case_id": "dfb-taint-java-model-entrypoint-parameter-positive",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "E",
+  "modeling_category_label": "framework entry points",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "reason": "category E — framework entry points — is unsupported for v1.3.0 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): measured on the pinned v1.3.0 (Amendment A13): a source matcher's argument `taint_target` applies at call boundaries only — declared on the uncalled handler's parameter, the analysis synthesizes no root and reports nothing inside the handler's body — and the pulse-taint surface documents no entry-root or endpoint vocabulary",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-entrypoint-parameter",
+  "witnessed_tool_identity": "v1.3.0"
+}

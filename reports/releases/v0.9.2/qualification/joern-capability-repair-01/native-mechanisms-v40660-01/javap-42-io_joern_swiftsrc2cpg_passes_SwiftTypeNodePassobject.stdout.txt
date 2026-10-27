@@ -1,0 +1,89 @@
+Compiled from "SwiftTypeNodePass.scala"
+public final class io.joern.swiftsrc2cpg.passes.SwiftTypeNodePass$ {
+  public static final io.joern.swiftsrc2cpg.passes.SwiftTypeNodePass$ MODULE$;
+
+  private io.joern.swiftsrc2cpg.passes.SwiftTypeNodePass$();
+    Code:
+       0: aload_0
+       1: invokespecial #21                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class io/joern/swiftsrc2cpg/passes/SwiftTypeNodePass$
+       3: dup
+       4: invokespecial #24                 // Method "<init>":()V
+       7: putstatic     #26                 // Field MODULE$:Lio/joern/swiftsrc2cpg/passes/SwiftTypeNodePass$;
+      10: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #30                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class io/joern/swiftsrc2cpg/passes/SwiftTypeNodePass$
+       6: invokespecial #33                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public io.joern.x2cpg.passes.frontend.TypeNodePass withRegisteredTypes(scala.collection.immutable.Set<java.lang.String>, io.shiftleft.codepropertygraph.generated.Cpg);
+    Code:
+       0: new           #10                 // class io/joern/swiftsrc2cpg/passes/SwiftTypeNodePass$$anon$1
+       3: dup
+       4: aload_1
+       5: aload_2
+       6: invokespecial #41                 // Method io/joern/swiftsrc2cpg/passes/SwiftTypeNodePass$$anon$1."<init>":(Lscala/collection/immutable/Set;Lio/shiftleft/codepropertygraph/generated/Cpg;)V
+       9: areturn
+
+  private static final boolean fullToShortName$$anonfun$1(char);
+    Code:
+       0: getstatic     #51                 // Field scala/runtime/RichChar$.MODULE$:Lscala/runtime/RichChar$;
+       3: getstatic     #56                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: iload_0
+       7: invokevirtual #60                 // Method scala/Predef$.charWrapper:(C)C
+      10: invokevirtual #63                 // Method scala/runtime/RichChar$.isDigit$extension:(C)Z
+      13: ireturn
+
+  public static boolean io$joern$swiftsrc2cpg$passes$SwiftTypeNodePass$$anon$1$$_$fullToShortName$$anonfun$adapted$1(java.lang.Object);
+    Code:
+       0: aload_0
+       1: invokestatic  #72                 // Method scala/runtime/BoxesRunTime.unboxToChar:(Ljava/lang/Object;)C
+       4: invokestatic  #74                 // Method fullToShortName$$anonfun$1:(C)Z
+       7: ireturn
+
+  private static final boolean fullToShortName$$anonfun$2$$anonfun$1(char);
+    Code:
+       0: iload_0
+       1: bipush        58
+       3: if_icmpeq     10
+       6: iconst_1
+       7: goto          11
+      10: iconst_0
+      11: ireturn
+
+  private static boolean fullToShortName$$anonfun$2$$anonfun$adapted$1(java.lang.Object);
+    Code:
+       0: aload_0
+       1: invokestatic  #72                 // Method scala/runtime/BoxesRunTime.unboxToChar:(Ljava/lang/Object;)C
+       4: invokestatic  #79                 // Method fullToShortName$$anonfun$2$$anonfun$1:(C)Z
+       7: ireturn
+
+  public static final java.lang.String io$joern$swiftsrc2cpg$passes$SwiftTypeNodePass$$anon$1$$_$fullToShortName$$anonfun$2(java.lang.String);
+    Code:
+       0: getstatic     #87                 // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #56                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: aload_0
+       7: invokevirtual #90                 // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      10: invokedynamic #110,  0            // InvokeDynamic #0:apply:()Lscala/Function1;
+      15: invokevirtual #114                // Method scala/collection/StringOps$.takeWhile$extension:(Ljava/lang/String;Lscala/Function1;)Ljava/lang/String;
+      18: areturn
+
+  public static final java.lang.String io$joern$swiftsrc2cpg$passes$SwiftTypeNodePass$$anon$1$$_$fullToShortName$$anonfun$3(java.lang.String);
+    Code:
+       0: aload_0
+       1: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #129,  0            // InvokeDynamic #1:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

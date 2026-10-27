@@ -1,0 +1,56 @@
+Compiled from "ScanPass.scala"
+public class io.joern.console.scan.ScanPass extends io.shiftleft.passes.CpgPass {
+  private final io.shiftleft.codepropertygraph.generated.Cpg cpg;
+
+  private final scala.collection.immutable.List<io.joern.console.Query> queries;
+
+  public io.joern.console.scan.ScanPass(io.shiftleft.codepropertygraph.generated.Cpg, scala.collection.immutable.List<io.joern.console.Query>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #26                 // Field cpg:Lio/shiftleft/codepropertygraph/generated/Cpg;
+       5: aload_0
+       6: aload_2
+       7: putfield      #28                 // Field queries:Lscala/collection/immutable/List;
+      10: aload_0
+      11: aload_1
+      12: getstatic     #34                 // Field io/shiftleft/passes/CpgPass$.MODULE$:Lio/shiftleft/passes/CpgPass$;
+      15: invokevirtual #38                 // Method io/shiftleft/passes/CpgPass$.$lessinit$greater$default$2:()Ljava/lang/String;
+      18: invokespecial #41                 // Method io/shiftleft/passes/CpgPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;Ljava/lang/String;)V
+      21: return
+
+  public void run(flatgraph.DiffGraphBuilder);
+    Code:
+       0: aload_0
+       1: getfield      #28                 // Field queries:Lscala/collection/immutable/List;
+       4: aload_0
+       5: invokedynamic #67,  0             // InvokeDynamic #0:apply:(Lio/joern/console/scan/ScanPass;)Lscala/Function1;
+      10: invokevirtual #73                 // Method scala/collection/immutable/List.flatMap:(Lscala/Function1;)Lscala/collection/immutable/List;
+      13: aload_1
+      14: invokedynamic #83,  0             // InvokeDynamic #1:apply:(Lflatgraph/DiffGraphBuilder;)Lscala/Function1;
+      19: invokevirtual #87                 // Method scala/collection/immutable/List.foreach:(Lscala/Function1;)V
+      22: return
+
+  private final scala.collection.IterableOnce run$$anonfun$1(io.joern.console.Query);
+    Code:
+       0: getstatic     #94                 // Field io/joern/console/scan/package$.MODULE$:Lio/joern/console/scan/package$;
+       3: aload_1
+       4: invokevirtual #97                 // Method io/joern/console/scan/package$.QueryWrapper:(Lio/joern/console/Query;)Lio/joern/console/scan/package$QueryWrapper;
+       7: aload_0
+       8: getfield      #26                 // Field cpg:Lio/shiftleft/codepropertygraph/generated/Cpg;
+      11: invokevirtual #100                // Method io/joern/console/scan/package$QueryWrapper.apply:(Lio/shiftleft/codepropertygraph/generated/Cpg;)Lscala/collection/immutable/List;
+      14: areturn
+
+  private static final flatgraph.DiffGraphBuilder run$$anonfun$2(flatgraph.DiffGraphBuilder, flatgraph.DNode);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #108                // Method flatgraph/DiffGraphBuilder.addNode:(Lflatgraph/DNode;)Lflatgraph/DiffGraphBuilder;
+       5: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #121,  0            // InvokeDynamic #2:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

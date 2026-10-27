@@ -1,0 +1,237 @@
+{
+  "admission_source": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-capability-admission-03.py",
+    "sha256": "cd4865c1171cd27b68edcf2d77046307f22dfc511cb1706d931fdbea4cb69e44"
+  },
+  "approval_boundary": {
+    "approved_for": [
+      "exact request06 source/plan/contract/admission-helper closure validation",
+      "read-only retained-prefix and continuation guard review",
+      "read-only admission03 preparation boundary before any continuation dispatch"
+    ],
+    "execution_performed_by_this_review": false,
+    "execution_requires": [
+      "install this review as the manifest final_review binding and recompute the final manifest SHA-256",
+      "run admission-helper-03 exactly once to produce retained-preflight-03, materialized-preflight-03, and execution-admission-03",
+      "independently verify the actual admission03 receipt path/SHA, helper03 admission_source_sha256, materialized source/projection/projected bytes, retained replay, and all resource/process/namespace fields",
+      "a separate final-control review bound to the actual admission03/materialized03 artifacts and the current exact projection",
+      "the frozen runner exact-head, no-analyzer, resource, exclusive-lock, contender, fresh attempt/cache/report-sidecar, remaining-reserve, and no-automatic-retry gates"
+    ]
+  },
+  "automatic_retry": false,
+  "binding_checks": {
+    "admission_source_hash_matches_request": true,
+    "base_source_commit_is_ancestor_of_source_commit": true,
+    "current_admission_helper_hash_matches_request": true,
+    "current_contract_hash_matches_request": true,
+    "current_source_hash_matches_request": true,
+    "current_test_hash_matches_request": true,
+    "head_equals_plan_commit_at_review": true,
+    "plan_commit_contains_append_only_admission_helper_and_continuation_closure": true,
+    "request_admission_source_equal_this_review_admission_source": true,
+    "request_bindings_equal_this_review_bindings": true,
+    "source_commit_contains_continuation_source_and_test": true,
+    "source_commit_is_ancestor_of_plan_commit": true
+  },
+  "bindings": {
+    "authorization": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/authorization.json",
+      "sha256": "8268eb27d8f9f8ef3c00b90007b729973719aa1e83f30e95d6b157d95ed33d3b"
+    },
+    "capability_evidence": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+      "sha256": "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005"
+    },
+    "continuation_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/joern-capability-repair-04-contract.json",
+      "sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827"
+    },
+    "continuation_source": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+      "sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+    },
+    "continuation_test": {
+      "path": "reports/releases/v0.9.2/acquisition/test-joern-capability-continuation-01.py",
+      "sha256": "9eef52992edc1699584521496c3036c1595c6616ae453de336ffcb315627f1e9"
+    },
+    "joern_shim": {
+      "path": "scripts/joern_capability_repair_v092.py",
+      "sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+    },
+    "ledger_prefix": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 86,
+      "sha256": "ca7152afb422160b30c2f38677aa539a1463b45e3b41131848b3d9e81d4a1084"
+    },
+    "plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+    "repaired_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/execution-plan.json",
+      "sha256": "76264424ddfa31b11788459368ae9b65058685cb7bab60d14353d9c96fca102f"
+    },
+    "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79"
+  },
+  "guard_review": {
+    "execution_state": {
+      "codeql_attempt_id_exact": true,
+      "completed_requires_capacity_loss_null": true,
+      "completed_requires_exit_zero": true,
+      "completed_requires_timed_out_false": true,
+      "direct_execute_requires_exact_head": true,
+      "direct_execute_requires_retained_verify": true,
+      "joern_attempt_id_exact": true,
+      "joern_before_codeql": true,
+      "tail_maximum_two_rows": true
+    },
+    "historical_prefix": {
+      "completed_successes": 82,
+      "exact_ledger_sha256": true,
+      "original_contexts_recovered_by_exact_contract_digest": true,
+      "role_metadata_preserved": true,
+      "sealed_rows": 86
+    },
+    "live_admission_and_runner": {
+      "admission_helper03_captures_isolated_stdout_stderr_before_receipt": true,
+      "admission_helper03_checks_exact_module_hash": true,
+      "admission_helper03_checks_final_review_binds_helper03": true,
+      "admission_helper03_materializes_under_fresh_namespace": true,
+      "admission_helper03_output_names_append_only_from_helper02": true,
+      "admission_helper03_read_only_until_one_shot_receipt": true,
+      "admission_helper03_replays_retained_preflight": true,
+      "admission_helper03_runs_materialized_shim_in_fresh_interpreter": true,
+      "admission_helper_checks_127_gib_floor": true,
+      "admission_helper_checks_exact_contract_snapshot": true,
+      "admission_helper_checks_fresh_attempt_and_sidecar_namespaces": true,
+      "admission_helper_materializes_source_projection": true,
+      "admission_receipt_materialized_fields_require_actual_final_control_binding": true,
+      "execute_rechecks_127_gib_floor": true,
+      "execute_rechecks_original_cutoff_reserve": true,
+      "execute_rechecks_phase_reserve": true,
+      "frozen_runner_acquires_exclusive_lock": true,
+      "frozen_runner_rechecks_attempt_cache_execution_and_report_freshness": true,
+      "frozen_runner_rechecks_contenders": true,
+      "frozen_runner_rechecks_source_and_contract": true,
+      "live_gate_uses_hash_bound_loaded_receipt_for_phase_reserve": true,
+      "receipt_booleans_are_not_the_only_live_guard": true,
+      "runtime_plan_changes_only_expiry": true
+    },
+    "plan_and_contract": {
+      "codeql_command_and_output_roots_preserved": true,
+      "codeql_max_attempts_two": true,
+      "effective_source_input_roles_preserved": true,
+      "fresh_qualification_bound": true,
+      "helper03_append_only_output_namespace_change_only": true,
+      "joern_only_max_attempts_three": true,
+      "manifest_contract_cycle_avoided": true,
+      "plan_head_ce3db41_bound": true,
+      "strict_group_delta": true,
+      "strict_top_level_delta": true
+    },
+    "source_closure": {
+      "all_delta_blobs_verified_at_source_commit": true,
+      "all_plan_artifact_blobs_verified_at_plan_commit": true,
+      "explicit_delta_paths": 301,
+      "fixed_point_graph_checked": true,
+      "fresh_control_paths": 197,
+      "historical_raw_witnesses": 96,
+      "streaming_blob_verifier_single_request_response": true
+    }
+  },
+  "lease_assessment": {
+    "decision": "no-concrete-bypass-found",
+    "execution_boundary": "An actual admission03 receipt remains required before execution, and a separate final-control review remains required.",
+    "reason": "The committed source fix changes the live phase-reserve check to consume the hash-bound receipt returned by _check_execution_admission instead of treating manifest.execution_admission, which is only a path/SHA reference, as the receipt. Static call-site review found the four admission checks at validate, live dispatch, execute, and final verify; no remaining phase-reserve read bypasses receipt loading. Helper03 is an append-only helper02 namespace/output rebinding: retained replay, exclusive-lock resource/source/contract/freshness checks, isolated fresh-interpreter materialized shim invocation, stdout/stderr capture before the receipt, and one-shot automatic_retry=false semantics are unchanged. This review does not treat the pending actual admission03 or any prior preflight as a qualification capture or an execution receipt. The continuation checker does not independently compare all materialized receipt fields to an independently supplied projection, so final control must bind helper03 and inspect admission03 materialized_source, materialized_projection_sha256, materialized_source_projected_bytes, and admission_source_sha256."
+  },
+  "manifest_review_input": {
+    "continuation_contract_sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827",
+    "execution_admission_present_at_input": false,
+    "final_review_present_at_input": false,
+    "finalized": true,
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/continuation-manifest-review-06.json",
+    "plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+    "sha256": "8e461c2d154d47e810ad64f1bf7e518e126d2589581751a4e8ad176cb15537dc",
+    "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79"
+  },
+  "nonclaims": [
+    "This approved review is limited to read-only source/contract/plan closure and the admission03 preparation boundary; it does not authorize analyzer or qualification execution.",
+    "No analyzer, build, Joern03, CodeQL01, scoring, activation, continuation launch, retained replay, or source materialization was performed by this review.",
+    "The 18 focused tests and builder --verify are static/read-only validation; they do not create an admission receipt or fresh qualification capture.",
+    "The actual admission03 receipt, retained-preflight03, and materialized-preflight03 were pending at review input and must be independently reviewed before execution.",
+    "Prior continuation reviews and admission stop artifacts remain preserved as historical evidence; they cannot substitute for the exact request06/source/contract/helper03 and actual-admission03 bindings.",
+    "Any later change to continuation source, test, admission helper, contract, plan, manifest, final-control review, or materialized projection invalidates these bindings and requires a new independent review."
+  ],
+  "request": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/final-review-request-06.json",
+    "sha256": "f35032c71d4551f432f65db3e92b25da36983d5e10a6e8798ec591ed60a39fd1",
+    "status_at_review": "independent-review-request-only"
+  },
+  "required_before_execution": [
+    "Install this review as final_review in the finalized continuation manifest and recompute the final manifest SHA-256; do not self-reference the review in the plan/source closure.",
+    "Run admission-helper-03 exactly once against that final manifest and exact module hash to produce retained-preflight-03, materialized-preflight-03, and execution-admission-03; no automatic retry is permitted.",
+    "Verify the actual admission03 receipt path/SHA and exact bindings, including admission_source_sha256 equal to helper03, retained replay, materialized_source, materialized_projection_sha256, materialized_source_projected_bytes, 127 GiB/resource/process/lock/fresh namespace fields, and original clock/reserve fields.",
+    "Bind the actual receipt into the final manifest and pass the module exact admission checks; preserve all prior stop/preflight artifacts as historical evidence.",
+    "Complete a separate final-control review over actual helper03/materialized03/projection/projected bytes and current source/contract/plan, then recheck exact HEAD, no analyzer/build/CodeQL process, exclusive lock, contenders, fresh attempt/cache/report sidecars, resource floor, remaining phase reserve, and automatic_retry=false immediately before dispatch."
+  ],
+  "review_scope": "Independent read-only review of final-review-request-06, continuation-manifest-review-06, the committed live admission receipt-reference fix, the append-only admission-helper-03 namespace diff, exact source/plan/contract closure, and focused regression tests. No analyzer, build, continuation, Joern03, CodeQL01, scoring, activation, replay-heavy verification, source materialization, or launch was performed by this review.",
+  "review_type": "independent-final-continuation-review",
+  "reviewed_at_utc": "2026-10-23T08:07:18.316745+00:00",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-joern-capability-continuation-independent-final-review/v3",
+  "status": "approved",
+  "validation": {
+    "actual_admission03": {
+      "analyzer_invoked_by_this_review": false,
+      "attempt_consumed_by_this_review": false,
+      "execution_admission03_present_at_review_input": false,
+      "materialized_preflight03_present_at_review_input": false,
+      "receipt_present_at_review_input": false,
+      "retained_preflight03_present_at_review_input": false,
+      "status": "pending-parent-one-shot"
+    },
+    "analyzer_invoked": false,
+    "build_performed": false,
+    "builder_verify": {
+      "analyzer_invoked": false,
+      "command": "python3 reports/releases/v0.9.2/acquisition/build-joern-capability-continuation-01.py --source-commit 131fbe662844ca2e6303f8c5a90fee7dfc378f79 --plan-commit ce3db41d69c452d65a43f9c14b56706e2876e507 --output reports/releases/v0.9.2/execution-v4/continuations/joern-capability-repair-04-contract.json --verify",
+      "contract_sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827",
+      "plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+      "raw_witness_count": 96,
+      "repaired_plan_sha256": "76264424ddfa31b11788459368ae9b65058685cb7bab60d14353d9c96fca102f",
+      "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79",
+      "source_inputs_delta_count": 301,
+      "status": "verified-existing"
+    },
+    "compile_from_bytes": {
+      "files": [
+        "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+        "reports/releases/v0.9.2/acquisition/test-joern-capability-continuation-01.py",
+        "reports/releases/v0.9.2/acquisition/joern-capability-admission-03.py"
+      ],
+      "result": "passed"
+    },
+    "continuation_execution_performed": false,
+    "focused_tests": {
+      "analyzer_invoked": false,
+      "command": "python3 reports/releases/v0.9.2/acquisition/test-joern-capability-continuation-01.py",
+      "result": "passed",
+      "tests_run": 18
+    },
+    "heavy_replay_performed": false,
+    "helper03_static_diff": {
+      "base_helper_loaded_from_plan_commit": "c40c6ae238f33690e9b7ab3570cb05257f96d328",
+      "base_helper_path": "reports/releases/v0.9.2/acquisition/joern-capability-admission-02.py",
+      "base_helper_sha256": "ac614b4dc0e3810ed3e67f092a1299d821068934178df8aae2847aba5160c5ac",
+      "helper03_path": "reports/releases/v0.9.2/acquisition/joern-capability-admission-03.py",
+      "helper03_sha256": "cd4865c1171cd27b68edcf2d77046307f22dfc511cb1706d931fdbea4cb69e44",
+      "semantic_change": "append-only report/materialized namespace and receipt suffixes 02 -> 03; no command, source, lock, resource, interpreter, projection, or guard logic change"
+    },
+    "materialization_performed_by_this_review": false,
+    "qualification_launch_performed": false,
+    "read_only": true,
+    "source_and_git_closure": {
+      "head_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+      "plan_contains_source_test_helper_contract": true,
+      "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79",
+      "source_commit_ancestor_of_plan_commit": true
+    }
+  }
+}

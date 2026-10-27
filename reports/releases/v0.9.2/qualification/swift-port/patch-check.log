@@ -1,0 +1,14 @@
+Command (cwd: execution-state/v092/swift-source/codeql-a7057b836bf29767461026718b14d20790b9085f):
+git apply --check --binary /Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/codeql/swift-entry-extractor-v1/repair.patch
+
+exit_code=0
+stdout=(empty)
+stderr=(empty)
+Historical audit result: this check ran from the nested source directory before the isolated repository was initialized. It was later determined to have been a no-op under the parent worktree context; this result is not used as evidence of patch application.
+
+Identities verified in the same task:
+source commit: a7057b836bf29767461026718b14d20790b9085f
+source tar SHA-256: c737189f5f9f6a89eefabf2e82e6ecf9a2f866c4de2caf1f6407f69d143eae16
+patch SHA-256: e7da7352a8b3a8e7679760e49e8f8abff05d7fa3e16007c7ed2987f49074f26a
+
+Authoritative rebuild application check: `git apply --check --binary --directory=execution-state/v092/swift-source/codeql-a7057b836bf29767461026718b14d20790b9085f adapters/codeql/swift-entry-extractor-v1/repair.patch` from the DataFlowBench worktree root succeeded. The patch was then applied with the same `--directory` argument. `git -C <exact source root> apply --reverse --check --binary <absolute patch path>` succeeded after initializing an isolated empty repository. `execution-state/v092/swift-source/patch-application/applied-patch.json` records byte hashes for all 19 paths; all 19 are changed or newly added versus the original codeload archive.

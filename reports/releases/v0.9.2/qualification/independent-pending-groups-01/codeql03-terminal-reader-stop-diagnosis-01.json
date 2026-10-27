@@ -1,0 +1,34 @@
+{
+  "schema": "v092-codeql-terminal-reader-stop-diagnosis/v1",
+  "observed_utc": "2026-10-24T14:28:09.321716+00:00",
+  "analyzer_status": "completed",
+  "analyzer_exit_code": 0,
+  "analyzer_terminal_utc": "2026-10-24T14:21:32.596174+00:00",
+  "analyzer_retry_required": false,
+  "terminal_verify_exit_code": 1,
+  "terminal_verify_passed": false,
+  "failure_stage": "nested historical scoped recovery current ledger read before replay",
+  "frozen_reader": "scripts/v092_scoped_recovery.py:272",
+  "reader_maximum_bytes": 67108864,
+  "actual_ledger_bytes": 114106120,
+  "actual_ledger_sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6",
+  "actual_ledger_rows": 89,
+  "exact_prefix88_bytes": 25380022,
+  "exact_prefix88_sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476",
+  "completed_receipt": {
+    "path": "reports/releases/v0.9.2/attempts/codeql-swift-common108-attempt-01-series-01/completed.json",
+    "sha256": "24795ec582742b39ba8e5851ce39fa4249aa66bd79d1a0cdcd9823d5f6fc9d0d"
+  },
+  "completed_receipt_bytes": 95122702,
+  "all_four_owned_processes_gone": true,
+  "owned_pids_checked": [
+    86345,
+    86349,
+    86353,
+    99364
+  ],
+  "executor_stream_hashes_match_exit_receipt": true,
+  "proposed_repair": "append-only read-only provider wrapping pinned03; exact bound historical prefix for nested historical reader only; original frozen reader and64MiB default unchanged; full actual89 tail checker/capture verification retained; independent review before production replay",
+  "source_and_contract_unchanged": true,
+  "no_evidence_removed_or_relabelled": true
+}

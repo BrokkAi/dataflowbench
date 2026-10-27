@@ -1,0 +1,99 @@
+{
+  "automatic_retry": false,
+  "deferred_gates": [
+    "New source commit and complete 9b71-to-new-base closure with exact new protocol/test SHA binding.",
+    "New design08, source-evidence02, inputs02, core, manifest, contract15 and final independent review.",
+    "Actual source build, core/manifest preparation, admission, bridge, replay, analyzer, and launch."
+  ],
+  "execution_authorized": false,
+  "findings": [],
+  "fresh_outputs": {
+    "canonical_identity_path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-14/manifest-identity.json",
+    "canonical_manifest_path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-14/manifest.json",
+    "requirement": "Creation remains exclusive and fail-closed. Existing historical contract/evidence/design files are not output targets.",
+    "verified_absent_at_review": true
+  },
+  "plan_and_handoff": {
+    "amended_design_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-14/design08-repair-plan-independent-review-02.json",
+      "sha256": "1db17b85687f6a9e92f652b2d900b8282cd608cd2f8919ee8fdc6c7a879dd2dd"
+    },
+    "candidate_plan": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-14/candidate-source-successor-plan-01.json",
+      "sha256": "3a0174257b77c81cc5e91bd99b9276a321d138ceac10bc3194e40937c527a8b7"
+    },
+    "prior_graph_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-14/stage-runtime-full-graph-independent-review-08.json",
+      "sha256": "096d3c50091dad831d7f22db8fc860325f64512104087fda902b90ba320b0a3a"
+    },
+    "protocol_handoff": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-14/protocol-design08-repair-handoff-01.json",
+      "sha256": "c423a795b6ab1b7b0ba86d2d620ff65ac0e81b832698ece360504ca957f9e9a5"
+    }
+  },
+  "preparation_scripts": {
+    "artifact_contract_prep": {
+      "execution": "preparation-only; not executed by this review",
+      "path": "/private/tmp/bf14-artifact-contract-prep-03.py",
+      "review": "Compared with predecessor02: only exclusive output names advance runner-artifact-01 to runner-artifact-02 and contract-actual-02 to contract-actual-03; strict input/path/SHA, current-HEAD, actual-build, Rust-byte, symlink and fresh-output checks remain.",
+      "sha256": "baf41411324f403fd55cec137d052af73d0ba4aa9e09b5d274454d73d26d8b83"
+    },
+    "core_input_prep": {
+      "execution": "preparation-only; not executed by this review",
+      "path": "/private/tmp/bf14-core-input-prep-04.py",
+      "review": "Compared with predecessor03: only source-evidence-01 becomes new source-evidence-02 and core-config-02 becomes core-config-03; exact input binding, full explicit graph, source-commit/plan checks, canonical fresh sidecar namespace, stable regular-file reads, and exclusive writes remain.",
+      "sha256": "bcc9708ed24c1da0cd90a20f977d2e420644e10de30abd630032bdf1d4151aa2"
+    }
+  },
+  "production_actions_performed": false,
+  "review_type": "independent-source-schema-review",
+  "reviewed_at_utc": "2026-10-24T17:54:51.897240Z",
+  "reviewed_source": {
+    "old_contract14_sha256": "851ce38ba3cd5b68723754e1c698767642c3ed1f7e2e14a24bace599d04f5bdd",
+    "old_design07": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-07.json",
+      "sha256": "44df2f4c45a01ec14ed84904029fb38f81bd01e78be621a035c3d8874ea144f5"
+    },
+    "old_protocol_sha256": "5191075e611f76bf739aae44aba013e4185acfa05e7fb863c2134377d84c9d60",
+    "old_source_commit": "ac0af833bc19c6c9fd343e9e60430a85fb1910e2",
+    "old_source_evidence01": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-14/source-evidence-01.json",
+      "sha256": "1ac88de293193d8c82256f0c9c37a757c57ff15df64d1bca76e8337b93cad877"
+    },
+    "prospective_protocol": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-replacement-14.py",
+      "sha256": "4417dbe7a4dfcdb7cbf29e07ca401c49e60bdaab400aa214cfef0ff19a4fafa3"
+    },
+    "prospective_test": {
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-replacement-14.py",
+      "sha256": "0701983d30b9a9a47968223bf835f8ff4a9d22e0aa47ca5601ccad0c6bbee754"
+    }
+  },
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-bf14-source-schema-independent-review/v1",
+  "schema_checks": {
+    "immutable_fields": "Historical contexts/rows, source delta, unchanged patch, incoming CodeQL and authority remain compared against design06.",
+    "old_design_rejection": "Focused tests reject design04, design07, foreign/missing baselines, missing closure/base, altered predecessor SHA, and legacy design07 path.",
+    "old_identity_boundary": "The prospective source/test bytes are not authorized to relabel old ac0/contract14/design07/evidence01; the later source transaction must bind the new bytes to a new source commit and contract15.",
+    "runtime_schema": "Existing runtime core checks retain exact manifest path, complete explicit module graph, source inputs/contract equality, committed source snapshot and fresh absent identity/manifest paths.",
+    "source_design_closure": "The protocol requires the actual immediate base commit and an intervening-closure list; it does not claim the focused tests replace full Git closure validation.",
+    "source_design_constant": "Working protocol now requires exact design08 path; it binds immutable design06 predecessor and reviewed_baseline_head, never nonexistent actual_observed_head."
+  },
+  "scope": {
+    "boundary": "Narrow review of the corrected prospective design08 source-schema implementation and preparation-only artifact scripts. This authorizes only the later append-only source commit after its exact Git closure is sealed; it does not authorize core/manifest writing, contract sealing, build, admission, replay, analyzer, or launch.",
+    "no_broad_graph_reaudit": "The previously approved full graph/source-pack review remains applicable to unchanged paths; this review checks the corrected protocol bindings and the two preparation output-name changes.",
+    "read_only_audit": true
+  },
+  "source_commit_authorized": true,
+  "status": "approved-for-source-commit-only",
+  "tests": {
+    "command": "/opt/homebrew/bin/python3.13 reports/releases/v0.9.2/acquisition/test-bifrost-v0140-replacement-14.py",
+    "coverage": "14 pre-existing protocol/runtime tests plus 7 design08 schema tests; no analyzer, replay, admission, build, launch, or production subprocess.",
+    "exit_code": 0,
+    "log": {
+      "path": "/tmp/bf14-source-schema-review-tests.log",
+      "sha256": "3b1e5f769eaa441e2f32cfe2fd633669b334281647ee52c6e13b0143878e985c"
+    },
+    "passed": 21
+  }
+}

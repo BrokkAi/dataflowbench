@@ -4,7 +4,7 @@
 
 use crate::freeze::{repository_root, required_string, validate_freeze_at};
 use crate::report::{
-    ConfigurationHashState, configuration_drift_checkable, configuration_hash_state,
+    ConfigurationHashState, configuration_drift_checkable, configuration_hash_state_for_report,
 };
 use anyhow::{Context, Result, bail};
 use serde_json::{Value, json};
@@ -163,7 +163,13 @@ pub(crate) fn build_result_artifacts(
                 .map(|stem| stem.to_string_lossy().into_owned())
                 .with_context(|| format!("derive report stem for adapter {adapter_id}"))?;
             let stamped = required_string(adapter, "configuration_hash", "adapter")?;
-            match configuration_hash_state(&stem, stamped, &mut case_scan)? {
+            match configuration_hash_state_for_report(
+                &stem,
+                required_string(adapter, "tool_version", "adapter")?,
+                required_string(adapter, "adapter_version", "adapter")?,
+                stamped,
+                &mut case_scan,
+            )? {
                 ConfigurationHashState::NotDerivable | ConfigurationHashState::Current => None,
                 ConfigurationHashState::Drifted { current } => Some(current),
             }

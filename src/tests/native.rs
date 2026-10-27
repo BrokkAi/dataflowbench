@@ -9,7 +9,7 @@ use crate::adapters::flowdroid::{
 };
 use crate::adapters::joern::JOERN_MODELING_SCRIPT;
 use crate::adapters::pysa::{PYSA_NATIVE_SINK_MODEL, PYSA_NATIVE_SUITE_RELATIVE};
-use crate::adapters::semgrep::SEMGREP_NATIVE_UPSTREAM;
+use crate::adapters::semgrep::{SEMGREP_NATIVE_UPSTREAM, SEMGREP_NATIVE_V092_DIR};
 use crate::adapters::{ModelingLanguage, ModelingTool};
 use crate::evidence::SarifAnchorMatch;
 use crate::modeling::{
@@ -17,7 +17,8 @@ use crate::modeling::{
     modeling_case, modeling_supported_templates, validate_modeling_cases,
 };
 use crate::native::{
-    BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_13_VERSION, NATIVE_CASE_COUNT,
+    BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_13_VERSION,
+    BIFROST_V0_14_0_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_14_0_VERSION, NATIVE_CASE_COUNT,
     NATIVE_MODEL_PROFILE, NATIVE_PARTITION, NATIVE_PARTITION_AMENDMENTS, NATIVE_TEMPLATE_IDS,
     NATIVE_TEMPLATE_PREFIX, benchmark_model_artifacts, native_activation,
     native_anchor_tally_outcome, native_case, native_category, native_configuration_hash,
@@ -465,6 +466,75 @@ pub(crate) fn bifrost_v013_native_amendment_is_exact_and_version_scoped() {
     assert!(!unknown_reason.contains("reports/releases/v0.9.1"));
 }
 
+/// The v0.14.0 amendment binds only the fresh v0.9.2 acquisition and its
+/// explicit open-pack boundary. The earlier v0.13.0 evidence remains an
+/// independent activation profile with its original paths and identity.
+#[test]
+pub(crate) fn bifrost_v0140_native_amendment_binds_fresh_evidence_and_env() {
+    let v0140 = native_activation(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        BIFROST_V0_14_0_VERSION,
+    )
+    .unwrap();
+    assert_eq!(
+        v0140.identity,
+        format!(
+            "{BIFROST_V0_14_0_VERSION} — {BIFROST_V0_14_0_NATIVE_ACTIVATION_IDENTITY}; BIFROST_OPEN_PACKS_DISABLE=1"
+        )
+    );
+    assert_eq!(
+        v0140.arguments,
+        vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG.to_string()]
+    );
+    let expected_paths = BTreeSet::from([
+        PathBuf::from("reports/releases/v0.9.2/qualification/bifrost-v0140-01/version.stdout.txt"),
+        PathBuf::from(
+            "reports/releases/v0.9.2/qualification/bifrost-v0140-01/build-identity.stdout.txt",
+        ),
+        PathBuf::from(
+            "reports/releases/v0.9.2/qualification/bifrost-v0140-01/catalog-list-policies.stdout.txt",
+        ),
+        PathBuf::from("reports/releases/v0.9.2/qualification/bifrost-v0140-01/help.stdout.txt"),
+        PathBuf::from("reports/releases/v0.9.2/qualification/bifrost-v0140-01/acquisition.json"),
+        PathBuf::from("adapters/pins/v0.9.2-bifrost-v0140.json"),
+    ]);
+    assert_eq!(v0140.configuration_paths, expected_paths);
+    assert!(v0140.configuration_paths.iter().all(|path| path.is_file()));
+
+    let reason = native_unsupported_reason(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        "dfb-template-native-source-sink",
+        BIFROST_V0_14_0_VERSION,
+    )
+    .unwrap()
+    .expect("v0.14.0 native cell is declined");
+    assert!(reason.contains("schema version 2 with `packs: []`"));
+    assert!(reason.contains("BIFROST_OPEN_PACKS_DISABLE=1"));
+    assert!(
+        reason.contains("reports/releases/v0.9.2/qualification/bifrost-v0140-01/acquisition.json")
+    );
+    assert!(reason.contains("unsupported"));
+    assert!(reason.contains("never a clean `not-reached` negative"));
+    assert!(!reason.contains("reports/releases/v0.9.1"));
+
+    let v0130 = native_activation(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        BIFROST_V0_13_VERSION,
+    )
+    .unwrap();
+    assert_eq!(
+        v0130.identity,
+        format!("{BIFROST_V0_13_VERSION} — {BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY}")
+    );
+    assert!(v0130.configuration_paths.contains(&PathBuf::from(
+        "reports/releases/v0.9.1/acquisition/builtin-policy-catalog.json"
+    )));
+    assert!(!v0130.identity.contains("BIFROST_OPEN_PACKS_DISABLE"));
+}
+
 /// A declined cell writes its retained decision beside the report without
 /// the analyzer being invoked, and carries the pinned activation
 /// configuration with it.
@@ -720,7 +790,7 @@ pub(crate) fn the_native_activation_shapes_are_pinned() {
         codeql.arguments,
         vec![
             "--threat-model=local".to_string(),
-            "codeql/java-queries@1.11.10:codeql-suites/java-security-extended.qls".to_string(),
+            "codeql/java-queries@1.11.12:codeql-suites/java-security-extended.qls".to_string(),
         ]
     );
     assert!(codeql.configuration_paths.is_empty());
@@ -732,7 +802,7 @@ pub(crate) fn the_native_activation_shapes_are_pinned() {
         )
         .unwrap()
         .arguments[1],
-        "codeql/javascript-queries@2.4.5:codeql-suites/javascript-security-extended.qls"
+        "codeql/javascript-queries@2.4.7:codeql-suites/javascript-security-extended.qls"
     );
     assert_eq!(
         native_activation(
@@ -742,7 +812,7 @@ pub(crate) fn the_native_activation_shapes_are_pinned() {
         )
         .unwrap()
         .arguments[1],
-        "codeql/python-queries@1.8.10:codeql-suites/python-security-extended.qls"
+        "codeql/python-queries@1.8.12:codeql-suites/python-security-extended.qls"
     );
 
     let semgrep = native_activation(
@@ -755,14 +825,14 @@ pub(crate) fn the_native_activation_shapes_are_pinned() {
         semgrep.arguments,
         vec![
             "--oss-only".to_string(),
-            "--config=adapters/semgrep/native/python".to_string(),
+            format!("--config={SEMGREP_NATIVE_V092_DIR}/python"),
         ]
     );
     assert_eq!(
         semgrep.configuration_paths,
-        BTreeSet::from([PathBuf::from(
-            "adapters/semgrep/native/python/provenance.json"
-        )])
+        BTreeSet::from([PathBuf::from(format!(
+            "{SEMGREP_NATIVE_V092_DIR}/python/provenance.json"
+        ))])
     );
     assert!(semgrep.identity.contains(SEMGREP_NATIVE_UPSTREAM));
 

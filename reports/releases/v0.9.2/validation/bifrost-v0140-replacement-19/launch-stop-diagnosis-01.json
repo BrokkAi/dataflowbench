@@ -1,0 +1,57 @@
+{
+  "analyzer_attempt_consumed": false,
+  "automatic_retry": false,
+  "core": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-19/manifest-identity.json",
+    "sha256": "30c168ec0a004e8627390ff22c9b0264e4f11ad80c1b786231b73ab8b25135a3"
+  },
+  "created_utc": "2026-10-25T00:41:56.007095+00:00",
+  "diagnosis": "Registered actual host supervisor19 is already done and remains same object. A distinct duplicate-path shell host_supervisor19 inherits __name__=__main__ via host-name-by-path mapping. Qualification used a safely named imported host, so its passed20commands did not exercise the CLI host naming state. Exact route guard correctly fails closed.",
+  "exact_owned_processes_gone": [
+    26638,
+    26647,
+    26649
+  ],
+  "execution_authorized": false,
+  "failure_chain": [
+    "supervisorCLI.run_groups",
+    "bridge.prepare_graph",
+    "GraphImportContext._build_shells",
+    "host_supervisor19 duplicate-path shell inherits captured realhost name __main__",
+    "execute_all.ensure executes new shell source",
+    "bottom main guard re-enters CLI",
+    "dynamic route exactness guard rejects recursive protocol loader"
+  ],
+  "launcher_exit": {
+    "path": "reports/releases/v0.9.2/execution-v4/bifrost-v0140-replacement-19/supervision-01/launcher-exit.json",
+    "sha256": "df609b9466807ac62a69083e12ddf5fb84f123507281e7df2324e9c3ba612adf"
+  },
+  "ledger_rows": 89,
+  "ledger_sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6",
+  "manifest": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-19/manifest.json",
+    "sha256": "a68a4f6f9d2a6f9d6711b7f7ef670460abe9d90517cbc8c62b160cd9e6ba4736"
+  },
+  "new_series02_attempt_dirs": 0,
+  "next": "Independent stop review/concrete design/independent implementation-only review before append-only successor; no reuse19launch, no blind retry.",
+  "proposal_only": "Isolate __main__ name from newly created duplicate-path graph shells while preserving actual registered host identity and safe namedhost behavior; independently reviewed narrow design and actualCLI-host positive/near-miss regression required.",
+  "qualification_remains_valid_with_limits": "Qualification19 passed one historical replay20commandconstruction0analyzers; it does not prove durableCLIentrypoint.",
+  "schema": "v092-bf19-launch-stop-diagnosis/v1",
+  "source_and_plan_frozen": true,
+  "status": "stopped-before-parent-stage-and-analyzer-attempt",
+  "streams": {
+    "stderr": {
+      "path": "reports/releases/v0.9.2/execution-v4/bifrost-v0140-replacement-19/supervision-01/supervisor-stderr.txt",
+      "sha256": "f2cbd3c96ac0b117bde43c7fc8e17d7c8867f40ab919244d17e13c97f5d3e14b"
+    },
+    "stdout": {
+      "path": "reports/releases/v0.9.2/execution-v4/bifrost-v0140-replacement-19/supervision-01/supervisor-stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "streams_verified": true,
+  "supervisor_exit": {
+    "path": "reports/releases/v0.9.2/execution-v4/bifrost-v0140-replacement-19/supervision-01/supervisor-exit.json",
+    "sha256": "a54dd541694ff065f2e8f5e3b19aa1e9475fd331ab9a1584442e5d48dfe016a0"
+  }
+}

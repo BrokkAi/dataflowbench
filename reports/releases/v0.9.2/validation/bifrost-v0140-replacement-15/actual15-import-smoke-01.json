@@ -1,0 +1,66 @@
+{
+  "checks": {
+    "all_43_dynamic_routes_with_exact_caller_frames": true,
+    "checker_configuration_shared_nested_executor": true,
+    "eager_object_identity_count": 88,
+    "foreign_local_selector_object_rejected": true,
+    "process_global_sys_modules_leaks": [],
+    "qualification_edges": [
+      "local_004_codeql_swift_qualification_v092 -> local_012_swift_common_population_v2",
+      "local_004_codeql_swift_qualification_v092 -> local_013_swift_entry_observation",
+      "local_004_codeql_swift_qualification_v092 -> nested_038_v092_qualification"
+    ],
+    "seal_idempotent": true,
+    "six_late_executor_loader_bindings": true,
+    "wrong_dynamic_path_rejected": true
+  },
+  "created_utc": "2026-10-24T19:18:29.246211+00:00",
+  "observed": {
+    "config_sha256": "55f2abda0b4fe51163835e50a1a83a07f95677827c48c8e965f01dfc65c64966",
+    "dynamic_routes": 43,
+    "eager_identity_edges": 5,
+    "eager_object_identities": 88,
+    "executor_identity_checks": 6,
+    "graph_members": 88,
+    "graph_sha256": "b082705488c1090d474bc2ec4ae06b614c2d3a87245600a9e2e33af366963d05",
+    "late_executor_loader_bindings": 6,
+    "late_executor_routes": 5,
+    "negative_probe": "wrong_dynamic_path_rejected",
+    "nonstdlib_module_leaks": [],
+    "schema": "v092-bf15-actual-import-smoke/v1",
+    "status": "import-only-passed"
+  },
+  "preconditions": "The config is a read-only smoke input derived from the current BF15 source paths. It is not a qualification core, contract, admission receipt, control review, or launch authorization.",
+  "root": ".",
+  "runtime_graph_config": {
+    "member_count": 88,
+    "path": "/private/tmp/bf15-runtime-graph-config-01.json",
+    "schema": "v092-bf15-runtime-graph-config/v1",
+    "sha256": "55f2abda0b4fe51163835e50a1a83a07f95677827c48c8e965f01dfc65c64966"
+  },
+  "schema": "v092-bf15-actual-import-smoke-receipt/v1",
+  "scope": "Current BF15 88-member graph import smoke only; no replay, admission, materialization, analyzer, build, launch, commit, or release operation",
+  "smoke_program": {
+    "path": "/private/tmp/bf15-actual15-import-smoke-01.py",
+    "sha256": "b105388e0cb68eb39585ac63dc0adf70d8effb8d237243e7091082a563347e31"
+  },
+  "source_bindings": [
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-10.py",
+      "sha256": "996d213f39e83fbb473e38033d0a67aea7bc543522eac4defcce974607da4cd2"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-02.py",
+      "sha256": "f8f028617fa929d21d43c0f2750151cbb6aab761b09e55fea6f96fff04baf125"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-15.py",
+      "sha256": "32276e5f69f0ea6dc5310cf43d4f0b4fbdadbda672eca1f9cee0036d08d417eb"
+    }
+  ],
+  "status": "import-only-passed",
+  "supporting_stdout": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/actual15-import-smoke-01.stdout.txt",
+    "sha256": "4bf8182b9129349135b4813491788653881cde1a0ec7ee4956f006a2960ca9ef"
+  }
+}

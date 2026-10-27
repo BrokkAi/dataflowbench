@@ -1,0 +1,123 @@
+{
+  "actual_java_invocations": 1,
+  "argv": [
+    "/bin/sh",
+    "/private/tmp/joern05-agent05-standalone-probe-01/invoke-once.sh",
+    "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin/java",
+    "-Xmx64m",
+    "-XX:ActiveProcessorCount=2",
+    "-Duser.home=/private/tmp/joern05-agent05-standalone-probe-01/home",
+    "-javaagent:/private/tmp/joern05-agent05-build-01/joern-startup-witness-agent-05.jar",
+    "-version"
+  ],
+  "automatic_retry": false,
+  "cleanup": {
+    "descendant_containment": "unproven",
+    "direct_child_reaped": true,
+    "group_ownership_verified": false,
+    "signals": []
+  },
+  "decision": {
+    "path": "/private/tmp/joern05-agent05-standalone-probe-decision-01.json",
+    "sha256": "3e59916385e37c3159ad61a6b7e0a0abb27be7d1dd057d9e3a6c396f551e32c5"
+  },
+  "elapsed_seconds": 0.26907187499455176,
+  "environment": {
+    "DFB_JOERN_STARTUP_WITNESS_DIR": "/private/tmp/joern05-agent05-standalone-probe-01/witnesses",
+    "HOME": "/private/tmp/joern05-agent05-standalone-probe-01/home",
+    "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+    "LANG": "C",
+    "LC_ALL": "C",
+    "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/usr/bin:/bin",
+    "TMPDIR": "/private/tmp/joern05-agent05-standalone-probe-01/tmp"
+  },
+  "error": null,
+  "host_native_birth_after": "1792960988:424976",
+  "host_native_birth_before": "1792960988:424976",
+  "host_pid": 4837,
+  "maximum_java_invocations": 1,
+  "native_control_matrix_executed": false,
+  "outputs": [
+    {
+      "bytes": 510,
+      "path": "/private/tmp/joern05-agent05-standalone-probe-01/child-started.json",
+      "sha256": "9a762cadd5ffca373252aa57743c0c255c9d18ac9eadf4a9c3062159d5140885"
+    },
+    {
+      "bytes": 3003,
+      "path": "/private/tmp/joern05-agent05-standalone-probe-01/inputs.json",
+      "sha256": "73f23e13a69854d1737b2421dd0429dee98fd87c30abaee590410f704aed861a"
+    },
+    {
+      "bytes": 36,
+      "path": "/private/tmp/joern05-agent05-standalone-probe-01/invoke-once.sh",
+      "sha256": "9fc25c7d9eab873678ec29673f13fb1dc124f6d64bdfc2285716898a823ffa52"
+    },
+    {
+      "bytes": 190,
+      "path": "/private/tmp/joern05-agent05-standalone-probe-01/stderr.txt",
+      "sha256": "685aa1129360c32e859043c5eb1309ebb42d545000e745349b953c74f5b6c9db"
+    },
+    {
+      "bytes": 0,
+      "path": "/private/tmp/joern05-agent05-standalone-probe-01/stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 2998,
+      "path": "/private/tmp/joern05-agent05-standalone-probe-01/witnesses/jvm-4839.json",
+      "sha256": "29ac05ae466f3ca3925451090562e7c7d39ed961bfc3f7b77f1c3f89bef90530"
+    }
+  ],
+  "proof": {
+    "ancestry_correlation": {
+      "anchor_native_identity": "1792960988:424976",
+      "anchor_pid": 4837,
+      "anchor_source": "invocation-host",
+      "birth_comparison": "java-millisecond-floor",
+      "complete_descendant_coverage": false,
+      "diagnostic_only": true,
+      "method": "sampled-ancestry-to-exact-anchor",
+      "sample_termination": "root",
+      "validated_prefix": [
+        {
+          "parent_pid": 4838,
+          "parent_start_epoch_nanos": 521000000,
+          "parent_start_epoch_seconds": 1792960988,
+          "parent_start_identity": "2026-10-25T20:43:08.521Z",
+          "pid": 4839,
+          "process_start_epoch_nanos": 531000000,
+          "process_start_epoch_seconds": 1792960988,
+          "process_start_identity": "2026-10-25T20:43:08.531Z"
+        },
+        {
+          "parent_pid": 4837,
+          "parent_start_epoch_nanos": 424000000,
+          "parent_start_epoch_seconds": 1792960988,
+          "parent_start_identity": "2026-10-25T20:43:08.424Z",
+          "pid": 4838,
+          "process_start_epoch_nanos": 521000000,
+          "process_start_epoch_seconds": 1792960988,
+          "process_start_identity": "2026-10-25T20:43:08.521Z"
+        }
+      ]
+    },
+    "diagnostic_only": true,
+    "host_native_birth_after": "1792960988:424976",
+    "native_self_birth_verified": false,
+    "semantic_qualification": false,
+    "witness": {
+      "bytes": 2998,
+      "path": "/private/tmp/joern05-agent05-standalone-probe-01/witnesses/jvm-4839.json",
+      "sha256": "29ac05ae466f3ca3925451090562e7c7d39ed961bfc3f7b77f1c3f89bef90530"
+    }
+  },
+  "publication_hold": true,
+  "returncode": 0,
+  "schema": "v092-agent05-standalone-premain-diagnostic/v1",
+  "scored_attempt_consumed": false,
+  "semantic_qualification": false,
+  "status": "passed-diagnostic-only",
+  "timed_out": false,
+  "timeout_seconds": 15
+}

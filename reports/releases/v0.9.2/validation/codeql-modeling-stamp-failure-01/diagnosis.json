@@ -1,0 +1,44 @@
+{
+  "schema": "v092-codeql-modeling-stamp-failure/v1",
+  "utc": "2026-10-20T04:04:25.459546+00:00",
+  "attempt_id": "codeql-java-modeling-attempt-01-series-01",
+  "contract_sha256": "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422",
+  "source_commit": "21b76b747b72363aad4bbbc358fc2ae9aee24f1c",
+  "plan_commit": "a180c302b56f2c18a1fdfbbd1bc14489151fc54e",
+  "completed_receipt_sha256": "4575cdd73d51d36451db4f444542401a23d5726881734ba31af196ae8d6c4344",
+  "all_50_capture_hashes_and_stream_hashes_verified": true,
+  "status": "failed",
+  "exit_code": 1,
+  "process_cleanup": "tracked-processes-stopped",
+  "no_selected_reports": true,
+  "stamped_hash": "38acb5de67ed39a244c7eb8a9db755ddbcf197488051a5f1ec0d35b65fa30aee",
+  "stamped_paths": [
+    "adapters/codeql/queries/JavaModeling.ql"
+  ],
+  "validator_expected_hash": "63e8a86fd492ffbf47b6c13be032edd6d3e345601464b82d2e908568f703872a",
+  "validator_paths": [
+    "adapters/codeql/v0.9.2/profile.json",
+    "adapters/codeql/v0.9.2/queries/JavaModeling.ql"
+  ],
+  "inputs": [
+    {
+      "path": "adapters/codeql/queries/JavaModeling.ql",
+      "sha256": "0b399c499b2735a09740e1595719c2a207fa2ebf6c77868e89ef5d3e6ec69ed6"
+    },
+    {
+      "path": "adapters/codeql/v0.9.2/profile.json",
+      "sha256": "27f59adefd8159906fdc75968555276cbc2c9f5a4279a9923ecb2965e424f437"
+    },
+    {
+      "path": "adapters/codeql/v0.9.2/queries/JavaModeling.ql",
+      "sha256": "0b399c499b2735a09740e1595719c2a207fa2ebf6c77868e89ef5d3e6ec69ed6"
+    }
+  ],
+  "diagnosis": "CodeQL modeling report construction hashes the historical configuration path; current 2.27.2 report validation requires the versioned configuration path and profile. Query execution already maps to v0.9.2 paths. Deterministic harness provenance bug; unchanged retry cannot repair it.",
+  "scope": "shared CodeQL modeling report construction for Java, JavaScript and Python",
+  "preserved_constraints": [
+    "No source, contract, acquired binary or failed evidence modified",
+    "No retry launched",
+    "Original clock and maximum attempts unchanged"
+  ]
+}

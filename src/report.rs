@@ -14,7 +14,7 @@ use crate::adapters::codeql::{
     codeql_go_configuration_paths, codeql_java_kernel_configuration_paths,
     codeql_kotlin_configuration_paths, codeql_python_kernel_configuration_paths,
     codeql_ruby_configuration_paths, codeql_rust_configuration_paths,
-    codeql_swift_configuration_paths,
+    codeql_swift_configuration_paths, codeql_v092_configuration_paths,
 };
 use crate::adapters::flowdroid::flowdroid_template_paths;
 use crate::adapters::infer::infer_config_paths;
@@ -105,7 +105,14 @@ pub(crate) fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Res
         if check_configuration && let Some(stem) = path.file_stem().and_then(|stem| stem.to_str()) {
             let relative = path.to_string_lossy().replace('\\', "/");
             let stamped = required_string(&report, "configuration_hash", &relative)?;
-            match configuration_hash_state(stem, stamped, &mut case_scan)? {
+            let tool_version = required_string(&report, "tool_version", &relative)?;
+            match configuration_hash_state_for_report(
+                stem,
+                tool_version,
+                required_string(&report, "adapter_version", &relative)?,
+                stamped,
+                &mut case_scan,
+            )? {
                 ConfigurationHashState::NotDerivable => {}
                 ConfigurationHashState::Current => {
                     checked += 1;
@@ -198,6 +205,182 @@ pub(crate) fn configuration_hash_state(
     }
 }
 
+/// Compare a retained report against the configuration for the exact analyzer
+/// version it records. Historical CodeQL 2.27.0 and 2.27.1 reports keep their
+/// original configuration paths; the prospective 2.27.2 profile hashes
+/// versioned configuration copies. Common Swift reports from other historical
+/// versions remain `NotDerivable` when no version-specific closure is known.
+pub(crate) fn configuration_hash_state_for_report(
+    stem: &str,
+    tool_version: &str,
+    adapter_version: &str,
+    stamped: &str,
+    case_scan: &mut Option<LoadedCases>,
+) -> Result<ConfigurationHashState> {
+    if is_codeql_swift_normal_stem(stem) {
+        let paths = match (tool_version, adapter_version) {
+            ("2.27.0" | "2.27.1", _) => declared_configuration_paths(stem, case_scan)?,
+            (crate::adapters::pins::CODEQL_VERSION, "swift-normal-v092") => {
+                Some(swift_v092_configuration_paths("codeql")?)
+            }
+            (crate::adapters::pins::CODEQL_VERSION, adapter) => bail!(
+                "CodeQL Swift 2.27.2 report {stem} has unrecognized adapter version {adapter:?}"
+            ),
+            // Historical common-Swift plans can bind run-specific runtime
+            // trees outside the repository. Do not borrow another version's
+            // paths or reject a valid freeze when that closure is unknown.
+            _ => None,
+        };
+        return compare_configuration_paths(paths, stamped);
+    }
+    if is_joern_swift_normal_stem(stem) {
+        let paths = match (tool_version, adapter_version) {
+            ("4.0.628", _) => declared_configuration_paths(stem, case_scan)?,
+            (crate::adapters::pins::JOERN_VERSION, "joern-normal-v092") => {
+                Some(swift_v092_configuration_paths("joern")?)
+            }
+            (crate::adapters::pins::JOERN_VERSION, adapter) => bail!(
+                "Joern Swift 4.0.660 report {stem} has unrecognized adapter version {adapter:?}"
+            ),
+            _ => None,
+        };
+        return compare_configuration_paths(paths, stamped);
+    }
+    if stem.starts_with("codeql-") {
+        let paths = match tool_version {
+            "2.27.0" | "2.27.1" => declared_configuration_paths(stem, case_scan)?,
+            crate::adapters::pins::CODEQL_VERSION => current_configuration_paths(stem, case_scan)?,
+            other => {
+                let historical = declared_configuration_paths(stem, case_scan)?;
+                if historical.is_some() {
+                    bail!(
+                        "cannot derive CodeQL configuration paths for report {stem} with unrecognized tool version {other:?}"
+                    );
+                }
+                None
+            }
+        };
+        return compare_configuration_paths(paths, stamped);
+    }
+    configuration_hash_state(stem, stamped, case_scan)
+}
+
+fn compare_configuration_paths(
+    paths: Option<BTreeSet<PathBuf>>,
+    stamped: &str,
+) -> Result<ConfigurationHashState> {
+    let Some(paths) = paths else {
+        return Ok(ConfigurationHashState::NotDerivable);
+    };
+    let current = hash_paths(&paths)?;
+    if current == stamped {
+        Ok(ConfigurationHashState::Current)
+    } else {
+        Ok(ConfigurationHashState::Drifted { current })
+    }
+}
+
+fn is_codeql_swift_normal_stem(stem: &str) -> bool {
+    [
+        "codeql-swift-kernel",
+        "codeql-swift-core",
+        "codeql-swift-modeling",
+        "codeql-swift-calibration",
+        "codeql-swift-native",
+        "codeql-swift-language-extension",
+    ]
+    .contains(&stem)
+}
+
+fn is_joern_swift_normal_stem(stem: &str) -> bool {
+    [
+        "joern-swift-kernel",
+        "joern-swift-core",
+        "joern-swift-modeling",
+        "joern-swift-calibration",
+        "joern-swift-native",
+        "joern-swift-language-extension",
+    ]
+    .contains(&stem)
+}
+
+/// Read the exact v0.9.2 Swift execution plan's repository-local configuration
+/// closure. Qualification descriptors (`plan.json`) are intentionally
+/// ineligible; only the later execution plan with a recognized schema and
+/// adapter identity can authorize hash derivation.
+fn swift_v092_configuration_paths(engine: &str) -> Result<BTreeSet<PathBuf>> {
+    let (relative, schema, version, adapter, key) = match engine {
+        "codeql" => (
+            "adapters/codeql/swift-common-v2/plan-v092-01/execution-plan.json",
+            "swift-common-execution-plan/v092",
+            crate::adapters::pins::CODEQL_VERSION,
+            "swift-normal-v092",
+            "patched-codeql",
+        ),
+        "joern" => (
+            "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json",
+            "joern-common-execution-plan/v092",
+            crate::adapters::pins::JOERN_VERSION,
+            "joern-normal-v092",
+            "joern-current108",
+        ),
+        other => bail!("unknown Swift engine {other:?}"),
+    };
+    let plan_path = Path::new(relative);
+    let plan: Value = serde_json::from_slice(
+        &fs::read(plan_path)
+            .with_context(|| format!("read the v0.9.2 Swift execution plan {relative}"))?,
+    )
+    .with_context(|| format!("parse the v0.9.2 Swift execution plan {relative}"))?;
+    if plan["schema"] != schema
+        || plan["profile"] != "v0.9.2"
+        || plan["identity"]["tool_version"] != version
+        || plan["identity"]["adapter_version"] != adapter
+    {
+        bail!(
+            "v0.9.2 Swift execution plan has an unknown or mismatched schema/identity: {relative}"
+        );
+    }
+    let references = plan["configurations"][key]
+        .as_array()
+        .with_context(|| format!("v0.9.2 Swift plan lacks configuration {key:?}"))?;
+    let mut paths = BTreeSet::new();
+    for reference in references {
+        if reference.as_object().is_none_or(|object| {
+            object.len() != 2 || !object.contains_key("path") || !object.contains_key("sha256")
+        }) {
+            bail!("v0.9.2 Swift configuration references must bind exactly path and sha256");
+        }
+        let path = required_string(reference, "path", "v0.9.2 Swift configuration")?;
+        let relative_path = Path::new(path);
+        if relative_path.is_absolute()
+            || relative_path
+                .components()
+                .any(|part| part.as_os_str() == "..")
+        {
+            bail!("v0.9.2 Swift configuration path escapes the repository: {path}");
+        }
+        let expected = required_string(reference, "sha256", "v0.9.2 Swift configuration")?;
+        let actual = format!(
+            "{:x}",
+            Sha256::digest(
+                fs::read(relative_path)
+                    .with_context(|| { format!("read v0.9.2 Swift configuration input {path}") })?
+            )
+        );
+        if actual != expected {
+            bail!("v0.9.2 Swift configuration input changed: {path}");
+        }
+        if !paths.insert(relative_path.to_path_buf()) {
+            bail!("v0.9.2 Swift configuration path is duplicated: {path}");
+        }
+    }
+    if paths.is_empty() {
+        bail!("v0.9.2 Swift execution plan has an empty configuration closure");
+    }
+    Ok(paths)
+}
+
 /// The repository's *current* configuration-path set for the population a
 /// normalized report's file stem names — the same set that population's
 /// runner would hash into `configuration_hash` if it ran now — or `None`
@@ -209,6 +392,23 @@ pub(crate) fn configuration_hash_state(
 /// Paths are repository-relative, exactly as the runners record them; callers
 /// must stand at the repository root ([`configuration_drift_checkable`]).
 pub(crate) fn current_configuration_paths(
+    stem: &str,
+    case_scan: &mut Option<LoadedCases>,
+) -> Result<Option<BTreeSet<PathBuf>>> {
+    let Some(paths) = declared_configuration_paths(stem, case_scan)? else {
+        return Ok(None);
+    };
+    if stem.starts_with("codeql-") && !stem.contains("swift") {
+        return Ok(Some(codeql_v092_configuration_paths(&paths)));
+    }
+    Ok(Some(paths))
+}
+
+/// Configuration paths spelled by the original adapter declarations. These
+/// remain the source of the frozen CodeQL 2.27.0 profile while
+/// `current_configuration_paths` maps new non-Swift CodeQL runs to their
+/// prospective versioned copies.
+fn declared_configuration_paths(
     stem: &str,
     case_scan: &mut Option<LoadedCases>,
 ) -> Result<Option<BTreeSet<PathBuf>>> {

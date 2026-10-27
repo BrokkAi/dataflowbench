@@ -1,0 +1,264 @@
+Compiled from "Semantics.scala"
+public final class io.joern.dataflowengineoss.semanticsloader.FlowSemantic$ implements scala.deriving.Mirror$Product {
+  public static final io.joern.dataflowengineoss.semanticsloader.FlowSemantic$ MODULE$;
+
+  private io.joern.dataflowengineoss.semanticsloader.FlowSemantic$();
+    Code:
+       0: aload_0
+       1: invokespecial #29                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic$
+       3: dup
+       4: invokespecial #32                 // Method "<init>":()V
+       7: putstatic     #34                 // Field MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic$;
+      10: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #38                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic$
+       6: invokespecial #41                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public io.joern.dataflowengineoss.semanticsloader.FlowSemantic apply(java.lang.String, scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath>, boolean);
+    Code:
+       0: new           #49                 // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+       3: dup
+       4: aload_1
+       5: aload_2
+       6: iload_3
+       7: invokespecial #52                 // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic."<init>":(Ljava/lang/String;Lscala/collection/immutable/List;Z)V
+      10: areturn
+
+  public io.joern.dataflowengineoss.semanticsloader.FlowSemantic unapply(io.joern.dataflowengineoss.semanticsloader.FlowSemantic);
+    Code:
+       0: aload_1
+       1: areturn
+
+  public scala.collection.immutable.List<io.joern.dataflowengineoss.semanticsloader.FlowPath> $lessinit$greater$default$2();
+    Code:
+       0: getstatic     #67                 // Field scala/package$.MODULE$:Lscala/package$;
+       3: invokevirtual #71                 // Method scala/package$.List:()Lscala/collection/immutable/List$;
+       6: invokevirtual #76                 // Method scala/collection/immutable/List$.empty:()Lscala/collection/immutable/List;
+       9: areturn
+
+  public boolean $lessinit$greater$default$3();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public io.joern.dataflowengineoss.semanticsloader.FlowSemantic from(java.lang.String, scala.collection.immutable.List<?>, boolean);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: invokedynamic #100,  0            // InvokeDynamic #0:apply:()Lscala/Function1;
+       8: invokevirtual #106                // Method scala/collection/immutable/List.map:(Lscala/Function1;)Lscala/collection/immutable/List;
+      11: iload_3
+      12: invokevirtual #108                // Method apply:(Ljava/lang/String;Lscala/collection/immutable/List;Z)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+      15: areturn
+
+  public boolean from$default$3();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  public io.joern.dataflowengineoss.semanticsloader.FlowSemantic fromProduct(scala.Product);
+    Code:
+       0: aload_1
+       1: iconst_0
+       2: invokeinterface #118,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+       7: checkcast     #120                // class java/lang/String
+      10: astore_2
+      11: aload_1
+      12: iconst_1
+      13: invokeinterface #118,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+      18: checkcast     #102                // class scala/collection/immutable/List
+      21: astore_3
+      22: aload_1
+      23: iconst_2
+      24: invokeinterface #118,  2          // InterfaceMethod scala/Product.productElement:(I)Ljava/lang/Object;
+      29: invokestatic  #126                // Method scala/runtime/BoxesRunTime.unboxToBoolean:(Ljava/lang/Object;)Z
+      32: istore        4
+      34: new           #49                 // class io/joern/dataflowengineoss/semanticsloader/FlowSemantic
+      37: dup
+      38: aload_2
+      39: aload_3
+      40: iload         4
+      42: invokespecial #52                 // Method io/joern/dataflowengineoss/semanticsloader/FlowSemantic."<init>":(Ljava/lang/String;Lscala/collection/immutable/List;Z)V
+      45: areturn
+
+  public java.lang.Object fromProduct(scala.Product);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #131                // Method fromProduct:(Lscala/Product;)Lio/joern/dataflowengineoss/semanticsloader/FlowSemantic;
+       5: areturn
+
+  private static final io.joern.dataflowengineoss.semanticsloader.FlowPath from$$anonfun$1(java.lang.Object);
+    Code:
+       0: aload_0
+       1: astore_1
+       2: aload_1
+       3: instanceof    #133                // class scala/Tuple2
+       6: ifeq          64
+       9: aload_1
+      10: checkcast     #133                // class scala/Tuple2
+      13: astore_2
+      14: aload_2
+      15: invokevirtual #136                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      18: astore_3
+      19: aload_2
+      20: invokevirtual #139                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      23: astore        4
+      25: aload_3
+      26: instanceof    #141                // class java/lang/Integer
+      29: ifeq          64
+      32: aload_3
+      33: invokestatic  #145                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+      36: istore        5
+      38: aload         4
+      40: instanceof    #141                // class java/lang/Integer
+      43: ifeq          64
+      46: aload         4
+      48: invokestatic  #145                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+      51: istore        6
+      53: getstatic     #150                // Field io/joern/dataflowengineoss/semanticsloader/FlowPath$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowPath$;
+      56: iload         5
+      58: iload         6
+      60: invokevirtual #153                // Method io/joern/dataflowengineoss/semanticsloader/FlowPath$.FlowMapping:(II)Lio/joern/dataflowengineoss/semanticsloader/FlowPath;
+      63: areturn
+      64: aload_1
+      65: instanceof    #155                // class scala/Tuple3
+      68: ifeq          207
+      71: aload_1
+      72: checkcast     #155                // class scala/Tuple3
+      75: astore        7
+      77: aload         7
+      79: invokevirtual #156                // Method scala/Tuple3._1:()Ljava/lang/Object;
+      82: astore        8
+      84: aload         7
+      86: invokevirtual #157                // Method scala/Tuple3._2:()Ljava/lang/Object;
+      89: astore        9
+      91: aload         7
+      93: invokevirtual #160                // Method scala/Tuple3._3:()Ljava/lang/Object;
+      96: astore        10
+      98: aload         8
+     100: instanceof    #141                // class java/lang/Integer
+     103: ifeq          207
+     106: aload         8
+     108: invokestatic  #145                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+     111: istore        11
+     113: iload         11
+     115: istore        12
+     117: aload         9
+     119: instanceof    #120                // class java/lang/String
+     122: ifeq          160
+     125: aload         9
+     127: checkcast     #120                // class java/lang/String
+     130: astore        13
+     132: aload         10
+     134: instanceof    #141                // class java/lang/Integer
+     137: ifeq          160
+     140: aload         10
+     142: invokestatic  #145                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+     145: istore        14
+     147: getstatic     #150                // Field io/joern/dataflowengineoss/semanticsloader/FlowPath$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowPath$;
+     150: iload         12
+     152: aload         13
+     154: iload         14
+     156: invokevirtual #163                // Method io/joern/dataflowengineoss/semanticsloader/FlowPath$.FlowMapping:(ILjava/lang/String;I)Lio/joern/dataflowengineoss/semanticsloader/FlowPath;
+     159: areturn
+     160: iload         11
+     162: istore        15
+     164: aload         9
+     166: instanceof    #141                // class java/lang/Integer
+     169: ifeq          207
+     172: aload         9
+     174: invokestatic  #145                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+     177: istore        16
+     179: aload         10
+     181: instanceof    #120                // class java/lang/String
+     184: ifeq          207
+     187: aload         10
+     189: checkcast     #120                // class java/lang/String
+     192: astore        17
+     194: getstatic     #150                // Field io/joern/dataflowengineoss/semanticsloader/FlowPath$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowPath$;
+     197: iload         15
+     199: iload         16
+     201: aload         17
+     203: invokevirtual #166                // Method io/joern/dataflowengineoss/semanticsloader/FlowPath$.FlowMapping:(IILjava/lang/String;)Lio/joern/dataflowengineoss/semanticsloader/FlowPath;
+     206: areturn
+     207: aload_1
+     208: instanceof    #168                // class scala/Tuple4
+     211: ifeq          323
+     214: aload_1
+     215: checkcast     #168                // class scala/Tuple4
+     218: astore        18
+     220: aload         18
+     222: invokevirtual #169                // Method scala/Tuple4._1:()Ljava/lang/Object;
+     225: astore        19
+     227: aload         18
+     229: invokevirtual #170                // Method scala/Tuple4._2:()Ljava/lang/Object;
+     232: astore        20
+     234: aload         18
+     236: invokevirtual #171                // Method scala/Tuple4._3:()Ljava/lang/Object;
+     239: astore        21
+     241: aload         18
+     243: invokevirtual #174                // Method scala/Tuple4._4:()Ljava/lang/Object;
+     246: astore        22
+     248: aload         19
+     250: instanceof    #141                // class java/lang/Integer
+     253: ifeq          323
+     256: aload         19
+     258: invokestatic  #145                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+     261: istore        23
+     263: aload         20
+     265: instanceof    #120                // class java/lang/String
+     268: ifeq          323
+     271: aload         20
+     273: checkcast     #120                // class java/lang/String
+     276: astore        24
+     278: aload         21
+     280: instanceof    #141                // class java/lang/Integer
+     283: ifeq          323
+     286: aload         21
+     288: invokestatic  #145                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+     291: istore        25
+     293: aload         22
+     295: instanceof    #120                // class java/lang/String
+     298: ifeq          323
+     301: aload         22
+     303: checkcast     #120                // class java/lang/String
+     306: astore        26
+     308: getstatic     #150                // Field io/joern/dataflowengineoss/semanticsloader/FlowPath$.MODULE$:Lio/joern/dataflowengineoss/semanticsloader/FlowPath$;
+     311: iload         23
+     313: aload         24
+     315: iload         25
+     317: aload         26
+     319: invokevirtual #177                // Method io/joern/dataflowengineoss/semanticsloader/FlowPath$.FlowMapping:(ILjava/lang/String;ILjava/lang/String;)Lio/joern/dataflowengineoss/semanticsloader/FlowPath;
+     322: areturn
+     323: aload_1
+     324: instanceof    #12                 // class io/joern/dataflowengineoss/semanticsloader/FlowPath$FlowMapping
+     327: ifeq          339
+     330: aload_1
+     331: checkcast     #12                 // class io/joern/dataflowengineoss/semanticsloader/FlowPath$FlowMapping
+     334: astore        27
+     336: aload         27
+     338: areturn
+     339: new           #179                // class scala/MatchError
+     342: dup
+     343: aload_1
+     344: invokespecial #182                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     347: athrow
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #202,  0            // InvokeDynamic #1:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

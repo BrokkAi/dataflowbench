@@ -1,0 +1,52 @@
+Compiled from "MetaDataPass.scala"
+public class io.joern.swiftsrc2cpg.passes.MetaDataPass extends io.shiftleft.passes.CpgPass {
+  private final java.lang.String hash;
+
+  private final java.lang.String inputPath;
+
+  public io.joern.swiftsrc2cpg.passes.MetaDataPass(io.shiftleft.codepropertygraph.generated.Cpg, java.lang.String, java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_2
+       2: putfield      #19                 // Field hash:Ljava/lang/String;
+       5: aload_0
+       6: aload_3
+       7: putfield      #21                 // Field inputPath:Ljava/lang/String;
+      10: aload_0
+      11: aload_1
+      12: getstatic     #27                 // Field io/shiftleft/passes/CpgPass$.MODULE$:Lio/shiftleft/passes/CpgPass$;
+      15: invokevirtual #31                 // Method io/shiftleft/passes/CpgPass$.$lessinit$greater$default$2:()Ljava/lang/String;
+      18: invokespecial #34                 // Method io/shiftleft/passes/CpgPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;Ljava/lang/String;)V
+      21: return
+
+  public void run(flatgraph.DiffGraphBuilder);
+    Code:
+       0: getstatic     #45                 // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+       3: aload_0
+       4: getfield      #21                 // Field inputPath:Ljava/lang/String;
+       7: iconst_0
+       8: anewarray     #47                 // class java/lang/String
+      11: invokestatic  #53                 // Method java/nio/file/Paths.get:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+      14: invokevirtual #56                 // Method io/shiftleft/semanticcpg/utils/FileUtil$.PathExt:(Ljava/nio/file/Path;)Lio/shiftleft/semanticcpg/utils/FileUtil$PathExt;
+      17: invokevirtual #59                 // Method io/shiftleft/semanticcpg/utils/FileUtil$PathExt.absolutePathAsString:()Ljava/lang/String;
+      20: astore_2
+      21: getstatic     #64                 // Field io/shiftleft/codepropertygraph/generated/nodes/NewMetaData$.MODULE$:Lio/shiftleft/codepropertygraph/generated/nodes/NewMetaData$;
+      24: invokevirtual #68                 // Method io/shiftleft/codepropertygraph/generated/nodes/NewMetaData$.apply:()Lio/shiftleft/codepropertygraph/generated/nodes/NewMetaData;
+      27: ldc           #70                 // String SWIFTSRC
+      29: invokevirtual #76                 // Method io/shiftleft/codepropertygraph/generated/nodes/NewMetaData.language:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewMetaData;
+      32: aload_2
+      33: invokevirtual #79                 // Method io/shiftleft/codepropertygraph/generated/nodes/NewMetaData.root:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewMetaData;
+      36: aload_0
+      37: getfield      #19                 // Field hash:Ljava/lang/String;
+      40: invokevirtual #81                 // Method io/shiftleft/codepropertygraph/generated/nodes/NewMetaData.hash:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewMetaData;
+      43: ldc           #2                  // class io/joern/swiftsrc2cpg/passes/MetaDataPass
+      45: invokevirtual #87                 // Method java/lang/Class.getPackage:()Ljava/lang/Package;
+      48: invokevirtual #92                 // Method java/lang/Package.getImplementationVersion:()Ljava/lang/String;
+      51: invokevirtual #95                 // Method io/shiftleft/codepropertygraph/generated/nodes/NewMetaData.version:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewMetaData;
+      54: astore_3
+      55: aload_1
+      56: aload_3
+      57: invokevirtual #101                // Method flatgraph/DiffGraphBuilder.addNode:(Lflatgraph/DNode;)Lflatgraph/DiffGraphBuilder;
+      60: pop
+      61: return
+}

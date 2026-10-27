@@ -1,0 +1,122 @@
+{
+  "automatic_retry": false,
+  "bindings": {
+    "bridge12": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-12.py",
+      "sha256": "9d00af2d4f64e2618bb4934e18c5dc771db1a609411548bd0c354db236b608db"
+    },
+    "core_identity": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-17/manifest-identity.json",
+      "sha256": "60668f7debfe0c537d3ff7f410f7739e9ea844970cc23dc04b599a30b636239f"
+    },
+    "design": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-17/late-route-stop-design-01.json",
+      "sha256": "70b3be11998063a51eb603ece3a20161366b8c35ac53eee630e09effbfb6d089"
+    },
+    "incoming_ledger_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/sealed-ledger-prefix-89.jsonl",
+      "rows": 89,
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    },
+    "manifest": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-17/manifest.json",
+      "sha256": "5034fad6d291b23eeb65be69d5f71a95f0132757737a0f9e441bb4051fb7715c"
+    },
+    "prior_stop_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-17/actual-stage-stop-independent-review-01.json",
+      "sha256": "7fb08219d9b136607c186a2d66feaa1cbc4c8ccc3377495fff8a373e21a4ef1a"
+    },
+    "root_stop_diagnosis": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-17/actual-stage-stop-diagnosis-01.json",
+      "sha256": "2dd89ff1dc13b625ff11f4269db17611541dd2dc9848d8df068316936813c142"
+    },
+    "stage_runtime04": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py",
+      "sha256": "c906d8100bb3ef12d5b0bc4216b07a22956bb3600eaee001cdd59095d29f33bf"
+    }
+  },
+  "design_checks": {
+    "additional_dynamic_configuration_route": {
+      "must_be_covered_or_proven_unreachable": true,
+      "path": "scripts/run-joern-swift-case.py",
+      "selector": "joern_historical_configuration",
+      "sha256": "1a033f1c563003e91fe43fb4c4612d67539c9aad420e351d7a45782da7353516"
+    },
+    "computed_codeql_selectors": {
+      "codeql_pending_historical_previous_helper": {
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-01.py",
+        "sha256": "712d456fdb7e8c7f658d5e3cded8a2bc8cc276b9a890cf0c4944fdbafa9828fa"
+      },
+      "codeql_pending_historical_replay_helper": {
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+      }
+    },
+    "graph_member_count": 88,
+    "historical_context_constructors": 2,
+    "nested_late_loader_count": 6,
+    "route_rows_audited": 43,
+    "stage_ordinary_lookup_mismatches": 25,
+    "unique_source_files_audited": 45
+  },
+  "execution_authorized": false,
+  "findings": [
+    {
+      "detail": "The design identifies both selectors used by CodeQL03._load_pinned_helper, their exact continuation paths and SHAs, and the existing distinct graph roles. It requires an explicit route rather than accepting a path-only alias or weakening _graph_member.",
+      "id": "BF17-DESIGN-ROUTE-01",
+      "required_implementation": "Keep the selector-to-role/path/SHA bindings exact and reject unknown, foreign, changed, duplicate, or reordered requests.",
+      "severity": "resolved-by-design",
+      "title": "Computed historical selectors and exact graph roles are explicitly enumerated"
+    },
+    {
+      "detail": "The design does not treat generated frames, direct _graph_member calls, or precomputed context dictionaries as production proof. It requires the actual CodeQL helper pair, both historical context constructors, the real parent-stage chain, and a downstream sentinel after enrichment.",
+      "id": "BF17-DESIGN-CALLER-01",
+      "required_implementation": "Preserve real helper/validator/factory bodies and prevent the sentinel from masking either historical context or late loader failure.",
+      "severity": "resolved-by-design",
+      "title": "Actual helper bodies and parent-chain regression are required"
+    },
+    {
+      "detail": "The static audit records 43 dynamic rows, 25 stage ordinary-lookup mismatches, an additional joern_historical_configuration route, and four finite common-engine computed-selector families. These are implementation acceptance conditions, not evidence that the current stage can run.",
+      "id": "BF17-DESIGN-COVERAGE-01",
+      "required_implementation": "Bind or explicitly prove scoped nonreachability for every listed route and computed family with exact caller, selector, path, SHA, role, and module identity before successor freeze.",
+      "severity": "condition",
+      "title": "The implementation must close the audited route inventory"
+    }
+  ],
+  "implementation_authorized_by_this_review": true,
+  "limitations": [
+    "This is implementation-only design approval. It is not a source-commit approval, qualification approval, analyzer capability result, or launch approval.",
+    "The BF17 stop performed partial frozen validation before failing in historical enrichment; that partial work must remain evidence and must not be relabeled as a completed parent-stage replay or qualification proof.",
+    "A future successor requires independent source/closure/core review and a fresh invocation review after implementation and tests."
+  ],
+  "observed_boundary": {
+    "analyzer_dispatches": 0,
+    "attempts_consumed": 0,
+    "command_constructions": 0,
+    "ledger_sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6",
+    "nested_provider_and_historical_validation_reached": true,
+    "parent_stage_created": false,
+    "partial_frozen_validation_performed": true,
+    "stage_receipt_exists": false,
+    "stderr_sha256": "07c708b45e650ede0e1e1c9bc969ad99fe788f255f2e00e482b372e9986a46d5"
+  },
+  "production_operations_performed": false,
+  "required_implementation_properties": [
+    "Use an append-only successor with new source/plan/core/contract bindings; preserve BF17 source, ledger, historical helpers, manifests, reviews, and original clock unchanged.",
+    "Keep separate semantic roles for incoming_historical_replay_helper05/nested_014 and incoming_historical_previous_helper01/nested_015; do not collapse same-path graph objects or choose candidates[0].",
+    "Cover normal, exception, and second-entry restoration of factory/spec/module/loader/facade/global identities, including all six late loaders and eager objects.",
+    "Use exact source path/SHA and ownership checks for all computed/private-engine selectors; reject unknown labels, wrong roots, wrong kinds/tokens, mutated constants, foreign module/spec/factory objects, and stale sys.modules entries.",
+    "Do not use global sys.path/sys.modules aliases, permissive fallback, fabricated runtime contexts, or bypasses around frozen resource, source, historical, checker, configuration, or terminal guards.",
+    "Run the design-specified actual parent historical-enrichment regression and near-miss route tests before any qualification invocation."
+  ],
+  "review_type": "independent-late-route-design-review",
+  "reviewed_at_utc": "2026-10-24T22:15:01.335546+00:00",
+  "reviewer": "joern_repair_independent",
+  "reviewer_mutations": [
+    "This review JSON only; no source, ledger, Git, build, replay, admission, analyzer, or launch mutation."
+  ],
+  "schema": "v092-bifrost-v0140-late-route-stop-design-review/v1",
+  "scope": "Independent read-only review of the append-only late historical-loader route design. Approval is limited to implementation and focused harmless regression work; it authorizes no source commit, qualification invocation, replay, admission, analyzer, build, or launch.",
+  "source_mutation_performed": false,
+  "status": "approved-for-implementation-only"
+}

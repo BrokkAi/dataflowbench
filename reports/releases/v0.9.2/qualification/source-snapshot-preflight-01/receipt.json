@@ -1,0 +1,54 @@
+{
+  "capture_root_availability_dependency": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+  "completed_utc": "2026-10-20T00:49:17.745326+00:00",
+  "core_closure_manifest": {
+    "path": "reports/releases/v0.9.2/qualification/source-input-closure-01.json",
+    "sha256": "6441d8c1666a22355743b2b47ee531e39ee5de3c0c76b1a1c550f26354f8c423"
+  },
+  "error": {
+    "message": "codeql verify-plan failed with exit 1",
+    "type": "RuntimeError"
+  },
+  "input_manifest": {
+    "path": "execution-state/v092/final-source-inputs-prebuild.json",
+    "sha256": "3a66558642387f62964babb02c224f84e0ba96553db748d55b222ea30f8845a2"
+  },
+  "interpreter": "/usr/bin/python3",
+  "materialized_source_inputs_verified": 745,
+  "registered_snapshot_head": "c0f914c81689f253cb29f1cbb84018756a2cf993",
+  "registered_snapshot_source_assertion": true,
+  "runner_source_sha256": "95566dc433f182ade33deabf9ec5779bc68e02ee68eb7829bc4a9b00628345d3",
+  "schema": "v092-source-snapshot-preflight/v1",
+  "snapshot_path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot",
+  "source_commit": "c0f914c81689f253cb29f1cbb84018756a2cf993",
+  "source_commit_and_all_inputs_verified_in_owner": true,
+  "source_input_count": 745,
+  "source_input_roles": {
+    "qualification-captured-source": 34,
+    "qualification-envelope": 8,
+    "qualification-evidence": 655,
+    "qualification-native-cpg": 24,
+    "release-input": 4,
+    "runtime-acquisition": 20
+  },
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"<stdin>\", line 125, in <module>\nRuntimeError: codeql verify-plan failed with exit 1\n",
+  "validators": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "scripts/run-swift-common-v092.py",
+        "verify-plan",
+        "--plan",
+        "adapters/codeql/swift-common-v2/plan-v092-01/execution-plan.json"
+      ],
+      "engine": "codeql",
+      "returncode": 1,
+      "stderr": "Traceback (most recent call last):\n  File \"/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot/scripts/run-swift-common-v092.py\", line 50, in <module>\n    raise SystemExit(main())\n  File \"/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot/scripts/run-swift-common-v092.py\", line 27, in main\n    plan, qualification, _ = runner.validate_plan(root, args.plan)\n  File \"/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot/scripts/swift_normal_runner_v092.py\", line 239, in validate_plan\n    path = bound_file(root, reference)\n  File \"/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot/scripts/swift_normal_runner_v092.py\", line 55, in bound_file\n    require(target.is_file() and target.resolve().is_relative_to(root.resolve()), \"missing or escaped repository reference\")\n  File \"/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot/scripts/swift_normal_runner_v092.py\", line 37, in require\n    raise ValueError(message)\nValueError: missing or escaped repository reference\n",
+      "stderr_sha256": "f5f70275978a9e705726a4cb193d5ed37335d217d94829885c521913b528b46b",
+      "stdout": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "worktree_head": "c0f914c81689f253cb29f1cbb84018756a2cf993"
+}

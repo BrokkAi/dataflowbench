@@ -1,0 +1,759 @@
+Compiled from "FullNameUniquenessPass.scala"
+public class io.joern.swiftsrc2cpg.passes.FullNameUniquenessPass extends io.shiftleft.passes.CpgPass {
+  private final io.shiftleft.codepropertygraph.generated.Cpg cpg;
+
+  private final org.slf4j.Logger logger;
+
+  public io.joern.swiftsrc2cpg.passes.FullNameUniquenessPass(io.shiftleft.codepropertygraph.generated.Cpg);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #47                 // Field cpg:Lio/shiftleft/codepropertygraph/generated/Cpg;
+       5: aload_0
+       6: aload_1
+       7: getstatic     #53                 // Field io/shiftleft/passes/CpgPass$.MODULE$:Lio/shiftleft/passes/CpgPass$;
+      10: invokevirtual #57                 // Method io/shiftleft/passes/CpgPass$.$lessinit$greater$default$2:()Ljava/lang/String;
+      13: invokespecial #60                 // Method io/shiftleft/passes/CpgPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;Ljava/lang/String;)V
+      16: aload_0
+      17: ldc           #2                  // class io/joern/swiftsrc2cpg/passes/FullNameUniquenessPass
+      19: invokestatic  #66                 // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/Class;)Lorg/slf4j/Logger;
+      22: putfield      #68                 // Field logger:Lorg/slf4j/Logger;
+      25: return
+
+  public void run(flatgraph.DiffGraphBuilder);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #76                 // Method handleMethods:(Lflatgraph/DiffGraphBuilder;)V
+       5: aload_0
+       6: aload_1
+       7: invokespecial #79                 // Method handleTypeDecls:(Lflatgraph/DiffGraphBuilder;)V
+      10: aload_0
+      11: aload_1
+      12: invokespecial #82                 // Method handleNamespaceBlocks:(Lflatgraph/DiffGraphBuilder;)V
+      15: return
+
+  private void handleMethods(flatgraph.DiffGraphBuilder);
+    Code:
+       0: aload_0
+       1: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       4: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       7: aload_0
+       8: getfield      #47                 // Field cpg:Lio/shiftleft/codepropertygraph/generated/Cpg;
+      11: invokevirtual #92                 // Method io/shiftleft/semanticcpg/language/package$.toGeneratedNodeStarters:(Lio/shiftleft/codepropertygraph/generated/Cpg;)Lio/shiftleft/codepropertygraph/generated/CpgNodeStarters;
+      14: invokevirtual #98                 // Method io/shiftleft/codepropertygraph/generated/CpgNodeStarters.method:()Lscala/collection/Iterator;
+      17: invokevirtual #102                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyNameTraversal:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      20: astore_3
+      21: getstatic     #107                // Field io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyName$;
+      24: aload_3
+      25: getstatic     #112                // Field io/shiftleft/semanticcpg/language/types/structure/NamespaceTraversal$.MODULE$:Lio/shiftleft/semanticcpg/language/types/structure/NamespaceTraversal$;
+      28: invokevirtual #115                // Method io/shiftleft/semanticcpg/language/types/structure/NamespaceTraversal$.globalNamespaceName:()Ljava/lang/String;
+      31: invokevirtual #119                // Method io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyName$.nameNot$extension:(Lscala/collection/Iterator;Ljava/lang/String;)Lscala/collection/Iterator;
+      34: invokespecial #123                // Method generateStableFullNameMapping:(Lscala/collection/Iterator;)Lscala/collection/immutable/Seq;
+      37: astore_2
+      38: aload_2
+      39: aload_0
+      40: aload_1
+      41: invokedynamic #145,  0            // InvokeDynamic #0:applyVoid:(Lio/joern/swiftsrc2cpg/passes/FullNameUniquenessPass;Lflatgraph/DiffGraphBuilder;)Lscala/runtime/function/JProcedure1;
+      46: invokeinterface #151,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+      51: return
+
+  private <T extends io.shiftleft.codepropertygraph.generated.nodes.AstNode> scala.collection.immutable.Seq<scala.Tuple2<java.lang.String, scala.collection.immutable.List<T>>> generateStableFullNameMapping(scala.collection.Iterator<T>);
+    Code:
+       0: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       3: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_1
+       7: invokevirtual #158                // Method io/shiftleft/semanticcpg/language/package$.iterableToGenericSteps:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      10: astore_3
+      11: getstatic     #163                // Field flatgraph/traversal/GenericSteps$.MODULE$:Lflatgraph/traversal/GenericSteps$;
+      14: aload_3
+      15: invokedynamic #175,  0            // InvokeDynamic #1:apply:()Lscala/Function1;
+      20: invokevirtual #179                // Method flatgraph/traversal/GenericSteps$.groupBy$extension:(Lscala/collection/Iterator;Lscala/Function1;)Lscala/collection/immutable/Map;
+      23: invokedynamic #187,  0            // InvokeDynamic #2:apply:()Lscala/Function1;
+      28: invokeinterface #193,  2          // InterfaceMethod scala/collection/immutable/Map.filter:(Lscala/Function1;)Ljava/lang/Object;
+      33: checkcast     #195                // class scala/collection/IterableOnce
+      36: invokevirtual #158                // Method io/shiftleft/semanticcpg/language/package$.iterableToGenericSteps:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      39: astore_2
+      40: getstatic     #163                // Field flatgraph/traversal/GenericSteps$.MODULE$:Lflatgraph/traversal/GenericSteps$;
+      43: aload_2
+      44: invokedynamic #202,  0            // InvokeDynamic #3:apply:()Lscala/Function1;
+      49: getstatic     #205                // Field scala/math/Ordering$String$.MODULE$:Lscala/math/Ordering$String$;
+      52: invokevirtual #209                // Method flatgraph/traversal/GenericSteps$.sortBy$extension:(Lscala/collection/Iterator;Lscala/Function1;Lscala/math/Ordering;)Lscala/collection/immutable/Seq;
+      55: areturn
+
+  private <T extends io.shiftleft.codepropertygraph.generated.nodes.AstNode> scala.collection.immutable.List<T> sortNodesByLocation(scala.collection.immutable.List<T>);
+    Code:
+       0: aload_1
+       1: invokedynamic #220,  0            // InvokeDynamic #4:apply:()Lscala/Function1;
+       6: getstatic     #225                // Field scala/math/Ordering$.MODULE$:Lscala/math/Ordering$;
+       9: getstatic     #205                // Field scala/math/Ordering$String$.MODULE$:Lscala/math/Ordering$String$;
+      12: getstatic     #228                // Field scala/math/Ordering$Int$.MODULE$:Lscala/math/Ordering$Int$;
+      15: getstatic     #228                // Field scala/math/Ordering$Int$.MODULE$:Lscala/math/Ordering$Int$;
+      18: invokevirtual #232                // Method scala/math/Ordering$.Tuple3:(Lscala/math/Ordering;Lscala/math/Ordering;Lscala/math/Ordering;)Lscala/math/Ordering;
+      21: invokevirtual #238                // Method scala/collection/immutable/List.sortBy:(Lscala/Function1;Lscala/math/Ordering;)Ljava/lang/Object;
+      24: checkcast     #234                // class scala/collection/immutable/List
+      27: areturn
+
+  private <T extends io.shiftleft.codepropertygraph.generated.nodes.AstNode> void logDuplicates(scala.collection.immutable.List<T>, java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #68                 // Field logger:Lorg/slf4j/Logger;
+       4: invokeinterface #249,  1          // InterfaceMethod org/slf4j/Logger.isDebugEnabled:()Z
+       9: ifeq          82
+      12: aload_1
+      13: invokedynamic #254,  0            // InvokeDynamic #5:apply:()Lscala/Function1;
+      18: invokevirtual #258                // Method scala/collection/immutable/List.map:(Lscala/Function1;)Lscala/collection/immutable/List;
+      21: ldc_w         #260                // String [
+      24: ldc_w         #262                // String ,
+      27: ldc_w         #264                // String ]
+      30: invokevirtual #268                // Method scala/collection/immutable/List.mkString:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      33: astore_3
+      34: aload_1
+      35: invokevirtual #272                // Method scala/collection/immutable/List.headOption:()Lscala/Option;
+      38: invokedynamic #277,  0            // InvokeDynamic #6:apply:()Lscala/Function1;
+      43: invokevirtual #282                // Method scala/Option.map:(Lscala/Function1;)Lscala/Option;
+      46: invokedynamic #292,  0            // InvokeDynamic #7:apply:()Lscala/Function0;
+      51: invokevirtual #296                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      54: checkcast     #298                // class java/lang/String
+      57: astore        4
+      59: aload_0
+      60: getfield      #68                 // Field logger:Lorg/slf4j/Logger;
+      63: aload_1
+      64: invokevirtual #302                // Method scala/collection/immutable/List.size:()I
+      67: aload         4
+      69: aload_2
+      70: aload_3
+      71: invokedynamic #314,  0            // InvokeDynamic #8:makeConcatWithConstants:(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      76: invokeinterface #318,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+      81: return
+      82: return
+
+  private void handleTypeDecls(flatgraph.DiffGraphBuilder);
+    Code:
+       0: aload_0
+       1: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       4: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       7: aload_0
+       8: getfield      #47                 // Field cpg:Lio/shiftleft/codepropertygraph/generated/Cpg;
+      11: invokevirtual #92                 // Method io/shiftleft/semanticcpg/language/package$.toGeneratedNodeStarters:(Lio/shiftleft/codepropertygraph/generated/Cpg;)Lio/shiftleft/codepropertygraph/generated/CpgNodeStarters;
+      14: invokevirtual #324                // Method io/shiftleft/codepropertygraph/generated/CpgNodeStarters.typeDecl:()Lscala/collection/Iterator;
+      17: invokevirtual #102                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyNameTraversal:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      20: astore_2
+      21: getstatic     #107                // Field io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyName$;
+      24: aload_2
+      25: getstatic     #112                // Field io/shiftleft/semanticcpg/language/types/structure/NamespaceTraversal$.MODULE$:Lio/shiftleft/semanticcpg/language/types/structure/NamespaceTraversal$;
+      28: invokevirtual #115                // Method io/shiftleft/semanticcpg/language/types/structure/NamespaceTraversal$.globalNamespaceName:()Ljava/lang/String;
+      31: invokevirtual #119                // Method io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyName$.nameNot$extension:(Lscala/collection/Iterator;Ljava/lang/String;)Lscala/collection/Iterator;
+      34: getstatic     #329                // Field io/shiftleft/codepropertygraph/generated/PropertyNames$.MODULE$:Lio/shiftleft/codepropertygraph/generated/PropertyNames$;
+      37: invokevirtual #332                // Method io/shiftleft/codepropertygraph/generated/PropertyNames$.FullName:()Ljava/lang/String;
+      40: aload_1
+      41: invokespecial #336                // Method handleDuplicateFullNames:(Lscala/collection/Iterator;Ljava/lang/String;Lflatgraph/DiffGraphBuilder;)V
+      44: return
+
+  private void handleNamespaceBlocks(flatgraph.DiffGraphBuilder);
+    Code:
+       0: aload_0
+       1: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       4: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       7: aload_0
+       8: getfield      #47                 // Field cpg:Lio/shiftleft/codepropertygraph/generated/Cpg;
+      11: invokevirtual #92                 // Method io/shiftleft/semanticcpg/language/package$.toGeneratedNodeStarters:(Lio/shiftleft/codepropertygraph/generated/Cpg;)Lio/shiftleft/codepropertygraph/generated/CpgNodeStarters;
+      14: invokevirtual #339                // Method io/shiftleft/codepropertygraph/generated/CpgNodeStarters.namespaceBlock:()Lscala/collection/Iterator;
+      17: invokevirtual #102                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyNameTraversal:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      20: astore_2
+      21: getstatic     #107                // Field io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyName$;
+      24: aload_2
+      25: getstatic     #112                // Field io/shiftleft/semanticcpg/language/types/structure/NamespaceTraversal$.MODULE$:Lio/shiftleft/semanticcpg/language/types/structure/NamespaceTraversal$;
+      28: invokevirtual #115                // Method io/shiftleft/semanticcpg/language/types/structure/NamespaceTraversal$.globalNamespaceName:()Ljava/lang/String;
+      31: invokevirtual #119                // Method io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyName$.nameNot$extension:(Lscala/collection/Iterator;Ljava/lang/String;)Lscala/collection/Iterator;
+      34: getstatic     #329                // Field io/shiftleft/codepropertygraph/generated/PropertyNames$.MODULE$:Lio/shiftleft/codepropertygraph/generated/PropertyNames$;
+      37: invokevirtual #332                // Method io/shiftleft/codepropertygraph/generated/PropertyNames$.FullName:()Ljava/lang/String;
+      40: aload_1
+      41: invokespecial #336                // Method handleDuplicateFullNames:(Lscala/collection/Iterator;Ljava/lang/String;Lflatgraph/DiffGraphBuilder;)V
+      44: return
+
+  private <T extends io.shiftleft.codepropertygraph.generated.nodes.AstNode> void handleDuplicateFullNames(scala.collection.Iterator<T>, java.lang.String, flatgraph.DiffGraphBuilder);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #123                // Method generateStableFullNameMapping:(Lscala/collection/Iterator;)Lscala/collection/immutable/Seq;
+       5: astore        4
+       7: aload         4
+       9: aload_0
+      10: aload_3
+      11: aload_2
+      12: invokedynamic #349,  0            // InvokeDynamic #9:applyVoid:(Lio/joern/swiftsrc2cpg/passes/FullNameUniquenessPass;Lflatgraph/DiffGraphBuilder;Ljava/lang/String;)Lscala/runtime/function/JProcedure1;
+      17: invokeinterface #151,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+      22: return
+
+  private static final boolean callsAffected$lzyINIT1$1$$anonfun$1$$anonfun$1(scala.collection.immutable.List, io.shiftleft.codepropertygraph.generated.nodes.File);
+    Code:
+       0: getstatic     #357                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$;
+       3: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_1
+       7: invokevirtual #361                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyName:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      10: invokevirtual #365                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$.name$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      13: getstatic     #368                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$;
+      16: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      19: aload_0
+      20: invokevirtual #371                // Method scala/collection/immutable/List.head:()Ljava/lang/Object;
+      23: checkcast     #373                // class io/shiftleft/codepropertygraph/generated/nodes/StoredNode
+      26: invokevirtual #376                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyFilename:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      29: invokevirtual #379                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$.filename$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      32: invokestatic  #385                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      35: ifeq          42
+      38: iconst_1
+      39: goto          43
+      42: iconst_0
+      43: ireturn
+
+  private static final boolean callsAffected$lzyINIT1$1$$anonfun$1(scala.collection.immutable.List, io.shiftleft.codepropertygraph.generated.nodes.Call);
+    Code:
+       0: getstatic     #395                // Field io/shiftleft/semanticcpg/language/nodemethods/StoredNodeMethods$.MODULE$:Lio/shiftleft/semanticcpg/language/nodemethods/StoredNodeMethods$;
+       3: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_1
+       7: invokevirtual #398                // Method io/shiftleft/semanticcpg/language/package$.toExtendedStoredNode:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      10: invokevirtual #402                // Method io/shiftleft/semanticcpg/language/nodemethods/StoredNodeMethods$.file$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lscala/collection/Iterator;
+      13: aload_0
+      14: invokedynamic #410,  0            // InvokeDynamic #10:apply:(Lscala/collection/immutable/List;)Lscala/Function1;
+      19: invokeinterface #416,  2          // InterfaceMethod scala/collection/Iterator.exists:(Lscala/Function1;)Z
+      24: ireturn
+
+  private final scala.collection.immutable.List callsAffected$lzyINIT1$1(scala.runtime.LazyRef, java.lang.String, scala.collection.immutable.List);
+    Code:
+       0: aload_1
+       1: dup
+       2: astore        4
+       4: monitorenter
+       5: aload_1
+       6: invokevirtual #427                // Method scala/runtime/LazyRef.initialized:()Z
+       9: ifeq          19
+      12: aload_1
+      13: invokevirtual #430                // Method scala/runtime/LazyRef.value:()Ljava/lang/Object;
+      16: goto          80
+      19: aload_1
+      20: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      23: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      26: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      29: aload_0
+      30: getfield      #47                 // Field cpg:Lio/shiftleft/codepropertygraph/generated/Cpg;
+      33: invokevirtual #92                 // Method io/shiftleft/semanticcpg/language/package$.toGeneratedNodeStarters:(Lio/shiftleft/codepropertygraph/generated/Cpg;)Lio/shiftleft/codepropertygraph/generated/CpgNodeStarters;
+      36: invokevirtual #433                // Method io/shiftleft/codepropertygraph/generated/CpgNodeStarters.call:()Lscala/collection/Iterator;
+      39: invokevirtual #436                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyMethodFullNameTraversal:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      42: astore        7
+      44: getstatic     #441                // Field io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyMethodFullName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyMethodFullName$;
+      47: aload         7
+      49: aload_2
+      50: invokevirtual #444                // Method io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyMethodFullName$.methodFullNameExact$extension:(Lscala/collection/Iterator;Ljava/lang/String;)Lscala/collection/Iterator;
+      53: aload_3
+      54: invokedynamic #450,  0            // InvokeDynamic #11:apply:(Lscala/collection/immutable/List;)Lscala/Function1;
+      59: invokeinterface #454,  2          // InterfaceMethod scala/collection/Iterator.filterNot:(Lscala/Function1;)Lscala/collection/Iterator;
+      64: invokevirtual #158                // Method io/shiftleft/semanticcpg/language/package$.iterableToGenericSteps:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      67: astore        6
+      69: getstatic     #163                // Field flatgraph/traversal/GenericSteps$.MODULE$:Lflatgraph/traversal/GenericSteps$;
+      72: aload         6
+      74: invokevirtual #458                // Method flatgraph/traversal/GenericSteps$.l$extension:(Lscala/collection/Iterator;)Lscala/collection/immutable/List;
+      77: invokevirtual #461                // Method scala/runtime/LazyRef.initialize:(Ljava/lang/Object;)Ljava/lang/Object;
+      80: checkcast     #234                // class scala/collection/immutable/List
+      83: astore        5
+      85: aload         4
+      87: monitorexit
+      88: aload         5
+      90: goto          97
+      93: aload         4
+      95: monitorexit
+      96: athrow
+      97: areturn
+    Exception table:
+       from    to  target type
+           5    85    93   any
+
+  private final scala.collection.immutable.List callsAffected$1(scala.runtime.LazyRef, java.lang.String, scala.collection.immutable.List);
+    Code:
+       0: aload_1
+       1: invokevirtual #427                // Method scala/runtime/LazyRef.initialized:()Z
+       4: ifeq          14
+       7: aload_1
+       8: invokevirtual #430                // Method scala/runtime/LazyRef.value:()Ljava/lang/Object;
+      11: goto          21
+      14: aload_0
+      15: aload_1
+      16: aload_2
+      17: aload_3
+      18: invokespecial #472                // Method callsAffected$lzyINIT1$1:(Lscala/runtime/LazyRef;Ljava/lang/String;Lscala/collection/immutable/List;)Lscala/collection/immutable/List;
+      21: checkcast     #234                // class scala/collection/immutable/List
+      24: areturn
+
+  private final scala.collection.immutable.List bindingsAffected$lzyINIT1$1(scala.runtime.LazyRef, java.lang.String);
+    Code:
+       0: aload_1
+       1: dup
+       2: astore_3
+       3: monitorenter
+       4: aload_1
+       5: invokevirtual #427                // Method scala/runtime/LazyRef.initialized:()Z
+       8: ifeq          18
+      11: aload_1
+      12: invokevirtual #430                // Method scala/runtime/LazyRef.value:()Ljava/lang/Object;
+      15: goto          68
+      18: aload_1
+      19: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      22: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      25: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      28: aload_0
+      29: getfield      #47                 // Field cpg:Lio/shiftleft/codepropertygraph/generated/Cpg;
+      32: invokevirtual #92                 // Method io/shiftleft/semanticcpg/language/package$.toGeneratedNodeStarters:(Lio/shiftleft/codepropertygraph/generated/Cpg;)Lio/shiftleft/codepropertygraph/generated/CpgNodeStarters;
+      35: invokevirtual #479                // Method io/shiftleft/codepropertygraph/generated/CpgNodeStarters.binding:()Lscala/collection/Iterator;
+      38: invokevirtual #436                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyMethodFullNameTraversal:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      41: astore        6
+      43: getstatic     #441                // Field io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyMethodFullName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyMethodFullName$;
+      46: aload         6
+      48: aload_2
+      49: invokevirtual #444                // Method io/shiftleft/codepropertygraph/generated/traversals/TraversalPropertyMethodFullName$.methodFullNameExact$extension:(Lscala/collection/Iterator;Ljava/lang/String;)Lscala/collection/Iterator;
+      52: invokevirtual #158                // Method io/shiftleft/semanticcpg/language/package$.iterableToGenericSteps:(Lscala/collection/IterableOnce;)Lscala/collection/Iterator;
+      55: astore        5
+      57: getstatic     #163                // Field flatgraph/traversal/GenericSteps$.MODULE$:Lflatgraph/traversal/GenericSteps$;
+      60: aload         5
+      62: invokevirtual #458                // Method flatgraph/traversal/GenericSteps$.l$extension:(Lscala/collection/Iterator;)Lscala/collection/immutable/List;
+      65: invokevirtual #461                // Method scala/runtime/LazyRef.initialize:(Ljava/lang/Object;)Ljava/lang/Object;
+      68: checkcast     #234                // class scala/collection/immutable/List
+      71: astore        4
+      73: aload_3
+      74: monitorexit
+      75: aload         4
+      77: goto          83
+      80: aload_3
+      81: monitorexit
+      82: athrow
+      83: areturn
+    Exception table:
+       from    to  target type
+           4    73    80   any
+
+  private final scala.collection.immutable.List bindingsAffected$1(scala.runtime.LazyRef, java.lang.String);
+    Code:
+       0: aload_1
+       1: invokevirtual #427                // Method scala/runtime/LazyRef.initialized:()Z
+       4: ifeq          14
+       7: aload_1
+       8: invokevirtual #430                // Method scala/runtime/LazyRef.value:()Ljava/lang/Object;
+      11: goto          20
+      14: aload_0
+      15: aload_1
+      16: aload_2
+      17: invokespecial #484                // Method bindingsAffected$lzyINIT1$1:(Lscala/runtime/LazyRef;Ljava/lang/String;)Lscala/collection/immutable/List;
+      20: checkcast     #234                // class scala/collection/immutable/List
+      23: areturn
+
+  private static final boolean handleMethods$$anonfun$1$$anonfun$1$$anonfun$1(io.shiftleft.codepropertygraph.generated.nodes.Method, io.shiftleft.codepropertygraph.generated.nodes.Binding);
+    Code:
+       0: getstatic     #493                // Field io/shiftleft/codepropertygraph/generated/neighboraccessors/AccessNeighborsForBinding$.MODULE$:Lio/shiftleft/codepropertygraph/generated/neighboraccessors/AccessNeighborsForBinding$;
+       3: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_1
+       7: invokevirtual #497                // Method io/shiftleft/semanticcpg/language/package$.accessNeighborsForBinding:(Lio/shiftleft/codepropertygraph/generated/nodes/Binding;)Lio/shiftleft/codepropertygraph/generated/nodes/Binding;
+      10: invokevirtual #501                // Method io/shiftleft/codepropertygraph/generated/neighboraccessors/AccessNeighborsForBinding$.refOut$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/Binding;)Lscala/collection/Iterator;
+      13: aload_0
+      14: invokeinterface #505,  2          // InterfaceMethod scala/collection/Iterator.contains:(Ljava/lang/Object;)Z
+      19: ireturn
+
+  private static final flatgraph.DiffGraphBuilder handleMethods$$anonfun$1$$anonfun$1$$anonfun$2(flatgraph.DiffGraphBuilder, java.lang.String, java.lang.String, io.shiftleft.codepropertygraph.generated.nodes.Binding);
+    Code:
+       0: aload_0
+       1: aload_3
+       2: getstatic     #329                // Field io/shiftleft/codepropertygraph/generated/PropertyNames$.MODULE$:Lio/shiftleft/codepropertygraph/generated/PropertyNames$;
+       5: invokevirtual #515                // Method io/shiftleft/codepropertygraph/generated/PropertyNames$.Name:()Ljava/lang/String;
+       8: getstatic     #357                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$;
+      11: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      14: aload_3
+      15: invokevirtual #361                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyName:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      18: invokevirtual #365                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$.name$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      21: aload_1
+      22: invokedynamic #520,  0            // InvokeDynamic #12:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      27: invokevirtual #526                // Method flatgraph/DiffGraphBuilder.setNodeProperty:(Lflatgraph/GNode;Ljava/lang/String;Ljava/lang/Object;)Lflatgraph/DiffGraphBuilder;
+      30: pop
+      31: aload_0
+      32: aload_3
+      33: getstatic     #329                // Field io/shiftleft/codepropertygraph/generated/PropertyNames$.MODULE$:Lio/shiftleft/codepropertygraph/generated/PropertyNames$;
+      36: invokevirtual #529                // Method io/shiftleft/codepropertygraph/generated/PropertyNames$.MethodFullName:()Ljava/lang/String;
+      39: aload_2
+      40: invokevirtual #526                // Method flatgraph/DiffGraphBuilder.setNodeProperty:(Lflatgraph/GNode;Ljava/lang/String;Ljava/lang/Object;)Lflatgraph/DiffGraphBuilder;
+      43: areturn
+
+  private static final boolean $anonfun$1$$anonfun$1(io.shiftleft.codepropertygraph.generated.nodes.Method, io.shiftleft.codepropertygraph.generated.nodes.File);
+    Code:
+       0: getstatic     #357                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$;
+       3: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_1
+       7: invokevirtual #361                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyName:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      10: invokevirtual #365                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$.name$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      13: getstatic     #368                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$;
+      16: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      19: aload_0
+      20: invokevirtual #376                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyFilename:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      23: invokevirtual #379                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$.filename$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      26: invokestatic  #385                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      29: ifeq          36
+      32: iconst_1
+      33: goto          37
+      36: iconst_0
+      37: ireturn
+
+  private static final boolean $anonfun$1(io.shiftleft.codepropertygraph.generated.nodes.Method, io.shiftleft.codepropertygraph.generated.nodes.Call);
+    Code:
+       0: getstatic     #395                // Field io/shiftleft/semanticcpg/language/nodemethods/StoredNodeMethods$.MODULE$:Lio/shiftleft/semanticcpg/language/nodemethods/StoredNodeMethods$;
+       3: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_1
+       7: invokevirtual #398                // Method io/shiftleft/semanticcpg/language/package$.toExtendedStoredNode:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      10: invokevirtual #402                // Method io/shiftleft/semanticcpg/language/nodemethods/StoredNodeMethods$.file$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lscala/collection/Iterator;
+      13: aload_0
+      14: invokedynamic #543,  0            // InvokeDynamic #13:apply:(Lio/shiftleft/codepropertygraph/generated/nodes/Method;)Lscala/Function1;
+      19: invokeinterface #416,  2          // InterfaceMethod scala/collection/Iterator.exists:(Lscala/Function1;)Z
+      24: ireturn
+
+  private static final flatgraph.DiffGraphBuilder handleMethods$$anonfun$1$$anonfun$1$$anonfun$3(flatgraph.DiffGraphBuilder, java.lang.String, java.lang.String, io.shiftleft.codepropertygraph.generated.nodes.Call);
+    Code:
+       0: aload_0
+       1: aload_3
+       2: getstatic     #329                // Field io/shiftleft/codepropertygraph/generated/PropertyNames$.MODULE$:Lio/shiftleft/codepropertygraph/generated/PropertyNames$;
+       5: invokevirtual #515                // Method io/shiftleft/codepropertygraph/generated/PropertyNames$.Name:()Ljava/lang/String;
+       8: getstatic     #357                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$;
+      11: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      14: aload_3
+      15: invokevirtual #361                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyName:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      18: invokevirtual #365                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyName$.name$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      21: aload_1
+      22: invokedynamic #520,  0            // InvokeDynamic #12:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      27: invokevirtual #526                // Method flatgraph/DiffGraphBuilder.setNodeProperty:(Lflatgraph/GNode;Ljava/lang/String;Ljava/lang/Object;)Lflatgraph/DiffGraphBuilder;
+      30: pop
+      31: aload_0
+      32: aload_3
+      33: getstatic     #329                // Field io/shiftleft/codepropertygraph/generated/PropertyNames$.MODULE$:Lio/shiftleft/codepropertygraph/generated/PropertyNames$;
+      36: invokevirtual #529                // Method io/shiftleft/codepropertygraph/generated/PropertyNames$.MethodFullName:()Ljava/lang/String;
+      39: aload_2
+      40: invokevirtual #526                // Method flatgraph/DiffGraphBuilder.setNodeProperty:(Lflatgraph/GNode;Ljava/lang/String;Ljava/lang/Object;)Lflatgraph/DiffGraphBuilder;
+      43: areturn
+
+  private final void handleMethods$$anonfun$1$$anonfun$1(java.lang.String, flatgraph.DiffGraphBuilder, scala.runtime.LazyRef, scala.runtime.LazyRef, scala.collection.immutable.List, scala.Tuple2);
+    Code:
+       0: aload         6
+       2: astore        7
+       4: aload         7
+       6: ifnull        203
+       9: aload         7
+      11: invokevirtual #561                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      14: checkcast     #563                // class io/shiftleft/codepropertygraph/generated/nodes/Method
+      17: astore        8
+      19: aload         7
+      21: invokevirtual #566                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      24: invokestatic  #572                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+      27: istore        9
+      29: getstatic     #577                // Field io/joern/x2cpg/frontendspecific/swiftsrc2cpg/Defines$.MODULE$:Lio/joern/x2cpg/frontendspecific/swiftsrc2cpg/Defines$;
+      32: invokevirtual #580                // Method io/joern/x2cpg/frontendspecific/swiftsrc2cpg/Defines$.DuplicateSuffix:()Ljava/lang/String;
+      35: iload         9
+      37: invokedynamic #583,  0            // InvokeDynamic #12:makeConcatWithConstants:(Ljava/lang/String;I)Ljava/lang/String;
+      42: astore        10
+      44: getstatic     #586                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertySignature$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertySignature$;
+      47: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      50: aload         8
+      52: invokevirtual #589                // Method io/shiftleft/semanticcpg/language/package$.accessPropertySignature:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      55: invokevirtual #592                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertySignature$.signature$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      58: astore        11
+      60: getstatic     #597                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      63: getstatic     #602                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      66: aload_1
+      67: invokevirtual #606                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      70: aload         11
+      72: invokedynamic #610,  0            // InvokeDynamic #14:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      77: invokevirtual #613                // Method scala/collection/StringOps$.stripSuffix$extension:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      80: astore        12
+      82: aload         12
+      84: aload         10
+      86: aload         11
+      88: invokedynamic #617,  0            // InvokeDynamic #15:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      93: astore        13
+      95: aload_2
+      96: aload         8
+      98: getstatic     #329                // Field io/shiftleft/codepropertygraph/generated/PropertyNames$.MODULE$:Lio/shiftleft/codepropertygraph/generated/PropertyNames$;
+     101: invokevirtual #332                // Method io/shiftleft/codepropertygraph/generated/PropertyNames$.FullName:()Ljava/lang/String;
+     104: aload         13
+     106: invokevirtual #526                // Method flatgraph/DiffGraphBuilder.setNodeProperty:(Lflatgraph/GNode;Ljava/lang/String;Ljava/lang/Object;)Lflatgraph/DiffGraphBuilder;
+     109: pop
+     110: aload_0
+     111: aload_3
+     112: aload_1
+     113: invokespecial #619                // Method bindingsAffected$1:(Lscala/runtime/LazyRef;Ljava/lang/String;)Lscala/collection/immutable/List;
+     116: aload         8
+     118: invokedynamic #625,  0            // InvokeDynamic #16:apply:(Lio/shiftleft/codepropertygraph/generated/nodes/Method;)Lscala/Function1;
+     123: invokevirtual #627                // Method scala/collection/immutable/List.filter:(Lscala/Function1;)Lscala/collection/immutable/List;
+     126: aload_2
+     127: aload         10
+     129: aload         13
+     131: invokedynamic #635,  0            // InvokeDynamic #17:apply:(Lflatgraph/DiffGraphBuilder;Ljava/lang/String;Ljava/lang/String;)Lscala/Function1;
+     136: invokevirtual #636                // Method scala/collection/immutable/List.foreach:(Lscala/Function1;)V
+     139: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+     142: aload         8
+     144: invokevirtual #640                // Method io/shiftleft/semanticcpg/language/package$.singleToModifierAccessorsMethod:(Lio/shiftleft/codepropertygraph/generated/nodes/Method;)Lscala/collection/Iterator;
+     147: astore        14
+     149: getstatic     #645                // Field io/shiftleft/semanticcpg/language/types/propertyaccessors/ModifierAccessors$.MODULE$:Lio/shiftleft/semanticcpg/language/types/propertyaccessors/ModifierAccessors$;
+     152: aload         14
+     154: invokevirtual #649                // Method io/shiftleft/semanticcpg/language/types/propertyaccessors/ModifierAccessors$.isStatic$extension:(Lscala/collection/Iterator;)Lscala/collection/Iterator;
+     157: invokeinterface #652,  1          // InterfaceMethod scala/collection/Iterator.nonEmpty:()Z
+     162: ifeq          202
+     165: aload_0
+     166: aload         4
+     168: aload_1
+     169: aload         5
+     171: invokespecial #654                // Method callsAffected$1:(Lscala/runtime/LazyRef;Ljava/lang/String;Lscala/collection/immutable/List;)Lscala/collection/immutable/List;
+     174: aload         8
+     176: invokedynamic #658,  0            // InvokeDynamic #18:apply:(Lio/shiftleft/codepropertygraph/generated/nodes/Method;)Lscala/Function1;
+     181: invokevirtual #627                // Method scala/collection/immutable/List.filter:(Lscala/Function1;)Lscala/collection/immutable/List;
+     184: astore        15
+     186: aload         15
+     188: aload_2
+     189: aload         10
+     191: aload         13
+     193: invokedynamic #664,  0            // InvokeDynamic #19:apply:(Lflatgraph/DiffGraphBuilder;Ljava/lang/String;Ljava/lang/String;)Lscala/Function1;
+     198: invokevirtual #636                // Method scala/collection/immutable/List.foreach:(Lscala/Function1;)V
+     201: return
+     202: return
+     203: new           #666                // class scala/MatchError
+     206: dup
+     207: aload         7
+     209: invokespecial #668                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     212: athrow
+
+  private final void handleMethods$$anonfun$1(flatgraph.DiffGraphBuilder, scala.Tuple2);
+    Code:
+       0: aload_2
+       1: astore_3
+       2: aload_3
+       3: ifnull        93
+       6: aload_3
+       7: invokevirtual #561                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #298                // class java/lang/String
+      13: astore        4
+      15: aload_3
+      16: invokevirtual #566                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      19: checkcast     #234                // class scala/collection/immutable/List
+      22: astore        5
+      24: new           #424                // class scala/runtime/LazyRef
+      27: dup
+      28: invokespecial #680                // Method scala/runtime/LazyRef."<init>":()V
+      31: astore        6
+      33: new           #424                // class scala/runtime/LazyRef
+      36: dup
+      37: invokespecial #680                // Method scala/runtime/LazyRef."<init>":()V
+      40: astore        7
+      42: aload_0
+      43: aload         5
+      45: aload         4
+      47: invokespecial #682                // Method logDuplicates:(Lscala/collection/immutable/List;Ljava/lang/String;)V
+      50: aload_0
+      51: aload         5
+      53: invokespecial #684                // Method sortNodesByLocation:(Lscala/collection/immutable/List;)Lscala/collection/immutable/List;
+      56: astore        8
+      58: aload         8
+      60: invokevirtual #687                // Method scala/collection/immutable/List.tail:()Ljava/lang/Object;
+      63: checkcast     #689                // class scala/collection/StrictOptimizedIterableOps
+      66: invokeinterface #692,  1          // InterfaceMethod scala/collection/StrictOptimizedIterableOps.zipWithIndex:()Ljava/lang/Object;
+      71: checkcast     #234                // class scala/collection/immutable/List
+      74: aload_0
+      75: aload         4
+      77: aload_1
+      78: aload         7
+      80: aload         6
+      82: aload         8
+      84: invokedynamic #698,  0            // InvokeDynamic #20:applyVoid:(Lio/joern/swiftsrc2cpg/passes/FullNameUniquenessPass;Ljava/lang/String;Lflatgraph/DiffGraphBuilder;Lscala/runtime/LazyRef;Lscala/runtime/LazyRef;Lscala/collection/immutable/List;)Lscala/runtime/function/JProcedure1;
+      89: invokevirtual #636                // Method scala/collection/immutable/List.foreach:(Lscala/Function1;)V
+      92: return
+      93: new           #666                // class scala/MatchError
+      96: dup
+      97: aload_3
+      98: invokespecial #668                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     101: athrow
+
+  private static final java.lang.String generateStableFullNameMapping$$anonfun$1(io.shiftleft.codepropertygraph.generated.nodes.AstNode);
+    Code:
+       0: getstatic     #704                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFullName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFullName$;
+       3: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_0
+       7: checkcast     #373                // class io/shiftleft/codepropertygraph/generated/nodes/StoredNode
+      10: invokevirtual #707                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyFullName:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      13: invokevirtual #710                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFullName$.fullName$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      16: areturn
+
+  private static final boolean generateStableFullNameMapping$$anonfun$2(scala.Tuple2);
+    Code:
+       0: aload_0
+       1: invokevirtual #566                // Method scala/Tuple2._2:()Ljava/lang/Object;
+       4: checkcast     #714                // class scala/collection/SeqOps
+       7: invokeinterface #715,  1          // InterfaceMethod scala/collection/SeqOps.size:()I
+      12: iconst_1
+      13: if_icmple     20
+      16: iconst_1
+      17: goto          21
+      20: iconst_0
+      21: ireturn
+
+  private static final java.lang.String generateStableFullNameMapping$$anonfun$3(scala.Tuple2);
+    Code:
+       0: aload_0
+       1: invokevirtual #561                // Method scala/Tuple2._1:()Ljava/lang/Object;
+       4: checkcast     #298                // class java/lang/String
+       7: areturn
+
+  private static final int $anonfun$2();
+    Code:
+       0: iconst_m1
+       1: ireturn
+
+  private static final int $anonfun$3();
+    Code:
+       0: iconst_m1
+       1: ireturn
+
+  private static final scala.Tuple3 sortNodesByLocation$$anonfun$1(io.shiftleft.codepropertygraph.generated.nodes.AstNode);
+    Code:
+       0: getstatic     #368                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$;
+       3: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_0
+       7: checkcast     #373                // class io/shiftleft/codepropertygraph/generated/nodes/StoredNode
+      10: invokevirtual #376                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyFilename:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      13: invokevirtual #379                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$.filename$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      16: astore_1
+      17: getstatic     #722                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyLineNumber$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyLineNumber$;
+      20: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      23: aload_0
+      24: checkcast     #373                // class io/shiftleft/codepropertygraph/generated/nodes/StoredNode
+      27: invokevirtual #725                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyLineNumber:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      30: invokevirtual #729                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyLineNumber$.lineNumber$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lscala/Option;
+      33: invokedynamic #735,  0            // InvokeDynamic #21:apply:()Lscala/Function0;
+      38: invokevirtual #296                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      41: invokestatic  #572                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+      44: istore_2
+      45: getstatic     #738                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyColumnNumber$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyColumnNumber$;
+      48: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      51: aload_0
+      52: checkcast     #373                // class io/shiftleft/codepropertygraph/generated/nodes/StoredNode
+      55: invokevirtual #741                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyColumnNumber:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      58: invokevirtual #744                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyColumnNumber$.columnNumber$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lscala/Option;
+      61: invokedynamic #748,  0            // InvokeDynamic #22:apply:()Lscala/Function0;
+      66: invokevirtual #296                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      69: invokestatic  #572                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+      72: istore_3
+      73: getstatic     #753                // Field scala/Tuple3$.MODULE$:Lscala/Tuple3$;
+      76: aload_1
+      77: iload_2
+      78: invokestatic  #757                // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+      81: iload_3
+      82: invokestatic  #757                // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+      85: invokevirtual #760                // Method scala/Tuple3$.apply:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple3;
+      88: areturn
+
+  private static final java.lang.String $anonfun$4(io.shiftleft.codepropertygraph.generated.nodes.AstNode);
+    Code:
+       0: getstatic     #368                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$;
+       3: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+       6: aload_0
+       7: checkcast     #373                // class io/shiftleft/codepropertygraph/generated/nodes/StoredNode
+      10: invokevirtual #376                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyFilename:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      13: invokevirtual #379                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFilename$.filename$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      16: areturn
+
+  private static final java.lang.String $anonfun$5(io.shiftleft.codepropertygraph.generated.nodes.AstNode);
+    Code:
+       0: aload_0
+       1: checkcast     #767                // class flatgraph/GNode
+       4: invokevirtual #770                // Method flatgraph/GNode.label:()Ljava/lang/String;
+       7: areturn
+
+  private static final java.lang.String $anonfun$6();
+    Code:
+       0: ldc_w         #772                // String
+       3: areturn
+
+  private static final flatgraph.DiffGraphBuilder handleDuplicateFullNames$$anonfun$1$$anonfun$1(flatgraph.DiffGraphBuilder, java.lang.String, scala.Tuple2);
+    Code:
+       0: aload_2
+       1: astore_3
+       2: aload_3
+       3: ifnull        78
+       6: aload_3
+       7: invokevirtual #561                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #778                // class io/shiftleft/codepropertygraph/generated/nodes/AstNode
+      13: astore        4
+      15: aload_3
+      16: invokevirtual #566                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      19: invokestatic  #572                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+      22: istore        5
+      24: getstatic     #577                // Field io/joern/x2cpg/frontendspecific/swiftsrc2cpg/Defines$.MODULE$:Lio/joern/x2cpg/frontendspecific/swiftsrc2cpg/Defines$;
+      27: invokevirtual #580                // Method io/joern/x2cpg/frontendspecific/swiftsrc2cpg/Defines$.DuplicateSuffix:()Ljava/lang/String;
+      30: iload         5
+      32: invokedynamic #583,  0            // InvokeDynamic #12:makeConcatWithConstants:(Ljava/lang/String;I)Ljava/lang/String;
+      37: astore        6
+      39: getstatic     #704                // Field io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFullName$.MODULE$:Lio/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFullName$;
+      42: getstatic     #88                 // Field io/shiftleft/semanticcpg/language/package$.MODULE$:Lio/shiftleft/semanticcpg/language/package$;
+      45: aload         4
+      47: checkcast     #373                // class io/shiftleft/codepropertygraph/generated/nodes/StoredNode
+      50: invokevirtual #707                // Method io/shiftleft/semanticcpg/language/package$.accessPropertyFullName:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;
+      53: invokevirtual #710                // Method io/shiftleft/codepropertygraph/generated/accessors/Accessors$AccessPropertyFullName$.fullName$extension:(Lio/shiftleft/codepropertygraph/generated/nodes/StoredNode;)Ljava/lang/String;
+      56: aload         6
+      58: invokedynamic #520,  0            // InvokeDynamic #12:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      63: astore        7
+      65: aload_0
+      66: aload         4
+      68: checkcast     #767                // class flatgraph/GNode
+      71: aload_1
+      72: aload         7
+      74: invokevirtual #526                // Method flatgraph/DiffGraphBuilder.setNodeProperty:(Lflatgraph/GNode;Ljava/lang/String;Ljava/lang/Object;)Lflatgraph/DiffGraphBuilder;
+      77: areturn
+      78: new           #666                // class scala/MatchError
+      81: dup
+      82: aload_3
+      83: invokespecial #668                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      86: athrow
+
+  private final void handleDuplicateFullNames$$anonfun$1(flatgraph.DiffGraphBuilder, java.lang.String, scala.Tuple2);
+    Code:
+       0: aload_3
+       1: astore        4
+       3: aload         4
+       5: ifnull        71
+       8: aload         4
+      10: invokevirtual #561                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      13: checkcast     #298                // class java/lang/String
+      16: astore        5
+      18: aload         4
+      20: invokevirtual #566                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      23: checkcast     #234                // class scala/collection/immutable/List
+      26: astore        6
+      28: aload_0
+      29: aload         6
+      31: aload         5
+      33: invokespecial #682                // Method logDuplicates:(Lscala/collection/immutable/List;Ljava/lang/String;)V
+      36: aload_0
+      37: aload         6
+      39: invokespecial #684                // Method sortNodesByLocation:(Lscala/collection/immutable/List;)Lscala/collection/immutable/List;
+      42: astore        7
+      44: aload         7
+      46: invokevirtual #687                // Method scala/collection/immutable/List.tail:()Ljava/lang/Object;
+      49: checkcast     #689                // class scala/collection/StrictOptimizedIterableOps
+      52: invokeinterface #692,  1          // InterfaceMethod scala/collection/StrictOptimizedIterableOps.zipWithIndex:()Ljava/lang/Object;
+      57: checkcast     #234                // class scala/collection/immutable/List
+      60: aload_1
+      61: aload_2
+      62: invokedynamic #788,  0            // InvokeDynamic #23:apply:(Lflatgraph/DiffGraphBuilder;Ljava/lang/String;)Lscala/Function1;
+      67: invokevirtual #636                // Method scala/collection/immutable/List.foreach:(Lscala/Function1;)V
+      70: return
+      71: new           #666                // class scala/MatchError
+      74: dup
+      75: aload         4
+      77: invokespecial #668                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      80: athrow
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #802,  0            // InvokeDynamic #24:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "joern-current108-capability-assessment/v1",
+  "assessed_at_unix_seconds": 1790609056,
+  "tool": "joern",
+  "version": "4.0.628",
+  "population": "swift-synthetic-v3",
+  "population_sha256": "8a324597f77a2948920c0471ac6fce6809e202afdc3c3e30c062809b8a863efa",
+  "status": "incomplete",
+  "cases": [
+    "dfb-taint-swift-model-opaque-propagator-positive",
+    "dfb-taint-swift-model-opaque-propagator-negative",
+    "dfb-taint-swift-model-propagator-position-positive",
+    "dfb-taint-swift-model-propagator-position-negative"
+  ],
+  "control_observations": "All eight opaque arms incomplete; direct positive/negative off/on baselines pass",
+  "structural_scope": "One exact opaque-positive CPG inspected: endpoint calls target external stubs rather than local declarations; wrapper native links/types present. Do not generalize unseen declaration dumps.",
+  "evidence": [
+    {
+      "path": "evidence/joern-normal-identity-2026-09-28-02/inventory.json",
+      "sha256": "08987c4f72786eb50449574ecd660e1ec34a8afd874cc409e56b54d7982532be"
+    },
+    {
+      "path": "evidence/joern-normal-identity-2026-09-28-02/result.json",
+      "sha256": "0b89ed925afe0921be77f79cc4b7d960063edd33e061a09f2fa5a7d25d9c0ebe"
+    }
+  ],
+  "unsupported_decision": false,
+  "partition_registered": false,
+  "scored_activation": false
+}

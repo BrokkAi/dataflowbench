@@ -1,0 +1,86 @@
+Compiled from "JoernScan.scala"
+public final class io.joern.joerncli.Scan$ {
+  public static final io.joern.joerncli.Scan$ MODULE$;
+
+  private static final java.lang.String overlayName;
+
+  private static final java.lang.String description;
+
+  private static io.joern.joerncli.ScanOptions defaultOpts;
+
+  private static final java.lang.String defaultTag;
+
+  private static final java.lang.String allTag;
+
+  private io.joern.joerncli.Scan$();
+    Code:
+       0: aload_0
+       1: invokespecial #21                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class io/joern/joerncli/Scan$
+       3: dup
+       4: invokespecial #24                 // Method "<init>":()V
+       7: putstatic     #26                 // Field MODULE$:Lio/joern/joerncli/Scan$;
+      10: ldc           #28                 // String scan
+      12: putstatic     #30                 // Field overlayName:Ljava/lang/String;
+      15: ldc           #32                 // String Joern Code Scanner
+      17: putstatic     #34                 // Field description:Ljava/lang/String;
+      20: new           #36                 // class io/joern/joerncli/ScanOptions
+      23: dup
+      24: iconst_2
+      25: iconst_0
+      26: anewarray     #38                 // class java/lang/String
+      29: checkcast     #40                 // class "[Ljava/lang/String;"
+      32: iconst_0
+      33: anewarray     #38                 // class java/lang/String
+      36: checkcast     #40                 // class "[Ljava/lang/String;"
+      39: invokespecial #43                 // Method io/joern/joerncli/ScanOptions."<init>":(I[Ljava/lang/String;[Ljava/lang/String;)V
+      42: putstatic     #45                 // Field defaultOpts:Lio/joern/joerncli/ScanOptions;
+      45: ldc           #47                 // String default
+      47: putstatic     #49                 // Field defaultTag:Ljava/lang/String;
+      50: ldc           #51                 // String all
+      52: putstatic     #53                 // Field allTag:Ljava/lang/String;
+      55: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #57                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class io/joern/joerncli/Scan$
+       6: invokespecial #60                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public java.lang.String overlayName();
+    Code:
+       0: getstatic     #30                 // Field overlayName:Ljava/lang/String;
+       3: areturn
+
+  public java.lang.String description();
+    Code:
+       0: getstatic     #34                 // Field description:Ljava/lang/String;
+       3: areturn
+
+  public io.joern.joerncli.ScanOptions defaultOpts();
+    Code:
+       0: getstatic     #45                 // Field defaultOpts:Lio/joern/joerncli/ScanOptions;
+       3: areturn
+
+  public void defaultOpts_$eq(io.joern.joerncli.ScanOptions);
+    Code:
+       0: aload_1
+       1: putstatic     #45                 // Field defaultOpts:Lio/joern/joerncli/ScanOptions;
+       4: return
+
+  public java.lang.String defaultTag();
+    Code:
+       0: getstatic     #49                 // Field defaultTag:Ljava/lang/String;
+       3: areturn
+
+  public java.lang.String allTag();
+    Code:
+       0: getstatic     #53                 // Field allTag:Ljava/lang/String;
+       3: areturn
+}

@@ -1,0 +1,296 @@
+Compiled from "Run.scala"
+public final class io.joern.console.Run$ {
+  public static final io.joern.console.Run$ MODULE$;
+
+  private io.joern.console.Run$();
+    Code:
+       0: aload_0
+       1: invokespecial #26                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static {};
+    Code:
+       0: new           #2                  // class io/joern/console/Run$
+       3: dup
+       4: invokespecial #29                 // Method "<init>":()V
+       7: putstatic     #31                 // Field MODULE$:Lio/joern/console/Run$;
+      10: return
+
+  private java.lang.Object writeReplace();
+    Code:
+       0: new           #35                 // class scala/runtime/ModuleSerializationProxy
+       3: dup
+       4: ldc           #2                  // class io/joern/console/Run$
+       6: invokespecial #38                 // Method scala/runtime/ModuleSerializationProxy."<init>":(Ljava/lang/Class;)V
+       9: areturn
+
+  public void runCustomQuery(io.joern.console.Console<?>, io.shiftleft.semanticcpg.language.HasStoreMethod);
+    Code:
+       0: aload_1
+       1: getstatic     #48                 // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_1
+       5: anewarray     #50                 // class io/shiftleft/semanticcpg/layers/LayerCreator
+       8: dup
+       9: iconst_0
+      10: new           #10                 // class io/joern/console/Run$$anon$1
+      13: dup
+      14: aload_1
+      15: aload_2
+      16: invokespecial #52                 // Method io/joern/console/Run$$anon$1."<init>":(Lio/joern/console/Console;Lio/shiftleft/semanticcpg/language/HasStoreMethod;)V
+      19: aastore
+      20: invokevirtual #56                 // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      23: invokevirtual #62                 // Method io/joern/console/Console._runAnalyzer:(Lscala/collection/immutable/Seq;)Lio/shiftleft/codepropertygraph/generated/Cpg;
+      26: pop
+      27: return
+
+  public java.lang.String codeForRunCommand(scala.collection.immutable.List<java.lang.String>);
+    Code:
+       0: aload_0
+       1: ldc           #70                 // String io.shiftleft
+       3: aload_1
+       4: invokespecial #74                 // Method creatorsFor:(Ljava/lang/String;Lscala/collection/immutable/List;)Lscala/collection/immutable/List;
+       7: astore_2
+       8: aload_0
+       9: ldc           #76                 // String io.joern
+      11: aload_1
+      12: invokespecial #74                 // Method creatorsFor:(Ljava/lang/String;Lscala/collection/immutable/List;)Lscala/collection/immutable/List;
+      15: astore_3
+      16: aload_0
+      17: aload_2
+      18: aload_3
+      19: invokevirtual #82                 // Method scala/collection/immutable/List.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+      22: checkcast     #84                 // class scala/collection/SeqOps
+      25: invokeinterface #87,  1           // InterfaceMethod scala/collection/SeqOps.distinct:()Ljava/lang/Object;
+      30: checkcast     #78                 // class scala/collection/immutable/List
+      33: invokespecial #90                 // Method codeForLayerCreators:(Lscala/collection/immutable/List;)Ljava/lang/String;
+      36: areturn
+
+  public scala.collection.immutable.List<java.lang.String> codeForRunCommand$default$1();
+    Code:
+       0: getstatic     #101                // Field scala/collection/immutable/Nil$.MODULE$:Lscala/collection/immutable/Nil$;
+       3: checkcast     #5                  // class java/lang/Object
+       6: checkcast     #78                 // class scala/collection/immutable/List
+       9: areturn
+
+  private scala.collection.immutable.List<scala.Tuple2<java.lang.String, java.lang.String>> creatorsFor(java.lang.String, scala.collection.immutable.List<java.lang.String>);
+    Code:
+       0: getstatic     #108                // Field scala/jdk/CollectionConverters$.MODULE$:Lscala/jdk/CollectionConverters$;
+       3: new           #110                // class org/reflections8/Reflections
+       6: dup
+       7: new           #112                // class org/reflections8/util/ConfigurationBuilder
+      10: dup
+      11: invokespecial #113                // Method org/reflections8/util/ConfigurationBuilder."<init>":()V
+      14: aload_1
+      15: iconst_2
+      16: anewarray     #115                // class java/lang/ClassLoader
+      19: dup
+      20: iconst_0
+      21: invokestatic  #121                // Method org/reflections8/util/ClasspathHelper.contextClassLoader:()Ljava/lang/ClassLoader;
+      24: aastore
+      25: dup
+      26: iconst_1
+      27: invokestatic  #124                // Method org/reflections8/util/ClasspathHelper.staticClassLoader:()Ljava/lang/ClassLoader;
+      30: aastore
+      31: invokestatic  #128                // Method org/reflections8/util/ClasspathHelper.forPackage:(Ljava/lang/String;[Ljava/lang/ClassLoader;)Ljava/util/Collection;
+      34: invokevirtual #132                // Method org/reflections8/util/ConfigurationBuilder.setUrls:(Ljava/util/Collection;)Lorg/reflections8/util/ConfigurationBuilder;
+      37: invokespecial #135                // Method org/reflections8/Reflections."<init>":(Lorg/reflections8/Configuration;)V
+      40: ldc           #50                 // class io/shiftleft/semanticcpg/layers/LayerCreator
+      42: invokevirtual #139                // Method org/reflections8/Reflections.getSubTypesOf:(Ljava/lang/Class;)Ljava/util/Set;
+      45: invokevirtual #142                // Method scala/jdk/CollectionConverters$.SetHasAsScala:(Ljava/util/Set;)Lscala/collection/convert/AsScalaExtensions$SetHasAsScala;
+      48: invokevirtual #146                // Method scala/collection/convert/AsScalaExtensions$SetHasAsScala.asScala:()Lscala/collection/mutable/Set;
+      51: invokedynamic #168,  0            // InvokeDynamic #0:apply:()Lscala/Function1;
+      56: invokeinterface #174,  2          // InterfaceMethod scala/collection/mutable/Set.filterNot:(Lscala/Function1;)Ljava/lang/Object;
+      61: checkcast     #176                // class scala/collection/IterableOps
+      64: invokedynamic #181,  0            // InvokeDynamic #1:apply:()Lscala/Function1;
+      69: invokeinterface #182,  2          // InterfaceMethod scala/collection/IterableOps.filterNot:(Lscala/Function1;)Ljava/lang/Object;
+      74: checkcast     #176                // class scala/collection/IterableOps
+      77: invokedynamic #187,  0            // InvokeDynamic #2:apply:()Lscala/Function1;
+      82: invokeinterface #182,  2          // InterfaceMethod scala/collection/IterableOps.filterNot:(Lscala/Function1;)Ljava/lang/Object;
+      87: checkcast     #189                // class scala/collection/IterableOnceOps
+      90: invokeinterface #192,  1          // InterfaceMethod scala/collection/IterableOnceOps.toList:()Lscala/collection/immutable/List;
+      95: invokedynamic #199,  0            // InvokeDynamic #3:apply:()Lscala/Function1;
+     100: invokevirtual #203                // Method scala/collection/immutable/List.map:(Lscala/Function1;)Lscala/collection/immutable/List;
+     103: aload_2
+     104: invokedynamic #213,  0            // InvokeDynamic #4:apply:(Lscala/collection/immutable/List;)Lscala/Function1;
+     109: invokevirtual #216                // Method scala/collection/immutable/List.filter:(Lscala/Function1;)Lscala/collection/immutable/List;
+     112: areturn
+
+  private java.lang.String codeForLayerCreators(scala.collection.immutable.List<scala.Tuple2<java.lang.String, java.lang.String>>);
+    Code:
+       0: aload_1
+       1: invokedynamic #226,  0            // InvokeDynamic #5:apply:()Lscala/Function1;
+       6: invokevirtual #203                // Method scala/collection/immutable/List.map:(Lscala/Function1;)Lscala/collection/immutable/List;
+       9: ldc           #228                // String \n
+      11: invokevirtual #232                // Method scala/collection/immutable/List.mkString:(Ljava/lang/String;)Ljava/lang/String;
+      14: astore_2
+      15: getstatic     #237                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      18: getstatic     #242                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      21: aload_2
+      22: invokedynamic #253,  0            // InvokeDynamic #6:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      27: invokevirtual #256                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      30: invokevirtual #259                // Method scala/collection/StringOps$.stripMargin$extension:(Ljava/lang/String;)Ljava/lang/String;
+      33: astore_3
+      34: aload_1
+      35: invokedynamic #264,  0            // InvokeDynamic #7:apply:()Lscala/Function1;
+      40: invokevirtual #203                // Method scala/collection/immutable/List.map:(Lscala/Function1;)Lscala/collection/immutable/List;
+      43: ldc           #228                // String \n
+      45: invokevirtual #232                // Method scala/collection/immutable/List.mkString:(Ljava/lang/String;)Ljava/lang/String;
+      48: astore        4
+      50: getstatic     #237                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      53: getstatic     #242                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      56: aload_1
+      57: invokedynamic #269,  0            // InvokeDynamic #8:apply:()Lscala/Function1;
+      62: invokevirtual #203                // Method scala/collection/immutable/List.map:(Lscala/Function1;)Lscala/collection/immutable/List;
+      65: invokedynamic #273,  0            // InvokeDynamic #9:makeConcatWithConstants:(Lscala/collection/immutable/List;)Ljava/lang/String;
+      70: invokevirtual #256                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      73: invokevirtual #259                // Method scala/collection/StringOps$.stripMargin$extension:(Ljava/lang/String;)Ljava/lang/String;
+      76: astore        5
+      78: aload_3
+      79: getstatic     #237                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+      82: getstatic     #242                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      85: aload         4
+      87: aload         5
+      89: invokedynamic #278,  0            // InvokeDynamic #10:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      94: invokevirtual #256                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      97: invokevirtual #259                // Method scala/collection/StringOps$.stripMargin$extension:(Ljava/lang/String;)Ljava/lang/String;
+     100: invokedynamic #281,  0            // InvokeDynamic #11:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+     105: areturn
+
+  private static final boolean creatorsFor$$anonfun$1(java.lang.Class);
+    Code:
+       0: aload_0
+       1: invokevirtual #292                // Method java/lang/Class.isAnonymousClass:()Z
+       4: ifne          28
+       7: aload_0
+       8: invokevirtual #295                // Method java/lang/Class.isLocalClass:()Z
+      11: ifne          28
+      14: aload_0
+      15: invokevirtual #298                // Method java/lang/Class.isMemberClass:()Z
+      18: ifne          28
+      21: aload_0
+      22: invokevirtual #301                // Method java/lang/Class.isSynthetic:()Z
+      25: ifeq          32
+      28: iconst_1
+      29: goto          33
+      32: iconst_0
+      33: ireturn
+
+  private static final boolean creatorsFor$$anonfun$2(java.lang.Class);
+    Code:
+       0: aload_0
+       1: invokevirtual #306                // Method java/lang/Class.getName:()Ljava/lang/String;
+       4: ldc_w         #308                // String io.joern.console.Run
+       7: invokevirtual #314                // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+      10: ireturn
+
+  private static final boolean creatorsFor$$anonfun$3(java.lang.Class);
+    Code:
+       0: aload_0
+       1: invokevirtual #306                // Method java/lang/Class.getName:()Ljava/lang/String;
+       4: ldc_w         #317                // String io.joern.x2cpg.frontendspecific
+       7: invokevirtual #314                // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+      10: ireturn
+
+  private static final scala.Tuple2 creatorsFor$$anonfun$4(java.lang.Class);
+    Code:
+       0: getstatic     #322                // Field scala/Tuple2$.MODULE$:Lscala/Tuple2$;
+       3: aload_0
+       4: invokevirtual #325                // Method java/lang/Class.getSimpleName:()Ljava/lang/String;
+       7: invokevirtual #328                // Method java/lang/String.toLowerCase:()Ljava/lang/String;
+      10: aload_0
+      11: invokevirtual #306                // Method java/lang/Class.getName:()Ljava/lang/String;
+      14: invokedynamic #331,  0            // InvokeDynamic #12:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      19: invokevirtual #334                // Method scala/Tuple2$.apply:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+      22: areturn
+
+  private static final boolean creatorsFor$$anonfun$5(scala.collection.immutable.List, scala.Tuple2);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #340                // Method scala/Tuple2._2:()Ljava/lang/Object;
+       5: invokevirtual #344                // Method scala/collection/immutable/List.contains:(Ljava/lang/Object;)Z
+       8: ifne          15
+      11: iconst_1
+      12: goto          16
+      15: iconst_0
+      16: ireturn
+
+  private static final java.lang.String $anonfun$1(scala.Tuple2);
+    Code:
+       0: aload_0
+       1: astore_1
+       2: aload_1
+       3: ifnull        30
+       6: aload_1
+       7: invokevirtual #349                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #310                // class java/lang/String
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #340                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      18: checkcast     #310                // class java/lang/String
+      21: astore_3
+      22: aload_2
+      23: aload_3
+      24: invokedynamic #352,  0            // InvokeDynamic #13:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      29: areturn
+      30: new           #354                // class scala/MatchError
+      33: dup
+      34: aload_1
+      35: invokespecial #357                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      38: athrow
+
+  private static final java.lang.String $anonfun$2(scala.Tuple2);
+    Code:
+       0: aload_0
+       1: astore_1
+       2: aload_1
+       3: ifnull        31
+       6: aload_1
+       7: invokevirtual #349                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #310                // class java/lang/String
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #340                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      18: checkcast     #310                // class java/lang/String
+      21: astore_3
+      22: aload_2
+      23: aload_3
+      24: aload_2
+      25: invokedynamic #364,  0            // InvokeDynamic #14:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      30: areturn
+      31: new           #354                // class scala/MatchError
+      34: dup
+      35: aload_1
+      36: invokespecial #357                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      39: athrow
+
+  private static final java.lang.String $anonfun$3(scala.Tuple2);
+    Code:
+       0: aload_0
+       1: astore_1
+       2: aload_1
+       3: ifnull        30
+       6: aload_1
+       7: invokevirtual #349                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #310                // class java/lang/String
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #340                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      18: checkcast     #310                // class java/lang/String
+      21: astore_3
+      22: aload_2
+      23: aload_3
+      24: invokedynamic #367,  0            // InvokeDynamic #15:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      29: areturn
+      30: new           #354                // class scala/MatchError
+      33: dup
+      34: aload_1
+      35: invokespecial #357                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      38: athrow
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #379,  0            // InvokeDynamic #16:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

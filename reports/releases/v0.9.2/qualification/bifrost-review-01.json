@@ -1,0 +1,850 @@
+{
+  "schema": "v092-bifrost-control-review/v1",
+  "status": "measurement-with-known-limits",
+  "execution_eligible": true,
+  "full_policy_qualification": false,
+  "tool": {
+    "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/bifrost/bifrost-v0.13.1-universal-apple-darwin/bifrost",
+    "sha256": "94ad4d58a5fedc888e1bebcc9a88a83f49414e0b922811f1da4e5cc6f42ad803",
+    "version": "0.13.1",
+    "build_identity": "271a0bd840372a1ce6e6e11fc60a788e997ed353"
+  },
+  "identity_components": [],
+  "invocations": 44,
+  "complete_policy_runs": 36,
+  "inconclusive_policy_runs": 3,
+  "unbound_endpoint_controls": 15,
+  "sanitizer_controls": 15,
+  "original_qualification": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-attempt-02/qualification.json",
+    "sha256": "6b6b19c510de594dd3b52fb91f46ab1848340a869b462fe869658a902e4721c4",
+    "status": "failed"
+  },
+  "capture_manifest": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-attempt-02/artifact-hashes.json",
+    "sha256": "60e3af8d40f6477e5f7709ebd5832b575309374fc0a1962b13d06e907010c0e7"
+  },
+  "native": {
+    "interpretation": "not-evaluated",
+    "clean": false,
+    "document": {
+      "findings": [],
+      "reason": "no-active-rule-packs",
+      "schema_version": 1,
+      "status": "not-evaluated"
+    }
+  },
+  "review_implementation": {
+    "path": "scripts/review-v092-bifrost-controls.py",
+    "sha256": "72634398c97e6aa1c0616cf9497322da8d854a75781119dffe6730b33aee73d2"
+  },
+  "controls": [
+    {
+      "id": "policy-java-declared-sink-negative-with",
+      "report_sha256": "8ee971966227e56a91309417044e427e5fa8378212b165fd7dfd176fe6f0548e",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "complete-no-finding"
+    },
+    {
+      "id": "policy-java-declared-sink-negative-without",
+      "report_sha256": "52092c4068abbc56d7215765b2df3e0763b12ef8fa058ac33e0ac9567e5b9c8c",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-java-declared-sink-positive-with",
+      "report_sha256": "2d3f0e1bf7b706ca210bff7524c85d737649cc65690003b76eca7dfcfdf51aa8",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "policy-java-declared-sink-positive-without",
+      "report_sha256": "52092c4068abbc56d7215765b2df3e0763b12ef8fa058ac33e0ac9567e5b9c8c",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-java-declared-source-negative-with",
+      "report_sha256": "7e6345fc55b156ce306e1a3237722dfc7d740ffa229639173dea9d29d9d21191",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-java-declared-source-negative-without",
+      "report_sha256": "15fae5804c7f931c5863a343c186a05393e41fdf3d52e651f05c816df6f37787",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-java-declared-source-positive-with",
+      "report_sha256": "a993b1b62b4d815fb03c4d46402d91a8404b8989038ac8c16954560b4ff51eb6",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "policy-java-declared-source-positive-without",
+      "report_sha256": "6220bd7063fb2db20d30673695004432e73a830e3e02e0302e981738a59a3e8b",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-javascript-declared-sink-negative-with",
+      "report_sha256": "9c2571307b75caf6e7db075041c689ac417c62fe23938647c8a6c5d1cc0c1e5e",
+      "completion": {
+        "type": "inconclusive",
+        "reasons": [
+          "partial_discovery"
+        ],
+        "scope": {
+          "type": "files",
+          "files": [
+            "Audit.js"
+          ],
+          "truncated": false
+        }
+      },
+      "findings": 0,
+      "interpretation": "inconclusive",
+      "clean": false,
+      "baseline_raw": {
+        "case_id": "dfb-taint-javascript-model-declared-sink-negative",
+        "path": "reports/releases/v0.9.0/attempts/bifrost-javascript-modeling-attempt-01/capture/reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-sink-negative.json",
+        "sha256": "9c811e484cd4c3d71b8f60805754a7648ad73933dd217a926d31b52e753d1bf3"
+      },
+      "previous_signature": {
+        "completion": {
+          "type": "inconclusive",
+          "reasons": [
+            "partial_discovery"
+          ]
+        },
+        "findings": [],
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "severity": "warning",
+            "impact": "run_incomplete",
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+            "family_count": 1,
+            "primary": {
+              "path": "Audit.js",
+              "byte_span": {
+                "start": 240,
+                "end": 267
+              },
+              "region": {
+                "start_line": 11,
+                "start_column": 3,
+                "end_line": 11,
+                "end_column": 30
+              }
+            },
+            "related": []
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ]
+      },
+      "current_signature": {
+        "completion": {
+          "type": "inconclusive",
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "type": "files",
+            "files": [
+              "Audit.js"
+            ],
+            "truncated": false
+          }
+        },
+        "findings": [],
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "severity": "warning",
+            "impact": "run_incomplete",
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+            "family_count": 1,
+            "primary": {
+              "path": "Audit.js",
+              "byte_span": {
+                "start": 240,
+                "end": 267
+              },
+              "region": {
+                "start_line": 11,
+                "start_column": 3,
+                "end_line": 11,
+                "end_column": 30
+              }
+            },
+            "related": []
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "policy-javascript-declared-sink-negative-without",
+      "report_sha256": "4d7c91f1cab76e03c39738b3f5d193c9ec8e464d9e7358803f9a987673e1c984",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-javascript-declared-sink-positive-with",
+      "report_sha256": "0000f1a77a12b3252d1d0ab699cee6e63fd42241f9380a54cf91a526993b5cd4",
+      "completion": {
+        "type": "inconclusive",
+        "reasons": [
+          "partial_discovery"
+        ],
+        "scope": {
+          "type": "files",
+          "files": [
+            "Audit.js"
+          ],
+          "truncated": false
+        }
+      },
+      "findings": 1,
+      "interpretation": "inconclusive",
+      "clean": false,
+      "baseline_raw": {
+        "case_id": "dfb-taint-javascript-model-declared-sink-positive",
+        "path": "reports/releases/v0.9.0/attempts/bifrost-javascript-modeling-attempt-01/capture/reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-sink-positive.json",
+        "sha256": "8d7ce41587c5fa5804507924a4b639c8fa9d5523efaf83e2e8e55f83fb14d2a2"
+      },
+      "previous_signature": {
+        "completion": {
+          "type": "inconclusive",
+          "reasons": [
+            "partial_discovery"
+          ]
+        },
+        "findings": [
+          {
+            "certainty": {
+              "type": "possible",
+              "reasons": [
+                {
+                  "type": "analyzer_ambiguity",
+                  "code": "taint-unproven-path"
+                }
+              ]
+            },
+            "proof": {
+              "state": "unproven",
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "evidence_refs": []
+            },
+            "completeness": {
+              "type": "partial",
+              "reasons": [
+                "proof_partial"
+              ]
+            }
+          }
+        ],
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "severity": "warning",
+            "impact": "run_incomplete",
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+            "family_count": 1,
+            "primary": {
+              "path": "Audit.js",
+              "byte_span": {
+                "start": 240,
+                "end": 266
+              },
+              "region": {
+                "start_line": 11,
+                "start_column": 3,
+                "end_line": 11,
+                "end_column": 29
+              }
+            },
+            "related": []
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ]
+      },
+      "current_signature": {
+        "completion": {
+          "type": "inconclusive",
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "type": "files",
+            "files": [
+              "Audit.js"
+            ],
+            "truncated": false
+          }
+        },
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "proof": {
+              "state": "proven",
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "evidence_refs": []
+            },
+            "completeness": {
+              "type": "complete"
+            }
+          }
+        ],
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "severity": "warning",
+            "impact": "run_incomplete",
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+            "family_count": 1,
+            "primary": {
+              "path": "Audit.js",
+              "byte_span": {
+                "start": 240,
+                "end": 266
+              },
+              "region": {
+                "start_line": 11,
+                "start_column": 3,
+                "end_line": 11,
+                "end_column": 29
+              }
+            },
+            "related": []
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "policy-javascript-declared-sink-positive-without",
+      "report_sha256": "4d7c91f1cab76e03c39738b3f5d193c9ec8e464d9e7358803f9a987673e1c984",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-javascript-declared-source-negative-with",
+      "report_sha256": "993a362f6acd12f6db624ae01101c501ec05177eaeead87aa45ec80392ff8997",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-javascript-declared-source-negative-without",
+      "report_sha256": "c7f071c728e47dfbe3933980b15d6481ce7bd4dd77c7d3de2cf19b2a540c779d",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-javascript-declared-source-positive-with",
+      "report_sha256": "5cb9c2387d1a7af6f4bba298585a8c430dee236992dfdd7a521b5867767ef77a",
+      "completion": {
+        "type": "inconclusive",
+        "reasons": [
+          "partial_discovery"
+        ],
+        "scope": {
+          "type": "files",
+          "files": [
+            "Config.js"
+          ],
+          "truncated": false
+        }
+      },
+      "findings": 1,
+      "interpretation": "inconclusive",
+      "clean": false,
+      "baseline_raw": {
+        "case_id": "dfb-taint-javascript-model-declared-source-positive",
+        "path": "reports/releases/v0.9.0/attempts/bifrost-javascript-modeling-attempt-01/capture/reports/raw/bifrost-javascript-modeling/dfb-taint-javascript-model-declared-source-positive.json",
+        "sha256": "9fc8117c5d551fa9ea457d1b5e146af7c36ea36985cc72e2f61f54ee677b25cf"
+      },
+      "previous_signature": {
+        "completion": {
+          "type": "inconclusive",
+          "reasons": [
+            "partial_discovery"
+          ]
+        },
+        "findings": [
+          {
+            "certainty": {
+              "type": "possible",
+              "reasons": [
+                {
+                  "type": "analyzer_ambiguity",
+                  "code": "taint-unproven-path"
+                }
+              ]
+            },
+            "proof": {
+              "state": "unproven",
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "evidence_refs": []
+            },
+            "completeness": {
+              "type": "partial",
+              "reasons": [
+                "proof_partial"
+              ]
+            }
+          }
+        ],
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "severity": "warning",
+            "impact": "run_incomplete",
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "message": "taint discovery is incomplete: call resolution for Config.js:Config.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+            "family_count": 1,
+            "primary": {
+              "path": "Config.js",
+              "byte_span": {
+                "start": 280,
+                "end": 300
+              },
+              "region": {
+                "start_line": 13,
+                "start_column": 12,
+                "end_line": 13,
+                "end_column": 32
+              }
+            },
+            "related": []
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ]
+      },
+      "current_signature": {
+        "completion": {
+          "type": "inconclusive",
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "type": "files",
+            "files": [
+              "Config.js"
+            ],
+            "truncated": false
+          }
+        },
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "proof": {
+              "state": "proven",
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "evidence_refs": []
+            },
+            "completeness": {
+              "type": "complete"
+            }
+          }
+        ],
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "severity": "warning",
+            "impact": "run_incomplete",
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "message": "taint discovery is incomplete: call resolution for Config.js:Config.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+            "family_count": 1,
+            "primary": {
+              "path": "Config.js",
+              "byte_span": {
+                "start": 280,
+                "end": 300
+              },
+              "region": {
+                "start_line": 13,
+                "start_column": 12,
+                "end_line": 13,
+                "end_column": 32
+              }
+            },
+            "related": []
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "policy-javascript-declared-source-positive-without",
+      "report_sha256": "13cad897317cfc38fb81b46d4134657d79b3afb006dd9b040c7a4b36421202f6",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-python-declared-sink-negative-with",
+      "report_sha256": "beca5eb60e97b289adb81e00fbfcf1c1c0e30953ff4785b04e6bc15a2c3c4210",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "complete-no-finding"
+    },
+    {
+      "id": "policy-python-declared-sink-negative-without",
+      "report_sha256": "a2daa6e3d90c1da38a026b4ca8767dd3502ac476f264f9a864bf12fdd0721ff4",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-python-declared-sink-positive-with",
+      "report_sha256": "4bd9690aea662816811d6925ef265aad1a852ed11cee87f427cc22f74581f737",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "policy-python-declared-sink-positive-without",
+      "report_sha256": "a2daa6e3d90c1da38a026b4ca8767dd3502ac476f264f9a864bf12fdd0721ff4",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-python-declared-source-negative-with",
+      "report_sha256": "fec83a9a9ea70422d04c6b4962001a189aa9bf02034d623338eafd72513e2752",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-python-declared-source-negative-without",
+      "report_sha256": "ac780ab79d9e48ab1eb257145f43e0415775db91316372ef0fc2f7a3935d28e8",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "policy-python-declared-source-positive-with",
+      "report_sha256": "1c835b13b524cbe30bad685c55eb66ddb647120a815aace3ed80f6d11df8e3d1",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "policy-python-declared-source-positive-without",
+      "report_sha256": "0cef68cb15e527e4f4d2acf1ce117938b609e12dfb2219b66713f6f5397fc970",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "unbound-endpoint",
+      "clean": false
+    },
+    {
+      "id": "sanitizer-java-sanitizer-kill-negative-with",
+      "report_sha256": "c8e19d6d89ab9e5d696527b4c6392b85e9790f646bb1fd9a1185e80c6f0016ee",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "complete-no-finding"
+    },
+    {
+      "id": "sanitizer-java-sanitizer-kill-negative-without",
+      "report_sha256": "2845835228994772b83b237b3fe95f9e80e9d78242b9e2be29fbae692d5320c7",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "sanitizer-java-sanitizer-kill-positive-with",
+      "report_sha256": "401dfd4645bf706783b44680efa7a02a6ae4146d869a13ebaa797030ad372390",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "sanitizer-java-sanitizer-selectivity-negative-with",
+      "report_sha256": "007ea9889f38e96fc14f56ea524ced485a4712072a0b8419b4edce962e3e1be7",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "complete-no-finding"
+    },
+    {
+      "id": "sanitizer-java-sanitizer-selectivity-positive-with",
+      "report_sha256": "12852b7bd71bf961652727e54ced85608a6ff4df555fc87ef37493b254c75c6d",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "sanitizer-javascript-sanitizer-kill-negative-with",
+      "report_sha256": "eefd87f1b6c781d7506dd634b2b98246e106b65da11935d73fab7b3ff4992fad",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "complete-no-finding"
+    },
+    {
+      "id": "sanitizer-javascript-sanitizer-kill-negative-without",
+      "report_sha256": "9f94f52f7a6878c16a012dd654d9ac8788495118e08d513ddff630f30ccba61d",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "sanitizer-javascript-sanitizer-kill-positive-with",
+      "report_sha256": "4bbd7b9d3109b9f1c249ba8abe7f65596479582c291845bc04067d3fd5723a80",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "sanitizer-javascript-sanitizer-selectivity-negative-with",
+      "report_sha256": "8bd4f6f8f4f886d09ebc8d957145a55a6a6069fcf79eda7a66e11d4e0fad7dad",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "complete-no-finding"
+    },
+    {
+      "id": "sanitizer-javascript-sanitizer-selectivity-positive-with",
+      "report_sha256": "12ca0a75eeba5eb386078c1e998494279de0eb2dad00e0d952047c8b98789274",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "sanitizer-python-sanitizer-kill-negative-with",
+      "report_sha256": "31cf159a14ab189657f0f60b3e8a2701d66b6f940128df7398406965a28a9d93",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "complete-no-finding"
+    },
+    {
+      "id": "sanitizer-python-sanitizer-kill-negative-without",
+      "report_sha256": "3f8b54c8c4b224ba7e21a9c227de35450b7ad7b536686a301acdee3b91d79e3d",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "sanitizer-python-sanitizer-kill-positive-with",
+      "report_sha256": "0a616446e532bc2a2d14e6e290ccd87c50bbc40f02bb785f6d1e9a219580e5a9",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    },
+    {
+      "id": "sanitizer-python-sanitizer-selectivity-negative-with",
+      "report_sha256": "3271d36821a34c031cfbf4b5a908f90e9a568213c1b14ed3b1064516117bf2db",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 0,
+      "interpretation": "complete-no-finding"
+    },
+    {
+      "id": "sanitizer-python-sanitizer-selectivity-positive-with",
+      "report_sha256": "e09c07c20d5593dd6ad3a0cd4404d8ac10fcc240a5821d0ec36405432854d347",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": 1,
+      "interpretation": "proven-flow"
+    }
+  ]
+}

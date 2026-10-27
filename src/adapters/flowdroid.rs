@@ -8,6 +8,7 @@
 use crate::adapters::ToolIdentity;
 use crate::adapters::normalized_report;
 use crate::adapters::opentaint::jvm_fixture_package;
+use crate::adapters::pins;
 use crate::adapters::write_runner_error;
 use crate::adapters::{KernelPopulation, select_kernel_cases};
 use crate::adapters::{ModelingLanguage, ModelingTool};
@@ -164,7 +165,7 @@ pub(crate) const FLOWDROID_NATIVE_CATALOG_ARGUMENT: &str =
 /// The pinned FlowDroid release. The jar self-reports its version in its
 /// embedded Maven `pom.properties`, and every run witnesses that value from
 /// the jar actually invoked, per the identity-witnessing convention (#87).
-pub(crate) const FLOWDROID_PINNED_VERSION: &str = "2.15.1";
+pub(crate) const FLOWDROID_PINNED_VERSION: &str = pins::FLOWDROID_VERSION;
 
 /// SHA-256 of the pinned `soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar`
 /// Maven Central artifact. The 2.15.x releases publish no GitHub release

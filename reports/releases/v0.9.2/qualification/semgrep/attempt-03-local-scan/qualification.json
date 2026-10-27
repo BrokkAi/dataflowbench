@@ -1,0 +1,1548 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "--version",
+        "--disable-version-check"
+      ],
+      "budget_kind": "wall-clock process-group timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 2.235,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "identify pinned Semgrep CLI",
+      "id": "semgrep-version",
+      "stderr": {
+        "bytes": 651,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stderr/semgrep-version.bin",
+        "sha256": "5626f76788bed7dd147b15b9136953cee45dc7ffbaee0e03f162e5265e5f53f3"
+      },
+      "stdout": {
+        "bytes": 8,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stdout/semgrep-version.bin",
+        "sha256": "6c6e9c0c95928a60570a564f1531624a0e6d1a055642fdf50fc9179a1a1a5b28"
+      },
+      "timed_out": false,
+      "timeout_seconds": 20
+    },
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "scan",
+        "--disable-version-check",
+        "--metrics=off",
+        "--oss-only",
+        "--jobs=1",
+        "--no-git-ignore",
+        "--json",
+        "--config",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/configs/model-sanitizer-default-functions.yaml",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-sanitizer-selectivity-positive",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-sanitizer-selectivity-negative"
+      ],
+      "budget_kind": "wall-clock process-group timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 11.841,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "declared sanitizer suppresses the negative while undeclared sibling remains visible",
+      "id": "model-sanitizer-default-functions",
+      "json_summary": {
+        "errors": [],
+        "results": [
+          {
+            "check_id": "reports.releases.v0.9.2.qualification.semgrep.attempt-03-local-scan.configs.dfb-taint-python-modeling",
+            "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/python/model-sanitizer-selectivity-positive/clean.py",
+            "start_line": 18
+          }
+        ]
+      },
+      "stderr": {
+        "bytes": 950,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stderr/model-sanitizer-default-functions.bin",
+        "sha256": "c5a524bb6350a6e9a560992fb51f92574e338bacf72fd878fd5fededaa68e831"
+      },
+      "stdout": {
+        "bytes": 2268,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stdout/model-sanitizer-default-functions.bin",
+        "sha256": "57333856102b21a4af334e481069ea3791b33d834524268b2bf058dd007597a1"
+      },
+      "timed_out": false,
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "scan",
+        "--disable-version-check",
+        "--metrics=off",
+        "--oss-only",
+        "--jobs=1",
+        "--no-git-ignore",
+        "--json",
+        "--config",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/semgrep/native/v0.9.2/python/rules",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/python/positive",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/python/negative"
+      ],
+      "budget_kind": "wall-clock process-group timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 10.896,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "native python profile finds its positive rule and rejects the near-miss",
+      "id": "native-python-profile",
+      "json_summary": {
+        "errors": [],
+        "results": [
+          {
+            "check_id": "adapters.semgrep.native.v0.9.2.python.rules.insecure-hash-function",
+            "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/python/positive/main.py",
+            "start_line": 3
+          }
+        ]
+      },
+      "stderr": {
+        "bytes": 976,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stderr/native-python-profile.bin",
+        "sha256": "d8fa734329c6d704a3d6b92a47fe9ed4c9a5e54edf01e72ecdccad8a7aa5ac37"
+      },
+      "stdout": {
+        "bytes": 3368,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stdout/native-python-profile.bin",
+        "sha256": "c8878daafa27c3254588f0f1c53d0ed9f8da20ceab8d421eaa5cbde65b1b4516"
+      },
+      "timed_out": false,
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "scan",
+        "--disable-version-check",
+        "--metrics=off",
+        "--oss-only",
+        "--jobs=1",
+        "--no-git-ignore",
+        "--json",
+        "--config",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/semgrep/native/v0.9.2/java/rules",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/java/positive",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/java/negative"
+      ],
+      "budget_kind": "wall-clock process-group timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 10.961,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "native java profile finds its positive rule and rejects the near-miss",
+      "id": "native-java-profile",
+      "json_summary": {
+        "errors": [],
+        "results": [
+          {
+            "check_id": "adapters.semgrep.native.v0.9.2.java.rules.use-snakeyaml-constructor",
+            "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/java/positive/Main.java",
+            "start_line": 5
+          }
+        ]
+      },
+      "stderr": {
+        "bytes": 974,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stderr/native-java-profile.bin",
+        "sha256": "3b6b596d5561e487a2f1cf1f84f0b09c3e1634b1676eb45aae343e9e03417759"
+      },
+      "stdout": {
+        "bytes": 3059,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stdout/native-java-profile.bin",
+        "sha256": "5bc454ca39a532e63f878740641bf3d65a239289f370781a09b7a7c2daee9f01"
+      },
+      "timed_out": false,
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "scan",
+        "--disable-version-check",
+        "--metrics=off",
+        "--oss-only",
+        "--jobs=1",
+        "--no-git-ignore",
+        "--json",
+        "--config",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/semgrep/native/v0.9.2/javascript/rules",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/javascript/positive",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/javascript/negative"
+      ],
+      "budget_kind": "wall-clock process-group timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 10.154,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "native javascript profile finds its positive rule and rejects the near-miss",
+      "id": "native-javascript-profile",
+      "json_summary": {
+        "errors": [],
+        "results": [
+          {
+            "check_id": "adapters.semgrep.native.v0.9.2.javascript.rules.detect-eval-with-expression",
+            "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/javascript/positive/main.js",
+            "start_line": 3
+          }
+        ]
+      },
+      "stderr": {
+        "bytes": 1751,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stderr/native-javascript-profile.bin",
+        "sha256": "b1bb4d182e10f4bb9f43e8c712aec47f7eb4809e7a9fe07c43afebe53c440385"
+      },
+      "stdout": {
+        "bytes": 3084,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stdout/native-javascript-profile.bin",
+        "sha256": "c31b8bf653bc3279a9eb4fbd4dd0456e83a162166b64923cb4761d0505c8c886"
+      },
+      "timed_out": false,
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "/usr/bin/env",
+        "semgrep",
+        "scan",
+        "--disable-version-check",
+        "--metrics=off",
+        "--oss-only",
+        "--jobs=1",
+        "--no-git-ignore",
+        "--json",
+        "--config",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/configs/csharp-single-function-taint.yaml",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/csharp/direct-positive",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/csharp/direct-negative"
+      ],
+      "budget_kind": "wall-clock process-group timeout; no OS memory cap applied",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "elapsed_seconds": 9.855,
+      "environment_overrides": {
+        "ALL_PROXY": "",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/home",
+        "HTTPS_PROXY": "",
+        "HTTP_PROXY": "",
+        "NO_PROXY": "*",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "SEMGREP_LOG_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/semgrep.log",
+        "SEMGREP_SEND_METRICS": "off",
+        "SEMGREP_SETTINGS_FILE": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/settings/settings.yaml",
+        "SEMGREP_VERSION_CACHE_PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/version-cache",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "XDG_CACHE_HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/semgrep-state/attempt-03/cache",
+        "all_proxy": "",
+        "http_proxy": "",
+        "https_proxy": "",
+        "no_proxy": "*"
+      },
+      "exit_code": 0,
+      "expectation": "basic C# single-function taint positive and unrelated-value near-miss",
+      "id": "csharp-single-function-taint",
+      "json_summary": {
+        "errors": [],
+        "results": [
+          {
+            "check_id": "reports.releases.v0.9.2.qualification.semgrep.attempt-03-local-scan.configs.dataflowbench-csharp-ce-single-function-taint-probe",
+            "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/cases/taint/csharp/direct-positive/DirectFlow.cs",
+            "start_line": 14
+          }
+        ]
+      },
+      "stderr": {
+        "bytes": 950,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stderr/csharp-single-function-taint.bin",
+        "sha256": "29380852476629f6b35c315e87cc858fb080f798ab2cc0d0e58a9b3e2e1c4535"
+      },
+      "stdout": {
+        "bytes": 2234,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/stdout/csharp-single-function-taint.bin",
+        "sha256": "6bdbf1bbb9361a26c0eef5e7dd3631a4403639371204e17d94ec4731a7528a3b"
+      },
+      "timed_out": false,
+      "timeout_seconds": 60
+    }
+  ],
+  "controller": {
+    "bytes": 11102,
+    "path": "execution-state/v092/semgrep-local-controls-03.py",
+    "sha256": "a3bbce3fbf51348aedff6570b0593dcd05d911b0d09877c45b2972aef5891c71"
+  },
+  "environment": {
+    "all_configs_local": true,
+    "auto_config": false,
+    "metrics": "off",
+    "offline": true,
+    "proxy_variables_cleared": true,
+    "python_bytecode_writes_disabled": true,
+    "version_check": "disabled"
+  },
+  "expected_rule_hits": {
+    "csharp_negative": false,
+    "csharp_positive": true,
+    "model_sanitizer_negative": false,
+    "model_sanitizer_positive": true,
+    "native_java_negative": false,
+    "native_java_positive": true,
+    "native_javascript_negative": false,
+    "native_javascript_positive": true,
+    "native_python_negative": false,
+    "native_python_positive": true
+  },
+  "failed_expectations": [],
+  "inputs": {
+    "configs": [
+      {
+        "bytes": 292,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/configs/csharp-single-function-taint.yaml",
+        "sha256": "93fc126d72862065929b5e3066f74ed26589691f061043cf9096e1ecf5f96d45"
+      },
+      {
+        "bytes": 3416,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/configs/model-sanitizer-default-functions.yaml",
+        "sha256": "cd8002d368576b5e73429b6d89e0233616d1f45635ac8bc0a71aa548cd33ec0b"
+      }
+    ],
+    "custom_control_files": [
+      {
+        "bytes": 287,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/java/negative/Main.java",
+        "sha256": "66c931c496b3aaa03b9210793809fa8816327543de7e972eaac32fc8549273c7"
+      },
+      {
+        "bytes": 151,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/java/positive/Main.java",
+        "sha256": "508fdc49c5cea535cce87b8b1685bafd2ac5e710e69f621650f684723b0937f0"
+      },
+      {
+        "bytes": 111,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/javascript/negative/main.js",
+        "sha256": "8520bdb5166a28fa74b3c0a7a1bfcaa2a5d6cbe1622f0869af66c0c980cb9498"
+      },
+      {
+        "bytes": 105,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/javascript/positive/main.js",
+        "sha256": "a9255bbecf97c9886cc96b83671fd59041cfd85a6658dc80e18db67997e6fc45"
+      },
+      {
+        "bytes": 48,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/python/negative/main.py",
+        "sha256": "4ac1b38b32b9cf4d94c5922ef9545ecf02e164370e161ad5331357231379b440"
+      },
+      {
+        "bytes": 45,
+        "path": "reports/releases/v0.9.2/qualification/semgrep/attempt-03-local-scan/controls/python/positive/main.py",
+        "sha256": "105d2840ac2551f90cb335b22166ec2ba00a5b4bde4976015b827eca178fb5b5"
+      }
+    ],
+    "native_rule_files": [
+      {
+        "bytes": 92,
+        "path": "adapters/semgrep/native/v0.9.2/python/LICENSE",
+        "sha256": "1a6466ae5f1c68631bbd13e3f1aa8f380d84219853c08f0456b853fccfacee1d"
+      },
+      {
+        "bytes": 53235,
+        "path": "adapters/semgrep/native/v0.9.2/python/provenance.json",
+        "sha256": "4c956361a060dde6ce59a182a070af6e61dce7998aac598a3b4ad13fa0adc18e"
+      },
+      {
+        "bytes": 1338,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/conn_recv.yaml",
+        "sha256": "30d4c0fd0fbdd599ddd9261a7c96435427bd4885dde4c5561fbe45b5f9ebe0ca"
+      },
+      {
+        "bytes": 1067,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-annotations-usage.yaml",
+        "sha256": "de2894f025419bcc1753dde0bec8948a64aa3409d7733fcc4819d04ee6429cb0"
+      },
+      {
+        "bytes": 2844,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-asyncio-create-exec-audit.yaml",
+        "sha256": "9308083dcaae7882f3fb4f26b0f400cca7dd79c49cb85d72b8ed5de1cacad2ce"
+      },
+      {
+        "bytes": 4310,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-asyncio-create-exec-tainted-env-args.yaml",
+        "sha256": "81dccef20c6ab71757629dc002f90401e0744ccb7866896573ea81c5bb84e8cf"
+      },
+      {
+        "bytes": 2032,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-asyncio-exec-audit.yaml",
+        "sha256": "ae753d565762477200ab6a16d2127b455f5af988e925d76dcb550b3559b85efc"
+      },
+      {
+        "bytes": 3464,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-asyncio-exec-tainted-env-args.yaml",
+        "sha256": "c6e42f7c3f7ce43318c08c8d8f856f7e4d332754c483c66478407bb2cd196584"
+      },
+      {
+        "bytes": 1800,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-asyncio-shell-audit.yaml",
+        "sha256": "e81ed31c802114fe7ccc523b6b554611044cc0a69e13daacea93fa080d28cfe9"
+      },
+      {
+        "bytes": 3282,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-asyncio-shell-tainted-env-args.yaml",
+        "sha256": "59f1f227a3bc52469a328cc9bac7989242b3816faac9e6e999db723bbab8062d"
+      },
+      {
+        "bytes": 1534,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-code-run-audit.yaml",
+        "sha256": "888280b79addb2c06f664c324cfc9c9da7b571b6bc6d1991b813677e16c77ce8"
+      },
+      {
+        "bytes": 3207,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-code-run-tainted-env-args.yaml",
+        "sha256": "e50fede75b329941c32e89a4dcda0dc664f0b70b3f00e42873aa412237f09efb"
+      },
+      {
+        "bytes": 2037,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-os-exec-audit.yaml",
+        "sha256": "d7aa77c8ae62e4f6d0d3cc97a363406c819c657e3b9b5ed95030a4c7ce21febc"
+      },
+      {
+        "bytes": 3733,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-os-exec-tainted-env-args.yaml",
+        "sha256": "593edc8b93d10cfdc478070dc30a9acc74d27d47d03fa883c0aa9b7351f8e219"
+      },
+      {
+        "bytes": 2253,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-spawn-process-audit.yaml",
+        "sha256": "6ee93ba0c11e3fe0ef11ba3b43c7632c03176bf0e480c090e78fd543e0e1291e"
+      },
+      {
+        "bytes": 3997,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-spawn-process-tainted-env-args.yaml",
+        "sha256": "1d391dbfea8ee1dc0ad5e6cf762cae0ad36a8dcee923cac4212239852b3e988f"
+      },
+      {
+        "bytes": 946,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-subinterpreters-run-string-audit.yaml",
+        "sha256": "04c785a1716eadb808d767d1c84d18538390caae5c43e20d971e9dffcafb4237"
+      },
+      {
+        "bytes": 2503,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-subinterpreters-run-string-tainted-env-args.yaml",
+        "sha256": "0d29a1b663d5c8a3675af995c9ed1e401d46261146cb0dff698b2e4e24ad9b1d"
+      },
+      {
+        "bytes": 3189,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-subprocess-use-audit.yaml",
+        "sha256": "50f69dc35f47e405633559f54fc2b3bd344707221742400e74b1c902c1f76faa"
+      },
+      {
+        "bytes": 4436,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-subprocess-use-tainted-env-args.yaml",
+        "sha256": "0f3f3f8fafef5b828a15253585e4c6648c46c6fd1cca4b0ae8c70a9399def44d"
+      },
+      {
+        "bytes": 2063,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-system-call-audit.yaml",
+        "sha256": "279e17c553ccfae54e058f02b5ed59e7c50665b49d4eb57f767b4aa1e6d818e6"
+      },
+      {
+        "bytes": 3513,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-system-call-tainted-env-args.yaml",
+        "sha256": "51a6fb4d788c62a22670956868c7702e286e41da0961cb6cedcbf5d9c5f03dea"
+      },
+      {
+        "bytes": 1055,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-testcapi-run-in-subinterp-audit.yaml",
+        "sha256": "870cd92a77bfc42b00a7d8dad44b4e733fcb416c93d43886004b0af3c49833b1"
+      },
+      {
+        "bytes": 2629,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dangerous-testcapi-run-in-subinterp-tainted-env-args.yaml",
+        "sha256": "0f042c7f448008974fb1325148c5368887e8ddf83f88f721e1c3cbbb8eae5c01"
+      },
+      {
+        "bytes": 2056,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/dynamic-urllib-use-detected.yaml",
+        "sha256": "02473766fa7c92a516db26d5dd0881f9dcc62ef10b0804565a0e5af2c9c5568a"
+      },
+      {
+        "bytes": 1263,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/eval-detected.yaml",
+        "sha256": "4a7d2769392c93fecb74a76b313b36b499c0ca22b42966d48f174761d85a5eec"
+      },
+      {
+        "bytes": 1222,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/exec-detected.yaml",
+        "sha256": "4f104a4f848ec09d02ec1317458572a6f581aba21bc884f2ea07503a1478095f"
+      },
+      {
+        "bytes": 1079,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/formatted-sql-query.yaml",
+        "sha256": "3543d454e520952116963c7913a2c2bad9bf9192b6c8c80be91ab7529a88ff09"
+      },
+      {
+        "bytes": 869,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/hardcoded-password-default-argument.yaml",
+        "sha256": "9570d458ae16dce2e3119691d005e4ff50fc3effabdb83797dbf29acf15fa0ed"
+      },
+      {
+        "bytes": 1083,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/httpsconnection-detected.yaml",
+        "sha256": "5918e45c3d8db0ada0f6db2d90f9805abb01ec4e5e69b398d31eff531bbbb831"
+      },
+      {
+        "bytes": 1939,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-file-permissions.yaml",
+        "sha256": "33ce6040a85aa8a61e2bd005da9f9623c666eafd8afe31e4ada44d74d57b9bc2"
+      },
+      {
+        "bytes": 1348,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/ftplib/use-ftp-tls.yaml",
+        "sha256": "608f71c3b8a8976095f5043a9a5b24ff7c2d07d8e3a761b4d163b806ad0fbde6"
+      },
+      {
+        "bytes": 1692,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/requests/request-session-http-in-with-context.yaml",
+        "sha256": "1a9c2d732913027a6df531c7a312b65141aa92382e48d27ea6fac826d25c96ba"
+      },
+      {
+        "bytes": 1745,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/requests/request-session-with-http.yaml",
+        "sha256": "9113bafd2b90ea21eb3baf2cc53bfbdd498a5abc19b1011d8bbb5a356e1844fa"
+      },
+      {
+        "bytes": 1769,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/requests/request-with-http.yaml",
+        "sha256": "27ae0f8d40740a62ba94e0ab28200740865eacf2331f5c3825bb14c85cf6e65e"
+      },
+      {
+        "bytes": 1111,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/ssl/no-set-ciphers.yaml",
+        "sha256": "4422724b857bd8f0355c011c0d9ed40e1225886f4cc7dc20eebb127de0732785"
+      },
+      {
+        "bytes": 1847,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-openerdirector-open-ftp.yaml",
+        "sha256": "59a521c3acec2bf10faff77d048849a052160e2950086fececd991fcce6df841"
+      },
+      {
+        "bytes": 1821,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-openerdirector-open.yaml",
+        "sha256": "5a07f8239423e1f2de0dd635da882f7bb17c85a10b0934c91fe669fceb7a79b1"
+      },
+      {
+        "bytes": 1134,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-request-object-ftp.yaml",
+        "sha256": "2f735c4cdf4e9d28e76ab128bc554e717ea15fb7c629db1405edf8dba1445c78"
+      },
+      {
+        "bytes": 1127,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-request-object.yaml",
+        "sha256": "0e08a07f40e99e50bb16fc4454a6d11a3d57a452c6a00c9857bb619af5131806"
+      },
+      {
+        "bytes": 1069,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-urlopen-ftp.yaml",
+        "sha256": "f69a48018746c8e3f499ea7126932672102f3a79b6bb213b7fc627025a00c8b0"
+      },
+      {
+        "bytes": 1051,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-urlopen.yaml",
+        "sha256": "91c210c4af9b0b6eb912aab44a82b91b01a79c01cf2306678dc1027b90643ce9"
+      },
+      {
+        "bytes": 1728,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-urlopener-open-ftp.yaml",
+        "sha256": "61da67c959a0230c34d5f920eec0294628610e99c09da14da9d080807f24bb3f"
+      },
+      {
+        "bytes": 1776,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-urlopener-open.yaml",
+        "sha256": "bd047835550b793f6453e9a6f73502f6002802c2bd40fda78cf410a939790900"
+      },
+      {
+        "bytes": 1764,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-urlopener-retrieve-ftp.yaml",
+        "sha256": "83aafb1e6706f07142ba0ed84b3bdacfae054a9bb4c9a2dd48131db19225d396"
+      },
+      {
+        "bytes": 1812,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-urlopener-retrieve.yaml",
+        "sha256": "26c59a53e985b128f31035c660b04036b4fab1ff4f094e82a3d07531e757b57f"
+      },
+      {
+        "bytes": 1082,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-urlretrieve-ftp.yaml",
+        "sha256": "7fcb94a91340e9a8060b7b50e2a68d946f0244cb5696e535cdc739c8773d3382"
+      },
+      {
+        "bytes": 1075,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/insecure-transport/urllib/insecure-urlretrieve.yaml",
+        "sha256": "50022b6544a10fc905e54a1415d492c72041800a83333d217540a7fa500d99ab"
+      },
+      {
+        "bytes": 1058,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/logging/listeneval.yaml",
+        "sha256": "eb966b0faac60a0f2a96dc1147c9da504b9654ccd1faad655fae578dceb5b665"
+      },
+      {
+        "bytes": 1211,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/logging/logger-credential-leak.yaml",
+        "sha256": "dfe640eaa2e1a219d438ce96ceff05e2f7e730c4858a9f49ac228c073db4eac9"
+      },
+      {
+        "bytes": 1150,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/mako-templates-detected.yaml",
+        "sha256": "0208e1d18cef98c22617ae21e0e1e0230b6ba35a344b6e9d43b3a3f204e21d05"
+      },
+      {
+        "bytes": 1011,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/marshal.yaml",
+        "sha256": "cb4911c37ef771abd07e45d4fff72a8f0919ab8ee850f6bbebf4e201a3aaca84"
+      },
+      {
+        "bytes": 1637,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/md5-used-as-password.yaml",
+        "sha256": "51ddd2ba3ea8fdb9da5ff75b567d1a18f58e7c51a375bc5e73752a409cd86951"
+      },
+      {
+        "bytes": 1036,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/network/bind.yaml",
+        "sha256": "0fa514e0a7190eaa1a3dacab29509b4ac3d8480403ba545c104e7e4aabbbae9c"
+      },
+      {
+        "bytes": 1369,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/network/disabled-cert-validation.yaml",
+        "sha256": "6b3c74d269a97818065d42d916c748b2b01f5f85c81d877b85f8908fd923247f"
+      },
+      {
+        "bytes": 859,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/network/http-not-https-connection.yaml",
+        "sha256": "a687d760cd55747ee465a820a9ca19ca693eeac51d3058defe1d6c47c87b2b67"
+      },
+      {
+        "bytes": 834,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/non-literal-import.yaml",
+        "sha256": "056752dd8dfb6a695e4c9cd6ff64ebf8ff63bfc519d2ee1729f636b77c620497"
+      },
+      {
+        "bytes": 1211,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/paramiko/paramiko-exec-command.yaml",
+        "sha256": "f673c9f0dcbcb52461548a2d3b9988390d5660cf54a0cec6d27936f40ddd5a99"
+      },
+      {
+        "bytes": 1140,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/paramiko-implicit-trust-host-key.yaml",
+        "sha256": "bdb1944f2623df900a774e6996d1d8ef6fab84f4fafcf1d278fae3f54f48368f"
+      },
+      {
+        "bytes": 791,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/python-reverse-shell.yaml",
+        "sha256": "136686a48ef85b43429e1d6850a94c01856ccbe130bc2a14bd844c41f745c060"
+      },
+      {
+        "bytes": 909,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/regex-dos.yaml",
+        "sha256": "8fa43155c3c4dea97922b451f8f51957a15fefeabd3bc8f4a939e5112f7910ca"
+      },
+      {
+        "bytes": 996,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/sha224-hash.yaml",
+        "sha256": "3dfae9ce892bebd33f4f0dc15179e4dbd2233fba426af0acef92faaac4481b1a"
+      },
+      {
+        "bytes": 3007,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/sqli/aiopg-sqli.yaml",
+        "sha256": "a7687e9f25881204de6d5f5087d76ccf61b361b715c95d9e1af9be4139f44fcd"
+      },
+      {
+        "bytes": 3087,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/sqli/asyncpg-sqli.yaml",
+        "sha256": "c5c56307c0128f47e4aae85ea2b5ab5834ce47c35690863370d010d6fbd47300"
+      },
+      {
+        "bytes": 2722,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/sqli/pg8000-sqli.yaml",
+        "sha256": "70658799eacf63fadffe5bb79969acb7133daaf50058af627e1dfd9041628a77"
+      },
+      {
+        "bytes": 2626,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/sqli/psycopg-sqli.yaml",
+        "sha256": "22f640c86a6e4d594b8193dd40a99830e211c4af46e526306dc261f0c1a334a0"
+      },
+      {
+        "bytes": 859,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/ssl-wrap-socket-is-deprecated.yaml",
+        "sha256": "ca94c95d22f5c229d036097019cdd14ea88bff7e1e3c8a5f485627b0cc7615ef"
+      },
+      {
+        "bytes": 1348,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/subprocess-list-passed-as-string.yaml",
+        "sha256": "3e85d8148402dd3fd437afda07afc1aeff3fdbe395073d968cc01dfaa80e638d"
+      },
+      {
+        "bytes": 1364,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/subprocess-shell-true.yaml",
+        "sha256": "753ba9d29d592b3d7f5086e671e424ee05138acbf75a39b663d92aa3275f5380"
+      },
+      {
+        "bytes": 1370,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/system-wildcard-detected.yaml",
+        "sha256": "c0d7b35194f88bb0517f53ae54a91a2324e48c6872353dcdf55226b81d5c00aa"
+      },
+      {
+        "bytes": 757,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/telnetlib.yaml",
+        "sha256": "48034e8afb1dc6e5af48c5f1c41a0c3899d6c91601373a8dff5aa59de0be74a3"
+      },
+      {
+        "bytes": 1570,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/audit/weak-ssl-version.yaml",
+        "sha256": "f11866fe7c8c8918606516e84fee31450f06dd54ed0643e18aa7dc4b25b08b8e"
+      },
+      {
+        "bytes": 5282,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/dangerous-code-run.yaml",
+        "sha256": "81fd7a70282b7b7ae5299e6e921979bbf28634298222c442c44174170b02fb9f"
+      },
+      {
+        "bytes": 1688,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/dangerous-globals-use.yaml",
+        "sha256": "dce3952d4d8fc0ca78bc0454858c1c163d6d10c4f72afd83191493027ed70e27"
+      },
+      {
+        "bytes": 5827,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/dangerous-os-exec.yaml",
+        "sha256": "5b9a82be39e56c73bd90f376bf33843350a47f7906f68985ad09abacb83add94"
+      },
+      {
+        "bytes": 7572,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/dangerous-spawn-process.yaml",
+        "sha256": "c6e7a2c8dcdebafa48327a455927ce1e373255f3462bd026078f10f772db141a"
+      },
+      {
+        "bytes": 4599,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/dangerous-subinterpreters-run-string.yaml",
+        "sha256": "37eb195d8b74030c637089adbb9162ae82bc22df947bf0e662435f2d4bca14b0"
+      },
+      {
+        "bytes": 6473,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/dangerous-subprocess-use.yaml",
+        "sha256": "9aaf4e9fcb13afed4e60c04def4132f9f7f2baac3414dc1d7bbd5dcb29db0586"
+      },
+      {
+        "bytes": 5751,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/dangerous-system-call.yaml",
+        "sha256": "07337088f457e2a1c96ca707bb598ad0676a53290ee5f19d82105fe87e10bf43"
+      },
+      {
+        "bytes": 4716,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/dangerous-testcapi-run-in-subinterp.yaml",
+        "sha256": "d0a9df085aee306a9c5a95226154820ed9cdb05208dc06f0536bc524cbcc5e5f"
+      },
+      {
+        "bytes": 997,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/deserialization/avoid-jsonpickle.yaml",
+        "sha256": "eca03a7a1c56b032a96e490a313fec29d3d77bd6d62210d9f339d1e820e59b41"
+      },
+      {
+        "bytes": 1785,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/deserialization/avoid-pyyaml-load.yaml",
+        "sha256": "a1ae4abf7e9476d4a440236d2d8743263e7fb39e1c68f2680467cbc66b3f7431"
+      },
+      {
+        "bytes": 954,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/deserialization/avoid-unsafe-ruamel.yaml",
+        "sha256": "9e043aba05d3aaad64d19a56221ed0598c08deb10f1f7f609543fbd4e997d5c2"
+      },
+      {
+        "bytes": 3811,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/deserialization/pickle.yaml",
+        "sha256": "ef221e31f87f24b5889c08e22e80ae176e0209c4099e822120904ed99d61a7e7"
+      },
+      {
+        "bytes": 1518,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/insecure-hash-algorithms-md5.yaml",
+        "sha256": "e8a898841202c02d986b4931e3f4550fced6056f310e6069bf41720a96937580"
+      },
+      {
+        "bytes": 1495,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/insecure-hash-algorithms.yaml",
+        "sha256": "6adf7bcd537f1374955ccbdea68cef115482238f2b11e8d931497cc0afcb859e"
+      },
+      {
+        "bytes": 1508,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/insecure-hash-function.yaml",
+        "sha256": "47481a289f0191dbd7a316ec3129ab8503560440e3ba471ca2f42a18f484935d"
+      },
+      {
+        "bytes": 1170,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/insecure-uuid-version.yaml",
+        "sha256": "54a4bfe4ecb648dbe9116ff8a1525b79a9e4d30199e9cbb5ba4c72f1822eb767"
+      },
+      {
+        "bytes": 1038,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/unverified-ssl-context.yaml",
+        "sha256": "ff0e5b9f6cd95f5247a9242d16a398162b18945f4cda11587ed965e3c663abfe"
+      },
+      {
+        "bytes": 1184,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/use-defused-xml-parse.yaml",
+        "sha256": "e472066cad14b0703b69a7d4e67a34273edbbe859a4f7ff99cad8fbeaeb9aae4"
+      },
+      {
+        "bytes": 987,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/use-defused-xml.yaml",
+        "sha256": "3c737ef0e249ae72b4f365d877aa4d11f1ced44f2e63ae48ff75dee6340e2837"
+      },
+      {
+        "bytes": 983,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/use-defused-xmlrpc.yaml",
+        "sha256": "652c86c4617bf593aff9210cc3b1cc13deb04ee102c700a1074ba3a76d303030"
+      },
+      {
+        "bytes": 1358,
+        "path": "adapters/semgrep/native/v0.9.2/python/rules/use-defusedcsv.yaml",
+        "sha256": "0fdc77dc97e3b2007025bd9db8f3389d68ca0eda6872e5323e7108bfd44c355a"
+      },
+      {
+        "bytes": 92,
+        "path": "adapters/semgrep/native/v0.9.2/java/LICENSE",
+        "sha256": "1a6466ae5f1c68631bbd13e3f1aa8f380d84219853c08f0456b853fccfacee1d"
+      },
+      {
+        "bytes": 49271,
+        "path": "adapters/semgrep/native/v0.9.2/java/provenance.json",
+        "sha256": "a6236f54d51d0d2683bd185cecf28ad91896d57c88628466bada0d34c8b5b654"
+      },
+      {
+        "bytes": 1019,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/anonymous-ldap-bind.yaml",
+        "sha256": "3d240fe60f4cb7a36f8cfdeb39a8c780d792c98a7a33bd765728fc971e8f57be"
+      },
+      {
+        "bytes": 871,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/bad-hexa-conversion.yaml",
+        "sha256": "b9496c99307de853c9e100617e1d4e1c8d122de916695bf5b927a4878e41aa20"
+      },
+      {
+        "bytes": 1167,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/blowfish-insufficient-key-size.yaml",
+        "sha256": "26ac3e361c769578774fe60e239e4a1f9a9066e34aeda8f734c5862e181cca90"
+      },
+      {
+        "bytes": 1207,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/cbc-padding-oracle.yaml",
+        "sha256": "c598231903a7089e29e4e3a78dc54aa84f00dd8565011cce9535402c5e149526"
+      },
+      {
+        "bytes": 3238,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/command-injection-formatted-runtime-call.yaml",
+        "sha256": "037e19135b85497cded2509ddcf19572b3717b99f185c9c2db06dd50a6a6cc5d"
+      },
+      {
+        "bytes": 4677,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/command-injection-process-builder.yaml",
+        "sha256": "a8d032fb81b8bea99be7927b5a41036673ed3e04a501358d32d91d2d551e899a"
+      },
+      {
+        "bytes": 1402,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/cookie-missing-httponly.yaml",
+        "sha256": "98585b19eb3d3adadae7a70881158a73cae72f27235c9186787f8ad1e5e3b0a3"
+      },
+      {
+        "bytes": 1422,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/cookie-missing-secure-flag.yaml",
+        "sha256": "944e2c63cfd3cbfd47af97128d12502b16302ef61a76c2cde9f66fdb24ac15fe"
+      },
+      {
+        "bytes": 2340,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crlf-injection-logs.yaml",
+        "sha256": "1575a4f9e6d7c6750308598e22c96bc5a03cbd75d884c285aded7d623d84c68e"
+      },
+      {
+        "bytes": 1535,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/des-is-deprecated.yaml",
+        "sha256": "90c12737cdbd1308d37474b3456839a7572f86ae41f8d050716d7d76643aa072"
+      },
+      {
+        "bytes": 970,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/desede-is-deprecated.yaml",
+        "sha256": "9b3cdbb1855ded97d7bf09282da88994835ef7a6479a967fcc16dc9d8c9a1efc"
+      },
+      {
+        "bytes": 1103,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/ecb-cipher.yaml",
+        "sha256": "1b939e35d1d8cd978b30e0b41b684ebfb9b6956e4d016ee563c2ae0eaa11834f"
+      },
+      {
+        "bytes": 1431,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/gcm-detection.yaml",
+        "sha256": "fd48528470435db41563895c56c7e87843e54a54af7a8c5814b604a27ad118e0"
+      },
+      {
+        "bytes": 867,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/gcm-nonce-reuse.yaml",
+        "sha256": "85b595022273096f72fd81e5351ade0cbb5d465c9a93d92eafd2fcbbffd86426"
+      },
+      {
+        "bytes": 1260,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/no-null-cipher.yaml",
+        "sha256": "a108236d2b3e63eeddcbe5fd27c1b64f192949a6a3a3371f3b6bd29934dc76a0"
+      },
+      {
+        "bytes": 1399,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/no-static-initialization-vector.yaml",
+        "sha256": "3e17b7d3b4e2c9bc682d2c1c59f21e542bd0c0911e8e26026598516c642f4a08"
+      },
+      {
+        "bytes": 1060,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/rsa-no-padding.yaml",
+        "sha256": "ced699d4fe996a7feafbd8e4cedecc32976521b22d45d97a1f408fa69e95f2ac"
+      },
+      {
+        "bytes": 1298,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/ssl/avoid-implementing-custom-digests.yaml",
+        "sha256": "9103cce358de50458908d30fdd24a2d05314f4cc928a54a5f77ccaaab6d27e93"
+      },
+      {
+        "bytes": 1160,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/ssl/defaulthttpclient-is-deprecated.yaml",
+        "sha256": "6bdcb022cfe83b310ab461c0dba59b3c3889333ab5dd24e7d52fdfc4ffec8d6d"
+      },
+      {
+        "bytes": 1426,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/ssl/insecure-hostname-verifier.yaml",
+        "sha256": "337aa7f7c211e19efdd935729b89905e3791ba7a00d58ebb305b3d11ab57f4b3"
+      },
+      {
+        "bytes": 2010,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/ssl/insecure-trust-manager.yaml",
+        "sha256": "0358f9341e96202c08e369c4fcd6b567a14882b263b264bacae67011ad41c680"
+      },
+      {
+        "bytes": 1244,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/unencrypted-socket.yaml",
+        "sha256": "9e19b31dc007b1fe0299bab0b7372dad19b69485bf592bfa78d700423b87224e"
+      },
+      {
+        "bytes": 1067,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/use-of-aes-ecb.yaml",
+        "sha256": "8091f196ba58f485a7ce050f94ef3ec019e1a4cf5943a1044bdeef0b35d5f4cf"
+      },
+      {
+        "bytes": 1099,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/use-of-blowfish.yaml",
+        "sha256": "9139e015ca1506dbe36b5f806b1440122f6a88725df87eb3eadc90a9292e7d30"
+      },
+      {
+        "bytes": 2251,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/use-of-default-aes.yaml",
+        "sha256": "a41ff205d28f54769353ec563efaf4bdbdeb7bd1354d8dfb9c089b73c7ebe03f"
+      },
+      {
+        "bytes": 1232,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/use-of-md5-digest-utils.yaml",
+        "sha256": "a0614baf029418dd9b298713c3328f371faa1edb0eac7cc2c4a3a99ce1a220a5"
+      },
+      {
+        "bytes": 1059,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/use-of-md5.yaml",
+        "sha256": "2b845f458a59e9138538b81b8d455debe9680e338f18e081a771530e98fb6a3f"
+      },
+      {
+        "bytes": 1044,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/use-of-rc2.yaml",
+        "sha256": "da8d9553b99dd105321cf8c9ec6e03aeccad868563322399d7b2a709fbfe4f5a"
+      },
+      {
+        "bytes": 1056,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/use-of-rc4.yaml",
+        "sha256": "1928974ce65de38298898daffc4c11dfc34ae588e7c3f50a691f4af842a583d2"
+      },
+      {
+        "bytes": 1410,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/use-of-sha1.yaml",
+        "sha256": "323fd958ae24a61e901b8ed96a45de4d4fb0eedbe5e1b16f9b587bf8018177b6"
+      },
+      {
+        "bytes": 2206,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/use-of-sha224.yaml",
+        "sha256": "4a78aaaad78c8bec0a23aaa052394dea6d1155595cb7342a40764ae76f67a890"
+      },
+      {
+        "bytes": 931,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/weak-random.yaml",
+        "sha256": "b5fd3fdc4dec780eae9d83229d02ff94a319ab1b08492ae1f286bedf0710edbf"
+      },
+      {
+        "bytes": 1216,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/crypto/weak-rsa.yaml",
+        "sha256": "ff3664987b05e97d833d3da794f8721d08872301e8d834eab0bb657d0fdc1222"
+      },
+      {
+        "bytes": 1233,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/dangerous-groovy-shell.yaml",
+        "sha256": "4a31803a1ebe4cc02377d4243db045fe24b364220ddf370781fb0c8653fa6956"
+      },
+      {
+        "bytes": 3210,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/el-injection.yaml",
+        "sha256": "9a31605ac6d1838da075c32f82b4983e430b84f8f001276b80e064a2e02a0bd5"
+      },
+      {
+        "bytes": 3328,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/formatted-sql-string.yaml",
+        "sha256": "da30652df4857c6058e9acea6403a2bcd8789f5373d0089792c1e97ebb3e7bda"
+      },
+      {
+        "bytes": 1298,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/http-response-splitting.yaml",
+        "sha256": "0caa7b4bab4dd65d014cc88732f3253772ad198e8981d4c8a29fe4e6dbe9d4f7"
+      },
+      {
+        "bytes": 994,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/insecure-smtp-connection.yaml",
+        "sha256": "4765bc5a91d21329e8e47766656f97f42d3b01a71f67ffdfb3aa5ba4051693b5"
+      },
+      {
+        "bytes": 1052,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/java-reverse-shell.yaml",
+        "sha256": "d36d47115e9b87120b61faaaa979156d3bf3d7e3d76987944c4eaccafa7b6721"
+      },
+      {
+        "bytes": 3588,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/jdbc-sql-formatted-string.yaml",
+        "sha256": "ade5c43c741513addddbc6f1d4a53834d08720393a9ceb627f50fcec3e93be17"
+      },
+      {
+        "bytes": 1519,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/ldap-entry-poisoning.yaml",
+        "sha256": "5678a0248d4fc1cc5912804cc6a4c239158ffd03912694dca67c90a0fb38d034"
+      },
+      {
+        "bytes": 2122,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/ldap-injection.yaml",
+        "sha256": "d7f5b13894962a40dd29a9538be2444e17d12dddef742ae2a6a88727b8c14559"
+      },
+      {
+        "bytes": 1603,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/md5-used-as-password.yaml",
+        "sha256": "ef539e7b430b766aa201cd85e68d33d44ab950752ddc1687fedfa14e029efac9"
+      },
+      {
+        "bytes": 1251,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/object-deserialization.yaml",
+        "sha256": "cac2bdf142dba24319c1ef2a8c3406d937d909cd015a32c10851cecc97fa511c"
+      },
+      {
+        "bytes": 17722,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/ognl-injection.yaml",
+        "sha256": "5793d4e39aa3edc8c0ce332ce8d5421bfb3ac7f0faa0397895e1289131cb1fd1"
+      },
+      {
+        "bytes": 1952,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/overly-permissive-file-permission.yaml",
+        "sha256": "29de19e47e31d254b60e60506b0364022be2a083b833d467398f3a3841f90027"
+      },
+      {
+        "bytes": 2597,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/permissive-cors.yaml",
+        "sha256": "0d94df280577537b9b4fcc5588bf523a7336101613deede2dc1897794bbe62c3"
+      },
+      {
+        "bytes": 1446,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/script-engine-injection.yaml",
+        "sha256": "e1cac14c0aa526e90439e6e9db2a1193ac80a920cb49f2d1e5ac3c5388dc3b29"
+      },
+      {
+        "bytes": 3016,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/sqli/hibernate-sqli.yaml",
+        "sha256": "60d8edf2ea1fa71b93b2edf47cdf0923cbdcaa62cf64a6ff6a4762c0bf8d6f98"
+      },
+      {
+        "bytes": 1806,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/sqli/jdbc-sqli.yaml",
+        "sha256": "37ace89ff03ccf9384e0187f6b03a53e97838d902f8b3ca14e1223bd279956b5"
+      },
+      {
+        "bytes": 2776,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/sqli/jdo-sqli.yaml",
+        "sha256": "cfef58cd0396519fe7738e75ef997516087a86f2c34d269ff1d49bdfc9570817"
+      },
+      {
+        "bytes": 1758,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/sqli/jpa-sqli.yaml",
+        "sha256": "c2b27cad4c894dd1cf005a829626af627d6fd08bd2bbcb7997e98e44a783eacd"
+      },
+      {
+        "bytes": 2601,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/sqli/tainted-sql-from-http-request.yaml",
+        "sha256": "29e9de156fe5a3e04c574b8dc3f25c309d1da53f8dc7af11bc636675c03e76a8"
+      },
+      {
+        "bytes": 2719,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/sqli/turbine-sqli.yaml",
+        "sha256": "81c30c1c36b4ef994d2e1ecadef0cc8fdac76c7b66cbfe3779a960d02bc3b1ac"
+      },
+      {
+        "bytes": 1918,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/sqli/vertx-sqli.yaml",
+        "sha256": "5e524465dab1936c91a676dbaa507ac41677ab30a5e655b406a349fea3669560"
+      },
+      {
+        "bytes": 2739,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/tainted-cmd-from-http-request.yaml",
+        "sha256": "68b112fafe0e85eda944e1dd2feafe223973693a312e19be6f0a8b8e88581881"
+      },
+      {
+        "bytes": 1527,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/tainted-env-from-http-request.yaml",
+        "sha256": "986dd8893edabca49488df8422dd027d6f0d6eaeb1bf1988cee5ff954d2700cf"
+      },
+      {
+        "bytes": 1382,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/tainted-ldapi-from-http-request.yaml",
+        "sha256": "330d2111dbe0a32a1c66bf64e9fd77675bdfc1e38da6acd2d596e57c30aaf2df"
+      },
+      {
+        "bytes": 2555,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/tainted-session-from-http-request.yaml",
+        "sha256": "38d316e4d8c52e9834aaea061459c50c6ea2d42a75cc9a7d076a21f68e414cbc"
+      },
+      {
+        "bytes": 1212,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/tainted-xpath-from-http-request.yaml",
+        "sha256": "2df4d61c4fa7900a59dadbf62077beec0565d95065d50eda7165c490b2237201"
+      },
+      {
+        "bytes": 1204,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/unsafe-reflection.yaml",
+        "sha256": "21150c8c8cdf1fee969cc96b0570728e7969418a1703bd9bb9405162b06ac965"
+      },
+      {
+        "bytes": 3683,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/unvalidated-redirect.yaml",
+        "sha256": "d8e99a92409851adeb3a11cd18a62209119bf8c6b8c240940e49d3b5ec2685db"
+      },
+      {
+        "bytes": 1887,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/url-rewriting.yaml",
+        "sha256": "f686499e5d68257b82b5e5666e6ae7f7e498af64f9c6e6630375d5570b192308"
+      },
+      {
+        "bytes": 1089,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/weak-ssl-context.yaml",
+        "sha256": "3f04555daac9b4df611798b568f5a743f1579d3e5ea2cc0680af8b2df90cd4f6"
+      },
+      {
+        "bytes": 1509,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xml-decoder.yaml",
+        "sha256": "70a198756d67ba9455a7aa1d9bbbfc0feb0e8468ffb63f08e0a7c3677e2e7952"
+      },
+      {
+        "bytes": 768,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xss/jsf/autoescape-disabled.yaml",
+        "sha256": "596be892262a1ad8c59692517a9899ce9715992c4ef05b5f4b214803bc8a00cc"
+      },
+      {
+        "bytes": 810,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xss/jsp/no-scriptlets.yaml",
+        "sha256": "7845e0926f0f8f5dfc86156dda7f80f33ce6518e801ab5230ca63bc0fcab7143"
+      },
+      {
+        "bytes": 978,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xss/jsp/use-escapexml.yaml",
+        "sha256": "0c59df6fb25432a10107274686e9e75fc62a1b68aae4e60add973f589735dafb"
+      },
+      {
+        "bytes": 1011,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xss/jsp/use-jstl-escaping.yaml",
+        "sha256": "b10f533018114ec7eb3543f8c2e8214b8f7198a9f64c128ce1ab9aded50bfa9b"
+      },
+      {
+        "bytes": 2765,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xss/no-direct-response-writer.yaml",
+        "sha256": "5bdfe01cbd0d4e5baee7ddd53aee5e6f4a58c88f1a2fc82ab5ce8dd15491c059"
+      },
+      {
+        "bytes": 1285,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xssrequestwrapper-is-insecure.yaml",
+        "sha256": "a1c7934d4ef9eb5b60608e306909b46f3740b748a0c8ce7b6c4da3cd7cdcc269"
+      },
+      {
+        "bytes": 2745,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xxe/documentbuilderfactory-disallow-doctype-decl-false.yaml",
+        "sha256": "7f28db830a5c215e5f4a89c522640a06b320a423bd4f4306491b183c09bf338b"
+      },
+      {
+        "bytes": 6456,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xxe/documentbuilderfactory-disallow-doctype-decl-missing.yaml",
+        "sha256": "b5cb9252ae64f8c45cd58b320a252d8348ba56d5b80b6080541525b63640d2a8"
+      },
+      {
+        "bytes": 1414,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xxe/documentbuilderfactory-external-general-entities-true.yaml",
+        "sha256": "ae92ca7c18863520c16f07ac8be25fc99372d1d0ba2add3f113a3cb023b93f2d"
+      },
+      {
+        "bytes": 1422,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xxe/documentbuilderfactory-external-parameter-entities-true.yaml",
+        "sha256": "326ced48768dc0f4ef9f3488a37da4280304c971e20c46a16ee605da100b2238"
+      },
+      {
+        "bytes": 6671,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xxe/saxparserfactory-disallow-doctype-decl-missing.yaml",
+        "sha256": "80b430caa16f223d4bf7471a6232328dfd55c67265da6e6078670c90aa45dad5"
+      },
+      {
+        "bytes": 7298,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/audit/xxe/transformerfactory-dtds-not-disabled.yaml",
+        "sha256": "5d59a51843eeca45a8584fe69e283e4cd401e4b5c5358dc1aac6948fde812703"
+      },
+      {
+        "bytes": 1141,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/do-privileged-use.yaml",
+        "sha256": "04f6692f4d81104b19d6ee6fd1ac640e4eda31e753c4e9947b2c022d3e3fc667"
+      },
+      {
+        "bytes": 2269,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/httpservlet-path-traversal.yaml",
+        "sha256": "b80ab0816edf64337c2699bad25fe4a71b1c223f51e8eeebc3c2722ad021ae1e"
+      },
+      {
+        "bytes": 1840,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/insecure-jms-deserialization.yaml",
+        "sha256": "5cc32a5221c02f0b1f75228f54e2670fb9e0b94c091416a47ce44669e4c4d5c6"
+      },
+      {
+        "bytes": 2771,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/jackson-unsafe-deserialization.yaml",
+        "sha256": "8bfc4c2bf0c37149ae360e5899887d7799a140437770ae306b58a4dca767c5e6"
+      },
+      {
+        "bytes": 1285,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/java-pattern-from-string-parameter.yaml",
+        "sha256": "1d9ca2d2c8f48f8e8178c0541f75d77cb38367fa7fe27def93883a8bc7c04495"
+      },
+      {
+        "bytes": 1269,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/servletresponse-writer-xss.yaml",
+        "sha256": "15bd86d8dccd2680d4035d27e95ed34d2512ba863812a0bd44ca0adbdd66fa1c"
+      },
+      {
+        "bytes": 1002,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/use-snakeyaml-constructor.yaml",
+        "sha256": "78107010bf3ba6725311a12486620974f8c6bc1c663e1e55f96205da74371c18"
+      },
+      {
+        "bytes": 2134,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/xmlinputfactory-external-entities-enabled.yaml",
+        "sha256": "a3cf33989b9533703d0e3de12ea177382eff6c62471ac279492ce4375302476e"
+      },
+      {
+        "bytes": 2279,
+        "path": "adapters/semgrep/native/v0.9.2/java/rules/xmlinputfactory-possible-xxe.yaml",
+        "sha256": "7c370eb3ba6bb3977e68b2fb0d6bd4e92187d8a17c71f0f4750c36f5d4ef884f"
+      },
+      {
+        "bytes": 92,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/LICENSE",
+        "sha256": "1a6466ae5f1c68631bbd13e3f1aa8f380d84219853c08f0456b853fccfacee1d"
+      },
+      {
+        "bytes": 18627,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/provenance.json",
+        "sha256": "2a0932ac7d9a5706de892530658a452d0087db968baa709fc1dcea9acd6eb824"
+      },
+      {
+        "bytes": 2938,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/code-string-concat.yaml",
+        "sha256": "6a1d29327dd908382bdf9109e223f6ed4ca6167ae2be6617b59191c892e3c0cc"
+      },
+      {
+        "bytes": 1948,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/dangerous-spawn-shell.yaml",
+        "sha256": "1a81f91e9ad9ea4c62a9b0bda4dcf3cf2fc1bb6f2d9e2580ea3effa6bfe9ba74"
+      },
+      {
+        "bytes": 10929,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/detect-non-literal-fs-filename.yaml",
+        "sha256": "3a7da5626cf3186380f3be1daf1ed38ba766075912d9b0dcd7ae73b7c51bb42e"
+      },
+      {
+        "bytes": 1662,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/detect-non-literal-regexp.yaml",
+        "sha256": "cc2b78967131265c24e9700f36195ef1f3ba11f651598ee8a583e900c60e03fc"
+      },
+      {
+        "bytes": 1057,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/detect-non-literal-require.yaml",
+        "sha256": "f02a0340092111bfea7df82492e9f1ad12071403984b9c863c3f755bc815d8c5"
+      },
+      {
+        "bytes": 1411,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/detect-redos.yaml",
+        "sha256": "c649d508a43408dee1339e4f49415cbfb1cacfc7b1cafb7cb22ba81f335665bb"
+      },
+      {
+        "bytes": 1094,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/hardcoded-hmac-key.yaml",
+        "sha256": "fdca07b8fc42fa0d1e24be2a372e719f21b09c060f09716ee7008a1df1dfd52a"
+      },
+      {
+        "bytes": 942,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/incomplete-sanitization.yaml",
+        "sha256": "54b042cc05900fd624852cac1bb4962c2d33a0674d468b4a61a6fae8d2a64250"
+      },
+      {
+        "bytes": 1255,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/md5-used-as-password.yaml",
+        "sha256": "95f8166a5066f012641c89fbc59e9ee98299f886cb70d2057b1e6cc741561b33"
+      },
+      {
+        "bytes": 2067,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/path-traversal/path-join-resolve-traversal.yaml",
+        "sha256": "d9a1c9b559fee5b993bb9150fead40a48570a58f08762d7b6674125f6e0784bc"
+      },
+      {
+        "bytes": 2242,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/prototype-pollution/prototype-pollution-assignment.yaml",
+        "sha256": "c494050bfb86b17b96497f1acb6f2cffe68890c2658e3ccf36945c6fda61e67d"
+      },
+      {
+        "bytes": 2194,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/prototype-pollution/prototype-pollution-loop.yaml",
+        "sha256": "f781360a7d929bea0dacf339e30060e441f9e738aee0d1b6481219fea49126c5"
+      },
+      {
+        "bytes": 1358,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/spawn-shell-true.yaml",
+        "sha256": "452fb593301edca721a151ed3c051f428ca1df1fc1af613380d58b076601b5ba"
+      },
+      {
+        "bytes": 2901,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/sqli/node-knex-sqli.yaml",
+        "sha256": "074be35c73756917896e051a8d77a8a705c7ef54d4846d7a93c829e4d68aabd2"
+      },
+      {
+        "bytes": 1461,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/sqli/node-mssql-sqli.yaml",
+        "sha256": "a3c995249bdd6ffbf3d36ba42cdd1f1c04798bb0e41765bd396a218516e59ee9"
+      },
+      {
+        "bytes": 2077,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/sqli/node-mysql-sqli.yaml",
+        "sha256": "152d5848cbcb5bdd3555507eb4a55b5ee2cd7276effbd5975a7da97d82bba0d0"
+      },
+      {
+        "bytes": 1809,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/sqli/node-postgres-sqli.yaml",
+        "sha256": "23709e35b9ce213d8306c793a3174320dcf3141043e31297fcdec48735c1bbd8"
+      },
+      {
+        "bytes": 1144,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/unknown-value-with-script-tag.yaml",
+        "sha256": "c22e6be10888c9c457ddfb8d75dd70e812d0c9667e9b3bd910e3f3bc504d8892"
+      },
+      {
+        "bytes": 1295,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/unsafe-dynamic-method.yaml",
+        "sha256": "3608be77e1a11f4a4b756b9ccf8cd95e8e93c311f84a69e5483c5af560d5d790"
+      },
+      {
+        "bytes": 1308,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/audit/unsafe-formatstring.yaml",
+        "sha256": "6e0f93aaccf1eb08bd02bd160768d41dda2a3b5de2a26d55e18f417ee0ff408c"
+      },
+      {
+        "bytes": 956,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/detect-buffer-noassert.yaml",
+        "sha256": "e6566d2c7138b038e1c3167f3e9ff98550cf81a2d70caa94a5362a55294077f6"
+      },
+      {
+        "bytes": 2448,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/detect-child-process.yaml",
+        "sha256": "baee696b05b3c38fa5a82435ae458026ec81ce9a6e6a73116d68dc963496296c"
+      },
+      {
+        "bytes": 783,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/detect-disable-mustache-escape.yaml",
+        "sha256": "8d6d81249121230be2d11fd7a2cce2ce23837520f8e0fc1df45868ec159edb09"
+      },
+      {
+        "bytes": 3075,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/detect-eval-with-expression.yaml",
+        "sha256": "3b8fe2524b094c72c34aaa6d21b0408ffdac2471a335125cf726993253777951"
+      },
+      {
+        "bytes": 1017,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/detect-insecure-websocket.yaml",
+        "sha256": "65935c49d62e264a6b85a496455989137d7e82d4698855d511d173ed08ad3099"
+      },
+      {
+        "bytes": 1047,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/detect-no-csrf-before-method-override.yaml",
+        "sha256": "d361537a89c773a4940f107a2e787c6309d121e965a88f471b55d0db15ccb859"
+      },
+      {
+        "bytes": 1037,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/detect-pseudoRandomBytes.yaml",
+        "sha256": "d3c2b2168e6b1efdfc305a783387634e3ead8e0db6d4bdd3417381e177da4058"
+      },
+      {
+        "bytes": 914,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/html-in-template-string.yaml",
+        "sha256": "1c32479fb6228a0a3a3618e6308b5bdfec14f05f7cf12a2321519b4095cf117d"
+      },
+      {
+        "bytes": 953,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/insecure-object-assign.yaml",
+        "sha256": "bc5a5fdef1a8a4889f1d3efebdd3cb1f1e58f5261418928ae6c765eb7f1b2397"
+      },
+      {
+        "bytes": 1298,
+        "path": "adapters/semgrep/native/v0.9.2/javascript/rules/spawn-git-clone.yaml",
+        "sha256": "d87fdf812e1a61f137bde701d75415525ea66c45c593374a6f9ec2081609539f"
+      }
+    ]
+  },
+  "limitations": [
+    "These bounded controls are compatibility/activation evidence, not scored analyzer rows.",
+    "A C# hit demonstrates basic single-function CE support only; it does not authorize expanding the fixed refresh matrix or preregistering a new adapter."
+  ],
+  "observed_rule_hits": {
+    "csharp_negative": false,
+    "csharp_positive": true,
+    "model_sanitizer_negative": false,
+    "model_sanitizer_positive": true,
+    "native_java_negative": false,
+    "native_java_positive": true,
+    "native_javascript_negative": false,
+    "native_javascript_positive": true,
+    "native_python_negative": false,
+    "native_python_positive": true
+  },
+  "qualification_kind": "non-scored compatibility and activation controls; fixed-matrix denominator/results unchanged",
+  "schema": "semgrep-v092-local-qualification/2",
+  "status": "completed",
+  "tool": {
+    "semgrep_cli": {
+      "bytes": 262,
+      "path": "execution-state/v092/tools/semgrep-env/bin/semgrep",
+      "sha256": "423cf0214fb653739f2c904f48eec595ea7c8907130b15eade9c9e00e75745c0"
+    },
+    "semgrep_cli_version": "1.181.0",
+    "semgrep_core": {
+      "bytes": 208435728,
+      "path": "execution-state/v092/tools/semgrep-env/lib/python3.15/site-packages/semgrep/bin/semgrep-core",
+      "reported_version": "unavailable: `semgrep-core --version` rejected in attempt-02",
+      "sha256": "7636986e9277763a842700ad6f60b9acfc62871c084df1daf31d9bec2089f5f2"
+    }
+  }
+}

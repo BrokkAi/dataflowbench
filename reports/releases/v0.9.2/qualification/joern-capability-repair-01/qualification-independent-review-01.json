@@ -1,0 +1,231 @@
+{
+  "schema": "v092-joern-capability-independent-qualification-review/v1",
+  "review_kind": "independent-read-only-fresh-qualification-review",
+  "reviewed_at_utc": "2026-10-23T06:20:10Z",
+  "reviewer_scope": "Read-only review of the completed fresh Joern 4.0.660 control capture and projection-bound qualification outputs. This review did not launch an analyzer, build, replay-heavy verifier, continuation, CodeQL process, or attempt-03 process.",
+  "decision": "approved-for-repaired-plan-diagnostic-admission-only",
+  "approval_boundary": "The fresh controls and their projection-matching receipt are accepted as current Joern 4.0.660 diagnostic qualification evidence for the repaired execution plan. This does not authorize Joern attempt03, CodeQL continuation, full model qualification, scoring, activation, or any claim that the 96 attempted cases have fresh analyzer outputs. Continuation still requires its separate final exact-manifest and launch-guard review.",
+  "reviewer_independence": {
+    "reviewed_by": "joern_repair_independent",
+    "capability_evidence_author": "separate capability-evidence worker",
+    "control_bootstrap_author": "separate shim/control worker",
+    "finalizer_author": "separate qualification-finalizer worker",
+    "analyzer_build_or_launch_by_review": false,
+    "retained_inputs_modified": false,
+    "review_artifact_only_write": true
+  },
+  "exact_bindings": {
+    "implementation": {
+      "path": "scripts/joern_capability_repair_v092.py",
+      "sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+    },
+    "control_launcher": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-controls-01.py",
+      "sha256": "f1f663af4d0272a5469ee85d7b059fb5c4a66df328476e66995f3f913a07f05b"
+    },
+    "diagnostic_reviewer": {
+      "path": "scripts/joern_diagnostic_admission_v092.py",
+      "sha256": "c2faeeb5ef99f539ad8a4bee6fbc85656c0cc142f92196c02f5f26a446140a9e"
+    },
+    "pending_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/pending-execution-plan-01.json",
+      "sha256": "b4f2d8ed15f6c9055baaad7afa71ece638da80b1d87e643aad40ca1f66a18293"
+    },
+    "repaired_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/execution-plan.json",
+      "sha256": "76264424ddfa31b11788459368ae9b65058685cb7bab60d14353d9c96fca102f"
+    },
+    "control_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/control-plan-01.json",
+      "sha256": "ad02fc04ed5e81765160f9e32b9b84d0ee55dfd0460f7a4156c2e6404fe5c7a5"
+    },
+    "control_run": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/run.json",
+      "sha256": "d9c77fe9affacbb27bc3b56d5a73645943502368653905f77435126223637394"
+    },
+    "diagnostic_review": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/diagnostic-admission-review-01.json",
+      "sha256": "55c52e46c66770701316f252ae317bdfe378749a2916f7ac5f61d42398ce67b5"
+    },
+    "qualification_receipt": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/qualification-receipt-01.json",
+      "sha256": "91183615329771d82edf9f46fa0afa088b8e9d858b2d315c6e86f86554b8272a"
+    },
+    "finalization": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/qualification-finalization-01.json",
+      "sha256": "850aaaa182c385c3b9d0982450375c70f3334b571314a0a4fd3bbb2a6548eb75"
+    },
+    "capability_evidence": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+      "sha256": "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005"
+    },
+    "ledger": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "sha256": "ca7152afb422160b30c2f38677aa539a1463b45e3b41131848b3d9e81d4a1084"
+    },
+    "projection_sha256": "aab7ae8939cb963e88b629cd2247ecba5ab71431456f3b94d18028d2e227ec41",
+    "population_sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+    "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+    "base_v092_plan": {
+      "path": "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json",
+      "sha256": "e5cfd9d5473fd47f54de25d74a6f945c667c086ce471d5f6cdcead797bf9e3ab"
+    }
+  },
+  "fresh_runtime": {
+    "adapter_version": "joern-normal-v092",
+    "tool": "joern",
+    "tool_version": "4.0.660",
+    "tool_build_identity": "joern-cli:4.0.660;engine:309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00;frontend:d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+    "identity_witness": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/identity.json",
+      "sha256": "3ba8c3b6d9c0403fb6774550dbfe1db04494a0212df8ca91899c836070a65c50"
+    },
+    "runtime_components_verified": true,
+    "command_environment_verified_against_version_witness": true,
+    "measurement_wrapper": [],
+    "known_runtime_observation_limits": [
+      "discovery_complete=false",
+      "descendant_containment=unproven",
+      "memory_compliance=unproven",
+      "tracked-process polling may miss fast reparented descendants"
+    ]
+  },
+  "fresh_control_matrix": {
+    "group_id": "joern-swift-common108",
+    "control_case_count": 6,
+    "case_arm_count": 12,
+    "phase_invocation_count": 36,
+    "controls": [
+      "direct-negative",
+      "direct-positive",
+      "dfb-taint-swift-model-opaque-propagator-negative",
+      "dfb-taint-swift-model-opaque-propagator-positive",
+      "dfb-taint-swift-model-propagator-position-negative",
+      "dfb-taint-swift-model-propagator-position-positive"
+    ],
+    "arms": ["off", "on"],
+    "outcome_matrix": {
+      "direct-negative": {"off": "not-reached", "on": "not-reached"},
+      "direct-positive": {"off": "reached", "on": "reached"},
+      "opaque_model_arms": {
+        "count": 8,
+        "raw_outcome": "inconclusive",
+        "typed_state": "inconclusive",
+        "diagnostic": "Incomplete:EndpointIdentity:source native endpoint missing at exact anchor"
+      }
+    },
+    "fresh_output_roots": true,
+    "old_capture_paths_reused": false
+  },
+  "command_and_input_equivalence": {
+    "retained_control_run": {
+      "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04/run.json",
+      "sha256": "a4f68131bce1b79151ad361a2e05b861f37a1c43f74d1fcb660d4082f9bf4ada"
+    },
+    "case_arm_keys_exact": true,
+    "fixture_maps_exact": {"checked": 12, "matching": 12},
+    "config_bindings_exact": {"checked": 12, "matching": 12},
+    "source_closure_entries_hash_verified": {"checked": 12, "matching": 12},
+    "normalized_phase_input_signatures_exact": {"checked": 36, "matching": 36},
+    "fresh_command_sidecars": {
+      "checked": 36,
+      "all_paths_and_hashes_match_raw_records": true,
+      "all_exit_status_zero": true,
+      "all_timed_out_false": true,
+      "roles": ["analysis"],
+      "phase_order": ["typecheck", "frontend", "query"]
+    },
+    "fresh_raw_integrity": {
+      "run_raw_refs_checked": 12,
+      "diagnostic_raw_graph_cpg_refs_checked": 24,
+      "native_output_refs_checked": 144,
+      "command_refs_checked": 36,
+      "identity_component_refs_checked": 48,
+      "fixture_file_refs_checked": 12,
+      "source_closure_file_refs_checked": 12,
+      "hash_errors": 0
+    }
+  },
+  "strict_assessment": {
+    "run_status": "incomplete",
+    "receipt_status": "measurement-with-known-limits",
+    "diagnostic_execution_eligible": true,
+    "execution_eligible": true,
+    "full_model_qualification": false,
+    "scored_activation": false,
+    "partition_registered": false,
+    "absence_completeness": "unproven",
+    "opaque_model_failures": 8,
+    "direct_controls_passed_expected_raw_outcomes": 4,
+    "failure_set_is_exactly_the_eight_opaque_arms": true
+  },
+  "capability_mapping": {
+    "attempt_case_count": 96,
+    "capability_count": 96,
+    "unsupported_case_count": 12,
+    "explicit_disposition_count": 108,
+    "attempt_case_set_exact": true,
+    "required_capability": {
+      "identity_gate": "exact-native-edges",
+      "model_mode": "off",
+      "model_status": "unqualified"
+    },
+    "all_96_match_capability_patch": true,
+    "all_96_match_historical_evidence_binding": true,
+    "historical_raw_manifest": {
+      "path": "reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01",
+      "case_count": 96,
+      "sha256": "70859fa7314ec8715f23f219fd2471029874ae222c264fb4171f64e9e415ea19",
+      "historical_identity": "joern-cli:4.0.628;engine:e63635788249ef86d87bb75c9f37929ab2309fd557e7e147765b73dbd0ac077b;frontend:4ff227bc75781d846d1076221032df8b47c0ee7f4fa1687a161c791e59006f19"
+    },
+    "provenance_boundary": "The historical 4.0.628 raw evidence justifies the exact metadata delta. It is not substituted for current 4.0.660 analyzer output or model qualification.",
+    "unsupported_case_ids": [
+      "dfb-taint-swift-native-entrypoint-negative",
+      "dfb-taint-swift-native-entrypoint-positive",
+      "dfb-taint-swift-native-persistence-negative",
+      "dfb-taint-swift-native-persistence-positive",
+      "dfb-taint-swift-native-propagator-negative",
+      "dfb-taint-swift-native-propagator-positive",
+      "dfb-taint-swift-native-sanitizer-negative",
+      "dfb-taint-swift-native-sanitizer-positive",
+      "dfb-taint-swift-native-source-sink-negative",
+      "dfb-taint-swift-native-source-sink-positive",
+      "dfb-taint-swift-native-summary-negative",
+      "dfb-taint-swift-native-summary-positive"
+    ],
+    "unsupported_rows_unchanged": true,
+    "base_non_capability_fields_unchanged": true
+  },
+  "projection_and_finalization": {
+    "pending_to_final_allowed_differences_only": [
+      "/diagnostic_execution_eligible",
+      "/execution_eligible",
+      "/fresh_qualification",
+      "/registered_at_unix_seconds",
+      "/status"
+    ],
+    "final_plan_projection_matches_control_plan_run_receipt": true,
+    "finalization_status": "replayed-qualification-independent-review-pending",
+    "finalization_analyzer_invoked": false,
+    "finalization_fresh_case_arms": 12,
+    "finalization_fresh_phase_invocations": 36,
+    "finalization_ledger_unchanged": true,
+    "finalizer_reported_repaired_plan_preflight_passed": true
+  },
+  "diagnostic_limits_and_provenance_gaps": [
+    "The eight opaque model arms remain incomplete because exact native endpoint identity is absent at the registered source anchor; no approximate or inferred edge was admitted.",
+    "Analysis exhaustion and absence completeness remain unproven under the bounded settings (max_call_depth=4, max_args_to_allow=1000, max_output_args_expansion=1000).",
+    "Aggregate resource qualification remains unavailable and the repaired plan records resources.status=not-reserved; any continuation launcher must perform its own current resource and process guards.",
+    "The command probes preserve discovery_complete=false, descendant_containment=unproven, and memory_compliance=unproven; these are retained limits rather than a clean-resource claim.",
+    "The old 4.0.628 evidence and the fresh 4.0.660 controls have distinct identities; the former is metadata provenance only."
+  ],
+  "remaining_gates": [
+    "Separate continuation static/final-manifest review must pass before any Joern03 or CodeQL process is launched.",
+    "A successful diagnostic receipt must not be promoted to full model qualification, score, activation, or complete 108-case analyzer evidence."
+  ],
+  "nonclaims": [
+    "No current Joern 4.0.660 analyzer output exists for the 96 attempted cases as a consequence of this review.",
+    "No old raw/control artifact was rewritten or rebound as the fresh capture.",
+    "No analyzer, build, attempt03, CodeQL, scoring, or activation execution was performed by this review."
+  ]
+}

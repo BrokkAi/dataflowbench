@@ -1,0 +1,893 @@
+{
+  "basis": "retained-v0.9.0-controls-with-exact-tool-runtime-tree-and-command-configuration",
+  "exact_identity_evidence": {
+    "bindings_draft": {
+      "path": "execution-state/v092/bindings-draft-01.json",
+      "sha256": "ad242740e9cd3e8e93f066ec18f17a09834d3448199f25cadd29cf01ebcdc7a5",
+      "status": "incomplete-not-executable"
+    },
+    "held_v090_component_digests": {
+      "infer": {
+        "id": "infer",
+        "path": "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+        "sha256": "17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62"
+      }
+    },
+    "java_and_kotlin_version_witness": {
+      "java_home": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+      "java_version_output_sha256": "685aa1129360c32e859043c5eb1309ebb42d545000e745349b953c74f5b6c9db",
+      "javac_version_output_sha256": "6de9f97e20ff9b630e1e9bbb4cee4ea86199d311251c1c25194696fcdf44988e",
+      "kotlinc_version_output_sha256": "fb9fada295df72ea5fab8ebaddefaa911180de178d84d7f1e8e4894f5f4b7950",
+      "path": "reports/releases/v0.9.0/execution-v1/dependency-version-witnesses.json",
+      "sha256": "50d7d8566cb24d1fdee789bfc7932463f3d014c8702f69822101db46ba916480",
+      "whole_v090_java_tree_digest_available": false,
+      "whole_v090_kotlinc_distribution_digest_available": false
+    },
+    "runtime_tree": {
+      "current_manifest": {
+        "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/infer.json",
+        "sha256": "b71836d85ddc0188808b0d8d58d8489ed2d9e9242371dc1aa99b9b986aad091a"
+      },
+      "entry_count": 5781,
+      "file_count": 5396,
+      "old_manifest": {
+        "path": "reports/releases/v0.9.0/execution-v1/runtime-trees/infer.json",
+        "sha256": "f88687f03e98358896cbfe4974978b33da2260af42fe72cf8613fb11270aec76"
+      },
+      "root": "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0",
+      "symlink_count": 43,
+      "v090_live_entry_equality": true,
+      "v092_inventory_live_equality": true
+    }
+  },
+  "execution_eligible": true,
+  "group_components": {
+    "infer-c-kernel": [
+      "infer",
+      "infer-runtime",
+      "java-runtime"
+    ],
+    "infer-cpp-kernel": [
+      "infer",
+      "infer-runtime",
+      "java-runtime"
+    ],
+    "infer-java-kernel": [
+      "infer",
+      "infer-runtime",
+      "java-runtime",
+      "javac"
+    ],
+    "infer-java-modeling": [
+      "infer",
+      "infer-runtime",
+      "java-runtime",
+      "javac"
+    ],
+    "infer-java-native": [
+      "infer",
+      "infer-runtime",
+      "java-runtime"
+    ]
+  },
+  "groups": [
+    "infer-c-kernel",
+    "infer-cpp-kernel",
+    "infer-java-kernel",
+    "infer-java-modeling",
+    "infer-java-native"
+  ],
+  "identity_components": [
+    {
+      "name": "infer",
+      "path": "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+      "sha256": "17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62",
+      "version": "v1.3.0"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "infer-runtime",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/infer.json",
+      "sha256": "b71836d85ddc0188808b0d8d58d8489ed2d9e9242371dc1aa99b9b986aad091a"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "java-runtime",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/java.json",
+      "sha256": "76ddb265fbaeecf1908ea934d2d64b079372e13f1307ff5d2b94957ba40ac1a6"
+    },
+    {
+      "name": "javac",
+      "path": "/usr/bin/javac",
+      "sha256": "51ec0764f7225b40d5b286b01401aa6b3990d0d171b446d7dc81ca7542b45552"
+    }
+  ],
+  "limits": [
+    "The v0.9.0 control captures are retained as qualification evidence; their normal-group reports are not copied or promoted as v0.9.2 measurements.",
+    "The v0.9.0 control inventory still labels these rows registered-pending-final-executable-plan-review; this receipt independently verifies each start/completion record, command, source script, streams, and captured output hashes.",
+    "The v0.9.0 record binds Temurin 21.0.8 and the same JAVA_HOME, but does not retain a full Java runtime tree digest; current v0.9.2 Java runtime inventory is verified against the live tree only.",
+    "Kotlin compiler 2.4.10 is version/path-bound in v0.9.0 and the current v0.9.2 compiler file is hashed, but v0.9.0 did not retain a full Kotlin compiler distribution digest.",
+    "These receipts authorize attempts for the listed groups; they do not assert v0.9.2 analyzer coverage, completeness, or group outcomes. The v0.9.2 bindings draft remains incomplete until unrelated pending components are qualified."
+  ],
+  "release": "v0.9.2",
+  "review_implementation": {
+    "path": "scripts/bind-v092-retained-qualification.py",
+    "sha256": "c532f7d44e52c337d2ae3bda35dcd765636930ba5b64fa1edf969f9c09bd856f"
+  },
+  "schema": "v092-retained-tool-qualification/v1",
+  "status": "measurement-with-known-limits",
+  "tool": {
+    "name": "infer",
+    "path": "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+    "report_version": "v1.3.0",
+    "sha256": "17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62",
+    "version": "v1.3.0"
+  },
+  "v090_configuration": {
+    "contract": {
+      "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/contract.json",
+      "sha256": "4a4c27f07671443c01d15d485b02d49dc4d0968491a008af416a3fadf847c757"
+    },
+    "controls": [
+      {
+        "argv_sha256": "0089375385b6dcdd328f0b198ecb773eceb8de0a17194d266dd8ec0bd10a08f7",
+        "capture_count": 52,
+        "capture_manifest_sha256": "ce55171ccc01a144f109429f3760474bb33a042326613f8717a139770106ec97",
+        "captured_files": [
+          {
+            "bytes": 2372,
+            "path": "reports/raw/amendment-a13-infer-partition/e-entrypoint-parameter-positive-with-source.json",
+            "sha256": "b3783cf8ac54d5a47f4d0895458b759f0c5a1af21b29dcaeed3eb7a71f27c7a7"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a13-infer-partition/e-entrypoint-parameter-positive-with-source.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 2893,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-field-negative-with-field-summary.json",
+            "sha256": "6c3e60cf97402e503e1f9e71f56a43e760931a02143423acbc1c0b650ee4e1cc"
+          },
+          {
+            "bytes": 2269,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-field-negative-with-field-summary.sarif.json",
+            "sha256": "53ce3fded3db6f371ca6c8ec18acfe1f0b561e41da13384b1f54953d0d95c119"
+          },
+          {
+            "bytes": 2032,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-field-positive-unmodeled.json",
+            "sha256": "510023cc40255b1fcbfefce457b0dae94d44327ef190b9bf01e2d858e8b05964"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-field-positive-unmodeled.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 2895,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-field-positive-with-field-summary.json",
+            "sha256": "7e3aede71de0bc1eed3d277bef042e5d449ae6496700aa010f7663cd390bbed6"
+          },
+          {
+            "bytes": 2698,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-field-positive-with-field-summary.sarif.json",
+            "sha256": "ddf1b44683efcc80f8a89442bfbf967799938c207f5974c0e8a7f2093b35a595"
+          },
+          {
+            "bytes": 2496,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-through-negative-unmodeled.json",
+            "sha256": "685d2aef7c3d60c4bc38f2a621cdc2379604e30b2eca12e02b0cd9deb02bce9d"
+          },
+          {
+            "bytes": 2286,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-through-negative-unmodeled.sarif.json",
+            "sha256": "95f473828284aaf1a0cc33f1a67ba53d26660b2050d429468faa6399aa821059"
+          },
+          {
+            "bytes": 2574,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-through-positive-opaque-files.json",
+            "sha256": "a653ba6b6e8d6d9b6ab18a8a6a42b27650fc5a78266e4df5941d5573221cf740"
+          },
+          {
+            "bytes": 2295,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-through-positive-opaque-files.sarif.json",
+            "sha256": "08b785d1a182c08040771c444c6fe7680e54c487f2f7e255a3fcf7b31aca2f36"
+          },
+          {
+            "bytes": 2496,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-through-positive-unmodeled.json",
+            "sha256": "ec83a93fc388e9cf8631ad8505eea700182fa8d349ed2c51df03baf9f8d6f601"
+          },
+          {
+            "bytes": 2286,
+            "path": "reports/raw/amendment-a13-infer-partition/o-summary-through-positive-unmodeled.sarif.json",
+            "sha256": "ea36d689c515caff7dc2ac11dd1b27b7de171a1486a53ec3fa53dba5198ebcc2"
+          },
+          {
+            "bytes": 2041,
+            "path": "reports/raw/amendment-a13-infer-partition/p-opaque-propagator-negative-with-model.json",
+            "sha256": "318a2692fafc16f85639650e186b3d0225e0ccb6731a54e65fcc7943df5c9454"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a13-infer-partition/p-opaque-propagator-negative-with-model.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 2508,
+            "path": "reports/raw/amendment-a13-infer-partition/p-opaque-propagator-positive-with-model.json",
+            "sha256": "8672edbe6a6786bd2425e884eba5b3672985c65e9b667f9e404172ce6a1f28fc"
+          },
+          {
+            "bytes": 2745,
+            "path": "reports/raw/amendment-a13-infer-partition/p-opaque-propagator-positive-with-model.sarif.json",
+            "sha256": "bf4eac6605b2f906679794a7583cc13343b54c60fa8974ea4ec5a9238f64dfd2"
+          },
+          {
+            "bytes": 1855,
+            "path": "reports/raw/amendment-a13-infer-partition/p-opaque-propagator-positive-without-model.json",
+            "sha256": "412da8be81ec3d4e272e8ec42cdfa31320c9c017913c5a931ba763ff0ac7d3b9"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a13-infer-partition/p-opaque-propagator-positive-without-model.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 2770,
+            "path": "reports/raw/amendment-a13-infer-partition/p-propagator-position-negative-unknown-field.json",
+            "sha256": "51838d5ae85d397861eb64e79772dfb0413b14345f5e62d26f47e5e49b880837"
+          },
+          {
+            "bytes": 2807,
+            "path": "reports/raw/amendment-a13-infer-partition/p-propagator-position-negative-unknown-field.sarif.json",
+            "sha256": "e342196ece3a7f2b6c1b183cb4390e632fe083b78114cb007913196e8ce1116f"
+          },
+          {
+            "bytes": 2713,
+            "path": "reports/raw/amendment-a13-infer-partition/p-propagator-position-negative-with-select.json",
+            "sha256": "f46a4cc18e0612d7a7994711e30c83614acade24dc5e9c50524cadd3db4a840f"
+          },
+          {
+            "bytes": 2799,
+            "path": "reports/raw/amendment-a13-infer-partition/p-propagator-position-negative-with-select.sarif.json",
+            "sha256": "c705c33ddf91064feee27e845d4961971c4be96d10b668ecb7bb110dca7d6a62"
+          },
+          {
+            "bytes": 2713,
+            "path": "reports/raw/amendment-a13-infer-partition/p-propagator-position-positive-with-select.json",
+            "sha256": "08f65970e9d16537c231fea7e8e3637e280a7fc8c1e0ee7b573ee64b7066a4c6"
+          },
+          {
+            "bytes": 2799,
+            "path": "reports/raw/amendment-a13-infer-partition/p-propagator-position-positive-with-select.sarif.json",
+            "sha256": "6f17ba98dd7fed711591959af7014147b03a32cf732d1c48684240a046f37db7"
+          },
+          {
+            "bytes": 8702,
+            "path": "reports/raw/amendment-a13-infer-partition/pulse-taint-config-surface.txt",
+            "sha256": "9b954928051c029270accfc78eb25f2f757553ee646933652e93d939e2535f7e"
+          },
+          {
+            "bytes": 2033,
+            "path": "reports/raw/amendment-a13-infer-partition/s-declared-sink-negative-with-model.json",
+            "sha256": "06aecfdba2a2f1af13272610090f7208ff4610ba38dc3516c46e5019e66b3f72"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a13-infer-partition/s-declared-sink-negative-with-model.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 2484,
+            "path": "reports/raw/amendment-a13-infer-partition/s-declared-sink-positive-with-model.json",
+            "sha256": "d8a41ac6e1817fb28823aea90db93dea7018bf3225f8332dfa476a5e52c46b50"
+          },
+          {
+            "bytes": 2236,
+            "path": "reports/raw/amendment-a13-infer-partition/s-declared-sink-positive-with-model.sarif.json",
+            "sha256": "5d9e3d51ad82f828a343a79f715a6b0770a16d1c871da7d65f1ee4b0d5f9dcbe"
+          },
+          {
+            "bytes": 2037,
+            "path": "reports/raw/amendment-a13-infer-partition/s-declared-source-negative-with-model.json",
+            "sha256": "25b77dc6a4860f9cee686b0edca8c2dbdc523cadc088e3343715d2279698aa29"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a13-infer-partition/s-declared-source-negative-with-model.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 2478,
+            "path": "reports/raw/amendment-a13-infer-partition/s-declared-source-positive-with-model.json",
+            "sha256": "f601807c85edcde167c8c317cb03e84a9beb553db16adbc48796b3af34b40005"
+          },
+          {
+            "bytes": 2250,
+            "path": "reports/raw/amendment-a13-infer-partition/s-declared-source-positive-with-model.sarif.json",
+            "sha256": "f9592dd95c1bda62d58929adaa48e21377c903d48f88bb0e3c96f98b2038a916"
+          },
+          {
+            "bytes": 1821,
+            "path": "reports/raw/amendment-a13-infer-partition/s-declared-source-positive-without-model.json",
+            "sha256": "d6af961583ebea765b4582755d9d1eb9688aac345ffd325799e671eaafa7f6c9"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a13-infer-partition/s-declared-source-positive-without-model.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 21,
+            "path": "reports/raw/amendment-a13-infer-partition/witnessed-version.txt",
+            "sha256": "6fbc8c350c86f4ca36e7a4185214a03b7507f2edcc0962b663ffac9ffbf3306f"
+          },
+          {
+            "bytes": 2397,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-kill-negative-unwired.json",
+            "sha256": "054f418beb5f9693572163d502c6e65d1a81c8cdbfb64eacc99b72dc7453d728"
+          },
+          {
+            "bytes": 2266,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-kill-negative-unwired.sarif.json",
+            "sha256": "e31a2ddb3c6d8d6a98e77127a3c2ee32c4286644cda50ef1bae62a3b9bb5644b"
+          },
+          {
+            "bytes": 2035,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-kill-negative-with-model.json",
+            "sha256": "af0678ddc1c9f98ee384acfd953878c0b407336f36b63154e75690d9c6122f2f"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-kill-negative-with-model.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 2276,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-kill-negative-without-model.json",
+            "sha256": "6494016f099dd752e59d892ea385b3c5aa1ff572f090b8fd74ccd44306c29c5f"
+          },
+          {
+            "bytes": 2284,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-kill-negative-without-model.sarif.json",
+            "sha256": "ebed065bdf8b6f17d1e21e2d5daf2c126abe9f7befe9af0eaf7032dead11ec0b"
+          },
+          {
+            "bytes": 2512,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-kill-positive-with-model.json",
+            "sha256": "de5974159e986f4ef181d62a6b9b14903f8c6ccc9fee960aa98c327012f65326"
+          },
+          {
+            "bytes": 2295,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-kill-positive-with-model.sarif.json",
+            "sha256": "97c65d096b1dbb72f79aa2046a6be2f56dfcce5a94c38aca7ddd8cbf868130ae"
+          },
+          {
+            "bytes": 2049,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-selectivity-negative-with-model.json",
+            "sha256": "603b0a109ddee118965e15b5973a40b52e81fafebfb4a2a2906645180c047b9c"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-selectivity-negative-with-model.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 2530,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-selectivity-positive-with-model.json",
+            "sha256": "a7e848bd54806672eca9ff5790b8ad0f0fb4ab589c5d59f2785c9460e6c5f472"
+          },
+          {
+            "bytes": 2376,
+            "path": "reports/raw/amendment-a13-infer-partition/z-sanitizer-selectivity-positive-with-model.sarif.json",
+            "sha256": "fa69da3c063cc29ec927c6e67237211a51f595b084a2532ebb781d73d4055ded"
+          },
+          {
+            "bytes": 15,
+            "path": "reports/raw/control-scratch/probe-infer-modeling-partition/args.tmp.862bdc",
+            "sha256": "2250e15551667b5a380a0453e9ef8fddc31d7a379fa788dded7a2e969c81fdc0"
+          },
+          {
+            "bytes": 10,
+            "path": "reports/raw/control-scratch/probe-infer-modeling-partition/args.tmp.a0893b",
+            "sha256": "f33a05f688572560c46ab9158f696b52b0f2b30b8aca340c9cda64497fedae2e"
+          }
+        ],
+        "completion_receipt": {
+          "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-modeling-partition/attempt-01/completed.json",
+          "sha256": "132341b95320ca3a29bd612c62a8c2171ac8f349ac236767ec9207c8cc81d948"
+        },
+        "component_aliases_used": [
+          "infer",
+          "infer-runtime",
+          "javac"
+        ],
+        "control_inventory_status": "registered-pending-final-executable-plan-review",
+        "duration_seconds": 103.043312291,
+        "environment_sha256": "434295df27851a0d9cb4897a7d39233dd853bac77adc7d131a08797a0ef2d56f",
+        "exit_code": 0,
+        "id": "probe-infer-modeling-partition",
+        "script": {
+          "path": "scripts/probe-infer-modeling-partition.sh",
+          "sha256": "9b3c523f6d6524beef18dc877dfdeb5344cbed1e5bcd99e19bfe870b06c8bb23"
+        },
+        "started_receipt": {
+          "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-modeling-partition/attempt-01/started.json",
+          "sha256": "5f3bee692a8d372b6ed278c2180fc77abe1090c1d236e9354296fbc21e880bed"
+        },
+        "status": "completed",
+        "streams": {
+          "stderr": {
+            "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-modeling-partition/attempt-01/stderr.txt",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-modeling-partition/attempt-01/stdout.txt",
+            "sha256": "bbcd03cc9af61d38e7e245b2a772e6c26ccb0f0edd7a16b3daf720cf648f62df"
+          }
+        }
+      },
+      {
+        "argv_sha256": "8b999a57c4abfc4b32b7cc8b0c2519af42899a7de6b275d3c348d8587f667d43",
+        "capture_count": 34,
+        "capture_manifest_sha256": "c96351214d9b0ad681dfb902ba1a6a67dea92c6a24c5410c56db3c9b98663624",
+        "captured_files": [
+          {
+            "bytes": 2800,
+            "path": "reports/raw/amendment-a28-infer-native-activation/engagement-proof-transcript.txt",
+            "sha256": "0cf1990faede30e18e4441b8191fea9e298fcea5658f51c67bdf592ccc0d2b73"
+          },
+          {
+            "bytes": 463,
+            "path": "reports/raw/amendment-a28-infer-native-activation/engagement-proof.json",
+            "sha256": "6c3eb2877c42c92fb5dee875b5b937544fc32c617094ef3de09e0d78dd58a699"
+          },
+          {
+            "bytes": 369,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-entrypoint-negative-full-default.json",
+            "sha256": "36b33450cce87acb1cbd8a1bc6acbd5000cc8b5c00df27b7211212cd8fdc4560"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-entrypoint-negative-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 369,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-entrypoint-positive-full-default.json",
+            "sha256": "db6935fba03f36ab76212b04459c7483ce9dd57d6959f2782a3fa9c4f3ac7e70"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-entrypoint-positive-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 370,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-persistence-negative-full-default.json",
+            "sha256": "eec98b6433c39a3e624f3e175d9268639c2f8c07abbd7a4d607d86ff08720bff"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-persistence-negative-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 370,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-persistence-positive-full-default.json",
+            "sha256": "e15c047e24f05b8f67af330984428a8c00e9491627927509987399d3fa4e7cd9"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-persistence-positive-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 369,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-propagator-negative-full-default.json",
+            "sha256": "3baa723aeefd0142d43b60c318919283c9f53dee7dbf445e5e2a79eca406b3e0"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-propagator-negative-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 369,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-propagator-positive-full-default.json",
+            "sha256": "8c57998c8731cc57be10440a9a9279d5455b51970693935639436c0920f70d6b"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-propagator-positive-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 368,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-sanitizer-negative-full-default.json",
+            "sha256": "2ac353626f49a7881c642748a84dcd35de094f6324d785240e9bd934ac629194"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-sanitizer-negative-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 368,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-sanitizer-positive-full-default.json",
+            "sha256": "78c577affe426d283a2637f1a1c40238915643be4544116964d4cb56f9998ab1"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-sanitizer-positive-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 370,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-source-sink-negative-full-default.json",
+            "sha256": "90e82fb6d0f82e314f8badafe8717575ea7f9339955c8085824d53a9ea416310"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-source-sink-negative-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 370,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-source-sink-positive-full-default.json",
+            "sha256": "f4cb8f75031cc69c71fb95c4e9b01fe58dd7db7b070fa7a35f207122b1fbaee0"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-source-sink-positive-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 366,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-summary-negative-full-default.json",
+            "sha256": "f147e71c5c57929b4e879dbf18e9cd3e133c4e0198af6e34b674c0b231800abf"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-summary-negative-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 366,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-summary-positive-full-default.json",
+            "sha256": "3d5473bbdfee1039abf7138a1778dcfcbbe8c07d0c446f92e4ac5beb92b654bf"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a28-infer-native-activation/native-summary-positive-full-default.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 1447,
+            "path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle-manifest.json",
+            "sha256": "fab7a4d402736caad5f74408be8395e0f005cad4ff1e13cff8ad2fc49538df85"
+          },
+          {
+            "bytes": 132,
+            "path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/README.md",
+            "sha256": "5a492117892f3f3e25974b15b08f9ae6cd1b6003db366cd32d598d8825ae9c7a"
+          },
+          {
+            "bytes": 3191,
+            "path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSArray_taintconfig.json",
+            "sha256": "650edccc546367d2a79c64c9b29c016e6d24f60dff3ec5ea305479349fbe8bc6"
+          },
+          {
+            "bytes": 2470,
+            "path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSDictionary_taintconfig.json",
+            "sha256": "bd205e3f60200267bf47aeda85335e1300c4e1cb7a2f801cdb5a0e47a698e46b"
+          },
+          {
+            "bytes": 1633,
+            "path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSSet_taintconfig.json",
+            "sha256": "b065f5d6be2368a706cf9eee2d6899e5047ea989e1902dc0c68d5ad6350478d2"
+          },
+          {
+            "bytes": 130,
+            "path": "reports/raw/amendment-a28-infer-native-activation/shipped-taint-bundle/taint/objc/NSLib/NSString_taintconfig.json",
+            "sha256": "eaab6258a9f8952c7f8e2be3a632ffb90d79ae1d13ca70bb3b1a67a691ce960b"
+          },
+          {
+            "bytes": 21,
+            "path": "reports/raw/amendment-a28-infer-native-activation/witnessed-version.txt",
+            "sha256": "6fbc8c350c86f4ca36e7a4185214a03b7507f2edcc0962b663ffac9ffbf3306f"
+          },
+          {
+            "bytes": 10,
+            "path": "reports/raw/control-scratch/probe-infer-native-activation/args.tmp.62a0bc",
+            "sha256": "f33a05f688572560c46ab9158f696b52b0f2b30b8aca340c9cda64497fedae2e"
+          }
+        ],
+        "completion_receipt": {
+          "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-native-activation/attempt-01/completed.json",
+          "sha256": "87b68b39d1504bea83bede70515f1ad10db946cc1a28806f6c5f28e5c54997ac"
+        },
+        "component_aliases_used": [
+          "infer",
+          "infer-runtime",
+          "javac"
+        ],
+        "control_inventory_status": "registered-pending-final-executable-plan-review",
+        "duration_seconds": 53.216779625,
+        "environment_sha256": "5b6c798c557bb98cf7693349decbf4ab347a9f1a10dfba14e179608a24ba1e04",
+        "exit_code": 0,
+        "id": "probe-infer-native-activation",
+        "script": {
+          "path": "scripts/probe-infer-native-activation.sh",
+          "sha256": "d10617b106bea4104dd2887c9d468b0312af0647e23f3a07928a62c78774c064"
+        },
+        "started_receipt": {
+          "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-native-activation/attempt-01/started.json",
+          "sha256": "96c0a21e778d1ba37b8ea4365483024df7bac57fc6d15704531844d618c354be"
+        },
+        "status": "completed",
+        "streams": {
+          "stderr": {
+            "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-native-activation/attempt-01/stderr.txt",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-native-activation/attempt-01/stdout.txt",
+            "sha256": "2547bf88889a7a4eb957a8d415e3618eb443de83076180981a48ad3297a264d8"
+          }
+        }
+      },
+      {
+        "argv_sha256": "fe90893b9a59a9cf381e5f7e592b9d899702a884f9f7c7b77164f3bd540c0009",
+        "capture_count": 28,
+        "capture_manifest_sha256": "e8a4c9bc2676593b4562936d25bbba362d1c997b40b25b014da628ae7b06faea",
+        "captured_files": [
+          {
+            "bytes": 1159,
+            "path": "reports/raw/amendment-a14-infer-native-silence/always-enabled-policy-help.txt",
+            "sha256": "0582e7d12ac7c3f876bab65be6710a9494a3a8cf8d1d63bc1019e2a3a63ed70c"
+          },
+          {
+            "bytes": 312,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-entrypoint-negative.json",
+            "sha256": "0d35e9d7fe9202ecc7220fa1609ef634e9524abbe8a271f580918001a9cec97b"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-entrypoint-negative.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 312,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-entrypoint-positive.json",
+            "sha256": "f798f275d61590c791f5d6404a0c29daebac751343d0ba42dedf3fca0961167a"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-entrypoint-positive.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 313,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-persistence-negative.json",
+            "sha256": "b86e96158cfd736a5cbf46636ee21d5b77c1da1300cbc747b0a95dd343574553"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-persistence-negative.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 313,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-persistence-positive.json",
+            "sha256": "5c014802f5d832a9f7c3e33c16126430c715f01b0b15cf549a97001d44c2fa83"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-persistence-positive.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 312,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-propagator-negative.json",
+            "sha256": "4aaecf318cfa28bbb47692133cb02e68ec1706cb7cf060fd44e10f31c2552e44"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-propagator-negative.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 312,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-propagator-positive.json",
+            "sha256": "6249016e9fb9b4de0333ae1348830724536fad83ed981e9cd5ca97938d6bc370"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-propagator-positive.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 311,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-sanitizer-negative.json",
+            "sha256": "1e28457b30ebea2cd474de2d095e326c542c21cbaa51c488cb017bb4bba905a4"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-sanitizer-negative.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 311,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-sanitizer-positive.json",
+            "sha256": "17002d219a7fde5054c241a1827e228d66618304f9708ab1105fe2a318d2dd61"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-sanitizer-positive.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 313,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-source-sink-negative.json",
+            "sha256": "5929b289a7f41f4ca814139e9b8c77754b428ccf9f642bec04563118573f63eb"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-source-sink-negative.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 313,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-source-sink-positive.json",
+            "sha256": "640b8b5b7499bb35a283af80ec2e1d11c4d66b6d29349762617cec22e27ba4b0"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-source-sink-positive.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 309,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-summary-negative.json",
+            "sha256": "d4b5e96240d57325cffedde5cc6d27a35f9b5d0324a699542ca25d76b0ab19f9"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-summary-negative.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 309,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-summary-positive.json",
+            "sha256": "c883bb2cdd718c62337b72a4bcc59e2c729d19bf62a89c5b4a2796f421ee36c3"
+          },
+          {
+            "bytes": 219,
+            "path": "reports/raw/amendment-a14-infer-native-silence/native-summary-positive.sarif.json",
+            "sha256": "49d8adf951f538b74d10e1909a986ca4e62156e081b048aec3b5aa13e89d0811"
+          },
+          {
+            "bytes": 21,
+            "path": "reports/raw/amendment-a14-infer-native-silence/witnessed-version.txt",
+            "sha256": "6fbc8c350c86f4ca36e7a4185214a03b7507f2edcc0962b663ffac9ffbf3306f"
+          },
+          {
+            "bytes": 15,
+            "path": "reports/raw/control-scratch/probe-infer-native-silence/args.tmp.75a831",
+            "sha256": "2250e15551667b5a380a0453e9ef8fddc31d7a379fa788dded7a2e969c81fdc0"
+          },
+          {
+            "bytes": 10,
+            "path": "reports/raw/control-scratch/probe-infer-native-silence/args.tmp.d1a4a2",
+            "sha256": "f33a05f688572560c46ab9158f696b52b0f2b30b8aca340c9cda64497fedae2e"
+          }
+        ],
+        "completion_receipt": {
+          "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-native-silence/attempt-01/completed.json",
+          "sha256": "febfcab68dbb6d4dee7b97d402c16801baf3796bd66e7131571a86c4b69a86f4"
+        },
+        "component_aliases_used": [
+          "infer",
+          "infer-runtime",
+          "javac"
+        ],
+        "control_inventory_status": "registered-pending-final-executable-plan-review",
+        "duration_seconds": 53.131563417,
+        "environment_sha256": "b97275f14b1ec906b369d7eae342f24d7dc08d19ad0e9c56de0372d0eb9e3e57",
+        "exit_code": 0,
+        "id": "probe-infer-native-silence",
+        "script": {
+          "path": "scripts/probe-infer-native-silence.sh",
+          "sha256": "7897a032da1569ca85d6286fc5a32509ff2eee623515059873a6ce2700b98666"
+        },
+        "started_receipt": {
+          "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-native-silence/attempt-01/started.json",
+          "sha256": "1454e8cd3a195d5bffd97a65320e0e946b5cf5142763e5e5c5c4ed8166b4f222"
+        },
+        "status": "completed",
+        "streams": {
+          "stderr": {
+            "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-native-silence/attempt-01/stderr.txt",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "path": "reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/probe-infer-native-silence/attempt-01/stdout.txt",
+            "sha256": "62f6d31a03592257ce289c6b64ea940e09c63754128dc55881dbf790018d7ac9"
+          }
+        }
+      }
+    ],
+    "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+    "groups": [
+      {
+        "argv_sha256": "e9f11628fbefa2eb32e2e7d3131f0fe3d00788a2c7bdf7187c31f7661507e1b4",
+        "binding_flags_verified": [
+          "--infer"
+        ],
+        "case_count": 56,
+        "case_ids_sha256": "f5d709ca071e7bc7ff0c6482bfbe4a5aa81649ebca18945445851f8a271ce4bd",
+        "environment_sha256": "62927fa37cbb307251e3ff917039eed1fae4a673dc1a9a74dbfbda56c220d876",
+        "group_id": "infer-c-kernel",
+        "status": "historical-v090-configuration-only",
+        "tool": "infer"
+      },
+      {
+        "argv_sha256": "55d95c053190e9ad4980b1286fe4eba50499a193bd9a19cc31a8a86d0cc90e9d",
+        "binding_flags_verified": [
+          "--infer"
+        ],
+        "case_count": 68,
+        "case_ids_sha256": "06aff2e366e04c19aa566967c021251af8e4808fca027a7d5850f2708c452128",
+        "environment_sha256": "62927fa37cbb307251e3ff917039eed1fae4a673dc1a9a74dbfbda56c220d876",
+        "group_id": "infer-cpp-kernel",
+        "status": "historical-v090-configuration-only",
+        "tool": "infer"
+      },
+      {
+        "argv_sha256": "12ec1bf71dfad97d0c3bb878314583a81ec2f59c7192a5ec2f8efe3d56a48836",
+        "binding_flags_verified": [
+          "--infer",
+          "--javac"
+        ],
+        "case_count": 70,
+        "case_ids_sha256": "f3bb263815fa6a3fe3e59e14a1dc836c17f86d640e73b2faeccc2953fbb9782c",
+        "environment_sha256": "62927fa37cbb307251e3ff917039eed1fae4a673dc1a9a74dbfbda56c220d876",
+        "group_id": "infer-java-kernel",
+        "status": "historical-v090-configuration-only",
+        "tool": "infer"
+      },
+      {
+        "argv_sha256": "19d8facf705a80352df21577fce56d54672369f13d0f0657dba9bae6e0b47c12",
+        "binding_flags_verified": [
+          "--infer",
+          "--javac"
+        ],
+        "case_count": 24,
+        "case_ids_sha256": "3011b09ead2057b36877fee5fe8fe08f982068dd24e8dec9d00a95fdfed040a3",
+        "environment_sha256": "62927fa37cbb307251e3ff917039eed1fae4a673dc1a9a74dbfbda56c220d876",
+        "group_id": "infer-java-modeling",
+        "status": "historical-v090-configuration-only",
+        "tool": "infer"
+      },
+      {
+        "argv_sha256": "95a1de08e8596864cf9083c719b363e0c1d722a3efa6acff805fdf6a1487edbd",
+        "binding_flags_verified": [
+          "--infer"
+        ],
+        "case_count": 12,
+        "case_ids_sha256": "0f99775da62f491c573eb382c75261c11c690e5a0d55640ce5885afc3e05b949",
+        "environment_sha256": "62927fa37cbb307251e3ff917039eed1fae4a673dc1a9a74dbfbda56c220d876",
+        "group_id": "infer-java-native",
+        "status": "historical-v090-configuration-only",
+        "tool": "infer"
+      }
+    ],
+    "population": {
+      "path": "populations/v0.9.0.json",
+      "sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+    }
+  }
+}

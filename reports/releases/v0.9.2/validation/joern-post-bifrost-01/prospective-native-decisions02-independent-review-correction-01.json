@@ -1,0 +1,103 @@
+{
+  "canonical_bindings": {
+    "capability_evidence": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+      "sha256": "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005"
+    },
+    "control_plan_v092_04": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/control-plan-01.json",
+      "sha256": "cdae69200755312a80137426e70250dd7e521100ca91dbe71355bb9c8b11475f"
+    },
+    "helper": {
+      "path": "scripts/joern_capability_repair_v092_03.py",
+      "sha256": "8e3d986f20c2262045d8473837d1bf5a56b61da1bc23fee6e778bd0ac47d2b51"
+    },
+    "observer": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-06.py",
+      "sha256": "aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551"
+    },
+    "pending_plan_v092_04": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/pending-execution-plan-01.json",
+      "sha256": "08ef4108097f399732ed84b4d81fa46fbf869edafaebb79fb156785cc4888888"
+    },
+    "projection_sha256": "326487c047812a20f6c4f22f184a7faa4fc276e7c78ae1af317d5a750c0e8844",
+    "strict_source_receipt": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-decisions02-strict-source-check-01.json",
+      "sha256": "35bec85ae2210b04ff621d17605095215a0a3f2455ebaa31d43b1e722560b2fa"
+    }
+  },
+  "canonical_helper_checks": {
+    "_evidence_cases": {
+      "case_count": 96,
+      "detail": "Canonical helper accepted the exact current capability-evidence proposal and reconstructed the reviewed 96 attempted-case mapping against the retained v0.9.2 base plan.",
+      "status": "passed"
+    },
+    "_strict_plan_delta_allow_qualification_pending": {
+      "detail": "Canonical helper accepted plan-v092-04 as qualification-pending with execution_eligible=false, exact 108-case roster, twelve v4 decision references, and truthful projection.",
+      "projection_sha256": "326487c047812a20f6c4f22f184a7faa4fc276e7c78ae1af317d5a750c0e8844",
+      "status": "passed"
+    },
+    "_validate_control_plan_binding": {
+      "detail": "Canonical helper accepted a fresh successor control path and verified all controls, arms, budgets, population, fixture, and identity fields remained equal while the projection digest was rebound.",
+      "new_control": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/control-plan-01.json",
+        "sha256": "cdae69200755312a80137426e70250dd7e521100ca91dbe71355bb9c8b11475f"
+      },
+      "old_control": {
+        "path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-plan-04.json",
+        "sha256": "c35307ad152fc385ecf5abb86ee7d5821fc661b6e875fa9f6a03cd3f4ee6f66a"
+      },
+      "status": "passed"
+    },
+    "observer_load_original": {
+      "detail": "observer06.load_original(root) verified the canonical helper bytes against ORIGINAL_SCRIPT_SHA256 and installed the v4 startup policy in the returned in-memory module.",
+      "policy_schema": "v092-joern-jvm-startup-policy/v4",
+      "status": "passed"
+    }
+  },
+  "correction": {
+    "corrected_statement": "The strict helper is the canonical committed scripts/joern_capability_repair_v092_03.py. Its bytes are present and SHA-bound at 8e3d986f20c2262045d8473837d1bf5a56b61da1bc23fee6e778bd0ac47d2b51. The private 708221d3... script was not canonical authority and is removed from the provenance basis.",
+    "incorrect_statement": "The prior review incorrectly stated that canonical helper SHA 8e3d986f... was unavailable under /private/tmp and treated the private preparation helper SHA 708221d3... as the reviewed helper.",
+    "prior_conclusions_preserved": true,
+    "prior_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/prospective-native-decisions02-independent-review-01.json",
+      "sha256": "2c64e003a79fd32eaf866f70cdbef206c52d213dc1a00cf3c16ae8385ca3c7ef"
+    },
+    "prior_source_approval_unchanged": true
+  },
+  "focused_validation": {
+    "checks": 4,
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 <read-only canonical-helper probe>",
+    "engine_or_runner_invoked": false,
+    "path": "/private/tmp/joern05-native-decisions02-independent-review-01/canonical-helper-03/results.json",
+    "result": "passed",
+    "runtime_validate_plan_invoked": false,
+    "sha256": "c25ba76b4f756c3c9791711f62731e65a5843a935a4ce886025b179452ec7bba"
+  },
+  "nonclaims": [
+    "This correction does not add execution or qualification authority.",
+    "Plan-v092-04 remains a prospective source closure; fresh runtime startup witnesses, admission, controls, and qualification remain separate gates."
+  ],
+  "review_type": "append-only-provenance-correction-and-canonical-helper-read-only-review",
+  "reviewed_at_utc": "2026-10-25T17:07:03.268500+00:00",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-joern-prospective-native-decisions-independent-review-correction/v1",
+  "scope": {
+    "excluded": [
+      "runner.validate_plan",
+      "runtime validation",
+      "JVM",
+      "engine",
+      "replay",
+      "qualification",
+      "admission",
+      "launch",
+      "Git mutation",
+      "ledger mutation",
+      "source mutation"
+    ],
+    "production_actions_performed": false,
+    "read_only": true
+  },
+  "status": "approved-for-source-commit-only"
+}

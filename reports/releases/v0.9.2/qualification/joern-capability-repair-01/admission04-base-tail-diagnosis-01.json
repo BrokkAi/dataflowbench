@@ -1,0 +1,99 @@
+{
+  "automatic_retry": false,
+  "boundary_assessment": {
+    "historical_validation_boundary": "Validate the frozen C4 base against the exact 86-row ledger state that existed immediately before Joern03. The 87th row is continuation-04 history and must be validated by continuation-02 through OLD_CONTRACT_SHA/source/plan identity, not silently passed through the C4 validator.",
+    "not_a_frozen_validator_bug": true,
+    "why_previous_continuation_passed": "continuation-01 ran while the live ledger ended at its own sealed predecessor boundary; continuation-02 now runs after one additional append, so the frozen C4 packet sees a new contract tail row."
+  },
+  "execution_effect": {
+    "analyzer_launched": false,
+    "execution_authorized_by_this_receipt": false,
+    "frozen_files_modified": false,
+    "ledger_modified": false,
+    "materialization_performed": false,
+    "qualification_claimed": false
+  },
+  "observed_failure": {
+    "callsite": "joern-capability-continuation-02.py:1444",
+    "cause": "The frozen C4 validator is correctly strict for its own resource-recovery packet. That packet seals the 57-row C1/C2/C3 prefix and treats rows after it as C4 rows. With the current ledger, its packet tail contains the 86 historical C4 rows plus the newly appended Joern03 row. _validate_scoped_tail checks every packet tail row against the C4 contract bytes, so the C5/continuation-04 Joern03 row is rejected before continuation-02 can recover its exact older context.",
+    "current_boundary_row": {
+      "attempt_id": "joern-swift-common108-attempt-03-series-01",
+      "contract_sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827",
+      "group_id": "joern-swift-common108",
+      "index_zero_based": 86,
+      "plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+      "source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79",
+      "status": "recorder-error"
+    },
+    "current_prefixes": {
+      "first_86_rows_sha256": "ca7152afb422160b30c2f38677aa539a1463b45e3b41131848b3d9e81d4a1084",
+      "first_87_rows_sha256": "57d8265e8eb0c216c56e184a5fed36f9931bcb5b36ea1047ae3f4a0c71f0a096"
+    },
+    "operation": "executor.validate_plan(BASE_CONTRACT, repo_root=root)",
+    "reported_error": "post-prefix ledger row is not registered to the exact C3 contract"
+  },
+  "proposed_narrow_runtime_correction": {
+    "activation_guard": [
+      "Only around the single base executor.validate_plan call.",
+      "Require validated target is BASE_SHA exactly.",
+      "Require the actual live ledger has exactly 87 rows.",
+      "Require rows[:86] byte digest is ca7152afb422160b30c2f38677aa539a1463b45e3b41131848b3d9e81d4a1084.",
+      "Require row[86] equals the exact Joern03 attempt/group/status/OLD_CONTRACT_SHA/source/plan identity above."
+    ],
+    "explicit_non_solution": "Do not truncate or rewrite ledger-v1.jsonl, patch the frozen executor, blanket-catch the C4 error, or filter arbitrary rows by contract SHA.",
+    "kind": "scoped in-memory adapter; no source or ledger mutation",
+    "packet_integrity_precondition": [
+      "Require the frozen resource-recovery packet prefix_rows plus tail_rows, including line hashes, exactly equals the current 87-row ledger snapshot.",
+      "Require packet tail[-1] is exactly row[86]; reject any other suffix or missing boundary row.",
+      "Make a shallow packet copy and pass only tail_rows[:-1] to the original frozen _validate_scoped_tail.",
+      "Restore the original frozen function in a finally block; do not catch or downgrade any ReleaseError."
+    ],
+    "preserved_checks": "The original frozen _validate_scoped_tail remains unchanged for all C4 rows. continuation-02 _check_prefix validates all 87 sealed rows, _historical_contexts validates Joern03 against OLD_CONTRACT_SHA and its exact source/plan, _tail rejects more than Joern04/CodeQL01, and _validate_tail_identity validates all future continuation rows. Unknown contracts, corrupted row 86, altered line hashes, or extra tail rows fail closed before the adapter can remove a row."
+  },
+  "read_only_regression_evidence": [
+    {
+      "input": "actual C4 contract plan plus actual rows 0..86 and resource packet boundary",
+      "name": "unbounded_frozen_tail_rejects_actual_87th_row",
+      "observed": "ReleaseError: post-prefix ledger row is not registered to the exact C3 contract",
+      "status": "passed-negative"
+    },
+    {
+      "name": "bounded_tail_accepts_actual_pre-Joern03_state",
+      "observed": "original frozen _validate_scoped_tail accepted the exact packet tail with only the exact row[86] boundary removed; 30 packet tail rows reduced to 29",
+      "status": "passed-positive"
+    },
+    {
+      "name": "corrupted_boundary_identity_rejected",
+      "observed": "an altered row[86] contract identity failed the exact boundary precondition",
+      "status": "passed-negative"
+    },
+    {
+      "name": "extra_tail_rejected",
+      "observed": "an additional post-boundary row failed the exact 87-row boundary precondition",
+      "status": "passed-negative"
+    }
+  ],
+  "required_follow_up": "An implementation owner may add the guarded adapter and focused tests, then rerun the exact actual-87 positive and corrupted/unknown/extra-tail negatives before any admission or launch review.",
+  "reviewed_at_utc": "2026-10-23T09:32:17.125461Z",
+  "reviewer": "joern_amendment_design",
+  "schema": "v092-joern-capability-repair-admission04-base-tail-diagnosis/v1",
+  "scope": {
+    "frozen_base_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/contract.json",
+      "sha256": "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb"
+    },
+    "frozen_executor": {
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    },
+    "ledger": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 87
+    },
+    "module": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-02.py",
+      "sha256": "2a661f91cab8877acffcd8104c7710237a321432091d0a1ac2765bee3a340798"
+    }
+  },
+  "status": "diagnosis-complete; narrow-boundary-adapter-required"
+}

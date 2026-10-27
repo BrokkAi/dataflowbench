@@ -1,0 +1,3231 @@
+{
+  "schema": "v092-source-commit-7518-fix-inventory/v1",
+  "reviewed_at_utc": "2026-10-25T18:05:16.735380+00:00",
+  "status": "audited-source-commit-no-runtime-claim",
+  "commit": {
+    "sha256": "7518a16efaffa69a8b616b95df9b2a1475a52d5e",
+    "parent": "0330b8400c9c9f3c8c3bc78ca572301f57450320",
+    "tree": "c9e5e3eae3fe2e29ad602b12212d86c0a3446eb7",
+    "subject": "fix: bind Joern native controls to reviewed startup and source evidence",
+    "author_timestamp": "2026-10-25T19:47:09+02:00",
+    "diff_files": 211,
+    "all_added": false,
+    "line_additions": 1237548,
+    "line_deletions": 0,
+    "binary_files": 1,
+    "committed_tree_bytes": 76049650,
+    "full_file_inventory_count": 211
+  },
+  "scope": {
+    "source_only": true,
+    "engine_implementation_changed": false,
+    "rust_harness_changed": false,
+    "runtime_invoked": false,
+    "jvm_or_joern_invoked_by_this_audit": false,
+    "native_controls_invoked_by_this_audit": false,
+    "qualification_or_admission_invoked": false,
+    "replay_or_analyzer_invoked": false,
+    "git_mutated": false,
+    "ledger_mutated": false,
+    "publication_or_push": false,
+    "not_claimed": [
+      "semantic improvement",
+      "analyzer improvement",
+      "full matrix qualification",
+      "native control success",
+      "execution readiness",
+      "release or publication readiness"
+    ]
+  },
+  "categories": {
+    "BF24 core identity metadata": {
+      "files": 1,
+      "bytes": 713008,
+      "purpose": "Inherited BF24 manifest identity used as predecessor binding; no engine or Rust change."
+    },
+    "native boundary/design metadata": {
+      "files": 2,
+      "bytes": 24837,
+      "purpose": "Native query boundary and unsupported-capture/design evidence; source review inputs only."
+    },
+    "native control design/authority metadata": {
+      "files": 2,
+      "bytes": 31062,
+      "purpose": "Native control design and root-scoped authority derivation; not runtime qualification authority."
+    },
+    "native-control wrapper/resource guard/source tests": {
+      "files": 4,
+      "bytes": 98227,
+      "purpose": "Native startup control wrapper, bounded resources, README and tests; no engine invocation."
+    },
+    "prospective 12-case native decision fixtures": {
+      "files": 12,
+      "bytes": 569126,
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result."
+    },
+    "prospective control and pending-plan metadata": {
+      "files": 3,
+      "bytes": 70357,
+      "purpose": "Prospective diagnostic control/pending plan/source handoff; execution remains qualification-pending."
+    },
+    "python outer95 adapter/history source and tests": {
+      "files": 13,
+      "bytes": 234740,
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only."
+    },
+    "source-only validation reviews": {
+      "files": 9,
+      "bytes": 72580,
+      "purpose": "Independent source/canonical-copy/bootstrap review receipts; all preserve execution/publication hold."
+    },
+    "startup witness/observer source and fixture": {
+      "files": 5,
+      "bytes": 90033,
+      "purpose": "Startup witness Java source/JAR, observer, probe receipt and observer test; standalone control evidence only."
+    },
+    "static native-mechanism evidence": {
+      "files": 160,
+      "bytes": 74145680,
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation."
+    }
+  },
+  "surface_checks": {
+    "all_changed_paths_under_reports_release_v092": true,
+    "engine_or_rust_paths_changed": [],
+    "attempt_or_runtime_result_paths_changed": [],
+    "tracked_worktree_diff_after_commit": [
+      "M\treports/releases/v0.9.2/ledger-v1.jsonl"
+    ],
+    "tracked_status_after_commit": [
+      " M reports/releases/v0.9.2/ledger-v1.jsonl"
+    ],
+    "untracked_concurrent_paths_preserved": 1056,
+    "preexisting_dirty_ledger": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "ledger_changed_by_commit": false
+  },
+  "review_and_testing_evidence": {
+    "committed_review_refs": [
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/actual-pending-plan-bootstrap-check-01.json",
+        "sha256": "ad729c62c07083fc3fa2bba7b9f2e058315f64b7e860b55ddac0279770e57c93",
+        "schema": "v092-joern05-actual-pending-plan-bootstrap-check/v1",
+        "status": "read-only-bootstrap-validation-passed",
+        "disposition_status": null,
+        "source_commit_approval": null,
+        "execution_authorized": null,
+        "qualification_authorized": null
+      },
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/execution-adapter-independent-review-04.json",
+        "sha256": "b8b59d5043445116782aae820c563b6c50c52dc1ae8391d8563da86afdc27062",
+        "schema": "v092-joern05-execution-adapter-independent-review/v4",
+        "status": "approved-for-source-commit-only",
+        "disposition_status": "approved-for-source-commit-only",
+        "source_commit_approval": true,
+        "execution_authorized": false,
+        "qualification_authorized": false
+      },
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/execution-adapter04-canonical-copy-independent-review-01.json",
+        "sha256": "ead5e62e893cc548104053a03637e44fc0bf0e0913eb96d32d3069d2ec30de6e",
+        "schema": "v092-exact-canonical-copy-independent-review/v1",
+        "status": "approved-for-source-commit-only",
+        "disposition_status": "approved-for-source-commit-only",
+        "source_commit_approval": true,
+        "execution_authorized": false,
+        "qualification_authorized": false
+      },
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier-independent-review-02.json",
+        "sha256": "46a63223b1dd4caceb0bc26d044fc5fea1ae82c639c1439bc2d9cca9d14e2a5e",
+        "schema": "v092-joern05-native-qualifier-independent-review/v2",
+        "status": "approved-for-source-commit-only",
+        "disposition_status": null,
+        "source_commit_approval": true,
+        "execution_authorized": false,
+        "qualification_authorized": false
+      },
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier02-canonical-copy-01.json",
+        "sha256": "e4924ff5bb28bed43d03dad9e82721e007ea9b77c0a400d76a3fd828fc8e83b3",
+        "schema": "v092-exact-canonical-copy/v1",
+        "status": null,
+        "disposition_status": null,
+        "source_commit_approval": null,
+        "execution_authorized": null,
+        "qualification_authorized": null
+      },
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/preparatory-source-selection-independent-review-01.json",
+        "sha256": "f73e7a7d8cd2c58e4da7921c013e69a1645ad2a0b7c83961847d81a5fa97073a",
+        "schema": "v092-preparatory-source-selection-independent-review/v1",
+        "status": "approved-for-source-commit-only",
+        "disposition_status": null,
+        "source_commit_approval": null,
+        "execution_authorized": null,
+        "qualification_authorized": null
+      },
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/prospective-native-decisions02-independent-review-correction-01.json",
+        "sha256": "d85278953d2ad18aeea5a2b2055035ebc28b1128e831a34aba16a0afd4c13d9b",
+        "schema": "v092-joern-prospective-native-decisions-independent-review-correction/v1",
+        "status": "approved-for-source-commit-only",
+        "disposition_status": null,
+        "source_commit_approval": null,
+        "execution_authorized": null,
+        "qualification_authorized": null
+      },
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/startup-observer06-canonical-copy-01.json",
+        "sha256": "03b1c697a8ea18ca0c9b5e50235620e8156ad2b62f7ada78d8935f7774d5cf40",
+        "schema": "v092-joern-startup-canonical-copy/v1",
+        "status": "source-copy-only-not-committed-or-qualified",
+        "disposition_status": null,
+        "source_commit_approval": null,
+        "execution_authorized": null,
+        "qualification_authorized": null
+      },
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/startup-observer06-independent-review-01.json",
+        "sha256": "7e5c5e4a169cdbcbe9af73246f6609c8c674136f841b3b03eb050449ee81f541",
+        "schema": "v092-joern-startup-observer-independent-review/v2",
+        "status": null,
+        "disposition_status": "approved-for-source-commit-only",
+        "source_commit_approval": true,
+        "execution_authorized": false,
+        "qualification_authorized": false
+      }
+    ],
+    "claimed_source_review_tests": [
+      {
+        "review_path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier-independent-review-02.json",
+        "claimed": "32/32 focused source/lifecycle tests; no engine/JVM/native control/replay/qualification/admission/launch/Git mutation",
+        "receipt_sha256": "46a63223b1dd4caceb0bc26d044fc5fea1ae82c639c1439bc2d9cca9d14e2a5e"
+      },
+      {
+        "review_path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/startup-observer06-independent-review-01.json",
+        "claimed": "15 handoff tests plus 15 independent rerun tests; synthetic sealed fixture only",
+        "receipt_sha256": "7e5c5e4a169cdbcbe9af73246f6609c8c674136f841b3b03eb050449ee81f541"
+      },
+      {
+        "review_path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/execution-adapter-independent-review-04.json",
+        "claimed": "62/62 adapter/graph95/durable/startup-handoff tests across four commands; source/lifecycle only",
+        "receipt_sha256": "b8b59d5043445116782aae820c563b6c50c52dc1ae8391d8563da86afdc27062"
+      }
+    ],
+    "this_audit_test_runs": 0,
+    "test_claim_boundary": "The counts above are copied from committed review receipts, not rerun here and do not qualify the engine or full matrix."
+  },
+  "native_controls01_precontrol_failure": {
+    "namespace": "native-controls-01",
+    "diagnosis_sha256": "1edfd95dab8fd432f4d8c73a521afbe717be4a05f2c1eee43274a3a589484000",
+    "diagnosis_path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls01-stop-independent-review-01.json",
+    "diagnosis_status": "stop-confirmed-source-defects",
+    "failure_receipt": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01/exit.json",
+      "present": true,
+      "sha256": "2bf5965d20ce32c9bc04c370b95c2becd0286f4e12602a408d6a72cabae8c229"
+    },
+    "root_stop_receipt": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls01-root-stop-check-01.json",
+      "present": true,
+      "sha256": "46805c14095418efeeee0eb14edb2fc9541d003803d50373d9ce929579714a1b"
+    },
+    "preparation_addendum": {
+      "path": "reports/releases/v0.9.2/review-handoff/joern-preparation-review-addendum-05.json",
+      "present": true,
+      "sha256": "182df62180dc7e9385a16e13b9c2bc725c0cd0742458766c9602ff8a96762718"
+    },
+    "source_binding": {
+      "source_head": "7518a16efaffa69a8b616b95df9b2a1475a52d5e",
+      "native_wrapper": {
+        "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-01/native_qualifier.py",
+        "sha256": "45429fa10b418f9c92bcd3bd06ce75882d23e798407e0745352929d2f19e6935"
+      },
+      "native_wrapper_tests": {
+        "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-01/test_native_qualifier.py",
+        "sha256": "32464c4cda6bb03430a4f9b1515aa09afae32bfebfaf742dee6a5498040df337"
+      },
+      "adapter_graph_boundary": {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-19.py",
+        "sha256": "9007c6d44c1255996726f58bfe38d8c9e5838b7e7fcd218002530f5ec41ed121"
+      }
+    },
+    "observed_status": {
+      "startup_invocation": "failed-closed-before-ready",
+      "exit_code": 1,
+      "phases": 0,
+      "capture_exists": false,
+      "qualification_inferred": false,
+      "automatic_retry": false,
+      "ledger_unchanged": true
+    },
+    "independent_diagnosis_findings": [
+      "Bound macOS interpreter identity mismatch: parent-recorded argv[0] differed from worker-observed sys.orig_argv[0] before ready.",
+      "Wrapper-owned graph import cleanup occurred after the frozen graph boundary and teardown could mask the worker/return error; unowned foreign additions remain rejected."
+    ],
+    "interpretation_boundary": "This is a preserved failed pre-control invocation and source-defect diagnosis. It supplies no semantic, improvement, full-matrix, native-control, qualification, or execution result."
+  },
+  "full_file_inventory": [
+    {
+      "path": "reports/releases/v0.9.2/acquisition/StartupWitnessAgent-04.java",
+      "status": "A",
+      "category": "startup witness/observer source and fixture",
+      "purpose": "Startup witness Java source/JAR, observer, probe receipt and observer test; standalone control evidence only.",
+      "bytes": 7068,
+      "sha256": "ba8aa4d5f353c4d6ac9bfbe269a3388ac8502c84793e13e1b4f7188f51f8a31a",
+      "git_blob": "c14565e610b7a5e2f44f47f5b708fda3a9112f2c",
+      "diff": {
+        "additions": 147,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-01/README.md",
+      "status": "A",
+      "category": "native-control wrapper/resource guard/source tests",
+      "purpose": "Native startup control wrapper, bounded resources, README and tests; no engine invocation.",
+      "bytes": 10936,
+      "sha256": "b9f145c9f5eea3f3af86ecf0a8be6aa289c17cd62a855b94eaa0081b7f4c4232",
+      "git_blob": "08b5903e069e3efd864cc5442ca6bdd906bace6a",
+      "diff": {
+        "additions": 57,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-01/native_qualifier.py",
+      "status": "A",
+      "category": "native-control wrapper/resource guard/source tests",
+      "purpose": "Native startup control wrapper, bounded resources, README and tests; no engine invocation.",
+      "bytes": 47832,
+      "sha256": "45429fa10b418f9c92bcd3bd06ce75882d23e798407e0745352929d2f19e6935",
+      "git_blob": "7c1f8bfe25b62e7d8af60d46e59f479a1d6dff4f",
+      "diff": {
+        "additions": 781,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-01/retained_resources.py",
+      "status": "A",
+      "category": "native-control wrapper/resource guard/source tests",
+      "purpose": "Native startup control wrapper, bounded resources, README and tests; no engine invocation.",
+      "bytes": 4873,
+      "sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08",
+      "git_blob": "8abf9ebf57a494ef0b203b068505b51e3c166c9a",
+      "diff": {
+        "additions": 61,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-01/test_native_qualifier.py",
+      "status": "A",
+      "category": "native-control wrapper/resource guard/source tests",
+      "purpose": "Native startup control wrapper, bounded resources, README and tests; no engine invocation.",
+      "bytes": 34586,
+      "sha256": "32464c4cda6bb03430a4f9b1515aa09afae32bfebfaf742dee6a5498040df337",
+      "git_blob": "84c43356f3026c6449bb2d805b265a4a2eb41e12",
+      "diff": {
+        "additions": 581,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-06.py",
+      "status": "A",
+      "category": "startup witness/observer source and fixture",
+      "purpose": "Startup witness Java source/JAR, observer, probe receipt and observer test; standalone control evidence only.",
+      "bytes": 49461,
+      "sha256": "aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551",
+      "git_blob": "646c41c339bfab8e2935a326cfded8ff57c65f69",
+      "diff": {
+        "additions": 1002,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/admission.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 8559,
+      "sha256": "7807d6a0a1759932f1cbd07cefa739d38aae533d437ec8a8a8465322072c39a0",
+      "git_blob": "ee822e044ee8b6ec1df3ae8aa2253eb68c483260",
+      "diff": {
+        "additions": 127,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/bridge.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 17899,
+      "sha256": "538dd5a9b75201e640c1630f9517bb64597a9629d22afcc52492348aa00627c4",
+      "git_blob": "d55da1a2c36c6bf0fad5bfbfb23d1df497891ff1",
+      "diff": {
+        "additions": 312,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/history.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 2850,
+      "sha256": "5844d039786cc513895a020774c202caaed1c0cfef6bc858c7a2e2136bfd696e",
+      "git_blob": "eca0d7ba4406e46bb3014951ea168a0c2a430131",
+      "diff": {
+        "additions": 47,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/packet.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 6657,
+      "sha256": "73350e80e0861bba89cb138e14b742cccb88a274b86b64dac9673bb14a4c8644",
+      "git_blob": "70eec3f814d2d4dbc064fd488c483d5beb7a60f6",
+      "diff": {
+        "additions": 139,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/protocol.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 9505,
+      "sha256": "4caf6cd997b75da405b1789ce26cc816dc9244634263f5b000c3de3eed6d49ae",
+      "git_blob": "808912abe77dbd483038c29d71d6be01025c4558",
+      "diff": {
+        "additions": 142,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/stage_runtime.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 25487,
+      "sha256": "9ab0e86068a6504b8b38a83573afe6c2ce086b07f47d1af6e56cba16974755e3",
+      "git_blob": "43306b322d2d87fa62925081d1abeadbc5a11db8",
+      "diff": {
+        "additions": 370,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/supervisor.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 62045,
+      "sha256": "fdcec6914b3aad124d5a2af270b62d4f189aa211292516784ef9fb658c2916ee",
+      "git_blob": "28900186ac06eed99c7b074f42af520ad6017229",
+      "diff": {
+        "additions": 1030,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_adapter.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 19564,
+      "sha256": "dc359995e495ba4014a772e6ace292faef4d01ebd0aa34ecc78ddc478ad8270d",
+      "git_blob": "cc6892e0ce35a7cbf77c7e1eee744ecb3090b5d9",
+      "diff": {
+        "additions": 348,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_durable.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 33189,
+      "sha256": "e47d65307fd2258aaf0f1eb5f07aab443f52a3d5e490cb8e98941f6a797901a8",
+      "git_blob": "bb3b9459394dfafbe4fdba28cd9a9cd0f7027489",
+      "diff": {
+        "additions": 534,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_graph95.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 17090,
+      "sha256": "ecac2d7a029fac6e862295b88515e7a92cc37b764c3017299026d3ff7d16fe10",
+      "git_blob": "d578261ed2c5b6a4dacbdca3dde01831a034d9ba",
+      "diff": {
+        "additions": 317,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-04/test_startup_handoff.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 6703,
+      "sha256": "2019156e5c82a17681d096c64d89393d81d33581588479b299dbdb6e8d7cfea5",
+      "git_blob": "7b9a5273171a6417003c6bf491268da50c80f09c",
+      "diff": {
+        "additions": 186,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/history_provider_02.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 16372,
+      "sha256": "da691ca16a4d1169e1f32d3524fb146bc4e60722dd99ea12bb9e03ac38436a8b",
+      "git_blob": "3dd0c30ca8f03adfe9f62c5d39e5ef10adbe0bdc",
+      "diff": {
+        "additions": 431,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/test_history_provider_02.py",
+      "status": "A",
+      "category": "python outer95 adapter/history source and tests",
+      "purpose": "Python adapter-04 graph95/opaque stage bridge, canonical history provider and focused tests; acquisition source only.",
+      "bytes": 8820,
+      "sha256": "08e0c82818c0b6b129271c73a6afac49193a5da79fceb3b127c521541c11f5d2",
+      "git_blob": "bc69425604bdf84823e5c1e0626f716253befd37",
+      "diff": {
+        "additions": 185,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-startup-witness-actual-probe-04.json",
+      "status": "A",
+      "category": "startup witness/observer source and fixture",
+      "purpose": "Startup witness Java source/JAR, observer, probe receipt and observer test; standalone control evidence only.",
+      "bytes": 1984,
+      "sha256": "c7c911b98dcce8aa0e07e3980ed69a1464299d951c29c8f2668ed7c87895f919",
+      "git_blob": "06a5eaa95d89d1ee2e296002d73ac7776a9af945",
+      "diff": {
+        "additions": 48,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-startup-witness-agent-04.jar",
+      "status": "A",
+      "category": "startup witness/observer source and fixture",
+      "purpose": "Startup witness Java source/JAR, observer, probe receipt and observer test; standalone control evidence only.",
+      "bytes": 4456,
+      "sha256": "ba02fe9c3782c377279e60198e4b4e1631d9d3431a4ce5fc7376d8dc6eff4eac",
+      "git_blob": "7367d84bf886d72770191c508fe73e4cef95cd30",
+      "diff": {
+        "additions": null,
+        "deletions": null,
+        "binary": true
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/test-joern-native-startup-observer-06.py",
+      "status": "A",
+      "category": "startup witness/observer source and fixture",
+      "purpose": "Startup witness Java source/JAR, observer, probe receipt and observer test; standalone control evidence only.",
+      "bytes": 27064,
+      "sha256": "5e75af2031336cec533f581d4006fe763e20fc1df36e57a07bce7938a7623bab",
+      "git_blob": "a05b9e54045c02d3da696e6044ddb9db9ec158c5",
+      "diff": {
+        "additions": 521,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-24/manifest-identity.json",
+      "status": "A",
+      "category": "BF24 core identity metadata",
+      "purpose": "Inherited BF24 manifest identity used as predecessor binding; no engine or Rust change.",
+      "bytes": 713008,
+      "sha256": "b1b405d1f28bae9b84632de4830352ae9a27f352f47bbb49a3a046e2567add6d",
+      "git_blob": "13c5a3a2b72b72476bbbb6a3055d7c92cddf456d",
+      "diff": {
+        "additions": 1,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/audit.md",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 3472,
+      "sha256": "e1fc93c6b3801df957af4033dff794488310d2f6ef17d6c2a628f61817fdd899",
+      "git_blob": "e85bcb630740c5fc96e2f2cb7c44433e3a824e05",
+      "diff": {
+        "additions": 19,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/capture-summary.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 2127,
+      "sha256": "8f39fa95fae570f8cb6282f9ee2c641f2e84844494b6aa5edb5c843f749a2e4d",
+      "git_blob": "d5cb97a4af54cdc7058c99291b2e0c6a25c8e7bf",
+      "diff": {
+        "additions": 50,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/capture.py",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 5492,
+      "sha256": "0850ea80233e2b2afb72e522abca9e5bd64c281d17fd266f30d514fd8f13a222",
+      "git_blob": "5b90cbb2ad4bea9fcfa08eff39e40ef6e05d1309",
+      "diff": {
+        "additions": 61,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/class-symbols-03.py",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 3176,
+      "sha256": "f155a037b9f433b7bc439368e481ab655f6aa8dd2544c28a607c4dd927427463",
+      "git_blob": "3c483bcd991355825af30714d63e174d2dd6c1f4",
+      "diff": {
+        "additions": 40,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/classpath-and-providers.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 54958,
+      "sha256": "5102549b8278ca175dbd698d4cd262ad4362229590cd25161850f9a34b159c07",
+      "git_blob": "c5620269f2fa4bf53e5ca3d31d12193c17da3c2f",
+      "diff": {
+        "additions": 1252,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/close-static-paths-03.py",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1844,
+      "sha256": "a9c6afbe1eff5b44588b479975971597d61249c2a05e2589956c453956531f63",
+      "git_blob": "316960a54960fd29cd5e975b32b1dc4b5efbcd88",
+      "diff": {
+        "additions": 12,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/closure-audit-03.md",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 4130,
+      "sha256": "6483a3a632fb3fa40e1e89a035d2047dbef53eadbdbefe706015e19f6427453e",
+      "git_blob": "40bb806328ea3b120854a1e27bb33e49e8280ff1",
+      "diff": {
+        "additions": 21,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/discovery-index.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1506409,
+      "sha256": "7fbdf3e947a9ad8c0f2c1409806aeb2b9235b09378a71e2c7488d60729b6da7f",
+      "git_blob": "7ce2287c623d5bc44814d32c0d323f82fdb677f4",
+      "diff": {
+        "additions": 35039,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/first-party-classes.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 7705237,
+      "sha256": "90cec6ed72e9576cb8e27d4b83bdf6ff44d068dc65d669110c112cf04d59bd7e",
+      "git_blob": "b9a3ba89e5adf53db02b4b7517d2e92e65d81938",
+      "diff": {
+        "additions": 166510,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/follow-final-script-path-03.py",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1100,
+      "sha256": "71f713d85ed1640ff2cb80ac35716514757d7f8d4724d5d135c89114f7d879ee",
+      "git_blob": "dad92394f198378da11e5fd4369fe769422b159a",
+      "diff": {
+        "additions": 8,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/follow-loaders.py",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1725,
+      "sha256": "a4db4f65c8c9cc928da28d70edfbfb76359970a6349abbb21b70339f455e832d",
+      "git_blob": "5b00095f19cc50642132aa3995cfb51269a258ac",
+      "diff": {
+        "additions": 12,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/follow-runtime-loader-03.py",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1223,
+      "sha256": "a0de5dba5af2e0ed7867057ec0825d094bb24b1509a1055bd7e1e1da41b04618",
+      "git_blob": "2ceab5f8bcfa87b468204f7652e5f5f4a34eba65",
+      "diff": {
+        "additions": 10,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/follow-scripting-03.py",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1246,
+      "sha256": "a958dc75c02b02274412aa6752c1e54de7d93e2da7e5e0fbe557f49163c39583",
+      "git_blob": "224339b5a92b7419ae4d8102fb0971d4be7b7931",
+      "diff": {
+        "additions": 10,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/frozen-launch-scope-03.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 10657,
+      "sha256": "117c5f09a5ae61d8e8e5d34b0f94b34fcad79c7fbe10e83cf00b9fe8944605e1",
+      "git_blob": "48817e37086a3283468bd5d3ef6b092a455024b4",
+      "diff": {
+        "additions": 171,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/installation-files.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 255246,
+      "sha256": "a23c409a7889f8f97b6a541657cf7281ed1e96fea788ae15619f94733af258c5",
+      "git_blob": "30ffdd953d182521b6946572967c250c0ada5450",
+      "diff": {
+        "additions": 7213,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/jar-members.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 38910256,
+      "sha256": "9d825099863f6f360a602f08d031adfe9432dae2918251c8091128d1b6ffef75",
+      "git_blob": "73518323e29b57e11dd5f5cb3430147e48a704b3",
+      "diff": {
+        "additions": 591144,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-01-io_joern_dataflowengineoss_DefaultSemanticsobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-01-io_joern_dataflowengineoss_DefaultSemanticsobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 173963,
+      "sha256": "6a050e3b5b51d65b96be8dae3a4290ca99c9948c54aed5d7cfd6fed7da1ceb56",
+      "git_blob": "eee5311e003347c0030c87b631e94f9ac4ec9926",
+      "diff": {
+        "additions": 3054,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-02-io_joern_dataflowengineoss_semanticsloader_Semantics.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-02-io_joern_dataflowengineoss_semanticsloader_Semantics.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1823,
+      "sha256": "760b0721e449632ad615e9ed3c44330209b8b7d9d24ac4b2eccf350dbd8df06d",
+      "git_blob": "895d266b08ab84e77a960d94af5e7bd957ac68f9",
+      "diff": {
+        "additions": 30,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-03-io_joern_dataflowengineoss_semanticsloader_FullNameSemantics.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-03-io_joern_dataflowengineoss_semanticsloader_FullNameSemantics.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 15225,
+      "sha256": "2e91edf2e0b09d227b49d66bb8481897baa1db0251680a81fec2b517a73b4ef1",
+      "git_blob": "e75caab4a8c897e722ac672c70bfa7b2177e55a7",
+      "diff": {
+        "additions": 213,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-04-io_joern_dataflowengineoss_semanticsloader_FullNameSemanticsParserobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 92,
+      "sha256": "13e7b450d7e33ed1ce08583ebb74b3456b814d94aa7aa9170225522531b2c66a",
+      "git_blob": "4920c56de2d37b5530e659385cf69751e9406f4a",
+      "diff": {
+        "additions": 1,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-04-io_joern_dataflowengineoss_semanticsloader_FullNameSemanticsParserobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-05-io_joern_dataflowengineoss_semanticsloader_FlowSemantic.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-05-io_joern_dataflowengineoss_semanticsloader_FlowSemantic.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 13171,
+      "sha256": "f40dc8ba0160e6523597181b6d04ea471158575e115d607c53c7e7c612463272",
+      "git_blob": "228b87961fb54041ef7cf5d875957a8e738b7aa0",
+      "diff": {
+        "additions": 302,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-06-io_joern_swiftsrc2cpg_SwiftSrc2Cpg.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-06-io_joern_swiftsrc2cpg_SwiftSrc2Cpg.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 13866,
+      "sha256": "f4a066eec12273010933dadfbe8e2e6659e052e632944724458c8938bbc5039e",
+      "git_blob": "2d678fa7d2eedf6a3de0deb3b3baaf0f5cee9939",
+      "diff": {
+        "additions": 198,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-07-io_joern_joerncli_JoernScanobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-07-io_joern_joerncli_JoernScanobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 117949,
+      "sha256": "e30a7a171bc2113ab9e8a224f09e01e401c23ed8a544cdf5bdb2a45a5f76425c",
+      "git_blob": "2e65b53bdfd77eac4f36899f4ea8c0e49fde96bf",
+      "diff": {
+        "additions": 1604,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-08-io_joern_joerncli_JoernScan.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-08-io_joern_joerncli_JoernScan.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 3369,
+      "sha256": "cbe859d94c378282fb4f823dba4ccc51f784f8c743ecaed308e5886c88ee7472",
+      "git_blob": "7721ff8bc76e87566ff31ac1a5fdc109176d1bf6",
+      "diff": {
+        "additions": 60,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-09-io_joern_console_ReplBridge.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 52,
+      "sha256": "826c62fa1724489b89c2c07292013e1c12e3be2a7ec3e3740d9aee131c156f2b",
+      "git_blob": "dbaa9f96f67e8669463ffe83f72d66061f901e4b",
+      "diff": {
+        "additions": 1,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-09-io_joern_console_ReplBridge.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-10-io_joern_dataflowengineoss_semanticsloader_FullNameSemanticsParser.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-10-io_joern_dataflowengineoss_semanticsloader_FullNameSemanticsParser.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 5734,
+      "sha256": "bb300b883409db1f877950138edeb8bd2bd0fc875468a42bb8625ccc2d8aa0c0",
+      "git_blob": "60abd89e3865642110a1ffa507f99344bc28de52",
+      "diff": {
+        "additions": 89,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-11-io_joern_joerncli_console_ReplBridgeobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-11-io_joern_joerncli_console_ReplBridgeobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 6293,
+      "sha256": "f4c42d82df5a50dac97fc93524c53102f5ecbb81f52e5681a9518af86d6a146d",
+      "git_blob": "1f83ff467532d39229225fd60b9709b39e6645c7",
+      "diff": {
+        "additions": 144,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-12-io_joern_console_QueryDatabaseobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-12-io_joern_console_QueryDatabaseobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1508,
+      "sha256": "6b1ef8beaa95a3bea25926375bc62e1425acfafcf23b148a7f58ad6422eceba4",
+      "git_blob": "e754ecc6a12189390e1bdb2107f7c5111ae675ea",
+      "diff": {
+        "additions": 38,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-13-io_joern_console_QueryDatabase.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-13-io_joern_console_QueryDatabase.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 17583,
+      "sha256": "67eb369b014b0bb10ad69a042160b5fa929f7c9dfbf1b5250d2c536cf834525c",
+      "git_blob": "2557da15ef088b108dab5e1bd8697e958535e8b4",
+      "diff": {
+        "additions": 291,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-14-io_joern_console_scan_packageobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-14-io_joern_console_scan_packageobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 26554,
+      "sha256": "b47355cb4f1a40a201a4b70abe4a619efef36cef74562042ffbdfa7585e8193b",
+      "git_blob": "835af86742988cf2e497d8f1075680e0a2a2f405",
+      "diff": {
+        "additions": 300,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-15-io_joern_console_scan_ScanPass.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-15-io_joern_console_scan_ScanPass.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 3202,
+      "sha256": "8114231719f98f4e06189adc7c0272e7b08b9f5bc38de5df40c7485a975b182e",
+      "git_blob": "550601daae5c1a69b910df668a7889d2ca71ae83",
+      "diff": {
+        "additions": 56,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-16-io_joern_console_BridgeBase.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-16-io_joern_console_BridgeBase.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 196730,
+      "sha256": "45420384647793bbec368a6d1e3f024dacef2b139d0fca42f41b1b6870605877",
+      "git_blob": "20e5cc38631547d727febf0f8056e62b0fc959f3",
+      "diff": {
+        "additions": 3185,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-17-io_joern_console_Config.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-17-io_joern_console_Config.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 74979,
+      "sha256": "2a980bafeec1f9d1c1a5b9127f3e44a3d2ab80640987374257e6e59cd4136481",
+      "git_blob": "5f46b287d51b274aa98627fd4a048fb95c86b350",
+      "diff": {
+        "additions": 1760,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-18-io_joern_swiftsrc2cpg_utils_SwiftTypesProvider.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-18-io_joern_swiftsrc2cpg_utils_SwiftTypesProvider.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 77217,
+      "sha256": "7acd05d0564211d8197deee6ee2ef0e664f91309f6f06f5add6f4bf50b20f665",
+      "git_blob": "6544fc4fd6dd43ae1cfcbd47c3912cb9ddbc6f2b",
+      "diff": {
+        "additions": 1352,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-19-io_joern_swiftsrc2cpg_Config.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-19-io_joern_swiftsrc2cpg_Config.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 29485,
+      "sha256": "7d0af65fd0736c65328d9a21eee7d4682ebc7d85efb43f4905f977362af75f00",
+      "git_blob": "187938a2ebc728bb06453a235f3217c177b3858f",
+      "diff": {
+        "additions": 633,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-20-io_joern_x2cpg_frontendspecific_swiftsrc2cpg_SwiftTypeRecoveryPassGenerator.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-20-io_joern_x2cpg_frontendspecific_swiftsrc2cpg_SwiftTypeRecoveryPassGenerator.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 2235,
+      "sha256": "6963364a6db2d09cd114644848b8da32e5d6fc46f9da5bc1045593581a41c5ef",
+      "git_blob": "66fc69c360be11fccd1bc1a97088bdfcf6fd52f6",
+      "diff": {
+        "additions": 32,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-21-io_joern_dataflowengineoss_semanticsloader_Semanticsobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-21-io_joern_dataflowengineoss_semanticsloader_Semanticsobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1815,
+      "sha256": "dd493990c63c61b4a809310005af899c2c8f062a41b3a70ef9e6b1df4a55409c",
+      "git_blob": "60f60a667bac363de2168eed9ba5240ea7d21a8c",
+      "diff": {
+        "additions": 35,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-22-io_joern_dataflowengineoss_semanticsloader_FullNameSemanticsobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-22-io_joern_dataflowengineoss_semanticsloader_FullNameSemanticsobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 7098,
+      "sha256": "09af67006e5388a566d81b7ceac5ea5c34e5bc50376029b892abab43a7693189",
+      "git_blob": "328df985a91bd9ae2e1dcfacf6b0222d66b74f55",
+      "diff": {
+        "additions": 118,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-23-io_joern_dataflowengineoss_semanticsloader_FlowSemanticobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-23-io_joern_dataflowengineoss_semanticsloader_FlowSemanticobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 12731,
+      "sha256": "df1a019649e0e5e64460d246325c59d30ad707f0ab0d132296deb4af869ed5a2",
+      "git_blob": "ac9f8cecb076b159cd00e7cca31791eb0fd01833",
+      "diff": {
+        "additions": 264,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-24-io_joern_joerncli_Scanobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-24-io_joern_joerncli_Scanobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 3491,
+      "sha256": "42f906e16dfcd676bf23d229e001484e43e2e91fb746707a67e727bbd382ab7e",
+      "git_blob": "2cd6d584ae44b9d3e98e9c3e1135a5b65286a2e9",
+      "diff": {
+        "additions": 86,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-25-io_joern_console_ScriptExecution.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-25-io_joern_console_ScriptExecution.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 9604,
+      "sha256": "b61aa2876d20dbe65c7022eb16bc45a3d9cf8449824ecde38dbd0c23eaa6a205",
+      "git_blob": "4151392d1be4953d5303d8d1f572533bf2d2ac9c",
+      "diff": {
+        "additions": 150,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-26-io_joern_console_PluginHandling.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-26-io_joern_console_PluginHandling.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 30479,
+      "sha256": "3be61b4b24f01513ac04a56fb96f2f4771d163fb7640be48cf5be14ef95e964f",
+      "git_blob": "6ccedd4dc421f4de8e2203ffe671b5132268a507",
+      "diff": {
+        "additions": 487,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-27-io_joern_console_Configobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-27-io_joern_console_Configobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 23764,
+      "sha256": "6f0d930d26f88ede08f95b6f4ad49759479ca06b55313242898bf4b1a6fd7e6d",
+      "git_blob": "ee7ac60af0dd3e762771d9bdc62addcf0cbfaa9e",
+      "diff": {
+        "additions": 481,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-28-io_joern_joerncli_console_RunBeforeCodeobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-28-io_joern_joerncli_console_RunBeforeCodeobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 8745,
+      "sha256": "afe04865ac6042ad1f5a86c37ec3bfa5240f76b740a9f6086faaebfacb49ed94",
+      "git_blob": "5a0ee61ef6e2d3cd9eff8f3decae8e3770e198d4",
+      "diff": {
+        "additions": 135,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-29-io_joern_console_BridgeBaseobjectobjectanonobject1.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-29-io_joern_console_BridgeBaseobjectobjectanonobject1.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 28213,
+      "sha256": "a9b3fac6aa91624c6d2942abad40c9be8932a334377eedba0fa0f457503acf9e",
+      "git_blob": "2808827dee80866266335b3c6141f4b12640e0ca",
+      "diff": {
+        "additions": 364,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-30-io_joern_swiftsrc2cpg_utils_AstGenRunner.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-30-io_joern_swiftsrc2cpg_utils_AstGenRunner.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 11972,
+      "sha256": "01058a3df074bcb38f5f05dbcddf196ca9deceebb0dd7dc94c32b591c2410d86",
+      "git_blob": "8374a23756cb897a94f56cc46d628176bc045360",
+      "diff": {
+        "additions": 173,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-31-io_joern_swiftsrc2cpg_passes_AstCreationPass.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-31-io_joern_swiftsrc2cpg_passes_AstCreationPass.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 62669,
+      "sha256": "f04b648e31cb1053915894253ea8cc8887e6718788c272ba990b9085a8c83c52",
+      "git_blob": "9a6269af702598ee65a0f81554e7e4f3d9d5f1d9",
+      "diff": {
+        "additions": 951,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-32-io_joern_swiftsrc2cpg_passes_BuiltinTypesPass.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-32-io_joern_swiftsrc2cpg_passes_BuiltinTypesPass.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 9675,
+      "sha256": "d9dd2b5b4c0233d13bb22fc9f6a4f21fe0983a2fdca5215414c5ff6ffd2fe346",
+      "git_blob": "d00526d48bd5a18e94ca7f18a9c2543f1c74634f",
+      "diff": {
+        "additions": 117,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-33-io_joern_swiftsrc2cpg_passes_ClosureBindingsPass.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-33-io_joern_swiftsrc2cpg_passes_ClosureBindingsPass.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 27352,
+      "sha256": "7dad1a59d4248a98cd525fa1e3f1806b003cb02e845de901ca6b33ce683c60cd",
+      "git_blob": "80287692cf4c1bfece4b44e8c0608a9cb376f9c9",
+      "diff": {
+        "additions": 292,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-34-io_joern_swiftsrc2cpg_passes_ConfigFileCreationPass.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-34-io_joern_swiftsrc2cpg_passes_ConfigFileCreationPass.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 12606,
+      "sha256": "fa528903d8d1e2af9936ef0e37032dce8f943c5d3a89a325121a900655733bdf",
+      "git_blob": "522c639763cbc83f64cdbc10a24e69004978c516",
+      "diff": {
+        "additions": 213,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-35-io_joern_swiftsrc2cpg_passes_DependenciesPass.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-35-io_joern_swiftsrc2cpg_passes_DependenciesPass.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 33846,
+      "sha256": "6c84dfb0b6df38906e43754b565b095185cceeef6511d212f485bec8b84ce77b",
+      "git_blob": "3a0d388a41f445018aebbfea34d3ef365f1c0013",
+      "diff": {
+        "additions": 363,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-36-io_joern_swiftsrc2cpg_passes_ExtensionsPass.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-36-io_joern_swiftsrc2cpg_passes_ExtensionsPass.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 146674,
+      "sha256": "3128a69d5baac34a0d034131eed8cf91e1329fa5aa12903988db7a643bd8f504",
+      "git_blob": "bd295f16f3b42bab97e20bf9106b815d2e3a504b",
+      "diff": {
+        "additions": 1800,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-37-io_joern_swiftsrc2cpg_passes_FullNameUniquenessPass.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-37-io_joern_swiftsrc2cpg_passes_FullNameUniquenessPass.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 59910,
+      "sha256": "28fb2c2781a8ea195ee1734f83e644d187589029b1756c3e3a9f5593600085f0",
+      "git_blob": "8fe4d0afaa10ab45ad7ff3a13c46b21698ddf570",
+      "diff": {
+        "additions": 759,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-38-io_joern_swiftsrc2cpg_passes_MetaDataPass.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-38-io_joern_swiftsrc2cpg_passes_MetaDataPass.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 3807,
+      "sha256": "872a0db16518ff6d472909bd0c095cf6afceef798e18186377b835bc55ebd073",
+      "git_blob": "6f6b8364d3023f1baf19877b7a9a71ec8bf95a8c",
+      "diff": {
+        "additions": 52,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-39-io_joern_swiftsrc2cpg_passes_ObjcCallFullNamePass.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-39-io_joern_swiftsrc2cpg_passes_ObjcCallFullNamePass.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 23434,
+      "sha256": "968fdc81230ae10d85c8e76d2c7cc65140b0b5fed91cc54f0e92cd400192c8f1",
+      "git_blob": "12474fcc14e22073ec346db65f3e06821b8f43ec",
+      "diff": {
+        "additions": 199,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-40-io_joern_x2cpg_X2CpgFrontend.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-40-io_joern_x2cpg_X2CpgFrontend.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 3824,
+      "sha256": "0a78b0fad7ac0edda76d59214c2925c1d23f56a29e87477a0df28b71ef4dbbb9",
+      "git_blob": "b55ea787db9e71556e9ce471c065aa1685f41b3f",
+      "diff": {
+        "additions": 88,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-41-io_joern_swiftsrc2cpg_Mainobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-41-io_joern_swiftsrc2cpg_Mainobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1526,
+      "sha256": "4a8442f981e55973f50df1e9e81a9c10e7b4710ad42bed8af86550404c23e966",
+      "git_blob": "6d62c4f634825424c1fbc08221d96a20bd168ae7",
+      "diff": {
+        "additions": 31,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-42-io_joern_swiftsrc2cpg_passes_SwiftTypeNodePassobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-42-io_joern_swiftsrc2cpg_passes_SwiftTypeNodePassobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 4390,
+      "sha256": "8fd6f90888ba71cc96356656c89af50d4151f852968d5958f6f8cf126f7b140d",
+      "git_blob": "5dac46b8cdcbde0120123743a4a05c676c14ff2e",
+      "diff": {
+        "additions": 89,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-43-replpp_scripting_ScriptRunnerobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-43-replpp_scripting_ScriptRunnerobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 11918,
+      "sha256": "5ebe92433a43d470475d946efab39a9d9b831b8de23c90bc197c1d8eb1ddf3f8",
+      "git_blob": "9042a522b76b73cffe47fe6849b84072ef4b654f",
+      "diff": {
+        "additions": 204,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-44-replpp_Configobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-44-replpp_Configobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 108919,
+      "sha256": "56adfa63039d942b5f615c8cc8bb486fa60e2a8f128bdc7da1547749fe6b7eb6",
+      "git_blob": "183af62dfbf84c851de079c91f1cf9d4d941ba86",
+      "diff": {
+        "additions": 1943,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-45-replpp_ConfigobjectForClasspathobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-45-replpp_ConfigobjectForClasspathobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 9485,
+      "sha256": "b4df60375d5c0185e416d2bbad3d14fb7a05cb6443917bbc11c898946326c993",
+      "git_blob": "e15e7511c77601b94f3192935031361542ba59a1",
+      "diff": {
+        "additions": 197,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-46-replpp_ConfigobjectForClasspath.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-46-replpp_ConfigobjectForClasspath.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 21835,
+      "sha256": "c244e9441a95a98406e1b4113826669166712c7da61e03591fb86e3f698b06b0",
+      "git_blob": "8b53838ac5464e56b186b5e29851c8d864af866b",
+      "diff": {
+        "additions": 472,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-47-io_joern_joerncli_console_Joernobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-47-io_joern_joerncli_console_Joernobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1091,
+      "sha256": "f4152511a5fd27478dfd868ade257ac6cad486f1a09b71098190e5dad1e3cfe9",
+      "git_blob": "d1a175c9b7e995080be3bd0b03aa22cd29ed14df",
+      "diff": {
+        "additions": 26,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-48-io_joern_joerncli_console_JoernConsoleobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-48-io_joern_joerncli_console_JoernConsoleobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 4165,
+      "sha256": "f09513911c4c053df7533f5d51cd571696416ac581e807431ee82f139727a6f8",
+      "git_blob": "abeda3b78dfd3d0a4acff8a35e3f8aad0eafc58b",
+      "diff": {
+        "additions": 69,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-49-io_joern_console_Runobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-49-io_joern_console_Runobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 16949,
+      "sha256": "9c8985abac8944fdccf571de37eed0db9d77d60fa83d39e6c85af550a17b4e72",
+      "git_blob": "93be5b7445d667dfe3ff904d6c6f1c0abb6604ab",
+      "diff": {
+        "additions": 296,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-50-io_joern_console_CpgBasedTool.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 54,
+      "sha256": "b0632b16499c0896056810ee3953a609fd1bf525d13b3c54faf36abd51e6d6bb",
+      "git_blob": "20eb42e60eafab753efafbf82bfba57d2dac9bb4",
+      "diff": {
+        "additions": 1,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-50-io_joern_console_CpgBasedTool.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-51-io_joern_swiftsrc2cpg_passes_AstCreationPassobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-51-io_joern_swiftsrc2cpg_passes_AstCreationPassobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 6485,
+      "sha256": "0a56957df2fcfbbef8a7692c57e2d6fac07c6be469f03c1e81507c0551321b93",
+      "git_blob": "3f299033c6fcd6b9c0fbcfecc01c5e01f1b9f4ab",
+      "diff": {
+        "additions": 122,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-52-replpp_util_ClasspathHelperobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-52-replpp_util_ClasspathHelperobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 28465,
+      "sha256": "58ad8a9a3bb94e0d54281c460d5b70b415743045db3ecbfc6d0fc7a98a2e74b9",
+      "git_blob": "022565ebf3b8df9b4d6199baeba3ced2d7839b1d",
+      "diff": {
+        "additions": 479,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-53-replpp_packageobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-53-replpp_packageobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 56748,
+      "sha256": "a85d80bd52352516e91e48d11d407ed09909e44357523370cafc667acf1a7695",
+      "git_blob": "f1479caae34b48b5cb63f82f1f4e35960277a020",
+      "diff": {
+        "additions": 1042,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-54-replpp_scripting_Mainobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 47,
+      "sha256": "dda699e5572b95128ac3e8ffa146c1023d300248b450dd5f27b3cce14487784c",
+      "git_blob": "8c8418a57359c8f73065bc6831de1463e9138465",
+      "diff": {
+        "additions": 1,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-54-replpp_scripting_Mainobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-55-replpp_Config.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-55-replpp_Config.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 70063,
+      "sha256": "66c71e3e4f13fa00b28a69911ed2c36e203dc64cced06c8c87f79429e545c4f2",
+      "git_blob": "05f9c3e1b0831976306289d3d1bd71de00b2bed1",
+      "diff": {
+        "additions": 1484,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-56-io_joern_joerncli_console_JoernConsole.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-56-io_joern_joerncli_console_JoernConsole.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 11071,
+      "sha256": "7bd2a9f8fd4c1f6a8abf5a7b9e674c4256b5c1149674e32b5030a4e9bc3cc7ca",
+      "git_blob": "82c2b8ada4c88f8074c2c6e896eb80bbc62bff9b",
+      "diff": {
+        "additions": 162,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-57-io_joern_joerncli_console_Joern.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-57-io_joern_joerncli_console_Joern.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 13988,
+      "sha256": "e56fd88936ea285cf601794ea9fd74a6ba3edb124f622e933582371f65ed32bf",
+      "git_blob": "96918192af2a2150d6fc70fe5903d9a8bc8b3337",
+      "diff": {
+        "additions": 230,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-58-io_joern_dataflowengineoss_queryengine_EngineContextobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-58-io_joern_dataflowengineoss_queryengine_EngineContextobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 5870,
+      "sha256": "d6ef5ba8e05d0a277f4d635e329c5b5da8fe282c9aab3aa82116badf10674b03",
+      "git_blob": "34b96324168e4e4655beaced07555171561815e9",
+      "diff": {
+        "additions": 93,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-59-io_joern_swiftsrc2cpg_passes_BuiltinTypesPassobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 71,
+      "sha256": "562b6efea679b7542172f435bcc6a122581602f70c6eba5984c0b11f262bda79",
+      "git_blob": "7ba84a0704cd9ce823507c153c217ab62e5f9d8b",
+      "diff": {
+        "additions": 1,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-59-io_joern_swiftsrc2cpg_passes_BuiltinTypesPassobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-60-replpp_UsingDirectivesobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-60-replpp_UsingDirectivesobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 14627,
+      "sha256": "946160b6fd12601f34b4781ef610cc74b7c00827e3b5cf52dab39aa773cd6356",
+      "git_blob": "b383850c3ffac257ed6288fc371cc5921a0b29f6",
+      "diff": {
+        "additions": 261,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-61-replpp_scripting_NonForkingScriptRunnerobject.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-61-replpp_scripting_NonForkingScriptRunnerobject.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 11605,
+      "sha256": "f0f80c9258629fc79b61fdc6726194b71b481983db461b56c46d805b9e5842c6",
+      "git_blob": "ff9fe512ffdd64a9bf5a00946c16a5bf8bc71c24",
+      "diff": {
+        "additions": 199,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-62-replpp_scripting_NonForkingScriptRunner.stderr.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "diff": {
+        "additions": 0,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/javap-62-replpp_scripting_NonForkingScriptRunner.stdout.txt",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 820,
+      "sha256": "44b5f7b9572ed183264a06829f99e110778c97ad63630144bfe03a1f283f4855",
+      "git_blob": "44de5f3e97c5d4a6c2badfbacbb92469f8b118af",
+      "diff": {
+        "additions": 16,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/launcher-bindings.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 46136,
+      "sha256": "828cfda860e04a096234c08f790159b115a0d068f2716f4b621ffd2acda682b6",
+      "git_blob": "6e12790c299a16f41906b36c9bf0eb791f359a72",
+      "diff": {
+        "additions": 37,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/manifest-02.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 12546,
+      "sha256": "f7b9dd47b7b7f096752eb1a3ff27064a4d9063c7c2df4baff88870e65ac0221b",
+      "git_blob": "8d60079883c590dfee9ea91f102c13ccba9b2641",
+      "diff": {
+        "additions": 338,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/manifest-03.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 29939,
+      "sha256": "02a6a95f7c69092614d17e593f45cf0ab9386d53951781b8302a38293b33fad8",
+      "git_blob": "e34f283a763b6beadd6cca51a01fe8e32c0c8f9a",
+      "diff": {
+        "additions": 805,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/manifest.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 12300,
+      "sha256": "da5da4f0b19afaed616f6f37383e13fdecc8ea5137709198a98f882598c53f0e",
+      "git_blob": "007e03672567f70bfea80ddf536595d603a2dcff",
+      "diff": {
+        "additions": 328,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/native-role-contracts-03.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 31909,
+      "sha256": "9ead1984228dea34a15416189fa20dba59cb1bfff2dc5c7cba3e542e5376d236",
+      "git_blob": "098996fcff20f4697008893fd8a36b36fa511a7a",
+      "diff": {
+        "additions": 200,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/new-class-providers-03.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 23343,
+      "sha256": "0c710c4fa369e8832ed22a00efe96107fbcaba63eade91de46c33ede158d213f",
+      "git_blob": "baa86b4b263db4f88df99eb12cbecfc26bfd52d4",
+      "diff": {
+        "additions": 515,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/resolve-static-classpaths.py",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 3426,
+      "sha256": "1cbe230dbbfd1577a2ce881f1cc56bfabd467303c3b44a081d4d5d9513720abf",
+      "git_blob": "cab3abc6b198b854465163e81dcc0f8d13b21f75",
+      "diff": {
+        "additions": 22,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/resources.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 15656301,
+      "sha256": "ba200e280b4aa8eb4c4713518985f7479b9ddd9158026f9690dff5bc72ba0d7e",
+      "git_blob": "ae24bbabccfbbe9e7d0414b817778423c84f59c9",
+      "diff": {
+        "additions": 177585,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/runtime-manifest-comparison.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 300,
+      "sha256": "fe761e532665924c2e295e47ebd00d6ee707bae0d77a641412420619ab6f3d91",
+      "git_blob": "b6b87d8f8e4b67a9e2c0635e34cdf4bbc92a07b2",
+      "diff": {
+        "additions": 12,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/seal-capture-03.py",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 8548,
+      "sha256": "322cb745e6eb2c1b79d688a44a595b0e647d3effd3fc16936b520a52ff864365",
+      "git_blob": "2406303d1d9194e86aa71ca8b413acd696b41282",
+      "diff": {
+        "additions": 31,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/six-role-conclusions-03.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 10178,
+      "sha256": "201ebd028012cda6026b65888abad4fc065bd3327ac5ddfa54478fe5e0b06b76",
+      "git_blob": "f7b7f78c965cdde0fb13a0769c8970545dfcfad3",
+      "diff": {
+        "additions": 212,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/six-role-conclusions.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 10849,
+      "sha256": "3948560e7fd3c4c87b82e8d9c1e6bcf66ed3d0b723b14b79b1ddab8524744ebb",
+      "git_blob": "6a94870adcd5f8216080e0bc9363f892a40ce679",
+      "diff": {
+        "additions": 177,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/six-role-loader-matrix-02.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 16209,
+      "sha256": "00bff695b58845172fe7f71269311e5957e5775cf81c72d3e2ccabdb559ed93b",
+      "git_blob": "f136c1e6cba9b8e5dd74d54a44645e3286950bc5",
+      "diff": {
+        "additions": 315,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/static-commands-01.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 6722,
+      "sha256": "3f5d82b2a4d2d25e6a7f441859f147661b6222ce2a50406a442e6e29a3f4dc88",
+      "git_blob": "e6f2603a6c50d209bfd99711fcc82b28efaadbbf",
+      "diff": {
+        "additions": 136,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/static-commands-02.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 8986,
+      "sha256": "08fc8a8e1e061ea6327ff3e352c40761050174c3c0f86a15a79378a6d9ff28bb",
+      "git_blob": "e4b5d43e73bdb710e0ca6a08564b0ec77a16d6d5",
+      "diff": {
+        "additions": 197,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/static-commands-03.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 10714,
+      "sha256": "93646252594682af706aa52d0356a13332f0f4e98e622fca84224f87fac9ce21",
+      "git_blob": "b0d49918d3b563ae6930cdc301cbe1cf3de3a581",
+      "diff": {
+        "additions": 236,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/static-commands-03b.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 5121,
+      "sha256": "f9ed19db74476ea8b001719a86c0107f5cc42418c6b5c6288935d432feced3d2",
+      "git_blob": "dbf79816210c3677a94565f11e27a4701c66169a",
+      "diff": {
+        "additions": 119,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/static-commands-03c.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 4559,
+      "sha256": "193204853776ca1dcea2889746167c10bf6d1a7ee2e9f536b0d2a8041e55c4a2",
+      "git_blob": "9374ceffbcaea8ca7b69225add01f1fce28f2ff9",
+      "diff": {
+        "additions": 106,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/static-commands-03d.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 1742,
+      "sha256": "b7bdc8ff2ad32c3dd0f8cb60d135456ea30cf4c0211ab80bfc1afb19b470507d",
+      "git_blob": "6c73fbec630456d0ced6e9aec48ca122eb5fb2f2",
+      "diff": {
+        "additions": 41,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/swift-structural-symbols-03.json",
+      "status": "A",
+      "category": "static native-mechanism evidence",
+      "purpose": "Captured/static Joern mechanism inventories, javap/text outputs and audit metadata; evidence, not engine implementation.",
+      "bytes": 8074623,
+      "sha256": "73881359ce0e57cbf07539a256c37bfdc54764c3458a5b9669d553646d614493",
+      "git_blob": "7d8ae563f8208a6aa19807d4ee3daf8f1acd998a",
+      "diff": {
+        "additions": 205656,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-query-configuration-boundary-01.json",
+      "status": "A",
+      "category": "native boundary/design metadata",
+      "purpose": "Native query boundary and unsupported-capture/design evidence; source review inputs only.",
+      "bytes": 11911,
+      "sha256": "11545011c2e6559b3b3ccafd2c26b7153fb9167e55dc0d92828e1b146142a85a",
+      "git_blob": "e723f76b5859d5878e2a12f8c075cf8b19ef9541",
+      "diff": {
+        "additions": 317,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-unsupported-capture-independent-review-02.json",
+      "status": "A",
+      "category": "native boundary/design metadata",
+      "purpose": "Native query boundary and unsupported-capture/design evidence; source review inputs only.",
+      "bytes": 12926,
+      "sha256": "b0023bfa05075eebfd58e06bded6ad62c193bcb9cacbd7c575c4c18804d1c5c2",
+      "git_blob": "648a66d6b7e0468f21cb76e57a519a4caab36e94",
+      "diff": {
+        "additions": 244,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/control-plan-01.json",
+      "status": "A",
+      "category": "prospective control and pending-plan metadata",
+      "purpose": "Prospective diagnostic control/pending plan/source handoff; execution remains qualification-pending.",
+      "bytes": 12269,
+      "sha256": "cdae69200755312a80137426e70250dd7e521100ca91dbe71355bb9c8b11475f",
+      "git_blob": "8c4ed3034dbf20f4ebd6d0d14e5cf3de6f3d9771",
+      "diff": {
+        "additions": 353,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/pending-execution-plan-01.json",
+      "status": "A",
+      "category": "prospective control and pending-plan metadata",
+      "purpose": "Prospective diagnostic control/pending plan/source handoff; execution remains qualification-pending.",
+      "bytes": 48124,
+      "sha256": "08ef4108097f399732ed84b4d81fa46fbf869edafaebb79fb156785cc4888888",
+      "git_blob": "5880351626bbeaa8cf1dff0dfea5c40e002cc748",
+      "diff": {
+        "additions": 1320,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/prospective-source-handoff-01.json",
+      "status": "A",
+      "category": "prospective control and pending-plan metadata",
+      "purpose": "Prospective diagnostic control/pending plan/source handoff; execution remains qualification-pending.",
+      "bytes": 9964,
+      "sha256": "5d8de372d7cd398dcc033e25bd4ec3ae8f70be9cdc25ca2b23e29b04d8475977",
+      "git_blob": "3042af94bd711d51494626a2461b6c388e2e5341",
+      "diff": {
+        "additions": 192,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-entrypoint-negative.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47424,
+      "sha256": "254d3f1e38d58d5fdaf0d76c8fe899b31c8b8f034cd4a8545e1f731f34e469e2",
+      "git_blob": "2f1427e180a9c48ade4c066e3c02840906dfe68a",
+      "diff": {
+        "additions": 771,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-entrypoint-positive.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47424,
+      "sha256": "3305798f4d23829f03ba0105643bb4678d983f4d9b2b7481863cef86573212ab",
+      "git_blob": "b9242bc7a39333786b96557a4435369f570936b5",
+      "diff": {
+        "additions": 771,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-persistence-negative.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47471,
+      "sha256": "8da0fa0c0164a1ab07b5b3f75d13c75056a79a0cb3dbb57cf5f0e21859307e44",
+      "git_blob": "2f0fa3a9c52af3581c9aed8c238bc76fbbb84b2d",
+      "diff": {
+        "additions": 773,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-persistence-positive.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47471,
+      "sha256": "893e0e3ff0447449b4614893e6e578392f4ca49ac738591f8f13129cbfe1e8d2",
+      "git_blob": "dc78163a1656853fb0c2bba1f81c432e3d9c7091",
+      "diff": {
+        "additions": 773,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-propagator-negative.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47417,
+      "sha256": "1cbca4d55fb46197bd464ad91065a1065021366d29965771d08ecc24cde14d9e",
+      "git_blob": "6c972056f509deafa206219427563d7e88147b2b",
+      "diff": {
+        "additions": 771,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-propagator-positive.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47417,
+      "sha256": "4766884cb122d08a2fd94f603b3113d4d54f88a7db3203b380cbd8edeccf68b5",
+      "git_blob": "5fd7a0e80c9b40966350679c4abfd91cde6a1d89",
+      "diff": {
+        "additions": 771,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-sanitizer-negative.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47407,
+      "sha256": "31cccae29d2c6bfb34e12eeb688846d44f76cbebebd974f1361d36f7fc0e6ac5",
+      "git_blob": "71293d6fd1e870dc435e5587e2be8cce4d24a6f3",
+      "diff": {
+        "additions": 771,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-sanitizer-positive.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47407,
+      "sha256": "96c0146cb785c6e329dadea1c8e00061553908f88f265d85f1e334e3b49bf63f",
+      "git_blob": "862216b0218bff786ba5dccf9dddc4238ae4860e",
+      "diff": {
+        "additions": 771,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-source-sink-negative.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47402,
+      "sha256": "52cf288cf1228afd59809d13c4ddbf0c0c152178223034b0780ce5c2b4805d06",
+      "git_blob": "1f84ddfb52ecf9c25cb532acf4f41cd45c623c03",
+      "diff": {
+        "additions": 770,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-source-sink-positive.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47402,
+      "sha256": "1f4d210fc99c86499b4ec5dfdf6e980e942ad932213aa9683d12269bb44a3972",
+      "git_blob": "94eb00f18aef3a60de123e6da08eba2d43d10181",
+      "diff": {
+        "additions": 770,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-summary-negative.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47442,
+      "sha256": "fcb36e9503e15fe98cc0e82a874dfe6121609046ebf32146d9bf37d0c800e6bc",
+      "git_blob": "c435cc3bafe1d92e9d3c2178f2c237a60d1f0e8e",
+      "diff": {
+        "additions": 773,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-summary-positive.json",
+      "status": "A",
+      "category": "prospective 12-case native decision fixtures",
+      "purpose": "Twelve prospective unsupported/native decision fixture documents; no Unsupported issuance or runtime result.",
+      "bytes": 47442,
+      "sha256": "0fa939881848a0d373a488064f46d24441069996722c6dede14a8e5c88a87e0a",
+      "git_blob": "97aa07b980f01bdffad95fd2c321998b9dc00a53",
+      "diff": {
+        "additions": 773,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/joern05-native-control-design-01.json",
+      "status": "A",
+      "category": "native control design/authority metadata",
+      "purpose": "Native control design and root-scoped authority derivation; not runtime qualification authority.",
+      "bytes": 28440,
+      "sha256": "7c8c652db1b206f5a99a0d9e65193e38904bce65dc2c4e90a429fee29a1094e0",
+      "git_blob": "f5fcfe55c83caaee8c4e8960cb564463b69be54c",
+      "diff": {
+        "additions": 510,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-authority-derivation-01.json",
+      "status": "A",
+      "category": "native control design/authority metadata",
+      "purpose": "Native control design and root-scoped authority derivation; not runtime qualification authority.",
+      "bytes": 2622,
+      "sha256": "bb91e46aa9055f286e39de5a4129592e2c72c9b19d72a19237186a0912769f6a",
+      "git_blob": "cb03b0a7286c40f80db17c456b6908c37105ed6d",
+      "diff": {
+        "additions": 66,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/actual-pending-plan-bootstrap-check-01.json",
+      "status": "A",
+      "category": "source-only validation reviews",
+      "purpose": "Independent source/canonical-copy/bootstrap review receipts; all preserve execution/publication hold.",
+      "bytes": 1422,
+      "sha256": "ad729c62c07083fc3fa2bba7b9f2e058315f64b7e860b55ddac0279770e57c93",
+      "git_blob": "ca7e4f8d3d2fff0ef6340d83bdbaeae2d99935bb",
+      "diff": {
+        "additions": 33,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/execution-adapter-independent-review-04.json",
+      "status": "A",
+      "category": "source-only validation reviews",
+      "purpose": "Independent source/canonical-copy/bootstrap review receipts; all preserve execution/publication hold.",
+      "bytes": 13588,
+      "sha256": "b8b59d5043445116782aae820c563b6c50c52dc1ae8391d8563da86afdc27062",
+      "git_blob": "097cca5009281f6fd398f101cdc07f965c9c953f",
+      "diff": {
+        "additions": 260,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/execution-adapter04-canonical-copy-independent-review-01.json",
+      "status": "A",
+      "category": "source-only validation reviews",
+      "purpose": "Independent source/canonical-copy/bootstrap review receipts; all preserve execution/publication hold.",
+      "bytes": 12697,
+      "sha256": "ead5e62e893cc548104053a03637e44fc0bf0e0913eb96d32d3069d2ec30de6e",
+      "git_blob": "4e300979019ffb7ce3360869e53be7e66a477ff4",
+      "diff": {
+        "additions": 245,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier-independent-review-02.json",
+      "status": "A",
+      "category": "source-only validation reviews",
+      "purpose": "Independent source/canonical-copy/bootstrap review receipts; all preserve execution/publication hold.",
+      "bytes": 18424,
+      "sha256": "46a63223b1dd4caceb0bc26d044fc5fea1ae82c639c1439bc2d9cca9d14e2a5e",
+      "git_blob": "03eaadd1fddb3caf72507c6ed80e8a60ee4e48a0",
+      "diff": {
+        "additions": 327,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier02-canonical-copy-01.json",
+      "status": "A",
+      "category": "source-only validation reviews",
+      "purpose": "Independent source/canonical-copy/bootstrap review receipts; all preserve execution/publication hold.",
+      "bytes": 1795,
+      "sha256": "e4924ff5bb28bed43d03dad9e82721e007ea9b77c0a400d76a3fd828fc8e83b3",
+      "git_blob": "d955e4cd7d716fb85d6f9f8d4ba0e1b4b6232d49",
+      "diff": {
+        "additions": 41,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/preparatory-source-selection-independent-review-01.json",
+      "status": "A",
+      "category": "source-only validation reviews",
+      "purpose": "Independent source/canonical-copy/bootstrap review receipts; all preserve execution/publication hold.",
+      "bytes": 10317,
+      "sha256": "f73e7a7d8cd2c58e4da7921c013e69a1645ad2a0b7c83961847d81a5fa97073a",
+      "git_blob": "0a2a93b55333dc4d09f116234447a4d974924409",
+      "diff": {
+        "additions": 189,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/prospective-native-decisions02-independent-review-correction-01.json",
+      "status": "A",
+      "category": "source-only validation reviews",
+      "purpose": "Independent source/canonical-copy/bootstrap review receipts; all preserve execution/publication hold.",
+      "bytes": 5414,
+      "sha256": "d85278953d2ad18aeea5a2b2055035ebc28b1128e831a34aba16a0afd4c13d9b",
+      "git_blob": "92005b9dc0525ac35b501b6819599a9cdb4b13da",
+      "diff": {
+        "additions": 103,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/startup-observer06-canonical-copy-01.json",
+      "status": "A",
+      "category": "source-only validation reviews",
+      "purpose": "Independent source/canonical-copy/bootstrap review receipts; all preserve execution/publication hold.",
+      "bytes": 1829,
+      "sha256": "03b1c697a8ea18ca0c9b5e50235620e8156ad2b62f7ada78d8935f7774d5cf40",
+      "git_blob": "a623eb2d69fdb4f2df5f31f3d9fd5e400c5d6576",
+      "diff": {
+        "additions": 42,
+        "deletions": 0,
+        "binary": false
+      }
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/startup-observer06-independent-review-01.json",
+      "status": "A",
+      "category": "source-only validation reviews",
+      "purpose": "Independent source/canonical-copy/bootstrap review receipts; all preserve execution/publication hold.",
+      "bytes": 7094,
+      "sha256": "7e5c5e4a169cdbcbe9af73246f6609c8c674136f841b3b03eb050449ee81f541",
+      "git_blob": "65cea802cd50c1fe37ff7c24ad905b3fe090db66",
+      "diff": {
+        "additions": 153,
+        "deletions": 0,
+        "binary": false
+      }
+    }
+  ],
+  "disposition": {
+    "source_only_audit": "pass",
+    "binding": "Commit source, committed source-review receipts, and the later native-controls01 failure diagnosis are cross-bound to source head 7518a16efaffa69a8b616b95df9b2a1475a52d5e.",
+    "required_followup": "The diagnosed startup defects require a later append-only repair/source review/fresh request and independent invocation review; this audit does not authorize them.",
+    "publication_hold": true
+  }
+}

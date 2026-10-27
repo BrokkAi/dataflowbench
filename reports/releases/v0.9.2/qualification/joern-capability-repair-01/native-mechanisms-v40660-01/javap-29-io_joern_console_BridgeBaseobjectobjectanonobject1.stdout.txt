@@ -1,0 +1,364 @@
+Compiled from "BridgeBase.scala"
+public final class io.joern.console.BridgeBase$$anon$1 extends scopt.OptionParser<io.joern.console.Config> {
+  public io.joern.console.BridgeBase$$anon$1(io.joern.console.BridgeBase);
+    Code:
+       0: aload_1
+       1: ifnonnull     12
+       4: new           #21                 // class java/lang/NullPointerException
+       7: dup
+       8: invokespecial #24                 // Method java/lang/NullPointerException."<init>":()V
+      11: athrow
+      12: aload_0
+      13: aload_1
+      14: invokeinterface #28,  1           // InterfaceMethod io/joern/console/BridgeBase.applicationName:()Ljava/lang/String;
+      19: invokespecial #31                 // Method scopt/OptionParser."<init>":(Ljava/lang/String;)V
+      22: aload_0
+      23: ldc           #33                 // String Script execution
+      25: invokevirtual #37                 // Method note:(Ljava/lang/String;)Lscopt/OptionDef;
+      28: pop
+      29: aload_0
+      30: ldc           #39                 // String script
+      32: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+      35: invokevirtual #49                 // Method scopt/Read$.pathRead:()Lscopt/Read;
+      38: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+      41: invokedynamic #74,  0             // InvokeDynamic #0:apply:()Lscala/Function2;
+      46: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+      49: ldc           #82                 // String path to script file: will execute and exit
+      51: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+      54: pop
+      55: aload_0
+      56: ldc           #87                 // String param
+      58: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+      61: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+      64: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+      67: ldc           #92                 // String param1=value1
+      69: invokevirtual #95                 // Method scopt/OptionDef.valueName:(Ljava/lang/String;)Lscopt/OptionDef;
+      72: invokevirtual #99                 // Method scopt/OptionDef.unbounded:()Lscopt/OptionDef;
+      75: invokevirtual #102                // Method scopt/OptionDef.optional:()Lscopt/OptionDef;
+      78: invokedynamic #109,  0            // InvokeDynamic #1:apply:()Lscala/Function2;
+      83: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+      86: ldc           #111                // String key/value pair for main function in script - may be passed multiple times
+      88: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+      91: pop
+      92: aload_0
+      93: ldc           #113                // String import
+      95: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+      98: invokevirtual #49                 // Method scopt/Read$.pathRead:()Lscopt/Read;
+     101: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     104: ldc           #115                // String script1.sc
+     106: invokevirtual #95                 // Method scopt/OptionDef.valueName:(Ljava/lang/String;)Lscopt/OptionDef;
+     109: invokevirtual #99                 // Method scopt/OptionDef.unbounded:()Lscopt/OptionDef;
+     112: invokevirtual #102                // Method scopt/OptionDef.optional:()Lscopt/OptionDef;
+     115: invokedynamic #120,  0            // InvokeDynamic #2:apply:()Lscala/Function2;
+     120: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     123: ldc           #122                // String given source files will be compiled and added to classpath - this may be passed multiple times
+     125: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     128: pop
+     129: aload_0
+     130: ldc           #124                // String runBefore
+     132: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     135: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     138: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     141: ldc           #126                // String \'import Int.MaxValue\'
+     143: invokevirtual #95                 // Method scopt/OptionDef.valueName:(Ljava/lang/String;)Lscopt/OptionDef;
+     146: invokevirtual #99                 // Method scopt/OptionDef.unbounded:()Lscopt/OptionDef;
+     149: invokevirtual #102                // Method scopt/OptionDef.optional:()Lscopt/OptionDef;
+     152: invokedynamic #131,  0            // InvokeDynamic #3:apply:()Lscala/Function2;
+     157: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     160: ldc           #133                // String given code will be executed on startup - this may be passed multiple times
+     162: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     165: pop
+     166: aload_0
+     167: ldc           #135                // String runAfter
+     169: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     172: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     175: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     178: ldc           #137                // String println(\"bye!\")
+     180: invokevirtual #95                 // Method scopt/OptionDef.valueName:(Ljava/lang/String;)Lscopt/OptionDef;
+     183: invokevirtual #99                 // Method scopt/OptionDef.unbounded:()Lscopt/OptionDef;
+     186: invokevirtual #102                // Method scopt/OptionDef.optional:()Lscopt/OptionDef;
+     189: invokedynamic #142,  0            // InvokeDynamic #4:apply:()Lscala/Function2;
+     194: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     197: ldc           #144                // String given code will be executed on shutdown - this may be passed multiple times
+     199: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     202: pop
+     203: aload_0
+     204: ldc           #146                // String classpathEntry
+     206: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     209: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     212: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     215: ldc           #148                // String path/to/classpath
+     217: invokevirtual #95                 // Method scopt/OptionDef.valueName:(Ljava/lang/String;)Lscopt/OptionDef;
+     220: invokevirtual #99                 // Method scopt/OptionDef.unbounded:()Lscopt/OptionDef;
+     223: invokevirtual #102                // Method scopt/OptionDef.optional:()Lscopt/OptionDef;
+     226: invokedynamic #153,  0            // InvokeDynamic #5:apply:()Lscala/Function2;
+     231: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     234: ldc           #155                // String additional classpath entries - may be passed multiple times
+     236: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     239: pop
+     240: aload_0
+     241: bipush        100
+     243: ldc           #157                // String dep
+     245: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     248: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     251: invokevirtual #160                // Method opt:(CLjava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     254: ldc           #162                // String com.michaelpollmeier:versionsort:1.0.7
+     256: invokevirtual #95                 // Method scopt/OptionDef.valueName:(Ljava/lang/String;)Lscopt/OptionDef;
+     259: invokevirtual #99                 // Method scopt/OptionDef.unbounded:()Lscopt/OptionDef;
+     262: invokevirtual #102                // Method scopt/OptionDef.optional:()Lscopt/OptionDef;
+     265: invokedynamic #167,  0            // InvokeDynamic #6:apply:()Lscala/Function2;
+     270: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     273: ldc           #169                // String add artifacts (including transitive dependencies) for given maven coordinate to classpath - may be passed multiple times
+     275: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     278: pop
+     279: aload_0
+     280: bipush        114
+     282: ldc           #171                // String repo
+     284: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     287: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     290: invokevirtual #160                // Method opt:(CLjava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     293: ldc           #173                // String https://repository.apache.org/content/groups/public/
+     295: invokevirtual #95                 // Method scopt/OptionDef.valueName:(Ljava/lang/String;)Lscopt/OptionDef;
+     298: invokevirtual #99                 // Method scopt/OptionDef.unbounded:()Lscopt/OptionDef;
+     301: invokevirtual #102                // Method scopt/OptionDef.optional:()Lscopt/OptionDef;
+     304: invokedynamic #178,  0            // InvokeDynamic #7:apply:()Lscala/Function2;
+     309: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     312: ldc           #180                // String additional repositories to resolve dependencies - may be passed multiple times
+     314: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     317: pop
+     318: aload_0
+     319: ldc           #182                // String command
+     321: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     324: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     327: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     330: invokedynamic #187,  0            // InvokeDynamic #8:apply:()Lscala/Function2;
+     335: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     338: ldc           #189                // String select one of multiple @main methods
+     340: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     343: pop
+     344: aload_0
+     345: ldc           #191                // String Plugin Management
+     347: invokevirtual #37                 // Method note:(Ljava/lang/String;)Lscopt/OptionDef;
+     350: pop
+     351: aload_0
+     352: ldc           #193                // String add-plugin
+     354: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     357: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     360: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     363: invokedynamic #198,  0            // InvokeDynamic #9:apply:()Lscala/Function2;
+     368: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     371: ldc           #200                // String Plugin zip file to add to the installation
+     373: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     376: pop
+     377: aload_0
+     378: ldc           #202                // String remove-plugin
+     380: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     383: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     386: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     389: invokedynamic #207,  0            // InvokeDynamic #10:apply:()Lscala/Function2;
+     394: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     397: ldc           #209                // String Name of plugin to remove from the installation
+     399: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     402: pop
+     403: aload_0
+     404: ldc           #211                // String plugins
+     406: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     409: invokevirtual #214                // Method scopt/Read$.unitRead:()Lscopt/Read;
+     412: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     415: invokedynamic #221,  0            // InvokeDynamic #11:apply:()Lscala/Function2;
+     420: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     423: ldc           #223                // String List available plugins and layer creators
+     425: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     428: pop
+     429: aload_0
+     430: ldc           #225                // String run
+     432: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     435: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     438: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     441: invokedynamic #230,  0            // InvokeDynamic #12:apply:()Lscala/Function2;
+     446: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     449: ldc           #232                // String Run layer creator. Get a list via --plugins
+     451: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     454: pop
+     455: aload_0
+     456: ldc           #234                // String src
+     458: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     461: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     464: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     467: invokedynamic #239,  0            // InvokeDynamic #13:apply:()Lscala/Function2;
+     472: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     475: ldc           #241                // String Source code directory to run layer creator on
+     477: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     480: pop
+     481: aload_0
+     482: ldc           #243                // String language
+     484: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     487: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     490: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     493: invokedynamic #248,  0            // InvokeDynamic #14:apply:()Lscala/Function2;
+     498: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     501: ldc           #250                // String Language to use in CPG creation
+     503: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     506: pop
+     507: aload_0
+     508: ldc           #252                // String overwrite
+     510: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     513: invokevirtual #214                // Method scopt/Read$.unitRead:()Lscopt/Read;
+     516: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     519: invokedynamic #257,  0            // InvokeDynamic #15:apply:()Lscala/Function2;
+     524: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     527: ldc_w         #259                // String Overwrite CPG if it already exists
+     530: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     533: pop
+     534: aload_0
+     535: ldc_w         #261                // String store
+     538: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     541: invokevirtual #214                // Method scopt/Read$.unitRead:()Lscopt/Read;
+     544: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     547: invokedynamic #266,  0            // InvokeDynamic #16:apply:()Lscala/Function2;
+     552: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     555: ldc_w         #268                // String Store graph changes made by layer creator
+     558: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     561: pop
+     562: aload_0
+     563: ldc_w         #270                // String REST server mode
+     566: invokevirtual #37                 // Method note:(Ljava/lang/String;)Lscopt/OptionDef;
+     569: pop
+     570: aload_0
+     571: ldc_w         #272                // String server
+     574: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     577: invokevirtual #214                // Method scopt/Read$.unitRead:()Lscopt/Read;
+     580: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     583: invokedynamic #277,  0            // InvokeDynamic #17:apply:()Lscala/Function2;
+     588: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     591: ldc_w         #279                // String run as HTTP server
+     594: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     597: pop
+     598: aload_0
+     599: ldc_w         #281                // String server-host
+     602: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     605: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     608: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     611: invokedynamic #286,  0            // InvokeDynamic #18:apply:()Lscala/Function2;
+     616: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     619: ldc_w         #288                // String Hostname on which to expose the CPGQL server
+     622: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     625: pop
+     626: aload_0
+     627: ldc_w         #290                // String server-port
+     630: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     633: invokevirtual #293                // Method scopt/Read$.intRead:()Lscopt/Read;
+     636: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     639: invokedynamic #300,  0            // InvokeDynamic #19:apply:()Lscala/Function2;
+     644: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     647: ldc_w         #302                // String Port on which to expose the CPGQL server
+     650: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     653: pop
+     654: aload_0
+     655: ldc_w         #304                // String server-auth-username
+     658: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     661: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     664: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     667: invokedynamic #309,  0            // InvokeDynamic #20:apply:()Lscala/Function2;
+     672: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     675: ldc_w         #311                // String Basic auth username for the CPGQL server
+     678: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     681: pop
+     682: aload_0
+     683: ldc_w         #313                // String server-auth-password
+     686: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     689: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     692: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     695: invokedynamic #318,  0            // InvokeDynamic #21:apply:()Lscala/Function2;
+     700: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     703: ldc_w         #320                // String Basic auth password for the CPGQL server
+     706: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     709: pop
+     710: aload_0
+     711: ldc_w         #322                // String Misc
+     714: invokevirtual #37                 // Method note:(Ljava/lang/String;)Lscopt/OptionDef;
+     717: pop
+     718: aload_0
+     719: ldc_w         #324                // String <cpg.bin>
+     722: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     725: invokevirtual #49                 // Method scopt/Read$.pathRead:()Lscopt/Read;
+     728: invokevirtual #327                // Method arg:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     731: invokevirtual #102                // Method scopt/OptionDef.optional:()Lscopt/OptionDef;
+     734: invokedynamic #332,  0            // InvokeDynamic #22:apply:()Lscala/Function2;
+     739: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     742: ldc_w         #334                // String CPG to load
+     745: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     748: pop
+     749: aload_0
+     750: ldc_w         #336                // String for-input-path
+     753: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     756: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     759: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     762: invokedynamic #341,  0            // InvokeDynamic #23:apply:()Lscala/Function2;
+     767: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     770: ldc_w         #343                // String Open CPG for given input path - overrides <cpg.bin>
+     773: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     776: pop
+     777: aload_0
+     778: ldc_w         #345                // String nocolors
+     781: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     784: invokevirtual #214                // Method scopt/Read$.unitRead:()Lscopt/Read;
+     787: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     790: invokedynamic #350,  0            // InvokeDynamic #24:apply:()Lscala/Function2;
+     795: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     798: ldc_w         #352                // String turn off colors
+     801: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     804: pop
+     805: aload_0
+     806: ldc_w         #354                // String verbose
+     809: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     812: invokevirtual #214                // Method scopt/Read$.unitRead:()Lscopt/Read;
+     815: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     818: invokedynamic #359,  0            // InvokeDynamic #25:apply:()Lscala/Function2;
+     823: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     826: ldc_w         #361                // String enable verbose output (predef, resolved dependency jars, ...)
+     829: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     832: pop
+     833: aload_0
+     834: ldc_w         #363                // String maxHeight
+     837: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     840: invokevirtual #293                // Method scopt/Read$.intRead:()Lscopt/Read;
+     843: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     846: invokedynamic #368,  0            // InvokeDynamic #26:apply:()Lscala/Function2;
+     851: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     854: ldc_w         #370                // String Maximum number lines to print before output gets truncated (default: no limit)
+     857: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     860: pop
+     861: aload_0
+     862: ldc_w         #372                // String scalacOption
+     865: getstatic     #45                 // Field scopt/Read$.MODULE$:Lscopt/Read$;
+     868: invokevirtual #90                 // Method scopt/Read$.stringRead:()Lscopt/Read;
+     871: invokevirtual #53                 // Method opt:(Ljava/lang/String;Lscopt/Read;)Lscopt/OptionDef;
+     874: ldc_w         #374                // String -Xfatal-warnings
+     877: invokevirtual #95                 // Method scopt/OptionDef.valueName:(Ljava/lang/String;)Lscopt/OptionDef;
+     880: invokevirtual #99                 // Method scopt/OptionDef.unbounded:()Lscopt/OptionDef;
+     883: invokevirtual #102                // Method scopt/OptionDef.optional:()Lscopt/OptionDef;
+     886: invokedynamic #379,  0            // InvokeDynamic #27:apply:()Lscala/Function2;
+     891: invokevirtual #80                 // Method scopt/OptionDef.action:(Lscala/Function2;)Lscopt/OptionDef;
+     894: ldc_w         #381                // String additional scalac option passed to the underlying compiler - may be passed multiple times
+     897: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     900: pop
+     901: aload_0
+     902: ldc_w         #383                // String help
+     905: invokevirtual #385                // Method help:(Ljava/lang/String;)Lscopt/OptionDef;
+     908: ldc_w         #387                // String Print this help text
+     911: invokevirtual #85                 // Method scopt/OptionDef.text:(Ljava/lang/String;)Lscopt/OptionDef;
+     914: pop
+     915: return
+
+  public boolean errorOnUnknownArgument();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #404,  0            // InvokeDynamic #28:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

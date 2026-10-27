@@ -1,0 +1,156 @@
+{
+  "schema": "v092-bifrost-v0140-actual-stage-stop-independent-review/v1",
+  "review_type": "independent-actual-stage-stop-review",
+  "reviewer": "joern_repair_independent",
+  "reviewed_at_utc": "2026-10-24T19:42:00Z",
+  "status": "stopped-before-stage-qualification",
+  "automatic_retry": false,
+  "execution_authorized_by_this_review": false,
+  "stage_qualification_consumed": false,
+  "attempt_consumed": false,
+  "analyzer_dispatched": false,
+  "scope": "Independent read-only diagnosis of the single BF15 actual-stage qualification stop. No source, bridge, loader, manifest, ledger, runtime, analyzer, replay, admission, build, or launch mutation was performed.",
+  "bindings": {
+    "manifest": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-15/manifest.json",
+      "sha256": "fcde9884666b80a14ba62f637c2259959c334bcfc89aebc30c195c606cde8589"
+    },
+    "core_identity": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-15/manifest-identity.json",
+      "sha256": "cb88e22458996a62da4f700a4b799767b9df95a5622342294a4cf928018f646c"
+    },
+    "core_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/core-independent-review-01.json",
+      "sha256": "ddc0dd72ae28a0e2ab47bdd81a26ab3ecafb0346ccfe6575af1567568c1d2dd6"
+    },
+    "qualification_script": {
+      "path": "/private/tmp/bf15-actual-stage-qualification-01.py",
+      "sha256": "d82fbee426ac42dc0c7475a050710b40b58eea627b293fcee45367a1aad0b81f"
+    },
+    "qualification_invocation_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/actual-stage-invocation-review-01.json",
+      "sha256": "f30082ae493e09a986e58888798936c2bae893c9d2f157d637ba0d93c76bc1da"
+    },
+    "wrapper": {
+      "path": "/private/tmp/bf15-actual-stage-run-01.py",
+      "sha256": "ade6179ad0e82ae41d853dffc17c652abc758776426c616c1df0f915cb50882d"
+    },
+    "bridge": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-10.py",
+      "sha256": "996d213f39e83fbb473e38033d0a67aea7bc543522eac4defcce974607da4cd2"
+    },
+    "stage_runtime": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-02.py",
+      "sha256": "f8f028617fa929d21d43c0f2750151cbb6aab761b09e55fea6f96fff04baf125"
+    },
+    "incoming_ledger_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/sealed-ledger-prefix-89.jsonl",
+      "rows": 89,
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    }
+  },
+  "exception": {
+    "type": "FrozenBridge10Error",
+    "message": "foreign graph import spec",
+    "phase": "parent-stage runtime construction after the qualification script entered its held lock, before a stage receipt, group command construction, attempt namespace, child, group replay, or analyzer dispatch",
+    "traceback_location": {
+      "qualification_script": {
+        "path": "/private/tmp/bf15-actual-stage-qualification-01.py",
+        "line": 61,
+        "operation": "bridge.create_parent_stage"
+      },
+      "bridge": {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-10.py",
+        "sha256": "996d213f39e83fbb473e38033d0a67aea7bc543522eac4defcce974607da4cd2",
+        "functions": [
+          "create_parent_stage",
+          "_load_bound_ledger_runtime",
+          "load_stage_runtime",
+          "load_runtime_stage",
+          "_module_from_spec"
+        ]
+      },
+      "stage_runtime": {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-02.py",
+        "sha256": "f8f028617fa929d21d43c0f2750151cbb6aab761b09e55fea6f96fff04baf125",
+        "functions": [
+          "load_runtime_context",
+          "_stage_build_runtime",
+          "_stage_build_runtime_full",
+          "scoped_legacy_load_and_validate"
+        ],
+        "legacy_loader_line": 1172
+      },
+      "foreign_spec_check": "bridge10._module_from_spec rejected the policy spec because its graph context was not the active graph context"
+    }
+  },
+  "invocation": {
+    "wrapper_path": "execution-state/v092/monitor-checks/bf15-actual-stage-01",
+    "started_path": "execution-state/v092/monitor-checks/bf15-actual-stage-01/started.json",
+    "started_sha256": "a0f0026d87a86b4d792deeb056fd1fadd5135158a489074fae919da3eb739b19",
+    "exit_path": "execution-state/v092/monitor-checks/bf15-actual-stage-01/exit.json",
+    "exit_sha256": "e51076b2156760c2cf30e45a94e576d3c68a4fce0d216e202c5104b20b6750d1",
+    "stderr_path": "execution-state/v092/monitor-checks/bf15-actual-stage-01/stderr.txt",
+    "stderr_sha256": "9049fe87c5e40fd171837def64f6a2ebb290abbbbeeac4210163d0c36dd2b22b",
+    "stderr_bytes": 4433,
+    "stdout_path": "execution-state/v092/monitor-checks/bf15-actual-stage-01/stdout.txt",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "pid": 14600,
+    "wrapper_pid": 14599,
+    "birth_identity": "Sat Oct 24 21:36:59 2026",
+    "started_utc": "2026-10-24T19:36:59.931804+00:00",
+    "ended_utc": "2026-10-24T19:37:02.211859+00:00",
+    "exit_code": 1,
+    "argv_manifest_sha256": "fcde9884666b80a14ba62f637c2259959c334bcfc89aebc30c195c606cde8589",
+    "argv_review_sha256": "f30082ae493e09a986e58888798936c2bae893c9d2f157d637ba0d93c76bc1da"
+  },
+  "prelaunch_evidence": {
+    "no_stage_qualification_proof": true,
+    "no_stage_receipt": true,
+    "no_execution_admission": true,
+    "no_attempt_namespace_created": true,
+    "no_group_replay_started": true,
+    "no_analyzer_dispatch": true,
+    "no_production_retry": true,
+    "live_ledger": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 89,
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6",
+      "equals_incoming_prefix": true
+    },
+    "old_history_preserved": true,
+    "source_and_manifest_inputs_preserved": true
+  },
+  "findings": [
+    {
+      "id": "BF15-STAGE-GRAPH-SPEC-01",
+      "severity": "blocking",
+      "title": "Legacy runtime import requests a spec outside the active sealed graph context",
+      "detail": "The actual parent-stage path reaches stage-runtime02's legacy load_and_validate implementation. Its policy import calls importlib.util.module_from_spec, while bridge10's active graph facade accepts only a spec owned by the current GraphImportContext. The resulting foreign graph import spec error occurs before stage completion and before any replacement command or attempt can be dispatched.",
+      "required_correction": "Add a narrowly scoped, append-only graph/import repair that routes this legacy policy import and all equivalent nested loader sites through the exact graph-owned module/spec context, preserving source path/SHA, module identity, restoration, eager/late loader bindings, and the frozen validator semantics. A global sys.path insertion, permissive foreign-spec acceptance, duplicate canonical import, or fabricated diagnostic context is not sufficient. The successor must have its own exact source/graph bindings, focused positive and near-miss tests, and a new independent stage review before any invocation."
+    },
+    {
+      "id": "BF15-STAGE-NO-RETRY-01",
+      "severity": "informational-boundary",
+      "title": "One-shot qualification stop is preserved",
+      "detail": "The durable exit records exit code 1 and empty stdout; no qualification proof, stage receipt, admission, attempt directory, group replay, or analyzer result was emitted. Automatic retry remains false.",
+      "required_correction": "Keep this failed invocation immutable and require a separately reviewed successor; do not reinterpret it as a partial qualification or silently retry it."
+    }
+  ],
+  "required_successor_properties": [
+    "Keep the exact BF15 source, plan, contract, manifest, core, continuation-prefix, authorization, and graph identities bound; a repair must be a new append-only candidate.",
+    "Make the legacy policy import and all known nested importlib loader sites use the active graph-owned spec/module context, with exact path/SHA routing and restoration on both success and failure.",
+    "Reject foreign, ambiguous, missing, changed, or reordered graph specs; do not widen bridge10 validation or use a global sys.path/sys.modules workaround.",
+    "Prove the actual create_parent_stage path with harmless positive and near-miss graph/import tests before any new stage invocation.",
+    "Preserve the 89-row ledger, zero-attempt state, original clock, resource guards, and automatic_retry false policy."
+  ],
+  "limitations": [
+    "This artifact diagnoses the actual stopped process; it does not qualify BF15, authorize another invocation, classify analyzer capability, or approve a launch.",
+    "The failure occurred during runtime graph construction under the held qualification lock, but no group replay or analyzer execution was reached.",
+    "The repair design and implementation require independent review before any future stage qualification attempt."
+  ],
+  "source_mutation_performed": false,
+  "ledger_mutation_performed": false,
+  "production_operations_performed": false
+}

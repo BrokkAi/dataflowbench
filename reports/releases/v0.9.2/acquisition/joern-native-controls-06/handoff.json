@@ -1,0 +1,233 @@
+{
+  "active_scope": "copied native_qualifier.supervise loop only; contenders() and outer/root admission remain strict; scored adapter not integrated",
+  "base_sha256": {
+    "native_qualifier.py": "ac7f03ac3bb6422509ff6785259f02c468d7951b96099b590f297044311c39a2",
+    "retained_resources.py": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08",
+    "test_contention_repair.py": "b749f494c57d959691f1e5385268d271198a3dd1c475fdb07b8b774eac58a738",
+    "test_native_qualifier.py": "709e4684c8d2fc10c8909b5f0978103e9bd963c97d82a667b472610f3d8d01fa",
+    "test_pending_plan_gate.py": "7e0ee597ca4e7c2aef7f7d75feaf3462b6a67bffda3e0b92c74931d6825dd6ce"
+  },
+  "base_source": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-05",
+  "configured_observation_limits": {
+    "maximum_enumerated_pids": 8192,
+    "maximum_ps_command_row_bytes": 65536,
+    "maximum_ps_table_bytes": 8388608,
+    "maximum_reconciliation_seconds": 5,
+    "maximum_stream_bytes": 16777216,
+    "measured_os_provider_latency": null,
+    "provider_work_deadline_seconds": 4.85,
+    "ps_child_cleanup_reserve_seconds": 0.05,
+    "query_child_cleanup_reserve_seconds": 0.1,
+    "query_finalize_reserve_seconds": 0.05,
+    "parent_stdout_capture_bytes": 16777216,
+    "parent_stderr_capture_bytes": 16384,
+    "parent_capture_incremental": true,
+    "parent_capture_partial_hash_scope": "bytes observed before capture stopped; never a complete-stream claim after timeout/truncation",
+    "maximum_native_command_field_bytes": 4096,
+    "maximum_ps_argument_bytes": 65536,
+    "maximum_parent_stdout_bytes": 16777216,
+    "maximum_parent_stderr_bytes": 16384,
+    "darwin_provider_probed_by_policy02": false,
+    "linux_provider_probed_by_policy02": false
+  },
+  "corrected_independent_review": {
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/process-snapshot-policy-proposal-independent-review-02.json",
+    "sha256": "86b88b655659c7b1ed9044b98dd3badd5fb97a84b96aebe4a78d1249dc482401"
+  },
+  "diff": {
+    "path": "/private/tmp/joern-v092-monitor06-policy02/diff-vs-native-controls-05.patch",
+    "sha256": "b86bc75ee0641edc95ac5e58b78b80069698f222e24fe71390b094c3ddb0a406"
+  },
+  "fresh_command_provider": {
+    "direct_child_pid_kill_reap_uncertainty_recorded": true,
+    "fields_preserved": [
+      "pid",
+      "cpu_percent",
+      "comm",
+      "args",
+      "raw_row"
+    ],
+    "frozen_classifier_input_unchanged": true,
+    "identity": "ps-axo-pid-percentcpu-comm-args/v1",
+    "incremental_capture_cap_bytes": 8388608,
+    "raw_table_preserved": true,
+    "real_os_probe_performed": false,
+    "maximum_row_bytes": 65536,
+    "maximum_args_bytes": 65536,
+    "long_editor_fixture_pid": 4588,
+    "long_editor_fixture_args_bytes": 9239,
+    "preserves_raw_classifier_input_exactly": true
+  },
+  "policy_controls": {
+    "at_most_one_pass_per_candidate_per_supervisor_boundary": true,
+    "automatic_retry": false,
+    "candidate_must_be_originally_birth_unknown": true,
+    "current_deadline_clamped_to_phase_admission_and_five_seconds": true,
+    "fresh_heavy_or_ambiguous_contender_fails_closed": true,
+    "historical_absence_grants_cleanup_authority": false,
+    "historical_absent_pid_persisted_and_checked_before_owned_filter": true,
+    "known_live_foreign_enters_reconciliation": false,
+    "original_snapshots_preserved": true,
+    "os_global_or_continuous_absence_claim": false,
+    "qualification_or_publication_inferred": false,
+    "receipt_write_failure_preserves_primary_failure": true,
+    "unknown_candidate_present_in_any_fresh_snapshot_fails_closed": true,
+    "deadline_rechecked_after_query_evaluation_and_durable_receipt": true,
+    "continuation_requires_durable_receipt_and_all_deadline_checks": true,
+    "terminal_continuation_requires_monitor_success": true,
+    "fallback_stop_retains_attempted_fresh_query_and_evaluation": true,
+    "typed_query_and_evaluator_errors_retained": true,
+    "native_libproc_errors_fail_closed": true,
+    "native_pid_failure_not_reinterpreted_as_absence": true,
+    "native_enumerated_positive_pid_never_skipped_after_read_error": true,
+    "libproc_errno_cleared_before_call_and_captured_after": true,
+    "native_error_receipt_contains_pid_count_expected_size_errno": true,
+    "native_path_field_bound_remains_4096": true,
+    "ps_row_and_args_bounds_are_65536": true,
+    "ps_aggregate_table_bound_remains_8388608": true,
+    "ps_valid_long_args_raw_table_preserved": true
+  },
+  "policy_decision": {
+    "accepted_historical_label": "unresolved_historical_absent_at_reconciliation",
+    "maximum_seconds": 5,
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/process-snapshot-policy-human-decision-01.json",
+    "sha256": "b7130ef72545edaa9599640946921180bd95e00ec5106b5072d9a3981310b2fb",
+    "snapshot_order": [
+      "native-before",
+      "command",
+      "native-after"
+    ]
+  },
+  "private_sha256": {
+    "README.md": "1251cb9983020c414e493f77b5084f71d47bdba0756e50212bcc98cea1a30c49",
+    "native_qualifier.py": "843a3be133cd991507ec4968b999c5db2b16700cdb2bd56ab7346b05065a3875",
+    "process_reconciliation.py": "5c0b662decffd7ac2ce93519998d0e03476852ccb5b23a767560a059660e3edd",
+    "retained_resources.py": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08",
+    "snapshot_query.py": "312cbf83141c1c28440ed078becc2696134ad10264b03c27361ba3de50b0468c",
+    "test_contention_repair.py": "b749f494c57d959691f1e5385268d271198a3dd1c475fdb07b8b774eac58a738",
+    "test_native_qualifier.py": "709e4684c8d2fc10c8909b5f0978103e9bd963c97d82a667b472610f3d8d01fa",
+    "test_pending_plan_gate.py": "7e0ee597ca4e7c2aef7f7d75feaf3462b6a67bffda3e0b92c74931d6825dd6ce",
+    "test_reconciliation_policy.py": "2bd7d6112a6257733fc46ed468431cc14ed4d4872f552bd1e3c70562f3fff27c"
+  },
+  "remaining_integration": [
+    "Root-owned source, contract, request, review, authority, manifest, and fresh-admission integration.",
+    "Integrate into outer/root admission and scored Joern adapter only after exact contract/review gates; this prototype deliberately leaves them strict.",
+    "Independent review of the assembled successor.",
+    "No production invocation is authorized by the human decision receipt.",
+    "Review or replace the inherited synchronous fsync receipt writer if a strict end-to-end five-second wall bound is required; post-return deadline checks reject late writes but cannot interrupt a blocked filesystem operation.",
+    "The prior diagnostic provider probe remains incomplete: native PID 10491 failed proc_pidinfo before/after; this source-only repair keeps that failure fail-closed and does not establish historical absence.",
+    "Independent review of policy02 and its exact private diff; no new live provider probe is part of this repair."
+  ],
+  "reviewed_proposal": {
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/process-snapshot-policy-decision-proposal-01.json",
+    "sha256": "fda7f33cc0dd954b4c7e6194da821900d8585e56f5a030879f67008df6e37705"
+  },
+  "schema": "v092-joern-monitor06-private-prototype-handoff/v1",
+  "status": "private-source-prototype-only-native-probe-still-blocked",
+  "validation": {
+    "ast_parse": {
+      "passed_files": 8
+    },
+    "combined_focused_suite": {
+      "command": "python3.13 -B -E -m unittest -v test_reconciliation_policy test_contention_repair",
+      "failed": 0,
+      "passed": 38,
+      "popen_mode": "fake-only-for-new-query-provider-and-supervisor-tests"
+    },
+    "contention_suite": {
+      "command": "python3.13 -B -E -m unittest -v test_contention_repair",
+      "passed": 8
+    },
+    "control_invocation": false,
+    "engine_or_jvm_invocation": false,
+    "exploratory_broader_suite": {
+      "engine_or_java_invoked": false,
+      "failure_summary": "6 failures and 6 errors among 48 tests; system Python lacked sys.orig_argv, copied fixture files were absent, and a real tiny-child timing case reported late or reversed phase",
+      "result": "failed; not qualification evidence",
+      "suite": "test_native_qualifier.py under Xcode system Python"
+    },
+    "live_os_provider_probe": false,
+    "policy_suite": {
+      "command": "python3.13 -B -E -m unittest -v test_reconciliation_policy",
+      "passed": 30
+    },
+    "publication_authorized": false,
+    "python": "/opt/homebrew/bin/python3.13 (Python 3.13.7)",
+    "qualification_performed": false,
+    "scored_attempt_consumed": false,
+    "prior_diagnostic_probe_read": true,
+    "status": "all-native-failure-paths-still-fail-closed; no qualification"
+  },
+  "workspace": "/private/tmp/joern-v092-monitor06-policy02",
+  "bounded_parent_capture": {
+    "stdout_limit_bytes": 16777216,
+    "stderr_limit_bytes": 16384,
+    "incremental_reader_buffer_never_exceeds_configured_cap": true,
+    "over_cap_result_typed_incomplete": true,
+    "over_cap_payload_sent_to_general_decoder": false,
+    "partial_capture_keeps_bounded_prefix_and_hash_metadata": true
+  },
+  "deadline_acceptance": {
+    "uses_fresh_clock_after_query": true,
+    "uses_fresh_clock_after_evaluation": true,
+    "uses_fresh_clock_after_durable_receipt_write": true,
+    "checks_phase_admission_deadline_after_monitor_and_child_completion": true,
+    "late_pass_fails_closed_without_historical_pid_retirement": true,
+    "deadline_budgets_extended": false,
+    "receipt_writer_is_synchronous_and_not_interruptible": true,
+    "late_returning_receipt_fails_closed": true,
+    "end_to_end_five_second_wall_bound_proven": false
+  },
+  "receipt_evidence_preservation": {
+    "attempt_attached_to_stop_snapshot_before_any_receipt_write": true,
+    "fallback_stop_retains_fresh_query_and_evaluation": true,
+    "query_or_evaluator_exception_becomes_typed_incomplete_evidence": true,
+    "primary_failure_preserved_when_reconciliation_receipt_fails": true,
+    "no_claim_of_complete_durable_evidence_if_all_writes_fail": true
+  },
+  "source_parent": {
+    "workspace": "/private/tmp/joern-v092-monitor06-policy01",
+    "snapshot_query_sha256": "1cba28dc620adfbaf499f7797ee1760d32f1ef73425103a91e5a35c8fa11c44b",
+    "copied_files_explicitly": [
+      "README.md",
+      "native_qualifier.py",
+      "process_reconciliation.py",
+      "retained_resources.py",
+      "snapshot_query.py",
+      "test_contention_repair.py",
+      "test_native_qualifier.py",
+      "test_pending_plan_gate.py",
+      "test_reconciliation_policy.py",
+      "handoff.json",
+      "diff-vs-native-controls-05.patch"
+    ]
+  },
+  "source_diagnosis": {
+    "probe_path": "/private/tmp/dfb-v092-transplant-20261026T160424Z/monitor06-provider-probe-01.json",
+    "probe_sha256": "42bbc9a7f50a0601eba2c00d9e9c961ab723f26ca4bbccc65c05870e1bf1aa59",
+    "probe_source_sha256": "1cba28dc620adfbaf499f7797ee1760d32f1ef73425103a91e5a35c8fa11c44b",
+    "probe_outcome": "incomplete-provider-observation",
+    "native_failure": {
+      "provider": "Darwin libproc",
+      "api": "proc_pidinfo",
+      "pid": 10491,
+      "snapshots": [
+        "native-before",
+        "native-after"
+      ],
+      "old_probe_retained_count_expected_size_errno": false,
+      "policy02_records_pid_returned_count_expected_size_ctypes_errno": true,
+      "policy02_behavior": "fail-closed; no skip, retry, absence or history claim"
+    },
+    "ps_diagnosis": {
+      "old_limit_bytes": 4096,
+      "corrected_limit_bytes": 65536,
+      "root_diagnosed_valid_editor_pid": 4588,
+      "root_diagnosed_args_bytes": 9239,
+      "aggregate_table_limit_bytes": 8388608
+    },
+    "all_native_failures_still_blocked": true,
+    "policy02_reran_live_probe": false,
+    "no_engine_jvm_or_controls_invoked": true
+  }
+}

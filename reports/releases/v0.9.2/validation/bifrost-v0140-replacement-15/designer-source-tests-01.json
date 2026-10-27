@@ -1,0 +1,89 @@
+{
+  "created_utc": "2026-10-24T19:18:29.245421+00:00",
+  "graph_config": {
+    "members": 88,
+    "path": "/private/tmp/bf15-runtime-graph-config-01.json",
+    "sha256": "55f2abda0b4fe51163835e50a1a83a07f95677827c48c8e965f01dfc65c64966"
+  },
+  "import_smoke": {
+    "path": "/private/tmp/bf15-actual15-import-smoke-01.py",
+    "result": {
+      "config_sha256": "55f2abda0b4fe51163835e50a1a83a07f95677827c48c8e965f01dfc65c64966",
+      "dynamic_routes": 43,
+      "eager_identity_edges": 5,
+      "eager_object_identities": 88,
+      "executor_identity_checks": 6,
+      "graph_members": 88,
+      "graph_sha256": "b082705488c1090d474bc2ec4ae06b614c2d3a87245600a9e2e33af366963d05",
+      "late_executor_loader_bindings": 6,
+      "late_executor_routes": 5,
+      "negative_probe": "wrong_dynamic_path_rejected",
+      "nonstdlib_module_leaks": [],
+      "schema": "v092-bf15-actual-import-smoke/v1",
+      "status": "import-only-passed"
+    },
+    "returncode": 0,
+    "sha256": "b105388e0cb68eb39585ac63dc0adf70d8effb8d237243e7091082a563347e31",
+    "stdout_path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/actual15-import-smoke-01.stdout.txt",
+    "stdout_sha256": "4bf8182b9129349135b4813491788653881cde1a0ec7ee4956f006a2960ca9ef"
+  },
+  "runtime_guards": [
+    "module-local sys.modules facade; process-global registry unchanged except ordinary stdlib cache additions",
+    "exact 43 dynamic caller/selector/path/phase routes",
+    "six pinned executor late-loader bindings",
+    "eager qualification/checker/configuration identity probes",
+    "wrong path and foreign local selector negative probes"
+  ],
+  "schema": "v092-bf15-designer-source-tests/v1",
+  "scope": "BF15 graph import-only source/test handoff; no replay, admission, materialization, analyzer, build, launch, commit, or release operation",
+  "source_files": [
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-10.py",
+      "sha256": "996d213f39e83fbb473e38033d0a67aea7bc543522eac4defcce974607da4cd2"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-02.py",
+      "sha256": "f8f028617fa929d21d43c0f2750151cbb6aab761b09e55fea6f96fff04baf125"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-runtime-loaders-15.py",
+      "sha256": "32276e5f69f0ea6dc5310cf43d4f0b4fbdadbda672eca1f9cee0036d08d417eb"
+    }
+  ],
+  "status": "import-only-tested",
+  "test_files": [
+    {
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-10.py",
+      "sha256": "ed397b58ca51df6a27db3f8df4591faa145e2a446ba7857a76644876cb542010"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-stage-runtime-02.py",
+      "sha256": "d8dd0d6212a8eca4aa3d55cecedc52665197f27f427004b2b421781de31045a7"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-runtime-loaders-15.py",
+      "sha256": "82b5351d33786bcffdd53c4ae67d09393ffe76b78fde5f4dc712072c80a5b1a4"
+    }
+  ],
+  "test_logs": [
+    {
+      "command": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3 -B reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-10.py",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/test-01.stdout.txt",
+      "returncode": 0,
+      "stdout_sha256": "db345f0e5349ee0360f20af96ec68954b4c9b12f24193ea2e71abefa60e14294"
+    },
+    {
+      "command": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3 -B reports/releases/v0.9.2/acquisition/test-bifrost-v0140-stage-runtime-02.py",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/test-02.stdout.txt",
+      "returncode": 0,
+      "stdout_sha256": "14d9dcafbca351450e7057fb676ced79b6bff1e02d733e9a8a2eb4aec607338e"
+    },
+    {
+      "command": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3 -B reports/releases/v0.9.2/acquisition/test-bifrost-v0140-runtime-loaders-15.py",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-15/test-03.stdout.txt",
+      "returncode": 0,
+      "stdout_sha256": "1425ec18239fdb08aa37bb26fcfc0dd9bf83b195c537d8ed143eafe92a50f4f4"
+    }
+  ],
+  "tests_passed": true
+}

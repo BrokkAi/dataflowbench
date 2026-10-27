@@ -1,0 +1,13 @@
+{
+  "adapter": "flowdroid",
+  "case_id": "dfb-taint-java-model-entrypoint-parameter-positive",
+  "evidence_kind": "retained-capability-decision",
+  "modeling_category": "E",
+  "modeling_category_label": "framework entry points",
+  "partition_source": "docs/modeling-matrix.md#per-tool-capability-partition",
+  "reason": "category E — framework entry points — is unsupported for 2.15.1 by the preregistered modeling partition (docs/modeling-matrix.md#per-tool-capability-partition): the released CLI derives analysis roots exclusively from the APK manifest's Android components; no per-method entry-root declaration surface exists. Probed on the pinned 2.15.1: an XML sources-and-sinks definition binding the handler's parameter as a `callback` source parses (\"Loaded 1 sources\") and the analysis still finds zero sources, because a declaration cannot create a root the manifest does not (reports/raw/load-bearing-java-modeling/flowdroid-entrypoint-parameter-undeclarable.json)",
+  "stage": "preregistered-modeling-partition",
+  "state": "unsupported",
+  "template_id": "dfb-template-model-entrypoint-parameter",
+  "witnessed_tool_identity": "2.15.1"
+}

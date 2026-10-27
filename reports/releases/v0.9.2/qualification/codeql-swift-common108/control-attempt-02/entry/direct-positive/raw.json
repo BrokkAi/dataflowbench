@@ -1,0 +1,243 @@
+{
+  "capture_output_dir": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive",
+  "capture_root": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+  "capture_state": "complete",
+  "commands": [
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/database-create.command.json",
+      "sha256": "f6c3dda014bd181c3624559a70f2256f4f639c815a7530457ce5d0e8ae227995"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/resolve-database.command.json",
+      "sha256": "df0bcd19fa0ca07314cafcabc70dc09edcdc37f03df28489a7c1fc4a800bbbf1"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/entry-query.command.json",
+      "sha256": "b4afe3876dc31532c22cc7e2137d0877b44200f5f904ce5615bc27a0972e76e4"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/entry-decode.command.json",
+      "sha256": "a7b724997e46a18b13ea6970f0b102cc271ce429df3d15cff4609c464062166e"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/diagnostics-query.command.json",
+      "sha256": "a708344b8092e36ca4ed4a89d808364c3dfa608b4828f5d53e3802468bd60d4e"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/diagnostics-decode.command.json",
+      "sha256": "8b5a74796fcdf872faf0172b341c4d7319c6a929b2df2973798d1ddd6f20d09b"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/kernel-flow-query.command.json",
+      "sha256": "0e3f402801eb5839562c8e5a4347ac2f012831494a16d682581a9038fea5f993"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/kernel-flow-decode.command.json",
+      "sha256": "073e5e2268c601fea0b3a82790f8bf7e8ee123b53607fa4cad07fd8cc7982e59"
+    }
+  ],
+  "control_id": "direct-positive",
+  "entry_rows": [
+    [
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/source/main.swift",
+      "DataFlowBenchTaintSwift",
+      0,
+      10,
+      1,
+      5
+    ]
+  ],
+  "exact_endpoint_rows": [
+    [
+      "main.swift",
+      3,
+      31,
+      "source",
+      1,
+      0,
+      1,
+      1,
+      1,
+      "Swift:print(_:separator:terminator:)"
+    ],
+    [
+      "main.swift",
+      3,
+      31,
+      "sink",
+      1,
+      0,
+      1,
+      1,
+      1,
+      "Swift:print(_:separator:terminator:)"
+    ],
+    [
+      "main.swift",
+      6,
+      17,
+      "source",
+      1,
+      1,
+      1,
+      1,
+      1,
+      "DataFlowBenchTaintSwift:dfb_source()"
+    ],
+    [
+      "main.swift",
+      6,
+      17,
+      "sink",
+      1,
+      0,
+      0,
+      0,
+      0,
+      "DataFlowBenchTaintSwift:dfb_source()"
+    ],
+    [
+      "main.swift",
+      7,
+      5,
+      "source",
+      1,
+      0,
+      1,
+      1,
+      1,
+      "DataFlowBenchTaintSwift:dfb_sink(_:)"
+    ],
+    [
+      "main.swift",
+      7,
+      5,
+      "sink",
+      1,
+      1,
+      1,
+      1,
+      1,
+      "DataFlowBenchTaintSwift:dfb_sink(_:)"
+    ],
+    [
+      "main.swift",
+      10,
+      1,
+      "source",
+      1,
+      0,
+      1,
+      1,
+      1,
+      "DataFlowBenchTaintSwift:run()"
+    ],
+    [
+      "main.swift",
+      10,
+      1,
+      "sink",
+      1,
+      0,
+      0,
+      0,
+      0,
+      "DataFlowBenchTaintSwift:run()"
+    ]
+  ],
+  "execution_plan_projection_sha256": "67b35219604c650e546b2bd3b200f8c66ad5c8f4a9022a89a5b9ae41ab583084",
+  "fixture_sha256": "43145c3085d565b4b261ad3c890fbd9bf7c12490444bef3ffda5549844470c51",
+  "flow_rows": [
+    [
+      "main.swift",
+      6,
+      "main.swift",
+      7,
+      14
+    ]
+  ],
+  "group_id": "codeql-swift-common108",
+  "identity": {
+    "adapter_version": "swift-normal-v092",
+    "tool": "codeql",
+    "tool_build_identity": "codeql:d7b185e374bfe18c0484dac07a521a810eb9c4fb;swift-extractor:593eb7afe23d63c57d04461bd046e45672555bb0586353edcf27a0313249841f;schema:a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89;packs:fb47dc786441189213937dae9638efe8b0878e04e0be56c3d349ce03d6ceb4bc",
+    "tool_version": "2.27.2"
+  },
+  "identity_components": [
+    {
+      "name": "codeql-cli",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+      "sha256": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "codeql-swift-extractor",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-extractor.json",
+      "sha256": "7cd457b417b9586aaa3fc5ef77d3e8a76c98484b578a0787707f7e5a8970de7f"
+    },
+    {
+      "name": "codeql-swift-schema",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/swift-codeql/candidate-extractor/swift/swift.dbscheme",
+      "sha256": "a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "codeql-swift-packs",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-packs-entry2.json",
+      "sha256": "4698d7bdfc4940dcb78ad88a4c58d33e729872713f0890896a10d26c0a3db34b"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-toolchain",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/swift-6.3.3.json",
+      "sha256": "f31ae5b23c775e0c69227363a1a0c4e4bf87964f8bcd79b8f9de9d7acd7d4a58"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-sdk",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5.json",
+      "sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7"
+    }
+  ],
+  "observation": {
+    "diagnostic": "reached",
+    "entry_owner": {
+      "file": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/source/main.swift",
+      "module": "DataFlowBenchTaintSwift"
+    },
+    "reason": null,
+    "scored": false,
+    "sink_anchor": {
+      "column": 5,
+      "file": "main.swift",
+      "line": 7
+    },
+    "source_anchor": {
+      "column": 17,
+      "file": "main.swift",
+      "line": 6
+    },
+    "status": "DIAGNOSTIC"
+  },
+  "query_outputs": {
+    "diagnostics": {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/diagnostics.json",
+      "sha256": "b6aa5e2658a6cac06571c98856f11e07f919b09c0ebf15a1902e95aea3b7e593"
+    },
+    "entry": {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/entry.json",
+      "sha256": "582bc926ad7398943de1fd9701e289550b32847770b63808cb38b4f696ed77ef"
+    },
+    "kernel-flow": {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/control-attempt-02/entry/direct-positive/kernel-flow.json",
+      "sha256": "cc2a1c700dc34c1d884d54636441cda3243fd15b4b82c2b2d05a962a91850033"
+    }
+  },
+  "schema": "codeql-entry-control-raw/v092",
+  "source_files": {
+    "main.swift": {
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/direct-positive/main.swift",
+      "sha256": "43145c3085d565b4b261ad3c890fbd9bf7c12490444bef3ffda5549844470c51"
+    }
+  }
+}

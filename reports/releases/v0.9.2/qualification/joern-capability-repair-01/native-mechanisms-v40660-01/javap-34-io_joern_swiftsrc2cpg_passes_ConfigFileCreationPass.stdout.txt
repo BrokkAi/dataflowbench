@@ -1,0 +1,213 @@
+Compiled from "ConfigFileCreationPass.scala"
+public class io.joern.swiftsrc2cpg.passes.ConfigFileCreationPass extends io.joern.x2cpg.passes.frontend.XConfigFileCreationPass {
+  private final org.slf4j.Logger logger;
+
+  private final java.lang.String PlistExt;
+
+  private final scala.collection.immutable.List<scala.Function1<java.nio.file.Path, java.lang.Object>> configFileFilters;
+
+  public io.joern.swiftsrc2cpg.passes.ConfigFileCreationPass(io.shiftleft.codepropertygraph.generated.Cpg, io.joern.swiftsrc2cpg.Config);
+    Code:
+       0: aload_2
+       1: getstatic     #33                 // Field io/joern/swiftsrc2cpg/utils/AstGenRunner$.MODULE$:Lio/joern/swiftsrc2cpg/utils/AstGenRunner$;
+       4: invokevirtual #37                 // Method io/joern/swiftsrc2cpg/utils/AstGenRunner$.AstGenDefaultIgnoreRegex:()Lscala/collection/immutable/Seq;
+       7: invokevirtual #43                 // Method io/joern/swiftsrc2cpg/Config.withDefaultIgnoredFilesRegex:(Lscala/collection/immutable/Seq;)Lio/joern/x2cpg/X2CpgConfig;
+      10: checkcast     #39                 // class io/joern/swiftsrc2cpg/Config
+      13: astore_3
+      14: getstatic     #48                 // Field io/joern/x2cpg/passes/frontend/XConfigFileCreationPass$.MODULE$:Lio/joern/x2cpg/passes/frontend/XConfigFileCreationPass$;
+      17: invokevirtual #52                 // Method io/joern/x2cpg/passes/frontend/XConfigFileCreationPass$.$lessinit$greater$default$2:()Lscala/Option;
+      20: astore        4
+      22: aload_0
+      23: aload_1
+      24: aload         4
+      26: aload_3
+      27: invokespecial #55                 // Method io/joern/x2cpg/passes/frontend/XConfigFileCreationPass."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;Lscala/Option;Lio/joern/x2cpg/X2CpgConfig;)V
+      30: aload_0
+      31: aload_0
+      32: invokevirtual #59                 // Method getClass:()Ljava/lang/Class;
+      35: invokestatic  #65                 // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/Class;)Lorg/slf4j/Logger;
+      38: putfield      #67                 // Field logger:Lorg/slf4j/Logger;
+      41: aload_0
+      42: ldc           #69                 // String .plist
+      44: putfield      #71                 // Field PlistExt:Ljava/lang/String;
+      47: aload_0
+      48: new           #73                 // class scala/collection/immutable/$colon$colon
+      51: dup
+      52: aload_0
+      53: invokedynamic #95,  0             // InvokeDynamic #0:apply:(Lio/joern/swiftsrc2cpg/passes/ConfigFileCreationPass;)Lscala/Function1;
+      58: new           #73                 // class scala/collection/immutable/$colon$colon
+      61: dup
+      62: aload_0
+      63: invokedynamic #100,  0            // InvokeDynamic #1:apply:(Lio/joern/swiftsrc2cpg/passes/ConfigFileCreationPass;)Lscala/Function1;
+      68: getstatic     #105                // Field scala/collection/immutable/Nil$.MODULE$:Lscala/collection/immutable/Nil$;
+      71: invokespecial #108                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+      74: invokespecial #108                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+      77: checkcast     #110                // class java/lang/Object
+      80: checkcast     #112                // class scala/collection/immutable/List
+      83: putfield      #114                // Field configFileFilters:Lscala/collection/immutable/List;
+      86: return
+
+  public scala.collection.immutable.List<scala.Function1<java.nio.file.Path, java.lang.Object>> configFileFilters();
+    Code:
+       0: aload_0
+       1: getfield      #114                // Field configFileFilters:Lscala/collection/immutable/List;
+       4: areturn
+
+  private scala.util.Try<scala.Tuple2<java.lang.String, java.lang.String>> parseConfigFile(java.nio.file.Path);
+    Code:
+       0: getstatic     #129                // Field scala/util/Try$.MODULE$:Lscala/util/Try$;
+       3: aload_0
+       4: aload_1
+       5: invokedynamic #141,  0            // InvokeDynamic #2:apply:(Lio/joern/swiftsrc2cpg/passes/ConfigFileCreationPass;Ljava/nio/file/Path;)Lscala/Function0;
+      10: invokevirtual #144                // Method scala/util/Try$.apply:(Lscala/Function0;)Lscala/util/Try;
+      13: areturn
+
+  public void runOnPart(flatgraph.DiffGraphBuilder, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_2
+       2: invokespecial #150                // Method parseConfigFile:(Ljava/nio/file/Path;)Lscala/util/Try;
+       5: astore_3
+       6: aload_3
+       7: instanceof    #152                // class scala/util/Success
+      10: ifeq          110
+      13: aload_3
+      14: checkcast     #152                // class scala/util/Success
+      17: invokevirtual #155                // Method scala/util/Success.value:()Ljava/lang/Object;
+      20: checkcast     #157                // class scala/Tuple2
+      23: astore        4
+      25: aload         4
+      27: ifnull        110
+      30: aload         4
+      32: invokevirtual #160                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      35: checkcast     #162                // class java/lang/String
+      38: astore        5
+      40: aload         4
+      42: invokevirtual #165                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      45: checkcast     #162                // class java/lang/String
+      48: astore        6
+      50: aload         5
+      52: aload         6
+      54: invokedynamic #177,  0            // InvokeDynamic #3:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      59: astore        7
+      61: aload_0
+      62: aload_2
+      63: invokevirtual #181                // Method configFileName:(Ljava/nio/file/Path;)Ljava/lang/String;
+      66: astore        8
+      68: getstatic     #186                // Field io/shiftleft/codepropertygraph/generated/nodes/NewConfigFile$.MODULE$:Lio/shiftleft/codepropertygraph/generated/nodes/NewConfigFile$;
+      71: invokevirtual #189                // Method io/shiftleft/codepropertygraph/generated/nodes/NewConfigFile$.apply:()Lio/shiftleft/codepropertygraph/generated/nodes/NewConfigFile;
+      74: aload         8
+      76: invokevirtual #195                // Method io/shiftleft/codepropertygraph/generated/nodes/NewConfigFile.name:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewConfigFile;
+      79: aload         7
+      81: invokevirtual #198                // Method io/shiftleft/codepropertygraph/generated/nodes/NewConfigFile.content:(Ljava/lang/String;)Lio/shiftleft/codepropertygraph/generated/nodes/NewConfigFile;
+      84: astore        9
+      86: aload_0
+      87: getfield      #67                 // Field logger:Lorg/slf4j/Logger;
+      90: aload         8
+      92: invokedynamic #203,  0            // InvokeDynamic #4:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      97: invokeinterface #209,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+     102: aload_1
+     103: aload         9
+     105: invokevirtual #215                // Method flatgraph/DiffGraphBuilder.addNode:(Lflatgraph/DNode;)Lflatgraph/DiffGraphBuilder;
+     108: pop
+     109: return
+     110: aload_3
+     111: instanceof    #217                // class scala/util/Failure
+     114: ifeq          149
+     117: aload_3
+     118: checkcast     #217                // class scala/util/Failure
+     121: invokevirtual #221                // Method scala/util/Failure.exception:()Ljava/lang/Throwable;
+     124: astore        10
+     126: aload_0
+     127: getfield      #67                 // Field logger:Lorg/slf4j/Logger;
+     130: aload_2
+     131: invokeinterface #227,  1          // InterfaceMethod java/nio/file/Path.toAbsolutePath:()Ljava/nio/file/Path;
+     136: aload         10
+     138: invokedynamic #232,  0            // InvokeDynamic #5:makeConcatWithConstants:(Ljava/nio/file/Path;Ljava/lang/Throwable;)Ljava/lang/String;
+     143: invokeinterface #235,  2          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;)V
+     148: return
+     149: new           #237                // class scala/MatchError
+     152: dup
+     153: aload_3
+     154: invokespecial #240                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     157: athrow
+
+  public void runOnPart(flatgraph.DiffGraphBuilder, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: checkcast     #223                // class java/nio/file/Path
+       6: invokevirtual #254                // Method runOnPart:(Lflatgraph/DiffGraphBuilder;Ljava/nio/file/Path;)V
+       9: return
+
+  private final boolean $init$$$anonfun$1(java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: aload_0
+       2: getfield      #71                 // Field PlistExt:Ljava/lang/String;
+       5: aload_1
+       6: invokevirtual #259                // Method extensionFilter:(Ljava/lang/String;Ljava/nio/file/Path;)Z
+       9: ireturn
+
+  private final boolean $init$$$anonfun$2(java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: ldc_w         #261                // String .xib
+       4: aload_1
+       5: invokevirtual #259                // Method extensionFilter:(Ljava/lang/String;Ljava/nio/file/Path;)Z
+       8: ireturn
+
+  private final scala.Tuple2 parseConfigFile$$anonfun$1(java.nio.file.Path);
+    Code:
+       0: getstatic     #267                // Field io/shiftleft/utils/IOUtils$.MODULE$:Lio/shiftleft/utils/IOUtils$;
+       3: aload_1
+       4: invokevirtual #270                // Method io/shiftleft/utils/IOUtils$.readEntireFile:(Ljava/nio/file/Path;)Ljava/lang/String;
+       7: astore_2
+       8: getstatic     #275                // Field io/shiftleft/semanticcpg/utils/FileUtil$.MODULE$:Lio/shiftleft/semanticcpg/utils/FileUtil$;
+      11: aload_1
+      12: invokevirtual #278                // Method io/shiftleft/semanticcpg/utils/FileUtil$.PathExt:(Ljava/nio/file/Path;)Lio/shiftleft/semanticcpg/utils/FileUtil$PathExt;
+      15: astore        4
+      17: aload         4
+      19: aload         4
+      21: invokevirtual #282                // Method io/shiftleft/semanticcpg/utils/FileUtil$PathExt.extension$default$1:()Z
+      24: invokevirtual #286                // Method io/shiftleft/semanticcpg/utils/FileUtil$PathExt.extension:(Z)Lscala/Option;
+      27: aload_0
+      28: getfield      #71                 // Field PlistExt:Ljava/lang/String;
+      31: invokevirtual #292                // Method scala/Option.contains:(Ljava/lang/Object;)Z
+      34: ifeq          54
+      37: aload_2
+      38: invokevirtual #296                // Method java/lang/String.trim:()Ljava/lang/String;
+      41: ldc_w         #298                // String bplist
+      44: invokevirtual #302                // Method java/lang/String.startsWith:(Ljava/lang/String;)Z
+      47: ifeq          54
+      50: iconst_1
+      51: goto          55
+      54: iconst_0
+      55: istore_3
+      56: iload_3
+      57: ifeq          94
+      60: aload_1
+      61: invokeinterface #227,  1          // InterfaceMethod java/nio/file/Path.toAbsolutePath:()Ljava/nio/file/Path;
+      66: invokedynamic #306,  0            // InvokeDynamic #6:makeConcatWithConstants:(Ljava/nio/file/Path;)Ljava/lang/String;
+      71: astore        5
+      73: getstatic     #311                // Field scala/Tuple2$.MODULE$:Lscala/Tuple2$;
+      76: aload_1
+      77: invokeinterface #315,  1          // InterfaceMethod java/nio/file/Path.toFile:()Ljava/io/File;
+      82: invokestatic  #321                // Method com/dd/plist/PropertyListParser.parse:(Ljava/io/File;)Lcom/dd/plist/NSObject;
+      85: invokevirtual #326                // Method com/dd/plist/NSObject.toXMLPropertyList:()Ljava/lang/String;
+      88: aload         5
+      90: invokevirtual #329                // Method scala/Tuple2$.apply:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+      93: areturn
+      94: getstatic     #311                // Field scala/Tuple2$.MODULE$:Lscala/Tuple2$;
+      97: aload_2
+      98: ldc_w         #331                // String
+     101: invokevirtual #329                // Method scala/Tuple2$.apply:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+     104: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #345,  0            // InvokeDynamic #7:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

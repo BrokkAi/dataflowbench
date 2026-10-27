@@ -1,0 +1,280 @@
+{
+  "disposition": {
+    "automatic_retry": false,
+    "execution_authorized": false,
+    "next_gate": "Root must independently canonicalize the selected closure, bind source/request/namespace bytes and perform exact invocation review plus fresh live admission before any runtime or controls action. This report grants no execution, control, qualification or publication authority.",
+    "publication_authorized": false,
+    "publication_hold": true,
+    "qualification_authorized": false,
+    "source_commit_approval": true,
+    "source_commit_scope": "Private06 packet.py plus its unchanged private05 closure and new CLI import-order tests may proceed to root's separate canonical copy/source-selection/commit review.",
+    "status": "approved-for-source-commit-only"
+  },
+  "findings": [
+    {
+      "evidence": {
+        "fresh_cli_near_misses": [
+          "foreign preloaded bridge rejected with owner-differs before graph",
+          "wrong sealed digest rejected with SHA-differs before graph",
+          "post-baseline non-stdlib addition remains rejected by frozen close"
+        ],
+        "fresh_cli_positive": "late mode: bridge initially absent, graph95 has 95 members, inherited view has 88 members, frozen close succeeds",
+        "independent_tests": "4/4 CLI tests and 72/72 full suite passed",
+        "prior_blocker": "execution-adapter05-cli-import-order-review-01.json / ADAPTER05-CLI-IMPORT-ORDER-001",
+        "source": "/private/tmp/joern05-execution-adapter-06/packet.py:127-151 and 163-180"
+      },
+      "finding": "The private06 packet now verifies the sealed bridge artifact and exact executing sibling before loading inherited88 hosts or recording the inherited baseline. An absent bridge is exact-loaded under the sealed name; an existing bridge must have the exact file, spec origin, and function-global owner. Graph95 preparation and close use that verified module, removing the fresh CLI late-import race identified by private05 review CD88.",
+      "id": "ADAPTER06-CLI-BOOTSTRAP-001",
+      "required_preservation": "Keep sealed bridge verification and owner binding before inherited88 baseline, exact graph95 module calls, and the existing frozen close guard. Do not preload broadly or weaken the foreign/non-stdlib rejection.",
+      "severity": "passed",
+      "status": "corrected-and-tested"
+    },
+    {
+      "evidence": {
+        "delta": "diff-vs-05.patch SHA f191b7ea6b9a68bdf62c05e4bf78931e6729077783923bbe6d20b36bd6683c29",
+        "full_suite": "72/72 OK",
+        "static_probe": "40ea30a8d1b9bb6c4a354cfff584baabb685bad6d09bc40daa02bd20923d8793"
+      },
+      "finding": "The delta is confined to packet.py bootstrap ordering and uses the existing exact source/hash, module identity, graph boundary and cleanup contracts. The static delta probe confirms no sys.path mutation or sys.modules.clear waiver and preserves adapter95 close, inherited88 close_on_error, then exact host cleanup.",
+      "id": "ADAPTER06-GUARDS-002",
+      "required_preservation": "Retain private05 ownership, cleanup-error-primary ordering, graph identities, startup/stage/resource bounds, and all unchanged runtime source bytes.",
+      "severity": "passed",
+      "status": "preserved-and-tested"
+    },
+    {
+      "finding": "This review establishes source and bounded synthetic/fresh-CLI graph composition only. It does not establish native controls, JVM/engine/analyzer execution, actual bootstrap, fresh admission, qualification, production dispatch, release or publication readiness.",
+      "id": "ADAPTER06-BOUNDARY-003",
+      "required_preservation": "Keep source commit, canonicalization, exact request/invocation review, fresh admission, native-control, qualification and publication gates separate.",
+      "severity": "boundary",
+      "status": "disclosed"
+    }
+  ],
+  "independent_validation": {
+    "fresh_cli_results": {
+      "all_subprocess_stderr_empty": true,
+      "all_subprocesses_asserted_bridge_initially_absent": true,
+      "bytes": 1403,
+      "modes": [
+        {
+          "caught": null,
+          "exit_code": 0,
+          "frozen_close": true,
+          "mode": "late",
+          "result": "real95-and88-baseline-bound"
+        },
+        {
+          "caught": {
+            "message": "bootstrap bridge registered owner differs",
+            "type": "AdapterError"
+          },
+          "exit_code": 0,
+          "frozen_close": false,
+          "mode": "foreign",
+          "result": null
+        },
+        {
+          "caught": {
+            "message": "graph import added a non-stdlib process-global sys.modules entry",
+            "type": "FrozenBridge19Error"
+          },
+          "exit_code": 0,
+          "frozen_close": false,
+          "mode": "unknown",
+          "result": "real95-and88-baseline-bound"
+        },
+        {
+          "caught": {
+            "message": "artifact SHA differs",
+            "type": "AdapterError"
+          },
+          "exit_code": 0,
+          "frozen_close": false,
+          "mode": "drift",
+          "result": null
+        }
+      ],
+      "path": "/private/tmp/joern05-execution-adapter-06/fresh-cli-results-01.json",
+      "sha256": "45f513bc5b714b8dda3a9374b43e2e284c560bbb4780733a6128e2d39677160a"
+    },
+    "fresh_cli_suite": {
+      "command": "/opt/homebrew/bin/python3.13 -B -E -m unittest test_cli_import_order",
+      "coverage": [
+        "fresh supervisor import with bridge initially absent",
+        "real graph95 plus inherited88 preparation and frozen close",
+        "foreign preloaded bridge rejection before graph",
+        "foreign post-baseline non-stdlib addition remains rejected",
+        "wrong sealed bridge digest rejection before graph"
+      ],
+      "log": {
+        "bytes": 102,
+        "path": "/private/tmp/joern05-execution-adapter-06-independent-cli-tests.log",
+        "sha256": "30c4f5aac7ef4e0c10a45fdb0d8cfa794312036e8e1d586c8b15f8206b6e5145"
+      },
+      "passed": 4,
+      "result": "OK",
+      "total": 4,
+      "working_directory": "/private/tmp/joern05-execution-adapter-06"
+    },
+    "full_suite": {
+      "command": "/opt/homebrew/bin/python3.13 -B -E -m unittest discover -s /private/tmp/joern05-execution-adapter-06 -p 'test_*.py'",
+      "coverage": "All retained private05 tests plus the six ownership tests and four fresh CLI import-order tests; no engine/JVM/control/replay/admission path was invoked.",
+      "log": {
+        "bytes": 172,
+        "path": "/private/tmp/joern05-execution-adapter-06-independent-all-tests.log",
+        "sha256": "760c197fd4730d6d11a6d505d41fa74f2ad4a6c3304fac584746942241644dcf"
+      },
+      "passed": 72,
+      "result": "OK",
+      "total": 72,
+      "working_directory": "/private/tmp/joern05-execution-adapter-06"
+    },
+    "historical_handoff_log": {
+      "bytes": 1516,
+      "interpretation": "Preserved historical log of the old graph95 mock-owner failure. It is superseded for current disposition by the fresh independent 72/72 run after the test substitution was moved after actual bootstrap verification; it is not treated as a current failure.",
+      "path": "/private/tmp/joern05-execution-adapter-06/retained-tests-01.log",
+      "sha256": "82821caa6f71d019d15eb505f73efb2984e0d7fbaff92b6e2524f85cd50df3c5"
+    },
+    "interpreter": "/opt/homebrew/bin/python3.13 -B -E",
+    "static_delta_probe": {
+      "all_checks_passed": true,
+      "checks": [
+        "private06 and prior05 handoff exact SHA bindings",
+        "required private05 CLI blocker review exact SHA binding",
+        "private06 packet and diff exact SHA bindings",
+        "bridge, history, protocol, stage_runtime, supervisor, admission and retained tests byte-identical where declared unchanged",
+        "bootstrap bridge verification/load occurs after inherited core read but before inherited88 host loading and baseline",
+        "exact sibling source path/hash and existing module file/spec/function-owner checks",
+        "verified bridge module owns prepare_graph95 and close_graph95 calls",
+        "no sys.path mutation or sys.modules.clear broad waiver",
+        "adapter95 close precedes inherited88 close, which precedes exact host cleanup",
+        "fresh positive and three near-miss result bindings"
+      ],
+      "log": "/private/tmp/joern05-execution-adapter-06-independent-static-probe.log",
+      "log_bytes": 765,
+      "log_sha256": "40ea30a8d1b9bb6c4a354cfff584baabb685bad6d09bc40daa02bd20923d8793",
+      "script": "/private/tmp/joern05-execution-adapter-06-independent-static-probe.py"
+    }
+  },
+  "method": "Read-only comparison of frozen private06 against private05, exact handoff/source/diff bindings, one independent static delta probe, one independent four-subprocess fresh CLI import-order test run, and one independent full 72-test suite. No canonical/Git/source integration, runtime control, replay, engine, JVM, analyzer, admission, qualification or publication action was performed.",
+  "review_type": "independent-read-only-execution-adapter06-cli-import-order-review",
+  "reviewed_at_utc": "2026-10-25T18:38:38Z",
+  "reviewer": "joern_execution_adapter_independent",
+  "schema": "v092-joern05-execution-adapter-independent-review/v6",
+  "scope": {
+    "not_performed": [
+      "canonical source copy or source commit",
+      "Git, ledger mutation or replay",
+      "native controls, engine, JVM, analyzer, actual bootstrap, admission, qualification or launch",
+      "production success, release or publication action"
+    ],
+    "prior_handoff": {
+      "bytes": 6468,
+      "path": "/private/tmp/joern05-execution-adapter-05/implementation-handoff-05.json",
+      "sha256": "a490d53f93805eba764e28ee9e727c8296d0b556996a99de6b207f2c6271147a"
+    },
+    "private_handoff": {
+      "bytes": 7065,
+      "path": "/private/tmp/joern05-execution-adapter-06/implementation-handoff-06.json",
+      "schema": "joern05-execution-adapter-implementation-handoff/v6",
+      "sha256": "dd2cf2814b245b3208289c6da72b47a23d82cbebcfc008cbf4eafd7f9a9531d7",
+      "snapshot_frozen": true,
+      "status": "private-source-ready-for-independent-review-only"
+    },
+    "required_correction": {
+      "bytes": 7502,
+      "finding": "Fresh supervisor import left bridge absent when packet.prepare_current_graph loaded the bridge after the inherited88 baseline; frozen close rejected the resulting non-stdlib process-global registration.",
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/execution-adapter05-cli-import-order-review-01.json",
+      "prior_status": "changes-required-before-source-integration",
+      "sha256": "cd88f19c2aa4e2a72e8d6914c7fc9b2b13a072d6a78148ce1773361d47cf880f"
+    },
+    "statement": "Read-only independent review of frozen private06 against private05 and the recorded private05 fresh-CLI import-order blocker. The review covers the packet.py bootstrap bridge repair and its fresh CLI positive and near-miss evidence. No canonical source, Git, runtime control, replay, admission, qualification or publication action was performed."
+  },
+  "source_bindings": {
+    "changed_runtime_sources": [
+      {
+        "bytes": 10055,
+        "name": "packet.py",
+        "path": "/private/tmp/joern05-execution-adapter-06/packet.py",
+        "sha256": "3b9e4d5a336ba1a7ccb2eaf46de7b1494cb705587007de05b8782e66ed883f03"
+      }
+    ],
+    "delta": {
+      "bytes": 4971,
+      "path": "/private/tmp/joern05-execution-adapter-06/diff-vs-05.patch",
+      "sha256": "f191b7ea6b9a68bdf62c05e4bf78931e6729077783923bbe6d20b36bd6683c29",
+      "summary": "Only packet.py changes: exact sealed bridge verification/load now happens before inherited88 host loading and graph baseline; graph95 calls use the verified module. Existing cleanup, guards, graph boundaries and adapter disposal remain unchanged."
+    },
+    "new_review_tests": [
+      {
+        "bytes": 1266,
+        "name": "test_cli_import_order.py",
+        "sha256": "ab2bab5abeacc2f90e393ac66bac6d4bac47006e83bf88718585bf4fc9be8e30"
+      },
+      {
+        "bytes": 4583,
+        "name": "cli_import_probe.py",
+        "sha256": "978804a2b0cf77c1f2ae015d2a12d094b88f67368f57d30320c0682c8de22fad"
+      }
+    ],
+    "retained_test_sources_exact": [
+      {
+        "bytes": 19564,
+        "name": "test_adapter.py",
+        "sha256": "dc359995e495ba4014a772e6ace292faef4d01ebd0aa34ecc78ddc478ad8270d"
+      },
+      {
+        "bytes": 33189,
+        "name": "test_durable.py",
+        "sha256": "e47d65307fd2258aaf0f1eb5f07aab443f52a3d5e490cb8e98941f6a797901a8"
+      },
+      {
+        "bytes": 17090,
+        "name": "test_graph95.py",
+        "sha256": "ecac2d7a029fac6e862295b88515e7a92cc37b764c3017299026d3ff7d16fe10"
+      },
+      {
+        "bytes": 6703,
+        "name": "test_startup_handoff.py",
+        "sha256": "2019156e5c82a17681d096c64d89393d81d33588479b299dbdb6e8d7cfea5"
+      },
+      {
+        "bytes": 6711,
+        "name": "test_ownership.py",
+        "sha256": "0a6e3fc47678ae9d2093a020233c8d33d22101145dc5465552a737851afdb5c"
+      }
+    ],
+    "unchanged_runtime_sources_exact": [
+      {
+        "bytes": 18221,
+        "name": "bridge.py",
+        "sha256": "d250b20f8d811b81ace10eee4837201ab8b46852a466e3d8b4077153c276cc5d"
+      },
+      {
+        "bytes": 2850,
+        "name": "history.py",
+        "sha256": "5844d039786cc513895a020774c202caaed1c0cfef6bc858c7a2e2136bfd696e"
+      },
+      {
+        "bytes": 9505,
+        "name": "protocol.py",
+        "sha256": "4caf6cd997b75da405b1789ce26cc816dc9244634263f5b000c3de3eed6d49ae"
+      },
+      {
+        "bytes": 25487,
+        "name": "stage_runtime.py",
+        "sha256": "9ab0e86068a6504b8b38a83573afe6c2ce086b07f47d1af6e56cba16974755e"
+      },
+      {
+        "bytes": 62045,
+        "name": "supervisor.py",
+        "sha256": "fdcec6914b3aad124d5a2af270b62d4f189aa211292516784ef9fb658c2916ee"
+      },
+      {
+        "bytes": 8559,
+        "name": "admission.py",
+        "sha256": "7807d6a0a1759932f1cbd07cefa739d38aae533d437ec8a8a8465322072c39a0"
+      }
+    ]
+  },
+  "status": "approved-for-source-commit-only"
+}

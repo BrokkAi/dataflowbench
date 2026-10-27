@@ -1,0 +1,162 @@
+Compiled from "JoernConsole.scala"
+public class io.joern.joerncli.console.JoernConsole extends io.joern.console.Console<io.joern.joerncli.console.JoernProject> {
+  private final io.joern.console.ConsoleConfig config;
+
+  private io.joern.dataflowengineoss.semanticsloader.Semantics semantics;
+
+  private io.joern.dataflowengineoss.layers.dataflows.OssDataFlowOptions ossDataFlowOptions;
+
+  public io.joern.joerncli.console.JoernConsole();
+    Code:
+       0: aload_0
+       1: new           #26                 // class io/joern/joerncli/console/JoernWorkspaceLoader
+       4: dup
+       5: invokespecial #28                 // Method io/joern/joerncli/console/JoernWorkspaceLoader."<init>":()V
+       8: getstatic     #34                 // Field io/joern/console/Console$.MODULE$:Lio/joern/console/Console$;
+      11: invokevirtual #38                 // Method io/joern/console/Console$.$lessinit$greater$default$2:()Ljava/nio/file/Path;
+      14: getstatic     #43                 // Field io/joern/console/package$.MODULE$:Lio/joern/console/package$;
+      17: invokevirtual #47                 // Method io/joern/console/package$.defaultAvailableWidthProvider:()Lflatgraph/help/Table$AvailableWidthProvider;
+      20: invokespecial #50                 // Method io/joern/console/Console."<init>":(Lio/joern/console/workspacehandling/WorkspaceLoader;Ljava/nio/file/Path;Lflatgraph/help/Table$AvailableWidthProvider;)V
+      23: aload_0
+      24: getstatic     #55                 // Field io/joern/joerncli/console/JoernConsole$.MODULE$:Lio/joern/joerncli/console/JoernConsole$;
+      27: invokevirtual #59                 // Method io/joern/joerncli/console/JoernConsole$.defaultConfig:()Lio/joern/console/ConsoleConfig;
+      30: putfield      #61                 // Field config:Lio/joern/console/ConsoleConfig;
+      33: aload_0
+      34: aload_0
+      35: invokevirtual #65                 // Method context:()Lio/joern/dataflowengineoss/queryengine/EngineContext;
+      38: invokevirtual #70                 // Method io/joern/dataflowengineoss/queryengine/EngineContext.semantics:()Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+      41: putfield      #72                 // Field semantics:Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+      44: aload_0
+      45: new           #74                 // class io/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions
+      48: dup
+      49: getstatic     #79                 // Field io/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions$.MODULE$:Lio/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions$;
+      52: invokevirtual #83                 // Method io/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions$.$lessinit$greater$default$1:()I
+      55: getstatic     #79                 // Field io/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions$.MODULE$:Lio/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions$;
+      58: invokevirtual #85                 // Method io/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions$.$lessinit$greater$default$2:()Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+      61: invokespecial #88                 // Method io/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions."<init>":(ILio/joern/dataflowengineoss/semanticsloader/Semantics;)V
+      64: putfield      #90                 // Field ossDataFlowOptions:Lio/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions;
+      67: return
+
+  public io.joern.console.ConsoleConfig config();
+    Code:
+       0: aload_0
+       1: getfield      #61                 // Field config:Lio/joern/console/ConsoleConfig;
+       4: areturn
+
+  public io.joern.dataflowengineoss.semanticsloader.Semantics semantics();
+    Code:
+       0: aload_0
+       1: getfield      #72                 // Field semantics:Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+       4: areturn
+
+  public void semantics_$eq(io.joern.dataflowengineoss.semanticsloader.Semantics);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #72                 // Field semantics:Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+       5: return
+
+  public io.joern.dataflowengineoss.layers.dataflows.OssDataFlowOptions ossDataFlowOptions();
+    Code:
+       0: aload_0
+       1: getfield      #90                 // Field ossDataFlowOptions:Lio/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions;
+       4: areturn
+
+  public void ossDataFlowOptions_$eq(io.joern.dataflowengineoss.layers.dataflows.OssDataFlowOptions);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #90                 // Field ossDataFlowOptions:Lio/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions;
+       5: return
+
+  public io.joern.dataflowengineoss.queryengine.EngineContext context();
+    Code:
+       0: aload_0
+       1: invokevirtual #102                // Method workspace:()Lio/joern/console/workspacehandling/WorkspaceManager;
+       4: invokevirtual #108                // Method io/joern/console/workspacehandling/WorkspaceManager.getActiveProject:()Lscala/Option;
+       7: invokedynamic #129,  0            // InvokeDynamic #0:apply:()Lscala/Function1;
+      12: invokevirtual #135                // Method scala/Option.map:(Lscala/Function1;)Lscala/Option;
+      15: invokedynamic #145,  0            // InvokeDynamic #1:apply:()Lscala/Function0;
+      20: invokevirtual #149                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      23: checkcast     #67                 // class io/joern/dataflowengineoss/queryengine/EngineContext
+      26: areturn
+
+  public scala.Option<io.shiftleft.codepropertygraph.generated.Cpg> loadCpg(java.lang.String);
+    Code:
+       0: aload_0
+       1: ldc           #155                // String Deprecated. Please use `importCpg` instead
+       3: invokevirtual #159                // Method report:(Ljava/lang/String;)V
+       6: aload_0
+       7: aload_1
+       8: aload_0
+       9: invokevirtual #163                // Method importCpg$default$2:()Ljava/lang/String;
+      12: aload_0
+      13: invokevirtual #167                // Method importCpg$default$3:()Z
+      16: invokevirtual #171                // Method importCpg:(Ljava/lang/String;Ljava/lang/String;Z)Lscala/Option;
+      19: areturn
+
+  public io.shiftleft.codepropertygraph.generated.Cpg applyDefaultOverlays(io.shiftleft.codepropertygraph.generated.Cpg);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokespecial #177                // Method io/joern/console/Console.applyDefaultOverlays:(Lio/shiftleft/codepropertygraph/generated/Cpg;)Lio/shiftleft/codepropertygraph/generated/Cpg;
+       5: pop
+       6: aload_0
+       7: getstatic     #182                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      10: iconst_1
+      11: anewarray     #184                // class io/shiftleft/semanticcpg/layers/LayerCreator
+      14: dup
+      15: iconst_0
+      16: new           #186                // class io/joern/dataflowengineoss/layers/dataflows/OssDataFlow
+      19: dup
+      20: aload_0
+      21: invokevirtual #188                // Method ossDataFlowOptions:()Lio/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions;
+      24: aload_0
+      25: invokevirtual #189                // Method semantics:()Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+      28: invokespecial #192                // Method io/joern/dataflowengineoss/layers/dataflows/OssDataFlow."<init>":(Lio/joern/dataflowengineoss/layers/dataflows/OssDataFlowOptions;Lio/joern/dataflowengineoss/semanticsloader/Semantics;)V
+      31: aastore
+      32: invokevirtual #196                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      35: invokevirtual #200                // Method _runAnalyzer:(Lscala/collection/immutable/Seq;)Lio/shiftleft/codepropertygraph/generated/Cpg;
+      38: areturn
+
+  private static final io.joern.dataflowengineoss.queryengine.EngineContext context$$anonfun$1(io.joern.console.workspacehandling.Project);
+    Code:
+       0: aload_0
+       1: checkcast     #204                // class io/joern/joerncli/console/JoernProject
+       4: invokevirtual #205                // Method io/joern/joerncli/console/JoernProject.context:()Lio/joern/dataflowengineoss/queryengine/EngineContext;
+       7: areturn
+
+  private static final io.joern.dataflowengineoss.queryengine.EngineContext context$$anonfun$2();
+    Code:
+       0: getstatic     #211                // Field io/joern/dataflowengineoss/queryengine/EngineContext$.MODULE$:Lio/joern/dataflowengineoss/queryengine/EngineContext$;
+       3: getstatic     #211                // Field io/joern/dataflowengineoss/queryengine/EngineContext$.MODULE$:Lio/joern/dataflowengineoss/queryengine/EngineContext$;
+       6: invokevirtual #213                // Method io/joern/dataflowengineoss/queryengine/EngineContext$.$lessinit$greater$default$1:()Lio/joern/dataflowengineoss/semanticsloader/Semantics;
+       9: getstatic     #211                // Field io/joern/dataflowengineoss/queryengine/EngineContext$.MODULE$:Lio/joern/dataflowengineoss/queryengine/EngineContext$;
+      12: invokevirtual #216                // Method io/joern/dataflowengineoss/queryengine/EngineContext$.$lessinit$greater$default$2:()Lio/joern/dataflowengineoss/queryengine/EngineConfig;
+      15: invokevirtual #219                // Method io/joern/dataflowengineoss/queryengine/EngineContext$.apply:(Lio/joern/dataflowengineoss/semanticsloader/Semantics;Lio/joern/dataflowengineoss/queryengine/EngineConfig;)Lio/joern/dataflowengineoss/queryengine/EngineContext;
+      18: areturn
+
+  public static java.lang.String banner();
+    Code:
+       0: getstatic     #55                 // Field io/joern/joerncli/console/JoernConsole$.MODULE$:Lio/joern/joerncli/console/JoernConsole$;
+       3: invokevirtual #222                // Method io/joern/joerncli/console/JoernConsole$.banner:()Ljava/lang/String;
+       6: areturn
+
+  public static io.joern.console.ConsoleConfig defaultConfig();
+    Code:
+       0: getstatic     #55                 // Field io/joern/joerncli/console/JoernConsole$.MODULE$:Lio/joern/joerncli/console/JoernConsole$;
+       3: invokevirtual #59                 // Method io/joern/joerncli/console/JoernConsole$.defaultConfig:()Lio/joern/console/ConsoleConfig;
+       6: areturn
+
+  public static java.lang.String version();
+    Code:
+       0: getstatic     #55                 // Field io/joern/joerncli/console/JoernConsole$.MODULE$:Lio/joern/joerncli/console/JoernConsole$;
+       3: invokevirtual #225                // Method io/joern/joerncli/console/JoernConsole$.version:()Ljava/lang/String;
+       6: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #237,  0            // InvokeDynamic #2:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

@@ -1,0 +1,244 @@
+{
+  "schema": "v092-joern-plan06-integration-design-review/v1",
+  "recorded_utc": "2026-10-25T20:45:00Z",
+  "reviewed_design": {
+    "path": "/private/tmp/joern05-native04-ancestry-repair-design-01.json",
+    "sha256": "ccb5688ecfe6c84338cc233177cc11e506c47ad7d1a150603266fc8fd5f3a096",
+    "bytes": 22752
+  },
+  "reviewer_context": {
+    "workspace": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+    "source_commit": "76e6121651e94be113fd0d5f027419f7d0f0859b",
+    "branch": "dave/v0.9.2-full-refresh",
+    "worktree_dirty": true,
+    "repository_files_modified": false,
+    "review_mode": "read-only-plan-control-helper-and-private-policy-review",
+    "implementation_build_jvm_validator_control_runtime_executed": false
+  },
+  "decision": {
+    "status": "approved-minimal-pending-artifact-delta; execution-integration-blocked-until-v5-successor-chain",
+    "approve_minimal_plan_control_decision_delta": true,
+    "approve_future_validator_admission_or_runtime": false,
+    "new_human_design_required": false,
+    "publication_hold": true,
+    "automatic_retry": false,
+    "blockers": [
+      {
+        "id": "frozen-v1-helper-chain",
+        "severity": "required-before-validator-or-admission",
+        "summary": "The frozen repair shim, builder, continuation, admission, controls, and qualification helpers exact-bind the v1 JVM startup policy and/or v1 witness/control-capture-03 namespace. A v5 decision/plan/control cascade cannot pass those helpers by changing only artifact references.",
+        "required_successor": "Create and independently review append-only v5-aware successors or a precisely source-bound wrapper chain. Preserve the frozen v1 sources and all historical evidence; do not broaden the frozen helper in place.",
+        "evidence": [
+          {
+            "path": "scripts/joern_capability_repair_v092_03.py",
+            "sha256": "8e3d986f20c2262045d8473837d1bf5a56b61da1bc23fee6e778bd0ac47d2b51",
+            "pins": ["JVM_STARTUP_POLICY=v1", "_validate_unsupported_decision exact policy", "control-capture-03"]
+          },
+          {
+            "path": "reports/releases/v0.9.2/acquisition/build-joern-capability-continuation-06.py",
+            "sha256": "ac85e5cc61be5c1d1a9df974c52a62d6ab3b3eff1f5c33d53af84a897b111f54",
+            "pins": ["JVM_STARTUP_POLICY=v1", "v1 witness", "control-capture-03", "shim v3"]
+          },
+          {
+            "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-06.py",
+            "sha256": "4853e6bace64ba4e984dd943f72d5c51991ea291f2865147fba2cf17baa246e4",
+            "pins": ["pending plan-v092-03", "JVM_STARTUP_POLICY=v1", "v1 witness", "control-capture-03"]
+          },
+          {
+            "path": "reports/releases/v0.9.2/acquisition/joern-capability-admission-08.py",
+            "sha256": "2f6390683e062f6072f292e62b7de93fd404ebd01e0d955c1b299df492f8d6c1",
+            "pins": ["continuation-06 module", "shim v3 isolated preflight"]
+          },
+          {
+            "path": "reports/releases/v0.9.2/acquisition/joern-capability-controls-02.py",
+            "sha256": "2b3d9bb8a50215d31dcd27969253dc540d3503a592bfb636afc4e1eea5f603bb",
+            "pins": ["shim v3", "review policy exact shim policy", "control-capture-03"]
+          },
+          {
+            "path": "reports/releases/v0.9.2/acquisition/joern-capability-qualification-02.py",
+            "sha256": "9bdcf97fe886cc06f22f269a541b91b3c8b54e42d1505043dfca20fbfc38eb56",
+            "pins": ["shim v3", "control-capture-03", "v1 witness"]
+          }
+        ]
+      },
+      {
+        "id": "unsealed-agent-digest",
+        "severity": "required-before-v5-plan-or-runtime-binding",
+        "summary": "The private08 policy names agent05 but its digest is UNSEALED. No v5 policy-bearing decision or plan may be treated as runtime-ready or hash-bound until the exact JAR bytes, source/build evidence, and full digest have been independently reviewed.",
+        "evidence": {
+          "observer_path": "/private/tmp/joern05-native-control-08/joern_native_control_observer_v07.py",
+          "observer_sha256": "64d93cf635cd00b7853f5f2d1bb7ee5bd5763f4b187eb0d6f59ae8fdc8e7dbfc",
+          "handoff_path": "/private/tmp/joern05-native-control-08/implementation-handoff-08.json",
+          "handoff_sha256": "5d21bfe12e557cc7202dcd422cb231f7e3f02a07107e88471225bbbd4164f75e",
+          "policy_schema": "v092-joern-jvm-startup-policy/v5",
+          "jar_path": "reports/releases/v0.9.2/acquisition/joern-startup-witness-agent-05.jar",
+          "jar_sha256": "UNSEALED"
+        }
+      },
+      {
+        "id": "stale-design-node-bound",
+        "severity": "required-clarification-before-policy-binding",
+        "summary": "The reviewed ancestry design describes maximum_nodes=33, while private08 revision08 explicitly corrected the operative representation to at most 32 nodes with the terminal 32nd parent edge allowed and a 33rd edge rejected. The v5 cascade must bind the frozen private08 source/policy and must not carry the stale 33-node claim into receipts or validators.",
+        "resolution": "Use exact private08 revision08 semantics: maximum_links=32, observer nodes length 1..32, truncation at length 32, and no acceptance of a 33rd parent edge. Preserve this as a source/evidence correction, not a semantic case change."
+      }
+    ]
+  },
+  "reviewed_baseline": {
+    "plan05": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-05/pending-execution-plan-01.json",
+      "sha256": "c79f93dca045d8fbf2b7221fbf20e042d7546d403567a821ed1594fda8411137",
+      "schema": "joern-common-execution-plan/v092",
+      "status": "qualification-pending",
+      "registered_at_unix_seconds": 1792956319,
+      "cases": 108,
+      "attempt_cases": 96,
+      "unsupported_cases": 12,
+      "configurations": 1,
+      "execution_eligible": false,
+      "diagnostic_execution_eligible": false,
+      "fresh_qualification": null,
+      "resources": {
+        "launch_bytes": 47244640256,
+        "reserve_bytes": 42949672960,
+        "scratch_allowance_bytes": 4294967296,
+        "status": "not-reserved"
+      },
+      "qualification_control_plan": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/control-plan-01.json",
+        "sha256": "cdae69200755312a80137426e70250dd7e521100ca91dbe71355bb9c8b11475f"
+      },
+      "qualification_control_projection_sha256": "326487c047812a20f6c4f22f184a7faa4fc276e7c78ae1af317d5a750c0e8844"
+    },
+    "plan05_registration_handoff": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-05/registration-source-handoff-01.json",
+      "sha256": "188c52cbc2743cdce794e60464c01bf37d0369169045677f50a41eeee53d50d8",
+      "exact_changed_field": "registered_at_unix_seconds",
+      "registered_at_type": "int"
+    },
+    "control04": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/control-plan-01.json",
+      "sha256": "cdae69200755312a80137426e70250dd7e521100ca91dbe71355bb9c8b11475f",
+      "schema": "analyzer-qualification-control-plan/v092",
+      "status": "prospective-diagnostic-admission",
+      "execution_plan_projection_sha256": "326487c047812a20f6c4f22f184a7faa4fc276e7c78ae1af317d5a750c0e8844",
+      "registered_at_unix_seconds": 1792836453,
+      "controls": 6,
+      "arms": ["off", "on"],
+      "case_arm_count": 12,
+      "maximum_phase_invocations": 36,
+      "case_arm_budget_seconds": 75,
+      "total_budget_seconds": 900,
+      "scratch_allowance_bytes": 4294967296,
+      "preserved_identity_fields": ["population_sha256", "fixture_revision", "identity", "identity_components"]
+    },
+    "projection_helper": {
+      "path": "scripts/v092_qualification.py",
+      "sha256": "f673a5b5133c1101e7379fc365a83a47a7525c3daf15efa34a6eed12858e7cb5",
+      "projection_fields": ["schema", "profile", "engine", "release_group_id", "population_sha256", "fixture_revision", "identity", "identity_components", "runtime", "codeql_packs", "query_root", "configurations", "cases", "execution_contract"],
+      "verified": ["plan05 stored projection equals helper result", "control-plan reference is excluded", "registration timestamp is excluded"]
+    }
+  },
+  "allowed_artifact_delta": {
+    "decisions03": {
+      "operation": "append-only copy of all twelve decisions02",
+      "change": "exact new v5 jvm_startup_policy only, after sealed observer/JAR digest is available",
+      "preserve": ["schema", "case_id", "population_sha256", "fixture_revision", "identity", "outcome=unsupported", "reason", "required_native_mechanism", "qualification_limits", "current_case_sha256", "all 169 evidence refs", "current_fixture_digests", "all remaining fields and ordering"],
+      "semantic_boundary": "Do not turn the 12 prospective Unsupported decisions into qualified results or infer historical ownership."
+    },
+    "plan06": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/pending-execution-plan-01.json",
+      "source": "exact plan05 copy",
+      "allowed_changes": ["12 unsupported case decision refs", "qualification_control_plan path and SHA", "qualification_control_projection_sha256 computed by frozen helper", "new actual integer registered_at_unix_seconds"],
+      "must_preserve": ["all 108 case IDs", "96 attempt rows and their reviewed capability values", "12 unsupported row identities/dispositions/reasons", "one configuration and its complete source refs", "runtime/engine/frontend/query/model identities", "execution contract and phase sequence", "resources and limits", "qualification-pending", "execution_eligible=false", "diagnostic_execution_eligible=false", "full_model_qualification=false", "fresh_qualification=null", "aggregate_resource_qualification=unavailable", "scored_activation=false"],
+      "new_control_path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/control-plan-01.json"
+    },
+    "control06": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/control-plan-01.json",
+      "source": "exact control04 object copy",
+      "only_allowed_field_change": "execution_plan_projection_sha256",
+      "must_preserve": ["6 controls", "arms off/on", "12 cases per arm", "36 maximum phase invocations", "75 seconds per arm", "900 seconds total", "4 GiB scratch allowance", "population/fixture/identity/identity_components", "status", "diagnostic_admission", "endpoint identities", "original control registration timestamp"],
+      "old_control_and_projection": "Remain immutable and are not reused as the v5 binding."
+    },
+    "hash_order": [
+      "seal and review agent05 source/JAR bytes and full digest",
+      "bind exact observer07 v5 policy to that digest",
+      "copy decisions02 to decisions03 with policy-only change and hash each file",
+      "compute plan06 projection from full cases/configurations using frozen v092_qualification helper",
+      "clone control04 with only the new projection",
+      "bind plan06 to new control path/SHA and projection",
+      "only then create the successor wrapper/request/source closure and source/authority reviews"
+    ]
+  },
+  "decision02_hash_bindings": {
+    "count": 12,
+    "evidence_count_each": 169,
+    "policy_schema": "v092-joern-jvm-startup-policy/v4",
+    "agent_jar_sha256": "ba02fe9c3782c377279e60198e4b4e1631d9d3431a4ce5fc7376d8dc6eff4eac",
+    "refs": [
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-entrypoint-negative.json", "sha256": "254d3f1e38d58d5fdaf0d76c8fe899b31c8b8f034cd4a8545e1f731f34e469e2"},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-entrypoint-positive.json", "sha256": "3305798f4d23829f03ba0105643bb4678d983f4d9b2b7481863cef86573212ab"},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-persistence-negative.json", "sha256": "8da0fa0c0164a1ab07b5b3f75d13c75056a79a0cb3dbb57cf5f0e21859307e44"},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-persistence-positive.json", "sha256": "893e0e3ff0447449b4614893e6e578392f4ca49ac738591f8f13129cbfe1e8d2"},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-propagator-negative.json", "sha256": "1cbca4d55fb46197bd464ad91065a1065021366d29965771d08ecc24cde14d9e"},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-propagator-positive.json", "sha256": "4766884cb122d08a2fd94f603b3113d4d54f88a7db3203b380cbd8edeccf68b5"},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-sanitizer-negative.json", "sha256": "31cccae29d2c6bfb34e12eeb688846d44f76cbebebd974f1361d36f7fc0e6ac5"},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-sanitizer-positive.json", "sha256": "96c0146cb785c6e329dadea1c8e00061553908f88f265d85f1e334e3b49bf63f"},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-source-sink-negative.json", "sha256": "52cf288cf1228afd59809d13c4ddbf0c0c152178223034b0780ce5c2b4805d06"},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-source-sink-positive.json", "sha256": "1f4d210fc99c86499b4ec5dfdf6e980e942ad932213aa9683d12269bb44a3972"},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-summary-negative.json", "sha256": "fcb36e9503e15fe98cc0e82a874dfe6121609046ebf32146d9bf37d0c800e6bc"},
+      {"path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-02/dfb-taint-swift-native-summary-positive.json", "sha256": "0fa939881848a0d373a488064f46d24441069996722c6dede14a8e5c88a87e0a"}
+    ]
+  },
+  "required_successor_direct_refs": {
+    "source_and_policy": [
+      "sealed agent05 JAR plus source/build recipe, manifest, digest and independent review",
+      "private08 observer07 source SHA and exact v5 policy/witness/ancestry schema",
+      "new v5-aware repair shim and meaningful test/source review",
+      "new v5-aware controls, qualification, continuation, admission, builder and tests",
+      "new native qualifier/request/source closure/authority review binding observer07, plan06, control06, projection, JAR, decisions03 and actual source HEAD"
+    ],
+    "decision_graph": [
+      "all 12 decisions03 files",
+      "all inherited 169 evidence refs per decision",
+      "all current_fixture_digests and current case/fixture source files",
+      "old v4 decisions, observer06, agent04 JAR and historical diagnosis retained as immutable predecessor evidence"
+    ],
+    "fresh_namespace": "Any future v5 control capture must use a new append-only namespace. Do not reuse control-capture-03 or present its v1 receipts as v5 evidence.",
+    "closure_rule": "The source closure must include every new direct helper/observer/JAR/policy/ref and recursively referenced fresh run, witness, identity, diagnostic, receipt and finalization artifact; old evidence refs remain unchanged and included."
+  },
+  "semantic_and_evidence_limits": {
+    "decision03_evidence_boundary": "The required 169 evidence refs are inherited source material and include v4 observer/JAR references. Keeping them unchanged is allowed only while decision03 remains explicitly prospective and unsupported; they must not be described as v5 execution evidence. The new v5 observer/JAR/policy must be separately source- and hash-bound before any new control or qualification claim.",
+    "identity_boundary": "The command rows have no birth identity. Fresh native correlation preserves the existing two-snapshot polling identity boundary; it is not atomic command-row ownership and does not establish complete containment.",
+    "ancestry_boundary": "ProcessHandle ancestry is a bounded prospective sample. It may correlate only the short untracked command-absent version helper to an exact tracked PID/birth or invocation-host anchor. It cannot authorize semantic JVMs, replace native tracking, infer historical ownership, or fill a missing required role.",
+    "failure_boundary": "Wrong birth, foreign/recycled PID, disappeared or reparented helper, malformed/cyclic chain, unavailable or unanchored prefix, and truncated prefix before anchor remain fail-closed. An anchored unavailable/truncated suffix remains diagnostic-only with complete_descendant_coverage=false.",
+    "resource_time_boundary": "Keep the existing 6-control/12-arm/36-phase/75-second/900-second/4-GiB limits, launch/reserve/scratch accounting, one-slot lock, clock, marker, publication hold, and no-automatic-retry rules.",
+    "qualification_boundary": "No plan06 pending artifact, decision03 copy, projection or control clone is a qualified run. No historical offender cause or native04 result is reclassified."
+  },
+  "validation": {
+    "performed": [
+      "Read-only inspection of plan05, registration handoff, control04, all twelve decisions02, frozen projection helper, frozen repair shim, builder, continuation, admission, controls and qualification helpers, private08 observer07 source and handoff, and the reviewed design.",
+      "Verified plan05 projection with scripts/v092_qualification.py; it equals 326487c047812a20f6c4f22f184a7faa4fc276e7c78ae1af317d5a750c0e8844.",
+      "Verified that changing only the control-plan reference or registration timestamp leaves the projection unchanged, while changing decision references is inside the projection input.",
+      "Verified control04 exact bounds and preserved registration: 6 controls, off/on arms, 12 cases, 36 phases, 75 seconds per arm, 900 seconds total, 4 GiB scratch.",
+      "Verified all twelve decisions02 hashes and that each has 169 evidence refs and the v4 policy/agent04 JAR binding.",
+      "Verified private08 handoff and observer source hashes and its explicit UNSEALED JAR/runtime hold.",
+      "Verified frozen helper-chain v1/control-capture-03 pins that prevent a v5 plan from passing unchanged."
+    ],
+    "not_performed": [
+      "No plan, control, decision, canonical source, validator or Git changes.",
+      "No JAR compilation/sealing, JVM/Joern/analyzer/control/admission/qualification invocation, subprocess probe, resource reservation or runtime execution.",
+      "No validator was run against a synthetic or unmaterialized plan06."
+    ]
+  },
+  "preservation": {
+    "old_plan05_control04_projection": "immutable",
+    "old_decisions02_and_v4_evidence": "immutable",
+    "old_observer06_and_agent04": "immutable",
+    "historical_native04_failure": "retained as failure evidence; no historical ownership inference",
+    "private_candidate": {
+      "observer_sha256": "64d93cf635cd00b7853f5f2d1bb7ee5bd5763f4b187eb0d6f59ae8fdc8e7dbfc",
+      "handoff_sha256": "5d21bfe12e557cc7202dcd422cb231f7e3f02a07107e88471225bbbd4164f75e",
+      "jar_digest": "UNSEALED"
+    }
+  }
+}

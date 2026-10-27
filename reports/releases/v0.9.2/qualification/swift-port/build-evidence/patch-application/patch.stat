@@ -1,0 +1,20 @@
+ swift/extractor/SwiftExtractor.cpp                 |    3 +
+ swift/extractor/infra/SwiftDispatcher.h            |   27 ++++++++
+ swift/extractor/translators/SwiftVisitor.h         |    2 +
+ swift/ql/.generated.list                           |   15 +++-
+ swift/ql/.gitattributes                            |    5 +
+ .../controlflow/internal/ControlFlowGraphImpl.qll  |   22 +++++++
+ .../codeql/swift/controlflow/internal/Scope.qll    |    2 -
+ swift/ql/lib/codeql/swift/elements.qll             |    1 
+ .../ql/lib/codeql/swift/generated/ParentChild.qll  |   17 +++++
+ swift/ql/lib/codeql/swift/generated/Raw.qll        |   46 ++++++++++++++
+ swift/ql/lib/codeql/swift/generated/Synth.qll      |   27 ++++++++
+ .../codeql/swift/generated/SynthConstructors.qll   |    1 
+ swift/ql/lib/swift.dbscheme                        |   19 ++++++
+ swift/schema.py                                    |    6 ++
+ .../codeql/swift/elements/TopLevelEntryPoint.qll   |   15 ++++
+ .../internal/TopLevelEntryPointConstructor.qll     |   14 ++++
+ .../elements/internal/TopLevelEntryPointImpl.qll   |   19 ++++++
+ .../codeql/swift/generated/TopLevelEntryPoint.qll  |   67 ++++++++++++++++++++
+ .../TopLevelEntryPoint/MISSING_SOURCE.txt          |    4 +
+ 19 files changed, 305 insertions(+), 7 deletions(-)

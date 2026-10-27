@@ -1,0 +1,103 @@
+{
+  "approval_scope": "design/source review only; no execution permit, publication, admission, qualification, launch, replay, analyzer, build, Git, ledger mutation, or cleanup authorization",
+  "created_utc": "2026-10-25T13:04:16Z",
+  "disposition": "changes-required; merged03 cleanup correction and composed tests pass their bounded source seams, but actual v24 opaque-stage producer/consumer integration and real 88-role core qualification remain required. No execution permit.",
+  "execution_authorized": false,
+  "findings": [
+    {
+      "evidence": "The composed tests now import merged03 and cover the real run_groups cleanup boundary, but the run_groups dispatch test replaces _load_admission and _load_bridge with fixture objects, and its normal Popen is mocked. The timing suite exercises the real anonymous pipe/Popen helper and actual admission24 command validator, yet still uses the parser18 opaque-stage fixture and does not execute the v24 _run_frozen_group producer through bridge19/admission24. A source approval still requires one actual v24 producer/consumer positive and near-miss at the merged03 _run_frozen_group -> pipe -> _wait_group_child boundary.",
+      "id": "V24-OPAQUE-STAGE-PRODUCER-CONSUMER-COVERAGE-PENDING",
+      "pointers": [
+        "merged03:1676-1805",
+        "merged03:2025-2031",
+        "test-timing-composed-24-merged03.py:25-45",
+        "test-packet-joins-composed-24-merged03.py:90-145",
+        "test-packet-joins-composed-24-merged03.py:150-215"
+      ],
+      "severity": "blocker"
+    },
+    {
+      "evidence": "Merged03 calls bridge.prepare_graph before lock, parent-stage creation, authorization, dispatch_groups, or Popen, and repeats it in the child. The authority-only packet shape can pass _core_graph_inputs but is rejected immediately by _adapt_default_graph_spec. This is an actual-core qualification evidence gate, not a reason to widen packet24's eleven authority roles or alter incoming_recovery provider semantics.",
+      "id": "GRAPH-CLOSURE-QUALIFICATION-CONDITION",
+      "pointers": [
+        "merged03:2025-2031",
+        "merged03:1676-1681",
+        "bifrost-v0140-frozen-bridge-19.py:1206-1292",
+        "bifrost-v0140-frozen-bridge-19.py:2612-2621"
+      ],
+      "severity": "high"
+    }
+  ],
+  "inputs": {
+    "composition_handoff": {
+      "path": "/private/tmp/bf24-composed-tests-01/composition-test-handoff-02.json",
+      "sha256": "11554f76a376c182bed45f7542982df4780686e0fb25ec8406621c0e0808e585"
+    },
+    "merged_supervisor": {
+      "path": "/private/tmp/bf24-root-integration-03/bifrost-v0140-supervisor-24-merged-03.py",
+      "sha256": "269d1c40c81b30dff86fae1092e64555a189ebc4195f18efe6381a23f25330b7"
+    },
+    "packet_composed_tests": {
+      "path": "/private/tmp/bf24-composed-tests-01/merged03/test-packet-joins-composed-24-merged03.py",
+      "sha256": "be96d35c54eec048d3e8ea0ae92514c569744d0a833bf46209dba2fc2ecd79e4"
+    },
+    "packet_test_log": {
+      "path": "/private/tmp/bf24-composed-tests-01/merged03/packet-joins-merged03-with-process-failure.log",
+      "sha256": "7d1f4df53d3ea2420d19040baf05a49102b7e977b65b27f8bf3b8f4487945252"
+    },
+    "timing_composed_tests": {
+      "path": "/private/tmp/bf24-composed-tests-01/merged03/test-timing-composed-24-merged03.py",
+      "sha256": "ed6f3029cff9c51bfc0e436c754426c6167c513ac420fb4cc607fce1b14d3a7c"
+    },
+    "timing_test_log": {
+      "path": "/private/tmp/bf24-composed-tests-01/merged03/timing-merged03.log",
+      "sha256": "10e22a673d501339dfc32380d7e726195782117de12203d4b9ac0740d87ebf72"
+    }
+  },
+  "passing_scope": [
+    "13 composed packet tests pass against merged03, including real run_groups post-Popen identity failure, direct-child bounded cleanup, closed witness descriptors, batch-stop evidence, and no later TypeScript dispatch.",
+    "27 composed timing tests pass against merged03, including real Popen/pass_fds identity pipe, dual identity near misses, strict timeout/terminal observation, exact-birth signaling, TERM-to-KILL, and explicit unknown descendant containment.",
+    "The direct-child fallback never signals a process group without a verified birth identity; detached descendant containment remains unknown.",
+    "No production execution, replay, analyzer, build, admission, qualification, Git, ledger mutation, launch, or cleanup operation was performed."
+  ],
+  "reviewer": "bf24-timing05-independent",
+  "schema": "v092-bf24-timing-source-independent-review/v3",
+  "status": "changes-required",
+  "validation": {
+    "actual_run_groups_cleanup": {
+      "evidence": "The test invokes the real merged03 run_groups body and real subprocess.Popen with a task-owned sleeper. It forces the post-Popen birth probe to fail, verifies exactly one group was built, no later group/TypeScript dispatch occurred, both pipe descriptors were closed, and batch-stop-00 was written. A separate real child ignoring SIGTERM reached bounded TERM-to-KILL with direct-child-only scope and descendant_containment=unknown. Admission/graph/receipt and parent process identity are deliberately fixture seams, so this is cleanup-boundary evidence rather than production qualification.",
+      "pointers": [
+        "test-packet-joins-composed-24-merged03.py:150-215",
+        "merged03:2080-2097",
+        "merged03:2161-2177",
+        "merged03:1132-1164"
+      ],
+      "result": "positive",
+      "test": "test_actual_run_groups_process_identity_failure_reaps_direct_child_and_closes_pipe"
+    },
+    "commands": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/python3.13 -B -E /private/tmp/bf24-composed-tests-01/merged03/test-packet-joins-composed-24-merged03.py",
+        "result": "13 passed in 38.775 seconds",
+        "scope": "merged03 source; private fixture control/receipt seams plus real task-owned Popen identity-failure and bounded direct-child cleanup"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/python3.13 -B -E /private/tmp/bf24-composed-tests-01/merged03/test-timing-composed-24-merged03.py",
+        "result": "27 passed in 0.309 seconds",
+        "scope": "merged03 timing functions; private focused suite, real Popen/pass_fds pipe seam, actual admission24 command-schema check, no production launch"
+      }
+    ],
+    "independent_rerun_logs": [
+      {
+        "path": "/private/tmp/bf24-graph-closure-design-01/rerun-merged03-packet.log",
+        "result": "13 passed in 38.775 seconds",
+        "sha256": "97326c768db5166c5adb1ddba850bd6552c081a4a17b53695cc72075a296f7a4"
+      },
+      {
+        "path": "/private/tmp/bf24-graph-closure-design-01/rerun-merged03-timing.log",
+        "result": "27 passed in 0.309 seconds",
+        "sha256": "25d78e40d98ab98f37c8302aa475b4a032e3323a70726785d7939b5afa95098f"
+      }
+    ]
+  }
+}

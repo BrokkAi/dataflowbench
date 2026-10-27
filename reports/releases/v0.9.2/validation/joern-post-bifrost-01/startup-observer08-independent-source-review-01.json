@@ -1,0 +1,145 @@
+{
+  "schema": "joern05-native-control-independent-source-review/v2",
+  "recorded_utc": "2026-10-25T20:45:00Z",
+  "review_mode": "read-only-static-source-and-python-review",
+  "candidate": {
+    "handoff_path": "/private/tmp/joern05-native-control-08/implementation-handoff-08.json",
+    "handoff_sha256": "5d21bfe12e557cc7202dcd422cb231f7e3f02a07107e88471225bbbd4164f75e",
+    "prior_private07_handoff_sha256": "929a0bb18e19e77a296cf35f8ac147ba90438af43a40f994ab52168c1835d368",
+    "source": {
+      "path": "/private/tmp/joern05-native-control-08/joern_native_control_observer_v07.py",
+      "bytes": 56367,
+      "sha256": "64d93cf635cd00b7853f5f2d1bb7ee5bd5763f4b187eb0d6f59ae8fdc8e7dbfc"
+    },
+    "java": {
+      "path": "/private/tmp/joern05-native-control-08/StartupWitnessAgent.java",
+      "bytes": 11281,
+      "sha256": "d7c4b65acf156278ab650dac993fe1e900ac4dd5b5b6e1d83453a809ce57fefa"
+    },
+    "java_prepared_tests": {
+      "path": "/private/tmp/joern05-native-control-08/StartupWitnessAgentTraversalTest.java",
+      "bytes": 5231,
+      "sha256": "aaa11f0f85fc8906bc04f416c91297e4a3d9df3463034c461ad2ef26d68dac6f"
+    }
+  },
+  "correction_review": {
+    "status": "accepted-minimal-boundedness-correction",
+    "private07_blocker": "The prior representation emitted 33 nodes and allowed a 33rd parent edge to anchor. That exact reproduction is closed in private08.",
+    "java": {
+      "max_links": 32,
+      "loop": "depth < MAX_LINKS",
+      "truncation": "depth == MAX_LINKS - 1",
+      "shape": "at most 32 nodes; a truncated sample has 32 nodes and failure_at_depth=31"
+    },
+    "python": {
+      "node_bound": "1 <= len(nodes) <= ANCESTRY_MAX_LINKS",
+      "truncated_shape": "len(nodes) == ANCESTRY_MAX_LINKS",
+      "anchor_behavior": "terminal parent edge of the 32nd node may anchor as edge 32; a 33rd edge cannot be represented or accepted"
+    },
+    "source_delta_scope": {
+      "observer_python": "Only the two former +1 node-bound expressions changed; exact replacement comparison passed.",
+      "agent_java": "Only the loop condition and truncation depth changed; exact replacement comparison passed.",
+      "other_candidate_semantics": "No other observer/agent source change detected."
+    }
+  },
+  "decision": {
+    "status": "approved-source-only-next-bounded-build-stage",
+    "approve_source": true,
+    "approve_next_stage": [
+      "bounded javac compilation of StartupWitnessAgent.java and prepared fake-handle tests",
+      "execution of the 9 prepared fake-handle traversal tests",
+      "one tiny standalone premain -version probe only after separately sealing and reviewing the JAR source/build/digest"
+    ],
+    "next_stage_limits": [
+      "No Joern or analyzer/control invocation",
+      "No native qualification or scored run",
+      "No admission, resource, validator, request, plan, projection, or canonical changes",
+      "No automatic retry",
+      "JAR digest remains UNSEALED until independently reviewed"
+    ],
+    "blockers": []
+  },
+  "invariant_review": {
+    "semantic_strictness": "Preserved: native self and direct-parent identity remain required for semantic and self-tracked JVMs; ancestry remains diagnostic-only for untracked command-absent version helpers.",
+    "first_pid_birth": "Preserved: first matching tracked/host PID is compared at documented precision and cannot be skipped.",
+    "sampling": "Preserved: same-sample self/direct-parent fields, repeated self/parent reads, typed unavailable/inconsistent termination, birth ordering, cycles, and reparenting checks remain.",
+    "failure_and_cleanup": "Preserved: failure evidence retains raw witnesses/process records and primary errors; scoped callback/factory restoration remains unchanged.",
+    "foreign_and_missing": "Preserved: foreign, missing, recycled, reparented, unanchored, and malformed identities fail closed.",
+    "boundary": "Corrected: exact 32-edge terminal anchor is accepted; exact 33-edge and 33-node forms are rejected before anchor admission.",
+    "historical_boundary": "No ownership inference for historical PIDs 99171/99172. Old v4 evidence remains unchanged and v4 schema remains rejected.",
+    "jar": "UNSEALED; runtime use remains forbidden pending the separately authorized bounded stage."
+  },
+  "validation": {
+    "python_suite": {
+      "command": "/opt/homebrew/bin/python3.13 -B -E -m unittest discover -s /private/tmp/joern05-native-control-08 -p 'test*.py'",
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "result": "PASS",
+      "tests": 36,
+      "retained_prior_tests": 35,
+      "new_boundary_test": "test_actual_helper_accepts_32nd_edge_anchor_rejects_33rd"
+    },
+    "python_compile": {
+      "result": "PASS",
+      "files": [
+        "joern_native_control_observer_v07.py",
+        "test_native_control_observer_v07.py",
+        "test_ancestry_v07.py",
+        "reviewer_probe_08.py"
+      ]
+    },
+    "old_failure_replay": {
+      "result": "PASS",
+      "test": "test_ancestry_v07.AncestryTests.test_retained_actual_failure_replays_unchanged_old_body_and_new_rejects_v4",
+      "result_detail": "Retained v4 body was unchanged; observer07 rejects v4 schema; no historical ownership inference."
+    },
+    "java_prepared_source": {
+      "result": "PASS-STATIC-ONLY",
+      "tests": 9,
+      "cases": [
+        "same-sample root/direct-parent",
+        "missing parent birth",
+        "missing self birth",
+        "cycle",
+        "self birth race",
+        "parent birth race",
+        "parent handle race",
+        "younger parent",
+        "32-link finite bound with terminal edge"
+      ],
+      "compilation_or_execution": false
+    },
+    "boundary_probe": {
+      "result": "PASS",
+      "probe": "/private/tmp/joern05-native-control-08/reviewer_probe_08.py",
+      "probe_sha256": "2399a3a68eecc72ec774f2abc93aed05d957b5fe44b5275764fff8cdc4072def",
+      "expected_diff_sha256": "ae935851ecd9a2c06f80f8be7c2187304a545ea646039eddb1ef4e981a2c87ce",
+      "static_result": "Java depth<32, truncation at31, Python max/truncated nodes32, JAR UNSEALED"
+    },
+    "not_performed": [
+      "javac",
+      "JAR build or digest sealing",
+      "JVM launch or premain probe",
+      "Joern/analyzer/control invocation",
+      "native qualification/scored run",
+      "validator/admission/resource scans",
+      "Git mutation"
+    ]
+  },
+  "review_artifacts": {
+    "static_log": {
+      "path": "/private/tmp/joern05-native-control-08/reviewer_static_08.log",
+      "sha256": "d76b1ca8dffac9f15b512dd31921e07f5bc021c50bb96a172e2e51794dc47626"
+    },
+    "probe": {
+      "path": "/private/tmp/joern05-native-control-08/reviewer_probe_08.py",
+      "sha256": "2399a3a68eecc72ec774f2abc93aed05d957b5fe44b5275764fff8cdc4072def"
+    }
+  },
+  "preservation": {
+    "candidate_files_edited": [],
+    "canonical_files_edited": [],
+    "jar_digest": "UNSEALED",
+    "publication_hold": true,
+    "runtime_qualification": "not inferred"
+  }
+}

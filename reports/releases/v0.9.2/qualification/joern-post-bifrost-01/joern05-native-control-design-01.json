@@ -1,0 +1,510 @@
+{
+  "actual_source_findings": [
+    {
+      "finding": "The successor helper injects JAVA_TOOL_OPTIONS and checks the fresh jvm-home/.scala-repl-pp.sc path, but it does not record System.getProperty(user.home) from either JVM or prove that both actual Java launches consumed the option.",
+      "id": "B1-STARTUP-OBSERVATION",
+      "pointers": [
+        "scripts/joern_capability_repair_v092_03.py:795-806",
+        "scripts/joern_capability_repair_v092_03.py:821-845",
+        "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/frozen-launch-scope-03.json:startup_scope"
+      ],
+      "required_correction": "A fresh receipt must bind actual bridge/query and forked Swift frontend command records, their exact environment fields, and JVM-visible startup evidence. A pre-run/post-run path check alone cannot repair historical attempt04 or justify current Unsupported rows.",
+      "severity": "blocking-for-decision-issuance"
+    },
+    {
+      "finding": "The frozen process recorder writes only JAVA_HOME, SWIFTASTGEN_BIN, _JAVA_OPTIONS, and PATH; JAVA_TOOL_OPTIONS, JAVA_OPTS, HOME, TMPDIR, JDK_JAVA_OPTIONS, and CLASSPATH are absent from command records.",
+      "id": "B1-RECEIPT-SCHEMA",
+      "pointers": [
+        "scripts/swift_v2_process.py:120-130"
+      ],
+      "required_correction": "The future control capture must add an append-only, task-owned receipt layer or equivalent output-derived evidence for these fields; do not treat mocked env_for assertions or the current command JSON as an actual child-JVM witness.",
+      "severity": "blocking-for-independent-verification"
+    },
+    {
+      "finding": "Attempt04 has HOME and current file absence only. It has no historical JVM user.home or global predef receipt, so it cannot be relabeled or repaired.",
+      "id": "B1-HISTORICAL-BOUNDARY",
+      "pointers": [
+        "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/frozen-launch-scope-03.json",
+        "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/six-role-conclusions-03.json"
+      ],
+      "required_correction": "Use a fresh isolated namespace and keep the old attempt04 uncertainty unchanged.",
+      "severity": "blocking-for-retrospective-repair"
+    },
+    {
+      "finding": "The independent static review supports the shipped 4.0.660 surface within the sealed installed-root/Swift class scope and 817 structural classes; it does not establish a general Joern inability or erase external predef/classloader uncertainty.",
+      "id": "B1-STATIC-SCOPE",
+      "pointers": [
+        {
+          "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/six-role-conclusions-03.json",
+          "sha256": "201ebd028012cda6026b65888abad4fc065bd3327ac5ddfa54478fe5e0b06b76"
+        },
+        {
+          "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/six-role-loader-matrix-02.json",
+          "sha256": "00bff695b58845172fe7f71269311e5957e5775cf81c72d3e2ccabdb559ed93b"
+        }
+      ],
+      "required_correction": "Reuse and hash-bind this static closure; do not repeat the broad static audit. Any new semantic/loader/provider hit is a stop, not an Unsupported decision.",
+      "severity": "scoped-condition"
+    }
+  ],
+  "analyzer_invocation_performed": false,
+  "automatic_retry": false,
+  "created_at_utc": "2026-10-25T15:58:58.755070Z",
+  "decision_boundary": {
+    "if_actual_native_semantic_or_loader_capability_is_observed": "Unsupported is impossible for the affected role/cases; retain an executed/inconclusive result and stop repair.",
+    "if_any_near_miss_passes": "The control is invalid; keep candidate decisions and typed uncertainty unchanged.",
+    "if_only_static_absence_is_available": "No decision; static absence alone is insufficient without the fresh startup boundary.",
+    "if_positive_passes": "Root may separately review exact fresh receipt and decide whether the existing twelve candidate files can become current 4.0.660 Unsupported decisions. This design does not issue or authorize them."
+  },
+  "exact_startup_policy_already_bound_by_candidate": {
+    "ambient_options_cleared": [
+      "_JAVA_OPTIONS",
+      "JDK_JAVA_OPTIONS",
+      "CLASSPATH"
+    ],
+    "home_relative": "jvm-home",
+    "java_property": "user.home",
+    "option_source": "JAVA_TOOL_OPTIONS",
+    "option_template": "-Duser.home={capture_home}",
+    "predef_expectation": "absent",
+    "predef_relative": ".scala-repl-pp.sc",
+    "retained_java_opts": "-Xmx512m -XX:ActiveProcessorCount=2",
+    "schema": "v092-joern-jvm-startup-policy/v1"
+  },
+  "execution_authorized": false,
+  "history_and_preservation": {
+    "candidate_count": 12,
+    "candidate_refs": [
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-entrypoint-negative.json",
+        "sha256": "d9206a4abbfea0fce3ab9d4b3e6d6795fd2d275c2532d3ae8c4ee361b6e7f59d"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-entrypoint-positive.json",
+        "sha256": "0d57623f02f217c4ce5c3d9bd302e8bb648ebacba11b12ebe90db216e9f14084"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-persistence-negative.json",
+        "sha256": "cfe56ebf511b6c0984dbe9562002908e664f52d32c06175ddc45a9ebe1ee8142"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-persistence-positive.json",
+        "sha256": "80761e17d657c46adc05ca50010b9409fcce7cdfd8810877a8c052293d07374e"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-propagator-negative.json",
+        "sha256": "d8122decbe359bbdf6d4af071c281822c5bbab3f1ff435a2c0930563353f41c8"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-propagator-positive.json",
+        "sha256": "bba6d699998e676ebb0e51dc2767d7b2fcb919677bdc37aa717f776c2dd051f3"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-sanitizer-negative.json",
+        "sha256": "668f2f494372ea649421a5aeaa212102ef6d26280a7cc63681c0285c5df14ad3"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-sanitizer-positive.json",
+        "sha256": "e840b6ae6404d170ca6a773346d5a79094462dd928850ec9ee08e28e19b633f4"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-source-sink-negative.json",
+        "sha256": "a278118379c29fcc0423feb551c14c74052ff9e7332717222473c8ab920a4870"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-source-sink-positive.json",
+        "sha256": "5d00061dfb2522e618518b832b7fcd440f4e0e3098bb6e4002b719f2133f90f8"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-summary-negative.json",
+        "sha256": "08e16bf5161d23cbcda513974c61fed6bb8386debb9749c12869e64508d6922a"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/unsupported-decisions-01/dfb-taint-swift-native-summary-positive.json",
+        "sha256": "ac7130960f34c0414102afcfa2c4ee99ba83aa9d22e677867aa177abafc46289"
+      }
+    ],
+    "candidate_unsupported_decisions_only": true,
+    "historical_attempt04_startup_not_repaired": true,
+    "ledger": {
+      "completed_rows": 103,
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 109,
+      "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851"
+    },
+    "retained_bifrost18_never_rerun": true,
+    "source_inputs_1712_preserved": true
+  },
+  "identity": {
+    "adapter_version": "joern-normal-v092",
+    "engine_sha256": "309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00",
+    "frontend_sha256": "d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+    "tool": "joern",
+    "tool_build_identity": "joern-cli:4.0.660;engine:309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00;frontend:d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+    "tool_version": "4.0.660"
+  },
+  "limits": [
+    "No analyzer, replay, build, admission, launch, Git, ledger, source, or production mutation is performed by this artifact.",
+    "No historical attempt04 claim is repaired or relabeled.",
+    "The six-control positive matrix is a startup/launch provenance control and cannot stand in for generic Joern qualification.",
+    "Candidate decision files and old plans remain candidates until a separate exact decision review."
+  ],
+  "minimum_future_control_matrix": {
+    "controller": {
+      "argv": [
+        "/usr/bin/python3",
+        "scripts/joern_capability_repair_v092_03.py",
+        "controls",
+        "--root",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+        "--plan",
+        "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-03/pending-execution-plan-01.json",
+        "--plan-sha256",
+        "d438ba7db4bef3dfcb97d90031a71798a24aded08bbbacdaa33114152f331f87",
+        "--evidence",
+        "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+        "--evidence-sha256",
+        "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005",
+        "--output",
+        "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-03/native-control-01"
+      ],
+      "fresh_output_required": true,
+      "outer_environment": {
+        "BIFROST_CACHE_ROOT": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/cache/series-01/joern-swift-common108/native-control-01",
+        "CLASSPATH": "",
+        "DATAFLOWBENCH_V092_GROUP_ID": "joern-swift-common108",
+        "DATAFLOWBENCH_V092_QUALIFICATION": "1",
+        "DATAFLOWBENCH_V092_RELEASE_EXECUTION": "1",
+        "DFB_CACHE_ROOT": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/cache/series-01/joern-swift-common108/native-control-01",
+        "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-03/native-control-01/parent-home",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "JAVA_OPTS": "-Xmx512m -XX:ActiveProcessorCount=2",
+        "JDK_JAVA_OPTIONS": "",
+        "LANG": "C",
+        "LC_ALL": "C",
+        "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SWIFTASTGEN_BIN": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/joern/joern-cli/frontends/swiftsrc2cpg/bin/astgen/SwiftAstGen-mac",
+        "TMPDIR": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-03/native-control-01/tmp",
+        "_JAVA_OPTIONS": ""
+      },
+      "output_relative_to_root": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-03/native-control-01",
+      "run_once_only": true
+    },
+    "near_miss": [
+      {
+        "expected": "Reject before analyzer/control dispatch; HOME is not user.home and must never satisfy B1.",
+        "id": "N1-home-only",
+        "input": "Pure preflight variant with HOME set to the capture home but no exact JAVA_TOOL_OPTIONS user.home binding."
+      },
+      {
+        "expected": "Reject before dispatch; do not reinterpret present bytes as an empty predef or issue Unsupported.",
+        "id": "N2-predef-present",
+        "input": "Pure preflight variant with jvm-home/.scala-repl-pp.sc present, symlinked, or non-empty before launch."
+      },
+      {
+        "expected": "Reject or prove removal before launch; any surviving value is a stop and external loader uncertainty remains.",
+        "id": "N3-ambient-option",
+        "input": "Pure environment validation variant with _JAVA_OPTIONS or JDK_JAVA_OPTIONS carrying a second user.home, or CLASSPATH carrying an external provider."
+      },
+      {
+        "expected": "Reject exact binding; do not rerun broad inventory and do not convert drift into Unsupported.",
+        "id": "N4-provider-or-static-drift",
+        "input": "Read-only preflight mutation of a copied descriptor/provider mapping, missing one static closure input, duplicate differing class bytes, or changed 4.0.660 engine/frontend SHA."
+      }
+    ],
+    "positive": {
+      "expected_interpretation": "A passing positive run closes only the prospective startup and launch provenance boundary. It does not itself create or promote twelve Unsupported decisions.",
+      "id": "P1-exact-six-control-matrix",
+      "input": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-03/control-plan-01.json",
+        "sha256": "f506d6c776287ea01608d967838083ab578e9b11047f23a909dce49007e4a934"
+      },
+      "required_records": [
+        "version command plus every typecheck/frontend/query command with argv, cwd, PID/start identity, exit/timing/cleanup, stdout/stderr references",
+        "for every Java-bearing command, exact JAVA_HOME, JAVA_OPTS, JAVA_TOOL_OPTIONS, HOME, TMPDIR, _JAVA_OPTIONS, JDK_JAVA_OPTIONS, CLASSPATH",
+        "standard JVM uptake line in stderr binding -Duser.home=<capture>/jvm-home, or a direct in-JVM property witness from that process; absence is a stop",
+        "bridge/query and forked Swift frontend classified separately; compiler command is non-JVM and cannot substitute for either",
+        "fresh jvm-home/.scala-repl-pp.sc absent before the first Java child and after every phase/finalization; symlink or any bytes is a stop",
+        "all 12 records and all 36 phase command references retained under the fresh capture namespace"
+      ],
+      "scope": "six existing controls (direct positive/negative and four opaque model cases), off/on arms, 12 case-arms, at most 36 phase invocations; no native decision rows are dispatched by this control run.",
+      "why_minimum": "The matrix exercises the exact compiler, Swift frontend JVM, and Joern bridge/query JVM paths already bound by the successor plan without rerunning all 108 cases or all 24 native fixtures."
+    },
+    "purpose": "Close only the prospective startup boundary and rebind the already-reviewed shipped Swift closure; not a full native qualification or scored activation."
+  },
+  "production_actions_performed": false,
+  "qualification_authorized": false,
+  "required_startup_receipt_predicate": {
+    "ambient": {
+      "CLASSPATH": null,
+      "JDK_JAVA_OPTIONS": null,
+      "_JAVA_OPTIONS": null
+    },
+    "bridge_processes": [
+      "fresh version command",
+      "each Joern --script query command"
+    ],
+    "failure_state": "startup-boundary-unproven; preserve candidate decisions and do not create successor decision refs",
+    "forked_processes": [
+      "each swiftsrc2cpg frontend command"
+    ],
+    "identity": {
+      "adapter_version": "joern-normal-v092",
+      "engine_sha256": "309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00",
+      "frontend_sha256": "d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+      "tool": "joern",
+      "tool_build_identity": "joern-cli:4.0.660;engine:309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00;frontend:d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+      "tool_version": "4.0.660"
+    },
+    "predef": "Path(<capture_root>/jvm-home/.scala-repl-pp.sc) absent and non-symlink before launch, between phases, and after finalization; no global predef path outside capture root consulted",
+    "property": "System.getProperty(\"user.home\") == <capture_root>/jvm-home for every Java process, with the exact option consumed by that process",
+    "retained_options": "-Xmx512m -XX:ActiveProcessorCount=2"
+  },
+  "resource_and_cleanup_scope": {
+    "cleanup": "Use the existing tracked-child cleanup receipt; any uncertain parent/descendant cleanup is a stop and no scratch cleanup or retry is authorized.",
+    "control_plan_limits": {
+      "case_arm_budget_seconds": 75,
+      "concurrency": 1,
+      "max_phase_invocations": 36,
+      "scratch_allowance_bytes": 4294967296,
+      "total_budget_seconds": 900
+    },
+    "fresh_precheck_required": "A new post-ledger-109 read-only resource/process/lock precheck must bind this capture; the prior ledger-107 precheck is stale and is not authority.",
+    "global_policy_unchanged": {
+      "aggregate_source_working_gib": 30,
+      "analyzer_slots": 1,
+      "joern_inner_gib": 125,
+      "minimum_free_gib": 127,
+      "outer_gib": 110,
+      "per_source_gib": 12,
+      "reserve_gib": 40,
+      "retention_gib": 24,
+      "scratch_gib": 24,
+      "stop_gib": 48
+    }
+  },
+  "review_type": "design-only-native-control",
+  "reviewed_current_inputs": {
+    "capability_evidence": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+      "sha256": "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005"
+    },
+    "class_provider_catalog": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/new-class-providers-03.json",
+      "sha256": "0c710c4fa369e8832ed22a00efe96107fbcaba63eade91de46c33ede158d213f"
+    },
+    "classpath_provider_boundary": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/classpath-and-providers.json",
+      "sha256": "5102549b8278ca175dbd698d4cd262ad4362229590cd25161850f9a34b159c07"
+    },
+    "control_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-03/control-plan-01.json",
+      "sha256": "f506d6c776287ea01608d967838083ab578e9b11047f23a909dce49007e4a934"
+    },
+    "frozen_execution_env_helper": {
+      "path": "scripts/joern_normal_execution_v1.py",
+      "sha256": "01caead3c7e86880b9893128a0a65d7175f857b580d161ecbf586514e295577d"
+    },
+    "frozen_launch_scope": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/frozen-launch-scope-03.json",
+      "sha256": "117c5f09a5ae61d8e8e5d34b0f94b34fcad79c7fbe10e83cf00b9fe8944605e1"
+    },
+    "launcher_bindings": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/launcher-bindings.json",
+      "sha256": "828cfda860e04a096234c08f790159b115a0d068f2716f4b621ffd2acda682b6"
+    },
+    "native_role_contracts": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/native-role-contracts-03.json",
+      "sha256": "9ead1984228dea34a15416189fa20dba59cb1bfff2dc5c7cba3e542e5376d236"
+    },
+    "pending_successor_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-03/pending-execution-plan-01.json",
+      "sha256": "d438ba7db4bef3dfcb97d90031a71798a24aded08bbbacdaa33114152f331f87"
+    },
+    "pending_successor_plan_status": "qualification-pending; execution_eligible=false; diagnostic_execution_eligible=false",
+    "pinned_runner": {
+      "path": "scripts/joern_normal_runner_v092.py",
+      "sha256": "683a1bb22a2ec943d357cd4b86982dd7ee62c22a47c28ee3c32e91d114f977f4"
+    },
+    "process_recorder": {
+      "path": "scripts/swift_v2_process.py",
+      "sha256": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd"
+    },
+    "query": {
+      "path": "adapters/joern/swift-common-v2/v0.9.2/query.sc",
+      "sha256": "8f944335630a79f5cbb444c0921d0515e565c9acff022cd1740fbb66371b8f07"
+    },
+    "runtime_manifest_comparison": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/runtime-manifest-comparison.json",
+      "sha256": "fe761e532665924c2e295e47ebd00d6ee707bae0d77a641412420619ab6f3d91"
+    },
+    "sealed_static_manifest": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/manifest-03.json",
+      "sha256": "02a6a95f7c69092614d17e593f45cf0ab9386d53951781b8302a38293b33fad8"
+    },
+    "six_role_conclusions": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/six-role-conclusions-03.json",
+      "sha256": "201ebd028012cda6026b65888abad4fc065bd3327ac5ddfa54478fe5e0b06b76"
+    },
+    "six_role_loader_matrix": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/six-role-loader-matrix-02.json",
+      "sha256": "00bff695b58845172fe7f71269311e5957e5775cf81c72d3e2ccabdb559ed93b"
+    },
+    "successor_script": {
+      "path": "scripts/joern_capability_repair_v092_03.py",
+      "sha256": "8e3d986f20c2262045d8473837d1bf5a56b61da1bc23fee6e778bd0ac47d2b51"
+    }
+  },
+  "reviewer": "bf24_packet_review",
+  "schema": "v092-joern-native-control-design/v1",
+  "static_closure_reuse": {
+    "bound_inputs": [
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/native-role-contracts-03.json",
+        "sha256": "9ead1984228dea34a15416189fa20dba59cb1bfff2dc5c7cba3e542e5376d236"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/six-role-loader-matrix-02.json",
+        "sha256": "00bff695b58845172fe7f71269311e5957e5775cf81c72d3e2ccabdb559ed93b"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/six-role-conclusions-03.json",
+        "sha256": "201ebd028012cda6026b65888abad4fc065bd3327ac5ddfa54478fe5e0b06b76"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/manifest-03.json",
+        "sha256": "02a6a95f7c69092614d17e593f45cf0ab9386d53951781b8302a38293b33fad8"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/runtime-manifest-comparison.json",
+        "sha256": "fe761e532665924c2e295e47ebd00d6ee707bae0d77a641412420619ab6f3d91"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/new-class-providers-03.json",
+        "sha256": "0c710c4fa369e8832ed22a00efe96107fbcaba63eade91de46c33ede158d213f"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/classpath-and-providers.json",
+        "sha256": "5102549b8278ca175dbd698d4cd262ad4362229590cd25161850f9a34b159c07"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/native-mechanisms-v40660-01/launcher-bindings.json",
+        "sha256": "828cfda860e04a096234c08f790159b115a0d068f2716f4b621ffd2acda682b6"
+      }
+    ],
+    "pass_condition": "All exact hashes remain unchanged, all role contract/case refs remain bound, installed manifest has no added/changed/missing/error entries, and no dynamic semantic/loader/provider evidence appears in the fresh receipt.",
+    "role_contracts": {
+      "entrypoint": {
+        "mechanism": [
+          "CommandLine.arguments[1]",
+          "CommandLine.arguments.count > 1",
+          "Process.run"
+        ],
+        "negative_ref": {
+          "path": "cases/taint/swift/native-entrypoint-negative/case.json",
+          "sha256": "562d35278332486b30d4efdf6247bc84e2d9da9f814ef25138b78d971cfcad58"
+        },
+        "positive_ref": {
+          "path": "cases/taint/swift/native-entrypoint-positive/case.json",
+          "sha256": "1ade47d725563efbafd95fbff261cb850eb320d964da4443be6bed31d80ec23f"
+        }
+      },
+      "persistence": {
+        "mechanism": [
+          "UserDefaults(suiteName:)",
+          "set(_:forKey:)",
+          "string(forKey:)",
+          "receiver/key discrimination",
+          "Process.run"
+        ],
+        "negative_ref": {
+          "path": "cases/taint/swift/native-persistence-negative/case.json",
+          "sha256": "42ce79ef630f1af8beb858812ce97864f028328278c70c5880262788b587405d"
+        },
+        "positive_ref": {
+          "path": "cases/taint/swift/native-persistence-positive/case.json",
+          "sha256": "3ca7a3d3ee196ea04e0fb747e2d886054e8e1397098690a81e886b5f04dca033"
+        }
+      },
+      "propagator": {
+        "mechanism": [
+          "String.append",
+          "ProcessInfo.processInfo.environment",
+          "Process.run"
+        ],
+        "negative_ref": {
+          "path": "cases/taint/swift/native-propagator-negative/case.json",
+          "sha256": "0ad539fdca3e389289cbbd5b0cb013f5b76280fe7c3ded43fd77a7eb51042e02"
+        },
+        "positive_ref": {
+          "path": "cases/taint/swift/native-propagator-positive/case.json",
+          "sha256": "8b191cdab61fe8a5d79c07c389dcb7d1322326e6e5999f88bfe6529ea67bf7bc"
+        }
+      },
+      "sanitizer": {
+        "mechanism": [
+          "Int(raw, radix: 10)",
+          "String(parsed, radix: 10)",
+          "Process.run"
+        ],
+        "negative_ref": {
+          "path": "cases/taint/swift/native-sanitizer-negative/case.json",
+          "sha256": "74d0f88c160ceca94f9abb4a380f4285413938b926d6cc1b9e3e10bd4518347c"
+        },
+        "positive_ref": {
+          "path": "cases/taint/swift/native-sanitizer-positive/case.json",
+          "sha256": "019ae4ec6946609a12834f487d566bae889b30446fafabba1ea244e541a98ca2"
+        }
+      },
+      "source-sink": {
+        "mechanism": [
+          "ProcessInfo.processInfo.environment",
+          "Process.run"
+        ],
+        "negative_ref": {
+          "path": "cases/taint/swift/native-source-sink-negative/case.json",
+          "sha256": "f201a8774364fb6953f38b5c8f92c7925035b35ce4068358256c11da6f37f7ea"
+        },
+        "positive_ref": {
+          "path": "cases/taint/swift/native-source-sink-positive/case.json",
+          "sha256": "bf3a6227cef7366ef28e0104e71d2286207afebc1014daaf9c55594e73d781dc"
+        }
+      },
+      "summary": {
+        "mechanism": [
+          "Data(raw.utf8)",
+          "base64EncodedString",
+          "Data(base64Encoded:)",
+          "String(data:encoding:)",
+          "Process.run"
+        ],
+        "negative_ref": {
+          "path": "cases/taint/swift/native-summary-negative/case.json",
+          "sha256": "6cffbd0378affd2a6616b85d4fee8f179624c9354e82e451333da498ee23833f"
+        },
+        "positive_ref": {
+          "path": "cases/taint/swift/native-summary-positive/case.json",
+          "sha256": "3d9616998df9cb9b5e2a1afd88471300b8979904fb8e351fc84406d5dedce845"
+        }
+      }
+    },
+    "status": "already-reviewed-scoped-static-closure; no broad rerun proposed",
+    "stop_condition": "Any class/provider mismatch, unresolved class target, dynamic loader/predef injection, or native endpoint semantic hit converts the result to inconclusive and blocks all twelve decisions.",
+    "twelve_frontend_targets": [
+      "io.joern.swiftsrc2cpg.Config",
+      "io.joern.swiftsrc2cpg.passes.AstCreationPass",
+      "io.joern.swiftsrc2cpg.passes.BuiltinTypesPass",
+      "io.joern.swiftsrc2cpg.passes.ClosureBindingsPass",
+      "io.joern.swiftsrc2cpg.passes.ConfigFileCreationPass",
+      "io.joern.swiftsrc2cpg.passes.DependenciesPass",
+      "io.joern.swiftsrc2cpg.passes.ExtensionsPass",
+      "io.joern.swiftsrc2cpg.passes.FullNameUniquenessPass",
+      "io.joern.swiftsrc2cpg.passes.MetaDataPass",
+      "io.joern.swiftsrc2cpg.passes.ObjcCallFullNamePass",
+      "io.joern.swiftsrc2cpg.utils.AstGenRunner",
+      "io.joern.x2cpg.utils.Report"
+    ]
+  },
+  "status": "proposal-only-root-review-required"
+}

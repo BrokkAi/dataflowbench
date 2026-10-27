@@ -28,6 +28,7 @@ pub(crate) mod flowdroid;
 pub(crate) mod infer;
 pub(crate) mod joern;
 pub(crate) mod opentaint;
+pub(crate) mod pins;
 pub(crate) mod pysa;
 pub(crate) mod semgrep;
 pub(crate) mod swift_v2;
@@ -39,11 +40,11 @@ use crate::adapters::joern::joern_version_identity;
 use crate::adapters::semgrep::semgrep_version_identity;
 use crate::cases::{LoadedCases, case_paths, validate_kernel_population_with};
 use crate::report::ADAPTER_VERSION;
-use crate::runtime::{command_output, now_seconds, witnessed_version_line};
+use crate::runtime::{now_seconds, witnessed_version_line};
 use crate::templates::expected_core_templates;
-use anyhow::{Context, Result, bail};
+use anyhow::{Result, bail};
 use serde_json::{Value, json};
-use std::{collections::BTreeSet, fs, path::Path, path::PathBuf, process::Command};
+use std::{collections::BTreeSet, fs, path::Path, path::PathBuf};
 
 /// The four adapters the preregistration partitions, plus the adapters that
 /// joined later, each by a dated amendment with its own partition row, never
@@ -112,13 +113,13 @@ impl ModelingTool {
     /// freeze cannot survive.
     pub(crate) fn pinned_identity(self) -> &'static str {
         match self {
-            Self::Bifrost => "Bifrost v0.11.4",
-            Self::Codeql => "CodeQL CLI 2.27.0",
+            Self::Bifrost => "Bifrost v0.14.0",
+            Self::Codeql => "CodeQL CLI 2.27.2",
             Self::Flowdroid => "FlowDroid 2.15.1",
             Self::Infer => "Infer v1.3.0",
-            Self::Joern => "Joern 4.0.628",
-            Self::Semgrep => "Semgrep CE 1.176.0",
-            Self::Pysa => "Pysa (pyre-check 0.10.0 + Pyrefly 1.3.1)",
+            Self::Joern => "Joern 4.0.660",
+            Self::Semgrep => "Semgrep CE 1.181.0",
+            Self::Pysa => "Pysa (pyre-check 0.10.0 + Pyrefly 1.4.0)",
             Self::Opentaint => "OpenTaint v0.4.6",
         }
     }
@@ -280,20 +281,7 @@ impl ModelingLanguage {
 /// never observed.
 pub(crate) fn witness_tool_identity(tool: ModelingTool, binary: &Path) -> Result<ToolIdentity> {
     match tool {
-        ModelingTool::Bifrost => Ok(ToolIdentity::new(
-            command_output(Command::new(binary).arg("--version")).with_context(|| {
-                format!(
-                    "witness the pinned Bifrost version with {} --version; a modeling or tool-native report may not assert a version it could not read",
-                    binary.display()
-                )
-            })?,
-            command_output(Command::new(binary).arg("--build-identity")).with_context(|| {
-                format!(
-                    "witness the pinned Bifrost build identity with {} --build-identity",
-                    binary.display()
-                )
-            })?,
-        )),
+        ModelingTool::Bifrost => bifrost::witness_bifrost_identity(binary),
         ModelingTool::Codeql => codeql_version_identity(binary),
         // The kernel witness, unchanged: it refuses a binary whose
         // self-reported version is not the pinned release, so a modeling or

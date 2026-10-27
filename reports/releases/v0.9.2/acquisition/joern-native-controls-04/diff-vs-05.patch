@@ -1,0 +1,422 @@
+--- native05/native_qualifier.py
++++ native06/native_qualifier.py
+@@ -32,7 +32,7 @@
+ LOCK = Path('/private/tmp/dataflowbench-v0.9.0-exclusive-analyzer.lock')
+ CORE = {'path': 'reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-24/manifest-identity.json', 'sha256': 'b1b405d1f28bae9b84632de4830352ae9a27f352f47bbb49a3a046e2567add6d'}
+ OBSERVER = {'path': 'reports/releases/v0.9.2/acquisition/joern-native-startup-observer-06.py', 'sha256': 'aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551'}
+-PLAN = {'path': 'reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/pending-execution-plan-01.json', 'sha256': '08ef4108097f399732ed84b4d81fa46fbf869edafaebb79fb156785cc4888888'}
++PLAN = {'path': 'reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-05/pending-execution-plan-01.json', 'sha256': 'c79f93dca045d8fbf2b7221fbf20e042d7546d403567a821ed1594fda8411137'}
+ LEDGER = {'path': 'reports/releases/v0.9.2/ledger-v1.jsonl', 'sha256': '2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851'}
+ PYTHON = '/opt/homebrew/bin/python3.13'
+ ORIGIN = '2026-10-20T00:57:00.680937+00:00'
+@@ -682,6 +682,103 @@
+ 
+ 
+ 
++def validate_pending_plan(root: Path, cfg: dict, observer: Any) -> dict:
++    """Run every real pending-plan validator gate without starting controls.
++
++    Only the isolated runner path is rebound. The canonical historical runner
++    remains bound to its original archive, as diagnostic admission requires.
++    Private-engine mutations are restored before returning to the controller.
++    """
++    require(cfg['pending_plan'] == PLAN, 'pending schema gate requires sealed successor plan')
++    pending = document(root, cfg['pending_plan'])
++    require(pending.get('status') == 'qualification-pending' and
++            pending.get('fresh_qualification') is None and
++            pending.get('execution_eligible') is False and
++            pending.get('diagnostic_execution_eligible') is False,
++            'pending schema gate cannot promote qualification or eligibility')
++    old = observer.load_original(root)
++    old._assert_canonical_historical_binding(root)
++    runner = old._load_runner(root)
++    common = runner.common
++    prior_cache = dict(common._PRIVATE_ENGINES)
++    missing = object()
++    saved = []
++    old_path = runner.EXECUTION_PLAN_PATH
++    original_loader = common._load_private_module
++    loaded = []
++    primary = None
++
++    def owned_private_loader(name, path, router):
++        # The unchanged frozen loader registers deterministic names. A fresh
++        # gate may only create absent names; an existing cached bundle never
++        # calls this loader. Do not overwrite a foreign/pre-existing object.
++        require(name not in sys.modules, 'pending private selector already registered: ' + name)
++        module = original_loader(name, path, router)
++        loaded.append((name, module))
++        require(sys.modules.get(name) is module, 'pending private loader identity changed')
++        return module
++
++    common._load_private_module = owned_private_loader
++    try:
++        engine = common.private_engine(root, 'joern')['runner']
++        for namespace, names in (
++            (engine.__dict__, ('VERSION', 'ADAPTER', 'BASE')),
++            (engine.config_for.__globals__, ('BASE',)),
++            (engine.query_argv.__globals__, ('BASE',)),
++        ):
++            for name in names:
++                if not any(previous is namespace and key == name for previous, key, _ in saved):
++                    saved.append((namespace, name, namespace.get(name, missing)))
++        runner.EXECUTION_PLAN_PATH = cfg['pending_plan']['path']
++        checked, evidence, context = runner.validate_plan(
++            root, cfg['pending_plan']['path'], allow_qualification_pending=True)
++        require(checked == pending and evidence == {} and
++                set(context) == {'engine', 'control', 'cases'} and len(context['cases']) == 108,
++                'pending validator did not return the exact complete pending context')
++        return {'schema': 'v092-joern-pending-schema-check/v1',
++                'pending_plan': cfg['pending_plan'], 'status': 'qualification-pending',
++                'full_validator_returned': True, 'cases': len(context['cases']),
++                'registered_at_unix_seconds': checked['registered_at_unix_seconds'],
++                'observed_at_unix_seconds': int(time.time()),
++                'fresh_qualification': None, 'engine_dispatched': False}
++    except BaseException as error:
++        primary = error
++        raise
++    finally:
++        runner.EXECUTION_PLAN_PATH = old_path
++        for namespace, name, value in reversed(saved):
++            if value is missing:
++                namespace.pop(name, None)
++            else:
++                namespace[name] = value
++        common._PRIVATE_ENGINES.clear()
++        common._PRIVATE_ENGINES.update(prior_cache)
++        failures = []
++        if common._load_private_module is owned_private_loader:
++            common._load_private_module = original_loader
++        else:
++            failures.append(ValueError('pending private loader callback replaced'))
++        try:
++            release_owned_modules(loaded)
++        except BaseException as cleanup:
++            failures.append(cleanup)
++        if failures:
++            if primary is not None:
++                for failure in failures:
++                    attach_cleanup_error(primary, failure)
++            else:
++                for failure in failures[1:]:
++                    attach_cleanup_error(failures[0], failure)
++                raise failures[0]
++
++
++def pending_plan_preflight(root: Path, cfg: dict) -> dict:
++    """Source-bound no-dispatch gate before bootstrap/parent Popen paths."""
++    with owned_module_scope():
++        observer = load(root, cfg['observer'], '_native_schema_observer06')
++        return validate_pending_plan(root, cfg, observer)
++
++
+ def run_worker(root: Path, cfg: dict, request_ref: dict, *, lock_fd: int, witness_fd: int, token: str, parent_pid: int, parent_birth: str) -> dict:
+     with owned_module_scope():
+         return _run_worker_body(root, cfg, request_ref, lock_fd=lock_fd, witness_fd=witness_fd,
+@@ -722,8 +819,10 @@
+         'interpreter_identity':interpreter_identity, 'parent_interpreter_identity':started['interpreter_identity'], 'environment':dict(os.environ),
+         'environment_sha256':sha(canonical(dict(os.environ))), 'automatic_retry':False})
+     phase(witness_fd,token,{'phase':'ready','pid':os.getpid(),'birth_identity':identity['birth_identity'],'observed_monotonic':time.monotonic()})
+-    # The real observer.controls API performs its retained bootstrap validation
+-    # once. Do not repeat a separate13-second preflight or fabricate eligibility.
++    schema_check = validate_pending_plan(root, cfg, observer)
++    immutable(root/cfg['namespace']/'pending-schema-check.json', schema_check)
++    # The observer still performs its own retained bootstrap validation.
++    # This additional read-only gate validates the NEW pending plan fully.
+     phase(witness_fd,token,{'phase':'controls-started','pid':os.getpid(),'birth_identity':identity['birth_identity'],'observed_monotonic':time.monotonic()})
+     result=observer.controls(root,str(root/cfg['namespace']/'capture'),new_plan_path=cfg['pending_plan']['path'],evidence_path=cfg['evidence']['path'],expected_new_plan_sha256=cfg['pending_plan']['sha256'],expected_evidence_sha256=cfg['evidence']['sha256'])
+     phase(witness_fd,token,{'phase':'controls-returned','pid':os.getpid(),'birth_identity':identity['birth_identity'],'observed_monotonic':time.monotonic()})
+@@ -762,6 +861,7 @@
+     """Detached parent owns inherited flock; explicit pipe releases startup."""
+     checked = validate_request(root, cfg)
+     validate_review(root, review_ref, request_ref, cfg)
++    pending_plan_preflight(root, cfg)
+     require(stable(root, cfg['tool_refs']['wrapper']) == Path(__file__).read_bytes(), 'wrapper source differs')
+     directory = root / (cfg['namespace'] + '-supervision')
+     require(not directory.exists() and not directory.is_symlink(), 'exclusive bootstrap namespace already exists')
+@@ -836,6 +936,7 @@
+ def run_parent(root: Path, cfg: dict, request_ref: dict, review_ref: dict, *, inherited_lock_fd: int | None = None) -> dict:
+     checked=validate_request(root,cfg)
+     validate_review(root,review_ref,request_ref,cfg)
++    pending_plan_preflight(root, cfg)
+     require(stable(root,cfg['tool_refs']['wrapper'])==Path(__file__).read_bytes(),'wrapper source differs')
+     with modules(root, cleanup_receipt=root/cfg['namespace']/'module-cleanup-error.json') as (core,graph):
+         helper=load(root,cfg['tool_refs']['resources'],'_native_resource_lock')
+--- native05/test_native_qualifier.py
++++ native06/test_native_qualifier.py
+@@ -370,6 +370,7 @@
+         with mock.patch.object(n,'ROOT',self.root),mock.patch.object(n,'LOCK',lock), \
+              helper.observe_existing_lock(lock) as held, \
+              mock.patch.object(n,'load',side_effect=selected_load), \
++             mock.patch.object(n,'validate_pending_plan',return_value={'fixture_schema_gate':True}), \
+              mock.patch.object(n,'document',side_effect=lambda root,ref:core if ref==n.CORE else original_document(root,ref)), \
+              (contextlib.nullcontext() if actual_environment else mock.patch.dict(os.environ,env,clear=True)):
+             try:
+@@ -484,7 +485,7 @@
+         @contextlib.contextmanager
+         def graph_scope(root, **kwargs):yield {},graph
+         resources=types.SimpleNamespace(sample=lambda **kw:{'free_bytes':200*n.GIB})
+-        with mock.patch.multiple(n,LOCK=lock_path,modules=graph_scope), mock.patch.object(n,'validate_request',return_value={'environment':{}}), mock.patch.object(n,'validate_review'), mock.patch.object(n,'stable',return_value=Path(n.__file__).read_bytes()), mock.patch.object(n,'load',side_effect=lambda root,ref,name:helper if 'resources' in name else object()), mock.patch.object(n,'Resources',return_value=resources), mock.patch.object(n,'contenders',return_value=[]), mock.patch.object(n.subprocess,'Popen',side_effect=popen):
++        with mock.patch.multiple(n,LOCK=lock_path,modules=graph_scope), mock.patch.object(n,'pending_plan_preflight',return_value={'fixture_schema_gate':True}), mock.patch.object(n,'validate_request',return_value={'environment':{}}), mock.patch.object(n,'validate_review'), mock.patch.object(n,'stable',return_value=Path(n.__file__).read_bytes()), mock.patch.object(n,'load',side_effect=lambda root,ref,name:helper if 'resources' in name else object()), mock.patch.object(n,'Resources',return_value=resources), mock.patch.object(n,'contenders',return_value=[]), mock.patch.object(n.subprocess,'Popen',side_effect=popen):
+             value=n.bootstrap(self.root,cfg,{'path':'request','sha256':'1'*64},{'path':'review','sha256':'2'*64})
+         try:frame=json.loads(os.read(received[0],4096))
+         finally:os.close(received[0])
+--- native05/test_pending_plan_gate.py
++++ native06/test_pending_plan_gate.py
+@@ -0,0 +1,149 @@
++"""Actual frozen pending validator, real files/runtime hashes, zero dispatch.
++
++Positive uses actual source candidate. Negative plan bytes are an explicitly
++scoped read seam; all unrelated bound reads and validator bodies stay real.
++Existing lifecycle tests separately disclose their synthetic schema-gate seam.
++"""
++from pathlib import Path
++import contextlib
++import copy
++import hashlib
++import json
++import subprocess
++import sys
++import time
++import types
++import unittest
++from unittest import mock
++import native_qualifier as n
++
++ROOT=n.ROOT
++
++class RealPendingPlanGateTests(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.observer=n.load(ROOT,n.OBSERVER,'_native_schema_actual_test')
++        cls.old=cls.observer.load_original(ROOT)
++        cls.runner=cls.old._load_runner(ROOT)
++        cls.cfg={'pending_plan':n.PLAN}
++        cls.plan=n.document(ROOT,n.PLAN)
++
++    @contextlib.contextmanager
++    def no_dispatch(self):
++        with mock.patch.object(subprocess,'Popen',side_effect=AssertionError('unexpected process dispatch')) as popen:
++            yield popen
++            self.assertEqual(popen.call_count,0)
++
++    def test_actual_source_pending_positive_reaches_full_return_and_restores(self):
++        sys.path.insert(0,str(ROOT/'scripts'))
++        import joern_normal_runner_v092 as canonical
++        canonical_path=canonical.EXECUTION_PLAN_PATH
++        common=self.runner.common
++        prior_cache=dict(common._PRIVATE_ENGINES)
++        prior_loader=common._load_private_module
++        private_before={k:v for k,v in sys.modules.items() if k.startswith('_dfb_common_v2_joern_')}
++        observed=set()
++        def profile(frame,event,arg):
++            if event=='call' and frame.f_code.co_filename.endswith('joern_normal_runner_v092.py'):
++                observed.add(frame.f_code.co_name)
++        before=sys.getprofile()
++        try:
++            sys.setprofile(profile)
++            with self.no_dispatch():
++                result=n.validate_pending_plan(ROOT,self.cfg,self.observer)
++        finally:sys.setprofile(before)
++        self.assertTrue(result['full_validator_returned'])
++        self.assertEqual(result['cases'],108)
++        self.assertEqual(result['status'],'qualification-pending')
++        self.assertIsNone(result['fresh_qualification'])
++        self.assertEqual(canonical.EXECUTION_PLAN_PATH,canonical_path)
++        self.assertEqual(common._PRIVATE_ENGINES,prior_cache)
++        self.assertIs(common._load_private_module,prior_loader)
++        self.assertEqual({k:v for k,v in sys.modules.items() if k.startswith('_dfb_common_v2_joern_')},private_before)
++        self.assertTrue({'validate_plan','_validate_control_plan','_check_runtime','_engine'} <= observed,observed)
++        self.assertEqual(n.document(ROOT,n.PLAN),self.plan)
++
++    @contextlib.contextmanager
++    def altered_plan(self,change):
++        candidate=copy.deepcopy(self.plan)
++        change(candidate)
++        actual_read=self.runner.read
++        selected=ROOT/n.PLAN['path']
++        def read(path):
++            return candidate if Path(path)==selected else actual_read(path)
++        old_path=self.runner.EXECUTION_PLAN_PATH
++        self.runner.EXECUTION_PLAN_PATH=n.PLAN['path']
++        try:
++            with mock.patch.object(self.runner,'read',side_effect=read),self.no_dispatch():yield candidate
++        finally:self.runner.EXECUTION_PLAN_PATH=old_path
++
++    def test_actual_registration_near_misses_rejected_without_execution(self):
++        for stamp in [1792947417.994006,True,'1792947417',None,int(time.time())+3600]:
++            with self.subTest(stamp=stamp),self.altered_plan(lambda p:p.update(registered_at_unix_seconds=stamp)):
++                with self.assertRaisesRegex(ValueError,'registered before execution'):
++                    self.runner.validate_plan(ROOT,n.PLAN['path'],allow_qualification_pending=True)
++
++    def test_actual_same_second_registration_rejects(self):
++        stamp=self.plan['registered_at_unix_seconds']
++        # Only the clock is a negative-fixture seam; the real strict comparison
++        # must reject equality. The actual positive never substitutes time.
++        with self.altered_plan(lambda p:p.update(registered_at_unix_seconds=stamp)),mock.patch.object(self.runner.time,'time',return_value=stamp):
++            with self.assertRaisesRegex(ValueError,'registered before execution'):
++                self.runner.validate_plan(ROOT,n.PLAN['path'],allow_qualification_pending=True)
++
++    def test_actual_original04_float_reproduces_exact_failure(self):
++        relative='reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/pending-execution-plan-01.json'
++        old=self.runner.EXECUTION_PLAN_PATH
++        try:
++            self.runner.EXECUTION_PLAN_PATH=relative
++            with self.no_dispatch(),self.assertRaisesRegex(ValueError,'registered before execution'):
++                self.runner.validate_plan(ROOT,relative,allow_qualification_pending=True)
++        finally:self.runner.EXECUTION_PLAN_PATH=old
++
++    def test_actual_wrong_mode_and_projection_reject(self):
++        for fields,error in [({'status':'execution-eligible'},'status'),({'qualification_control_projection_sha256':'0'*64},'projection')]:
++            with self.subTest(fields=fields),self.altered_plan(lambda p:p.update(fields)):
++                with self.assertRaisesRegex(ValueError,error):
++                    self.runner.validate_plan(ROOT,n.PLAN['path'],allow_qualification_pending=True)
++
++    def test_actual_late_query_missing_after_runtime_checks(self):
++        original=Path.is_file
++        selected=ROOT/self.plan['query_root']/'query.sc'
++        reached=[]
++        runtime=self.runner._check_runtime
++        def checked(*args):
++            value=runtime(*args);reached.append('runtime-complete');return value
++        old=self.runner.EXECUTION_PLAN_PATH
++        try:
++            self.runner.EXECUTION_PLAN_PATH=n.PLAN['path']
++            with self.no_dispatch(),mock.patch.object(self.runner,'_check_runtime',side_effect=checked),mock.patch.object(Path,'is_file',lambda p:False if p==selected else original(p)):
++                with self.assertRaisesRegex(ValueError,'missing or escaped evidence file'):
++                    self.runner.validate_plan(ROOT,n.PLAN['path'],allow_qualification_pending=True)
++        finally:self.runner.EXECUTION_PLAN_PATH=old
++        self.assertEqual(reached,['runtime-complete'])
++
++    def test_actual_prelaunch_paths_reject_failed04_before_popen(self):
++        ref={'path':'reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/pending-execution-plan-01.json',
++             'sha256':'08ef4108097f399732ed84b4d81fa46fbf869edafaebb79fb156785cc4888888'}
++        cfg={'pending_plan':ref,'observer':n.OBSERVER}
++        # Upstream request/review authority is fixture-only here. The actual
++        # bootstrap/parent body and real pending validator reject before launch.
++        for function in (n.bootstrap,n.run_parent):
++            with self.subTest(function=function.__name__),mock.patch.object(n,'PLAN',ref),mock.patch.object(n,'validate_request',return_value={}),mock.patch.object(n,'validate_review'),self.no_dispatch():
++                with self.assertRaisesRegex(ValueError,'registered before execution'):
++                    function(ROOT,cfg,{}, {})
++
++    def test_worker_gate_precedes_controls_and_launch_gates_precede_popen(self):
++        import ast
++        tree=ast.parse(Path(n.__file__).read_text())
++        for name in ('bootstrap','run_parent'):
++            f=next(x for x in tree.body if isinstance(x,ast.FunctionDef) and x.name==name)
++            calls=[(x.lineno,ast.unparse(x.func)) for x in ast.walk(f) if isinstance(x,ast.Call)]
++            gate=min(line for line,callee in calls if callee=='pending_plan_preflight')
++            popen=min(line for line,callee in calls if callee in {'subprocess.Popen', 'controller.subprocess.Popen', 'spawn_owned', 'supervise'})
++            self.assertLess(gate,popen)
++        f=next(x for x in tree.body if isinstance(x,ast.FunctionDef) and x.name=='_run_worker_body')
++        calls=[(x.lineno,ast.unparse(x.func)) for x in ast.walk(f) if isinstance(x,ast.Call)]
++        self.assertLess(min(line for line,c in calls if c=='validate_pending_plan'),min(line for line,c in calls if c=='observer.controls'))
++
++if __name__=='__main__':unittest.main()
+--- native05/fresh_pending_gate_probe.py
++++ native06/fresh_pending_gate_probe.py
+@@ -0,0 +1,52 @@
++"""Fresh interpreter: actual pending gate and inherited88 boundary, no replay."""
++import json
++from pathlib import Path
++import subprocess
++import sys
++import types
++from unittest import mock
++import native_qualifier as n
++
++mode=sys.argv[1]
++assert mode in {'positive','foreign','foreign-selector'}
++cfg={'pending_plan':n.PLAN,'observer':n.OBSERVER}
++if mode=='foreign-selector':
++    token=n.hashlib.sha256((str(n.ROOT)+'joern').encode()).hexdigest()[:12]
++    name='_dfb_common_v2_joern_reports_'+token
++    foreign=types.ModuleType(name)
++    foreign.__file__='/private/tmp/foreign-private-selector.py'
++    sys.modules[name]=foreign
++    with mock.patch.object(subprocess,'Popen',side_effect=AssertionError('no dispatch')) as spawn:
++        try:n.pending_plan_preflight(n.ROOT,cfg)
++        except ValueError as error:
++            assert 'already registered' in str(error)
++            assert sys.modules[name] is foreign
++            assert spawn.call_count==0
++            print(json.dumps({'mode':mode,'foreign_preserved':True,'gate_rejected':True,'dispatches':0}))
++        else:raise AssertionError('foreign selector accepted')
++    raise SystemExit(0)
++with mock.patch.object(subprocess,'Popen',side_effect=AssertionError('no process dispatch authorized')) as spawn:
++    before=n.pending_plan_preflight(n.ROOT,cfg)
++    foreign=None
++    try:
++        with n.modules(n.ROOT) as (core,graph):
++            assert len(core['runtime_module_graph'])==88
++            with n.owned_module_scope():
++                observer=n.load(n.ROOT,n.OBSERVER,'_native_fresh_schema_probe')
++                inside=n.validate_pending_plan(n.ROOT,cfg,observer)
++            if mode=='foreign':
++                foreign=types.ModuleType('_native_foreign_pending_probe')
++                foreign.__file__='/private/tmp/not-a-sealed-graph-module.py'
++                sys.modules[foreign.__name__]=foreign
++    except BaseException as error:
++        if mode!='foreign':raise
++        assert foreign is not None and sys.modules.get(foreign.__name__) is foreign
++        print(json.dumps({'mode':mode,'foreign_preserved':True,'boundary_rejected':True,
++                          'error':str(error),'dispatches':spawn.call_count}))
++    else:
++        assert mode=='positive','foreign module unexpectedly accepted'
++        assert before['full_validator_returned'] and inside['full_validator_returned']
++        print(json.dumps({'mode':mode,'full_validator_before_graph':True,
++                          'full_validator_after_graph_baseline':True,'frozen88_closed':True,
++                          'dispatches':spawn.call_count,'replay_performed':False}))
++    assert spawn.call_count==0
+--- native05/request-template.json
++++ native06/request-template.json
+@@ -10,8 +10,8 @@
+     "sha256": "aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551"
+   },
+   "pending_plan": {
+-    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/pending-execution-plan-01.json",
+-    "sha256": "08ef4108097f399732ed84b4d81fa46fbf869edafaebb79fb156785cc4888888"
++    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-05/pending-execution-plan-01.json",
++    "sha256": "c79f93dca045d8fbf2b7221fbf20e042d7546d403567a821ed1594fda8411137"
+   },
+   "namespace": null,
+   "source_refs": null,
+--- native05/README-06.md
++++ native06/README-06.md
+@@ -0,0 +1,36 @@
++# Native wrapper04 private candidate (implementation snapshot06)
++
++This successor preserves native05 environment/lifecycle/ownership/resource behavior.
++The only plan change is plan04 float registration -> plan05 fresh actual integer
++1792956319, captured 2026-10-25T19:25:19UTC. All other parsed values are identical.
++The exact control-plan04 and projection remain valid because registration is not
++in the projection. All plans/decisions remain qualification-pending, not qualified.
++
++`pending_plan_preflight(root,cfg)` uses the actual retained helper and frozen
++pending validator before bootstrap/parent Popen paths. The worker repeats the
++same real gate before observer.controls. Only the pinned private runner path is
++rebound, never the canonical historical runner; its path/cache/global mutations
++are restored in finally. Exact newly created private-engine module objects are
++removed through a scoped frozen-loader callback; existing selectors fail closed,
++and foreign replacements are preserved for boundary rejection. No future completed-control/eligible-plan input is added.
++This adds inventory/hash preflight time to the existing startup budget, no reset.
++
++Tests:
++- test_native_qualifier.py retains48 lifecycle/ownership/env tests. Their worker
++  engine-I/O fixture now also substitutes the schema gate, explicitly synthetic.
++- test_pending_plan_gate.py runs the actual source plan05 validator to full return
++  under a process-spawn deny sentinel; no successful runtime checks are mocked.
++  Negative mutated-plan reads are in-memory I/O seams, with real validator body.
++  Missing query file is simulated only through Path.is_file after runtime checks.
++  Actual bootstrap/parent bodies reject failed04 through the real schema gate
++  before Popen, with upstream request/review substituted only for that unit test.
++- fresh_pending_gate_probe.py creates the real88 graph in a fresh interpreter,
++  validates before and after baseline, and invokes frozen close unchanged. The
++  foreign mode inserts a fixture-owned nonstdlib module and requires rejection
++  with that exact registry object preserved. Neither mode replays contexts.
++
++Operational inputs still require root source integration/commit, exact authority,
++request04, reviewed source closure, invocation review and live admission. The
++request template leaves future identities null. No production CLI mode was run.
++Canonical placement proposed: acquisition/joern-native-controls-04/ (not created).
++Native01/02/03 outputs and all prior snapshots are immutable; never reuse them.

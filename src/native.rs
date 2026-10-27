@@ -12,6 +12,7 @@ use crate::adapters::codeql::{
 use crate::adapters::flowdroid::FLOWDROID_NATIVE_CATALOG_ARGUMENT;
 use crate::adapters::joern::JOERN_MODELING_SCRIPT;
 use crate::adapters::normalized_report;
+use crate::adapters::pins;
 use crate::adapters::pysa::PYSA_NATIVE_SUITE_RELATIVE;
 use crate::adapters::semgrep::{
     SEMGREP_NATIVE_PROVENANCE_FILE, SEMGREP_NATIVE_UPSTREAM, run_semgrep_native_case,
@@ -90,8 +91,90 @@ const BIFROST_V0_13_CATALOG: &str =
 const BIFROST_V0_13_HELP: &str = "reports/releases/v0.9.1/acquisition/help.txt";
 const BIFROST_V0_13_APPENDIX: &str = "docs/releases/v0.9.1-native.md";
 
+/// The v0.9.2 Bifrost evidence is a separate amendment. The acquisition
+/// disabled open-pack resolution for the prospective adapter profile, so the
+/// standalone shipped-catalog activation cannot silently inherit host state.
+pub(crate) const BIFROST_V0_14_0_VERSION: &str = pins::BIFROST_VERSION;
+pub(crate) const BIFROST_V0_14_0_NATIVE_ACTIVATION_IDENTITY: &str =
+    "standalone engine; empty shipped policy catalog; open-pack acquisition disabled";
+const BIFROST_V0_14_0_ACQUISITION_DIR: &str =
+    "reports/releases/v0.9.2/qualification/bifrost-v0140-01";
+const BIFROST_V0_14_0_VERSION_EVIDENCE: &str =
+    "reports/releases/v0.9.2/qualification/bifrost-v0140-01/version.stdout.txt";
+const BIFROST_V0_14_0_BUILD_EVIDENCE: &str =
+    "reports/releases/v0.9.2/qualification/bifrost-v0140-01/build-identity.stdout.txt";
+const BIFROST_V0_14_0_CATALOG: &str =
+    "reports/releases/v0.9.2/qualification/bifrost-v0140-01/catalog-list-policies.stdout.txt";
+const BIFROST_V0_14_0_HELP: &str =
+    "reports/releases/v0.9.2/qualification/bifrost-v0140-01/help.stdout.txt";
+const BIFROST_V0_14_0_BINARY: &str =
+    "reports/releases/v0.9.2/qualification/bifrost-v0140-01/acquisition.json";
+const BIFROST_V0_14_0_PIN_PROFILE: &str = "adapters/pins/v0.9.2-bifrost-v0140.json";
+
 fn is_bifrost_v0_13(version: &str) -> bool {
     version == BIFROST_V0_13_VERSION
+}
+
+fn is_bifrost_v0_14_0(version: &str) -> bool {
+    version == BIFROST_V0_14_0_VERSION
+}
+
+fn validate_bifrost_v0_14_0_evidence() -> Result<()> {
+    let version = fs::read_to_string(BIFROST_V0_14_0_VERSION_EVIDENCE)?;
+    let mut version_lines = version.lines();
+    let witnessed_version = version_lines.next().unwrap_or_default().trim();
+    if witnessed_version != BIFROST_V0_14_0_VERSION {
+        bail!(
+            "Bifrost v0.9.2 acquisition version evidence says {:?}, expected {:?}",
+            witnessed_version,
+            BIFROST_V0_14_0_VERSION
+        );
+    }
+    // The executable's --version output also carries Bifrost's own catalog
+    // digest on line two. It is a distinct digest from the acquisition
+    // artifact's byte hash, so validate its typed shape without conflating
+    // those identities.
+    let catalog_witness = version_lines.next().unwrap_or_default().trim();
+    let Some(catalog_digest) = catalog_witness.strip_prefix("builtin-policy-catalog sha256=")
+    else {
+        bail!("Bifrost v0.14.0 version evidence lacks its catalog digest witness");
+    };
+    if catalog_digest.len() != 64
+        || !catalog_digest.bytes().all(|byte| byte.is_ascii_hexdigit())
+        || version_lines.next().is_some()
+    {
+        bail!("Bifrost v0.14.0 catalog digest witness is malformed");
+    }
+    let build_identity = fs::read_to_string(BIFROST_V0_14_0_BUILD_EVIDENCE)?;
+    if build_identity.trim() != pins::BIFROST_BUILD_IDENTITY {
+        bail!(
+            "Bifrost v0.9.2 acquisition build evidence says {:?}, expected {:?}",
+            build_identity.trim(),
+            pins::BIFROST_BUILD_IDENTITY
+        );
+    }
+    let catalog: Value = serde_json::from_slice(&fs::read(BIFROST_V0_14_0_CATALOG)?)
+        .context("parse the Bifrost v0.14.0 shipped policy catalog")?;
+    if catalog["schema_version"].as_u64() != Some(2)
+        || catalog["packs"]
+            .as_array()
+            .is_none_or(|packs| !packs.is_empty())
+    {
+        bail!("Bifrost v0.14.0 native activation requires catalog schema_version 2 with packs: []");
+    }
+    let help = fs::read_to_string(BIFROST_V0_14_0_HELP)?;
+    if !help.contains("--policy") || !help.contains("--policy-file") {
+        bail!("Bifrost v0.14.0 captured help lacks its policy activation surface");
+    }
+    let binary: Value = serde_json::from_slice(&fs::read(BIFROST_V0_14_0_BINARY)?)
+        .context("parse the Bifrost v0.14.0 binary acquisition record")?;
+    let binary_digest = binary["binary"]["sha256"]
+        .as_str()
+        .context("Bifrost binary acquisition record lacks sha256")?;
+    if binary_digest.len() != 64 || !binary_digest.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        bail!("Bifrost binary acquisition record has an invalid SHA-256 digest");
+    }
+    Ok(())
 }
 
 /// The category a native template reports under, decided from the template ID
@@ -430,7 +513,8 @@ pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
              store-read vocabulary even when configured (Amendment A13)",
         ),
     },
-    // Joern — 4.0.628, `DefaultSemantics` only: 0 / 6.
+    // Joern — 4.0.660, `DefaultSemantics` only. The fresh A26 scan probe is
+    // incomplete, so its empty result sets cannot establish a clean native run.
     NativePartitionCell {
         tool: ModelingTool::Joern,
         template: NATIVE_TEMPLATE_IDS[0],
@@ -438,14 +522,19 @@ pub(crate) const NATIVE_PARTITION: &[NativePartitionCell] = &[
             "`DefaultSemantics` is a table of flow constraints — operator semantics, C standard \
              library entries, and a short list of JVM method full names — and ships no source \
              catalog and no sink catalog. Every Joern population in this benchmark selects its \
-             endpoints through the adapter's own query parameters, which is exactly what the \
-             tool-native activation rule forbids. And the version-pinned `joern-scan` query \
-             bundle, installed and executed over every probe fixture with zero benchmark input, \
-             fires no query on any cell: it ships no JavaScript or Python query package at all, \
-             and its one query naming this profile's command sink (`call-to-exec`) filters the \
-             method-name property with a full-match regex that matches zero methods on a \
-             `javasrc2cpg` graph (Amendment A26, evidence retained under \
-             reports/raw/amendment-a26-joern-scan-native/)",
+             endpoints through the adapter's own query parameters, which the tool-native \
+             activation rule forbids. Fresh v0.9.2 Amendment A26 evidence for Joern 4.0.660 \
+             records 58 bundled queries tagged C=27, Android=10, PHP=9, Java=7, Kotlin=3, and \
+             Ghidra=2; none is tagged JavaScript or Python. All 36 positive/near-miss invocations \
+             exited successfully and imported their CPGs, but every retained report has \
+             `scan_pass_completed: false`, so its empty result set cannot be interpreted as a \
+             completed clean scan. The Java `call-to-exec` binding probe also found that the \
+             query's full-name pattern `java.lang.Runtime.exec` matches zero methods, while a \
+             structural lookup found one method named `exec` and one call with full name \
+             `List(java.lang.Runtime.exec:java.lang.Process(java.lang.String))`. These results \
+             leave the native cell unsupported; they do not establish that a completed scan \
+             would produce no finding. Evidence is retained under \
+             reports/releases/v0.9.2/qualification/profile-controls/probe-joern-scan-native-attempt-01/capture/reports/raw/amendment-a26-joern-scan-native/",
         ),
     },
     NativePartitionCell {
@@ -940,8 +1029,19 @@ pub(crate) fn native_unsupported_reason(
     };
     let category = native_category(template).expect("partition resolved the category");
     let (provenance, retained_reason) = if tool == ModelingTool::Bifrost
-        && is_bifrost_v0_13(identity)
+        && is_bifrost_v0_14_0(identity)
     {
+        (
+            format!(
+                "Fresh v0.9.2 acquisition evidence for the exact witnessed `{BIFROST_V0_14_0_VERSION}` build: `{BIFROST_V0_14_0_CATALOG}` is schema version 2 with `packs: []`, `{BIFROST_V0_14_0_HELP}` records the default `--policy` and explicit `--policy-file` boundary, and `{BIFROST_V0_14_0_BUILD_EVIDENCE}` witnesses build `{}`. The prospective profile `{BIFROST_V0_14_0_PIN_PROFILE}` sets `{}={}` to disable automatic open-pack acquisition, keeping host-supplied packs outside this shipped-catalog activation. The report also binds `{BIFROST_V0_14_0_BINARY}`. See the versioned acquisition under `{BIFROST_V0_14_0_ACQUISITION_DIR}`: ",
+                pins::BIFROST_BUILD_IDENTITY,
+                pins::BIFROST_OPEN_PACKS_DISABLE_ENV,
+                pins::BIFROST_OPEN_PACKS_DISABLE_VALUE,
+            ),
+            "The six native template cells therefore remain `unsupported`; zero coverage is `unsupported`, never a clean `not-reached` negative. A host configured with Bifrost packs is a separate product profile and is not benchmark-invented model input."
+                .to_string(),
+        )
+    } else if tool == ModelingTool::Bifrost && is_bifrost_v0_13(identity) {
         (
             format!(
                 "Current v0.9.1 evidence for the exact witnessed `{BIFROST_V0_13_VERSION}` pin: the \
@@ -1092,28 +1192,49 @@ pub(crate) fn native_activation(
         }
         // The shipped product as shipped, and nothing else: the
         // zero-configuration default `bifrost scan` runs, spelled on the flag
-        // surface as `--policy` with no selector. For v0.13.0 the exact
+        // surface as `--policy` with no selector. For v0.13.0 and v0.14.0 the exact
         // witnessed release has no active product policy packs, so retain that
         // fact in the activation identity while keeping older pins on their
         // historical identity. Host-supplied Bifrost-packs are a separate
         // product profile and are never injected into this native activation.
-        ModelingTool::Bifrost => NativeActivation {
-            identity: if is_bifrost_v0_13(identity) {
-                format!("{identity} — {BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY}")
-            } else {
-                format!("{identity} built-in policy packs")
-            },
-            arguments: vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG.to_string()],
-            configuration_paths: if is_bifrost_v0_13(identity) {
-                BTreeSet::from([
-                    PathBuf::from(BIFROST_V0_13_CATALOG),
-                    PathBuf::from(BIFROST_V0_13_HELP),
-                    PathBuf::from(BIFROST_V0_13_APPENDIX),
-                ])
-            } else {
-                BTreeSet::new()
-            },
-        },
+        ModelingTool::Bifrost => {
+            let is_v0140 = is_bifrost_v0_14_0(identity);
+            if is_v0140 {
+                validate_bifrost_v0_14_0_evidence()?;
+            }
+            NativeActivation {
+                identity: if is_v0140 {
+                    format!(
+                        "{identity} — {BIFROST_V0_14_0_NATIVE_ACTIVATION_IDENTITY}; {}={}",
+                        pins::BIFROST_OPEN_PACKS_DISABLE_ENV,
+                        pins::BIFROST_OPEN_PACKS_DISABLE_VALUE
+                    )
+                } else if is_bifrost_v0_13(identity) {
+                    format!("{identity} — {BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY}")
+                } else {
+                    format!("{identity} built-in policy packs")
+                },
+                arguments: vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG.to_string()],
+                configuration_paths: if is_v0140 {
+                    BTreeSet::from([
+                        PathBuf::from(BIFROST_V0_14_0_VERSION_EVIDENCE),
+                        PathBuf::from(BIFROST_V0_14_0_BUILD_EVIDENCE),
+                        PathBuf::from(BIFROST_V0_14_0_CATALOG),
+                        PathBuf::from(BIFROST_V0_14_0_HELP),
+                        PathBuf::from(BIFROST_V0_14_0_BINARY),
+                        PathBuf::from(BIFROST_V0_14_0_PIN_PROFILE),
+                    ])
+                } else if is_bifrost_v0_13(identity) {
+                    BTreeSet::from([
+                        PathBuf::from(BIFROST_V0_13_CATALOG),
+                        PathBuf::from(BIFROST_V0_13_HELP),
+                        PathBuf::from(BIFROST_V0_13_APPENDIX),
+                    ])
+                } else {
+                    BTreeSet::new()
+                },
+            }
+        }
         // The shipped product as shipped: `analyze --pulse-only --sarif` and
         // no `--pulse-taint-config`, which is precisely the activation the
         // measured silence of Amendment A14 was read from. Java alone: the

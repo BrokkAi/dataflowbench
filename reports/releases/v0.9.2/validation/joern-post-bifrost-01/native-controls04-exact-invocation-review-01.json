@@ -1,0 +1,231 @@
+{
+  "authority_and_limits": {
+    "authority": {
+      "allowed_namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04",
+      "automatic_retry": false,
+      "no_new_time_or_attempt_authorization_claimed": true,
+      "one_analyzer_slot": true,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-authority-derivation-04.json",
+      "predecessor_authority_sha256": "681953648387e4797c6a0bb549ccd4cd69cf91b50f5aa285d54d3536a85c824b",
+      "publication_hold": true,
+      "runtime_qualification_performed": false,
+      "sha256": "27b28940aad7f02b3bfa4183f2bd19e133ed2f52fdb96b95b65373cb4397f0e4",
+      "source_commit_pending": true,
+      "status": "approved"
+    },
+    "global_guards_gib": {
+      "aggregate_source": 30,
+      "joern_inner": 125,
+      "outer": 110,
+      "per_source": 12,
+      "reserve": 40,
+      "retention": 24,
+      "schedule": 127,
+      "scratch": 24,
+      "stop": 48
+    },
+    "interpreter_and_environment": "/opt/homebrew/bin/python3.13 -B -E; canonical wrapper environment and Darwin interpreter/native identity, argv, Java 21/ASTGEN markers and empty ambient Java/classpath options remain exact wrapper guards",
+    "lock_and_pipe": "Fresh real resource/process/common-lock admission is required before one bootstrap; the wrapper preserves the inherited common flock and authenticated bounded 120-second readiness pipe.",
+    "native_control_limits": {
+      "arms": 12,
+      "control_scratch_bytes": 4294967296,
+      "fixtures": 6,
+      "inner_total_seconds": 900,
+      "maximum_phases": 36,
+      "per_arm_seconds": 75
+    },
+    "phase_deadlines": {
+      "inner_control_seconds": 900,
+      "parent_combined": "Popen + 600 startup + 900 control",
+      "popen_seconds": 600,
+      "ready_handshake_seconds": 120,
+      "recording_tail_seconds": 240,
+      "startup_seconds": 600
+    }
+  },
+  "automatic_retry": false,
+  "bindings": {
+    "ledger_sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851",
+    "observer_sha256": "aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551",
+    "pending_plan_sha256": "c79f93dca045d8fbf2b7221fbf20e042d7546d403567a821ed1594fda8411137",
+    "request_sha256": "e5fef8bf3a9d3b234c88f0b36731f5231ddde9dac044aa4029555780908459ea",
+    "resources_sha256": "ea8fa4268477a4411c55d44c1704f132d8d0b8b4b9bf0f722b4afd404f9bbe08",
+    "source_head": "76e6121651e94be113fd0d5f027419f7d0f0859b",
+    "wrapper_sha256": "f10c01896b28f8d85551c4d7d4e4ac5f1171af48dca5b227e0ad9b7a9c74c991"
+  },
+  "disposition": {
+    "approved_scope": "Exactly one fresh native-controls-04 bootstrap using the immutable request04, canonical wrapper/resources, observer06, pending-plan05, authority04, source HEAD 76e612..., and these exact bindings, after separate fresh real admission.",
+    "execution_authorized": false,
+    "native_control_invocation_approved": true,
+    "next_gate": "Fresh real admission, then exactly one exact bootstrap command. Preserve immutable streams/receipts, exact PID/birth cleanup, and independent post-run review. No retry on any outcome.",
+    "publication_hold": true,
+    "qualification_authorized": false,
+    "scored_activation_authorized": false,
+    "unsupported_decision_issuance_authorized": false
+  },
+  "exact_command": {
+    "argv_prefix": [
+      "/opt/homebrew/bin/python3.13",
+      "-B",
+      "-E",
+      "reports/releases/v0.9.2/acquisition/joern-native-controls-04/native_qualifier.py",
+      "bootstrap",
+      "--request",
+      "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-04.json",
+      "--request-sha256",
+      "e5fef8bf3a9d3b234c88f0b36731f5231ddde9dac044aa4029555780908459ea",
+      "--review",
+      "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls04-exact-invocation-review-01.json",
+      "--review-sha256"
+    ],
+    "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+    "no_execution_performed": true,
+    "private_command_artifact": "/private/tmp/joern05-native-controls04-exact-command-01.json",
+    "review_sha256_binding": "Private command records this report SHA only after this report is sealed; no executable placeholder review hash is approved."
+  },
+  "independent_probe": {
+    "findings": [],
+    "foreign_namespace_or_retry_observed": false,
+    "ledger_109_rows_103_completed_sealed_separately": true,
+    "mode": "read-only static/hash/contract probe; no native controls, JVM, engine, analyzer, replay, admission, bootstrap, or Git mutation",
+    "pending_plan_integer_registration_and_full_108_case_schema_return": true,
+    "request_expected_head_matches_current_HEAD": true,
+    "request_fields_exact": true,
+    "request_namespace_fresh_and_symlink_free": true,
+    "seven_required_review_bindings_exact": true,
+    "source_ref_current_bytes_exact": true,
+    "source_ref_paths_unique_and_relative": true
+  },
+  "preservation": {
+    "automatic_retry": false,
+    "ledger_unchanged_by_review": true,
+    "no_namespace_reuse": true,
+    "no_qualification_or_publication_inferred": true,
+    "no_time_or_attempt_authorization_expanded": true,
+    "prior_native01_02_03_consumed_evidence_preserved": true,
+    "publication_hold": true
+  },
+  "request": {
+    "control_plan": {
+      "arms": [
+        "off",
+        "on"
+      ],
+      "case_arm_budget_seconds": 75,
+      "case_arm_count": 12,
+      "fixtures": 6,
+      "maximum_phase_invocations": 36,
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/control-plan-01.json",
+      "scratch_allowance_bytes": 4294967296,
+      "sha256": "cdae69200755312a80137426e70250dd7e521100ca91dbe71355bb9c8b11475f",
+      "total_budget_seconds": 900
+    },
+    "expected_head": "76e6121651e94be113fd0d5f027419f7d0f0859b",
+    "inherited_refs_preserved": 2287,
+    "ledger": {
+      "completed_rows": 103,
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 109,
+      "separate_from_source_closure": true,
+      "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851"
+    },
+    "namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04",
+    "observer": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-06.py",
+      "sha256": "aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551"
+    },
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-04.json",
+    "pending_plan": {
+      "cases": 108,
+      "execution_eligible": false,
+      "fresh_qualification": null,
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-05/pending-execution-plan-01.json",
+      "projection_sha256": "326487c047812a20f6c4f22f184a7faa4fc276e7c78ae1af317d5a750c0e8844",
+      "registered_at_unix_seconds": 1792956319,
+      "sha256": "c79f93dca045d8fbf2b7221fbf20e042d7546d403567a821ed1594fda8411137",
+      "status": "qualification-pending"
+    },
+    "schema": "v092-joern-native-control-request/v1",
+    "sha256": "e5fef8bf3a9d3b234c88f0b36731f5231ddde9dac044aa4029555780908459ea",
+    "source_refs": 2335,
+    "source_refs_all_relative_regular_and_exact": true,
+    "source_refs_unique": true
+  },
+  "review_type": "independent exact request, source, authority, environment, and command review; source-only",
+  "reviewed_at_utc": "2026-10-25T19:57:52.703885+00:00",
+  "reviewer": "/root/joern05_lock_handoff",
+  "schema": "v092-joern-native-control-exact-invocation-review/v1",
+  "scope": {
+    "admission_invoked": false,
+    "analyzer_invoked": false,
+    "bootstrap_invoked": false,
+    "engine_invoked": false,
+    "git_mutated": false,
+    "jvm_invoked": false,
+    "ledger_mutated": false,
+    "native_control_invoked": false,
+    "publication_authorized": false,
+    "qualification_invoked": false,
+    "read_only": true,
+    "replay_invoked": false,
+    "source_edited": false,
+    "statement": "Independent exact request/source/authority/command review only. Approval is limited to one later native-control qualification bootstrap after separate fresh real resource/process/common-lock admission; it does not claim admission, bootstrap success, control result, analyzer result, scored qualification, release, or publication."
+  },
+  "sealed_inputs": {
+    "canonical_resources": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-04/retained_resources.py",
+      "sha256": "ea8fa4268477a4411c55d44c1704f132d8d0b8b4b9bf0f722b4afd404f9bbe08"
+    },
+    "canonical_wrapper": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-04/native_qualifier.py",
+      "sha256": "f10c01896b28f8d85551c4d7d4e4ac5f1171af48dca5b227e0ad9b7a9c74c991"
+    },
+    "native04_namespace_absent": true,
+    "native04_supervision_namespace_absent": true,
+    "pending_schema_check": {
+      "cases": 108,
+      "engine_dispatched": false,
+      "fresh_qualification": null,
+      "full_validator_returned": true,
+      "observed_at_unix_seconds": 1792958110,
+      "registered_at_unix_seconds": 1792956319,
+      "schema": "v092-joern-pending-schema-check/v1",
+      "status": "qualification-pending"
+    },
+    "source_commit_check": {
+      "all_committed_blobs_and_current_bytes_verified": true,
+      "automatic_retry": false,
+      "bootstrap_invoked": false,
+      "committed_blobs_exact": true,
+      "ledger_rows": 109,
+      "namespace_absent": true,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-source-commit-request-check-04.json",
+      "pending_engine_dispatched": false,
+      "pending_fresh_qualification": null,
+      "pending_full_schema_cases": 108,
+      "pending_full_schema_returned": true,
+      "pending_process_dispatches": 0,
+      "qualification_inferred": false,
+      "sha256": "9b32aca234f597be23395f278dc400b9a0ae005189f035cda843eba322ef719d",
+      "source_head": "76e6121651e94be113fd0d5f027419f7d0f0859b",
+      "source_refs": 2335
+    }
+  },
+  "source_commit": {
+    "branch": "dave/v0.9.2-full-refresh",
+    "expected_head_exact": true,
+    "head": "76e6121651e94be113fd0d5f027419f7d0f0859b",
+    "index_empty": true,
+    "only_tracked_dirty_file": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "pushed": false,
+    "request_check_sha256": "9b32aca234f597be23395f278dc400b9a0ae005189f035cda843eba322ef719d",
+    "source_refs_current_hash_audit": {
+      "count": 2335,
+      "mismatches": 0,
+      "missing": 0,
+      "symlinks": 0,
+      "unsafe_paths": 0
+    }
+  },
+  "status": "approved-for-native-control-qualification-only"
+}

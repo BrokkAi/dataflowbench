@@ -1,0 +1,118 @@
+{
+  "schema": "v092-joern05-execution-adapter-cli-import-order-review/v1",
+  "review_type": "independent-read-only-fresh-cli-import-order-probe",
+  "reviewer": "joern_execution_adapter_independent",
+  "reviewed_at_utc": "2026-10-25T18:24:00Z",
+  "status": "changes-required-before-source-integration",
+  "scope": {
+    "statement": "Fresh-interpreter import-order diagnosis for frozen private05. The probe imported supervisor as the CLI entrypoint, constructed a temporary source-bound inherited88 plus private05 adapter7 closure, called prepare_current_graph and allowed its normal close path. No engine, replay, admission, native control, JVM, analyzer, qualification, Git or source integration ran.",
+    "private_handoff": {
+      "path": "/private/tmp/joern05-execution-adapter-05/implementation-handoff-05.json",
+      "sha256": "a490d53f93805eba764e28ee9e727c8296d0b556996a99de6b207f2c6271147a"
+    },
+    "prior_source_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/execution-adapter-independent-review-05.json",
+      "sha256": "bb4a58dc54fead684b4d1e9ac022a83780743f8ecc2afab110d0ac0cc6e5e1a3",
+      "status": "approved-for-source-commit-only-before-this-import-order finding"
+    },
+    "not_performed": [
+      "source or canonical edits",
+      "Git or ledger mutation",
+      "engine, JVM, analyzer, replay, admission, qualification, native controls or launch",
+      "publication or release action"
+    ]
+  },
+  "source_call_path": {
+    "supervisor": {
+      "path": "/private/tmp/joern05-execution-adapter-05/supervisor.py",
+      "sha256": "fdcec6914b3aad124d5a2af270b62d4f189aa211292516784ef9fb658c2916ee",
+      "entrypoint_imports": "lines 5-6 import packet and protocol only; no bridge import",
+      "main": "lines 949-955 imports prepare_current_graph; line 974 enters it"
+    },
+    "packet": {
+      "path": "/private/tmp/joern05-execution-adapter-05/packet.py",
+      "sha256": "b4d01f007ab7a9857a87732d7d1d0246bbd7bd063f6a2bcac54a81788b18be18",
+      "prepare_current_graph": "lines 145-152 load the four synthetic inherited hosts and prepare inherited88 before bare from bridge import prepare_graph95, close_graph95"
+    },
+    "bridge": {
+      "path": "/private/tmp/joern05-execution-adapter-05/bridge.py",
+      "sha256": "d250b20f8d811b81ace10eee4837201ab8b46852a466e3d8b4077153c276cc5d"
+    }
+  },
+  "independent_probe": {
+    "interpreter": "/opt/homebrew/bin/python3.13 -B -E",
+    "script": {
+      "path": "/private/tmp/joern05-execution-adapter-05-cli-import-order-probe.py",
+      "bytes": 4534,
+      "sha256": "e065aae4045c859fbfdd91cb3080ac92fe712cf2ab7cf83fae8e994997400eb7"
+    },
+    "construction": "Each fresh process imports supervisor from the private05 directory, copies the actual inherited runtime-module refs and manifest into a symlink-free temporary root, copies private05 adapter sources as the seven graph refs, then calls packet.prepare_current_graph(root, core).",
+    "late_import_run": {
+      "mode": "late",
+      "log": {
+        "path": "/private/tmp/joern05-execution-adapter-05-cli-import-order-late.log",
+        "bytes": 808,
+        "sha256": "68cab876c7531f13efbebf120dcbb485eba8946122e54c0a37a5066143bf6f56"
+      },
+      "observed": {
+        "supervisor_imported": true,
+        "packet_imported": true,
+        "bridge_pre_supervisor": false,
+        "bridge_import_event": "top-level bridge imported after four _joern05_boot_* host modules were registered",
+        "registered_bootstrap_host_count_at_bridge_import": 4,
+        "graph_members_before_close": 95,
+        "inherited_members_before_close": 88,
+        "graph_sha256_differs": true,
+        "bridge_source_loaded": "/private/tmp/joern05-execution-adapter-05/bridge.py",
+        "close_result": {
+          "type": "FrozenBridge19Error",
+          "message": "graph import added a non-stdlib process-global sys.modules entry"
+        }
+      }
+    },
+    "early_import_control": {
+      "mode": "early",
+      "log": {
+        "path": "/private/tmp/joern05-execution-adapter-05-cli-import-order-early.log",
+        "bytes": 361,
+        "sha256": "15fa040999c66ed6bd2b881fb5cacf5f3b0319457ba43bbd3e46435889901836"
+      },
+      "observed": {
+        "bridge_pre_supervisor": true,
+        "graph_members": 95,
+        "inherited_members": 88,
+        "graph_sha256_differs": true,
+        "close_result": "no exception"
+      },
+      "interpretation": "Preloading the same top-level bridge before inherited88 preparation removes the newly-added process-global entry from the frozen baseline, confirming the import-order cause. This is a diagnosis control, not an approval or repair."
+    }
+  },
+  "findings": [
+    {
+      "id": "ADAPTER05-CLI-IMPORT-ORDER-001",
+      "severity": "blocker",
+      "status": "demonstrated-changes-required",
+      "finding": "A fresh CLI-style interpreter imports supervisor, packet and protocol without top-level bridge. packet.prepare_current_graph then registers the inherited88 host modules and imports bare top-level bridge only afterward. The frozen inherited graph close sees bridge as a newly-added non-stdlib process-global sys.modules entry and raises FrozenBridge19Error during context teardown, after graph95 preparation has succeeded. The normal fresh entrypoint therefore cannot complete the source-only graph lifecycle.",
+      "evidence": {
+        "source": "supervisor.py:5-6, :949-955, :974; packet.py:145-155",
+        "late_probe_log_sha256": "68cab876c7531f13efbebf120dcbb485eba8946122e54c0a37a5066143bf6f56",
+        "late_import_host_count": 4,
+        "late_close_error": "FrozenBridge19Error: graph import added a non-stdlib process-global sys.modules entry",
+        "early_control_log_sha256": "15fa040999c66ed6bd2b881fb5cacf5f3b0319457ba43bbd3e46435889901836",
+        "early_control": "preloaded bridge before inherited88 baseline; graph95 close returned without exception"
+      },
+      "required_repair": "Prepare snapshot06 with an exact source-bound import-order repair that makes the bridge dependency part of the process-global baseline before inherited88 graph preparation, or otherwise removes the bare post-baseline import while preserving the frozen graph's source identity and fail-closed semantics. Re-run the fresh late-import probe and retained ownership/graph tests. Do not weaken or suppress FrozenBridge19Error and do not treat the early preload control as production evidence."
+    }
+  ],
+  "disposition": {
+    "source_commit_approval": false,
+    "execution_authorized": false,
+    "qualification_authorized": false,
+    "automatic_retry": false,
+    "publication_authorized": false,
+    "publication_hold": true,
+    "next_gate": "Writer must produce a new private06 source snapshot addressing ADAPTER05-CLI-IMPORT-ORDER-001. Obtain a fresh independent source review before any canonical copy, source commit, runtime control, admission or qualification.",
+    "prior_review_effect": "This supplement supersedes the private05 source-commit approval for integration purposes until the fresh-import blocker is repaired and reviewed."
+  },
+  "method": "Two fresh Python3.13 -B -E processes ran the same temporary source-bound import-only probe: one exact supervisor CLI import order and one preloaded-bridge control. The late path demonstrated the frozen close rejection; the early path isolated import timing as the cause. No production runtime, replay, engine, JVM, analyzer, admission, qualification, native control or Git action ran."
+}

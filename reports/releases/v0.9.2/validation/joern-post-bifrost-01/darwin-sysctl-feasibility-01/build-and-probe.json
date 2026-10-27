@@ -1,0 +1,36 @@
+{
+  "schema": "v092-two-pid-native-diagnostic/v1",
+  "source_sha256": "abec184c4c529a5ad5877889be5786cbe48958f74ae44a2022a2a683ef6b328d",
+  "purpose": "ordinary-user ABI/provider feasibility only; not qualification or ownership proof",
+  "recorded_utc": "2026-10-26T17:51:39.424985+00:00",
+  "build_argv": [
+    "/usr/bin/xcrun",
+    "--sdk",
+    "macosx",
+    "clang",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-O2",
+    "-o",
+    "/private/tmp/v092-darwin-sysctl-probe-01/v092-sysctl-kern-proc-pid",
+    "/private/tmp/v092-darwin-sysctl-probe-01/probe.c"
+  ],
+  "automatic_retry": false,
+  "native06_invoked": false,
+  "joern05_invoked": false,
+  "build": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "binary_sha256": "0308d937eb16b133c847aed15be51e7e7ec098a450cd1bc6c6b8538902820bd1",
+  "probe": {
+    "exit_code": 1,
+    "stdout": "platform=macOS kernel_release=27.0.0 kernel_version=Darwin Kernel Version 27.0.0: Tue Aug 11 21:02:57 PDT 2026; root:xnu-13432.1.9~1/RELEASE_ARM64_T8132 machine=arm64 lp64=1 pointer_bytes=8 kinfo_proc_bytes=648\nquery requested_pid=10491 rc=0 errno=0 returned_bytes=0 record_size=648\nreject reason=record_length_mismatch\nquery requested_pid=49893 rc=0 errno=0 returned_bytes=648 record_size=648\nrow pid=49893 ppid=49889 start_sec=1793037099 start_usec=604805 state=2 p_comm_hex=763039322d73797363746c2d6b65726e00\naccept exact_single_record=1\n",
+    "stderr": "",
+    "historical_ownership_claim": false,
+    "qualification_claim": false
+  }
+}

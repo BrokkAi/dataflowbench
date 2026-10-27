@@ -2,8 +2,7 @@
 //! invocation overhead. Auxiliary measurement only — nothing here is ever an
 //! input to a correctness outcome. See docs/latency-tier.md.
 
-use crate::adapters::ToolIdentity;
-use crate::adapters::bifrost::overhead_run_bifrost;
+use crate::adapters::bifrost::{overhead_run_bifrost, witness_bifrost_identity};
 use crate::adapters::codeql::{codeql_version_identity, overhead_run_codeql};
 use crate::adapters::flowdroid::{overhead_run_flowdroid, witness_flowdroid_identity};
 use crate::adapters::infer::{overhead_run_infer, witness_infer_identity};
@@ -809,12 +808,7 @@ pub(crate) fn estimate_invocation_overhead(
         OverheadTool::Joern => joern_version_identity(binary)?,
         OverheadTool::Semgrep => semgrep_version_identity(binary)?,
         OverheadTool::Codeql => codeql_version_identity(binary)?,
-        OverheadTool::Bifrost => ToolIdentity::new(
-            command_output(Command::new(binary).arg("--version"))
-                .unwrap_or_else(|_| "unknown".into()),
-            command_output(Command::new(binary).arg("--build-identity"))
-                .unwrap_or_else(|_| "unknown".into()),
-        ),
+        OverheadTool::Bifrost => witness_bifrost_identity(binary)?,
         // The four JVM-and-Python distributions witness their identity exactly
         // as their kernels do — Infer against its pinned version and binary
         // digest, OpenTaint and FlowDroid against their jar digests, Pysa

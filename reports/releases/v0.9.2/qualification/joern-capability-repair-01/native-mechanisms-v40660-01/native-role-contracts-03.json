@@ -1,0 +1,200 @@
+{
+  "fixture_file_count": 24,
+  "roles": [
+    {
+      "current_decision": "No decision issued; complete actual-startup closure remains unproven.",
+      "fixtures": [
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-source-sink-positive\",\n  \"template_id\": \"dfb-template-native-source-sink\",\n  \"polarity\": \"positive\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-source-sink-env\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 4\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-source-sink-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 6\n    }\n  ],\n  \"expected_flows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-source-sink-env\",\n      \"sink\": \"DFB-SINK: native-source-sink-exec\"\n    }\n  ],\n  \"expected_nonflows\": [],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-source-sink-coverage\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-source-sink-positive/case.json",
+          "sha256": "bf3a6227cef7366ef28e0104e71d2286207afebc1014daaf9c55594e73d781dc"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    let raw = Foundation.ProcessInfo.processInfo.environment[\"DFB_NATIVE_INPUT\"] // DFB-SOURCE: native-source-sink-env\n    let command = raw ?? \"echo clean\"\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-source-sink-exec\n}\n",
+          "path": "cases/taint/swift/native-source-sink-positive/main.swift",
+          "sha256": "66eb76bda1e6980765f6b7821795c4e4f2597952f5aa3db101e48c51320e8e9f"
+        },
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-source-sink-negative\",\n  \"template_id\": \"dfb-template-native-source-sink\",\n  \"polarity\": \"negative\",\n  \"negative_mechanism\": \"unrelated-value\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-source-sink-env\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 4\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-source-sink-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 6\n    }\n  ],\n  \"expected_flows\": [],\n  \"expected_nonflows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-source-sink-env\",\n      \"sink\": \"DFB-SINK: native-source-sink-exec\"\n    }\n  ],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-source-sink-coverage\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-source-sink-negative/case.json",
+          "sha256": "f201a8774364fb6953f38b5c8f92c7925035b35ce4068358256c11da6f37f7ea"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    let raw = Foundation.ProcessInfo.processInfo.environment[\"DFB_NATIVE_INPUT\"] // DFB-SOURCE: native-source-sink-env\n    let command = \"echo clean\"\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-source-sink-exec\n    _ = raw\n}\n",
+          "path": "cases/taint/swift/native-source-sink-negative/main.swift",
+          "sha256": "73b9d645cc7138c1654fbc51044595f684e63f26704a1c5b217fc301fafcf37a"
+        }
+      ],
+      "required_native_mechanism": [
+        "ProcessInfo.processInfo.environment",
+        "Process.run"
+      ],
+      "role": "source-sink",
+      "shipped_semantic_model_result": "No role-specific Swift/Foundation endpoint model in the composed shipped DefaultSemantics operator/C/Java lists. This does not deny generic operator dataflow or frontend AST/call/type representation."
+    },
+    {
+      "current_decision": "No decision issued; complete actual-startup closure remains unproven.",
+      "fixtures": [
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-propagator-positive\",\n  \"template_id\": \"dfb-template-native-propagator\",\n  \"polarity\": \"positive\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\",\n    \"external-summary\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\",\n    \"summary-required\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-propagator-env\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 4\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-propagator-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 7\n    }\n  ],\n  \"expected_flows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-propagator-env\",\n      \"sink\": \"DFB-SINK: native-propagator-exec\"\n    }\n  ],\n  \"expected_nonflows\": [],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-propagator-coverage\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-propagator-positive/case.json",
+          "sha256": "8b191cdab61fe8a5d79c07c389dcb7d1322326e6e5999f88bfe6529ea67bf7bc"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    let raw = Foundation.ProcessInfo.processInfo.environment[\"DFB_NATIVE_INPUT\"] ?? \"\" // DFB-SOURCE: native-propagator-env\n    var command = \"echo \"\n    command.append(raw)\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-propagator-exec\n}\n",
+          "path": "cases/taint/swift/native-propagator-positive/main.swift",
+          "sha256": "098d9b92ae36469f75f4fabc368b2dedc9fb3176e788c086605d29b4ebb2387a"
+        },
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-propagator-negative\",\n  \"template_id\": \"dfb-template-native-propagator\",\n  \"polarity\": \"negative\",\n  \"negative_mechanism\": \"unrelated-value\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\",\n    \"external-summary\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\",\n    \"summary-required\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-propagator-env\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 4\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-propagator-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 7\n    }\n  ],\n  \"expected_flows\": [],\n  \"expected_nonflows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-propagator-env\",\n      \"sink\": \"DFB-SINK: native-propagator-exec\"\n    }\n  ],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-propagator-coverage\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-propagator-negative/case.json",
+          "sha256": "0ad539fdca3e389289cbbd5b0cb013f5b76280fe7c3ded43fd77a7eb51042e02"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    let raw = Foundation.ProcessInfo.processInfo.environment[\"DFB_NATIVE_INPUT\"] ?? \"\" // DFB-SOURCE: native-propagator-env\n    var command = \"echo \"\n    command.append(\"clean\")\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-propagator-exec\n    _ = raw\n}\n",
+          "path": "cases/taint/swift/native-propagator-negative/main.swift",
+          "sha256": "f32ed5bf15ea5491e0b80b4f721b4d90e71d89ac3811b6a119da1c3028de026a"
+        }
+      ],
+      "required_native_mechanism": [
+        "String.append",
+        "ProcessInfo.processInfo.environment",
+        "Process.run"
+      ],
+      "role": "propagator",
+      "shipped_semantic_model_result": "No role-specific Swift/Foundation endpoint model in the composed shipped DefaultSemantics operator/C/Java lists. This does not deny generic operator dataflow or frontend AST/call/type representation."
+    },
+    {
+      "current_decision": "No decision issued; complete actual-startup closure remains unproven.",
+      "fixtures": [
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-sanitizer-positive\",\n  \"template_id\": \"dfb-template-native-sanitizer\",\n  \"polarity\": \"positive\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\",\n    \"sanitizer\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\",\n    \"sanitized\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-sanitizer-env\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 4\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-sanitizer-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 6\n    }\n  ],\n  \"expected_flows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-sanitizer-env\",\n      \"sink\": \"DFB-SINK: native-sanitizer-exec\"\n    }\n  ],\n  \"expected_nonflows\": [],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-sanitizer-credit\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-sanitizer-positive/case.json",
+          "sha256": "019ae4ec6946609a12834f487d566bae889b30446fafabba1ea244e541a98ca2"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    guard let raw = Foundation.ProcessInfo.processInfo.environment[\"DFB_NATIVE_INPUT\"] else { return } // DFB-SOURCE: native-sanitizer-env\n    let command = \"echo \" + raw\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-sanitizer-exec\n}\n",
+          "path": "cases/taint/swift/native-sanitizer-positive/main.swift",
+          "sha256": "13eebec155377719a2aa844627e4a2b23dfc7d16a2ad643878335a547b3a442f"
+        },
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-sanitizer-negative\",\n  \"template_id\": \"dfb-template-native-sanitizer\",\n  \"polarity\": \"negative\",\n  \"negative_mechanism\": \"sanitizer\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\",\n    \"sanitizer\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\",\n    \"sanitized\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-sanitizer-env\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 4\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-sanitizer-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 8\n    }\n  ],\n  \"expected_flows\": [],\n  \"expected_nonflows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-sanitizer-env\",\n      \"sink\": \"DFB-SINK: native-sanitizer-exec\"\n    }\n  ],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-sanitizer-credit\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-sanitizer-negative/case.json",
+          "sha256": "74d0f88c160ceca94f9abb4a380f4285413938b926d6cc1b9e3e10bd4518347c"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    guard let raw = Foundation.ProcessInfo.processInfo.environment[\"DFB_NATIVE_INPUT\"] else { return } // DFB-SOURCE: native-sanitizer-env\n    guard let parsed = Int(raw, radix: 10) else { return }\n    let rendered = String(parsed, radix: 10)\n    let command = \"echo \" + rendered\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-sanitizer-exec\n}\n",
+          "path": "cases/taint/swift/native-sanitizer-negative/main.swift",
+          "sha256": "c9a1a164422b9a32ed4dd8c760cb70c79e999833fe0516b25f0e764224ab978e"
+        }
+      ],
+      "required_native_mechanism": [
+        "Int(raw, radix: 10)",
+        "String(parsed, radix: 10)",
+        "Process.run"
+      ],
+      "role": "sanitizer",
+      "shipped_semantic_model_result": "No role-specific Swift/Foundation endpoint model in the composed shipped DefaultSemantics operator/C/Java lists. This does not deny generic operator dataflow or frontend AST/call/type representation."
+    },
+    {
+      "current_decision": "No decision issued; complete actual-startup closure remains unproven.",
+      "fixtures": [
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-summary-positive\",\n  \"template_id\": \"dfb-template-native-summary\",\n  \"polarity\": \"positive\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\",\n    \"external-summary\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\",\n    \"summary-required\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-summary-env\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 4\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-summary-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 8\n    }\n  ],\n  \"expected_flows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-summary-env\",\n      \"sink\": \"DFB-SINK: native-summary-exec\"\n    }\n  ],\n  \"expected_nonflows\": [],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-summary-coverage\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-summary-positive/case.json",
+          "sha256": "3d9616998df9cb9b5e2a1afd88471300b8979904fb8e351fc84406d5dedce845"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    let raw = Foundation.ProcessInfo.processInfo.environment[\"DFB_NATIVE_INPUT\"] ?? \"\" // DFB-SOURCE: native-summary-env\n    let encoded = Foundation.Data(raw.utf8).base64EncodedString(options: [])\n    guard let decoded = Foundation.Data(base64Encoded: encoded, options: []) else { return }\n    guard let command = String(data: decoded, encoding: .utf8) else { return }\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-summary-exec\n}\n",
+          "path": "cases/taint/swift/native-summary-positive/main.swift",
+          "sha256": "652cd447d4bd47fe589852eb9e70fd8a20a9a53160f281aae4a1d21fbee31c94"
+        },
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-summary-negative\",\n  \"template_id\": \"dfb-template-native-summary\",\n  \"polarity\": \"negative\",\n  \"negative_mechanism\": \"unrelated-value\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\",\n    \"external-summary\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\",\n    \"summary-required\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-summary-env\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 4\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-summary-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 8\n    }\n  ],\n  \"expected_flows\": [],\n  \"expected_nonflows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-summary-env\",\n      \"sink\": \"DFB-SINK: native-summary-exec\"\n    }\n  ],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-summary-coverage\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-summary-negative/case.json",
+          "sha256": "6cffbd0378affd2a6616b85d4fee8f179624c9354e82e451333da498ee23833f"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    let raw = Foundation.ProcessInfo.processInfo.environment[\"DFB_NATIVE_INPUT\"] ?? \"\" // DFB-SOURCE: native-summary-env\n    let encoded = Foundation.Data(\"echo clean\".utf8).base64EncodedString(options: [])\n    guard let decoded = Foundation.Data(base64Encoded: encoded, options: []) else { return }\n    guard let command = String(data: decoded, encoding: .utf8) else { return }\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-summary-exec\n    _ = raw\n}\n",
+          "path": "cases/taint/swift/native-summary-negative/main.swift",
+          "sha256": "af6368fb72193b65ef12914e7bc2dca28dc2157b9ee3a78ec4f1041afcb479d0"
+        }
+      ],
+      "required_native_mechanism": [
+        "Data(raw.utf8)",
+        "base64EncodedString",
+        "Data(base64Encoded:)",
+        "String(data:encoding:)",
+        "Process.run"
+      ],
+      "role": "summary",
+      "shipped_semantic_model_result": "No role-specific Swift/Foundation endpoint model in the composed shipped DefaultSemantics operator/C/Java lists. This does not deny generic operator dataflow or frontend AST/call/type representation."
+    },
+    {
+      "current_decision": "No decision issued; complete actual-startup closure remains unproven.",
+      "fixtures": [
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-entrypoint-positive\",\n  \"template_id\": \"dfb-template-native-entrypoint\",\n  \"polarity\": \"positive\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-entrypoint-argv\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 5\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-entrypoint-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 6\n    }\n  ],\n  \"expected_flows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-entrypoint-argv\",\n      \"sink\": \"DFB-SINK: native-entrypoint-exec\"\n    }\n  ],\n  \"expected_nonflows\": [],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-entrypoint-convention\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-entrypoint-positive/case.json",
+          "sha256": "1ade47d725563efbafd95fbff261cb850eb320d964da4443be6bed31d80ec23f"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    guard Swift.CommandLine.arguments.count > 1 else { return }\n    let command = Swift.CommandLine.arguments[1] // DFB-SOURCE: native-entrypoint-argv\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-entrypoint-exec\n}\n",
+          "path": "cases/taint/swift/native-entrypoint-positive/main.swift",
+          "sha256": "bbf6b74602115619d05fcbb3b1e4ab09f934ea2356787a96872d7a257f3dde8b"
+        },
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-entrypoint-negative\",\n  \"template_id\": \"dfb-template-native-entrypoint\",\n  \"polarity\": \"negative\",\n  \"negative_mechanism\": \"unrelated-value\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-entrypoint-argv\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 5\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-entrypoint-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 7\n    }\n  ],\n  \"expected_flows\": [],\n  \"expected_nonflows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-entrypoint-argv\",\n      \"sink\": \"DFB-SINK: native-entrypoint-exec\"\n    }\n  ],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-entrypoint-convention\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-entrypoint-negative/case.json",
+          "sha256": "562d35278332486b30d4efdf6247bc84e2d9da9f814ef25138b78d971cfcad58"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    guard Swift.CommandLine.arguments.count > 1 else { return }\n    let fromArgv = Swift.CommandLine.arguments[1] // DFB-SOURCE: native-entrypoint-argv\n    let command = \"echo clean\"\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-entrypoint-exec\n    _ = fromArgv\n}\n",
+          "path": "cases/taint/swift/native-entrypoint-negative/main.swift",
+          "sha256": "dee46617fcaccbeaceaa538f64a5a803ddfa42207ceac045b7ce5c7776992dbd"
+        }
+      ],
+      "required_native_mechanism": [
+        "CommandLine.arguments[1]",
+        "CommandLine.arguments.count > 1",
+        "Process.run"
+      ],
+      "role": "entrypoint",
+      "shipped_semantic_model_result": "No role-specific Swift/Foundation endpoint model in the composed shipped DefaultSemantics operator/C/Java lists. This does not deny generic operator dataflow or frontend AST/call/type representation."
+    },
+    {
+      "current_decision": "No decision issued; complete actual-startup closure remains unproven.",
+      "fixtures": [
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-persistence-positive\",\n  \"template_id\": \"dfb-template-native-persistence\",\n  \"polarity\": \"positive\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\",\n    \"heap-field-sensitivity\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\",\n    \"heap-access-path\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-persistence-env\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 7\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-persistence-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 10\n    }\n  ],\n  \"expected_flows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-persistence-env\",\n      \"sink\": \"DFB-SINK: native-persistence-exec\"\n    }\n  ],\n  \"expected_nonflows\": [],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-persistence-link\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-persistence-positive/case.json",
+          "sha256": "3ca7a3d3ee196ea04e0fb747e2d886054e8e1397098690a81e886b5f04dca033"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    let defaults = Foundation.UserDefaults(suiteName: \"DataFlowBench.Native.A38\")!\n    defaults.set(\"clean-payload\", forKey: \"payload\")\n    defaults.set(\"clean-other\", forKey: \"other\")\n    guard let raw = Foundation.ProcessInfo.processInfo.environment[\"DFB_NATIVE_INPUT\"] else { return } // DFB-SOURCE: native-persistence-env\n    defaults.set(raw, forKey: \"payload\")\n    let command = defaults.string(forKey: \"payload\") ?? \"echo clean\"\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-persistence-exec\n}\n",
+          "path": "cases/taint/swift/native-persistence-positive/main.swift",
+          "sha256": "25394bf472f7b31b9652adfbf6db45b72986cf79e76f8651c21dbf4448361b1a"
+        },
+        {
+          "content": "{\n  \"schema_version\": 2,\n  \"id\": \"dfb-taint-swift-native-persistence-negative\",\n  \"template_id\": \"dfb-template-native-persistence\",\n  \"polarity\": \"negative\",\n  \"negative_mechanism\": \"field-separation\",\n  \"score_tier\": \"modeling\",\n  \"track\": \"taint\",\n  \"language\": \"swift\",\n  \"semantic_dimensions\": [\n    \"local-flow\",\n    \"heap-field-sensitivity\"\n  ],\n  \"feature_tags\": [\n    \"modeled-external\",\n    \"intraprocedural\",\n    \"heap-access-path\"\n  ],\n  \"model_profile\": \"tool-native\",\n  \"fixture_files\": [\n    \"main.swift\"\n  ],\n  \"source_anchors\": [\n    {\n      \"marker\": \"DFB-SOURCE: native-persistence-env\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 7\n    }\n  ],\n  \"sink_anchors\": [\n    {\n      \"marker\": \"DFB-SINK: native-persistence-exec\",\n      \"file\": \"main.swift\",\n      \"line_hint\": 10\n    }\n  ],\n  \"expected_flows\": [],\n  \"expected_nonflows\": [\n    {\n      \"source\": \"DFB-SOURCE: native-persistence-env\",\n      \"sink\": \"DFB-SINK: native-persistence-exec\"\n    }\n  ],\n  \"witness_checkpoints\": [],\n  \"expected_analysis_capability\": {\n    \"kind\": \"native-persistence-link\"\n  },\n  \"execution_budget\": {\n    \"wall_clock_seconds\": 60,\n    \"peak_memory_mb\": 512\n  },\n  \"fixture_provenance\": {\n    \"kind\": \"authored\",\n    \"origin\": \"DataFlowBench\",\n    \"revision\": \"swift-fixtures-220\",\n    \"license\": \"MIT\"\n  },\n  \"tool_model_references\": {}\n}\n",
+          "path": "cases/taint/swift/native-persistence-negative/case.json",
+          "sha256": "42ce79ef630f1af8beb858812ce97864f028328278c70c5880262788b587405d"
+        },
+        {
+          "content": "import Foundation\n\nfunc probe() throws {\n    let defaults = Foundation.UserDefaults(suiteName: \"DataFlowBench.Native.A38\")!\n    defaults.set(\"clean-payload\", forKey: \"payload\")\n    defaults.set(\"clean-other\", forKey: \"other\")\n    guard let raw = Foundation.ProcessInfo.processInfo.environment[\"DFB_NATIVE_INPUT\"] else { return } // DFB-SOURCE: native-persistence-env\n    defaults.set(raw, forKey: \"payload\")\n    let command = defaults.string(forKey: \"other\") ?? \"echo clean\"\n    try Foundation.Process.run(Foundation.URL(fileURLWithPath: \"/bin/sh\"), arguments: [\"-c\", command], terminationHandler: nil) // DFB-SINK: native-persistence-exec\n}\n",
+          "path": "cases/taint/swift/native-persistence-negative/main.swift",
+          "sha256": "cf8e0098a59e97b26c562ceced7fc6cb399688be6c02cb329d7fe646e922c6b9"
+        }
+      ],
+      "required_native_mechanism": [
+        "UserDefaults(suiteName:)",
+        "set(_:forKey:)",
+        "string(forKey:)",
+        "receiver/key discrimination",
+        "Process.run"
+      ],
+      "role": "persistence",
+      "shipped_semantic_model_result": "No role-specific Swift/Foundation endpoint model in the composed shipped DefaultSemantics operator/C/Java lists. This does not deny generic operator dataflow or frontend AST/call/type representation."
+    }
+  ]
+}

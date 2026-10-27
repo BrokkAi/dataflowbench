@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/scripts/prepare-release-v092.py", line 603, in <module>
+    raise SystemExit(main())
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/scripts/prepare-release-v092.py", line 588, in main
+    contract = build_contract(bindings, args.runner_source_sha, output_path=args.output)
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/scripts/prepare-release-v092.py", line 303, in build_contract
+    return _build_c3_contract(
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/scripts/prepare-release-v092.py", line 192, in _build_c3_contract
+    executor.validate_plan(destination, repo_root=root)
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/scripts/execute-release-v092.py", line 2340, in validate_plan
+    result["scoped_recovery"] = _validate_scoped_recovery(result)
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/scripts/execute-release-v092.py", line 2064, in _validate_scoped_recovery
+    checker._verify_failed_attempt(
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/scripts/check-release-v092.py", line 1681, in _verify_failed_attempt
+    for alias in group["identity_components"]
+KeyError: 'identity_components'

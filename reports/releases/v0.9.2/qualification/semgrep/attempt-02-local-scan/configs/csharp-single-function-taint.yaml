@@ -1,0 +1,10 @@
+rules:
+  - id: dataflowbench-csharp-ce-single-function-taint-probe
+    languages: [csharp]
+    severity: ERROR
+    message: DataFlowBench C# CE single-function taint probe
+    mode: taint
+    pattern-sources:
+      - pattern: dfb_source(...)
+    pattern-sinks:
+      - pattern: dfb_sink(...)

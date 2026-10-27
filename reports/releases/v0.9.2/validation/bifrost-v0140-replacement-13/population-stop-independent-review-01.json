@@ -1,0 +1,108 @@
+{
+  "automatic_retry": false,
+  "bindings": {
+    "actual_contract_sha256": "6cc5952d28215b7a030c39f3ebb8c92942efbfc50ccdea7df4b40c75f683ce87",
+    "actual_core_api_audit": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-12/actual-core-api-audit-01.json",
+      "sha256": "b0be1a80ae9001debb92236071ff1d18f1aab9c8198451e15210742451ee2397"
+    },
+    "actual_plan_commit": "df586571d4fc3a53f25afc7e870adc65d29868f9",
+    "actual_source_commit": "955dc97c9eb634f4b095533568f94936a7b534b9",
+    "contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-12-contract.json",
+      "sha256": "6cc5952d28215b7a030c39f3ebb8c92942efbfc50ccdea7df4b40c75f683ce87"
+    },
+    "core_identity": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-12/manifest-identity.json",
+      "sha256": "65f2a5d2fa64c839324c9706f1f7a24ab608efaef7ed97931c16daa5178e3647"
+    },
+    "frozen_bridge": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-07.py",
+      "sha256": "7403aa8d54050655f699c338e5a1bad1a6eb1ad7dc54e7e6089732f62d74d8d6"
+    },
+    "parser_test": {
+      "path": "reports/releases/v0.9.2/acquisition/test-bifrost-v0140-frozen-parser-07.py",
+      "sha256": "f30f2ca6fc2da8126699eed301ce9f56dba58cc4530d0a52ff813d222158f409"
+    },
+    "population_bound_by_contract": {
+      "exists": true,
+      "path": "populations/v0.9.0.json",
+      "sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+    }
+  },
+  "evidence": {
+    "BF12_core_review_status": "approved static-only; not runtime success",
+    "audit_result": "changes-required",
+    "audit_scope": "bounded static/API composition review; no production action",
+    "audit_sha256": "b0be1a80ae9001debb92236071ff1d18f1aab9c8198451e15210742451ee2397",
+    "population_bound_exists": true,
+    "wrong_derived_path_exists": false
+  },
+  "execution_authorized": false,
+  "finding": {
+    "actual_contract_depth": "plan_path.parents[4] resolves the repository reports directory for this continuation path",
+    "actual_contract_path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-12-contract.json",
+    "bridge_composition_function": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-07.py::_validate_replacement_with_scoped_resource_boundary",
+    "bridge_validation_line": 907,
+    "computed_population_path": "reports/populations/v0.9.0.json",
+    "expected_population_path": "populations/v0.9.0.json",
+    "frozen_population_function": "scripts/execute-release-v092.py::_population",
+    "frozen_population_line": 502,
+    "id": "BF12-API-01",
+    "masked_by_existing_test": "The parser07 positive fixture uses execution-v5-bifrost-v0140/contract.json at canonical frozen depth, so it does not exercise the actual BF12 continuation contract depth.",
+    "mechanism": "The scoped V4 contract-path alias reaches the frozen population validator, but its _population implementation derives repository root from plan_path.parents[4]. The continuation contract has an extra reports/releases/v0.9.2/execution-v4/continuations depth, so the frozen function computes repo/reports/populations rather than the contract-bound repo/populations path. Explicit repo_root does not reach this frozen call.",
+    "observed_exception_chain": [
+      "FrozenBridgeError: frozen validator rejected replacement after scoped resource checks",
+      "ReleaseError: cannot read population /Users/dave/.codex/worktrees/9f01/dataflowbench/reports/populations/v0.9.0.json",
+      "FileNotFoundError"
+    ],
+    "severity": "execution-blocker",
+    "status": "open"
+  },
+  "nonclaims": [
+    "This diagnosis does not claim a Bifrost analyzer run, bridge success, admission success, or qualification result.",
+    "No fresh attempt, retry, materialization, replay, build, or launch was performed.",
+    "The BF13 correction remains unreviewed until its exact source, parser, contract, and positive/near-miss evidence are supplied."
+  ],
+  "predecessor_review": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-12/core-independent-review-01.json",
+    "scope_preserved": "BF12 core-only approval remains unchanged; this finding blocks runtime composition, not the prior static core review.",
+    "sha256": "ec83637210c2e5b80fab36a0ce98bc2b0cdc1401bf702919dbad074e011d537a"
+  },
+  "production_actions_performed": false,
+  "required_successor_correction": {
+    "must_preserve": [
+      "actual contract path and SHA; population path/SHA, fixture revision, and case roster",
+      "frozen _population semantics and default root behavior outside the exact BF13 scoped integration",
+      "source/plan/contract provenance, historical prefixes, source closure, resource floors, no-expiry policy, and attempt limits",
+      "fail-closed behavior for unrelated paths and wrong-root/near-miss contracts"
+    ],
+    "prohibited_repairs": [
+      "do not create or copy populations/v0.9.0.json into the wrongly derived reports/populations location",
+      "do not edit the frozen execute-release-v092.py or mutate BF12 pinned sources in place",
+      "do not weaken population, fixture, case, source, or contract identity checks"
+    ],
+    "required_near_miss_regressions": [
+      "wrong contract path/root depth must fail closed rather than silently search or copy reports/populations",
+      "changed population bytes/SHA or fixture/case roster must fail closed",
+      "unrelated historical/base contract paths must retain original frozen behavior and restoration in finally"
+    ],
+    "required_positive_regression": "Exercise the real reports/releases/v0.9.2/execution-v4/continuations contract depth and prove the frozen validator reads the exact bound populations/v0.9.0.json bytes/SHA and expected fixture/cases.",
+    "successor": "BF13 append-only bridge08/parser08 and new acquisition base/source-design06; preserve BF12 files and identity bytes"
+  },
+  "review_type": "independent-bifrost-v0140-population-stop-review",
+  "reviewed_at_utc": "2026-10-24T15:03:22.806497Z",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-bifrost-v0140-population-stop-independent-review/v1",
+  "scope": {
+    "admission_invoked": false,
+    "analyzer_invoked": false,
+    "boundary": "read-only diagnosis of the BF12 frozen population-path composition failure; BF13 successor design requirements only",
+    "bridge_invoked": false,
+    "build_invoked": false,
+    "launch_invoked": false,
+    "replay_invoked": false,
+    "source_edited": false
+  },
+  "status": "changes-required"
+}

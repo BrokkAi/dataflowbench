@@ -4,7 +4,7 @@ use crate::adapters::bifrost::{
     BIFROST_JAVA_POLICY, BIFROST_MODELING_CALL_MODELING, require_bifrost_modeling_load_bearing,
     smoke_population_case,
 };
-use crate::adapters::codeql::modeling_codeql_language;
+use crate::adapters::codeql::{codeql_v092_configuration_paths, modeling_codeql_language};
 use crate::adapters::flowdroid::{
     FLOWDROID_MODELING_SUMMARIES_DIR, FLOWDROID_MODELING_SUMMARY_FILES,
     require_flowdroid_modeling_declarations,
@@ -27,6 +27,10 @@ use crate::modeling::{
     validate_modeling_population,
 };
 use crate::native::{native_activation, native_supported_templates};
+use crate::report::{
+    ConfigurationHashState, configuration_hash_state_for_report, current_configuration_paths,
+    hash_paths,
+};
 use crate::tests::support::{WITNESSED_IDENTITY, unique_test_dir};
 use serde_json::{Value, json};
 use std::{collections::BTreeSet, fs, path::Path, path::PathBuf};
@@ -269,6 +273,85 @@ pub(crate) fn opentaint_modeling_is_java_only() {
             !rule.contains(declined_entity),
             "the OpenTaint modeling rule declares {declined_entity}, whose category its partition marks unsupported"
         );
+    }
+}
+
+/// The current CodeQL producer and the version-aware validator must bind the
+/// same prospective v0.9.2 model query and profile for every modeling
+/// language. Historical CodeQL 2.27.0 and 2.27.1 reports continue to derive
+/// each language's original artifact-only closure.
+#[test]
+pub(crate) fn codeql_modeling_configuration_matches_v092_validator_without_changing_history() {
+    let mut case_scan = None;
+    let languages = [
+        (
+            ModelingLanguage::Java,
+            "adapters/codeql/queries/JavaModeling.ql",
+        ),
+        (
+            ModelingLanguage::Javascript,
+            "adapters/codeql/javascript/queries/JavaScriptModeling.ql",
+        ),
+        (
+            ModelingLanguage::Python,
+            "adapters/codeql/python/queries/PythonModeling.ql",
+        ),
+    ];
+
+    for (language, historical_query) in languages {
+        let stem = format!("codeql-{}-modeling", language.key());
+        let historical_paths =
+            crate::modeling::modeling_configuration_paths(ModelingTool::Codeql, language)
+                .unwrap()
+                .unwrap();
+        assert_eq!(
+            historical_paths,
+            BTreeSet::from([PathBuf::from(historical_query)]),
+            "the frozen query closure for {stem} must stay artifact-only"
+        );
+
+        let plan = crate::modeling::plan_modeling_run(ModelingTool::Codeql, language).unwrap();
+        let expected_v092_paths = codeql_v092_configuration_paths(&historical_paths);
+        assert_eq!(plan.configuration_paths, expected_v092_paths, "{stem}");
+        assert!(
+            plan.configuration_paths
+                .contains(Path::new("adapters/codeql/v0.9.2/profile.json")),
+            "{stem} must bind the prospective profile"
+        );
+
+        let validator_paths = current_configuration_paths(&stem, &mut case_scan)
+            .unwrap()
+            .unwrap();
+        assert_eq!(plan.configuration_paths, validator_paths, "{stem}");
+        let current_hash = hash_paths(&plan.configuration_paths).unwrap();
+        assert_eq!(
+            configuration_hash_state_for_report(
+                &stem,
+                crate::adapters::pins::CODEQL_VERSION,
+                "0.1.0",
+                &current_hash,
+                &mut case_scan,
+            )
+            .unwrap(),
+            ConfigurationHashState::Current,
+            "latest report configuration for {stem}"
+        );
+
+        let historical_hash = hash_paths(&historical_paths).unwrap();
+        for historical_version in ["2.27.0", "2.27.1"] {
+            assert_eq!(
+                configuration_hash_state_for_report(
+                    &stem,
+                    historical_version,
+                    "0.1.0",
+                    &historical_hash,
+                    &mut case_scan,
+                )
+                .unwrap(),
+                ConfigurationHashState::Current,
+                "historical {historical_version} report configuration for {stem}"
+            );
+        }
     }
 }
 

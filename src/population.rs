@@ -682,8 +682,10 @@ mod tests {
                 serde_json::from_str(&fs::read_to_string(format!("reports/{stem}.json")).unwrap())
                     .unwrap();
             assert_eq!(
-                crate::report::configuration_hash_state(
+                crate::report::configuration_hash_state_for_report(
                     stem,
+                    report["tool_version"].as_str().unwrap(),
+                    report["adapter_version"].as_str().unwrap(),
                     report["configuration_hash"].as_str().unwrap(),
                     &mut None,
                 )

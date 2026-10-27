@@ -1,0 +1,227 @@
+{
+  "schema": "v092-joern-native-controls01-stop-independent-review/v1",
+  "review_type": "independent-read-only-native-control-stop-diagnosis",
+  "reviewed_at_utc": "2026-10-25T17:59:51Z",
+  "classification": "read-only stop diagnosis",
+  "status": "stop-confirmed-source-defects",
+  "scope": {
+    "source_edited": false,
+    "git_mutated": false,
+    "runtime_retried": false,
+    "bootstrap_retried": false,
+    "engine_invoked": false,
+    "jvm_invoked": false,
+    "analyzer_invoked": false,
+    "native_controls_invoked": false,
+    "qualification_invoked": false,
+    "admission_invoked": false,
+    "replay_invoked": false,
+    "publication_or_release_action": false,
+    "statement": "This review inspects the one preserved native-controls01 bootstrap/parent/worker stop and runs only tiny Python child and local-import cleanup probes. It does not authorize retry, controls, analyzer, JVM, admission, qualification, Git, or publication work."
+  },
+  "bindings": {
+    "source_head": "7518a16efaffa69a8b616b95df9b2a1475a52d5e",
+    "request": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-01.json",
+      "sha256": "cc23e2764ba95c4e2f97d30a12a4cd75c067395b35cbf93ad3a11d4a2288a984"
+    },
+    "exact_invocation_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls01-exact-invocation-review-01.json",
+      "sha256": "18491a3f9a24dd7ddc9ef72874da049ac351bf18c12714b72dbb2419b8d9344c"
+    },
+    "wrapper": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-01/native_qualifier.py",
+      "sha256": "45429fa10b418f9c92bcd3bd06ce75882d23e798407e0745352929d2f19e6935"
+    },
+    "graph_boundary_source": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-19.py",
+      "sha256": "9007c6d44c1255996726f58bfe38d8c9e5838b7e7fcd218002530f5ec41ed121"
+    }
+  },
+  "observed_invocation": {
+    "bootstrap": {
+      "stderr": {
+        "path": "/private/tmp/joern05-native-control-bootstrap-01.stderr",
+        "bytes": 2214,
+        "sha256": "51a411b689c11c2af72016dbcb0ebc2edf6dd4a6466d7c3304ea079505a1523d"
+      },
+      "stdout": {
+        "path": "/private/tmp/joern05-native-control-bootstrap-01.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "terminal_error": "FrozenBridge19Error: graph import added a non-stdlib process-global sys.modules entry at native_qualifier.py:315 during bootstrap context exit"
+    },
+    "supervision": {
+      "started": {
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01-supervision/started.json",
+        "bytes": 1579,
+        "sha256": "81d1f6aa4cb08c90432b874d5d480e066796d088e6d54bd5bdf3a8b8b51f4717"
+      },
+      "result": {
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01-supervision/result.json",
+        "bytes": 1794,
+        "sha256": "3942f003413efeb4355fe525452e72fe7c31826184a519ad6795b76c6f110bc9"
+      },
+      "parent_stderr": {
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01-supervision/parent.stderr",
+        "bytes": 3198,
+        "sha256": "6dd49366cef30854f555284017c2fcc707a8c595ed4a2b0c42d9994d8a8d23e4"
+      },
+      "parent_stdout": {
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01-supervision/parent.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "namespace": {
+      "parent_started": {
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01/parent-started.json",
+        "bytes": 2913,
+        "sha256": "1f0fb043add6a71be6310e7a8615b07a4f2990780a7d0abae9556fdd6b7f20e9",
+        "argv_is_worker_command": true
+      },
+      "child_started": {
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01/child-started.json",
+        "bytes": 2231,
+        "sha256": "5f1c37885f44744d8889442b036d03039efe5548fc387f1d850a7e254c632084",
+        "argv_equals_parent_recorded_argv": true,
+        "interpretation": "This receipt records the argv and environment passed by supervise; it is not a worker-owned observation of sys.orig_argv or os.environ."
+      },
+      "worker_owned_preflight_receipt": {
+        "present": false,
+        "actual_sys_orig_argv_recorded": false,
+        "actual_os_environ_recorded": false,
+        "reason": "The worker raises at the argv assertion before its existing environment check and before any worker-owned receipt is written."
+      },
+      "worker_stderr": {
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01/stderr.txt",
+        "bytes": 1873,
+        "sha256": "a75d23b82e700f563a4c6647cbc01f1af50d25965590fc1eca1a6e09c10f0f25"
+      },
+      "exit": {
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01/exit.json",
+        "bytes": 1081,
+        "sha256": "2bf5965d20ce32c9bc04c370b95c2becd0286f4e12602a408d6a72cabae8c229"
+      }
+    },
+    "process_and_phase_state": {
+      "bootstrap_started_utc": "2026-10-25T17:54:01.730507+00:00",
+      "ended_utc": "2026-10-25T17:55:33.514661+00:00",
+      "parent_pid": 49616,
+      "parent_birth_identity": "Sun Oct 25 19:54:01 2026",
+      "worker_pid": 51909,
+      "worker_birth_identity": "Sun Oct 25 19:54:58 2026",
+      "keepawake_pid": 49618,
+      "automatic_retry": false,
+      "exit_code": 1,
+      "phases": [],
+      "ready_observed": false,
+      "controls_started_observed": false,
+      "worker_environment_check_reached": false,
+      "capture_present": false,
+      "qualification_inferred": false,
+      "ledger_unchanged": true,
+      "owned_processes_gone": true
+    }
+  },
+  "findings": [
+    {
+      "id": "NATIVE-CONTROL-STOP-ARGV-001",
+      "severity": "blocker",
+      "status": "demonstrated",
+      "finding": "The worker's exact command receipt is correct, but the raw sys.orig_argv comparison is not portable to the bound macOS interpreter invocation. The parent records argv[0] as /opt/homebrew/bin/python3.13. A tiny detached Python 3.13 child launched with that same interpreter path observes sys.orig_argv[0] as the resolved Cellar executable, while sys.executable is /opt/homebrew/opt/python@3.13/bin/python3.13. The worker therefore fails at native_qualifier.py:581-584 before the ready phase even though the parent-generated worker argv and all request/review/FD/token/parent identity arguments match.",
+      "source_evidence": {
+        "interpreter_constant": "native_qualifier.py:26 PYTHON = '/opt/homebrew/bin/python3.13'",
+        "worker_command_generation": "native_qualifier.py:430-431 command() returns PYTHON, -B, -E, the resolved wrapper path, and the worker request/review/FD/token/parent identity arguments",
+        "worker_assertion": "native_qualifier.py:579-584 reads parent-started.json and requires started['argv'] == sys.orig_argv",
+        "child_receipt_generation": "native_qualifier.py:500-506 writes child-started.json from the argv list passed by supervise, before the worker can report its own sys.orig_argv"
+      },
+      "receipt_evidence": {
+        "parent_started_argv0": "/opt/homebrew/bin/python3.13",
+        "child_started_argv0": "/opt/homebrew/bin/python3.13",
+        "worker_failure": "ValueError: worker invocation differs from actual parent command receipt",
+        "worker_failure_source": "native-controls-01/stderr.txt traceback at native_qualifier.py:581-584"
+      },
+      "tiny_probe": {
+        "script": "/private/tmp/joern05-native-controls01-argv-probe.py",
+        "log": "/private/tmp/joern05-native-controls01-argv-probe.log",
+        "log_bytes": 1709,
+        "log_sha256": "cd6f5fa9e17e676ec92c7617baa1dad03d93bc801e3d7013c8457d7267cbc7c7",
+        "result": {
+          "argv0_rewritten": true,
+          "expected_recorded_argv0": "/opt/homebrew/bin/python3.13",
+          "observed_orig_argv0": "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+          "observed_sys_executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+          "args1_plus_preserved": true,
+          "probe_returncode": 0
+        },
+        "boundary": "The probe uses a tiny child script and substitutes only that script's path at argv[2]; it does not import native qualifier code or invoke any runtime, JVM, analyzer, or control."
+      },
+      "required_repair": "Make interpreter identity deterministic without weakening exact argument checks: either generate the child argv with the canonical executable identity observed by Python or compare argv[0] through an explicitly recorded canonicalization while retaining raw argv[0], exact argv[1:] and wrapper/request/review/FD/token/parent birth fields. Add a worker-owned immutable preflight receipt that records raw sys.orig_argv, sys.executable, the canonical interpreter identity, actual os.environ (or a bound digest plus exact expected fields), request/review/token and parent PID/birth before ready. Keep parent-generated and worker-observed receipts distinct; do not treat the current child-started receipt as worker observation."
+    },
+    {
+      "id": "NATIVE-CONTROL-STOP-MODULE-002",
+      "severity": "blocker",
+      "status": "demonstrated",
+      "finding": "The graph boundary guard correctly rejects a non-stdlib process-global module, but the native wrapper leaves its own dynamically loaded helper/process modules in sys.modules after the graph context snapshots the baseline. modules() calls close_on_error() before removing even its host modules, and load() never unregisters a successful random module name. Bootstrap therefore masks its normal return at native_qualifier.py:642/760, and parent teardown masks the original child ValueError at native_qualifier.py:714/745. This is a cleanup-order/ownership defect, not a reason to relax the graph boundary guard.",
+      "source_evidence": {
+        "dynamic_loader": "native_qualifier.py:78-92 inserts a random module name in sys.modules and leaves it registered on successful load",
+        "graph_snapshot": "bifrost-v0140-frozen-bridge-19.py:462-466 snapshots process-global sys.modules before graph execution",
+        "post_snapshot_loads": [
+          "native_qualifier.py:324 Resources.__init__ loads retained_resources.py",
+          "native_qualifier.py:643 bootstrap loads _bootstrap_resources and :649 loads the retained process helper",
+          "native_qualifier.py:715 and :722 run_parent load _native_resource_lock and _native_process"
+        ],
+        "teardown": "native_qualifier.py:302-317 calls graph.import_context.close_on_error() at :315 before popping only hosts at :316-317",
+        "guard": "bifrost-v0140-frozen-bridge-19.py:863-876 rejects every added non-stdlib sys.modules key; :954-959 close_on_error performs the check before clearing local graph bindings"
+      },
+      "receipt_evidence": {
+        "bootstrap_trace": "FrozenBridge19Error: graph import added a non-stdlib process-global sys.modules entry",
+        "parent_trace": "ValueError: native control parent failed; inspect preserved receipts, followed by FrozenBridge19Error from modules().__exit__",
+        "bootstrap_stderr_sha256": "51a411b689c11c2af72016dbcb0ebc2edf6dd4a6466d7c3304ea079505a1523d",
+        "parent_stderr_sha256": "6dd49366cef30854f555284017c2fcc707a8c595ed4a2b0c42d9994d8a8d23e4"
+      },
+      "tiny_probe": {
+        "script": "/private/tmp/joern05-native-controls01-graph-close-probe.py",
+        "script_bytes": 1987,
+        "script_sha256": "24a4c977ddb05c021421058a3d211697356f4d47f863f8dc09bc7a4b134bb630",
+        "log": "/private/tmp/joern05-native-controls01-graph-close-probe.log",
+        "log_bytes": 560,
+        "log_sha256": "afe2ff59ed6b02c2a5ea58ab4ab6f633de94158b9bc8da56e2ddf404ff917f2b",
+        "result": {
+          "normal_return_masked": true,
+          "body_error_masked": true,
+          "observed_exception": "BoundaryError: graph import added a non-stdlib process-global sys.modules entry"
+        }
+      },
+      "required_repair": "Add an explicit owned module scope for every successful load performed after graph construction. Remove only those exact owned names/objects before graph.import_context.close_on_error(), then close the graph and host scope in deterministic order. Preserve the boundary check and reject unowned/foreign non-stdlib additions. Cleanup errors must be recorded separately; when an operation already has an original exception, cleanup must not replace it or erase the preserved failure receipt."
+    }
+  ],
+  "regression_requirements": {
+    "argv_and_environment": [
+      "Tiny Popen child launched through the bound /opt/homebrew/bin/python3.13 path proves the observed interpreter identity and accepts only the canonicalized argv[0] representation; exact argv[1:] and wrapper/request/review/FD/token/parent-birth arguments remain required.",
+      "Positive and near-miss parent/worker receipt tests distinguish parent-generated argv/env from worker-observed sys.orig_argv/os.environ, including a changed interpreter path, changed flag, changed request hash, changed FD, changed token, changed parent birth, and a one-field environment difference.",
+      "The pre-ready mismatch remains a failed startup with no ready frame, no controls-started frame, no capture, no retry, and owned-child cleanup."
+    ],
+    "graph_cleanup": [
+      "Tiny local module loaded after graph baseline is removed by owned identity before close_on_error and permits a normal return.",
+      "An unowned non-stdlib sys.modules addition remains a hard boundary failure; no broad sys.modules deletion or foreign-module allowance is accepted.",
+      "Normal return and an original body exception both retain their original semantics when cleanup succeeds or fails; cleanup failure is separately recorded and cannot mask the original error.",
+      "Bootstrap Popen failure, peer/worker exit, and post-Popen identity failure continue to preserve immutable receipts and owned-only cleanup under the existing 120-second handshake and 600/900/240-second bounds."
+    ],
+    "execution_boundaries": [
+      "Do not add a retry, extra analyzer, JVM, engine, replay, admission, qualification, or publication action while repairing these startup defects.",
+      "Preserve exact birth identities, common flock ownership, anonymous pipe token gate, finite startup limits, ledger immutability and automatic_retry=false."
+    ]
+  },
+  "disposition": {
+    "startup_invocation": "failed-closed-before-ready",
+    "native_control_qualification": "not-qualified",
+    "automatic_retry": false,
+    "attempt_consumption": "No native control result or qualification is inferred. Preserve this one started-and-failed invocation and do not retry under this review.",
+    "next_gate": "Writer may prepare an append-only source repair and focused tiny-child/cleanup regressions. A new independent source review and a fresh exact invocation review are required before any later control invocation.",
+    "publication_hold": true
+  },
+  "method": "Read-only receipt/hash inspection plus two private /opt/homebrew/bin/python3.13 -B -E tiny probes. No engine, JVM, analyzer, native control, runtime graph import, admission, qualification, replay, Git mutation, source edit, retry, or publication action was performed."
+}

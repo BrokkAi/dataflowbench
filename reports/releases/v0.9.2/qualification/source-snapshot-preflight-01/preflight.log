@@ -1,0 +1,56 @@
+
+=== owner-source-assertion ===
+passed
+source_commit=c0f914c81689f253cb29f1cbb84018756a2cf993
+runner_source_sha256=95566dc433f182ade33deabf9ec5779bc68e02ee68eb7829bc4a9b00628345d3
+source_inputs=745
+
+=== materialization ===
+passed
+source_inputs=745
+snapshot=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot
+
+=== snapshot-git-registration ===
+passed
+HEAD=c0f914c81689f253cb29f1cbb84018756a2cf993
+object_alternates=/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot/.git/objects/info/alternates
+
+=== codeql-verify-plan ===
+argv=["/usr/bin/python3", "scripts/run-swift-common-v092.py", "verify-plan", "--plan", "adapters/codeql/swift-common-v2/plan-v092-01/execution-plan.json"]
+returncode=1
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot/scripts/run-swift-common-v092.py", line 50, in <module>
+    raise SystemExit(main())
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot/scripts/run-swift-common-v092.py", line 27, in main
+    plan, qualification, _ = runner.validate_plan(root, args.plan)
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot/scripts/swift_normal_runner_v092.py", line 239, in validate_plan
+    path = bound_file(root, reference)
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot/scripts/swift_normal_runner_v092.py", line 55, in bound_file
+    require(target.is_file() and target.resolve().is_relative_to(root.resolve()), "missing or escaped repository reference")
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-01/snapshot/scripts/swift_normal_runner_v092.py", line 37, in require
+    raise ValueError(message)
+ValueError: missing or escaped repository reference
+
+=== failure ===
+{"message": "codeql verify-plan failed with exit 1", "type": "RuntimeError"}
+Traceback (most recent call last):
+  File "<stdin>", line 125, in <module>
+RuntimeError: codeql verify-plan failed with exit 1
+
+=== joern-independent-verify-plan ===
+argv=["/usr/bin/python3", "scripts/run-joern-common-v092.py", "verify-plan", "--plan", "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json"]
+returncode=0
+stdout:
+{
+  "mode": "preflight",
+  "group_id": "joern-swift-common108",
+  "tool_version": "4.0.660",
+  "qualification_status": "measurement-with-known-limits",
+  "case_count": 108,
+  "scored_activation": false
+}
+
+stderr:

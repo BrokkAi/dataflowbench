@@ -1,0 +1,873 @@
+{
+  "control_plan": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/control-plan-01.json",
+    "sha256": "ad02fc04ed5e81765160f9e32b9b84d0ee55dfd0460f7a4156c2e6404fe5c7a5"
+  },
+  "control_run": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/run.json",
+    "sha256": "d9c77fe9affacbb27bc3b56d5a73645943502368653905f77435126223637394"
+  },
+  "decision_date": "2026-10-20",
+  "decision_id": "joern-swift-common108-endpoint-identity-gap-2026-10-20",
+  "diagnostic_execution_eligible": true,
+  "direct_case_arm_count": 4,
+  "endpoint_identity_proofs": [
+    {
+      "analysis_completeness": {
+        "exhaustion_observable": false,
+        "max_args_to_allow": 1000,
+        "max_call_depth": 4,
+        "max_output_args_expansion": 1000,
+        "status": "unproven"
+      },
+      "arm": "off",
+      "case_id": "dfb-taint-swift-model-opaque-propagator-negative",
+      "cpg": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/cpg.bin",
+        "sha256": "485741575d7da539ab4a4d8baaab6b60eb5ad42daae35a732908f19a355f614b"
+      },
+      "cpg_size_bytes": 61194,
+      "diagnostics": [
+        "Incomplete:EndpointIdentity:source native endpoint missing at exact anchor"
+      ],
+      "endpoint_edges": [
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 26
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "call_node_id": "30064771103",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "callee_id": "107374182420",
+          "local_declaration_full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+          "local_declaration_id": "107374182407",
+          "role": "source"
+        },
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 27
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "call_node_id": "30064771104",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "callee_id": "107374182421",
+          "local_declaration_full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+          "local_declaration_id": "107374182408",
+          "role": "sink"
+        }
+      ],
+      "flows": 0,
+      "graph": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/graph.json",
+        "sha256": "4e1e05aca8492c9712877ddc821d27b4bda8b7ae1e9b4b664b24c91782a90389"
+      },
+      "raw": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/off/raw.json",
+        "sha256": "cc26aa3a58a3b5d3f6e0f6ce1c88b7a443409ee303741a4cee265697da0e1525"
+      },
+      "raw_outcome": "inconclusive",
+      "sink_observations": 0,
+      "source_observations": 0,
+      "typed_state": "inconclusive",
+      "wrapper_declarations": [
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+          "method_id": "107374182403",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+          "method_id": "107374182404",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ],
+          "selected_call_node_id": "30064771105",
+          "sink_argument_index": 1,
+          "sink_argument_node_id": "30064771105"
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+          "method_id": "107374182405",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "analysis_completeness": {
+        "exhaustion_observable": false,
+        "max_args_to_allow": 1000,
+        "max_call_depth": 4,
+        "max_output_args_expansion": 1000,
+        "status": "unproven"
+      },
+      "arm": "on",
+      "case_id": "dfb-taint-swift-model-opaque-propagator-negative",
+      "cpg": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/cpg.bin",
+        "sha256": "ad8b6c09ef835716e6d865329ce4424e7f32b39626d7c1e6feae802a33369ea0"
+      },
+      "cpg_size_bytes": 61192,
+      "diagnostics": [
+        "Incomplete:EndpointIdentity:source native endpoint missing at exact anchor"
+      ],
+      "endpoint_edges": [
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 26
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "call_node_id": "30064771103",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "callee_id": "107374182420",
+          "local_declaration_full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+          "local_declaration_id": "107374182407",
+          "role": "source"
+        },
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 27
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "call_node_id": "30064771104",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "callee_id": "107374182421",
+          "local_declaration_full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+          "local_declaration_id": "107374182408",
+          "role": "sink"
+        }
+      ],
+      "flows": 0,
+      "graph": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/graph.json",
+        "sha256": "7f9672ee0fc75f86adf75c5f7f99f7d0ef1c04fff0da444ffee1df1dd604e570"
+      },
+      "raw": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-negative/on/raw.json",
+        "sha256": "3297f37593b332ecd9fc536046b502fc75aa21d871febdb25fc2715b7d3c1713"
+      },
+      "raw_outcome": "inconclusive",
+      "sink_observations": 0,
+      "source_observations": 0,
+      "typed_state": "inconclusive",
+      "wrapper_declarations": [
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+          "method_id": "107374182403",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+          "method_id": "107374182404",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ],
+          "selected_call_node_id": "30064771105",
+          "sink_argument_index": 1,
+          "sink_argument_node_id": "30064771105"
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+          "method_id": "107374182405",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "analysis_completeness": {
+        "exhaustion_observable": false,
+        "max_args_to_allow": 1000,
+        "max_call_depth": 4,
+        "max_output_args_expansion": 1000,
+        "status": "unproven"
+      },
+      "arm": "off",
+      "case_id": "dfb-taint-swift-model-opaque-propagator-positive",
+      "cpg": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/cpg.bin",
+        "sha256": "3453d1de060d6451298e49f59799caf41aa4e1a783bee539791af6861e2ec754"
+      },
+      "cpg_size_bytes": 61194,
+      "diagnostics": [
+        "Incomplete:EndpointIdentity:source native endpoint missing at exact anchor"
+      ],
+      "endpoint_edges": [
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 26
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "call_node_id": "30064771103",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "callee_id": "107374182420",
+          "local_declaration_full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+          "local_declaration_id": "107374182407",
+          "role": "source"
+        },
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 27
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "call_node_id": "30064771104",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "callee_id": "107374182421",
+          "local_declaration_full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+          "local_declaration_id": "107374182408",
+          "role": "sink"
+        }
+      ],
+      "flows": 0,
+      "graph": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/graph.json",
+        "sha256": "f8a33ef73f05d39acac91728d84fc8af874bf516e1e9bd0dc50de394c6f75058"
+      },
+      "raw": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/off/raw.json",
+        "sha256": "2edf2bf3b89afdb658e6990ac21b4d7299140b3d80cec656e98e11713ac1d746"
+      },
+      "raw_outcome": "inconclusive",
+      "sink_observations": 0,
+      "source_observations": 0,
+      "typed_state": "inconclusive",
+      "wrapper_declarations": [
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+          "method_id": "107374182403",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ],
+          "selected_call_node_id": "30064771105",
+          "sink_argument_index": 1,
+          "sink_argument_node_id": "30064771105"
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+          "method_id": "107374182404",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+          "method_id": "107374182405",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "analysis_completeness": {
+        "exhaustion_observable": false,
+        "max_args_to_allow": 1000,
+        "max_call_depth": 4,
+        "max_output_args_expansion": 1000,
+        "status": "unproven"
+      },
+      "arm": "on",
+      "case_id": "dfb-taint-swift-model-opaque-propagator-positive",
+      "cpg": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/cpg.bin",
+        "sha256": "0e4ab6c449677f1e177cb5ce9b7b4f241038da9373c01658d5df9ef456ebf0d3"
+      },
+      "cpg_size_bytes": 61189,
+      "diagnostics": [
+        "Incomplete:EndpointIdentity:source native endpoint missing at exact anchor"
+      ],
+      "endpoint_edges": [
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 26
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "call_node_id": "30064771103",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "callee_id": "107374182420",
+          "local_declaration_full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+          "local_declaration_id": "107374182407",
+          "role": "source"
+        },
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 27
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "call_node_id": "30064771104",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "callee_id": "107374182421",
+          "local_declaration_full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+          "local_declaration_id": "107374182408",
+          "role": "sink"
+        }
+      ],
+      "flows": 0,
+      "graph": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/graph.json",
+        "sha256": "bb50e5577f95d96e5dab5f1294c75802025baa40f93f38a937d23dc58c5be2ba"
+      },
+      "raw": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-opaque-propagator-positive/on/raw.json",
+        "sha256": "9bfd72387f1406d3f51faf7de0bf014106a580c6fe0255b5270a909d184fc4ba"
+      },
+      "raw_outcome": "inconclusive",
+      "sink_observations": 0,
+      "source_observations": 0,
+      "typed_state": "inconclusive",
+      "wrapper_declarations": [
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+          "method_id": "107374182403",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ],
+          "selected_call_node_id": "30064771105",
+          "sink_argument_index": 1,
+          "sink_argument_node_id": "30064771105"
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+          "method_id": "107374182404",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+          "method_id": "107374182405",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "analysis_completeness": {
+        "exhaustion_observable": false,
+        "max_args_to_allow": 1000,
+        "max_call_depth": 4,
+        "max_output_args_expansion": 1000,
+        "status": "unproven"
+      },
+      "arm": "off",
+      "case_id": "dfb-taint-swift-model-propagator-position-negative",
+      "cpg": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/cpg.bin",
+        "sha256": "97c5d6085eac5f5e5bbbeaca0a612b859a774893cdafa701d934854e5f5657a6"
+      },
+      "cpg_size_bytes": 61259,
+      "diagnostics": [
+        "Incomplete:EndpointIdentity:source native endpoint missing at exact anchor"
+      ],
+      "endpoint_edges": [
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 26
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "call_node_id": "30064771103",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "callee_id": "107374182420",
+          "local_declaration_full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+          "local_declaration_id": "107374182407",
+          "role": "source"
+        },
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 27
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "call_node_id": "30064771104",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "callee_id": "107374182421",
+          "local_declaration_full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+          "local_declaration_id": "107374182408",
+          "role": "sink"
+        }
+      ],
+      "flows": 0,
+      "graph": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/graph.json",
+        "sha256": "55c793d2a91b925d03ab3c187300893551b9343023c095cb6125d82a6b594abf"
+      },
+      "raw": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/off/raw.json",
+        "sha256": "0ecf4cd9c04d738e96541224c4239736391897053319fc6f97b92521758ed056"
+      },
+      "raw_outcome": "inconclusive",
+      "sink_observations": 0,
+      "source_observations": 0,
+      "typed_state": "inconclusive",
+      "wrapper_declarations": [
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+          "method_id": "107374182403",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+          "method_id": "107374182404",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+          "method_id": "107374182405",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1,
+            2
+          ],
+          "selected_call_node_id": "30064771105",
+          "sink_argument_index": 1,
+          "sink_argument_node_id": "30064771105"
+        }
+      ]
+    },
+    {
+      "analysis_completeness": {
+        "exhaustion_observable": false,
+        "max_args_to_allow": 1000,
+        "max_call_depth": 4,
+        "max_output_args_expansion": 1000,
+        "status": "unproven"
+      },
+      "arm": "on",
+      "case_id": "dfb-taint-swift-model-propagator-position-negative",
+      "cpg": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/cpg.bin",
+        "sha256": "dbb801382fca8bf86db6319ced4e3d3c5ccac391b93b5e6bcc7333ab26ace533"
+      },
+      "cpg_size_bytes": 61255,
+      "diagnostics": [
+        "Incomplete:EndpointIdentity:source native endpoint missing at exact anchor"
+      ],
+      "endpoint_edges": [
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 26
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "call_node_id": "30064771103",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "callee_id": "107374182420",
+          "local_declaration_full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+          "local_declaration_id": "107374182407",
+          "role": "source"
+        },
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 27
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "call_node_id": "30064771104",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "callee_id": "107374182421",
+          "local_declaration_full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+          "local_declaration_id": "107374182408",
+          "role": "sink"
+        }
+      ],
+      "flows": 0,
+      "graph": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/graph.json",
+        "sha256": "e777032f85d61d0b5bc3ed65647c09523c5a075009c6af709fc48798d91d1055"
+      },
+      "raw": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-negative/on/raw.json",
+        "sha256": "a5287842bfbb74f6b3a226b80b637b24e17b415d13a37d4a7c05c5b377bac1b4"
+      },
+      "raw_outcome": "inconclusive",
+      "sink_observations": 0,
+      "source_observations": 0,
+      "typed_state": "inconclusive",
+      "wrapper_declarations": [
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+          "method_id": "107374182403",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+          "method_id": "107374182404",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+          "method_id": "107374182405",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1,
+            2
+          ],
+          "selected_call_node_id": "30064771105",
+          "sink_argument_index": 1,
+          "sink_argument_node_id": "30064771105"
+        }
+      ]
+    },
+    {
+      "analysis_completeness": {
+        "exhaustion_observable": false,
+        "max_args_to_allow": 1000,
+        "max_call_depth": 4,
+        "max_output_args_expansion": 1000,
+        "status": "unproven"
+      },
+      "arm": "off",
+      "case_id": "dfb-taint-swift-model-propagator-position-positive",
+      "cpg": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/cpg.bin",
+        "sha256": "1abe27d6b326d543cb59196ca688e4105a8e790a51f0a11e56437e5aa24a92cd"
+      },
+      "cpg_size_bytes": 61257,
+      "diagnostics": [
+        "Incomplete:EndpointIdentity:source native endpoint missing at exact anchor"
+      ],
+      "endpoint_edges": [
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 26
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "call_node_id": "30064771103",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "callee_id": "107374182420",
+          "local_declaration_full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+          "local_declaration_id": "107374182407",
+          "role": "source"
+        },
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 27
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "call_node_id": "30064771104",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "callee_id": "107374182421",
+          "local_declaration_full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+          "local_declaration_id": "107374182408",
+          "role": "sink"
+        }
+      ],
+      "flows": 0,
+      "graph": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/graph.json",
+        "sha256": "f326f4f97e6f51597c910489442e9ca1f4b344bda6c3193bcd54fb671fcaa32e"
+      },
+      "raw": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/off/raw.json",
+        "sha256": "da062e97bd031e39e924fc2550cf56c22894716a02b17d2b7067fbd504a82aa9"
+      },
+      "raw_outcome": "inconclusive",
+      "sink_observations": 0,
+      "source_observations": 0,
+      "typed_state": "inconclusive",
+      "wrapper_declarations": [
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+          "method_id": "107374182403",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+          "method_id": "107374182404",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+          "method_id": "107374182405",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1,
+            2
+          ],
+          "selected_call_node_id": "30064771105",
+          "sink_argument_index": 1,
+          "sink_argument_node_id": "30064771105"
+        }
+      ]
+    },
+    {
+      "analysis_completeness": {
+        "exhaustion_observable": false,
+        "max_args_to_allow": 1000,
+        "max_call_depth": 4,
+        "max_output_args_expansion": 1000,
+        "status": "unproven"
+      },
+      "arm": "on",
+      "case_id": "dfb-taint-swift-model-propagator-position-positive",
+      "cpg": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/cpg.bin",
+        "sha256": "032631c15f7a3993af815f12b5a530696a4cb2150319f1b6b28a00e664496f5c"
+      },
+      "cpg_size_bytes": 61254,
+      "diagnostics": [
+        "Incomplete:EndpointIdentity:source native endpoint missing at exact anchor"
+      ],
+      "endpoint_edges": [
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 26
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "call_node_id": "30064771103",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_source:()->Swift.String",
+          "callee_id": "107374182420",
+          "local_declaration_full_name": "main.swift:<global>.dfb_source:()->Swift.String",
+          "local_declaration_id": "107374182407",
+          "role": "source"
+        },
+        {
+          "anchor": {
+            "file": "main.swift",
+            "line": 27
+          },
+          "call_method_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "call_node_id": "30064771104",
+          "callee_external": true,
+          "callee_full_name": "DataFlowBenchTaintSwift.dfb_sink:(Swift.String)->()",
+          "callee_id": "107374182421",
+          "local_declaration_full_name": "main.swift:<global>.dfb_sink:(_:Swift.String)->ANY",
+          "local_declaration_id": "107374182408",
+          "role": "sink"
+        }
+      ],
+      "flows": 0,
+      "graph": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/graph.json",
+        "sha256": "c6f97d54b227759478a4971fb55be6c06c485888229981e6c02ec581d5f5e865"
+      },
+      "raw": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/control-capture-01/dfb-taint-swift-model-propagator-position-positive/on/raw.json",
+        "sha256": "0028c34246c434aaa84e8370f612ed367df8a1e5fe20ae1cb68b53e45086e38d"
+      },
+      "raw_outcome": "inconclusive",
+      "sink_observations": 0,
+      "source_observations": 0,
+      "typed_state": "inconclusive",
+      "wrapper_declarations": [
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.carry:(Swift.String)->Swift.String",
+          "method_id": "107374182403",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.block:(Swift.String)->Swift.String",
+          "method_id": "107374182404",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1
+          ]
+        },
+        {
+          "full_name": "DataFlowBenchTaintSwift.Opaque.select:(Swift.String,Swift.String)->Swift.String",
+          "method_id": "107374182405",
+          "owner_full_name": "DataFlowBenchTaintSwift.Opaque",
+          "owner_id": "167503724544",
+          "parameter_indices": [
+            0,
+            1,
+            2
+          ],
+          "selected_call_node_id": "30064771105",
+          "sink_argument_index": 1,
+          "sink_argument_node_id": "30064771105"
+        }
+      ]
+    }
+  ],
+  "execution_plan_projection_sha256": "aab7ae8939cb963e88b629cd2247ecba5ab71431456f3b94d18028d2e227ec41",
+  "full_model_qualification": false,
+  "limits": [
+    "Joern 4.0.660 exposes local native endpoint declarations but binds their anchored calls to EXTERNAL method IDs.",
+    "The eight opaque model arms remain Incomplete:EndpointIdentity and are not model-qualified.",
+    "No source/sink aliases, approximate edges, scored activation, or denominator changes are admitted.",
+    "Analysis absence remains unproven under the registered bounded analysis settings."
+  ],
+  "opaque_case_arm_count": 8,
+  "reviewer": {
+    "path": "scripts/joern_diagnostic_admission_v092.py",
+    "sha256": "c2faeeb5ef99f539ad8a4bee6fbc85656c0cc142f92196c02f5f26a446140a9e"
+  },
+  "schema": "joern-diagnostic-admission-review/v1",
+  "scored_activation": false,
+  "status": "measurement-with-known-limits",
+  "strict_assessment": {
+    "absence_completeness": "unproven",
+    "failures": [
+      {
+        "arm": "off",
+        "control": "dfb-taint-swift-model-opaque-propagator-positive",
+        "observed": "inconclusive",
+        "required": "not-reached"
+      },
+      {
+        "arm": "on",
+        "control": "dfb-taint-swift-model-opaque-propagator-positive",
+        "observed": "inconclusive",
+        "required": "reached"
+      },
+      {
+        "arm": "off",
+        "control": "dfb-taint-swift-model-opaque-propagator-negative",
+        "observed": "inconclusive",
+        "required": "reached"
+      },
+      {
+        "arm": "on",
+        "control": "dfb-taint-swift-model-opaque-propagator-negative",
+        "observed": "inconclusive",
+        "required": "not-reached"
+      },
+      {
+        "arm": "off",
+        "control": "dfb-taint-swift-model-propagator-position-positive",
+        "observed": "inconclusive",
+        "required": "not-reached"
+      },
+      {
+        "arm": "on",
+        "control": "dfb-taint-swift-model-propagator-position-positive",
+        "observed": "inconclusive",
+        "required": "reached"
+      },
+      {
+        "arm": "off",
+        "control": "dfb-taint-swift-model-propagator-position-negative",
+        "observed": "inconclusive",
+        "required": "not-reached"
+      },
+      {
+        "arm": "on",
+        "control": "dfb-taint-swift-model-propagator-position-negative",
+        "observed": "inconclusive",
+        "required": "not-reached"
+      }
+    ],
+    "partition_registered": false,
+    "scored_activation": false,
+    "status": "incomplete"
+  },
+  "strict_model_qualification": false
+}

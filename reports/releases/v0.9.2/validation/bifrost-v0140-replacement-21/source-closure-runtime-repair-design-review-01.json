@@ -1,0 +1,150 @@
+{
+  "schema": "v092-bifrost-source-closure-runtime-repair-design-review/v1",
+  "review_type": "independent-source-closure-runtime-repair-design-review",
+  "reviewer": "bifrost014_qualification",
+  "reviewed_at_utc": "2026-10-25T02:21:50.231540Z",
+  "status": "approved-for-implementation-only",
+  "automatic_retry": false,
+  "execution_authorized_by_this_review": false,
+  "implementation_authorized_by_this_review": true,
+  "scope": "Read-only independent review of the narrow BF21 source-transaction topology repair. Approval covers append-only successor helper/source-transaction implementation and harmless focused regression probes only. It authorizes no source commit, build, contract/core generation, qualification, admission, replay, analyzer, launch, retry, release or Git mutation.",
+  "bindings": {
+    "design": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-21/source-closure-runtime-repair-design-01.json",
+      "sha256": "8e2fe73c29e4eec8d2d8a8826ff8bb1d458dcde7fbd0cbc7f8d9389ef03a5e80"
+    },
+    "frozen_runtime": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-08.py",
+      "sha256": "7c1e6a571240daefa7538f44f612dff3a832e23ba61e9c34384b886f721b49c6"
+    },
+    "predecessor_design16": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-16.json",
+      "sha256": "558b7b56fe95b3f1d0f7366a482df47610335a5fbc95bff8571d9fe5ab1e6e35"
+    },
+    "failed_core": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-21/manifest-identity.json",
+      "sha256": "c57976c4f65047326eb48b2ce8880150fe1de13cbd6fde840bb176e474a1a843"
+    },
+    "failed_source_commit": "8abae4f3472732101cf953983c8d859cb1763594",
+    "failed_plan_commit": "937b89e0d8f4383635adc3d1ca4cb96d382e3536",
+    "failed_state": {
+      "path": "execution-state/v092/RESUME.md",
+      "sha256": "f221fa10faf20983e3473c62e0feabdccadb0f545a75cc082af5d870a65dbcff"
+    },
+    "failed_stderr": {
+      "path": "execution-state/v092/monitor-checks/bf21-actual-stage-01/stderr.txt",
+      "sha256": "76c264bc953a3d2582bd2e8b1c07ab1f5721c84361e787435b377118f5d4c1c8"
+    },
+    "actual_function_probe": {
+      "script": {
+        "path": "/private/tmp/bf21-source-delta-runtime-repro-01.py",
+        "sha256": "65672c6f3fb6b9e73c95a54fce0fb280704d445b9c7e5472d73cdd68a1ee8dc4"
+      },
+      "output": {
+        "path": "/private/tmp/bf21-source-delta-runtime-repro-01.json",
+        "sha256": "4e97000f8b9866229fb9bac7163f68ad7437dc812cf6547bca8b209b98521eea"
+      }
+    },
+    "failed_transaction": {
+      "path": "/private/tmp/bf21-source-transaction-01.py",
+      "sha256": "78f31581c3b663f20c3182ae195cd714af24103214fefc1beb0b4738be96fb1f"
+    }
+  },
+  "observed_failure": {
+    "actual_runtime_boundary": "stage-runtime-08._source_delta05 line 1002, before completed parent-stage inventory/identity, command construction or analyzer",
+    "bf20_reference": {
+      "reviewed_baseline": "9b71cce939ac74d9674be189ee03dbee14b868e9",
+      "immediate_patch_base": "2cf0afdbd9b47e242702d93346854b0ca62d022c",
+      "full_intervening": 591,
+      "declared_intervening": 591,
+      "base_to_source": 9,
+      "runtime_status": "passed"
+    },
+    "bf21_actual": {
+      "reviewed_baseline": "9b71cce939ac74d9674be189ee03dbee14b868e9",
+      "immediate_patch_base": "96e915ab57f41f96f4950ef8f1ba8f9498e39e38",
+      "declared_intervening": 618,
+      "full_intervening": 627,
+      "undeclared_paths": [
+        "adapters/pins/v0.9.2-bifrost-v0140.json",
+        "src/adapters/bifrost.rs",
+        "src/adapters/mod.rs",
+        "src/adapters/pins.rs",
+        "src/native.rs",
+        "src/tests/adapters/bifrost.rs",
+        "src/tests/adapters/pins.rs",
+        "src/tests/batch.rs",
+        "src/tests/native.rs"
+      ],
+      "base_to_source": 0,
+      "runtime_status": "rejected"
+    },
+    "qualification_state": {
+      "exit_code": 1,
+      "analyzer_dispatches": 0,
+      "attempt_consumed": false,
+      "completed_parent_stage": false
+    }
+  },
+  "static_validation": {
+    "design_hash_recomputed": true,
+    "actual_probe_is_ast_extracted_unmodified_runtime": true,
+    "actual_probe_has_no_graph_replay_analyzer_or_mutation": true,
+    "typed_nine_count": 9,
+    "typed_nine_paths_unique": true,
+    "typed_nine_current_before_and_expected_after_hashes_match_actual_commits": true,
+    "predecessor_closure_declared_count": 618,
+    "design_reproduces_actual_full_count": 627,
+    "future_namespace": "bifrost-v0140-replacement-22",
+    "future_roster_count": 17,
+    "future_roster_exact": [
+      "bifrost-v0140-replacement-22.py",
+      "bifrost-v0140-admission-22.py",
+      "bifrost-v0140-supervisor-22.py",
+      "bifrost-v0140-packet-22.py",
+      "bifrost-v0140-no-expiry-22.py",
+      "test-bifrost-v0140-replacement-22.py",
+      "test-bifrost-v0140-admission-22.py",
+      "test-bifrost-v0140-supervisor-22.py",
+      "test-bifrost-v0140-packet-22.py",
+      "test-bifrost-v0140-no-expiry-22.py",
+      "test-bifrost-v0140-supervisor-22-production.py",
+      "bifrost-v0140-frozen-bridge-17.py",
+      "test-bifrost-v0140-frozen-parser-17.py",
+      "bifrost-v0140-stage-runtime-09.py",
+      "test-bifrost-v0140-stage-runtime-09.py",
+      "bifrost-v0140-runtime-loaders-22.py",
+      "test-bifrost-v0140-runtime-loaders-22.py"
+    ],
+    "future_contract": "bifrost-v0140-replacement-24-contract.json",
+    "future_source_design": "bifrost-source-design-17.json"
+  },
+  "design_assessment": [
+    "The diagnosis is correct. The failed private transaction seeded the acquisition base with the nine typed Rust/pin paths already in their AFTER state, so the frozen runtime observed nine undeclared paths in the reviewed-baseline-to-base closure and an empty base-to-source delta. This is a transaction-topology defect; the frozen _source_delta05 equality and exact-nine guards are operating as designed.",
+    "The chosen repair restores the successful BF20 topology: preserve the exact predecessor acquisition/intervening closure as the first segment, create a private acquisition base with all nine typed paths at verified BEFORE/absence bytes, then create a child source commit that applies exactly the nine tested AFTER blobs. The design keeps the real worktree and ledger untouched and requires actual CAS/index/HEAD guards.",
+    "The design correctly leaves _source_delta05 semantically unchanged. It does not add a Rust exclusion, subtract typed paths from the closure, widen the allowed namespace, or introduce a second topology mode. It also preserves the incoming CodeQL source/plan, reviewed baseline, patch binding, ancestor checks, exact before/after blob checks and all prior provenance.",
+    "The typed nine are independently listed and hash-bound. The design keeps their nine-file segment separate from the reviewed 618-file closure and explicitly handles both modified paths and the newly added pin path whose BEFORE state is absence.",
+    "The mandatory actual prequalification check is the right boundary: the exact unmodified successor runtime must pass both the 618 closure segment and exact-nine source segment against actual committed successor Git/design/core/evidence before any heavy qualification replay."
+  ],
+  "implementation_conditions": [
+    "Use append-only successor artifacts only: bridge17, parser17, stage-runtime-09, loaders22, replacement/admission/supervisor/packet/no-expiry22 and their tests, with source design17, contract24 and namespace bifrost-v0140-replacement-22. Preserve every BF21 artifact and failed qualification output.",
+    "Bind the predecessor reviewed_intervening_changes as exactly 618 records, preserving each path/status/before_sha256/after_sha256 record byte-for-byte. Derive any new closure records from actual Git only; do not infer or prefill future hashes.",
+    "The private transaction must prove actual current HEAD/worktree/index identities, then restore the nine BEFORE blobs or verified absence in the private acquisition base. It must verify reviewed-baseline-to-base equals the exact 618 closure with no typed-nine subtraction. The source child must then apply exactly the nine tested AFTER blobs and verify base-to-source is exactly those nine A/M paths.",
+    "Derive the nine AFTER hashes from the actual tested successor source commit and bind them into fresh design17/core/manifest evidence. Never reuse BF21 source/core/manifest identities or invent future commits, source counts or selected counts.",
+    "The successor source collector must independently prove the intended 1,678 total source inputs from 1,661 plus exactly 17 new approved source inputs and the intended 478 selected inputs from actual canonical output. The design's conditional future_input_count is a requirement, not evidence; a different actual count is a stop.",
+    "Before any qualification, invoke only a read-only probe of the exact successor _source_delta05 body over the actual committed source/core/design/manifest. Require positive closure and nine-segment success plus near-miss failures for retained-AFTER base/empty source delta, wrong BEFORE, missing/extra/duplicate typed path, wrong AFTER, extra non-nine delta, modified predecessor record, wrong source/plan and index/HEAD/ledger drift.",
+    "Keep the working Rust files unchanged during transaction preparation, preserve all origin/no-expiry/resource/attempt/one-slot/time/ledger/history guards, and record no qualification attempt or analyzer result from the failed BF21 run."
+  ],
+  "preserved_boundaries": [
+    "No semantic change to frozen _source_delta05 or its namespace/equality/ancestor/blob guards.",
+    "No source, build, replay, analyzer, admission, qualification, launch, Git or production operation was performed by this review.",
+    "The BF21 failure remains a failed pre-parent-stage qualification with zero analyzer dispatches and no consumed attempt; no readiness or launch approval is inferred."
+  ],
+  "findings": [],
+  "limitations": [
+    "This approval is implementation-only and conditional on actual source transaction, collector, core/design/manifest and exact runtime-probe evidence. It is not source-commit, build, qualification, replay, analyzer, admission, launch or release approval.",
+    "Future 1,678/478 cardinalities and successor commit hashes are not yet evidence and must be derived from actual outputs after the append-only transaction.",
+    "No implementation or actual successor runtime probe was performed by this review; the recorded probe is the prior read-only BF20-pass/BF21-fail diagnosis."
+  ],
+  "conclusion": "The narrow repair is approved for implementation and harmless focused probes only. It correctly repairs the private Git topology while preserving the frozen runtime's exact 618-closure and nine-file boundaries. Proceed only with actual Git-derived future evidence and the exact unmodified _source_delta05 prequalification gate; any topology, namespace, exclusion, count, hash or guard deviation requires a new review."
+}

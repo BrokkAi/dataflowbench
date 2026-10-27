@@ -1,0 +1,147 @@
+{
+  "schema": "v092-joern-native-qualifier-independent-review/v3",
+  "review_type": "independent-read-only-private03-source-review",
+  "reviewed_at_utc": "2026-10-25T18:14:00Z",
+  "status": "changes-required-before-source-integration",
+  "scope": {
+    "private_handoff": {
+      "path": "/private/tmp/joern05-native-qualifier-03/implementation-handoff-03.json",
+      "bytes": 7481,
+      "sha256": "0c302035f37d2e6529ac009f642c069f7e6f3b13e7ebba8e8288936aec0ee510",
+      "status": "private-source-ready-for-independent-review-only"
+    },
+    "wrapper": {
+      "path": "/private/tmp/joern05-native-qualifier-03/native_qualifier.py",
+      "bytes": 53943,
+      "sha256": "37500b7df35bcddaa25ffed3c4bd474947a079392b0afc3b645ba853f688697a"
+    },
+    "resources": {
+      "path": "/private/tmp/joern05-native-qualifier-03/retained_resources.py",
+      "bytes": 4873,
+      "sha256": "ea8fa4268477a4411c55d44c1704f132d8b8b4b9bf0f722b4afd404f9bbe08",
+      "byte_identical_to_private02": true
+    },
+    "prior_stop_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls01-stop-independent-review-01.json",
+      "sha256": "1edfd95dab8fd432f4d8c73a521afbe717be4a05f2c1eee43274a3a589484000"
+    },
+    "not_performed": [
+      "canonical copy or source commit",
+      "Git mutation",
+      "actual bootstrap, native controls, JVM, engine, analyzer, replay, admission, qualification or publication",
+      "request, authority, namespace or exact invocation approval"
+    ]
+  },
+  "independent_validation": {
+    "command": [
+      "/opt/homebrew/bin/python3.13",
+      "-B",
+      "-E",
+      "/private/tmp/joern05-native-qualifier-03/test_native_qualifier.py"
+    ],
+    "tests": {
+      "passed": 41,
+      "total": 41,
+      "result": "OK",
+      "prior32_retained": true,
+      "log": {
+        "path": "/private/tmp/joern05-native-qualifier-review-03-tests.log",
+        "bytes": 140,
+        "sha256": "0660ded854f9ed4a13dfa188c7251840597f25600d4ccb1aae85d5087ff837ac"
+      },
+      "scope": "Tiny task-owned Python children, actual Homebrew interpreter and import-only inherited88 graph. Observer control I/O is mocked. No engine, JVM, analyzer, native controls, replay, actual bootstrap, admission, qualification, ledger or Git operation ran."
+    },
+    "source_shape_probe": {
+      "script": "/private/tmp/joern05-native-qualifier-review-03-probe.py",
+      "script_sha256": "c1687911df7022a8c40a13f1db90e535348db91321da00a6f4c1b9ca956d1f6f",
+      "log": "/private/tmp/joern05-native-qualifier-review-03-probe.log",
+      "log_bytes": 812,
+      "log_sha256": "fc60c66c63cd0bfbbd62dbd1c6fac28470652b06e16ed6889e4881403c72430a",
+      "all_checks_passed": true,
+      "checks": [
+        "private03 wrapper SHA and frozen bridge SHA",
+        "retained resource helper byte identity",
+        "worker environment validation and worker-invocation receipt precede ready",
+        "configured/native interpreter identity and exact argv suffix binding",
+        "ContextVar-owned module identities and exact-object deletion",
+        "late helper/process cleanup precedes unchanged graph close",
+        "foreign/replaced identity rejection and original-error attachment",
+        "120/600/900/240/1740 clocks, 12/36/75/4GiB controls and 127/40/48/24/30GiB resource guards",
+        "common flock, anonymous pipe and automatic_retry=false source shape"
+      ]
+    },
+    "platform_identity": {
+      "path": "/private/tmp/joern05-native-qualifier-03/platform-identity-01.json",
+      "bytes": 710,
+      "sha256": "3c544d911f9f4f744badfd180b3b0b84af665064b61085589b12cab1acc95258",
+      "configured_path": "/opt/homebrew/bin/python3.13",
+      "configured_resolved": "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/bin/python3.13",
+      "raw_executable": "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+      "all_arguments_after_argv0_exact": true
+    }
+  },
+  "findings": [
+    {
+      "id": "NATIVE03-ARGV-REPAIR-001",
+      "severity": "passed",
+      "status": "corrected-and-tested",
+      "finding": "The private03 worker identity repair addresses the stopped invocation's Homebrew argv0 rewrite without weakening argument binding. It retains the literal configured argv0 in the parent receipt, requires every argument after argv0 byte-for-byte equal, proves configured and intrinsic executable identity with Python3.13, permits only the configured/resolved executable or its exact same-framework Resources/Python.app companion, records native and SHA identities, and requires worker equality with the parent-observed interpreter identity.",
+      "evidence": {
+        "source": "private03 native_qualifier.py:653-674, :690-697 and :711-717",
+        "platform_identity_sha256": "3c544d911f9f4f744badfd180b3b0b84af665064b61085589b12cab1acc95258",
+        "tests": "41/41, including actual Homebrew positive and argv/interpreter/environment near-misses",
+        "worker_receipt": "worker-invocation.json is immutable and written after exact environment validation and before ready"
+      },
+      "required_preservation": "Keep exact argv suffix, raw and intrinsic interpreter identities, actual environment digest, parent PID/birth, request/review bindings, no-ready behavior on near-miss, and no automatic retry."
+    },
+    {
+      "id": "NATIVE03-MODULE-REPAIR-002",
+      "severity": "passed",
+      "status": "corrected-and-tested",
+      "finding": "The private03 module lifecycle repair addresses the graph-close masking defect. Wrapper-owned module name/object pairs are scoped with ContextVar; post-baseline helper/process loads are removed by exact object identity before unchanged frozen close; pre-graph hosts remain through graph close and are then removed by the outer scope. Foreign additions and replaced owned entries remain present and fail closed. Cleanup failures are attached separately while an original operation exception remains primary.",
+      "evidence": {
+        "source": "private03 native_qualifier.py:79-117 and :347-397",
+        "frozen_graph_unchanged": {
+          "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-19.py",
+          "sha256": "9007c6d44c1255996726f58bfe38d8c9e5838b7e7fcd218002530f5ec41ed121"
+        },
+        "tests": "41/41, including real inherited88 graph preparation, late helper/process cleanup, foreign rejection, replacement rejection, normal return and original-error preservation"
+      },
+      "required_preservation": "Keep exact-object ownership, frozen graph boundary rejection, no broad sys.modules deletion, immutable cleanup diagnostics, and existing lifecycle/resource/lock/containment bounds."
+    },
+    {
+      "id": "NATIVE03-LOAD-EXCEPTION-003",
+      "severity": "blocker",
+      "status": "demonstrated-changes-required",
+      "finding": "load() still performs sys.modules.pop(name, None) for every module-execution exception. If the loaded source replaces sys.modules[name] with a foreign object before raising, this catch path deletes the foreign replacement. That is unowned cleanup and contradicts the private03 promise that foreign additions/replacements are preserved and rejected. The successful-load replacement test does not cover this failed-exec path.",
+      "source_evidence": {
+        "path": "/private/tmp/joern05-native-qualifier-03/native_qualifier.py",
+        "lines": "120-135",
+        "problem": "line 130 removes the current registry value without checking it is the exact module object inserted at line 126"
+      },
+      "tiny_probe": {
+        "script": "/private/tmp/joern05-native-qualifier-review-03-failed-load-probe.py",
+        "script_bytes": 989,
+        "script_sha256": "2890c6ff43b5e112dcf166c455ab938f3de81f4ef3e728308d25bad4d64e7b1b",
+        "log": "/private/tmp/joern05-native-qualifier-review-03-failed-load-probe.log",
+        "log_bytes": 194,
+        "log_sha256": "b2684b3b215883a8f1b3b2a67cfc07d9ba2387c68bc774ff77f95458890d89ef",
+        "result": {
+          "original_failure": "load-body-failure",
+          "replacement_preserved": false,
+          "owned_names_remaining": []
+        }
+      },
+      "required_repair": "On exec failure, remove the registry entry only when sys.modules[name] is the exact wrapper-created module. Preserve a replacement or other foreign value and retain the original body exception as primary, attaching a cleanup diagnostic if needed. Add a focused regression where module code replaces its own registry entry and raises; assert the foreign object survives while the original exception remains primary."
+    }
+  ],
+  "disposition": {
+    "source_commit_approval": false,
+    "execution_authorized": false,
+    "qualification_authorized": false,
+    "automatic_retry": false,
+    "publication_hold": true,
+    "next_gate": "Prepare a new private snapshot04 correcting NATIVE03-LOAD-EXCEPTION-003, add the failed-exec foreign-replacement regression, rerun the retained suite and obtain a fresh independent review. Do not canonicalize or commit private03 as approved."
+  },
+  "method": "Read-only inspection of the frozen private03 handoff, diff, source, tests and platform identity, plus one exact 41-test run, one static source-shape probe and one tiny Python failed-module-exec probe. No source/Git/canonical/runtime/native-control/JVM/analyzer/admission/qualification/replay/publication action was performed."
+}

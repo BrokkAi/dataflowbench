@@ -1,0 +1,155 @@
+{
+  "allowed_namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-03",
+  "authority_chain": [
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/no-expiry-authorization-01.json",
+      "sha256": "acb13ecc94ee191cf164cc4cdc6cd804bbe34fbb5dbe4dfb6e33c6a173f80edc"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/source-working-cap-30gib-authorization-01.json",
+      "sha256": "bcba59ae10ea1cea565641249a0dc3bddfd063c66f298e19ce2ce0b86743cdbe"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/authorization-01.json",
+      "sha256": "0f8413d52c348a9d89079c70d8cebdea3179c35a8b84a98d390c53227e6f5478"
+    }
+  ],
+  "authority_kind": "root-scoped-derivation-of-existing-human-autonomy-not-new-human-approval",
+  "automatic_retry": false,
+  "canonical_resources": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-03/retained_resources.py",
+    "sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08"
+  },
+  "canonical_wrapper": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-03/native_qualifier.py",
+    "sha256": "4f3e8e9af3ba3f4d8f46b5de9f842103dc9a97b2e01d20a14e6ae597d70be33a"
+  },
+  "control_plan": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/control-plan-01.json",
+    "sha256": "cdae69200755312a80137426e70250dd7e521100ca91dbe71355bb9c8b11475f"
+  },
+  "earlier_consumed_invocations": [
+    {
+      "benchmark_attempt_consumed": false,
+      "control_phases": 0,
+      "independent_diagnosis": {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls01-stop-independent-review-01.json",
+        "sha256": "1edfd95dab8fd432f4d8c73a521afbe717be4a05f2c1eee43274a3a589484000"
+      },
+      "namespace": "native-controls-01",
+      "preserved": true,
+      "terminal": {
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01/exit.json",
+        "sha256": "2bf5965d20ce32c9bc04c370b95c2becd0286f4e12602a408d6a72cabae8c229"
+      }
+    }
+  ],
+  "execution_window_seconds": null,
+  "global_guards_gib": {
+    "aggregate_source": 30,
+    "joern_inner": 125,
+    "outer": 110,
+    "per_source": 12,
+    "reserve": 40,
+    "retention": 24,
+    "schedule": 127,
+    "scratch": 24,
+    "stop": 48
+  },
+  "native_control_limits": {
+    "arms": 12,
+    "control_scratch_bytes": 4294967296,
+    "fixtures": 6,
+    "inner_total_seconds": 900,
+    "maximum_phases": 36,
+    "per_arm_seconds": 75
+  },
+  "no_new_time_or_attempt_authorization_claimed": true,
+  "observer": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-06.py",
+    "sha256": "aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551"
+  },
+  "one_analyzer_slot": true,
+  "original_origin_utc": "2026-10-20T00:57:00.680937+00:00",
+  "outer_adapter_source_only": "adapter-06 may be committed as independently source-reviewed preparation; this authority does not permit its Joern05 dispatch.",
+  "pending_plan": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/pending-execution-plan-01.json",
+    "sha256": "08ef4108097f399732ed84b4d81fa46fbf869edafaebb79fb156785cc4888888"
+  },
+  "predecessor_authority": {
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-authority-derivation-02.json",
+    "sha256": "bfa4c621a66fad20f738386ca45e2de81144f5d8985806b4fb56c079bc1d8a0c"
+  },
+  "preparation_parent_head": "34fdf80bdb6a386af43e3001fc2205c0661560fb",
+  "prior_consumed_invocation": {
+    "benchmark_attempt_consumed": false,
+    "control_phases": 0,
+    "engine_run_inferred": false,
+    "independent_diagnosis": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls02-stop-independent-review-01.json",
+      "sha256": "ea6bcf5a3aaa0bc3516beb6138d306a1ad2f8c9a89e70f4a100aba15415e9eb0"
+    },
+    "namespace": "native-controls-02",
+    "preserved": true,
+    "ready_observed": false,
+    "root_stop_check": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls02-root-stop-check-01.json",
+      "sha256": "c68ea1d7a496f3bc06b01499be8df269d7038fedf52a21cb19cbb9b47c582119"
+    },
+    "terminal": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02/exit.json",
+      "sha256": "71e3a36091762b83d5075f73f0387de8d4c4cae85506a5806be700fd04845a93"
+    }
+  },
+  "prohibited": [
+    "reusing any consumed namespace",
+    "rerunning completed CodeQL or 20 Bifrost groups",
+    "relabeling historical attempts",
+    "publishing, release tags, deploys, automerge",
+    "v0.14.1 experiment or silent pins",
+    "foreign process kills or cleanup"
+  ],
+  "publication_hold": true,
+  "publication_hold_ref": {
+    "path": "reports/releases/v0.9.2/review-handoff/human-publication-hold-01.json",
+    "sha256": "fd3973aecc7a001d0bb2deffa6a1f494b1581e8f64ad1b6762aa64b7b5a0657d"
+  },
+  "qualification_environment_amendment": {
+    "arbitrary_filtering_permitted": false,
+    "exact_added_key": "__CF_USER_TEXT_ENCODING",
+    "exact_added_value": "0x1F5:0x0:0x0",
+    "platform": "darwin"
+  },
+  "recorded_utc": "2026-10-25T19:05:59.843469+00:00",
+  "repair_required": [
+    "Exact Darwin __CF_USER_TEXT_ENCODING=0x1F5:0x0:0x0 in expected/Popen environment, retaining exact whole-environment equality and extra/wrong-value/import-mutation rejection.",
+    "Preserve all independently reviewed argv/interpreter and exact module-owned cleanup repairs from canonical02."
+  ],
+  "requires": [
+    "independently approved source and namespace/lifecycle amendment",
+    "actual committed source closure",
+    "independent exact invocation review",
+    "fresh real resource/process/lock admission",
+    "Realistic positive and near-miss regression evidence for both diagnosed faults",
+    "Fresh new source/request/exact invocation review; no reuse of prior request or review"
+  ],
+  "runtime_qualification_performed": false,
+  "schema": "v092-joern-native-control-authority-derivation/v1",
+  "scope": "One fresh independently reviewed native startup qualification in native-controls-03 after the diagnosed exact Darwin startup environment repair. Existing human repair/no-expiry/resource authority only; native-controls01/02 failures retained. No Joern05 benchmark attempt, Unsupported issuance, publication or completed-control inference.",
+  "source_and_copy_reviews": [
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier-independent-review-05.json",
+      "sha256": "76fbe89ecb15df8dabefc8915d5fea6c7a54a877bbc6d1e08fd8f03ea7421243"
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier05-canonical-copy-01.json",
+      "sha256": "db1085ef021ff1ec8aa0f3c9cbb4bb2badcaef262da19a20adc4fb7b26c7046b"
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/joern05-canonical-source-copies-independent-review-01.json",
+      "sha256": "afde6f5e365fa8b8cb6193b63c7ddf409de6ac4634833d2334c94adfab072eec"
+    }
+  ],
+  "source_commit_pending": true,
+  "status": "approved"
+}

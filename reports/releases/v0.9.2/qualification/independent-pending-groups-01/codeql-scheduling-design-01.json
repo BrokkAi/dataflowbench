@@ -1,0 +1,161 @@
+{
+  "schema": "v092-independent-pending-group-design/v1",
+  "status": "design-only",
+  "execution_authorized": false,
+  "production_actions_performed": false,
+  "recorded_at_utc": "2026-10-24T10:19:53.364753Z",
+  "scope": {
+    "group_id": "codeql-swift-common108",
+    "attempt_id": "codeql-swift-common108-attempt-01-series-01",
+    "maximum_attempts": 2,
+    "sequence": ["codeql-swift-common108"],
+    "joern_attempt_not_scheduled": true,
+    "automatic_retry": false
+  },
+  "read_only_inputs": {
+    "continuation_source": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-06.py",
+      "sha256": "4853e6bace64ba4e984dd943f72d5c51991ea291f2865147fba2cf17baa246e4"
+    },
+    "predecessor_manifest": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/continuation-manifest-06.json",
+      "sha256": "96cc7331c6043f270b07398dc546e07688e6df99c024c1b9da48a0782cd714ce"
+    },
+    "predecessor_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/joern-capability-repair-08-contract.json",
+      "sha256": "1014ceb38510222d32887a17780d3a612afad80c5250714b0e60dc90f3cd37c3"
+    },
+    "frozen_base_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/contract.json",
+      "sha256": "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb"
+    },
+    "codeql_plan": {
+      "path": "adapters/codeql/swift-common-v2/plan-v092-01/execution-plan.json",
+      "sha256": "aaaa5f20a5ece1aadc472c575c313a4a4c081cb20e498a25dbced32d82ef8293"
+    },
+    "codeql_query_receipt": {
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-common108/query-check-02/receipt.json",
+      "sha256": "62b934fb5546296ebd790bb952a169a8fe8ea59c9e056ea377c839cfcf3fa468"
+    },
+    "sealed_ledger_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/sealed-ledger-prefix-88.jsonl",
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476",
+      "rows": 88
+    },
+    "live_ledger_same_bytes": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476",
+      "rows": 88
+    }
+  },
+  "historical_state": {
+    "prefix_rows": 88,
+    "prefix_completed_rows": 82,
+    "prefix_noncompleted_rows": 6,
+    "new_tail_rows_for_this_design": 1,
+    "expected_selected_groups_after_codeql": 83,
+    "expected_ledger_rows_after_codeql": 89,
+    "expected_partitions": 92,
+    "expected_report_rows": 4252,
+    "known_stale": 0,
+    "preserve_all_joern_failure_rows": true,
+    "preserve_original_84_success_claim": false
+  },
+  "observed_frozen_dependencies": [
+    {
+      "source": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-06.py:1300-1337",
+      "finding": "_tail hard-codes the first appended row to Joern05, permits at most two rows, and requires CodeQL01 only as the second row after a completed Joern05.",
+      "consequence": "The current continuation source cannot truthfully schedule a CodeQL-only first tail row."
+    },
+    {
+      "source": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-06.py:2154-2179",
+      "finding": "_selected starts from 82 completed prefix groups and finalizes only after adding both tail rows, requiring 84 selected groups.",
+      "consequence": "A CodeQL-only successor needs a separate selected-group expectation of 83 and one-tail validation."
+    },
+    {
+      "source": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-06.py:2128-2153",
+      "finding": "_context_for_row already has a CodeQL01 identity branch, but it requires the row contract SHA to equal the repaired continuation context.",
+      "consequence": "The successor must create and bind a dedicated CodeQL continuation contract/source/plan context; it cannot reuse the old contract SHA or relabel a historical row."
+    },
+    {
+      "source": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-06.py:2608-2640",
+      "finding": "execute requires an admission receipt, exact plan HEAD, retained preflight verification, then rejects a no-tail CodeQL call and accepts CodeQL only after a completed Joern05 tail row.",
+      "consequence": "The CodeQL-only successor needs a separate dispatch gate that admits exactly one CodeQL row from the sealed 88-row prefix."
+    },
+    {
+      "source": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-06.py:2063-2110 and :1455-1605",
+      "finding": "validate derives a Joern repaired context and _derive_context requires Joern maximum_attempts=5 plus fresh Joern qualification evidence.",
+      "consequence": "Calling continuation-06 validate for CodeQL-only execution would create a false Joern dependency and cannot certify this independent path."
+    },
+    {
+      "source": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-06.py:2180-2205",
+      "finding": "_validate_tail_identity checks fixture, source, plan, contract, argv, and output-root identity for CodeQL01.",
+      "consequence": "The new CodeQL row must carry exact new-context source/plan/contract identity while retaining the frozen CodeQL command and report partitions."
+    },
+    {
+      "source": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-06.py:1014-1140",
+      "finding": "The admission checker requires no expiry, exact authority/review/artifact bindings, retained replay, phase reserves, resource floor, exclusive lock, fresh namespaces, and materialized-source fields.",
+      "consequence": "The CodeQL-only admission must preserve those guards, bind one fresh CodeQL namespace, and retain the typed 30 GiB aggregate/12 GiB projection limits."
+    }
+  ],
+  "minimal_successor_design": {
+    "manifest_schema": "new append-only CodeQL-only continuation schema with one permitted tail row",
+    "prefix_binding": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/sealed-ledger-prefix-88.jsonl",
+      "sha256": "9ae98c51570149cc7ebe86573df518b4f469188e23dd58d7bcdc37ac93532476",
+      "rows": 88
+    },
+    "tail_policy": {
+      "allowed_length_before_dispatch": 0,
+      "allowed_length_after_success": 1,
+      "required_group_id": "codeql-swift-common108",
+      "required_attempt_id": "codeql-swift-common108-attempt-01-series-01",
+      "joern05_row_required": false,
+      "joern05_rows_must_remain_historical_only": true,
+      "codeql_success_required": true
+    },
+    "selection": {
+      "historical_completed_groups": 82,
+      "final_selected_groups": 83,
+      "final_partitions": 92,
+      "final_rows": 4252,
+      "known_stale": 0
+    },
+    "codeql_identity": {
+      "maximum_attempts": 2,
+      "command": "retain the frozen CodeQL Swift argv and query receipt, with only the reviewed continuation source/plan/contract identity and a fresh output namespace",
+      "candidate_output_root": "reports/raw/swift-common-v2/current108-v092-01",
+      "output_root_condition": "must be absent before admission and created only by the future actual attempt",
+      "deadline_seconds": 13840,
+      "fixture_revision": "must equal the exact continuation manifest fixture_revision"
+    },
+    "contract_delta": [
+      "derive from the frozen/base CodeQL group and preserve every unrelated group, tool, version, resource, timeout, reserve, and report partition",
+      "bind a new source commit, plan commit, contract SHA, query receipt, and continuation source closure",
+      "retain no-expiry policy with finite per-attempt lease derived from the registered CodeQL deadline plus reviewed startup allowance",
+      "retain aggregate source-working authorization at 30 GiB and materialized-source projection at 12 GiB",
+      "do not add Joern05 max-attempt authority, repaired Joern qualification, or a Joern execution row"
+    ]
+  },
+  "required_preconditions_before_any_admission": [
+    "A separately reviewed CodeQL-only source module and focused tests exist; continuation-06 is not used as the production scheduler because its Joern-first checks are incompatible.",
+    "A dedicated CodeQL successor contract is committed and source/plan/contract ancestry plus every source-input SHA is verified.",
+    "The CodeQL plan, query receipt, fixture revision, argv, environment, output roots, and report partitions are independently hash-bound.",
+    "A final manifest and independent review bind the exact successor source/plan/contract and sealed 88-row prefix; no final qualification or selected-group count is inferred from historical rows.",
+    "An admission receipt rechecks exact HEAD, frozen base validation at the 88-row boundary, lock/slot/PID/resource gates, no-expiry authority, 30 GiB aggregate working cap, 12 GiB source projection, fresh output namespace, and one-shot CodeQL attempt state.",
+    "No CodeQL output, ledger row, or completion receipt is treated as present until a future authorized actual attempt writes and verifies it."
+  ],
+  "required_near_misses": [
+    "CodeQL as the first tail row passed to continuation-06 must reject or route only to the dedicated successor; it must not be accepted by weakening _tail.",
+    "A Joern05 row, Joern success claim, or selected_groups=84 value in the CodeQL-only packet must reject.",
+    "A reused contract-08 SHA, old source/plan identity, changed CodeQL argv, query receipt, fixture, report partition, or output root must reject.",
+    "A pre-existing output namespace, stale admission, missing lock/resource gate, missing exact HEAD, expired user-window field, or automatic retry must reject.",
+    "A source projection over 12 GiB or aggregate working projection over 30 GiB must reject before attempt namespace creation."
+  ],
+  "nonclaims": [
+    "No CodeQL analyzer was launched.",
+    "No CodeQL attempt, receipt, ledger row, report, score, or qualification result was created by this design.",
+    "This design does not certify the current frozen CodeQL output namespace as consumed or fresh beyond the read-only absence check recorded here.",
+    "The 82 completed historical groups remain the only completed-prefix evidence; 83 is a prospective post-success denominator."
+  ]
+}

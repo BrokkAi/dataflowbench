@@ -1,0 +1,42 @@
+{
+  "schema": "guarded-task-cargo-cleanup/v1",
+  "utc": "2026-10-20T10:54:42.953332+00:00",
+  "status": "cleaned",
+  "exact_target": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/build",
+  "provenance": "Task-owned Cargo target bound by harness-build-03/04 build receipts; compiled source550a86b, all runtime copies independently retained outside target.",
+  "rebuildability": "Cargo.toml/Cargo.lock and sources preserved; cached dependencies retained; only Cargo-derived debug/release outputs cleaned. All evidence and runtime copies retained.",
+  "before": {
+    "free_bytes": 129909067776,
+    "target_kib": 2028108,
+    "latest_write_utc": "2026-10-20T06:35:07.464780+00:00",
+    "lsof_exit": 1,
+    "lsof_stdout": "",
+    "lsof_stderr": "",
+    "exact_target_processes": [],
+    "cargo_cachedir_tag_valid": true,
+    "preserved_harnesses": {
+      "harness": "5736513ff2304e800fecba8e9d026d82ca75ecfe6841d96b26b7e217cc3a7eec",
+      "harness-v2": "957b2d61108cc8e3d1dc60406eb93702181d553ef1fd9a693274cb2bd51ce919",
+      "harness-v3": "dfbc0e4865366a47386c9e541d2342f56f43548ae12b55d1c802fac07174134c"
+    }
+  },
+  "command": [
+    "/Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/cargo",
+    "clean",
+    "--manifest-path",
+    "/Users/dave/.codex/worktrees/9f01/dataflowbench/Cargo.toml",
+    "--target-dir",
+    "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/build"
+  ],
+  "exit_code": 0,
+  "clean_log": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/maintenance/owned-cargo-clean-20261020-01/cargo-clean.log",
+  "clean_log_sha256": "5acde70906675170496982e228400bab42d02504859bb47945b781e1f0698189",
+  "free_bytes_after": 131617603584,
+  "target_exists_after": false,
+  "preserved_harnesses_after": {
+    "harness": "5736513ff2304e800fecba8e9d026d82ca75ecfe6841d96b26b7e217cc3a7eec",
+    "harness-v2": "957b2d61108cc8e3d1dc60406eb93702181d553ef1fd9a693274cb2bd51ce919",
+    "harness-v3": "dfbc0e4865366a47386c9e541d2342f56f43548ae12b55d1c802fac07174134c"
+  },
+  "note": "Other foreign builds remained active and untouched; global free-space delta may reflect concurrent writes."
+}

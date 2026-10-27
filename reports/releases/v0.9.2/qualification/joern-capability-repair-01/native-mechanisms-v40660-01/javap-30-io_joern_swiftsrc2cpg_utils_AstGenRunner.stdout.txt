@@ -1,0 +1,173 @@
+Compiled from "AstGenRunner.scala"
+public class io.joern.swiftsrc2cpg.utils.AstGenRunner extends io.joern.x2cpg.astgen.AstGenRunner {
+  public final org.slf4j.Logger io$joern$swiftsrc2cpg$utils$AstGenRunner$$logger;
+
+  private final java.lang.String MacX86;
+
+  private final java.lang.String MacArm;
+
+  private final java.lang.String LinuxArm;
+
+  private final scala.collection.immutable.Map<scala.Tuple2<io.joern.x2cpg.utils.Environment$OperatingSystemType, io.joern.x2cpg.utils.Environment$ArchitectureType>, java.lang.String> bazelRuleSuffixes;
+
+  public io.joern.swiftsrc2cpg.utils.AstGenRunner(io.joern.swiftsrc2cpg.Config);
+    Code:
+       0: aload_0
+       1: getstatic     #49                 // Field io/joern/swiftsrc2cpg/utils/AstGenRunner$astGenMetaData$.MODULE$:Lio/joern/swiftsrc2cpg/utils/AstGenRunner$astGenMetaData$;
+       4: aload_1
+       5: invokespecial #52                 // Method io/joern/x2cpg/astgen/AstGenRunner."<init>":(Lio/joern/x2cpg/astgen/AstGenRunner$AstGenProgramMetaData;Lio/joern/x2cpg/X2CpgConfig;)V
+       8: aload_0
+       9: aload_0
+      10: invokevirtual #56                 // Method getClass:()Ljava/lang/Class;
+      13: invokestatic  #62                 // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/Class;)Lorg/slf4j/Logger;
+      16: putfield      #64                 // Field io$joern$swiftsrc2cpg$utils$AstGenRunner$$logger:Lorg/slf4j/Logger;
+      19: aload_0
+      20: ldc           #66                 // String mac
+      22: putfield      #68                 // Field MacX86:Ljava/lang/String;
+      25: aload_0
+      26: ldc           #66                 // String mac
+      28: putfield      #70                 // Field MacArm:Ljava/lang/String;
+      31: aload_0
+      32: ldc           #72                 // String linux-arm64
+      34: putfield      #74                 // Field LinuxArm:Ljava/lang/String;
+      37: aload_0
+      38: aload_0
+      39: invokevirtual #78                 // Method bazelRuleSuffixDefaults:()Lscala/collection/immutable/Map;
+      42: getstatic     #83                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      45: invokevirtual #87                 // Method scala/Predef$.Map:()Lscala/collection/immutable/Map$;
+      48: getstatic     #92                 // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      51: iconst_2
+      52: anewarray     #94                 // class scala/Tuple2
+      55: dup
+      56: iconst_0
+      57: getstatic     #83                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      60: getstatic     #99                 // Field scala/Tuple2$.MODULE$:Lscala/Tuple2$;
+      63: getstatic     #103                // Field io/joern/x2cpg/utils/Environment$OperatingSystemType$.Mac:Lio/joern/x2cpg/utils/Environment$OperatingSystemType;
+      66: getstatic     #107                // Field io/joern/x2cpg/utils/Environment$ArchitectureType$.X86:Lio/joern/x2cpg/utils/Environment$ArchitectureType;
+      69: invokevirtual #111                // Method scala/Tuple2$.apply:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+      72: invokevirtual #115                // Method scala/Predef$.ArrowAssoc:(Ljava/lang/Object;)Ljava/lang/Object;
+      75: checkcast     #94                 // class scala/Tuple2
+      78: astore_2
+      79: getstatic     #118                // Field scala/Predef$ArrowAssoc$.MODULE$:Lscala/Predef$ArrowAssoc$;
+      82: aload_2
+      83: ldc           #120                // String _macos
+      85: invokevirtual #123                // Method scala/Predef$ArrowAssoc$.$minus$greater$extension:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+      88: aastore
+      89: dup
+      90: iconst_1
+      91: getstatic     #83                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      94: getstatic     #99                 // Field scala/Tuple2$.MODULE$:Lscala/Tuple2$;
+      97: getstatic     #103                // Field io/joern/x2cpg/utils/Environment$OperatingSystemType$.Mac:Lio/joern/x2cpg/utils/Environment$OperatingSystemType;
+     100: getstatic     #126                // Field io/joern/x2cpg/utils/Environment$ArchitectureType$.ARMv8:Lio/joern/x2cpg/utils/Environment$ArchitectureType;
+     103: invokevirtual #111                // Method scala/Tuple2$.apply:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+     106: invokevirtual #115                // Method scala/Predef$.ArrowAssoc:(Ljava/lang/Object;)Ljava/lang/Object;
+     109: checkcast     #94                 // class scala/Tuple2
+     112: astore_3
+     113: getstatic     #118                // Field scala/Predef$ArrowAssoc$.MODULE$:Lscala/Predef$ArrowAssoc$;
+     116: aload_3
+     117: ldc           #120                // String _macos
+     119: invokevirtual #123                // Method scala/Predef$ArrowAssoc$.$minus$greater$extension:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+     122: aastore
+     123: invokevirtual #130                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     126: invokevirtual #135                // Method scala/collection/immutable/Map$.apply:(Lscala/collection/immutable/Seq;)Ljava/lang/Object;
+     129: checkcast     #137                // class scala/collection/IterableOnce
+     132: invokeinterface #143,  2          // InterfaceMethod scala/collection/immutable/Map.concat:(Lscala/collection/IterableOnce;)Lscala/collection/IterableOps;
+     137: checkcast     #139                // class scala/collection/immutable/Map
+     140: putfield      #145                // Field bazelRuleSuffixes:Lscala/collection/immutable/Map;
+     143: return
+
+  public java.lang.String MacX86();
+    Code:
+       0: aload_0
+       1: getfield      #68                 // Field MacX86:Ljava/lang/String;
+       4: areturn
+
+  public java.lang.String MacArm();
+    Code:
+       0: aload_0
+       1: getfield      #70                 // Field MacArm:Ljava/lang/String;
+       4: areturn
+
+  public java.lang.String LinuxArm();
+    Code:
+       0: aload_0
+       1: getfield      #74                 // Field LinuxArm:Ljava/lang/String;
+       4: areturn
+
+  public scala.collection.immutable.Map<scala.Tuple2<io.joern.x2cpg.utils.Environment$OperatingSystemType, io.joern.x2cpg.utils.Environment$ArchitectureType>, java.lang.String> bazelRuleSuffixes();
+    Code:
+       0: aload_0
+       1: getfield      #145                // Field bazelRuleSuffixes:Lscala/collection/immutable/Map;
+       4: areturn
+
+  public scala.collection.immutable.List<java.lang.String> skippedFiles(java.nio.file.Path, scala.collection.immutable.List<java.lang.String>);
+    Code:
+       0: aload_2
+       1: new           #8                  // class io/joern/swiftsrc2cpg/utils/AstGenRunner$$anon$1
+       4: dup
+       5: aload_0
+       6: invokespecial #158                // Method io/joern/swiftsrc2cpg/utils/AstGenRunner$$anon$1."<init>":(Lio/joern/swiftsrc2cpg/utils/AstGenRunner;)V
+       9: invokevirtual #164                // Method scala/collection/immutable/List.collect:(Lscala/PartialFunction;)Lscala/collection/immutable/List;
+      12: astore_3
+      13: aload_3
+      14: getstatic     #83                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      17: invokevirtual #168                // Method scala/Predef$.$conforms:()Lscala/Function1;
+      20: invokevirtual #172                // Method scala/collection/immutable/List.flatten:(Lscala/Function1;)Ljava/lang/Object;
+      23: checkcast     #160                // class scala/collection/immutable/List
+      26: areturn
+
+  public scala.util.Try<scala.collection.immutable.Seq<java.lang.String>> runAstGenNative(java.lang.String, java.nio.file.Path, java.lang.String, java.lang.String);
+    Code:
+       0: getstatic     #186                // Field scala/collection/StringOps$.MODULE$:Lscala/collection/StringOps$;
+       3: getstatic     #83                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       6: aload_3
+       7: invokevirtual #190                // Method scala/Predef$.augmentString:(Ljava/lang/String;)Ljava/lang/String;
+      10: invokevirtual #194                // Method scala/collection/StringOps$.nonEmpty$extension:(Ljava/lang/String;)Z
+      13: ifeq          45
+      16: new           #196                // class scala/collection/immutable/$colon$colon
+      19: dup
+      20: ldc           #198                // String --exclude-regex
+      22: new           #196                // class scala/collection/immutable/$colon$colon
+      25: dup
+      26: aload_3
+      27: getstatic     #203                // Field scala/collection/immutable/Nil$.MODULE$:Lscala/collection/immutable/Nil$;
+      30: invokespecial #206                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+      33: invokespecial #206                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+      36: checkcast     #208                // class scala/collection/SeqOps
+      39: checkcast     #210                // class scala/collection/immutable/Seq
+      42: goto          57
+      45: getstatic     #215                // Field scala/package$.MODULE$:Lscala/package$;
+      48: invokevirtual #219                // Method scala/package$.Seq:()Lscala/collection/immutable/Seq$;
+      51: invokevirtual #225                // Method scala/collection/immutable/Seq$.empty:()Lscala/collection/SeqOps;
+      54: checkcast     #210                // class scala/collection/immutable/Seq
+      57: astore        5
+      59: getstatic     #230                // Field io/joern/swiftsrc2cpg/utils/ExternalCommand$.MODULE$:Lio/joern/swiftsrc2cpg/utils/ExternalCommand$;
+      62: new           #196                // class scala/collection/immutable/$colon$colon
+      65: dup
+      66: aload_0
+      67: invokevirtual #233                // Method astGenCommand:()Ljava/lang/String;
+      70: new           #196                // class scala/collection/immutable/$colon$colon
+      73: dup
+      74: ldc           #235                // String -o
+      76: new           #196                // class scala/collection/immutable/$colon$colon
+      79: dup
+      80: aload_2
+      81: invokeinterface #240,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      86: getstatic     #203                // Field scala/collection/immutable/Nil$.MODULE$:Lscala/collection/immutable/Nil$;
+      89: invokespecial #206                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+      92: invokespecial #206                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+      95: invokespecial #206                // Method scala/collection/immutable/$colon$colon."<init>":(Ljava/lang/Object;Lscala/collection/immutable/List;)V
+      98: checkcast     #208                // class scala/collection/SeqOps
+     101: aload         5
+     103: invokeinterface #244,  2          // InterfaceMethod scala/collection/SeqOps.$plus$plus:(Lscala/collection/IterableOnce;)Ljava/lang/Object;
+     108: checkcast     #210                // class scala/collection/immutable/Seq
+     111: aload_1
+     112: invokevirtual #248                // Method io/joern/swiftsrc2cpg/utils/ExternalCommand$.run:(Lscala/collection/immutable/Seq;Ljava/lang/String;)Lscala/util/Try;
+     115: areturn
+
+  public static scala.collection.immutable.Seq<scala.util.matching.Regex> AstGenDefaultIgnoreRegex();
+    Code:
+       0: getstatic     #258                // Field io/joern/swiftsrc2cpg/utils/AstGenRunner$.MODULE$:Lio/joern/swiftsrc2cpg/utils/AstGenRunner$;
+       3: invokevirtual #260                // Method io/joern/swiftsrc2cpg/utils/AstGenRunner$.AstGenDefaultIgnoreRegex:()Lscala/collection/immutable/Seq;
+       6: areturn
+}

@@ -1,0 +1,236 @@
+{
+  "automatic_retry": false,
+  "bindings": {
+    "agent_jar_sha256": "ba02fe9c3782c377279e60198e4b4e1631d9d3431a4ce5fc7376d8dc6eff4eac",
+    "agent_source_sha256": "ba8aa4d5f353c4d6ac9bfbe269a3388ac8502c84793e13e1b4f7188f51f8a31a",
+    "authority_sha256": "bfa4c621a66fad20f738386ca45e2de81144f5d8985806b4fb56c079bc1d8a0c",
+    "control_plan_sha256": "cdae69200755312a80137426e70250dd7e521100ca91dbe71355bb9c8b11475f",
+    "decision_review_sha256": "d85278953d2ad18aeea5a2b2055035ebc28b1128e831a34aba16a0afd4c13d9b",
+    "ledger_sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851",
+    "observer_sha256": "aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551",
+    "pending_plan_sha256": "08ef4108097f399732ed84b4d81fa46fbf869edafaebb79fb156785cc4888888",
+    "request_sha256": "33028b7ba59f81f1494dbf40f22f8c3c7040f19b0f9642410385ddff9ba60720",
+    "resources_sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08",
+    "source_head": "34fdf80bdb6a386af43e3001fc2205c0661560fb",
+    "wrapper_sha256": "b45f429b2c52947f896af9daf6916b2cfac4ba81bdc44d0a81cd6ce5c09943e3"
+  },
+  "disposition": {
+    "approved_scope": "One fresh pending-plan native startup control qualification using the exact immutable request02, canonical native-controls02 wrapper/resources, observer06, pending04, authority02, control plan, source HEAD and this review binding, after separate fresh resource/process/common-lock admission.",
+    "automatic_retry": false,
+    "execution_authorized": false,
+    "native_control_invocation_approved": true,
+    "next_gate": "Root must perform fresh real resource/process/common-lock admission and then use exactly one bootstrap command with request02 and this review SHA. A passing startup control remains provenance only; downstream qualification, scored activation and publication remain separate.",
+    "not_performed": [
+      "Native controls, JVM, Joern, engine, analyzer, replay, actual qualification, admission or launch",
+      "Git, source, ledger, attempt, namespace or process mutation",
+      "publication, release, tag, push or workflow action"
+    ],
+    "publication_hold": true,
+    "qualification_authorized": false,
+    "scored_activation_authorized": false,
+    "unsupported_decision_issuance_authorized": false
+  },
+  "exact_command": {
+    "argv_prefix": [
+      "/opt/homebrew/bin/python3.13",
+      "-B",
+      "-E",
+      "reports/releases/v0.9.2/acquisition/joern-native-controls-02/native_qualifier.py",
+      "bootstrap",
+      "--request",
+      "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-02.json",
+      "--request-sha256",
+      "33028b7ba59f81f1494dbf40f22f8c3c7040f19b0f9642410385ddff9ba60720",
+      "--review",
+      "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls02-exact-invocation-review-01.json",
+      "--review-sha256"
+    ],
+    "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+    "no_execution_performed": true,
+    "private_command_artifact": "/private/tmp/joern05-native-controls02-exact-command-01.json",
+    "review_sha256_binding": "The private command artifact records the final immutable SHA256 of this review after sealing; no placeholder hash is executable.",
+    "root_action": "One bootstrap only after separate fresh real resource/process/common-lock admission; this review does not perform that admission or launch."
+  },
+  "exact_request_validation": {
+    "admission_invoked": false,
+    "all_bindings_exact": true,
+    "binding_hash_checks": 13,
+    "binding_hash_mismatches": [],
+    "command": "read-only binding and source-commit receipt inspection; native qualifier not invoked",
+    "committed_blobs_exact_receipt": true,
+    "engine_invoked": false,
+    "interpreter": "/opt/homebrew/bin/python3.13 -B -E",
+    "jvm_invoked": false,
+    "namespace_absent_receipt": true,
+    "native_scope": "inherited BF24 native-control graph (88 entries); no outer05 source/path dependency is introduced by request02",
+    "production_invoked": false,
+    "qualification_invoked": false,
+    "result": "passed",
+    "source_ref_hash_checks": 2240,
+    "source_ref_unique": true
+  },
+  "old_failed_control_preservation": {
+    "exit_receipt": {
+      "automatic_retry": false,
+      "exit_code": 1,
+      "failure_type": "ValueError",
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01/exit.json",
+      "qualification_inferred": false,
+      "request_sha256": "cc23e2764ba95c4e2f97d30a12a4cd75c067395b35cbf93ad3a11d4a2288a984",
+      "sha256": "2bf5965d20ce32c9bc04c370b95c2becd0286f4e12602a408d6a72cabae8c229",
+      "status": "failed"
+    },
+    "historical_result_replaced": false,
+    "prior_exact_review": {
+      "automatic_retry": false,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls01-exact-invocation-review-01.json",
+      "sha256": "18491a3f9a24dd7ddc9ef72874da049ac351bf18c12714b72dbb2419b8d9344c",
+      "status": "approved-for-native-control-qualification-only"
+    }
+  },
+  "request": {
+    "bytes": 513264,
+    "expected_head": "34fdf80bdb6a386af43e3001fc2205c0661560fb",
+    "future_outer05_paths_absent": true,
+    "ledger_absent_from_source_refs": true,
+    "namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02",
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-02.json",
+    "private_paths_absent_from_source_refs": true,
+    "schema": "v092-joern-native-control-request/v1",
+    "self_ref_absent": true,
+    "sha256": "33028b7ba59f81f1494dbf40f22f8c3c7040f19b0f9642410385ddff9ba60720",
+    "source_refs": 2240,
+    "source_refs_unique": true
+  },
+  "review_type": "independent-read-only-exact-native-control-invocation-review",
+  "reviewed_at_utc": "2026-10-25T18:21:24.384508+00:00",
+  "reviewer": "joern_native_controls02_exact_invocation_independent",
+  "schema": "v092-joern-native-control-exact-invocation-review/v1",
+  "scope": {
+    "admission_or_dispatch_invoked": false,
+    "canonical_request_edited": false,
+    "engine_invoked": false,
+    "git_mutated": false,
+    "jvm_invoked": false,
+    "ledger_mutated": false,
+    "native_control_invoked": false,
+    "production_source_edited": false,
+    "qualification_invoked": false,
+    "replay_invoked": false,
+    "statement": "Independent exact request/source/authority/command review after committed source-only HEAD; approval is limited to one native-control qualification invocation and does not authorize scored qualification, publication, or runtime result claims."
+  },
+  "sealed_inputs": {
+    "authority": {
+      "allowed_namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-02",
+      "automatic_retry": false,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-authority-derivation-02.json",
+      "publication_hold": true,
+      "runtime_qualification_performed": false,
+      "sha256": "bfa4c621a66fad20f738386ca45e2de81144f5d8985806b4fb56c079bc1d8a0c",
+      "status": "approved"
+    },
+    "canonical04_copy_receipt": {
+      "canonical_tests": {
+        "exit_code": 0,
+        "log": "/private/tmp/joern05-native04-canonical-tests-01.log",
+        "passed": 43,
+        "sha256": "1f9f66bb9439f8289c22aef21e94acaf975926763e8cea19e8a56a6df4a9c39b",
+        "total": 43
+      },
+      "execution_authorized": false,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier04-canonical-copy-01.json",
+      "publication_hold": true,
+      "qualification_performed": false,
+      "sha256": "e409c9a6d7fc70b94079bba621ff17ae7aac38e238f15bc569519aa9f76dae45"
+    },
+    "canonical04_copy_review": {
+      "canonical_tests": {
+        "command": [
+          "/opt/homebrew/bin/python3.13",
+          "-B",
+          "-E",
+          "reports/releases/v0.9.2/acquisition/joern-native-controls-02/test_native_qualifier.py"
+        ],
+        "exit_code": 0,
+        "log": {
+          "bytes": 142,
+          "path": "/private/tmp/joern05-native04-canonical-tests-01.log",
+          "sha256": "1f9f66bb9439f8289c22aef21e94acaf975926763e8cea19e8a56a6df4a9c39b"
+        },
+        "passed": 43,
+        "total": 43,
+        "verification": "The root-recorded 43/43 result and log digest were checked against the canonical copy receipt; the suite was not rerun because all four canonical files were independently byte-identical to frozen private04."
+      },
+      "execution_authorized": false,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier04-canonical-copy-independent-review-01.json",
+      "qualification_authorized": false,
+      "sha256": "9b6c39e5ee99ea08ab50571d24c7cc61c86db95c05b3d1e8fb36fe1b92ec0849",
+      "status": "approved-for-source-commit-only"
+    },
+    "observer": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-06.py",
+      "sha256": "aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551"
+    },
+    "pending_plan": {
+      "diagnostic_execution_eligible": false,
+      "execution_eligible": false,
+      "fresh_qualification": null,
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-04/pending-execution-plan-01.json",
+      "scored_activation": false,
+      "sha256": "08ef4108097f399732ed84b4d81fa46fbf869edafaebb79fb156785cc4888888",
+      "status": "qualification-pending"
+    },
+    "rejected_native03_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier-independent-review-03.json",
+      "preserved_in_request_source_refs": true,
+      "sha256": "14cd8f6a8100f4ea1f1aeeb9541258c15605b7725377f9f33dc5271299ca5591",
+      "status": "changes-required-before-source-integration"
+    },
+    "source_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-qualifier-independent-review-04.json",
+      "sha256": "7043af9bd594b72a4a22ade090347f47ebb450aad94ae8e070013c7126631093",
+      "source_commit_approval_only": true,
+      "status": "approved-for-source-commit-only"
+    },
+    "wrapper": {
+      "resources": {
+        "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-02/retained_resources.py",
+        "sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08"
+      },
+      "wrapper": {
+        "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-02/native_qualifier.py",
+        "sha256": "b45f429b2c52947f896af9daf6916b2cfac4ba81bdc44d0a81cd6ce5c09943e3"
+      }
+    }
+  },
+  "source_commit": {
+    "branch": "dave/v0.9.2-full-refresh",
+    "current_source_bytes_exact": true,
+    "current_source_sha256_mismatches": [],
+    "expected_head": "34fdf80bdb6a386af43e3001fc2205c0661560fb",
+    "head": "34fdf80bdb6a386af43e3001fc2205c0661560fb",
+    "head_exact": true,
+    "index_empty": true,
+    "ledger_only_tracked_dirty": true,
+    "ledger_sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851",
+    "missing_source_paths_in_head": [],
+    "request_check": {
+      "automatic_retry": false,
+      "committed_blobs_exact": true,
+      "engine_invoked": false,
+      "ledger_rows": 109,
+      "ledger_sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851",
+      "namespace_absent": true,
+      "only_dirty_tracked_file": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-source-commit-request-check-02.json",
+      "pushed": false,
+      "qualification_invoked": false,
+      "schema": "v092-native-source-commit-request-check/v2",
+      "sha256": "0a866fd03281e9c976d74aff81ae6499c1361b48accb01877d3f347a9a1bc7ce",
+      "source_head": "34fdf80bdb6a386af43e3001fc2205c0661560fb",
+      "source_refs": 2240
+    },
+    "source_path_count_in_head": 2240
+  },
+  "status": "approved-for-native-control-qualification-only"
+}

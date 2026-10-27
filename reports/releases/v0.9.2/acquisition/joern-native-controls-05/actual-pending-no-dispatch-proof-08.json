@@ -1,0 +1,85 @@
+{
+  "schema": "v092-native08-actual-pending-no-dispatch-gate/v1",
+  "status": "passed-read-only-pending-validation; native-qualification-pending",
+  "observer": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-07.py",
+    "sha256": "4e3998dfb3f32b5d377c8697ea644d247f147220679eb784cc64fc501f7bc199"
+  },
+  "plan": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/pending-execution-plan-01.json",
+    "sha256": "09d6748e23b670dbd8998a9f5f80075a25f4b388788004f36fd8b279bec5533e"
+  },
+  "control_plan": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/control-plan-01.json",
+    "sha256": "05d8b63d78df07ad4a66b4609573ffd051f5b44cf0416f316aab7b2dc9755a2f"
+  },
+  "control_projection_sha256": "a4c8f13af295d174f3aedff5665ab03e16457aace9859b36a0b3436e4f8b557f",
+  "core": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-24/manifest-identity.json",
+    "sha256": "b1b405d1f28bae9b84632de4830352ae9a27f352f47bbb49a3a046e2567add6d"
+  },
+  "ledger": {
+    "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851"
+  },
+  "actual_cases": 108,
+  "pending_status": "qualification-pending",
+  "fresh_qualification": null,
+  "execution_eligible": false,
+  "diagnostic_execution_eligible": false,
+  "three_fresh_interpreter_results": {
+    "positive": {
+      "mode": "positive",
+      "full_validator_before_graph": true,
+      "full_validator_after_graph_baseline": true,
+      "frozen88_closed": true,
+      "dispatches": 0,
+      "replay_performed": false
+    },
+    "foreign": {
+      "mode": "foreign",
+      "foreign_preserved": true,
+      "boundary_rejected": true,
+      "error": "graph import added a non-stdlib process-global sys.modules entry",
+      "dispatches": 0
+    },
+    "foreign-selector": {
+      "mode": "foreign-selector",
+      "foreign_preserved": true,
+      "gate_rejected": true,
+      "dispatches": 0
+    }
+  },
+  "probe_script": {
+    "path": "/private/tmp/joern05-native-qualifier-08/fresh_pending_gate_probe.py",
+    "sha256": "8d461b834ce3832f7450e19a07c3a3e69acd09c21e626c1a9ad19f1955a4e5ff",
+    "bytes": 2628
+  },
+  "logs": [
+    {
+      "path": "/private/tmp/joern05-native-qualifier-08/fresh-pending-positive-08.log",
+      "sha256": "4abd4795e85419498af3a9983bc8dd499da27108b34a9707b4c306176272d6af",
+      "bytes": 172
+    },
+    {
+      "path": "/private/tmp/joern05-native-qualifier-08/fresh-pending-foreign-08.log",
+      "sha256": "8dbaef0a7956b57c724163e789a01135aca80e5e8fc21f0eec1980782edd35d4",
+      "bytes": 168
+    },
+    {
+      "path": "/private/tmp/joern05-native-qualifier-08/fresh-pending-foreign-selector-08.log",
+      "sha256": "e1006182a8327db6a78d82be93063015c135a79c9c2d1b2505575b77c3b60d55",
+      "bytes": 96
+    }
+  ],
+  "seams": [
+    "subprocess.Popen deny sentinel proves zero runtime subprocess dispatch",
+    "foreign cases insert explicitly foreign module/selector only; actual production validator and frozen88 close execute unchanged"
+  ],
+  "actual_control_runs": 0,
+  "java_or_engine_invocations": 0,
+  "replay_performed": false,
+  "actual_request_created": false,
+  "authority_or_eligibility_inferred": false,
+  "publication_hold": true
+}

@@ -1,0 +1,230 @@
+{
+  "callee_observation": {
+    "bound_models": [
+      {
+        "callable": "dispatch_table.dfb_source",
+        "callable_line": 1,
+        "filename": "src/dispatch_table.py",
+        "sources": [
+          {
+            "port": "result",
+            "taint": [
+              {
+                "declaration": null,
+                "kinds": [
+                  {
+                    "kind": "DfbSource"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "callable": "dispatch_table.dfb_sink",
+        "callable_line": 5,
+        "filename": "src/dispatch_table.py",
+        "sinks": [
+          {
+            "port": "formal(value, position=0)",
+            "taint": [
+              {
+                "declaration": null,
+                "kinds": [
+                  {
+                    "kind": "DfbSink"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "callable": "dispatch_table.leak",
+        "callable_line": 9,
+        "filename": "src/dispatch_table.py",
+        "sinks": [
+          {
+            "port": "formal(value, position=0)",
+            "taint": [
+              {
+                "call_site": "10:4-10:19",
+                "kinds": [
+                  {
+                    "kind": "DfbSink",
+                    "leaves": [
+                      {
+                        "name": "dispatch_table.dfb_sink",
+                        "port": "leaf:value"
+                      }
+                    ]
+                  }
+                ],
+                "origin": {
+                  "end": 18,
+                  "line": 10,
+                  "start": 13
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "evidence_kind": "retained-probe",
+    "fixture": "cases/taint/python/dispatch-table-positive/dispatch_table.py",
+    "issue_count": 0,
+    "probe": "pysa-callee-resolution",
+    "run_call_graph": {
+      "callable": "dispatch_table.run",
+      "calls": {
+        "18:21-18:25|identifier|leak": {
+          "identifier": {
+            "if_called": {
+              "calls": [
+                {
+                  "index": 0,
+                  "return_type": [],
+                  "target": "dispatch_table.leak"
+                }
+              ]
+            }
+          }
+        },
+        "18:35-18:39|identifier|drop": {
+          "identifier": {
+            "if_called": {
+              "calls": [
+                {
+                  "index": 0,
+                  "return_type": [],
+                  "target": "dispatch_table.drop"
+                }
+              ]
+            }
+          }
+        },
+        "20:15-20:27": {
+          "call": {
+            "calls": [
+              {
+                "index": 0,
+                "return_type": [],
+                "target": "dispatch_table.dfb_source"
+              }
+            ]
+          }
+        },
+        "20:4-20:14|artificial-call|subscript-get-item": {
+          "call": {
+            "calls": [
+              {
+                "implicit_receiver": true,
+                "index": 0,
+                "receiver_class": "builtins.dict",
+                "return_type": [],
+                "target": "builtins.dict.__getitem__"
+              }
+            ]
+          }
+        },
+        "20:4-20:28": {
+          "call": {
+            "unresolved": [
+              "UnexpectedCalleeExpression"
+            ]
+          }
+        }
+      },
+      "filename": "src/dispatch_table.py"
+    }
+  },
+  "control_receipts": [
+    {
+      "path": "reports/releases/v0.9.2/qualification/profile-controls/probe-pysa-modeling-load-bearing-attempt-02/completed.json",
+      "sha256": "08e3c6588713a2180ae6e636f99658031d9b9145b8f4db1d966a991176e7224f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/profile-controls/probe-pysa-native-activation-attempt-02/completed.json",
+      "sha256": "aab64728a7d42d6ad5bf9f3cab938424690501e67bce6c68f93322b9bd9ddf20"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/profile-controls/probe-pysa-callee-resolution-attempt-02/completed.json",
+      "sha256": "398bb72e8d7a400e16025bf1914427874060401383649a66c713a122b250833b"
+    }
+  ],
+  "execution_eligible": true,
+  "groups": [
+    "pysa-python-kernel",
+    "pysa-python-modeling",
+    "pysa-python-native"
+  ],
+  "identity_components": [
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "pysa-runtime",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/pysa.json",
+      "sha256": "7717be15bcb3a690d1f156f41428a56307c4de703f9594f99780571358a0a1fd"
+    },
+    {
+      "name": "pyre.bin",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/pysa-env/bin/pyre.bin",
+      "sha256": "035a206349193dafdac70ec4020a992add5d88e60dee76163cf39ffb0b8fe8a3"
+    },
+    {
+      "name": "pyrefly",
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/pysa-env/bin/pyrefly",
+      "sha256": "2076955b92a092dbe1ffb751fc4c92b904a7391269c591d6e489cddd2fbe88d2",
+      "version": "1.4.0"
+    }
+  ],
+  "limits": [
+    "Native activation requires shipped models and --no-verify; activation does not establish source coverage.",
+    "Higher-order callee behavior is retained as observed, including missing edges and zero issues.",
+    "Earlier recorder failure and ignored-fixture failure remain in separate attempts and do not qualify groups."
+  ],
+  "modeling_issue_counts": {
+    "declared-sink-negative": 0,
+    "declared-sink-positive": 1,
+    "declared-source-negative": 0,
+    "declared-source-positive": 1,
+    "declared-source-removed": 0,
+    "entrypoint-parameter-negative": 0,
+    "entrypoint-parameter-positive": 1,
+    "entrypoint-parameter-removed": 0,
+    "entrypoint-selectivity-negative": 0,
+    "entrypoint-selectivity-positive": 1,
+    "opaque-propagator-negative": 0,
+    "opaque-propagator-positive": 1,
+    "opaque-propagator-tito-removed": 0,
+    "opaque-propagator-unmodeled": 1,
+    "propagator-position-negative": 0,
+    "propagator-position-positive": 1,
+    "sanitizer-kill-negative": 0,
+    "sanitizer-kill-positive": 1,
+    "sanitizer-kill-removed": 1,
+    "sanitizer-selectivity-negative": 0,
+    "sanitizer-selectivity-positive": 1,
+    "summary-field-negative": 0,
+    "summary-field-positive": 1,
+    "summary-field-removed": 0,
+    "summary-through-body-control": 1,
+    "summary-through-negative": 0,
+    "summary-through-positive": 1,
+    "summary-through-tito-removed": 0
+  },
+  "native_issue_count": 0,
+  "review_implementation": {
+    "path": "scripts/bind-v092-pysa-qualification.py",
+    "sha256": "0aa82b4d123a09840f7aa02b08f3992f58d05e6f36765b6e6596237d79309df9"
+  },
+  "schema": "v092-pysa-release-qualification/v1",
+  "status": "measurement-with-known-limits",
+  "tool": {
+    "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/pysa-env/bin/pyre",
+    "sha256": "df8f81bb7fb29ba1d01dc90b6a24618e846e34f3c8a3fea1d90e676517292d67",
+    "version": "0.10.0"
+  }
+}

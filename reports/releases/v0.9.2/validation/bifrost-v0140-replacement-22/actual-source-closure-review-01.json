@@ -1,0 +1,256 @@
+{
+  "schema": "v092-bf22-actual-source-closure-review/v1",
+  "status": "approved-for-actual-source-closure-only",
+  "created_utc": "2026-10-25T02:50:42.422976+00:00",
+  "automatic_retry": false,
+  "execution_authorized": false,
+  "production_operations_performed": false,
+  "review_type": "independent-actual-source-closure-review",
+  "reviewer": "bifrost014_qualification",
+  "scope": "Read-only review of the actual BF22 post-source source-input closure. This receipt binds source design 17, the successful source transaction, the actual collector output, exact current/source-commit bytes, preserved ledger/index boundaries, and the contract-only HEAD advance. It grants no qualification, admission, replay, analyzer, measurement, build, launch, or release authority.",
+  "actual_source_commit": "13dcacc59b49424a369f8e41ae4321838da66c99",
+  "actual_acquisition_base": "0940860dcb136f00148e62425c9964fa296f1990",
+  "observed_head": "3d599f11eecb9b78e7c210d45a485e75a88f451f",
+  "head_equality_required": false,
+  "head_difference": {
+    "source_commit_to_observed_head_paths": [
+      "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-24-contract.json"
+    ],
+    "contract_only": true,
+    "contract_path_sha256": "8afc4753caca64fe244653bf937a4d5533ef2828bb8638851855222f4f34b5b1"
+  },
+  "source_design": {
+    "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-17.json",
+    "sha256": "9bfc1850e8ec0287601750edb60dc0b5383dec12b14d3fe0ebce43d17671252f",
+    "schema": "v092-bifrost-source-post-codeql-rebase/v1",
+    "reviewed_baseline_head": "9b71cce939ac74d9674be189ee03dbee14b868e9",
+    "immediate_patch_base": "0940860dcb136f00148e62425c9964fa296f1990",
+    "closure_entries": 647,
+    "closure_unique_paths": true,
+    "closure_statuses": [
+      "A"
+    ],
+    "closure_after_hashes_match_source_commit": true,
+    "predecessor_design": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/bifrost-source-design-16.json",
+      "sha256": "558b7b56fe95b3f1d0f7366a482df47610335a5fbc95bff8571d9fe5ab1e6e35"
+    },
+    "predecessor_closure_entries": 618,
+    "predecessor_paths_preserved": true,
+    "new_append_only_entries": 29,
+    "allowed_source_delta_paths": 9,
+    "historical_outputs_immutable": true,
+    "historical_evidence_strategy": {
+      "mode": "lossless-original-source-contract-harness-bridge",
+      "pending_implementation": "bifrost-v0140-frozen-bridge-06.py",
+      "production_readiness_claim": false,
+      "required_before_application": "independent exact source review must verify bridge preserves all historical contexts and replays original reports using old contexts, including recorder-errorC01; no old native report regeneration using new harness"
+    }
+  },
+  "source_input_config": {
+    "path": "/private/tmp/bf22-source-inputs-actual-01.cfg.json",
+    "sha256": "dfa6f18a7e4115297bec2e883b6f1103b5d9a661deed5160fad4c7c8ca36f8c3",
+    "source_commit": "13dcacc59b49424a369f8e41ae4321838da66c99",
+    "inherited_count": 1200,
+    "selected_count": 478
+  },
+  "source_input_collection": {
+    "path": "/private/tmp/bf22-source-inputs-actual-01.json",
+    "sha256": "f3e41288c38333adc1389865ad59ef23ddf9c58a80de786618b0456604b4464c",
+    "schema": "v092-bf22-source-input-collection/v1",
+    "status": "committed-source-inputs-collected-not-execution-proof",
+    "source_commit": "13dcacc59b49424a369f8e41ae4321838da66c99",
+    "inherited_count": 1200,
+    "selected_count": 478,
+    "source_inputs_delta": 478,
+    "total_source_inputs": 1678,
+    "all_roles": [
+      "release-input"
+    ],
+    "normalization_modules": {
+      "bridge08": {
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-08.py",
+        "sha256": "d964c524cfec26e296a44e4c09ce3a606dcdfaec7c83114a1be3801222e35189"
+      },
+      "executor": {
+        "path": "scripts/execute-release-v092.py",
+        "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+      }
+    }
+  },
+  "source_input_relationships": {
+    "canonical_order_is_not_used_for_set_identity": true,
+    "delta_set_equals_config_selected_set": true,
+    "source_set_equals_inherited_union_selected": true,
+    "selected_inventory_set_equals_source_set": true,
+    "inherited_selected_overlap": 0,
+    "source_inputs_unique": true,
+    "delta_unique": true,
+    "selected_inventory_unique": true,
+    "counts": {
+      "inherited": 1200,
+      "selected_delta": 478,
+      "total": 1678,
+      "inventory": 1678
+    }
+  },
+  "source_transaction": {
+    "proof": {
+      "path": "/private/tmp/bf22-source-transaction-proof-01.json",
+      "sha256": "34279a4c7cb9385206a78435344af501a6c7088fef7aaad212f807d4a543d6d4",
+      "schema": "v092-reviewed-source-transaction/v1"
+    },
+    "review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-22/source-transaction-review-01.json",
+      "sha256": "a61525dd1bec80a36e30662b7d1093685da9fac53765ad61e16ccc20c13f9641"
+    },
+    "input_sha256": "d9eafbf0e7cd3c02e36793c1a3e9adf0fb6fe8bd7d4aae037e142705f5a332cd",
+    "acquisition_base": "0940860dcb136f00148e62425c9964fa296f1990",
+    "previous_head": "937b89e0d8f4383635adc3d1ca4cb96d382e3536",
+    "source_commit": "13dcacc59b49424a369f8e41ae4321838da66c99",
+    "base_tree": "a8ad744c35c4849723fb84c79c3282a72e808782",
+    "source_tree": "57225ee85f13dee18bd2e25f16c71bdb1f773457",
+    "acquisition_paths": 28,
+    "rust_paths": [
+      "adapters/pins/v0.9.2-bifrost-v0140.json",
+      "src/adapters/bifrost.rs",
+      "src/adapters/mod.rs",
+      "src/adapters/pins.rs",
+      "src/native.rs",
+      "src/tests/adapters/bifrost.rs",
+      "src/tests/adapters/pins.rs",
+      "src/tests/batch.rs",
+      "src/tests/native.rs"
+    ],
+    "full_base_to_source_delta": 9,
+    "real_index_before_sha256": "6ecf200c12f4c7c9843a86070e4099755e69d16c466803140b146514b78806ca",
+    "real_index_after_sha256": "87ce27a12e8020294e33090251dad5315e461875a1d405b37ac4460bfabf8049",
+    "working_rust_files_rewritten": false,
+    "base_restored_typed_before": true
+  },
+  "rust_delta_checks": [
+    {
+      "path": "src/adapters/pins.rs",
+      "expected_after_sha256": "c3b3638c5e6c258a955204adf1114677e71e4e2628ba58a31c0f1dcd8d880cd5",
+      "source_commit_sha256": "c3b3638c5e6c258a955204adf1114677e71e4e2628ba58a31c0f1dcd8d880cd5",
+      "after_matches": true,
+      "new_path_before_base": false
+    },
+    {
+      "path": "src/adapters/mod.rs",
+      "expected_after_sha256": "01cf7c4be3fb32921c83ac2f5ed71ba4eee66edaa08c981ac9558ce289c1479f",
+      "source_commit_sha256": "01cf7c4be3fb32921c83ac2f5ed71ba4eee66edaa08c981ac9558ce289c1479f",
+      "after_matches": true,
+      "new_path_before_base": false
+    },
+    {
+      "path": "src/adapters/bifrost.rs",
+      "expected_after_sha256": "4e72d21c5d8d6d23e2486f0a32c0f9b1ac321c62063974ccb68155ad48090860",
+      "source_commit_sha256": "4e72d21c5d8d6d23e2486f0a32c0f9b1ac321c62063974ccb68155ad48090860",
+      "after_matches": true,
+      "new_path_before_base": false
+    },
+    {
+      "path": "src/native.rs",
+      "expected_after_sha256": "94b6296a347de5e7887c30173a19ec9898ddf77817c3ae072dbea42cd2e8c365",
+      "source_commit_sha256": "94b6296a347de5e7887c30173a19ec9898ddf77817c3ae072dbea42cd2e8c365",
+      "after_matches": true,
+      "new_path_before_base": false
+    },
+    {
+      "path": "src/tests/adapters/pins.rs",
+      "expected_after_sha256": "a6949fe350ec69e0ee651a6c04cb59282ac9b5c505c30e885e0e0b69be769c8c",
+      "source_commit_sha256": "a6949fe350ec69e0ee651a6c04cb59282ac9b5c505c30e885e0e0b69be769c8c",
+      "after_matches": true,
+      "new_path_before_base": false
+    },
+    {
+      "path": "src/tests/adapters/bifrost.rs",
+      "expected_after_sha256": "413a42d3e7af439649d3831e345c143be3405377c8f9001c6946e608626ea39a",
+      "source_commit_sha256": "413a42d3e7af439649d3831e345c143be3405377c8f9001c6946e608626ea39a",
+      "after_matches": true,
+      "new_path_before_base": false
+    },
+    {
+      "path": "src/tests/batch.rs",
+      "expected_after_sha256": "b9fc6d1dbbadb3308a5d1c1d9c88fb9cc17c17d3d07d1214c34dd5714466f7bf",
+      "source_commit_sha256": "b9fc6d1dbbadb3308a5d1c1d9c88fb9cc17c17d3d07d1214c34dd5714466f7bf",
+      "after_matches": true,
+      "new_path_before_base": false
+    },
+    {
+      "path": "src/tests/native.rs",
+      "expected_after_sha256": "21336ddc0a90be6898ca6c00132db1b454ae50464575862be9cc56f6702630ae",
+      "source_commit_sha256": "21336ddc0a90be6898ca6c00132db1b454ae50464575862be9cc56f6702630ae",
+      "after_matches": true,
+      "new_path_before_base": false
+    },
+    {
+      "path": "adapters/pins/v0.9.2-bifrost-v0140.json",
+      "expected_after_sha256": "783f3983eb66c7c1af43c4008b97e89406e9d0eda61a44a8ba8d6b161b4a7951",
+      "source_commit_sha256": "783f3983eb66c7c1af43c4008b97e89406e9d0eda61a44a8ba8d6b161b4a7951",
+      "after_matches": true,
+      "new_path_before_base": true
+    }
+  ],
+  "source_bytes": {
+    "all_current_source_input_files_exist_and_match_collector": true,
+    "all_source_commit_blobs_match_collector": true,
+    "current_files_mismatches": [],
+    "source_commit_mismatches": []
+  },
+  "ledger": {
+    "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6",
+    "rows": 89,
+    "included_in_source_inputs": false,
+    "staged": false,
+    "unchanged_from_transaction_proof": true
+  },
+  "index_snapshot": {
+    "path": "/Users/dave/Workspace/BrokkAi/dataflowbench/.git/worktrees/dataflowbench2/index",
+    "sha256": "14f51fec8cc30eb76d2bd4390ce0bc569394cf4ffcf0037c66abef0f0e8612f1",
+    "size": 68671400,
+    "staged_paths": [],
+    "index_lock_present": false
+  },
+  "worktree_boundary": {
+    "only_preexisting_tracked_dirty_path_observed": true,
+    "status_lines": [
+      " M reports/releases/v0.9.2/ledger-v1.jsonl"
+    ],
+    "git_mutations_by_this_review": false,
+    "build_or_replay_or_analyzer_invoked_by_this_review": false
+  },
+  "verified": {
+    "design17_closure_647_current_hashes": true,
+    "design16_closure_618_preserved": true,
+    "design17_new_append_only_entries_29": true,
+    "source_transaction_exact": true,
+    "source_commit_parent_is_acquisition_base": true,
+    "actual_config_source_commit_match": true,
+    "actual_collector_source_commit_match": true,
+    "actual_inherited_inputs_exact_1200": true,
+    "actual_selected_delta_exact_478": true,
+    "actual_source_inputs_exact_1678": true,
+    "actual_set_relationships_exact": true,
+    "all_source_input_roles_release_input": true,
+    "all_current_source_input_hashes_match": true,
+    "all_source_commit_input_blobs_match": true,
+    "nine_rust_delta_after_hashes_match": true,
+    "working_rust_files_rewritten_false": true,
+    "ledger_89_unchanged_and_excluded": true,
+    "index_lock_absent_and_no_staged_paths": true,
+    "contract_only_HEAD_advance": true,
+    "no_production_operation_by_review": true
+  },
+  "findings": [],
+  "conditions": [
+    "This receipt approves only the actual BF22 source-closure evidence. It does not authorize core sealing, qualification, admission, replay, analyzer execution, measurement, launch, or release publication.",
+    "The collector canonicalizes input order; approval uses exact path-set equality and per-file SHA-256 equality, not positional concatenation. The 478 delta equals the configuration selected set, and the 1,678 source set equals 1,200 inherited plus 478 selected paths.",
+    "Design17 contains 647 unique append-only provenance entries, preserving design16's 618 paths and adding 29. Every recorded after hash matches source commit 13dcacc.",
+    "The sealed 89-row ledger remains unchanged and excluded from source inputs. The nine Rust delta paths match source commit after hashes; the JSON pin is a newly added path with no base blob.",
+    "Any source, design, configuration, collector, transaction, contract, ledger, index, or manifest change requires a fresh exact review before downstream gates."
+  ],
+  "conclusion": "Actual BF22 source closure passed: the 1,200 inherited and 478 selected inputs form 1,678 unique release-input records whose filesystem and source-commit blobs match exactly; source design17's 647-entry closure is current-hash exact and preserves design16's 618 paths; the source transaction and nine-path tested Rust delta are consistent; and the 89-row ledger remains unchanged and excluded. This read-only receipt grants source-closure evidence only; downstream core, qualification, replay, analyzer, admission, and launch gates remain separate."
+}

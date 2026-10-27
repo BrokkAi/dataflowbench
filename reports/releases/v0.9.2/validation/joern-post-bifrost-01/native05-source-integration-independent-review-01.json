@@ -1,0 +1,251 @@
+{
+  "schema": "v092-joern-native05-source-integration-independent-review/v1",
+  "recorded_utc": "2026-10-25T20:53:46.170265000Z",
+  "recorded_utc_source": "date -u at review generation",
+  "review_mode": "read-only-source-copy-plan-control-and-no-dispatch-pending-probe-review",
+  "scope": {
+    "repository_files_modified": false,
+    "canonical_or_git_mutation": false,
+    "java_jvm_engine_controls": false,
+    "native_control_dispatch": false,
+    "scored_attempt": false,
+    "runtime_replay": false,
+    "publication_hold": true,
+    "automatic_retry": false
+  },
+  "candidate": {
+    "handoff": {
+      "path": "/private/tmp/joern05-native-qualifier-08/implementation-handoff-08.json",
+      "sha256": "7505c7cee1ae2ef947510ea845303832de6f8de5cb7af4d62cd54c77eaccc830",
+      "status": "frozen-private-source-ready-for-independent-review; new-native-qualification-pending"
+    },
+    "predecessor": {
+      "path": "/private/tmp/joern05-native-qualifier-07/implementation-handoff-07.json",
+      "sha256": "de995354906446141b37a88950b5f6c0b47aaef0e087ecbc2ce2129df5df1668"
+    },
+    "candidate_source": {
+      "path": "/private/tmp/joern05-native-qualifier-08/native_qualifier.py",
+      "sha256": "ac7f03ac3bb6422509ff6785259f02c468d7951b96099b590f297044311c39a2",
+      "bytes": 65534
+    },
+    "predecessor_source": {
+      "path": "/private/tmp/joern05-native-qualifier-07/native_qualifier.py",
+      "sha256": "f29e31ef3ec1061b437108650929ef3be74043f0c0fe6b3b4892d37944ebbe75",
+      "bytes": 65534
+    },
+    "source_diff": {
+      "path": "/private/tmp/joern05-native-qualifier-08/diff-vs-07.patch",
+      "sha256": "6b4f2c17a8b7e0f4785389763ed363ae1a2a2e30b9ff13e45f43ba80aa25f826",
+      "operative_changes_only": [
+        "OBSERVER exact canonical observer07 path and SHA",
+        "PLAN exact plan06 path and SHA",
+        "literal plan06 control projection SHA a4c8f13af295d174f3aedff5665ab03e16457aace9859b36a0b3436e4f8b557f"
+      ],
+      "all_other_source_byte_identical": true
+    }
+  },
+  "canonical_bindings": {
+    "observer": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-07.py",
+      "sha256": "4e3998dfb3f32b5d377c8697ea644d247f147220679eb784cc64fc501f7bc199",
+      "bytes": 56423,
+      "source_copy": {
+        "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-07-source/joern_native_control_observer_v07.py",
+        "sha256": "4e3998dfb3f32b5d377c8697ea644d247f147220679eb784cc64fc501f7bc199",
+        "byte_identical": true
+      }
+    },
+    "agent": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-startup-witness-agent-05.jar",
+      "sha256": "1e30a6a5c88abb0216c5f205bd337f18fc30dd91345a8aeae244398cc0803261",
+      "bytes": 8842,
+      "sealed_build_copy": {
+        "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-07-source/evidence/build/joern-startup-witness-agent-05.jar",
+        "sha256": "1e30a6a5c88abb0216c5f205bd337f18fc30dd91345a8aeae244398cc0803261",
+        "byte_identical": true
+      }
+    },
+    "copy_receipts": [
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/startup-observer07-canonical-copy-01.json",
+        "sha256": "608fcea04d29489d65ca10f748e66d6fab4ea0394ccfa1c4ed7b7e9fecf92adf"
+      },
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/startup-observer07-sealed-independent-review-01.json",
+        "sha256": "5321a682b3fe8ac1aa9ff5136a9bce57146fac3f8fee15cc7e5b694cc80566bd"
+      },
+      {
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/startup-observer07-independent-source-review-01.json",
+        "sha256": "f45bb755898cc9f5e701ac0fe4547f96e6a27725a75637d43c2cdb9a140fa916"
+      }
+    ]
+  },
+  "plan_control_bindings": {
+    "plan06": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/pending-execution-plan-01.json",
+      "sha256": "09d6748e23b670dbd8998a9f5f80075a25f4b388788004f36fd8b279bec5533e",
+      "projection_sha256": "a4c8f13af295d174f3aedff5665ab03e16457aace9859b36a0b3436e4f8b557f",
+      "cases": 108,
+      "attempts": 96,
+      "prospective_unsupported": 12,
+      "status": "qualification-pending",
+      "execution_eligible": false,
+      "diagnostic_execution_eligible": false,
+      "fresh_qualification": null,
+      "registered_at_unix_seconds": 1792961282,
+      "control_ref": {
+        "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/control-plan-01.json",
+        "sha256": "05d8b63d78df07ad4a66b4609573ffd051f5b44cf0416f316aab7b2dc9755a2f"
+      }
+    },
+    "control06": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/control-plan-01.json",
+      "sha256": "05d8b63d78df07ad4a66b4609573ffd051f5b44cf0416f316aab7b2dc9755a2f",
+      "projection_sha256": "a4c8f13af295d174f3aedff5665ab03e16457aace9859b36a0b3436e4f8b557f",
+      "only_changed_from_control04": ["execution_plan_projection_sha256"],
+      "preserved_limits": {
+        "controls": 6,
+        "arms": ["off", "on"],
+        "case_arm_count": 12,
+        "maximum_phase_invocations": 36,
+        "case_arm_budget_seconds": 75,
+        "total_budget_seconds": 900,
+        "scratch_allowance_bytes": 4294967296,
+        "registration_timestamp_preserved": true
+      }
+    },
+    "source_handoff": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/source-handoff-01.json",
+      "sha256": "6dc591d2dab1ac327438055768e3281402ae9dfe41cce09ecd1a05956720e51",
+      "schema": "v092-plan06-prospective-source-handoff/v1",
+      "attempts": 96,
+      "cases": 108,
+      "prospective_unsupported": 12,
+      "eligibility_granted": false,
+      "engine_dispatched": false,
+      "publication_hold": true
+    }
+  },
+  "decision03_review": {
+    "operation": "append-only policy-only copy from decisions02",
+    "count": 12,
+    "all_outcomes_unsupported": true,
+    "evidence_refs_each": 169,
+    "current_fixture_digests_each": 1,
+    "only_changed_field_each": "jvm_startup_policy",
+    "policy_schema": "v092-joern-jvm-startup-policy/v5",
+    "agent_sha256": "1e30a6a5c88abb0216c5f205bd337f18fc30dd91345a8aeae244398cc0803261",
+    "decision_refs": [
+      {"case_id": "dfb-taint-swift-native-entrypoint-negative", "sha256": "359c91b1c8b87f46c0ced239ede131112ebddb9f8e8c58448352b70974a46909"},
+      {"case_id": "dfb-taint-swift-native-entrypoint-positive", "sha256": "c7396aa6e993f6b695acb3fc4da87c7fb67e7126c1fd2680261aa77b0fb0257d"},
+      {"case_id": "dfb-taint-swift-native-persistence-negative", "sha256": "475395c10c81cb5496bbcfa362bf4fe33e5ab53021673979e00baf6a189f49bc"},
+      {"case_id": "dfb-taint-swift-native-persistence-positive", "sha256": "ae576ce026a140fcad6cdad93771e8a76fb36ec93fdc607c6c216feb992bee95"},
+      {"case_id": "dfb-taint-swift-native-propagator-negative", "sha256": "c1e7c789272c1ca7e6eb1b1077a2bb4770d5ea64b63193ac26acbc65a9f19242"},
+      {"case_id": "dfb-taint-swift-native-propagator-positive", "sha256": "a6e7ce884b18c1ff15a58fe4ae44a37e47b824f8d2c9959f12f10fe0123df30d"},
+      {"case_id": "dfb-taint-swift-native-sanitizer-negative", "sha256": "460cc80c2bd5ea50fc86ee0809511f0df7dfbde5e15054f31bccfb7342a01c84"},
+      {"case_id": "dfb-taint-swift-native-sanitizer-positive", "sha256": "69f768f63550467447800ad0c68e1d8aa5ae260e45c7737a653cc2689b44ec1b"},
+      {"case_id": "dfb-taint-swift-native-source-sink-negative", "sha256": "6a71f4ccbcc3830b798694c64c7ce86e74430e412c7758084ab1e51026acb7fd"},
+      {"case_id": "dfb-taint-swift-native-source-sink-positive", "sha256": "a47305bac657e2649a1b0ea0feef59629433ce7693b6f01f7674555a4c8dbc86"},
+      {"case_id": "dfb-taint-swift-native-summary-negative", "sha256": "3f3a92c90b4cacbf035c97e8164d20d574f8bab2028749546c7e32ecff7f5d3e"},
+      {"case_id": "dfb-taint-swift-native-summary-positive", "sha256": "b66f34a500d2849540a61d0a4749395d1624d3821ac903e566940831b0526d2b"}
+    ],
+    "evidence_boundary": "The inherited 169 refs include v4 observer/JAR evidence. They remain unchanged source material only; decisions03 are prospective Unsupported judgments and must not call inherited v4 evidence v5 execution proof."
+  },
+  "load_original_review": {
+    "observer": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-07.py",
+    "verified": [
+      "retained frozen helper source SHA checked before import",
+      "retained helper JVM_STARTUP_POLICY remains v1 in its source-bound snapshot",
+      "fresh privately loaded module policy is replaced in memory with exact STARTUP_POLICY_V5",
+      "fresh module policy equals observer STARTUP_POLICY_V5 including sealed agent05 digest and 32-link diagnostic ancestry",
+      "retained source file, historical v1 evidence, and canonical historical runner are not rewritten"
+    ],
+    "native_only_blocker_resolution": "The prior frozen-v1 helper concern is resolved for this native observer path: validate_bootstrap_inputs and retained controls run through the freshly loaded module whose policy is v5. The original frozen source remains immutable.",
+    "remaining_outer_chain_boundary": "The old outer builder/continuation/admission/qualification helpers remain v1-bound and are not qualified by this private native wrapper. They remain later source-only successors or closure inputs, outside this approval."
+  },
+  "private_qualifier_review": {
+    "request_template": {
+      "path": "/private/tmp/joern05-native-qualifier-08/request-template.json",
+      "sha256": "751ace212395f5d8878e6a67c758b2764daf1576871ceffb8d24c7036aaf38b7",
+      "note": "The handoff's request-template path is recorded as non-authoritative; its expected_head, source_refs, tool_refs, evidence, agent, design, review and authority fields remain null by design."
+    },
+    "source_only_pin_review": [
+      "wrapper pins observer07 exact SHA",
+      "wrapper pins plan06 exact SHA",
+      "wrapper binds the exact plan06 projection",
+      "pending plan remains null fresh qualification and false eligibility",
+      "new namespace is required and old namespaces remain preserved",
+      "request, authority, source closure, source review, decision review and exact committed HEAD are required before admission"
+    ],
+    "future_gate_blockers": [
+      "Populate a real request only after exact committed source HEAD and all source/tool refs are available.",
+      "Bind all 12 decisions03 and inherited evidence/current fixture refs in the required source closure.",
+      "Bind the independent native source/decision/authority reviews and preserve one-slot, resource, clock, marker, publication and no-retry gates.",
+      "Do not infer qualification or create a native namespace from this source-only review."
+    ]
+  },
+  "independent_no_dispatch_validation": {
+    "existing_candidate_evidence": {
+      "tests_log": {
+        "path": "/private/tmp/joern05-native-qualifier-08/tests-08.log",
+        "sha256": "0c6b3f669c5a5eb9c8679431c1d750e250393e8ee33c554fd6f836b15a96093f",
+        "result": "64 tests passed"
+      },
+      "handoff_proof": {
+        "path": "/private/tmp/joern05-native-qualifier-08/actual-pending-no-dispatch-proof-08.json",
+        "sha256": "d67d2158b3db23e7c9429bd80b3f22314b6e41a05d75ac488fdd4da9b3c80d8b",
+        "reported_cases": 108,
+        "reported_dispatches": 0,
+        "reported_java_engine_controls": 0
+      }
+    },
+    "fresh_interpreter_probes_run_by_reviewer": [
+      {
+        "mode": "positive",
+        "result": "full_validator_before_graph=true; full_validator_after_graph_baseline=true; frozen88_closed=true; dispatches=0; replay=false",
+        "log_sha256": "4abd4795e85419498af3a9983bc8dd499da27108b34a9707b4c306176272d6af"
+      },
+      {
+        "mode": "foreign",
+        "result": "foreign_preserved=true; boundary_rejected=true; dispatches=0",
+        "log_sha256": "8dbaef0a7956b57c724163e789a01135aca80e5e8fc21f0eec1980782edd35d4"
+      },
+      {
+        "mode": "foreign-selector",
+        "result": "foreign_preserved=true; gate_rejected=true; dispatches=0",
+        "log_sha256": "e1006182a8327db6a78d82be93063015c135a79c9c2d1b2505575b77c3b60d55"
+      }
+    ],
+    "probe_script": {
+      "path": "/private/tmp/joern05-native-qualifier-08/fresh_pending_gate_probe.py",
+      "sha256": "8d461b834ce3832f7450e19a07c3a3e69acd09c21e626c1a9ad19f1955a4e5ff"
+    },
+    "static_validation": {
+      "ast_check": {
+        "path": "/private/tmp/joern05-native-qualifier-08/ast-check-08.json",
+        "sha256": "5e42c264922b60e6fe2265c23a87ddefe7c8f20c3587748a58734f09a423f1ab",
+        "status": "passed"
+      },
+      "source_parse": "candidate wrapper, retained resources and canonical observer parsed successfully"
+    },
+    "interpretation": "These are source-bound pending-schema and module-boundary checks only. The fresh probes used a Popen-deny sentinel; no JVM, Joern, native controls, engine, scored attempt or runtime replay was run."
+  },
+  "decision": {
+    "status": "approved-source-copy-commit-request-preparation-only",
+    "approve_source_copy_and_preparation": true,
+    "approve_runtime_activation": false,
+    "blockers": [],
+    "qualification_inferred": false,
+    "historical_offender_inferred": false,
+    "source_copy_boundary": "Canonical observer/JAR/decision/plan/control copies and the private qualifier are sufficiently bound for source-only integration preparation. The request remains non-authoritative until exact committed closure, source/authority reviews and admission gates are populated and independently checked.",
+    "native_only_policy_clarification": "The observer's exact in-memory adapter closes the earlier v1-policy blocker for the native qualification path. It does not qualify the outer v1-bound helper chain or authorize any runtime."
+  },
+  "preservation": {
+    "old_observer06_and_agent04": "immutable",
+    "old_decisions02_plan05_control04_projection": "immutable",
+    "historical_v4_evidence": "unchanged and not relabeled as v5 proof",
+    "pending_plan_state": "qualification-pending; fresh_qualification null; both eligibility flags false",
+    "resource_time_one_slot_clock_publication": "preserved for later exact request/admission review",
+    "no_repository_or_git_changes": true
+  }
+}

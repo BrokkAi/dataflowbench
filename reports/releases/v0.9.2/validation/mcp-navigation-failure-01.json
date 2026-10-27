@@ -1,0 +1,15 @@
+{
+  "schema": "mcp-navigation-reproduction/v1",
+  "observed_at": "2026-10-19T18:50:07.723680+00:00",
+  "workspace": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+  "tool": "bifrost/get_symbol_sources",
+  "arguments": {
+    "symbols": [
+      "joern_version_identity"
+    ]
+  },
+  "error": "MCP tool execution panicked: task 116 panicked with message \"failed to list workspace files while refreshing analyzer languages: Custom { kind: Other, error: \\\"git status failed to spawn: Bad file descriptor (os error 9)\\\" }\"",
+  "server_binary_observed": "/Users/dave/Library/Caches/bifrost-agent/binaries/0.12.0/darwin-arm64/bifrost",
+  "interpretation": "navigation/plugin reliability failure; no analyzer evaluation or policy pass established",
+  "possible_follow_up": "retain exact request and workspace-refresh spawn failure for Bifrost issue triage"
+}

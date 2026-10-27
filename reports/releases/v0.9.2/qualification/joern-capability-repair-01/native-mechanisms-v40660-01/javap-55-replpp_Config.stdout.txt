@@ -1,0 +1,1484 @@
+Compiled from "Config.scala"
+public class replpp.Config implements scala.Product, java.io.Serializable {
+  private static final java.lang.invoke.VarHandle asJavaArgs$lzy1$lzyHandle;
+
+  private final scala.collection.immutable.Seq<java.nio.file.Path> predefFiles;
+
+  private final scala.collection.immutable.Seq<java.lang.String> runBefore;
+
+  private final scala.collection.immutable.Seq<java.lang.String> runAfter;
+
+  private final boolean nocolors;
+
+  private final boolean verbose;
+
+  private final replpp.Config$ForClasspath classpathConfig;
+
+  private final boolean remoteJvmDebugEnabled;
+
+  private final scala.collection.immutable.Seq<java.lang.String> scalacOptions;
+
+  private final scala.Option<java.lang.String> prompt;
+
+  private final scala.Option<java.lang.String> greeting;
+
+  private final scala.Option<java.lang.Object> maxHeight;
+
+  private final scala.Option<java.nio.file.Path> scriptFile;
+
+  private final scala.Option<java.lang.String> command;
+
+  private final scala.collection.immutable.Map<java.lang.String, java.lang.String> params;
+
+  private final replpp.package$Colors colors;
+
+  private volatile java.lang.Object asJavaArgs$lzy1;
+
+  public replpp.Config(scala.collection.immutable.Seq<java.nio.file.Path>, scala.collection.immutable.Seq<java.lang.String>, scala.collection.immutable.Seq<java.lang.String>, boolean, boolean, replpp.Config$ForClasspath, boolean, scala.collection.immutable.Seq<java.lang.String>, scala.Option<java.lang.String>, scala.Option<java.lang.String>, scala.Option<java.lang.Object>, scala.Option<java.nio.file.Path>, scala.Option<java.lang.String>, scala.collection.immutable.Map<java.lang.String, java.lang.String>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #82                 // Field predefFiles:Lscala/collection/immutable/Seq;
+       5: aload_0
+       6: aload_2
+       7: putfield      #84                 // Field runBefore:Lscala/collection/immutable/Seq;
+      10: aload_0
+      11: aload_3
+      12: putfield      #86                 // Field runAfter:Lscala/collection/immutable/Seq;
+      15: aload_0
+      16: iload         4
+      18: putfield      #88                 // Field nocolors:Z
+      21: aload_0
+      22: iload         5
+      24: putfield      #90                 // Field verbose:Z
+      27: aload_0
+      28: aload         6
+      30: putfield      #92                 // Field classpathConfig:Lreplpp/Config$ForClasspath;
+      33: aload_0
+      34: iload         7
+      36: putfield      #94                 // Field remoteJvmDebugEnabled:Z
+      39: aload_0
+      40: aload         8
+      42: putfield      #96                 // Field scalacOptions:Lscala/collection/immutable/Seq;
+      45: aload_0
+      46: aload         9
+      48: putfield      #98                 // Field prompt:Lscala/Option;
+      51: aload_0
+      52: aload         10
+      54: putfield      #100                // Field greeting:Lscala/Option;
+      57: aload_0
+      58: aload         11
+      60: putfield      #102                // Field maxHeight:Lscala/Option;
+      63: aload_0
+      64: aload         12
+      66: putfield      #104                // Field scriptFile:Lscala/Option;
+      69: aload_0
+      70: aload         13
+      72: putfield      #106                // Field command:Lscala/Option;
+      75: aload_0
+      76: aload         14
+      78: putfield      #108                // Field params:Lscala/collection/immutable/Map;
+      81: aload_0
+      82: invokespecial #111                // Method java/lang/Object."<init>":()V
+      85: aload_0
+      86: iload         4
+      88: ifeq          97
+      91: getstatic     #114                // Field replpp/package$Colors$.BlackWhite:Lreplpp/package$Colors;
+      94: goto          100
+      97: getstatic     #117                // Field replpp/package$Colors$.Default:Lreplpp/package$Colors;
+     100: putfield      #119                // Field colors:Lreplpp/package$Colors;
+     103: return
+
+  private static {};
+    Code:
+       0: invokestatic  #132                // Method java/lang/invoke/MethodHandles.lookup:()Ljava/lang/invoke/MethodHandles$Lookup;
+       3: ldc           #2                  // class replpp/Config
+       5: ldc           #133                // String asJavaArgs$lzy1
+       7: ldc           #5                  // class java/lang/Object
+       9: invokevirtual #137                // Method java/lang/invoke/MethodHandles$Lookup.findVarHandle:(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/invoke/VarHandle;
+      12: putstatic     #139                // Field asJavaArgs$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+      15: return
+
+  public scala.collection.Iterator<java.lang.Object> productIterator();
+    Code:
+       0: aload_0
+       1: invokestatic  #146                // InterfaceMethod scala/Product.productIterator$:(Lscala/Product;)Lscala/collection/Iterator;
+       4: areturn
+
+  public scala.collection.Iterator<java.lang.String> productElementNames();
+    Code:
+       0: aload_0
+       1: invokestatic  #151                // InterfaceMethod scala/Product.productElementNames$:(Lscala/Product;)Lscala/collection/Iterator;
+       4: areturn
+
+  public int hashCode();
+    Code:
+       0: ldc           #154                // int -889275714
+       2: istore_1
+       3: iload_1
+       4: ldc           #155                // int 2024042338
+       6: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+       9: istore_1
+      10: iload_1
+      11: aload_0
+      12: invokevirtual #164                // Method predefFiles:()Lscala/collection/immutable/Seq;
+      15: invokestatic  #168                // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+      18: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+      21: istore_1
+      22: iload_1
+      23: aload_0
+      24: invokevirtual #170                // Method runBefore:()Lscala/collection/immutable/Seq;
+      27: invokestatic  #168                // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+      30: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+      33: istore_1
+      34: iload_1
+      35: aload_0
+      36: invokevirtual #172                // Method runAfter:()Lscala/collection/immutable/Seq;
+      39: invokestatic  #168                // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+      42: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+      45: istore_1
+      46: iload_1
+      47: aload_0
+      48: invokevirtual #175                // Method nocolors:()Z
+      51: ifeq          60
+      54: sipush        1231
+      57: goto          63
+      60: sipush        1237
+      63: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+      66: istore_1
+      67: iload_1
+      68: aload_0
+      69: invokevirtual #177                // Method verbose:()Z
+      72: ifeq          81
+      75: sipush        1231
+      78: goto          84
+      81: sipush        1237
+      84: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+      87: istore_1
+      88: iload_1
+      89: aload_0
+      90: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+      93: invokestatic  #168                // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+      96: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+      99: istore_1
+     100: iload_1
+     101: aload_0
+     102: invokevirtual #182                // Method remoteJvmDebugEnabled:()Z
+     105: ifeq          114
+     108: sipush        1231
+     111: goto          117
+     114: sipush        1237
+     117: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+     120: istore_1
+     121: iload_1
+     122: aload_0
+     123: invokevirtual #184                // Method scalacOptions:()Lscala/collection/immutable/Seq;
+     126: invokestatic  #168                // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+     129: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+     132: istore_1
+     133: iload_1
+     134: aload_0
+     135: invokevirtual #187                // Method prompt:()Lscala/Option;
+     138: invokestatic  #168                // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+     141: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+     144: istore_1
+     145: iload_1
+     146: aload_0
+     147: invokevirtual #189                // Method greeting:()Lscala/Option;
+     150: invokestatic  #168                // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+     153: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+     156: istore_1
+     157: iload_1
+     158: aload_0
+     159: invokevirtual #191                // Method maxHeight:()Lscala/Option;
+     162: invokestatic  #168                // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+     165: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+     168: istore_1
+     169: iload_1
+     170: aload_0
+     171: invokevirtual #193                // Method scriptFile:()Lscala/Option;
+     174: invokestatic  #168                // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+     177: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+     180: istore_1
+     181: iload_1
+     182: aload_0
+     183: invokevirtual #195                // Method command:()Lscala/Option;
+     186: invokestatic  #168                // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+     189: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+     192: istore_1
+     193: iload_1
+     194: aload_0
+     195: invokevirtual #198                // Method params:()Lscala/collection/immutable/Map;
+     198: invokestatic  #168                // Method scala/runtime/Statics.anyHash:(Ljava/lang/Object;)I
+     201: invokestatic  #161                // Method scala/runtime/Statics.mix:(II)I
+     204: istore_1
+     205: iload_1
+     206: bipush        14
+     208: invokestatic  #201                // Method scala/runtime/Statics.finalizeHash:(II)I
+     211: ireturn
+
+  public boolean equals(java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: if_acmpeq     229
+       5: aload_1
+       6: astore_2
+       7: aload_2
+       8: instanceof    #2                  // class replpp/Config
+      11: ifeq          222
+      14: aload_2
+      15: checkcast     #2                  // class replpp/Config
+      18: astore_3
+      19: aload_0
+      20: invokevirtual #175                // Method nocolors:()Z
+      23: aload_3
+      24: invokevirtual #175                // Method nocolors:()Z
+      27: if_icmpne     218
+      30: aload_0
+      31: invokevirtual #177                // Method verbose:()Z
+      34: aload_3
+      35: invokevirtual #177                // Method verbose:()Z
+      38: if_icmpne     218
+      41: aload_0
+      42: invokevirtual #182                // Method remoteJvmDebugEnabled:()Z
+      45: aload_3
+      46: invokevirtual #182                // Method remoteJvmDebugEnabled:()Z
+      49: if_icmpne     218
+      52: aload_0
+      53: invokevirtual #164                // Method predefFiles:()Lscala/collection/immutable/Seq;
+      56: aload_3
+      57: invokevirtual #164                // Method predefFiles:()Lscala/collection/immutable/Seq;
+      60: invokestatic  #209                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      63: ifeq          218
+      66: aload_0
+      67: invokevirtual #170                // Method runBefore:()Lscala/collection/immutable/Seq;
+      70: aload_3
+      71: invokevirtual #170                // Method runBefore:()Lscala/collection/immutable/Seq;
+      74: invokestatic  #209                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      77: ifeq          218
+      80: aload_0
+      81: invokevirtual #172                // Method runAfter:()Lscala/collection/immutable/Seq;
+      84: aload_3
+      85: invokevirtual #172                // Method runAfter:()Lscala/collection/immutable/Seq;
+      88: invokestatic  #209                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+      91: ifeq          218
+      94: aload_0
+      95: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+      98: aload_3
+      99: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+     102: invokestatic  #209                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+     105: ifeq          218
+     108: aload_0
+     109: invokevirtual #184                // Method scalacOptions:()Lscala/collection/immutable/Seq;
+     112: aload_3
+     113: invokevirtual #184                // Method scalacOptions:()Lscala/collection/immutable/Seq;
+     116: invokestatic  #209                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+     119: ifeq          218
+     122: aload_0
+     123: invokevirtual #187                // Method prompt:()Lscala/Option;
+     126: aload_3
+     127: invokevirtual #187                // Method prompt:()Lscala/Option;
+     130: invokestatic  #209                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+     133: ifeq          218
+     136: aload_0
+     137: invokevirtual #189                // Method greeting:()Lscala/Option;
+     140: aload_3
+     141: invokevirtual #189                // Method greeting:()Lscala/Option;
+     144: invokestatic  #209                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+     147: ifeq          218
+     150: aload_0
+     151: invokevirtual #191                // Method maxHeight:()Lscala/Option;
+     154: aload_3
+     155: invokevirtual #191                // Method maxHeight:()Lscala/Option;
+     158: invokestatic  #209                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+     161: ifeq          218
+     164: aload_0
+     165: invokevirtual #193                // Method scriptFile:()Lscala/Option;
+     168: aload_3
+     169: invokevirtual #193                // Method scriptFile:()Lscala/Option;
+     172: invokestatic  #209                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+     175: ifeq          218
+     178: aload_0
+     179: invokevirtual #195                // Method command:()Lscala/Option;
+     182: aload_3
+     183: invokevirtual #195                // Method command:()Lscala/Option;
+     186: invokestatic  #209                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+     189: ifeq          218
+     192: aload_0
+     193: invokevirtual #198                // Method params:()Lscala/collection/immutable/Map;
+     196: aload_3
+     197: invokevirtual #198                // Method params:()Lscala/collection/immutable/Map;
+     200: invokestatic  #209                // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+     203: ifeq          218
+     206: aload_3
+     207: aload_0
+     208: invokevirtual #212                // Method canEqual:(Ljava/lang/Object;)Z
+     211: ifeq          218
+     214: iconst_1
+     215: goto          219
+     218: iconst_0
+     219: goto          226
+     222: iconst_0
+     223: goto          226
+     226: ifeq          233
+     229: iconst_1
+     230: goto          234
+     233: iconst_0
+     234: ireturn
+
+  public java.lang.String toString();
+    Code:
+       0: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       3: aload_0
+       4: invokevirtual #224                // Method scala/runtime/ScalaRunTime$._toString:(Lscala/Product;)Ljava/lang/String;
+       7: areturn
+
+  public boolean canEqual(java.lang.Object);
+    Code:
+       0: aload_1
+       1: instanceof    #2                  // class replpp/Config
+       4: ireturn
+
+  public int productArity();
+    Code:
+       0: bipush        14
+       2: ireturn
+
+  public java.lang.String productPrefix();
+    Code:
+       0: ldc           #229                // String Config
+       2: areturn
+
+  public java.lang.Object productElement(int);
+    Code:
+       0: iload_1
+       1: istore_2
+       2: iload_2
+       3: tableswitch   { // 0 to 13
+                     0: 72
+                     1: 77
+                     2: 82
+                     3: 87
+                     4: 95
+                     5: 103
+                     6: 108
+                     7: 116
+                     8: 121
+                     9: 126
+                    10: 131
+                    11: 136
+                    12: 141
+                    13: 146
+               default: 151
+          }
+      72: aload_0
+      73: invokevirtual #235                // Method _1:()Lscala/collection/immutable/Seq;
+      76: areturn
+      77: aload_0
+      78: invokevirtual #238                // Method _2:()Lscala/collection/immutable/Seq;
+      81: areturn
+      82: aload_0
+      83: invokevirtual #241                // Method _3:()Lscala/collection/immutable/Seq;
+      86: areturn
+      87: aload_0
+      88: invokevirtual #244                // Method _4:()Z
+      91: invokestatic  #250                // Method scala/runtime/BoxesRunTime.boxToBoolean:(Z)Ljava/lang/Boolean;
+      94: areturn
+      95: aload_0
+      96: invokevirtual #253                // Method _5:()Z
+      99: invokestatic  #250                // Method scala/runtime/BoxesRunTime.boxToBoolean:(Z)Ljava/lang/Boolean;
+     102: areturn
+     103: aload_0
+     104: invokevirtual #256                // Method _6:()Lreplpp/Config$ForClasspath;
+     107: areturn
+     108: aload_0
+     109: invokevirtual #259                // Method _7:()Z
+     112: invokestatic  #250                // Method scala/runtime/BoxesRunTime.boxToBoolean:(Z)Ljava/lang/Boolean;
+     115: areturn
+     116: aload_0
+     117: invokevirtual #262                // Method _8:()Lscala/collection/immutable/Seq;
+     120: areturn
+     121: aload_0
+     122: invokevirtual #265                // Method _9:()Lscala/Option;
+     125: areturn
+     126: aload_0
+     127: invokevirtual #268                // Method _10:()Lscala/Option;
+     130: areturn
+     131: aload_0
+     132: invokevirtual #271                // Method _11:()Lscala/Option;
+     135: areturn
+     136: aload_0
+     137: invokevirtual #274                // Method _12:()Lscala/Option;
+     140: areturn
+     141: aload_0
+     142: invokevirtual #277                // Method _13:()Lscala/Option;
+     145: areturn
+     146: aload_0
+     147: invokevirtual #280                // Method _14:()Lscala/collection/immutable/Map;
+     150: areturn
+     151: new           #282                // class java/lang/IndexOutOfBoundsException
+     154: dup
+     155: iload_1
+     156: invokespecial #285                // Method java/lang/IndexOutOfBoundsException."<init>":(I)V
+     159: athrow
+
+  public java.lang.String productElementName(int);
+    Code:
+       0: iload_1
+       1: istore_2
+       2: iload_2
+       3: tableswitch   { // 0 to 13
+                     0: 72
+                     1: 76
+                     2: 80
+                     3: 84
+                     4: 88
+                     5: 92
+                     6: 96
+                     7: 100
+                     8: 104
+                     9: 108
+                    10: 112
+                    11: 116
+                    12: 120
+                    13: 124
+               default: 128
+          }
+      72: ldc_w         #289                // String predefFiles
+      75: areturn
+      76: ldc_w         #290                // String runBefore
+      79: areturn
+      80: ldc_w         #291                // String runAfter
+      83: areturn
+      84: ldc_w         #292                // String nocolors
+      87: areturn
+      88: ldc_w         #293                // String verbose
+      91: areturn
+      92: ldc_w         #294                // String classpathConfig
+      95: areturn
+      96: ldc_w         #295                // String remoteJvmDebugEnabled
+      99: areturn
+     100: ldc_w         #296                // String scalacOptions
+     103: areturn
+     104: ldc_w         #297                // String prompt
+     107: areturn
+     108: ldc_w         #298                // String greeting
+     111: areturn
+     112: ldc_w         #299                // String maxHeight
+     115: areturn
+     116: ldc_w         #300                // String scriptFile
+     119: areturn
+     120: ldc_w         #301                // String command
+     123: areturn
+     124: ldc_w         #302                // String params
+     127: areturn
+     128: new           #282                // class java/lang/IndexOutOfBoundsException
+     131: dup
+     132: iload_1
+     133: invokespecial #285                // Method java/lang/IndexOutOfBoundsException."<init>":(I)V
+     136: athrow
+
+  public scala.collection.immutable.Seq<java.nio.file.Path> predefFiles();
+    Code:
+       0: aload_0
+       1: getfield      #82                 // Field predefFiles:Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> runBefore();
+    Code:
+       0: aload_0
+       1: getfield      #84                 // Field runBefore:Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> runAfter();
+    Code:
+       0: aload_0
+       1: getfield      #86                 // Field runAfter:Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public boolean nocolors();
+    Code:
+       0: aload_0
+       1: getfield      #88                 // Field nocolors:Z
+       4: ireturn
+
+  public boolean verbose();
+    Code:
+       0: aload_0
+       1: getfield      #90                 // Field verbose:Z
+       4: ireturn
+
+  public replpp.Config$ForClasspath classpathConfig();
+    Code:
+       0: aload_0
+       1: getfield      #92                 // Field classpathConfig:Lreplpp/Config$ForClasspath;
+       4: areturn
+
+  public boolean remoteJvmDebugEnabled();
+    Code:
+       0: aload_0
+       1: getfield      #94                 // Field remoteJvmDebugEnabled:Z
+       4: ireturn
+
+  public scala.collection.immutable.Seq<java.lang.String> scalacOptions();
+    Code:
+       0: aload_0
+       1: getfield      #96                 // Field scalacOptions:Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public scala.Option<java.lang.String> prompt();
+    Code:
+       0: aload_0
+       1: getfield      #98                 // Field prompt:Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.lang.String> greeting();
+    Code:
+       0: aload_0
+       1: getfield      #100                // Field greeting:Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.lang.Object> maxHeight();
+    Code:
+       0: aload_0
+       1: getfield      #102                // Field maxHeight:Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.nio.file.Path> scriptFile();
+    Code:
+       0: aload_0
+       1: getfield      #104                // Field scriptFile:Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.lang.String> command();
+    Code:
+       0: aload_0
+       1: getfield      #106                // Field command:Lscala/Option;
+       4: areturn
+
+  public scala.collection.immutable.Map<java.lang.String, java.lang.String> params();
+    Code:
+       0: aload_0
+       1: getfield      #108                // Field params:Lscala/collection/immutable/Map;
+       4: areturn
+
+  public replpp.package$Colors colors();
+    Code:
+       0: aload_0
+       1: getfield      #119                // Field colors:Lreplpp/package$Colors;
+       4: areturn
+
+  public replpp.Config withAdditionalClasspathEntry(java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+       4: aload_1
+       5: invokevirtual #315                // Method replpp/Config$ForClasspath.withAdditionalClasspathEntry:(Ljava/nio/file/Path;)Lreplpp/Config$ForClasspath;
+       8: astore_2
+       9: aload_0
+      10: invokevirtual #318                // Method copy$default$1:()Lscala/collection/immutable/Seq;
+      13: astore_3
+      14: aload_0
+      15: invokevirtual #321                // Method copy$default$2:()Lscala/collection/immutable/Seq;
+      18: astore        4
+      20: aload_0
+      21: invokevirtual #324                // Method copy$default$3:()Lscala/collection/immutable/Seq;
+      24: astore        5
+      26: aload_0
+      27: invokevirtual #327                // Method copy$default$4:()Z
+      30: istore        6
+      32: aload_0
+      33: invokevirtual #330                // Method copy$default$5:()Z
+      36: istore        7
+      38: aload_0
+      39: invokevirtual #333                // Method copy$default$7:()Z
+      42: istore        8
+      44: aload_0
+      45: invokevirtual #336                // Method copy$default$8:()Lscala/collection/immutable/Seq;
+      48: astore        9
+      50: aload_0
+      51: invokevirtual #339                // Method copy$default$9:()Lscala/Option;
+      54: astore        10
+      56: aload_0
+      57: invokevirtual #342                // Method copy$default$10:()Lscala/Option;
+      60: astore        11
+      62: aload_0
+      63: invokevirtual #345                // Method copy$default$11:()Lscala/Option;
+      66: astore        12
+      68: aload_0
+      69: invokevirtual #348                // Method copy$default$12:()Lscala/Option;
+      72: astore        13
+      74: aload_0
+      75: invokevirtual #351                // Method copy$default$13:()Lscala/Option;
+      78: astore        14
+      80: aload_0
+      81: invokevirtual #354                // Method copy$default$14:()Lscala/collection/immutable/Map;
+      84: astore        15
+      86: aload_0
+      87: aload_3
+      88: aload         4
+      90: aload         5
+      92: iload         6
+      94: iload         7
+      96: aload_2
+      97: iload         8
+      99: aload         9
+     101: aload         10
+     103: aload         11
+     105: aload         12
+     107: aload         13
+     109: aload         14
+     111: aload         15
+     113: invokevirtual #358                // Method copy:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+     116: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> asJavaArgs();
+    Code:
+       0: aload_0
+       1: getfield      #362                // Field asJavaArgs$lzy1:Ljava/lang/Object;
+       4: astore_1
+       5: aload_1
+       6: instanceof    #123                // class scala/collection/immutable/Seq
+       9: ifeq          17
+      12: aload_1
+      13: checkcast     #123                // class scala/collection/immutable/Seq
+      16: areturn
+      17: aload_1
+      18: getstatic     #365                // Field scala/runtime/LazyVals$NullValue$.MODULE$:Lscala/runtime/LazyVals$NullValue$;
+      21: if_acmpne     26
+      24: aconst_null
+      25: areturn
+      26: aload_0
+      27: invokespecial #369                // Method asJavaArgs$lzyINIT1:()Ljava/lang/Object;
+      30: checkcast     #123                // class scala/collection/immutable/Seq
+      33: areturn
+
+  private java.lang.Object asJavaArgs$lzyINIT1();
+    Code:
+       0: aload_0
+       1: getfield      #362                // Field asJavaArgs$lzy1:Ljava/lang/Object;
+       4: astore_1
+       5: aload_1
+       6: ifnonnull     473
+       9: getstatic     #139                // Field asJavaArgs$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+      12: aload_0
+      13: aconst_null
+      14: getstatic     #372                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+      17: invokevirtual #378                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+      20: ifeq          470
+      23: aconst_null
+      24: astore_2
+      25: aconst_null
+      26: astore_3
+      27: getstatic     #383                // Field scala/package$.MODULE$:Lscala/package$;
+      30: invokevirtual #387                // Method scala/package$.Seq:()Lscala/collection/immutable/Seq$;
+      33: invokevirtual #393                // Method scala/collection/immutable/Seq$.newBuilder:()Lscala/collection/mutable/Builder;
+      36: astore        4
+      38: aload_0
+      39: invokevirtual #164                // Method predefFiles:()Lscala/collection/immutable/Seq;
+      42: aload         4
+      44: invokedynamic #415,  0            // InvokeDynamic #0:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+      49: invokeinterface #419,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+      54: aload_0
+      55: invokevirtual #170                // Method runBefore:()Lscala/collection/immutable/Seq;
+      58: aload         4
+      60: invokedynamic #427,  0            // InvokeDynamic #1:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+      65: invokeinterface #419,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+      70: aload_0
+      71: invokevirtual #172                // Method runAfter:()Lscala/collection/immutable/Seq;
+      74: aload         4
+      76: invokedynamic #432,  0            // InvokeDynamic #2:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+      81: invokeinterface #419,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+      86: aload_0
+      87: invokevirtual #175                // Method nocolors:()Z
+      90: ifeq          115
+      93: aload         4
+      95: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      98: iconst_1
+      99: anewarray     #434                // class java/lang/String
+     102: dup
+     103: iconst_0
+     104: ldc_w         #436                // String --nocolors
+     107: aastore
+     108: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     111: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+     114: pop
+     115: aload_0
+     116: invokevirtual #177                // Method verbose:()Z
+     119: ifeq          144
+     122: aload         4
+     124: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     127: iconst_1
+     128: anewarray     #434                // class java/lang/String
+     131: dup
+     132: iconst_0
+     133: ldc_w         #446                // String --verbose
+     136: aastore
+     137: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     140: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+     143: pop
+     144: aload_0
+     145: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+     148: invokevirtual #449                // Method replpp/Config$ForClasspath.additionalClasspathEntries:()Lscala/collection/immutable/Seq;
+     151: aload         4
+     153: invokedynamic #454,  0            // InvokeDynamic #3:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+     158: invokeinterface #419,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+     163: aload_0
+     164: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+     167: invokevirtual #457                // Method replpp/Config$ForClasspath.inheritClasspath:()Z
+     170: ifeq          195
+     173: aload         4
+     175: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+     178: iconst_1
+     179: anewarray     #434                // class java/lang/String
+     182: dup
+     183: iconst_0
+     184: ldc_w         #459                // String --cpinherit
+     187: aastore
+     188: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+     191: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+     194: pop
+     195: aload_0
+     196: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+     199: invokevirtual #462                // Method replpp/Config$ForClasspath.inheritClasspathIncludes:()Lscala/collection/immutable/Seq;
+     202: invokedynamic #472,  0            // InvokeDynamic #4:apply:()Lscala/Function1;
+     207: invokeinterface #476,  2          // InterfaceMethod scala/collection/immutable/Seq.filterNot:(Lscala/Function1;)Ljava/lang/Object;
+     212: checkcast     #478                // class scala/collection/IterableOnceOps
+     215: aload         4
+     217: invokedynamic #483,  0            // InvokeDynamic #5:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+     222: invokeinterface #484,  2          // InterfaceMethod scala/collection/IterableOnceOps.foreach:(Lscala/Function1;)V
+     227: aload_0
+     228: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+     231: invokevirtual #487                // Method replpp/Config$ForClasspath.inheritClasspathExcludes:()Lscala/collection/immutable/Seq;
+     234: aload         4
+     236: invokedynamic #492,  0            // InvokeDynamic #6:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+     241: invokeinterface #419,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+     246: aload_0
+     247: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+     250: invokevirtual #495                // Method replpp/Config$ForClasspath.dependencies:()Lscala/collection/immutable/Seq;
+     253: aload         4
+     255: invokedynamic #500,  0            // InvokeDynamic #7:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+     260: invokeinterface #419,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+     265: aload_0
+     266: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+     269: invokevirtual #503                // Method replpp/Config$ForClasspath.resolvers:()Lscala/collection/immutable/Seq;
+     272: aload         4
+     274: invokedynamic #508,  0            // InvokeDynamic #8:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+     279: invokeinterface #419,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+     284: aload_0
+     285: invokevirtual #191                // Method maxHeight:()Lscala/Option;
+     288: aload         4
+     290: invokedynamic #516,  0            // InvokeDynamic #9:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+     295: invokevirtual #517                // Method scala/Option.foreach:(Lscala/Function1;)V
+     298: aload_0
+     299: invokevirtual #184                // Method scalacOptions:()Lscala/collection/immutable/Seq;
+     302: aload         4
+     304: invokedynamic #522,  0            // InvokeDynamic #10:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+     309: invokeinterface #419,  2          // InterfaceMethod scala/collection/immutable/Seq.foreach:(Lscala/Function1;)V
+     314: aload_0
+     315: invokevirtual #193                // Method scriptFile:()Lscala/Option;
+     318: aload         4
+     320: invokedynamic #527,  0            // InvokeDynamic #11:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+     325: invokevirtual #517                // Method scala/Option.foreach:(Lscala/Function1;)V
+     328: aload_0
+     329: invokevirtual #195                // Method command:()Lscala/Option;
+     332: aload         4
+     334: invokedynamic #532,  0            // InvokeDynamic #12:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+     339: invokevirtual #517                // Method scala/Option.foreach:(Lscala/Function1;)V
+     342: aload_0
+     343: invokevirtual #198                // Method params:()Lscala/collection/immutable/Map;
+     346: aload         4
+     348: invokedynamic #540,  0            // InvokeDynamic #13:apply:(Lscala/collection/mutable/Builder;)Lscala/Function1;
+     353: invokeinterface #541,  2          // InterfaceMethod scala/collection/immutable/Map.foreach:(Lscala/Function1;)V
+     358: aload         4
+     360: invokeinterface #546,  1          // InterfaceMethod scala/collection/mutable/Builder.result:()Ljava/lang/Object;
+     365: checkcast     #123                // class scala/collection/immutable/Seq
+     368: astore_3
+     369: aload_3
+     370: ifnonnull     380
+     373: getstatic     #365                // Field scala/runtime/LazyVals$NullValue$.MODULE$:Lscala/runtime/LazyVals$NullValue$;
+     376: astore_2
+     377: goto          382
+     380: aload_3
+     381: astore_2
+     382: goto          429
+     385: astore        5
+     387: getstatic     #139                // Field asJavaArgs$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     390: aload_0
+     391: getstatic     #372                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+     394: aload_2
+     395: invokevirtual #378                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     398: ifne          426
+     401: aload_0
+     402: getfield      #362                // Field asJavaArgs$lzy1:Ljava/lang/Object;
+     405: checkcast     #45                 // class scala/runtime/LazyVals$Waiting
+     408: astore        6
+     410: getstatic     #139                // Field asJavaArgs$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     413: aload_0
+     414: aload         6
+     416: aload_2
+     417: invokevirtual #378                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     420: pop
+     421: aload         6
+     423: invokevirtual #549                // Method scala/runtime/LazyVals$Waiting.countDown:()V
+     426: aload         5
+     428: athrow
+     429: getstatic     #139                // Field asJavaArgs$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     432: aload_0
+     433: getstatic     #372                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+     436: aload_2
+     437: invokevirtual #378                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     440: ifne          468
+     443: aload_0
+     444: getfield      #362                // Field asJavaArgs$lzy1:Ljava/lang/Object;
+     447: checkcast     #45                 // class scala/runtime/LazyVals$Waiting
+     450: astore        6
+     452: getstatic     #139                // Field asJavaArgs$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     455: aload_0
+     456: aload         6
+     458: aload_2
+     459: invokevirtual #378                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     462: pop
+     463: aload         6
+     465: invokevirtual #549                // Method scala/runtime/LazyVals$Waiting.countDown:()V
+     468: aload_3
+     469: areturn
+     470: goto          0
+     473: aload_1
+     474: instanceof    #39                 // class scala/runtime/LazyVals$LazyValControlState
+     477: ifeq          525
+     480: aload_1
+     481: getstatic     #372                // Field scala/runtime/LazyVals$Evaluating$.MODULE$:Lscala/runtime/LazyVals$Evaluating$;
+     484: if_acmpne     506
+     487: getstatic     #139                // Field asJavaArgs$lzy1$lzyHandle:Ljava/lang/invoke/VarHandle;
+     490: aload_0
+     491: aload_1
+     492: new           #45                 // class scala/runtime/LazyVals$Waiting
+     495: dup
+     496: invokespecial #550                // Method scala/runtime/LazyVals$Waiting."<init>":()V
+     499: invokevirtual #378                // Method java/lang/invoke/VarHandle.compareAndSet:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
+     502: pop
+     503: goto          0
+     506: aload_1
+     507: instanceof    #45                 // class scala/runtime/LazyVals$Waiting
+     510: ifeq          523
+     513: aload_1
+     514: checkcast     #45                 // class scala/runtime/LazyVals$Waiting
+     517: invokevirtual #553                // Method scala/runtime/LazyVals$Waiting.await:()V
+     520: goto          0
+     523: aconst_null
+     524: areturn
+     525: aload_1
+     526: areturn
+    Exception table:
+       from    to  target type
+          27   385   385   any
+
+  public replpp.Config copy(scala.collection.immutable.Seq<java.nio.file.Path>, scala.collection.immutable.Seq<java.lang.String>, scala.collection.immutable.Seq<java.lang.String>, boolean, boolean, replpp.Config$ForClasspath, boolean, scala.collection.immutable.Seq<java.lang.String>, scala.Option<java.lang.String>, scala.Option<java.lang.String>, scala.Option<java.lang.Object>, scala.Option<java.nio.file.Path>, scala.Option<java.lang.String>, scala.collection.immutable.Map<java.lang.String, java.lang.String>);
+    Code:
+       0: new           #2                  // class replpp/Config
+       3: dup
+       4: aload_1
+       5: aload_2
+       6: aload_3
+       7: iload         4
+       9: iload         5
+      11: aload         6
+      13: iload         7
+      15: aload         8
+      17: aload         9
+      19: aload         10
+      21: aload         11
+      23: aload         12
+      25: aload         13
+      27: aload         14
+      29: invokespecial #560                // Method "<init>":(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)V
+      32: areturn
+
+  public scala.collection.immutable.Seq<java.nio.file.Path> copy$default$1();
+    Code:
+       0: aload_0
+       1: invokevirtual #164                // Method predefFiles:()Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> copy$default$2();
+    Code:
+       0: aload_0
+       1: invokevirtual #170                // Method runBefore:()Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> copy$default$3();
+    Code:
+       0: aload_0
+       1: invokevirtual #172                // Method runAfter:()Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public boolean copy$default$4();
+    Code:
+       0: aload_0
+       1: invokevirtual #175                // Method nocolors:()Z
+       4: ireturn
+
+  public boolean copy$default$5();
+    Code:
+       0: aload_0
+       1: invokevirtual #177                // Method verbose:()Z
+       4: ireturn
+
+  public replpp.Config$ForClasspath copy$default$6();
+    Code:
+       0: aload_0
+       1: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+       4: areturn
+
+  public boolean copy$default$7();
+    Code:
+       0: aload_0
+       1: invokevirtual #182                // Method remoteJvmDebugEnabled:()Z
+       4: ireturn
+
+  public scala.collection.immutable.Seq<java.lang.String> copy$default$8();
+    Code:
+       0: aload_0
+       1: invokevirtual #184                // Method scalacOptions:()Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public scala.Option<java.lang.String> copy$default$9();
+    Code:
+       0: aload_0
+       1: invokevirtual #187                // Method prompt:()Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.lang.String> copy$default$10();
+    Code:
+       0: aload_0
+       1: invokevirtual #189                // Method greeting:()Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.lang.Object> copy$default$11();
+    Code:
+       0: aload_0
+       1: invokevirtual #191                // Method maxHeight:()Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.nio.file.Path> copy$default$12();
+    Code:
+       0: aload_0
+       1: invokevirtual #193                // Method scriptFile:()Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.lang.String> copy$default$13();
+    Code:
+       0: aload_0
+       1: invokevirtual #195                // Method command:()Lscala/Option;
+       4: areturn
+
+  public scala.collection.immutable.Map<java.lang.String, java.lang.String> copy$default$14();
+    Code:
+       0: aload_0
+       1: invokevirtual #198                // Method params:()Lscala/collection/immutable/Map;
+       4: areturn
+
+  public scala.collection.immutable.Seq<java.nio.file.Path> _1();
+    Code:
+       0: aload_0
+       1: invokevirtual #164                // Method predefFiles:()Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> _2();
+    Code:
+       0: aload_0
+       1: invokevirtual #170                // Method runBefore:()Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public scala.collection.immutable.Seq<java.lang.String> _3();
+    Code:
+       0: aload_0
+       1: invokevirtual #172                // Method runAfter:()Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public boolean _4();
+    Code:
+       0: aload_0
+       1: invokevirtual #175                // Method nocolors:()Z
+       4: ireturn
+
+  public boolean _5();
+    Code:
+       0: aload_0
+       1: invokevirtual #177                // Method verbose:()Z
+       4: ireturn
+
+  public replpp.Config$ForClasspath _6();
+    Code:
+       0: aload_0
+       1: invokevirtual #180                // Method classpathConfig:()Lreplpp/Config$ForClasspath;
+       4: areturn
+
+  public boolean _7();
+    Code:
+       0: aload_0
+       1: invokevirtual #182                // Method remoteJvmDebugEnabled:()Z
+       4: ireturn
+
+  public scala.collection.immutable.Seq<java.lang.String> _8();
+    Code:
+       0: aload_0
+       1: invokevirtual #184                // Method scalacOptions:()Lscala/collection/immutable/Seq;
+       4: areturn
+
+  public scala.Option<java.lang.String> _9();
+    Code:
+       0: aload_0
+       1: invokevirtual #187                // Method prompt:()Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.lang.String> _10();
+    Code:
+       0: aload_0
+       1: invokevirtual #189                // Method greeting:()Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.lang.Object> _11();
+    Code:
+       0: aload_0
+       1: invokevirtual #191                // Method maxHeight:()Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.nio.file.Path> _12();
+    Code:
+       0: aload_0
+       1: invokevirtual #193                // Method scriptFile:()Lscala/Option;
+       4: areturn
+
+  public scala.Option<java.lang.String> _13();
+    Code:
+       0: aload_0
+       1: invokevirtual #195                // Method command:()Lscala/Option;
+       4: areturn
+
+  public scala.collection.immutable.Map<java.lang.String, java.lang.String> _14();
+    Code:
+       0: aload_0
+       1: invokevirtual #198                // Method params:()Lscala/collection/immutable/Map;
+       4: areturn
+
+  private static final scala.collection.mutable.Builder add$1(scala.collection.mutable.Builder, scala.collection.immutable.Seq);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #567,  2          // InterfaceMethod scala/collection/mutable/Builder.addAll:(Lscala/collection/IterableOnce;)Lscala/collection/mutable/Growable;
+       7: checkcast     #543                // class scala/collection/mutable/Builder
+      10: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$1(scala.collection.mutable.Builder, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #571                // String --predef
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: aload_1
+      17: invokeinterface #575,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      22: aastore
+      23: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      26: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      29: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$2(scala.collection.mutable.Builder, java.lang.String);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #578                // String --runBefore
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: aload_1
+      17: aastore
+      18: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      21: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      24: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$3(scala.collection.mutable.Builder, java.lang.String);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #582                // String --runAfter
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: aload_1
+      17: aastore
+      18: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      21: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      24: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$4(scala.collection.mutable.Builder, java.lang.String);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #586                // String --classpathEntry
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: aload_1
+      17: aastore
+      18: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      21: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      24: areturn
+
+  private static final boolean asJavaArgs$lzyINIT1$$anonfun$5(java.lang.String);
+    Code:
+       0: getstatic     #590                // Field replpp/Config$ForClasspath$.MODULE$:Lreplpp/Config$ForClasspath$;
+       3: invokevirtual #593                // Method replpp/Config$ForClasspath$.DefaultInheritClasspathIncludes:()Lscala/collection/immutable/Seq;
+       6: aload_0
+       7: invokeinterface #596,  2          // InterfaceMethod scala/collection/immutable/Seq.contains:(Ljava/lang/Object;)Z
+      12: ireturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$6(scala.collection.mutable.Builder, java.lang.String);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #599                // String --cpinclude
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: aload_1
+      17: aastore
+      18: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      21: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      24: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$7(scala.collection.mutable.Builder, java.lang.String);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #602                // String --cpexclude
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: aload_1
+      17: aastore
+      18: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      21: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      24: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$8(scala.collection.mutable.Builder, java.lang.String);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #606                // String --dep
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: aload_1
+      17: aastore
+      18: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      21: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      24: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$9(scala.collection.mutable.Builder, java.lang.String);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #609                // String --repo
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: aload_1
+      17: aastore
+      18: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      21: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      24: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$10(scala.collection.mutable.Builder, int);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #615                // String --maxHeight
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: iload_1
+      17: invokestatic  #619                // Method scala/runtime/BoxesRunTime.boxToInteger:(I)Ljava/lang/Integer;
+      20: invokestatic  #623                // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+      23: aastore
+      24: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      27: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      30: areturn
+
+  private static scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$adapted$1(scala.collection.mutable.Builder, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #627                // Method scala/runtime/BoxesRunTime.unboxToInt:(Ljava/lang/Object;)I
+       5: invokestatic  #629                // Method asJavaArgs$lzyINIT1$$anonfun$10:(Lscala/collection/mutable/Builder;I)Lscala/collection/mutable/Builder;
+       8: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$11(scala.collection.mutable.Builder, java.lang.String);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #633                // String --scalacOption
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: aload_1
+      17: aastore
+      18: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      21: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      24: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$12(scala.collection.mutable.Builder, java.nio.file.Path);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #637                // String --script
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: aload_1
+      17: invokeinterface #575,  1          // InterfaceMethod java/nio/file/Path.toString:()Ljava/lang/String;
+      22: aastore
+      23: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      26: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      29: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$13(scala.collection.mutable.Builder, java.lang.String);
+    Code:
+       0: aload_0
+       1: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+       4: iconst_2
+       5: anewarray     #434                // class java/lang/String
+       8: dup
+       9: iconst_0
+      10: ldc_w         #641                // String --command
+      13: aastore
+      14: dup
+      15: iconst_1
+      16: aload_1
+      17: aastore
+      18: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      21: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      24: areturn
+
+  private static final scala.collection.mutable.Builder asJavaArgs$lzyINIT1$$anonfun$14(scala.collection.mutable.Builder, scala.Tuple2);
+    Code:
+       0: aload_1
+       1: astore_2
+       2: aload_2
+       3: ifnull        55
+       6: aload_2
+       7: invokevirtual #647                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #434                // class java/lang/String
+      13: astore_3
+      14: aload_2
+      15: invokevirtual #649                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      18: checkcast     #434                // class java/lang/String
+      21: astore        4
+      23: aload_0
+      24: getstatic     #220                // Field scala/runtime/ScalaRunTime$.MODULE$:Lscala/runtime/ScalaRunTime$;
+      27: iconst_2
+      28: anewarray     #434                // class java/lang/String
+      31: dup
+      32: iconst_0
+      33: ldc_w         #651                // String --param
+      36: aastore
+      37: dup
+      38: iconst_1
+      39: aload_3
+      40: aload         4
+      42: invokedynamic #663,  0            // InvokeDynamic #14:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      47: aastore
+      48: invokevirtual #440                // Method scala/runtime/ScalaRunTime$.wrapRefArray:([Ljava/lang/Object;)Lscala/collection/immutable/ArraySeq;
+      51: invokestatic  #444                // Method add$1:(Lscala/collection/mutable/Builder;Lscala/collection/immutable/Seq;)Lscala/collection/mutable/Builder;
+      54: areturn
+      55: new           #665                // class scala/MatchError
+      58: dup
+      59: aload_2
+      60: invokespecial #668                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      63: athrow
+
+  public static replpp.Config apply(scala.collection.immutable.Seq<java.nio.file.Path>, scala.collection.immutable.Seq<java.lang.String>, scala.collection.immutable.Seq<java.lang.String>, boolean, boolean, replpp.Config$ForClasspath, boolean, scala.collection.immutable.Seq<java.lang.String>, scala.Option<java.lang.String>, scala.Option<java.lang.String>, scala.Option<java.lang.Object>, scala.Option<java.nio.file.Path>, scala.Option<java.lang.String>, scala.collection.immutable.Map<java.lang.String, java.lang.String>);
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: aload_0
+       4: aload_1
+       5: aload_2
+       6: iload_3
+       7: iload         4
+       9: aload         5
+      11: iload         6
+      13: aload         7
+      15: aload         8
+      17: aload         9
+      19: aload         10
+      21: aload         11
+      23: aload         12
+      25: aload         13
+      27: invokevirtual #677                // Method replpp/Config$.apply:(Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;Lscala/collection/immutable/Seq;ZZLreplpp/Config$ForClasspath;ZLscala/collection/immutable/Seq;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/Option;Lscala/collection/immutable/Map;)Lreplpp/Config;
+      30: areturn
+
+  public static replpp.Config fromProduct(scala.Product);
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: aload_0
+       4: invokevirtual #681                // Method replpp/Config$.fromProduct:(Lscala/Product;)Lreplpp/Config;
+       7: areturn
+
+  public static replpp.Config parse(java.lang.String[]);
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: aload_0
+       4: invokevirtual #685                // Method replpp/Config$.parse:([Ljava/lang/String;)Lreplpp/Config;
+       7: areturn
+
+  public static replpp.shaded.scopt.OParser<scala.runtime.BoxedUnit, replpp.Config> parser();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #690                // Method replpp/Config$.parser:()Lreplpp/shaded/scopt/OParser;
+       6: areturn
+
+  public static replpp.Config unapply(replpp.Config);
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: aload_0
+       4: invokevirtual #694                // Method replpp/Config$.unapply:(Lreplpp/Config;)Lreplpp/Config;
+       7: areturn
+
+  public static scala.collection.immutable.Seq<java.nio.file.Path> $lessinit$greater$default$1();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #697                // Method replpp/Config$.$lessinit$greater$default$1:()Lscala/collection/immutable/Seq;
+       6: areturn
+
+  public static scala.collection.immutable.Seq<java.lang.String> $lessinit$greater$default$2();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #700                // Method replpp/Config$.$lessinit$greater$default$2:()Lscala/collection/immutable/Seq;
+       6: areturn
+
+  public static scala.collection.immutable.Seq<java.lang.String> $lessinit$greater$default$3();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #703                // Method replpp/Config$.$lessinit$greater$default$3:()Lscala/collection/immutable/Seq;
+       6: areturn
+
+  public static boolean $lessinit$greater$default$4();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #706                // Method replpp/Config$.$lessinit$greater$default$4:()Z
+       6: ireturn
+
+  public static boolean $lessinit$greater$default$5();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #709                // Method replpp/Config$.$lessinit$greater$default$5:()Z
+       6: ireturn
+
+  public static replpp.Config$ForClasspath $lessinit$greater$default$6();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #712                // Method replpp/Config$.$lessinit$greater$default$6:()Lreplpp/Config$ForClasspath;
+       6: areturn
+
+  public static boolean $lessinit$greater$default$7();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #715                // Method replpp/Config$.$lessinit$greater$default$7:()Z
+       6: ireturn
+
+  public static scala.collection.immutable.Seq<java.lang.String> $lessinit$greater$default$8();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #718                // Method replpp/Config$.$lessinit$greater$default$8:()Lscala/collection/immutable/Seq;
+       6: areturn
+
+  public static scala.Option<java.lang.String> $lessinit$greater$default$9();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #721                // Method replpp/Config$.$lessinit$greater$default$9:()Lscala/Option;
+       6: areturn
+
+  public static scala.Option<java.lang.String> $lessinit$greater$default$10();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #724                // Method replpp/Config$.$lessinit$greater$default$10:()Lscala/Option;
+       6: areturn
+
+  public static scala.Option<java.lang.Object> $lessinit$greater$default$11();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #727                // Method replpp/Config$.$lessinit$greater$default$11:()Lscala/Option;
+       6: areturn
+
+  public static scala.Option<java.nio.file.Path> $lessinit$greater$default$12();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #730                // Method replpp/Config$.$lessinit$greater$default$12:()Lscala/Option;
+       6: areturn
+
+  public static scala.Option<java.lang.String> $lessinit$greater$default$13();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #733                // Method replpp/Config$.$lessinit$greater$default$13:()Lscala/Option;
+       6: areturn
+
+  public static scala.collection.immutable.Map<java.lang.String, java.lang.String> $lessinit$greater$default$14();
+    Code:
+       0: getstatic     #675                // Field replpp/Config$.MODULE$:Lreplpp/Config$;
+       3: invokevirtual #736                // Method replpp/Config$.$lessinit$greater$default$14:()Lscala/collection/immutable/Map;
+       6: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #748,  0            // InvokeDynamic #15:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}

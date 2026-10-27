@@ -1,0 +1,66 @@
+{
+  "allowed_namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01",
+  "authority_chain": [
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/no-expiry-authorization-01.json",
+      "sha256": "acb13ecc94ee191cf164cc4cdc6cd804bbe34fbb5dbe4dfb6e33c6a173f80edc"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/source-working-cap-30gib-authorization-01.json",
+      "sha256": "bcba59ae10ea1cea565641249a0dc3bddfd063c66f298e19ce2ce0b86743cdbe"
+    },
+    {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/authorization-01.json",
+      "sha256": "0f8413d52c348a9d89079c70d8cebdea3179c35a8b84a98d390c53227e6f5478"
+    }
+  ],
+  "authority_kind": "root-scoped-derivation-of-existing-human-autonomy-not-new-human-approval",
+  "automatic_retry": false,
+  "execution_window_seconds": null,
+  "global_guards_gib": {
+    "aggregate_source": 30,
+    "joern_inner": 125,
+    "outer": 110,
+    "per_source": 12,
+    "reserve": 40,
+    "retention": 24,
+    "schedule": 127,
+    "scratch": 24,
+    "stop": 48
+  },
+  "native_control_limits": {
+    "arms": 12,
+    "control_scratch_bytes": 4294967296,
+    "fixtures": 6,
+    "inner_total_seconds": 900,
+    "maximum_phases": 36,
+    "per_arm_seconds": 75
+  },
+  "no_new_time_or_attempt_authorization_claimed": true,
+  "one_analyzer_slot": true,
+  "original_origin_utc": "2026-10-20T00:57:00.680937+00:00",
+  "prohibited": [
+    "reusing any consumed namespace",
+    "rerunning completed CodeQL or 20 Bifrost groups",
+    "relabeling historical attempts",
+    "publishing, release tags, deploys, automerge",
+    "v0.14.1 experiment or silent pins",
+    "foreign process kills or cleanup"
+  ],
+  "publication_hold": true,
+  "publication_hold_ref": {
+    "path": "reports/releases/v0.9.2/review-handoff/human-publication-hold-01.json",
+    "sha256": "fd3973aecc7a001d0bb2deffa6a1f494b1581e8f64ad1b6762aa64b7b5a0657d"
+  },
+  "recorded_utc": "2026-10-25T17:30:30.204368+00:00",
+  "requires": [
+    "independently approved source and namespace/lifecycle amendment",
+    "actual committed source closure",
+    "independent exact invocation review",
+    "fresh real resource/process/lock admission"
+  ],
+  "runtime_qualification_performed": false,
+  "schema": "v092-joern-native-control-authority-derivation/v1",
+  "scope": "One reviewed fresh six-fixture/off-on native startup control qualification; no benchmark attempt; no Unsupported issuance. Exact request/source/command review and fresh admission still required.",
+  "status": "approved"
+}

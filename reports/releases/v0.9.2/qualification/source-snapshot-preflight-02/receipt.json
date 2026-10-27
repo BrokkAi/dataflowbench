@@ -1,0 +1,84 @@
+{
+  "capture_root_availability_dependency": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+  "completed_utc": "2026-10-20T00:53:48.070145+00:00",
+  "core_closure_manifest": {
+    "path": "reports/releases/v0.9.2/qualification/source-input-closure-01.json",
+    "sha256": "6441d8c1666a22355743b2b47ee531e39ee5de3c0c76b1a1c550f26354f8c423"
+  },
+  "harness_inputs_unchanged_from_previous_source": true,
+  "input_manifest": {
+    "path": "execution-state/v092/final-source-inputs-build-02.json",
+    "sha256": "c72ecde4926a536cd41ff117754e91ab13ce34105f186ae5024c055a3fc24c1d"
+  },
+  "interpreter": "/usr/bin/python3",
+  "interpreter_version": "Python 3.9.6",
+  "materialized_source_inputs_verified": 752,
+  "previous_preflight_commit": "c0f914c81689f253cb29f1cbb84018756a2cf993",
+  "prior_failed_preflight": {
+    "path": "reports/releases/v0.9.2/qualification/source-snapshot-preflight-01/receipt.json",
+    "sha256": "e71c075690a62ffbc15ca76cc33dca61eb1cfa49ad4fe3d82bc26657c513bcf8"
+  },
+  "registered_snapshot_head": "c3c5cecb4b80f49ec04913549abc5a36572d4d6c",
+  "registered_snapshot_source_assertion": true,
+  "runner_source_sha256": "ab57a19c0d0a067e8a0f93850424264ed44d6df007b58687869887d421da3670",
+  "schema": "v092-source-snapshot-preflight/v1",
+  "snapshot_path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/source-snapshot-preflight-02/snapshot",
+  "source_commit": "c3c5cecb4b80f49ec04913549abc5a36572d4d6c",
+  "source_commit_and_all_inputs_verified_in_owner": true,
+  "source_input_count": 752,
+  "source_input_roles": {
+    "qualification-captured-source": 34,
+    "qualification-envelope": 8,
+    "qualification-evidence": 655,
+    "qualification-native-cpg": 24,
+    "release-input": 11,
+    "runtime-acquisition": 20
+  },
+  "status": "passed",
+  "validators": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "scripts/run-swift-common-v092.py",
+        "verify-plan",
+        "--plan",
+        "adapters/codeql/swift-common-v2/plan-v092-01/execution-plan.json"
+      ],
+      "engine": "codeql",
+      "observed": {
+        "case_count": 108,
+        "engine": "codeql",
+        "mode": "preflight",
+        "plan_sha256": "aaaa5f20a5ece1aadc472c575c313a4a4c081cb20e498a25dbced32d82ef8293",
+        "qualification_status": "measurement-with-known-limits",
+        "release_group_id": "codeql-swift-common108",
+        "scored_activation": false
+      },
+      "returncode": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "74ce5352d40ea4178ad49ab30013447a6ea2a585b35541bf462e96ed436f9159"
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "scripts/run-joern-common-v092.py",
+        "verify-plan",
+        "--plan",
+        "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json"
+      ],
+      "engine": "joern",
+      "observed": {
+        "case_count": 108,
+        "group_id": "joern-swift-common108",
+        "mode": "preflight",
+        "qualification_status": "measurement-with-known-limits",
+        "scored_activation": false,
+        "tool_version": "4.0.660"
+      },
+      "returncode": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "735ddbfc7ca73fcb5e8083f3e2a3b079c47e88cf2058e11a5cd68e7a8a64b141"
+    }
+  ],
+  "worktree_head": "c3c5cecb4b80f49ec04913549abc5a36572d4d6c"
+}

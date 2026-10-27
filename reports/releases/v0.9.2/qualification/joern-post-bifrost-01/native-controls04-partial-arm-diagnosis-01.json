@@ -1,0 +1,688 @@
+{
+  "automatic_retry": false,
+  "bounded_repair_recommendation": {
+    "avoid": [
+      "Do not accept arbitrary orphan witness because its file is in the invocation event directory.",
+      "Do not discard all command-absent JVM witnesses or label them valid semantic evidence.",
+      "Do not infer valid OFF outcome from exit0/graph/query_completed or upgrade interrupted ON.",
+      "Do not conflate this earlier observer error with the later parent contender report.",
+      "Do not assume faster polling alone proves complete containment."
+    ],
+    "decision": "Evidence supports a source-level ownership-observation gap investigation, not an engine-policy/model change or witness acceptance relaxation. No implementation in this task.",
+    "minimum": "Append-only improvement must establish exact pid/birth ancestry of short-lived version-helper JVM and its short-lived parent to a tracked invocation root (or retain explicit failure). Current records cannot retrospectively supply that edge. Preserve semantic JVM exact tracking, foreign/wrong-birth/unknown-owner rejection, event directory/home/predef checks and diagnostic-only version classification.",
+    "review_required_before_any_new_actual_native_run": true,
+    "source_only_regressions": [
+      "Replay exact retained query record plus witnesses through actual _witnesses: current rejection must reproduce without Java.",
+      "Positive exact birth-correlated short-helper parent ancestry, tracked semantic bridge/query roles; near misses foreign parent, reused PID/wrong birth, wrong event directory, missing semantic JVM.",
+      "Returned process record/error receipt preserves primary observer rejection/result null; matrix leaves failed OFF and interrupted ON explicit."
+    ]
+  },
+  "chronology": {
+    "basis": "Returned OFF record was materialized and ON typecheck subsequently returned successfully before parent stop20:06:15. Query end around20:05:33 is approximate from native birth plus elapsed, not a dedicated exact completion timestamp.",
+    "next_on_typecheck_birth": "2026-10-25T20:05:33.506379+00:00",
+    "parent_stop_utc": "2026-10-25T20:06:15.345587+00:00",
+    "query_elapsed_seconds": 6.72547033400042,
+    "query_tracked_root_birth": "2026-10-25T20:05:26.773799+00:00"
+  },
+  "finding": {
+    "causal_chain": [
+      "OFF query process runner returned exit 0 without timeout and emitted graph.json.",
+      "Observer accepted tracked bridge JVM 99152, then rejected jvm-99172.json because its parent 99171 was neither in the query tracked identity map nor the exact invocation host 95468.",
+      "observed_run retained failure_process_record but set result null/property_witness failure-only and raised ObservationError.",
+      "Frozen runner recorded OFF runner-error; no accepted native-control semantic result follows."
+    ],
+    "classification": "observer-ownership-evidence-rejection; engine-command failure not demonstrated",
+    "exact_error": "startup witness parent pid is outside the invocation: jvm-99172.json",
+    "location": {
+      "function": "ScopedObservation._witnesses",
+      "lines": "533-567, specifically 552-553",
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-06.py"
+    },
+    "not_caused_by_later_parent_stop": true,
+    "ownership_of_99171_99172": "unproven; neither actual foreign process nor legitimate invocation ancestry established by retained records",
+    "sampling_gap_hypothesis": "Consistent with documented polling limitation and short non-command JVM helper shape, but not proven; shared event directory alone is not sufficient ancestry proof."
+  },
+  "off_commands": [
+    {
+      "argv": [
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/swift-6.3.3/expanded/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr/bin/swiftc",
+        "-module-name",
+        "DataFlowBenchTaintSwift",
+        "-swift-version",
+        "6",
+        "-Onone",
+        "-sdk",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+        "-target",
+        "arm64-apple-macosx27.0.0",
+        "-module-cache-path",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/cache",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/DataFlowBenchTaintSwift/main.swift",
+        "-typecheck"
+      ],
+      "cleanup_error": null,
+      "cleanup_status": "tracked-processes-stopped",
+      "command_ref": {
+        "bytes": 2235,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.command.json",
+        "sha256": "e42f3cfa3e646e75018467275d4584b30d4c428d4c49653eb154b3f62b6849ca"
+      },
+      "descendant_containment": "unproven",
+      "discovery_complete": false,
+      "elapsed_seconds": 14.278127833997132,
+      "exit_status": 0,
+      "memory_compliance": "unproven",
+      "phase": "typecheck",
+      "stderr_ref": {
+        "bytes": 0,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 98688,
+          "start_identity": "1792958706:374858"
+        }
+      ]
+    },
+    {
+      "argv": [
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/joern/joern-cli/frontends/swiftsrc2cpg/bin/swiftsrc2cpg",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/DataFlowBenchTaintSwift",
+        "--build-log-path",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/build.log",
+        "--output",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/cpg.bin"
+      ],
+      "cleanup_error": null,
+      "cleanup_status": "tracked-processes-stopped",
+      "command_ref": {
+        "bytes": 2951,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.command.json",
+        "sha256": "f5e14dc939e2364a84fd185f59aef5d2f15745a07d5e8a62d514e52b29b3b215"
+      },
+      "descendant_containment": "unproven",
+      "discovery_complete": false,
+      "elapsed_seconds": 6.1157769999990705,
+      "exit_status": 0,
+      "memory_compliance": "unproven",
+      "phase": "frontend",
+      "stderr_ref": {
+        "bytes": 315,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.stderr",
+        "sha256": "de92098a5a23807b142d479ab2c416bf4a02d9aba6e7ffa31a11122ab1752a2b"
+      },
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 98989,
+          "start_identity": "1792958720:654866"
+        },
+        {
+          "pid": 99012,
+          "start_identity": "1792958720:719183"
+        },
+        {
+          "pid": 99013,
+          "start_identity": "1792958720:719698"
+        },
+        {
+          "pid": 99015,
+          "start_identity": "1792958720:719895"
+        },
+        {
+          "pid": 99049,
+          "start_identity": "1792958722:80003"
+        },
+        {
+          "pid": 99050,
+          "start_identity": "1792958722:86787"
+        },
+        {
+          "pid": 99051,
+          "start_identity": "1792958722:94744"
+        },
+        {
+          "pid": 99089,
+          "start_identity": "1792958724:182492"
+        },
+        {
+          "pid": 99090,
+          "start_identity": "1792958724:200368"
+        },
+        {
+          "pid": 99091,
+          "start_identity": "1792958724:205666"
+        },
+        {
+          "pid": 99108,
+          "start_identity": "1792958724:890569"
+        }
+      ]
+    },
+    {
+      "argv": [
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/joern/joern-cli/joern",
+        "--script",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/joern/swift-common-v2/v0.9.2/query.sc",
+        "--param",
+        "cpgPath=/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/cpg.bin",
+        "--param",
+        "configPath=/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/config.json",
+        "--param",
+        "outputPath=/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/graph.json"
+      ],
+      "cleanup_error": null,
+      "cleanup_status": "tracked-processes-stopped",
+      "command_ref": {
+        "bytes": 2441,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/query.command.json",
+        "sha256": "da080e4bbb2af6cb906248108a25415aee14676bcdda30a2906c5bb8e63e2958"
+      },
+      "descendant_containment": "unproven",
+      "discovery_complete": false,
+      "elapsed_seconds": 6.72547033400042,
+      "exit_status": 0,
+      "memory_compliance": "unproven",
+      "phase": "query",
+      "stderr_ref": {
+        "bytes": 2272,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/query.stderr",
+        "sha256": "610de46d6954c3d7a77a176758e111b39d4a3f2c2a8f84ef6184ca73580ae8b0"
+      },
+      "timed_out": false,
+      "tracked_descendants": [
+        {
+          "pid": 99147,
+          "start_identity": "1792958726:773799"
+        },
+        {
+          "pid": 99152,
+          "start_identity": "1792958726:807993"
+        },
+        {
+          "pid": 99195,
+          "start_identity": "1792958727:590721"
+        }
+      ]
+    }
+  ],
+  "partial_matrix": {
+    "absent_artifacts": [
+      "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/control-result.json",
+      "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/summary.json",
+      "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/on/raw.json",
+      "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/on/frontend.command.json",
+      "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/on/query.command.json",
+      "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/on/graph.json"
+    ],
+    "all_12_arms_36_phases_complete": false,
+    "elapsed_seconds": 27.13020245800726,
+    "graph_analysis_completeness": {
+      "exhaustion_observable": false,
+      "max_args_to_allow": 1000,
+      "max_call_depth": 4,
+      "max_output_args_expansion": 1000,
+      "status": "unproven"
+    },
+    "graph_flows": 0,
+    "graph_query_completed": true,
+    "graph_semantics": 0,
+    "graph_state": "analyzed",
+    "off_raw_outcome": "runner-error",
+    "off_witness_checkpoints": [],
+    "on": "typecheck returned exit0; frontend stdout/stderr plus two witness files exist; no returned frontend command/raw/query output. Interrupted unknown, not a second completed arm.",
+    "phase_invocation_count": 3,
+    "qualified": false,
+    "records": [
+      {
+        "arm": "off",
+        "case_id": "dfb-taint-swift-model-opaque-propagator-negative",
+        "control": "dfb-taint-swift-model-opaque-propagator-negative",
+        "observed": "runner-error",
+        "raw": {
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/raw.json",
+          "sha256": "f5609317c133ec0bbb5b2abd67fb751ebc9371240d4e6cde67f44db56908c88f"
+        }
+      }
+    ],
+    "scored_activation": false,
+    "scored_joern05_attempt": false,
+    "semantic_result": "not accepted; empty flows/semantics with completeness unproven and observer rejection cannot establish control-negative/Unsupported/clean"
+  },
+  "query_observer": {
+    "accepted_witnesses": [
+      {
+        "birth_comparison": "java-millisecond-floor",
+        "birth_verified": true,
+        "java_class_path_b64": "L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcubXNncGFjay5tc2dwYWNrLWNvcmUtMC45LjEuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvY29tLmxpaGFveWkuY2Fza18zLTAuOS41LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5zY2FsYS1sYW5nLm1vZHVsZXMuc2NhbGEteG1sXzMtMi40LjAuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvY29tLm1pY2hhZWxwb2xsbWVpZXIuc2NhbGEtcmVwbC1wcC1zZXJ2ZXJfMy45LjAtMC42LjUuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvY29tLmZhc3RlcnhtbC5qYWNrc29uLmNvcmUuamFja3Nvbi1jb3JlLTIuMTcuMi5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9jb20ubGloYW95aS5jYXN0b3JfMy0wLjMuMC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9jb20ubGloYW95aS5mYW5zaV8zLTAuNS4wLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2NvbS5taWNoYWVscG9sbG1laWVyLnNjYWxhLXJlcGwtcHAtc2hhZGVkLWxpYnNfMy0wLjYuNS5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuamF2YS13ZWJzb2NrZXQuSmF2YS1XZWJTb2NrZXQtMS41LjMuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLnR5cGVsZXZlbC5jYXRzLWVmZmVjdC1zdGRfMy0zLjUuNC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuamxpbmUuamxpbmUtdGVybWluYWwtNC4wLjE0LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2NvbS5saWhhb3lpLnVqc29uXzMtNC40LjMuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvaW8uam9lcm4uc2VtYW50aWNjcGctNC4wLjY2MC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuYWJlZ28udHJlZWxheW91dC5vcmcuYWJlZ28udHJlZWxheW91dC5jb3JlLTEuMC4zLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5zY2FsYS1sYW5nLnNjYWxhMy1kaXJlY3RpdmVzLXBhcnNlcl8zLTMuOS4wLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2NvbS5nb29nbGUucHJvdG9idWYucHJvdG9idWYtamF2YS0zLjIwLjEuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLnNjYWxhLXNidC5jb21waWxlci1pbnRlcmZhY2UtMS4xMi4wLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2lvLmpvZXJuLmZsYXRncmFwaC1jb3JlXzMtMC4xLjM2LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2NvbS5naXRodWIucGF0aGlrcml0LmJldHRlci1maWxlc18zLTMuOS4yLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2NvbS5saWhhb3lpLnVwaWNrbGUtaW1wbGljaXRzXzMtNC40LjMuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLnNjYWxhLXNidC51dGlsLWludGVyZmFjZS0xLjExLjUuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLnR5cGVsZXZlbC5jYXRzLWVmZmVjdF8zLTMuNS40LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2lvLnNwcmF5LnNwcmF5LWpzb25fMy0xLjMuNi5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9uZXQub25lYW5kb25lLnJlZmxlY3Rpb25zOC5yZWZsZWN0aW9uczgtMC4xMS43LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2lvLmpvZXJuLmZsYXRncmFwaC1oZWxwXzMtMC4xLjM2LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5hcGFjaGUubWF2ZW4ubWF2ZW4tYXJ0aWZhY3QtMy45LjE2LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5hcGFjaGUubG9nZ2luZy5sb2c0ai5sb2c0ai1zbGY0ajItaW1wbC0yLjIwLjAuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLnJlZmxlY3Rpb25zLnJlZmxlY3Rpb25zLTAuMTAuMi5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuc2xmNGouc2xmNGotYXBpLTIuMC4xNy5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuY29kZWhhdXMucGxleHVzLnBsZXh1cy11dGlscy0zLjYuMS5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuc2NhbGEtbGFuZy5zY2FsYTMtcmVwbF8zLTMuOS4wLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2NvbS5saWhhb3lpLmNhc2stdXRpbF8zLTAuOS41LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5qbGluZS5qbGluZS1yZWFkZXItNC4wLjE0LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5qYm9zcy54bmlvLnhuaW8tYXBpLTMuOC4xNi5GaW5hbC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9pby5qb2Vybi5kYXRhZmxvd2VuZ2luZW9zcy00LjAuNjYwLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5zY2FsYS1sYW5nLnNjYWxhMy1pbnRlcmZhY2VzLTMuOS4wLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5hbnRsci5hbnRscjQtNC43LjIuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLmpsaW5lLmpsaW5lLXRlcm1pbmFsLWpuaS00LjAuMTQuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvY29tLmgyZGF0YWJhc2UuaDItbXZzdG9yZS0xLjQuMjAwLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2NvbS5naXRodWIuc2NvcHQuc2NvcHRfMy00LjEuMC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9jb20ubGloYW95aS5wcHJpbnRfMy0wLjkuMC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9jb20uZ2l0aHViLmx1YmVuLnpzdGQtam5pLTEuNS43LTExLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5zY2FsYS1sYW5nLnNjYWxhLWxpYnJhcnktMy45LjAuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLmFudGxyLmFudGxyLXJ1bnRpbWUtMy41LjIuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvaW8uam9lcm4uam9lcm4tY2xpLTQuMC42NjAuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvY29tbW9ucy1pby5jb21tb25zLWlvLTIuMjIuMC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9jb20ubGloYW95aS5vcy1saWJfMy0wLjEwLjEuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvaW8uZ2V0LWNvdXJzaWVyLmludGVyZmFjZS0xLjAuMjktTTQuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLmFwYWNoZS5jb21tb25zLmNvbW1vbnMtbGFuZzMtMy4xNy4wLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2NvbS5nb29nbGUuY29kZS5maW5kYnVncy5qc3IzMDUtMy4wLjIuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLmpib3NzLnhuaW8ueG5pby1uaW8tMy44LjE2LkZpbmFsLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2lvLnNoaWZ0bGVmdC5jb2RlcHJvcGVydHlncmFwaF8zLTEuNy43OS5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuc2NhbGEtbGFuZy50YXN0eS1jb3JlXzMtMy45LjAuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLmFudGxyLmFudGxyNC1ydW50aW1lLTQuNy4yLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5qYm9zcy5sb2dnaW5nLmpib3NzLWxvZ2dpbmctMy40LjMuRmluYWwuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLmFwYWNoZS5jb21tb25zLmNvbW1vbnMtZXhlYy0xLjQuMC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuamF2YXNzaXN0LmphdmFzc2lzdC0zLjI4LjAtR0EuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLndpbGRmbHkuY2xpZW50LndpbGRmbHktY2xpZW50LWNvbmZpZy0xLjAuMS5GaW5hbC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9jb20ubGloYW95aS51cGFja18zLTQuNC4zLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2NvbS5saWhhb3lpLnJlcXVlc3RzXzMtMC44LjAuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvaW8uc2hpZnRsZWZ0LmNvZGVwcm9wZXJ0eWdyYXBoLWRvbWFpbi1jbGFzc2VzXzMtMS43Ljc5LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5zY2FsYS1sYW5nLnNjYWxhMy1jb21waWxlcl8zLTMuOS4wLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2NvbS5saWhhb3lpLnNvdXJjZWNvZGVfMy0wLjQuMi5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuamJvc3MudGhyZWFkcy5qYm9zcy10aHJlYWRzLTMuNS4wLkZpbmFsLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5qbGluZS5qbGluZS1uYXRpdmUtNC4wLjE0LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5zY2FsYS1sYW5nLnNjYWxhMy1saWJyYXJ5XzMtMy45LjAuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLmdsYXNzZmlzaC5qYXZheC5qc29uLTEuMC40LmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy50eXBlbGV2ZWwuY2F0cy1rZXJuZWxfMy0yLjkuMC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9uZXQuc2YudHJvdmU0ai5jb3JlLTMuMS4wLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy50eXBlbGV2ZWwuY2F0cy1jb3JlXzMtMi45LjAuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvaW8uam9lcm4uY29uc29sZS00LjAuNjYwLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy5zY2FsYS1sYW5nLm1vZHVsZXMuc2NhbGEtYXNtLTkuOS4wLXNjYWxhLTEuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvY29tLm1pY2hhZWxwb2xsbWVpZXIudmVyc2lvbnNvcnQtMS4wLjExLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy50eXBlbGV2ZWwuY2F0cy1lZmZlY3Qta2VybmVsXzMtMy41LjQuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLmFwYWNoZS5sb2dnaW5nLmxvZzRqLmxvZzRqLWNvcmUtMi4yMC4wLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2lvLmpvZXJuLmZsYXRncmFwaC1vZGItY29udmVydF8zLTAuMS4zNi5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9pby5zaGlmdGxlZnQub3ZlcmZsb3dkYi1jb3JlXzMtMS4xOTQuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvb3JnLndpbGRmbHkuY29tbW9uLndpbGRmbHktY29tbW9uLTEuNi4wLkZpbmFsLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2NvbS50eXBlc2FmZS5jb25maWctMS40LjMuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvY29tLm1pY2hhZWxwb2xsbWVpZXIuc2NhbGEtcmVwbC1wcF8zLjkuMC0wLjYuNS5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuYXBhY2hlLmNvbW1vbnMuY29tbW9ucy10ZXh0LTEuMTMuMC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuYW50bHIuU1Q0LTQuMS5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9pby5qb2Vybi54MmNwZy00LjAuNjYwLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL2lvLnVuZGVydG93LnVuZGVydG93LWNvcmUtMi4zLjE4LkZpbmFsLmphcjovVXNlcnMvZGF2ZS8uY29kZXgvd29ya3RyZWVzLzlmMDEvZGF0YWZsb3diZW5jaC9leGVjdXRpb24tc3RhdGUvdjA5Mi90b29scy9qb2Vybi9qb2Vybi1jbGkvbGliL29yZy56ZXJvdHVybmFyb3VuZC56dC16aXAtMS4xNy5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9jb20ubGloYW95aS51cGlja2xlXzMtNC40LjMuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvY29tLmlibS5pY3UuaWN1NGotNjEuMS5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9vcmcuYXBhY2hlLmxvZ2dpbmcubG9nNGoubG9nNGotYXBpLTIuMjAuMC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9pby5qb2Vybi5mbGF0Z3JhcGgtZm9ybWF0c18zLTAuMS4zNi5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9jb20uZ2l0aHViLnRvdG90b3NoaS5zY2FsYS1jc3ZfMy0yLjAuMC5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9jb20ubGloYW95aS51cGlja2xlLWNvcmVfMy00LjQuMy5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9jb20ubGloYW95aS5nZW55XzMtMS4xLjEuamFyOi9Vc2Vycy9kYXZlLy5jb2RleC93b3JrdHJlZXMvOWYwMS9kYXRhZmxvd2JlbmNoL2V4ZWN1dGlvbi1zdGF0ZS92MDkyL3Rvb2xzL2pvZXJuL2pvZXJuLWNsaS9saWIvaW8uc2hpZnRsZWZ0LmNvZGVwcm9wZXJ0eWdyYXBoLXByb3Rvc18zLTEuNy43OS5qYXI6L1VzZXJzL2RhdmUvLmNvZGV4L3dvcmt0cmVlcy85ZjAxL2RhdGFmbG93YmVuY2gvZXhlY3V0aW9uLXN0YXRlL3YwOTIvdG9vbHMvam9lcm4vam9lcm4tY2xpL2xpYi9pby5qb2Vybi5tYWNyb3MtNC4wLjY2MC5qYXI=",
+        "java_command": "io.joern.joerncli.console.ReplBridge --script /Users/dave/.codex/worktrees/9f01/dataflowbench/adapters/joern/swift-common-v2/v0.9.2/query.sc --param cpgPath=/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/cpg.bin --param configPath=/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/config.json --param outputPath=/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/graph.json",
+        "native_process_start_identity": "1792958726:807993",
+        "parent_pid": 99147,
+        "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/events/004-query/jvm-99152.json",
+        "pid": 99152,
+        "predef_path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/jvm-home/.scala-repl-pp.sc",
+        "process_start_epoch_nanos": 807000000,
+        "process_start_epoch_seconds": 1792958726,
+        "process_start_identity": "2026-10-25T20:05:26.807Z",
+        "role": "bridge",
+        "runtime_start_millis": 1792958727072,
+        "sha256": "4cc4dfb8041521fd94bb31a843ccdc11ab3d2aad45524fe8dc98a9d5196b4243",
+        "user_home": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/jvm-home"
+      }
+    ],
+    "all_raw_witnesses": [
+      {
+        "java_command_present": true,
+        "parent_pid": 99147,
+        "parent_start_identity": "2026-10-25T20:05:26.773Z",
+        "pid": 99152,
+        "predef_present": false,
+        "predef_symlink": false,
+        "process_start_identity": "2026-10-25T20:05:26.807Z",
+        "ref": {
+          "bytes": 19252,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/events/004-query/jvm-99152.json",
+          "sha256": "4cc4dfb8041521fd94bb31a843ccdc11ab3d2aad45524fe8dc98a9d5196b4243"
+        },
+        "runtime_start_millis": 1792958727072
+      },
+      {
+        "java_command_present": false,
+        "parent_pid": 99171,
+        "parent_start_identity": "2026-10-25T20:05:26.912Z",
+        "pid": 99172,
+        "predef_present": false,
+        "predef_symlink": false,
+        "process_start_identity": "2026-10-25T20:05:26.912Z",
+        "ref": {
+          "bytes": 1321,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/events/004-query/jvm-99172.json",
+          "sha256": "07e4fc44c12cdc6177f91e72ef8d4da70265544175cc7b97636006ac9e48dd4c"
+        },
+        "runtime_start_millis": 1792958726965
+      },
+      {
+        "java_command_present": true,
+        "parent_pid": 99152,
+        "parent_start_identity": "2026-10-25T20:05:26.807Z",
+        "pid": 99195,
+        "predef_present": false,
+        "predef_symlink": false,
+        "process_start_identity": "2026-10-25T20:05:27.590Z",
+        "ref": {
+          "bytes": 37004,
+          "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/events/004-query/jvm-99195.json",
+          "sha256": "38c0120aa22df530f724c6919a2d0acc9ba23a53c838ca5905b7bd0ed70678d1"
+        },
+        "runtime_start_millis": 1792958727671
+      }
+    ],
+    "comparison_phases": [
+      {
+        "error": null,
+        "phase": "001-version",
+        "tracked_pids": [
+          98520,
+          98525,
+          98545,
+          98546,
+          98547
+        ],
+        "witnesses": [
+          {
+            "birth_verified": true,
+            "parent_pid": 98520,
+            "pid": 98525,
+            "role": "bridge"
+          },
+          {
+            "birth_verified": true,
+            "parent_pid": 98545,
+            "pid": 98546,
+            "role": "version-check"
+          }
+        ]
+      },
+      {
+        "error": null,
+        "phase": "003-frontend",
+        "tracked_pids": [
+          98989,
+          99012,
+          99013,
+          99015,
+          99049,
+          99050,
+          99051,
+          99089,
+          99090,
+          99091,
+          99108
+        ],
+        "witnesses": [
+          {
+            "birth_verified": true,
+            "parent_pid": 95468,
+            "pid": 98989,
+            "role": "frontend"
+          },
+          {
+            "birth_verified": true,
+            "parent_pid": 99012,
+            "pid": 99013,
+            "role": "version-check"
+          }
+        ]
+      }
+    ],
+    "failure_evidence_errors": [
+      {
+        "message": "startup witness parent pid is outside the invocation: jvm-99172.json",
+        "stage": "witness-validation",
+        "type": "ObservationError"
+      }
+    ],
+    "failure_process_record_matches_command": false,
+    "invocation_parent": {
+      "pid": 95468,
+      "start_identity": "1792958630:893283"
+    },
+    "predef_after": {
+      "bytes": null,
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/jvm-home/.scala-repl-pp.sc",
+      "present": false,
+      "sha256": null,
+      "symlink": false
+    },
+    "predef_before": {
+      "bytes": null,
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/jvm-home/.scala-repl-pp.sc",
+      "present": false,
+      "sha256": null,
+      "symlink": false
+    },
+    "property_witness": {
+      "claim": "Only the private Java premain witness proves final user.home.",
+      "status": "failure-only"
+    },
+    "ref": {
+      "bytes": 27880,
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/004-query.json",
+      "sha256": "242d3f1dabf3cebb06edcff64d6f1552ab0c00d9401489905f9aeae507a1a83e"
+    },
+    "result_is_null": true,
+    "tracked_processes": [
+      {
+        "pid": 99147,
+        "start_identity": "1792958726:773799"
+      },
+      {
+        "pid": 99152,
+        "start_identity": "1792958726:807993"
+      },
+      {
+        "pid": 99195,
+        "start_identity": "1792958727:590721"
+      }
+    ]
+  },
+  "recorded_utc": "2026-10-25T20:12:29.134135+00:00",
+  "root_stop_scope": {
+    "actual_contender_identity_preserved_by_runtime": false,
+    "all_recorded_native_births_gone": true,
+    "descendant_containment": "unknown",
+    "ledger": {
+      "bytes": 123908716,
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851"
+    },
+    "namespace_reuse_authorized": false,
+    "note": "Gone status/ledger are inherited from exact root seal, not a new live process or ledger replay audit.",
+    "ref": {
+      "bytes": 85878,
+      "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls04-root-stop-check-01.json",
+      "sha256": "6d8958898aacaa53e6affb6708f1e3bcf2c008c0d33c7f2f4ffcc4390acd3e32"
+    }
+  },
+  "schema": "joern05-native04-partial-arm-diagnosis/v1",
+  "scope": {
+    "execution_performed": false,
+    "independent_of": "parent process-monitor contender/snapshot-race diagnosis",
+    "owned_output": "/private/tmp/joern05-native04-partial-arm-diagnosis-01.json",
+    "publication_hold": true,
+    "source_changes": false,
+    "source_commit": "76e6121651e94be113fd0d5f027419f7d0f0859b"
+  },
+  "status": "completed-read-only-evidence-diagnosis",
+  "stderr_inspection": {
+    "frontend": "JAVA_TOOL_OPTIONS pickup only; no frontend failure text",
+    "query": "JAVA_TOOL_OPTIONS pickup, query execution/project/CPG/overlay/save messages; no printed query compilation/runtime exception. This is bounded stderr inspection, not proof of semantic completeness.",
+    "typecheck": "empty"
+  },
+  "verification": {
+    "performed": "Read-only JSON/source/stderr and bounded file hashes; no module import/probe/subprocess controls/JVM/engine/replay/Git mutation.",
+    "raw_embedded_refs_hash_verified": [
+      {
+        "bytes": 6572,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/raw.json",
+        "sha256": "f5609317c133ec0bbb5b2abd67fb751ebc9371240d4e6cde67f44db56908c88f"
+      },
+      {
+        "bytes": 2235,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.command.json",
+        "sha256": "e42f3cfa3e646e75018467275d4584b30d4c428d4c49653eb154b3f62b6849ca"
+      },
+      {
+        "bytes": 2951,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.command.json",
+        "sha256": "f5e14dc939e2364a84fd185f59aef5d2f15745a07d5e8a62d514e52b29b3b215"
+      },
+      {
+        "bytes": 2441,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/query.command.json",
+        "sha256": "da080e4bbb2af6cb906248108a25415aee14676bcdda30a2906c5bb8e63e2958"
+      },
+      {
+        "bytes": 757,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/build.log",
+        "sha256": "2953f8925af357fd839ecebf4d456b41ccb2974ace956a6407ac42b19a68d71f"
+      },
+      {
+        "bytes": 1469,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/config.json",
+        "sha256": "f2fd396c0c6028566b0d633b6a87e7e5ce9f5fe0776d84e6fb8591c3f7629149"
+      },
+      {
+        "bytes": 61194,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/cpg.bin",
+        "sha256": "e7509b4fd02b2b7ee67d43c94dff4d84119a9755013cd9038143a6a33d918ae6"
+      },
+      {
+        "bytes": 87,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/fixture-hashes.json",
+        "sha256": "b1e1d25a5f1a1f1c66eb980d9803db9543ceeca87095e13eb24affa2248e7f2f"
+      },
+      {
+        "bytes": 315,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.stderr",
+        "sha256": "de92098a5a23807b142d479ab2c416bf4a02d9aba6e7ffa31a11122ab1752a2b"
+      },
+      {
+        "bytes": 3898,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.stdout",
+        "sha256": "e55a0500de677115e12da69591b2ac4740083f131732319bfb32df21c0329a56"
+      },
+      {
+        "bytes": 49152,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/graph.json",
+        "sha256": "4e1e05aca8492c9712877ddc821d27b4bda8b7ae1e9b4b664b24c91782a90389"
+      },
+      {
+        "bytes": 2272,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/query.stderr",
+        "sha256": "610de46d6954c3d7a77a176758e111b39d4a3f2c2a8f84ef6184ca73580ae8b0"
+      },
+      {
+        "bytes": 0,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/query.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 592,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/source-closure.json",
+        "sha256": "7d721f41dbd086c56ce4da7dbab31ee1e5dbffedbd887b18124725576ec3347a"
+      },
+      {
+        "bytes": 0,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 0,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "selected_refs": [
+      {
+        "bytes": 85878,
+        "path": "reports/releases/v0.9.2/validation/joern-post-bifrost-01/native-controls04-root-stop-check-01.json",
+        "sha256": "6d8958898aacaa53e6affb6708f1e3bcf2c008c0d33c7f2f4ffcc4390acd3e32"
+      },
+      {
+        "bytes": 2423,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/exit.json",
+        "sha256": "ea947b6a881e8ef105ecd29715019a80cc45dbd5f7c4f7af37713787155ba6dd"
+      },
+      {
+        "bytes": 2694,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/run.json",
+        "sha256": "b633441b97b740961dbadb702e2cfacc4e2848e0d188470f0a93229b650d6a48"
+      },
+      {
+        "bytes": 6572,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/raw.json",
+        "sha256": "f5609317c133ec0bbb5b2abd67fb751ebc9371240d4e6cde67f44db56908c88f"
+      },
+      {
+        "bytes": 49461,
+        "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-06.py",
+        "sha256": "aec2c68dfb12d9204fb12f66764bca0a18ed68edba88a57ad14a6faf9f759551"
+      },
+      {
+        "bytes": 6387,
+        "path": "scripts/swift_v2_process.py",
+        "sha256": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd"
+      },
+      {
+        "bytes": 2235,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.command.json",
+        "sha256": "e42f3cfa3e646e75018467275d4584b30d4c428d4c49653eb154b3f62b6849ca"
+      },
+      {
+        "bytes": 0,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 0,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/typecheck.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 2951,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.command.json",
+        "sha256": "f5e14dc939e2364a84fd185f59aef5d2f15745a07d5e8a62d514e52b29b3b215"
+      },
+      {
+        "bytes": 315,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.stderr",
+        "sha256": "de92098a5a23807b142d479ab2c416bf4a02d9aba6e7ffa31a11122ab1752a2b"
+      },
+      {
+        "bytes": 3898,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/frontend.stdout",
+        "sha256": "e55a0500de677115e12da69591b2ac4740083f131732319bfb32df21c0329a56"
+      },
+      {
+        "bytes": 2441,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/query.command.json",
+        "sha256": "da080e4bbb2af6cb906248108a25415aee14676bcdda30a2906c5bb8e63e2958"
+      },
+      {
+        "bytes": 2272,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/query.stderr",
+        "sha256": "610de46d6954c3d7a77a176758e111b39d4a3f2c2a8f84ef6184ca73580ae8b0"
+      },
+      {
+        "bytes": 0,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/query.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 49152,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/graph.json",
+        "sha256": "4e1e05aca8492c9712877ddc821d27b4bda8b7ae1e9b4b664b24c91782a90389"
+      },
+      {
+        "bytes": 61194,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture/dfb-taint-swift-model-opaque-propagator-negative/off/cpg.bin",
+        "sha256": "e7509b4fd02b2b7ee67d43c94dff4d84119a9755013cd9038143a6a33d918ae6"
+      },
+      {
+        "bytes": 25360,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/001-version.json",
+        "sha256": "217d3fc8d44cd59ce8d46f0e3208dc93d71e614fccd96905747c6a4ef49aa397"
+      },
+      {
+        "bytes": 7407,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/002-typecheck.json",
+        "sha256": "f5b68c9f5fac6d1f3c7085561def7d9f89f4fb229b2bd1751eb2a53da85687b1"
+      },
+      {
+        "bytes": 12198,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/003-frontend.json",
+        "sha256": "f5643b397f2c603558fee2d653432cfd0faa6d9f910f065dfb9b375d2c42573a"
+      },
+      {
+        "bytes": 27880,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/004-query.json",
+        "sha256": "242d3f1dabf3cebb06edcff64d6f1552ab0c00d9401489905f9aeae507a1a83e"
+      },
+      {
+        "bytes": 7397,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/005-typecheck.json",
+        "sha256": "51b05bcab134c199cfbbcc88806fafd364e014afe3bfb5c6151c5ae697b5330d"
+      },
+      {
+        "bytes": 19252,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/events/004-query/jvm-99152.json",
+        "sha256": "4cc4dfb8041521fd94bb31a843ccdc11ab3d2aad45524fe8dc98a9d5196b4243"
+      },
+      {
+        "bytes": 1321,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/events/004-query/jvm-99172.json",
+        "sha256": "07e4fc44c12cdc6177f91e72ef8d4da70265544175cc7b97636006ac9e48dd4c"
+      },
+      {
+        "bytes": 37004,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/events/004-query/jvm-99195.json",
+        "sha256": "38c0120aa22df530f724c6919a2d0acc9ba23a53c838ca5905b7bd0ed70678d1"
+      },
+      {
+        "bytes": 2592,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/events/006-frontend/jvm-99579.json",
+        "sha256": "0fa06de4218dbed2161d93a2dfd480dc49e807a80274dd1eb47620ec6d324db6"
+      },
+      {
+        "bytes": 1325,
+        "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-04/capture.startup-observation/events/006-frontend/jvm-99601.json",
+        "sha256": "bed14e52ca14bbd1d0caac67436ae2622107f6adef5deae9ceca39df1261f3c0"
+      }
+    ],
+    "selected_refs_matching_root_261_file_seal": 24,
+    "tests_executed": []
+  }
+}

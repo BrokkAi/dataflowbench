@@ -1,0 +1,29 @@
+{
+  "schema": "scoped-recovery-rust-validation-preflight/v1",
+  "recorded_at_utc": "2026-10-20T06:27:52Z",
+  "worktree": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+  "branch": "dave/v0.9.2-full-refresh",
+  "head": "a180c302b56f2c18a1fdfbbd1bc14489151fc54e",
+  "owned_sources": {
+    "src/modeling.rs": "d2de3d05a224b797d2b67356e57063c3ea10992f59c19c89938d72da1ca2917a",
+    "src/tests/modeling.rs": "d5c678789c5d77324c7b428984c2bc20e37f1c2248cd104d4dad618c2d04b330",
+    "combined_binary_diff_sha256": "de599efbb1b056c67d2ea6a446d6612c7831abfb63ef5faad635bd545ada860d"
+  },
+  "toolchain": {
+    "cargo": "cargo 1.97.1 (c980f4866 2026-06-30)",
+    "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "cargo_target_dir": "execution-state/v092/build"
+  },
+  "format_check": {
+    "command": "env RUSTC=/Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc /Users/dave/.rustup/toolchains/stable-aarch64-apple-darwin/bin/cargo fmt --all -- --check",
+    "log": "reports/releases/v0.9.2/validation/scoped-recovery-rust-01/fmt.log",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exit_code": 0
+  },
+  "capacity_check": {
+    "command": "ps -axo pid,ppid,stat,etime,comm | rg -i 'cargo|rustc|bazel|codeql|semgrep|joern'",
+    "observed": "A separate cargo-nextest invocation remained active, with cargo 1.99.1 and a rustc 1.99.1 process. The parent identified it as a concurrent Bifrost build. No analyzer process appeared in this filtered snapshot.",
+    "decision": "Full Cargo suite deferred until the competing Rust lane clears; no Cargo test or build was started in this validation attempt."
+  },
+  "worktree_scope": "Only src/modeling.rs and src/tests/modeling.rs are owned source changes. Other tracked and untracked changes are concurrent or pre-existing and were preserved."
+}

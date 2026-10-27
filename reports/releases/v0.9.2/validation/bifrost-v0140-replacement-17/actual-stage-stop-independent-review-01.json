@@ -1,0 +1,216 @@
+{
+  "analyzer_dispatched": false,
+  "attempt_consumed": false,
+  "automatic_retry": false,
+  "bindings": {
+    "bridge": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-12.py",
+      "sha256": "9d00af2d4f64e2618bb4934e18c5dc771db1a609411548bd0c354db236b608db"
+    },
+    "contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/bifrost-v0140-replacement-19-contract.json",
+      "sha256": "39d7bb97b30d096a007def0ffc767d73a42d0c96afbb794d885671abe0958cde"
+    },
+    "core_identity": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-17/manifest-identity.json",
+      "sha256": "60668f7debfe0c537d3ff7f410f7739e9ea844970cc23dc04b599a30b636239f"
+    },
+    "historical_replay_helper05": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+      "sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+    },
+    "incoming_ledger_prefix": {
+      "path": "reports/releases/v0.9.2/qualification/independent-pending-groups-01/sealed-ledger-prefix-89.jsonl",
+      "rows": 89,
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    },
+    "incoming_predecessor03": {
+      "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+      "sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8"
+    },
+    "incoming_recovery": {
+      "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+      "sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e"
+    },
+    "manifest": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-17/manifest.json",
+      "sha256": "5034fad6d291b23eeb65be69d5f71a95f0132757737a0f9e441bb4051fb7715c"
+    },
+    "qualification_invocation_review": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-17/actual-stage-invocation-review-01.json",
+      "sha256": "b3fae8fa69a08033cde7cb2986e3681d5a8ad177b920f3918d52f0e33080296b"
+    },
+    "qualification_script": {
+      "path": "/private/tmp/bf17-actual-stage-qualification-01.py",
+      "sha256": "725eac35eac875cda8a8b1ed3f8073a88309ef2a01b9f347d8d415df984afbc4"
+    },
+    "stage_runtime": {
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py",
+      "sha256": "c906d8100bb3ef12d5b0bc4216b07a22956bb3600eaee001cdd59095d29f33bf"
+    },
+    "wrapper": {
+      "path": "/private/tmp/bf17-actual-stage-run-01.py",
+      "sha256": "74e5a31b32e81f7f5dbd7eec667b8842cb53f4685c7af970b77bf0c95b013861"
+    }
+  },
+  "exception": {
+    "message": "stage graph route is not explicitly bound: codeql_pending_historical_replay_helper -> reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+    "phase": "parent-stage runtime construction after the qualification script entered its held lock, before a stage receipt, group command construction, attempt namespace, child, group replay, or analyzer dispatch",
+    "traceback_location": {
+      "bridge": {
+        "functions": [
+          "create_parent_stage",
+          "_load_bound_ledger_runtime",
+          "load_stage_runtime",
+          "load_runtime_stage",
+          "_module_from_spec"
+        ],
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-frozen-bridge-12.py",
+        "sha256": "9d00af2d4f64e2618bb4934e18c5dc771db1a609411548bd0c354db236b608db"
+      },
+      "graph_route_failure": {
+        "existing_exact_graph_member": "nested_014_codeql_pending_historical_replay_helper",
+        "existing_member_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "invariant": "stage-runtime-04._graph_member requires a unique exact graph member (or explicit reviewed selector route) and matching canonical path; arbitrary path/name fallback is rejected",
+        "requested_path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "requested_selector": "codeql_pending_historical_replay_helper"
+      },
+      "historical_helper": {
+        "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-05.py",
+        "sha256": "848272ddad3328862b24151a27fd22b48fd6cf8ad6456c4b7c474d30d01bf4a6"
+      },
+      "incoming_recovery": {
+        "functions": [
+          "recover_bifrost_history",
+          "factory"
+        ],
+        "line": 243,
+        "path": "reports/releases/v0.9.2/acquisition/codeql-terminal-history-04.py",
+        "sha256": "b9bede28c81ef1ce3324cfd3624f002cc3dfa835f3e2ac41e8ba8a0bf6aa7e5e"
+      },
+      "predecessor03": {
+        "functions": [
+          "recover_bifrost_history",
+          "validate",
+          "_enrich_successor_historical_contexts",
+          "_historical_replay_contexts",
+          "_load_historical_replay_helper",
+          "_load_pinned_helper"
+        ],
+        "lines": [
+          1673,
+          1642,
+          1115,
+          1036,
+          997
+        ],
+        "path": "reports/releases/v0.9.2/acquisition/independent-pending-codeql-03.py",
+        "sha256": "f9c543b504000d9594e91fc84cbf493adb238a0c61487daacdc1077334d1f7e8"
+      },
+      "qualification_script": {
+        "line": 61,
+        "operation": "bridge.create_parent_stage",
+        "path": "/private/tmp/bf17-actual-stage-qualification-01.py"
+      },
+      "stage_runtime": {
+        "functions": [
+          "load_runtime_context",
+          "_stage_build_runtime",
+          "_stage_build_runtime_full",
+          "scoped_legacy_load_and_validate",
+          "_stage_incoming_pinned",
+          "_stage_incoming"
+        ],
+        "path": "reports/releases/v0.9.2/acquisition/bifrost-v0140-stage-runtime-04.py",
+        "sha256": "c906d8100bb3ef12d5b0bc4216b07a22956bb3600eaee001cdd59095d29f33bf"
+      }
+    },
+    "type": "FrozenBridgeError"
+  },
+  "execution_authorized_by_this_review": false,
+  "findings": [
+    {
+      "detail": "The real create_parent_stage path entered bridge12._load_bound_ledger_runtime, stage-runtime04._stage_build_runtime_full, the copied frozen validator and CodeQL03 historical enrichment. CodeQL03._load_historical_replay_helper invokes the exact pinned continuation-05 source, but asks the active stage facade for selector codeql_pending_historical_replay_helper. The sealed graph contains the exact source under nested_014_codeql_pending_historical_replay_helper; stage-runtime04 has no explicit route for this selector, so _graph_member fails closed before parent-stage construction completes. This is an actual source-bound route identity failure, not an analyzer or attempt result.",
+      "id": "BF17-STAGE-HISTORICAL-ROUTE-01",
+      "required_correction": "Prepare a new append-only successor that binds every actual selector used by the historical recovery chain to the exact sealed graph role/path/SHA, including this continuation-05 selector and all equivalent computed/late selectors. Preserve stage-owned factory/spec/loader identity, canonical source bytes, restoration, and unknown/foreign/reordered selector rejection. Do not add a permissive path-only alias, bypass _graph_member, weaken source checks, or treat a diagnostic/runtime object as qualification evidence. Prove the actual create_parent_stage path with positive and near-miss route tests before another invocation.",
+      "severity": "blocking",
+      "title": "Nested historical replay selector is not bound to the sealed graph route"
+    },
+    {
+      "detail": "The durable child exit is code 1 with empty stdout and the exact stderr traceback; no qualification proof, stage receipt, group command, attempt namespace, group replay, or analyzer dispatch was emitted. The 89-row ledger remains byte-identical and both PIDs are gone.",
+      "id": "BF17-STAGE-NO-RETRY-01",
+      "required_correction": "Keep this invocation immutable and require a separately reviewed append-only successor. Do not relabel it as qualification, consume an attempt, or automatically retry it.",
+      "severity": "informational-boundary",
+      "title": "One-shot qualification stop is preserved"
+    }
+  ],
+  "invocation": {
+    "argv_manifest_sha256": "5034fad6d291b23eeb65be69d5f71a95f0132757737a0f9e441bb4051fb7715c",
+    "argv_review_sha256": "b3fae8fa69a08033cde7cb2986e3681d5a8ad177b920f3918d52f0e33080296b",
+    "birth_identity": "Sun Oct 25 00:06:54 2026",
+    "ended_utc": "2026-10-24T22:08:58.744319+00:00",
+    "exit_code": 1,
+    "exit_path": "execution-state/v092/monitor-checks/bf17-actual-stage-01/exit.json",
+    "exit_sha256": "86b9fa96a5269e22f1d7bf37c0a18a3f3e142a03142ccff9ce5bbdf41fdaf217",
+    "pid": 54825,
+    "processes_gone_after_exit": true,
+    "started_path": "execution-state/v092/monitor-checks/bf17-actual-stage-01/started.json",
+    "started_sha256": "386c1b1764723c6ac9aeb92fbbf7a25d3537d4ed928145dbf0516bee1e74fcb5",
+    "started_utc": "2026-10-24T22:06:54.015675+00:00",
+    "stderr_bytes": 8669,
+    "stderr_path": "execution-state/v092/monitor-checks/bf17-actual-stage-01/stderr.txt",
+    "stderr_sha256": "07c708b45e650ede0e1e1c9bc969ad99fe788f255f2e00e482b372e9986a46d5",
+    "stdout_bytes": 0,
+    "stdout_path": "execution-state/v092/monitor-checks/bf17-actual-stage-01/stdout.txt",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wrapper_path": "execution-state/v092/monitor-checks/bf17-actual-stage-01",
+    "wrapper_pid": 54824
+  },
+  "ledger_mutation_performed": false,
+  "limitations": [
+    "This artifact diagnoses the actual stopped process; it does not qualify BF17, authorize another invocation, classify analyzer capability, or approve an external launch.",
+    "The failure occurred while constructing the parent-stage runtime after entering the held lock; no completed stage receipt, group command construction, attempt directory, group replay, or analyzer execution was reached.",
+    "A loader-route repair design and implementation require independent review and fresh exact bindings before any future stage qualification attempt."
+  ],
+  "prelaunch_evidence": {
+    "fresh_outputs_absent": [
+      "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-17/actual-stage-qualification-01.json",
+      "reports/releases/v0.9.2/qualification/bifrost-v0140-replacement-17/actual-stage-receipt-01.json"
+    ],
+    "live_ledger": {
+      "equals_incoming_prefix": true,
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 89,
+      "sha256": "11afe8706c33a2dfe8e0bc66a43f3cdca701bdfe8060dafd752f6c414282cfd6"
+    },
+    "monitor_streams": {
+      "stderr_sha256": "07c708b45e650ede0e1e1c9bc969ad99fe788f255f2e00e482b372e9986a46d5",
+      "stdout_empty_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "no_analyzer_dispatch": true,
+    "no_attempt_namespace_created": true,
+    "no_execution_admission": true,
+    "no_group_replay_started": true,
+    "no_production_retry": true,
+    "no_stage_qualification_proof": true,
+    "no_stage_receipt": true,
+    "old_history_preserved": true,
+    "source_contract_manifest_inputs_preserved": true
+  },
+  "production_operations_performed": false,
+  "required_successor_properties": [
+    "Keep BF17 source fa9eaf, plan 278f07, contract19, core/manifest, continuation prefix 89, authorization and 88-member graph identities bound; any correction is a new append-only candidate.",
+    "Bind codeql_pending_historical_replay_helper and every equivalent historical/recovery selector to exact graph member identity, path, and SHA while preserving the actual frozen nested validator and loader behavior.",
+    "Cover normal, exception, and repeated-entry restoration and reject unknown, foreign, changed, ambiguous, or reordered routes; no global sys.path/sys.modules workaround or bare alias.",
+    "Run harmless positive and near-miss route/parent-stage tests before any future stage qualification invocation.",
+    "Preserve the 89-row ledger, zero-attempt state, original clock, resource guards, one-shot/no-retry policy and fresh live capacity/lock checks."
+  ],
+  "review_type": "independent-actual-stage-stop-review",
+  "reviewed_at_utc": "2026-10-24T22:11:06.323723+00:00",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-bifrost-v0140-actual-stage-stop-independent-review/v1",
+  "scope": "Independent read-only diagnosis of the single BF17 actual-stage qualification stop. No source, bridge, loader, manifest, ledger, runtime, analyzer, replay, admission, build, or launch mutation was performed.",
+  "source_mutation_performed": false,
+  "stage_qualification_consumed": false,
+  "status": "stopped-before-stage-qualification"
+}

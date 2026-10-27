@@ -1,0 +1,234 @@
+{
+  "admission_source": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-capability-admission-04.py",
+    "sha256": "fe3461286f7af680cb28585cded974e05614f9f0f39d97a4987b499fcd93527e"
+  },
+  "approval_boundary": {
+    "approved_for": [
+      "exact request07 source/plan/contract/helper/supervisor closure validation",
+      "read-only retained-prefix and continuation guard review",
+      "read-only admission preparation boundary after provisional manifest installation"
+    ],
+    "execution_performed_by_this_review": false,
+    "execution_requires": [
+      "install this review as final_review in the exact provisional manifest and recompute its SHA-256",
+      "run admission-helper-04 exactly once against the exact reviewed provisional manifest and module hash",
+      "independently inspect actual admission receipt/materialized preflight/projection/marker/process/resource fields",
+      "bind the actual receipt into final manifest-03 and obtain separate final supervision25 review",
+      "recheck exact HEAD, final manifest, no automatic retry, exclusive lock, fresh attempt/cache/report namespaces, source/contract snapshots, 127 GiB floor, cutoff/phase reserves, and current contender state before dispatch"
+    ]
+  },
+  "automatic_retry": false,
+  "binding_checks": {
+    "base_source_commit_is_ancestor_of_source_commit": true,
+    "current_request_artifact_hashes_match": true,
+    "head_equals_plan_commit_at_review": true,
+    "inherited_source_inputs_unchanged": true,
+    "manifest_review_input_hash_matches_request": true,
+    "no_source_input_duplicates": true,
+    "plan_commit_contains_all_1111_source_input_blobs": true,
+    "request_admission_source_equal_this_review_admission_source": true,
+    "request_bindings_equal_this_review_bindings": true,
+    "request_status_is_review_only": true,
+    "request_supervisor_source_equal_this_review_supervisor_source": true,
+    "source_commit_contains_continuation_source_test_helper_supervisor": true,
+    "source_commit_is_ancestor_of_plan_commit": true,
+    "source_inputs_delta_is_exact_322_entry_union": true
+  },
+  "bindings": {
+    "authorization": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/authorization-fourth-attempt-01.json",
+      "sha256": "d0068fa640f953912cc0b682b0fb8b957282e174ad3f103493d38cb2c140f9d7"
+    },
+    "capability_evidence": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/capability-evidence.json",
+      "sha256": "deefa524579114d6fa42271193b6f4def69e296ffd23023f1e72ae7d2ee4a005"
+    },
+    "continuation_contract": {
+      "path": "reports/releases/v0.9.2/execution-v4/continuations/joern-capability-repair-05-contract.json",
+      "sha256": "737dba9064e889cf3faf0bd3e6765ccd8e4cfdcda13cc329b25afbee99011762"
+    },
+    "continuation_source": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-capability-continuation-02.py",
+      "sha256": "2a661f91cab8877acffcd8104c7710237a321432091d0a1ac2765bee3a340798"
+    },
+    "continuation_test": {
+      "path": "reports/releases/v0.9.2/acquisition/test-joern-capability-continuation-02.py",
+      "sha256": "a3b8a0d93cdcf119a3e7512092600e114a121a4aead14b3824739108a5a297d1"
+    },
+    "joern_shim": {
+      "path": "scripts/joern_capability_repair_v092.py",
+      "sha256": "535ec9dcc88f5562ccd468822b2c137928caccf614e97b82d94a0b68f905f16f"
+    },
+    "ledger_prefix": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 87,
+      "sha256": "57d8265e8eb0c216c56e184a5fed36f9931bcb5b36ea1047ae3f4a0c71f0a096"
+    },
+    "plan_commit": "a5a3ce24f7ee371e26991def2782271c8022b1d4",
+    "repaired_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-02/execution-plan.json",
+      "sha256": "76264424ddfa31b11788459368ae9b65058685cb7bab60d14353d9c96fca102f"
+    },
+    "source_commit": "a757c94d19bfb2a9f0e256b75707813dcbde618d"
+  },
+  "guard_review": {
+    "continuation_identity": {
+      "codeql01_max_attempts": 2,
+      "exact_source_plan_contract_bindings": true,
+      "joern04_max_attempts": 4,
+      "joern_before_codeql": true,
+      "tail_maximum_two_rows": true
+    },
+    "historical_prefix": {
+      "completed_successes": 82,
+      "exact_ledger_sha256": true,
+      "joern03_old_context_preserved": true,
+      "no_relabel": true,
+      "sealed_rows": 87
+    },
+    "live_admission_boundary": {
+      "actual_admission_receipt_pending": true,
+      "actual_materialized_projection_pending": true,
+      "admission_helper_exact_provisional_only": true,
+      "final_execution_requires_final_manifest": true,
+      "no_current_lease_or_live_resource_claim": true,
+      "separate_final_control_review_required": true
+    },
+    "plan_and_contract": {
+      "capability_only_case_delta": true,
+      "fresh_qualification_bound": true,
+      "manifest_contract_cycle_avoided": true,
+      "source_input_closure_1111_delta_322": true,
+      "strict_group_delta": true,
+      "strict_top_level_delta": true
+    }
+  },
+  "lease_assessment": {
+    "decision": "no-concrete-static-bypass-found",
+    "execution_boundary": "Actual admission receipt and separate final-control review remain mandatory; this approval does not authorize analyzer execution.",
+    "reason": "The committed continuation source loads and validates the hash-bound receipt before consuming phase reserves, preserves current live resource/cutoff checks, exact-head/replay/tail/permit gates, and frozen runner freshness checks. The helper exact provisional path gate prevents final-manifest substitution. This review does not treat those static guards as an actual admission or live lease."
+  },
+  "manifest_review_input": {
+    "continuation_contract_sha256": "737dba9064e889cf3faf0bd3e6765ccd8e4cfdcda13cc329b25afbee99011762",
+    "execution_admission_present_at_input": false,
+    "final_review_present_at_input": false,
+    "finalized": true,
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/continuation-manifest-review-07.json",
+    "plan_commit": "a5a3ce24f7ee371e26991def2782271c8022b1d4",
+    "sha256": "24ad21dc475cd312a0e8a0bb990a54c428feca9c19f4b42782b356a6b2e90025",
+    "source_commit": "a757c94d19bfb2a9f0e256b75707813dcbde618d"
+  },
+  "nonclaims": [
+    "This approved review is limited to exact request07 closure validation and read-only admission preparation; it does not authorize analyzer or qualification execution.",
+    "No admission helper, source materialization, replay-heavy verifier, build, analyzer, version command, Joern04, CodeQL01, scoring, activation, or continuation launch was performed by this review.",
+    "Focused tests and committed blob checks establish static closure only; they do not establish a fresh analyzer capture or live resource/time admission.",
+    "The provisional manifest input has no final_review or execution_admission at review time; those fields must be installed/bound in the next admission phase without changing the reviewed source/plan/contract bindings.",
+    "Any later change to source, tests, helper, supervisor, contract, plan, manifest, actual receipt, projection, or final-control review invalidates this review and requires a new independent review."
+  ],
+  "request": {
+    "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/final-review-request-07.json",
+    "sha256": "0258fde4a4f9725a179df717f4a3e7614568e5afff2364c09bad9fc3fcd58779",
+    "status_at_review": "independent-review-request-only"
+  },
+  "required_before_execution": [
+    "Install this exact review as final_review in continuation-manifest-admission-07.json and hash the provisional manifest.",
+    "Run admission-helper-04 exactly once; inspect retained-preflight-04, materialized-preflight-04, execution-admission-04 and all actual receipt/projection/marker/resource/process fields.",
+    "Create/hash final continuation-manifest-03.json with the actual admission receipt, then complete a separate final supervision25 review bound to that final manifest and receipt.",
+    "Preserve automatic_retry=false and all original cutoff, attempt, unsupported-case, and known-limits boundaries; do not treat this review as analyzer execution approval."
+  ],
+  "review_type": "independent-final-continuation-review",
+  "reviewed_at_utc": "2026-10-23T09:25:12.834806+00:00",
+  "reviewer": "joern_repair_independent",
+  "schema": "v092-joern-capability-continuation-independent-final-review/v4",
+  "scope": "Independent read-only final continuation review of final-review-request-07, continuation-manifest-review-07, and the exact committed source/plan/contract closure. Verifies source/plan ancestry and 1111-entry closure, 322-entry additive delta, historical 87-row prefix and Joern03 recorder-error recovery identity, capability-only plan semantics, fresh control limits, marker expansion/guard wiring, and focused Python regressions. No admission, source materialization, replay-heavy verifier, build, analyzer, version command, Joern04, CodeQL01, scoring, activation, or continuation launch was performed.",
+  "status": "approved",
+  "supervisor_source": {
+    "path": "reports/releases/v0.9.2/acquisition/matrix-supervision-25.py",
+    "sha256": "d8f57d8f0993edef635f9142e8082aad452cd9042e3bffc4f3ef4d3143a41d00"
+  },
+  "validation": {
+    "admission_performed": false,
+    "analyzer_invoked": false,
+    "ast_parse": {
+      "files": 10,
+      "result": "passed"
+    },
+    "build_performed": false,
+    "continuation_execution_performed": false,
+    "focused_tests": {
+      "admission_helper": "2 passed",
+      "builder": "5 passed",
+      "continuation": "14 passed",
+      "local_supervisor_reproduction": "5 process-identity cases were blocked by sandbox ps permission; one mock test passed; the parent elevated proof above records the complete 6-test result",
+      "shim": "11 passed",
+      "supervisor_parent_proof": {
+        "analyzer_or_benchmark_launch": false,
+        "proof_path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/supervision25-focused-test-proof-02.json",
+        "proof_sha256": "351f537a1d5e6f649622caa9e9c1d0c208090cb614da5b22bd28a95af48085fb",
+        "source_sha256": "d8f57d8f0993edef635f9142e8082aad452cd9042e3bffc4f3ef4d3143a41d00",
+        "test_sha256": "3a3b4c550844fc8f0cee505ed7c26478c7d3db364103430afa34ec41a6b9b6a6",
+        "tests_passed": 6
+      }
+    },
+    "historical_recovery": {
+      "completed_rows": 82,
+      "historical_context_digest_recovery": "source enforces OLD_CONTRACT_SHA for Joern03 and uses first 86 rows for predecessor context; no relabeling into the repaired contract",
+      "joern03_attempt_id": "joern-swift-common108-attempt-03-series-01",
+      "joern03_contract_sha256": "5a9aa55014847fdedce612429c4b856213ac228d59418e95e302483a472ca827",
+      "joern03_exit_code": 1,
+      "joern03_plan_commit": "ce3db41d69c452d65a43f9c14b56706e2876e507",
+      "joern03_source_commit": "131fbe662844ca2e6303f8c5a90fee7dfc378f79",
+      "joern03_status": "recorder-error",
+      "live_prefix_equals_sealed_snapshot": true,
+      "noncompleted_rows": 5,
+      "resource_completion_failure_maps_preserved": "source enforces 82 retained completions and 5 retained failures before adding the Joern03 recorder-error context",
+      "sealed_ledger_sha256": "57d8265e8eb0c216c56e184a5fed36f9931bcb5b36ea1047ae3f4a0c71f0a096",
+      "sealed_rows": 87
+    },
+    "marker_guard_review": {
+      "admission_helper_exact_provisional_path_gate_bound": true,
+      "automatic_retry": false,
+      "joern_child_environment_expansion_checked_by_source": true,
+      "joern_raw_contract_markers": {
+        "DATAFLOWBENCH_V092_GROUP_ID": "joern-swift-common108",
+        "DATAFLOWBENCH_V092_RELEASE_EXECUTION": "1"
+      },
+      "joern_runner_release_guard_requires_markers": true,
+      "supervisor_manifest_path_propagated_and_review_bound": true
+    },
+    "materialization_performed": false,
+    "plan_and_capability_delta": {
+      "attempt_cases": 96,
+      "case_roster": 108,
+      "control_budget_seconds": 900,
+      "control_case_arm_count": 12,
+      "control_phase_invocations": 36,
+      "control_plan_sha256": "ad02fc04ed5e81765160f9e32b9b84d0ee55dfd0460f7a4156c2e6404fe5c7a5",
+      "control_run_records": 12,
+      "diagnostic_execution_eligible": true,
+      "execution_eligible": true,
+      "full_model_qualification": false,
+      "non_capability_case_fields_changed": 0,
+      "projection_sha256": "aab7ae8939cb963e88b629cd2247ecba5ab71431456f3b94d18028d2e227ec41",
+      "qualification_status": "measurement-with-known-limits",
+      "scored_activation": false,
+      "unsupported_cases": 12
+    },
+    "qualification_launch_performed": false,
+    "read_only": true,
+    "replay_heavy_performed": false,
+    "source_and_git_closure": {
+      "all_source_input_blobs_match_at_plan_commit": true,
+      "all_source_input_blobs_match_at_source_commit": true,
+      "base_source_input_count": 789,
+      "delta_count": 322,
+      "delta_overlap_with_base_count": 0,
+      "head_commit": "a5a3ce24f7ee371e26991def2782271c8022b1d4",
+      "inherited_changed_count": 0,
+      "source_commit": "a757c94d19bfb2a9f0e256b75707813dcbde618d",
+      "source_commit_ancestor_of_plan_commit": true,
+      "source_input_count": 1111
+    }
+  }
+}

@@ -1,0 +1,951 @@
+Compiled from "AstCreationPass.scala"
+public class io.joern.swiftsrc2cpg.passes.AstCreationPass extends io.shiftleft.passes.ForkJoinParallelCpgPassWithAccumulator<io.joern.swiftsrc2cpg.passes.AstCreationPass$FileAndTypesMap, io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator> {
+  private final io.joern.x2cpg.astgen.AstGenRunner$AstGenRunnerResult astGenRunnerResult;
+
+  private final io.joern.swiftsrc2cpg.Config config;
+
+  private final io.joern.x2cpg.utils.Report report;
+
+  private final io.joern.x2cpg.ValidationMode withSchemaValidation;
+
+  private final org.slf4j.Logger logger;
+
+  private scala.collection.immutable.Set<java.lang.String> collectedTypes;
+
+  private scala.collection.immutable.Map<java.lang.String, scala.collection.immutable.Set<java.lang.String>> collectedExtensionInherits;
+
+  private scala.collection.immutable.Map<java.lang.String, scala.collection.immutable.List<io.joern.swiftsrc2cpg.passes.AstCreationPass$MemberInfo>> collectedExtensionMembers;
+
+  private scala.collection.immutable.Map<java.lang.String, java.lang.String> collectedExtensionMethodFullNameMapping;
+
+  private scala.collection.immutable.Map<java.lang.String, java.lang.String> collectedMemberPropertyMapping;
+
+  public io.joern.swiftsrc2cpg.passes.AstCreationPass(io.shiftleft.codepropertygraph.generated.Cpg, io.joern.x2cpg.astgen.AstGenRunner$AstGenRunnerResult, io.joern.swiftsrc2cpg.Config, io.joern.x2cpg.utils.Report, io.joern.x2cpg.ValidationMode);
+    Code:
+       0: aload_0
+       1: aload_2
+       2: putfield      #80                 // Field astGenRunnerResult:Lio/joern/x2cpg/astgen/AstGenRunner$AstGenRunnerResult;
+       5: aload_0
+       6: aload_3
+       7: putfield      #82                 // Field config:Lio/joern/swiftsrc2cpg/Config;
+      10: aload_0
+      11: aload         4
+      13: putfield      #84                 // Field report:Lio/joern/x2cpg/utils/Report;
+      16: aload_0
+      17: aload         5
+      19: putfield      #86                 // Field withSchemaValidation:Lio/joern/x2cpg/ValidationMode;
+      22: aload_0
+      23: aload_1
+      24: getstatic     #92                 // Field io/shiftleft/passes/ForkJoinParallelCpgPassWithAccumulator$.MODULE$:Lio/shiftleft/passes/ForkJoinParallelCpgPassWithAccumulator$;
+      27: invokevirtual #96                 // Method io/shiftleft/passes/ForkJoinParallelCpgPassWithAccumulator$.$lessinit$greater$default$2:()Ljava/lang/String;
+      30: invokespecial #99                 // Method io/shiftleft/passes/ForkJoinParallelCpgPassWithAccumulator."<init>":(Lio/shiftleft/codepropertygraph/generated/Cpg;Ljava/lang/String;)V
+      33: aload_0
+      34: ldc           #2                  // class io/joern/swiftsrc2cpg/passes/AstCreationPass
+      36: invokestatic  #105                // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/Class;)Lorg/slf4j/Logger;
+      39: putfield      #107                // Field logger:Lorg/slf4j/Logger;
+      42: aload_0
+      43: getstatic     #112                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      46: invokevirtual #116                // Method scala/Predef$.Set:()Lscala/collection/immutable/Set$;
+      49: invokevirtual #122                // Method scala/collection/immutable/Set$.empty:()Lscala/collection/immutable/Set;
+      52: putfield      #124                // Field collectedTypes:Lscala/collection/immutable/Set;
+      55: aload_0
+      56: getstatic     #112                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      59: invokevirtual #128                // Method scala/Predef$.Map:()Lscala/collection/immutable/Map$;
+      62: invokevirtual #133                // Method scala/collection/immutable/Map$.empty:()Lscala/collection/immutable/Map;
+      65: putfield      #135                // Field collectedExtensionInherits:Lscala/collection/immutable/Map;
+      68: aload_0
+      69: getstatic     #112                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      72: invokevirtual #128                // Method scala/Predef$.Map:()Lscala/collection/immutable/Map$;
+      75: invokevirtual #133                // Method scala/collection/immutable/Map$.empty:()Lscala/collection/immutable/Map;
+      78: putfield      #137                // Field collectedExtensionMembers:Lscala/collection/immutable/Map;
+      81: aload_0
+      82: getstatic     #112                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      85: invokevirtual #128                // Method scala/Predef$.Map:()Lscala/collection/immutable/Map$;
+      88: invokevirtual #133                // Method scala/collection/immutable/Map$.empty:()Lscala/collection/immutable/Map;
+      91: putfield      #139                // Field collectedExtensionMethodFullNameMapping:Lscala/collection/immutable/Map;
+      94: aload_0
+      95: getstatic     #112                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      98: invokevirtual #128                // Method scala/Predef$.Map:()Lscala/collection/immutable/Map$;
+     101: invokevirtual #133                // Method scala/collection/immutable/Map$.empty:()Lscala/collection/immutable/Map;
+     104: putfield      #141                // Field collectedMemberPropertyMapping:Lscala/collection/immutable/Map;
+     107: return
+
+  public scala.collection.immutable.Set<java.lang.String> typesSeen();
+    Code:
+       0: aload_0
+       1: getfield      #124                // Field collectedTypes:Lscala/collection/immutable/Set;
+       4: areturn
+
+  public scala.collection.immutable.Map<java.lang.String, scala.collection.immutable.Set<java.lang.String>> extensionInherits();
+    Code:
+       0: aload_0
+       1: getfield      #135                // Field collectedExtensionInherits:Lscala/collection/immutable/Map;
+       4: areturn
+
+  public scala.collection.immutable.Map<java.lang.String, scala.collection.immutable.List<io.joern.swiftsrc2cpg.passes.AstCreationPass$MemberInfo>> extensionMembers();
+    Code:
+       0: aload_0
+       1: getfield      #137                // Field collectedExtensionMembers:Lscala/collection/immutable/Map;
+       4: areturn
+
+  public scala.collection.immutable.Map<java.lang.String, java.lang.String> extensionMethodFullNameMapping();
+    Code:
+       0: aload_0
+       1: getfield      #139                // Field collectedExtensionMethodFullNameMapping:Lscala/collection/immutable/Map;
+       4: areturn
+
+  public scala.collection.immutable.Map<java.lang.String, java.lang.String> memberPropertyMapping();
+    Code:
+       0: aload_0
+       1: getfield      #141                // Field collectedMemberPropertyMapping:Lscala/collection/immutable/Map;
+       4: areturn
+
+  public io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator createAccumulator();
+    Code:
+       0: getstatic     #158                // Field io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator$.MODULE$:Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator$;
+       3: getstatic     #163                // Field scala/collection/mutable/LinkedHashSet$.MODULE$:Lscala/collection/mutable/LinkedHashSet$;
+       6: invokevirtual #166                // Method scala/collection/mutable/LinkedHashSet$.empty:()Lscala/collection/mutable/LinkedHashSet;
+       9: getstatic     #171                // Field scala/collection/mutable/LinkedHashMap$.MODULE$:Lscala/collection/mutable/LinkedHashMap$;
+      12: invokevirtual #174                // Method scala/collection/mutable/LinkedHashMap$.empty:()Lscala/collection/mutable/LinkedHashMap;
+      15: getstatic     #171                // Field scala/collection/mutable/LinkedHashMap$.MODULE$:Lscala/collection/mutable/LinkedHashMap$;
+      18: invokevirtual #174                // Method scala/collection/mutable/LinkedHashMap$.empty:()Lscala/collection/mutable/LinkedHashMap;
+      21: getstatic     #171                // Field scala/collection/mutable/LinkedHashMap$.MODULE$:Lscala/collection/mutable/LinkedHashMap$;
+      24: invokevirtual #174                // Method scala/collection/mutable/LinkedHashMap$.empty:()Lscala/collection/mutable/LinkedHashMap;
+      27: getstatic     #171                // Field scala/collection/mutable/LinkedHashMap$.MODULE$:Lscala/collection/mutable/LinkedHashMap$;
+      30: invokevirtual #174                // Method scala/collection/mutable/LinkedHashMap$.empty:()Lscala/collection/mutable/LinkedHashMap;
+      33: invokevirtual #178                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator$.apply:(Lscala/collection/mutable/LinkedHashSet;Lscala/collection/mutable/LinkedHashMap;Lscala/collection/mutable/LinkedHashMap;Lscala/collection/mutable/LinkedHashMap;Lscala/collection/mutable/LinkedHashMap;)Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;
+      36: areturn
+
+  public void mergeAccumulator(io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator, io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator);
+    Code:
+       0: aload_1
+       1: invokevirtual #185                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.usedTypes:()Lscala/collection/mutable/LinkedHashSet;
+       4: aload_2
+       5: invokevirtual #185                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.usedTypes:()Lscala/collection/mutable/LinkedHashSet;
+       8: invokevirtual #191                // Method scala/collection/mutable/LinkedHashSet.$plus$plus$eq:(Lscala/collection/IterableOnce;)Lscala/collection/mutable/Growable;
+      11: pop
+      12: aload_2
+      13: invokevirtual #194                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.extensionInheritMapping:()Lscala/collection/mutable/LinkedHashMap;
+      16: aload_1
+      17: invokedynamic #215,  0            // InvokeDynamic #0:apply:(Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;)Lscala/Function1;
+      22: invokevirtual #221                // Method scala/collection/mutable/LinkedHashMap.foreach:(Lscala/Function1;)V
+      25: aload_2
+      26: invokevirtual #223                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.extensionMethodFullNameMapping:()Lscala/collection/mutable/LinkedHashMap;
+      29: aload_1
+      30: invokedynamic #231,  0            // InvokeDynamic #1:apply:(Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;)Lscala/Function1;
+      35: invokevirtual #221                // Method scala/collection/mutable/LinkedHashMap.foreach:(Lscala/Function1;)V
+      38: aload_2
+      39: invokevirtual #234                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.extensionMemberMapping:()Lscala/collection/mutable/LinkedHashMap;
+      42: aload_1
+      43: invokedynamic #239,  0            // InvokeDynamic #2:apply:(Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;)Lscala/Function1;
+      48: invokevirtual #221                // Method scala/collection/mutable/LinkedHashMap.foreach:(Lscala/Function1;)V
+      51: aload_2
+      52: invokevirtual #241                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.memberPropertyMapping:()Lscala/collection/mutable/LinkedHashMap;
+      55: aload_1
+      56: invokedynamic #246,  0            // InvokeDynamic #3:apply:(Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;)Lscala/Function1;
+      61: invokevirtual #221                // Method scala/collection/mutable/LinkedHashMap.foreach:(Lscala/Function1;)V
+      64: return
+
+  public void onAccumulatorComplete(flatgraph.DiffGraphBuilder, io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator);
+    Code:
+       0: aload_0
+       1: aload_2
+       2: invokevirtual #185                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.usedTypes:()Lscala/collection/mutable/LinkedHashSet;
+       5: invokevirtual #254                // Method scala/collection/mutable/LinkedHashSet.toSet:()Lscala/collection/immutable/Set;
+       8: getstatic     #259                // Field io/joern/x2cpg/frontendspecific/swiftsrc2cpg/Defines$.MODULE$:Lio/joern/x2cpg/frontendspecific/swiftsrc2cpg/Defines$;
+      11: invokevirtual #263                // Method io/joern/x2cpg/frontendspecific/swiftsrc2cpg/Defines$.SwiftTypes:()Lscala/collection/immutable/List;
+      14: invokeinterface #269,  2          // InterfaceMethod scala/collection/immutable/Set.removedAll:(Lscala/collection/IterableOnce;)Lscala/collection/immutable/SetOps;
+      19: checkcast     #265                // class scala/collection/immutable/Set
+      22: putfield      #124                // Field collectedTypes:Lscala/collection/immutable/Set;
+      25: aload_0
+      26: aload_2
+      27: invokevirtual #194                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.extensionInheritMapping:()Lscala/collection/mutable/LinkedHashMap;
+      30: invokevirtual #273                // Method scala/collection/mutable/LinkedHashMap.view:()Lscala/collection/MapView;
+      33: invokedynamic #282,  0            // InvokeDynamic #4:apply:()Lscala/Function1;
+      38: invokeinterface #288,  2          // InterfaceMethod scala/collection/MapView.mapValues:(Lscala/Function1;)Lscala/collection/MapView;
+      43: getstatic     #293                // Field scala/$less$colon$less$.MODULE$:Lscala/$less$colon$less$;
+      46: invokevirtual #297                // Method scala/$less$colon$less$.refl:()Lscala/$eq$colon$eq;
+      49: invokeinterface #301,  2          // InterfaceMethod scala/collection/MapView.toMap:(Lscala/$less$colon$less;)Lscala/collection/immutable/Map;
+      54: putfield      #135                // Field collectedExtensionInherits:Lscala/collection/immutable/Map;
+      57: aload_0
+      58: getstatic     #306                // Field scala/collection/immutable/ListMap$.MODULE$:Lscala/collection/immutable/ListMap$;
+      61: aload_2
+      62: invokevirtual #234                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.extensionMemberMapping:()Lscala/collection/mutable/LinkedHashMap;
+      65: invokevirtual #273                // Method scala/collection/mutable/LinkedHashMap.view:()Lscala/collection/MapView;
+      68: invokedynamic #313,  0            // InvokeDynamic #5:apply:()Lscala/Function1;
+      73: invokeinterface #288,  2          // InterfaceMethod scala/collection/MapView.mapValues:(Lscala/Function1;)Lscala/collection/MapView;
+      78: invokevirtual #317                // Method scala/collection/immutable/ListMap$.from:(Lscala/collection/IterableOnce;)Lscala/collection/immutable/ListMap;
+      81: putfield      #137                // Field collectedExtensionMembers:Lscala/collection/immutable/Map;
+      84: aload_0
+      85: aload_2
+      86: invokevirtual #223                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.extensionMethodFullNameMapping:()Lscala/collection/mutable/LinkedHashMap;
+      89: getstatic     #293                // Field scala/$less$colon$less$.MODULE$:Lscala/$less$colon$less$;
+      92: invokevirtual #297                // Method scala/$less$colon$less$.refl:()Lscala/$eq$colon$eq;
+      95: invokevirtual #318                // Method scala/collection/mutable/LinkedHashMap.toMap:(Lscala/$less$colon$less;)Lscala/collection/immutable/Map;
+      98: putfield      #139                // Field collectedExtensionMethodFullNameMapping:Lscala/collection/immutable/Map;
+     101: aload_0
+     102: aload_2
+     103: invokevirtual #241                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.memberPropertyMapping:()Lscala/collection/mutable/LinkedHashMap;
+     106: getstatic     #293                // Field scala/$less$colon$less$.MODULE$:Lscala/$less$colon$less$;
+     109: invokevirtual #297                // Method scala/$less$colon$less$.refl:()Lscala/$eq$colon$eq;
+     112: invokevirtual #318                // Method scala/collection/mutable/LinkedHashMap.toMap:(Lscala/$less$colon$less;)Lscala/collection/immutable/Map;
+     115: putfield      #141                // Field collectedMemberPropertyMapping:Lscala/collection/immutable/Map;
+     118: return
+
+  public io.joern.swiftsrc2cpg.passes.AstCreationPass$FileAndTypesMap[] generateParts();
+    Code:
+       0: getstatic     #326                // Field io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.MODULE$:Lio/joern/swiftsrc2cpg/utils/SwiftTypesProvider$;
+       3: aload_0
+       4: getfield      #82                 // Field config:Lio/joern/swiftsrc2cpg/Config;
+       7: invokevirtual #329                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider$.apply:(Lio/joern/swiftsrc2cpg/Config;)Lscala/Option;
+      10: invokedynamic #336,  0            // InvokeDynamic #6:apply:()Lscala/Function1;
+      15: invokevirtual #342                // Method scala/Option.map:(Lscala/Function1;)Lscala/Option;
+      18: invokedynamic #353,  0            // InvokeDynamic #7:apply:()Lscala/Function0;
+      23: invokevirtual #357                // Method scala/Option.getOrElse:(Lscala/Function0;)Ljava/lang/Object;
+      26: checkcast     #359                // class java/util/concurrent/ConcurrentHashMap
+      29: astore_1
+      30: aload_1
+      31: invokevirtual #363                // Method java/util/concurrent/ConcurrentHashMap.isEmpty:()Z
+      34: ifeq          69
+      37: aload_0
+      38: getfield      #80                 // Field astGenRunnerResult:Lio/joern/x2cpg/astgen/AstGenRunner$AstGenRunnerResult;
+      41: invokeinterface #366,  1          // InterfaceMethod io/joern/x2cpg/astgen/AstGenRunner$AstGenRunnerResult.parsedFiles:()Lscala/collection/immutable/List;
+      46: invokedynamic #373,  0            // InvokeDynamic #8:apply:()Lscala/Function1;
+      51: invokevirtual #378                // Method scala/collection/immutable/List.map:(Lscala/Function1;)Lscala/collection/immutable/List;
+      54: getstatic     #383                // Field scala/reflect/ClassTag$.MODULE$:Lscala/reflect/ClassTag$;
+      57: ldc           #19                 // class io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap
+      59: invokevirtual #386                // Method scala/reflect/ClassTag$.apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+      62: invokevirtual #390                // Method scala/collection/immutable/List.toArray:(Lscala/reflect/ClassTag;)Ljava/lang/Object;
+      65: checkcast     #392                // class "[Lio/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap;"
+      68: areturn
+      69: aload_0
+      70: getfield      #80                 // Field astGenRunnerResult:Lio/joern/x2cpg/astgen/AstGenRunner$AstGenRunnerResult;
+      73: invokeinterface #366,  1          // InterfaceMethod io/joern/x2cpg/astgen/AstGenRunner$AstGenRunnerResult.parsedFiles:()Lscala/collection/immutable/List;
+      78: aload_0
+      79: aload_1
+      80: invokedynamic #400,  0            // InvokeDynamic #9:apply:(Lio/joern/swiftsrc2cpg/passes/AstCreationPass;Ljava/util/concurrent/ConcurrentHashMap;)Lscala/Function1;
+      85: invokevirtual #378                // Method scala/collection/immutable/List.map:(Lscala/Function1;)Lscala/collection/immutable/List;
+      88: getstatic     #383                // Field scala/reflect/ClassTag$.MODULE$:Lscala/reflect/ClassTag$;
+      91: ldc           #19                 // class io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap
+      93: invokevirtual #386                // Method scala/reflect/ClassTag$.apply:(Ljava/lang/Class;)Lscala/reflect/ClassTag;
+      96: invokevirtual #390                // Method scala/collection/immutable/List.toArray:(Lscala/reflect/ClassTag;)Ljava/lang/Object;
+      99: checkcast     #392                // class "[Lio/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap;"
+     102: areturn
+
+  public void finish();
+    Code:
+       0: aload_0
+       1: getfield      #80                 // Field astGenRunnerResult:Lio/joern/x2cpg/astgen/AstGenRunner$AstGenRunnerResult;
+       4: invokeinterface #407,  1          // InterfaceMethod io/joern/x2cpg/astgen/AstGenRunner$AstGenRunnerResult.skippedFiles:()Lscala/collection/immutable/List;
+       9: aload_0
+      10: invokedynamic #419,  0            // InvokeDynamic #10:applyVoid:(Lio/joern/swiftsrc2cpg/passes/AstCreationPass;)Lscala/runtime/function/JProcedure1;
+      15: invokevirtual #420                // Method scala/collection/immutable/List.foreach:(Lscala/Function1;)V
+      18: return
+
+  private scala.collection.immutable.Map<scala.Tuple2<java.lang.Object, java.lang.Object>, scala.collection.immutable.Set<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$ResolvedTypeInfo>> extractFileLocalTypesMap(java.lang.String, java.util.concurrent.ConcurrentHashMap<java.lang.String, java.util.concurrent.ConcurrentHashMap<scala.Tuple2<java.lang.Object, java.lang.Object>, scala.collection.mutable.HashSet<io.joern.swiftsrc2cpg.utils.SwiftTypesProvider$ResolvedTypeInfo>>>);
+    Code:
+       0: aload_2
+       1: invokevirtual #363                // Method java/util/concurrent/ConcurrentHashMap.isEmpty:()Z
+       4: ifeq          17
+       7: getstatic     #112                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      10: invokevirtual #128                // Method scala/Predef$.Map:()Lscala/collection/immutable/Map$;
+      13: invokevirtual #133                // Method scala/collection/immutable/Map$.empty:()Lscala/collection/immutable/Map;
+      16: areturn
+      17: aload_1
+      18: ldc_w         #426                // String \\
+      21: ldc_w         #428                // String /
+      24: invokevirtual #434                // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      27: astore_3
+      28: getstatic     #439                // Field scala/Option$.MODULE$:Lscala/Option$;
+      31: aload_2
+      32: aload_3
+      33: invokevirtual #442                // Method java/util/concurrent/ConcurrentHashMap.remove:(Ljava/lang/Object;)Ljava/lang/Object;
+      36: invokevirtual #445                // Method scala/Option$.apply:(Ljava/lang/Object;)Lscala/Option;
+      39: aload_2
+      40: aload_3
+      41: invokedynamic #455,  0            // InvokeDynamic #11:apply:(Ljava/util/concurrent/ConcurrentHashMap;Ljava/lang/String;)Lscala/Function0;
+      46: invokevirtual #459                // Method scala/Option.orElse:(Lscala/Function0;)Lscala/Option;
+      49: astore        4
+      51: aload         4
+      53: astore        5
+      55: aload         5
+      57: instanceof    #461                // class scala/Some
+      60: ifeq          112
+      63: aload         5
+      65: checkcast     #461                // class scala/Some
+      68: invokevirtual #464                // Method scala/Some.value:()Ljava/lang/Object;
+      71: checkcast     #359                // class java/util/concurrent/ConcurrentHashMap
+      74: astore        6
+      76: getstatic     #469                // Field scala/jdk/CollectionConverters$.MODULE$:Lscala/jdk/CollectionConverters$;
+      79: aload         6
+      81: invokevirtual #472                // Method scala/jdk/CollectionConverters$.ConcurrentMapHasAsScala:(Ljava/util/concurrent/ConcurrentMap;)Lscala/collection/convert/AsScalaExtensions$ConcurrentMapHasAsScala;
+      84: invokevirtual #476                // Method scala/collection/convert/AsScalaExtensions$ConcurrentMapHasAsScala.asScala:()Lscala/collection/concurrent/Map;
+      87: getstatic     #293                // Field scala/$less$colon$less$.MODULE$:Lscala/$less$colon$less$;
+      90: invokevirtual #297                // Method scala/$less$colon$less$.refl:()Lscala/$eq$colon$eq;
+      93: invokeinterface #479,  2          // InterfaceMethod scala/collection/concurrent/Map.toMap:(Lscala/$less$colon$less;)Lscala/collection/immutable/Map;
+      98: invokedynamic #486,  0            // InvokeDynamic #12:apply:()Lscala/Function1;
+     103: invokeinterface #491,  2          // InterfaceMethod scala/collection/immutable/Map.map:(Lscala/Function1;)Lscala/collection/IterableOps;
+     108: checkcast     #488                // class scala/collection/immutable/Map
+     111: areturn
+     112: getstatic     #496                // Field scala/None$.MODULE$:Lscala/None$;
+     115: aload         5
+     117: invokevirtual #502                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     120: ifeq          133
+     123: getstatic     #112                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+     126: invokevirtual #128                // Method scala/Predef$.Map:()Lscala/collection/immutable/Map$;
+     129: invokevirtual #133                // Method scala/collection/immutable/Map$.empty:()Lscala/collection/immutable/Map;
+     132: areturn
+     133: new           #504                // class scala/MatchError
+     136: dup
+     137: aload         5
+     139: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     142: athrow
+
+  public void runOnPart(flatgraph.DiffGraphBuilder, io.joern.swiftsrc2cpg.passes.AstCreationPass$FileAndTypesMap, io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator);
+    Code:
+       0: getstatic     #520                // Field io/joern/x2cpg/utils/TimeUtils$.MODULE$:Lio/joern/x2cpg/utils/TimeUtils$;
+       3: aload_0
+       4: aload_2
+       5: aload_3
+       6: aload_1
+       7: invokedynamic #530,  0            // InvokeDynamic #13:apply:(Lio/joern/swiftsrc2cpg/passes/AstCreationPass;Lio/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap;Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;Lflatgraph/DiffGraphBuilder;)Lscala/Function0;
+      12: invokevirtual #534                // Method io/joern/x2cpg/utils/TimeUtils$.time:(Lscala/Function0;)Lscala/Tuple2;
+      15: astore        5
+      17: aload         5
+      19: ifnull        88
+      22: aload         5
+      24: invokevirtual #539                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      27: checkcast     #536                // class scala/Tuple2
+      30: astore        6
+      32: aload         6
+      34: ifnull        88
+      37: aload         6
+      39: invokevirtual #539                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      42: invokestatic  #544                // Method scala/runtime/BoxesRunTime.unboxToBoolean:(Ljava/lang/Object;)Z
+      45: istore        7
+      47: aload         6
+      49: invokevirtual #547                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      52: checkcast     #430                // class java/lang/String
+      55: astore        8
+      57: aload         5
+      59: invokevirtual #547                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      62: invokestatic  #551                // Method scala/runtime/BoxesRunTime.unboxToLong:(Ljava/lang/Object;)J
+      65: lstore        9
+      67: getstatic     #556                // Field scala/Tuple3$.MODULE$:Lscala/Tuple3$;
+      70: iload         7
+      72: invokestatic  #560                // Method scala/runtime/BoxesRunTime.boxToBoolean:(Z)Ljava/lang/Boolean;
+      75: aload         8
+      77: lload         9
+      79: invokestatic  #564                // Method scala/runtime/BoxesRunTime.boxToLong:(J)Ljava/lang/Long;
+      82: invokevirtual #567                // Method scala/Tuple3$.apply:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple3;
+      85: goto          98
+      88: new           #504                // class scala/MatchError
+      91: dup
+      92: aload         5
+      94: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      97: athrow
+      98: astore        4
+     100: aload         4
+     102: invokevirtual #570                // Method scala/Tuple3._1:()Ljava/lang/Object;
+     105: invokestatic  #544                // Method scala/runtime/BoxesRunTime.unboxToBoolean:(Ljava/lang/Object;)Z
+     108: istore        11
+     110: aload         4
+     112: invokevirtual #571                // Method scala/Tuple3._2:()Ljava/lang/Object;
+     115: checkcast     #430                // class java/lang/String
+     118: astore        12
+     120: aload         4
+     122: invokevirtual #574                // Method scala/Tuple3._3:()Ljava/lang/Object;
+     125: invokestatic  #551                // Method scala/runtime/BoxesRunTime.unboxToLong:(Ljava/lang/Object;)J
+     128: lstore        13
+     130: aload_0
+     131: getfield      #84                 // Field report:Lio/joern/x2cpg/utils/Report;
+     134: aload         12
+     136: iload         11
+     138: lload         13
+     140: invokevirtual #580                // Method io/joern/x2cpg/utils/Report.updateReport:(Ljava/lang/String;ZJ)V
+     143: return
+
+  public java.lang.Object createAccumulator();
+    Code:
+       0: aload_0
+       1: invokevirtual #589                // Method createAccumulator:()Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;
+       4: areturn
+
+  public void mergeAccumulator(java.lang.Object, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: checkcast     #13                 // class io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator
+       5: aload_2
+       6: checkcast     #13                 // class io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator
+       9: invokevirtual #592                // Method mergeAccumulator:(Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;)V
+      12: return
+
+  public void onAccumulatorComplete(flatgraph.DiffGraphBuilder, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: checkcast     #13                 // class io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator
+       6: invokevirtual #596                // Method onAccumulatorComplete:(Lflatgraph/DiffGraphBuilder;Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;)V
+       9: return
+
+  public java.lang.Object[] generateParts();
+    Code:
+       0: aload_0
+       1: invokevirtual #599                // Method generateParts:()[Lio/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap;
+       4: areturn
+
+  public void runOnPart(flatgraph.DiffGraphBuilder, java.lang.Object, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: checkcast     #19                 // class io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap
+       6: aload_3
+       7: checkcast     #13                 // class io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator
+      10: invokevirtual #602                // Method runOnPart:(Lflatgraph/DiffGraphBuilder;Lio/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap;Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;)V
+      13: return
+
+  private static final scala.Option mergeAccumulator$$anonfun$1$$anonfun$1(scala.collection.mutable.LinkedHashSet, scala.Option);
+    Code:
+       0: aload_1
+       1: astore_2
+       2: aload_2
+       3: instanceof    #461                // class scala/Some
+       6: ifeq          32
+       9: aload_2
+      10: checkcast     #461                // class scala/Some
+      13: invokevirtual #464                // Method scala/Some.value:()Ljava/lang/Object;
+      16: checkcast     #187                // class scala/collection/mutable/LinkedHashSet
+      19: astore_3
+      20: getstatic     #611                // Field scala/Some$.MODULE$:Lscala/Some$;
+      23: aload_3
+      24: aload_0
+      25: invokevirtual #191                // Method scala/collection/mutable/LinkedHashSet.$plus$plus$eq:(Lscala/collection/IterableOnce;)Lscala/collection/mutable/Growable;
+      28: invokevirtual #614                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      31: areturn
+      32: getstatic     #496                // Field scala/None$.MODULE$:Lscala/None$;
+      35: aload_2
+      36: invokevirtual #502                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      39: ifeq          50
+      42: getstatic     #611                // Field scala/Some$.MODULE$:Lscala/Some$;
+      45: aload_0
+      46: invokevirtual #614                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      49: areturn
+      50: new           #504                // class scala/MatchError
+      53: dup
+      54: aload_2
+      55: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      58: athrow
+
+  private static final scala.Option mergeAccumulator$$anonfun$1(io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator, scala.Tuple2);
+    Code:
+       0: aload_1
+       1: astore_2
+       2: aload_2
+       3: ifnull        39
+       6: aload_2
+       7: invokevirtual #539                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #430                // class java/lang/String
+      13: astore_3
+      14: aload_2
+      15: invokevirtual #547                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      18: checkcast     #187                // class scala/collection/mutable/LinkedHashSet
+      21: astore        4
+      23: aload_0
+      24: invokevirtual #194                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.extensionInheritMapping:()Lscala/collection/mutable/LinkedHashMap;
+      27: aload_3
+      28: aload         4
+      30: invokedynamic #625,  0            // InvokeDynamic #14:apply:(Lscala/collection/mutable/LinkedHashSet;)Lscala/Function1;
+      35: invokevirtual #629                // Method scala/collection/mutable/LinkedHashMap.updateWith:(Ljava/lang/Object;Lscala/Function1;)Lscala/Option;
+      38: areturn
+      39: new           #504                // class scala/MatchError
+      42: dup
+      43: aload_2
+      44: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      47: athrow
+
+  private static final java.lang.String mergeAccumulator$$anonfun$2$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: areturn
+
+  private static final java.lang.String mergeAccumulator$$anonfun$2(io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator, scala.Tuple2);
+    Code:
+       0: aload_1
+       1: astore_2
+       2: aload_2
+       3: ifnull        42
+       6: aload_2
+       7: invokevirtual #539                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #430                // class java/lang/String
+      13: astore_3
+      14: aload_2
+      15: invokevirtual #547                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      18: checkcast     #430                // class java/lang/String
+      21: astore        4
+      23: aload_0
+      24: invokevirtual #223                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.extensionMethodFullNameMapping:()Lscala/collection/mutable/LinkedHashMap;
+      27: aload_3
+      28: aload         4
+      30: invokedynamic #643,  0            // InvokeDynamic #15:apply:(Ljava/lang/String;)Lscala/Function0;
+      35: invokevirtual #647                // Method scala/collection/mutable/LinkedHashMap.getOrElseUpdate:(Ljava/lang/Object;Lscala/Function0;)Ljava/lang/Object;
+      38: checkcast     #430                // class java/lang/String
+      41: areturn
+      42: new           #504                // class scala/MatchError
+      45: dup
+      46: aload_2
+      47: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      50: athrow
+
+  private static final scala.Option mergeAccumulator$$anonfun$3$$anonfun$1(scala.collection.mutable.ArrayBuffer, scala.Option);
+    Code:
+       0: aload_1
+       1: astore_2
+       2: aload_2
+       3: instanceof    #461                // class scala/Some
+       6: ifeq          32
+       9: aload_2
+      10: checkcast     #461                // class scala/Some
+      13: invokevirtual #464                // Method scala/Some.value:()Ljava/lang/Object;
+      16: checkcast     #652                // class scala/collection/mutable/ArrayBuffer
+      19: astore_3
+      20: getstatic     #611                // Field scala/Some$.MODULE$:Lscala/Some$;
+      23: aload_3
+      24: aload_0
+      25: invokevirtual #653                // Method scala/collection/mutable/ArrayBuffer.$plus$plus$eq:(Lscala/collection/IterableOnce;)Lscala/collection/mutable/Growable;
+      28: invokevirtual #614                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      31: areturn
+      32: getstatic     #496                // Field scala/None$.MODULE$:Lscala/None$;
+      35: aload_2
+      36: invokevirtual #502                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      39: ifeq          50
+      42: getstatic     #611                // Field scala/Some$.MODULE$:Lscala/Some$;
+      45: aload_0
+      46: invokevirtual #614                // Method scala/Some$.apply:(Ljava/lang/Object;)Lscala/Some;
+      49: areturn
+      50: new           #504                // class scala/MatchError
+      53: dup
+      54: aload_2
+      55: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      58: athrow
+
+  private static final scala.Option mergeAccumulator$$anonfun$3(io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator, scala.Tuple2);
+    Code:
+       0: aload_1
+       1: astore_2
+       2: aload_2
+       3: ifnull        39
+       6: aload_2
+       7: invokevirtual #539                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #430                // class java/lang/String
+      13: astore_3
+      14: aload_2
+      15: invokevirtual #547                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      18: checkcast     #652                // class scala/collection/mutable/ArrayBuffer
+      21: astore        4
+      23: aload_0
+      24: invokevirtual #234                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.extensionMemberMapping:()Lscala/collection/mutable/LinkedHashMap;
+      27: aload_3
+      28: aload         4
+      30: invokedynamic #662,  0            // InvokeDynamic #16:apply:(Lscala/collection/mutable/ArrayBuffer;)Lscala/Function1;
+      35: invokevirtual #629                // Method scala/collection/mutable/LinkedHashMap.updateWith:(Ljava/lang/Object;Lscala/Function1;)Lscala/Option;
+      38: areturn
+      39: new           #504                // class scala/MatchError
+      42: dup
+      43: aload_2
+      44: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      47: athrow
+
+  private static final java.lang.String mergeAccumulator$$anonfun$4$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_0
+       1: areturn
+
+  private static final java.lang.String mergeAccumulator$$anonfun$4(io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator, scala.Tuple2);
+    Code:
+       0: aload_1
+       1: astore_2
+       2: aload_2
+       3: ifnull        42
+       6: aload_2
+       7: invokevirtual #539                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #430                // class java/lang/String
+      13: astore_3
+      14: aload_2
+      15: invokevirtual #547                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      18: checkcast     #430                // class java/lang/String
+      21: astore        4
+      23: aload_0
+      24: invokevirtual #241                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator.memberPropertyMapping:()Lscala/collection/mutable/LinkedHashMap;
+      27: aload_3
+      28: aload         4
+      30: invokedynamic #670,  0            // InvokeDynamic #17:apply:(Ljava/lang/String;)Lscala/Function0;
+      35: invokevirtual #647                // Method scala/collection/mutable/LinkedHashMap.getOrElseUpdate:(Ljava/lang/Object;Lscala/Function0;)Ljava/lang/Object;
+      38: checkcast     #430                // class java/lang/String
+      41: areturn
+      42: new           #504                // class scala/MatchError
+      45: dup
+      46: aload_2
+      47: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      50: athrow
+
+  private static final scala.collection.immutable.Set onAccumulatorComplete$$anonfun$1(scala.collection.mutable.LinkedHashSet);
+    Code:
+       0: aload_0
+       1: invokevirtual #254                // Method scala/collection/mutable/LinkedHashSet.toSet:()Lscala/collection/immutable/Set;
+       4: areturn
+
+  private static final scala.collection.immutable.List onAccumulatorComplete$$anonfun$2(scala.collection.mutable.ArrayBuffer);
+    Code:
+       0: aload_0
+       1: invokevirtual #675                // Method scala/collection/mutable/ArrayBuffer.toList:()Lscala/collection/immutable/List;
+       4: areturn
+
+  private static final java.util.concurrent.ConcurrentHashMap $anonfun$1(io.joern.swiftsrc2cpg.utils.SwiftTypesProvider);
+    Code:
+       0: aload_0
+       1: invokevirtual #679                // Method io/joern/swiftsrc2cpg/utils/SwiftTypesProvider.retrieveMappings:()Ljava/util/concurrent/ConcurrentHashMap;
+       4: areturn
+
+  private static final java.util.concurrent.ConcurrentHashMap $anonfun$2();
+    Code:
+       0: new           #359                // class java/util/concurrent/ConcurrentHashMap
+       3: dup
+       4: invokespecial #682                // Method java/util/concurrent/ConcurrentHashMap."<init>":()V
+       7: areturn
+
+  private static final io.joern.swiftsrc2cpg.passes.AstCreationPass$FileAndTypesMap generateParts$$anonfun$1(java.lang.String);
+    Code:
+       0: new           #19                 // class io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap
+       3: dup
+       4: aload_0
+       5: getstatic     #112                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+       8: invokevirtual #128                // Method scala/Predef$.Map:()Lscala/collection/immutable/Map$;
+      11: invokevirtual #133                // Method scala/collection/immutable/Map$.empty:()Lscala/collection/immutable/Map;
+      14: invokespecial #686                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap."<init>":(Ljava/lang/String;Lscala/collection/immutable/Map;)V
+      17: areturn
+
+  private final io.joern.swiftsrc2cpg.passes.AstCreationPass$FileAndTypesMap generateParts$$anonfun$2(java.util.concurrent.ConcurrentHashMap, java.lang.String);
+    Code:
+       0: getstatic     #693                // Field io/joern/swiftsrc2cpg/parser/SwiftJsonParser$.MODULE$:Lio/joern/swiftsrc2cpg/parser/SwiftJsonParser$;
+       3: aload_2
+       4: iconst_0
+       5: anewarray     #430                // class java/lang/String
+       8: invokestatic  #699                // Method java/nio/file/Paths.get:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+      11: invokevirtual #703                // Method io/joern/swiftsrc2cpg/parser/SwiftJsonParser$.readRelativeFilePath:(Ljava/nio/file/Path;)Lscala/util/Try;
+      14: astore_3
+      15: aload_3
+      16: instanceof    #705                // class scala/util/Success
+      19: ifeq          50
+      22: aload_3
+      23: checkcast     #705                // class scala/util/Success
+      26: invokevirtual #706                // Method scala/util/Success.value:()Ljava/lang/Object;
+      29: checkcast     #430                // class java/lang/String
+      32: astore        4
+      34: new           #19                 // class io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap
+      37: dup
+      38: aload_2
+      39: aload_0
+      40: aload         4
+      42: aload_1
+      43: invokespecial #708                // Method extractFileLocalTypesMap:(Ljava/lang/String;Ljava/util/concurrent/ConcurrentHashMap;)Lscala/collection/immutable/Map;
+      46: invokespecial #686                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap."<init>":(Ljava/lang/String;Lscala/collection/immutable/Map;)V
+      49: areturn
+      50: new           #19                 // class io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap
+      53: dup
+      54: aload_2
+      55: getstatic     #112                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      58: invokevirtual #128                // Method scala/Predef$.Map:()Lscala/collection/immutable/Map$;
+      61: invokevirtual #133                // Method scala/collection/immutable/Map$.empty:()Lscala/collection/immutable/Map;
+      64: invokespecial #686                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap."<init>":(Ljava/lang/String;Lscala/collection/immutable/Map;)V
+      67: areturn
+
+  private static final scala.collection.immutable.Seq $anonfun$3(java.nio.file.Path);
+    Code:
+       0: getstatic     #719                // Field io/shiftleft/utils/IOUtils$.MODULE$:Lio/shiftleft/utils/IOUtils$;
+       3: aload_0
+       4: invokevirtual #722                // Method io/shiftleft/utils/IOUtils$.readLinesInFile:(Ljava/nio/file/Path;)Lscala/collection/immutable/Seq;
+       7: areturn
+
+  private final void finish$$anonfun$1(java.lang.String);
+    Code:
+       0: aload_1
+       1: iconst_0
+       2: anewarray     #430                // class java/lang/String
+       5: invokestatic  #699                // Method java/nio/file/Paths.get:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+       8: astore_2
+       9: getstatic     #729                // Field scala/util/Try$.MODULE$:Lscala/util/Try$;
+      12: aload_2
+      13: invokedynamic #737,  0            // InvokeDynamic #18:apply:(Ljava/nio/file/Path;)Lscala/Function0;
+      18: invokevirtual #740                // Method scala/util/Try$.apply:(Lscala/Function0;)Lscala/util/Try;
+      21: astore        4
+      23: aload         4
+      25: instanceof    #705                // class scala/util/Success
+      28: ifeq          54
+      31: aload         4
+      33: checkcast     #705                // class scala/util/Success
+      36: invokevirtual #706                // Method scala/util/Success.value:()Ljava/lang/Object;
+      39: checkcast     #742                // class scala/collection/immutable/Seq
+      42: astore        5
+      44: aload         5
+      46: invokeinterface #746,  1          // InterfaceMethod scala/collection/immutable/Seq.size:()I
+      51: goto          103
+      54: aload         4
+      56: instanceof    #748                // class scala/util/Failure
+      59: ifeq          93
+      62: aload         4
+      64: checkcast     #748                // class scala/util/Failure
+      67: invokevirtual #752                // Method scala/util/Failure.exception:()Ljava/lang/Throwable;
+      70: astore        6
+      72: aload_0
+      73: getfield      #107                // Field logger:Lorg/slf4j/Logger;
+      76: aload_2
+      77: invokedynamic #764,  0            // InvokeDynamic #19:makeConcatWithConstants:(Ljava/nio/file/Path;)Ljava/lang/String;
+      82: aload         6
+      84: invokeinterface #770,  3          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Throwable;)V
+      89: iconst_m1
+      90: goto          103
+      93: new           #504                // class scala/MatchError
+      96: dup
+      97: aload         4
+      99: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     102: athrow
+     103: istore_3
+     104: aload_0
+     105: getfield      #84                 // Field report:Lio/joern/x2cpg/utils/Report;
+     108: aload_1
+     109: iload_3
+     110: aload_0
+     111: getfield      #84                 // Field report:Lio/joern/x2cpg/utils/Report;
+     114: invokevirtual #773                // Method io/joern/x2cpg/utils/Report.addReportInfo$default$3:()Z
+     117: aload_0
+     118: getfield      #84                 // Field report:Lio/joern/x2cpg/utils/Report;
+     121: invokevirtual #776                // Method io/joern/x2cpg/utils/Report.addReportInfo$default$4:()Z
+     124: aload_0
+     125: getfield      #84                 // Field report:Lio/joern/x2cpg/utils/Report;
+     128: invokevirtual #780                // Method io/joern/x2cpg/utils/Report.addReportInfo$default$5:()J
+     131: invokevirtual #784                // Method io/joern/x2cpg/utils/Report.addReportInfo:(Ljava/lang/String;IZZJ)V
+     134: return
+
+  private static final boolean $anonfun$4$$anonfun$1(java.lang.String, java.lang.String);
+    Code:
+       0: aload_1
+       1: aload_0
+       2: invokevirtual #800                // Method java/lang/String.endsWith:(Ljava/lang/String;)Z
+       5: ireturn
+
+  private static final scala.Option $anonfun$4$$anonfun$2(java.util.concurrent.ConcurrentHashMap, java.lang.String);
+    Code:
+       0: getstatic     #439                // Field scala/Option$.MODULE$:Lscala/Option$;
+       3: aload_0
+       4: aload_1
+       5: invokevirtual #442                // Method java/util/concurrent/ConcurrentHashMap.remove:(Ljava/lang/Object;)Ljava/lang/Object;
+       8: invokevirtual #445                // Method scala/Option$.apply:(Ljava/lang/Object;)Lscala/Option;
+      11: areturn
+
+  private static final scala.Option $anonfun$4(java.util.concurrent.ConcurrentHashMap, java.lang.String);
+    Code:
+       0: getstatic     #469                // Field scala/jdk/CollectionConverters$.MODULE$:Lscala/jdk/CollectionConverters$;
+       3: aload_0
+       4: invokevirtual #808                // Method java/util/concurrent/ConcurrentHashMap.keys:()Ljava/util/Enumeration;
+       7: invokevirtual #811                // Method scala/jdk/CollectionConverters$.EnumerationHasAsScala:(Ljava/util/Enumeration;)Lscala/collection/convert/AsScalaExtensions$EnumerationHasAsScala;
+      10: invokevirtual #814                // Method scala/collection/convert/AsScalaExtensions$EnumerationHasAsScala.asScala:()Lscala/collection/Iterator;
+      13: aload_1
+      14: invokedynamic #822,  0            // InvokeDynamic #20:apply:(Ljava/lang/String;)Lscala/Function1;
+      19: invokeinterface #827,  2          // InterfaceMethod scala/collection/Iterator.find:(Lscala/Function1;)Lscala/Option;
+      24: aload_0
+      25: invokedynamic #835,  0            // InvokeDynamic #21:apply:(Ljava/util/concurrent/ConcurrentHashMap;)Lscala/Function1;
+      30: invokevirtual #838                // Method scala/Option.flatMap:(Lscala/Function1;)Lscala/Option;
+      33: areturn
+
+  private static final scala.Tuple2 extractFileLocalTypesMap$$anonfun$1(scala.Tuple2);
+    Code:
+       0: aload_0
+       1: astore_1
+       2: aload_1
+       3: ifnull        47
+       6: aload_1
+       7: invokevirtual #539                // Method scala/Tuple2._1:()Ljava/lang/Object;
+      10: checkcast     #536                // class scala/Tuple2
+      13: astore_2
+      14: aload_1
+      15: invokevirtual #547                // Method scala/Tuple2._2:()Ljava/lang/Object;
+      18: checkcast     #840                // class scala/collection/mutable/HashSet
+      21: astore_3
+      22: getstatic     #112                // Field scala/Predef$.MODULE$:Lscala/Predef$;
+      25: aload_2
+      26: invokevirtual #843                // Method scala/Predef$.ArrowAssoc:(Ljava/lang/Object;)Ljava/lang/Object;
+      29: checkcast     #536                // class scala/Tuple2
+      32: astore        4
+      34: getstatic     #846                // Field scala/Predef$ArrowAssoc$.MODULE$:Lscala/Predef$ArrowAssoc$;
+      37: aload         4
+      39: aload_3
+      40: invokevirtual #847                // Method scala/collection/mutable/HashSet.toSet:()Lscala/collection/immutable/Set;
+      43: invokevirtual #851                // Method scala/Predef$ArrowAssoc$.$minus$greater$extension:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+      46: areturn
+      47: new           #504                // class scala/MatchError
+      50: dup
+      51: aload_1
+      52: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+      55: athrow
+
+  private final void $anonfun$5$$anonfun$1(io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator, io.joern.swiftsrc2cpg.parser.SwiftJsonParser$ParseResult, io.joern.swiftsrc2cpg.passes.AstCreationPass$FileAndTypesMap, flatgraph.DiffGraphBuilder);
+    Code:
+       0: new           #862                // class io/joern/swiftsrc2cpg/astcreation/AstCreator
+       3: dup
+       4: aload_0
+       5: getfield      #82                 // Field config:Lio/joern/swiftsrc2cpg/Config;
+       8: aload_1
+       9: aload_2
+      10: aload_3
+      11: invokevirtual #865                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap.fileLocalTypesMap:()Lscala/collection/immutable/Map;
+      14: aload_0
+      15: getfield      #86                 // Field withSchemaValidation:Lio/joern/x2cpg/ValidationMode;
+      18: invokespecial #868                // Method io/joern/swiftsrc2cpg/astcreation/AstCreator."<init>":(Lio/joern/swiftsrc2cpg/Config;Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;Lio/joern/swiftsrc2cpg/parser/SwiftJsonParser$ParseResult;Lscala/collection/immutable/Map;Lio/joern/x2cpg/ValidationMode;)V
+      21: astore        5
+      23: aload         5
+      25: invokevirtual #872                // Method io/joern/swiftsrc2cpg/astcreation/AstCreator.createAst:()Lflatgraph/DiffGraphBuilder;
+      28: astore        6
+      30: aload_3
+      31: aconst_null
+      32: invokevirtual #876                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap.fileLocalTypesMap_$eq:(Lscala/collection/immutable/Map;)V
+      35: aload         4
+      37: aload         6
+      39: invokevirtual #880                // Method flatgraph/DiffGraphBuilder.absorb:(Lflatgraph/DiffGraphBuilder;)V
+      42: return
+
+  private java.lang.Object $anonfun$adapted$1(io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator, io.joern.swiftsrc2cpg.parser.SwiftJsonParser$ParseResult, io.joern.swiftsrc2cpg.passes.AstCreationPass$FileAndTypesMap, flatgraph.DiffGraphBuilder);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: aload_3
+       4: aload         4
+       6: invokespecial #892                // Method $anonfun$5$$anonfun$1:(Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;Lio/joern/swiftsrc2cpg/parser/SwiftJsonParser$ParseResult;Lio/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap;Lflatgraph/DiffGraphBuilder;)V
+       9: getstatic     #898                // Field scala/runtime/BoxedUnit.UNIT:Lscala/runtime/BoxedUnit;
+      12: areturn
+
+  private final scala.Tuple2 $anonfun$5(io.joern.swiftsrc2cpg.passes.AstCreationPass$FileAndTypesMap, io.joern.swiftsrc2cpg.passes.AstCreationPass$Accumulator, flatgraph.DiffGraphBuilder);
+    Code:
+       0: getstatic     #693                // Field io/joern/swiftsrc2cpg/parser/SwiftJsonParser$.MODULE$:Lio/joern/swiftsrc2cpg/parser/SwiftJsonParser$;
+       3: aload_1
+       4: invokevirtual #903                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap.filename:()Ljava/lang/String;
+       7: iconst_0
+       8: anewarray     #430                // class java/lang/String
+      11: invokestatic  #699                // Method java/nio/file/Paths.get:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+      14: invokevirtual #906                // Method io/joern/swiftsrc2cpg/parser/SwiftJsonParser$.readFile:(Ljava/nio/file/Path;)Lscala/util/Try;
+      17: astore        4
+      19: aload         4
+      21: instanceof    #705                // class scala/util/Success
+      24: ifeq          199
+      27: aload         4
+      29: checkcast     #705                // class scala/util/Success
+      32: invokevirtual #706                // Method scala/util/Success.value:()Ljava/lang/Object;
+      35: checkcast     #8                  // class io/joern/swiftsrc2cpg/parser/SwiftJsonParser$ParseResult
+      38: astore        5
+      40: aload_0
+      41: getfield      #84                 // Field report:Lio/joern/x2cpg/utils/Report;
+      44: aload         5
+      46: invokevirtual #907                // Method io/joern/swiftsrc2cpg/parser/SwiftJsonParser$ParseResult.filename:()Ljava/lang/String;
+      49: aload         5
+      51: invokevirtual #910                // Method io/joern/swiftsrc2cpg/parser/SwiftJsonParser$ParseResult.loc:()I
+      54: iconst_1
+      55: aload_0
+      56: getfield      #84                 // Field report:Lio/joern/x2cpg/utils/Report;
+      59: invokevirtual #776                // Method io/joern/x2cpg/utils/Report.addReportInfo$default$4:()Z
+      62: aload_0
+      63: getfield      #84                 // Field report:Lio/joern/x2cpg/utils/Report;
+      66: invokevirtual #780                // Method io/joern/x2cpg/utils/Report.addReportInfo$default$5:()J
+      69: invokevirtual #784                // Method io/joern/x2cpg/utils/Report.addReportInfo:(Ljava/lang/String;IZZJ)V
+      72: getstatic     #729                // Field scala/util/Try$.MODULE$:Lscala/util/Try$;
+      75: aload_0
+      76: aload_2
+      77: aload         5
+      79: aload_1
+      80: aload_3
+      81: invokedynamic #916,  0            // InvokeDynamic #22:apply:(Lio/joern/swiftsrc2cpg/passes/AstCreationPass;Lio/joern/swiftsrc2cpg/passes/AstCreationPass$Accumulator;Lio/joern/swiftsrc2cpg/parser/SwiftJsonParser$ParseResult;Lio/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap;Lflatgraph/DiffGraphBuilder;)Lscala/Function0;
+      86: invokevirtual #740                // Method scala/util/Try$.apply:(Lscala/Function0;)Lscala/util/Try;
+      89: astore        6
+      91: aload         6
+      93: instanceof    #748                // class scala/util/Failure
+      96: ifeq          146
+      99: aload         6
+     101: checkcast     #748                // class scala/util/Failure
+     104: invokevirtual #752                // Method scala/util/Failure.exception:()Ljava/lang/Throwable;
+     107: astore        7
+     109: aload_0
+     110: getfield      #107                // Field logger:Lorg/slf4j/Logger;
+     113: aload         5
+     115: invokevirtual #907                // Method io/joern/swiftsrc2cpg/parser/SwiftJsonParser$ParseResult.filename:()Ljava/lang/String;
+     118: invokedynamic #920,  0            // InvokeDynamic #23:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     123: aload         7
+     125: invokeinterface #770,  3          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Throwable;)V
+     130: getstatic     #925                // Field scala/Tuple2$.MODULE$:Lscala/Tuple2$;
+     133: iconst_0
+     134: invokestatic  #560                // Method scala/runtime/BoxesRunTime.boxToBoolean:(Z)Ljava/lang/Boolean;
+     137: aload         5
+     139: invokevirtual #907                // Method io/joern/swiftsrc2cpg/parser/SwiftJsonParser$ParseResult.filename:()Ljava/lang/String;
+     142: invokevirtual #927                // Method scala/Tuple2$.apply:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+     145: areturn
+     146: aload         6
+     148: instanceof    #705                // class scala/util/Success
+     151: ifeq          189
+     154: aload_0
+     155: getfield      #107                // Field logger:Lorg/slf4j/Logger;
+     158: aload         5
+     160: invokevirtual #907                // Method io/joern/swiftsrc2cpg/parser/SwiftJsonParser$ParseResult.filename:()Ljava/lang/String;
+     163: invokedynamic #930,  0            // InvokeDynamic #24:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     168: invokeinterface #933,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+     173: getstatic     #925                // Field scala/Tuple2$.MODULE$:Lscala/Tuple2$;
+     176: iconst_1
+     177: invokestatic  #560                // Method scala/runtime/BoxesRunTime.boxToBoolean:(Z)Ljava/lang/Boolean;
+     180: aload         5
+     182: invokevirtual #907                // Method io/joern/swiftsrc2cpg/parser/SwiftJsonParser$ParseResult.filename:()Ljava/lang/String;
+     185: invokevirtual #927                // Method scala/Tuple2$.apply:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+     188: areturn
+     189: new           #504                // class scala/MatchError
+     192: dup
+     193: aload         6
+     195: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     198: athrow
+     199: aload         4
+     201: instanceof    #748                // class scala/util/Failure
+     204: ifeq          252
+     207: aload         4
+     209: checkcast     #748                // class scala/util/Failure
+     212: invokevirtual #752                // Method scala/util/Failure.exception:()Ljava/lang/Throwable;
+     215: astore        8
+     217: aload_0
+     218: getfield      #107                // Field logger:Lorg/slf4j/Logger;
+     221: aload_1
+     222: invokevirtual #903                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap.filename:()Ljava/lang/String;
+     225: invokedynamic #936,  0            // InvokeDynamic #25:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     230: aload         8
+     232: invokeinterface #770,  3          // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Throwable;)V
+     237: getstatic     #925                // Field scala/Tuple2$.MODULE$:Lscala/Tuple2$;
+     240: iconst_0
+     241: invokestatic  #560                // Method scala/runtime/BoxesRunTime.boxToBoolean:(Z)Ljava/lang/Boolean;
+     244: aload_1
+     245: invokevirtual #903                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$FileAndTypesMap.filename:()Ljava/lang/String;
+     248: invokevirtual #927                // Method scala/Tuple2$.apply:(Ljava/lang/Object;Ljava/lang/Object;)Lscala/Tuple2;
+     251: areturn
+     252: new           #504                // class scala/MatchError
+     255: dup
+     256: aload         4
+     258: invokespecial #506                // Method scala/MatchError."<init>":(Ljava/lang/Object;)V
+     261: athrow
+
+  public static io.joern.x2cpg.utils.Report $lessinit$greater$default$4();
+    Code:
+       0: getstatic     #944                // Field io/joern/swiftsrc2cpg/passes/AstCreationPass$.MODULE$:Lio/joern/swiftsrc2cpg/passes/AstCreationPass$;
+       3: invokevirtual #946                // Method io/joern/swiftsrc2cpg/passes/AstCreationPass$.$lessinit$greater$default$4:()Lio/joern/x2cpg/utils/Report;
+       6: areturn
+
+  private static java.lang.Object $deserializeLambda$(java.lang.invoke.SerializedLambda);
+    Code:
+       0: aload_0
+       1: invokedynamic #958,  0            // InvokeDynamic #26:lambdaDeserialize:(Ljava/lang/invoke/SerializedLambda;)Ljava/lang/Object;
+       6: areturn
+}
