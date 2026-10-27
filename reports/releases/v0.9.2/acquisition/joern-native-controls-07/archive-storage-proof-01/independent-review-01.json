@@ -1,0 +1,94 @@
+{
+  "schema": "v092-native07-archive-proof-independent-review/v1",
+  "review_kind": "fresh-read-only-source-review",
+  "reviewed_at_utc": "2026-10-27T10:22:41Z",
+  "repository": {
+    "branch": "dave/v0.9.2-full-refresh",
+    "head_at_review": "498587c5c15d6decc2b87cfa2c7482b8e89be9b6",
+    "candidate_commit_state": "The archive index, retained request05, and LFS part are untracked at this HEAD. The helper candidate is present only in the recovery directory; the canonical native-controls-07 helper path does not yet exist. The current-commit archive proof is therefore prospective and cannot pass until the planned S2 commit and exact HEAD verification."
+  },
+  "reviewed_source": {
+    "archive_evidence": {
+      "path": "execution-state/v092/recovery-20261027/native07-archive-proof-01/archive_evidence.py",
+      "sha256": "de7a8044b71cefb0958108248df7c3e425a0e9bc767bffe2a617b386379725d1"
+    },
+    "native_qualifier": {
+      "path": "execution-state/v092/recovery-20261027/native07-archive-proof-01/native_qualifier.py",
+      "sha256": "3e69e03bbfb60491267b35857c74991ce1f75ac07abae0b6943e254f18544457",
+      "prior_reviewed_v2_base_sha256": "f5356de48f1d67c46c8672cfa25d886ee1148dd63ea8bb6c2d297b959fee6fb8",
+      "diff_assessment": "The diff from the prior reviewed v2 qualifier is limited to importing the archive helper, adding its exact refs to the derived closure, adding typed current-Git/LFS/archive-member source verification, and invoking that verification during check_git validation. The sealed plan, environment, ledger and resource controls, callback API, and execution path are not otherwise changed in this patch."
+    },
+    "handoff": {
+      "path": "execution-state/v092/recovery-20261027/native07-archive-proof-01/handoff.json",
+      "sha256": "917fcb473fe27f4b3fb677bfe695bc2024d0890a01c2f55ae2400e7d6c2a73c9"
+    },
+    "support_and_tests": {
+      "process_reconciliation.py_sha256": "96bdec89dd15e4da35f6a71d08c57510e2c1bbec4857358cb756000b18f84a40",
+      "test_archive_evidence.py_sha256": "3104d7a1188e468b3c4929cb7bfe89a283fd6ee8110d70ab3528677dc607fe8f",
+      "test_archive_source_gate.py_sha256": "aecfe9f28ab14c9f7826a22eb39054f49936a4e7f222f0e1f73bbfbafc257fa1",
+      "test_native_qualifier.py_sha256": "708582ebe4d1a81b9151300afbb241af00d1f3f484efd1835f300ad4bde104df",
+      "test_output_sha256": "1227771fbcd53dd64cdfbcc4f1f680dcffd2518fbb8f0d62c07b40e760582232"
+    }
+  },
+  "implementation_review": {
+    "decision": "source design and bounded verifier pass for this exact candidate, conditional on the commit and integration gates below; not a current-HEAD source proof or native qualification",
+    "archive_authority_and_scope": [
+      "The helper pins one exact index path and SHA, one exact retained request05 path and SHA, one exact helper path, and fixed archive path, compressed SHA/length, tar length, historical source label, 96-member count, and payload total.",
+      "Strict JSON parsing rejects duplicate object keys. Index records require exact fields, canonical sorted unique member paths under the fixed raw-capture prefix, lowercase SHA-256 values, exact integer sizes, and the fixed aggregate payload size.",
+      "The retained request05 bytes are checked against their fixed SHA before parsing; its historical expected_head is kept separate from current HEAD. Its exact 96 raw.json paths and digests must equal the index member set. The request05's unrelated stale ordinary ref is not added to the current source closure; the focused regression fixture asserts current ordinary bytes SHA 41f0f5c6a57557aa11d43e93e6049ba808282527053969ac86f47e7753055335 while request05 carries obsolete SHA 9500ad6c863ae06fb354eaa3fa51429ee4bd742a7fefbc5cc3de63898ad02009, and confirms omission of that obsolete extra does not hide any indexed member.",
+      "Only the exact 96 indexed raw paths receive the archive fallback. Additional missing refs, including a raw path outside the index and a non-raw path inside the prefix, fail. All remaining request source refs must match direct current-HEAD Git blobs."
+    ],
+    "archive_parser_and_live_binding": [
+      "The helper hashes bounded compressed bytes, accepts exactly one complete gzip stream with no trailing bytes, caps decompressed output, and requires the exact indexed tar byte length.",
+      "USTAR parsing is in memory and does not extract. It checks block alignment, header checksum, USTAR magic/version, regular-file type, zero link target, canonical non-traversing names, exact indexed membership, no duplicates or extras, exact member lengths and SHA-256 values, zero padding, exact member set and payload total, and an all-zero end marker. PAX/GNU extension, symlink, hardlink, directory, and traversal forms are rejected by header/type/path rules.",
+      "Index, request05, helper, LFS part, and each live raw input are read as bounded regular files with symlink-ancestor checks and before/after identity/size/time checks. Each live raw input must equal both the parsed archive bytes and the indexed/request05 digest and length.",
+      "The verifier checks the current-HEAD LFS pointer as a Git blob with the exact three-line pointer bytes and checks its tree entry is a regular 100644 blob at the pinned path. Ordinary refs are read from Git blobs and independently checked against their declared SHA and Git object identity. Only an exact Git `path missing` response for an indexed member can reach the archive branch; operational errors, malformed/truncated/trailing replies, non-blob records, missing pointer, pointer mismatch, and ordinary missing/mismatch fail closed."
+    ],
+    "reviewed_negative_coverage": {
+      "author_test_run": "The candidate handoff records 85 tests passing under pinned Python 3.13 in 9.766 seconds. I inspected the test source and recorded log; I did not rerun the suite.",
+      "covered_cases": [
+        "Synthetic exact 96-member USTAR positive and exact request05/index binding; wrong schema/count/prefix, nested paths, duplicates, traversal, missing/tampered members, invalid compressed length/SHA, malformed/trailing/truncated gzip, decompression limit, USTAR checksum, PAX and link/directory entry negatives.",
+        "Synthetic Git positive with five direct refs and 96 explicit missing archive refs; off-index and non-raw missing paths, a current-present indexed raw path, live-file mismatch, missing or malformed LFS pointer, non-regular tree mode, malformed tree reply, ordinary blob mismatch, blob content/OID mismatch, duplicate source path, malformed batch replies, and Git operational failure negatives.",
+        "Existing generic stable-file symlink negative is present in the qualifier tests. The archive helper itself explicitly checks every path ancestor before and after reads; I did not find a separate archive-specific symlink fixture in test_archive_evidence.py. This is a narrow test-coverage note, not a source bypass identified in the inspected guard."
+      ]
+    }
+  },
+  "preserved_controls": {
+    "ledger": {
+      "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851",
+      "required_rows": 109,
+      "required_completed": 103
+    },
+    "plan_and_budget": {
+      "request_schema": "v092-joern-native-control-request/v2",
+      "arms": ["off", "on"],
+      "controls": 6,
+      "case_arm_count": 12,
+      "maximum_phase_invocations": 36,
+      "case_arm_budget_seconds": 75,
+      "total_budget_seconds": 900,
+      "scratch_allowance_bytes": 4294967296,
+      "pending_plan_remains_ineligible": true
+    },
+    "environment": "The existing exact clean environment checks remain, including C locale, empty ambient Java options/classpath, guarded markers, and Darwin CF text-encoding value.",
+    "provider_and_review": "The prior v2 provider validation and exact review-binding path are retained. The source-bound callback continues to pass the four explicit native module/dylib path and SHA keyword arguments with no default unpinned provider callback."
+  },
+  "remaining_gates_and_limits": {
+    "before_any_positive_request_validation": [
+      "Commit the exact index, retained request05 bytes, archive helper, qualifier patch, and LFS pointer/archive part at the planned S2; then verify actual HEAD and direct blob identities. Until then, the archive authority is not committed and no current-source proof is established.",
+      "Verify the real compressed part's bytes and exact 96 member contents after S2. This source review inspected parser/test code only; it did not read or decompress the prepared real archive or independently verify its live pointer.",
+      "Assemble the reviewed qualifier with the separately reviewed fresh monitor04 process_reconciliation/snapshot_query sources. The process_reconciliation.py bundled beside this candidate is test support only; the production assembly must retain the actual four-keyword callback compatibility test against the new monitor module."
+    ],
+    "claim_boundary": "The truthful storage statement is indirect current-commit binding through the committed index and exact LFS pointer plus verified compressed/member hashes. It is not a direct historical raw Git blob proof or a claim that the historical source commit is an ancestor of current HEAD. No analyzer/runtime/native-control qualification, scoring, or launch is approved by this receipt."
+  },
+  "review_actions": {
+    "source_files_modified": false,
+    "candidate_archive_read_or_decompressed": false,
+    "historical_git_view_or_import": false,
+    "tests_run_by_reviewer": false,
+    "os_process_query": false,
+    "analyzer_or_engine_invoked": false,
+    "request_rewritten_or_validated": false,
+    "native_qualification_or_launch": false
+  }
+}

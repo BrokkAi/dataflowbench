@@ -27,6 +27,7 @@ import threading
 import uuid
 from typing import Any
 
+import archive_evidence
 import process_reconciliation
 
 ROOT = Path('/Users/dave/.codex/worktrees/9f01/dataflowbench')
@@ -319,7 +320,10 @@ def native_provider_query(root: Path, provider: dict):
     return query
 
 
-def required_source_closure(root: Path, cfg: dict) -> list[dict[str, str]]:
+_ARCHIVE_CONTEXT_UNSET = object()
+
+
+def required_source_closure(root: Path, cfg: dict, *, archive_context: Any = _ARCHIVE_CONTEXT_UNSET) -> list[dict[str, str]]:
     """Derive the minimum from immutable authorities, not caller counts.
 
     Inventory entries describing installed tools remain covered by their sealed
@@ -424,7 +428,199 @@ def required_source_closure(root: Path, cfg: dict) -> list[dict[str, str]]:
             target = root / candidate
             if target.is_file():
                 add({'path': candidate.as_posix(), 'sha256': sha(target.read_bytes())}, code=True)
+    if archive_context is _ARCHIVE_CONTEXT_UNSET:
+        source_map = {ref['path']: ref for ref in cfg.get('source_refs', []) if type(ref) is dict and 'path' in ref}
+        archive_context = archive_evidence.build_context(root, source_map)
+    if archive_context is not None:
+        for ref in archive_context.required_source_refs:
+            add(ref, code=ref['path'] == archive_evidence.HELPER_SOURCE_PATH)
     return [refs[path] for path in sorted(refs)]
+
+
+def _git_cat_file_inventory(root: Path, head: str, paths: list[str]) -> dict[str, dict[str, Any] | None]:
+    """Return exact HEAD path object metadata; only explicit `missing` is absence."""
+    require(type(head) is str and re.fullmatch(r'[0-9a-f]{40}', head) is not None,
+            'source check requires exact current HEAD identity')
+    require(type(paths) is list and len(paths) == len(set(paths)), 'unique Git source paths required')
+    identifiers = []
+    for path in paths:
+        require(type(path) is str and path and '\n' not in path and '\r' not in path,
+                'Git source path cannot contain line delimiters')
+        identifiers.append((head + ':' + path).encode('utf-8'))
+    request = b''.join(identifier + b'\n' for identifier in identifiers)
+    result = subprocess.run(
+        ['git', 'cat-file', '--batch-check'], cwd=root, input=request,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
+    )
+    require(result.returncode == 0 and result.stderr == b'',
+            'Git cat-file --batch-check failed operationally')
+    output = result.stdout
+    cursor = 0
+    inventory: dict[str, dict[str, Any] | None] = {}
+    for path, identifier in zip(paths, identifiers):
+        end = output.find(b'\n', cursor)
+        require(end >= 0, 'Git cat-file --batch-check response is truncated')
+        line = output[cursor:end]
+        cursor = end + 1
+        if line == identifier + b' missing':
+            inventory[path] = None
+            continue
+        fields = line.split(b' ')
+        require(len(fields) == 3 and re.fullmatch(rb'[0-9a-f]{40}', fields[0]) is not None and
+                fields[1] == b'blob' and fields[2].isdigit(),
+                'Git cat-file --batch-check returned a malformed/non-blob record')
+        inventory[path] = {'oid': fields[0].decode('ascii'), 'size': int(fields[2])}
+    require(cursor == len(output), 'Git cat-file --batch-check returned trailing data')
+    return inventory
+
+
+def _git_cat_file_blob(root: Path, oid: str, expected_size: int) -> bytes:
+    require(re.fullmatch(r'[0-9a-f]{40}', oid) is not None and type(expected_size) is int and expected_size >= 0,
+            'Git blob identity/size malformed')
+    result = subprocess.run(
+        ['git', 'cat-file', 'blob', oid], cwd=root,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
+    )
+    require(result.returncode == 0 and result.stderr == b'', 'Git cat-file blob failed operationally')
+    raw = result.stdout
+    require(type(raw) is bytes and len(raw) == expected_size,
+            'Git cat-file blob byte count differs from metadata')
+    actual_oid = hashlib.sha1(b'blob ' + str(len(raw)).encode('ascii') + b'\0' + raw).hexdigest()
+    require(actual_oid == oid, 'Git cat-file blob content does not match returned object identity')
+    return raw
+
+
+def _git_regular_tree_entry(root: Path, head: str, path: str, expected_oid: str) -> None:
+    result = subprocess.run(
+        ['git', 'ls-tree', '-z', head, '--', path], cwd=root,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
+    )
+    require(result.returncode == 0 and result.stderr == b'', 'Git ls-tree failed operationally')
+    output = result.stdout
+    require(type(output) is bytes and output.endswith(b'\0') and output.count(b'\0') == 1,
+            'Git ls-tree returned a malformed tree-entry record')
+    record = output[:-1]
+    require(b'\t' in record, 'Git ls-tree record lacks a path separator')
+    header, returned_path = record.split(b'\t', 1)
+    fields = header.split(b' ')
+    require(len(fields) == 3 and fields[0] == b'100644' and fields[1] == b'blob' and
+            re.fullmatch(rb'[0-9a-f]{40}', fields[2]) is not None and
+            returned_path == path.encode('utf-8') and fields[2].decode('ascii') == expected_oid,
+            'archive pointer is not the exact committed regular Git LFS pointer blob')
+
+
+def verify_current_source_refs(root: Path, head: str, refs: list[dict[str, str]],
+                               archive_context: Any) -> dict[str, Any]:
+    """Bind ordinary refs to HEAD and permit only indexed raw-member misses."""
+    require(type(refs) is list and type(archive_context) is archive_evidence.ArchiveContext,
+            'archive-aware source verification context required')
+    member_paths = set(archive_context.member_refs)
+    require(len(member_paths) == archive_evidence.EXPECTED_MEMBER_COUNT and
+            all(archive_evidence.is_archived_member_path(path) for path in member_paths),
+            'archive fallback context does not contain the exact raw-capture path set')
+    require(set(archive_context.member_bytes) == member_paths and
+            set(archive_context.member_sizes) == member_paths,
+            'archive member payload context is incomplete')
+    require(archive_context.index_ref == archive_evidence.INDEX_REF and
+            archive_context.request05_ref == archive_evidence.REQUEST05_REF and
+            type(archive_context.helper_ref) is dict and
+            set(archive_context.helper_ref) == {'path', 'sha256'} and
+            archive_context.helper_ref.get('path') == archive_evidence.HELPER_SOURCE_PATH and
+            type(archive_context.helper_ref.get('sha256')) is str and
+            re.fullmatch(r'[0-9a-f]{64}', archive_context.helper_ref.get('sha256')) is not None,
+            'archive index/request/helper source pins differ')
+    require(archive_context.archive_path == archive_evidence.ARCHIVE_PATH and
+            archive_context.archive_sha256 == archive_evidence.EXPECTED_ARCHIVE_SHA256 and
+            archive_context.archive_bytes == archive_evidence.EXPECTED_ARCHIVE_BYTES and
+            archive_context.tar_bytes == archive_evidence.EXPECTED_TAR_BYTES and
+            archive_context.total_payload_bytes == archive_evidence.EXPECTED_PAYLOAD_BYTES and
+            archive_context.historical_source_commit == archive_evidence.HISTORICAL_SOURCE,
+            'archive context binding differs from pinned index identity')
+    require(archive_context.lfs_pointer == archive_evidence.lfs_pointer({
+        'bytes': archive_context.archive_bytes,
+        'path': archive_context.archive_path,
+        'sha256': archive_context.archive_sha256,
+        'tar_bytes': archive_context.tar_bytes,
+    }), 'archive context does not contain the exact LFS pointer bytes')
+    paths = [ref['path'] for ref in refs]
+    source_map = {ref['path']: ref for ref in refs}
+    require(len(source_map) == len(refs), 'duplicate current source path in Git verification')
+    for pinned_ref in (archive_context.index_ref, archive_context.request05_ref, archive_context.helper_ref):
+        require(source_map.get(pinned_ref['path']) == pinned_ref,
+                'archive authority/helper source is outside direct current source closure')
+    required_map: dict[str, dict[str, str]] = {}
+    for required_ref in archive_context.required_source_refs:
+        require(type(required_ref) is dict and set(required_ref) == {'path', 'sha256'},
+                'archive required-source entry is malformed')
+        require(required_ref['path'] not in required_map,
+                'archive required-source closure contains duplicate paths')
+        required_map[required_ref['path']] = required_ref
+        require(source_map.get(required_ref['path']) == required_ref,
+                'archive required-source entry is outside direct current source closure')
+    for path, ref in archive_context.member_refs.items():
+        payload = archive_context.member_bytes[path]
+        require(type(ref) is dict and set(ref) == {'path', 'sha256'} and ref.get('path') == path and
+                type(ref['sha256']) is str and re.fullmatch(r'[0-9a-f]{64}', ref['sha256']) is not None and
+                type(payload) is bytes and len(payload) == archive_context.member_sizes[path] and
+                sha(payload) == ref['sha256'],
+                'archive context member is malformed or digest-mismatched')
+    require(archive_context.archive_path not in paths,
+            'LFS archive part must use typed pointer verification, not a raw source ref')
+    inventory = _git_cat_file_inventory(root, head, [*paths, archive_context.archive_path])
+    pointer_info = inventory[archive_context.archive_path]
+    require(pointer_info is not None, 'committed LFS archive pointer is explicitly missing from current HEAD')
+    pointer_raw = _git_cat_file_blob(root, pointer_info['oid'], pointer_info['size'])
+    require(pointer_raw == archive_context.lfs_pointer,
+            'committed LFS archive pointer bytes differ from exact indexed three-line pointer')
+    _git_regular_tree_entry(root, head, archive_context.archive_path, pointer_info['oid'])
+
+    current_direct = 0
+    archived: list[str] = []
+    for ref in refs:
+        path = ref['path']
+        info = inventory[path]
+        if path in member_paths:
+            require(info is None,
+                    'indexed historical raw member must remain absent from current Git; no direct-raw proof accepted: ' + path)
+            member = archive_context.member_refs[path]
+            payload = archive_context.member_bytes[path]
+            require(ref == member and len(payload) == archive_context.member_sizes[path] and
+                    sha(payload) == ref['sha256'],
+                    'indexed archive member does not bind the exact source ref: ' + path)
+            live = archive_evidence.read_stable(root, path, max_bytes=archive_evidence.MAX_DECOMPRESSED_BYTES)
+            require(live == payload and sha(live) == ref['sha256'],
+                    'live archived raw source changed before current-HEAD source check: ' + path)
+            archived.append(path)
+            continue
+        require(info is not None, 'ordinary current source path is explicitly missing from Git HEAD: ' + path)
+        raw = _git_cat_file_blob(root, info['oid'], info['size'])
+        require(sha(raw) == ref['sha256'],
+                'ordinary source input does not match direct current HEAD blob: ' + path)
+        current_direct += 1
+    require(set(archived) == member_paths and len(archived) == len(member_paths),
+            'archive fallback set differs from the exact indexed member set')
+    require(current_direct + len(archived) == len(refs), 'source verification denominator differs')
+    return {
+        'status': 'verified',
+        'head': head,
+        'source_ref_count': len(refs),
+        'current_direct_count': current_direct,
+        'archived_member_count': len(archived),
+        'archived_member_paths': sorted(archived),
+        'archive': {
+            'proof': 'current-commit-lfs-pointer-plus-indexed-archive-members',
+            'pointer_path': archive_context.archive_path,
+            'pointer_git_blob_oid': pointer_info['oid'],
+            'pointer_bytes': len(pointer_raw),
+            'compressed_sha256': archive_context.archive_sha256,
+            'compressed_bytes': archive_context.archive_bytes,
+            'tar_bytes': archive_context.tar_bytes,
+            'member_count': len(member_paths),
+            'total_payload_bytes': archive_context.total_payload_bytes,
+            'historical_source_commit': archive_context.historical_source_commit,
+            'current_ancestor_claim': False,
+        },
+}
 
 
 def validate_request(root: Path, cfg: dict, *, check_git: bool = True) -> dict:
@@ -452,7 +648,12 @@ def validate_request(root: Path, cfg: dict, *, check_git: bool = True) -> dict:
     for ref in cfg['tool_refs'].values():
         require(source_map.get(ref['path']) == ref, 'wrapper/dependency outside committed source closure')
     native_binding = validate_native_provider(root, cfg['native_provider'], source_map)
-    for required in required_source_closure(root, cfg):
+    current_head = None
+    if check_git:
+        current_head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
+        require(current_head == cfg['expected_head'], 'actual HEAD differs')
+    archive_context = archive_evidence.build_context(root, source_map) if check_git else None
+    for required in required_source_closure(root, cfg, archive_context=archive_context):
         require(source_map.get(required['path']) == required, 'required committed source closure omitted or rebound: ' + required['path'])
     ledger = stable(root, cfg['ledger'])
     rows = [json.loads(line) for line in ledger.splitlines()]
@@ -464,19 +665,19 @@ def validate_request(root: Path, cfg: dict, *, check_git: bool = True) -> dict:
     require(control['arms'] == ['off', 'on'] and len(control['controls']) == 6 and control['case_arm_count'] == 12 and control['maximum_phase_invocations'] == 36 and control['case_arm_budget_seconds'] == 75 and control['total_budget_seconds'] == 900 and control['scratch_allowance_bytes'] == 4 * GIB, 'six/12/36/75/900/4GiB policy differs')
     authority = document(root, cfg['authority'])
     require(authority.get('status') in {'approved', 'human-approved'} and authority.get('automatic_retry') is False and authority.get('publication_hold') is True, 'reviewed derived native-control authority required; publication held')
+    source_checks: dict[str, Any] = {'status': 'not-checked'}
     if check_git:
-        head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
-        require(head == cfg['expected_head'], 'actual HEAD differs')
-        for ref in cfg['source_refs']:
-            raw = subprocess.check_output(['git', 'show', head + ':' + ref['path']], cwd=root)
-            require(sha(raw) == ref['sha256'], 'source input does not match committed blob')
+        require(current_head is not None, 'actual HEAD was not checked')
+        require(archive_context is not None, 'archive-aware source context missing')
+        source_checks = verify_current_source_refs(root, current_head, cfg['source_refs'], archive_context)
         dirty = subprocess.check_output(['git', 'diff', '--name-only', 'HEAD'], cwd=root, text=True).splitlines()
         require(set(dirty) <= {LEDGER['path']}, 'tracked source dirty outside retained ledger')
     env = expected_environment(root, cfg, plan)
     validate_environment(env, expected_environment(root, cfg, plan))
     return {'plan': plan, 'control': control, 'environment': env,
             'native_provider_binding': native_binding,
-            'ledger_bytes': len(ledger), 'ledger_rows':109}
+            'ledger_bytes': len(ledger), 'ledger_rows':109,
+            'source_checks': source_checks}
 
 
 def validate_review(root: Path, ref: dict, request_ref: dict, cfg: dict) -> dict:

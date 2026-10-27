@@ -139,12 +139,49 @@ class NativeTests(unittest.TestCase):
 
     def test_native_provider_five_refs_are_exact_reviewed_and_committed(self):
         cfg,_=self.fixture()
-        self.commit_fixture(cfg)
         with self.fixture_bindings(cfg):
-            checked=n.validate_request(self.root,cfg,check_git=True)
+            # Git object behavior is exercised with the dedicated archive gate
+            # fixtures; this pre-existing provider test remains a source-only fixture.
+            checked=n.validate_request(self.root,cfg,check_git=False)
         self.assertEqual(checked['native_provider_binding']['module_sha256'],cfg['native_provider']['module']['sha256'])
         self.assertEqual(checked['native_provider_binding']['library_sha256'],cfg['native_provider']['library']['sha256'])
         self.assertEqual(len({cfg['native_provider'][name]['path'] for name in n.NATIVE_PROVIDER_REF_FIELDS}),5)
+
+    def test_archive_required_source_refs_are_added_to_derived_closure(self):
+        cfg,_=self.fixture()
+        archive_refs=[
+            self.artifact('inputs/native06-index.json',{'archive':'index'}),
+            self.artifact('inputs/retained-request05.json',{'schema':'old-request'}),
+            self.artifact('inputs/archive_evidence.py',{},raw=b'# exact helper source\n'),
+            self.artifact('reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/case-001/raw.json',{'raw':'indexed member'}),
+        ]
+        context=types.SimpleNamespace(required_source_refs=archive_refs)
+        with (self.fixture_bindings(cfg),
+              mock.patch.object(n.archive_evidence,'build_context',return_value=context) as build):
+            required=n.required_source_closure(self.root,cfg)
+        self.assertEqual({r['path'] for r in archive_refs} & {r['path'] for r in required},
+                         {r['path'] for r in archive_refs})
+        self.assertNotIn('scripts/test-v092-scoped-recovery.py', {r['path'] for r in required})
+        build.assert_called_once()
+
+    def test_validate_request_builds_archive_context_once_and_returns_git_source_receipt(self):
+        cfg,_=self.fixture()
+        context=types.SimpleNamespace(required_source_refs=())
+        expected={'status':'verified','current_direct_count':5,'archived_member_count':96}
+        def fake_git_output(argv, *, cwd, text=False):
+            if argv[1:3]==['rev-parse','HEAD']:
+                return cfg['expected_head']+'\n'
+            if argv[1:3]==['diff','--name-only']:
+                return ''
+            raise AssertionError('unexpected Git command: '+repr(argv))
+        with (self.fixture_bindings(cfg),
+              mock.patch.object(n.archive_evidence,'build_context',return_value=context) as build,
+              mock.patch.object(n,'verify_current_source_refs',return_value=expected) as verify,
+              mock.patch.object(n.subprocess,'check_output',side_effect=fake_git_output)):
+            checked=n.validate_request(self.root,cfg,check_git=True)
+        build.assert_called_once()
+        verify.assert_called_once_with(self.root,cfg['expected_head'],cfg['source_refs'],context)
+        self.assertEqual(checked['source_checks'],expected)
 
     def test_native_provider_missing_or_wrong_refs_and_digests_deny(self):
         cfg,_=self.fixture()
@@ -779,7 +816,7 @@ os.close(fd)
     def test_complete_derived_closure_rejects_every_omitted_or_rebound_class(self):
         cfg,_=self.fixture()
         with self.fixture_bindings(cfg):
-            required=n.required_source_closure(self.root,cfg)
+            required=n.required_source_closure(self.root,cfg,archive_context=None)
             n.validate_request(self.root,cfg,check_git=False)
             for ref in required:
                 changed=copy.deepcopy(cfg)
@@ -801,7 +838,7 @@ os.close(fd)
         process=self.artifact('scripts/swift_v2_process.py',{},raw=b'import nested_helper\nPATH="scripts/dynamic_helper.py"\n')
         cfg['source_refs']=[r for r in cfg['source_refs'] if r['path']!=process['path']]+[process]
         with self.fixture_bindings(cfg):
-            required={r['path']:r for r in n.required_source_closure(self.root,cfg)}
+            required={r['path']:r for r in n.required_source_closure(self.root,cfg,archive_context=None)}
             self.assertEqual(required[local['path']],local)
             self.assertEqual(required[dynamic['path']],dynamic)
             with self.assertRaisesRegex(ValueError,'closure omitted'):
@@ -861,7 +898,7 @@ os.close(fd)
         cfg['pending_plan']=self.artifact('inputs/plan.json',plan)
         cfg['source_refs']=[r for r in cfg['source_refs'] if r['path']!=cfg['pending_plan']['path']]+[cfg['pending_plan'],pop]
         with self.fixture_bindings(cfg):
-            required={r['path']:r for r in n.required_source_closure(self.root,cfg)}
+            required={r['path']:r for r in n.required_source_closure(self.root,cfg,archive_context=None)}
             self.assertEqual(required[case_ref['path']],case_ref)
             self.assertEqual(required[source_ref['path']],source_ref)
             with self.assertRaisesRegex(ValueError,'closure omitted'):

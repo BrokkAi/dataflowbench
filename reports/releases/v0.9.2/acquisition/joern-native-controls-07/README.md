@@ -28,7 +28,7 @@ command bridges, and reaped its own query child with exit 0 and no kill. The
 count/hash-only receipt is copied into `monitor-source-recovery-01/`. This is
 functionality evidence, not native-control or contender-absence qualification.
 
-The qualifier source and tests were recovered from session-log patches after
+The initial qualifier source and tests were recovered from session-log patches after
 the reboot cleared private temporary files. Their hashes and the recovered
 historical handoff match the pre-reboot values. A new recovered-source run
 passed 57 focused tests. `qualifier-source-recovery-01/` preserves those
@@ -39,6 +39,20 @@ this production candidate. The new monitor source is assembled alongside the
 qualifier; the composed suite passed 114 tests with pinned Python 3.13. A further
 two-test run strengthened the no-spawn trap without changing production source.
 The source review and assembly addendum remain distinct from real controls.
+
+The subsequent storage-gate successor is recorded in `archive-storage-proof-01/`.
+The first prepared request06 stopped before qualification because 96 required
+historical JSON inputs were deliberately archived during the Git migration.
+The successor verifies those exact bytes through the committed member index and
+a small Git LFS archive, while retaining direct Git checks for ordinary inputs.
+It changes source-closure derivation and request validation; all 38 other
+existing production functions and classes remain unchanged. No native query,
+worker/environment policy, engine pin, clock, counter or resource limit changes.
+The exact historical request05 is committed as control metadata for this proof;
+this does not claim that it was present in its original source commit. The
+uninvoked request06 is retained as a stopped preparation input and must not be
+overwritten or invoked. A corrected append-only request is required after the
+new source commit and independent review.
 
 Before invocation, all runtime source must be committed, the new request and
 exact invocation independently reviewed, and fresh resource admission passed.
