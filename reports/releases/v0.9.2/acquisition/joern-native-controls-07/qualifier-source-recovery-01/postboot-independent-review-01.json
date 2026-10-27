@@ -1,0 +1,172 @@
+{
+  "schema": "v092-native-qualifier-independent-review/v1",
+  "review_kind": "fresh-postboot-read-only-source-review",
+  "reviewed_at_utc": "2026-10-27T09:15:13Z",
+  "repository": {
+    "branch": "dave/v0.9.2-full-refresh",
+    "head": "f4700747a8d4843a904267bd7433c679e353c1b2",
+    "source_state": "recovered uncommitted source candidate; no request, admission, or launch reviewed"
+  },
+  "scope": {
+    "native_qualifier": "execution-state/v092/recovery-20261027/qualifier/native_qualifier.py",
+    "native_qualifier_sha256": "f5356de48f1d67c46c8672cfa25d886ee1148dd63ea8bb6c2d297b959fee6fb8",
+    "test_source": "execution-state/v092/recovery-20261027/qualifier/test_native_qualifier.py",
+    "test_source_sha256": "414f25ec769ce988a1e219c0487cc7b0bd5fa694e585c1419227bf454221b226",
+    "canonical_native_controls_06": {
+      "source": "reports/releases/v0.9.2/acquisition/joern-native-controls-06/native_qualifier.py",
+      "source_sha256": "843a3be133cd991507ec4968b999c5db2b16700cdb2bd56ab7346b05065a3875",
+      "test_source": "reports/releases/v0.9.2/acquisition/joern-native-controls-06/test_native_qualifier.py",
+      "test_source_sha256": "709e4684c8d2fc10c8909b5f0978103e9bd963c97d82a667b472610f3d8d01fa",
+      "recovery_baseline_comparison": "The recovered .base files matched these canonical v06 source/test hashes. The reviewed candidate source adds the v2 provider binding, validation, and callback wiring; it does not change the pre-existing lifecycle, phase/deadline, disk guard, authority, or control-budget logic."
+    },
+    "review_boundary": "This receipt records a new review performed after reboot. It does not recreate, copy, or renew a historical review receipt."
+  },
+  "native_provider_refs": [
+    {
+      "role": "module",
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.py",
+      "sha256": "77e8c9041fc598b3e505caa55e026a7454fb2941cd6940ee730f98127ff2510f"
+    },
+    {
+      "role": "c_source",
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.c",
+      "sha256": "f47a2ab9d72db8f148904c331e3296b15014f510b20ca77149a0a6af623a2f86"
+    },
+    {
+      "role": "header",
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.h",
+      "sha256": "09d88da0904fad455a4dd8cc85078eb9d0f65e1e79986a371ee3d92f442832c5"
+    },
+    {
+      "role": "library",
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.dylib",
+      "sha256": "5d39c658eab544a2257add7fca061cd1091e8c8c6347991dc3abb6ce0530422d",
+      "bytes": 34432
+    },
+    {
+      "role": "build_receipt",
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/build-receipt.json",
+      "sha256": "ce3e7854264d4a7b3619e45b5549b7c47944d52fe6cef28d3ca322d9c3d2acc7"
+    }
+  ],
+  "checks": {
+    "provider_binding": {
+      "status": "pass",
+      "details": [
+        "The request schema is v2 and requires the exact native_provider field set with ABI version 3.",
+        "All five provider refs are distinct, exact path/SHA-256 objects; the validator checks regular-file status, content hashes, and symlink ancestry.",
+        "validate_request requires every provider ref in the exact reviewed source_refs map and derives the source closure from those refs.",
+        "The pinned module declares ABI_VERSION = 3. The exact build receipt records matching module, C source, and header hashes; its dylib hash and byte count match the committed library bytes.",
+        "The recorded dynamic-library operation has JSON integer exit_code 0 (not bool or float), includes the provider C source basename, and names the dylib output basename."
+      ]
+    },
+    "query_callback": {
+      "status": "pass-at-wrapper-source-level",
+      "details": [
+        "run_parent validates the request and constructs native_provider_query from cfg.native_provider, then passes it explicitly to supervise.",
+        "supervise has reconciliation_query=None as its default and fails closed when a contender needs reconciliation without a callable callback; it has no default unpinned provider query.",
+        "The callback snapshots the provider object, revalidates the five refs before each query, and passes the four explicit module/dylib path and SHA-256 keyword arguments to run_query_child.",
+        "The focused test uses a mock at the process-module boundary and checks all four explicit pins and unchanged environment values."
+      ],
+      "assembly_gate": "The recovered process_reconciliation.py beside the qualifier is the v06 test-support copy. It is not the production monitor. The final assembly must place the separately reviewed current process_reconciliation.py and snapshot_query.py alongside the wrapper and run a composed callback/signature test with provider OS operations mocked. No production monitor integration is claimed here."
+    },
+    "v2_exact_review_binding": {
+      "status": "pass-at-source-and-fixture-test-level",
+      "bindings": [
+        "request_sha256",
+        "wrapper_sha256",
+        "resources_sha256",
+        "observer_sha256",
+        "pending_plan_sha256",
+        "ledger_sha256",
+        "source_head",
+        "native_provider_sha256"
+      ],
+      "details": "The exact request field set includes native_provider and schema v2; validate_review compares the canonical provider binding digest and all listed invocation pins. The existing fixture test mutates each expected binding and rejects mismatches. No fresh real v2 request or review artifact was created or approved in this source-only review."
+    },
+    "tamper_missing_and_symlink_negatives": {
+      "status": "covered-by-inspected-focused-tests",
+      "cases": [
+        "each provider ref omitted from source closure",
+        "provider field missing, wrong ABI, and wrong content digest",
+        "build receipt source hash and library hash mismatch",
+        "bool and float exit_code values rejected in place of integer zero",
+        "symlink ancestor rejected for each of the five provider refs",
+        "provider library changed after callback preflight rejected before query invocation",
+        "module ABI declaration mismatch rejected"
+      ]
+    },
+    "preserved_qualification_state": {
+      "status": "unchanged-by-reviewed-source-diff",
+      "ledger": {
+        "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+        "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851",
+        "rows": 109,
+        "completed": 103,
+        "failed": 3,
+        "recorder_error": 3
+      },
+      "origin_utc": "2026-10-20T00:57:00.680937+00:00",
+      "pins": {
+        "observer_sha256": "4e3998dfb3f32b5d377c8697ea644d247f147220679eb784cc64fc501f7bc199",
+        "pending_plan_sha256": "09d6748e23b670dbd8998a9f5f80075a25f4b388788004f36fd8b279bec5533e",
+        "control_projection_sha256": "a4c8f13af295d174f3aedff5665ab03e16457aace9859b36a0b3436e4f8b557f"
+      },
+      "controls": {
+        "cases": 6,
+        "arms": 12,
+        "maximum_phases": 36,
+        "per_arm_seconds": 75,
+        "total_seconds": 900,
+        "scratch_bytes": 4294967296
+      },
+      "resource_caps": {
+        "launch_floor_bytes": 136365211648,
+        "protected_reserve_bytes": 42949672960,
+        "stop_floor_bytes": 51539607552,
+        "scratch_ceiling_bytes": 25769803776,
+        "retention_ceiling_bytes": 25769803776,
+        "working_ceiling_bytes": 32212254720
+      },
+      "cf_environment": {
+        "key": "__CF_USER_TEXT_ENCODING",
+        "value": "0x1F5:0x0:0x0"
+      },
+      "details": "The source constants, policy pins, origin, ledger, and resource/control limits match the v06 baseline."
+    },
+    "old_test_failure_repairs": {
+      "status": "test-fixture-only",
+      "author_run": {
+        "path": "execution-state/v092/recovery-20261027/qualifier/recovery-test-output.txt",
+        "sha256": "954aeabad143782195cd6c30bfbcedee24fd88526ec1d8cf3685a2193c4c6120",
+        "result": "57 tests passed in 9.446 seconds"
+      },
+      "reviewer_ran_tests": false,
+      "details": "Compared with the exact v06 test source, the pre-existing repairs adjust the DiskGuard mock target and the supervised clock/pipe event fixtures; deadline assertions now check the observed failure and completed phase prefix. The wrapper diff does not modify the pre-existing timing/deadline, disk policy, or lifecycle logic. New tests add the provider binding negatives listed above."
+    }
+  },
+  "caveats": [
+    {
+      "kind": "build-operation-path-identity",
+      "severity": "review-note",
+      "detail": "validate_native_provider checks the compile argv source and -o target by basename. The exact reviewed build receipt SHA, source hashes, dylib hash, and byte size are pinned; its recorded paths are the original provider/build temp paths. The validator is not a generic attestation that an arbitrary self-authored same-basename command receipt is truthful, so any changed receipt requires a new exact invocation review."
+    }
+  ],
+  "disposition": {
+    "source_candidate": "reviewed-for-source-preparation-only",
+    "native_qualification": "not-approved",
+    "joern_scoring": "not-approved",
+    "launch": "not-authorized",
+    "publication": "held",
+    "reason": "This review covers recovered wrapper source and fixtures only. The final monitor assembly, fresh request/review refs, source commit, admission, and actual qualification remain separate gates."
+  },
+  "actions_performed": {
+    "read_only_review": true,
+    "tests_run_by_reviewer": false,
+    "os_queries": false,
+    "engine_or_analyzer_invoked": false,
+    "qualification_launched": false,
+    "source_commit_created": false,
+    "source_changes_made_by_reviewer": false
+  }
+}

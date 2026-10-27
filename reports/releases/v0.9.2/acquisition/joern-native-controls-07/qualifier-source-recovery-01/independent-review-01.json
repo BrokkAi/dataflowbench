@@ -1,0 +1,57 @@
+{
+  "schema": "v092-native-qualifier07-independent-review/v1",
+  "review_status": "approved-source-only-with-integration-and-commit-prerequisites",
+  "reviewed_at": "2026-10-27",
+  "candidate": "/private/tmp/v092-native-qualifier07-integration-01",
+  "scope": "Read-only review of qualifier07 request v2, five-reference ABI-v3 provider binding, source closure/build-receipt checks, review binding, callback seam, CLI/environment boundary, and resource/namespace/ledger policy. Reran the 56 synthetic tests. No engine, native query/load, or analyzer qualification was run.",
+  "handoff": {
+    "path": "/private/tmp/v092-native-qualifier07-integration-01/handoff.json",
+    "sha256": "853760a989913fafa1c2b5725d53ed9ca73ab975cdf3e18b16d2d12499dd3155",
+    "patch_sha256": "c568b49ba1bdcef4c8c0b98085422541148fbcdd11142f03750fd44dfb3e9048",
+    "canonical_files_changed_by_candidate": false,
+    "support_copies_unmodified": true
+  },
+  "verified_candidate_hashes": {
+    "native_qualifier.py": "b3106105aaa3aa263143cd1b9136dc11cfb14266648d565651e5a157b5802156",
+    "test_native_qualifier.py": "0b602643a1aa8e4a3386a4cc6339a8984ca5943813f5b4256f3014a37fa0d56d",
+    "qualifier07.patch": "c568b49ba1bdcef4c8c0b98085422541148fbcdd11142f03750fd44dfb3e9048",
+    "process_reconciliation.py": "2b7d18c29a71f542eef66e496bbe4e59265ac0d510801fba62f8c7bdfba16026",
+    "retained_resources.py": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08",
+    "fresh_worker_probe.py": "be37fddd4e85f562990863452d628474557b110dc380d7ccb1fad6be50248d22"
+  },
+  "provider03_reference_files_match_reported_build_receipt": {
+    "darwin_native_provider.py": "77e8c9041fc598b3e505caa55e026a7454fb2941cd6940ee730f98127ff2510f",
+    "darwin_native_provider.c": "f47a2ab9d72db8f148904c331e3296b15014f510b20ca77149a0a6af623a2f86",
+    "darwin_native_provider.h": "09d88da0904fad455a4dd8cc85078eb9d0f65e1e79986a371ee3d92f442832c5",
+    "darwin_native_provider.dylib": "5d39c658eab544a2257add7fca061cd1091e8c8c6347991dc3abb6ce0530422d",
+    "build-receipt.json": "ce3e7854264d4a7b3619e45b5549b7c47944d52fe6cef28d3ca322d9c3d2acc7"
+  },
+  "review_findings": {
+    "blocking": [],
+    "nonblocking_hardening": [
+      {
+        "severity": "low",
+        "file": "native_qualifier.py",
+        "detail": "The compile-operation predicate uses operation.get(\"exit_code\") != 0; Python False compares equal to integer zero, so a boolean false would count as a successful compile operation. The exact pinned build receipt in the current working tree has integer exit_code 0 and matches the handoff, so this does not block the reviewed artifact. Consider requiring type(exit_code) is int and value == 0."
+      }
+    ],
+    "runtime_integration_gate": "The candidate keeps an unmodified legacy06 process_reconciliation.py as import/test support. Its actual callback passes the four module/dylib path/SHA kwargs, but a real query must wait for root-owned monitor07 integration; candidate tests patch run_query_child and did not execute native code.",
+    "current_commit_gate": "The provider03 files at the intended reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider path are currently untracked in the shared worktree; git cat-file confirms the provider module is absent from HEAD. validate_request(check_git=True) will reject that source reference until the exact reviewed source closure is committed at the bound HEAD."
+  },
+  "reviewed_controls": {
+    "provider_binding": "Request v2 requires exact provider fields and ABI 3, five distinct path/SHA refs, exact source-map membership, stable regular non-symlink files, source module ABI declaration, source hashes in receipt, and actual library SHA/size. Callback revalidates all five refs and receipt at invocation and passes only pinned module/dylib path+SHA kwargs.",
+    "review_binding": "The review requires request SHA, wrapper/resource/observer/plan/ledger/head bindings plus SHA-256 of canonical native_provider JSON. Extra keys have no effect on required comparisons.",
+    "source_closure": "Provider refs are added to the derived required closure and the committed HEAD blobs are checked by validate_request. The baseline 88-module graph and 12 pending decision structure remain fixed.",
+    "callback_and_cli": "run_parent validates request/review and creates the source-bound callback; no CLI/provider-env injection exists. supervise has reconciliation_query=None default and fails closed when a contender arrives without a callable. Its production parent passes the bound callback.",
+    "environment": "Expected environment remains exact and C-locale; Darwin __CF_USER_TEXT_ENCODING remains 0x1F5:0x0:0x0. Callback does not mutate parent environment or add provider variables.",
+    "scope_and_accounting": "Patch adds provider binding/callback only; it does not change namespace pattern, reconciliation allowance/counter rules, resource floors/caps, or ledger policy. Handoff records 109 rows/103 completed and ledger SHA 2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851. Current working-tree ledger SHA: 2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851.",
+    "fixture_repairs": "The six baseline diagnostics are test-fixture repairs only (DiskGuard instance seam and correctly staged phase observations); candidate source behavior and fail-closed deadline/resource assertions remain. Candidate suite passes."
+  },
+  "validation": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/python3.13 -B -m unittest -v test_native_qualifier",
+    "result": "56 tests passed",
+    "test_output_sha256": "e174b55adff730e1550f70d47742015de2a8535a1beb53cb4cf98eabfbcb9091",
+    "execution_boundary": "Synthetic wrapper tests only; no query/load, engine, or qualification."
+  },
+  "disposition": "Approve qualifier07 wrapper source for root-owned integration and exact committed-source review. Do not run this private copy against the current uncommitted provider files; first integrate monitor07 and commit the full pinned closure at the exact HEAD."
+}

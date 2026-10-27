@@ -1,0 +1,155 @@
+{
+  "callback_semantics": {
+    "callback_rehashes_all_five_refs_and_build_receipt_at_each_seam": true,
+    "monitor07_integration_required": "Private directory keeps the untouched source06 process_reconciliation.py for import/test support; it lacks the new provider kwargs. Integrate only alongside the separately owned monitor07 implementation before any real query. Tests never ran native monitor code.",
+    "negative_tests": "missing callback fails closed; mutated library is rejected before fake query; wrong refs/digests/receipt/ABI are rejected",
+    "positive_actual_supervise_test_uses_fake_query_and_checks_four_exact_path_sha_kwargs": true,
+    "run_parent_passes_explicit_source_bound_callback": true,
+    "supervise_default_callback": null
+  },
+  "canonical_files_changed": false,
+  "environment": {
+    "darwin_cf_key": "__CF_USER_TEXT_ENCODING",
+    "darwin_cf_value": "0x1F5:0x0:0x0",
+    "provider_env_injection": false
+  },
+  "handoff": {
+    "path": "/private/tmp/v092-native-qualifier07-integration-01/handoff.json"
+  },
+  "implementation_files": {
+    "native_qualifier.py": {
+      "bytes": 93973,
+      "path": "/private/tmp/v092-native-qualifier07-integration-01/native_qualifier.py",
+      "sha256": "f5356de48f1d67c46c8672cfa25d886ee1148dd63ea8bb6c2d297b959fee6fb8"
+    },
+    "test_native_qualifier.py": {
+      "bytes": 63857,
+      "path": "/private/tmp/v092-native-qualifier07-integration-01/test_native_qualifier.py",
+      "sha256": "414f25ec769ce988a1e219c0487cc7b0bd5fa694e585c1419227bf454221b226"
+    }
+  },
+  "ledger_policy_unchanged": {
+    "completed": 103,
+    "rows": 109,
+    "sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851"
+  },
+  "native_load_probe_engine_or_qualification_run": false,
+  "native_provider_schema": [
+    "module",
+    "c_source",
+    "header",
+    "library",
+    "build_receipt",
+    "abi_version=3"
+  ],
+  "not_created": [
+    "request",
+    "review",
+    "admission",
+    "namespace",
+    "eligible plan",
+    "CAS",
+    "runtime receipt"
+  ],
+  "patch": {
+    "bytes": 41706,
+    "path": "/private/tmp/v092-native-qualifier07-integration-01/qualifier07.patch",
+    "sha256": "4c95e9ad240db7ae70d5bb98c2de631f1fa61cf418eccae291e112081fe9a16b"
+  },
+  "provider_build_receipt_validation": {
+    "actual_build04_receipt_sha256": "ce3e7854264d4a7b3619e45b5549b7c47944d52fe6cef28d3ca322d9c3d2acc7",
+    "actual_library_sha256": "5d39c658eab544a2257add7fca061cd1091e8c8c6347991dc3abb6ce0530422d",
+    "result": "actual receipt schema/source file hashes/library digest/library size/successful compile operation accepted against copied bytes; dylib not loaded"
+  },
+  "request_schema": "v092-joern-native-control-request/v2",
+  "schema": "v092-native-qualifier07-source-handoff/v1",
+  "status": "private-source-only-candidate",
+  "support_copies_unmodified": {
+    "fresh_worker_probe.py": {
+      "path": "/private/tmp/v092-native-qualifier07-integration-01/fresh_worker_probe.py",
+      "sha256": "be37fddd4e85f562990863452d628474557b110dc380d7ccb1fad6be50248d22"
+    },
+    "process_reconciliation.py": {
+      "path": "/private/tmp/v092-native-qualifier07-integration-01/process_reconciliation.py",
+      "sha256": "2b7d18c29a71f542eef66e496bbe4e59265ac0d510801fba62f8c7bdfba16026"
+    },
+    "retained_resources.py": {
+      "path": "/private/tmp/v092-native-qualifier07-integration-01/retained_resources.py",
+      "sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08"
+    }
+  },
+  "validation": {
+    "candidate_full": {
+      "command": "/opt/homebrew/bin/python3.13 -B -m unittest -v test_native_qualifier",
+      "log": "/private/tmp/v092-native-qualifier07-integration-01/candidate-full-test-output.txt",
+      "log_sha256": "dcabf8646ab208e150b53470a03ac056f4992fde311e08841c3fcd587a531907",
+      "result": "57 passed"
+    },
+    "exact_base_baseline": {
+      "baseline_copies_match_commit_blobs": true,
+      "baseline_native_qualifier_blob_sha256": "843a3be133cd991507ec4968b999c5db2b16700cdb2bd56ab7346b05065a3875",
+      "baseline_test_blob_sha256": "709e4684c8d2fc10c8909b5f0978103e9bd963c97d82a667b472610f3d8d01fa",
+      "command": "/opt/homebrew/bin/python3.13 -B -m unittest -v test_native_qualifier",
+      "commit": "f4700747a8d4843a904267bd7433c679e353c1b2",
+      "failures_repaired_only_in_private_fixture": [
+        {
+          "cause": "fixture patched shutil.disk_usage after DiskGuard captured its callable, so positive 200-GiB fixture used live free space and tripped the existing active125 floor",
+          "repair": "patch the fixture guard instance _disk_usage to 200 GiB; retain its 125 GiB minus one negative near miss",
+          "test": "test_actual_diskguard_api_and_one_byte_over_caps"
+        },
+        {
+          "cause": "fixture queued all three phases before the first observation at 1499.5, so the existing handshake120 check stopped before reading any phase",
+          "repair": "stage ready at1, controls-started at500, controls-returned at1499; observe1499.5 and pass within anchored 1500 deadline",
+          "test": "test_outer_combined_deadline_does_not_narrow_actual_inner900"
+        },
+        {
+          "cause": "preloaded ready121 is blocked by the active deadline check before phase parsing; old assertion expected later phase parser wording",
+          "repair": "assert exact fail-closed deadline stop and zero accepted phases",
+          "test": "test_real_supervise_handshake120_near_miss"
+        },
+        {
+          "cause": "preloaded controls-started601 is blocked before phase parsing after ready",
+          "repair": "stage the phase and assert only ready accepted before exact deadline stop",
+          "test": "test_real_supervise_startup600_near_miss"
+        },
+        {
+          "cause": "preloaded controls-returned1501 is blocked before phase parsing after the first two phases",
+          "repair": "stage the phase and assert ready plus controls-started accepted before exact deadline stop",
+          "test": "test_real_supervise_absolute_startup600_plus_controls900_near_miss"
+        },
+        {
+          "cause": "preloaded phases and observation244 hit the initial deadline path before the fixture could model the recording tail",
+          "repair": "stage all three phases, delay child exit to next poll, then assert exact stop at observation244 after deadline243",
+          "test": "test_real_supervise_tail240_near_miss"
+        }
+      ],
+      "log": "/private/tmp/v092-native-qualifier07-integration-01/baseline-full-test-output.txt",
+      "log_sha256": "ca13a3289d5044da9adfa55374c325a98d003d779165f5518e581027576cc1ce",
+      "result": "48 tests; 5 failures and 1 error (six diagnostics listed below)",
+      "tree": "5ae2d5a5018ea69bf0fe322fe3d1408d0a206304"
+    },
+    "focused": "10 provider/request/review/callback tests passed; 8 deadline/resource fixture tests passed; additional no-callback fail-closed test passed"
+  },
+  "exit_code_type_hardening": {
+    "change": "Library compile receipt operation now requires type(exit_code) is int and exit_code == 0; JSON false/true/0.0 cannot qualify.",
+    "focused_negative_values": [
+      false,
+      true,
+      0.0
+    ],
+    "focused_test": "test_native_provider_compile_exit_code_must_be_json_integer_zero",
+    "preserved_prior_reviewed_handoff": {
+      "path": "/private/tmp/v092-native-qualifier07-integration-01/handoff-before-exitcode-hardening.json",
+      "sha256": "853760a989913fafa1c2b5725d53ed9ca73ab975cdf3e18b16d2d12499dd3155"
+    },
+    "preserved_prior_reviewed_patch": {
+      "path": "/private/tmp/v092-native-qualifier07-integration-01/qualifier07-before-exitcode-hardening.patch",
+      "sha256": "c568b49ba1bdcef4c8c0b98085422541148fbcdd11142f03750fd44dfb3e9048"
+    }
+  },
+  "source_evidence": {
+    "path": "/private/tmp/v092-ps-source-evidence-01.json",
+    "sha256": "2122d1faca664c6ab3430e97efa1858f8a00836da8cef746cec00ad5d54ae7d7",
+    "scope": "Pinned Apple ps/Libc source chain for fixed-width headers, ucomm bytes, args-last output, and newline/control escaping; source-only, no API/process query."
+  }
+}

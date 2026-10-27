@@ -1,0 +1,45 @@
+{
+  "schema": "monitor07-private-recovery-handoff/v1",
+  "candidate": "execution-state/v092/recovery-20261027/monitor/monitor04",
+  "status": "private source candidate; not canonical, not committed",
+  "base_candidate": "execution-state/v092/recovery-20261027/monitor/source-03",
+  "base_files_sha256": {
+    "process_reconciliation.py": "c078bde987fd4653d2dd7668bedecef28af85cd98388cfedab683d9b241b23f9",
+    "snapshot_query.py": "fc8a347337e5c685030f8ea62da1b65a739b054c9c014ad339f69dbaa8400567",
+    "test_reconciliation_policy.py": "5d79bb09043132b5eb5b7397879d7c5c29c0fb03a9a0f7a713eee55d15812ae6"
+  },
+  "files_sha256": {
+    "process_reconciliation.py": "96bdec89dd15e4da35f6a71d08c57510e2c1bbec4857358cb756000b18f84a40",
+    "snapshot_query.py": "fcd115aad7a2bb48f821b281ed403d96069eb306ed5b2b301b8da60910bcefb0",
+    "test_reconciliation_policy.py": "ce87281d2280cb00b898ace894abc71f664baf76d5021a15e26416bc66da4f81"
+  },
+  "change_patch": {
+    "path": "change.patch",
+    "bytes": 10963,
+    "sha256": "fba793836ec03ad441d0697e2345f6b8d68aeb842cf7a84db81325f0650c2888",
+    "note": "Generated during recovery from exact source03 to fresh monitor04; not a historical receipt."
+  },
+  "changes": [
+    "Reject whitespace-only ps-v2 args with a typed SnapshotFailure/ReconciliationError before argv[0] indexing.",
+    "Reject all ASCII C0/DEL and Unicode Cc controls in fixed-width ucomm fields in both parser and receiver; preserve padding and printable embedded spaces exactly.",
+    "Add parser/receiver, raw-row digest, classifier projection, embedded-space, dual-classifier ucomm-only, and argv-basename/idle-MCP synthetic regressions."
+  ],
+  "validation": {
+    "focused": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-06 /opt/homebrew/bin/python3.13 -B -m unittest -q [7 PS-v2 regressions + 2 existing argv/MCP regressions]",
+      "result": "9 tests passed; an initial run showed two invalid-escape warnings, fixed before full run."
+    },
+    "full_suite": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-06 /opt/homebrew/bin/python3.13 -B -m unittest -q test_reconciliation_policy.py",
+      "interpreter": "Python 3.13",
+      "exit_code": 0,
+      "result": "55 tests passed in 0.266s",
+      "scope": "Synthetic fixture suite. Subprocess and native-provider behavior is mocked; no native API or OS process query was invoked."
+    }
+  },
+  "source_boundary": {
+    "branch": "dave/v0.9.2-full-refresh",
+    "head": "f4700747a8d4843a904267bd7433c679e353c1b2",
+    "write_scope": "ignored execution-state/v092/recovery-20261027/monitor/ only"
+  }
+}

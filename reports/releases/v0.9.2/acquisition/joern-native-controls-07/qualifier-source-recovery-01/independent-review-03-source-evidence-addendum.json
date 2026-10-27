@@ -1,0 +1,24 @@
+{
+  "schema": "v092-native-qualifier07-review-addendum/v1",
+  "reviewed_at": "2026-10-27",
+  "parent_review": "/private/tmp/v092-native-qualifier07-independent-review-02.json",
+  "final_handoff": {
+    "path": "/private/tmp/v092-native-qualifier07-integration-01/handoff.json",
+    "sha256": "87b309ced1bfad69c0330d80558dec9d585cc0c3e7ac6f16c4dfa78f8d6ea4e7"
+  },
+  "final_pins": {
+    "native_qualifier.py": "f5356de48f1d67c46c8672cfa25d886ee1148dd63ea8bb6c2d297b959fee6fb8",
+    "test_native_qualifier.py": "414f25ec769ce988a1e219c0487cc7b0bd5fa694e585c1419227bf454221b226",
+    "patch": "4c95e9ad240db7ae70d5bb98c2de631f1fa61cf418eccae291e112081fe9a16b",
+    "source_evidence_receipt": {
+      "path": "/private/tmp/v092-ps-source-evidence-01.json",
+      "sha256": "2122d1faca664c6ab3430e97efa1858f8a00836da8cef746cec00ad5d54ae7d7"
+    }
+  },
+  "metadata_note": "The final handoff now binds the corrected Apple ps/Libc source-evidence receipt. That receipt clarifies that excerpt SHA-256 values bind captured UTF-8 receipt excerpts, not full upstream files; immutable upstream commit IDs pin the source trees. Qualifier source, test, and implementation patch pins are unchanged from review02.",
+  "validation_reuse": {
+    "candidate_suite": "57 passed in independent rerun for the unchanged qualifier implementation/test pins",
+    "no_native_or_engine_run": true
+  },
+  "disposition": "Review02 remains valid for the exit-code hardening. This addendum binds the final source-evidence metadata; it makes no new runtime or canonical-source approval."
+}
