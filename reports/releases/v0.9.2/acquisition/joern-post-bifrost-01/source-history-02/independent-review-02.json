@@ -1,0 +1,33 @@
+{
+  "schema": "v092-source-history-independent-review/v2",
+  "review_status": "approved-no-residual-blocker-found",
+  "reviewed_at": "2026-10-27",
+  "candidate": "/private/tmp/v092-source-history02-20261027",
+  "scope": "Read-only independent review of the repaired source-history02 helper and hash-pinned handoff. The requested 34-test synthetic fixture suite was rerun. No helper invocation against the canonical worktree or production Git cache/view/import was performed.",
+  "handoff": {
+    "path": "/private/tmp/v092-source-history02-20261027/source-history-02-handoff.json",
+    "sha256": "5c3654382f4118cb6331a1c443eff4e6612d7678423ad5f9974227fbc214e3a9",
+    "reported_scope": "Synthetic local repositories only; no production Git cache/view/import, source CAS, eligible plan, request, dispatch, native qualification, Joern run, or runtime qualification."
+  },
+  "verified_hashes": {
+    "source_history.py": "7d6ba2d71cbd5edf10b07056e97a91a70b6febd546b986303ab3a428b9d537d3",
+    "test_source_history.py": "3183e16b8906b7396fdeecc41a1a7351c3edefa769f2a259dd23baeb77acbbce",
+    "README.md": "3525cbdb8b0b50a702132ff9e61cce8fe481a2e80b57c7c18fe00eb315c4890b",
+    "source-history-01-to-02.patch": "adf940db27b1e70ca29f00d8ad41e602fdd369d56d2e1c66c8dac4259af297de"
+  },
+  "reviewed_guard_coverage": {
+    "current_object_store": "_assert_current_store_has_no_alternates checks for promisor markers before _load_verified performs the pinned-object absence/type lookups; the current regular-marker fixture also asserts that the absence lookup is not reached.",
+    "main_archive_cache": "The expected cache path is checked before the pinned verifier loads or validates the archive; the resolved archive object store is checked again after load. The archive verifier also validates its cache config before object-type lookups.",
+    "source_object_cache": "Existing caches are checked at the beginning of _assert_bare_cache before ref object checks and full fsck; newly fetched staging caches are checked immediately after fetch and before prerequisite lookup, then checked again during full validation.",
+    "historical_view": "Existing views are checked at the beginning of _validate_view before refs, HEAD, tree, diff, or status lookups; newly fetched staging views are checked before checkout validation and checked again after installation.",
+    "marker_types": "The guard scans objects/pack entries without following links and rejects every .promisor name, including regular files and symlinks; unreadable or unstable entries fail closed."
+  },
+  "validation": {
+    "command": "python3 -B -m unittest -v test_source_history",
+    "result": "34 tests passed",
+    "elapsed_seconds": 20.472,
+    "fixture_boundary": "Confirmed from test setup: Git repositories are created under per-test TemporaryDirectory roots."
+  },
+  "findings": [],
+  "disposition": "The earlier config-only partial-clone gap is addressed for the current store, main archive cache, source object cache, and historical source view. No residual blocker was found in the repaired marker handling. The report does not qualify runtime or production-state behavior."
+}
