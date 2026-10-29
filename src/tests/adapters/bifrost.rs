@@ -5,8 +5,9 @@
 use crate::adapters::bifrost::{
     BIFROST_DIRECT_POLICY, BIFROST_DIRECT_POSITIVE_POLICY, BIFROST_EXPLICIT_NEGATIVE_POLICY,
     BIFROST_JAVA_POLICY, BIFROST_JAVASCRIPT_POLICY, BIFROST_KOTLIN_POLICY,
-    BIFROST_MODELING_CALL_MODELING, BIFROST_SCALA_POLICY, BifrostRun, CaseWorkspace,
-    bifrost_anchor_dialect, bifrost_policy_for, incompleteness_reasons,
+    BIFROST_MODELING_CALL_MODELING, BIFROST_SCALA_DEPENDENCY_EVIDENCE, BIFROST_SCALA_POLICY,
+    BifrostRun, CaseWorkspace, bifrost_anchor_dialect, bifrost_dependency_evidence_for,
+    bifrost_policy_for, bifrost_policy_paths, incompleteness_reasons,
     materialize_bifrost_workspace, normalize_bifrost as normalize_bifrost_report,
     require_bifrost_modeling_load_bearing, selected_bifrost_case, witness_bifrost_identity,
 };
@@ -1290,14 +1291,67 @@ pub(crate) fn materialized_bifrost_workspaces_are_guarded_for_cleanup() {
     });
 
     let workspace =
-        materialize_bifrost_workspace(&case_path, &case, policy.to_str().unwrap()).unwrap();
+        materialize_bifrost_workspace(&case_path, &case, policy.to_str().unwrap(), None).unwrap();
     let workspace_path = workspace.path().to_path_buf();
     assert!(workspace_path.join("Fixture.java").is_file());
     assert!(workspace_path.join("policy.rqlp").is_file());
+    assert!(!workspace_path.join("pom.xml").exists());
     fs::create_dir_all(workspace_path.join(".bifrost")).unwrap();
 
     workspace.remove().unwrap();
     assert!(!workspace_path.exists());
     assert!(fixture_root.join("Fixture.java").is_file());
+    fs::remove_dir_all(&root).unwrap();
+}
+
+/// The Scala kernel declares the pinned scala-library beside each case, so
+/// Bifrost activates the library model from exact local evidence. The
+/// declaration is configuration: it is hashed with the policy, and no other
+/// run materializes it.
+#[test]
+pub(crate) fn scala_kernel_materializes_and_hashes_its_dependency_evidence() {
+    let scala_core = json!({
+        "id": "dfb-scala-dependency-evidence-test",
+        "language": "scala",
+        "track": "taint",
+        "score_tier": "core",
+        "model_profile": "benchmark-controlled",
+        "fixture_files": ["Fixture.scala"],
+        "tool_model_references": {"bifrost": {"policy": BIFROST_SCALA_POLICY}}
+    });
+    assert_eq!(
+        bifrost_dependency_evidence_for(&scala_core, BifrostRun::ScalaKernel),
+        Some(BIFROST_SCALA_DEPENDENCY_EVIDENCE)
+    );
+    assert_eq!(
+        bifrost_dependency_evidence_for(&scala_core, BifrostRun::Smoke),
+        None
+    );
+    let cases = vec![(
+        PathBuf::from("cases/taint/scala/x/case.json"),
+        scala_core.clone(),
+    )];
+    assert!(
+        bifrost_policy_paths(BifrostRun::ScalaKernel, &cases)
+            .unwrap()
+            .contains(Path::new(BIFROST_SCALA_DEPENDENCY_EVIDENCE))
+    );
+
+    let root = unique_test_dir("dataflowbench-bifrost-scala-evidence-test");
+    let fixture_root = root.join("cases/taint/scala");
+    fs::create_dir_all(&fixture_root).unwrap();
+    fs::write(fixture_root.join("Fixture.scala"), "object Fixture").unwrap();
+    let workspace = materialize_bifrost_workspace(
+        &fixture_root.join("case.json"),
+        &scala_core,
+        BIFROST_SCALA_POLICY,
+        Some(BIFROST_SCALA_DEPENDENCY_EVIDENCE),
+    )
+    .unwrap();
+    assert_eq!(
+        fs::read(workspace.path().join("pom.xml")).unwrap(),
+        fs::read(BIFROST_SCALA_DEPENDENCY_EVIDENCE).unwrap()
+    );
+    workspace.remove().unwrap();
     fs::remove_dir_all(&root).unwrap();
 }

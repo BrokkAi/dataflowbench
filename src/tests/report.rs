@@ -5,8 +5,8 @@ use crate::adapters::bifrost::normalize_bifrost as normalize_bifrost_report;
 use crate::evidence::AnchorDialect;
 use crate::report::{
     ConfigurationHashState, KNOWN_STALE_CONFIGURATIONS, configuration_hash_state,
-    configuration_hash_state_for_report, current_configuration_paths, hash_paths, validate_reports,
-    validate_reports_in, write_and_validate_report_in,
+    configuration_hash_state_for_report, current_configuration_paths, hash_paths,
+    known_stale_issue, validate_reports, validate_reports_in, write_and_validate_report_in,
 };
 use crate::runtime::{write_case_phase_timings, write_run_environment};
 use crate::tests::support::{ReportSweepFixture, unique_test_dir};
@@ -510,7 +510,7 @@ pub(crate) fn historical_common_swift_core_native_and_extension_freezes_remain_n
 
 /// Every committed report whose configuration hash is derivable in-repo
 /// still matches the current configuration — except the populations
-/// `KNOWN_STALE_CONFIGURATIONS` records against issue #138, each of which
+/// `KNOWN_STALE_CONFIGURATIONS` records against their tracking issues, each of which
 /// must actually drift. The half that fails when a re-run lands is the
 /// machine-readable reminder to delete that population's allowlist entry
 /// in the same pull request.
@@ -537,11 +537,11 @@ pub(crate) fn committed_reports_match_current_configuration_except_known_stale()
             &mut case_scan,
         )
         .unwrap();
-        if KNOWN_STALE_CONFIGURATIONS.contains(&stem.as_str()) {
+        if let Some(issue) = known_stale_issue(&stem) {
             seen_stale.insert(stem.clone());
             assert!(
                 matches!(state, ConfigurationHashState::Drifted { .. }),
-                "{stem} no longer drifts; remove it from KNOWN_STALE_CONFIGURATIONS (issue #138)"
+                "{stem} no longer drifts; remove it from KNOWN_STALE_CONFIGURATIONS (issue {issue})"
             );
         } else {
             assert!(
@@ -554,7 +554,7 @@ pub(crate) fn committed_reports_match_current_configuration_except_known_stale()
         seen_stale,
         KNOWN_STALE_CONFIGURATIONS
             .iter()
-            .map(ToString::to_string)
+            .map(|(stem, _)| stem.to_string())
             .collect::<BTreeSet<_>>(),
         "every KNOWN_STALE_CONFIGURATIONS entry must name a committed report"
     );

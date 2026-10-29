@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Dependency evidence the Bifrost Scala kernel materializes beside each
+  case's fixture. It declares the Scala standard library the fixtures are
+  written against, so Bifrost activates the scala-library model from exact
+  local evidence. The runner does not download it: the jar and its sources jar
+  must already be in the host's local Maven repository (~/.m2). See
+  docs/scala-kernel.md.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dataflowbench</groupId>
+  <artifactId>scala-kernel-case</artifactId>
+  <version>0</version>
+  <dependencies>
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>2.13.16</version>
+    </dependency>
+  </dependencies>
+</project>

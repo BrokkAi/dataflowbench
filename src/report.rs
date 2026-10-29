@@ -116,18 +116,18 @@ pub(crate) fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Res
                 ConfigurationHashState::NotDerivable => {}
                 ConfigurationHashState::Current => {
                     checked += 1;
-                    if KNOWN_STALE_CONFIGURATIONS.contains(&stem) {
+                    if let Some(issue) = known_stale_issue(stem) {
                         println!(
-                            "warning: {stem}: configuration hash is current again; remove it from KNOWN_STALE_CONFIGURATIONS (issue #138)"
+                            "warning: {stem}: configuration hash is current again; remove it from KNOWN_STALE_CONFIGURATIONS (issue {issue})"
                         );
                     }
                 }
                 ConfigurationHashState::Drifted { current } => {
                     checked += 1;
-                    if KNOWN_STALE_CONFIGURATIONS.contains(&stem) {
+                    if let Some(issue) = known_stale_issue(stem) {
                         known_stale += 1;
                         println!(
-                            "warning: {stem}: outcomes predate the current adapter configuration (stamped {stamped}, current {current}); the owed re-run is tracked by issue #138"
+                            "warning: {stem}: outcomes predate the current adapter configuration (stamped {stamped}, current {current}); the owed re-run is tracked by issue {issue}"
                         );
                     } else {
                         drifted.push(format!(
@@ -147,7 +147,7 @@ pub(crate) fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Res
     println!("validated {validated} reports");
     if check_configuration {
         println!(
-            "checked {checked} configuration hashes against the working tree ({known_stale} known-stale under issue #138)"
+            "checked {checked} configuration hashes against the working tree ({known_stale} known-stale)"
         );
     }
     Ok(())
@@ -158,11 +158,21 @@ pub(crate) fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Res
 /// from an error to a warning so a recorded debt stays visible without
 /// failing every validation run; the pull request that lands a population's
 /// re-run removes its entry (a test fails once an entry stops drifting), and
-/// every entry must cite the issue tracking its owed re-run. A mismatch on any
-/// report *not* listed here fails validation outright. The list is empty since
-/// Amendment A30 re-ran the eleven CodeQL kernel populations that PR #137 had
-/// left drifting (issue #138).
-pub(crate) const KNOWN_STALE_CONFIGURATIONS: [&str; 0] = [];
+/// every entry cites the issue tracking its owed re-run. A mismatch on any
+/// report *not* listed here fails validation outright.
+pub(crate) const KNOWN_STALE_CONFIGURATIONS: [(&str, &str); 1] = [
+    // The Scala kernel gained scala-library dependency evidence for the v0.9.2
+    // refresh; its group re-runs under a fresh attempt namespace.
+    ("bifrost-scala-kernel", "#297"),
+];
+
+/// The issue tracking `stem`'s owed re-run, when its drift is a recorded debt.
+pub(crate) fn known_stale_issue(stem: &str) -> Option<&'static str> {
+    KNOWN_STALE_CONFIGURATIONS
+        .iter()
+        .find(|(known, _)| *known == stem)
+        .map(|(_, issue)| *issue)
+}
 
 /// Whether `root` is the repository the current process is standing in.
 /// Configuration-path derivation reuses the same repository-relative path
