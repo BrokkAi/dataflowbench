@@ -7,7 +7,9 @@
 //! `configuration_hash_state` compares a stamped hash against, so the set and
 //! the order it is built in are part of the published contract.
 
-use crate::adapters::bifrost::{BifrostRun, bifrost_policy_paths};
+use crate::adapters::bifrost::{
+    BIFROST_SCALA_DEPENDENCY_EVIDENCE, BifrostRun, bifrost_policy_paths,
+};
 use crate::adapters::codeql::{
     CFamilyKernel, EcmaKernel, codeql_c_family_configuration_paths,
     codeql_csharp_configuration_paths, codeql_ecma_kernel_configuration_paths,
@@ -116,18 +118,18 @@ pub(crate) fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Res
                 ConfigurationHashState::NotDerivable => {}
                 ConfigurationHashState::Current => {
                     checked += 1;
-                    if let Some(issue) = known_stale_issue(stem) {
+                    if KNOWN_STALE_CONFIGURATIONS.contains(&stem) {
                         println!(
-                            "warning: {stem}: configuration hash is current again; remove it from KNOWN_STALE_CONFIGURATIONS (issue {issue})"
+                            "warning: {stem}: configuration hash is current again; remove it from KNOWN_STALE_CONFIGURATIONS (issue #138)"
                         );
                     }
                 }
                 ConfigurationHashState::Drifted { current } => {
                     checked += 1;
-                    if let Some(issue) = known_stale_issue(stem) {
+                    if KNOWN_STALE_CONFIGURATIONS.contains(&stem) {
                         known_stale += 1;
                         println!(
-                            "warning: {stem}: outcomes predate the current adapter configuration (stamped {stamped}, current {current}); the owed re-run is tracked by issue {issue}"
+                            "warning: {stem}: outcomes predate the current adapter configuration (stamped {stamped}, current {current}); the owed re-run is tracked by issue #138"
                         );
                     } else {
                         drifted.push(format!(
@@ -147,7 +149,7 @@ pub(crate) fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Res
     println!("validated {validated} reports");
     if check_configuration {
         println!(
-            "checked {checked} configuration hashes against the working tree ({known_stale} known-stale)"
+            "checked {checked} configuration hashes against the working tree ({known_stale} known-stale under issue #138)"
         );
     }
     Ok(())
@@ -158,21 +160,11 @@ pub(crate) fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Res
 /// from an error to a warning so a recorded debt stays visible without
 /// failing every validation run; the pull request that lands a population's
 /// re-run removes its entry (a test fails once an entry stops drifting), and
-/// every entry cites the issue tracking its owed re-run. A mismatch on any
-/// report *not* listed here fails validation outright.
-pub(crate) const KNOWN_STALE_CONFIGURATIONS: [(&str, &str); 1] = [
-    // The Scala kernel gained scala-library dependency evidence for the v0.9.2
-    // refresh; its group re-runs under a fresh attempt namespace.
-    ("bifrost-scala-kernel", "#297"),
-];
-
-/// The issue tracking `stem`'s owed re-run, when its drift is a recorded debt.
-pub(crate) fn known_stale_issue(stem: &str) -> Option<&'static str> {
-    KNOWN_STALE_CONFIGURATIONS
-        .iter()
-        .find(|(known, _)| *known == stem)
-        .map(|(_, issue)| *issue)
-}
+/// every entry must cite the issue tracking its owed re-run. A mismatch on any
+/// report *not* listed here fails validation outright. The list is empty since
+/// Amendment A30 re-ran the eleven CodeQL kernel populations that PR #137 had
+/// left drifting (issue #138).
+pub(crate) const KNOWN_STALE_CONFIGURATIONS: [&str; 0] = [];
 
 /// Whether `root` is the repository the current process is standing in.
 /// Configuration-path derivation reuses the same repository-relative path
@@ -270,6 +262,16 @@ pub(crate) fn configuration_hash_state_for_report(
                 None
             }
         };
+        return compare_configuration_paths(paths, stamped);
+    }
+    if stem == "bifrost-scala-kernel" && tool_version != crate::adapters::pins::BIFROST_VERSION {
+        // The scala-library dependency evidence joined the Scala kernel's
+        // configuration with the v0.9.2 Bifrost pin. A report from an earlier
+        // pin was produced without it and hashes only its policy.
+        let paths = current_configuration_paths(stem, case_scan)?.map(|mut paths| {
+            paths.remove(Path::new(BIFROST_SCALA_DEPENDENCY_EVIDENCE));
+            paths
+        });
         return compare_configuration_paths(paths, stamped);
     }
     configuration_hash_state(stem, stamped, case_scan)

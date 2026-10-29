@@ -196,8 +196,10 @@ Scala project always declares that library, and Bifrost activates the
 library's semantic model only from exact build evidence. Without the
 declaration, a fixture that calls `scala.collection.mutable.Map` analyzes
 against no library model at all. The file is Bifrost adapter configuration,
-not case data. It is hashed into the report's `configuration_hash` with the
-policy, and no other run or analyzer receives it.
+not case data. From the v0.9.2 Bifrost pin on, it is hashed into the report's
+`configuration_hash` with the policy. A report from an earlier pin was
+produced without it and still hashes the policy alone. No other run or
+analyzer receives it.
 
 Host prerequisite: `scala-library-2.13.16.jar` and
 `scala-library-2.13.16-sources.jar` must already be in the local Maven
