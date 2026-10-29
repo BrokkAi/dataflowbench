@@ -88,6 +88,12 @@ pub(crate) const BIFROST_KOTLIN_POLICY: &str = "adapters/bifrost/policies/core-k
 /// policy in its case metadata, so the run pins this policy for the whole
 /// population and all 32 assertions share one configuration.
 pub(crate) const BIFROST_SCALA_POLICY: &str = "adapters/bifrost/policies/core-scala-kernel.rqlp";
+/// The dependency evidence the Scala kernel materializes as each case
+/// workspace's `pom.xml`. It declares the pinned scala-library, so Bifrost
+/// activates that library's model from exact local evidence rather than from
+/// a guessed version; see docs/scala-kernel.md.
+pub(crate) const BIFROST_SCALA_DEPENDENCY_EVIDENCE: &str =
+    "adapters/bifrost/dependency-evidence/scala/pom.xml";
 /// The `call-modeling` setting a Bifrost modeling policy must carry. Every
 /// committed kernel policy sets `:unmodeled optimistic`, under which an
 /// unmodeled call may pass taint through and would decide template 3's
@@ -398,7 +404,12 @@ pub(crate) fn run_bifrost(binary: &Path, run: BifrostRun) -> Result<()> {
         } else {
             let policy = bifrost_policy_for(&case, run)?;
             policy_paths.insert(PathBuf::from(policy));
-            let workspace = materialize_bifrost_workspace(&path, &case, policy)?;
+            let dependency_evidence = bifrost_dependency_evidence_for(&case, run);
+            if let Some(evidence) = dependency_evidence {
+                policy_paths.insert(PathBuf::from(evidence));
+            }
+            let workspace =
+                materialize_bifrost_workspace(&path, &case, policy, dependency_evidence)?;
             let mut command = Command::new(binary);
             configure_bifrost_environment(&mut command);
             command
@@ -547,10 +558,23 @@ pub(crate) fn bifrost_policy_for(case: &Value, run: BifrostRun) -> Result<&str> 
     }
 }
 
-/// The policy files a Bifrost run would hash into its `configuration_hash`
-/// if it ran now: every policy [`bifrost_policy_for`] selects for a case the
-/// run admits, minus preregistered-unsupported cases, which never reach a
-/// policy. This mirrors the collection the run loop in [`run_bifrost`]
+/// The dependency evidence a Bifrost run materializes into one case's
+/// workspace, if any. Only the Scala kernel declares one: its cases are
+/// written against the Scala standard library, whose model Bifrost activates
+/// only from a build declaration.
+pub(crate) fn bifrost_dependency_evidence_for(
+    case: &Value,
+    run: BifrostRun,
+) -> Option<&'static str> {
+    (run == BifrostRun::ScalaKernel && case["model_profile"] == "benchmark-controlled")
+        .then_some(BIFROST_SCALA_DEPENDENCY_EVIDENCE)
+}
+
+/// The configuration files a Bifrost run would hash into its
+/// `configuration_hash` if it ran now: every policy [`bifrost_policy_for`]
+/// selects and every dependency evidence file
+/// [`bifrost_dependency_evidence_for`] materializes for a case the run admits,
+/// minus preregistered-unsupported cases, which never reach a policy. This mirrors the collection the run loop in [`run_bifrost`]
 /// performs; a drift between the two fails the runner's own end-of-run
 /// validation sweep.
 pub(crate) fn bifrost_policy_paths(
@@ -565,6 +589,9 @@ pub(crate) fn bifrost_policy_paths(
             continue;
         }
         paths.insert(PathBuf::from(bifrost_policy_for(case, run)?));
+        if let Some(evidence) = bifrost_dependency_evidence_for(case, run) {
+            paths.insert(PathBuf::from(evidence));
+        }
     }
     Ok(paths)
 }
@@ -859,6 +886,7 @@ pub(crate) fn materialize_bifrost_workspace(
     case_path: &Path,
     case: &Value,
     policy: &str,
+    dependency_evidence: Option<&str>,
 ) -> Result<CaseWorkspace> {
     let id = case["id"].as_str().expect("schema validated");
     // Keep generated workspaces outside this repository. Bifrost honors the
@@ -880,6 +908,9 @@ pub(crate) fn materialize_bifrost_workspace(
         fs::copy(fixture_root.join(fixture), workspace.path().join(fixture))?;
     }
     fs::copy(policy, workspace.path().join("policy.rqlp"))?;
+    if let Some(evidence) = dependency_evidence {
+        fs::copy(evidence, workspace.path().join("pom.xml"))?;
+    }
     Ok(workspace)
 }
 

@@ -186,6 +186,31 @@ per-case Bifrost JSON under `reports/raw/bifrost-scala-kernel/`. A report with
 incomplete runs normalizes as `inconclusive` even when it contains no findings;
 it is never interpreted as a negative.
 
+### Standard-library dependency evidence
+
+Every case workspace the Scala kernel materializes also receives
+[`adapters/bifrost/dependency-evidence/scala/pom.xml`](../adapters/bifrost/dependency-evidence/scala/pom.xml)
+as its `pom.xml`. The file declares `org.scala-lang:scala-library:2.13.16`,
+which is the Scala standard library the fixtures are written against. A real
+Scala project always declares that library, and Bifrost activates the
+library's semantic model only from exact build evidence. Without the
+declaration, a fixture that calls `scala.collection.mutable.Map` analyzes
+against no library model at all. The file is Bifrost adapter configuration,
+not case data. From the v0.9.2 Bifrost pin on, it is hashed into the report's
+`configuration_hash` with the policy. A report from an earlier pin was
+produced without it and still hashes the policy alone. No other run or
+analyzer receives it.
+
+Host prerequisite: `scala-library-2.13.16.jar` and
+`scala-library-2.13.16-sources.jar` must already be in the local Maven
+repository (`~/.m2/repository/org/scala-lang/scala-library/2.13.16/`). The
+runner never downloads them. A host without them records the declaration as
+unresolved, and the affected cases stay inconclusive.
+
+The fixtures' compile record above (Scala 3.8.4) is unchanged. All 70 Scala
+fixture files also compile in isolation and offline with Scala 2.13.18, a
+binary-compatible release of the same 2.13 library line.
+
 ## Analyzer coverage
 
 Scala runs on one analyzer. Both absences below are properties of the pinned

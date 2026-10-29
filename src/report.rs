@@ -7,7 +7,9 @@
 //! `configuration_hash_state` compares a stamped hash against, so the set and
 //! the order it is built in are part of the published contract.
 
-use crate::adapters::bifrost::{BifrostRun, bifrost_policy_paths};
+use crate::adapters::bifrost::{
+    BIFROST_SCALA_DEPENDENCY_EVIDENCE, BifrostRun, bifrost_policy_paths,
+};
 use crate::adapters::codeql::{
     CFamilyKernel, EcmaKernel, codeql_c_family_configuration_paths,
     codeql_csharp_configuration_paths, codeql_ecma_kernel_configuration_paths,
@@ -260,6 +262,16 @@ pub(crate) fn configuration_hash_state_for_report(
                 None
             }
         };
+        return compare_configuration_paths(paths, stamped);
+    }
+    if stem == "bifrost-scala-kernel" && tool_version != crate::adapters::pins::BIFROST_VERSION {
+        // The scala-library dependency evidence joined the Scala kernel's
+        // configuration with the v0.9.2 Bifrost pin. A report from an earlier
+        // pin was produced without it and hashes only its policy.
+        let paths = current_configuration_paths(stem, case_scan)?.map(|mut paths| {
+            paths.remove(Path::new(BIFROST_SCALA_DEPENDENCY_EVIDENCE));
+            paths
+        });
         return compare_configuration_paths(paths, stamped);
     }
     configuration_hash_state(stem, stamped, case_scan)
