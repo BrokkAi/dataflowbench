@@ -358,7 +358,7 @@ class DarwinNativeProviderTests(unittest.TestCase):
 
     def test_pinned_production_constructor_hashes_before_loading(self):
         library = FakeLibrary([])
-        with tempfile.TemporaryDirectory(dir="/private/tmp") as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
             path = Path(directory) / "provider.dylib"
             contents = b"synthetic-test-file-not-a-dylib"
             path.write_bytes(contents)
@@ -370,7 +370,7 @@ class DarwinNativeProviderTests(unittest.TestCase):
             self.assertFalse(provider._test_only_injection)
 
     def test_wrong_hash_fails_before_loader(self):
-        with tempfile.TemporaryDirectory(dir="/private/tmp") as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
             path = Path(directory) / "provider.dylib"
             path.write_bytes(b"not-a-dylib")
             with mock.patch("darwin_native_provider.ctypes.CDLL") as loader:
@@ -381,7 +381,7 @@ class DarwinNativeProviderTests(unittest.TestCase):
 
     def test_library_hashing_rejects_symlinked_ancestor_before_loader(self):
         library = FakeLibrary([])
-        with tempfile.TemporaryDirectory(dir="/private/tmp") as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
             root = Path(directory)
             real_parent = root / "real-parent"
             real_parent.mkdir()

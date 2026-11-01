@@ -1,0 +1,97 @@
+{
+  "additional_checks": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+      "exit_code": 0,
+      "stderr_path": "logs/diff-check.stderr.txt",
+      "stdout_path": "logs/diff-check.stdout.txt"
+    }
+  ],
+  "branch": "dave/v0.9.2-full-refresh",
+  "changed_temp_root_tests": {
+    "test_actual_fresh_darwin_worker_explicit_platform_value": "ok",
+    "test_actual_fresh_worker_arbitrary_extra_rejected": "ok",
+    "test_actual_fresh_worker_changed_java_option_rejected": "ok",
+    "test_actual_fresh_worker_import_mutation_rejected": "ok",
+    "test_actual_fresh_worker_wrong_platform_value_rejected": "ok",
+    "test_darwin_pinned_provider_executes_the_exact_source_bytes_and_reports_pin": "ok",
+    "test_darwin_pinned_provider_rejects_missing_bad_or_symlinked_pins": "ok",
+    "test_library_hashing_rejects_symlinked_ancestor_before_loader": "ok",
+    "test_pinned_production_constructor_hashes_before_loading": "ok",
+    "test_wrong_hash_fails_before_loader": "ok"
+  },
+  "combined_suite_failure_note": "The combined suite recorded 23 failures and 9 errors. None of the failing/erroring test names are among the changed temp-root tests; all listed changed temp-root tests passed. Full raw output is in logs/combined-07.stderr.txt.",
+  "combined_suite_summary": {
+    "ran": "Ran 143 tests in 9.240s",
+    "result": "FAILED (failures=23, errors=9)"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+        "-m",
+        "unittest",
+        "-v",
+        "test_darwin_native_provider"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider",
+      "elapsed_seconds": 0.083,
+      "env": null,
+      "exit_code": 0,
+      "name": "focused-provider",
+      "stderr_bytes": 3421,
+      "stderr_path": "logs/focused-provider.stderr.txt",
+      "stdout_bytes": 0,
+      "stdout_path": "logs/focused-provider.stdout.txt",
+      "unittest_count": 29,
+      "unittest_reported_seconds": 0.014
+    },
+    {
+      "argv": [
+        "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+        "-m",
+        "unittest",
+        "-v",
+        "test_reconciliation_policy",
+        "test_native_qualifier",
+        "test_darwin_native_provider"
+      ],
+      "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-07",
+      "elapsed_seconds": 9.333,
+      "env": "prepend-darwin-provider-to-PYTHONPATH",
+      "exit_code": 1,
+      "name": "combined-07",
+      "stderr_bytes": 55473,
+      "stderr_path": "logs/combined-07.stderr.txt",
+      "stdout_bytes": 0,
+      "stdout_path": "logs/combined-07.stdout.txt",
+      "unittest_count": 143,
+      "unittest_reported_seconds": 9.24
+    }
+  ],
+  "files": {
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/test_darwin_native_provider.py": {
+      "after_sha256": "8a526eb37ed9888dccb034a9c97bdb013a17398a4242ad998405e2117942e9a6",
+      "before_sha256": "58b9b9c17f7c9181fa63f80a47b6292bb46bae5f3a0b4332476fa478060b29ca"
+    },
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py": {
+      "after_sha256": "830139145fceae406aeb523c7f4d35cb22ca627f088c56b7bb7af9ac31d964f8",
+      "before_sha256": "708582ebe4d1a81b9151300afbb241af00d1f3f484efd1835f300ad4bde104df"
+    },
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_reconciliation_policy.py": {
+      "after_sha256": "5f125c317b04791310eb53626bc6639c3edcd417be8e1b956ca5081cb8925939",
+      "before_sha256": "ce87281d2280cb00b898ace894abc71f664baf76d5021a15e26416bc66da4f81"
+    }
+  },
+  "head": "6be1a663d882c9425ab6171862c9b676c13440d2",
+  "limitations": "No Joern, analyzer engine, build, benchmark, provider identity, source pin, qualification, or production behavior was launched or changed. The three-path unittest command covers the focused provider, reconciliation policy, and native qualifier tests.",
+  "phase": "after-edit-validation",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "temp_root_resolved": "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T",
+  "temp_root_unresolved": "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T"
+}

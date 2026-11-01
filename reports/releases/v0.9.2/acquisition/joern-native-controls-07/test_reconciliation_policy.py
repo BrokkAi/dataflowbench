@@ -743,7 +743,7 @@ class DarwinKernProcAllProvider:
         return [], {"provider_evidence": {"identity": self.identity,
                                            "library_sha256": "expected_library_pin"}}
 '''
-        with tempfile.TemporaryDirectory(dir="/private/tmp") as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
             root = Path(directory)
             module_path = root / "provider.py"
             dylib_path = root / "provider.dylib"
@@ -775,7 +775,7 @@ class DarwinKernProcAllProvider:
     identity = "darwin-sysctl-kern-proc-all-libproc/v3"
     def __init__(self, *args, **kwargs): pass
 '''
-        with tempfile.TemporaryDirectory(dir="/private/tmp") as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as directory:
             root = Path(directory)
             module_path = root / "provider.py"
             dylib_path = root / "provider.dylib"

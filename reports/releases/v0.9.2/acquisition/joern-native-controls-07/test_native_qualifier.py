@@ -1063,7 +1063,7 @@ class FailedExecutionCleanupTests(unittest.TestCase):
 
 class FreshDarwinWorkerEnvironmentTests(unittest.TestCase):
     def run_worker_process(self, mode):
-        with tempfile.TemporaryDirectory(dir='/private/tmp',prefix='native-env-worker-') as directory:
+        with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve(),prefix='native-env-worker-') as directory:
             root=Path(directory).resolve()
             fixture=NativeTests('runTest')
             fixture.root=root
