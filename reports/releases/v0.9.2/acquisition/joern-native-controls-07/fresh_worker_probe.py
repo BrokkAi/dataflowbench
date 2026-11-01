@@ -20,7 +20,10 @@ receipt=namespace/'worker-invocation.json'
 if mode=='positive':
     actual=json.loads(receipt.read_bytes())
     assert actual['environment']==startup
-    assert actual['environment']['__CF_USER_TEXT_ENCODING']=='0x1F5:0x0:0x0'
+    if sys.platform=='darwin':
+        assert actual['environment']['__CF_USER_TEXT_ENCODING']=='0x1F5:0x0:0x0'
+    else:
+        assert '__CF_USER_TEXT_ENCODING' not in actual['environment']
 else:
     assert not receipt.exists()
     assert not (namespace/'capture').exists()

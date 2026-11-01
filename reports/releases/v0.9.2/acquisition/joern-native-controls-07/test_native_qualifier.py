@@ -285,6 +285,25 @@ class NativeTests(unittest.TestCase):
             with self.assertRaises(ValueError):n.validate_environment(bad,expected)
         with self.assertRaises(ValueError):n.validate_environment({**expected,'PYTHONPATH':'foreign'},expected)
 
+    def test_environment_platform_specific_cf_value_and_near_miss(self):
+        cfg,plan=self.fixture()
+        key='__CF_USER_TEXT_ENCODING'
+        darwin_module_sys=types.SimpleNamespace(platform='darwin')
+        with mock.patch.object(n,'sys',darwin_module_sys):
+            darwin_expected=n.expected_environment(self.root,cfg,plan)
+        self.assertEqual(darwin_expected[key],'0x1F5:0x0:0x0')
+        n.validate_environment(darwin_expected,darwin_expected)
+        with self.assertRaisesRegex(ValueError,'environment differs'):
+            n.validate_environment({**darwin_expected,key:'0x1F5:0x1:0x0'},darwin_expected)
+
+        non_darwin_module_sys=types.SimpleNamespace(platform='linux')
+        with mock.patch.object(n,'sys',non_darwin_module_sys):
+            non_darwin_expected=n.expected_environment(self.root,cfg,plan)
+        self.assertNotIn(key,non_darwin_expected)
+        n.validate_environment(non_darwin_expected,non_darwin_expected)
+        with self.assertRaisesRegex(ValueError,'environment differs'):
+            n.validate_environment({**non_darwin_expected,key:'0x1F5:0x0:0x0'},non_darwin_expected)
+
     def test_exact_review_binds_request_wrapper_and_all_dependencies(self):
         cfg,plan=self.fixture();request={'path':'request.json','sha256':'2'*64}
         keys={'request_sha256':request['sha256'],'wrapper_sha256':cfg['tool_refs']['wrapper']['sha256'],'resources_sha256':cfg['tool_refs']['resources']['sha256'],'observer_sha256':cfg['observer']['sha256'],'pending_plan_sha256':cfg['pending_plan']['sha256'],'ledger_sha256':cfg['ledger']['sha256'],'source_head':cfg['expected_head'],'native_provider_sha256':n.sha(n.canonical(cfg['native_provider']))}
@@ -1025,8 +1044,17 @@ print(json.dumps({'interpreter':identity,'actual_raw_executable':actual[0],
         finally:sys.modules.pop(name,None)
 
     def test_actual_recorded_worker_arguments_all_remain_exact(self):
-        path=REPO/'reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01/parent-started.json'
-        recorded=json.loads(path.read_bytes())['argv']
+        fixture_dir=Path(__file__).resolve().parent/'test-fixtures'
+        path=fixture_dir/'native-controls01-parent-started.json'
+        provenance=json.loads((fixture_dir/'native-controls01-parent-started.provenance.json').read_bytes())
+        raw=path.read_bytes()
+        self.assertEqual(len(raw),provenance['byte_count'])
+        self.assertEqual(n.sha(raw),provenance['sha256'])
+        self.assertEqual(provenance['source_sha256'],provenance['sha256'])
+        self.assertEqual(provenance['original_path'],
+            'reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01/parent-started.json')
+        self.assertEqual(provenance['fixture_role'],'unit-test input only; not qualification evidence')
+        recorded=json.loads(raw)['argv']
         self.assertEqual(recorded[0],PRODUCTION_PYTHON)
         historical_actual=[sys.orig_argv[0],*recorded[1:]]
         with fixture_worker_interpreter(historical_actual):
@@ -1088,7 +1116,7 @@ class FailedExecutionCleanupTests(unittest.TestCase):
         self.run_failed_load(False)
 
 
-class FreshDarwinWorkerEnvironmentTests(unittest.TestCase):
+class FreshWorkerEnvironmentTests(unittest.TestCase):
     def run_worker_process(self, mode):
         with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve(),prefix='native-env-worker-') as directory:
             root=Path(directory).resolve()
@@ -1096,7 +1124,10 @@ class FreshDarwinWorkerEnvironmentTests(unittest.TestCase):
             fixture.root=root
             cfg,plan=fixture.fixture()
             env=n.expected_environment(root,cfg,plan)
-            self.assertEqual(env['__CF_USER_TEXT_ENCODING'],'0x1F5:0x0:0x0')
+            if sys.platform=='darwin':
+                self.assertEqual(env['__CF_USER_TEXT_ENCODING'],'0x1F5:0x0:0x0')
+            else:
+                self.assertNotIn('__CF_USER_TEXT_ENCODING',env)
             if mode=='wrong-cf':env['__CF_USER_TEXT_ENCODING']='0x1F5:0x1:0x0'
             if mode=='extra':env['FOREIGN_EXTRA']='1'
             if mode=='changed-java':env['JAVA_OPTS']='foreign'
@@ -1109,7 +1140,7 @@ class FreshDarwinWorkerEnvironmentTests(unittest.TestCase):
             self.assertEqual(proof['ready'],mode=='positive')
             return proof
 
-    def test_actual_fresh_darwin_worker_explicit_platform_value(self):
+    def test_actual_fresh_worker_platform_specific_environment(self):
         self.assertTrue(self.run_worker_process('positive')['worker_receipt'])
 
     def test_actual_fresh_worker_wrong_platform_value_rejected(self):
