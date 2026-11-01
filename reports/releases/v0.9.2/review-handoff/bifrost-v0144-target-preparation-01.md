@@ -104,3 +104,26 @@ one explicit metadata input in the current source snapshot. Its frozen SHA-256
 is `8597f343542d652e0c7063dc9e5832797e9dfd8bf19975e9bcf309181249dd3d`.
 This does not restore detailed historical attempts/results to ordinary Git or
 claim ancestry from the rewritten old source graph.
+
+## Pre-dispatch accounting correction
+
+The first prepared contract remained unapproved and was never dispatched. A
+subsequent source audit found that its C4-derived capacity member set omitted
+19,101 copied historical files (2,833,495,180 logical bytes) referenced by later
+ledger rows. The corrected controller unions every ledger source-input path
+for historical/current repository capacity accounting, while keeping those
+old raw paths out of the finite 44-file current source/materialization closure.
+The corrected baseline also counts those additional paths in the current
+repository, so the total change exceeds the copied-file subtotal.
+
+The corrected actual precheck passed: 21,868,573,192 working-baseline bytes
+plus a conservative 3,111,600,000 bytes for all 20 fresh snapshots is below
+30 GiB. Retention was 24,369,091,551 bytes and scratch 1,624,560,131 bytes,
+both below 24 GiB. Limits, source cases and engine/model flags did not change.
+All 19 focused tests and independent source review03 passed on the repair.
+
+The original unapproved `contract.json` (SHA-256 `12a4716def54f87d40b0325ac9794054ef4f7ba3fde6aefdec295e7f3108b5eb`)
+is preserved in place and as a lossless compressed copy. Its preliminary
+approval recommendation was explicitly put on hold. A new committed source
+and `contract-02.json` are required; no benchmark attempt was consumed by
+this source-only correction.

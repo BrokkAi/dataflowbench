@@ -1,0 +1,45 @@
+{
+  "schema": "dataflowbench-v0.9.2-prepared-c5-contract-independent-review-addendum/v1",
+  "reviewed_at_utc": "2026-11-01T15:24:07Z",
+  "disposition": "hold_prepared_subject_do_not_authorize",
+  "supersedes_recommendation_in": {
+    "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/prepared-contract-independent-review-01.json",
+    "sha256": "c7d558036cbdc10f59367f5df6a91dcf1540baea49ca8544b57c2292407759e8"
+  },
+  "prepared_contract_held": {
+    "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/contract.json",
+    "sha256": "12a4716def54f87d40b0325ac9794054ef4f7ba3fde6aefdec295e7f3108b5eb",
+    "approval_subject_sha256": "0e6730ca4712f93df53426af77f7a2559e01f0c05c85563d0e701c01e5dd99b8",
+    "execution_authorized": false,
+    "approval": null
+  },
+  "blocking_finding": {
+    "category": "historical_source_capacity_underaccounting",
+    "evidence_path": "execution-state/v092/recovery-20261101/historical-source-accounting-audit-01.json",
+    "evidence_sha256": "8731eb14ea3cad5c826c57604d31625af1434e49cfce4beec5b63d020c050000",
+    "c4_source_input_count": 789,
+    "ledger_source_input_count_range": [755, 1712],
+    "omitted_existing_file_count": 19101,
+    "omitted_logical_bytes": 2833495180,
+    "reason": "The reviewed capacity baseline unions the C4 contract's 789 source-input paths and the current 44 source inputs, but omits historical source paths recorded by older and successor ledger rows. Those copied files occupy working capacity and must be counted even though they are not current compilation or source-materialization inputs."
+  },
+  "preservation_boundary": {
+    "keep_contract_12a_immutable_and_unapproved": true,
+    "do_not_dispatch_or_consume_attempts": true,
+    "do_not_delete_or_reinterpret_historical_files": true,
+    "repair_scope": "Union historical ledger-row source_inputs into capacity-only source accounting; keep this union separate from the current Git source closure and materialization inputs."
+  },
+  "capacity_context": {
+    "prior_working_baseline_bytes": 18765037054,
+    "additional_historical_source_bytes": 2833495180,
+    "all_20_new_source_projection_upper_bytes": 3109230340,
+    "provisional_combined_working_bytes": 24707762574,
+    "working_ceiling_bytes": 32212254720,
+    "provisional_headroom_bytes": 7504492146,
+    "note": "Arithmetic indicates the corrected projection should remain below the declared ceiling; this is not a replacement for rerunning the production capacity check against the repaired committed source and newly prepared contract."
+  },
+  "findings": [
+    "Contract12a must not receive root execution approval because its source-capacity proof omits 2,833,495,180 logical bytes of extant historical source files."
+  ],
+  "validation_performed_by_this_reviewer": "Read-only inspection of the historical source accounting audit and the reviewed source accounting path. No source edits, builds, tests, analyzers, benchmarks, cleanup, or runtime groups were launched."
+}

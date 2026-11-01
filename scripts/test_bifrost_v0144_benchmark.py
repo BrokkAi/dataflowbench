@@ -227,6 +227,7 @@ class SnapshotAndHistoryTests(unittest.TestCase):
             "environment": {"HOME": str(execution_root / "home"),
                             "TMPDIR": str(execution_root / "tmp")},
             "output_roots": [],
+            "source_inputs": [],
             "start_utc": "2026-10-20T00:57:00.680937+00:00",
         }
 
@@ -258,7 +259,18 @@ class SnapshotAndHistoryTests(unittest.TestCase):
     def test_history_counts_unledgered_smoke02_as_consumed_capacity(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory).resolve()
-            groups, _row = self.make_synthetic_history(root)
+            groups, row = self.make_synthetic_history(root)
+            old_source_path = "reports/older-qual/raw.json"
+            old_source_bytes = b"older qualification source copy\n"
+            old_source = root / old_source_path
+            old_source.parent.mkdir(parents=True, exist_ok=True)
+            old_source.write_bytes(old_source_bytes)
+            row["source_inputs"] = [{"path": old_source_path, "sha256": hashlib.sha256(old_source_bytes).hexdigest()}]
+            write_ledger(root, [row])
+            historical_execution_root = Path(row["execution_root"])
+            historical_source_copy = historical_execution_root / old_source_path
+            historical_source_copy.parent.mkdir(parents=True, exist_ok=True)
+            historical_source_copy.write_bytes(old_source_bytes)
             copied_project = root / "execution-state/v092/joern-capability-materialized-preflight-01"
             (copied_project / "src").mkdir(parents=True)
             (copied_project / "cases").mkdir()
@@ -321,20 +333,14 @@ class SnapshotAndHistoryTests(unittest.TestCase):
             fake_guard_module = SimpleNamespace(
                 DiskGuard=SimpleNamespace(logical_size=logical_size)
             )
-            history_for_capacity = {
-                "execution_roots": [],
-                "ledger": {"capacity_paths": {
-                    "output_roots": [], "cache_roots": [], "home_paths": [], "tmp_paths": [],
-                }},
-            }
             fake_core = SimpleNamespace(
                 SNAPSHOT_DIRECTORIES=("src", "cases"),
                 SNAPSHOT_FILES=("Cargo.toml",),
             )
             with patch.object(driver, "_strict_guard_module", fake_guard_module):
-                _current, _retained, _scratch, working_bytes, projections = (
+                current_paths, _retained, _scratch, working_bytes, projections, inventory = (
                     driver._historical_capacity_paths(
-                        root, {}, history_for_capacity, fake_core,
+                        root, {}, history, fake_core,
                         execution_root=root / "execution-state/v092/groups/series-03/bifrost-smoke/attempt-01",
                         env={"HOME": str(root / "temporary-home"),
                              "TMPDIR": str(root / "temporary-tmp")},
@@ -343,11 +349,29 @@ class SnapshotAndHistoryTests(unittest.TestCase):
                 )
             expected_project_bytes = logical_size([copied_project])
             self.assertEqual(projections, [{"path": str(copied_project), "bytes": expected_project_bytes}])
-            self.assertEqual(working_bytes, expected_project_bytes)
+            self.assertIn(old_source_path, inventory["paths"])
+            self.assertEqual(inventory["path_count"], len(inventory["paths"]))
+            self.assertEqual(inventory["present_logical_bytes"], len(old_source_bytes))
+            self.assertEqual(logical_size([historical_source_copy]), len(old_source_bytes))
+            self.assertEqual(working_bytes, expected_project_bytes + 2 * len(old_source_bytes))
+            self.assertLess(len(current_paths), 20)
+            self.assertNotIn(old_source_path, current_paths)
+            current_source_closure = driver._source_input_paths(
+                ROOT, {"source_inputs": [{"path": old_source_path, "sha256": "f" * 64}]},
+                ["reports/releases/v0.9.2/qualification/bifrost-v0144-01/bifrost-release-01.json"],
+            )
+            self.assertNotIn(old_source_path, current_source_closure)
             self.assertFalse(set(excluded_roots) & {Path(item["path"]) for item in projections})
             self.assertNotIn(over_depth.resolve(), [Path(item["path"]) for item in projections])
             self.assertEqual(history["snapshot"]["global_prior_consumed_attempt_count"], 2)
             self.assertEqual(len(counters["unledgered_started_attempts"]), 1)
+
+            row["source_inputs"] = [{"path": "../outside/raw.json", "sha256": "f" * 64}]
+            write_ledger(root, [row])
+            prefix_lines, prefix_hash = self.permissive_synthetic_prefix()
+            with prefix_lines, prefix_hash, self.assertRaisesRegex(
+                    driver.BenchmarkError, "not a safe repository-relative path"):
+                driver._scan_ledger(root, groups)
 
     def test_auxiliary_source_projection_rejects_symlinks_inside_a_detected_root(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -450,6 +474,13 @@ class ExecutionEvidenceTests(unittest.TestCase):
         }
         processed_argv: list[list[str]] = []
         guard_checks: list[dict] = []
+        source_inventory_paths = ["Cargo.toml", "cases", "src"]
+        source_inventory = {
+            "paths": source_inventory_paths,
+            "path_count": len(source_inventory_paths),
+            "paths_sha256": driver._sha(driver._canonical_json(source_inventory_paths)),
+            "present_logical_bytes": 0,
+        }
 
         class FakeDiskGuard:
             def check(self, **kwargs):
@@ -541,10 +572,11 @@ class ExecutionEvidenceTests(unittest.TestCase):
             stack.enter_context(patch.object(driver, "_load_core", return_value=(core, core_sha)))
             stack.enter_context(patch.object(driver, "_disk_guard", return_value=FakeDiskGuard()))
             stack.enter_context(patch.object(
-                driver, "_historical_capacity_paths", return_value=([], [], [], 0, [])
+                driver, "_historical_capacity_paths", return_value=([], [], [], 0, [], source_inventory)
             ))
             stack.enter_context(patch.object(driver, "_strict_guard_module", fake_guard_module))
             stack.enter_context(patch.object(driver, "BIFROST_BINARY_SHA256", driver._sha_file(binary)))
+            stack.enter_context(patch.object(driver, "_verify_source_capacity_admission", return_value=None))
             stack.enter_context(patch.object(core, "_materialize_source", side_effect=materialize))
             stack.enter_context(patch.object(core, "_assert_source_snapshot", return_value=None))
             stack.enter_context(patch.object(core, "_check_tool_file", return_value=None))

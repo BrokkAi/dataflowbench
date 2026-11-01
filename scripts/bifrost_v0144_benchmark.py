@@ -36,7 +36,7 @@ TARGET_ID = "bifrost-v0144-01"
 CONTRACT_SCHEMA = "dataflowbench-v0.9.2-bifrost-target/v1"
 SERIES = 3
 SERIES_LABEL = "series-03"
-CONTRACT_REL = "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/contract.json"
+CONTRACT_REL = "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/contract-02.json"
 PROGRESS_REL = "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/progress.jsonl"
 SUMMARY_REL = "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/series-summary.json"
 INVOCATIONS_REL = "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/invocations"
@@ -221,6 +221,20 @@ def _repo_relative(root: Path, value: str, description: str) -> PurePosixPath:
     except ValueError as exc:
         raise BenchmarkError(f"{description} escapes the repository: {value!r}") from exc
     return candidate
+
+
+def _accounting_source_path(root: Path, value: str, description: str) -> str:
+    relative = _repo_relative(root, value, description)
+    current = root
+    for component in relative.parts:
+        current = current / component
+        if current.is_symlink():
+            raise BenchmarkError(f"{description} traverses a symlink: {current}")
+        if not current.exists():
+            break
+    if current.exists() and not current.is_file():
+        raise BenchmarkError(f"{description} is not a regular file: {current}")
+    return relative.as_posix()
 
 
 def _path_ref(root: Path, value: str | Path, description: str) -> tuple[PurePosixPath, Path, bytes]:
@@ -1281,7 +1295,7 @@ def _scan_ledger(root: Path, all_group_ids: Sequence[str], *,
     target_stage_proofs = []
     capacity_paths = {
         "execution_roots": [], "output_roots": [], "cache_roots": [],
-        "home_paths": [], "tmp_paths": [],
+        "home_paths": [], "tmp_paths": [], "source_inputs": [],
     }
     seen_ledger_attempts = set()
     started_at = None
@@ -1304,6 +1318,14 @@ def _scan_ledger(root: Path, all_group_ids: Sequence[str], *,
                 raise BenchmarkError(f"attempt ledger row {line_count} is invalid JSON") from exc
             if not isinstance(row, dict):
                 raise BenchmarkError(f"attempt ledger row {line_count} is not an object")
+            source_inputs = row.get("source_inputs")
+            if not isinstance(source_inputs, list):
+                raise BenchmarkError(f"attempt ledger row {line_count} lacks its source-input path inventory")
+            for source_input in source_inputs:
+                if not isinstance(source_input, dict) or not isinstance(source_input.get("path"), str):
+                    raise BenchmarkError(f"attempt ledger row {line_count} has a malformed source-input path")
+                capacity_paths["source_inputs"].append(
+                    _accounting_source_path(root, source_input["path"], "ledger source-input path"))
             group_id = row.get("group_id")
             attempt_id = row.get("attempt_id")
             if group_id not in all_ids or not isinstance(attempt_id, str):
@@ -1989,17 +2011,38 @@ def _auxiliary_source_projection_roots(root: Path) -> list[Path]:
     return sorted(found)
 
 
+def _capacity_source_inventory(root: Path, core, base_contract: dict,
+                               ledger_paths: Sequence[str], current_source_inputs: Sequence[dict]) -> dict:
+    paths = list(core.SNAPSHOT_DIRECTORIES) + list(core.SNAPSHOT_FILES) + [".git"]
+    for item in base_contract.get("source_inputs", []):
+        if not isinstance(item, dict) or not isinstance(item.get("path"), str):
+            raise BenchmarkError("C4 historical source-input reference is malformed")
+        paths.append(_accounting_source_path(root, item["path"], "C4 historical source-input path"))
+    for value in ledger_paths:
+        if not isinstance(value, str):
+            raise BenchmarkError("ledger historical source-input path is malformed")
+        paths.append(_accounting_source_path(root, value, "ledger historical source-input path"))
+    for item in current_source_inputs:
+        if not isinstance(item, dict) or not isinstance(item.get("path"), str):
+            raise BenchmarkError("current C5 source-input reference is malformed")
+        paths.append(_accounting_source_path(root, item["path"], "current C5 source-input path"))
+    unique = sorted(set(paths))
+    return {
+        "paths": unique,
+        "path_count": len(unique),
+        "paths_sha256": _sha(_canonical_json(unique)),
+        "present_logical_bytes": _strict_guard_module.DiskGuard.logical_size([root / value for value in unique]),
+    }
+
+
 def _historical_capacity_paths(root: Path, contract: dict, history: dict,
                                 core, *, execution_root: Path, env: Mapping[str, str],
                                 output_roots: Sequence[Path],
-                                current_source_inputs: Sequence[dict]) -> tuple[list[Path], list[Path], list[Path], int, list[dict]]:
+                                current_source_inputs: Sequence[dict]) -> tuple[list[Path], list[Path], list[Path], int, list[dict], dict]:
     base = _read_json(root / BASE_CONTRACT_REL, "C4 baseline contract")[0]
-    historical_inputs = [item["path"] for item in base.get("source_inputs", [])
-                         if isinstance(item, dict) and isinstance(item.get("path"), str)]
-    current_inputs = [item["path"] for item in current_source_inputs]
-    source_members = list(core.SNAPSHOT_DIRECTORIES) + list(core.SNAPSHOT_FILES) + [".git"]
-    source_members.extend(historical_inputs)
-    source_members.extend(value for value in current_inputs if value not in source_members)
+    source_inventory = _capacity_source_inventory(
+        root, core, base, history["ledger"]["capacity_paths"]["source_inputs"], current_source_inputs)
+    source_members = source_inventory["paths"]
     historical_sources: list[Path] = []
     source_roots = set(Path(value) for value in history["execution_roots"])
     groups_root = root / EXECUTION_GROUPS_REL
@@ -2029,12 +2072,13 @@ def _historical_capacity_paths(root: Path, contract: dict, history: dict,
             [source_root / value for value in source_members])
         if per_source_bytes > RESOURCE_POLICY["source_per_attempt_ceiling_gib"] * 1024**3:
             raise BenchmarkError(f"historical source snapshot exceeds the 12 GiB per-source ceiling: {source_root}")
-    current_paths = [execution_root / value for value in source_members]
+    current_members = list(core.SNAPSHOT_DIRECTORIES) + list(core.SNAPSHOT_FILES)
+    current_members.extend(_accounting_source_path(root, item["path"], "current C5 source-input path")
+                           for item in current_source_inputs)
+    current_paths = [execution_root / value for value in sorted(set(current_members))]
     # The current worktree's source is part of the same aggregate source budget;
     # historical C4 inputs remain counted even when absent from the new Git tree.
-    repository_members = list(core.SNAPSHOT_DIRECTORIES) + list(core.SNAPSHOT_FILES)
-    repository_members.extend(historical_inputs)
-    repository_members.extend(value for value in current_inputs if value not in repository_members)
+    repository_members = source_members
     historical_sources.extend(root / value for value in repository_members)
     if _strict_guard_module.DiskGuard.logical_size([root / value for value in repository_members]) > RESOURCE_POLICY["source_per_attempt_ceiling_gib"] * 1024**3:
         raise BenchmarkError("current repository source exceeds the 12 GiB per-source ceiling")
@@ -2057,7 +2101,7 @@ def _historical_capacity_paths(root: Path, contract: dict, history: dict,
     for value in history.get("execution_roots", []):
         previous = Path(value)
         scratch.extend((previous / "home", previous / "tmp"))
-    return current_paths, retained, scratch, working_baseline_bytes, auxiliary_projections
+    return current_paths, retained, scratch, working_baseline_bytes, auxiliary_projections, source_inventory
 
 
 def _verify_source_capacity_admission(root: Path, validated: dict, row: dict, *,
@@ -2127,6 +2171,18 @@ def _verify_source_capacity_admission(root: Path, validated: dict, row: dict, *,
             type(admission.get("projected_source_bytes")) is not int or
             admission["projected_source_bytes"] < 0):
         raise BenchmarkError("C5 source-capacity admission byte totals are malformed")
+    core, _ = _load_core(root, contract["source_snapshot"]["core_helpers"][0]["sha256"])
+    base = _read_json(root / BASE_CONTRACT_REL, "C4 baseline contract")[0]
+    source_inventory = _capacity_source_inventory(
+        root, core, base, validated["ledger"]["capacity_paths"]["source_inputs"],
+        contract["source_snapshot"]["source_inputs"])
+    if (admission.get("source_input_path_count") != source_inventory["path_count"] or
+            admission.get("source_input_paths_sha256") != source_inventory["paths_sha256"] or
+            type(admission.get("source_input_present_logical_bytes")) is not int or
+            admission["source_input_present_logical_bytes"] < 0 or
+            (require_current_roster and admission["source_input_present_logical_bytes"] !=
+             source_inventory["present_logical_bytes"])):
+        raise BenchmarkError("C5 source-capacity historical path inventory changed")
     if require_current_roster and paths != _auxiliary_source_projection_roots(root):
         raise BenchmarkError("C5 auxiliary source-projection roster changed before analyzer launch")
 
@@ -2361,7 +2417,7 @@ def _one_group(validated: dict, group_id: str, *, global_attempt_number: int,
     if core_sha != contract["source_snapshot"]["core_helpers"][0]["sha256"]:
         raise BenchmarkError("core helper hash changed before C5 attempt admission")
     disk_guard = _disk_guard(root, core)
-    current_paths, retained_paths, scratch_paths, historical_source_bytes, auxiliary_projections = _historical_capacity_paths(
+    current_paths, retained_paths, scratch_paths, historical_source_bytes, auxiliary_projections, source_inventory = _historical_capacity_paths(
         root, contract, validated["history"], core,
         execution_root=execution_root, env=env, output_roots=raw_roots,
         current_source_inputs=contract["source_snapshot"]["source_inputs"],
@@ -2432,6 +2488,9 @@ def _one_group(validated: dict, group_id: str, *, global_attempt_number: int,
             "auxiliary_source_projections": auxiliary_projections,
             "auxiliary_source_projection_bytes": _strict_guard_module.DiskGuard.logical_size(
                 [Path(item["path"]) for item in auxiliary_projections]),
+            "source_input_path_count": source_inventory["path_count"],
+            "source_input_paths_sha256": source_inventory["paths_sha256"],
+            "source_input_present_logical_bytes": source_inventory["present_logical_bytes"],
             "resource_policy": contract["resource_policy"],
             "continuous_free_space_floor_bytes": 125 * 1024**3,
             "launch_free_space_floor_bytes": 127 * 1024**3,
