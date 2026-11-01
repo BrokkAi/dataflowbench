@@ -10,11 +10,15 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import tarfile
 import tempfile
+from pathlib import PurePosixPath
 from contextlib import ExitStack, contextmanager
 from types import SimpleNamespace
+import xml.etree.ElementTree as ET
 import unittest
 from unittest.mock import Mock, patch
+import zipfile
 
 
 SCRIPT = Path(__file__).with_name("bifrost_v0144_benchmark.py")
@@ -24,9 +28,165 @@ assert SPEC is not None and SPEC.loader is not None
 driver = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(driver)
 
+UNIT_FIXTURE_ROOT = SCRIPT.parent / "test-fixtures" / "bifrost-v0144-benchmark-01"
+UNIT_FIXTURE_MANIFEST_SHA256 = "a9742444f056ee6f3f5d573ac47a01bd966cbd0955b411638fd4b7f10f28d1b0"
+
 
 def read_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def unit_fixture_manifest() -> dict:
+    path = UNIT_FIXTURE_ROOT / "manifest.json"
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != UNIT_FIXTURE_MANIFEST_SHA256:
+        raise AssertionError("versioned C5 unit-fixture manifest digest differs")
+    value = json.loads(raw)
+    if (value.get("schema") != "bifrost-v0144-c5-unit-fixtures/v1" or
+            value.get("scope") != "unit tests only; these fixtures are not qualification evidence or benchmark measurements"):
+        raise AssertionError("versioned C5 unit-fixture manifest identity differs")
+    return value
+
+
+def unit_fixture_bytes(entry: dict) -> bytes:
+    relative = PurePosixPath(entry["path"])
+    if relative.is_absolute() or any(part in {"", ".", ".."} for part in relative.parts):
+        raise AssertionError("C5 unit-fixture path is not repository-relative")
+    path = UNIT_FIXTURE_ROOT.joinpath(*relative.parts)
+    if path.is_symlink() or not path.is_file():
+        raise AssertionError(f"C5 unit fixture is missing or unsafe: {entry['path']}")
+    raw = path.read_bytes()
+    if len(raw) != entry.get("bytes") or hashlib.sha256(raw).hexdigest() != entry.get("sha256"):
+        raise AssertionError(f"C5 unit fixture size or SHA-256 differs: {entry['path']}")
+    return raw
+
+
+def scala_unit_fixture_artifacts() -> list[dict]:
+    manifest = unit_fixture_manifest()
+    artifacts = []
+    expected_roles = {
+        "scala-library-2.13.16.jar": "binary-jar",
+        "scala-library-2.13.16-sources.jar": "sources-jar",
+        "scala-library-2.13.16.pom": "upstream-pom",
+    }
+    entries = manifest.get("scala_artifacts")
+    if not isinstance(entries, list) or {item.get("name") for item in entries} != set(expected_roles):
+        raise AssertionError("C5 Scala unit-fixture roster differs")
+    for entry in entries:
+        name = entry["name"]
+        if entry.get("role") != expected_roles[name]:
+            raise AssertionError(f"C5 Scala unit-fixture role differs: {name}")
+        raw = unit_fixture_bytes(entry)
+        path = UNIT_FIXTURE_ROOT / entry["path"]
+        if name.endswith(".jar"):
+            with zipfile.ZipFile(path) as archive:
+                if archive.testzip() is not None or "META-INF/MANIFEST.MF" not in archive.namelist():
+                    raise AssertionError(f"C5 Scala unit fixture is not a valid JAR: {name}")
+                if b"X-Unit-Fixture-Only: true" not in archive.read("META-INF/MANIFEST.MF"):
+                    raise AssertionError(f"C5 Scala JAR fixture lacks its unit-only marker: {name}")
+        else:
+            pom = ET.fromstring(raw)
+            namespace = "{http://maven.apache.org/POM/4.0.0}"
+            if (pom.findtext(f"{namespace}artifactId") != "scala-library" or
+                    pom.findtext(f"{namespace}version") != "2.13.16" or
+                    "test fixture only" not in (pom.findtext(f"{namespace}description") or "")):
+                raise AssertionError("C5 POM fixture identity or unit-only description differs")
+        artifacts.append({
+            "name": name,
+            "role": entry["role"],
+            "source_path": str(path),
+            "sha256": entry["sha256"],
+            "size_bytes": entry["bytes"],
+        })
+    return artifacts
+
+
+def scala_unit_fixture_pins() -> dict:
+    return {
+        item["name"]: {
+            "role": item["role"],
+            "sha256": item["sha256"],
+            "size_bytes": item["size_bytes"],
+        }
+        for item in scala_unit_fixture_artifacts()
+    }
+
+
+def restore_control_capture_fixture(destination: Path) -> dict:
+    """Restore the exact LFS-preserved capture into a temporary test root."""
+    fixture = unit_fixture_manifest()["control_capture_archive"]
+    manifest_path = ROOT / fixture["manifest_path"]
+    archive_path = ROOT / fixture["part_path"]
+    if manifest_path.is_symlink() or not manifest_path.is_file():
+        raise AssertionError("lossless control-copy manifest is missing or unsafe")
+    manifest_raw = manifest_path.read_bytes()
+    if hashlib.sha256(manifest_raw).hexdigest() != fixture["manifest_sha256"]:
+        raise AssertionError("lossless control-copy manifest digest differs")
+    archive_manifest = json.loads(manifest_raw)
+    archive_info = archive_manifest.get("archive", {})
+    if (archive_manifest.get("schema") != "v092-lossless-control-copy/v1" or
+            archive_manifest.get("original_paths_unchanged") is not True or
+            archive_manifest.get("full_content_verification") is not True or
+            archive_manifest.get("original_root") != driver.CONTROL_CAPTURE_DEFAULT or
+            archive_info.get("path") != fixture["part_path"] or
+            archive_info.get("sha256") != fixture["part_sha256"] or
+            archive_info.get("bytes") != fixture["part_bytes"] or
+            archive_manifest.get("original_file_count") != fixture["file_count"] or
+            archive_manifest.get("original_bytes") != fixture["original_bytes"]):
+        raise AssertionError("lossless control-copy archive identity differs from unit-fixture pin")
+    if archive_path.is_symlink() or not archive_path.is_file():
+        raise AssertionError("lossless control-copy archive is missing or unsafe")
+    if (archive_path.stat().st_size != fixture["part_bytes"] or
+            hashlib.sha256(archive_path.read_bytes()).hexdigest() != fixture["part_sha256"]):
+        raise AssertionError("lossless control-copy archive part size or SHA-256 differs")
+
+    entries = archive_manifest.get("original_files")
+    if not isinstance(entries, list) or len(entries) != fixture["file_count"]:
+        raise AssertionError("lossless control-copy file roster differs")
+    expected = {item["path"]: item for item in entries}
+    if len(expected) != len(entries):
+        raise AssertionError("lossless control-copy manifest repeats a path")
+    capture_root = destination / driver.CONTROL_CAPTURE_DEFAULT
+    capture_root.mkdir(parents=True, exist_ok=False)
+    seen = set()
+    total_bytes = 0
+    with tarfile.open(archive_path, mode="r:gz") as archive:
+        members = archive.getmembers()
+        if len(members) != len(expected):
+            raise AssertionError("lossless control-copy tar member count differs")
+        for member in members:
+            relative = PurePosixPath(member.name)
+            if (not member.isfile() or relative.is_absolute() or
+                    any(part in {"", ".", ".."} for part in relative.parts) or
+                    member.name in seen or member.name not in expected):
+                raise AssertionError(f"lossless control-copy tar member is unsafe or unexpected: {member.name}")
+            seen.add(member.name)
+            item = expected[member.name]
+            if member.size != item.get("bytes"):
+                raise AssertionError(f"lossless control-copy tar member size differs: {member.name}")
+            output = capture_root.joinpath(*relative.parts)
+            if not output.resolve().is_relative_to(capture_root.resolve()):
+                raise AssertionError(f"lossless control-copy path escapes test root: {member.name}")
+            output.parent.mkdir(parents=True, exist_ok=True)
+            stream = archive.extractfile(member)
+            if stream is None:
+                raise AssertionError(f"lossless control-copy tar member has no content: {member.name}")
+            digest = hashlib.sha256()
+            copied = 0
+            with stream, output.open("xb") as target:
+                while True:
+                    chunk = stream.read(1024 * 1024)
+                    if not chunk:
+                        break
+                    target.write(chunk)
+                    copied += len(chunk)
+                    digest.update(chunk)
+            if copied != item["bytes"] or digest.hexdigest() != item["sha256"]:
+                raise AssertionError(f"lossless control-copy tar member digest differs: {member.name}")
+            total_bytes += copied
+    if seen != set(expected) or total_bytes != fixture["original_bytes"]:
+        raise AssertionError("lossless control-copy extraction is incomplete")
+    return archive_manifest
 
 
 def actual_base_groups() -> list[dict]:
@@ -138,6 +298,14 @@ class QualificationReferenceTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.qualification = read_json(ROOT / driver.QUALIFICATION_DEFAULT)
+        self.fixture_manifest = unit_fixture_manifest()
+        ledger_entry = self.fixture_manifest["ledger"]
+        self.ledger_fixture_bytes = unit_fixture_bytes(ledger_entry)
+        self.ledger_fixture_lines = ledger_entry["line_count"]
+        self.ledger_fixture_sha256 = ledger_entry["sha256"]
+        if (self.ledger_fixture_lines != 109 or
+                len(self.ledger_fixture_bytes.splitlines()) != self.ledger_fixture_lines):
+            raise AssertionError("synthetic C5 unit ledger must contain exactly 109 fixture rows")
         self.bifrost_binding = {
             "path": self.qualification["tool"]["path"],
             "sha256": driver.BIFROST_BINARY_SHA256,
@@ -148,10 +316,15 @@ class QualificationReferenceTests(unittest.TestCase):
         qualification = copy.deepcopy(self.qualification)
         if mutate is not None:
             mutate(qualification)
+        append_ref = qualification["append_after_ledger"]
+        append_ref["rows"] = self.ledger_fixture_lines
+        append_ref["sha256"] = self.ledger_fixture_sha256
         raw = driver._pretty_json(qualification)
         qualification_path = self.root / driver.QUALIFICATION_DEFAULT
         qualification_path.parent.mkdir(parents=True, exist_ok=True)
         qualification_path.write_bytes(raw)
+
+        restore_control_capture_fixture(self.root)
 
         required = {
             driver.CONTROL_REVIEW_DEFAULT,
@@ -170,7 +343,7 @@ class QualificationReferenceTests(unittest.TestCase):
             driver.LEDGER_REL,
             qualification["binding_implementation"]["path"],
         }
-        capture_manifest = read_json(ROOT / f"{driver.CONTROL_CAPTURE_DEFAULT}/artifact-hashes.json")
+        capture_manifest = read_json(self.root / f"{driver.CONTROL_CAPTURE_DEFAULT}/artifact-hashes.json")
         required.update(
             f"{driver.CONTROL_CAPTURE_DEFAULT}/{item['path']}"
             for item in capture_manifest["files"]
@@ -179,14 +352,22 @@ class QualificationReferenceTests(unittest.TestCase):
         required.update(independent_review["source_review"]["files"])
         required.update(item["path"] for item in independent_review["evidence_refs"].values())
         for relative in required:
+            if (relative == driver.LEDGER_REL or
+                    relative.startswith(driver.CONTROL_CAPTURE_DEFAULT + "/")):
+                continue
             source = ROOT / relative
             target = self.root / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(source.read_bytes())
+        ledger_path = self.root / driver.LEDGER_REL
+        ledger_path.parent.mkdir(parents=True, exist_ok=True)
+        ledger_path.write_bytes(self.ledger_fixture_bytes)
         return driver._sha(raw)
 
     def verify_with_digest(self, digest: str):
-        with patch.object(driver, "QUALIFICATION_SHA256", digest):
+        with patch.object(driver, "QUALIFICATION_SHA256", digest), \
+             patch.object(driver, "LEDGER_PREFIX_LINES", self.ledger_fixture_lines), \
+             patch.object(driver, "LEDGER_PREFIX_SHA256", self.ledger_fixture_sha256):
             return driver._verify_qualification(self.root, driver.QUALIFICATION_DEFAULT,
                                                 self.bifrost_binding)
 
@@ -655,18 +836,11 @@ class ExecutionEvidenceTests(unittest.TestCase):
             root = Path(directory)
             source_root = root / "sources"
             source_root.mkdir()
-            artifacts = []
-            for name, role, payload in (
-                ("scala-library-2.13.16.jar", "binary-jar", b"binary"),
-                ("scala-library-2.13.16-sources.jar", "sources-jar", b"sources"),
-                ("scala-library-2.13.16.pom", "upstream-pom", b"pom"),
-            ):
-                source = source_root / name
-                source.write_bytes(payload)
-                artifacts.append({
-                    "name": name, "role": role, "source_path": str(source),
-                    "sha256": hashlib.sha256(payload).hexdigest(), "size_bytes": len(payload),
-                })
+            artifacts = scala_unit_fixture_artifacts()
+            for artifact in artifacts:
+                source = source_root / artifact["name"]
+                shutil.copyfile(artifact["source_path"], source)
+                artifact["source_path"] = str(source)
             home = root / "home"
             home.mkdir()
 
@@ -675,23 +849,25 @@ class ExecutionEvidenceTests(unittest.TestCase):
                     return None
 
             binding = {"scala": {"artifacts": artifacts, "source_entry_count": 3}}
-            result = driver._stage_scala_maven(binding, home, Guard())
-            self.assertEqual(result["source_entry_count"], 3)
-            self.assertEqual(len(result["artifacts"]), 3)
-            self.assertEqual({item["role"] for item in result["artifacts"]},
-                             {"binary-jar", "sources-jar", "upstream-pom"})
-            for source_info, staged in zip(artifacts, result["artifacts"]):
-                staged_path = Path(staged["path"])
-                self.assertEqual(staged["sha256"], source_info["sha256"])
-                self.assertEqual(staged["bytes"], source_info["size_bytes"])
-                self.assertEqual(hashlib.sha256(staged_path.read_bytes()).hexdigest(), source_info["sha256"])
+            production_pins = driver.SCALA_FILES
+            with patch.object(driver, "SCALA_FILES", scala_unit_fixture_pins()):
+                result = driver._stage_scala_maven(binding, home, Guard())
+                self.assertEqual(result["source_entry_count"], 3)
+                self.assertEqual(len(result["artifacts"]), 3)
+                self.assertEqual({item["role"] for item in result["artifacts"]},
+                                 {"binary-jar", "sources-jar", "upstream-pom"})
+                for source_info, staged in zip(artifacts, result["artifacts"]):
+                    staged_path = Path(staged["path"])
+                    self.assertEqual(staged["sha256"], source_info["sha256"])
+                    self.assertEqual(staged["bytes"], source_info["size_bytes"])
+                    self.assertEqual(hashlib.sha256(staged_path.read_bytes()).hexdigest(), source_info["sha256"])
 
-            artifacts[0]["source_path"] = str(source_root / artifacts[0]["name"])
-            (source_root / artifacts[0]["name"]).write_bytes(b"altered")
-            retry_home = root / "retry-home"
-            retry_home.mkdir()
-            with self.assertRaisesRegex(driver.BenchmarkError, "pinned Scala artifact changed"):
-                driver._stage_scala_maven(binding, retry_home, Guard())
+                (source_root / artifacts[0]["name"]).write_bytes(b"altered")
+                retry_home = root / "retry-home"
+                retry_home.mkdir()
+                with self.assertRaisesRegex(driver.BenchmarkError, "pinned Scala artifact changed"):
+                    driver._stage_scala_maven(binding, retry_home, Guard())
+            self.assertIs(driver.SCALA_FILES, production_pins)
 
     def test_scala_attempt_verifier_rehashes_exact_home_and_postcheck(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -702,10 +878,13 @@ class ExecutionEvidenceTests(unittest.TestCase):
             staged_root.mkdir(parents=True)
             staged = []
             postcheck = []
-            for name, expected in driver.SCALA_FILES.items():
-                source = ROOT / driver.SCALA_REPOSITORY_DEFAULT / "org/scala-lang/scala-library/2.13.16" / name
+            fixture_artifacts = scala_unit_fixture_artifacts()
+            fixture_pins = scala_unit_fixture_pins()
+            for source_info in fixture_artifacts:
+                name = source_info["name"]
+                expected = fixture_pins[name]
                 destination = staged_root / name
-                shutil.copyfile(source, destination)
+                shutil.copyfile(source_info["source_path"], destination)
                 staged.append({
                     "path": str(destination), "sha256": expected["sha256"],
                     "bytes": expected["size_bytes"], "role": expected["role"],
@@ -723,15 +902,18 @@ class ExecutionEvidenceTests(unittest.TestCase):
                 "scala_maven_staging_postcheck": {"verified": True, "artifacts": postcheck},
             }
             validated = {"scala": {"source_entry_count": 3}}
-            result = driver._check_scala_staging(
-                row, execution_root, validated, require_postcheck=True
-            )
-            self.assertEqual(result, {"verified": True, "artifacts": postcheck})
+            production_pins = driver.SCALA_FILES
+            with patch.object(driver, "SCALA_FILES", fixture_pins):
+                result = driver._check_scala_staging(
+                    row, execution_root, validated, require_postcheck=True
+                )
+                self.assertEqual(result, {"verified": True, "artifacts": postcheck})
 
-            tampered = staged_root / "scala-library-2.13.16-sources.jar"
-            tampered.write_bytes(tampered.read_bytes() + b"tampered")
-            with self.assertRaisesRegex(driver.BenchmarkError, "Scala attempt staged artifact changed"):
-                driver._check_scala_staging(row, execution_root, validated, require_postcheck=True)
+                tampered = staged_root / "scala-library-2.13.16-sources.jar"
+                tampered.write_bytes(tampered.read_bytes() + b"tampered")
+                with self.assertRaisesRegex(driver.BenchmarkError, "Scala attempt staged artifact changed"):
+                    driver._check_scala_staging(row, execution_root, validated, require_postcheck=True)
+            self.assertIs(driver.SCALA_FILES, production_pins)
 
     def test_read_only_reconcile_does_not_launch_analyzer_or_write_evidence(self):
         with tempfile.TemporaryDirectory() as directory:
