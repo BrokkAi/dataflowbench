@@ -102,6 +102,10 @@ jobs:
           python3 -B scripts/test_bifrost_v0144_benchmark.py
           python3 scripts/test-check-release-v092.py
           python3 scripts/test-validate-v092-report-configurations.py
+      - name: Restore the exact historical Scala input for version-bound tests
+        run: |
+          python3 -B scripts/test-restore-bifrost-v0144-ci-baseline.py
+          python3 -B scripts/restore-bifrost-v0144-ci-baseline.py --root .
       - run: cargo fmt --check
       - run: cargo test
       - run: cargo run -- validate
