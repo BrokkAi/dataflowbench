@@ -1,0 +1,281 @@
+{
+  "command_state_finding": "All three current v0.14.4 invocations use --fail-on never and ended with exit_code=0/status=completed while their schema-6 report completion is inconclusive. The historical v0.13.1 commands use the same --fail-on never argv but returned exit_code=2/status=failed for those partial reports. Target capture command state must be checked independently from report completion; the current target attempt records 0/completed for all 44 commands.",
+  "comparison_source": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/control-comparison-diagnostic-01.json",
+    "sha256": "f4302d9eb89535837621145ddd9e028b399744f4e15f58b975b3ef424d2e25e7"
+  },
+  "current_capture": {
+    "all_commands_exit_zero": true,
+    "artifact_manifest_sha256": "d57cdb8353a47b9886621e746f2b6469be5480d920b089ae4e9a3ec14066b683",
+    "command_count": 44,
+    "commands_sha256": "99a26f819ca2112b7ccaabe52807db1fdfcaef8fde7b04a4797777ac69e6714a",
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01",
+    "qualification_sha256": "5aaad619ed7b0c6fa7fec7cf7a32b7dbd9763175544eb3f0a45eb5224d8025a4"
+  },
+  "historical_capture": {
+    "commands_sha256": "ec757d02cdf4673059c542bacf84372247a96682426aa38fc2f454476b7d51c2",
+    "path": "reports/releases/v0.9.2/qualification/bifrost-attempt-02"
+  },
+  "partial_comparisons": [
+    {
+      "completion_exact_equal": true,
+      "current_command": {
+        "argv": [
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/bifrost0144/extracted/bifrost-v0.14.4-universal-apple-darwin/bifrost",
+          "--root",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/workspaces/javascript/policy-javascript-declared-source-positive-with",
+          "--policy-file",
+          "policy.rqlp",
+          "--evaluation-date",
+          "2026-08-11",
+          "--format",
+          "json",
+          "--fail-on",
+          "never",
+          "--output",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/reports/policy-javascript-declared-source-positive-with.json"
+        ],
+        "exit_code": 0,
+        "status": "completed"
+      },
+      "current_completion": {
+        "reasons": [
+          "partial_discovery"
+        ],
+        "scope": {
+          "files": [
+            "Config.js"
+          ],
+          "truncated": false,
+          "type": "files"
+        },
+        "type": "inconclusive"
+      },
+      "current_findings": 1,
+      "current_report_path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/reports/policy-javascript-declared-source-positive-with.json",
+      "current_report_sha256": "6666043c2cc2a0ad4f1c7a9a8ae6548f29487b6c30883ea0a7f6bd9edb1148e9",
+      "diagnostic_differing_fields": [
+        [
+          "message"
+        ]
+      ],
+      "endpoints_exact_equal": true,
+      "findings_exact_equal": true,
+      "id": "policy-javascript-declared-source-positive-with",
+      "prior_command": {
+        "argv": [
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/bifrost/bifrost-v0.13.1-universal-apple-darwin/bifrost",
+          "--root",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-attempt-02/workspaces/javascript/policy-javascript-declared-source-positive-with",
+          "--policy-file",
+          "policy.rqlp",
+          "--evaluation-date",
+          "2026-08-11",
+          "--format",
+          "json",
+          "--fail-on",
+          "never",
+          "--output",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-attempt-02/reports/policy-javascript-declared-source-positive-with.json"
+        ],
+        "exit_code": 2,
+        "status": "failed"
+      },
+      "prior_completion": {
+        "reasons": [
+          "partial_discovery"
+        ],
+        "scope": {
+          "files": [
+            "Config.js"
+          ],
+          "truncated": false,
+          "type": "files"
+        },
+        "type": "inconclusive"
+      },
+      "prior_findings": 1,
+      "signature_top_level_differing_components": [
+        "diagnostics"
+      ],
+      "whole_signature_exact_equal": false
+    },
+    {
+      "completion_exact_equal": true,
+      "current_command": {
+        "argv": [
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/bifrost0144/extracted/bifrost-v0.14.4-universal-apple-darwin/bifrost",
+          "--root",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/workspaces/javascript/policy-javascript-declared-sink-positive-with",
+          "--policy-file",
+          "policy.rqlp",
+          "--evaluation-date",
+          "2026-08-11",
+          "--format",
+          "json",
+          "--fail-on",
+          "never",
+          "--output",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/reports/policy-javascript-declared-sink-positive-with.json"
+        ],
+        "exit_code": 0,
+        "status": "completed"
+      },
+      "current_completion": {
+        "reasons": [
+          "partial_discovery"
+        ],
+        "scope": {
+          "files": [
+            "Audit.js"
+          ],
+          "truncated": false,
+          "type": "files"
+        },
+        "type": "inconclusive"
+      },
+      "current_findings": 1,
+      "current_report_path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/reports/policy-javascript-declared-sink-positive-with.json",
+      "current_report_sha256": "6b47a9538cb82735833c06bef3d4f5c45e8fb0bbe8a2945ba1db9e9e4ee2a483",
+      "diagnostic_differing_fields": [
+        [
+          "message"
+        ]
+      ],
+      "endpoints_exact_equal": true,
+      "findings_exact_equal": true,
+      "id": "policy-javascript-declared-sink-positive-with",
+      "prior_command": {
+        "argv": [
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/bifrost/bifrost-v0.13.1-universal-apple-darwin/bifrost",
+          "--root",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-attempt-02/workspaces/javascript/policy-javascript-declared-sink-positive-with",
+          "--policy-file",
+          "policy.rqlp",
+          "--evaluation-date",
+          "2026-08-11",
+          "--format",
+          "json",
+          "--fail-on",
+          "never",
+          "--output",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-attempt-02/reports/policy-javascript-declared-sink-positive-with.json"
+        ],
+        "exit_code": 2,
+        "status": "failed"
+      },
+      "prior_completion": {
+        "reasons": [
+          "partial_discovery"
+        ],
+        "scope": {
+          "files": [
+            "Audit.js"
+          ],
+          "truncated": false,
+          "type": "files"
+        },
+        "type": "inconclusive"
+      },
+      "prior_findings": 1,
+      "signature_top_level_differing_components": [
+        "diagnostics"
+      ],
+      "whole_signature_exact_equal": false
+    },
+    {
+      "completion_exact_equal": true,
+      "current_command": {
+        "argv": [
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/bifrost0144/extracted/bifrost-v0.14.4-universal-apple-darwin/bifrost",
+          "--root",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/workspaces/javascript/policy-javascript-declared-sink-negative-with",
+          "--policy-file",
+          "policy.rqlp",
+          "--evaluation-date",
+          "2026-08-11",
+          "--format",
+          "json",
+          "--fail-on",
+          "never",
+          "--output",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/reports/policy-javascript-declared-sink-negative-with.json"
+        ],
+        "exit_code": 0,
+        "status": "completed"
+      },
+      "current_completion": {
+        "reasons": [
+          "partial_discovery"
+        ],
+        "scope": {
+          "files": [
+            "Audit.js"
+          ],
+          "truncated": false,
+          "type": "files"
+        },
+        "type": "inconclusive"
+      },
+      "current_findings": 0,
+      "current_report_path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/reports/policy-javascript-declared-sink-negative-with.json",
+      "current_report_sha256": "918555f265efb85a5e76e1cd6f5f9a0e1916e17800eb41310bb62980752b162b",
+      "diagnostic_differing_fields": [
+        [
+          "message"
+        ]
+      ],
+      "endpoints_exact_equal": true,
+      "findings_exact_equal": true,
+      "id": "policy-javascript-declared-sink-negative-with",
+      "prior_command": {
+        "argv": [
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/bifrost/bifrost-v0.13.1-universal-apple-darwin/bifrost",
+          "--root",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-attempt-02/workspaces/javascript/policy-javascript-declared-sink-negative-with",
+          "--policy-file",
+          "policy.rqlp",
+          "--evaluation-date",
+          "2026-08-11",
+          "--format",
+          "json",
+          "--fail-on",
+          "never",
+          "--output",
+          "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/qualification/bifrost-attempt-02/reports/policy-javascript-declared-sink-negative-with.json"
+        ],
+        "exit_code": 2,
+        "status": "failed"
+      },
+      "prior_completion": {
+        "reasons": [
+          "partial_discovery"
+        ],
+        "scope": {
+          "files": [
+            "Audit.js"
+          ],
+          "truncated": false,
+          "type": "files"
+        },
+        "type": "inconclusive"
+      },
+      "prior_findings": 0,
+      "signature_top_level_differing_components": [
+        "diagnostics"
+      ],
+      "whole_signature_exact_equal": false
+    }
+  ],
+  "prior_reviewer": {
+    "bytes": 27483,
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/prior-review-before-partial-command-fix-02.py",
+    "sha256": "f390030e0bb454e724c0e7da04e6b3676e573ba500fbf1aa9fb3c8083c687b48"
+  },
+  "review_disposition": "Permit only the three pinned JavaScript controls when their normalized typed report signature matches the prior witness. Exact completion, finding proof content, and endpoint metrics match for all three; full signatures differ only in diagnostic.message text. Keep all three inconclusive and clean=false; the negative control remains zero findings with unknown coverage.",
+  "reviewer_before_fix": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/review-bifrost-v0144-01.py",
+    "sha256": "f390030e0bb454e724c0e7da04e6b3676e573ba500fbf1aa9fb3c8083c687b48"
+  },
+  "schema": "v092-bifrost-v0144-partial-command-diagnosis/v1"
+}

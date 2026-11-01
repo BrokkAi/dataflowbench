@@ -1,0 +1,14 @@
+const Config = {
+  fetchRemote: function fetchRemote() { // DFB-SOURCE: model-declared-source-input
+    return "r";
+  },
+  fetchLocal: function fetchLocal() {
+    return "l";
+  }
+};
+
+function dfb_sink(value) {} // DFB-SINK: model-declared-source-sink
+
+function run() {
+  dfb_sink(Config.fetchLocal());
+}

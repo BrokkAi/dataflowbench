@@ -264,17 +264,72 @@ pub(crate) fn configuration_hash_state_for_report(
         };
         return compare_configuration_paths(paths, stamped);
     }
-    if stem == "bifrost-scala-kernel" && tool_version != crate::adapters::pins::BIFROST_VERSION {
-        // The scala-library dependency evidence joined the Scala kernel's
-        // configuration with the v0.9.2 Bifrost pin. A report from an earlier
-        // pin was produced without it and hashes only its policy.
-        let paths = current_configuration_paths(stem, case_scan)?.map(|mut paths| {
-            paths.remove(Path::new(BIFROST_SCALA_DEPENDENCY_EVIDENCE));
-            paths
-        });
-        return compare_configuration_paths(paths, stamped);
+    if stem == "bifrost-scala-kernel" {
+        return bifrost_scala_configuration_hash_state_for_report(tool_version, stamped, case_scan);
     }
     configuration_hash_state(stem, stamped, case_scan)
+}
+
+/// Resolve Scala configuration history without treating every report from a
+/// non-current Bifrost version as if it had the same configuration. The
+/// scala-library POM was added by PR 298 after the existing v0.14.0 attempt
+/// had already run, so that version has two valid, hash-distinguishable
+/// profiles. Older recorded releases only used the policy. The v0.14.4 target
+/// and later prospective pins require the policy plus the materialized POM.
+fn bifrost_scala_configuration_hash_state_for_report(
+    tool_version: &str,
+    stamped: &str,
+    case_scan: &mut Option<LoadedCases>,
+) -> Result<ConfigurationHashState> {
+    const LEGACY_POLICY_ONLY_VERSIONS: [&str; 4] = [
+        "bifrost 0.11.4",
+        "bifrost 0.12.0",
+        "bifrost 0.13.0",
+        "bifrost 0.13.1",
+    ];
+    const V0140: &str = "bifrost 0.14.0";
+    const V0144: &str = "bifrost 0.14.4";
+
+    let Some(mut pom_paths) = current_configuration_paths("bifrost-scala-kernel", case_scan)?
+    else {
+        return Ok(ConfigurationHashState::NotDerivable);
+    };
+    if !pom_paths.contains(Path::new(BIFROST_SCALA_DEPENDENCY_EVIDENCE)) {
+        bail!(
+            "the current Bifrost Scala configuration omits its scala-library dependency evidence"
+        );
+    }
+    let mut policy_only_paths = pom_paths.clone();
+    policy_only_paths.remove(Path::new(BIFROST_SCALA_DEPENDENCY_EVIDENCE));
+    let pom_hash = hash_paths(&pom_paths)?;
+    let policy_only_hash = hash_paths(&policy_only_paths)?;
+
+    if LEGACY_POLICY_ONLY_VERSIONS.contains(&tool_version) {
+        return compare_configuration_paths(Some(policy_only_paths), stamped);
+    }
+
+    if tool_version == V0140 {
+        // Keep the exact pre-PR-298 v0.14.0 report valid while allowing a
+        // separately recorded post-amendment v0.14.0 report only when its
+        // stamped hash proves that it included the POM. Version alone cannot
+        // distinguish those two executions.
+        return if stamped == policy_only_hash || stamped == pom_hash {
+            Ok(ConfigurationHashState::Current)
+        } else {
+            Ok(ConfigurationHashState::Drifted { current: pom_hash })
+        };
+    }
+
+    if tool_version == V0144 || tool_version == crate::adapters::pins::BIFROST_VERSION {
+        // The v0.14.4 replacement must include the POM. In particular, do not
+        // fall back to the legacy closure when a current-target report carries
+        // the old policy-only hash.
+        return compare_configuration_paths(Some(std::mem::take(&mut pom_paths)), stamped);
+    }
+
+    bail!(
+        "cannot derive the Bifrost Scala configuration for unregistered tool version {tool_version:?}"
+    )
 }
 
 fn compare_configuration_paths(

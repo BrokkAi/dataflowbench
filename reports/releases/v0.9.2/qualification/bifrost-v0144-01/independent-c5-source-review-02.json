@@ -1,0 +1,32 @@
+{
+  "schema": "dataflowbench-v0.9.2-c5-independent-source-review-addendum/v1",
+  "reviewed_at_utc": "2026-11-01T15:19:36Z",
+  "disposition": "prior-source-approval-carries-forward",
+  "prior_review": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/independent-c5-source-review-01.json",
+    "sha256": "b9a060a1699c1a96d7a982c6d32b3ba9eff4c260d012bc3d4e6f8703635052e3",
+    "approved_driver_sha256": "324a2a39b1c2d604157bafb17235203f532887eae79916c796f939a97cb198e2",
+    "test_sha256": "63d3cd24dc015c5f646befee3b30767f75a8bece6303edc8bada69e6f96b708e"
+  },
+  "format_change": {
+    "reason_receipt_path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/c5-eof-format-fix-01.json",
+    "reason_receipt_sha256": "656f3f26084d4d8f7a962b3a933f2aa656908f15d633a0fae861e299fed9659d",
+    "archived_pre_format_source_path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/c5-before-eof-fix-01.py.gz",
+    "archived_pre_format_source_sha256": "e66fa76d122107a877554826bdd3c1ccb621810ca81473bb0c11810193afb10f",
+    "pre_format_driver_sha256": "324a2a39b1c2d604157bafb17235203f532887eae79916c796f939a97cb198e2",
+    "current_driver_sha256": "e20968fac584de8b23f694d971f96d22ed96d9763df3d881a90dbb1d09364e66",
+    "pre_format_bytes": 204032,
+    "current_bytes": 204030,
+    "only_difference": "The final two newline bytes were removed; pre_format_source[:-2] is byte-identical to current_source.",
+    "ast_identical": true,
+    "test_source_unchanged": true
+  },
+  "independent_checks": {
+    "archive_decompressed_and_hashed": true,
+    "exact_byte_suffix_comparison": true,
+    "ast_comparison": true,
+    "source_review_findings": [],
+    "no_builds_tests_analyzers_benchmarks_or_runtime_groups_launched_by_this_reviewer": true
+  },
+  "review_note": "The source review in receipt01 applies to the current driver because the sole change is removal of two terminal newline bytes. This addendum confirms source identity and AST equality; root is rerunning the unchanged 19-test suite against this exact driver SHA."
+}

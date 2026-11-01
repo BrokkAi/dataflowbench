@@ -29,17 +29,28 @@ struct TestIdentity {
 }
 
 fn fake_bifrost_binary_contents() -> String {
-    let version_evidence = fs::read_to_string(
-        "reports/releases/v0.9.2/qualification/bifrost-v0140-01/version.stdout.txt",
+    let acquisition: Value = serde_json::from_slice(
+        &fs::read("reports/releases/v0.9.2/acquisition/bifrost-v0144-01/acquisition-receipt.json")
+            .expect("read the pinned Bifrost acquisition receipt for the test binary"),
     )
-    .expect("read the pinned Bifrost version banner for the test binary");
-    let version_lines: Vec<_> = version_evidence.lines().collect();
+    .unwrap();
+    let version_banner = acquisition["binary"]["version_output"]
+        .as_str()
+        .expect("acquisition receipt records the Bifrost version banner");
+    let version_lines: Vec<_> = version_banner.lines().collect();
     assert_eq!(
         version_lines.len(),
         2,
         "Bifrost banner has exactly two lines"
     );
     assert_eq!(version_lines[0], IDENTITY.version);
+    assert_eq!(
+        acquisition["binary"]["build_identity_output"]
+            .as_str()
+            .unwrap()
+            .trim(),
+        IDENTITY.build_identity
+    );
     format!(
         "#!/bin/sh\ncase \"$1\" in\n  --version) printf '%s\\n' '{}' '{}' ;;\n  --build-identity) echo '{}' ;;\nesac\n",
         version_lines[0], version_lines[1], IDENTITY.build_identity
