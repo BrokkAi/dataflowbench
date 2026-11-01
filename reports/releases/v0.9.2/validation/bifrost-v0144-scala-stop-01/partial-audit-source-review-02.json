@@ -1,0 +1,107 @@
+{
+  "schema": "v092-bifrost-v0144-partial-audit-source-review/v2",
+  "review_type": "independent-partial-audit-source-delta-review",
+  "created_utc": "2026-11-01T16:47:26Z",
+  "status": "approved-for-read-only-partial-reporting",
+  "scope": "Read-only review of the attempt-history successor to partial-01. No real case audit, analyzer, build, or controller was run.",
+  "reviewed_source": {
+    "path": "reports/releases/v0.9.2/review-handoff/reproduce-case-variation-v0144-partial-02.py",
+    "sha256": "ac8c4b246ffb556b1edd919274eef08a05a9131e3b35401a2bc9a9e9e3975cf7"
+  },
+  "predecessor_review": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0144-scala-stop-01/partial-audit-source-review-01.json",
+    "reviewed_source_sha256": "726f67c97db24ea41d2e67a0842d684653c2033ca3cd807c75902d9d5567ad6e"
+  },
+  "prior_findings_and_resolutions": [
+    {
+      "id": "PARTIAL-01-HELPER-SOURCE-NOT-PINNED",
+      "first_seen_source_sha256": "c1e4c402c7c950b64b4d716ebeb3ff6a894c9af70ccae6ff15a03602180c7f4a",
+      "status": "resolved",
+      "resolution_source_sha256": "726f67c97db24ea41d2e67a0842d684653c2033ca3cd807c75902d9d5567ad6e",
+      "resolution": "Pins the full-audit helper before import and records source bindings in the partial result."
+    },
+    {
+      "id": "PARTIAL-02-TARGET-MODE-NOT-VERIFIED",
+      "first_seen_source_sha256": "c1e4c402c7c950b64b4d716ebeb3ff6a894c9af70ccae6ff15a03602180c7f4a",
+      "status": "resolved",
+      "resolution_source_sha256": "726f67c97db24ea41d2e67a0842d684653c2033ca3cd807c75902d9d5567ad6e",
+      "resolution": "Pins the target contract, source and plan commits, exact group runtime argv and case roster, and open-packs-disabled setting."
+    },
+    {
+      "id": "PARTIAL-01-ASSERT-OPTIMIZATION",
+      "first_seen_source_sha256": "726f67c97db24ea41d2e67a0842d684653c2033ca3cd807c75902d9d5567ad6e",
+      "status": "resolved",
+      "resolution_source_sha256": "ac8c4b246ffb556b1edd919274eef08a05a9131e3b35401a2bc9a9e9e3975cf7",
+      "resolution": "Raises RuntimeError when sys.flags.optimize is nonzero before parsing or evidence access."
+    },
+    {
+      "id": "PARTIAL-02-DUPLICATE-ATTEMPT-ID",
+      "first_seen_source_sha256": "94819663cb335bd30bb824fd2d230c4b0eaeacb2da675394498765aab74986ab",
+      "status": "resolved",
+      "resolution_source_sha256": "ac8c4b246ffb556b1edd919274eef08a05a9131e3b35401a2bc9a9e9e3975cf7",
+      "resolution": "Rejects duplicate target attempt IDs and requires the target global attempt sequence to advance from its pinned starting number."
+    }
+  ],
+  "review_rounds": [
+    {
+      "source_sha256": "94819663cb335bd30bb824fd2d230c4b0eaeacb2da675394498765aab74986ab",
+      "finding": "PARTIAL-02-DUPLICATE-ATTEMPT-ID",
+      "resolution_in_reviewed_source": "Adds a target-wide unique attempt_id set before slot accounting and checks each target global_attempt_number against the expected sequential value."
+    }
+  ],
+  "source_bindings": [
+    {
+      "path": "reports/releases/v0.9.2/review-handoff/reproduce-case-variation-v0144-partial-01.py",
+      "sha256": "726f67c97db24ea41d2e67a0842d684653c2033ca3cd807c75902d9d5567ad6e",
+      "role": "reviewed-predecessor"
+    },
+    {
+      "path": "reports/releases/v0.9.2/review-handoff/reproduce-case-variation-v0144-01.py",
+      "sha256": "ff0b7796d09f6134cbfc26a7771953f472edd4714d4e93edb815167652ee1206",
+      "role": "strict-original-full-20-audit-helper"
+    },
+    {
+      "path": "reports/releases/v0.9.2/review-handoff/reproduce-case-variation-18-01.py",
+      "sha256": "6f1fc80edd1921b4a038b0dfb599b936afb18ee61cd409fe5c37db0147d8857b",
+      "role": "sealed-report-normalization-and-comparison-primitives"
+    },
+    {
+      "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/contract-02.json",
+      "sha256": "1d2188df4e7bc7f5cc4e28cc0700a839a294b0cbecc484f4d9658bb5280164e4",
+      "role": "target-runtime-contract"
+    },
+    {
+      "path": "reports/releases/v0.9.2/review-handoff/bifrost-v0144-baseline-01.json",
+      "sha256": "5c8b366be1da3be2a84e0e9772f89e8102a432875ac178af4130318b6f89d406",
+      "role": "sealed-retained-baseline"
+    }
+  ],
+  "execution_scope": {
+    "execution_authorized": false,
+    "analyzer_executed": false,
+    "build_executed": false,
+    "controller_executed": false,
+    "full_case_audit_executed": false,
+    "audit_outputs_generated": false
+  },
+  "delta_verified": [
+    "The successor preserves partial-01 at its reviewed SHA-256 and pins the same full audit helper, primitive, baseline, target contract, source commit, plan commit, exact per-group runtime argv, and case roster checks.",
+    "The successor rejects optimized Python execution before parsing arguments or opening evidence; a negative `python3 -O ... --help` invocation exited 1 with the intended RuntimeError.",
+    "All target attempt rows are retained in ledger order. Duplicate attempt IDs are rejected across target rows, target global attempt numbers must advance from the expected first number, no group may exceed two attempts, no group may have multiple completed attempts, and completion must be last.",
+    "Only a completed row is normalized. Earlier failed attempts remain listed, while missing and terminally incomplete groups remain in the 1116-row denominator.",
+    "The output retains the separate full-run counts of 1000 Bifrost fixtures and 1108 population fixtures, and the original full-20 helper remains pinned and unchanged."
+  ],
+  "findings": [],
+  "validation": {
+    "in_memory_syntax_compile": "passed",
+    "cli_help": "passed",
+    "optimized_mode_negative_invocation": "passed; exited 1 with the intended RuntimeError before argument parsing or evidence access",
+    "real_audit_invoked": false,
+    "source_ownership": "Only this assigned review receipt was written by the reviewer."
+  },
+  "limitations": [
+    "The 1000 and 1108 full-run counts are emitted as fixed values from the pinned prior full audit; this partial helper does not derive them from its incomplete subset.",
+    "This receipt reviews source only. It does not certify the live partial audit, terminal smoke or TypeScript groups, full-target completion, performance, or release readiness."
+  ],
+  "conclusion": "The reviewed source is suitable for a read-only partial comparison under a standard interpreter. The duplicate-attempt finding on the prior candidate is closed by the target-wide identity and sequence guards. No case comparison or release-readiness claim was made."
+}

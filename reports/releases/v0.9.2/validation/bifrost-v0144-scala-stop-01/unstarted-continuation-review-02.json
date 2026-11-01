@@ -1,0 +1,151 @@
+{
+  "schema": "dataflowbench-v0.9.2-bifrost-smoke-continuation-review/v1",
+  "reviewed_at_utc": "2026-11-01T16:46:15Z",
+  "review_scope": "Read-only prospective review of a second explicit Smoke-group attempt and conditional TypeScript continuation after the pre-dispatch resource stop.",
+  "prior_review": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0144-scala-stop-01/unstarted-continuation-review-01.json",
+    "sha256": "aac94a826b278d73976460d9e331a154a664c78336751587db0573f8d644d58c",
+    "preserved_unchanged": true
+  },
+  "conclusion": {
+    "driver_and_contract_support_smoke05": true,
+    "execution_authorized_by_this_review": false,
+    "current_root_approval_covers_smoke05": false,
+    "current_root_approval_covers_typescript_after_smoke04_failure": false,
+    "source_or_contract_change_required": false,
+    "reason": "The C5 driver supports a new mode=one attempt when a group has remaining target slots and its previous rows are terminal. Smoke attempt 04 is terminal but non-completed, so attempt 05 would consume the second and final target slot. The explicit root continuation approval binds Smoke attempt 04/global 129 and TypeScript/global 130, and requires stopping when Smoke does not complete. Smoke 04 did not complete. A new root decision must authorize Smoke 05 and, only conditionally after it completes, TypeScript/global 131."
+  },
+  "source_and_contract": {
+    "branch": "dave/v0.9.2-full-refresh",
+    "head_and_plan_commit": "6500465e02e28ac279047e610d7e8dbccc844ee8",
+    "source_commit": "61ae0cb817322ac81528217479c0be7bd760fa36",
+    "contract_path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/contract-02.json",
+    "contract_sha256": "1d2188df4e7bc7f5cc4e28cc0700a839a294b0cbecc484f4d9658bb5280164e4",
+    "driver_path": "scripts/bifrost_v0144_benchmark.py",
+    "driver_sha256": "2b262f7be1ff5ee76e42cc6f9dbe44386359da3303b1169283d215faac91a852",
+    "driver_matches_contract_snapshot": true,
+    "source_and_contract_paths_clean": true,
+    "policy": {
+      "new_target_slots_per_group": 2,
+      "automatic_retry": false,
+      "smoke_slot_04_consumed": true,
+      "smoke_new_target_slots_remaining": 1,
+      "typescript_attempt_03_remains_unstarted": true,
+      "smoke_deadline_seconds": 706,
+      "typescript_deadline_seconds": 600,
+      "target_total_deadline_seconds": 13592
+    }
+  },
+  "smoke04_terminal_state": {
+    "invocation_receipt_sha256": "25d28b7a24f7f19409449d5dd328144f99df321db45dc1c15c743cc1056e8977",
+    "invocation_status": "fail-stopped",
+    "target_suffix_line_count": 19,
+    "target_suffix_sha256": "7ba32afd020298c8637854ab93521735dc57d6c9eec7ef552538b691c64de790",
+    "attempt": {
+      "group_id": "bifrost-smoke",
+      "attempt_id": "bifrost-smoke-attempt-04-series-03",
+      "global_attempt_number": 129,
+      "status": "recorder-error",
+      "exit_code": 125,
+      "duration_seconds": 0.0,
+      "analyzer_duration_complete": true,
+      "cases_dispatched": 0,
+      "terminal_path": "reports/releases/v0.9.2/attempts/bifrost-smoke-attempt-04-series-03/completed.json",
+      "terminal_sha256": "4a4e37b4b86335e2813eaafbfbdd057fa7e607188baa55cf5c397e066d54b80a"
+    },
+    "cause": "The unchanged resource admission check found two background MCP processes above the existing CPU >1 idle threshold after source materialization and before analyzer dispatch.",
+    "measurement_interpretation": "This is a pre-dispatch resource admission failure, not a Bifrost analyzer result or timing measurement. Preserve the recorder-error row and its consumed attempt/global counter.",
+    "post_stop_observation": "The stop receipt has no process_ownership field. Its provider-scoped post-stop snapshot records no current native-birth matches for the two previously observed contenders. This statement is limited to that provider snapshot; it does not establish system-wide quiet or absence of other processes.",
+    "typescript_still_not_started": true
+  },
+  "current_authorization": {
+    "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/root-unstarted-continuation-approval-01.json",
+    "sha256": "2d1bfaa77763f6b8374c89d1790ab93e53749e87c95616c79baff15c259c772c",
+    "decision": "approved-only-for-the-two-never-started-groups",
+    "automatic_retry_authorized": false,
+    "relevant_conditions": [
+      "Smoke first; observe terminal and all recorded owned identities stopped before TypeScript. Stop if Smoke does not complete.",
+      "No source, pin, model-mode, case, deadline, reserve, global counter or original wall-origin changes."
+    ],
+    "condition_state": "Smoke attempt 04 did not complete; the TypeScript continuation authorized at global 130 is therefore blocked by the explicit condition and that number has been consumed by Smoke 04."
+  },
+  "prepared_smoke05_launcher": {
+    "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/supervision-04/launch-once.sh",
+    "sha256": "fdaa549fbc91cf1b994b2a450fe1931ce9ca29021908442b9b6810c2b52e9a0c",
+    "state": "prepared_only_not_invoked",
+    "observed_directory_files": ["launch-once.sh"],
+    "scope_review": "The wrapper uses a new one-shot marker directory and requests only mode=one for bifrost-smoke under the unchanged approved contract. It does not alter source, contract, thresholds, deadlines, or attempt accounting. The driver would assign Smoke attempt 05/global 130 if no intervening state changes."
+  },
+  "prospective_order_if_new_root_authorization_is_recorded": [
+    {
+      "step": 1,
+      "group_id": "bifrost-smoke",
+      "expected_attempt_id": "bifrost-smoke-attempt-05-series-03",
+      "expected_global_attempt_number": 130,
+      "condition": "Run once only after a fresh provider-scoped resource snapshot confirms the same unchanged idle threshold is clear and the existing driver preflight again passes after materialization. The current failed attempt has consumed one of two slots; failure of this second attempt exhausts Smoke's slot allowance."
+    },
+    {
+      "step": 2,
+      "group_id": "bifrost-typescript-kernel",
+      "expected_attempt_id": "bifrost-typescript-kernel-attempt-03-series-03",
+      "expected_global_attempt_number": 131,
+      "condition": "Only if Smoke 05 has a completed terminal row, all recorded owned identities are absent in a fresh scoped observation, and fresh resource/lock/path checks pass. If Smoke 05 is non-completed or resource admission fails, stop and do not run TypeScript."
+    }
+  ],
+  "fresh_checks_required": [
+    "Before Smoke 05, capture a new resource-provider snapshot with timestamp and scope; require no background MCP contender above the unchanged CPU >1 threshold. Do not describe that as global system quiet.",
+    "Reconfirm exact source commit, plan commit, approved contract SHA and clean source/contract paths; keep the same committed driver and contract.",
+    "Require the common analyzer lock, current process/ownership checks, 127 GiB launch headroom, 125 GiB continuous free-space floor, and exact disk/source projection checks to pass. The in-driver gate must remain authoritative after source materialization.",
+    "Confirm Smoke attempt 05 output/cache/report namespaces are unused and no new target row has appeared. After it, reconcile its terminal receipt, append-only ledger/progress hashes, completion status and scoped owned-process observation before TypeScript.",
+    "Do not retry Scala or any completed group, alter threshold/deadline/reserve/case/model settings, rewind the ledger, reuse any attempt ID, or infer completion from a one-group invocation status."
+  ],
+  "evidence_hashes": [
+    {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0144-scala-stop-01/unstarted-continuation-review-01.json",
+      "sha256": "aac94a826b278d73976460d9e331a154a664c78336751587db0573f8d644d58c"
+    },
+    {
+      "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/contract-02.json",
+      "sha256": "1d2188df4e7bc7f5cc4e28cc0700a839a294b0cbecc484f4d9658bb5280164e4"
+    },
+    {
+      "path": "scripts/bifrost_v0144_benchmark.py",
+      "sha256": "2b262f7be1ff5ee76e42cc6f9dbe44386359da3303b1169283d215faac91a852"
+    },
+    {
+      "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/root-unstarted-continuation-approval-01.json",
+      "sha256": "2d1bfaa77763f6b8374c89d1790ab93e53749e87c95616c79baff15c259c772c"
+    },
+    {
+      "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/smoke04-predispatch-stop-reconciliation-01.json",
+      "sha256": "3a1915c33724eb23ca37658ea909d0675dae1e52be1b48c43fe064276268c0a8"
+    },
+    {
+      "path": "reports/releases/v0.9.2/attempts/bifrost-smoke-attempt-04-series-03/completed.json",
+      "sha256": "4a4e37b4b86335e2813eaafbfbdd057fa7e607188baa55cf5c397e066d54b80a"
+    },
+    {
+      "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/progress.jsonl",
+      "sha256": "a91f0aa1276449cc041ff1e626c414cbc281c1976db4cfc1c39adebc9f5ae962"
+    },
+    {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "sha256": "b393be11883a268ecfeb9f17a014ed86c1b667b07680f7767242012bafbc2eb2"
+    },
+    {
+      "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/supervision-03/launch-once.sh",
+      "sha256": "b20c868597bab839d46b42f849b8f4554fa95ec39402a96ad41481db4d3b574f"
+    },
+    {
+      "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/supervision-04/launch-once.sh",
+      "sha256": "fdaa549fbc91cf1b994b2a450fe1931ce9ca29021908442b9b6810c2b52e9a0c"
+    }
+  ],
+  "validation_performed": {
+    "read_source_receipts_approval_and_launcher_only": true,
+    "foreign_process_argv_or_ids_copied": false,
+    "benchmark_or_analyzer_executed": false,
+    "build_executed": false,
+    "implementation_or_prior_review_modified": false
+  }
+}

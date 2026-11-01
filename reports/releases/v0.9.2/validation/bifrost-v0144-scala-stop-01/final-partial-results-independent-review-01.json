@@ -1,0 +1,306 @@
+{
+  "schema": "v092-bifrost-v0144-final-partial-results-independent-review/v1",
+  "review_type": "independent-partial-results-artifact-and-case-review",
+  "created_utc": "2026-11-01T17:04:53Z",
+  "status": "verified-with-partial-coverage-limits",
+  "scope": "Read-only verification of the generated partial comparison, its terminal/report/CSV hashes, changed raw case results against frozen v0.9.0 expectations, and preserved Rust observations. The separate C5 terminal reconciliation was not duplicated.",
+  "execution_scope": {
+    "analyzer_executed": false,
+    "build_executed": false,
+    "retry_started": false,
+    "controller_executed": false,
+    "reviewer_modified_source_or_report_source": false,
+    "c5_reconciliation_generated_or_recomputed": false
+  },
+  "input_bindings": [
+    {
+      "path": "reports/releases/v0.9.2/review-handoff/case-variation-v0144-partial-01.json",
+      "sha256": "c0dd776cd6cf0336dad769d0eb374d49d2a254b26b78b4d2c5118a959f135c7e",
+      "role": "partial comparison JSON"
+    },
+    {
+      "path": "reports/releases/v0.9.2/review-handoff/case-variation-v0144-partial-01.csv",
+      "sha256": "73f8afb5e4a215ad8fe2676a2c02b603ce07155d381be1d274f6a1cb33d1dbcc",
+      "role": "case-row export"
+    },
+    {
+      "path": "reports/releases/v0.9.2/review-handoff/case-variation-v0144-partial-01.md",
+      "sha256": "5ba076d5f57f3a111beee4b909254724f1faeac1379aa94047cad4d53c554edf",
+      "role": "human-readable summary"
+    },
+    {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "sha256": "79070314d9d27581b9541934c7b701c2640cb1436f162e570b210df787e13d84",
+      "rows": 130,
+      "role": "append-only attempt ledger"
+    },
+    {
+      "path": "reports/releases/v0.9.2/review-handoff/reproduce-case-variation-v0144-partial-02.py",
+      "sha256": "ac8c4b246ffb556b1edd919274eef08a05a9131e3b35401a2bc9a9e9e3975cf7",
+      "role": "pinned reporting helper"
+    },
+    {
+      "path": "reports/releases/v0.9.2/review-handoff/reproduce-case-variation-v0144-partial-01.py",
+      "sha256": "726f67c97db24ea41d2e67a0842d684653c2033ca3cd807c75902d9d5567ad6e",
+      "role": "pinned reviewed predecessor"
+    },
+    {
+      "path": "reports/releases/v0.9.2/review-handoff/bifrost-v0144-baseline-01.json",
+      "sha256": "5c8b366be1da3be2a84e0e9772f89e8102a432875ac178af4130318b6f89d406",
+      "role": "retained baseline"
+    },
+    {
+      "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/contract-02.json",
+      "sha256": "1d2188df4e7bc7f5cc4e28cc0700a839a294b0cbecc484f4d9658bb5280164e4",
+      "role": "target execution contract"
+    },
+    {
+      "path": "reports/freeze.json",
+      "sha256": "e63dcc483d3000c046816c595811bf35ab494544fb6dd6fff2608d43e9bc676d",
+      "role": "frozen v0.9.0 case expectations and population"
+    },
+    {
+      "path": "reports/releases/v0.9.2/population-integrity.json",
+      "sha256": "31ec9e13f333fcd54b449c789e2e6f403b3a535f999195ca7b39171642369cfb",
+      "role": "frozen population integrity receipt"
+    }
+  ],
+  "verified_counts": {
+    "completed_groups": 19,
+    "target_groups": 20,
+    "paired_report_rows": 1046,
+    "expected_full_report_rows": 1116,
+    "incomplete_rows": 70,
+    "incomplete_group": "bifrost-scala-kernel",
+    "distinct_paired_fixtures": 932,
+    "full_bifrost_distinct_fixtures": 1000,
+    "frozen_population_fixtures": 1108,
+    "target_attempt_rows": 21,
+    "unique_target_attempt_ids": 21,
+    "target_global_attempt_numbers": "111-131",
+    "verdict_changes": 6,
+    "unique_changed_fixtures": 4,
+    "same_verdict_rows": 1040
+  },
+  "artifact_checks": {
+    "ledger_sha256_and_row_count": "passed",
+    "original_109_row_prefix_matches_baseline": "passed",
+    "target_attempts_match_terminal_receipts": "passed",
+    "completed_group_terminal_and_report_files": {
+      "verified": 76,
+      "expected": 76,
+      "result": "passed"
+    },
+    "non_completed_terminal_receipts": {
+      "verified": 2,
+      "expected": 2,
+      "result": "passed"
+    },
+    "csv_rows_match_json_case_rows": {
+      "verified": 1046,
+      "expected": 1046,
+      "result": "passed"
+    },
+    "markdown_embedded_json_and_csv_hashes": "passed",
+    "source_and_contract_hash_bindings": "passed"
+  },
+  "non_completed_attempts": [
+    {
+      "group_id": "bifrost-scala-kernel",
+      "attempt_id": "bifrost-scala-kernel-attempt-03-series-03",
+      "status": "recorder-error",
+      "timed_out": true,
+      "exit_code": 124,
+      "expected_rows_retained_in_denominator": 70,
+      "terminal_sha256": "d1c090d100f5d7b9776fd2a43f62d4fa7f153e216c3bf773e60d2138ce837014",
+      "terminal_summary": "No normalized report; terminal records timeout and a missing declared report output root."
+    },
+    {
+      "group_id": "bifrost-smoke",
+      "attempt_id": "bifrost-smoke-attempt-04-series-03",
+      "status": "recorder-error",
+      "timed_out": false,
+      "exit_code": 125,
+      "terminal_sha256": "4a4e37b4b86335e2813eaafbfbdd057fa7e607188baa55cf5c397e066d54b80a",
+      "terminal_summary": "No normalized report; empty stdout and stderr; terminal records a contending build/analyzer-process failure. The later smoke attempt completed the group."
+    }
+  ],
+  "changed_verdict_rows": [
+    {
+      "group_id": "bifrost-java-kernel",
+      "case_id": "dfb-taint-java-exception-catch-negative",
+      "frozen_polarity": "negative",
+      "frozen_expectation": "no expected flow; source-to-sink is an expected nonflow",
+      "old": {
+        "raw_state": "inconclusive",
+        "completion_reason": "partial_discovery",
+        "verdict": "inconclusive",
+        "findings": 0,
+        "raw_sha256": "2312e48dc05388b6db91c7ef2238c979321d95af37257a52bf05b3c0d44362a3"
+      },
+      "new": {
+        "raw_state": "complete",
+        "verdict": "not-reached",
+        "findings": 0,
+        "raw_sha256": "cd2728d14e4f493f49182aa8c2190889839f57b948fee51dc9cd76eb31c028a4"
+      },
+      "frozen_case_sha256": "5e7cb0390c6b261b72adc2c13cdb66103f8f6075896d5b1240003d6244e5d205",
+      "fixture_sha256": "c794add5da064a89d69b6fe4e954195baac7a09c3af458fd73d350510dc8d0f0"
+    },
+    {
+      "group_id": "bifrost-java-kernel",
+      "case_id": "dfb-taint-java-exception-catch-positive",
+      "frozen_polarity": "positive",
+      "frozen_expectation": "one expected source-to-sink flow",
+      "old": {
+        "raw_state": "inconclusive",
+        "completion_reason": "partial_discovery",
+        "verdict": "inconclusive",
+        "findings": 0,
+        "raw_sha256": "be738f768617579f324e38419743e29331bf3e91577cb6e96cab0aed60ec2fe6"
+      },
+      "new": {
+        "raw_state": "complete",
+        "verdict": "reached",
+        "findings": 1,
+        "finding_certainty": "definite",
+        "finding_completeness": "complete",
+        "proof_state": "proven",
+        "raw_sha256": "cfac617c0f47e0c19379f43e921477bad689788e6b918500a4e9997c72dd0edd"
+      },
+      "frozen_case_sha256": "a1d48ee36e068b36603da1290885da789b4b64b51c1becae20abf93b9b3716f8",
+      "fixture_sha256": "101187e8c39e11ad9d148ca56008637f235cfa7a9bc8ac501e065dd3e9ce0d94"
+    },
+    {
+      "group_id": "bifrost-kotlin-kernel",
+      "case_id": "dfb-taint-kotlin-expression-positive",
+      "frozen_polarity": "positive",
+      "frozen_expectation": "one expected source-to-sink flow",
+      "old": {
+        "raw_state": "inconclusive",
+        "completion_reason": "partial_discovery",
+        "verdict": "inconclusive",
+        "findings": 1,
+        "finding_certainty": "possible",
+        "finding_completeness": "partial",
+        "proof_state": "unproven",
+        "raw_sha256": "a2d0901da2fa9b9654b578745f076b887ab33a5b1ee30819a6c5f55600c6a2dd"
+      },
+      "new": {
+        "raw_state": "complete",
+        "verdict": "reached",
+        "findings": 1,
+        "finding_certainty": "definite",
+        "finding_completeness": "complete",
+        "proof_state": "proven",
+        "raw_sha256": "f6ca86567f11fc207adc0cb2694401b1e1e0db76787a49c77712f2a9342a3d5d"
+      },
+      "frozen_case_sha256": "8ee000a7bd9463be3488e565a470d845b5ea139f2e28af0e3d5edbd494af64a2",
+      "fixture_sha256": "8f80bfe8b0d775c2647e41905db2e39aa787d83f2f2477104e1d09f061bcf86e"
+    },
+    {
+      "group_id": "bifrost-kotlin-kernel",
+      "case_id": "dfb-taint-kotlin-loop-carried-positive",
+      "frozen_polarity": "positive",
+      "frozen_expectation": "one expected source-to-sink flow",
+      "old": {
+        "raw_state": "inconclusive",
+        "completion_reason": "partial_discovery",
+        "verdict": "inconclusive",
+        "findings": 1,
+        "finding_certainty": "possible",
+        "finding_completeness": "partial",
+        "proof_state": "unproven",
+        "raw_sha256": "4f1991c628a6d03935a77f5b05d27fc35de11bbea93c69af0b83363a2e354ff8"
+      },
+      "new": {
+        "raw_state": "complete",
+        "verdict": "reached",
+        "findings": 1,
+        "finding_certainty": "definite",
+        "finding_completeness": "complete",
+        "proof_state": "proven",
+        "raw_sha256": "46fd31f47c844186c9456e9555e73d60163352b1cba35565f922f5b5c0845fea"
+      },
+      "frozen_case_sha256": "26d4e33a921514eff1a06fba9b7370319f8bbdd9af92ab97da0c3a24f19341ed",
+      "fixture_sha256": "a9eb1689238f603b621513cbcfcf5f8c4ffc7c41b573e4802d92e298e41a6736"
+    },
+    {
+      "group_id": "bifrost-smoke",
+      "case_id": "dfb-taint-java-exception-catch-negative",
+      "duplicate_of_group": "bifrost-java-kernel",
+      "frozen_polarity": "negative",
+      "frozen_expectation": "no expected flow; source-to-sink is an expected nonflow",
+      "old": {
+        "verdict": "inconclusive",
+        "findings": 0,
+        "raw_sha256": "2312e48dc05388b6db91c7ef2238c979321d95af37257a52bf05b3c0d44362a3"
+      },
+      "new": {
+        "raw_state": "complete",
+        "verdict": "not-reached",
+        "findings": 0,
+        "raw_sha256": "cd2728d14e4f493f49182aa8c2190889839f57b948fee51dc9cd76eb31c028a4"
+      }
+    },
+    {
+      "group_id": "bifrost-smoke",
+      "case_id": "dfb-taint-java-exception-catch-positive",
+      "duplicate_of_group": "bifrost-java-kernel",
+      "frozen_polarity": "positive",
+      "frozen_expectation": "one expected source-to-sink flow",
+      "old": {
+        "verdict": "inconclusive",
+        "findings": 0,
+        "raw_sha256": "be738f768617579f324e38419743e29331bf3e91577cb6e96cab0aed60ec2fe6"
+      },
+      "new": {
+        "raw_state": "complete",
+        "verdict": "reached",
+        "findings": 1,
+        "finding_certainty": "definite",
+        "finding_completeness": "complete",
+        "proof_state": "proven",
+        "raw_sha256": "cfac617c0f47e0c19379f43e921477bad689788e6b918500a4e9997c72dd0edd"
+      }
+    }
+  ],
+  "preserved_rust_observations": [
+    {
+      "group_id": "bifrost-rust-kernel",
+      "case_id": "dfb-taint-rust-dispatch-table-positive",
+      "frozen_polarity": "positive",
+      "frozen_expected_flow": true,
+      "new_verdict": "not-reached",
+      "new_raw_state": "complete",
+      "new_findings": 0,
+      "new_raw_sha256": "83e3ce4b9c789737d6e6e2b4c240b88f0ef60ec863d3356395c0a9843ab9e017",
+      "classification": "preserved-existing-false-negative"
+    },
+    {
+      "group_id": "bifrost-rust-kernel",
+      "case_id": "dfb-taint-rust-result-error-propagation-positive",
+      "frozen_polarity": "positive",
+      "frozen_expected_flow": true,
+      "old_state": "inconclusive",
+      "old_reason": "partial_discovery",
+      "new_state": "inconclusive",
+      "new_reason": "capability_incomplete",
+      "new_findings": 0,
+      "old_raw_sha256": "e58d9ea5c5f84fcfdecf8b0f147eabd55e81fcb72d063727bdff884406f8722a",
+      "new_raw_sha256": "268ce82c2fd8d62c5cc6ba08c1a48dccc44a10345564a6a7ec7f7fe00ab6f9eb",
+      "classification": "retained-incomplete-positive-not-a-clean-result"
+    }
+  ],
+  "claim_review": {
+    "full_target_complete": false,
+    "release_readiness_claimed": false,
+    "controlled_performance_claimed": false,
+    "semantic_assessment_pending_rows": 1046,
+    "partial_report_disclaims_engine_only_causality": true,
+    "outcome_regressions_among_changed_rows": 0,
+    "interpretation": "The six changed verdict rows align with their frozen positive or negative expectations. This is a case-level observation only; it does not qualify the full Bifrost target or establish engine-only causality. The separate Rust false negative and incomplete positive remain visible."
+  },
+  "findings": [],
+  "conclusion": "Artifact hashes, target history, CSV-to-JSON rows, frozen population counts, and changed raw cases were independently verified. The result is correctly partial: 19 of 20 groups are complete, 70 Scala rows remain unpaired, and known Rust positive gaps remain preserved."
+}
