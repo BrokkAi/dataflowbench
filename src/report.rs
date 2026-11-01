@@ -290,8 +290,7 @@ fn bifrost_scala_configuration_hash_state_for_report(
     const V0140: &str = "bifrost 0.14.0";
     const V0144: &str = "bifrost 0.14.4";
 
-    let Some(mut pom_paths) = current_configuration_paths("bifrost-scala-kernel", case_scan)?
-    else {
+    let Some(pom_paths) = current_configuration_paths("bifrost-scala-kernel", case_scan)? else {
         return Ok(ConfigurationHashState::NotDerivable);
     };
     if !pom_paths.contains(Path::new(BIFROST_SCALA_DEPENDENCY_EVIDENCE)) {
@@ -301,7 +300,6 @@ fn bifrost_scala_configuration_hash_state_for_report(
     }
     let mut policy_only_paths = pom_paths.clone();
     policy_only_paths.remove(Path::new(BIFROST_SCALA_DEPENDENCY_EVIDENCE));
-    let pom_hash = hash_paths(&pom_paths)?;
     let policy_only_hash = hash_paths(&policy_only_paths)?;
 
     if LEGACY_POLICY_ONLY_VERSIONS.contains(&tool_version) {
@@ -312,8 +310,14 @@ fn bifrost_scala_configuration_hash_state_for_report(
         // Keep the exact pre-PR-298 v0.14.0 report valid while allowing a
         // separately recorded post-amendment v0.14.0 report only when its
         // stamped hash proves that it included the POM. Version alone cannot
-        // distinguish those two executions.
-        return if stamped == policy_only_hash || stamped == pom_hash {
+        // distinguish those two executions. The exact historical hash is
+        // sufficient to validate the policy-only execution even in checkouts
+        // that predate the POM's introduction.
+        if stamped == policy_only_hash {
+            return Ok(ConfigurationHashState::Current);
+        }
+        let pom_hash = hash_paths(&pom_paths)?;
+        return if stamped == pom_hash {
             Ok(ConfigurationHashState::Current)
         } else {
             Ok(ConfigurationHashState::Drifted { current: pom_hash })
@@ -324,7 +328,7 @@ fn bifrost_scala_configuration_hash_state_for_report(
         // The v0.14.4 replacement must include the POM. In particular, do not
         // fall back to the legacy closure when a current-target report carries
         // the old policy-only hash.
-        return compare_configuration_paths(Some(std::mem::take(&mut pom_paths)), stamped);
+        return compare_configuration_paths(Some(pom_paths), stamped);
     }
 
     bail!(

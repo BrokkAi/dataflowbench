@@ -152,6 +152,37 @@ A separate reviewed binding permits measurement with known limits: 36 complete
 policy controls and the same three JavaScript partial-discovery controls.
 Full policy qualification is **false**. Process exit zero is not completeness.
 
+## Post-run CI compatibility repairs
+
+CI exposed platform-specific test roots/interpreters and ignored local-only
+fixture inputs. Tests now use real Python 3.13 with absolute argv, derive their
+checkout roots, preserve strict environment checks, and restore exact control
+inputs from their verified compressed archive. Small Scala/ledger fixtures are
+explicitly unit-only. An exact historical v0.14.0 Scala report has a separate
+3.3 KB lossless copy for CI and an exact-path ignore rule for hydration; the
+clean-checkout gate is unchanged. None of these fixtures qualifies a new run.
+
+The isolated v0.9.0 release gate then found a report-consumer bug: it tried to
+hash the modern Scala POM before selecting a known historical policy-only
+closure. The post-run `src/report.rs` repair selects only registered historical
+closures before opening that later file. Exact v0.14.0 policy-only hashes remain
+recognized; v0.14.4 still requires its POM and rejects the old closure, and
+unknown versions reject. A separate-process regression omits the POM and tests
+legacy exact/mismatched hashes plus modern/unknown rejection. Focused Scala
+tests, formatting and the 19 controller unit tests passed; independent review
+is recorded in `validation/bifrost-v0144-ci-history-01/`.
+
+The measured SOURCE/PLAN, original optimized harness and all result receipts
+remain the identities recorded above. This consumer repair was made after the
+measurement and did not rerun Bifrost, alter normalization or certify Scala
+completion. The complete post-run source delta and file hashes are in
+`evidence-delivery/v0.9.2-bifrost-v0144-01/source-review/ci-completion-01/manifest.json`.
+The seven failed CI logs plus the exact-base comparison are preserved losslessly
+in `evidence-delivery/v0.9.2-bifrost-v0144-01/ci-failures-01/manifest.json`;
+`bifrost-v0144-ci-followup-01.json` through `-07.json` retain the diagnoses and
+validation boundaries. Live delivery status is on PR #299, separately from
+benchmark and publication readiness.
+
 ## Delivery and remaining gates
 
 Detailed attempts and normalized report copies are compressed losslessly and

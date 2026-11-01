@@ -1489,3 +1489,123 @@ pub(crate) fn bifrost_scala_configuration_history_is_version_and_hash_bound() {
         "an unknown Bifrost version must not inherit the historical fallback"
     );
 }
+
+/// Historical Scala policy-only reports predate the POM. Derive those
+/// closures in a separate process rooted at a minimal checkout without that
+/// later file, so parallel Rust tests never change the process-wide CWD.
+#[test]
+pub(crate) fn bifrost_scala_legacy_hashes_do_not_require_post_0140_pom() {
+    const CHILD: &str = "DFB_BIFROST_SCALA_LEGACY_WITHOUT_POM_TEST_CHILD";
+    if std::env::var_os(CHILD).is_some() {
+        let policy_path = PathBuf::from(BIFROST_SCALA_POLICY);
+        let policy_hash = hash_paths(&std::collections::BTreeSet::from([policy_path])).unwrap();
+        let mut case_scan = None;
+
+        for version in [
+            "bifrost 0.11.4",
+            "bifrost 0.12.0",
+            "bifrost 0.13.0",
+            "bifrost 0.13.1",
+        ] {
+            assert_eq!(
+                configuration_hash_state_for_report(
+                    "bifrost-scala-kernel",
+                    version,
+                    "bifrost-normal-v092",
+                    &policy_hash,
+                    &mut case_scan,
+                )
+                .unwrap(),
+                ConfigurationHashState::Current,
+                "{version} must retain its exact policy-only closure without the POM"
+            );
+            assert_eq!(
+                configuration_hash_state_for_report(
+                    "bifrost-scala-kernel",
+                    version,
+                    "bifrost-normal-v092",
+                    &"0".repeat(64),
+                    &mut case_scan,
+                )
+                .unwrap(),
+                ConfigurationHashState::Drifted {
+                    current: policy_hash.clone()
+                },
+                "{version} must reject a mismatched policy-only hash"
+            );
+        }
+
+        assert_eq!(
+            configuration_hash_state_for_report(
+                "bifrost-scala-kernel",
+                "bifrost 0.14.0",
+                "bifrost-normal-v092",
+                &policy_hash,
+                &mut case_scan,
+            )
+            .unwrap(),
+            ConfigurationHashState::Current,
+            "the exact pre-PR-298 v0.14.0 hash remains valid without the POM"
+        );
+
+        let modern_error = configuration_hash_state_for_report(
+            "bifrost-scala-kernel",
+            "bifrost 0.14.4",
+            "bifrost-normal-v092",
+            &policy_hash,
+            &mut case_scan,
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(
+            modern_error.contains(BIFROST_SCALA_DEPENDENCY_EVIDENCE),
+            "the v0.14.4 profile must require its POM, got: {modern_error}"
+        );
+
+        let unknown_error = configuration_hash_state_for_report(
+            "bifrost-scala-kernel",
+            "bifrost 0.14.3",
+            "bifrost-normal-v092",
+            &policy_hash,
+            &mut case_scan,
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(
+            unknown_error.contains("unregistered tool version"),
+            "an unknown version must not inherit a policy-only fallback: {unknown_error}"
+        );
+        return;
+    }
+
+    let root = unique_test_dir("dataflowbench-bifrost-scala-legacy-without-pom");
+    let case_relative = Path::new("cases/taint/scala/local-overwrite-negative/case.json");
+    let case_destination = root.join(case_relative);
+    fs::create_dir_all(case_destination.parent().unwrap()).unwrap();
+    fs::copy(case_relative, &case_destination).unwrap();
+    let policy_destination = root.join(BIFROST_SCALA_POLICY);
+    fs::create_dir_all(policy_destination.parent().unwrap()).unwrap();
+    fs::copy(BIFROST_SCALA_POLICY, &policy_destination).unwrap();
+    assert!(
+        !root.join(BIFROST_SCALA_DEPENDENCY_EVIDENCE).exists(),
+        "the isolated fixture must not contain the post-PR-298 POM"
+    );
+
+    let output = std::process::Command::new(std::env::current_exe().unwrap())
+        .args([
+            "--exact",
+            "tests::adapters::bifrost::bifrost_scala_legacy_hashes_do_not_require_post_0140_pom",
+            "--nocapture",
+        ])
+        .current_dir(&root)
+        .env(CHILD, "1")
+        .output()
+        .unwrap();
+    fs::remove_dir_all(&root).unwrap();
+    assert!(
+        output.status.success(),
+        "isolated historical configuration test failed\nstdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+}

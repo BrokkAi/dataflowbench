@@ -29,6 +29,8 @@ Detailed copies are lossless and digest checked:
 - [Packaging verification](../../reports/releases/v0.9.2/validation/bifrost-v0144-delivery-01/README.md)
   and [independent result review](../../reports/releases/v0.9.2/validation/bifrost-v0144-scala-stop-01/final-partial-results-independent-review-01.json).
 
+Post-run CI repairs are indexed in the [complete source delta](source-review/ci-completion-01/manifest.json) and [retained CI failure logs](ci-failures-01/manifest.json). They preserve the original measured source and outcomes.
+
 Compressed payload parts use the existing Git LFS rules. Fetch LFS objects
 before verification. For each benchmark bundle, use:
 

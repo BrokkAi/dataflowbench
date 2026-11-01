@@ -1,0 +1,96 @@
+{
+  "schema": "v092-bifrost-v0144-ci-history-independent-review/v1",
+  "review_type": "independent-read-only-source-and-validation-review",
+  "created_utc": "2026-11-01T18:52:19Z",
+  "status": "approved-for-post-measurement-report-consumer-compatibility-fix",
+  "scope": "Reviewed the final source diff and worker validation receipt for the historical Scala configuration-hash CI fix. This review does not qualify the Bifrost run or replace post-commit CI.",
+  "execution_scope": {
+    "reviewer_ran_tests": false,
+    "analyzer_executed": false,
+    "benchmark_executed": false,
+    "build_executed": false,
+    "retry_started": false,
+    "source_files_edited_by_reviewer": false,
+    "target_directory_cleaned": false
+  },
+  "reviewed_source_files": [
+    {
+      "path": "src/report.rs",
+      "sha256": "f2b3a6be4c30d1ccc5f352e71019179c222fc530cb9c44643b66591581fd455f",
+      "reviewed_change": "Scala report configuration hash derivation only"
+    },
+    {
+      "path": "src/tests/adapters/bifrost.rs",
+      "sha256": "bc8786792b0982cc0b8d94d27be2a155437133f3a6f2bab526a13aa715a31d39",
+      "reviewed_change": "Focused historical hash assertions and a child-process fixture without the post-PR-298 POM"
+    }
+  ],
+  "measurement_authority": {
+    "measured_source_commit": "61ae0cb817322ac81528217479c0be7bd760fa36",
+    "measured_plan_commit": "6500465e02e28ac279047e610d7e8dbccc844ee8",
+    "target_contract_sha256": "1d2188df4e7bc7f5cc4e28cc0700a839a294b0cbecc484f4d9658bb5280164e4",
+    "assessment": "The reviewed diff changes report-consumer history validation and its tests only. No benchmark driver, C5 source closure, runner, normalization, or measured-attempt evidence was changed."
+  },
+  "source_review": {
+    "verified": [
+      "The four exact historical Bifrost versions (0.11.4, 0.12.0, 0.13.0, 0.13.1) hash only their policy closure; that branch does not open or hash the POM.",
+      "Bifrost 0.14.0 returns Current immediately only for an exact policy-only hash. Otherwise it checks the POM-inclusive hash, preserving the separately valid post-amendment profile without granting a general fallback.",
+      "Bifrost 0.14.4 and the pinned current version compare against the full policy-plus-POM closure; a legacy policy-only stamp cannot be accepted as Current.",
+      "Unregistered versions still reach an explicit error instead of inheriting a historical policy-only profile.",
+      "The production diff does not alter result normalization, benchmark execution, or dispatch logic."
+    ],
+    "tests_reviewed": [
+      "The existing history test continues to cover all four retained legacy reports, the exact pre-amendment 0.14.0 hash, the POM-inclusive 0.14.0 hash, 0.14.4 full-hash acceptance, 0.14.4 legacy-hash drift, and unknown-version rejection.",
+      "The new child-process test runs from a minimal temporary root containing the Scala case and policy but no POM. It checks all four legacy exact hashes and mismatches, exact 0.14.0 legacy-hash acceptance, 0.14.4 missing-POM failure, and unknown-version rejection.",
+      "The child process avoids changing process-wide current directory in parallel Rust tests."
+    ],
+    "findings": []
+  },
+  "worker_validation_receipt": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0144-ci-history-01/receipt.json",
+    "sha256": "d09f896babe306c12bfebd31740353d5aa93a3ea839fa3684ef15044cbcf16e3",
+    "head_before_validation": "e97f9119204ec209ff15f7516a96b63ae0651f23",
+    "head_after_validation": "e97f9119204ec209ff15f7516a96b63ae0651f23",
+    "checks": [
+      {
+        "name": "cargo fmt --check",
+        "result": "passed",
+        "log": "reports/releases/v0.9.2/validation/bifrost-v0144-ci-history-01/cargo-fmt-check.log",
+        "log_sha256": "4d886ce0b55f64b3b7714ded84983a4f012569e345e9597fc6da3a3f5a7f3c00"
+      },
+      {
+        "name": "MBX-wrapped focused Cargo test",
+        "result": "environment-only permission failure before Cargo invocation",
+        "log": "reports/releases/v0.9.2/validation/bifrost-v0144-ci-history-01/mbx-wrapper-failure.log",
+        "log_sha256": "d65f68d8c11ce879997b414e876c4af51cd23163bfafa54958c2340de7aed9b2"
+      },
+      {
+        "name": "direct focused Cargo test",
+        "result": "passed: 2 tests, 309 filtered, zero ignored",
+        "target_directory": "execution-state/v092/builds/v0144-ci-history-unit-01",
+        "log": "reports/releases/v0.9.2/validation/bifrost-v0144-ci-history-01/cargo-test-bifrost-scala.log",
+        "log_sha256": "c776305756236e3ad3b287426cb891c81aa179ca3cc336e86cdd2e5eed90eb01"
+      },
+      {
+        "name": "C5 offline tests",
+        "result": "passed: 19 tests",
+        "log": "reports/releases/v0.9.2/validation/bifrost-v0144-ci-history-01/c5-offline-tests.log",
+        "log_sha256": "5f44c20eda8544eb7be9f478da28cada40c075960fb6bec45ff5ddffac175e2f"
+      }
+    ],
+    "target_directory_bytes_on_completion": 708000000
+  },
+  "reviewer_checks": {
+    "source_hashes_match_worker_receipt": "passed",
+    "diff_scope": "only src/report.rs and src/tests/adapters/bifrost.rs",
+    "git_diff_check": "passed",
+    "worker_logs_and_hashes": "verified",
+    "validation_reexecuted": false
+  },
+  "limitations": [
+    "The MBX wrapper permission failure is preserved as an environment failure; the direct Cargo invocation passed independently.",
+    "The Cargo target directory remains retained; this review performed no cleanup.",
+    "Post-commit CI remains a separate gate and was not observed in this review."
+  ],
+  "conclusion": "The source diff implements the narrow historical hash rule without accepting unknown versions or weakening the 0.14.4 POM requirement. Focused local validation receipts are internally consistent. The fix remains a report-consumer compatibility repair after measurement, not new benchmark or qualification evidence."
+}

@@ -1,0 +1,14 @@
+command: /Users/dave/.cargo/bin/cargo test --jobs 2 --bin dataflowbench bifrost_scala -- --nocapture
+environment: CARGO_TARGET_DIR=execution-state/v092/builds/v0144-ci-history-unit-01
+exit_code: 0
+--- stdout ---
+
+running 2 tests
+test tests::adapters::bifrost::bifrost_scala_legacy_hashes_do_not_require_post_0140_pom ... ok
+test tests::adapters::bifrost::bifrost_scala_configuration_history_is_version_and_hash_bound ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 309 filtered out; finished in 0.08s
+
+--- stderr ---
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s
+     Running unittests src/main.rs (execution-state/v092/builds/v0144-ci-history-unit-01/debug/deps/dataflowbench-20bd82fb7e51c641)
