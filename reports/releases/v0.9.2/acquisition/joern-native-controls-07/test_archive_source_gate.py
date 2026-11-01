@@ -12,7 +12,8 @@ import archive_evidence as ae
 import native_qualifier as n
 
 
-REPO = n.ROOT
+CHECKOUT_ROOT = Path(__file__).resolve().parents[5]
+REPO = CHECKOUT_ROOT
 
 
 def sha(raw: bytes) -> str:

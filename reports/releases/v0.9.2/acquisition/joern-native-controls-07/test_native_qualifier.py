@@ -22,7 +22,17 @@ from unittest import mock
 
 import native_qualifier as n
 
-REPO=n.ROOT
+CHECKOUT_ROOT=Path(__file__).resolve().parents[5]
+REPO=CHECKOUT_ROOT
+PRODUCTION_PYTHON=n.PYTHON
+
+
+@contextlib.contextmanager
+def fixture_worker_interpreter(actual_argv=None):
+    """Bind only harmless worker fixtures to this test process's Python."""
+    actual=list(sys.orig_argv) if actual_argv is None else list(actual_argv)
+    with mock.patch.object(n,'PYTHON',sys.executable):
+        yield actual
 
 
 def load_path(path, name):
@@ -648,11 +658,13 @@ os.close(fd)
         lock.write_bytes(b'')
         parent_pid = os.getppid()
         base = cfg['namespace']
+        with fixture_worker_interpreter() as actual_argv:
+            worker_argv=[sys.executable,*actual_argv[1:]]
+            worker_identity=n.validate_worker_argv(worker_argv,actual_argv)
         self.artifact(base + '/parent-started.json', {
             'request':request, 'review':{'path':'review.json','sha256':'4'*64}, 'source_head':cfg['expected_head'], 'ledger':cfg['ledger'],
             'process':{'pid':parent_pid,'birth_identity':'parent-fixture-birth'},
-            'argv':[n.PYTHON, *sys.orig_argv[1:]],
-            'interpreter_identity':n.validate_worker_argv([n.PYTHON,*sys.orig_argv[1:]],list(sys.orig_argv))})
+            'argv':worker_argv,'interpreter_identity':worker_identity})
         called=[]
         def controls(root, output, **kwargs):
             runner._require_launch_guard('joern-swift-common108', qualification=True)
@@ -676,7 +688,8 @@ os.close(fd)
         r,w=os.pipe()
         core={'runtime_module_graph':{'supervisor24':{'path':'fixture-controller','sha256':'0'*64}}}
         original_document=n.document
-        with mock.patch.object(n,'ROOT',self.root),mock.patch.object(n,'LOCK',lock), \
+        with fixture_worker_interpreter(), \
+             mock.patch.object(n,'ROOT',self.root),mock.patch.object(n,'LOCK',lock), \
              helper.observe_existing_lock(lock) as held, \
              mock.patch.object(n,'load',side_effect=selected_load), \
              mock.patch.object(n,'validate_pending_plan',return_value={'fixture_schema_gate':True}), \
@@ -907,18 +920,20 @@ os.close(fd)
             n.validate_request(self.root,cfg,check_git=False)
 
 
-    def test_real_homebrew_worker_argv_alias_positive_and_exact_argument_near_misses(self):
-        # Uses the actual interpreter launched with the same configured path;
-        # no worker/observer/control is dispatched.
-        actual=list(sys.orig_argv)
-        recorded=[n.PYTHON,*actual[1:]]
-        identity=n.validate_worker_argv(recorded,actual)
-        self.assertEqual(identity['raw_executable'],actual[0])
-        self.assertTrue(identity['all_arguments_after_argv0_exact'])
-        for changed in ([actual[0],*actual[1:],'--foreign'], ['/usr/bin/python3',*actual[1:]],
-                        [str(Path(n.PYTHON).resolve().parent.parent/'Resources/Foreign.app/Python'),*actual[1:]]):
-            with self.subTest(argv=changed),self.assertRaises(ValueError):n.validate_worker_argv(recorded,changed)
-        with self.assertRaises(ValueError):n.validate_worker_argv(['/usr/bin/python3',*actual[1:]],actual)
+    def test_configured_worker_interpreter_argv_alias_positive_and_exact_argument_near_misses(self):
+        # A fixture interpreter exercises the same exact-argv guard on any host.
+        # No worker/observer/control is dispatched; production constants remain bound.
+        original_python=n.PYTHON
+        with fixture_worker_interpreter() as actual:
+            recorded=[sys.executable,*actual[1:]]
+            identity=n.validate_worker_argv(recorded,actual)
+            self.assertEqual(identity['raw_executable'],actual[0])
+            self.assertTrue(identity['all_arguments_after_argv0_exact'])
+            for changed in ([actual[0],*actual[1:],'--foreign'], ['/usr/bin/python3',*actual[1:]],
+                            [str(Path(sys.executable).resolve().parent.parent/'Resources/Foreign.app/Python'),*actual[1:]]):
+                with self.subTest(argv=changed),self.assertRaises(ValueError):n.validate_worker_argv(recorded,changed)
+            with self.assertRaises(ValueError):n.validate_worker_argv(['/usr/bin/python3',*actual[1:]],actual)
+        self.assertEqual(n.PYTHON,original_python)
 
     def test_actual_modules_scope_cleans_late_resource_process_imports_before_frozen_close(self):
         before=dict(sys.modules)
@@ -963,28 +978,36 @@ os.close(fd)
 
 
     def test_tiny_actual_python_process_combines_interpreter_and_actual_graph_late_cleanup(self):
-        # Actual configured Homebrew launcher + actual modules/late loads/close.
+        # Actual Python3.13 child + modules/late loads/close, with a test-only
+        # binding to the running absolute interpreter path.
         # No worker/control/bootstrap/admission/replay API is invoked.
         script="""import sys,json
 from pathlib import Path
+from unittest import mock
 sys.path.insert(0,sys.argv[1])
 import native_qualifier as n
-identity=n.validate_worker_argv([n.PYTHON,*sys.orig_argv[1:]],list(sys.orig_argv))
-with n.modules(n.ROOT):
+root=Path(sys.argv[2]).resolve()
+actual=list(sys.orig_argv)
+recorded=[sys.executable,*actual[1:]]
+with mock.patch.object(n,'PYTHON',sys.executable):
+    identity=n.validate_worker_argv(recorded,actual)
+assert identity['raw_executable']==actual[0]
+with n.modules(root):
     p=Path(n.__file__).with_name('retained_resources.py')
     resource=n.load(p.parent,{'path':p.name,'sha256':n.sha(p.read_bytes())},'_tiny_late_resource')
-    p=n.ROOT/'scripts/swift_v2_process.py'
-    process=n.load(n.ROOT,{'path':'scripts/swift_v2_process.py','sha256':n.sha(p.read_bytes())},'_tiny_late_process')
+    p=root/'scripts/swift_v2_process.py'
+    process=n.load(root,{'path':'scripts/swift_v2_process.py','sha256':n.sha(p.read_bytes())},'_tiny_late_process')
     names=[resource.__name__,process.__name__]
 assert all(name not in sys.modules for name in names)
-print(json.dumps({'interpreter':identity,'owned_late_modules_removed':True,'frozen_close_passed':True}))
+print(json.dumps({'interpreter':identity,'actual_raw_executable':actual[0],
+                  'owned_late_modules_removed':True,'frozen_close_passed':True}))
 """
-        result=subprocess.run([n.PYTHON,'-B','-E','-c',script,str(Path(n.__file__).parent)],
+        result=subprocess.run([sys.executable,'-B','-E','-c',script,str(Path(n.__file__).parent),str(REPO)],
             capture_output=True,text=True,timeout=20,check=True)
         proof=json.loads(result.stdout)
         self.assertTrue(proof['owned_late_modules_removed'])
         self.assertTrue(proof['frozen_close_passed'])
-        self.assertEqual(proof['interpreter']['raw_executable'],sys.orig_argv[0])
+        self.assertEqual(proof['interpreter']['raw_executable'],proof['actual_raw_executable'])
 
     def test_cleanup_failure_is_recorded_without_masking_original_body_failure(self):
         name='_native_test_foreign_during_failure';foreign=types.ModuleType(name)
@@ -1004,16 +1027,20 @@ print(json.dumps({'interpreter':identity,'owned_late_modules_removed':True,'froz
     def test_actual_recorded_worker_arguments_all_remain_exact(self):
         path=REPO/'reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-01/parent-started.json'
         recorded=json.loads(path.read_bytes())['argv']
-        actual=[sys.orig_argv[0],*recorded[1:]]
-        n.validate_worker_argv(recorded,actual)
-        for flag in ['-B','--request-sha256','--review-sha256','--witness-fd','--lock-fd','--token','--parent-birth']:
-            changed=list(actual)
-            index=changed.index(flag)+(0 if flag=='-B' else 1)
-            changed[index]='foreign-value'
-            with self.subTest(flag=flag),self.assertRaisesRegex(ValueError,'arguments differ'):
-                n.validate_worker_argv(recorded,changed)
-        with mock.patch.object(n.sys,'executable','/usr/bin/python3'),self.assertRaisesRegex(ValueError,'interpreter differs'):
-            n.validate_worker_argv(recorded,actual)
+        self.assertEqual(recorded[0],PRODUCTION_PYTHON)
+        historical_actual=[sys.orig_argv[0],*recorded[1:]]
+        with fixture_worker_interpreter(historical_actual):
+            portable_recorded=[sys.executable,*recorded[1:]]
+            n.validate_worker_argv(portable_recorded,historical_actual)
+            for flag in ['-B','--request-sha256','--review-sha256','--witness-fd','--lock-fd','--token','--parent-birth']:
+                changed=list(historical_actual)
+                index=changed.index(flag)+(0 if flag=='-B' else 1)
+                changed[index]='foreign-value'
+                with self.subTest(flag=flag),self.assertRaisesRegex(ValueError,'arguments differ'):
+                    n.validate_worker_argv(portable_recorded,changed)
+            with mock.patch.object(n.sys,'executable','/usr/bin/python3'), \
+                    self.assertRaisesRegex(ValueError,'interpreter differs'):
+                n.validate_worker_argv(portable_recorded,historical_actual)
 
 
     def test_actual_worker_parent_flock_environment_and_retained_runner_guard(self):
@@ -1074,7 +1101,7 @@ class FreshDarwinWorkerEnvironmentTests(unittest.TestCase):
             if mode=='extra':env['FOREIGN_EXTRA']='1'
             if mode=='changed-java':env['JAVA_OPTS']='foreign'
             script=Path(__file__).resolve().with_name('fresh_worker_probe.py')
-            result=subprocess.run([n.PYTHON,'-B','-E',str(script),str(root),mode],
+            result=subprocess.run([sys.executable,'-B','-E',str(script),str(root),mode],
                                   env=env,capture_output=True,text=True,timeout=30)
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)
             proof=json.loads(result.stdout)

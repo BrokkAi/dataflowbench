@@ -19,6 +19,7 @@ import snapshot_query
 
 
 PROVIDER = "fake-native-provider/v1"
+CHECKOUT_ROOT = Path(__file__).resolve().parents[5]
 
 
 def native_row(pid, ppid=1, birth="birth", command="/usr/bin/python3", state="S",
@@ -221,15 +222,15 @@ class ReconciliationPolicyTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         import importlib.util
-        path = n.ROOT / "scripts/execute-release-v092.py"
+        path = CHECKOUT_ROOT / "scripts/execute-release-v092.py"
         spec = importlib.util.spec_from_file_location("monitor06_test_executor", path)
         cls.executor_source = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(cls.executor_source)
-        path = n.ROOT / "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-24.py"
+        path = CHECKOUT_ROOT / "reports/releases/v0.9.2/acquisition/bifrost-v0140-supervisor-24.py"
         spec = importlib.util.spec_from_file_location("monitor06_test_controller", path)
         cls.controller_source = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(cls.controller_source)
-        path = n.ROOT / "scripts/swift_v2_process.py"
+        path = CHECKOUT_ROOT / "scripts/swift_v2_process.py"
         spec = importlib.util.spec_from_file_location("monitor06_test_process", path)
         cls.process_source = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(cls.process_source)

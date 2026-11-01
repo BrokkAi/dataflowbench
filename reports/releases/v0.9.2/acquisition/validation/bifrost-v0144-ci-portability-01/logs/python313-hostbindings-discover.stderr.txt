@@ -1,0 +1,77 @@
+..............................F...........F...................................................................................................
+======================================================================
+FAIL: test_actual_fresh_darwin_worker_explicit_platform_value (test_native_qualifier.FreshDarwinWorkerEnvironmentTests.test_actual_fresh_darwin_worker_explicit_platform_value)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 1109, in test_actual_fresh_darwin_worker_explicit_platform_value
+    self.assertTrue(self.run_worker_process('positive')['worker_receipt'])
+                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 1102, in run_worker_process
+    self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-07/fresh_worker_probe.py", line 16, in <module>
+    test.worker_fixture(bad_environment=mode!='positive',actual_environment=True,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        import_mutation=mode=='import-mutation')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 716, in worker_fixture
+    self.assertEqual(observation['actual_raw_argv'],sys.orig_argv)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/case.py", line 907, in assertEqual
+    assertion_func(first, second, msg=msg)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/case.py", line 1113, in assertListEqual
+    self.assertSequenceEqual(list1, list2, msg, seq_type=list)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/case.py", line 1095, in assertSequenceEqual
+    self.fail(msg)
+    ~~~~~~~~~^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/case.py", line 732, in fail
+    raise self.failureException(msg)
+AssertionError: Lists differ: ['/opt/homebrew/opt/python@3.13/bin/python3.13', '-B', '-[231 chars]ive'] != ['/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Pyth[311 chars]ive']
+
+First differing element 0:
+'/opt/homebrew/opt/python@3.13/bin/python3.13'
+'/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Pyth[65 chars]thon'
+
+- ['/opt/homebrew/opt/python@3.13/bin/python3.13',
++ ['/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python',
+   '-B',
+   '-E',
+   '/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-07/fresh_worker_probe.py',
+   '/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/native-env-worker-_b3kgiq_',
+   'positive']
+
+
+======================================================================
+FAIL: test_actual_worker_parent_flock_environment_and_retained_runner_guard (test_native_qualifier.NativeTests.test_actual_worker_parent_flock_environment_and_retained_runner_guard)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 1043, in test_actual_worker_parent_flock_environment_and_retained_runner_guard
+    self.worker_fixture()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 716, in worker_fixture
+    self.assertEqual(observation['actual_raw_argv'],sys.orig_argv)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['/opt/homebrew/opt/python@3.13/bin/python3.13', '-B', '-[111 chars].py'] != ['/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Pyth[191 chars].py']
+
+First differing element 0:
+'/opt/homebrew/opt/python@3.13/bin/python3.13'
+'/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Pyth[65 chars]thon'
+
+- ['/opt/homebrew/opt/python@3.13/bin/python3.13',
++ ['/opt/homebrew/Cellar/python@3.13/3.13.7/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python',
+   '-B',
+   '-m',
+   'unittest',
+   'discover',
+   '-s',
+   'reports/releases/v0.9.2/acquisition/joern-native-controls-07',
+   '-p',
+   'test_*.py']
+
+----------------------------------------------------------------------
+Ran 142 tests in 8.565s
+
+FAILED (failures=2)
