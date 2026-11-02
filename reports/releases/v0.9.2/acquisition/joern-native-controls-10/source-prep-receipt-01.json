@@ -1,0 +1,71 @@
+{
+  "schema": "v092-joern-native-controls-source-prep-receipt/v1",
+  "controls": "joern-native-controls-10",
+  "scope": "Source-only preparation of the human-approved semantic-only bounded-set policy; no runtime or qualification authority.",
+  "predecessor": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/process_reconciliation.py",
+    "sha256": "42ecf5e729832e237061a71b0fa98d58fe82865eb1ca08a176f345fc721cd423"
+  },
+  "source_files": {
+    "README.md": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/README.md",
+      "sha256": "5739da9cf9d74bcac60d24329098e21593808fa000b130e1ba57d9d19248e022"
+    },
+    "process_reconciliation.py": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/process_reconciliation.py",
+      "sha256": "8be67e915b74105f89377b86cefb067b78573850b8e439377cb530e93c7197c9"
+    },
+    "snapshot_query.py": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/snapshot_query.py",
+      "sha256": "7997624bb91e94f1672fd65c7673dcfc8d3606428817f6ab822e1f71479a2d72",
+      "byte_identical_to_controls09": true
+    },
+    "test_process_reconciliation_set_policy.py": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/test_process_reconciliation_set_policy.py",
+      "sha256": "288438883021ed57933f4672b3990633740cba0b940724b35c4bc03f6d1d2f68"
+    },
+    "test_log": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/test-log-01.txt",
+      "sha256": "1fd66510160109064af256764954162ff08e2663f135d550e791416c476ae5d6"
+    }
+  },
+  "policy_authority": {
+    "human_decision_path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-set-policy-human-decision-01.json",
+    "human_decision_sha256": "296b1b06ee56a00a09eb986909cf14c2e64e70b35bf485d44b47c58b9788574b",
+    "cpu_contention_hold_path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/human-cpu-contention-run-hold-01.json",
+    "cpu_contention_hold_sha256": "49005d6a83eb62e51fc124e997a108742d6a02a3c7fb1bba453f7d630a26e099",
+    "hold_remains_active": true
+  },
+  "provider_binding_unchanged": {
+    "identity": "darwin-sysctl-kern-proc-all-libproc/v4",
+    "abi_version": 4,
+    "module_path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.py",
+    "module_sha256": "b67c56a10e80d7d208c4bbd0f923f41bcc2a710943bf78b6c52881ef386c3158",
+    "library_path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/libdfb_native_provider_abi4.dylib",
+    "library_sha256": "242d8ff705a1bd3bc8b8f397e5018828942c23bb2fc12701bfc68a8030ebe9e2"
+  },
+  "limits_unchanged": {
+    "maximum_rows_per_native_observation_exclusive": 8192,
+    "maximum_combined_native_rows": 16384,
+    "maximum_query_output_bytes": 16777216,
+    "maximum_query_seconds": 5
+  },
+  "validation": {
+    "command": "python3 -m unittest -v test_process_reconciliation_set_policy.py",
+    "working_directory": "reports/releases/v0.9.2/acquisition/joern-native-controls-10",
+    "synthetic_tests_passed": 19,
+    "synthetic_tests_failed": 0,
+    "reported_duration_seconds": 0.003,
+    "provider_loaded": false,
+    "native_query_performed": false,
+    "analyzer_launched": false
+  },
+  "authority_state": {
+    "request_admission_created": false,
+    "eligible_plan_created": false,
+    "source_cas_created": false,
+    "qualification_claimed": false,
+    "publication_authority": false,
+    "git_commit_created": false
+  }
+}
