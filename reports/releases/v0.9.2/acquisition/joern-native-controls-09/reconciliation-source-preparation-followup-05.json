@@ -1,0 +1,50 @@
+{
+  "schema": "v092-joern-native-controls-09-reconciliation-source-preparation-followup/v1",
+  "state": "test-only-portability-followup",
+  "supersedes_receipt": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/reconciliation-source-preparation-followup-04.json",
+    "sha256": "f0828b4d71fde7b76c68948a455e7a73ab4cb85248a8c21e836673cb9e8a3fee"
+  },
+  "scope": "Fix one ABI3 synthetic-loader test deadline and temporary-directory portability after the recorded 47-test discovery; production source and test semantics are otherwise unchanged.",
+  "production_source_changed": false,
+  "native_provider_loaded_or_queried": false,
+  "qualification_performed": false,
+  "joern_invoked": false,
+  "preserved_pre_fix_test": {
+    "working_copy_path": "/private/tmp/joern-controls09-test_snapshot_query_abi4_pins-pre-followup05.py",
+    "sha256": "3be06c0b6f3b60684526100117657fab445d0279af6ae3fb5d5330ba9c813405",
+    "pre_fix_discovery_log": {
+      "path": "reports/releases/v0.9.2/validation/joern-current130-01/native09-tests-root-01/test-01.log",
+      "sha256": "39b76005bafc4940913231333425cbdbd8a19efece3cb2f3739266f0c47ca452",
+      "result": "47 tests; one ABI3 legacy synthetic loader error because deadline 5.0 was already expired"
+    },
+    "diff": {
+      "path": "reports/releases/v0.9.2/validation/joern-current130-01/native09-tests-root-01/test-02.diff",
+      "sha256": "e19d1179746758c5a560b89c19072230846dff937392a6d977aadef58e16dc3c"
+    }
+  },
+  "updated_test": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/test_snapshot_query_abi4_pins.py",
+    "sha256": "0743cad631f3832e3d993d022c0adf2b0929d8adfdc52fe22240a7841ef854e2",
+    "changes": [
+      "Pass time.monotonic() + 5.0 to the positive synthetic ABI3 provider so its deadline remains in the future.",
+      "Use Path(tempfile.gettempdir()).resolve() for both temporary test directories instead of assuming /private/tmp."
+    ]
+  },
+  "full_discovery": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -v 2>&1",
+    "working_directory": "reports/releases/v0.9.2/acquisition/joern-native-controls-09",
+    "test_count": 47,
+    "passed": 47,
+    "failed": 0,
+    "result": "OK",
+    "log": {
+      "path": "reports/releases/v0.9.2/validation/joern-current130-01/native09-tests-root-01/test-02.log",
+      "sha256": "88fffbc267d6f6e6e260904f9c90ca686b559a74c39658be4e880fae34e8b66c"
+    }
+  },
+  "unchanged_production_sources": {
+    "process_reconciliation.py": "7c739a00a48b6647ec116a618c2761a59a0e30f3f7ce848b0c6e550dd3dfe1d0",
+    "snapshot_query.py": "7997624bb91e94f1672fd65c7673dcfc8d3606428817f6ab822e1f71479a2d72"
+  }
+}

@@ -1,0 +1,239 @@
+{
+  "schema": "v092-joern-native-control-exact-invocation-review/v1",
+  "review_type": "independent-exact-bootstrap-invocation-review",
+  "reviewed_at_utc": "2026-11-02T06:24:48Z",
+  "reviewer": "joern_native130_independent_exact_invocation_review",
+  "status": "approved-for-native-control-qualification-only",
+  "automatic_retry": false,
+  "publication_hold": true,
+  "bindings": {
+    "request_sha256": "c25d5aa155e1401a4f3e6670858d611656cc9c48e6f16e28644cdd614845c699",
+    "wrapper_sha256": "5cea5620d19113d39732f6e0af788d4266084e0a2502c3a7bdc520be223958d8",
+    "resources_sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08",
+    "observer_sha256": "4e3998dfb3f32b5d377c8697ea644d247f147220679eb784cc64fc501f7bc199",
+    "pending_plan_sha256": "09d6748e23b670dbd8998a9f5f80075a25f4b388788004f36fd8b279bec5533e",
+    "ledger_sha256": "79070314d9d27581b9541934c7b701c2640cb1436f162e570b210df787e13d84",
+    "source_head": "0d59a317ebadd6c793c318a196790b872ce6433b",
+    "native_provider_sha256": "710e76eb5f536a016024fc76bfcfef958cc31cc1b451b6344d60a5fe8c982f89"
+  },
+  "authority_and_limits": {
+    "human_execution_authorization": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/human-execution-authorization-02.json",
+      "sha256": "504d90c1f91fc07cbf439b32a42408131ed2e4f6fb759d862001d45c9d6a4054",
+      "status": "human-approved",
+      "execution_dispatched": false,
+      "automatic_retry": false,
+      "publication_hold": true,
+      "scope": "Complete independently reviewed current-source/ledger/native-control qualification and fresh admission, then run the 108 Joern cases once through the authorized append-only successor."
+    },
+    "derived_native_control_authority": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-authority-derivation-06-input03.json",
+      "sha256": "321abf749aeca01f54dcd0a5d7a46fe888d53565867b74a290839a5a8e0d7bfb",
+      "status": "approved",
+      "allowed_namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-06",
+      "automatic_retry": false,
+      "publication_hold": true,
+      "resource_floors_gib": {
+        "launch_free": 127,
+        "continuous_free": 125,
+        "stop_free": 48,
+        "working_set": 30,
+        "scratch": 24,
+        "retention": 24,
+        "native_capture": 4,
+        "per_source": 12
+      }
+    },
+    "source_integration_decision": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls06-source-integration-decision-03.json",
+      "sha256": "eb94b8bcfee4ef7d6584adf24f29600db282bb70e7617c5a3febd055bdd64b19",
+      "status": "approved-source-only",
+      "current_native_qualification": false,
+      "engine_dispatched": false,
+      "publication_hold": true,
+      "recorded_source_commit_pending": true,
+      "temporal_resolution": "This source-only decision records its earlier pending-commit/preflight state. The later request binds committed HEAD 0d59a317ebadd6c793c318a196790b872ce6433b, and the exact-HEAD committed-request preflight below passed."
+    },
+    "publication_scope": "Publication, release, tag, deployment, merge, and automatic retry remain unauthorized. This review approves only one native-control bootstrap after separate fresh admission; it does not approve the 108-case matrix or scored activation."
+  },
+  "request_and_source_preflight": {
+    "request": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-06-input03.json",
+      "sha256": "c25d5aa155e1401a4f3e6670858d611656cc9c48e6f16e28644cdd614845c699",
+      "schema": "v092-joern-native-control-request/v2",
+      "expected_head": "0d59a317ebadd6c793c318a196790b872ce6433b",
+      "namespace": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-06",
+      "source_review": {
+        "path": "reports/releases/v0.9.2/validation/joern-current130-01/native08-independent-source-review-02.json",
+        "sha256": "39ef550654a556c16c51fbccf1c550a18ff0a53c910f0f331048f7cf264d9c5a"
+      },
+      "source_refs": {
+        "total": 2229,
+        "direct_current_commit": 2133,
+        "indexed_historical_archive_members": 96,
+        "unique_paths": 2229
+      }
+    },
+    "committed_request_preflight": {
+      "path": "reports/releases/v0.9.2/validation/joern-current130-01/native08-committed-request-preflight-01.json",
+      "sha256": "587c97e6d78f5b5d119f5bc690a3d50a35ccb95ed0fe3731c1d6988d787726ff",
+      "status": "passed",
+      "source_head": "0d59a317ebadd6c793c318a196790b872ce6433b",
+      "source_tree": "dfe911e6a4a48c0239f38741beddd56acb2f1cb5",
+      "source_refs_verified": 2229,
+      "direct_current_commit_refs": 2133,
+      "archived_member_refs": 96,
+      "ledger": {
+        "rows": 130,
+        "sha256": "79070314d9d27581b9541934c7b701c2640cb1436f162e570b210df787e13d84",
+        "status_counts": {
+          "completed": 122,
+          "failed": 3,
+          "recorder-error": 5
+        }
+      },
+      "native_dispatched": false,
+      "engine_dispatched": false,
+      "publication_hold": true
+    },
+    "pending_plan_preflight": {
+      "path": "reports/releases/v0.9.2/validation/joern-current130-01/native08-pending-plan-preflight-01.json",
+      "sha256": "69ae590a878b2729f886222e3f7fe2a149584230d1f4d3c5d185752592e2b491",
+      "status": "qualification-pending",
+      "full_validator_returned": true,
+      "cases": 108,
+      "execution_eligible": false,
+      "fresh_qualification": null,
+      "engine_dispatched": false
+    },
+    "root_preflight_reuse": "These hash-bound exact-HEAD receipts were inspected; this reviewer did not rerun validate_request, the pending-plan validator, or the full source/LFS closure."
+  },
+  "runtime_bindings": {
+    "wrapper": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-08/native_qualifier.py",
+      "sha256": "5cea5620d19113d39732f6e0af788d4266084e0a2502c3a7bdc520be223958d8"
+    },
+    "resources": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-08/retained_resources.py",
+      "sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08"
+    },
+    "observer": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-07.py",
+      "sha256": "4e3998dfb3f32b5d377c8697ea644d247f147220679eb784cc64fc501f7bc199"
+    },
+    "pending_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/pending-execution-plan-01.json",
+      "sha256": "09d6748e23b670dbd8998a9f5f80075a25f4b388788004f36fd8b279bec5533e",
+      "status": "qualification-pending",
+      "execution_eligible": false,
+      "fresh_qualification": null,
+      "case_count": 108
+    },
+    "ledger": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "sha256": "79070314d9d27581b9541934c7b701c2640cb1436f162e570b210df787e13d84",
+      "rows": 130,
+      "prefix_rows": 109,
+      "suffix_rows": 21,
+      "status_counts": {
+        "completed": 122,
+        "failed": 3,
+        "recorder-error": 5
+      }
+    },
+    "control_plan": {
+      "path": "reports/releases/v0.9.2/qualification/joern-capability-repair-01/plan-v092-06/control-plan-01.json",
+      "sha256": "05d8b63d78df07ad4a66b4609573ffd051f5b44cf0416f316aab7b2dc9755a2f",
+      "abi_version": 3,
+      "arms": ["off", "on"],
+      "controls": [
+        "dfb-taint-swift-model-opaque-propagator-negative",
+        "dfb-taint-swift-model-opaque-propagator-positive",
+        "dfb-taint-swift-model-propagator-position-negative",
+        "dfb-taint-swift-model-propagator-position-positive",
+        "dfb-taint-swift-direct-negative",
+        "dfb-taint-swift-direct-positive"
+      ],
+      "case_arm_count": 12,
+      "maximum_phase_invocations": 36,
+      "case_arm_budget_seconds": 75,
+      "total_control_budget_seconds": 900,
+      "scratch_allowance_bytes": 4294967296
+    },
+    "native_provider": {
+      "identity": "darwin-sysctl-kern-proc-all-libproc/v3",
+      "abi_version": 3,
+      "canonical_binding_sha256": "710e76eb5f536a016024fc76bfcfef958cc31cc1b451b6344d60a5fe8c982f89",
+      "request_pins": {
+        "module": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.py",
+        "c_source": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.c",
+        "header": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.h",
+        "library": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.dylib",
+        "build_receipt": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/build-receipt.json"
+      },
+      "validation_basis": "The exact-HEAD request preflight passed validate_request, which validates the pinned ABI-3 provider references and build receipt. No provider query was made by this reviewer."
+    }
+  },
+  "exact_command": {
+    "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench",
+    "argv_prefix": [
+      "/opt/homebrew/bin/python3.13",
+      "-B",
+      "-E",
+      "reports/releases/v0.9.2/acquisition/joern-native-controls-08/native_qualifier.py",
+      "bootstrap",
+      "--request",
+      "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-06-input03.json",
+      "--request-sha256",
+      "c25d5aa155e1401a4f3e6670858d611656cc9c48e6f16e28644cdd614845c699",
+      "--review",
+      "reports/releases/v0.9.2/validation/joern-current130-01/native06-input03-exact-invocation-review-01.json",
+      "--review-sha256"
+    ],
+    "review_sha256_binding": "After this review is sealed, append the exact SHA-256 of this file as the final argv value. No placeholder digest, alternate request/review path, parent mode, or worker mode is approved.",
+    "attempt_policy": "One bootstrap invocation only. Any rejection, timeout, failure, or incomplete result stops; no automatic retry and no namespace reuse.",
+    "bootstrap_behavior_reviewed": "The bootstrap path performs request and review validation, pending-plan preflight, wrapper identity check, an existing-lock observation, launch resource sampling and pre-bootstrap contender check, then creates the supervision namespace and starts the parent. The bootstrap argv carries the exact request/review references and their hashes; the parent/worker descriptors, token and identities are generated internally.",
+    "no_execution_performed": true
+  },
+  "fresh_admission": {
+    "required_before_bootstrap": true,
+    "performed_by_reviewer": false,
+    "admission_helper": {
+      "path": "execution-state/v092/recovery-20261102/native06-input03-admit-01.py",
+      "sha256": "eabf71f67a5d146043ea19ca2d6f2fb5aba2fa52133b1595b4f0fbb299e75995",
+      "review": "Static inspection only: the helper is explicitly no-dispatch, requires the existing canonical lock file, opens it read-only with no-follow and takes a nonblocking flock without creating/replacing it; then it records fresh resource and contender observations. It was not run."
+    },
+    "namespace_check": {
+      "native-controls-06_exists": false,
+      "native-controls-06_is_symlink": false,
+      "native-controls-06-supervision_exists": false,
+      "native-controls-06-supervision_is_symlink": false
+    },
+    "remaining_root_gate": "Root must run the separate fresh real admission against current resource floors, the existing common lock and one-slot contender state, review its receipt, and make the final dispatch decision. This review supplies no live admission result."
+  },
+  "disposition": {
+    "native_control_invocation_approved": true,
+    "approved_scope": "Exactly one bootstrap-mode invocation for native-controls-06 and request06-input03, contingent on separate fresh root admission and root's final dispatch decision.",
+    "execution_authorized_by_this_review": false,
+    "qualification_authorized": false,
+    "scored_activation_authorized": false,
+    "unsupported_decision_issuance_authorized": false,
+    "release_or_publication_authorized": false,
+    "next_gate": "Fresh root admission, followed by root's final dispatch decision. A successful 12-arm/36-phase native result and its independent review are separate prerequisites before the 108-case matrix can become execution-eligible."
+  },
+  "scope": {
+    "head": "0d59a317ebadd6c793c318a196790b872ce6433b",
+    "tree": "dfe911e6a4a48c0239f38741beddd56acb2f1cb5",
+    "tracked_source_diff": [],
+    "unrelated_untracked_work_preserved": true,
+    "native_or_joern_invoked": false,
+    "native_provider_queried": false,
+    "engine_or_analyzer_invoked": false,
+    "pending_plan_validator_rerun": false,
+    "full_request_preflight_rerun": false,
+    "resource_admission_performed": false,
+    "qualification_or_dispatch_performed": false,
+    "git_mutated": false,
+    "statement": "Independent read-only exact invocation review of request06-input03, its authority and source-decision bindings, committed source and ledger preflight receipts, pending-plan preflight, wrapper command path, and root-only fresh admission boundary."
+  }
+}

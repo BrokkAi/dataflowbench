@@ -1,0 +1,81 @@
+{
+  "schema": "v092-native09-root-wrapper-review/v1",
+  "reviewed_at_utc": "2026-11-02T09:34:00Z",
+  "reviewer": "joern_native130_root_wrapper_independent_review",
+  "review_type": "read-only-static-wrapper-boundary-review",
+  "status": "conditional-wrapper-review-pending-reconciliation-contract-review",
+  "tested_status": "pending-not-run",
+  "source_bindings": {
+    "reviewed_HEAD": "0d59a317ebadd6c793c318a196790b872ce6433b",
+    "native_qualifier": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/native_qualifier.py",
+      "sha256": "4ad0aeac3c92e180191fa361f7932061155750489d5390fd642393e29d6d9cc0"
+    },
+    "archive_evidence": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/archive_evidence.py",
+      "sha256": "b9a33b1bc132ef0329fa80c40c7bfa439767bc19a76ae54903288e69696ed74a"
+    },
+    "retained_resources": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/retained_resources.py",
+      "sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08",
+      "comparison": "byte-identical to joern-native-controls-08/retained_resources.py"
+    },
+    "test_interval_supervision": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/test_interval_supervision.py",
+      "sha256": "f71dff85518f85b75e11dd53b981697ea560789822906dd94ff65ed7a7133894"
+    },
+    "test_source_boundary": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/test_source_boundary.py",
+      "sha256": "1e4d40e92411682394abb80e35a6da3c17b261315eaee7071c9b6e8396a56888"
+    },
+    "human_policy": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-interval-policy-human-decision-01.json",
+      "sha256": "faaa011902d24bde71cf139d1584ca296586ccdd2c34ab5f9555c8376cad7002",
+      "decision": "approve-proposal03-narrow-intrasnapshot-exception"
+    }
+  },
+  "confirmed_wrapper_invariants": [
+    {
+      "topic": "ABI4-and-human-policy-binding",
+      "finding": "Provider validation requires integer ABI version 4 and the v4 provider identity. The approved human policy is a required source-closure input with its exact digest; request validation binds its one-row-per-existing-query, five-second bound, no-extra-query/retry, tracked-PID fail-closed rule, automatic-retry false, and publication hold. The derived authority must bind the same policy reference.",
+      "locations": "native_qualifier.py:72-75, 237-260, 378-384, 700-751"
+    },
+    {
+      "topic": "accepted-reconciliation-statuses-and-supervisor-gates",
+      "finding": "Only the existing historical-absence/no-fresh-contender status and the new interval status enter the accepted-status branch. New-status continuation requires one typed positive PID, not an original candidate or pre-existing tracked PID, absent from tracked_after, complete evaluation, no fresh contenders, unknown ownership/foreignness, no continuous/OS-global absence claim, and cleanup false. Continuation is recorded only after a durable reconciliation receipt and every query/evaluation/receipt deadline check is within the original deadline.",
+      "locations": "native_qualifier.py:74-75, 1247-1271, 1434-1445, 1466-1518"
+    },
+    {
+      "topic": "persistent-reappearance-guard-not-ownership",
+      "finding": "After durable receipt and deadline checks, the interval PID is added to historical_absent_pids. Later command or native raw snapshots detect the PID by number and fail closed before descendant tracking. validate_interval_evaluation requires the PID absent from tracked_after, and the evaluator's tracked_after remains the only map assigned to tracked; the added PID is not inserted into ownership or cleanup state by this wrapper.",
+      "locations": "native_qualifier.py:1065-1093, 1247-1271, 1499-1515"
+    },
+    {
+      "topic": "same-canonical-lock-and-resource-limits",
+      "finding": "LOCK remains the existing /private/tmp/dataflowbench-v0.9.0-exclusive-analyzer.lock path. Bootstrap observes that existing file read-only and obtains its exclusive nonblocking flock; the parent validates and inherits the same file descriptor/inode. No helper creates or replaces a lock. Resource code retains 127 GiB launch, 125 GiB active, 110 GiB outer floors, 30 GiB aggregate working cap, 12 GiB per-source cap, 24 GiB scratch/retention ceilings, and the 4 GiB namespace capture cap. The 40 GiB field is a protected reserve, not the launch floor. retained_resources.py derives live policy/authority values and covers ledger/unclosed task-root accounting without runtime replay.",
+      "locations": "native_qualifier.py:35, 829-862, 1767-1815; retained_resources.py:9-61"
+    },
+    {
+      "topic": "own-source-paths-and-boundaries",
+      "finding": "archive_evidence.py pins its running helper to the 09 path; diff inspection found this is its only production source change from 08. retained_resources.py is byte-identical to 08. test_source_boundary.py asserts the qualifier function/class changes and the helper-path-only/resource invariants; no tests were run in this review.",
+      "locations": "archive_evidence.py:29, 327-360; test_source_boundary.py:7-20"
+    }
+  ],
+  "cross_review_condition": {
+    "id": "INTERVAL-ROW-CONTRACT-01",
+    "severity": "must-close-before-source-freeze-or-exact-invocation-review",
+    "finding": "validate_interval_evaluation checks that the historical-only collection is a one-element list and that its row has a positive integer PID, but does not validate the row's own status, per-row unknown labels, or exact source/origin/witness/identity/absence fields. The wrapper also does not independently count first-only records in the raw query or re-check their same/other/command snapshot absences. It therefore relies on the exact source-bound reconciliation evaluator to produce a canonical row and reject every ineligible/multiple/present row. The in-scope interval test rejects malformed counts/PIDs and top-level uncertainty flags but does not exercise a mislabeled row or a missing absence witness.",
+    "required_resolution": "Before freezing the full source set, the pending independent reconciliation review must prove the evaluator enforces the approved per-row schema, exactly-one total event per existing query, no-drop behavior, all absence predicates, candidate/tracked exclusion and error fail-closed behavior, with focused tests. If that contract cannot be established, add explicit row-shape checks at this wrapper boundary and update the in-scope tests.",
+    "review_scope_limit": "The provider and process_reconciliation worker files were not inspected here, per the assigned scope; no claim is made that their checks are complete."
+  },
+  "scope": {
+    "source_files_modified": false,
+    "tests_run": false,
+    "provider_or_reconciliation_worker_files_read": false,
+    "native_or_joern_invoked": false,
+    "process_query_run": false,
+    "admission_or_qualification_run": false,
+    "git_mutated": false,
+    "statement": "Static review limited to native_qualifier.py, archive_evidence.py, retained_resources.py, test_interval_supervision.py and test_source_boundary.py for native-controls-09. This is not full provider/reconciliation approval, a test result, source freeze, invocation approval or launch authorization."
+  }
+}

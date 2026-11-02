@@ -1,0 +1,102 @@
+{
+  "abi": {
+    "first_only_command_source": 4,
+    "first_only_discarded_path_status": 5,
+    "first_only_errno": "actual nonnegative errno captured by the first-table proc_pidpath call; never synthesized as -1 or null",
+    "first_only_status_name": "discarded-unrevalidated-first-table-only",
+    "max_rows": 8192,
+    "metadata_struct_bytes": 96,
+    "provider_identity": "darwin-sysctl-kern-proc-all-libproc/v4",
+    "reserved_first_only_path_status": 4,
+    "row_struct_bytes": 4152,
+    "second_table_only_errno": "not-attempted sentinel -1 internally and null in Python output",
+    "second_table_only_path_status": 3,
+    "snapshot_symbol": "dfb_native_snapshot_v4",
+    "struct_layout_changed": false,
+    "version": 4
+  },
+  "negative_scope": {
+    "automatic_retry": false,
+    "joern_or_analyzer_execution": false,
+    "live_os_process_query": false,
+    "provider_runtime_invocation": false,
+    "publication_authorized": false,
+    "qualification_or_score": false
+  },
+  "pre_fix_preservation": {
+    "archive": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/recovery-pre-path-provenance-fix-01",
+    "file_count": 10,
+    "manifest_sha256": "b7b3c701bc15545f1b198c2652d63c1da6432c1e4fe469e5fe95b3bf13886bff",
+    "old_build_receipt": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/build-receipt.json",
+    "old_build_receipt_sha256": "ffb708c7424d83f84e796ca305abc9b673bc6697b3b1bc04437cc2868a26717f",
+    "old_receipt_unchanged_and_archived": true
+  },
+  "purpose": "Correct first-table-only path provenance: preserve actual first-table proc_pidpath errno while marking its unverified path bytes discarded.",
+  "recorded_at_utc": "2026-11-02T07:39:48.108444+00:00",
+  "schema": "v092-darwin-native-provider-abi4-build-followup/v1",
+  "source_and_output_sha256": {
+    "README.md": "045e4d7ec5e932e457a142abe488530184a344b305e3bb80fbc16b9b7f42d700",
+    "c-selftest-followup-01.txt": "376fb5b9e0f557c4cebc127562ea1e499969565090f8060a6488c73c14658dae",
+    "darwin_native_provider.c": "46f39982520b02b766d35bb61f87fe53ab4a44ebd9a6262ba080fb48fe40214e",
+    "darwin_native_provider.h": "c4196df6b86b16565e736a5b6dd2f90d60b6106716d90b2bb213370db83d1096",
+    "darwin_native_provider.py": "b67c56a10e80d7d208c4bbd0f923f41bcc2a710943bf78b6c52881ef386c3158",
+    "darwin_native_provider_selftest.c": "7e7386dcdbd7f63ca1bdb32d20e857ff4366187450d0d3f00197023c0cba8ef2",
+    "dylib-build-followup-01.txt": "ce2e2c43a5f11c859929b0ae76312cabcef168accef4001ab19d80b3ac22cffa",
+    "libdfb_native_provider_abi4.dylib": "242d8ff705a1bd3bc8b8f397e5018828942c23bb2fc12701bfc68a8030ebe9e2",
+    "python-test-followup-01.txt": "38afbb3941069bc3065f66b9dfee1c2a31332c48f7eac038d0e03597c91d80b4",
+    "test_darwin_native_provider.py": "14c8ca85e55c6fd0c7e10cfa2ee250965c4bbb010f828bfbbbec8ce96b66178f"
+  },
+  "status": "source-corrected-synthetic-validation-complete-independent-review-pending",
+  "toolchain": {
+    "build_command": [
+      "xcrun",
+      "--sdk",
+      "macosx",
+      "clang",
+      "-std=c11",
+      "-dynamiclib",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-fvisibility=hidden",
+      "-I",
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider",
+      "-o",
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/libdfb_native_provider_abi4.dylib",
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.c",
+      "-lproc"
+    ],
+    "compiler": "Apple clang version 21.0.0 (clang-2100.4.1.1)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin"
+  },
+  "validation": {
+    "c_compile_exit_code": 0,
+    "c_selftest_command": [
+      "xcrun --sdk macosx clang -std=c11 -O1 -Wall -Wextra -Werror -fvisibility=hidden",
+      "-I /Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider",
+      "-o /private/tmp/dfb_native_provider_selftest_followup_01",
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider_selftest.c"
+    ],
+    "c_selftest_exit_code": 0,
+    "c_selftest_log": "c-selftest-followup-01.txt",
+    "c_selftest_result": "29 passed, 0 failed",
+    "dylib_build_exit_code": 0,
+    "dylib_loaded_or_called": false,
+    "dylib_log": "dylib-build-followup-01.txt",
+    "dylib_symbol_inspection_exit_code": 0,
+    "python_command": [
+      "PYTHONDONTWRITEBYTECODE=1",
+      "PYTHONPATH=/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider",
+      "/opt/homebrew/bin/python3.13",
+      "-B",
+      "-m",
+      "unittest",
+      "-v",
+      "test_darwin_native_provider"
+    ],
+    "python_exit_code": 0,
+    "python_log": "python-test-followup-01.txt",
+    "python_test_count": 35,
+    "selftest_binary_retained": false
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema": "v092-darwin-native-provider-abi4-build-receipt/v1",
+  "recorded_at_utc": "2026-11-02T07:33:38Z",
+  "source_origin": {
+    "description": "New ABI4 successor copied and adapted from immutable ABI3 provider07; provider07 files were not modified.",
+    "provider07": {
+      "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.c": "f47a2ab9d72db8f148904c331e3296b15014f510b20ca77149a0a6af623a2f86",
+      "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.h": "09d88da0904fad455a4dd8cc85078eb9d0f65e1e79986a371ee3d92f442832c5",
+      "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.py": "77e8c9041fc598b3e505caa55e026a7454fb2941cd6940ee730f98127ff2510f"
+    },
+    "policy_reference": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-interval-policy-proposal-03.json"
+  },
+  "abi": {
+    "version": 4,
+    "provider_identity": "darwin-sysctl-kern-proc-all-libproc/v4",
+    "snapshot_symbol": "dfb_native_snapshot_v4",
+    "row_struct": "dfb_native_row_v4",
+    "row_struct_bytes": 4152,
+    "metadata_struct": "dfb_native_meta_v3",
+    "metadata_struct_bytes": 96,
+    "max_rows": 8192,
+    "max_command_bytes": 4096,
+    "first_only_command_source": 4,
+    "first_only_path_status": 4,
+    "first_only_origin": 3,
+    "first_only_revalidation_witness": 3
+  },
+  "toolchain": {
+    "sdk": "macosx 27.2",
+    "compiler": "Apple clang 21.0.0 (clang-2100.4.1.1)",
+    "target": "arm64-apple-darwin27.0.0"
+  },
+  "builds": {
+    "synthetic_c_selftest": {
+      "command": "xcrun --sdk macosx clang -std=c11 -O1 -Wall -Wextra -Werror -fvisibility=hidden -I reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider -o reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider_selftest reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider_selftest.c",
+      "build_exit_code": 0,
+      "run_exit_code": 0,
+      "result": "28 passed, 0 failed",
+      "test_executable_retained": false,
+      "output_log": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/c-selftest-output.txt",
+      "output_log_sha256": "002c31470133e2cd5244d8f4289a15bfb5181a0c96fa364427bf56587d61ded4",
+      "execution_scope": "Synthetic fixtures; sysctl, proc_pidpath, and getpid are macro-redirected before provider C is included."
+    },
+    "abi4_provider_dylib": {
+      "command": "xcrun --sdk macosx clang -std=c11 -dynamiclib -O2 -Wall -Wextra -Werror -fvisibility=hidden -I reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider -o reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/libdfb_native_provider_abi4.dylib reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.c -lproc",
+      "build_exit_code": 0,
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/libdfb_native_provider_abi4.dylib",
+      "sha256": "012a7d599c2942689ca89eff968ffa86e84904be9ad758e4cbf7f4ebf428c30a",
+      "loaded_or_called": false,
+      "exported_symbols_inspected_with_nm": [
+        "dfb_native_abi_version",
+        "dfb_native_max_rows",
+        "dfb_native_max_command_bytes",
+        "dfb_native_max_short_comm_bytes",
+        "dfb_native_row_size",
+        "dfb_native_meta_size",
+        "dfb_native_snapshot_v4"
+      ]
+    }
+  },
+  "tests": {
+    "python_command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider /opt/homebrew/bin/python3.13 -B -m unittest -v test_darwin_native_provider",
+    "python_version": "3.13",
+    "python_result": "34 tests passed",
+    "python_output_log": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/python-test-output.txt",
+    "python_output_log_sha256": "159eb44f87d2e18c22c58cf0baa5706e2c954953ba6bbf7405f79dc09516da8c"
+  },
+  "source_hashes": {
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.c": "7bc47b26ebbc41a19e2ac6418ae4bd75711ec83ad73761dff87808dcb7c6ec7a",
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.h": "d321e366b7ee9dee40d2697c20fdcd411a327dbb377e3534ffb8042e87681307",
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.py": "b7cd0caf4685c46062ee265801ff1128737796d0cd105a27fb5f0a6ce3f212d7",
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider_selftest.c": "a2f6e9eabfc70983ff77b302f1002d2d76594b0e4e071e96ab835c816b223d30",
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/test_darwin_native_provider.py": "52311fe17c37056d896ef429bb2c65de67ef3f5786868b4d977b9b11f708a79d",
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/README.md": "58fc6cb0246f2bf547319930d0cc0828ccce4f6f9b80cb929ef039131425f98f",
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/libdfb_native_provider_abi4.dylib": "012a7d599c2942689ca89eff968ffa86e84904be9ad758e4cbf7f4ebf428c30a"
+  },
+  "negative_scope": {
+    "live_os_process_query": false,
+    "provider_runtime_invocation": false,
+    "joern_or_analyzer_execution": false,
+    "qualification_or_score": false,
+    "automatic_retry": false,
+    "publication_authorized": false
+  }
+}

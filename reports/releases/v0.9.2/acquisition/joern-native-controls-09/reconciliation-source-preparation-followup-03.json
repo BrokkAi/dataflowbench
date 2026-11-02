@@ -1,0 +1,114 @@
+{
+  "schema": "v092-joern-native-controls-09-reconciliation-source-preparation-followup/v1",
+  "state": "source-only-preparation-followup",
+  "supersedes_receipt": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/reconciliation-source-preparation-receipt-01.json",
+    "sha256": "afd20288b4258795c291aa29688f0760f85c20b786928893a359748a5029dab9"
+  },
+  "scope": "Refresh the ABI4 first-table-only path provenance pin and source/test hashes after provider review; retain receipt01 as an immutable predecessor.",
+  "runtime_authority": false,
+  "native_provider_invoked_by_this_work": false,
+  "qualification_performed": false,
+  "joern_invoked": false,
+  "eligible_plan_created": false,
+  "accepted_provider_identities": [
+    "darwin-sysctl-kern-proc-all-libproc/v3",
+    "darwin-sysctl-kern-proc-all-libproc/v4 (exact module/library pins required)",
+    "linux-procfs-proc-stat-cmdline-comm/v1"
+  ],
+  "unknown_native_provider_identity": "rejected; historical fake-native fixtures are not production-accepted",
+  "provider_abi4_pins": {
+    "identity": "darwin-sysctl-kern-proc-all-libproc/v4",
+    "abi_version": 4,
+    "module": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.py",
+      "sha256": "b67c56a10e80d7d208c4bbd0f923f41bcc2a710943bf78b6c52881ef386c3158"
+    },
+    "library": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/libdfb_native_provider_abi4.dylib",
+      "sha256": "242d8ff705a1bd3bc8b8f397e5018828942c23bb2fc12701bfc68a8030ebe9e2"
+    },
+    "c_source": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.c",
+      "sha256": "46f39982520b02b766d35bb61f87fe53ab4a44ebd9a6262ba080fb48fe40214e"
+    },
+    "header": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.h",
+      "sha256": "c4196df6b86b16565e736a5b6dd2f90d60b6106716d90b2bb213370db83d1096"
+    },
+    "build_receipt_followup": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/build-receipt-followup-01.json",
+      "sha256": "d144bec888cd8e045f6710cca530f4d3d9c5bf49d3ebb36c4c3b639f26dc5b3e"
+    },
+    "first_table_only_path_provenance": {
+      "command_path_status": "discarded-unrevalidated-first-table-only",
+      "path_status_numeric": 5,
+      "reserved_numeric_status_4": "rejected",
+      "command_path_errno": "actual first-table proc_pidpath errno, integer >= 0 including 0; null and fabricated -1 rejected",
+      "path_result": "discarded; no un-revalidated proc_pidpath bytes are retained"
+    }
+  },
+  "source_refs": {
+    "process_reconciliation": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/process_reconciliation.py",
+      "sha256": "7c739a00a48b6647ec116a618c2761a59a0e30f3f7ce848b0c6e550dd3dfe1d0"
+    },
+    "snapshot_query": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/snapshot_query.py",
+      "sha256": "7997624bb91e94f1672fd65c7673dcfc8d3606428817f6ab822e1f71479a2d72"
+    },
+    "reconciliation_tests": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/test_process_reconciliation_abi4_policy.py",
+      "sha256": "f5e5a30927d970f67f6d7a814dfbf3c278eaaf614dda22834fcccf745c70f763"
+    },
+    "snapshot_query_tests": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/test_snapshot_query_abi4_pins.py",
+      "sha256": "3be06c0b6f3b60684526100117657fab445d0279af6ae3fb5d5330ba9c813405"
+    }
+  },
+  "accepted_history_event": {
+    "evaluation_status": "historical-absence-with-unresolved-intrasnapshot-observations",
+    "entry_shape": {
+      "top_level_fields": ["pid", "row"],
+      "row_fields": [
+        "status", "origin_snapshot", "provider_identity", "provider_evidence",
+        "source_row", "absence_evidence", "historical_ownership",
+        "historical_foreignness", "workload_relevance", "exact_exit_time",
+        "current_map_eligible", "argv_bridge_allowed"
+      ],
+      "row_status": "unresolved_historical_intrasnapshot_disappearance"
+    },
+    "row_constraints": {
+      "historical_ownership": "unknown",
+      "historical_foreignness": "unknown",
+      "workload_relevance": "unknown",
+      "exact_exit_time": "unknown",
+      "current_map_eligible": false,
+      "argv_bridge_allowed": false,
+      "absence_evidence_true": [
+        "first_table_present",
+        "same_observation_second_table_absent",
+        "command_snapshot_absent_by_pid",
+        "other_native_observation_absent_by_pid",
+        "final_current_kernel_table_absent"
+      ],
+      "absence_evidence_false": ["continuous_absence_claim", "os_global_absence_claim"]
+    },
+    "limits": {
+      "maximum_first_table_only_rows_across_both_native_observations": 1,
+      "original_candidate_pid": "reject",
+      "pretracked_pid_intersection_ignores_birth_identity": "reject-before-descendant-map-update",
+      "command_or_other_native_observation_pid_intersection_ignores_birth_identity": "reject",
+      "fresh_contender_also_present": "retain-fail-closed-status-with-no-accepted-history-row",
+      "first_table_only_rows": "excluded from current native maps and argv/ucomm bridge rows",
+      "rejected_observations": "preserve all raw rows and provider evidence"
+    }
+  },
+  "tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_process_reconciliation_abi4_policy.py test_snapshot_query_abi4_pins.py",
+    "passed": 18,
+    "failed": 0,
+    "scope": "synthetic ABI3/ABI4 policy, pin, failure, and loader fixtures; no native provider query or dylib load"
+  },
+  "remaining_integration_boundary": "Root-owned wrapper/status acceptance, persistent reappearance guard, current source/head/tree binding, and exact qualification still require independent review and evidence."
+}

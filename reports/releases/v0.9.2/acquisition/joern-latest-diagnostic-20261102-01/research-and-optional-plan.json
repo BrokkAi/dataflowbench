@@ -1,0 +1,168 @@
+{
+  "schema": "dataflowbench-joern-latest-diagnostic-research/v1",
+  "recorded_at_utc": "2026-11-02T07:27:52Z",
+  "status": "bounded-read-only-research; optional-plan-only",
+  "authority": {
+    "human_latest_test_interest_recorded_by_parent": true,
+    "native_or_joern_execution_authorized_by_this_record": false,
+    "root_retains_latest_version_selection_and_future_admission": true,
+    "scored_run_or_pin_change_authorized": false
+  },
+  "official_release_metadata": {
+    "source": "GitHub REST API, public joernio/joern release metadata",
+    "latest_release_endpoint": "https://api.github.com/repos/joernio/joern/releases/latest",
+    "latest_tag": "v4.0.670",
+    "published_at_utc": "2026-11-01T09:09:13Z",
+    "tag_commit": "0c4100035a553bc6425426f88dea95562ef2516c",
+    "commit_url": "https://github.com/joernio/joern/commit/0c4100035a553bc6425426f88dea95562ef2516c",
+    "release_url": "https://github.com/joernio/joern/releases/tag/v4.0.670",
+    "macos_assets": [
+      {
+        "name": "joern-cli-macos-arm64.zip",
+        "size_bytes": 1756904211,
+        "created_at_utc": "2026-11-01T09:07:43Z",
+        "sha256": "45746fe758ae61d7d8c54b4c512e90b3a40b7c452a902d1b1472df7b5cf9f08d",
+        "url": "https://github.com/joernio/joern/releases/download/v4.0.670/joern-cli-macos-arm64.zip"
+      },
+      {
+        "name": "joern-cli-macos-x86_64.zip",
+        "size_bytes": 1762610380,
+        "created_at_utc": "2026-11-01T09:07:43Z",
+        "sha256": "d47276a57f46a364d4bad461b217c9b4b1c7c641c91f45e37417e58d546990f7",
+        "url": "https://github.com/joernio/joern/releases/download/v4.0.670/joern-cli-macos-x86_64.zip"
+      }
+    ],
+    "checksum_caveat": "These are the current GitHub API asset digests, observed without fetching either zip. Joern issue #6407 reports v4.0.653 release assets being re-uploaded with changed digests. Re-fetch release metadata and verify the selected archive SHA-256 immediately before any future authorized install.",
+    "checksum_caveat_url": "https://github.com/joernio/joern/issues/6407"
+  },
+  "pinned_4_0_660_comparison": {
+    "release_endpoint": "https://api.github.com/repos/joernio/joern/releases/tags/v4.0.660",
+    "tag": "v4.0.660",
+    "published_at_utc": "2026-10-19T15:07:13Z",
+    "tag_commit": "11aba5d181421b413fb353726d06eb369a391444",
+    "macos_arm64_asset": {
+      "name": "joern-cli-macos-arm64.zip",
+      "size_bytes": 1756738792,
+      "created_at_utc": "2026-10-19T15:05:11Z",
+      "sha256": "3dd0ac0bfb2816f3965947f38f29a729e9635d6e41c37f9354b962f279bab91a"
+    },
+    "macos_x86_64_asset": {
+      "name": "joern-cli-macos-x86_64.zip",
+      "size_bytes": 1762443007,
+      "created_at_utc": "2026-10-19T15:05:11Z",
+      "sha256": "71d869e6713769da83c415e1530188482909a15c5fa53fc121bdcaae507613e3"
+    },
+    "local_pinned_identity": {
+      "tool_version": "4.0.660",
+      "joern_runtime_tree_manifest": "reports/releases/v0.9.2/acquisition/runtime-manifests/joern.json",
+      "joern_runtime_tree_manifest_sha256": "c848b12fd54138219c3bd5c647071eceab1ae4c9f785967c24274d509554c2fc",
+      "joern_entrypoint_sha256": "0df7e8db4282ef2c6fc37998917aca694176e23192de5f0c631511d993e99736",
+      "swift_frontend_jar_sha256": "d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+      "bundled_swift_astgen_sha256": "af6c202b40247bbd8bd50dd15d9f8c635290227af3dabff96c743ffc63c19374",
+      "control_plan_path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-plan-04.json",
+      "control_plan_sha256": "c35307ad152fc385ecf5abb86ee7d5821fc661b6e875fa9f6a03cd3f4ee6f66a",
+      "prior_v4_0_660_diagnostic_review_path": "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-04-diagnostic-admission-review.json",
+      "prior_v4_0_660_diagnostic_review_sha256": "4cfddcfbb1234205274a3068adaff8716c17f531e206def4e1f05303adc992c1",
+      "prior_diagnostic_result": "The direct endpoint controls remained the baseline; all eight opaque-model arms were Incomplete:EndpointIdentity. The run was unscored and did not establish full-model qualification."
+    },
+    "release_delta": {
+      "release_tags_ahead": 10,
+      "commits_ahead": 29,
+      "compare_endpoint": "https://api.github.com/repos/joernio/joern/compare/v4.0.660...v4.0.670",
+      "swift_related_paths_changed": [
+        {
+          "path": "joern-cli/frontends/swiftsrc2cpg/src/main/scala/io/joern/swiftsrc2cpg/passes/ConfigFileCreationPass.scala",
+          "change_summary": "Adds the common default config-file extension filters alongside plist and xib filters."
+        },
+        {
+          "path": "joern-cli/frontends/x2cpg/src/main/scala/io/joern/x2cpg/frontendspecific/swiftsrc2cpg/SwiftTypeRecovery.scala",
+          "change_summary": "Changes interprocedural Swift type recovery to return the local/call-alias type set instead of mutating the symbol table through the previous association hook."
+        }
+      ],
+      "interpretation": "The latest tag includes Swift-related implementation changes, including Swift type recovery. This makes a small semantic screen relevant; it does not demonstrate that the known endpoint identity issue is fixed."
+    }
+  },
+  "official_macos_swift_support": {
+    "joern_readme_requirements_url": "https://github.com/joernio/joern/blob/master/README.md",
+    "joern_readme_requirement": "JDK 21 is the documented requirement; macOS arm64 and x86_64 distribution zip assets are published.",
+    "frontend_documentation_url": "https://docs.joern.io/frontends/",
+    "frontend_documentation": "Lists swiftsrc2cpg for Swift with language argument SWIFTSRC.",
+    "swift_frontend_readme_url": "https://github.com/joernio/joern/blob/master/joern-cli/frontends/swiftsrc2cpg/README.md",
+    "swift_frontend_notes": [
+      "SwiftAstGen resolution supports SWIFTASTGEN_BIN, PATH, or the bundled binary.",
+      "The optional --swift-build path requires Swift newer than 6.1 for compiler-derived type/declaration/call fullnames.",
+      "The official docs establish a Swift frontend and macOS release assets; the v4.0.670 archive payload was not downloaded or inspected, so bundled SwiftAstGen presence/version remains a future exact-payload preflight item."
+    ],
+    "existing_pinned_swift_runtime_to_keep_unchanged": {
+      "swift_toolchain": "6.3.3",
+      "swift_toolchain_manifest": "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-6.3.3.json",
+      "swift_sdk": "26.5",
+      "swift_sdk_manifest": "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5.json",
+      "java_runtime": "21.0.8",
+      "java_manifest": "reports/releases/v0.9.2/acquisition/runtime-manifests/java.json"
+    }
+  },
+  "optional_semantic_diagnostic_plan": {
+    "plan_status": "not-yet-admitted-or-executed",
+    "objective": "Determine whether the newer Swift frontend/type-recovery behavior changes the registered direct and one opaque-propagator semantic controls relative to the retained 4.0.660 evidence.",
+    "not_objectives": [
+      "Do not run the scored 108-case population.",
+      "Do not qualify all Swift models or infer absent-finding completeness.",
+      "Do not change the 4.0.660 pin, existing runtime manifests, controls, fixtures, query, model files, thresholds, or ledger."
+    ],
+    "smallest_balanced_scope": {
+      "registered_cases": [
+        "direct-positive",
+        "direct-negative",
+        "dfb-taint-swift-model-opaque-propagator-positive",
+        "dfb-taint-swift-model-opaque-propagator-negative"
+      ],
+      "arms": ["off", "on"],
+      "case_count": 4,
+      "case_arm_count": 8,
+      "maximum_phase_invocations": 24,
+      "expected_semantics_from_registered_controls": {
+        "direct-positive": {"off": "reached", "on": "reached"},
+        "direct-negative": {"off": "not-reached", "on": "not-reached"},
+        "dfb-taint-swift-model-opaque-propagator-positive": {"off": "not-reached", "on": "reached"},
+        "dfb-taint-swift-model-opaque-propagator-negative": {"off": "reached", "on": "not-reached"}
+      },
+      "deferred_cases": [
+        "dfb-taint-swift-model-propagator-position-positive",
+        "dfb-taint-swift-model-propagator-position-negative"
+      ],
+      "deferred_rationale": "This is a narrow diagnostic screen, not full 12-arm diagnostic qualification or the 108-case run. If results remain Incomplete:EndpointIdentity, preserve that typed state and stop; do not alias or infer missing calls."
+    },
+    "isolation_and_gates": [
+      "Root must select the release and create a fresh exact source/request binding and new isolated runtime-tree manifest; do not install over or mutate the pinned 4.0.660 tree.",
+      "At future authorized admission, re-fetch official release metadata, verify the chosen architecture's archive SHA-256 before extraction, inspect archive file manifest for the Swift frontend and SwiftAstGen, and capture exact versions/hashes. No download is part of this research record.",
+      "Use a new diagnostic namespace, attempt ID, lock and output root; do not reuse native namespace06, any existing control attempt, or scored-run directories.",
+      "Reuse only the existing registered four control fixtures and queries byte-for-byte; hold Java 21.0.8, Swift 6.3.3, SDK 26.5, options, model files and resource/time policy fixed unless a new explicit decision is recorded.",
+      "Keep diagnostic outputs outside scored result and ledger paths; scored_activation=false and publication_hold=true throughout.",
+      "Use a proposed budget of 75 seconds per arm, 600 seconds total, 4 GiB scratch, and at least 40 GiB protected free space, preserving the current diagnostic admission ceilings; refresh resource admission before any actual install/run and fail closed if the package or extracted tree does not fit.",
+      "A favorable 8-arm screen is only a version-diagnostic signal. Any broader diagnostic or 108-case qualification requires separate root-owned exact admission and the native/semantic prerequisites then in force."
+    ]
+  },
+  "research_scope": {
+    "official_metadata_read_via": [
+      "gh api repos/joernio/joern/releases/latest",
+      "gh api repos/joernio/joern/releases/tags/v4.0.660",
+      "gh api repos/joernio/joern/commits/v4.0.670",
+      "gh api repos/joernio/joern/commits/v4.0.660",
+      "gh api repos/joernio/joern/compare/v4.0.660...v4.0.670"
+    ],
+    "web_sources": [
+      "https://github.com/joernio/joern/releases/tag/v4.0.670",
+      "https://github.com/joernio/joern/releases/tag/v4.0.660",
+      "https://docs.joern.io/frontends/",
+      "https://github.com/joernio/joern/blob/master/README.md",
+      "https://github.com/joernio/joern/blob/master/joern-cli/frontends/swiftsrc2cpg/README.md",
+      "https://github.com/joernio/joern/issues/6407"
+    ],
+    "downloads_performed": false,
+    "builds_or_engine_runs_performed": false,
+    "benchmarks_or_score_updates_performed": false,
+    "runtime_pins_or_manifests_changed": false,
+    "git_mutated": false
+  }
+}

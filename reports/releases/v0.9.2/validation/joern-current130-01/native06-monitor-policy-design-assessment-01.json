@@ -1,0 +1,142 @@
+{
+  "schema": "v092-native06-monitor-policy-design-assessment/v1",
+  "reviewed_at_utc": "2026-11-02T06:40:30Z",
+  "reviewer": "joern_native130_monitor_policy_design_assessment",
+  "review_type": "independent-read-only-policy-design-assessment",
+  "status": "conditional-proposal-needs-human-core-decision",
+  "conclusion": {
+    "existing_human_policy_authorizes_the_first_only_exception": false,
+    "first_only_exception_changes_acceptance": true,
+    "abi4_representation_alone_is_sufficient": false,
+    "explicit_human_core_decision_required_before_implementation": true,
+    "current_runtime_disposition": "retain-strict-fail-closed-and-remain-blocked-until-new-policy-is-approved-and-new-gates-pass"
+  },
+  "reviewed_evidence": {
+    "current_source": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-08/process_reconciliation.py",
+      "sha256": "96bdec89dd15e4da35f6a71d08c57510e2c1bbec4857358cb756000b18f84a40",
+      "relevant_lines": {
+        "original_candidate_selection": "1009-1025",
+        "original_candidate_fresh_presence_rejects": "1107-1136",
+        "exact_bracket_and_command_bridge": "1182-1207",
+        "unbridged_kernel_comm_is_fail_closed": "1241-1258",
+        "final_status_depends_on_fresh_contenders": "1273-1283"
+      }
+    },
+    "current_abi3_provider": {
+      "c_source": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.c",
+      "adapter": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/darwin-provider/darwin_native_provider.py",
+      "source_behavior": "The C provider reads and validates the first KERN_PROC_ALL table, captures PID/PPID/start time/state/p_comm and calls proc_pidpath before its second table read. If a first-table PID is absent from the second table, ABI3 sets revalidation-pid-missing and clears output rows; changed PID/parent/birth remains a separate fatal status. The adapter exposes ABI_VERSION 3.",
+      "relevant_c_lines": "286-369, 380-410, 451-483",
+      "request_and_wrapper_gate": "The current native request and wrapper pin ABI3; native_qualifier.py requires abi_version 3 and the v3 provider identity."
+    },
+    "prior_human_policy": {
+      "human_decision_path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/process-snapshot-policy-human-decision-01.json",
+      "human_decision_sha256": "b7130ef72545edaa9599640946921180bd95e00ec5106b5072d9a3981310b2fb",
+      "decision": "approve-bounded-current-liveness-reconciliation",
+      "scope": "One bounded native-command-native recheck within existing time limits; current/ambiguous contenders stop; historical ownership, exit time, and continuous absence remain unknown.",
+      "accepted_candidate_rule": "The referenced policy review only allows an original unresolved candidate to be labeled unresolved historical absent when it is absent from all three fresh snapshots. Presence in any fresh snapshot remains fail-closed."
+    },
+    "prior_policy_proposal_and_review": {
+      "proposal_path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/process-snapshot-policy-decision-proposal-01.json",
+      "proposal_sha256": "fda7f33cc0dd954b4c7e6194da821900d8585e56f5a030879f67008df6e37705",
+      "review_path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/process-snapshot-policy-proposal-independent-review-02.json",
+      "review_sha256": "86b88b655659c7b1ed9044b98dd3badd5fb97a84b96aebe4a78d1249dc482401",
+      "finding": "That accepted design keeps live or ambiguous rows fail-closed and does not authorize retiring a row present in a sampled table."
+    },
+    "actual_stop": {
+      "root_stop_path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-root-stop-check-01.json",
+      "root_stop_sha256": "670466ac4e9ee923f462242ab2da0b233daf1d0130986cadd5fa51ade145a941",
+      "independent_stop_review_path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-stop-independent-review-01.json",
+      "independent_stop_review_sha256": "b4f5ce6c0086a9fcc3008c769f695bec471e6aff4c90ec21ce3e17f7f062f2a7",
+      "diagnostic": "ABI3 revalidation-pid-missing (provider return code 14, error_errno 0) made reconciliation 03 incomplete-fail-closed; the native qualification was not accepted.",
+      "privacy_safe_local_comparison": {
+        "error_pid_was_an_original_candidate": false,
+        "error_pid_appeared_in_later_command_snapshot": false,
+        "error_pid_appeared_in_later_native_snapshot": false,
+        "pid_values_or_process_rows_copied": false,
+        "interpretation": "The observation is consistent with a non-original first-table-only event, but the evidence does not establish that the process was unrelated, harmless, or non-contending. Workload relevance remains unknown."
+      },
+      "no_retroactive_acceptance": "The ABI3 query was incomplete and the consumed native-controls-06 result remains failed. A future policy cannot convert that run into an accepted qualification or authorize a retry in its namespace."
+    }
+  },
+  "proposal_review": {
+    "proposal_path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-interval-policy-proposal-01.json",
+    "proposal_sha256": "215c230a1498acd7d1069636e1cfe15acf3ed6c542853cace3afdf748382f3be",
+    "human_handoff_path": "reports/releases/v0.9.2/review-handoff/joern-native-snapshot-policy-02.md",
+    "human_handoff_sha256": "a0b08c76420fe7955c1ed77a502f36db7d241bd1be800c4344f33fd2e14045a2",
+    "proposal_only": true,
+    "human_approval_required": true,
+    "implementation_authorized": false,
+    "execution_authorized": false,
+    "sound_boundaries_already_present": [
+      "New ABI4 and exact source/library pins, with ABI3 unchanged.",
+      "Only a non-original-candidate first-table-only row can be considered; original candidates appearing anywhere remain fail-closed.",
+      "The row must be absent by PID from the command snapshot and the other native observation, including any changed-birth appearance.",
+      "No ownership extension, argv bridge, cleanup authority, historical ownership/foreignness claim, exact-exit-time claim, or continuous/OS-global absence claim.",
+      "Provider errors, malformed or duplicate rows, capacity/coverage failures, same-PID birth/parent changes, and timeouts remain fail-closed.",
+      "No added query, retry, deadline, resource budget, or publication authority; current publication hold remains."
+    ]
+  },
+  "genuine_clarifications_before_human_decision": [
+    {
+      "id": "FRAMING-01-UNPROVEN-UNRELATEDNESS",
+      "severity": "must-correct-before-human-question",
+      "issue": "The machine proposal describes the disappearance as 'unrelated normal process churn'. The stop evidence proves an ABI3 PID revalidation miss, not the process's workload or relevance. The privacy-safe comparison establishes only that it was not an original candidate and was absent from the later command/native snapshots.",
+      "recommended_wording": "A non-original PID record disappeared between the provider's two kernel-table reads. Its workload relevance, historical ownership, harmlessness, and exact exit time are unknown."
+    },
+    {
+      "id": "TERMS-02-TWO-FIRST-SECOND-LEVELS",
+      "severity": "must-clarify-before-human-question",
+      "issue": "'First-only' can mean internal first-table-only within one ABI4 native observation or presence in the outer native-before snapshot only. The proposed rule uses both internal tables and the outer native-command-native pass.",
+      "recommended_wording": "Use 'intra-observation first-table-only': present in exactly one ABI4 native observation's first KERN_PROC_ALL table, absent from that same observation's second table; then separately require absence by PID from the outer command snapshot and every row in the other outer native observation. Define the final-current table as the second KERN_PROC_ALL table of native-after."
+    },
+    {
+      "id": "ACCEPTANCE-03-BOUND-ROW-COUNT",
+      "severity": "human-decision-scope",
+      "issue": "The exception is bounded by the provider's table capacity but does not state how many first-only rows may be accepted in one reconciliation. A broad allowance could accept many simultaneous ambiguous process disappearances.",
+      "recommended_question_detail": "For the narrowest exception matching this event, allow at most one distinct non-original/non-tracked first-only PID per five-second pass; any additional one fails closed. If the intended policy is instead to allow every provider-capped first-only row, state that wider acceptance explicitly."
+    },
+    {
+      "id": "OUTPUT-04-TYPED-STATE-AND-DURABILITY",
+      "severity": "must-specify-before-implementation",
+      "issue": "A row label is not enough if the evaluator still places it in fresh_contenders or reuses historical-absence-observed-no-fresh-contender. Silent exclusion could also look like a clean result.",
+      "recommended_requirement": "Persist an explicit first-only historical-unresolved collection and a distinct evaluation status before the continuation decision. Keep it separate from active contenders and from the original-candidate historical-absence status; any receipt-write failure stops. Never allow a generic empty fresh_contenders check to authorize continuation without validating the exact typed collection."
+    },
+    {
+      "id": "OWNERSHIP-05-TRACKED-MAP-INTERACTION",
+      "severity": "must-specify-before-implementation",
+      "issue": "The proposal forbids extending ownership but does not explicitly state how a first-only PID that already exists in the exact tracked map is handled.",
+      "recommended_requirement": "The exception must not add, remove, replace, or downgrade any tracked PID/birth entry. A row matching an existing exact tracked identity stays under existing ownership/cleanup rules; otherwise any interaction with an original candidate PID or changed birth remains fail-closed."
+    },
+    {
+      "id": "ABI-06-VALID-PROVIDER-OBSERVATION",
+      "severity": "must-specify-before-implementation",
+      "issue": "The accepted exception applies only to a fully valid ABI4 observation. Current ABI3 calls proc_pidpath before the second table read; a successful but un-revalidated path must be discarded for first-only rows, while a proc_pidpath/API error must not be reinterpreted as normal disappearance.",
+      "recommended_requirement": "ABI4 may emit a complete, provider-scoped first-table-only row only after exact two-call accounting and validation of first-table PID/PPID/start-time/state/p_comm, with no capacity, duplicate, coverage, path, sysctl, or deadline error. Preserve same-PID birth/parent mismatch and every non-first-only error as whole-query fail-closed."
+    }
+  ],
+  "minimal_policy_choice_for_human": {
+    "choice": "Approve or reject a new current-liveness acceptance exception; do not frame it as a repair that preserves the old acceptance contract.",
+    "if_approved": "A future fully complete ABI4 native-command-native pass may record only the bounded, non-original/non-tracked intra-observation first-table-only row as unresolved historical evidence under the exact absence conditions. It may continue only with all original candidates absent, zero other current/ambiguous contenders, durable typed evidence, and unchanged exact-identity ownership/cleanup gates.",
+    "uncertainty_to_accept": "The row may have been a relevant or foreign process during an unsampled interval. Its absence from later provider snapshots does not prove harmlessness, historical ownership, exact exit time, no overlap, or uncontended timing.",
+    "if_rejected": "Keep ABI3/current strict fail-closed behavior and Joern blocked. No retry, implementation, or attempt is authorized by this assessment."
+  },
+  "subsequent_gates_if_policy_is_approved": [
+    "A new independently reviewed ABI4 source, complete row/coverage contract, direct provider/build manifest pins, and request/authority chain; retain ABI3 unchanged.",
+    "Tests for stable, first-only, and second-only provider observations; original-candidate first-only rejection; row count bound; same-PID reuse/parent changes; missing fields; command/other-native PID appearances; path/sysctl/capacity/deadline errors; tracking/ownership invariants; and exact typed output continuation behavior.",
+    "Independent exact source/invocation review and fresh admission before any new namespace; the consumed native-controls-06 run remains failed and immutable.",
+    "Actual 12-arm/36-phase native qualification and independent review before any separate 108-case execution eligibility; publication remains held."
+  ],
+  "scope": {
+    "proposal_or_source_modified": false,
+    "tests_run": false,
+    "native_or_joern_invoked": false,
+    "process_query_run": false,
+    "qualification_or_admission_run": false,
+    "git_mutated": false,
+    "private_process_rows_or_pids_copied": false,
+    "full_process_tables_or_foreign_argv_copied": false,
+    "statement": "Read-only assessment of the current evaluator, ABI3 failure contract, prior human bounded-liveness policy, and new proposal/handoff. This is not a human policy decision, implementation approval, runtime approval, or permission to retry or launch."
+  }
+}

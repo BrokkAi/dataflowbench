@@ -1,0 +1,132 @@
+{
+  "schema": "v092-native06-stop-independent-review/v1",
+  "reviewed_at_utc": "2026-11-02T06:34:25Z",
+  "reviewer": "joern_native130_stop_independent_review",
+  "source_head": "0d59a317ebadd6c793c318a196790b872ce6433b",
+  "request_sha256": "c25d5aa155e1401a4f3e6670858d611656cc9c48e6f16e28644cdd614845c699",
+  "result": "failed-native-qualification-not-accepted",
+  "qualification_accepted": false,
+  "failure_summary": {
+    "exit_path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-06/exit.json",
+    "exit_sha256": "588a0f4f84724cdf4300406949bd1cd14685349de0c2d767cfb19cf28824a9db",
+    "ended_utc": "2026-11-02T06:30:29.608332+00:00",
+    "typed_failure": "ValueError",
+    "observed_phase_events": ["ready", "controls-started"],
+    "control_result_present": false,
+    "qualification_inferred": false,
+    "automatic_retry": false,
+    "ledger_unchanged": true
+  },
+  "root_stop_receipt": {
+    "path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-root-stop-check-01.json",
+    "sha256": "670466ac4e9ee923f462242ab2da0b233daf1d0130986cadd5fa51ade145a941",
+    "status": "failed-native-qualification-not-accepted",
+    "file_seals": 135,
+    "recorded_pid_count": 21,
+    "recorded_pids_absent_at_check": true,
+    "pid_values_in_this_review": false,
+    "raw_foreign_process_tables_copied": false,
+    "historical_ownership_or_os_global_absence_inferred": false,
+    "cleanup_status": "reaped",
+    "coordinator_reaped": true,
+    "descendant_containment": "unknown",
+    "containment_scope": "The exact recorded PIDs were absent at the root stop check. This does not establish descendant containment, historical ownership, harmlessness, or system-wide process absence."
+  },
+  "reconciliation_evidence": {
+    "reconciliation_01": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-06/contention-reconciliation-01.json",
+      "sha256": "667fc1624bab1d307baacf72a0bd2b3a217a530966cd546d5fbe874d6ac8ec1a",
+      "status": "historical-absence-observed-no-fresh-contender",
+      "complete": true,
+      "fresh_contenders": 0,
+      "candidate_outcome": "unresolved_historical_absent_at_reconciliation",
+      "historical_ownership": "unknown",
+      "historical_foreignness": "unknown",
+      "cleanup_authorized": false,
+      "supervisor_continuation_authorized": false,
+      "qualification_inferred": false
+    },
+    "reconciliation_02": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-06/contention-reconciliation-02.json",
+      "sha256": "4aeac444da731928939e7f1dac33eef6c89e778361a892eae3d7e08773f75a78",
+      "status": "historical-absence-observed-no-fresh-contender",
+      "complete": true,
+      "fresh_contenders": 0,
+      "candidate_outcome": "unresolved_historical_absent_at_reconciliation",
+      "historical_ownership": "unknown",
+      "historical_foreignness": "unknown",
+      "cleanup_authorized": false,
+      "supervisor_continuation_authorized": false,
+      "qualification_inferred": false
+    },
+    "reconciliation_03": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-06/contention-reconciliation-03.json",
+      "sha256": "375f072b936cea4a242461bfcbfbc442e4eb203c741216ee267dc366de413857",
+      "status": "incomplete-fail-closed",
+      "complete": false,
+      "candidate_outcome": "reconciliation_incomplete_fail_closed",
+      "candidate_error_type": "ReconciliationError",
+      "native_before_observation": {
+        "provider": "darwin-sysctl-kern-proc-all-libproc/v3",
+        "typed_error": "DarwinNativeProviderError",
+        "status": "revalidation-pid-missing",
+        "return_code": 14,
+        "error_errno": 0,
+        "first_record_count": 1165,
+        "second_record_count": 1164,
+        "revalidated_row_count": 0,
+        "output_row_count": 0
+      },
+      "qualification_inferred": false,
+      "automatic_retry": false
+    },
+    "contention_stop": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-06/contention-stop.json",
+      "sha256": "5acff3a7701e30d7a2b1f3a92e2af4707f18c191fd96bbcb093cf750bf21c614",
+      "status": "contention-stop",
+      "reconciliation_sequence": 3,
+      "reconciliation_status": "incomplete-fail-closed"
+    }
+  },
+  "qualification_and_ledger_state": {
+    "control_result_path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-06/control-result.json",
+    "control_result_exists": false,
+    "pending_schema_check": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-controls-06/pending-schema-check.json",
+      "sha256": "8a9452e6d66ac7bb995133fd834cd14f4c255cbbf734c8512b8f70f27809bd68",
+      "status": "qualification-pending",
+      "engine_dispatched": false
+    },
+    "ledger": {
+      "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+      "rows": 130,
+      "sha256": "79070314d9d27581b9541934c7b701c2640cb1436f162e570b210df787e13d84",
+      "unchanged": true
+    },
+    "scored_attempt_consumed": false,
+    "outer_108_case_matrix_executed": false,
+    "automatic_retry": false,
+    "publication_hold": true
+  },
+  "evidence_seals": {
+    "worker_invocation_sha256": "6c0832ab60225bedf00f90a952ddd247ee0c768fd5561afcf5730cf1276f3ad9",
+    "supervision_result_sha256": "6a588d9854bcfc90cb4a994ec50b98a443de8c680064a82525cd4c6f2d9dedfb",
+    "pending_schema_check_sha256": "8a9452e6d66ac7bb995133fd834cd14f4c255cbbf734c8512b8f70f27809bd68",
+    "native_controls_directory_consumed": true,
+    "namespace_reuse_or_retry_authorized": false
+  },
+  "privacy_boundary": {
+    "full_process_tables_in_review": false,
+    "foreign_argv_in_review": false,
+    "pid_values_in_review": false,
+    "review_basis": "Private original receipts were summarized locally. This review publishes only evidence hashes, counts, typed statuses and bounded scope statements."
+  },
+  "review_scope": {
+    "source_changed": false,
+    "execution_rerun": false,
+    "native_or_joern_invoked_by_reviewer": false,
+    "process_query_by_reviewer": false,
+    "git_mutated": false,
+    "finding": "The native-control run stopped fail-closed before a complete accepted 12-arm/36-phase result. Reconciliation 01 and 02 preserve current absence observations only and leave historical ownership/foreignness unknown. Reconciliation 03 is incomplete because ABI-3 native-before identity revalidation returned `revalidation-pid-missing` (return code 14); no clean or complete observation can be inferred from that failure. The exact current PID absence check is limited to its 21 recorded PIDs, while descendant containment remains unknown. The 108-case pending plan remains ineligible and the retained ledger is unchanged."
+  }
+}
