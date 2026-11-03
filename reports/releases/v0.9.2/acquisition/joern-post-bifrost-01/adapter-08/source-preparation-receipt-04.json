@@ -1,0 +1,137 @@
+{
+  "schema": "v092-joern-post-bifrost-adapter-08-source-preparation/v1",
+  "status": "source-only-prepared-focused-tests-passed-independent-review-pending",
+  "recorded_at_utc": "2026-11-02T23:22:30Z",
+  "git_context": {
+    "head": "ab5c8ade58b789957e48de29ca54f432457611c1",
+    "branch": "dave/v0.9.2-full-refresh",
+    "working_tree_changes_committed": false
+  },
+  "predecessor": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/source-preparation-receipt-03.json",
+    "sha256": "849098af2562340ae545281c15e9012bbb46373ba27f3aac1ada4eb9562b4ed8"
+  },
+  "source_files": [
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/packet.py",
+      "sha256": "d9ba5c03f6944516d23c492d73b3a6465e6c2aad30970f31e539f01f1404b329",
+      "bytes": 13070
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/history.py",
+      "sha256": "963b113d6b5f2cfcd2c70ecfb4fd9c960d4a30546f3c90e4c2a6cfa351a0f19b",
+      "bytes": 39392
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/protocol.py",
+      "sha256": "69bd861bec1831e9db35dbc2f1bdc1413ca0cfe01e08a9cbbc094d904531913f",
+      "bytes": 18943
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/stage_runtime.py",
+      "sha256": "437275c3fc66efaef4236c1a5d2e59a15c72208c92b199e4656281d1d123240f",
+      "bytes": 46488
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/bridge.py",
+      "sha256": "63e8ce60a1fa414adf83b6c1affcba9ee1435db938e55e13b2ffa4fadca7b3c4",
+      "bytes": 18208
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/admission.py",
+      "sha256": "9aac63808f3af6b174223d7ad5b8450577ba833184895ca15a44f806a404a4bc",
+      "bytes": 24826
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/supervisor.py",
+      "sha256": "95ba8f66d0d4ff5b06792db17f45fd24c37a908cfd924b91c60d9582fb89dcb7",
+      "bytes": 67132
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/test_adapter_08.py",
+      "sha256": "560b49af929c1c723cf6f60fde6958da6a4146ec5d57e4527ad4f381f8027440",
+      "bytes": 44921
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/test_runtime_graph_08.py",
+      "sha256": "0822ea3f63845b4ea6442dbeb117cdfb09e808d5ca2d3b44efc6cc8b87592720",
+      "bytes": 39530
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/README.md",
+      "sha256": "e1ebc94f4b74b9d64faf06f9ad07926e167994606a4c480ae21acbe7025ad281",
+      "bytes": 6907
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/run-joern-common-v092.py",
+      "sha256": "a7a5b600f227db231493a8e7e3ca4dfb85064e4bd89bfab0d9c8044fa5f1836e",
+      "bytes": 3266
+    }
+  ],
+  "frozen_recorder_schema_evidence": {
+    "path": "scripts/execute-release-v092.py",
+    "commit": "ab5c8ade58b789957e48de29ca54f432457611c1",
+    "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8",
+    "row_construction": "run_group creates the terminal row as dict(started_receipt); the started receipt fields contain no global_attempt_number",
+    "terminal_write_sequence": "run_group writes completed.json from _json_bytes(row), then calls _append_ledger(ledger, row) with that same row object",
+    "frozen_entrypoint_basename_check": "validate_plan requires an argv entry named run-joern-common-v092.py",
+    "scope": "source inspection only; frozen executor was not modified or invoked"
+  },
+  "source_changes": [
+    "Derive next global attempt 132 only from the exact archived annex sequence 111 through 131 and retain it in adapter08 tail provenance; require the raw physical row131 to omit the adapter-only field, preserving the frozen completed receipt and ledger row exactly.",
+    "Require the completion gate to bind the exact adapter-derived tail proof while keeping the raw row unmodified.",
+    "Add the task-owned run-joern-common-v092.py entrypoint, which reads and SHA-verifies observer08 bytes before execution and forwards every CLI argument unchanged.",
+    "Keep the wrapper outside the seven graph-owned adapter modules and preserve their exact import-edge topology.",
+    "Document recorder-schema provenance and the wrapper's separate source-binding requirement."
+  ],
+  "wrapper_binding": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/run-joern-common-v092.py",
+    "sha256": "a7a5b600f227db231493a8e7e3ca4dfb85064e4bd89bfab0d9c8044fa5f1836e",
+    "observer08": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-08.py",
+      "sha256": "5d39a7931cdaa690566b7587142ed9abd2b44ffaf38d51a403028653a40e85b1"
+    },
+    "argv_behavior": "Forwards the complete argument list after argv0 in original order with no added or rewritten flags.",
+    "graph_role": "separate caller-owned source input; not one of the seven graph modules",
+    "source_commit_gate": "The frozen executor compares declared source_inputs with git status/diff and git show at plan.source_commit; this untracked wrapper must be included in the eventual bound source commit before dispatch."
+  },
+  "tests": {
+    "command": "/opt/homebrew/bin/python3.13 -B -E -m unittest -v test_adapter_08 test_runtime_graph_08",
+    "exit_code": 0,
+    "passed": 20,
+    "failed": 0,
+    "output": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/test-output-06.txt",
+      "sha256": "f07de7c4d2fe281846ee30a7ddef1fe0ebd0dce300a5ce05d62cd350a652b343",
+      "bytes": 3769
+    },
+    "execution_boundary": "Synthetic selector, provenance, and entrypoint tests plus graph-owned current-source/frozen-run_group preflight through all source inputs, stopping before tool-file validation, resource admission, process creation, or analyzer execution."
+  },
+  "superseded_test_run": {
+    "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/test-output-04.txt",
+    "sha256": "493fdd1ec57d24fb92a30a2ab7e0cd70497725cc0588ce5121413d5cc9f76209",
+    "exit_code": 1,
+    "note": "Preserved initial attempt; its synthetic annex fixture lacked the 111..131 values and the first implementation introduced a graph import edge. Both were corrected before the passing test-output-06 run."
+  },
+  "scope": {
+    "source_only": true,
+    "dispatches": 0,
+    "native_provider_invoked": false,
+    "analyzer_invoked": false,
+    "ledger_or_completed_receipt_rewritten": false,
+    "git_mutation_performed": false,
+    "execution_authorized": false,
+    "automatic_retry": false,
+    "full_model_qualification": false,
+    "scored_activation": false,
+    "uncontended_timing_certified": false,
+    "relative_performance_conclusions_authorized": false,
+    "publication_approved": false,
+    "publication_hold": true
+  },
+  "limitations": [
+    "Independent source review and root-owned source-commit/request binding remain pending.",
+    "The current untracked wrapper cannot pass the frozen executor's direct source-input git-blob gate until the eventual plan source_commit contains the exact wrapper bytes.",
+    "The tests do not run Joern, invoke the native provider, append to the live ledger, or prove execution eligibility."
+  ]
+}
