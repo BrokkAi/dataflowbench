@@ -1,5 +1,6 @@
 """Private singleton controller; actual dispatch requires sealed execution authority."""
 from __future__ import annotations
+import contextlib
 from pathlib import Path
 from typing import Any
 from packet import require
@@ -420,17 +421,21 @@ def _held_proxy(root: Path, core: dict, graph: Any, stream: Any):
     return proxy
 
 
-def _fresh_gate(root: Path, core: dict, graph: Any, stage: Any, held_lock: Any) -> dict:
+@contextlib.contextmanager
+def _current_source_snapshot_scope(root: Path, core: dict, graph: Any,
+                                   actual: Any):
+    """Bind the current source proof while frozen live checks read the plan.
+
+    Both pre-dispatch configuration gates and post-run terminal safety invoke
+    the same frozen source guard. The opaque runtime object supplies the exact
+    normalized resolver closure; metadata alone cannot install this scope.
+    """
     from packet import canonical, digest
-    frozen = graph.module('bridge19')
-    controller = graph.module('supervisor24')
-    frozen.assert_stage_current(root, stage, graph)
-    actual = frozen.runtime_objects(stage)
     require(actual.graph is graph and Path(actual.root).resolve() == Path(root).resolve(),
-            'fresh gate requires the actual runtime from this root and graph')
+            'source snapshot scope requires the actual runtime from this root and graph')
     executor = actual.objects['modules']['executor']
     require(executor is graph.module('executor'),
-            'fresh gate executor differs from the pinned runtime module')
+            'source snapshot executor differs from the pinned runtime module')
     normalized = actual.objects['validated']
     current_core = actual.objects.get('current_core')
     source_proof = actual.objects.get('current_source_proof')
@@ -442,9 +447,7 @@ def _fresh_gate(root: Path, core: dict, graph: Any, stage: Any, held_lock: Any) 
             actual.diagnostic.get('current_source_proof_sha256') == proof_sha256 and
             closure_sha256 is not None and
             actual.diagnostic.get('current_source_input_closure_sha256') == closure_sha256,
-            'fresh gate source proof, resolver closure, or current core differs from its opaque binding')
-    admission24 = graph.module('admission24')
-    proxy = _held_proxy(root, core, graph, held_lock)
+            'source proof, resolver closure, or current core differs from its opaque binding')
     stage_runtime = graph.module('joern05_stage_runtime')
     with stage_runtime.current_source_snapshot_scope(
             executor, root, core['source_commit'],
@@ -452,6 +455,17 @@ def _fresh_gate(root: Path, core: dict, graph: Any, stage: Any, held_lock: Any) 
             current_core=current_core, source_input_closure=source_input_closure,
             expected_proof_sha256=proof_sha256,
             expected_closure_sha256=closure_sha256):
+        yield executor, normalized
+
+
+def _fresh_gate(root: Path, core: dict, graph: Any, stage: Any, held_lock: Any) -> dict:
+    frozen = graph.module('bridge19')
+    controller = graph.module('supervisor24')
+    frozen.assert_stage_current(root, stage, graph)
+    actual = frozen.runtime_objects(stage)
+    admission24 = graph.module('admission24')
+    proxy = _held_proxy(root, core, graph, held_lock)
+    with _current_source_snapshot_scope(root, core, graph, actual) as (executor, normalized):
         value = controller._configuration_live_gate(
             admission24, executor, root, core, proxy, normalized,
             core['source_commit'], 'joern05-before-dispatch')
@@ -459,6 +473,26 @@ def _fresh_gate(root: Path, core: dict, graph: Any, stage: Any, held_lock: Any) 
     table = executor._process_table()
     require(not controller._hashed_bifrost_contenders(table), 'foreign hashed Bifrost contender')
     return value
+
+
+def _terminal_continuation_safety_with_scopes(root: Path, core: dict, graph: Any,
+                                              actual: Any, terminal: dict,
+                                              terminal_sha256: str,
+                                              held_lock: Any) -> dict:
+    """Keep frozen loader routing and current source proof active at terminal."""
+    controller = graph.module('supervisor24')
+    loaders = graph.module('runtime_loaders24')
+    objects = actual.objects
+    executor = objects['modules']['executor']
+    admission24 = graph.module('admission24')
+    with loaders.scoped_runtime_loaders(root, executor=executor, graph=graph,
+                                        module_names=loaders.PRODUCTION_MODULE_NAMES):
+        with _current_source_snapshot_scope(root, core, graph, actual) as (_, normalized):
+            proxy = _held_proxy(root, core, graph, held_lock)
+            return controller._terminal_continuation_safety(
+                root, core, terminal, terminal_sha256, executor, admission24,
+                normalized, proxy, protocol=graph.module('joern05_protocol'),
+                disk=graph.module('disk_guard'))
 
 
 def command_spec(root: Path, core: dict, manifest_ref: dict, request_ref: dict,
@@ -673,14 +707,10 @@ def run_parent(root: Path, core: dict, manifest_ref: dict, *, graph: Any,
             analyzer_deadline_seconds=stage.identity.analyzer_deadline_seconds,
             live_ledger={'path': 'reports/releases/v0.9.2/ledger-v1.jsonl',
                          'sha256': next_ledger['sha256']})
-        actual = frozen.runtime_objects(successor).objects
-        loaders = graph.module('runtime_loaders24')
-        with loaders.scoped_runtime_loaders(root, executor=actual['modules']['executor'],
-                graph=graph, module_names=loaders.PRODUCTION_MODULE_NAMES):
-            safety = controller._terminal_continuation_safety(root, core, terminal,
-                digest(terminal_raw), actual['modules']['executor'], graph.module('admission24'),
-                actual['validated'], _held_proxy(root, core, graph, held_lock),
-                protocol=graph.module('joern05_protocol'), disk=graph.module('disk_guard'))
+        actual_runtime = frozen.runtime_objects(successor)
+        actual = actual_runtime.objects
+        safety = _terminal_continuation_safety_with_scopes(
+            root, core, graph, actual_runtime, terminal, digest(terminal_raw), held_lock)
         result = {'schema': 'v092-joern05-completion/v1', 'group_id': GROUP,
                   'attempt_id': ATTEMPT, 'terminal': transition[-1], 'child_exit_code': code,
                   'cleanup': cleanup, 'continuation_safety': safety,

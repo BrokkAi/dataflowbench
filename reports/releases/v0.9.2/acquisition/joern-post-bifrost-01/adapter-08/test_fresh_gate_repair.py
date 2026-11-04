@@ -1,6 +1,7 @@
-"""Synthetic regression for the archive-aware pre-dispatch freshness gate."""
+"""Synthetic regression for archive-aware live and terminal source gates."""
 from __future__ import annotations
 
+import contextlib
 import copy
 import hashlib
 import tempfile
@@ -118,12 +119,45 @@ class FreshGateArchiveScopeTests(unittest.TestCase):
             _configuration_live_gate = staticmethod(configuration_live_gate)
 
             @staticmethod
+            def _terminal_continuation_safety(candidate_root, candidate_core,
+                                              terminal, terminal_sha256,
+                                              candidate_executor, candidate_admission,
+                                              validated, lock, *, protocol, disk):
+                events.append("terminal-safety")
+                lock.assert_live(candidate_core["lock_path"])
+                candidate_admission._live_resources(candidate_root, candidate_core)
+                candidate_executor._assert_source_snapshot(
+                    candidate_root, candidate_core["source_commit"],
+                    validated["plan"]["runner_source_sha256"],
+                    validated["source_inputs"])
+                events.append("terminal-safety-passed")
+                return {"status": "terminal-safety-passed",
+                        "terminal": terminal, "sha256": terminal_sha256,
+                        "protocol": protocol, "disk": disk}
+
+            @staticmethod
             def _hashed_bifrost_contenders(table):
                 events.append("hashed-contenders")
                 return []
 
         admission = SimpleNamespace(_live_resources=lambda candidate_root, candidate_core:
                                     events.append("admission-resources"))
+
+        class RuntimeLoaders:
+            PRODUCTION_MODULE_NAMES = ("executor", "checker", "configuration")
+
+            @contextlib.contextmanager
+            def scoped_runtime_loaders(self, candidate_root, *, executor, graph,
+                                       module_names):
+                events.append("loader-scope-enter")
+                if (candidate_root != root or executor is not actual.objects["modules"]["executor"] or
+                        graph is not graph_value or
+                        module_names != self.PRODUCTION_MODULE_NAMES):
+                    raise AssertionError("runtime loader scope changed")
+                try:
+                    yield
+                finally:
+                    events.append("loader-scope-exit")
 
         class FrozenBridge:
             def assert_stage_current(self, candidate_root, stage, graph):
@@ -141,6 +175,9 @@ class FreshGateArchiveScopeTests(unittest.TestCase):
             "admission24": admission,
             "executor": executor,
             "joern05_stage_runtime": stage_runtime,
+            "runtime_loaders24": RuntimeLoaders(),
+            "joern05_protocol": object(),
+            "disk_guard": object(),
         }
 
         class Graph:
@@ -212,6 +249,54 @@ class FreshGateArchiveScopeTests(unittest.TestCase):
                 with self.assertRaises(packet.AdapterError):
                     supervisor._fresh_gate(root, core, graph, object(), stream)
             self.assertNotIn("configuration-gate", events)
+
+    def test_terminal_safety_runs_inside_loader_and_archive_aware_scopes(self):
+        with tempfile.TemporaryDirectory(prefix="joern05-terminal-source-scope-") as temp:
+            root = Path(temp).resolve()
+            core, historical, normalized, proof, direct, closure = self._case(root)
+            (graph, actual, executor, events, guard_calls, source_files,
+             stream) = self._graph(root, core, historical, normalized, proof, closure)
+            original_guard = executor._assert_source_snapshot
+            with mock.patch.object(packet, "ROOT", root), \
+                    mock.patch.object(packet, "inherited_core", return_value=historical):
+                result = supervisor._terminal_continuation_safety_with_scopes(
+                    root, core, graph, actual,
+                    {"status": "completed", "attempt_id": "terminal-test"},
+                    "a" * 64, stream)
+
+            self.assertEqual(result["status"], "terminal-safety-passed")
+            self.assertEqual(result["terminal"]["attempt_id"], "terminal-test")
+            self.assertEqual(guard_calls[0][3], [{**direct, "role": "release-input"}])
+            self.assertEqual(len(source_files), 1)
+            self.assertEqual(source_files[0][2], direct["path"])
+            self.assertLess(events.index("loader-scope-enter"),
+                            events.index("terminal-safety"))
+            self.assertLess(events.index("terminal-safety"),
+                            events.index("loader-scope-exit"))
+            self.assertIs(executor._assert_source_snapshot.__self__,
+                          original_guard.__self__)
+            self.assertIs(executor._assert_source_snapshot.__func__,
+                          original_guard.__func__)
+
+    def test_terminal_archive_mutation_fails_inside_loader_scope_before_safety(self):
+        with tempfile.TemporaryDirectory(prefix="joern05-terminal-source-mutated-") as temp:
+            root = Path(temp).resolve()
+            core, historical, normalized, proof, _direct, closure = self._case(root)
+            archived = proof["archived_member_refs"][0]
+            (root / archived["path"]).write_bytes(b"tampered before terminal check")
+            (graph, actual, _executor, events, _guard_calls, _source_files,
+             stream) = self._graph(root, core, historical, normalized, proof, closure)
+            with mock.patch.object(packet, "ROOT", root), \
+                    mock.patch.object(packet, "inherited_core", return_value=historical):
+                with self.assertRaises(packet.AdapterError):
+                    supervisor._terminal_continuation_safety_with_scopes(
+                        root, core, graph, actual,
+                        {"status": "completed", "attempt_id": "terminal-test"},
+                        "a" * 64, stream)
+            self.assertIn("loader-scope-enter", events)
+            self.assertIn("loader-scope-exit", events)
+            self.assertIn("terminal-safety", events)
+            self.assertNotIn("terminal-safety-passed", events)
 
 
 if __name__ == "__main__":
