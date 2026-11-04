@@ -108,28 +108,19 @@ def load_bound_module(root: Path, name: str, ref: dict[str, str]) -> Any:
 def load_history_provider(root: Path = ROOT) -> Any:
     """Load the exact archive-only provider only after digest verification."""
     global _HISTORY_MODULE
-    raw = read_ref(root, HISTORY_REF)
-    if _HISTORY_MODULE is not None:
-        require(sys.modules.get(_HISTORY_MODULE_NAME) is _HISTORY_MODULE,
-                'history provider module owner changed')
-        return _HISTORY_MODULE
     require(_HISTORY_MODULE_NAME not in sys.modules,
             'private history provider module name is already owned')
-    path = root / HISTORY_REF['path']
-    spec = importlib.util.spec_from_file_location(_HISTORY_MODULE_NAME, path)
-    require(spec is not None and spec.loader is not None,
-            'cannot load exact history provider03 source')
-    module = importlib.util.module_from_spec(spec)
-    module.__file__ = str(path)
-    sys.modules[_HISTORY_MODULE_NAME] = module
+    if _HISTORY_MODULE is not None:
+        read_ref(root, HISTORY_REF)
+        return _HISTORY_MODULE
+    module = load_bound_module(root, _HISTORY_MODULE_NAME, HISTORY_REF)
+    # Dataclass construction needs the registration while the provider loads.
+    # The adapter retains the private module object, leaving the graph baseline intact.
     try:
-        exec(compile(raw, str(path), 'exec'), module.__dict__)
-    except BaseException:
-        if sys.modules.get(_HISTORY_MODULE_NAME) is module:
-            del sys.modules[_HISTORY_MODULE_NAME]
-        raise
-    require(callable(getattr(module, 'validate_archive_only_130', None)),
-            'history provider03 lacks archive-only130 API')
+        require(callable(getattr(module, 'validate_archive_only_130', None)),
+                'history provider03 lacks archive-only130 API')
+    finally:
+        cleanup_registered_modules([(_HISTORY_MODULE_NAME, module)])
     _HISTORY_MODULE = module
     return module
 

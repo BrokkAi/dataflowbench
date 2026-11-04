@@ -533,9 +533,10 @@ def _combine_live_snapshot(
     tail = _validate_tail(rows[130], current, annex_rows) if len(rows) == 131 else None
     selected = _selected_historical_rows(
         old_rows, baseline["sealed109_lineage"]["retained20"], tail)
-    annex_groups = {row["group_id"] for row in annex_rows}
-    packet.require(not annex_groups.intersection(selected),
-                   "C5 annex groups leaked into selected sealed109 Joern history")
+    annex_attempt_ids = {row["attempt_id"] for row in annex_rows}
+    selected_attempt_ids = {row.get("attempt_id") for row in selected.values()}
+    packet.require(not annex_attempt_ids.intersection(selected_attempt_ids),
+                   "C5 annex attempt identities leaked into selected sealed109 Joern history")
     raw_sha = packet.digest(raw)
     scala = copy.deepcopy(baseline["bifrost0144_scala_partial"])
     return {

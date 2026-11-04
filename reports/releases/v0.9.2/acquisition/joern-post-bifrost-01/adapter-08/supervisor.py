@@ -421,15 +421,40 @@ def _held_proxy(root: Path, core: dict, graph: Any, stream: Any):
 
 
 def _fresh_gate(root: Path, core: dict, graph: Any, stage: Any, held_lock: Any) -> dict:
+    from packet import canonical, digest
     frozen = graph.module('bridge19')
     controller = graph.module('supervisor24')
     frozen.assert_stage_current(root, stage, graph)
     actual = frozen.runtime_objects(stage)
+    require(actual.graph is graph and Path(actual.root).resolve() == Path(root).resolve(),
+            'fresh gate requires the actual runtime from this root and graph')
     executor = actual.objects['modules']['executor']
+    require(executor is graph.module('executor'),
+            'fresh gate executor differs from the pinned runtime module')
+    normalized = actual.objects['validated']
+    current_core = actual.objects.get('current_core')
+    source_proof = actual.objects.get('current_source_proof')
+    source_input_closure = actual.objects.get('current_source_input_closure')
+    proof_sha256 = digest(canonical(source_proof)) if isinstance(source_proof, dict) else None
+    closure_sha256 = (digest(canonical(source_input_closure))
+                      if isinstance(source_input_closure, dict) else None)
+    require(current_core == core and proof_sha256 is not None and
+            actual.diagnostic.get('current_source_proof_sha256') == proof_sha256 and
+            closure_sha256 is not None and
+            actual.diagnostic.get('current_source_input_closure_sha256') == closure_sha256,
+            'fresh gate source proof, resolver closure, or current core differs from its opaque binding')
     admission24 = graph.module('admission24')
     proxy = _held_proxy(root, core, graph, held_lock)
-    value = controller._configuration_live_gate(admission24, executor, root, core, proxy,
-                actual.objects['validated'], core['source_commit'], 'joern05-before-dispatch')
+    stage_runtime = graph.module('joern05_stage_runtime')
+    with stage_runtime.current_source_snapshot_scope(
+            executor, root, core['source_commit'],
+            normalized['plan']['runner_source_sha256'], normalized, source_proof,
+            current_core=current_core, source_input_closure=source_input_closure,
+            expected_proof_sha256=proof_sha256,
+            expected_closure_sha256=closure_sha256):
+        value = controller._configuration_live_gate(
+            admission24, executor, root, core, proxy, normalized,
+            core['source_commit'], 'joern05-before-dispatch')
     executor._check_resources(root, 127 * 1024 ** 3)
     table = executor._process_table()
     require(not controller._hashed_bifrost_contenders(table), 'foreign hashed Bifrost contender')
