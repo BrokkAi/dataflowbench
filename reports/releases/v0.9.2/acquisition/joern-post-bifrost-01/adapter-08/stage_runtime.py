@@ -18,6 +18,128 @@ def _lower_sha256(value: Any) -> bool:
     return (isinstance(value, str) and len(value) == 64 and
             all(character in '0123456789abcdef' for character in value))
 
+
+_HISTORICAL_SOURCE_BASE_PATHS = (
+    "src", "cases", "populations", "adapters", "schemas", "scripts",
+    "Cargo.toml", "Cargo.lock", "docs/v0.9.2-execution.md", "corpus",
+    "README.md", "LICENSE", "docs/adapters.md",
+    "reports/releases/v0.9.0/plan.json", "docs/benchmark-sources.md",
+    "docs/challenge-tier.md", "docs/real-project-preregistration.md",
+    "docs/real-project-r2-preregistration.md", "docs/real-project-review.md",
+)
+
+
+def _assert_historical_source_snapshot(root: Path, stage: Any, source_commit: str,
+                                       plan_commit: str, runner_source_sha256: str,
+                                       executor_ref: dict[str, Any],
+                                       source_inputs: list[dict[str, Any]]) -> None:
+    """Replay the frozen source gate against its historical plan, not new HEAD.
+
+    The ordinary executor guard also requires ``source_commit`` to be an
+    ancestor of the current checkout and compares worktree status to that old
+    commit. Historical S/P replay instead proves S is an ancestor of its
+    sealed plan P, that the frozen protected paths did not drift from S to P,
+    and that every normalized source input and the executor runner blob at S
+    match their hash-bound refs. Worktree bytes remain checked by the actual
+    frozen normalizer before this function is called.
+    """
+    import re
+    import subprocess
+
+    require(isinstance(source_commit, str) and re.fullmatch(r"[0-9a-f]{40}", source_commit) and
+            isinstance(plan_commit, str) and re.fullmatch(r"[0-9a-f]{40}", plan_commit),
+            "historical source/plan commits must be exact Git identities")
+    require(_lower_sha256(runner_source_sha256),
+            "historical runner source digest is malformed")
+    require(isinstance(executor_ref, dict) and set(executor_ref) == {"path", "sha256"} and
+            executor_ref.get("path") == "scripts/execute-release-v092.py" and
+            executor_ref.get("sha256") == runner_source_sha256,
+            "historical frozen executor ref differs from the runner digest")
+    stage._ancestor(root, source_commit, plan_commit,
+                    "historical source to sealed plan")
+
+    require(isinstance(source_inputs, list) and source_inputs,
+            "historical normalized source-input refs are missing")
+    expected_by_path: dict[str, str] = {}
+    ordered_paths = []
+    for item in source_inputs:
+        require(isinstance(item, dict) and set(item) == {"path", "sha256", "role"} and
+                isinstance(item.get("role"), str) and item["role"] and
+                _lower_sha256(item.get("sha256")),
+                "historical normalized source-input ref is malformed")
+        checked_path = stage._relative(item["path"], "historical source-input path").as_posix()
+        require("\n" not in checked_path and "\r" not in checked_path,
+                "historical source-input path cannot be represented as an exact Git ref")
+        require(checked_path not in expected_by_path,
+                "historical normalized source-input path is duplicated")
+        expected_by_path[checked_path] = item["sha256"]
+        ordered_paths.append(checked_path)
+    require(ordered_paths == sorted(ordered_paths),
+            "historical normalized source-input refs are not in canonical order")
+    if executor_ref["path"] in expected_by_path:
+        require(expected_by_path[executor_ref["path"]] == runner_source_sha256,
+                "historical runner ref conflicts with a normalized source input")
+    expected_by_path[executor_ref["path"]] = runner_source_sha256
+
+    protected_paths = list(dict.fromkeys(
+        [*_HISTORICAL_SOURCE_BASE_PATHS, *ordered_paths, executor_ref["path"]]))
+    for path in protected_paths:
+        stage._relative(path, "historical protected source path")
+        require("\n" not in path and "\r" not in path,
+                "historical protected path cannot be represented as an exact Git pathspec")
+    path_chunk: list[str] = []
+    chunk_bytes = 0
+
+    def verify_no_drift(paths: list[str]) -> None:
+        changed = stage._git(root, "--literal-pathspecs", "diff", "--name-status",
+                             "--no-renames", source_commit, plan_commit, "--", *paths)
+        require(not changed,
+                "historical protected source paths drift between source and sealed plan")
+
+    for path in protected_paths:
+        path_size = len(path.encode("utf-8")) + 1
+        if path_chunk and chunk_bytes + path_size > 24 * 1024:
+            verify_no_drift(path_chunk)
+            path_chunk = []
+            chunk_bytes = 0
+        path_chunk.append(path)
+        chunk_bytes += path_size
+    if path_chunk:
+        verify_no_drift(path_chunk)
+
+    refs = sorted(expected_by_path.items())
+    for offset in range(0, len(refs), 16):
+        batch = refs[offset:offset + 16]
+        request = b"".join(
+            f"{source_commit}:{path}\n".encode("utf-8") for path, _ in batch)
+        result = subprocess.run(["git", "cat-file", "--batch"], cwd=root,
+                                input=request, stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, check=False)
+        require(result.returncode == 0,
+                "historical Git object batch could not be read")
+        raw = result.stdout
+        cursor = 0
+        for path, expected_sha256 in batch:
+            header_end = raw.find(b"\n", cursor)
+            require(header_end >= 0,
+                    "historical Git object batch header is truncated")
+            header = raw[cursor:header_end].split()
+            require(len(header) == 3 and header[1] == b"blob" and
+                    header[0] and all(value in b"0123456789abcdef" for value in header[0]) and
+                    header[2].isdigit(),
+                    "historical Git source input is missing or not a blob: " + path)
+            size = int(header[2])
+            start = header_end + 1
+            end = start + size
+            require(end < len(raw) and raw[end:end + 1] == b"\n",
+                    "historical Git source blob body is truncated")
+            actual_sha256 = digest(raw[start:end])
+            require(actual_sha256 == expected_sha256,
+                    "historical Git source blob differs from its normalized ref: " + path)
+            cursor = end + 1
+        require(cursor == len(raw),
+                "historical Git object batch returned unexpected trailing bytes")
+
 @contextlib.contextmanager
 def parser_scope(executor: Any, root: Path, contract_ref: dict[str, str], actual_plan: dict[str, Any], actual_raw: bytes) -> Iterator[dict[str, Any]]:
     """Project only known unsupported caps in-memory, restore on every exit.
@@ -423,7 +545,10 @@ def historical_context_scope(root: Path, graph: Any, *, current: dict[str, Any] 
         stage._source_delta05(root, design, manifest, core['continuation']['source_commit'], core['source_commit'], incoming_plan=core['continuation']['plan_commit'])
         stage._validate_binary_identity(root, core, normalized)
         sources = stage._validate_normalized_source_inputs(executor, normalized, root, inherited=core['continuation']['source_inputs'])
-        executor._assert_source_snapshot(root, core['source_commit'], normalized['plan']['runner_source_sha256'], sources)
+        _assert_historical_source_snapshot(
+            root, stage, core['source_commit'], core['plan_commit'],
+            normalized['plan']['runner_source_sha256'],
+            core['runtime_module_graph']['executor'], sources)
         contexts = stage._load_contexts(root, executor, core, replacement, normalized, core['contract'], core['source_commit'], core['plan_commit'], manifest, rows=rows, raw=historical_raw, fixture_only=False)
         verify_runtime_context_bindings(root, contexts)
         yield {'contexts': contexts, 'historical_validated': normalized,
