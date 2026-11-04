@@ -510,7 +510,13 @@ def command_spec(root: Path, core: dict, manifest_ref: dict, request_ref: dict,
     require(group['maximum_attempts'] == 5, 'command cap differs')
     require(type(lock_fd) is int and lock_fd > 2 and type(witness_fd) is int and witness_fd > 2,
             'command descriptors missing')
-    argv = [sys.executable, '-B', '-E', str(root / source['path']), 'child',
+    # Homebrew's framework launcher can report its wrapper in sys.executable
+    # while CPython records the framework binary in sys.orig_argv[0]. Launch
+    # the recorded binary so the child can verify its entire argv verbatim.
+    interpreter = Path(sys.orig_argv[0])
+    require(interpreter.is_absolute() and interpreter.resolve() == interpreter and
+            interpreter.is_file(), 'current Python invocation lacks a canonical executable')
+    argv = [str(interpreter), '-B', '-E', str(root / source['path']), 'child',
             '--root', str(root), '--manifest', manifest_ref['path'], '--manifest-sha256', manifest_ref['sha256'],
             '--request', request_ref['path'], '--request-sha256', request_ref['sha256'],
             '--parent-stage', parent_stage_ref['path'], '--parent-stage-sha256', parent_stage_ref['sha256'],

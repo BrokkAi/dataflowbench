@@ -4,6 +4,8 @@ from __future__ import annotations
 import contextlib
 import copy
 import hashlib
+import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -11,6 +13,7 @@ from types import SimpleNamespace
 from unittest import mock
 
 import packet
+import bridge
 import stage_runtime
 import supervisor
 import test_adapter_08 as fixtures
@@ -21,6 +24,27 @@ def sha(raw: bytes) -> str:
 
 
 class FreshGateArchiveScopeTests(unittest.TestCase):
+    def test_child_permit_matches_cpython_original_argv(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp).resolve()
+            probe = root / "probe.py"
+            probe.write_text("import json, sys; print(json.dumps(sys.orig_argv))\n")
+            source = {"path": probe.name, "sha256": sha(probe.read_bytes())}
+            core = {"adapter_module_refs": {"joern05_supervisor": source},
+                    "core_identity": {}, "contract": {}}
+            contract = {"groups": [{"id": supervisor.GROUP, "maximum_attempts": 5,
+                                    "environment": {"PATH": "/usr/bin:/bin"}}]}
+            with mock.patch.object(bridge, "assert_graph95_core"), \
+                    mock.patch.object(packet, "document", return_value=contract):
+                command = supervisor.command_spec(
+                    root, core, {"path": "manifest.json", "sha256": "4" * 64},
+                    {"path": "request.json", "sha256": "1" * 64},
+                    {"path": "stage.json", "sha256": "2" * 64},
+                    graph=SimpleNamespace(graph_sha256="3" * 64), lock_fd=3,
+                    witness_fd=4, token="token", popen_monotonic=1.0)
+            observed = subprocess.check_output(command["argv"], env=command["environment"])
+            self.assertEqual(json.loads(observed), command["argv"])
+
     def _case(self, root: Path):
         graph_refs = {
             "executor": {"path": "runtime/executor.py", "sha256": "1" * 64},
