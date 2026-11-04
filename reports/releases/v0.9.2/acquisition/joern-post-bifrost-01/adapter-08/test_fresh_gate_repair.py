@@ -5,6 +5,7 @@ import contextlib
 import copy
 import hashlib
 import json
+import os
 import subprocess
 import tempfile
 import unittest
@@ -13,6 +14,7 @@ from types import SimpleNamespace
 from unittest import mock
 
 import packet
+import admission
 import bridge
 import stage_runtime
 import supervisor
@@ -24,6 +26,48 @@ def sha(raw: bytes) -> str:
 
 
 class FreshGateArchiveScopeTests(unittest.TestCase):
+    def test_child_ready_gate_rechecks_full_live_ownership_record(self):
+        child = object()
+        record = {
+            "schema": "invocation-process-ownership/v1", "status": "verified",
+            "automatic_retry": False, "no_foreign_processes": True,
+            "pid": os.getpid(), "birth_identity": "exact birth",
+            "tracked_processes": [{"pid": os.getpid(), "start_identity": "exact birth"}],
+        }
+        core = {"core_identity": {}, "dispatch_groups": [supervisor.GROUP],
+                "runtime_module_graph": {admission.DIAGNOSTIC_ADMISSION_ROLE: {}},
+                "joern_runner_role": "runner", "joern_runner_source": {},
+                "prerequisite_refs": {"eligible_joern_plan": {"path": "eligible"},
+                                      "current_manifest": {}}}
+        manifest = {"core_identity": {},
+                    "execution_admission_slots": {supervisor.GROUP: {
+                        "attempt_id": supervisor.ATTEMPT, "analyzer_phase_path": "phase"}}}
+        ready = mock.Mock(side_effect=RuntimeError("controlled boundary before dispatch"))
+        frozen = SimpleNamespace(ChildStage=object, assert_child_ready_from_receipt=ready)
+        controller = SimpleNamespace(_process=mock.Mock(return_value=record))
+        graph = SimpleNamespace(module={"bridge19": frozen, "supervisor24": controller}.__getitem__)
+        core_document = {k: v for k, v in core.items()
+                         if k not in {"core_identity", "prerequisite_refs"}}
+        phase = {"phase_receipt_path": "phase", "process": record,
+                 "child_stage_witness": {}, "child_stage_witness_ref": {}}
+
+        def run(bindings):
+            return supervisor.run_child_group(
+                Path("."), core, {}, graph=graph, child=child, parent_ref={},
+                dispatch_sidecars={}, lock_fd=-1, popen_monotonic=0.0, phase_bindings=bindings)
+
+        with mock.patch.object(admission, "require_markers"), \
+                mock.patch.object(admission, "validate_prerequisites"), \
+                mock.patch.object(stage_runtime, "_pinned_member"), \
+                mock.patch.object(packet, "inherited_core", return_value={"runtime_module_graph": {}}), \
+                mock.patch.object(packet, "document", side_effect=[manifest, core_document] * 2):
+            with self.assertRaisesRegex(RuntimeError, "controlled boundary before dispatch"):
+                run(phase)
+            with self.assertRaisesRegex(packet.AdapterError, "ownership record differs"):
+                run({**phase, "process": {**record, "tracked_processes": []}})
+        ready.assert_called_once()
+        self.assertEqual(controller._process.call_args_list, [mock.call(os.getpid())] * 2)
+
     def test_child_permit_matches_cpython_original_argv(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve()

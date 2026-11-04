@@ -289,7 +289,8 @@ def run_child_group(root: Path, core: dict[str, Any], manifest_ref: dict[str, st
     slot = manifest['execution_admission_slots'][GROUP]
     require(slot['attempt_id'] == ATTEMPT, 'manifest dispatch slot is not globalJoern05')
     require(set(phase_bindings) == {'phase_receipt_path', 'process', 'child_stage_witness', 'child_stage_witness_ref'}, 'phase bindings fields differ')
-    require(phase_bindings['process'] == {'pid': os.getpid(), 'birth_identity': controller._birth(os.getpid())}, 'phase child exact birth differs')
+    require(phase_bindings['process'] == controller._process(os.getpid()),
+            'phase child ownership record differs')
     require(phase_bindings['phase_receipt_path'] == slot['analyzer_phase_path'], 'analyzer phase path differs from bound slot')
     require(core['dispatch_groups'] == [GROUP], 'no independent group may be redispatched')
 
@@ -691,7 +692,10 @@ def run_parent(root: Path, core: dict, manifest_ref: dict, *, graph: Any,
         channel.close()
         cleanup = controller._bounded_reap_owned_group(child, child_process)
         require(cleanup.get('status') == 'reaped', 'owned child/descendants not contained')
-        terminal_raw = (root / terminal_path).read_bytes()
+        terminal_file = root / terminal_path
+        require(terminal_file.is_file(),
+                f'Joern child exited {code} without a terminal receipt; see child-stderr.txt')
+        terminal_raw = terminal_file.read_bytes()
         import json
         terminal = json.loads(terminal_raw)
         graph.module('joern05_protocol')._terminal_identity(terminal, group_id=GROUP, attempt_id=ATTEMPT,
