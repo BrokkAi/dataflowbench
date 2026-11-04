@@ -160,6 +160,159 @@ class FrozenRunnerEntrypointTests(unittest.TestCase):
                 self.assertEqual(wrapper.main(), 23)
         self.assertEqual(received, [arguments])
 
+    def test_exact_execute_guard_and_near_misses(self):
+        wrapper = self._wrapper()
+        root = Path(__file__).parents[6].resolve()
+        attempt = root / wrapper.ATTEMPT_CWD
+        environment = {
+            "DATAFLOWBENCH_V092_RELEASE_EXECUTION": "1",
+            "DATAFLOWBENCH_V092_GROUP_ID": wrapper.GROUP_ID,
+        }
+        argv = wrapper._expected_execute_argv(root)
+        checked_root, output = wrapper._validate_execute_invocation(
+            argv, attempt_root=attempt, cwd=attempt, environment=environment)
+        self.assertEqual(checked_root, root)
+        self.assertEqual(output, attempt / wrapper.CLI_OUTPUT)
+
+        bad = list(argv)
+        bad[-1] = "reports/raw/joern-common-v2/other"
+        with self.assertRaisesRegex(RuntimeError, "reviewed Joern05 command"):
+            wrapper._validate_execute_invocation(
+                bad, attempt_root=attempt, cwd=attempt, environment=environment)
+        with self.assertRaisesRegex(RuntimeError, "working directory"):
+            wrapper._validate_execute_invocation(
+                argv, attempt_root=attempt, cwd=attempt / "near-miss",
+                environment=environment)
+        with self.assertRaisesRegex(RuntimeError, "environment markers"):
+            wrapper._validate_execute_invocation(
+                argv, attempt_root=attempt, cwd=attempt,
+                environment={"DATAFLOWBENCH_V092_GROUP_ID": wrapper.GROUP_ID})
+
+    def test_scoped_runner_copy_preserves_original_validation_and_restores(self):
+        wrapper = self._wrapper()
+        root = Path(__file__).parents[6].resolve()
+        plan = json.loads((root / wrapper.PLAN_PATH).read_bytes())
+        evidence = {"sealed": True}
+        context = object()
+        output = root / wrapper.ATTEMPT_CWD / "disposable-probe-output"
+        calls = []
+
+        class Runner:
+            def validate_plan(self, candidate_root, plan_path):
+                calls.append((candidate_root, plan_path))
+                return copy.deepcopy(plan), evidence, context
+
+        runner = Runner()
+        original_validate = runner.validate_plan
+
+        class Observer:
+            __file__ = str(root / wrapper.OBSERVER_PATH)
+            execute = staticmethod(lambda *_args, **_kwargs: None)
+
+            @staticmethod
+            def _runner_context(candidate_root, _old, _result, _observer):
+                return runner, "historical-plan", contextlib.nullcontext()
+
+        result = {"new_plan": plan, "new_plan_path": wrapper.PLAN_PATH,
+                  "new_plan_sha256": wrapper.PLAN_SHA256}
+        observer = Observer()
+        original_context = observer._runner_context
+        with wrapper._scoped_observer_output(observer, root, output):
+            actual_runner, old_constant, scope = observer._runner_context(
+                root, None, result, observer)
+            self.assertIs(actual_runner, runner)
+            self.assertEqual(old_constant, "historical-plan")
+            with scope:
+                projected, got_evidence, got_context = runner.validate_plan(
+                    root, wrapper.PLAN_PATH)
+                self.assertEqual(projected["output_root"],
+                                 output.relative_to(root).as_posix())
+                self.assertEqual(plan["output_root"], wrapper.ORIGINAL_OUTPUT_ROOT)
+                self.assertIs(got_evidence, evidence)
+                self.assertIs(got_context, context)
+        restored = runner.validate_plan
+        self.assertIs(restored.__self__, runner)
+        self.assertIs(restored.__func__, Runner.validate_plan)
+        self.assertIs(observer._runner_context, original_context)
+        self.assertEqual(calls, [(root, wrapper.PLAN_PATH)])
+
+    def _translation_fixture(self, root: Path):
+        wrapper = self._wrapper()
+        output = root / wrapper.ATTEMPT_CWD / wrapper.CLI_OUTPUT
+        normal = output / "normal"
+        normal.mkdir(parents=True)
+        run_rows = []
+        raw_hashes = {}
+        for index in range(sum(wrapper.EXPECTED_REPORT_PARTITIONS)):
+            case_id = f"dfb-taint-swift-synthetic-{index:03}"
+            raw_path = output / case_id / "raw.json"
+            raw_path.parent.mkdir(parents=True)
+            raw_bytes = json.dumps({"case_id": case_id, "state": "incomplete"}).encode() + b"\n"
+            raw_path.write_bytes(raw_bytes)
+            raw_hash = sha(raw_bytes)
+            raw_hashes[case_id] = raw_hash
+            run_rows.append({"case_id": case_id, "raw": {
+                "path": raw_path.relative_to(root).as_posix(),
+                "sha256": raw_hash,
+            }})
+        run = {"schema": "joern-common-run/v092", "results": run_rows}
+        cursor = 0
+        report_paths = []
+        for ordinal, size in enumerate(wrapper.EXPECTED_REPORT_PARTITIONS):
+            rows = []
+            for raw_row in run_rows[cursor:cursor + size]:
+                case_id = raw_row["case_id"]
+                rows.append({"case_id": case_id, "outcome": "incomplete",
+                             "raw_output": raw_row["raw"]["path"],
+                             "raw_sha256": raw_hashes[case_id]})
+            cursor += size
+            report_path = normal / f"report-{ordinal}.json"
+            report_path.write_text(json.dumps({"kept": "field", "results": rows}, indent=2) + "\n")
+            report_paths.append(report_path)
+        raw_before = {row["case_id"]: (output / row["case_id"] / "raw.json").read_bytes()
+                      for row in run_rows}
+        return wrapper, output, run, report_paths, raw_hashes, raw_before
+
+    def test_snapshot_translation_changes_only_raw_output_values(self):
+        with tempfile.TemporaryDirectory(prefix="joern-adapter08-raw-map-") as temp:
+            root = Path(temp).resolve()
+            (root / "execution-state").mkdir()
+            wrapper, output, run, report_paths, raw_hashes, raw_before = \
+                self._translation_fixture(root)
+            before = [json.loads(path.read_bytes()) for path in report_paths]
+            wrapper._translate_report_raw_outputs(root, output, run)
+            for index, report_path in enumerate(report_paths):
+                after = json.loads(report_path.read_bytes())
+                expected = copy.deepcopy(before[index])
+                for old_row, new_row in zip(expected["results"], after["results"]):
+                    self.assertEqual(new_row["raw_output"],
+                                     f"{wrapper.SNAPSHOT_OUTPUT}/{new_row['case_id']}/raw.json")
+                    self.assertEqual(new_row["raw_sha256"], raw_hashes[new_row["case_id"]])
+                    old_row["raw_output"] = new_row["raw_output"]
+                self.assertEqual(after, expected)
+            self.assertEqual(raw_before, {
+                row["case_id"]: (output / row["case_id"] / "raw.json").read_bytes()
+                for row in run["results"]})
+
+    def test_snapshot_translation_rejects_hash_or_membership_drift_before_writes(self):
+        with tempfile.TemporaryDirectory(prefix="joern-adapter08-raw-nearmiss-") as temp:
+            root = Path(temp).resolve()
+            (root / "execution-state").mkdir()
+            wrapper, output, run, report_paths, _hashes, _raw = \
+                self._translation_fixture(root)
+            original_reports = [path.read_bytes() for path in report_paths]
+            bad_run = copy.deepcopy(run)
+            bad_run["results"][0]["raw"]["sha256"] = "0" * 64
+            with self.assertRaisesRegex(RuntimeError, "raw output SHA"):
+                wrapper._translate_report_raw_outputs(root, output, bad_run)
+            self.assertEqual([path.read_bytes() for path in report_paths], original_reports)
+
+            duplicate_run = copy.deepcopy(run)
+            duplicate_run["results"][1]["case_id"] = duplicate_run["results"][0]["case_id"]
+            with self.assertRaisesRegex(RuntimeError, "duplicate case"):
+                wrapper._translate_report_raw_outputs(root, output, duplicate_run)
+            self.assertEqual([path.read_bytes() for path in report_paths], original_reports)
+
 
 class HistoryBindingTests(unittest.TestCase):
     def test_authority_documents_reject_duplicate_keys_at_every_object_depth(self):
@@ -605,7 +758,14 @@ class ReplayPartitionTests(unittest.TestCase):
                 "executor": Executor,
                 "modules": {"replacement05": Replacement},
             }
-            summary = stage_runtime.replay_current_history(root, value, context, selected)
+            # This synthetic ledger is deliberately not the pinned live ledger
+            # with its one known pre-dispatch stop. Exercise the replay wall
+            # call shape without claiming that fixture carries that live hash.
+            with mock.patch.object(
+                    stage_runtime, "_observed_replay_wall",
+                    side_effect=lambda replay_stage, replay_checker, replay_rows, _hashes:
+                    replay_stage._observed_wall(replay_checker, replay_rows)):
+                summary = stage_runtime.replay_current_history(root, value, context, selected)
 
             self.assertEqual(summary["status"], "joern108-operationally-complete")
             self.assertEqual(summary["ledger_rows"], 131)

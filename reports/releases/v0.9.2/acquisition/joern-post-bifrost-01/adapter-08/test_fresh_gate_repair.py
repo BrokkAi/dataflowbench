@@ -16,6 +16,7 @@ from unittest import mock
 import packet
 import admission
 import bridge
+import protocol
 import stage_runtime
 import supervisor
 import test_adapter_08 as fixtures
@@ -26,6 +27,24 @@ def sha(raw: bytes) -> str:
 
 
 class FreshGateArchiveScopeTests(unittest.TestCase):
+    def test_contract_accounts_only_exact_observer_output_sibling(self):
+        output = "reports/raw/joern-common-v2/current108-v092-01"
+        group = {"id": supervisor.GROUP, "tool": "joern", "family": "joern",
+                 "case_ids": [str(i) for i in range(108)], "deadline_seconds": 1368,
+                 "maximum_attempts": 2, "reports": [{"source_path": str(i)} for i in range(5)],
+                 "output_roots": [output]}
+        old = {"execution_series": 2, "tools": {"runner": {}}, "source_inputs": [],
+               "groups": [group, *({"id": str(i)} for i in range(83))]}
+        new = copy.deepcopy(old)
+        candidate = new["groups"][0]
+        candidate["maximum_attempts"] = 5
+        candidate["output_roots"].append(output + ".startup-observation")
+        protocol.contract_delta(old, new, candidate)
+        for bad in ([output], [output, output + ".other"], [output, "reports/raw"]):
+            candidate["output_roots"] = bad
+            with self.assertRaisesRegex(packet.AdapterError, "exact observer sibling"):
+                protocol.contract_delta(old, new, candidate)
+
     def test_child_ready_gate_rechecks_full_live_ownership_record(self):
         child = object()
         record = {

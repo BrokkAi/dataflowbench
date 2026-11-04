@@ -54,7 +54,11 @@ def contract_delta(old: dict[str, Any], new: dict[str, Any], reviewed_joern: dic
             require(before[key] == after[key], 'Joern frozen case/deadline field changed: ' + key)
         require(len(after['case_ids']) == 108 and len(after['reports']) == 5, 'Joern108/5 partitions changed')
         require(set(before) == set(after), 'Joern group fields changed')
-        mutable = {'maximum_attempts', 'argv', 'environment', 'reports'}
+        data_root = 'reports/raw/joern-common-v2/current108-v092-01'
+        require(before['output_roots'] == [data_root] and
+                after['output_roots'] == [data_root, data_root + '.startup-observation'],
+                'Joern output roots must retain the original data and exact observer sibling')
+        mutable = {'maximum_attempts', 'argv', 'environment', 'reports', 'output_roots'}
         require(all((before[key] == after[key] for key in set(before) - mutable)), 'unreviewed Joern group field changed')
         for (before_report, after_report) in zip(before['reports'], after['reports']):
             require(set(before_report) == set(after_report), 'Joern report fields changed')

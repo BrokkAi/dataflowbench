@@ -306,6 +306,9 @@ class OpaqueCurrentRuntimeGraphTests(unittest.TestCase):
 
         self.test_patches.append(mock.patch.object(
             current_runtime_module, "current_validation_scope", synthetic_validation_scope))
+        self.test_patches.append(mock.patch.object(
+            current_runtime_module, "_observed_replay_wall",
+            lambda stage, checker, rows, _hashes: stage._observed_wall(checker, rows)))
 
         for mode, raw in (("before", raw130), ("after", raw131)):
             values[mode] = self._runtime_value(
