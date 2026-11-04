@@ -125,6 +125,71 @@ def _eligible_plan_validation_scope(root: Path, plan_ref: dict[str, str], runner
                 'eligible plan scope globals changed before identity-safe restore')
 
 
+@contextlib.contextmanager
+def _historical_joern_configuration_scope(root: Path, graph: Any):
+    """Install the frozen inherited loader routes for current plan validation.
+
+    The retained runner reaches ``joern_historical_configuration`` while
+    validating the current eligible plan.  That selector belongs to the
+    inherited88 graph and must resolve through its original stage loader,
+    never through an ambient import or the current95 graph's adapter aliases.
+    Only the sealed historical109 ledger prefix is exposed to that loader
+    scope; this does not replay historical contexts or grant execution.
+    """
+    from packet import inherited_core, load_history_provider, read_live_ledger, digest
+    from stage_runtime import _pinned_member
+
+    root = Path(root).resolve()
+    require(root == Path(PACKET_ROOT).resolve(),
+            'historical loader scope root differs from the pinned repository')
+    bridge = graph.module('joern05_bridge')
+    inherited = bridge.inherited_view(graph)
+    core = inherited_core(root)
+    graph_refs = core.get('runtime_module_graph')
+    require(type(graph_refs) is dict and len(graph_refs) == 88,
+            'historical loader scope requires the exact inherited88 graph refs')
+    members = getattr(inherited, 'members', None)
+    require(isinstance(members, (list, tuple)) and len(members) == 88,
+            'historical loader scope requires the exact inherited88 graph object')
+    require({getattr(member, 'name', None) for member in members} == set(graph_refs),
+            'historical loader scope graph roles differ from the inherited core')
+    for role, ref in graph_refs.items():
+        _pinned_member(root, inherited, role, ref)
+
+    stage = inherited.module('stage_runtime11')
+    ledger_path = core.get('ledger_path', 'reports/releases/v0.9.2/ledger-v1.jsonl')
+    require(ledger_path == 'reports/releases/v0.9.2/ledger-v1.jsonl',
+            'historical loader scope ledger path differs from the canonical live ledger')
+    current_raw = read_live_ledger(root)
+    require(type(current_raw) is bytes,
+            'historical loader scope live ledger is not raw bytes')
+    lines = current_raw.splitlines(keepends=True)
+    require(len(lines) in (130, 131) and all(line.endswith(b'\n') for line in lines),
+            'historical loader scope requires the exact130/physical131 ledger shape')
+    provider = load_history_provider(root)
+    archived130 = b''.join(lines[:provider.LEDGER_ROWS])
+    require(provider.LEDGER_ROWS == 130 and
+            digest(archived130) == provider.LEDGER_RAW_SHA256,
+            'historical loader scope ledger does not retain the provider130 prefix')
+    historical109 = b''.join(lines[:109])
+    require(digest(historical109) == provider.SEALED109_RAW_SHA256,
+            'historical loader scope does not retain the sealed109 prefix')
+    rows = stage._canonical_rows(historical109, 'sealed109 configuration scope')
+    require(len(rows) == 109,
+            'historical loader scope did not parse exactly109 sealed rows')
+
+    modules = stage._stage_modules(inherited, require_legacy=True)
+    bridge19 = inherited.module('bridge19')
+    stdlib_importlib = getattr(bridge19, 'HOST_STDLIB_IMPORTLIB', None)
+    require(stdlib_importlib is not None,
+            'inherited graph omitted captured host stdlib importlib')
+    with stage._stage_full_graph_scope(
+            root, core, inherited, modules, mode='after',
+            ledger_bytes=historical109,
+            stdlib_importlib=stdlib_importlib):
+        yield
+
+
 def validate_native_execution_decision(root: Path, refs: dict[str, Any],
                                         current: dict[str, Any]) -> dict[str, Any]:
     """Bind accepted capture/finalization evidence to the conditional decision.
@@ -296,12 +361,17 @@ def validate_prerequisites(root: Path, refs: dict[str, Any], runner: Any,
         bindings = review.get('bindings', {})
         require(bindings.get('manifest_sha256') == refs['current_manifest']['sha256'] and bindings.get('core_identity_sha256') == refs['current_core']['sha256'] and (bindings.get('contract_sha256') == current['contract']['sha256']) and (bindings.get('source_commit') == current['source_commit']) and (bindings.get('plan_commit') == current['plan_commit']), 'external execution review identity differs')
     require(eligible_plan_path == refs['eligible_joern_plan']['path'], 'eligible plan ref/path differs')
-    with _eligible_plan_validation_scope(
-            root, refs['eligible_joern_plan'], runner, graph=graph,
-            runner_role=runner_role, runner_ref=runner_ref,
-            diagnostic_role=DIAGNOSTIC_ADMISSION_ROLE,
-            diagnostic_ref=diagnostic_ref):
-        (plan, evidence, context) = runner.validate_plan(root, eligible_plan_path)
+    loader_scope = (
+        _historical_joern_configuration_scope(root, graph)
+        if purpose in {'execution', 'stage-qualification'}
+        else contextlib.nullcontext())
+    with loader_scope:
+        with _eligible_plan_validation_scope(
+                root, refs['eligible_joern_plan'], runner, graph=graph,
+                runner_role=runner_role, runner_ref=runner_ref,
+                diagnostic_role=DIAGNOSTIC_ADMISSION_ROLE,
+                diagnostic_ref=diagnostic_ref):
+            (plan, evidence, context) = runner.validate_plan(root, eligible_plan_path)
     eligible = document(root, refs['eligible_joern_plan'])
     require(plan == eligible, 'actual runner plan differs from the bound eligible-plan bytes')
     require(plan.get('execution_eligible') is True and plan.get('status') == 'execution-eligible', 'Joern plan is not eligible')
