@@ -755,6 +755,31 @@ def load_runtime_context(root: Path, core: dict[str, Any], *, graph: Any, mode: 
         graph_modules = {name: graph.module(name) for name in inherited_bridge.REQUIRED_GRAPH_NAMES}
         return inherited_bridge.ActualRuntimeContext(root, mode, graph, graph_modules, diagnostic, objects)
 
+def _observed_replay_wall(stage: Any, checker: Any, rows: list[dict[str, Any]],
+                          line_hashes: dict[str, str]) -> None:
+    """Check the sealed pre-dispatch stop without assigning it an analyzer start."""
+    import datetime as dt
+
+    missing = [index for index, row in enumerate(rows) if 'start_utc' not in row]
+    require(missing == [127], 'unexpected missing analyzer start in replay ledger')
+    index = missing[0]
+    stop = rows[index]
+    attempt = 'bifrost-smoke-attempt-04-series-03'
+    require(stop['attempt_id'] == attempt and line_hashes[attempt] ==
+            'e3924e9a5d46c1c087544a7f55008f80212d969050ef2cb4b299350429bd9d08' and
+            stop['status'] == 'recorder-error' and stop['duration_seconds'] == 0 and
+            not stop['reports'] and not stop['captured_files'],
+            'missing analyzer start is not the sealed pre-dispatch stop')
+    started_rows = rows[:index] + rows[index + 1:]
+    stage._observed_wall(checker, started_rows)
+    bounds = [dt.datetime.fromisoformat(value.replace('Z', '+00:00')) for value in (
+        rows[index - 1]['end_utc'], stop['admitted_at_utc'], stop['end_utc'],
+        rows[index + 1]['start_utc'],
+    )]
+    require(all(bound.utcoffset() == dt.timedelta(0) for bound in bounds) and
+            bounds == sorted(bounds), 'sealed pre-dispatch stop overlaps another attempt')
+
+
 def replay_current_history(root: Path, value: dict[str, Any], context: dict[str, Any], selected: dict[str, Any]) -> dict[str, Any]:
     """Replay sealed109 origins and one current Joern131 tail separately."""
     import collections
@@ -841,7 +866,7 @@ def replay_current_history(root: Path, value: dict[str, Any], context: dict[str,
     orphan = {event['attempt_id'] for event in consumed}
     require(not ids & orphan, 'consumed-unclosed event was fabricated as a terminal')
     checker._assert_attempt_directories(root, ids | orphan)
-    stage._observed_wall(checker, rows)
+    _observed_replay_wall(stage, checker, rows, line_hashes)
     require(not any(('stale' in str(key).lower() and count for (key, count) in outcomes.items())), 'selected reports contain stale outcomes')
     partitions = 0
     expected_rows = 0
