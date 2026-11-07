@@ -1,0 +1,34 @@
+{
+  "schema": "v092-canonical-schema-typed-path-independent-review/v1",
+  "review_id": "bifrost-v0151-canonical-schema-02-independent-review-01",
+  "status": "passed-for-root-integration-review",
+  "findings": [],
+  "canonical_invocation_authorized": false,
+  "reviewed_sources_sha256": {
+    "invoke_prepared.py": "e974c199357605a0687e1b54b50df92e9314281df398be86a51cb25085465156",
+    "test_invoke_prepared.py": "4a160ff453e932d6535bb94b6756dc508a4543fb9b79d5824c7b4e73300e7712"
+  },
+  "bound_evidence_sha256": {
+    "original_canonical_helper": "f05736416d36dc241adcf29bdfedbcfeccf996676e038b2fab6289f3d70daa6f",
+    "prepared_configurations_04_diagnosis": "3a8eeec921440b23613e6272415962f9413ba026dd90a5f67fcddb44436c0f1e",
+    "repair_diagnosis": "b65252f4a09e3b6f5bb13f737d3854ec494afa1752d45f57fa0cff12118f6072",
+    "pre_adapter_failure_stderr": "157bc48f21db2d4cb05d82c8369e0e9878f1db67f17daeb3e65c110dc760057c"
+  },
+  "review_checks": {
+    "old_helper_loaded_from_exact_sha256": true,
+    "only_two_allowlisted_producer_path_strings_are_converted": true,
+    "all_other_string_path_arguments_are_rejected": true,
+    "original_invoke_function_and_runner_bindings_are_preserved": true,
+    "prepared_diagnosis_sha256_is_pinned": true,
+    "source_and_review_must_be_committed_and_clean_before_invoke": true,
+    "focused_tests_recorded": {
+      "python": "3.13.7",
+      "tests_passed": 4,
+      "rust_invocation": false,
+      "analyzer_dispatch": false
+    },
+    "canonical_result_receipt_absent_at_review": true
+  },
+  "review_scope": "Independent read-only source and evidence review of the typed-path adapter. The adapter converts only the two exact producer-generated relative diagnosis paths before delegating to the original safe reader; it pins and executes the original helper bytes and calls its unchanged invoke function with the sealed preparation digest. This receipt is for root integration review only and does not authorize canonical invocation or publication.",
+  "reviewed_at_utc": "2026-11-07T06:40:00Z"
+}
