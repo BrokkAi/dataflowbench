@@ -40,6 +40,12 @@ jobs:
           python3 scripts/historical_evidence.py hydrate --root .
       - name: Restore the byte-exact v0.9.2 execution ledger
         run: python3 -B scripts/v092_ledger_archive.py hydrate-current --root .
+      - name: Verify portable v0.9.2 publication evidence
+        run: |
+          python3 -B scripts/v092_publication_evidence.py hydrate --root .
+          python3 -B scripts/v092_publication_evidence.py verify --root .
+          python3 -B scripts/test-v092-publication-evidence.py
+          python3 -B scripts/test-release-v092-results.py
       - uses: dtolnay/rust-toolchain@stable
       - name: Verify prospective v0.9 common population and plan boundaries
         run: |
@@ -270,7 +276,14 @@ jobs:
       - name: Check resolved v0.8.0 release plan
         run: python3 scripts/prepare-v080-execution-plan.py
       - name: Validate current release in an isolated tag checkout
-        run: python3 scripts/check-release-v090-results.py --evidence-revision 301dd3de146337fdda5fc409c711bf4b133e4d3c --binary "$PWD/target/debug/dataflowbench"
+        run: |
+          release=$(python3 -c 'import json; print(json.load(open("reports/freeze.json"))["benchmark"]["release"])')
+          if [ "$release" = "v0.9.2" ]; then
+            revision=$(python3 -c 'import json; print(json.load(open("reports/freeze.json"))["benchmark"]["revision"])')
+            python3 -B scripts/check-release-v092-results.py --evidence-revision "$revision" --binary "$PWD/target/debug/dataflowbench"
+          else
+            python3 scripts/check-release-v090-results.py --evidence-revision 301dd3de146337fdda5fc409c711bf4b133e4d3c --binary "$PWD/target/debug/dataflowbench"
+          fi
 
   site:
     runs-on: ubuntu-latest
@@ -289,6 +302,12 @@ jobs:
         run: |
           python3 scripts/historical_evidence.py verify --root .
           python3 scripts/historical_evidence.py hydrate --root .
+      - name: Verify and stage versioned v0.9.2 raw evidence
+        working-directory: .
+        run: |
+          python3 -B scripts/v092_ledger_archive.py hydrate-current --root .
+          python3 -B scripts/v092_publication_evidence.py hydrate --root .
+          python3 -B scripts/v092_publication_evidence.py stage-site --root . --output docs/public/evidence/v0-9-2
       - uses: actions/setup-node@v4
         with:
           node-version: 22

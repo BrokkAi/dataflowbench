@@ -1972,3 +1972,40 @@ on the main line moves to a new **development-scope** freeze over the same
 superseded ones, the movement A30 made for CodeQL. No release or website
 claim is made from the development freeze; with this amendment both halves
 of #138 are re-run, and the next release freeze binds the whole set.
+
+
+### 2026-11-07 — v0.9.2 final publication review
+
+
+Reviewed 2026-11-07, Africa/Johannesburg. Official upstream release and package sources were checked during the review ending 2026-11-07 08:26:58 UTC. Full URLs, source check times, exact selected pin inputs and machine-readable details are in [the JSON review](releases/v0.9.2-pin-currency-20261107.json).
+
+The selected matrix has 84 groups, 92 partitions and 4,252 rows across 1,108 cases, with no carried partitions. Its selector still records freeze_created=false, scoring_enabled=false and publication_approved=false. This is a pin-currency check; it makes no semantic-quality, score-publication or release-approval claim.
+
+| Component | Selected pin | Latest stable upstream checked | Distance | Status |
+| --- | --- | --- | --- | --- |
+| Bifrost | 0.15.1 | 0.15.1, released 2026-11-05 | 0 releases | CURRENT |
+| CodeQL CLI | 2.27.2 | 2.27.4, released 2026-11-02 | 2 releases; pack-by-pack distance unknown | HOLD |
+| Joern | 4.0.660 | 4.0.676, released 2026-11-07 | 16 daily releases | HOLD |
+| Semgrep CE | 1.181.0 | 1.184.0, released 2026-11-05 | 3 package releases | HOLD |
+| Semgrep native rules | 17e31e11ebac99fb7dfe1cd288f7a32151b6f3f9 | develop at 16b9e6d45f10649f6a531ec4838ed9924372c3bc | 1 commit | HOLD |
+| OpenTaint | 0.4.6; analyzer 2026.09.04.c51dc3e | semantic release 0.4.6; analyzer 2026.11.02.54ad708 | 0 semantic releases; 6 newer dated analyzer builds | HOLD |
+| Infer | v1.3.0 | v1.3.0 (official page marks Latest) | 0 releases | CURRENT |
+| FlowDroid | 2.15.1 | 2.15.1, released 2026-02-23 | 0 releases | CURRENT |
+| Pysa / pyre-check | 0.10.0 | 0.10.0, released 2026-08-06 | 0 package releases | CURRENT component |
+| Pysa / Pyrefly | 1.4.0 | 1.4.1, released 2026-11-05 | 1 stable package release | HOLD for paired Pysa adapter |
+
+The CodeQL profile also pins nine library packs and three native query packs. Their exact versions are in the JSON. The CLI distance is exact, but the checked latest CLI release and changelog do not enumerate the current version of each companion pack. Their individual distances are therefore unknown, not guessed. Pyrefly 1.5.0.dev1 is excluded because PyPI marks it prerelease.
+
+## Dated holds
+
+**HOLD, 2026-11-07 — CodeQL:** the latest stable CLI is two releases newer. Any change must resolve and compatibility-check the companion pack set, rerun every CodeQL slice, and create a new freeze.
+
+**HOLD, 2026-11-07 — Joern:** the pin is 16 daily releases behind. Joern is reviewed at freeze boundaries; moving it requires a new full Joern matrix and freeze.
+
+**HOLD, 2026-11-07 — Semgrep CE and rules:** the CLI is three package releases behind and the rules snapshot one upstream commit behind. A change needs renewed compatibility and snapshot review, every Semgrep slice rerun, and a new freeze.
+
+**HOLD, 2026-11-07 — OpenTaint:** v0.4.6 remains the latest semantic bundle, but the exact analyzer component is six dated builds behind. Changing its bytes requires requalification, every OpenTaint slice rerun, and a new freeze.
+
+**HOLD, 2026-11-07 — Pysa / Pyrefly:** Pyrefly 1.4.1 is one stable release newer than the selected 1.4.0. Because the adapter pins a paired Pysa/Pyrefly input, changing it requires every Pysa slice to be rerun and a new freeze.
+
+Each HOLD retains the completed authorized matrix. No analyzer pin or evidence changed during this review; any bump is a separate re-pin and rerun cycle under the freeze procedure.

@@ -1,0 +1,204 @@
+{
+  "schema": "dataflowbench-pin-currency-review/v1",
+  "reviewed_at_utc": "2026-11-07T08:26:58Z",
+  "review_date_local": "2026-11-07",
+  "review_timezone": "Africa/Johannesburg",
+  "repository": "BrokkAi/dataflowbench",
+  "scope": "Freeze-time upstream pin currency only. No pins, sources, builds, reports, freeze, or publication state were changed.",
+  "policy": {
+    "source": "docs/freeze.md#freeze-prep-checklist",
+    "rule": "Each pin is CURRENT or HOLD. A bump requires a re-pin, a full rerun of every adapter slice at the frozen population, and a new freeze.",
+    "dated_hold_reason": "HOLD dated 2026-11-07: the authorized v0.9.2 pin set has completed its selected matrix. Changing an analyzer input requires fresh qualification/re-pin, every slice for that adapter to be rerun, and a new freeze. Retain this fixed matrix; do not silently replace its inputs."
+  },
+  "matrix_context": {
+    "pin_profile": {
+      "path": "adapters/pins/v0.9.2-bifrost-v0151.json",
+      "sha256": "ef0c159f619f118b8c48ea48c6eafadf8101df59054b290898bebbb13386baf8"
+    },
+    "selector": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0151-terminal-01/publication-selection.json",
+      "sha256": "f12336ab245b4bc7b4ef31eca16f9f1c331310a2a3ee0f478b112fc09339faea",
+      "status": "fresh-evidence-verified",
+      "groups": 84,
+      "partitions": 92,
+      "rows": 4252,
+      "cases": 1108,
+      "carried_partitions": 0,
+      "freeze_created": false,
+      "publication_approved": false,
+      "scoring_enabled": false
+    },
+    "other_inputs": [
+      {"path": "docs/freeze.md", "sha256": "eb9d0af127c84bcb109fc689383fb4b3b4fd738bde7a534a5d5e20f56d208d03"},
+      {"path": "docs/releases/v0.9.2-pins.md", "sha256": "51d42c596510a2ad10b97b90c282e81ea39aef01c054e9d295300c558c83a64f"},
+      {"path": "adapters/codeql/v0.9.2/profile.json", "sha256": "27f59adefd8159906fdc75968555276cbc2c9f5a4279a9923ecb2965e424f437"},
+      {"path": "adapters/semgrep/native/v0.9.2/profile.json", "sha256": "ba880fa4a5668b2a499f20fa3e858eefd98e676a32830e15c97c0ece3f34c10d"}
+    ],
+    "scope_note": "The selector is evidence-selection state, not publication approval or a semantic-quality claim."
+  },
+  "pin_reviews": [
+    {
+      "component": "Bifrost",
+      "selected_pin": {
+        "version": "0.15.1",
+        "build_identity": "90d820b9ee3b1bcca9e3dd2a049b1b51dc854b69",
+        "binary_sha256": "00b279126297d5e9f7805390799493e915eaf4a2d5940dc3e755138a577a6df9"
+      },
+      "latest_upstream": {
+        "version": "v0.15.1",
+        "published_at_utc": "2026-11-05T03:05:39Z",
+        "url": "https://github.com/BrokkAi/bifrost/releases/tag/v0.15.1"
+      },
+      "distance": {"unit": "stable releases", "count": 0},
+      "status": "CURRENT",
+      "reason": "As reviewed 2026-11-07, the authorized pin matches the latest non-draft, non-prerelease upstream release.",
+      "sources": [
+        {"url": "https://api.github.com/repos/BrokkAi/bifrost/releases?per_page=5", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Official GitHub REST releases list; v0.15.1 is first."},
+        {"url": "https://github.com/BrokkAi/bifrost/releases/tag/v0.15.1", "checked_at_utc": "2026-11-07T08:26:58Z"}
+      ]
+    },
+    {
+      "component": "CodeQL CLI and language/query packs",
+      "selected_pin": {
+        "cli": {"version": "2.27.2", "release_commit": "d7b185e374bfe18c0484dac07a521a810eb9c4fb", "archive_sha256": "33c8f7097a1ccd6d8362ff1ee04d66eb4a309002ec6bffa256030d3881f706f2"},
+        "library_packs": {
+          "codeql/java-all": "9.3.2",
+          "codeql/python-all": "7.2.7",
+          "codeql/javascript-all": "2.10.3",
+          "codeql/csharp-all": "7.4.0",
+          "codeql/go-all": "8.0.0",
+          "codeql/cpp-all": "12.2.0",
+          "codeql/ruby-all": "7.0.2",
+          "codeql/rust-all": "0.2.23",
+          "codeql/swift-all": "6.8.5"
+        },
+        "native_query_packs": {
+          "codeql/java-queries": "1.11.12",
+          "codeql/javascript-queries": "2.4.7",
+          "codeql/python-queries": "1.8.12"
+        }
+      },
+      "latest_upstream": {
+        "cli": "2.27.4",
+        "published_at_utc": "2026-11-02T16:52:13Z",
+        "url": "https://github.com/github/codeql-cli-binaries/releases/tag/v2.27.4",
+        "changelog": "https://codeql.github.com/docs/codeql-overview/codeql-changelog/"
+      },
+      "distance": {
+        "cli": {"unit": "stable CLI releases", "count": 2, "intervening_versions": ["2.27.3", "2.27.4"]},
+        "packs": {"unit": "pack releases", "count": null, "reason": "Unknown per pack: the checked CLI release and changelog do not enumerate the latest version for all 12 companion packs. Selected versions above are exact; resolve and compatibility-check the companion set during a re-pin."}
+      },
+      "status": "HOLD",
+      "reason": "HOLD dated 2026-11-07: CLI 2.27.4 is two releases newer. Pack-level distances are not guessed; any CLI/pack change requires compatibility review, rerunning every CodeQL slice, and a new freeze.",
+      "sources": [
+        {"url": "https://api.github.com/repos/github/codeql-cli-binaries/releases?per_page=5", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Official API lists 2.27.4, 2.27.3, and pinned 2.27.2."},
+        {"url": "https://codeql.github.com/docs/codeql-overview/codeql-changelog/", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Official changelog dates the three releases 2026-11-02, 2026-10-20, and 2026-10-07."}
+      ]
+    },
+    {
+      "component": "Joern",
+      "selected_pin": {"version": "4.0.660"},
+      "latest_upstream": {"version": "4.0.676", "published_at_utc": "2026-11-07T07:54:14Z", "url": "https://github.com/joernio/joern/releases/tag/v4.0.676"},
+      "distance": {"unit": "published daily releases", "count": 16, "intervening_versions": "4.0.661 through 4.0.676 inclusive"},
+      "status": "HOLD",
+      "reason": "HOLD dated 2026-11-07: the selected daily is 16 releases behind. Joern is evaluated at freeze boundaries; moving it now requires a fresh full Joern matrix and a new freeze.",
+      "sources": [
+        {"url": "https://api.github.com/repos/joernio/joern/releases?per_page=12", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Official release API lists 4.0.676 latest and the consecutive versions back through 4.0.665."},
+        {"url": "https://github.com/joernio/joern/releases/tag/v4.0.676", "checked_at_utc": "2026-11-07T08:26:58Z"}
+      ]
+    },
+    {
+      "component": "Semgrep CE",
+      "selected_pin": {"version": "1.181.0"},
+      "latest_upstream": {"version": "1.184.0", "release_date": "2026-11-05", "url": "https://pypi.org/project/semgrep/"},
+      "distance": {"unit": "stable package releases", "count": 3, "intervening_versions": ["1.182.0", "1.183.0", "1.184.0"]},
+      "status": "HOLD",
+      "reason": "HOLD dated 2026-11-07: three newer package releases exist. A Semgrep CE bump requires compatibility review against the separately pinned rules snapshot, rerunning every Semgrep slice, and a new freeze.",
+      "sources": [
+        {"url": "https://pypi.org/project/semgrep/", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Official PyPI latest is 1.184.0, released 2026-11-05."},
+        {"url": "https://pypi.org/project/semgrep/1.181.0/", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Selected package version."},
+        {"url": "https://pypi.org/project/semgrep/1.182.0/", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "First intervening stable release."},
+        {"url": "https://pypi.org/project/semgrep/1.183.0/", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Second intervening stable release."}
+      ]
+    },
+    {
+      "component": "Semgrep native rules snapshot",
+      "selected_pin": {"repository": "https://github.com/semgrep/semgrep-rules", "commit": "17e31e11ebac99fb7dfe1cd288f7a32151b6f3f9", "archive_sha256": "19e3a747961c3034337157654de88314c286f7c4cc147189f84b734b85665b82"},
+      "latest_upstream": {"channel": "develop", "commit": "16b9e6d45f10649f6a531ec4838ed9924372c3bc", "published_at_utc": "2026-10-21T21:01:43Z"},
+      "distance": {"unit": "commits", "count": 1, "comparison_url": "https://api.github.com/repos/semgrep/semgrep-rules/compare/17e31e11ebac99fb7dfe1cd288f7a32151b6f3f9...develop"},
+      "status": "HOLD",
+      "reason": "HOLD dated 2026-11-07: one upstream develop commit is newer. A snapshot change requires renewed rule-path/ID/byte review, Semgrep compatibility checks, every Semgrep slice rerun, and a new freeze.",
+      "sources": [
+        {"url": "https://api.github.com/repos/semgrep/semgrep-rules/compare/17e31e11ebac99fb7dfe1cd288f7a32151b6f3f9...develop", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Official GitHub compare reports ahead_by=1 and names develop commit 16b9e6d45f10649f6a531ec4838ed9924372c3bc."},
+        {"url": "https://github.com/semgrep/semgrep-rules/commit/17e31e11ebac99fb7dfe1cd288f7a32151b6f3f9", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Pinned source commit."}
+      ]
+    },
+    {
+      "component": "OpenTaint",
+      "selected_pin": {"semantic_release": "v0.4.6", "analyzer_build": "2026.09.04.c51dc3e", "analyzer_jar_sha256": "2ca93b6c33462bdbc23ceccdc5375e1a900682b33371cd906e5214dc7c48f569", "models_archive_sha256": "20a96a50fba9ab6f6e98e8562019e5ecbe2a77de7947981eaf6e379f04065329"},
+      "latest_upstream": {
+        "latest_semantic_release": {"version": "v0.4.6", "published_at_utc": "2026-09-04T14:02:49Z", "url": "https://github.com/seqra/opentaint/releases/tag/v0.4.6"},
+        "latest_component_build": {"name": "analyzer/2026.11.02.54ad708", "published_at_utc": "2026-11-02T13:30:47Z", "url": "https://github.com/seqra/opentaint/releases/tag/analyzer/2026.11.02.54ad708"}
+      },
+      "distance": {
+        "semantic_releases": {"unit": "stable semantic releases", "count": 0, "reason": "No later v-prefixed semantic release found in the checked official releases list."},
+        "component_builds": {"unit": "published dated analyzer builds", "count": 6, "newer_builds": ["2026.09.24.ce24bbb", "2026.09.30.dcfaad6", "2026.10.01.f945f92", "2026.10.26.c624add", "2026.10.27.344a9f4", "2026.11.02.54ad708"]}
+      },
+      "status": "HOLD",
+      "reason": "HOLD dated 2026-11-07: v0.4.6 remains the latest semantic bundle, but the pinned analyzer bytes are six dated component builds behind. A component update requires requalification, every OpenTaint slice rerun, and a new freeze.",
+      "sources": [
+        {"url": "https://api.github.com/repos/seqra/opentaint/releases?per_page=100", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Official list includes pinned analyzer/2026.09.04.c51dc3e, six later dated analyzer builds, and no later v-prefixed semantic tag."},
+        {"url": "https://github.com/seqra/opentaint/releases/tag/analyzer/2026.11.02.54ad708", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Latest dated analyzer component release observed."}
+      ]
+    },
+    {
+      "component": "Infer",
+      "selected_pin": {"version": "v1.3.0"},
+      "latest_upstream": {"version": "v1.3.0", "release_date_display": "May 12, 15:44; year and timezone not shown in rendered official page", "url": "https://github.com/facebook/infer/releases/tag/v1.3.0"},
+      "distance": {"unit": "stable releases", "count": 0, "description": "The official releases page marks v1.3.0 Latest and lists v1.2.0 as the prior release."},
+      "status": "CURRENT",
+      "reason": "As reviewed 2026-11-07, the selected v1.3.0 matches the latest stable release marked by the upstream project.",
+      "sources": [
+        {"url": "https://github.com/facebook/infer/releases", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Official releases page marks v1.3.0 Latest."},
+        {"url": "https://github.com/facebook/infer/releases/tag/v1.3.0", "checked_at_utc": "2026-11-07T08:26:58Z"}
+      ]
+    },
+    {
+      "component": "FlowDroid",
+      "selected_pin": {"version": "2.15.1", "artifact": "soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar"},
+      "latest_upstream": {"version": "2.15.1", "published_at_utc": "2026-02-23T09:59:11Z", "url": "https://github.com/secure-software-engineering/FlowDroid/releases/tag/v2.15.1"},
+      "distance": {"unit": "stable GitHub releases", "count": 0, "description": "Official releases page marks 2.15.1 Latest."},
+      "status": "CURRENT",
+      "reason": "As reviewed 2026-11-07, the selected artifact corresponds to the latest stable release listed by upstream.",
+      "sources": [
+        {"url": "https://github.com/secure-software-engineering/FlowDroid/releases", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Official page marks 2.15.1 Latest."},
+        {"url": "https://github.com/secure-software-engineering/FlowDroid/releases/tag/v2.15.1", "checked_at_utc": "2026-11-07T08:26:58Z"}
+      ]
+    },
+    {
+      "component": "Pysa (pyre-check + Pyrefly)",
+      "selected_pin": {"pyre_check": "0.10.0", "pyrefly": "1.4.0"},
+      "latest_upstream": {
+        "pyre_check": {"version": "0.10.0", "release_date": "2026-08-06", "url": "https://pypi.org/project/pyre-check/"},
+        "pyrefly": {"version": "1.4.1", "release_date": "2026-11-05", "url": "https://pypi.org/project/pyrefly/"},
+        "prerelease_excluded": {"version": "1.5.0.dev1", "release_date": "2026-11-04", "reason": "PyPI labels it prerelease."}
+      },
+      "distance": {
+        "pyre_check": {"unit": "stable package releases", "count": 0},
+        "pyrefly": {"unit": "stable package releases", "count": 1, "newer_version": "1.4.1"}
+      },
+      "status": "HOLD",
+      "reason": "HOLD dated 2026-11-07 for the paired adapter: Pyrefly 1.4.1 is one stable release newer, while pyre-check 0.10.0 remains latest. Changing the pair requires rerunning every Pysa slice and a new freeze.",
+      "sources": [
+        {"url": "https://pypi.org/project/pyre-check/", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Official PyPI latest is 0.10.0, released 2026-08-06."},
+        {"url": "https://pypi.org/project/pyrefly/", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Official PyPI latest stable is 1.4.1 (2026-11-05); 1.5.0.dev1 is prerelease."},
+        {"url": "https://pypi.org/project/pyrefly/1.4.0/", "checked_at_utc": "2026-11-07T08:26:58Z", "note": "Selected package version."}
+      ]
+    }
+  ],
+  "limitations": [
+    "CodeQL CLI distance is exact; the latest version distance for each companion query/library pack is unknown because the checked official release/changelog does not enumerate all 12 latest pack versions. Selected versions are exact and retained above.",
+    "Infer's rendered official release page showed May 12, 15:44 but omitted year and timezone; the display is preserved verbatim instead of inventing an exact timestamp.",
+    "This review checks pin currency and freeze decisions only. It does not rerun analyzers, validate semantic quality, create a freeze, enable scoring, or grant publication approval."
+  ]
+}
