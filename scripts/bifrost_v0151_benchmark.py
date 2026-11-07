@@ -78,7 +78,7 @@ V0151_OVERRIDES = {
     "INVOCATIONS_REL": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/invocations",
     "QUALIFICATION_DEFAULT": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/bifrost-release-01.json",
     "CONTROL_REVIEW_DEFAULT": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/bifrost-review-01.json",
-    "INDEPENDENT_REVIEW_DEFAULT": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/independent-review-v0151-01.json",
+    "INDEPENDENT_REVIEW_DEFAULT": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/independent-review-v0151-02.json",
     "CONTROL_CAPTURE_DEFAULT": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/controls-attempt-01",
     "HUMAN_AUTHORIZATION_DEFAULT": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/human-authorization-01.json",
     "BIFROST_RECEIPT_DEFAULT": "reports/releases/v0.9.2/acquisition/bifrost-v0151-01/acquisition-receipt.json",

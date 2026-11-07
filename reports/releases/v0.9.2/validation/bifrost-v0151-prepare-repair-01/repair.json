@@ -1,0 +1,43 @@
+{
+  "schema": "v092-bifrost0151-preparation-repair/v1",
+  "failed_preparation_consumed_benchmark_attempt": false,
+  "contract_was_written": false,
+  "cause": "Python default argument retained the legacy v5 contract path after the fixed v6 profile was configured",
+  "repair": "Resolve omitted output_rel from configured CONTRACT_REL at call time; explicit redirection is still rejected",
+  "repair_source": [
+    {
+      "path": "scripts/bifrost_v0144_benchmark.py",
+      "sha256": "ea5a3c5c8cb24c621f76478a46b7738fe767c034ad7600284b70a087b1185952"
+    },
+    {
+      "path": "scripts/bifrost_v0151_benchmark.py",
+      "sha256": "45083ff44ebbc698e5d7e70d376b28039a6c6648a174e0adc7eac12b55d730dd"
+    },
+    {
+      "path": "scripts/test_bifrost_v0151_benchmark.py",
+      "sha256": "c19897fde0baa7de95ad01bea5e4acb7b1c70cd1b4270d5f0c9e48e77832edd2"
+    }
+  ],
+  "focused_tests": {
+    "legacy": 20,
+    "configured_target": 10,
+    "failed": 0
+  },
+  "original_source_commit": "809b7e1f5698d8ebfcd438f94d5e2718b00f823f",
+  "logs": [
+    {
+      "original": "prepare01.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressed": "prepare01.stdout.gz"
+    },
+    {
+      "original": "prepare01.stderr",
+      "sha256": "fc8cec244ad4463dfe771d4870a90e912c7b5ba68ea82a03ede9c127ecbcc9d9",
+      "compressed": "prepare01.stderr.gz"
+    }
+  ],
+  "rust_source_and_runner_unchanged": true,
+  "original_control_capture_unchanged": true,
+  "successor_independent_review": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/independent-review-v0151-02.json",
+  "new_authorized_run_still_requires_manifest_and_fresh_admission": true
+}

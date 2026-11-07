@@ -90,6 +90,19 @@ class V0151ProfileTests(unittest.TestCase):
         )
         self.assertTrue(helper_paths <= set(current._source_input_paths(ROOT, {}, [])))
 
+    def test_prepared_manifest_default_uses_the_configured_fixed_target(self):
+        current = isolated_core()
+        current.configure_target_profile(
+            self.wrapper.target_profile_values(valid_profile_document(self.wrapper), current)
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = current._write_prepared_manifest(root, {"execution_authorized": False})
+            self.assertEqual(path, root / current.CONTRACT_REL)
+            self.assertFalse((root / "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/contract-01.json").exists())
+            with self.assertRaisesRegex(current.BenchmarkError, "fixed"):
+                current._write_prepared_manifest(root, {}, "elsewhere/contract.json")
+
     def test_core_loader_executes_exact_source_despite_old_bytecode(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

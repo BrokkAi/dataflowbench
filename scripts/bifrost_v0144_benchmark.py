@@ -1383,7 +1383,9 @@ def _make_manifest(root: Path, *, source_commit: str, runner_path: str | Path,
     return contract
 
 
-def _write_prepared_manifest(root: Path, contract: dict, output_rel: str = CONTRACT_REL) -> Path:
+def _write_prepared_manifest(root: Path, contract: dict, output_rel: str | None = None) -> Path:
+    if output_rel is None:
+        output_rel = CONTRACT_REL
     if output_rel != CONTRACT_REL:
         raise BenchmarkError("C5 contract path is fixed and cannot be redirected")
     rel = _repo_relative(root, output_rel, "C5 contract path")
