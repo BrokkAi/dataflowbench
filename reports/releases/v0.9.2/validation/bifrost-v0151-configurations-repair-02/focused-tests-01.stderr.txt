@@ -1,0 +1,48 @@
+test_actual_full_c6_runtime_runner_binding_is_accepted (__main__.MaterializeSwiftConfigurationInputsTest.test_actual_full_c6_runtime_runner_binding_is_accepted) ... ok
+test_altered_source_bytes_fail_before_copy (__main__.MaterializeSwiftConfigurationInputsTest.test_altered_source_bytes_fail_before_copy) ... ok
+test_canonical_preflight_producer_binding_is_accepted_by_hook_guard (__main__.MaterializeSwiftConfigurationInputsTest.test_canonical_preflight_producer_binding_is_accepted_by_hook_guard) ... ok
+test_destination_checkout_root_symlink_fails_before_copy (__main__.MaterializeSwiftConfigurationInputsTest.test_destination_checkout_root_symlink_fails_before_copy) ... ok
+test_destination_parent_symlink_fails_before_copy (__main__.MaterializeSwiftConfigurationInputsTest.test_destination_parent_symlink_fails_before_copy) ... ok
+test_destination_symlink_fails_before_copy (__main__.MaterializeSwiftConfigurationInputsTest.test_destination_symlink_fails_before_copy) ... ok
+test_existing_destination_collision_fails_before_any_write (__main__.MaterializeSwiftConfigurationInputsTest.test_existing_destination_collision_fails_before_any_write) ... ok
+test_fixture_materializes_exact_missing_ref (__main__.MaterializeSwiftConfigurationInputsTest.test_fixture_materializes_exact_missing_ref) ... ok
+test_helper_receipt_collisions_fail_before_validation_run (__main__.MaterializeSwiftConfigurationInputsTest.test_helper_receipt_collisions_fail_before_validation_run) ... ok
+test_locked_inspection_binds_original_receipt_and_sparse_checkout (__main__.MaterializeSwiftConfigurationInputsTest.test_locked_inspection_binds_original_receipt_and_sparse_checkout) ... ERROR
+test_manifest_runner_registration_rejects_added_nested_key (__main__.MaterializeSwiftConfigurationInputsTest.test_manifest_runner_registration_rejects_added_nested_key) ... ok
+test_missing_supplement_receipt_preserves_canonical_failure_cause (__main__.MaterializeSwiftConfigurationInputsTest.test_missing_supplement_receipt_preserves_canonical_failure_cause) ... ok
+test_original_failed_receipt_rejects_changed_stderr (__main__.MaterializeSwiftConfigurationInputsTest.test_original_failed_receipt_rejects_changed_stderr) ... ok
+test_path_escape_fails_before_copy (__main__.MaterializeSwiftConfigurationInputsTest.test_path_escape_fails_before_copy) ... ok
+test_real_locked_closure_hydrates_exactly_22_and_verifies_all_119 (__main__.MaterializeSwiftConfigurationInputsTest.test_real_locked_closure_hydrates_exactly_22_and_verifies_all_119) ... ok
+test_runner_binding_rejects_arbitrary_extra_top_level_field (__main__.MaterializeSwiftConfigurationInputsTest.test_runner_binding_rejects_arbitrary_extra_top_level_field) ... ok
+test_runner_binding_rejects_nested_build_receipt_mutation (__main__.MaterializeSwiftConfigurationInputsTest.test_runner_binding_rejects_nested_build_receipt_mutation) ... ok
+test_runner_binding_rejects_wrong_path_and_hash (__main__.MaterializeSwiftConfigurationInputsTest.test_runner_binding_rejects_wrong_path_and_hash) ... ok
+test_wrong_locked_git_blob_fails_before_copy (__main__.MaterializeSwiftConfigurationInputsTest.test_wrong_locked_git_blob_fails_before_copy) ... ok
+
+======================================================================
+ERROR: test_locked_inspection_binds_original_receipt_and_sparse_checkout (__main__.MaterializeSwiftConfigurationInputsTest.test_locked_inspection_binds_original_receipt_and_sparse_checkout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/test_materialize_v0151_swift_configuration_inputs.py", line 153, in test_locked_inspection_binds_original_receipt_and_sparse_checkout
+    result = MATERIALIZER.inspect(ROOT)
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/materialize_v0151_swift_configuration_inputs.py", line 949, in inspect
+    manifest, manifest_sha256 = _load_manifest(root)
+                                ~~~~~~~~~~~~~~^^^^^^
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/materialize_v0151_swift_configuration_inputs.py", line 547, in _load_manifest
+    _require(isinstance(diagnosis, dict) and diagnosis.get("schema") == "v0.9.2-v0151-configurations-repair-diagnosis/v2" and
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             diagnosis.get("manifest_sha256") == digest and
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             diagnosis.get("prior_repair02_failure") == manifest.get("prior_repair02_failure") and
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             diagnosis.get("approved_c6_contract") == manifest.get("approved_c6_contract"),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             "repair diagnosis does not bind the locked reference manifest")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/materialize_v0151_swift_configuration_inputs.py", line 57, in _require
+    raise MaterializationError(message)
+swift_configuration_materializer_test.MaterializationError: repair diagnosis does not bind the locked reference manifest
+
+----------------------------------------------------------------------
+Ran 19 tests in 131.431s
+
+FAILED (errors=1)
