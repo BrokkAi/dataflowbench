@@ -1,0 +1,18 @@
+{
+  "analyzers_executed": 0,
+  "observed_at_utc": "2026-11-07T09:37:38.452072+00:00",
+  "original_data_or_ledger_changed": false,
+  "schema": "v092-freeze-preparation-stops/v1",
+  "stops": [
+    {
+      "cause": "Repository-local LFS filters were not initialized in the new clone; pull skipped working-tree checkout and the ledger size check rejected its pointer bytes.",
+      "repair": "Initialize LFS locally only in that clone, then hydrate exact existing archive. The production isolated checker already did local --skip-repo initialization; it required no production repair.",
+      "stage": "manual clean checkout LFS materialization"
+    },
+    {
+      "cause": "Legacy default reports refer to historical raw files removed by the declared history migration. Selected v0.9.2 portable captures were already intact.",
+      "repair": "Restore only 4,244 referenced legacy raw files from exact original_main Git objects after proving all 92 legacy normalized reports match that same source commit. These are not selected v0.9.2 results.",
+      "stage": "repository-wide validate-reports in clean checkout"
+    }
+  ]
+}

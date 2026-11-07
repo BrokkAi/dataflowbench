@@ -1,0 +1,53 @@
+{
+  "analyzers_executed": 0,
+  "harness_reuse": "All56 inputs matched at clean merged-main freeze creation; later Rust changes are confined to cfg(test) modules and do not alter the retained production harness",
+  "historical_rust_test_fixtures": {
+    "change": "Three historical baseline reads explicitly use immutable retained v090 freeze; strengthen release/version assertions; no expectations weakened",
+    "files": [
+      "src/tests/report.rs",
+      "src/tests/results.rs"
+    ],
+    "local_cargo_build_or_test_performed": false,
+    "only_cfg_test_source_changed": true,
+    "remote_full_suite_required": true,
+    "rustfmt_passed": true
+  },
+  "historical_successor": {
+    "frozen_helper_unchanged_sha256": "fae3e4e0086700dca4b061d95e1c3c00fc617ca3c7049be8afd6a91514cb5a18",
+    "independent_review": "scoped-pass; historical-only archive/base/tags/retained-v090 identity; v092 still requires separate release gate",
+    "integration": "Test fallback corrected to adjacent scripts directory, suppression comments removed; root ran all8 with default production layout",
+    "reviewer": "v0151_case_variation",
+    "source_sha256": "6ed5331bcf1abf6589635088d95b3b316ad335ac9cb5ac47ae6eb1c35041d723",
+    "tests_passed": 8
+  },
+  "inputs": [
+    {
+      "path": "scripts/historical_evidence_publication.py",
+      "sha256": "6ed5331bcf1abf6589635088d95b3b316ad335ac9cb5ac47ae6eb1c35041d723"
+    },
+    {
+      "path": "scripts/test-historical-evidence-publication.py",
+      "sha256": "8c12a834ac05b908d50f346fe617841092f146264f50b7b5b2d7948c0d5d85ea"
+    },
+    {
+      "path": "scripts/test-release-v092-results.py",
+      "sha256": "f14fe38612cdb2b14caa6a53d0326a61de36bdcd386762de3bf528b6953b17a0"
+    },
+    {
+      "path": "src/tests/report.rs",
+      "sha256": "cb761a0e0b4b4ce0e6ba7029546537d9a07e6a5701487003bc9716c7eedca646"
+    },
+    {
+      "path": "src/tests/results.rs",
+      "sha256": "ad7778d8d4ec82ac61ca75f580836ce6c98d7b72b9223d4494729e5b1fa978d3"
+    }
+  ],
+  "isolated_checker": {
+    "added_regressions": "Existing local --skip-repo filter setup precedes fixed pulls; setup failure stops before pulls",
+    "focused_tests_passed": 12,
+    "production_source_unchanged": true,
+    "source_sha256": "83de63cd6be2534d3c88d07667dfbf3adcb70a84a0cc324275bb1e81c8b4c6ea"
+  },
+  "publication_pending": true,
+  "schema": "v092-freeze-consumer-review/v1"
+}

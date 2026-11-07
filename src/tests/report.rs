@@ -316,7 +316,7 @@ pub(crate) fn codeql_configuration_hashes_follow_the_reported_tool_version() {
         ConfigurationHashState::Current
     );
     let baseline: Value =
-        serde_json::from_slice(&fs::read("reports/freeze.json").unwrap()).unwrap();
+        serde_json::from_slice(&fs::read("reports/releases/v0.9.0/freeze.json").unwrap()).unwrap();
     let baseline_java = baseline["adapters"]
         .as_array()
         .unwrap()
@@ -471,7 +471,8 @@ pub(crate) fn v092_common_swift_partition_hashes_follow_the_registered_plan_with
 #[test]
 pub(crate) fn historical_common_swift_core_native_and_extension_freezes_remain_not_derivable() {
     let mut case_scan = None;
-    let freeze: Value = serde_json::from_slice(&fs::read("reports/freeze.json").unwrap()).unwrap();
+    let freeze: Value =
+        serde_json::from_slice(&fs::read("reports/releases/v0.9.0/freeze.json").unwrap()).unwrap();
     let historical_native_partitions = [
         ("codeql-swift-core", "codeql-swift-core"),
         ("codeql-swift-native", "codeql-swift-native"),

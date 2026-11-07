@@ -330,6 +330,55 @@ class PublicationFreezeTests(unittest.TestCase):
             gate._safe_repo_path("../outside", "test path")
 
 
+class PublicationLfsSetupTests(unittest.TestCase):
+    def test_local_skip_repo_lfs_setup_precedes_fixed_scope_pulls(self) -> None:
+        clone = Path("synthetic-disposable-clone")
+        calls: list[tuple[list[str], dict]] = []
+
+        def succeed(command: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
+            calls.append((list(command), dict(kwargs)))
+            return subprocess.CompletedProcess(command, 0, "", "")
+
+        with mock.patch.object(gate, "_run", side_effect=succeed):
+            gate._materialize_publication_capture(clone)
+
+        expected_commands = [
+            ["git", "-C", str(clone), "lfs", "install", "--local", "--skip-repo"],
+            [
+                "git", "-C", str(clone), "lfs", "pull", "--include",
+                gate.LEDGER_ARCHIVE_INCLUDE, gate.REMOTE_NAME,
+            ],
+            ["git", "-C", str(clone), "lfs", "checkout", gate.LEDGER_ARCHIVE_INCLUDE],
+            [
+                "git", "-C", str(clone), "lfs", "pull", "--include",
+                gate.CAPTURE_LFS_INCLUDE, gate.REMOTE_NAME,
+            ],
+            ["git", "-C", str(clone), "lfs", "checkout", gate.PUBLICATION_BUNDLE],
+        ]
+        self.assertEqual([command for command, _ in calls], expected_commands)
+        self.assertNotIn("--global", calls[0][0])
+        self.assertNotIn("--force", calls[0][0])
+        self.assertEqual(calls[0][1]["env"]["GIT_LFS_SKIP_SMUDGE"], "1")
+        for _, kwargs in calls[1:]:
+            self.assertNotIn("GIT_LFS_SKIP_SMUDGE", kwargs["env"])
+
+    def test_lfs_local_install_failure_stops_before_any_pull(self) -> None:
+        clone = Path("synthetic-disposable-clone")
+        with mock.patch.object(
+            gate,
+            "_run",
+            side_effect=gate.GateError("local LFS setup failed"),
+        ) as run:
+            with self.assertRaisesRegex(gate.GateError, "local LFS setup failed"):
+                gate._materialize_publication_capture(clone)
+
+        run.assert_called_once()
+        self.assertEqual(
+            run.call_args.args[0],
+            ["git", "-C", str(clone), "lfs", "install", "--local", "--skip-repo"],
+        )
+
+
 class DisposableGateTests(unittest.TestCase):
     @staticmethod
     def _git(*args: str, cwd: Path | None = None) -> str:

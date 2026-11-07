@@ -11,8 +11,18 @@ use std::{collections::BTreeMap, fs, path::Path};
 
 #[test]
 pub(crate) fn baseline_results_builder_accepts_historical_codeql_2271_freeze() {
-    let artifacts =
-        build_result_artifacts(Path::new("."), Path::new("reports/freeze.json")).unwrap();
+    let freeze_path = Path::new("reports/releases/v0.9.0/freeze.json");
+    let freeze: Value = serde_json::from_slice(&fs::read(freeze_path).unwrap()).unwrap();
+    assert_eq!(freeze["benchmark"]["release"], "v0.9.0");
+    let codeql_java = freeze["adapters"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|adapter| adapter["id"] == "codeql-java-kernel")
+        .expect("the historical v0.9.0 freeze includes CodeQL Java");
+    assert_eq!(codeql_java["tool_version"], "2.27.1");
+
+    let artifacts = build_result_artifacts(Path::new("."), freeze_path).unwrap();
     let results: Value = serde_json::from_slice(&artifacts["results.json"]).unwrap();
     let java = results["scorecards"]
         .as_array()
