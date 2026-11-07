@@ -28,10 +28,12 @@ import sys
 import tarfile
 import threading
 import time
+from types import MappingProxyType
 from typing import Iterable, Mapping, Sequence
 
 
 RELEASE = "v0.9.2"
+TARGET_HELP_DESCRIPTION = __doc__
 TARGET_ID = "bifrost-v0144-01"
 CONTRACT_SCHEMA = "dataflowbench-v0.9.2-bifrost-target/v1"
 SERIES = 3
@@ -51,6 +53,12 @@ INDEPENDENT_REVIEW_DEFAULT = "reports/releases/v0.9.2/qualification/bifrost-v014
 CONTROL_CAPTURE_DEFAULT = "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01"
 HUMAN_AUTHORIZATION_DEFAULT = "reports/releases/v0.9.2/qualification/bifrost-v0144-01/human-authorization-01.json"
 BIFROST_RECEIPT_DEFAULT = "reports/releases/v0.9.2/acquisition/bifrost-v0144-01/acquisition-receipt.json"
+BIFROST_CONTROL_REVIEW_SCHEMA = "v092-bifrost-v0144-control-review/v1"
+INDEPENDENT_REVIEW_SCHEMA = "v092-bifrost-v0144-independent-review/v1"
+REVIEW_IMPLEMENTATION_PATH = "reports/releases/v0.9.2/qualification/bifrost-v0144-01/review-bifrost-v0144-01.py"
+CONTROL_COMPARISON_DIAGNOSTIC_PATH = "reports/releases/v0.9.2/qualification/bifrost-v0144-01/control-comparison-diagnostic-01.json"
+PIN_PROFILE_PATH = "adapters/pins/v0.9.2-bifrost-v0144.json"
+PIN_PROFILE_NATIVE_EVIDENCE_DIRECTORY = "reports/releases/v0.9.2/qualification/bifrost-v0144-01"
 SCALA_RECEIPT_DEFAULT = "reports/releases/v0.9.2/acquisition/scala-library-2.13.16-01/acquisition-receipt.json"
 BIFROST_PATH_DEFAULT = "execution-state/v092/tools/bifrost0144/extracted/bifrost-v0.14.4-universal-apple-darwin/bifrost"
 RUNNER_PATH_DEFAULT = "execution-state/v092/builds/bifrost0144-01-target/release/dataflowbench"
@@ -58,6 +66,16 @@ RUNNER_BUILD_RECEIPT = "reports/releases/v0.9.2/validation/bifrost-v0144-release
 RUNNER_BUILD_INPUTS = "reports/releases/v0.9.2/validation/bifrost-v0144-release-build-01/source-inputs.json"
 RUNNER_BUILD_STDOUT = "reports/releases/v0.9.2/validation/bifrost-v0144-release-build-01/stdout"
 RUNNER_BUILD_STDERR = "reports/releases/v0.9.2/validation/bifrost-v0144-release-build-01/stderr"
+RUNNER_CARGO_TARGET_DIR = "execution-state/v092/builds/bifrost0144-01-target"
+TARGET_DRIVER_SOURCE_REL = "scripts/bifrost_v0144_benchmark.py"
+TARGET_TEST_SOURCE_REL = "scripts/test_bifrost_v0144_benchmark.py"
+CORE_SOURCE_REL = None
+PROFILE_SOURCE_REL = None
+ATTEMPT_RECEIPT_SCHEMA = "dataflowbench-v0.9.2-bifrost-target-attempt/v1"
+PROGRESS_SCHEMA = "dataflowbench-v0.9.2-bifrost-target-progress/v1"
+INVOCATION_SCHEMA = "dataflowbench-v0.9.2-bifrost-target-invocation/v1"
+SERIES_SUMMARY_SCHEMA = "dataflowbench-v0.9.2-bifrost-target-series-summary/v1"
+RECONCILIATION_SCHEMA = "dataflowbench-v0.9.2-bifrost-target-reconciliation/v1"
 SCALA_REPOSITORY_DEFAULT = "execution-state/v092/tools/scala-maven-2.13.16/repository"
 ATTEMPTS_REL = "reports/releases/v0.9.2/attempts"
 NORMAL_ATTEMPTS_REL = "reports/releases/v0.9.2/normal/attempts"
@@ -90,6 +108,7 @@ INDEPENDENT_REVIEW_SHA256 = "7c0d01399ef8b0cc15315fcd6e69a6646e31e28dc8801efaee1
 CAPTURE_MANIFEST_SHA256 = "d57cdb8353a47b9886621e746f2b6469be5480d920b089ae4e9a3ec14066b683"
 CAPTURE_QUALIFICATION_SHA256 = "5aaad619ed7b0c6fa7fec7cf7a32b7dbd9763175544eb3f0a45eb5224d8025a4"
 RUNNER_BINARY_SHA256 = "114912643aa9b467b00487b1cfaf9985f17b845936da4527dca8cadbbf9682d0"
+RUNNER_BINARY_BYTES = 11_003_248
 RUNNER_BUILD_RECEIPT_SHA256 = "3d0edc800838b6cf32a571996058f6f6cf7f9b58a8348659535c0986af591d46"
 RUNNER_BUILD_INPUTS_SHA256 = "6a1238dfd8d097092569828e55e0a5fda9d449e1cd0851abb6d0e56cb8f940fd"
 RUNNER_BUILD_STDOUT_SHA256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
@@ -159,8 +178,8 @@ ATTEMPT_POLICY = {
 }
 ALLOWED_RUNTIME_PROJECTIONS = {
     "argv": ["argv[0] = pinned optimized harness binary",
-             "the value following the single --bifrost flag = acquired v0.14.4 binary"],
-    "report_identity": ["tool_version changes from frozen C4 Bifrost version to bifrost 0.14.4"],
+             f"the value following the single --bifrost flag = acquired v{BIFROST_VERSION} binary"],
+    "report_identity": [f"tool_version changes from frozen C4 Bifrost version to {BIFROST_REPORT_VERSION}"],
     "scala_maven": ["the exact pinned binary jar, sources jar, and POM are staged into only the Scala attempt HOME"],
     "all_baseline_group_policy_case_ids_reports_paths_deadlines_and_attempt_budgets_retained": True,
 }
@@ -300,15 +319,17 @@ def _load_core(root: Path, expected_sha256: str | None = None):
     path = root / "scripts/execute-release-v092.py"
     if path.is_symlink() or not path.is_file():
         raise BenchmarkError(f"pinned release helper is missing or unsafe: {path}")
-    actual = _sha_file(path)
+    source_bytes = path.read_bytes()
+    actual = _sha(source_bytes)
     if expected_sha256 is not None and actual != expected_sha256:
         raise BenchmarkError("execute-release-v092.py hash differs from the C5 contract")
-    module_name = f"bifrost_v0144_core_{actual[:16]}"
+    module_name = f"bifrost_release_core_{actual[:16]}"
     spec = importlib.util.spec_from_file_location(module_name, path)
     if spec is None or spec.loader is None:
         raise BenchmarkError("cannot dynamically import the pinned v0.9.2 helper")
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    exec(compile(source_bytes, str(path), "exec"), module.__dict__)
+    module.__verified_source_sha256__ = actual
     return module, actual
 
 
@@ -493,17 +514,154 @@ NATIVE_EVIDENCE_PATHS = {
     "controls_identity_version_stdout": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/stdout/identity-version.txt",
     "controls_identity_build_stdout": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/stdout/identity-build.txt",
     "controls_catalog_list_stdout": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/stdout/catalog-list-policies.txt",
-    "pin_profile": "adapters/pins/v0.9.2-bifrost-v0144.json",
+    "pin_profile": PIN_PROFILE_PATH,
 }
 NATIVE_EVIDENCE_ROLES = tuple(NATIVE_EVIDENCE_PATHS)
+
+# This is intentionally a closed data-only surface. Target wrappers may bind
+# version identities and evidence paths/hashes in an isolated module instance;
+# execution budgets, case/group rosters, resource admission, clock origins,
+# qualification semantics, and attempt behavior remain code-owned.
+TARGET_PROFILE_GLOBALS = (
+    "TARGET_ID", "CONTRACT_SCHEMA", "SERIES", "SERIES_LABEL",
+    "TARGET_HELP_DESCRIPTION",
+    "CONTRACT_REL", "PROGRESS_REL", "SUMMARY_REL", "INVOCATIONS_REL",
+    "QUALIFICATION_DEFAULT", "CONTROL_REVIEW_DEFAULT", "INDEPENDENT_REVIEW_DEFAULT",
+    "CONTROL_CAPTURE_DEFAULT", "HUMAN_AUTHORIZATION_DEFAULT", "BIFROST_RECEIPT_DEFAULT",
+    "BIFROST_PATH_DEFAULT", "RUNNER_PATH_DEFAULT", "RUNNER_BUILD_RECEIPT",
+    "RUNNER_BUILD_INPUTS", "RUNNER_BUILD_STDOUT", "RUNNER_BUILD_STDERR",
+    "RUNNER_CARGO_TARGET_DIR", "LEDGER_PREFIX_LINES", "LEDGER_PREFIX_SHA256",
+    "BIFROST_VERSION", "BIFROST_REPORT_VERSION", "BIFROST_BUILD_IDENTITY",
+    "BIFROST_CATALOG_SHA256", "BIFROST_BINARY_SHA256", "BIFROST_ARCHIVE_SHA256",
+    "BIFROST_RECEIPT_SHA256", "PUBLIC_BIFROST_TAG_COMMIT", "QUALIFICATION_SHA256",
+    "CONTROL_REVIEW_SHA256", "INDEPENDENT_REVIEW_SHA256", "CAPTURE_MANIFEST_SHA256",
+    "CAPTURE_QUALIFICATION_SHA256", "RUNNER_BINARY_SHA256", "RUNNER_BUILD_RECEIPT_SHA256",
+    "RUNNER_BINARY_BYTES", "RUNNER_BUILD_INPUTS_SHA256", "RUNNER_BUILD_STDOUT_SHA256",
+    "RUNNER_BUILD_STDERR_SHA256",
+    "BIFROST_CONTROL_REVIEW_SCHEMA", "INDEPENDENT_REVIEW_SCHEMA", "REVIEW_IMPLEMENTATION_PATH",
+    "CONTROL_COMPARISON_DIAGNOSTIC_PATH", "PIN_PROFILE_PATH",
+    "PIN_PROFILE_NATIVE_EVIDENCE_DIRECTORY", "TARGET_DRIVER_SOURCE_REL",
+    "TARGET_TEST_SOURCE_REL", "CORE_SOURCE_REL", "PROFILE_SOURCE_REL",
+    "ATTEMPT_RECEIPT_SCHEMA", "PROGRESS_SCHEMA", "INVOCATION_SCHEMA",
+    "SERIES_SUMMARY_SCHEMA", "RECONCILIATION_SCHEMA", "NATIVE_EVIDENCE_PATHS",
+)
+
+
+class TargetProfile:
+    """Immutable, exact target-specific evidence identities and repository paths."""
+
+    __slots__ = ("_values",)
+
+    def __init__(self, values: Mapping[str, object]):
+        copied = copy.deepcopy(dict(values))
+        if isinstance(copied.get("NATIVE_EVIDENCE_PATHS"), dict):
+            copied["NATIVE_EVIDENCE_PATHS"] = MappingProxyType(copied["NATIVE_EVIDENCE_PATHS"])
+        object.__setattr__(self, "_values", MappingProxyType(copied))
+
+    @property
+    def values(self) -> Mapping[str, object]:
+        return self._values
+
+    def __setattr__(self, _name: str, _value: object) -> None:
+        raise AttributeError("TargetProfile is immutable")
+
+
+def current_target_profile_values() -> dict[str, object]:
+    """Return the current instance's version-data defaults as a detached mapping."""
+    return {name: copy.deepcopy(globals()[name]) for name in TARGET_PROFILE_GLOBALS}
+
+
+def make_target_profile(overrides: Mapping[str, object]) -> TargetProfile:
+    """Apply only keys in the closed target-data surface to current defaults."""
+    if not isinstance(overrides, Mapping):
+        raise BenchmarkError("target profile overrides must be a mapping")
+    unknown = set(overrides) - set(TARGET_PROFILE_GLOBALS)
+    if unknown:
+        raise BenchmarkError(f"target profile contains non-data or unknown fields: {sorted(unknown)}")
+    values = current_target_profile_values()
+    values.update(copy.deepcopy(dict(overrides)))
+    return TargetProfile(values)
+
+
+def configure_target_profile(profile: TargetProfile) -> None:
+    """Bind a validated profile's data into this isolated module instance."""
+    if not isinstance(profile, TargetProfile) or set(profile.values) != set(TARGET_PROFILE_GLOBALS):
+        raise BenchmarkError("target profile is incomplete or was not constructed by the closed profile API")
+    for name in TARGET_PROFILE_GLOBALS:
+        expected = globals()[name]
+        value = profile.values[name]
+        if name == "NATIVE_EVIDENCE_PATHS":
+            if not isinstance(value, Mapping) or set(value) != set(expected):
+                raise BenchmarkError("target native evidence roles differ from the fixed role set")
+            if any(not isinstance(path, str) or not path for path in value.values()):
+                raise BenchmarkError("target native evidence paths must be non-empty strings")
+            globals()[name] = dict(value)
+            continue
+        if isinstance(expected, bool):
+            valid_type = type(value) is bool
+        elif expected is None:
+            valid_type = value is None or isinstance(value, str)
+        else:
+            valid_type = type(value) is type(expected)
+        if not valid_type:
+            raise BenchmarkError(f"target profile field {name} has the wrong type")
+        globals()[name] = copy.deepcopy(value)
+
+    if (not isinstance(SERIES, int) or SERIES < 1 or SERIES_LABEL != f"series-{SERIES:02d}" or
+            type(RUNNER_BINARY_BYTES) is not int or
+            not 0 < RUNNER_BINARY_BYTES <= 512 * 1024**2 or
+            BIFROST_REPORT_VERSION != f"bifrost {BIFROST_VERSION}" or
+            not COMMIT_RE.fullmatch(BIFROST_BUILD_IDENTITY) or
+            not SHA256_RE.fullmatch(BIFROST_BINARY_SHA256) or
+            not SHA256_RE.fullmatch(BIFROST_ARCHIVE_SHA256) or
+            not SHA256_RE.fullmatch(BIFROST_CATALOG_SHA256) or
+            not SHA256_RE.fullmatch(BIFROST_RECEIPT_SHA256) or
+            not SHA256_RE.fullmatch(LEDGER_PREFIX_SHA256) or LEDGER_PREFIX_LINES < 1):
+        raise BenchmarkError("target profile identity, series, or ledger-prefix binding is invalid")
+    for name in (
+        "QUALIFICATION_SHA256", "CONTROL_REVIEW_SHA256", "INDEPENDENT_REVIEW_SHA256",
+        "CAPTURE_MANIFEST_SHA256", "CAPTURE_QUALIFICATION_SHA256", "RUNNER_BINARY_SHA256",
+        "RUNNER_BUILD_RECEIPT_SHA256", "RUNNER_BUILD_INPUTS_SHA256",
+        "RUNNER_BUILD_STDOUT_SHA256", "RUNNER_BUILD_STDERR_SHA256",
+    ):
+        if not SHA256_RE.fullmatch(str(globals()[name])):
+            raise BenchmarkError(f"target profile evidence hash is missing or invalid: {name}")
+    if not COMMIT_RE.fullmatch(PUBLIC_BIFROST_TAG_COMMIT):
+        raise BenchmarkError("target profile lacks the exact public Bifrost tag commit")
+    for name in (
+        "CONTRACT_REL", "PROGRESS_REL", "SUMMARY_REL", "INVOCATIONS_REL",
+        "QUALIFICATION_DEFAULT", "CONTROL_REVIEW_DEFAULT", "INDEPENDENT_REVIEW_DEFAULT",
+        "CONTROL_CAPTURE_DEFAULT", "HUMAN_AUTHORIZATION_DEFAULT", "BIFROST_RECEIPT_DEFAULT",
+        "BIFROST_PATH_DEFAULT", "RUNNER_BUILD_RECEIPT", "RUNNER_BUILD_INPUTS",
+        "RUNNER_BUILD_STDOUT", "RUNNER_BUILD_STDERR", "RUNNER_CARGO_TARGET_DIR",
+        "REVIEW_IMPLEMENTATION_PATH", "CONTROL_COMPARISON_DIAGNOSTIC_PATH", "PIN_PROFILE_PATH",
+        "TARGET_DRIVER_SOURCE_REL", "TARGET_TEST_SOURCE_REL",
+    ):
+        value = globals()[name]
+        if not isinstance(value, str) or not value or PurePosixPath(value).is_absolute() or ".." in PurePosixPath(value).parts:
+            raise BenchmarkError(f"target profile path is unsafe: {name}")
+
+    global NATIVE_EVIDENCE_ROLES, ATTEMPT_POLICY, ALLOWED_RUNTIME_PROJECTIONS
+    NATIVE_EVIDENCE_ROLES = tuple(NATIVE_EVIDENCE_PATHS)
+    ATTEMPT_POLICY = dict(ATTEMPT_POLICY, series=SERIES, series_label=SERIES_LABEL)
+    ALLOWED_RUNTIME_PROJECTIONS = {
+        "argv": ["argv[0] = pinned optimized harness binary",
+                 f"the value following the single --bifrost flag = acquired v{BIFROST_VERSION} binary"],
+        "report_identity": [f"tool_version changes from frozen C4 Bifrost version to {BIFROST_REPORT_VERSION}"],
+        "scala_maven": ["the exact pinned binary jar, sources jar, and POM are staged into only the Scala attempt HOME"],
+        "all_baseline_group_policy_case_ids_reports_paths_deadlines_and_attempt_budgets_retained": True,
+    }
+
+
+LEGACY_TARGET_PROFILE = TargetProfile(current_target_profile_values())
 
 
 def _verify_bifrost_receipt(root: Path, value: str | Path) -> tuple[dict, dict]:
     relative, path, raw = _path_ref(root, value, "Bifrost acquisition receipt")
     if relative.as_posix() != BIFROST_RECEIPT_DEFAULT:
-        raise BenchmarkError("C5 must use the pinned v0.14.4 acquisition receipt path")
+        raise BenchmarkError(f"C5 must use the pinned {BIFROST_REPORT_VERSION} acquisition receipt path")
     if _sha(raw) != BIFROST_RECEIPT_SHA256:
-        raise BenchmarkError("Bifrost v0.14.4 acquisition receipt hash changed")
+        raise BenchmarkError(f"{BIFROST_REPORT_VERSION} acquisition receipt hash changed")
     receipt, _ = _read_json(path, "Bifrost acquisition receipt")
     binary = receipt.get("binary")
     if not isinstance(binary, dict):
@@ -515,12 +673,12 @@ def _verify_bifrost_receipt(root: Path, value: str | Path) -> tuple[dict, dict]:
     if (binary.get("sha256") != BIFROST_BINARY_SHA256 or
             binary.get("version_output", "").splitlines()[:1] != [BIFROST_REPORT_VERSION] or
             binary.get("build_identity_output", "").strip() != BIFROST_BUILD_IDENTITY):
-        raise BenchmarkError("Bifrost acquisition receipt identity differs from pinned v0.14.4")
+        raise BenchmarkError(f"Bifrost acquisition receipt identity differs from pinned {BIFROST_REPORT_VERSION}")
     archive = receipt.get("assets", {}).get("macos_universal_archive", {})
     if archive.get("local", {}).get("sha256") != BIFROST_ARCHIVE_SHA256:
         raise BenchmarkError("Bifrost source archive identity differs from the official release asset")
     if receipt.get("source", {}).get("public_tag_commit") != PUBLIC_BIFROST_TAG_COMMIT:
-        raise BenchmarkError("Bifrost public v0.14.4 tag commit differs from the acquired release")
+        raise BenchmarkError("Bifrost public tag commit differs from the acquired release")
     if binary.get("build_identity_equals_public_tag_commit") is not False:
         raise BenchmarkError("Bifrost build identity must remain distinct from the public tag commit")
     if not expected_path.is_file() or expected_path.is_symlink() or _sha_file(expected_path) != BIFROST_BINARY_SHA256:
@@ -599,6 +757,18 @@ def _verify_scala_receipt(root: Path, value: str | Path) -> tuple[dict, dict]:
     }
 
 
+def _verify_runner_binary_binding(root: Path, binary: object, runner_path: str | Path) -> Path:
+    binary_path = root / RUNNER_PATH_DEFAULT
+    if (not isinstance(binary, dict) or binary.get("path") != RUNNER_PATH_DEFAULT or
+            binary.get("sha256") != RUNNER_BINARY_SHA256 or binary.get("bytes") != RUNNER_BINARY_BYTES or
+            Path(runner_path).resolve(strict=False) != binary_path.resolve(strict=False)):
+        raise BenchmarkError("optimized harness build receipt identifies a different executable")
+    if (binary_path.is_symlink() or not binary_path.is_file() or
+            binary_path.stat().st_size != RUNNER_BINARY_BYTES or _sha_file(binary_path) != RUNNER_BINARY_SHA256):
+        raise BenchmarkError("optimized harness executable differs from the recorded build artifact")
+    return binary_path
+
+
 def _verify_runner_build(root: Path, source_commit: str, runner_path: str | Path) -> dict:
     receipt_path = root / RUNNER_BUILD_RECEIPT
     inputs_path = root / RUNNER_BUILD_INPUTS
@@ -625,16 +795,10 @@ def _verify_runner_build(root: Path, source_commit: str, runner_path: str | Path
             receipt.get("source_inputs_sha256") != RUNNER_BUILD_INPUTS_SHA256 or
             receipt.get("stdout_sha256") != RUNNER_BUILD_STDOUT_SHA256 or
             receipt.get("stderr_sha256") != RUNNER_BUILD_STDERR_SHA256 or
-            receipt.get("cargo_target_dir") != "execution-state/v092/builds/bifrost0144-01-target"):
+            receipt.get("cargo_target_dir") != RUNNER_CARGO_TARGET_DIR):
         raise BenchmarkError("optimized harness build receipt does not match the reviewed release build")
     binary = receipt.get("binary")
-    if (not isinstance(binary, dict) or binary.get("path") != RUNNER_PATH_DEFAULT or
-            binary.get("sha256") != RUNNER_BINARY_SHA256 or binary.get("bytes") != 11_003_248 or
-            Path(runner_path).resolve(strict=False) != binary_path.resolve(strict=False)):
-        raise BenchmarkError("optimized harness build receipt identifies a different executable")
-    if (binary_path.is_symlink() or not binary_path.is_file() or
-            binary_path.stat().st_size != 11_003_248 or _sha_file(binary_path) != RUNNER_BINARY_SHA256):
-        raise BenchmarkError("optimized harness executable differs from the recorded build artifact")
+    binary_path = _verify_runner_binary_binding(root, binary, runner_path)
     if not isinstance(source_inputs, list) or not source_inputs:
         raise BenchmarkError("optimized harness build source-input list is empty or malformed")
     build_hashes = {}
@@ -691,7 +855,7 @@ def _verify_runner_build(root: Path, source_commit: str, runner_path: str | Path
         "stderr": {"path": RUNNER_BUILD_STDERR, "sha256": RUNNER_BUILD_STDERR_SHA256},
         "argv": receipt["argv"], "exit_code": 0, "jobs": 2,
         "binary": {"path": str(binary_path.resolve()), "sha256": RUNNER_BINARY_SHA256,
-                   "bytes": 11_003_248},
+                   "bytes": RUNNER_BINARY_BYTES},
         "source_archive_bytes": archive_bytes,
     }
 
@@ -718,9 +882,9 @@ def _qualification_group_ids(value: object) -> list[str]:
 def _verify_qualification(root: Path, value: str | Path, bifrost_binding: dict) -> tuple[dict, dict]:
     relative, path, raw = _path_ref(root, value, "Bifrost qualification")
     if relative.as_posix() != QUALIFICATION_DEFAULT:
-        raise BenchmarkError("C5 must use the fresh v0.14.4 qualification path")
+        raise BenchmarkError(f"C5 must use the fresh {BIFROST_REPORT_VERSION} qualification path")
     if _sha(raw) != QUALIFICATION_SHA256:
-        raise BenchmarkError("fresh v0.14.4 qualification hash changed")
+        raise BenchmarkError(f"fresh {BIFROST_REPORT_VERSION} qualification hash changed")
     qualification, _ = _read_json(path, "Bifrost qualification")
     if (qualification.get("schema") != "v092-bifrost-release-qualification/v1" or
             qualification.get("status") != "measurement-with-known-limits" or
@@ -736,7 +900,7 @@ def _verify_qualification(root: Path, value: str | Path, bifrost_binding: dict) 
             tool.get("sha256") != BIFROST_BINARY_SHA256 or
             tool.get("build_identity") != BIFROST_BUILD_IDENTITY or
             tool.get("version") not in (BIFROST_VERSION, BIFROST_REPORT_VERSION)):
-        raise BenchmarkError("Bifrost qualification does not match the pinned v0.14.4 artifact")
+        raise BenchmarkError(f"Bifrost qualification does not match the pinned {BIFROST_REPORT_VERSION} artifact")
     if qualification.get("identity_components") != []:
         raise BenchmarkError("Bifrost qualification has unexpected component/control coverage")
     control_ref = qualification.get("control_review")
@@ -784,7 +948,7 @@ def _verify_qualification(root: Path, value: str | Path, bifrost_binding: dict) 
     if impl_path.is_symlink() or not impl_path.is_file() or _sha_file(impl_path) != impl_ref["sha256"]:
         raise BenchmarkError("qualification binding implementation hash differs")
     review, _review_raw = _read_json(root / CONTROL_REVIEW_DEFAULT, "fresh Bifrost control review")
-    if (review.get("schema") != "v092-bifrost-v0144-control-review/v1" or
+    if (review.get("schema") != BIFROST_CONTROL_REVIEW_SCHEMA or
             review.get("status") != "measurement-with-known-limits" or
             review.get("execution_eligible") is not True or
             review.get("full_policy_qualification") is not False or
@@ -810,7 +974,7 @@ def _verify_qualification(root: Path, value: str | Path, bifrost_binding: dict) 
             raise BenchmarkError(f"fresh Bifrost control review has a stale {role} digest")
     review_implementation = review.get("review_implementation")
     if (not isinstance(review_implementation, dict) or
-            review_implementation.get("path") != "reports/releases/v0.9.2/qualification/bifrost-v0144-01/review-bifrost-v0144-01.py"):
+            review_implementation.get("path") != REVIEW_IMPLEMENTATION_PATH):
         raise BenchmarkError("fresh Bifrost control review lacks its exact reviewer implementation reference")
     review_implementation_path = root / review_implementation["path"]
     if (review_implementation_path.is_symlink() or not review_implementation_path.is_file() or
@@ -838,20 +1002,20 @@ def _verify_qualification(root: Path, value: str | Path, bifrost_binding: dict) 
     if qualification.get("strict_capture") != review.get("strict_capture"):
         raise BenchmarkError("qualification strict-capture summary differs from the independent control review")
     independent_review, _independent_raw = _read_json(root / INDEPENDENT_REVIEW_DEFAULT,
-                                                        "independent v0.14.4 review")
-    if (independent_review.get("schema") != "v092-bifrost-v0144-independent-review/v1" or
+                                                        f"independent {BIFROST_REPORT_VERSION} review")
+    if (independent_review.get("schema") != INDEPENDENT_REVIEW_SCHEMA or
             independent_review.get("execution_eligible") is not True or
             independent_review.get("full_policy_qualification") is not False or
             independent_review.get("summary", {}).get("report_roster") != 39 or
             independent_review.get("summary", {}).get("current_completion_counts") !=
             {"complete": 36, "inconclusive": 3}):
-        raise BenchmarkError("independent v0.14.4 review does not preserve its limited 39-report result")
+        raise BenchmarkError(f"independent {BIFROST_REPORT_VERSION} review does not preserve its limited 39-report result")
     if _sha_file(root / INDEPENDENT_REVIEW_DEFAULT) != INDEPENDENT_REVIEW_SHA256:
-        raise BenchmarkError("independent v0.14.4 review hash changed")
+        raise BenchmarkError(f"independent {BIFROST_REPORT_VERSION} review hash changed")
     independent_refs = independent_review.get("evidence_refs", {})
     expected_independent = {
         "cli_help": (NATIVE_EVIDENCE_PATHS["help_stdout"], None),
-        "comparison_diagnostic": ("reports/releases/v0.9.2/qualification/bifrost-v0144-01/control-comparison-diagnostic-01.json", None),
+        "comparison_diagnostic": (CONTROL_COMPARISON_DIAGNOSTIC_PATH, None),
         "current_capture_manifest": (f"{capture_path}/artifact-hashes.json", CAPTURE_MANIFEST_SHA256),
         "current_commands": (f"{capture_path}/commands.jsonl", None),
         "current_qualification_receipt": (f"{capture_path}/qualification.json", CAPTURE_QUALIFICATION_SHA256),
@@ -885,7 +1049,7 @@ def _verify_qualification(root: Path, value: str | Path, bifrost_binding: dict) 
             review_implementation["path"], *independent_ref_paths, *review_files,
             f"{capture_path}/artifact-hashes.json",
             f"{capture_path}/capture-context.json", f"{capture_path}/commands.jsonl",
-            "reports/releases/v0.9.2/qualification/bifrost-v0144-01/control-comparison-diagnostic-01.json",
+            CONTROL_COMPARISON_DIAGNOSTIC_PATH,
             f"{capture_path}/qualification.json", auth_ref["path"], scope_ref["path"],
             impl_ref["path"]]
     return qualification, {
@@ -935,8 +1099,8 @@ def _source_input_paths(root: Path, base_contract: dict, refs: Iterable[str]) ->
         BASE_POPULATION_REL,
         BASE_PARENT_EXECUTION_REL,
         BASE_CONTRACT_REL,
-        "scripts/bifrost_v0144_benchmark.py",
-        "scripts/test_bifrost_v0144_benchmark.py",
+        TARGET_DRIVER_SOURCE_REL,
+        TARGET_TEST_SOURCE_REL,
         "scripts/execute-release-v092.py",
         "scripts/v092_disk_guard.py",
         "scripts/swift_v2_scored_process.py",
@@ -945,6 +1109,23 @@ def _source_input_paths(root: Path, base_contract: dict, refs: Iterable[str]) ->
         RUNNER_BUILD_STDOUT,
         RUNNER_BUILD_STDERR,
     ]
+    if CORE_SOURCE_REL is not None:
+        values.append(CORE_SOURCE_REL)
+    if PROFILE_SOURCE_REL is not None:
+        values.append(PROFILE_SOURCE_REL)
+    if TARGET_ID == "bifrost-v0151-01":
+        # Successor publication validation executes these helpers as part of
+        # the same reviewed source closure. Historical targets keep their
+        # original finite roster when no versioned target profile is present.
+        values.extend((
+            "scripts/select-v092-publication-evidence.py",
+            "scripts/test-select-v092-publication-evidence.py",
+            "scripts/validate-v092-report-configurations.py",
+            "scripts/test-validate-v092-report-configurations.py",
+            "scripts/joern_v092_publication_projection.py",
+            "scripts/joern_normal_reports_v092_projection.py",
+            "scripts/test-joern-v092-publication-projection.py",
+        ))
     values.extend(refs)
     unique = []
     for value in values:
@@ -963,8 +1144,8 @@ def _build_source_snapshot(root: Path, source_commit: str, base_contract: dict,
         digest, size = _git_blob_sha256(root, source_commit, relative)
         inputs.append({"path": relative, "sha256": digest, "bytes": size})
     inputs_by_path = {item["path"]: item for item in inputs}
-    runner_path = "scripts/bifrost_v0144_benchmark.py"
-    test_path = "scripts/test_bifrost_v0144_benchmark.py"
+    runner_path = TARGET_DRIVER_SOURCE_REL
+    test_path = TARGET_TEST_SOURCE_REL
     core_path = "scripts/execute-release-v092.py"
     disk_path = "scripts/v092_disk_guard.py"
     tracker_path = "scripts/swift_v2_scored_process.py"
@@ -974,6 +1155,16 @@ def _build_source_snapshot(root: Path, source_commit: str, base_contract: dict,
         raise BenchmarkError("new C5 runner or tests differ from the committed source snapshot")
     if inputs_by_path[core_path]["sha256"] != core_sha256:
         raise BenchmarkError("dynamic helper source differs from the exact source commit")
+    core_helpers = [
+        {"path": core_path, "sha256": core_sha256},
+        {"path": disk_path, "sha256": inputs_by_path[disk_path]["sha256"]},
+        {"path": tracker_path, "sha256": inputs_by_path[tracker_path]["sha256"]},
+    ]
+    if CORE_SOURCE_REL is not None:
+        core_helpers.append({
+            "path": CORE_SOURCE_REL,
+            "sha256": inputs_by_path[CORE_SOURCE_REL]["sha256"],
+        })
     return {
         "source_commit": source_commit,
         "closure_boundary": {
@@ -993,11 +1184,7 @@ def _build_source_snapshot(root: Path, source_commit: str, base_contract: dict,
         "historical_c4_source_inputs": copy.deepcopy(base_contract.get("source_inputs", [])),
         "runner_source": {"path": runner_path, "sha256": runner_sha},
         "test_source": {"path": test_path, "sha256": test_sha},
-        "core_helpers": [
-            {"path": core_path, "sha256": core_sha256},
-            {"path": disk_path, "sha256": inputs_by_path[disk_path]["sha256"]},
-            {"path": tracker_path, "sha256": inputs_by_path[tracker_path]["sha256"]},
-        ],
+        "core_helpers": core_helpers,
     }
 
 
@@ -1058,7 +1245,7 @@ def _make_manifest(root: Path, *, source_commit: str, runner_path: str | Path,
         if relative.as_posix() != NATIVE_EVIDENCE_PATHS[role]:
             raise BenchmarkError(f"native evidence {role} must use its fixed source-bound path")
         native_refs[role] = {"path": relative.as_posix(), "sha256": _sha(raw), "bytes": len(raw)}
-        if role == "help_stdout" and (b"bifrost 0.14.4" not in raw or b"USAGE:" not in raw):
+        if role == "help_stdout" and (BIFROST_REPORT_VERSION.encode() not in raw or b"USAGE:" not in raw):
             raise BenchmarkError("captured native help output does not identify the Bifrost CLI")
         if role == "controls_identity_version_stdout":
             expected = (BIFROST_REPORT_VERSION + "\n" +
@@ -1085,7 +1272,7 @@ def _make_manifest(root: Path, *, source_commit: str, runner_path: str | Path,
                     bifrost_pin.get("version") != BIFROST_REPORT_VERSION or
                     bifrost_pin.get("build_identity") != BIFROST_BUILD_IDENTITY or
                     bifrost_pin.get("environment") != {"BIFROST_OPEN_PACKS_DISABLE": "1"} or
-                    bifrost_pin.get("native_evidence") != "reports/releases/v0.9.2/qualification/bifrost-v0144-01"):
+                    bifrost_pin.get("native_evidence") != PIN_PROFILE_NATIVE_EVIDENCE_DIRECTORY):
                 raise BenchmarkError("C5 native pin profile differs from the acquired Bifrost identity")
     source_refs = [
         qualification_binding["path"],
@@ -1387,21 +1574,21 @@ def _scan_ledger(root: Path, all_group_ids: Sequence[str], *,
                         capacity_paths["output_roots"].append(str(execution_root.joinpath(*relative_output.parts)))
             is_target = row.get("target_id") == TARGET_ID
             if series == SERIES and not is_target:
-                raise BenchmarkError("series-03 contains an attempt from an unregistered target")
+                raise BenchmarkError(f"{SERIES_LABEL} contains an attempt from an unregistered target")
             if is_target:
                 if group_id not in BIFROST_GROUP_IDS or series != SERIES:
-                    raise BenchmarkError("C5 target ledger rows must belong to the fixed 20 Bifrost groups in series-03")
+                    raise BenchmarkError(f"C5 target ledger rows must belong to the fixed 20 Bifrost groups in {SERIES_LABEL}")
                 if attempt_number < 1:
                     raise BenchmarkError("C5 target ledger row has an invalid attempt number")
                 if current_contract_sha256 is not None and row.get("contract_sha256") != current_contract_sha256:
-                    raise BenchmarkError("series-03 ledger row refers to another C5 contract revision")
+                    raise BenchmarkError(f"{SERIES_LABEL} ledger row refers to another C5 contract revision")
                 if series != SERIES:
                     raise BenchmarkError("C5 target row uses the wrong execution series")
                 stage = row.get("ledger_stage_proof")
                 if (not isinstance(stage, dict) or
                         stage.get("pre_append_line_count") != line_count - 1 or
                         stage.get("pre_append_bytes") != byte_count - len(raw) or
-                        stage.get("original_109_row_prefix_sha256") != LEDGER_PREFIX_SHA256 or
+                        stage.get(f"original_{LEDGER_PREFIX_LINES}_row_prefix_sha256") != LEDGER_PREFIX_SHA256 or
                         stage.get("target_suffix_line_count_before") != len(target_rows) or
                         stage.get("target_suffix_sha256_before") != target_suffix_hash.hexdigest()):
                     raise BenchmarkError("C5 ledger row has an invalid append-prefix stage proof")
@@ -1419,7 +1606,7 @@ def _scan_ledger(root: Path, all_group_ids: Sequence[str], *,
             if line_count == 1:
                 started_at = row.get("start_utc")
     if line_count < LEDGER_PREFIX_LINES or protected_hash.hexdigest() != LEDGER_PREFIX_SHA256:
-        raise BenchmarkError("attempt ledger no longer preserves the pinned 109-row prefix")
+        raise BenchmarkError(f"attempt ledger no longer preserves the pinned {LEDGER_PREFIX_LINES}-row prefix")
     if anchor is not None:
         expected_count = anchor.get("line_count")
         expected_sha = anchor.get("sha256")
@@ -1430,7 +1617,7 @@ def _scan_ledger(root: Path, all_group_ids: Sequence[str], *,
         if byte_count < anchor.get("bytes", 0):
             raise BenchmarkError("attempt ledger is shorter than its pinned byte prefix")
     if anchor is None and target_rows:
-        raise BenchmarkError("series-03 already contains C5 target ledger rows; refusing fresh preparation")
+        raise BenchmarkError(f"{SERIES_LABEL} already contains C5 target ledger rows; refusing fresh preparation")
     return {
         "path": LEDGER_REL,
         "line_count": line_count,
@@ -1642,13 +1829,13 @@ def _scan_history(root: Path, all_group_ids: Sequence[str], *,
             continue
         _walk_namespace(root, candidate, all_group_ids, records, max_depth=5, relevant_only=True)
 
-    # Remove series-03 records only when reconciling a previously prepared C5
+    # Remove this target series's records only when reconciling a previously prepared C5
     # contract. During preparation, any such namespace means this target is not fresh.
     target_existing = [record for record in records.values() if record.get("execution_series") == SERIES]
     if preparing and target_existing:
-        raise BenchmarkError("series-03 already contains started attempts; refusing a fresh C5 contract")
+        raise BenchmarkError(f"{SERIES_LABEL} already contains started attempts; refusing a fresh C5 contract")
     if preparing and ledger["target_rows"]:
-        raise BenchmarkError("series-03 already contains target ledger rows; refusing fresh preparation")
+        raise BenchmarkError(f"{SERIES_LABEL} already contains target ledger rows; refusing fresh preparation")
     historical = {key: value for key, value in records.items() if value.get("execution_series") != SERIES}
     ordered = sorted(historical.values(), key=lambda item: (item["group_id"], item["attempt_id"]))
     compact = [
@@ -1781,11 +1968,21 @@ def _validate_contract(root: Path, contract_path: str | Path, *, require_approva
             "historical_c4_source_inputs_retained_for_capacity_accounting") != len(base.get("source_inputs", [])):
         raise BenchmarkError("C5 source closure misstates the historical C4 accounting boundary")
     for helper in contract["source_snapshot"].get("core_helpers", []):
-        helper_path = helper.get("path")
-        current_helper = root / str(helper_path)
-        if (not isinstance(helper_path, str) or current_helper.is_symlink() or not current_helper.is_file() or
-                _sha_file(current_helper) != helper.get("sha256")):
-            raise BenchmarkError(f"frozen C5 core helper changed: {helper_path}")
+        helper_path = helper.get("path") if isinstance(helper, dict) else None
+        helper_sha = helper.get("sha256") if isinstance(helper, dict) else None
+        if (not isinstance(helper_path, str) or not SHA256_RE.fullmatch(str(helper_sha))):
+            raise BenchmarkError("frozen C5 core helper identity is malformed")
+        if check_current_source:
+            current_helper = root / helper_path
+            if (current_helper.is_symlink() or not current_helper.is_file() or
+                    _sha_file(current_helper) != helper_sha):
+                raise BenchmarkError(f"frozen C5 core helper changed: {helper_path}")
+        else:
+            # Historical reconciliation verifies the implementation bound by
+            # SOURCE, even when the working tree now contains a successor
+            # driver. Dispatch remains stricter below and checks the current
+            # source snapshot before launching any attempts.
+            core._source_file(root, source_commit, helper_path, helper_sha)
     runtime = contract.get("runtime", {})
     runner = runtime.get("runner", {})
     runner_path = runner.get("path")
@@ -1823,13 +2020,20 @@ def _validate_contract(root: Path, contract_path: str | Path, *, require_approva
         if input_map.get(build_path) != build_sha:
             raise BenchmarkError(f"C5 source closure omitted optimized harness build proof: {build_path}")
     source_hashes = [{"path": item["path"], "sha256": item["sha256"]} for item in source_inputs]
-    if not check_current_source:
-        runner_source = contract["source_snapshot"].get("runner_source", {})
-        current_runner_source = root / str(runner_source.get("path", ""))
-        if (runner_source.get("path") != "scripts/bifrost_v0144_benchmark.py" or
-                current_runner_source.is_symlink() or not current_runner_source.is_file() or
-                _sha_file(current_runner_source) != runner_source.get("sha256")):
-            raise BenchmarkError("read-only C5 reconciliation requires the frozen target driver source")
+    runner_source = contract["source_snapshot"].get("runner_source", {})
+    runner_source_path = runner_source.get("path") if isinstance(runner_source, dict) else None
+    runner_source_sha = runner_source.get("sha256") if isinstance(runner_source, dict) else None
+    if (runner_source_path != TARGET_DRIVER_SOURCE_REL or
+            not isinstance(runner_source_sha, str) or not SHA256_RE.fullmatch(runner_source_sha) or
+            input_map.get(runner_source_path) != runner_source_sha):
+        raise BenchmarkError("C5 target driver source binding is incomplete or differs from source closure")
+    if check_current_source:
+        current_runner_source = root / runner_source_path
+        if (current_runner_source.is_symlink() or not current_runner_source.is_file() or
+                _sha_file(current_runner_source) != runner_source_sha):
+            raise BenchmarkError("current C5 target driver differs from the frozen source binding")
+    else:
+        core._source_file(root, source_commit, runner_source_path, runner_source_sha)
     if check_current_source:
         core._assert_source_snapshot(root, source_commit, core_sha, source_hashes)
     validate_group_projections(contract.get("groups", []), base["groups"], runner_path, bifrost["path"])
@@ -2448,7 +2652,7 @@ def _one_group(validated: dict, group_id: str, *, global_attempt_number: int,
     cache_root.mkdir()
     start_admission = dt.datetime.now(dt.timezone.utc).isoformat()
     started = {
-        "schema_version": 1, "schema": "dataflowbench-v0.9.2-bifrost-target-attempt/v1",
+        "schema_version": 1, "schema": ATTEMPT_RECEIPT_SCHEMA,
         "release": RELEASE, "target_id": TARGET_ID, "execution_series": SERIES,
         "global_attempt_number": global_attempt_number, "group_id": group_id,
         "attempt_id": attempt_id, "status": "started", "admitted_at_utc": start_admission,
@@ -2478,7 +2682,7 @@ def _one_group(validated: dict, group_id: str, *, global_attempt_number: int,
         "ledger_stage_proof": {
             "pre_append_line_count": validated["ledger"]["line_count"],
             "pre_append_bytes": validated["ledger"]["bytes"],
-            "original_109_row_prefix_sha256": LEDGER_PREFIX_SHA256,
+            f"original_{LEDGER_PREFIX_LINES}_row_prefix_sha256": LEDGER_PREFIX_SHA256,
             "target_suffix_line_count_before": validated["ledger"].get("target_line_count", 0),
             "target_suffix_sha256_before": validated["ledger"].get("target_suffix_sha256", _sha(b"")),
         },
@@ -2500,7 +2704,7 @@ def _one_group(validated: dict, group_id: str, *, global_attempt_number: int,
     }
     _atomic_write(attempts / "started.json", _pretty_json(started), exclusive=True)
     _durable_append(root / PROGRESS_REL, {
-        "schema": "dataflowbench-v0.9.2-bifrost-target-progress/v1", "at_utc": start_admission,
+        "schema": PROGRESS_SCHEMA, "at_utc": start_admission,
         "target_id": TARGET_ID, "contract_sha256": validated["contract_sha256"],
         "invocation_id": invocation_id, "phase": "attempt-started",
         "global_attempt_number": global_attempt_number, "group_id": group_id, "attempt_id": attempt_id,
@@ -2690,7 +2894,7 @@ def _one_group(validated: dict, group_id: str, *, global_attempt_number: int,
             "execution_roots": [str(execution_root)],
         })
         _durable_append(root / PROGRESS_REL, {
-            "schema": "dataflowbench-v0.9.2-bifrost-target-progress/v1",
+            "schema": PROGRESS_SCHEMA,
             "at_utc": row["end_utc"], "target_id": TARGET_ID,
             "contract_sha256": validated["contract_sha256"], "invocation_id": invocation_id,
             "phase": "attempt-terminal", "global_attempt_number": global_attempt_number,
@@ -2706,10 +2910,10 @@ def _validate_existing_target_attempts(validated: dict) -> list[dict]:
     records = validated["history"].get("target_records", [])
     rows = validated["ledger"].get("target_rows", [])
     if len(records) != len(rows) or any(not item.get("ledger_recorded") for item in records):
-        raise BenchmarkError("series-03 has an unledgered or unclosed C5 attempt; refusing resumption")
+        raise BenchmarkError(f"{SERIES_LABEL} has an unledgered or unclosed C5 attempt; refusing resumption")
     by_key = {(row.get("group_id"), row.get("attempt_id")): row for row in rows}
     if len(by_key) != len(rows):
-        raise BenchmarkError("series-03 target ledger repeats an attempt identity")
+        raise BenchmarkError(f"{SERIES_LABEL} target ledger repeats an attempt identity")
     prior_count = validated["contract"]["attempt_history"]["global_prior_consumed_attempt_count"]
     rows_by_group = {}
     for index, row in enumerate(rows, start=1):
@@ -2749,7 +2953,9 @@ def _prepare(root: Path, args) -> dict:
     ledger = _scan_ledger(root, all_ids)
     if (ledger["line_count"] != LEDGER_PREFIX_LINES or
             ledger["sha256"] != LEDGER_PREFIX_SHA256):
-        raise BenchmarkError("preparation requires the exact authorized 109-row append-only ledger prefix")
+        raise BenchmarkError(
+            f"preparation requires the exact authorized {LEDGER_PREFIX_LINES}-row append-only ledger prefix"
+        )
     history = _scan_history(root, all_ids, preparing=True, ledger_result=ledger)
     core, core_sha = _load_core(root)
     native = dict(NATIVE_EVIDENCE_PATHS)
@@ -2802,7 +3008,7 @@ def _verify_invocation_history(root: Path, validated: dict) -> dict:
         if path.is_symlink() or not path.is_file() or path.suffix != ".json":
             raise BenchmarkError(f"C5 invocation path is unsafe: {path}")
         receipt, _ = _read_json(path, "C5 invocation terminal receipt")
-        if (receipt.get("schema") != "dataflowbench-v0.9.2-bifrost-target-invocation/v1" or
+        if (receipt.get("schema") != INVOCATION_SCHEMA or
                 receipt.get("target_id") != TARGET_ID or
                 receipt.get("contract_sha256") != validated["contract_sha256"] or
                 receipt.get("contract_path") != CONTRACT_REL or
@@ -2824,7 +3030,7 @@ def _verify_invocation_history(root: Path, validated: dict) -> dict:
                 event = json.loads(raw)
             except (UnicodeError, json.JSONDecodeError) as exc:
                 raise BenchmarkError(f"C5 progress journal record {index} is invalid JSON") from exc
-            if (not isinstance(event, dict) or event.get("schema") != "dataflowbench-v0.9.2-bifrost-target-progress/v1" or
+            if (not isinstance(event, dict) or event.get("schema") != PROGRESS_SCHEMA or
                     event.get("target_id") != TARGET_ID or event.get("contract_sha256") != validated["contract_sha256"] or
                     event.get("invocation_id") not in invocations):
                 raise BenchmarkError(f"C5 progress journal record {index} is not bound to a terminal invocation")
@@ -3019,7 +3225,7 @@ def _write_series_summary(root: Path, validated: dict, completion_invocation_id:
     if completion_invocation_id not in terminal or terminal[completion_invocation_id].get("status") != "completed":
         raise BenchmarkError("C5 terminal summary completion invocation is not durably completed")
     summary = {
-        "schema": "dataflowbench-v0.9.2-bifrost-target-series-summary/v1",
+        "schema": SERIES_SUMMARY_SCHEMA,
         "target_id": TARGET_ID, "contract_path": CONTRACT_REL,
         "contract_sha256": validated["contract_sha256"],
         "source_commit": validated["source_commit"], "plan_commit": validated["plan_commit"],
@@ -3055,7 +3261,7 @@ def _verify_series_summary(root: Path, validated: dict, state: dict) -> dict | N
     completion_id = summary.get("completion_invocation_id")
     completion = next((item for item in state["invocations"] if item.get("invocation_id") == completion_id), None)
     expected = {
-        "schema": "dataflowbench-v0.9.2-bifrost-target-series-summary/v1",
+        "schema": SERIES_SUMMARY_SCHEMA,
         "target_id": TARGET_ID, "contract_path": CONTRACT_REL,
         "contract_sha256": validated["contract_sha256"],
         "source_commit": validated["source_commit"], "plan_commit": validated["plan_commit"],
@@ -3097,7 +3303,9 @@ def _execute(root: Path, contract_path: str | Path, mode: str, group_id: str | N
             raise BenchmarkError("pinned executor helper hash changed")
         rows = _validate_existing_target_attempts(validated)
         if mode == "serial-fail-stop" and rows:
-            raise BenchmarkError("serial-fail-stop requires a fresh series-03 target with no prior C5 attempt")
+            raise BenchmarkError(
+                f"serial-fail-stop requires a fresh {SERIES_LABEL} target with no prior C5 attempt"
+            )
         if any(item.get("status") not in {"completed", "failed", "timed-out", "capacity-lost", "recorder-error"}
                for item in validated["history"].get("target_records", [])):
             raise BenchmarkError("C5 has an unknown or non-terminal started namespace")
@@ -3133,7 +3341,7 @@ def _execute(root: Path, contract_path: str | Path, mode: str, group_id: str | N
         _check_resources = getattr(core, "_check_resources")
         _check_resources(root, 127 * 1024**3)
         invocation = {
-            "schema": "dataflowbench-v0.9.2-bifrost-target-invocation/v1",
+            "schema": INVOCATION_SCHEMA,
             "target_id": TARGET_ID, "invocation_id": invocation_id, "mode": mode,
             "status": "running", "started_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
             "source_commit": validated["source_commit"], "plan_commit": validated["plan_commit"],
@@ -3155,7 +3363,7 @@ def _execute(root: Path, contract_path: str | Path, mode: str, group_id: str | N
         }
         _write_terminal(invocation_path, invocation)
         _durable_append(root / PROGRESS_REL, {
-            "schema": "dataflowbench-v0.9.2-bifrost-target-progress/v1",
+            "schema": PROGRESS_SCHEMA,
             "at_utc": invocation["started_at_utc"], "target_id": TARGET_ID,
             "contract_sha256": validated["contract_sha256"],
             "invocation_id": invocation_id, "phase": "invocation-started", "mode": mode,
@@ -3197,7 +3405,7 @@ def _execute(root: Path, contract_path: str | Path, mode: str, group_id: str | N
         invocation["target_suffix_sha256"] = validated["ledger"].get("target_suffix_sha256")
         _write_terminal(invocation_path, invocation)
         _durable_append(root / PROGRESS_REL, {
-            "schema": "dataflowbench-v0.9.2-bifrost-target-progress/v1",
+            "schema": PROGRESS_SCHEMA,
             "at_utc": invocation["ended_at_utc"], "target_id": TARGET_ID,
             "contract_sha256": validated["contract_sha256"],
             "invocation_id": invocation_id, "phase": "invocation-terminal",
@@ -3377,7 +3585,7 @@ def _reconcile_outputs_locked(root: Path, contract_path: str | Path) -> dict:
     series_completed = all_rows_completed and summary is not None
     invocations = _terminal_invocation_refs(root, invocation_state)
     return {
-        "schema": "dataflowbench-v0.9.2-bifrost-target-reconciliation/v1",
+        "schema": RECONCILIATION_SCHEMA,
         "status": "completed" if series_completed else "incomplete",
         "output_rows_complete": all_rows_completed,
         "series_summary": summary,
@@ -3399,7 +3607,7 @@ def _reconcile_outputs_locked(root: Path, contract_path: str | Path) -> dict:
         "ledger": {
             "path": LEDGER_REL, "line_count": validated["ledger"]["line_count"],
             "bytes": validated["ledger"]["bytes"], "sha256": validated["ledger"]["sha256"],
-            "preserved_109_row_prefix_sha256": LEDGER_PREFIX_SHA256,
+            f"preserved_{LEDGER_PREFIX_LINES}_row_prefix_sha256": LEDGER_PREFIX_SHA256,
             "target_suffix_line_count": validated["ledger"]["target_line_count"],
             "target_suffix_sha256": validated["ledger"]["target_suffix_sha256"],
         },
@@ -3413,7 +3621,7 @@ def _reconcile_outputs_locked(root: Path, contract_path: str | Path) -> dict:
 
 
 def _main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=TARGET_HELP_DESCRIPTION)
     subparsers = parser.add_subparsers(dest="command", required=True)
     prepare_parser = subparsers.add_parser("prepare", help="write a source-bound unapproved C5 manifest")
     prepare_parser.add_argument("--source-commit", required=True)
@@ -3447,4 +3655,4 @@ if __name__ == "__main__":
     try:
         raise SystemExit(_main())
     except (BenchmarkError, OSError, ValueError, subprocess.CalledProcessError) as exc:
-        raise SystemExit(f"C5 Bifrost 0.14.4 target refused: {exc}")
+        raise SystemExit(f"C5 Bifrost {BIFROST_VERSION} target refused: {exc}")

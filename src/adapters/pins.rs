@@ -7,8 +7,12 @@
 
 pub(crate) const PROFILE: &str = "v0.9.2";
 
-pub(crate) const BIFROST_VERSION: &str = "bifrost 0.14.4";
-pub(crate) const BIFROST_BUILD_IDENTITY: &str = "ff5cf473f4ad414751911ff93ef79e1df1d35823";
+pub(crate) const BIFROST_VERSION: &str = "bifrost 0.15.1";
+pub(crate) const BIFROST_BUILD_IDENTITY: &str = "90d820b9ee3b1bcca9e3dd2a049b1b51dc854b69";
+pub(crate) const BIFROST_BINARY_SHA256: &str =
+    "00b279126297d5e9f7805390799493e915eaf4a2d5940dc3e755138a577a6df9";
+pub(crate) const BIFROST_CATALOG_SHA256: &str =
+    "f9d3b4efcf20e0ca8e8a976d6524556f114f4a4ccab3f4b0cc761f0b9248d206";
 pub(crate) const BIFROST_OPEN_PACKS_DISABLE_ENV: &str = "BIFROST_OPEN_PACKS_DISABLE";
 pub(crate) const BIFROST_OPEN_PACKS_DISABLE_VALUE: &str = "1";
 

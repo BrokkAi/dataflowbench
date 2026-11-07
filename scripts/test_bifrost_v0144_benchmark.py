@@ -7,7 +7,9 @@ import copy
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
+import py_compile
 import shutil
 import subprocess
 import tarfile
@@ -206,6 +208,24 @@ def write_ledger(root: Path, rows: list[dict]) -> Path:
 
 
 class FrozenTargetTests(unittest.TestCase):
+    def test_release_helper_loader_executes_bound_source_despite_old_bytecode(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "scripts/execute-release-v092.py"
+            source.parent.mkdir()
+            source.write_bytes(b'VALUE = "old"\n')
+            before = source.stat()
+            py_compile.compile(str(source), doraise=True,
+                               invalidation_mode=py_compile.PycInvalidationMode.TIMESTAMP)
+            current = b'VALUE = "new"\n'
+            source.write_bytes(current)
+            os.utime(source, ns=(before.st_atime_ns, before.st_mtime_ns))
+            digest = hashlib.sha256(current).hexdigest()
+            loaded, bound_digest = driver._load_core(root, digest)
+            self.assertEqual(loaded.VALUE, "new")
+            self.assertEqual(bound_digest, digest)
+            self.assertEqual(loaded.__verified_source_sha256__, digest)
+
     def test_target_roster_and_runtime_vector_are_exactly_projected_from_c4(self):
         baseline = actual_base_groups()
         runner = "/tmp/c5/execute-release-v092.py"
@@ -1144,11 +1164,18 @@ class GitPlanBindingTests(unittest.TestCase):
                 contract_path.write_bytes(driver._pretty_json(contract))
 
                 frozen_source_file.write_text("source changed after SOURCE\n", encoding="utf-8")
-                self.git(root, "add", "src/frozen.rs")
-                self.git(root, "commit", "-m", "change frozen source input")
-                with self.assertRaisesRegex(RuntimeError, "source drift: runner or fixture inputs differ"):
+                driver_copy.write_bytes(driver_copy.read_bytes() + b"\n# successor runtime helper\n")
+                self.git(root, "add", "src/frozen.rs", "scripts/bifrost_v0144_benchmark.py")
+                self.git(root, "commit", "-m", "change frozen source and runtime helper")
+                with self.assertRaisesRegex(
+                        RuntimeError,
+                        "current C5 target driver differs from the frozen source binding|"
+                        "source drift: runner or fixture inputs differ"):
                     driver._validate_contract(root, driver.CONTRACT_REL,
                                               require_approval=False, require_committed=True)
+                # Read-only replay must use the runner and helper bytes bound
+                # by SOURCE. The same changed working tree is rejected above
+                # for any dispatch that checks the current source snapshot.
                 historical = driver._validate_contract(
                     root, driver.CONTRACT_REL, require_approval=False,
                     require_committed=True, check_current_source=False,

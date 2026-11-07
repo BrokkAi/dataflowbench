@@ -30,7 +30,7 @@ struct TestIdentity {
 
 fn fake_bifrost_binary_contents() -> String {
     let acquisition: Value = serde_json::from_slice(
-        &fs::read("reports/releases/v0.9.2/acquisition/bifrost-v0144-01/acquisition-receipt.json")
+        &fs::read("reports/releases/v0.9.2/acquisition/bifrost-v0151-01/acquisition-receipt.json")
             .expect("read the pinned Bifrost acquisition receipt for the test binary"),
     )
     .unwrap();

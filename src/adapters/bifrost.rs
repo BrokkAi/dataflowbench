@@ -101,9 +101,9 @@ pub(crate) const BIFROST_SCALA_DEPENDENCY_EVIDENCE: &str =
 /// policy that kept that default would not be measuring activation.
 pub(crate) const BIFROST_MODELING_CALL_MODELING: &str = "require-model";
 const BIFROST_V0_9_2_ACQUISITION_EVIDENCE: &str =
-    "reports/releases/v0.9.2/acquisition/bifrost-v0144-01/acquisition-receipt.json";
+    "reports/releases/v0.9.2/acquisition/bifrost-v0151-01/acquisition-receipt.json";
 
-/// Apply the prospective v0.9.2 process boundary that prevents Bifrost 0.14.4
+/// Apply the prospective v0.9.2 process boundary that prevents Bifrost 0.15.1
 /// from implicitly acquiring host open packs. The benchmark's shipped-catalog
 /// profile is measured with acquisition disabled; explicitly supplied files
 /// and native catalog evidence remain separate inputs.
@@ -146,6 +146,16 @@ pub(crate) fn witness_bifrost_identity(binary: &Path) -> Result<ToolIdentity> {
             pins::BIFROST_BUILD_IDENTITY
         );
     }
+    let evidence_binary_sha256 = evidence["binary"]["sha256"]
+        .as_str()
+        .context("Bifrost acquisition evidence lacks its binary SHA-256")?;
+    if evidence_binary_sha256 != pins::BIFROST_BINARY_SHA256 {
+        bail!(
+            "Bifrost acquisition evidence at {BIFROST_V0_9_2_ACQUISITION_EVIDENCE} records binary SHA-256 {evidence_binary_sha256:?}, but profile {} pins {}; refusing to publish a report for another binary",
+            pins::PROFILE,
+            pins::BIFROST_BINARY_SHA256
+        );
+    }
     let evidence_lines: Vec<_> = evidence_version.lines().collect();
     if evidence_lines.len() != 2 || evidence_lines[0] != pins::BIFROST_VERSION {
         bail!(
@@ -161,6 +171,13 @@ pub(crate) fn witness_bifrost_identity(binary: &Path) -> Result<ToolIdentity> {
     if catalog_digest.len() != 64 || !catalog_digest.bytes().all(|byte| byte.is_ascii_hexdigit()) {
         bail!(
             "Bifrost v0.9.2 acquisition evidence at {BIFROST_V0_9_2_ACQUISITION_EVIDENCE} has a malformed catalog digest"
+        );
+    }
+    if catalog_digest != pins::BIFROST_CATALOG_SHA256 {
+        bail!(
+            "Bifrost acquisition evidence at {BIFROST_V0_9_2_ACQUISITION_EVIDENCE} records catalog digest {catalog_digest:?}, but profile {} pins {}; refusing to publish a report for another catalog",
+            pins::PROFILE,
+            pins::BIFROST_CATALOG_SHA256
         );
     }
     let expected_version = format!("{}\n{}", evidence_lines[0], evidence_lines[1]);

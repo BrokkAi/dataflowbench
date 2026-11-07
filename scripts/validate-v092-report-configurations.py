@@ -9,9 +9,9 @@ checks readiness; ``--execute`` creates one append-only validation namespace.
 from __future__ import annotations
 
 import argparse
+from collections.abc import Mapping
 import datetime as _datetime
 import hashlib
-import importlib.util
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -20,11 +20,20 @@ import stat
 import subprocess
 import sys
 import time
+from types import ModuleType
 
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE = "v0.9.2"
 CONTRACT = PurePosixPath("reports/releases/v0.9.2/execution-v1/contract.json")
+V0151_SELECTOR = PurePosixPath("scripts/select-v092-publication-evidence.py")
+V0151_WRAPPER = PurePosixPath("scripts/bifrost_v0151_benchmark.py")
+V0151_CORE = PurePosixPath("scripts/bifrost_v0144_benchmark.py")
+JOERN_PROJECTION_HELPER = PurePosixPath("scripts/joern_v092_publication_projection.py")
+JOERN_EXPORTER_HELPER = PurePosixPath("scripts/joern_normal_reports_v092_projection.py")
+V0151_CONTRACT = PurePosixPath(
+    "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/contract-01.json"
+)
 CHECKOUTS = PurePosixPath("execution-state/v092/validation")
 RECEIPTS = PurePosixPath("reports/releases/v0.9.2/validation")
 ATTEMPTS = PurePosixPath("reports/releases/v0.9.2/attempts")
@@ -47,16 +56,66 @@ class ValidationEvidenceError(ValueError):
 
 
 def _load_module(path: Path, name: str):
-    spec = importlib.util.spec_from_file_location(name, path)
-    if spec is None or spec.loader is None:
-        raise RuntimeError(f"cannot load validation dependency: {path}")
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    source = path.read_bytes()
+    source_sha256 = hashlib.sha256(source).hexdigest()
+    module = ModuleType(name)
+    module.__file__ = str(path)
+    module.__package__ = name.rpartition(".")[0]
+    module.__cached__ = None
+    prior = sys.modules.get(name)
+    sys.modules[name] = module
+    try:
+        exec(compile(source, str(path), "exec"), module.__dict__)
+    except BaseException:
+        if prior is None:
+            sys.modules.pop(name, None)
+        else:
+            sys.modules[name] = prior
+        raise
+    if hashlib.sha256(path.read_bytes()).hexdigest() != source_sha256:
+        if prior is None:
+            sys.modules.pop(name, None)
+        else:
+            sys.modules[name] = prior
+        raise RuntimeError(f"validation dependency changed while loading: {path}")
     return module
+
+
+def _load_current_python_source(root: Path, relative: PurePosixPath, name: str):
+    """Execute the exact current Python bytes so mode identities cannot use stale bytecode."""
+    path = root / Path(*relative.parts)
+    _require(path.is_file() and not path.is_symlink() and path.resolve().is_relative_to(root.resolve()),
+             f"required v0.15.1 preflight source is missing or unsafe: {relative}")
+    source = path.read_bytes()
+    digest = _sha(source)
+    module = ModuleType(name)
+    module.__file__ = str(path)
+    module.__package__ = ""
+    sys.modules[name] = module
+    try:
+        exec(compile(source, str(path), "exec"), module.__dict__)
+    except BaseException:
+        sys.modules.pop(name, None)
+        raise
+    _require(_sha(path.read_bytes()) == digest,
+             f"v0.15.1 preflight source changed while loading: {relative}")
+    return module, {"path": relative.as_posix(), "sha256": digest}
 
 
 CHECKER = _load_module(Path(__file__).with_name("check-release-v092.py"), "check_release_v092_for_config_validation")
 EXECUTOR = CHECKER.EXECUTOR
+JOERN_PROJECTION = _load_module(
+    Path(__file__).with_name("joern_v092_publication_projection.py"),
+    "joern_v092_publication_projection_for_validation",
+)
+
+JOERN108_ADAPTERS = {
+    "joern-swift-core.json",
+    "joern-swift-modeling.json",
+    "joern-swift-calibration.json",
+    "joern-swift-native.json",
+    "joern-swift-language-extension.json",
+}
 
 def _sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
@@ -234,6 +293,63 @@ def _paths_conflict(left: PurePosixPath, right: PurePosixPath) -> bool:
     return left == right or left in right.parents or right in left.parents
 
 
+def _joern_projection_bindings(root: Path, summary: dict) -> tuple[dict | None, dict[str, dict]]:
+    bindings = summary.get("fresh_reports")
+    _require(isinstance(bindings, list), "checker summary report bindings are malformed")
+    derived = [binding for binding in bindings if isinstance(binding, dict) and
+               ("original_staged" in binding or "metadata_projection" in binding)]
+    reference = summary.get("joern_metadata_projection")
+    if not derived:
+        _require(reference is None,
+                 "Joern projection manifest is present without derived report bindings")
+        return None, {}
+    _require(len(derived) == len(JOERN108_ADAPTERS),
+             "metadata-derived reports must cover exactly the five Joern108 partitions")
+    _require(isinstance(reference, dict) and set(reference) == {"path", "sha256"} and
+             reference.get("path") == JOERN_PROJECTION.PUBLICATION_PROJECTION_MANIFEST and
+             isinstance(reference.get("sha256"), str) and SHA256.fullmatch(reference["sha256"]) is not None,
+             "derived Joern reports lack the exact metadata-projection manifest reference")
+    manifest = JOERN_PROJECTION.verify_existing_projection(root, reference)
+    _require(manifest.get("schema") == "v092-joern108-publication-projection/v1" and
+             manifest.get("status") == "verified-derived-report-metadata" and
+             manifest.get("attempt_id") == JOERN_PROJECTION.ATTEMPT_ID and
+             manifest.get("group_id") == JOERN_PROJECTION.GROUP_ID and
+             manifest.get("case_count") == 108 and manifest.get("report_count") == 5 and
+             manifest.get("scored_activation") is False and
+             manifest.get("configuration_ready") is False and
+             manifest.get("full_release_gate_satisfied") is False and
+             manifest.get("publication_approved") is False,
+             "Joern metadata projection manifest identity or scope differs")
+    report_rows = manifest.get("reports")
+    _require(isinstance(report_rows, list) and len(report_rows) == 5,
+             "Joern metadata projection manifest must bind exactly five reports")
+    by_name = {}
+    for item in report_rows:
+        _require(isinstance(item, dict) and isinstance(item.get("staged"), dict),
+                 "Joern projection manifest contains a malformed original staged binding")
+        original_path = _relative(item["staged"].get("path"), "original Joern staged report")
+        name = original_path.name
+        _require(name in JOERN108_ADAPTERS and name not in by_name,
+                 "Joern projection manifest contains a duplicate or unknown report partition")
+        projected_path = _relative(item.get("path"), "derived Joern metadata report")
+        _require(projected_path.as_posix() ==
+                 (PurePosixPath(JOERN_PROJECTION.PUBLICATION_PROJECTION_DIRECTORY) / name).as_posix(),
+                 "derived Joern report path differs from the fixed publication projection")
+        by_name[name] = item
+    _require(set(by_name) == JOERN108_ADAPTERS,
+             "Joern metadata projection manifest does not cover the exact five adapters")
+    derived_names = set()
+    for binding in derived:
+        _require(isinstance(binding.get("adapter"), str),
+                 "derived Joern report adapter path is malformed")
+        _require(binding.get("metadata_projection") == reference,
+                 "derived Joern binding does not point to the exact top-level projection manifest")
+        derived_names.add(_relative(binding["adapter"], "derived Joern adapter report").name)
+    _require(derived_names == JOERN108_ADAPTERS,
+             "derived Joern bindings do not cover the exact five adapters")
+    return manifest, by_name
+
+
 def _project_reports(
     root: Path,
     checkout: Path,
@@ -255,12 +371,15 @@ def _project_reports(
     }
     _require(len(selected_attempt_hashes) == len(summary.get("selected_attempts", [])),
              "checker summary selected attempt receipt map is malformed")
+    joern_projection, joern_projection_reports = _joern_projection_bindings(root, summary)
+    derived_report_count = 0
 
     reports: list[dict] = []
     raw_by_path: dict[str, dict] = {}
     attempt_receipts: dict[str, dict] = {}
     report_targets: list[PurePosixPath] = []
     staged_sources: set[str] = set()
+    original_staged_sources: set[str] = set()
     total_rows = 0
     for binding in bindings:
         _require(isinstance(binding, dict), "checker summary contains a malformed report binding")
@@ -278,10 +397,42 @@ def _project_reports(
 
         attempt_id = binding.get("attempt_id")
         staged_relative = _relative(binding.get("staged_path"), "attempt-staged report path")
-        expected_staged = (PurePosixPath("reports/releases/v0.9.2/normal/attempts") /
-                           str(attempt_id) / adapter.relative_to("reports/releases/v0.9.2/normal"))
-        _require(staged_relative == expected_staged,
-                 f"staged report is not the selected attempt projection: {staged_relative}")
+        expected_original_staged = (
+            PurePosixPath("reports/releases/v0.9.2/normal/attempts") /
+            str(attempt_id) / adapter.relative_to("reports/releases/v0.9.2/normal")
+        )
+        derived_binding = "original_staged" in binding or "metadata_projection" in binding
+        if derived_binding:
+            _require(joern_projection is not None and adapter.name in JOERN108_ADAPTERS and
+                     attempt_id == joern_projection.get("attempt_id"),
+                     "metadata-derived report is outside the exact Joern108 attempt")
+            original_ref = binding.get("original_staged")
+            projection_ref = binding.get("metadata_projection")
+            _require(isinstance(original_ref, dict) and set(original_ref) == {"path", "sha256"} and
+                     isinstance(projection_ref, dict) and set(projection_ref) == {"path", "sha256"},
+                     "derived Joern binding requires exact original_staged and metadata_projection refs")
+            original_relative = _relative(original_ref.get("path"), "original staged report path")
+            original_key = original_relative.as_posix()
+            _require(original_relative == expected_original_staged and
+                     original_key not in original_staged_sources,
+                     "original_staged does not identify the exact selected attempt report")
+            original_staged_sources.add(original_key)
+            expected_manifest_report = joern_projection_reports[adapter.name]
+            _require(projection_ref == summary.get("joern_metadata_projection") and
+                     expected_manifest_report.get("path") == staged_relative.as_posix() and
+                     expected_manifest_report.get("sha256") == binding.get("sha256") and
+                     expected_manifest_report.get("staged") == original_ref and
+                     expected_manifest_report.get("cases") == binding.get("rows"),
+                     "derived Joern report refs differ from the verified projection manifest")
+            original_staged_key = original_key
+            original_staged_sha = original_ref["sha256"]
+            derived_report_count += 1
+        else:
+            expected_staged = expected_original_staged
+            _require(staged_relative == expected_staged,
+                     f"staged report is not the selected attempt projection: {staged_relative}")
+            original_staged_key = staged_relative.as_posix()
+            original_staged_sha = binding.get("sha256")
         staged_key = staged_relative.as_posix()
         _require(staged_key not in staged_sources, f"duplicate staged report source: {staged_key}")
         staged_sources.add(staged_key)
@@ -304,9 +455,29 @@ def _project_reports(
 
         _require(attempt_id in selected_attempt_hashes,
                  f"report binds an attempt absent from checker-selected receipts: {attempt_id}")
+        _require(isinstance(original_staged_sha, str) and SHA256.fullmatch(original_staged_sha) is not None,
+                 f"checker summary has an invalid original staged report SHA-256: {adapter}")
         report_receipt, receipt_sha = _attempt_report_receipt(
-            root, attempt_id, staged_key, staged_sha, selected_attempt_hashes[attempt_id],
+            root, attempt_id, original_staged_key, original_staged_sha,
+            selected_attempt_hashes[attempt_id],
         )
+        original_report_bytes = _read_under(root, original_staged_key, "original selected staged report")
+        _require(_sha(original_report_bytes) == original_staged_sha,
+                 f"original staged report changed after checker verification: {original_staged_key}")
+        if derived_binding:
+            try:
+                original_report_value = json.loads(original_report_bytes)
+            except (UnicodeError, json.JSONDecodeError) as exc:
+                raise ValidationEvidenceError(
+                    f"original staged Joern report is invalid JSON: {original_staged_key}"
+                ) from exc
+            _require(isinstance(original_report_value, dict) and
+                     "configuration_hash" not in original_report_value and
+                     report_value == dict(
+                         original_report_value,
+                         configuration_hash=joern_projection.get("configuration_hash"),
+                     ),
+                     "derived Joern report changes fields beyond configuration_hash")
         if attempt_id not in attempt_receipts:
             attempt_receipts[attempt_id] = {
                 "attempt_id": attempt_id,
@@ -382,11 +553,15 @@ def _project_reports(
             "attempt_id": attempt_id,
             "attempt_number": binding.get("attempt_number"),
             "source_path": staged_key,
+            **({"original_staged_path": original_staged_key} if derived_binding else {}),
             "validation_path": destination_relative.as_posix(),
             "sha256": staged_sha,
             "rows": len(rows),
         })
 
+    _require((joern_projection is None and derived_report_count == 0) or
+             (joern_projection is not None and derived_report_count == len(JOERN108_ADAPTERS)),
+             "Joern metadata projection bindings are incomplete")
     _require(total_rows == expected_row_count,
              f"projected report rows total {total_rows}, expected {expected_row_count}")
     _require(set(attempt_receipts) == set(selected_attempt_hashes),
@@ -525,7 +700,11 @@ def _source_identity(root: Path, validated: dict) -> dict:
     }
 
 
-def _helper_identities() -> dict:
+def _helper_identities(
+    extra_sources: dict[str, dict] | None = None,
+    *,
+    root: Path = ROOT,
+) -> dict:
     checker_path = Path(CHECKER.__file__).resolve()
     executor_path = Path(EXECUTOR.__file__).resolve()
     helper_path = Path(__file__).resolve()
@@ -536,14 +715,184 @@ def _helper_identities() -> dict:
     }
     _require(current == _LOADED_SOURCE_SHA,
              "validation helper, checker, or executor source changed after the code was loaded")
-    return {
+    identities = {
         "helper": {"path": helper_path.relative_to(ROOT).as_posix(), "sha256": current["helper"]},
         "checker": {"path": checker_path.relative_to(ROOT).as_posix(), "sha256": current["checker"]},
         "executor": {"path": executor_path.relative_to(ROOT).as_posix(), "sha256": current["executor"]},
     }
+    for name, reference in (extra_sources or {}).items():
+        _require(isinstance(name, str) and name in (
+                     "selector", "target_wrapper", "target_core", "joern_projection", "joern_exporter",
+                 ) and
+                 isinstance(reference, dict) and set(reference) == {"path", "sha256"},
+                 "v0.15.1 helper identity binding is malformed")
+        relative = _relative(reference.get("path"), f"{name} source path")
+        digest = reference.get("sha256")
+        _require(isinstance(digest, str) and SHA256.fullmatch(digest) is not None,
+                 f"{name} source SHA-256 is malformed")
+        data = _read_under(root, relative.as_posix(), f"current {name} source")
+        _require(_sha(data) == digest,
+                 f"current {name} source changed after v0.15.1 preflight")
+        identities[name] = {"path": relative.as_posix(), "sha256": digest}
+    return identities
 
 
-def _preflight(root: Path, contract_path: Path) -> tuple[dict, dict, dict, dict]:
+def _load_v0151_preflight_modules(root: Path) -> tuple[object, object, object, dict[str, dict]]:
+    selector, selector_ref = _load_current_python_source(
+        root, V0151_SELECTOR, f"v092_validation_selector_{os.getpid()}",
+    )
+    wrapper, wrapper_ref = _load_current_python_source(
+        root, V0151_WRAPPER, f"v092_validation_v0151_wrapper_{os.getpid()}",
+    )
+    _require(getattr(wrapper, "CORE_SOURCE_REL", None) == V0151_CORE.as_posix(),
+             "fixed v0.15.1 wrapper does not bind the registered C5 core")
+    core, core_ref = _load_current_python_source(
+        root, V0151_CORE, f"v092_validation_v0151_core_{os.getpid()}",
+    )
+    helper_refs = {}
+    for key, relative in (("joern_projection", JOERN_PROJECTION_HELPER),
+                          ("joern_exporter", JOERN_EXPORTER_HELPER)):
+        raw = _read_under(root, relative.as_posix(), f"current {key} helper source")
+        helper_refs[key] = {"path": relative.as_posix(), "sha256": _sha(raw)}
+    return selector, wrapper, core, {
+        "selector": selector_ref,
+        "target_wrapper": wrapper_ref,
+        "target_core": core_ref,
+        **helper_refs,
+    }
+
+
+def _preflight_v0151(
+    root: Path,
+    contract_path: Path,
+) -> tuple[dict, dict, dict, dict]:
+    try:
+        relative_contract = contract_path.resolve(strict=True).relative_to(root.resolve(strict=True))
+    except (OSError, ValueError) as exc:
+        raise ValidationEvidenceError("v0.15.1 contract must be the fixed repository C6 path") from exc
+    _require(relative_contract.as_posix() == V0151_CONTRACT.as_posix(),
+             "v0.15.1 preflight accepts only the fixed C6 contract")
+    try:
+        selector, wrapper, core, source_refs = _load_v0151_preflight_modules(root)
+        _require(getattr(selector, "V0151_CONTRACT_REL", None) == V0151_CONTRACT.as_posix() and
+                 getattr(selector, "V0151_WRAPPER_REL", None) == V0151_WRAPPER.as_posix(),
+                 "publication selector target differs from the fixed v0.15.1 contract")
+        identity = getattr(wrapper, "PINNED_IDENTITY", {})
+        _require(isinstance(identity, Mapping) and identity.get("target_id") == "bifrost-v0151-01" and
+                 identity.get("version") == "0.15.1" and
+                 getattr(wrapper, "CORE_SOURCE_REL", None) == V0151_CORE.as_posix(),
+                 "loaded v0.15.1 wrapper target identity differs")
+        profile = wrapper.load_target_profile(core)
+        core.configure_target_profile(profile)
+        _require(getattr(core, "TARGET_ID", None) == "bifrost-v0151-01" and
+                 getattr(core, "BIFROST_VERSION", None) == "0.15.1" and
+                 getattr(core, "SERIES", None) == 4 and
+                 getattr(core, "SERIES_LABEL", None) == "series-04" and
+                 getattr(core, "CONTRACT_REL", None) == V0151_CONTRACT.as_posix(),
+                 "configured C6 core target is not the fixed v0.15.1 series04 contract")
+        c6 = core._validate_contract(
+            root,
+            V0151_CONTRACT.as_posix(),
+            require_approval=True,
+            require_committed=True,
+            check_current_source=True,
+        )
+        _require(isinstance(c6, dict) and isinstance(c6.get("contract"), dict),
+                 "fixed C6 validator returned no validated contract")
+        contract = c6["contract"]
+        snapshot = contract.get("source_snapshot")
+        runtime = contract.get("runtime")
+        _require(isinstance(snapshot, dict) and isinstance(runtime, dict),
+                 "fixed C6 source or runtime snapshot is malformed")
+        source_commit = c6.get("source_commit")
+        _require(isinstance(source_commit, str) and GIT_TREE_SHA1.fullmatch(source_commit) is not None and
+                 snapshot.get("source_commit") == source_commit,
+                 "validated C6 source commit differs from its contract snapshot")
+        runner_source = snapshot.get("runner_source")
+        runner_source_sha = runner_source.get("sha256") if isinstance(runner_source, dict) else None
+        _require(isinstance(runner_source, dict) and
+                 runner_source.get("path") == V0151_WRAPPER.as_posix() and
+                 isinstance(runner_source_sha, str) and SHA256.fullmatch(runner_source_sha) is not None,
+                 "validated C6 contract lacks the exact wrapper runner-source binding")
+        _require(source_refs.get("target_wrapper", {}).get("sha256") == runner_source_sha,
+                 "loaded v0.15.1 wrapper bytes differ from the C6 runner-source binding")
+        source_inputs = snapshot.get("source_inputs")
+        _require(isinstance(source_inputs, list) and source_inputs,
+                 "validated C6 contract lacks its source input closure")
+        source_map = {}
+        for item in source_inputs:
+            _require(isinstance(item, dict) and isinstance(item.get("path"), str) and
+                     isinstance(item.get("sha256"), str) and SHA256.fullmatch(item["sha256"]) is not None and
+                     item["path"] not in source_map,
+                     "validated C6 source input closure is malformed or duplicated")
+            source_map[item["path"]] = item["sha256"]
+        expected_source_ref_names = {
+            "selector", "target_wrapper", "target_core", "joern_projection", "joern_exporter",
+        }
+        _require(isinstance(source_refs, dict) and set(source_refs) == expected_source_ref_names,
+                 "loaded v0.15.1 preflight source roster differs from the fixed selector/helper set")
+        for source_name, reference in source_refs.items():
+            _require(isinstance(reference, dict) and set(reference) == {"path", "sha256"} and
+                     isinstance(reference.get("path"), str) and
+                     isinstance(reference.get("sha256"), str) and
+                     source_map.get(reference["path"]) == reference["sha256"],
+                     f"C6 source inputs do not bind the loaded {source_name} source")
+        _require(source_map.get(V0151_WRAPPER.as_posix()) == runner_source_sha,
+                 "validated C6 source inputs do not bind its exact wrapper runner source")
+        runner = runtime.get("runner")
+        _require(isinstance(runner, dict) and isinstance(runner.get("path"), str) and
+                 isinstance(runner.get("sha256"), str) and SHA256.fullmatch(runner["sha256"]) is not None and
+                 c6.get("runner_path") == runner["path"],
+                 "validated C6 contract runtime.runner binding is malformed")
+        contract_sha = c6.get("contract_sha256")
+        _require(isinstance(contract_sha, str) and SHA256.fullmatch(contract_sha) is not None,
+                 "validated C6 contract digest is malformed")
+        _require(_sha(_read_under(root, V0151_CONTRACT.as_posix(), "fixed C6 contract")) == contract_sha,
+                 "validated C6 contract digest differs from its fixed path")
+
+        # Use the actual selector API; its evidence result is never supplied by a caller.
+        checker_summary = _validate_checker_summary(selector.select_evidence(root))
+        _require(checker_summary.get("schema") == selector.SUMMARY_SCHEMA and
+                 checker_summary.get("scoring_enabled") is False and
+                 checker_summary.get("publication_approved") is False,
+                 "v0.15.1 selector returned a summary outside the fixed unscored evidence scope")
+    except ValidationEvidenceError:
+        raise
+    except Exception as exc:
+        raise ValidationEvidenceError(f"v0.15.1 evidence preflight failed: {exc}") from exc
+
+    validated = {
+        "plan": {
+            "source_commit": source_commit,
+            "runner_source_sha256": runner_source_sha,
+        },
+        "source_inputs": source_inputs,
+        "tools": {"runner": runner},
+        "bytes_sha256": contract_sha,
+    }
+    context = {
+        "mode": "v0151",
+        "contract_path": V0151_CONTRACT.as_posix(),
+        "contract_sha256": contract_sha,
+        "selection_summary_sha256": _sha(_canonical_json(checker_summary)),
+        "selector_status": checker_summary["status"],
+        "source_modules": source_refs,
+    }
+    validated["_validation_context"] = context
+    try:
+        EXECUTOR._check_tool_file(runner, "v0.15.1 bound runner")
+    except EXECUTOR.ReleaseError as exc:
+        raise ValidationEvidenceError(str(exc)) from exc
+    binary = Path(runner["path"])
+    _require(binary.stat().st_mode & (stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH) != 0,
+             f"bound runner is not executable: {binary}")
+    return checker_summary, validated, runner, _source_identity(root, validated)
+
+
+def _preflight(root: Path, contract_path: Path, *, evidence_source: str = "c4") -> tuple[dict, dict, dict, dict]:
+    if evidence_source == "v0151":
+        return _preflight_v0151(root, contract_path)
+    _require(evidence_source == "c4", "validation evidence source must be c4 or v0151")
     try:
         checker_summary = CHECKER.verify(root, contract_path)
         checker_summary = _validate_checker_summary(checker_summary)
@@ -568,14 +917,22 @@ def validate(
     contract_path: str | Path | None = None,
     output: str,
     execute: bool = False,
+    evidence_source: str = "c4",
 ) -> dict:
     root = Path(root).resolve(strict=True)
     namespace = _namespace(output)
-    contract = Path(contract_path) if contract_path is not None else Path(*CONTRACT.parts)
+    _require(evidence_source in ("c4", "v0151"), "evidence_source must be c4 or v0151")
+    expected_contract = CONTRACT if evidence_source == "c4" else V0151_CONTRACT
+    contract = Path(contract_path) if contract_path is not None else Path(*expected_contract.parts)
     if not contract.is_absolute():
         contract = root / contract
     contract = contract.resolve(strict=True)
-    checker_summary, validated, runner, source_identity = _preflight(root, contract)
+    if evidence_source == "v0151":
+        _require(contract.relative_to(root).as_posix() == V0151_CONTRACT.as_posix(),
+                 "v0.15.1 preflight accepts only the fixed C6 contract")
+    checker_summary, validated, runner, source_identity = _preflight(
+        root, contract, evidence_source=evidence_source,
+    )
     checkout_relative = CHECKOUTS / namespace
     receipt_relative = RECEIPTS / namespace
     checkout = root / Path(*checkout_relative.parts)
@@ -600,11 +957,27 @@ def validate(
             "fresh_rows": checker_summary["fresh_rows"],
             "carried_rows": checker_summary["carried_rows"],
         },
-        "helper_identities": _helper_identities(),
+        "helper_identities": _helper_identities(
+            validated.get("_validation_context", {}).get("source_modules"),
+            root=root,
+        ),
         "planned_checkout": checkout_relative.as_posix(),
         "planned_receipt": (receipt_relative / "receipt.json").as_posix(),
         "execution_requested": bool(execute),
     }
+    validation_context = validated.get("_validation_context")
+    if validation_context is not None:
+        metadata["evidence_source"] = "v0151"
+        metadata["selector"] = {
+            "path": V0151_SELECTOR.as_posix(),
+            "sha256": validation_context["source_modules"]["selector"]["sha256"],
+            "status": validation_context["selector_status"],
+            "summary_sha256": validation_context["selection_summary_sha256"],
+        }
+        metadata["target_contract"] = {
+            "path": validation_context["contract_path"],
+            "sha256": validation_context["contract_sha256"],
+        }
     if not execute:
         return {"status": "ready-to-execute", **metadata}
 
@@ -714,15 +1087,25 @@ def validate(
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--contract", type=Path, default=Path(*CONTRACT.parts))
+    parser.add_argument("--contract", type=Path,
+                        help="C4 contract path; v0.15.1 mode always uses its fixed C6 contract")
     parser.add_argument(
         "--output", required=True,
         help="new namespace name (receipts go under reports/releases/v0.9.2/validation/<name>/)",
     )
+    parser.add_argument(
+        "--v0151", action="store_true",
+        help="select retained evidence and validate against the fixed approved v0.15.1 C6 contract",
+    )
     parser.add_argument("--execute", action="store_true", help="materialize the fresh checkout and run the pinned validator")
     args = parser.parse_args(argv)
     try:
-        result = validate(contract_path=args.contract, output=args.output, execute=args.execute)
+        result = validate(
+            contract_path=args.contract,
+            output=args.output,
+            execute=args.execute,
+            evidence_source="v0151" if args.v0151 else "c4",
+        )
     except (ValidationEvidenceError, OSError, ValueError, EXECUTOR.ReleaseError) as exc:
         print(str(exc), file=sys.stderr)
         return 1

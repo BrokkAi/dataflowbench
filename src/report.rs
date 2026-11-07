@@ -274,8 +274,8 @@ pub(crate) fn configuration_hash_state_for_report(
 /// non-current Bifrost version as if it had the same configuration. The
 /// scala-library POM was added by PR 298 after the existing v0.14.0 attempt
 /// had already run, so that version has two valid, hash-distinguishable
-/// profiles. Older recorded releases only used the policy. The v0.14.4 target
-/// and later prospective pins require the policy plus the materialized POM.
+/// profiles. Older recorded releases only used the policy. The v0.14.4,
+/// v0.15.0, and v0.15.1 targets require the policy plus the materialized POM.
 fn bifrost_scala_configuration_hash_state_for_report(
     tool_version: &str,
     stamped: &str,
@@ -289,6 +289,7 @@ fn bifrost_scala_configuration_hash_state_for_report(
     ];
     const V0140: &str = "bifrost 0.14.0";
     const V0144: &str = "bifrost 0.14.4";
+    const V0150: &str = "bifrost 0.15.0";
 
     let Some(pom_paths) = current_configuration_paths("bifrost-scala-kernel", case_scan)? else {
         return Ok(ConfigurationHashState::NotDerivable);
@@ -324,10 +325,13 @@ fn bifrost_scala_configuration_hash_state_for_report(
         };
     }
 
-    if tool_version == V0144 || tool_version == crate::adapters::pins::BIFROST_VERSION {
-        // The v0.14.4 replacement must include the POM. In particular, do not
-        // fall back to the legacy closure when a current-target report carries
-        // the old policy-only hash.
+    if tool_version == V0144
+        || tool_version == V0150
+        || tool_version == crate::adapters::pins::BIFROST_VERSION
+    {
+        // These replacement releases must include the POM. In particular, do
+        // not fall back to the legacy closure when a target report carries the
+        // old policy-only hash.
         return compare_configuration_paths(Some(pom_paths), stamped);
     }
 

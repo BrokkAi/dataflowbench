@@ -79,6 +79,10 @@ pub(crate) const NATIVE_CASE_COUNT: usize = 2 * NATIVE_TEMPLATE_IDS.len();
 /// never pooled with this one.
 pub(crate) const NATIVE_MODEL_PROFILE: &str = "tool-native";
 
+/// Historical Bifrost versions without a versioned native evidence amendment
+/// retain only their exact generic built-in-policy activation shape.
+pub(crate) const BIFROST_V0_12_0_VERSION: &str = "bifrost 0.12.0";
+
 /// The v0.13.0 standalone release is the first Bifrost pin whose shipped
 /// policy catalog is known to be empty. Keep this condition exact: a later
 /// release must earn its own catalog evidence instead of inheriting a
@@ -131,8 +135,30 @@ const BIFROST_V0_14_4_BINARY: &str =
     "reports/releases/v0.9.2/acquisition/bifrost-v0144-01/acquisition-receipt.json";
 const BIFROST_V0_14_4_PIN_PROFILE: &str = "adapters/pins/v0.9.2-bifrost-v0144.json";
 
+/// The prospective v0.9.2 activation profile is bound to the v0.15.1 release
+/// receipt and its fresh native controls. Earlier v0.14.4 and v0.15.0 reports
+/// retain their own versioned identities and are never treated as this pin.
+pub(crate) const BIFROST_V0_15_1_VERSION: &str = pins::BIFROST_VERSION;
+const BIFROST_V0_15_1_BUILD_IDENTITY: &str = pins::BIFROST_BUILD_IDENTITY;
+pub(crate) const BIFROST_V0_15_1_NATIVE_ACTIVATION_IDENTITY: &str =
+    "standalone engine; empty shipped policy catalog; open-pack acquisition disabled";
+const BIFROST_V0_15_1_CONTROLS_DIR: &str =
+    "reports/releases/v0.9.2/qualification/bifrost-v0151-01/controls-attempt-01/stdout";
+const BIFROST_V0_15_1_VERSION_EVIDENCE: &str = "reports/releases/v0.9.2/qualification/bifrost-v0151-01/controls-attempt-01/stdout/identity-version.txt";
+const BIFROST_V0_15_1_BUILD_EVIDENCE: &str = "reports/releases/v0.9.2/qualification/bifrost-v0151-01/controls-attempt-01/stdout/identity-build.txt";
+const BIFROST_V0_15_1_CATALOG: &str = "reports/releases/v0.9.2/qualification/bifrost-v0151-01/controls-attempt-01/stdout/catalog-list-policies.txt";
+const BIFROST_V0_15_1_HELP: &str =
+    "reports/releases/v0.9.2/acquisition/bifrost-v0151-01/help.stdout.txt";
+const BIFROST_V0_15_1_BINARY: &str =
+    "reports/releases/v0.9.2/acquisition/bifrost-v0151-01/acquisition-receipt.json";
+const BIFROST_V0_15_1_PIN_PROFILE: &str = "adapters/pins/v0.9.2-bifrost-v0151.json";
+
 fn is_bifrost_v0_13(version: &str) -> bool {
     version == BIFROST_V0_13_VERSION
+}
+
+fn is_bifrost_v0_12_0(version: &str) -> bool {
+    version == BIFROST_V0_12_0_VERSION
 }
 
 fn is_bifrost_v0_14_0(version: &str) -> bool {
@@ -141,6 +167,10 @@ fn is_bifrost_v0_14_0(version: &str) -> bool {
 
 fn is_bifrost_v0_14_4(version: &str) -> bool {
     version == BIFROST_V0_14_4_VERSION
+}
+
+fn is_bifrost_v0_15_1(version: &str) -> bool {
+    version == BIFROST_V0_15_1_VERSION
 }
 
 fn validate_bifrost_v0_14_0_evidence() -> Result<()> {
@@ -265,6 +295,73 @@ fn validate_bifrost_v0_14_4_evidence() -> Result<()> {
         .context("Bifrost v0.14.4 acquisition receipt lacks binary sha256")?;
     if binary_digest.len() != 64 || !binary_digest.bytes().all(|byte| byte.is_ascii_hexdigit()) {
         bail!("Bifrost v0.14.4 acquisition receipt has an invalid binary SHA-256 digest");
+    }
+    Ok(())
+}
+
+fn validate_bifrost_v0_15_1_evidence() -> Result<()> {
+    let version = fs::read_to_string(BIFROST_V0_15_1_VERSION_EVIDENCE)?;
+    let mut version_lines = version.lines();
+    let witnessed_version = version_lines.next().unwrap_or_default().trim();
+    if witnessed_version != BIFROST_V0_15_1_VERSION {
+        bail!(
+            "Bifrost v0.9.2 v0.15.1 controls record version {:?}, expected {:?}",
+            witnessed_version,
+            BIFROST_V0_15_1_VERSION
+        );
+    }
+    let catalog_witness = version_lines.next().unwrap_or_default().trim();
+    let Some(catalog_digest) = catalog_witness.strip_prefix("builtin-policy-catalog sha256=")
+    else {
+        bail!("Bifrost v0.15.1 version evidence lacks its catalog digest witness");
+    };
+    if catalog_digest != crate::adapters::pins::BIFROST_CATALOG_SHA256
+        || version_lines.next().is_some()
+    {
+        bail!("Bifrost v0.15.1 catalog digest witness is unknown or malformed");
+    }
+
+    let build_identity = fs::read_to_string(BIFROST_V0_15_1_BUILD_EVIDENCE)?;
+    if build_identity.trim() != BIFROST_V0_15_1_BUILD_IDENTITY {
+        bail!(
+            "Bifrost v0.9.2 v0.15.1 controls record build identity {:?}, expected {:?}",
+            build_identity.trim(),
+            BIFROST_V0_15_1_BUILD_IDENTITY
+        );
+    }
+    let catalog: Value = serde_json::from_slice(&fs::read(BIFROST_V0_15_1_CATALOG)?)
+        .context("parse the fresh Bifrost v0.15.1 shipped policy catalog")?;
+    if catalog["schema_version"].as_u64() != Some(2)
+        || catalog["packs"]
+            .as_array()
+            .is_none_or(|packs| !packs.is_empty())
+    {
+        bail!("Bifrost v0.15.1 native activation requires catalog schema_version 2 with packs: []");
+    }
+    let help = fs::read_to_string(BIFROST_V0_15_1_HELP)?;
+    if !help.contains("--policy") || !help.contains("--policy-file") {
+        bail!("Bifrost v0.15.1 captured help lacks its policy activation surface");
+    }
+    let acquisition: Value = serde_json::from_slice(&fs::read(BIFROST_V0_15_1_BINARY)?)
+        .context("parse the Bifrost v0.15.1 binary acquisition receipt")?;
+    let acquired_version = acquisition["binary"]["version_output"]
+        .as_str()
+        .context("Bifrost v0.15.1 acquisition receipt lacks version output")?;
+    if acquired_version.trim_end() != version.trim_end() {
+        bail!("Bifrost v0.15.1 controls version output disagrees with its acquisition receipt");
+    }
+    let acquired_build_identity = acquisition["binary"]["build_identity_output"]
+        .as_str()
+        .context("Bifrost v0.15.1 acquisition receipt lacks build identity")?
+        .trim();
+    if acquired_build_identity != BIFROST_V0_15_1_BUILD_IDENTITY {
+        bail!("Bifrost v0.15.1 acquisition receipt has a different build identity");
+    }
+    let binary_digest = acquisition["binary"]["sha256"]
+        .as_str()
+        .context("Bifrost v0.15.1 acquisition receipt lacks binary sha256")?;
+    if binary_digest != crate::adapters::pins::BIFROST_BINARY_SHA256 {
+        bail!("Bifrost v0.15.1 acquisition receipt has a different binary SHA-256 digest");
     }
     Ok(())
 }
@@ -1121,8 +1218,19 @@ pub(crate) fn native_unsupported_reason(
     };
     let category = native_category(template).expect("partition resolved the category");
     let (provenance, retained_reason) = if tool == ModelingTool::Bifrost
-        && is_bifrost_v0_14_4(identity)
+        && is_bifrost_v0_15_1(identity)
     {
+        (
+            format!(
+                "Fresh v0.9.2 controls for the exact witnessed `{BIFROST_V0_15_1_VERSION}` build are recorded under `{BIFROST_V0_15_1_CONTROLS_DIR}`: `{BIFROST_V0_15_1_CATALOG}` is schema version 2 with `packs: []`, `{BIFROST_V0_15_1_HELP}` records the default `--policy` and explicit `--policy-file` boundary, and `{BIFROST_V0_15_1_BUILD_EVIDENCE}` witnesses build `{}`. The prospective profile `{BIFROST_V0_15_1_PIN_PROFILE}` sets `{}={}` to disable automatic open-pack acquisition, keeping host-supplied packs outside this shipped-catalog activation. The report also binds the acquired binary receipt `{BIFROST_V0_15_1_BINARY}`: ",
+                BIFROST_V0_15_1_BUILD_IDENTITY,
+                pins::BIFROST_OPEN_PACKS_DISABLE_ENV,
+                pins::BIFROST_OPEN_PACKS_DISABLE_VALUE,
+            ),
+            "The six native template cells therefore remain `unsupported`; zero coverage is `unsupported`, never a clean `not-reached` negative. A host configured with Bifrost packs is a separate product profile and is not benchmark-invented model input."
+                .to_string(),
+        )
+    } else if tool == ModelingTool::Bifrost && is_bifrost_v0_14_4(identity) {
         (
             format!(
                 "Fresh v0.9.2 controls for the exact witnessed `{BIFROST_V0_14_4_VERSION}` build are recorded under `{BIFROST_V0_14_4_CONTROLS_DIR}`: `{BIFROST_V0_14_4_CATALOG}` is schema version 2 with `packs: []`, `{BIFROST_V0_14_4_HELP}` records the default `--policy` and explicit `--policy-file` boundary, and `{BIFROST_V0_14_4_BUILD_EVIDENCE}` witnesses build `{}`. The prospective profile `{BIFROST_V0_14_4_PIN_PROFILE}` sets `{}={}` to disable automatic open-pack acquisition, keeping host-supplied packs outside this shipped-catalog activation. The report also binds the acquired binary receipt `{BIFROST_V0_14_4_BINARY}`: ",
@@ -1295,22 +1403,38 @@ pub(crate) fn native_activation(
         }
         // The shipped product as shipped, and nothing else: the
         // zero-configuration default `bifrost scan` runs, spelled on the flag
-        // surface as `--policy` with no selector. For v0.13.0, v0.14.0 and
-        // v0.14.4 the exact witnessed release has no active product policy
-        // packs, so retain that fact in the activation identity while keeping
-        // older pins on their historical identity. Host-supplied Bifrost-packs
-        // are a separate product profile and are never injected here.
+        // surface as `--policy` with no selector. The exact historical v0.12.0
+        // identity retains its generic activation; v0.13.0, v0.14.0, v0.14.4,
+        // and v0.15.1 have separate empty-catalog evidence. Unknown versions
+        // fail closed. Host-supplied Bifrost-packs are a separate product
+        // profile and are never injected here.
         ModelingTool::Bifrost => {
+            let is_v0120 = is_bifrost_v0_12_0(identity);
             let is_v0140 = is_bifrost_v0_14_0(identity);
             let is_v0144 = is_bifrost_v0_14_4(identity);
+            let is_v0151 = is_bifrost_v0_15_1(identity);
             if is_v0140 {
                 validate_bifrost_v0_14_0_evidence()?;
             }
             if is_v0144 {
                 validate_bifrost_v0_14_4_evidence()?;
             }
+            if is_v0151 {
+                validate_bifrost_v0_15_1_evidence()?;
+            }
+            if !is_v0120 && !is_v0140 && !is_v0144 && !is_v0151 && !is_bifrost_v0_13(identity) {
+                bail!(
+                    "cannot derive the Bifrost native activation for unregistered tool version {identity:?}"
+                );
+            }
             NativeActivation {
-                identity: if is_v0144 {
+                identity: if is_v0151 {
+                    format!(
+                        "{identity} — {BIFROST_V0_15_1_NATIVE_ACTIVATION_IDENTITY}; {}={}",
+                        pins::BIFROST_OPEN_PACKS_DISABLE_ENV,
+                        pins::BIFROST_OPEN_PACKS_DISABLE_VALUE
+                    )
+                } else if is_v0144 {
                     format!(
                         "{identity} — {BIFROST_V0_14_4_NATIVE_ACTIVATION_IDENTITY}; {}={}",
                         pins::BIFROST_OPEN_PACKS_DISABLE_ENV,
@@ -1328,7 +1452,16 @@ pub(crate) fn native_activation(
                     format!("{identity} built-in policy packs")
                 },
                 arguments: vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG.to_string()],
-                configuration_paths: if is_v0144 {
+                configuration_paths: if is_v0151 {
+                    BTreeSet::from([
+                        PathBuf::from(BIFROST_V0_15_1_VERSION_EVIDENCE),
+                        PathBuf::from(BIFROST_V0_15_1_BUILD_EVIDENCE),
+                        PathBuf::from(BIFROST_V0_15_1_CATALOG),
+                        PathBuf::from(BIFROST_V0_15_1_HELP),
+                        PathBuf::from(BIFROST_V0_15_1_BINARY),
+                        PathBuf::from(BIFROST_V0_15_1_PIN_PROFILE),
+                    ])
+                } else if is_v0144 {
                     BTreeSet::from([
                         PathBuf::from(BIFROST_V0_14_4_VERSION_EVIDENCE),
                         PathBuf::from(BIFROST_V0_14_4_BUILD_EVIDENCE),
