@@ -1,0 +1,68 @@
+{
+  "actual_stop": {
+    "path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-root-stop-check-01.json",
+    "sha256": "670466ac4e9ee923f462242ab2da0b233daf1d0130986cadd5fa51ade145a941"
+  },
+  "alternative": "Keep strict ABI3/provider acceptance; preserve qualification06 and leave Joern108 blocked. No blind rerun.",
+  "automatic_retry": false,
+  "bifrost_pin_changed": false,
+  "execution_authorized": false,
+  "human_approval_required": true,
+  "implementation_authorized": false,
+  "ledger_changed": false,
+  "prior_human_policy": {
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/process-snapshot-policy-human-decision-01.json",
+    "sha256": "b7130ef72545edaa9599640946921180bd95e00ec5106b5072d9a3981310b2fb"
+  },
+  "problem": "The ABI3 provider rejects an entire native observation if any first-table PID disappears before the second table. Such unrelated normal process churn caused actual qualification06 to fail; there is no timeout or permission failure. Typed first-only rows alone do not solve this because the evaluator rejects every unbridged kernel-comm row.",
+  "proposed_acceptance_delta": {
+    "continuous_absence_claim": false,
+    "exact_exit_time": "unknown",
+    "historical_foreignness": "unknown",
+    "historical_ownership": "unknown",
+    "interpretation": "May continue the current boundary after durable evidence. This is a new explicit acceptance rule; do not describe it as a mechanical ABI3 bug fix.",
+    "label": "unresolved_historical_intrasnapshot_disappearance",
+    "os_global_absence_claim": false,
+    "required_absence": "Absent from that observation's second kernel table, the command snapshot, and all rows of the other native observation; absent from the final current kernel table.",
+    "scope": "Only a non-original-candidate first-only row observed in exactly one of the two native observations within the existing native-before -> command -> native-after query.",
+    "uncontended_timing_certified": false
+  },
+  "proposed_provider_successor": {
+    "abi": "new explicit ABI4 and exact new source/library pins; ABI3 remains unchanged",
+    "coverage": "Exact first/second table accounting, first-only/stable/second-only counters and union rows. Duplicate, malformed, capacity, provider/sysctl/path error, same-PID changed birth/parent, and deadline remain whole-query fail-closed.",
+    "first_only_row": "Preserve exact first-table PID/PPID/birth/state/kernel p_comm, tagged first-table-only/unverified; discard un-revalidated proc_pidpath result. Never promote to current ownership, argv bridge or cleanup authority.",
+    "maximum_total_seconds": 5,
+    "new_table_or_query_retry": false,
+    "passes_per_original_candidate_per_boundary": 1,
+    "tables_per_native_observation": 2
+  },
+  "publication_approval_inferred": false,
+  "publication_hold": true,
+  "recorded_utc": "2026-11-02T06:37:00.947888+00:00",
+  "required_validation": [
+    "Fake native-provider stable, first-only, second-only positives with exact two-call accounting",
+    "PID reuse/parent changes, malformed/duplicate/path/capacity/provider errors remain fatal",
+    "Original candidate first-only presence rejects",
+    "First-only row cannot extend tracked ownership or bridge argv",
+    "First-only row present command/other snapshot rejects",
+    "Only exact newly permitted historical-only row can pass, with all uncertainty labels retained",
+    "Existing current-live/ambiguous contender positives and near misses remain rejected",
+    "Independent exact source and invocation review, fresh admission and new namespace before qualification07",
+    "Actual12/36 qualification plus independent semantic/startup review before scoredJoern05"
+  ],
+  "resource_time_policy_changed": false,
+  "schema": "v092-native-snapshot-interval-policy-proposal/v1",
+  "status": "proposal-only-not-approved",
+  "stop_independent_review": {
+    "path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-stop-independent-review-01.json",
+    "sha256": "b4f5ce6c0086a9fcc3008c769f695bec471e6aff4c90ec21ce3e17f7f062f2a7"
+  },
+  "unchanged_fail_closed": [
+    "Any original unresolved candidate appearing in ANY fresh native first/second or command evidence, including first-only rows",
+    "Any live/current foreign contender or ambiguous/unbridged current native row",
+    "Any PID reused or same-PID identity changed within native observation",
+    "Any first-only PID appearing in command or the other native observation, even with a different birth",
+    "Any incomplete/truncated/malformed/provider-error/timeout query",
+    "All exact source, ownership, resource, time and one-slot gates"
+  ]
+}

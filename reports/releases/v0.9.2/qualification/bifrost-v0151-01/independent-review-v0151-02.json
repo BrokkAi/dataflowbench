@@ -1,0 +1,214 @@
+{
+  "clean": false,
+  "disposition": "measurement-with-known-limits",
+  "evidence_refs": {
+    "cli_help": {
+      "fail_on_help_line": "--fail-on THRESHOLD    Policy finding threshold: never, finding, note, warning, or error",
+      "observation": "All 44 captured v0.15.1 commands returned 0, including the three inconclusive controls; the strict qualifier failed because it expects schema-v5 reports while the captured reports are schema version 6, not because a CLI invocation failed.",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0151-01/help.stdout.txt",
+      "sha256": "3dbe9e0a0002f2d853baed7a2acb97db0495e36579b6b3888943cc70261bda18"
+    },
+    "comparison_diagnostic": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/control-comparison-diagnostic-01.json",
+      "scope": "inconclusive cases only; this review independently compared all 39 reports",
+      "sha256": "6e5f19c4cf9582d74320cc601e44880e4b812cf44c92047f55ab30ed51c06d67"
+    },
+    "current_capture_manifest": {
+      "actual_report_count": 39,
+      "all_reports_bound": true,
+      "listed_report_count": 39,
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/controls-attempt-01/artifact-hashes.json",
+      "schema": "bifrost-v013-capture-artifacts/v1",
+      "sha256": "d0df82f74d0365efad78906ab4765ea301cadc23b9b9c5b0f06779f9d173fa11"
+    },
+    "current_commands": {
+      "all_39_policy_commands_use_fail_on_never": true,
+      "all_44_exit_code_0": true,
+      "all_44_status_completed": true,
+      "command_count": 44,
+      "exit_code_counts": {
+        "0": 44
+      },
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/controls-attempt-01/commands.jsonl",
+      "policy_command_count": 39,
+      "sha256": "d067a0abc23462b42b8be524f076d3cd2375d16ed06d484d1302544987d90413",
+      "status_counts": {
+        "completed": 44
+      }
+    },
+    "current_qualification_receipt": {
+      "failed_invocations": 0,
+      "failure_count": 39,
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/controls-attempt-01/qualification.json",
+      "qualification": "failed",
+      "schema_v5_report_failures": 39,
+      "sha256": "9fcbd9e067d4460d30bf12522f298dbddf0158b766759cd3f1e76f2b41469141"
+    },
+    "historical_capture_manifest": {
+      "actual_report_count": 39,
+      "all_reports_bound": true,
+      "listed_report_count": 39,
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-01/controls-attempt-01/artifact-hashes.json",
+      "schema": "bifrost-v013-capture-artifacts/v1",
+      "sha256": "a6977934482cd269dd15ab13ae62bc1306082a72ece21cf2d5448a104cb2964f"
+    },
+    "historical_review": {
+      "full_policy_qualification": false,
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-01/control-review-01.json",
+      "sha256": "ca73ca5ad53d74c4521b68b3395da7297747c0ff8c3e22230a1594243d642a5f",
+      "status": "measurement-with-known-limits"
+    }
+  },
+  "execution_eligible": true,
+  "full_policy_qualification": false,
+  "review_type": "read-only actual-control replay and post-fix source review",
+  "reviewed_git_head": "809b7e1f5698d8ebfcd438f94d5e2718b00f823f",
+  "schema": "v092-bifrost-v0151-independent-review/v1",
+  "semantic_replay": {
+    "all_match": true,
+    "comparison_diagnostic": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/control-comparison-diagnostic-01.json",
+      "sha256": "6e5f19c4cf9582d74320cc601e44880e4b812cf44c92047f55ab30ed51c06d67"
+    },
+    "full_vectors_retained_in_prior_review": true,
+    "prior_review": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/independent-review-v0151-01.json",
+      "sha256": "6d85b6dbb93da12e56d8745f89d57fbee56e58e904efa97aa1c15c66ce12619e"
+    },
+    "reviewed_report_pairs": 39,
+    "semantic_dimensions": [
+      "completion",
+      "diagnostic_semantic_fields",
+      "diagnostic_truncation_closure",
+      "finding_certainty_proof_completeness",
+      "finding_count",
+      "obligations_and_closure",
+      "source_sink_endpoints"
+    ],
+    "unchanged_comparison_sha256": "6e5f19c4cf9582d74320cc601e44880e4b812cf44c92047f55ab30ed51c06d67"
+  },
+  "source_review": {
+    "file_sha256": [
+      {
+        "path": "scripts/bifrost_v0144_benchmark.py",
+        "sha256": "ea5a3c5c8cb24c621f76478a46b7738fe767c034ad7600284b70a087b1185952"
+      },
+      {
+        "path": "scripts/bifrost_v0151_benchmark.py",
+        "sha256": "45083ff44ebbc698e5d7e70d376b28039a6c6648a174e0adc7eac12b55d730dd"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/qualify-bifrost-v0151-01.py",
+        "sha256": "1a0ea178d37efe55eb3df50abb657036f41fa48d8d8e46773546e09e5a0132fa"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/review-bifrost-v0151-01.py",
+        "sha256": "a6234103e9a278855520e2b8a3e70d9b70e40ad17747b91967a27a99c9063ffb"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/bind-bifrost-v0151-01.py",
+        "sha256": "bc24e026d3c3a70a4062aa24db082fe2f1e99f4e77ea0719b866bc32937b76ed"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/human-authorization-01.json",
+        "sha256": "ebd5f02827e86885bbad0e14ffd6927b8aa725e25fbd9b6be5e927e4435bef29"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/bifrost-review-01.json",
+        "sha256": "5ad102f9b25473f18f107effc75cf5eaca441fb2ba29db37f51e4263b5e247cb"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/bifrost-release-01.json",
+        "sha256": "888549f11f1e30ce505ad45e7919f69945ec8aac6c82919cd28d3d82ab7ba58c"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-01/control-review-01.json",
+        "sha256": "ca73ca5ad53d74c4521b68b3395da7297747c0ff8c3e22230a1594243d642a5f"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/independent-review-v0144-01.json",
+        "sha256": "7c0d01399ef8b0cc15315fcd6e69a6646e31e28dc8801efaee1e35c55992f927"
+      },
+      {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/control-comparison-diagnostic-01.json",
+        "sha256": "f4302d9eb89535837621145ddd9e028b399744f4e15f58b975b3ef424d2e25e7"
+      },
+      {
+        "path": "scripts/test_bifrost_v0151_benchmark.py",
+        "sha256": "c19897fde0baa7de95ad01bea5e4acb7b1c70cd1b4270d5f0c9e48e77832edd2"
+      }
+    ],
+    "files": [
+      "scripts/bifrost_v0144_benchmark.py",
+      "scripts/bifrost_v0151_benchmark.py",
+      "reports/releases/v0.9.2/qualification/bifrost-v0151-01/qualify-bifrost-v0151-01.py",
+      "reports/releases/v0.9.2/qualification/bifrost-v0151-01/review-bifrost-v0151-01.py",
+      "reports/releases/v0.9.2/qualification/bifrost-v0151-01/bind-bifrost-v0151-01.py",
+      "reports/releases/v0.9.2/qualification/bifrost-v0151-01/human-authorization-01.json",
+      "reports/releases/v0.9.2/qualification/bifrost-v0151-01/bifrost-review-01.json",
+      "reports/releases/v0.9.2/qualification/bifrost-v0151-01/bifrost-release-01.json",
+      "reports/releases/v0.9.2/qualification/bifrost-v0140-01/control-review-01.json",
+      "reports/releases/v0.9.2/qualification/bifrost-v0144-01/independent-review-v0144-01.json",
+      "reports/releases/v0.9.2/qualification/bifrost-v0144-01/control-comparison-diagnostic-01.json",
+      "scripts/test_bifrost_v0151_benchmark.py"
+    ],
+    "findings": [],
+    "review_notes": [
+      "The 44-command control capture and its closed manifest are unchanged from independent-review-v0151-01; this reviewer rehashed every listed capture file and replayed all 39 current-versus-v0.14.0 report pairs.",
+      "All seven semantic dimensions match for all 39 reports. The strict qualifier remains failed only on its schema-v5 expectation against schema-v6 reports: all 44 commands exited zero and failed_invocations is zero.",
+      "The result remains measurement-with-known-limits: 36 complete and 3 inconclusive, 15 unbound-endpoint controls are not clean, the empty native catalog is not-evaluated, and full policy qualification is false.",
+      "The current shared C5 helper now chooses the configured fixed CONTRACT_REL at call time when output_rel is omitted; explicit output redirection still fails closed. The v0.15.1 regression checks the configured v6 path, absence of a v5 write, and redirect rejection.",
+      "The orchestrator-recorded PREPARE01 failure occurred before contract creation or analyzer dispatch because the prior helper default captured the old v5 path at import time. It is recorded here as a zero-dispatch preparation incident; no control data or comparison output was changed."
+    ],
+    "validation_performed_by_this_reviewer": "Read-only verification of both closed artifact manifests, all 44 command and raw-stream references, the 39 current and retained historical report hashes and seven semantic dimensions, strict-capture failure classification, empty-catalog disposition, and current source fix. No tests, analyzers, builds, or control commands were run by this reviewer."
+  },
+  "summary": {
+    "current_completion_counts": {
+      "complete": 36,
+      "inconclusive": 3
+    },
+    "dimension_match_counts": {
+      "completion": 39,
+      "diagnostic_semantic_fields": 39,
+      "diagnostic_truncation_closure": 39,
+      "finding_certainty_proof_completeness": 39,
+      "finding_count": 39,
+      "obligations_and_closure": 39,
+      "source_sink_endpoints": 39
+    },
+    "historical_v0140_roster_equals_current_v0151": true,
+    "inconclusive_ids": [
+      "policy-javascript-declared-sink-negative-with",
+      "policy-javascript-declared-sink-positive-with",
+      "policy-javascript-declared-source-positive-with"
+    ],
+    "native_empty_catalog": {
+      "clean": false,
+      "disposition": "unsupported_not_clean_or_not_reached",
+      "findings": 0,
+      "status": "not-evaluated"
+    },
+    "no_clean_relabel_for_inconclusive_or_unbound_endpoint": true,
+    "raw_diagnostic_text_differences": [
+      "policy-javascript-declared-sink-negative-with",
+      "policy-javascript-declared-sink-positive-with",
+      "policy-javascript-declared-source-positive-with"
+    ],
+    "raw_diagnostic_text_equal_cases": 36,
+    "report_roster": 39,
+    "reviewed_interpretation_counts": {
+      "complete": 36,
+      "complete:complete-no-finding": 8,
+      "complete:proven-flow": 13,
+      "complete:unbound-endpoint": 15,
+      "inconclusive": 3,
+      "inconclusive:inconclusive": 3
+    },
+    "semantic_comparisons_all_match": true
+  },
+  "supersedes": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0151-01/independent-review-v0151-01.json",
+    "reason": "This append-only successor rebinds source review hashes after the configured-manifest-path fix. PREPARE01 stopped before contract creation and before any analyzer dispatch because the shared helper default argument retained the v5 CONTRACT_REL captured at import time. The repaired default resolves the configured fixed path when called and continues to reject redirection; captured controls and the comparison diagnostic remain unchanged.",
+    "sha256": "6d85b6dbb93da12e56d8745f89d57fbee56e58e904efa97aa1c15c66ce12619e"
+  }
+}

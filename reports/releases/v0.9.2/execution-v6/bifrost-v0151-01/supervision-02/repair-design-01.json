@@ -1,0 +1,24 @@
+{
+  "schema": "dataflowbench-supervisor-parent-lifetime-repair/v1",
+  "at_utc": "2026-11-07T03:52:21.835746+00:00",
+  "original_namespace": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/supervision-01",
+  "stop_observation_sha256": "10f2c5539b24fb46f023388eecece5f25d4fd182d89e89e0c9882ff1cdee6587",
+  "probe01": {
+    "start_new_session": true,
+    "parent_returned": true,
+    "child_started": true,
+    "child_finished": true
+  },
+  "probe02": {
+    "start_new_session": true,
+    "parent_waited": true,
+    "child_started": true,
+    "child_finished": true,
+    "actual_child_exit_code": 0
+  },
+  "inference": "The execution environment terminates orphaned tool descendants; exact original signal/cause remains unknown. Keeping the tool-owned parent waiting survived the equivalent harmless eight-second probe.",
+  "change": "New supervision02 exact controller copy; launcher waits once for exact child rather than returning immediately. No engine/source/contract/timeout/resource/semantic changes.",
+  "no_original_retry": true,
+  "fresh_admission_required": true,
+  "claim": "lifetime repair only; benchmark not started or complete"
+}

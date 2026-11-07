@@ -1,0 +1,39 @@
+{
+  "schema": "v092-darwin-native-provider-independent-review/v1",
+  "review_status": "approved-source-only-no-blocking-findings",
+  "reviewed_at": "2026-10-27",
+  "candidate": "/private/tmp/v092-darwin-native-provider-03",
+  "scope": "Read-only exact-diff review against provider02; verified all handoff pins, inspected C/ABI/Python and the 27-scenario C self-test source, and reran only the Python fake-library suite. No C compilation, C self-test execution, dylib loading, Darwin API query, or monitor invocation.",
+  "handoff": {
+    "path": "/private/tmp/v092-darwin-native-provider-03/handoff.json",
+    "sha256": "4882d7fb5cb5f6a405ee7787dfa6b58636975dfa6a000783d06ec46c46f5af79",
+    "patch_sha256": "4ccd125d9ccdb68b5e97bb31bff34c6536205f1dd57b63536bf8072f90d3e690",
+    "base_files_match_provider02": true,
+    "candidate_file_pins_match_handoff": true
+  },
+  "verified_candidate_hashes": {
+    "README.md": "0bb24e8a675d81150c9d35c5ba4777e183d78b504101bd3e94ec793d8661bc54",
+    "darwin_native_provider.c": "f47a2ab9d72db8f148904c331e3296b15014f510b20ca77149a0a6af623a2f86",
+    "darwin_native_provider.h": "09d88da0904fad455a4dd8cc85078eb9d0f65e1e79986a371ee3d92f442832c5",
+    "darwin_native_provider.py": "77e8c9041fc598b3e505caa55e026a7454fb2941cd6940ee730f98127ff2510f",
+    "darwin_native_provider_selftest.c": "35a93d6b4eb0d21e7f6c367163f83be9937377e145d5a4492ead22a5ae334a73",
+    "test_darwin_native_provider.py": "58b9b9c17f7c9181fa63f80a47b6292bb46bae5f3a0b4332476fa478060b29ca"
+  },
+  "reviewed_contract": {
+    "abi": "ABI v3 C and ctypes layouts align in field order and types; loader checks ABI version, exported row/meta sizes, and required symbols.",
+    "first_table_rows": "Every positive first-table record is validated, emitted with first-table/matched-second-table provenance, and required to match second-table PID, PPID, and birth identity. Missing, reused, or parent-changed PIDs fail the whole snapshot.",
+    "second_table_only_rows": "Every positive second-table PID absent from the first table is emitted from that one atomic record with PID/PPID/birth/state/p_comm and explicit second-table-only/unverified provenance. No proc_pidpath call is made for these rows; errno sentinel -1 maps to Python None and is never interpreted as success.",
+    "counts": "C success path supports output=first_positive+added, revalidated=first_positive, first_records=first_positive+first_pid0, and second_records=first_positive+added+second_pid0. Python checks these equations, byte counts/capacities, per-row source/origin/witness/path-status correspondence, category counts, and duplicate PIDs before returning rows.",
+    "bounds_and_failures": "Both sysctl calls are fixed-bound and occur once each; there is no size query or retry. Capacity, alignment, malformed records, duplicate IDs, invalid path results, and identity changes fail closed and clear C output rows.",
+    "privacy": "The ABI returns allowlisted scalar fields and bounded command bytes; no argv, CPU, pointer, credentials, or whole kinfo_proc are returned.",
+    "library_pin": "Absolute regular path and SHA-256 pin are required; symlink ancestors are rejected before and after hashing/loading, file identity is checked around hashing, and the expected hash is checked before and after dlopen."
+  },
+  "validation": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/private/tmp/v092-darwin-native-provider-03 /opt/homebrew/bin/python3.13 -B -m unittest -q test_darwin_native_provider.py",
+    "result": "29 tests passed",
+    "mode": "stdlib fake ctypes library and synthetic fixtures only"
+  },
+  "nonblocking_observation": "The C self-test source enumerates 27 synthetic scenarios and now asserts retained second-only identity/provenance, no path call for additions, malformed added-row fields, duplicate second-table PID, and second-table saturation. It does not include a C fixture with PID 0 in either table; the Python fake-library suite does exercise first- and second-table PID-0 metadata. Static inspection found the C counters and equations consistent, but a direct C PID-0 counter scenario would strengthen future self-test coverage.",
+  "findings": [],
+  "disposition": "No source-level blocker found. Root may proceed with the separately authorized synthetic C self-test build/run. Provider03 is not yet monitor-integrated: the outer ABI-v3 bridge for second-table-only rows remains a separate gate, and this review does not qualify C/SDK compatibility or live macOS behavior."
+}

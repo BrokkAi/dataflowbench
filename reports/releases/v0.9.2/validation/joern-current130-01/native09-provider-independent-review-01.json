@@ -1,0 +1,90 @@
+{
+  "schema": "v092-native09-provider-independent-review/v1",
+  "reviewed_at_utc": "2026-11-02T07:40:45Z",
+  "reviewer": "joern_launch_readiness_independent_provider_review",
+  "review_type": "read-only-static-ABI4-provider-review",
+  "status": "provider-source-accepted-for-integration-review-only",
+  "source_bindings": {
+    "reviewed_HEAD": "0d59a317ebadd6c793c318a196790b872ce6433b",
+    "provider": {
+      "directory": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider",
+      "darwin_native_provider.py": "b67c56a10e80d7d208c4bbd0f923f41bcc2a710943bf78b6c52881ef386c3158",
+      "darwin_native_provider.c": "46f39982520b02b766d35bb61f87fe53ab4a44ebd9a6262ba080fb48fe40214e",
+      "darwin_native_provider.h": "c4196df6b86b16565e736a5b6dd2f90d60b6106716d90b2bb213370db83d1096",
+      "libdfb_native_provider_abi4.dylib": "242d8ff705a1bd3bc8b8f397e5018828942c23bb2fc12701bfc68a8030ebe9e2",
+      "canonical-build-receipt-02.json": "e7439b153af5d772b85c6125eca9d64828ab145e5a428afa9b71cdd0226d3031",
+      "build-receipt-followup-01.json": "d144bec888cd8e045f6710cca530f4d3d9c5bf49d3ebb36c4c3b639f26dc5b3e",
+      "README.md": "045e4d7ec5e932e457a142abe488530184a344b305e3bb80fbc16b9b7f42d700",
+      "test_darwin_native_provider.py": "14c8ca85e55c6fd0c7e10cfa2ee250965c4bbb010f828bfbbbec8ce96b66178f",
+      "darwin_native_provider_selftest.c": "7e7386dcdbd7f63ca1bdb32d20e857ff4366187450d0d3f00197023c0cba8ef2",
+      "python-test-followup-01.txt": "38afbb3941069bc3065f66b9dfee1c2a31332c48f7eac038d0e03597c91d80b4",
+      "c-selftest-followup-01.txt": "376fb5b9e0f557c4cebc127562ea1e499969565090f8060a6488c73c14658dae",
+      "dylib-build-followup-01.txt": "ce2e2c43a5f11c859929b0ae76312cabcef168accef4001ab19d80b3ac22cffa"
+    },
+    "provider07_unchanged_source": {
+      "darwin_native_provider.c": "f47a2ab9d72db8f148904c331e3296b15014f510b20ca77149a0a6af623a2f86",
+      "darwin_native_provider.h": "09d88da0904fad455a4dd8cc85078eb9d0f65e1e79986a371ee3d92f442832c5",
+      "darwin_native_provider.py": "77e8c9041fc598b3e505caa55e026a7454fb2941cd6940ee730f98127ff2510f"
+    },
+    "pre_fix_provider_preservation": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/recovery-pre-path-provenance-fix-01/manifest.json",
+      "sha256": "b7b3c701bc15545f1b198c2652d63c1da6432c1e4fe469e5fe95b3bf13886bff"
+    },
+    "human_policy": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-interval-policy-human-decision-01.json",
+      "sha256": "faaa011902d24bde71cf139d1584ca296586ccdd2c34ab5f9555c8376cad7002",
+      "decision": "approve-proposal03-narrow-intrasnapshot-exception"
+    },
+    "approved_policy_proposal": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-interval-policy-proposal-03.json",
+      "sha256": "f4d7cc9f3704407eaa3da25810026d7d73f3c2a18fa9e9579abf0a5ddf56a848",
+      "authority_note": "Historical proposal-only status is preserved; the separate canonical human decision supplies the approval."
+    }
+  },
+  "review_findings": [
+    {
+      "topic": "first-only path provenance correction",
+      "finding": "The pre-fix implementation falsely reported the first-table proc_pidpath call as not attempted and replaced its errno with -1. The frozen follow-up corrects this narrowly: first-only rows use path-status value 5 (discarded-unrevalidated-first-table-only), preserve the actual nonnegative errno from the first-table call, and retain only first-table PID/PPID/birth/state/p_comm bytes. Path bytes are cleared. Value 4 is reserved and rejected by the Python adapter. The synthetic C/Python regressions cover both a successful path whose bytes are discarded and a zero-length ENOENT fallback whose errno remains visible.",
+      "locations": "darwin_native_provider.c:332-357, 479-508; darwin_native_provider.py:481-515, 600-633; test_darwin_native_provider.py:321-446; darwin_native_provider_selftest.c:427-493"
+    },
+    {
+      "topic": "two-table identity and fail-closed accounting",
+      "finding": "Static inspection confirms one fixed-capacity first sysctl and one fixed-capacity revalidation sysctl per provider call, no size query/retry/third table, separate PID-zero accounting, duplicate and malformed-record rejection, bounded row/table allocations, and whole-call failure for sysctl/API errors or same-PID PPID/birth changes. First-only identity is copied from and revalidated against its exact first-table record; second-only rows remain typed and unverified. Python validates ABI version/layout, byte and row accounting equations, unique positive PIDs, field domains, exact source/status/origin/witness combinations, errno sentinels, UTF-8/termination and short-comm limits.",
+      "locations": "darwin_native_provider.c:20-33, 90-139, 253-592; darwin_native_provider.h:10-128; darwin_native_provider.py:289-348, 400-649; darwin_native_provider_selftest.c:43-80, 427-507"
+    },
+    {
+      "topic": "scope and uncertainty",
+      "finding": "Provider documentation and output labels keep first-only and second-only rows unverified: they do not establish historical absence, workload relevance, ownership, argv, cleanup authority, or current identity. The provider intentionally does not enforce the outer query's one-row total, candidate exclusion, pre-existing tracked-map exclusion, cross-observation/command/final-table absence, or current ownership rules; those remain mandatory integration-evaluator checks under the approved policy.",
+      "locations": "README.md:20-53; darwin_native_provider.py:640-696"
+    },
+    {
+      "topic": "synthetic validation and artifact boundary",
+      "finding": "The append-only follow-up receipt binds the changed source, tests, logs and rebuilt dylib. Its recorded validation is 35 Python tests and 29 macro-redirected C tests passed; Apple clang build and exported-symbol inspection succeeded. The receipt states the dylib was not loaded or called and records no live OS query, provider runtime invocation, qualification, analyzer, Joern, retry, or publication. This independent review inspected the receipts/logs but did not rerun tests or invoke the dylib.",
+      "locations": "build-receipt-followup-01.json; python-test-followup-01.txt; c-selftest-followup-01.txt; dylib-build-followup-01.txt"
+    }
+  ],
+  "cross_review_conditions": [
+    {
+      "severity": "required-before-qualification",
+      "finding": "A separate source-bound integration/reconciliation review must verify that only the approved single first-only event across both native observations can be accepted; all original-candidate and pre-existing tracked-PID intersections fail before ownership mutation; the row is absent from command, the other observation, and final current table; evidence retains unknown ownership/workload/foreignness and never bridges into current identity or argv; and all provider errors, incomplete results, deadline overruns and multiple events remain fail-closed. The provider itself deliberately does not decide these outer-query conditions.",
+      "execution_gate": "Do not treat this provider-source review as the separate integration review or as exact-invocation approval."
+    },
+    {
+      "severity": "required-before-launch",
+      "finding": "The updated status value 5 and nonnegative actual path errno must be bound by the finalized adapter/request/source-closure and exact invocation review, followed by fresh admission in the required namespace. The canonical human decision requires actual 12-arm/36-phase qualification before scored activation and keeps publication on hold.",
+      "execution_gate": "No OS query, provider invocation, qualification, benchmark, retry, scored activation, or publication is authorized by this receipt."
+    }
+  ],
+  "scope": {
+    "provider_source_review_accepted": true,
+    "integration_contract_review_complete": false,
+    "tests_rerun_by_reviewer": false,
+    "native_library_loaded_or_called_by_reviewer": false,
+    "live_os_process_query_run": false,
+    "joern_or_analyzer_run": false,
+    "qualification_or_score_run": false,
+    "git_mutated": false,
+    "publication_authorized": false,
+    "statement": "This accepts the frozen ABI4 Darwin provider source for integration review only. It is not invocation approval, admission, qualification, scored activation, or publication approval."
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "baseline_evidence": {
+    "attempt_receipts": 84,
+    "input_references": 119,
+    "metadata03_failure_preserved": true,
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0151-canonical-schema-01/diagnosis/baseline-diagnosis.json",
+    "raw_outputs": 4252,
+    "reports": 92,
+    "rows": 4252,
+    "sha256": "9886623f4fd3c003a1c2ec105076360a359a95e5a4b8a90012ca84b793b10880",
+    "source_commit": "7f99684668065b8fb1ebc9b2852f058c64430647",
+    "source_tree_sha1": "7af8853a1e2eb7ea7832f7c0bad4d2299c1ab416",
+    "supplements": 22
+  },
+  "c6_binding": {
+    "contract_blob_sha1": "932813cdb3dcb0c004e9e2d3686fd7273c90a7e7",
+    "contract_path": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/contract-01.json",
+    "contract_sha256": "f2c0fe969eb959856c650e8e892a9078342ec63600fc23dd05c3f069c068af65",
+    "full_runtime_runner_canonical_json_sha256": "9dfc1651cb26147777451c85cfcfef9d1907b4ee2071ffd9f5c7dc917ac99a7b",
+    "plan_commit": "515d9941978c12cafa37ba58eecacc0a4182226f",
+    "runner_build_receipt_preserved": true,
+    "runner_bytes": 11021696,
+    "runner_sha256": "99d997b31024ee7ff5edbee381cf2addff5f25d6851cc19980f515142b9508a5"
+  },
+  "canonical_invocation_authorized": false,
+  "code_review": {
+    "argv_cwd_environment_timeout_and_runner_after_hash_are_checked": true,
+    "failed_validation_receipt_is_preserved": true,
+    "full_c6_runner_and_build_binding_are_rechecked": true,
+    "invoke_requires_explicit_preparation_diagnosis_sha256": true,
+    "invoke_requires_passed_review_hash_bindings_and_committed_clean_artifact_paths": true,
+    "metadata03_and_119_input_closure_are_rechecked_before_copy": true,
+    "only_five_joern_report_files_may_change_in_configurations04": true,
+    "original_validator_and_production_schema_are_hash_pinned": true,
+    "prepare_diagnose_invoke_modes_are_separate": true,
+    "process_streams_are_written_before_post_run_verification": true
+  },
+  "findings": [],
+  "limitations": [
+    "This review does not authorize canonical configurations-04 invocation.",
+    "No configurations-04 checkout, receipt, Rust validation, analyzer dispatch, build, or benchmark was run for this review.",
+    "The root must commit the reviewed helper, tests, baseline diagnosis and this receipt before invoking; the runtime requires a root-confirmed prepared-diagnosis SHA-256.",
+    "No semantic-quality, timing, scoring, qualification, release-readiness, or publication claim is made."
+  ],
+  "review_id": "bifrost-v0151-canonical-schema-01-independent-review-01",
+  "reviewed_artifacts_sha256": {
+    "reports/releases/v0.9.2/validation/bifrost-v0151-canonical-schema-01/diagnosis/baseline-diagnosis.json": "9886623f4fd3c003a1c2ec105076360a359a95e5a4b8a90012ca84b793b10880",
+    "reports/releases/v0.9.2/validation/bifrost-v0151-canonical-schema-01/run_canonical.py": "f05736416d36dc241adcf29bdfedbcfeccf996676e038b2fab6289f3d70daa6f",
+    "reports/releases/v0.9.2/validation/bifrost-v0151-canonical-schema-01/tests/test_run_canonical.py": "f6923cb4bb23b83b97a30af862e37eca9d3886d750a4c314e67788614dcb79ae",
+    "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/manifest.json": "07cfbcbcf1fba81ef00bfa66abda0b10668ff8b63c8ace4ce0bd1f36381428a3",
+    "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/project_joern.py": "13f8312504f641743d050101bb695ede820af90797db66de940ebdd318269f91",
+    "schemas/result.schema.json": "d8fa8aeb9c17a792e858b5168a318794079ff1ae65404699cd96ee886d302217"
+  },
+  "reviewed_at_utc": "2026-11-07T06:36:15.112031+00:00",
+  "reviewed_input_sha256": {
+    "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/contract-01.json": "f2c0fe969eb959856c650e8e892a9078342ec63600fc23dd05c3f069c068af65",
+    "reports/releases/v0.9.2/ledger-v1.jsonl": "5528a3ff7683546a09c03d5791b5283bba3e08428c9380890e3e4cfe5d268679",
+    "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-03/receipt.json": "ee64f260ca05192a1f0c064905df54e1d9f27687eb549605fad9f31482d7d11b",
+    "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-03/stderr.bin": "11d65e6a0a27148dc70681cd0b4534c5391dcdcf6bd58eb624ede0068af5012e",
+    "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/swift-configuration-ref-manifest.json": "63a2930d12453e02c01f87228c6952a21a2b98e261586cc4338b4d3e2789e74f",
+    "scripts/validate-v092-report-configurations.py": "2e8e17261f60c0b8aed816e7b3b1df690865a111b5f121079b83b2b47296f515"
+  },
+  "reviewer": "independent-review-agent",
+  "schema": "v0.9.2-v0151-canonical-schema-independent-review/v1",
+  "status": "passed-for-root-integration-review",
+  "test_evidence": {
+    "analyzer_dispatch_performed": false,
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "reports/releases/v0.9.2/validation/bifrost-v0151-canonical-schema-01/tests/test_run_canonical.py"
+    ],
+    "exit_code": 0,
+    "python": "Python 3.13.7",
+    "receipt_path": "reports/releases/v0.9.2/validation/bifrost-v0151-canonical-schema-01/diagnosis/focused-tests-02.json",
+    "receipt_sha256": "ffcec413c1d984e2237550f4515ee98b85881257acb727addbaaf2cab35fafcb",
+    "rust_invocation_performed": false,
+    "stderr_sha256": "0aa0b6c928b3ab69f284f984466d979b4b14f170ea185d39a4ae812d6df1eaf6",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_count_from_retained_log": 7
+  }
+}

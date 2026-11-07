@@ -1,0 +1,66 @@
+.................FF.
+======================================================================
+FAIL: test_actual_fresh_worker_platform_specific_environment (test_native_qualifier.FreshWorkerEnvironmentTests.test_actual_fresh_worker_platform_specific_environment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 1144, in test_actual_fresh_worker_platform_specific_environment
+    self.assertTrue(self.run_worker_process('positive')['worker_receipt'])
+                    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 1137, in run_worker_process
+    self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/reports/releases/v0.9.2/acquisition/joern-native-controls-07/fresh_worker_probe.py", line 16, in <module>
+    test.worker_fixture(bad_environment=mode!='positive',actual_environment=True,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        import_mutation=mode=='import-mutation')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 672, in worker_fixture
+    runner = load_path(REPO / 'scripts/joern_normal_runner_v092.py', 'worker_retained_runner_guard')
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 42, in load_path
+    spec.loader.exec_module(m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/scripts/joern_normal_runner_v092.py", line 13, in <module>
+    import swift_common_population_v2 as common
+ModuleNotFoundError: No module named 'swift_common_population_v2'
+
+
+======================================================================
+FAIL: test_actual_fresh_worker_wrong_platform_value_rejected (test_native_qualifier.FreshWorkerEnvironmentTests.test_actual_fresh_worker_wrong_platform_value_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 1147, in test_actual_fresh_worker_wrong_platform_value_rejected
+    self.run_worker_process('wrong-cf')
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 1137, in run_worker_process
+    self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/reports/releases/v0.9.2/acquisition/joern-native-controls-07/fresh_worker_probe.py", line 16, in <module>
+    test.worker_fixture(bad_environment=mode!='positive',actual_environment=True,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        import_mutation=mode=='import-mutation')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 672, in worker_fixture
+    runner = load_path(REPO / 'scripts/joern_normal_runner_v092.py', 'worker_retained_runner_guard')
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py", line 42, in load_path
+    spec.loader.exec_module(m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/private/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/relocated-checkout/scripts/joern_normal_runner_v092.py", line 13, in <module>
+    import swift_common_population_v2 as common
+ModuleNotFoundError: No module named 'swift_common_population_v2'
+
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.582s
+
+FAILED (failures=2)
+Traceback (most recent call last):
+  File "/var/folders/t1/k_27wjcd4095w9w121dm92_w0000gn/T/v092-relocated-tests-03-09wr0fa_/host-root-relocation-probe-04.py", line 37, in <module>
+    assert result.wasSuccessful()
+           ~~~~~~~~~~~~~~~~~~~~^^
+AssertionError

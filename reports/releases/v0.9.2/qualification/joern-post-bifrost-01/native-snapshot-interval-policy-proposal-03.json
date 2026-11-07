@@ -1,0 +1,87 @@
+{
+  "actual_stop": {
+    "path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-root-stop-check-01.json",
+    "sha256": "670466ac4e9ee923f462242ab2da0b233daf1d0130986cadd5fa51ade145a941"
+  },
+  "alternative": "Keep strict ABI3/provider acceptance; preserve qualification06 and leave Joern108 blocked. No blind rerun.",
+  "automatic_retry": false,
+  "bifrost_pin_changed": false,
+  "execution_authorized": false,
+  "human_approval_required": true,
+  "implementation_authorized": false,
+  "ledger_changed": false,
+  "predecessor_proposal": {
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-interval-policy-proposal-02.json",
+    "sha256": "fe58d2e10ad192f62d5f67c3cb0f114e12095f84ff5e0a9976e6406207b9048d"
+  },
+  "prior_human_policy": {
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/process-snapshot-policy-human-decision-01.json",
+    "sha256": "b7130ef72545edaa9599640946921180bd95e00ec5106b5072d9a3981310b2fb"
+  },
+  "problem": "The ABI3 provider rejects an entire native observation if any first-kernel-table PID is missing from the second kernel table. Actual qualification06 failed on at least one such PID, different from the original unresolved candidate. Its historical ownership, workload relevance, exact exit and any other unobserved table differences remain unknown. There is no timeout or permission failure evidenced. Typed first-table-only rows alone do not solve this because the evaluator rejects every unbridged kernel-comm row.",
+  "proposed_acceptance_delta": {
+    "continuous_absence_claim": false,
+    "durable_collection": "historical_only_intrasnapshot_rows: exact source/origin/witness/identity and absence evidence for each newly admitted row; never erase or fold into a no-contender boolean",
+    "durable_evaluation_status": "historical-absence-with-unresolved-intrasnapshot-observations",
+    "exact_exit_time": "unknown",
+    "existing_query_count_unchanged": "At most one historical-only event per already-permitted bounded reconciliation query. Distinct original candidates may still trigger their already-permitted queries within existing finite phase/run budgets; the exception creates no additional query, pass or retry.",
+    "historical_foreignness": "unknown",
+    "historical_ownership": "unknown",
+    "interpretation": "May continue the current boundary after durable evidence. This is a new explicit acceptance rule; do not describe it as a mechanical ABI3 bug fix.",
+    "label": "unresolved_historical_intrasnapshot_disappearance",
+    "maximum_first_only_rows_across_both_native_observations_per_query": 1,
+    "os_global_absence_claim": false,
+    "over_event_limit": "Fail closed; do not select one row and erase or ignore the remainder.",
+    "required_absence": "Absent from that observation's second kernel table, the command snapshot, and all rows of the other native observation; absent from the final current kernel table.",
+    "scope": "Only a non-original-candidate intra-ABI4 first-kernel-table-only row observed in exactly one of the outer native-before or native-after observations of the existing single query.",
+    "tracked_map_intersection": "If the first-only PID intersects any entry of the pre-existing exact tracked map, regardless of birth, the exception is ineligible and the query fails closed before an ownership update. No add, remove, replace, downgrade, resurrection or exception-based permission is allowed for that PID. Historical rows never enter current native maps or argv bridges. Existing descendant tracking for other rows continues only through its unchanged exact current identity algorithm.",
+    "uncontended_timing_certified": false,
+    "workload_relevance": "unknown; never classified as unrelated, harmless or owned"
+  },
+  "proposed_provider_successor": {
+    "abi": "new explicit ABI4 and exact new source/library pins; ABI3 remains unchanged",
+    "coverage": "Exact first/second table accounting, first-only/stable/second-only counters and union rows. Duplicate, malformed, capacity, provider/sysctl/path error, same-PID changed birth/parent, and deadline remain whole-query fail-closed.",
+    "first_only_definition": "Intra-ABI4 observation: a positive PID present in that observation's first kernel table and absent from its second kernel table. This is distinct from the outer native-before and native-after observations.",
+    "first_only_row": "Preserve exact first-table PID/PPID/birth/state/kernel p_comm, tagged first-table-only/unverified; discard un-revalidated proc_pidpath result. Never promote to current ownership, argv bridge or cleanup authority.",
+    "maximum_rows_across_both_native_observations": 16384,
+    "maximum_rows_per_native_observation": 8192,
+    "maximum_total_seconds": 5,
+    "new_table_or_query_retry": false,
+    "passes_per_original_candidate_per_boundary": 1,
+    "row_bounds_changed": false,
+    "tables_per_native_observation": 2
+  },
+  "publication_approval_inferred": false,
+  "publication_hold": true,
+  "recorded_utc": "2026-11-02T06:43:24.466401+00:00",
+  "required_validation": [
+    "Fake native-provider stable, first-only, second-only positives with exact two-call accounting",
+    "PID reuse/parent changes, malformed/duplicate/path/capacity/provider errors remain fatal",
+    "Original candidate first-only presence rejects",
+    "First-only row cannot extend tracked ownership or bridge argv",
+    "First-only row present command/other snapshot rejects",
+    "Only exact newly permitted historical-only row can pass, with all uncertainty labels retained",
+    "Existing current-live/ambiguous contender positives and near misses remain rejected",
+    "Independent exact source and invocation review, fresh admission and new namespace before qualification07",
+    "Actual12/36 qualification plus independent semantic/startup review before scoredJoern05",
+    "Two or more first-only rows reject rather than silently select one",
+    "First-only intersection with tracked map rejects for both same and different birth; no ownership map mutation from historical rows"
+  ],
+  "resource_time_policy_changed": false,
+  "schema": "v092-native-snapshot-interval-policy-proposal/v1",
+  "status": "proposal-only-not-approved",
+  "stop_independent_review": {
+    "path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-stop-independent-review-01.json",
+    "sha256": "b4f5ce6c0086a9fcc3008c769f695bec471e6aff4c90ec21ce3e17f7f062f2a7"
+  },
+  "unchanged_fail_closed": [
+    "Any original unresolved candidate appearing in ANY fresh native first/second or command evidence, including first-only rows",
+    "Any live/current foreign contender or ambiguous/unbridged current native row",
+    "Any PID reused or same-PID identity changed within native observation",
+    "Any first-only PID appearing in command or the other native observation, even with a different birth",
+    "Any incomplete/truncated/malformed/provider-error/timeout query",
+    "All exact source, ownership, resource, time and one-slot gates",
+    "More than one intra-ABI first-only row across the entire native-before/command/native-after query",
+    "Any first-only PID already present in the pre-existing tracked map, regardless of birth"
+  ]
+}

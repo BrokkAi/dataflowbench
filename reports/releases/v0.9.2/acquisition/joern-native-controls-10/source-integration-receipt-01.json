@@ -1,0 +1,97 @@
+{
+  "analyzer_dispatched": false,
+  "cpu_contention_hold": {
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/human-cpu-contention-run-hold-01.json",
+    "sha256": "49005d6a83eb62e51fc124e997a108742d6a02a3c7fb1bba453f7d630a26e099"
+  },
+  "earlier_check_corrections": [
+    {
+      "result": "Wrong test working directory/interpreter; import failures before tests. Corrected to source10 and Python3.13.",
+      "tool_chunk": "06e668"
+    },
+    {
+      "result": "Source-boundary expected public wrapper run_worker instead of actual changed _run_worker_body; corrected assertion; duplicate inherited test discovery removed.",
+      "tool_chunk": "a0b891"
+    }
+  ],
+  "eligible_plan_created": false,
+  "head": "869e591199d281087429b5739aa7a7d749e16add",
+  "human_policy": {
+    "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-set-policy-human-decision-01.json",
+    "sha256": "296b1b06ee56a00a09eb986909cf14c2e64e70b35bf485d44b47c58b9788574b"
+  },
+  "native_qualification_dispatched": false,
+  "new_request_created": false,
+  "provider_loaded": false,
+  "publication_hold": true,
+  "real_provider_queries": 0,
+  "recorded_utc": "2026-11-02T08:36:26.655597+00:00",
+  "run_hold_active": true,
+  "schema": "v092-native10-source-integration/v1",
+  "scope": {
+    "evaluation_scope": "semantic-only",
+    "relative_performance_conclusions_authorized": false,
+    "uncontended_timing_certified": false
+  },
+  "source_committed": false,
+  "source_files": [
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/native_qualifier.py",
+      "sha256": "5f513fe20ff23e3f2fed6f32adb311e3cfa77ab43b56b50b13a0251969777f42"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/process_reconciliation.py",
+      "sha256": "8be67e915b74105f89377b86cefb067b78573850b8e439377cb530e93c7197c9"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/snapshot_query.py",
+      "sha256": "7997624bb91e94f1672fd65c7673dcfc8d3606428817f6ab822e1f71479a2d72"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/retained_resources.py",
+      "sha256": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/archive_evidence.py",
+      "sha256": "7c0ef87663df318cbd4136d3d56bb17c3e3222294e321a3f853846e372368788"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/test_process_reconciliation_set_policy.py",
+      "sha256": "288438883021ed57933f4672b3990633740cba0b940724b35c4bc03f6d1d2f68"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/test_interval_supervision.py",
+      "sha256": "c03988ce16a287b20b8c7213c6e7ac518be052e04351e00483f098b19e8b782b"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/test_supervisor_set_policy.py",
+      "sha256": "17d7d9f384c2c496f437c633fcf2584407eb82dacd63fed234b8eec2e8411359"
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-10/test_source_boundary.py",
+      "sha256": "cde4f67d00a60e92352e259195ca38a66db24bf21e66afd28048f2ba4332bf9f"
+    }
+  ],
+  "status": "source-tests-passed",
+  "test_command": [
+    "/opt/homebrew/bin/python3.13",
+    "-m",
+    "unittest",
+    "test_process_reconciliation_set_policy",
+    "test_interval_supervision",
+    "test_supervisor_set_policy",
+    "test_source_boundary",
+    "-v"
+  ],
+  "test_count": 31,
+  "test_returncode": 0,
+  "test_stderr": {
+    "path": "execution-state/v092/recovery-20261102/native10-source-tests-01/stderr.txt",
+    "sha256": "d0a32b5470965896b22dffee4c1f2ab44bbd20d196fe3a375b51a137e062b626"
+  },
+  "test_stdout": {
+    "path": "execution-state/v092/recovery-20261102/native10-source-tests-01/stdout.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "test_working_directory": "reports/releases/v0.9.2/acquisition/joern-native-controls-10"
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "v092-c5-light-java-regression-pair-check/v1",
+  "attempt_id": "bifrost-java-kernel-attempt-03-series-03",
+  "report_sha256": "a611cb8634667095331009d6661868de3e59ce033fdff6c94d92fa8f3546fe2d",
+  "cases": [
+    {
+      "case_id": "dfb-taint-java-exception-catch-negative",
+      "normalized_outcome": "not-reached",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": [],
+      "obligations": [],
+      "omitted_obligations_lower_bound": 0,
+      "raw_sha256": "cd2728d14e4f493f49182aa8c2190889839f57b948fee51dc9cd76eb31c028a4"
+    },
+    {
+      "case_id": "dfb-taint-java-exception-catch-positive",
+      "normalized_outcome": "reached",
+      "completion": {
+        "type": "complete"
+      },
+      "findings": [
+        {
+          "certainty": {
+            "type": "definite"
+          },
+          "proof": {
+            "state": "proven",
+            "reasons": [
+              {
+                "type": "dataflow_witness"
+              }
+            ],
+            "evidence_refs": []
+          },
+          "completeness": {
+            "type": "complete"
+          }
+        }
+      ],
+      "obligations": [],
+      "omitted_obligations_lower_bound": 0,
+      "raw_sha256": "cfac617c0f47e0c19379f43e921477bad689788e6b918500a4e9997c72dd0edd"
+    }
+  ],
+  "scope": "Recorded Java kernel pair only; no whole-benchmark or Kotlin conclusion."
+}

@@ -1,0 +1,63 @@
+{
+  "archive01_binding": {
+    "head": "f06c0f454536f1af36981163d4d819192e49e814",
+    "manifest_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-01/source-bundle-manifest.json",
+    "manifest_sha256": "9fc18f7423660d1d4abe847e15a85b1ce56253b035d1c6252adbe7ad4bfcb641",
+    "raw_bundle_sha256": "0ad200c7ab5b58cf010f05c33de197621493bb83f9184cc18e81fb92a3079d74"
+  },
+  "bundle": {
+    "bytes": 43842,
+    "git_bundle_verify_output": "/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-02/original-source.bundle is okay\nThe bundle contains this ref:\n503871a36451ddbb5098a9ea010115202bd5ead9 refs/heads/dave/v0.9.2-full-refresh\nThe bundle requires this ref:\nf06c0f454536f1af36981163d4d819192e49e814 \nThe bundle uses this hash algorithm: sha1",
+    "hash_algorithm": "sha1",
+    "heads": [
+      "503871a36451ddbb5098a9ea010115202bd5ead9 refs/heads/dave/v0.9.2-full-refresh"
+    ],
+    "local_raw_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-02/original-source.bundle",
+    "parts": [
+      {
+        "bytes": 43842,
+        "path": "original-source.bundle.part0000",
+        "sha256": "25cb56642fc2001ea5fffd9019ac9fb05b7e939baea1702c21ea935b88607c21"
+      }
+    ],
+    "prerequisites": [
+      "f06c0f454536f1af36981163d4d819192e49e814"
+    ],
+    "reassembly": "concatenate parts in ascending numeric suffix order; output must match bundle bytes and SHA-256",
+    "sha256": "25cb56642fc2001ea5fffd9019ac9fb05b7e939baea1702c21ea935b88607c21",
+    "split_max_bytes": 41943040
+  },
+  "delta": {
+    "base_archive01_head": "f06c0f454536f1af36981163d4d819192e49e814",
+    "base_is_ancestor_of_target": true,
+    "c6_contract_at_plan_commit": {
+      "git_blob": "932813cdb3dcb0c004e9e2d3686fd7273c90a7e7",
+      "path": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/contract-01.json",
+      "sha256": "f2c0fe969eb959856c650e8e892a9078342ec63600fc23dd05c3f069c068af65"
+    },
+    "commits_between_base_and_target": [
+      "ff02478a3595368f9720e06932db897fa5dc3073",
+      "503871a36451ddbb5098a9ea010115202bd5ead9"
+    ],
+    "plan_commit": "515d9941978c12cafa37ba58eecacc0a4182226f",
+    "plan_commit_parent": "7f99684668065b8fb1ebc9b2852f058c64430647",
+    "repair02_helper": {
+      "git_blob_sha1": "994444dbd53554e32181c21813f021e65a180193",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/materialize_v0151_swift_configuration_inputs.py",
+      "sha256": "b8dc67d70669e112ddf4967edfaebde39fa67807bad681e911610cbd0996ed30"
+    },
+    "source_commit": "7f99684668065b8fb1ebc9b2852f058c64430647",
+    "source_tree": "7af8853a1e2eb7ea7832f7c0bad4d2299c1ab416",
+    "target_commit": "503871a36451ddbb5098a9ea010115202bd5ead9",
+    "target_ref": "refs/heads/dave/v0.9.2-full-refresh"
+  },
+  "lfs_rule": ".gitattributes line 89: reports/releases/v0.9.2/source-history/**/original-source.bundle.part* filter=lfs diff=lfs merge=lfs -text",
+  "purpose": "Recoverable exact Git delta after archive-01 source tip f06c0f; source-history-01 remains unchanged.",
+  "repository": "BrokkAi/dataflowbench",
+  "schema": "dataflowbench-current-source-bundle-delta-retention/v1",
+  "verification": {
+    "bundle_raw_sha256": "25cb56642fc2001ea5fffd9019ac9fb05b7e939baea1702c21ea935b88607c21",
+    "bundle_verify_passed": true,
+    "parts_reassembled_byte_identical": true
+  }
+}

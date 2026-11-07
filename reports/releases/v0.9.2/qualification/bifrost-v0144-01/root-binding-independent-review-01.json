@@ -1,0 +1,125 @@
+{
+  "binding": {
+    "authorized_groups": 20,
+    "execution_eligible": true,
+    "full_policy_qualification": false,
+    "group_scope_matches_contract_and_authorization": true,
+    "ledger_prefix_rows": 109,
+    "ledger_prefix_sha256": "2049200a6c4085a926f51f7869b47f4e78916148dfe5650ff25e024d9e8d4851",
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/bifrost-release-01.json",
+    "publication_review_still_required": true,
+    "review_capture_authorization_references_match": true,
+    "sha256": "d08717cecb73e055f7e31e03a56f9d0835b4ee3607f4529f51cee5722ac6aacb",
+    "status": "measurement-with-known-limits"
+  },
+  "capture": {
+    "commands": 44,
+    "commands_exit_zero_completed": 44,
+    "commands_sha256": "99a26f819ca2112b7ccaabe52807db1fdfcaef8fde7b04a4797777ac69e6714a",
+    "manifest_files": 263,
+    "manifest_sha256": "d57cdb8353a47b9886621e746f2b6469be5480d920b089ae4e9a3ec14066b683",
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01",
+    "qualification_sha256": "5aaad619ed7b0c6fa7fec7cf7a32b7dbd9763175544eb3f0a45eb5224d8025a4",
+    "strict_capture_status": "failed",
+    "strict_failure_class": "schema-5 validator rejected schema-6 policy reports only",
+    "strict_failures": 39,
+    "timeouts_or_failed_processes": 0
+  },
+  "execution_eligible": true,
+  "full_policy_qualification": false,
+  "identity": {
+    "acquisition_receipt_sha256": "c32c1b0ab396f9e0d5849fc01d4c602b0fcd27e13056944ff16ad6b7a2f16371",
+    "binary_sha256": "a3aa17a18be33e1e841c1bf317c6ca35a6aa3aaef452c607fafbb3b83aeec399",
+    "build_identity": "ff5cf473f4ad414751911ff93ef79e1df1d35823",
+    "human_authorization_sha256": "1b070556cf24bb75eae652e7176cd17018efc46e50341e64f594ea9311eff665",
+    "public_tag_commit": "786891f9ed19d2086dfd6242ff15ca904b610620",
+    "version": "0.14.4"
+  },
+  "limitations": [
+    "Full policy qualification remains false.",
+    "The three JavaScript partials have unknown coverage; the negative control is not clean.",
+    "The native empty catalog is not-evaluated and is not evidence of cleanliness.",
+    "Publication requires separate human review and explicit approval."
+  ],
+  "review_note": "All three JavaScript partials remain inconclusive with clean=false, including the sink-negative control with zero findings. The binding references the complete review and does not claim full policy qualification. Its static limitations text mentions retained positive partials; the linked review also records the zero-finding negative partial as incomplete.",
+  "review_type": "read-only independent comparison of persisted capture, schema-6 review, and group binding",
+  "schema": "v092-bifrost-v0144-root-binding-independent-review/v1",
+  "schema6_review": {
+    "complete_reports": 36,
+    "inconclusive_controls": [
+      {
+        "clean": false,
+        "completion": {
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "files": [
+              "Config.js"
+            ],
+            "truncated": false,
+            "type": "files"
+          },
+          "type": "inconclusive"
+        },
+        "findings": 1,
+        "id": "policy-javascript-declared-source-positive-with"
+      },
+      {
+        "clean": false,
+        "completion": {
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "files": [
+              "Audit.js"
+            ],
+            "truncated": false,
+            "type": "files"
+          },
+          "type": "inconclusive"
+        },
+        "findings": 1,
+        "id": "policy-javascript-declared-sink-positive-with"
+      },
+      {
+        "clean": false,
+        "completion": {
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "files": [
+              "Audit.js"
+            ],
+            "truncated": false,
+            "type": "files"
+          },
+          "type": "inconclusive"
+        },
+        "findings": 0,
+        "id": "policy-javascript-declared-sink-negative-with"
+      }
+    ],
+    "inconclusive_reports": 3,
+    "interpretation_counts": {
+      "complete-no-finding": 8,
+      "inconclusive": 3,
+      "proven-flow": 13,
+      "unbound-endpoint": 15
+    },
+    "native": {
+      "clean": false,
+      "findings": 0,
+      "status": "not-evaluated"
+    },
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/bifrost-review-03.json",
+    "policy_reports": 39,
+    "review_implementation_sha256": "b7c788fee3fc5f60b85f13fc1370465844137354d95f81d2a41eef141082c824",
+    "sanitizer_controls": 15,
+    "sha256": "cbd7251bcdfcf6a2d93b090422a4968481cbc8b07c6fb23216403909e24ba8e2",
+    "unbound_endpoint_controls": 15
+  },
+  "status": "verified-with-known-limits"
+}

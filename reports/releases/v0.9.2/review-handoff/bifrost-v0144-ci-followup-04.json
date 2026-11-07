@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "failed_head": "579f2d3100a7865cc73bdaf47340c3056e48408a",
+  "failed_ci_run": 41334083835,
+  "failure_log_sha256": "55b9b6901992f192c42a1b44dcf1a968402fa52bf862faa70429a3f8a2bcdf6a",
+  "passed_native_provider_tests": 29,
+  "passed_native_discovery_tests": 143,
+  "c5_unit_tests": 19,
+  "c5_fixture_errors": 4,
+  "diagnosis": "Qualification unit fixtures require ignored cache WAL; Scala verification unit fixture requires ignored local tool jars. Production driver not implicated by these file-not-found failures.",
+  "downstream_unchanged_local_checks": {
+    "scripts/test-check-release-v092.py": 49,
+    "scripts/test-validate-v092-report-configurations.py": 14
+  },
+  "benchmark_rerun": false,
+  "approved_unit_fixture_boundary": {
+    "qualification_capture": "Exact retained lossless LFS control bundle, full digest verification before extraction into test temp only",
+    "scala": "Small explicitly unit-scoped valid JAR/POM fixtures with pinned hashes; temporary SCALA_FILES binding; real pinned release artifacts unchanged",
+    "ledger": "Deterministic unit ledger fixture with scoped expected prefix constants; actual ledger and qualification provenance unchanged",
+    "production_driver_changed": false,
+    "measured_source_test_identity": "2e740f8629a2731fa368cc62adde692b7f34236a64b3296a0ef9c276a2a73e1d",
+    "scope": "CI unit portability only; not native/engine/benchmark qualification"
+  },
+  "repair_validation": {
+    "tests_current_root": 19,
+    "tests_relocated_root": 19,
+    "root_independent_rerun": 19,
+    "receipt": "reports/releases/v0.9.2/validation/bifrost-v0144-ci-fixtures-01/receipts/c5-fixture-validation-01.json",
+    "source_delta": "evidence-delivery/v0.9.2-bifrost-v0144-01/source-review/ci-portability-04/manifest.json"
+  }
+}

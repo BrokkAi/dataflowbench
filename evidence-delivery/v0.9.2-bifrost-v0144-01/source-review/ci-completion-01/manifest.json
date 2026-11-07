@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "scope": "All post-measurement CI source/test/config repairs; working final historical-consumer fix included in patch; validation receipts are separate",
+  "base_benchmark_delivery": "6be1a663d882c9425ab6171862c9b676c13440d2",
+  "head_before_final_consumer_fix": "e97f9119204ec209ff15f7516a96b63ae0651f23",
+  "measured_source_unchanged": "61ae0cb817322ac81528217479c0be7bd760fa36",
+  "measured_plan_unchanged": "6500465e02e28ac279047e610d7e8dbccc844ee8",
+  "prior_ci_commits": [
+    {
+      "commit": "c6b01c276824c5536f1f70af7f1dce9a0b552a31",
+      "purpose": "Use portable temporary roots in Joern preparation tests"
+    },
+    {
+      "commit": "04d0e80347cf619dcc31038ed30e9444d490c28f",
+      "purpose": "Run native guard fixtures with portable paths and real Python 3.13"
+    },
+    {
+      "commit": "579f2d3100a7865cc73bdaf47340c3056e48408a",
+      "purpose": "Fix platform-specific native control test fixtures"
+    },
+    {
+      "commit": "61f7d4ca61065157778af56bc11200a086d240ae",
+      "purpose": "Make Bifrost benchmark unit fixtures self-contained"
+    },
+    {
+      "commit": "7b549afa2b7328b5d0fc3e34c50ca3f288db4606",
+      "purpose": "Restore exact historical Scala evidence for CI"
+    },
+    {
+      "commit": "e97f9119204ec209ff15f7516a96b63ae0651f23",
+      "purpose": "Keep hydrated Scala evidence out of checkout dirtiness"
+    }
+  ],
+  "source_paths": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "35763edd3d1f801f759ba78b99dc86ca6edd4c40d8312e5fbfa77f9e32ad5389",
+      "bytes": 17002
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "10eac90a5be3258179e5f09d4559f10c817ed79f67449441f659732b7f07f7f4",
+      "bytes": 2510
+    },
+    {
+      "path": "src/report.rs",
+      "sha256": "f2b3a6be4c30d1ccc5f352e71019179c222fc530cb9c44643b66591581fd455f",
+      "bytes": 28573
+    },
+    {
+      "path": "src/tests/adapters/bifrost.rs",
+      "sha256": "bc8786792b0982cc0b8d94d27be2a155437133f3a6f2bab526a13aa715a31d39",
+      "bytes": 58471
+    },
+    {
+      "path": "scripts/test_bifrost_v0144_benchmark.py",
+      "sha256": "e7858cfb45d3cce9d8d3d3cd64e8243ab4b95a450338e8fa9cf2ab456159cfbf",
+      "bytes": 63317
+    },
+    {
+      "path": "scripts/test-fixtures/bifrost-v0144-benchmark-01/ledger-prefix-109.jsonl",
+      "sha256": "a4cc06701883b0f75e9ba8affc7d8d75242125303cfc93f25ed305ccce791f5f",
+      "bytes": 18422
+    },
+    {
+      "path": "scripts/test-fixtures/bifrost-v0144-benchmark-01/manifest.json",
+      "sha256": "a9742444f056ee6f3f5d573ac47a01bd966cbd0955b411638fd4b7f10f28d1b0",
+      "bytes": 1830
+    },
+    {
+      "path": "scripts/test-fixtures/bifrost-v0144-benchmark-01/scala-library-2.13.16-sources.jar",
+      "sha256": "9cf1e8c3770fb5ea110c30affd5c22e20daad806062970f1627c3026a6031ff7",
+      "bytes": 407
+    },
+    {
+      "path": "scripts/test-fixtures/bifrost-v0144-benchmark-01/scala-library-2.13.16.jar",
+      "sha256": "b6b7b2ba8c78ee078310b26a594a18faee049f2862eb05dc265a35fc43bdc316",
+      "bytes": 394
+    },
+    {
+      "path": "scripts/test-fixtures/bifrost-v0144-benchmark-01/scala-library-2.13.16.pom",
+      "sha256": "24baea63b02e7bd9c1f6c3b0ebbc2c290c0c900bf3d26577ab15fd779c904284",
+      "bytes": 334
+    },
+    {
+      "path": "scripts/restore-bifrost-v0144-ci-baseline.py",
+      "sha256": "2c17d7e7f4e517db4ca4049acd63c72194f4313f98c52fed75ba71ed9285f788",
+      "bytes": 9692
+    },
+    {
+      "path": "scripts/test-restore-bifrost-v0144-ci-baseline.py",
+      "sha256": "7241abe2719b62af7127abd16559d15ab58fbcb2506d2793c733da3ad2fad91e",
+      "bytes": 4742
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py",
+      "sha256": "53ebbe9612ce3dbf50fe7981af4fe9c527385165501d29a50e87447ffbdab858",
+      "bytes": 69622
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_reconciliation_policy.py",
+      "sha256": "29853675676b86d2a317edcff53a001cf258832faaa893be31de8128669b9481",
+      "bytes": 93331
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_archive_source_gate.py",
+      "sha256": "8000abbdbd0633beca51bfd35f50fa8c83db8e138989e323ac1eda1208b0399e",
+      "bytes": 12300
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/fresh_worker_probe.py",
+      "sha256": "eec1809f082200ced1bd9e7c805cac90c1d937a5062c14405bf7b8e3120073a0",
+      "bytes": 1461
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test-fixtures/native-controls01-parent-started.json",
+      "sha256": "1f0fb043add6a71be6310e7a8615b07a4f2990780a7d0abae9556fdd6b7f20e9",
+      "bytes": 2913
+    },
+    {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test-fixtures/native-controls01-parent-started.provenance.json",
+      "sha256": "d0e08870b352e9fb91ead2225c763065efccade47a1e7bf25aeaad75370f6417",
+      "bytes": 383
+    }
+  ],
+  "part": "detail/post-run-source.patch.gz.part00001",
+  "compressed_bytes": 19555,
+  "compressed_sha256": "91e037fdeb4882ab0bc9f888febbc5e40727f2a11dcfdf4a17d0f1fb61a01c53",
+  "uncompressed_bytes": 91581,
+  "uncompressed_sha256": "dda56c903c001d69b531a469a47bb589b43d527eb59520f463614885c44feefa",
+  "production_boundary": "Only src/report.rs historical Scala closure selection changes after measurement; Bifrost engine/normalization/controller and all actual run evidence unchanged"
+}

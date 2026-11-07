@@ -1,0 +1,45 @@
+{
+  "schema": "dataflowbench-adapter-pin-profile/v1",
+  "profile": "v0.9.2",
+  "tools": {
+    "bifrost": {
+      "version": "bifrost 0.15.1",
+      "build_identity": "90d820b9ee3b1bcca9e3dd2a049b1b51dc854b69",
+      "environment": {
+        "BIFROST_OPEN_PACKS_DISABLE": "1"
+      },
+      "native_evidence": "reports/releases/v0.9.2/qualification/bifrost-v0151-01",
+      "binary_sha256": "00b279126297d5e9f7805390799493e915eaf4a2d5940dc3e755138a577a6df9",
+      "catalog_sha256": "f9d3b4efcf20e0ca8e8a976d6524556f114f4a4ccab3f4b0cc761f0b9248d206"
+    },
+    "codeql": {
+      "version": "2.27.2"
+    },
+    "joern": {
+      "version": "4.0.660"
+    },
+    "semgrep_ce": {
+      "version": "1.181.0",
+      "native_rules_profile": "adapters/semgrep/native/v0.9.2/profile.json"
+    },
+    "pysa": {
+      "pyre_check": "0.10.0",
+      "pyrefly": "1.4.0"
+    },
+    "opentaint": {
+      "version": "0.4.6"
+    },
+    "infer": {
+      "version": "v1.3.0"
+    },
+    "flowdroid": {
+      "version": "2.15.1"
+    }
+  },
+  "swift_common_108": {
+    "codeql_qualification": "adapters/codeql/swift-common-v2/plan-v092-01",
+    "joern_qualification": "adapters/joern/swift-common-v2/plan-v092-01",
+    "status": "fresh-engine-qualification-required",
+    "scored_activation": false
+  }
+}

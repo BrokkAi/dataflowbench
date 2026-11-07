@@ -1,0 +1,108 @@
+{
+  "schema": "v092-native-provider-build/v1",
+  "started_utc": "2026-10-27T07:58:55.526276+00:00",
+  "source_files": {
+    "README.md": "0bb24e8a675d81150c9d35c5ba4777e183d78b504101bd3e94ec793d8661bc54",
+    "darwin_native_provider.c": "f47a2ab9d72db8f148904c331e3296b15014f510b20ca77149a0a6af623a2f86",
+    "darwin_native_provider.h": "09d88da0904fad455a4dd8cc85078eb9d0f65e1e79986a371ee3d92f442832c5",
+    "darwin_native_provider.py": "77e8c9041fc598b3e505caa55e026a7454fb2941cd6940ee730f98127ff2510f",
+    "darwin_native_provider_selftest.c": "35a93d6b4eb0d21e7f6c367163f83be9937377e145d5a4492ead22a5ae334a73",
+    "test_darwin_native_provider.py": "58b9b9c17f7c9181fa63f80a47b6292bb46bae5f3a0b4332476fa478060b29ca"
+  },
+  "source_review": {
+    "path": "/private/tmp/v092-darwin-native-provider-03-independent-review-01.json",
+    "sha256": "e47ecb4c2aa8aef4140c20dfee5e0b5586eb9b33677d8a1671a80405064dcc6a"
+  },
+  "operations": [
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "--show-sdk-path"
+      ],
+      "exit_code": 0,
+      "stdout": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "clang",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "--sdk",
+        "macosx",
+        "clang",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-I",
+        "/private/tmp/v092-darwin-native-provider-03",
+        "/private/tmp/v092-darwin-native-provider-03/darwin_native_provider_selftest.c",
+        "-o",
+        "/private/tmp/v092-darwin-native-provider-build-04/provider-selftest"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/nm",
+        "-u",
+        "/private/tmp/v092-darwin-native-provider-build-04/provider-selftest"
+      ],
+      "exit_code": 0,
+      "stdout": "___asan_init\n___asan_memcpy\n___asan_memset\n___asan_option_detect_stack_use_after_return\n___asan_register_image_globals\n___asan_report_load1\n___asan_report_load4\n___asan_report_load8\n___asan_report_store1\n___asan_report_store4\n___asan_report_store8\n___asan_set_shadow_00\n___asan_set_shadow_f5\n___asan_set_shadow_f8\n___asan_shadow_memory_dynamic_address\n___asan_stack_malloc_1\n___asan_stack_malloc_2\n___asan_stack_malloc_4\n___asan_unregister_image_globals\n___asan_version_mismatch_check_apple_clang_2100\n___error\n___stack_chk_fail\n___stack_chk_guard\n___stderrp\n___ubsan_handle_add_overflow\n___ubsan_handle_out_of_bounds\n___ubsan_handle_pointer_overflow\n___ubsan_handle_type_mismatch_v1\n_calloc\n_fprintf\n_free\n_fwrite\n_memchr\n_printf\n_puts\n_snprintf\n_strcmp\n_strnlen\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/private/tmp/v092-darwin-native-provider-build-04/provider-selftest"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS complete-positive/legacy-state-map\nPASS sstop-maps-to-t\nPASS short-empty-first-table\nPASS misaligned-first-table\nPASS first-kern-proc-all-enomem\nPASS revalidation-kern-proc-all-enomem\nPASS exact-row-capacity-fails-closed\nPASS duplicate-first-table-pid\nPASS invalid-birth-time\nPASS invalid-parent-pid\nPASS invalid-process-state\nPASS unterminated-short-command\nPASS zero-path-enoent-fallback-retains-identity\nPASS negative-proc-pidpath-result-fails\nPASS positive-path-with-errno-fails\nPASS unterminated-proc-pidpath-fails\nPASS overbound-proc-pidpath-fails\nPASS revalidation-missing-first-table-pid\nPASS revalidation-birth-identity-changed\nPASS revalidation-parent-changed\nPASS additional-second-table-pid-retained-with-typed-identity\nPASS duplicate-revalidation-table-pid\nPASS invalid-second-only-birth\nPASS invalid-second-only-parent\nPASS invalid-second-only-state\nPASS invalid-second-only-short-comm\nPASS exact-revalidation-row-capacity-fails-closed\n27 passed, 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/xcrun",
+        "--sdk",
+        "macosx",
+        "clang",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O2",
+        "-fPIC",
+        "-dynamiclib",
+        "-fvisibility=hidden",
+        "-I",
+        "/private/tmp/v092-darwin-native-provider-03",
+        "/private/tmp/v092-darwin-native-provider-03/darwin_native_provider.c",
+        "-o",
+        "/private/tmp/v092-darwin-native-provider-build-04/darwin_native_provider.dylib"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "analyzer_invoked": false,
+  "native_control_invoked": false,
+  "library_sha256": "5d39c658eab544a2257add7fca061cd1091e8c8c6347991dc3abb6ce0530422d",
+  "library_bytes": 34432,
+  "ended_utc": "2026-10-27T07:58:56.653240+00:00"
+}

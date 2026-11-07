@@ -1,0 +1,23 @@
+{
+  "schema": "v092-c5-pre-dispatch-source-accounting-repair/v1",
+  "original_source_commit": "f496f366e4475481c2a1c497d5f27650c4816ac8",
+  "original_unapproved_contract": {
+    "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/contract.json",
+    "sha256": "12a4716def54f87d40b0325ac9794054ef4f7ba3fde6aefdec295e7f3108b5eb",
+    "execution_authorized": false,
+    "copy_path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/unapproved-contract-01.json.gz",
+    "copy_sha256": "8b3e42ce86e5ded0155b30743009b3d2f098abc5a9b1f1f8af82b1683f3bfad3",
+    "original_preserved": true
+  },
+  "finding": "Historical C4 has789 source-input refs; later historical ledger rows have up to1712. The initial capacity member roster omitted19101 existing copied historical files /2833495180 logical bytes.",
+  "repair": "Capacity members now union core snapshot paths, C4 refs, current44 source refs and every sealed ledger row source-input path. Historical refs remain outside the finite current Git/materialization closure. New contract path is contract-02.json; old draft stays unapproved.",
+  "driver_sha256": "2b262f7be1ff5ee76e42cc6f9dbe44386359da3303b1169283d215faac91a852",
+  "tests": {
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/c5-focused-tests-05.json",
+    "sha256": "bae189fffd17998692db0bd1ee7e056d6f297a24d454f72f12fa1e88723044c7",
+    "passed": 19
+  },
+  "no_analyzer_dispatch": true,
+  "benchmark_attempts_consumed": 0,
+  "resource_limits_changed": false
+}

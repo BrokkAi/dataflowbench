@@ -5,11 +5,17 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import io
 import json
 import os
+import py_compile
+import sys
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
+from contextlib import redirect_stdout
+from unittest.mock import patch
 
 
 SCRIPT = Path(__file__).with_name("validate-v092-report-configurations.py")
@@ -108,6 +114,154 @@ class ReportProjectionTests(unittest.TestCase):
             expected_row_count=len(self.bindings),
         )
 
+    def _add_joern_projection(self):
+        attempt_id = validator.JOERN_PROJECTION.ATTEMPT_ID
+        partitions, _case_set = validator.JOERN_PROJECTION._load_partition_specs(validator.ROOT)
+        output_dir = validator.JOERN_PROJECTION.PUBLICATION_PROJECTION_DIRECTORY
+        config_hash = "a" * 64
+        report_records = []
+        receipt_reports = []
+        self.bindings = []
+        all_raw_paths = []
+        for partition in partitions:
+            name = Path(partition["report"]).name
+            original_path = f"reports/releases/v0.9.2/normal/attempts/{attempt_id}/{name}"
+            original_value = {
+                "schema_version": 1,
+                "tool": "joern",
+                "adapter_version": "joern-normal-v092",
+                "scored_activation": False,
+                "results": [],
+            }
+            raw_mappings = []
+            for case_id in partition["case_ids"]:
+                raw_path = f"reports/releases/v0.9.2/attempts/{attempt_id}/capture/raw/{case_id}.json"
+                raw_bytes = json.dumps({"case_id": case_id}, sort_keys=True).encode() + b"\n"
+                raw_target = self.root / raw_path
+                raw_target.parent.mkdir(parents=True, exist_ok=True)
+                raw_target.write_bytes(raw_bytes)
+                all_raw_paths.append(raw_path)
+                original_value["results"].append({
+                    "case_id": case_id,
+                    "raw_output": raw_path,
+                    "outcome": "unsupported" if case_id.endswith("-unsupported") else "inconclusive",
+                })
+                raw_mappings.append({
+                    "execution_relative": f"raw/{case_id}.json",
+                    "captured_path": raw_path,
+                    "sha256": sha(raw_bytes),
+                    "bytes": len(raw_bytes),
+                })
+            original_bytes = (json.dumps(original_value, sort_keys=True) + "\n").encode()
+            original_target = self.root / original_path
+            original_target.parent.mkdir(parents=True, exist_ok=True)
+            original_target.write_bytes(original_bytes)
+            receipt_reports.append({
+                "staged_path": original_path,
+                "staged_sha256": sha(original_bytes),
+                "raw_output_mappings": raw_mappings,
+            })
+
+            projected_value = dict(original_value, configuration_hash=config_hash)
+            projected_bytes = (json.dumps(projected_value, sort_keys=True) + "\n").encode()
+            projected_path = f"{output_dir}/{name}"
+            projected_target = self.root / projected_path
+            projected_target.parent.mkdir(parents=True, exist_ok=True)
+            projected_target.write_bytes(projected_bytes)
+            original_ref = {"path": original_path, "sha256": sha(original_bytes)}
+            projection_ref = {"path": projected_path, "sha256": sha(projected_bytes)}
+            report_records.append({
+                "path": projected_path,
+                "sha256": sha(projected_bytes),
+                "cases": len(partition["case_ids"]),
+                "case_ids": partition["case_ids"],
+                "source": {"path": "source.json", "sha256": "b" * 64},
+                "staged": original_ref,
+                "derived_source": {"path": "derived-source.json", "sha256": "c" * 64},
+                "derived_staged": {"path": "derived-staged.json", "sha256": "d" * 64},
+                "raw_outputs": [
+                    {"case_id": row["case_id"], "path": row["raw_output"], "sha256": "e" * 64}
+                    for row in projected_value["results"]
+                ],
+            })
+            self.bindings.append({
+                "adapter": f"reports/releases/v0.9.2/normal/{name}",
+                "staged_path": projected_path,
+                "sha256": sha(projected_bytes),
+                "rows": len(partition["case_ids"]),
+                "attempt_id": attempt_id,
+                "attempt_number": 5,
+                "original_staged": original_ref,
+                "metadata_projection": projection_ref,
+            })
+
+        receipt_value = {
+            "status": "completed",
+            "attempt_id": attempt_id,
+            "reports": receipt_reports,
+        }
+        receipt_path = self.root / "reports/releases/v0.9.2/attempts" / attempt_id / "completed.json"
+        receipt_path.parent.mkdir(parents=True, exist_ok=True)
+        receipt_path.write_text(json.dumps(receipt_value, sort_keys=True) + "\n")
+        self.summary = {
+            "fresh_reports": self.bindings,
+            "selected_attempts": [{
+                "attempt_id": attempt_id,
+                "status": "completed",
+                "completed_receipt_sha256": sha(receipt_path.read_bytes()),
+            }],
+        }
+        self.manifest = {
+            "schema": "v092-joern108-publication-projection/v1",
+            "status": "verified-derived-report-metadata",
+            "attempt_id": attempt_id,
+            "group_id": validator.JOERN_PROJECTION.GROUP_ID,
+            "case_count": 108,
+            "report_count": 5,
+            "scored_activation": False,
+            "configuration_ready": False,
+            "full_release_gate_satisfied": False,
+            "publication_approved": False,
+            "configuration_hash": config_hash,
+            "reports": report_records,
+        }
+        manifest_path = self.root / validator.JOERN_PROJECTION.PUBLICATION_PROJECTION_MANIFEST
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        manifest_bytes = (json.dumps(self.manifest, sort_keys=True) + "\n").encode()
+        manifest_path.write_bytes(manifest_bytes)
+        self.summary["joern_metadata_projection"] = {
+            "path": validator.JOERN_PROJECTION.PUBLICATION_PROJECTION_MANIFEST,
+            "sha256": sha(manifest_bytes),
+        }
+        for binding in self.bindings:
+            binding["metadata_projection"] = dict(self.summary["joern_metadata_projection"])
+        return all_raw_paths
+
+    def _project_joern(self):
+        with patch.object(validator.JOERN_PROJECTION, "verify_existing_projection",
+                          return_value=self.manifest):
+            return validator._project_reports(
+                self.root,
+                self.checkout,
+                self.summary,
+                expected_report_count=5,
+                expected_row_count=108,
+            )
+
+    def _replace_derived_report(self, index: int, report_value: dict) -> None:
+        binding = self.bindings[index]
+        report_bytes = (json.dumps(report_value, sort_keys=True) + "\n").encode()
+        (self.root / binding["staged_path"]).write_bytes(report_bytes)
+        report_sha = sha(report_bytes)
+        binding["sha256"] = report_sha
+        self.manifest["reports"][index]["sha256"] = report_sha
+        manifest_bytes = (json.dumps(self.manifest, sort_keys=True) + "\n").encode()
+        manifest_path = self.root / self.summary["joern_metadata_projection"]["path"]
+        manifest_path.write_bytes(manifest_bytes)
+        self.summary["joern_metadata_projection"]["sha256"] = sha(manifest_bytes)
+        for item in self.bindings:
+            item["metadata_projection"] = dict(self.summary["joern_metadata_projection"])
+
     def test_copies_only_selected_reports_and_referenced_raw_files(self):
         self._add_report("fixture-a.json", "group-a-attempt-01-series-07", "case-a", b"raw-a\n")
         self._add_report("fixture-b.json", "group-b-attempt-01-series-07", "case-b", b"raw-b\n")
@@ -185,6 +339,340 @@ class ReportProjectionTests(unittest.TestCase):
 
         with self.assertRaisesRegex(validator.ValidationEvidenceError, "collide"):
             self._project()
+
+    def test_projects_exact_joern_configuration_metadata_from_original_receipt(self):
+        self._add_joern_projection()
+        original_bytes = [(self.root / item["original_staged"]["path"]).read_bytes()
+                          for item in self.bindings]
+
+        reports, raw_files, attempts = self._project_joern()
+
+        self.assertEqual(len(reports), 5)
+        self.assertEqual(sum(item["rows"] for item in reports), 108)
+        self.assertEqual(len(raw_files), 108)
+        self.assertEqual(len(attempts), 1)
+        self.assertTrue(all("original_staged_path" in item for item in reports))
+        for item, binding, original in zip(reports, self.bindings, original_bytes):
+            copied = self.checkout / item["validation_path"]
+            expected = (self.root / binding["staged_path"]).read_bytes()
+            self.assertEqual(copied.read_bytes(), expected)
+            self.assertNotIn(b"configuration_hash", original)
+
+    def test_rejects_derived_joern_outcome_mutation(self):
+        self._add_joern_projection()
+        report = json.loads((self.root / self.bindings[0]["staged_path"]).read_text())
+        report["results"][0]["outcome"] = "reached"
+        self._replace_derived_report(0, report)
+
+        with self.assertRaisesRegex(validator.ValidationEvidenceError,
+                                    "changes fields beyond configuration_hash"):
+            self._project_joern()
+
+    def test_rejects_derived_joern_raw_path_mutation(self):
+        raw_paths = self._add_joern_projection()
+        report = json.loads((self.root / self.bindings[0]["staged_path"]).read_text())
+        report["results"][0]["raw_output"] = raw_paths[-1]
+        self._replace_derived_report(0, report)
+
+        with self.assertRaisesRegex(validator.ValidationEvidenceError,
+                                    "changes fields beyond configuration_hash"):
+            self._project_joern()
+
+    def test_rejects_derived_joern_configuration_hash_mutation(self):
+        self._add_joern_projection()
+        report = json.loads((self.root / self.bindings[0]["staged_path"]).read_text())
+        report["configuration_hash"] = "f" * 64
+        self._replace_derived_report(0, report)
+
+        with self.assertRaisesRegex(validator.ValidationEvidenceError,
+                                    "changes fields beyond configuration_hash"):
+            self._project_joern()
+
+    def test_rejects_derived_joern_path_outside_fixed_projection(self):
+        self._add_joern_projection()
+        record = self.manifest["reports"][0]
+        record["path"] = "execution-state/v092/publication-evidence/other/report.json"
+
+        with patch.object(validator.JOERN_PROJECTION, "verify_existing_projection",
+                          return_value=self.manifest):
+            with self.assertRaisesRegex(validator.ValidationEvidenceError,
+                                        "fixed publication projection"):
+                validator._project_reports(
+                    self.root, self.checkout, self.summary,
+                    expected_report_count=5, expected_row_count=108,
+                )
+
+
+class V0151PreflightTests(unittest.TestCase):
+    def setUp(self) -> None:
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        contract_path = self.root / Path(*validator.V0151_CONTRACT.parts)
+        contract_path.parent.mkdir(parents=True)
+        self.contract_bytes = b'{"fixed":"C6"}\n'
+        contract_path.write_bytes(self.contract_bytes)
+        self.contract_path = contract_path
+        self.runner = self.root / "runner"
+        self.runner.write_text("#!/bin/sh\nexit 0\n")
+        self.runner.chmod(0o755)
+        runner_binding = {"path": str(self.runner), "sha256": sha(self.runner.read_bytes())}
+        source_commit = "a" * 40
+        runner_source_sha = "b" * 64
+        self.source_inputs = [
+            {"path": validator.V0151_SELECTOR.as_posix(), "sha256": "1" * 64},
+            {"path": validator.V0151_WRAPPER.as_posix(), "sha256": runner_source_sha},
+            {"path": validator.V0151_CORE.as_posix(), "sha256": "3" * 64},
+            {"path": validator.JOERN_PROJECTION_HELPER.as_posix(), "sha256": "4" * 64},
+            {"path": validator.JOERN_EXPORTER_HELPER.as_posix(), "sha256": "5" * 64},
+        ]
+        self.contract_value = {
+            "source_snapshot": {
+                "source_commit": source_commit,
+                "runner_source": {
+                    "path": validator.V0151_WRAPPER.as_posix(),
+                    "sha256": runner_source_sha,
+                },
+                "source_inputs": self.source_inputs,
+            },
+            "runtime": {"runner": runner_binding},
+        }
+        self.c6_result = {
+            "contract": self.contract_value,
+            "contract_sha256": sha(self.contract_bytes),
+            "source_commit": source_commit,
+            "runner_path": runner_binding["path"],
+        }
+        selected_attempts = [{
+            "attempt_id": f"group-{index:02d}-attempt-01-series-04",
+            "status": "completed",
+            "completed_receipt_sha256": f"{index + 1:064x}",
+        } for index in range(84)]
+        self.summary = {
+            "schema": "dataflowbench-v0.9.2-publication-evidence-selection/v1",
+            "status": "fresh-evidence-verified",
+            "fresh_groups": 84,
+            "fresh_partitions": 92,
+            "fresh_rows": 4252,
+            "case_count": 1108,
+            "carried_partitions": 0,
+            "carried_rows": 0,
+            "fresh_reports": [{} for _ in range(92)],
+            "selected_attempts": selected_attempts,
+            "configuration_hash_validation": {
+                "canonical_rust_validate_reports": "required separate final-delivery gate",
+            },
+            "scoring_enabled": False,
+            "publication_approved": False,
+        }
+        self.selector = SimpleNamespace(
+            V0151_CONTRACT_REL=validator.V0151_CONTRACT.as_posix(),
+            V0151_WRAPPER_REL=validator.V0151_WRAPPER.as_posix(),
+            SUMMARY_SCHEMA=self.summary["schema"],
+            select_evidence=lambda root: self.summary,
+        )
+        self.wrapper = SimpleNamespace(
+            PINNED_IDENTITY={"target_id": "bifrost-v0151-01", "version": "0.15.1"},
+            CORE_SOURCE_REL=validator.V0151_CORE.as_posix(),
+            load_target_profile=lambda core: {"profile": "fixed"},
+        )
+
+        class FakeCore:
+            def __init__(inner, result):
+                inner.TARGET_ID = "bifrost-v0151-01"
+                inner.BIFROST_VERSION = "0.15.1"
+                inner.SERIES = 4
+                inner.SERIES_LABEL = "series-04"
+                inner.CONTRACT_REL = validator.V0151_CONTRACT.as_posix()
+                inner.result = result
+                inner.validation_calls = []
+                inner.configured_profile = None
+
+            def configure_target_profile(inner, profile):
+                inner.configured_profile = profile
+
+            def _validate_contract(inner, root, contract_path, **kwargs):
+                inner.validation_calls.append((root, contract_path, kwargs))
+                return inner.result
+
+        self.core = FakeCore(self.c6_result)
+        self.source_refs = {
+            "selector": {"path": validator.V0151_SELECTOR.as_posix(), "sha256": "1" * 64},
+            "target_wrapper": {"path": validator.V0151_WRAPPER.as_posix(), "sha256": runner_source_sha},
+            "target_core": {"path": validator.V0151_CORE.as_posix(), "sha256": "3" * 64},
+            "joern_projection": {"path": validator.JOERN_PROJECTION_HELPER.as_posix(), "sha256": "4" * 64},
+            "joern_exporter": {"path": validator.JOERN_EXPORTER_HELPER.as_posix(), "sha256": "5" * 64},
+        }
+        self.components = (self.selector, self.wrapper, self.core, self.source_refs)
+
+    def _run_v0151(self):
+        with patch.object(validator, "_load_v0151_preflight_modules", return_value=self.components), \
+                patch.object(validator, "_source_identity", return_value={"commit": "a" * 40}):
+            return validator._preflight(
+                self.root, self.contract_path, evidence_source="v0151",
+            )
+
+    def test_v0151_preflight_calls_wrapper_core_and_real_selector_api(self):
+        summary, validated, runner, source_identity = self._run_v0151()
+
+        self.assertIs(summary, self.summary)
+        self.assertEqual(runner, self.contract_value["runtime"]["runner"])
+        self.assertEqual(source_identity, {"commit": "a" * 40})
+        self.assertEqual(self.core.configured_profile, {"profile": "fixed"})
+        self.assertEqual(self.core.validation_calls, [(
+            self.root,
+            validator.V0151_CONTRACT.as_posix(),
+            {"require_approval": True, "require_committed": True, "check_current_source": True},
+        )])
+        self.assertEqual(validated["plan"], {
+            "source_commit": "a" * 40,
+            "runner_source_sha256": "b" * 64,
+        })
+        self.assertEqual(validated["source_inputs"], self.source_inputs)
+        self.assertEqual(validated["tools"]["runner"], runner)
+        self.assertEqual(validated["bytes_sha256"], sha(self.contract_bytes))
+        self.assertEqual(validated["_validation_context"]["mode"], "v0151")
+
+    def test_default_preflight_remains_on_the_c4_checker_and_executor(self):
+        runner = self.contract_value["runtime"]["runner"]
+        validated = {
+            "tools": {"runner": runner},
+            "plan": {"source_commit": "a" * 40, "runner_source_sha256": "b" * 64},
+            "source_inputs": self.source_inputs,
+        }
+        with patch.object(validator.CHECKER, "verify", return_value=self.summary) as verify, \
+                patch.object(validator, "_validate_checker_summary", return_value=self.summary), \
+                patch.object(validator.EXECUTOR, "validate_plan", return_value=validated) as validate_plan, \
+                patch.object(validator, "_source_identity", return_value={"commit": "c4"}):
+            result = validator._preflight(self.root, self.contract_path)
+        verify.assert_called_once_with(self.root, self.contract_path)
+        validate_plan.assert_called_once_with(self.contract_path, repo_root=self.root)
+        self.assertIs(result[1], validated)
+
+    def test_rejects_wrong_v0151_target_before_selector_use(self):
+        self.core.TARGET_ID = "bifrost-v0144-01"
+        with patch.object(validator, "_load_v0151_preflight_modules", return_value=self.components), \
+                self.assertRaisesRegex(validator.ValidationEvidenceError, "configured C6 core target"):
+            validator._preflight_v0151(self.root, self.contract_path)
+        self.assertEqual(self.core.validation_calls, [])
+
+    def test_rejects_source_commit_mismatch_in_c6_adapter(self):
+        self.c6_result["source_commit"] = "d" * 40
+        with patch.object(validator, "_load_v0151_preflight_modules", return_value=self.components), \
+                self.assertRaisesRegex(validator.ValidationEvidenceError, "source commit differs"):
+            validator._preflight_v0151(self.root, self.contract_path)
+        self.selector.select_evidence = lambda root: self.fail("selector must not run after source mismatch")
+
+    def test_rejects_joern_helper_digest_mismatch_with_c6_source_closure(self):
+        item = next(item for item in self.source_inputs
+                    if item["path"] == validator.JOERN_PROJECTION_HELPER.as_posix())
+        item["sha256"] = "f" * 64
+        with patch.object(validator, "_load_v0151_preflight_modules", return_value=self.components), \
+                self.assertRaisesRegex(validator.ValidationEvidenceError,
+                                       "do not bind the loaded joern_projection source"):
+            validator._preflight_v0151(self.root, self.contract_path)
+
+    def test_rejects_runner_hash_mismatch_after_c6_validation(self):
+        runner = self.contract_value["runtime"]["runner"]
+        runner["sha256"] = "0" * 64
+        with patch.object(validator, "_load_v0151_preflight_modules", return_value=self.components), \
+                self.assertRaisesRegex(validator.ValidationEvidenceError, "SHA-256 differs"):
+            validator._preflight_v0151(self.root, self.contract_path)
+
+    def test_rejects_alternate_c6_contract_path_before_loading_modules(self):
+        other = self.root / "other-contract.json"
+        other.write_text("{}\n")
+        with patch.object(validator, "_load_v0151_preflight_modules") as load_modules, \
+                self.assertRaisesRegex(validator.ValidationEvidenceError, "fixed C6 contract"):
+            validator._preflight_v0151(self.root, other)
+        load_modules.assert_not_called()
+
+    def test_v0151_metadata_binds_selector_and_c6_contract(self):
+        validated = {
+            "plan": {"source_commit": "a" * 40, "runner_source_sha256": "b" * 64},
+            "source_inputs": self.source_inputs,
+            "tools": {"runner": self.contract_value["runtime"]["runner"]},
+            "bytes_sha256": sha(self.contract_bytes),
+            "_validation_context": {
+                "mode": "v0151",
+                "contract_path": validator.V0151_CONTRACT.as_posix(),
+                "contract_sha256": sha(self.contract_bytes),
+                "selection_summary_sha256": "c" * 64,
+                "selector_status": "fresh-evidence-verified",
+                "source_modules": self.source_refs,
+            },
+        }
+        identities = {key: dict(value) for key, value in self.source_refs.items()}
+        with patch.object(validator, "_preflight", return_value=(
+            self.summary, validated, self.contract_value["runtime"]["runner"], {"commit": "a" * 40},
+        )), patch.object(validator, "_helper_identities", return_value=identities):
+            result = validator.validate(
+                root=self.root,
+                contract_path=self.contract_path,
+                output="v0151-metadata-probe",
+                evidence_source="v0151",
+            )
+        self.assertEqual(result["evidence_source"], "v0151")
+        self.assertEqual(result["target_contract"], {
+            "path": validator.V0151_CONTRACT.as_posix(),
+            "sha256": sha(self.contract_bytes),
+        })
+        self.assertEqual(result["selector"], {
+            "path": validator.V0151_SELECTOR.as_posix(),
+            "sha256": self.source_refs["selector"]["sha256"],
+            "status": "fresh-evidence-verified",
+            "summary_sha256": "c" * 64,
+        })
+        self.assertEqual(result["helper_identities"], identities)
+
+    def test_cli_v0151_flag_selects_the_explicit_target_mode(self):
+        with patch.object(validator, "validate", return_value={"status": "ready-to-execute"}) as validate:
+            with redirect_stdout(io.StringIO()):
+                result = validator.main(["--output", "cli-v0151-probe", "--v0151"])
+        self.assertEqual(result, 0)
+        validate.assert_called_once_with(
+            contract_path=None,
+            output="cli-v0151-probe",
+            execute=False,
+            evidence_source="v0151",
+        )
+
+    def test_helper_identities_bind_current_selector_and_report_projection_sources(self):
+        _selector, _wrapper, _core, source_refs = validator._load_v0151_preflight_modules(validator.ROOT)
+
+        identities = validator._helper_identities(source_refs)
+
+        for key in ("selector", "target_wrapper", "target_core", "joern_projection", "joern_exporter"):
+            self.assertEqual(identities[key], source_refs[key])
+        self.assertEqual(
+            identities["joern_exporter"]["path"],
+            "scripts/joern_normal_reports_v092_projection.py",
+        )
+
+    def test_validator_dynamic_module_loader_ignores_valid_stale_pyc(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "dependency.py"
+            source.write_bytes(b"VALUE = 'old'\n")
+            fixed_mtime = 1_700_000_000
+            os.utime(source, (fixed_mtime, fixed_mtime))
+            prior_prefix = sys.pycache_prefix
+            sys.pycache_prefix = str(Path(temporary) / "pycache")
+            try:
+                py_compile.compile(
+                    str(source), cfile=importlib.util.cache_from_source(str(source)), doraise=True,
+                )
+                source.write_bytes(b"VALUE = 'new'\n")
+                os.utime(source, (fixed_mtime, fixed_mtime))
+
+                stale_spec = importlib.util.spec_from_file_location("stale_pyc_control", source)
+                stale_module = importlib.util.module_from_spec(stale_spec)
+                stale_spec.loader.exec_module(stale_module)
+                self.assertEqual(stale_module.VALUE, "old")
+
+                current = validator._load_module(source, "exact_source_control")
+                self.assertEqual(current.VALUE, "new")
+            finally:
+                sys.pycache_prefix = prior_prefix
 
 
 class CanonicalOutputTests(unittest.TestCase):

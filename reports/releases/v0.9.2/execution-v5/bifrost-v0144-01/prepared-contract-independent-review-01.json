@@ -1,0 +1,115 @@
+{
+  "schema": "dataflowbench-v0.9.2-prepared-c5-contract-independent-review/v1",
+  "review_status": "approved_for_root_execution_approval",
+  "reviewed_at_utc": "2026-11-01T15:22:00Z",
+  "prepared_contract": {
+    "path": "reports/releases/v0.9.2/execution-v5/bifrost-v0144-01/contract.json",
+    "sha256": "12a4716def54f87d40b0325ac9794054ef4f7ba3fde6aefdec295e7f3108b5eb",
+    "approval_subject_sha256": "0e6730ca4712f93df53426af77f7a2559e01f0c05c85563d0e701c01e5dd99b8",
+    "target_id": "bifrost-v0144-01",
+    "source_commit": "f496f366e4475481c2a1c497d5f27650c4816ac8",
+    "plan_commit": null,
+    "execution_authorized": false,
+    "approval": null
+  },
+  "production_validation": {
+    "entrypoint": "scripts/bifrost_v0144_benchmark.py::_validate_contract",
+    "arguments": {
+      "require_approval": false,
+      "require_committed": false,
+      "check_current_source": true
+    },
+    "status": "passed",
+    "current_source_snapshot": "passed",
+    "contract_subject_hash": "passed",
+    "plan_commit_not_required_for_prepared_review": true
+  },
+  "independent_checks": {
+    "group_roster": {
+      "status": "passed",
+      "count": 20,
+      "report_partitions": 20,
+      "case_references": 1116,
+      "deadline_seconds_total": 13592,
+      "maximum_attempts_per_group": 2,
+      "baseline_group_fields_and_order": "exact",
+      "runtime_argv_projection": "exact pinned harness path and one acquired Bifrost binary argument",
+      "runtime_report_projection": "exact baseline reports with only tool_version changed"
+    },
+    "parent_population": {
+      "groups": 84,
+      "report_partitions": 92,
+      "report_rows": 4252,
+      "population_cases": 1108,
+      "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62"
+    },
+    "source_closure": {
+      "count": 44,
+      "unique_paths": true,
+      "all_44_git_blob_hashes_and_sizes_match_source_commit": true,
+      "source_commit_descends_from_reviewed_main_baseline": true,
+      "reviewed_main_baseline": "36d93cc32abc20ff9a0573e755555f4b71f360b3"
+    },
+    "bifrost": {
+      "version": "0.14.4",
+      "report_version": "bifrost 0.14.4",
+      "build_identity": "ff5cf473f4ad414751911ff93ef79e1df1d35823",
+      "binary_sha256": "a3aa17a18be33e1e841c1bf317c6ca35a6aa3aaef452c607fafbb3b83aeec399",
+      "catalog_sha256": "f9d3b4efcf20e0ca8e8a976d6524556f114f4a4ccab3f4b0cc761f0b9248d206",
+      "acquisition_receipt_sha256": "c32c1b0ab396f9e0d5849fc01d4c602b0fcd27e13056944ff16ad6b7a2f16371",
+      "official_release_tag_commit": "786891f9ed19d2086dfd6242ff15ca904b610620"
+    },
+    "optimized_runner": {
+      "binary_sha256": "114912643aa9b467b00487b1cfaf9985f17b845936da4527dca8cadbbf9682d0",
+      "build_receipt_sha256": "3d0edc800838b6cf32a571996058f6f6cf7f9b58a8348659535c0986af591d46",
+      "source_inputs_sha256": "6a1238dfd8d097092569828e55e0a5fda9d449e1cd0851abb6d0e56cb8f940fd"
+    },
+    "scala_maven": {
+      "version": "2.13.16",
+      "receipt_sha256": "e3128ad0fd9aa5dacdcad5ed9772d4a8e492ac379d7c41d58c11a0f7e49377ef",
+      "source_entry_count": 543,
+      "staged_artifact_set": [
+        {"name": "scala-library-2.13.16.jar", "sha256": "1ebb2b6f9e4eb4022497c19b1e1e825019c08514f962aaac197145f88ed730f1"},
+        {"name": "scala-library-2.13.16-sources.jar", "sha256": "c02edc324e7db59c52115214a6ef36e2d78d0a50dff635eda4dcee5502b1dea5"},
+        {"name": "scala-library-2.13.16.pom", "sha256": "b25b72ba96eb30934868d86d307298d24d3ac154d362e7a4eeb37ba51ba86853"}
+      ]
+    },
+    "qualification": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/bifrost-release-01.json",
+      "sha256": "d08717cecb73e055f7e31e03a56f9d0835b4ee3607f4529f51cee5722ac6aacb",
+      "status": "measurement-with-known-limits",
+      "execution_eligible": true,
+      "full_policy_qualification": false,
+      "typed_inconclusive_or_unsupported_outcomes_relabelled_clean": false
+    },
+    "attempt_history": {
+      "ledger_rows": 109,
+      "prior_consumed_attempts": 110,
+      "unledgered_started_attempts": 1,
+      "unledgered_attempt_id": "bifrost-smoke-attempt-02-series-02",
+      "new_target_attempts_at_review": 0
+    },
+    "attempt_policy": {
+      "new_target_slots_per_group": 2,
+      "automatic_retry": false,
+      "serial_mode": "fail-stop-on-first-non-completed-attempt",
+      "serial_analyzer_slots": 1
+    },
+    "resource_policy": {
+      "launch_free_floor_gib": 127,
+      "continuous_free_floor_gib": 125,
+      "protected_reserve_gib": 40,
+      "emergency_margin_gib": 8,
+      "guard_stop_floor_gib": 48,
+      "scratch_ceiling_gib": 24,
+      "retention_ceiling_gib": 24,
+      "source_aggregate_ceiling_gib": 30,
+      "source_per_attempt_ceiling_gib": 12,
+      "serial_analyzer_slots": 1,
+      "exact_contract_policy_match": true
+    }
+  },
+  "findings": [],
+  "review_conclusion": "The exact prepared subject matches the fixed 20-group projection, source closure, acquired Bifrost and runner identities, typed known-limits qualification, historical attempt accounting, and resource policy. It is suitable for root execution approval. This review does not set execution_authorized, dispatch analyzers, certify full policy qualification, or lift the publication hold.",
+  "validation_performed_by_this_reviewer": "Read-only production contract validation plus direct roster, argv/report projection, Git blob, identity, history, and resource-policy reconciliation. No source edits, builds, tests, analyzers, benchmarks, or runtime groups were launched."
+}

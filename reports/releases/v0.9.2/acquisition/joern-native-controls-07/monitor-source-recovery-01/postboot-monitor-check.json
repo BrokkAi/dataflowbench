@@ -1,0 +1,55 @@
+{
+  "analyzer_invoked": false,
+  "argv_bridges": 0,
+  "automatic_retry": false,
+  "contender_absence_claim": false,
+  "duration_seconds": 0.28800087500030713,
+  "ended_utc": "2026-10-27T09:26:52.486355+00:00",
+  "kernel_comm_observations": 22,
+  "purpose": "One native-command-native functionality check after reviewed PS-v2 integration",
+  "qualification_claim": false,
+  "query_child": {
+    "cleanup_incomplete": false,
+    "kill_requested": false,
+    "pid": 99302,
+    "reaped": true,
+    "returncode": 0
+  },
+  "query_digest": "1df18fefaf6be7f2c87c505c87f65264b1236f10b781c1a309eeb1936c98cef2",
+  "query_outcome": {
+    "complete": true,
+    "order_valid": true,
+    "status": "complete-provider-scoped"
+  },
+  "schema": "v092-postboot-monitor-functionality/v1",
+  "snapshots": [
+    {
+      "complete": true,
+      "name": "native-before",
+      "provider_identity": "darwin-sysctl-kern-proc-all-libproc/v3",
+      "rows": 998
+    },
+    {
+      "complete": true,
+      "name": "command",
+      "provider_identity": "ps-axo-pid-pcpu-ucomm-args/v2",
+      "rows": 999
+    },
+    {
+      "complete": true,
+      "name": "native-after",
+      "provider_identity": "darwin-sysctl-kern-proc-all-libproc/v3",
+      "rows": 998
+    }
+  ],
+  "sources": {
+    "process_reconciliation.py": "96bdec89dd15e4da35f6a71d08c57510e2c1bbec4857358cb756000b18f84a40",
+    "snapshot_query.py": "fcd115aad7a2bb48f821b281ed403d96069eb306ed5b2b301b8da60910bcefb0"
+  },
+  "stable_command_bridges": 22,
+  "started_utc": "2026-10-27T09:26:52.197671+00:00",
+  "status": "complete-provider-scoped",
+  "ucomm_bridges": 22,
+  "unbridged_kernel_comm_observations": 0,
+  "validation": "passed-provider-scoped"
+}

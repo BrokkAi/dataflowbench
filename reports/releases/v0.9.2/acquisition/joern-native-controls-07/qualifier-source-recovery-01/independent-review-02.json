@@ -1,0 +1,30 @@
+{
+  "schema": "v092-native-qualifier07-independent-review/v2",
+  "review_status": "approved-source-only-exit-code-hardening",
+  "reviewed_at": "2026-10-27",
+  "candidate": "/private/tmp/v092-native-qualifier07-integration-01",
+  "scope": "Read-only exact-pin re-review limited to the JSON compile exit-code type guard and its focused fixture. Compared the preserved prior patch, verified updated handoff/source/test hashes, and reran the synthetic suite. No engine, native query/load, canonical edit, or qualification.",
+  "handoff": {
+    "path": "/private/tmp/v092-native-qualifier07-integration-01/handoff.json",
+    "sha256": "87b309ced1bfad69c0330d80558dec9d585cc0c3e7ac6f16c4dfa78f8d6ea4e7",
+    "patch_sha256": "4c95e9ad240db7ae70d5bb98c2de631f1fa61cf418eccae291e112081fe9a16b",
+    "prior_handoff_preserved_sha256": "853760a989913fafa1c2b5725d53ed9ca73ab975cdf3e18b16d2d12499dd3155",
+    "prior_patch_preserved_sha256": "c568b49ba1bdcef4c8c0b98085422541148fbcdd11142f03750fd44dfb3e9048"
+  },
+  "verified_candidate_hashes": {
+    "native_qualifier.py": "f5356de48f1d67c46c8672cfa25d886ee1148dd63ea8bb6c2d297b959fee6fb8",
+    "test_native_qualifier.py": "414f25ec769ce988a1e219c0487cc7b0bd5fa694e585c1419227bf454221b226"
+  },
+  "delta_review": {
+    "source_change": "is_library_compile now requires type(operation[\"exit_code\"]) is int and value == 0 before a build operation can corroborate the pinned library.",
+    "test_change": "Focused test rejects JSON false, true, and 0.0 values as successful compiler exit codes.",
+    "scope": "The preserved old/new patch comparison shows no policy, namespace, resource, callback, ledger, or source-closure behavior change in this hardening delta.",
+    "prior_low_finding": "Resolved."
+  },
+  "validation": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 /opt/homebrew/bin/python3.13 -B -m unittest -q test_native_qualifier",
+    "result": "57 tests passed",
+    "execution_boundary": "Synthetic Python tests only; no query/load, engine, or qualification."
+  },
+  "disposition": "Approve this narrow hardening delta on these exact source pins. The separately noted monitor07 integration and committed-source prerequisites still apply before any runtime request."
+}

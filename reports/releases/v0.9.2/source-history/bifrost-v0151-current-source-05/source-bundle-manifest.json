@@ -1,0 +1,185 @@
+{
+  "archive01_binding": {
+    "head": "f06c0f454536f1af36981163d4d819192e49e814",
+    "manifest_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-01/source-bundle-manifest.json",
+    "manifest_sha256": "9fc18f7423660d1d4abe847e15a85b1ce56253b035d1c6252adbe7ad4bfcb641",
+    "raw_bundle_sha256": "0ad200c7ab5b58cf010f05c33de197621493bb83f9184cc18e81fb92a3079d74"
+  },
+  "archive02_binding": {
+    "head": "503871a36451ddbb5098a9ea010115202bd5ead9",
+    "manifest_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-02/source-bundle-manifest.json",
+    "manifest_sha256": "82b73967cb6dfbea2aa86a0be887637b9635889e1cf208f60f4fee66d631d78d",
+    "raw_bundle_sha256": "25cb56642fc2001ea5fffd9019ac9fb05b7e939baea1702c21ea935b88607c21"
+  },
+  "archive03_binding": {
+    "head": "cc7e4540ffc52f624c47cb0b77c308fef86f31b6",
+    "manifest_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-03/source-bundle-manifest.json",
+    "manifest_sha256": "da0bbab83639451cb50f8534868a2502632a733df2b4636ad05c8895d6887e95",
+    "raw_bundle_sha256": "4bc3a88261a1f7b0048a08df680e0dd8a63beeb85baaded82cd17d84eb06b09a"
+  },
+  "archive04_binding": {
+    "head": "f9cce0c74a38129d4ae84a3edc763aeb1f18ed92",
+    "manifest_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-04/source-bundle-manifest.json",
+    "manifest_sha256": "8e8e56b7f73fc9bd5f957a4cb9e0403583266c787fbc0974439bf13b596b1bd7",
+    "raw_bundle_sha256": "8713d1b67e43c203840778e20ff363f8d53b8b5e62e1c2fea01b7ebb2aa191b9"
+  },
+  "bundle": {
+    "bytes": 154907,
+    "git_bundle_heads_output": "304bb17b9f3df7e877fd9b753301a6e06ce1f767 refs/heads/dave/v0.9.2-full-refresh\n",
+    "git_bundle_verify_output": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-05/original-source.bundle is okay\nThe bundle contains this ref:\n304bb17b9f3df7e877fd9b753301a6e06ce1f767 refs/heads/dave/v0.9.2-full-refresh\nThe bundle requires this ref:\nf9cce0c74a38129d4ae84a3edc763aeb1f18ed92 \nThe bundle uses this hash algorithm: sha1\n",
+    "hash_algorithm": "sha1",
+    "heads": [
+      {
+        "ref": "refs/heads/dave/v0.9.2-full-refresh",
+        "sha": "304bb17b9f3df7e877fd9b753301a6e06ce1f767"
+      }
+    ],
+    "local_raw_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-05/original-source.bundle",
+    "parts": [
+      {
+        "bytes": 154907,
+        "path": "original-source.bundle.part0000",
+        "sha256": "44e23a9bdbd343613db5ef66857731141786773b87cc0eb91e72b5880b9687a8"
+      }
+    ],
+    "prerequisites": [
+      "f9cce0c74a38129d4ae84a3edc763aeb1f18ed92"
+    ],
+    "reassembly": "concatenate parts in ascending suffix order; output must match raw bundle byte count and SHA-256",
+    "required_base_commit": "f9cce0c74a38129d4ae84a3edc763aeb1f18ed92",
+    "sha256": "44e23a9bdbd343613db5ef66857731141786773b87cc0eb91e72b5880b9687a8",
+    "split_max_bytes": 41943040
+  },
+  "delta": {
+    "base_archive04_head": "f9cce0c74a38129d4ae84a3edc763aeb1f18ed92",
+    "base_is_ancestor_of_target": true,
+    "c6_contract_at_plan_commit": {
+      "bytes": 479187,
+      "commit": "515d9941978c12cafa37ba58eecacc0a4182226f",
+      "git_blob_sha1": "932813cdb3dcb0c004e9e2d3686fd7273c90a7e7",
+      "path": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/contract-01.json",
+      "sha256": "f2c0fe969eb959856c650e8e892a9078342ec63600fc23dd05c3f069c068af65"
+    },
+    "commit_subjects": [
+      "Prepare concise v0.9.2 figures and verified full review",
+      "Isolate historical Joern graph inputs in lifecycle tests"
+    ],
+    "commits_between_base_and_target": [
+      "d1c3a563008d30cb759045fabccf0c6d3ecde1ef",
+      "304bb17b9f3df7e877fd9b753301a6e06ce1f767"
+    ],
+    "current_production_validator": {
+      "bytes": 55815,
+      "commit": "304bb17b9f3df7e877fd9b753301a6e06ce1f767",
+      "git_blob_sha1": "a0cc6044bbad08df25b76ec8e5848900eb3c4fd6",
+      "path": "scripts/validate-v092-report-configurations.py",
+      "sha256": "2e8e17261f60c0b8aed816e7b3b1df690865a111b5f121079b83b2b47296f515"
+    },
+    "historical_frozen_configuration_fixture": {
+      "base_source": {
+        "bytes": 34373,
+        "commit": "36d93cc32abc20ff9a0573e755555f4b71f360b3",
+        "git_blob_sha1": "c210aca4c724c8604069f464a774d821a35d0621",
+        "path": "scripts/validate-v092-report-configurations.py",
+        "sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858"
+      },
+      "decompressed_fixture_bytes": 34373,
+      "decompressed_fixture_equals_both_historical_git_blobs": true,
+      "decompressed_fixture_sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858",
+      "fixture": {
+        "bytes": 8321,
+        "commit": "304bb17b9f3df7e877fd9b753301a6e06ce1f767",
+        "git_blob_sha1": "3bac64e914e5ebc2a7c787befcff7b45c6e0c1b6",
+        "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test-fixtures/frozen-configuration-pr03117.py.gz",
+        "sha256": "c37fbfd763c967e67650c3ff7399be67b1388a188b35e9513842913138b70383"
+      },
+      "green_source": {
+        "bytes": 34373,
+        "commit": "03117b1efc317a02f31ce857f011654b5f91bc50",
+        "git_blob_sha1": "c210aca4c724c8604069f464a774d821a35d0621",
+        "path": "scripts/validate-v092-report-configurations.py",
+        "sha256": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858"
+      },
+      "provenance": {
+        "bytes": 822,
+        "commit": "304bb17b9f3df7e877fd9b753301a6e06ce1f767",
+        "git_blob_sha1": "d213384247596ffceddde8e96e8cb571f1d260ac",
+        "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test-fixtures/frozen-configuration-pr03117.provenance.json",
+        "sha256": "1ee0ba8e04704b8dcd7daed1057d5c930de18f2cf983d9b60efe8f83b7fbd798"
+      }
+    },
+    "independent_review": {
+      "artifact": {
+        "bytes": 4726,
+        "commit": "304bb17b9f3df7e877fd9b753301a6e06ce1f767",
+        "git_blob_sha1": "473dbe5542c5c20a7e3a110883279f61840933b7",
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0151-ci-repair-01/independent-review-01.json",
+        "sha256": "372111262f473c8f95fd2d749ab9889fb582a1cad82a204a640fb81bcd2e9986"
+      },
+      "findings": [],
+      "reviewed_artifacts_sha256": {
+        "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test-fixtures/frozen-configuration-pr03117.provenance.json": "1ee0ba8e04704b8dcd7daed1057d5c930de18f2cf983d9b60efe8f83b7fbd798",
+        "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test-fixtures/frozen-configuration-pr03117.py.gz": "c37fbfd763c967e67650c3ff7399be67b1388a188b35e9513842913138b70383",
+        "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py": "83a2ad9b9bf6460507c50a9d0840b69f4384de12194fe365bab9034eb73208b7",
+        "reports/releases/v0.9.2/validation/bifrost-v0151-ci-repair-01/ci-42349015443-failed.log.gz": "4ac71c5620e7d0983bb2198d6f6c4c0cd7e69d5622b47fd16e293f5fbe1d0afe",
+        "reports/releases/v0.9.2/validation/bifrost-v0151-ci-repair-01/failed-ci-receipt.json": "f531d547044b3553691491b2c4862e99974f0f690f34ac91253f87310347381e"
+      },
+      "status": "passed-for-root-integration-review"
+    },
+    "native07_lifecycle_test": {
+      "bytes": 75431,
+      "commit": "304bb17b9f3df7e877fd9b753301a6e06ce1f767",
+      "git_blob_sha1": "a4464448a4d0fe87a9f3c2ced59a278b06174665",
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py",
+      "sha256": "83a2ad9b9bf6460507c50a9d0840b69f4384de12194fe365bab9034eb73208b7"
+    },
+    "native07_runtime_implementation_unchanged_from_archive04": {
+      "bytes": 106055,
+      "commit": "304bb17b9f3df7e877fd9b753301a6e06ce1f767",
+      "git_blob_sha1": "2e670728e1135b7256d4154193d8deff4556c889",
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/native_qualifier.py",
+      "sha256": "3e69e03bbfb60491267b35857c74991ce1f75ac07abae0b6943e254f18544457"
+    },
+    "plan_commit": "515d9941978c12cafa37ba58eecacc0a4182226f",
+    "plan_commit_parent": "7f99684668065b8fb1ebc9b2852f058c64430647",
+    "source_commit": "7f99684668065b8fb1ebc9b2852f058c64430647",
+    "source_commit_included": true,
+    "source_tree": "7af8853a1e2eb7ea7832f7c0bad4d2299c1ab416",
+    "target_commit": "304bb17b9f3df7e877fd9b753301a6e06ce1f767",
+    "target_ref": "refs/heads/dave/v0.9.2-full-refresh"
+  },
+  "excluded_local_only": [
+    "original-source.bundle",
+    ".local-import-proof/"
+  ],
+  "finite_git_selection": [
+    "README.md",
+    "source-bundle-manifest.json",
+    "original-source.bundle.partNNNN"
+  ],
+  "lfs_rule": ".gitattributes line 89: reports/releases/v0.9.2/source-history/**/original-source.bundle.part* filter=lfs diff=lfs merge=lfs -text",
+  "purpose": "Recoverable exact source-history delta after retained current-source-04 through the native-07 test-only CI repair; source, plan, contract, production validator and native qualifier remain pinned.",
+  "repository": "BrokkAi/dataflowbench",
+  "schema": "dataflowbench-current-source-bundle-delta-retention/v1",
+  "verification": {
+    "bundle_raw_sha256": "44e23a9bdbd343613db5ef66857731141786773b87cc0eb91e72b5880b9687a8",
+    "bundle_verify_passed": true,
+    "historical_fixture_decompresses_to_validator_bytes_at_both_pinned_commits": true,
+    "isolated_import_passed": true,
+    "isolated_import_proof_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-05/.local-import-proof/delta-import-verification.json",
+    "isolated_import_proof_sha256": "23017dfa5870d2d0a503dd485b419eb61df836334245b98d0cbfa34a286c2e3e",
+    "isolated_import_sequence": [
+      "seed exact main base 36d93cc32abc20ff9a0573e755555f4b71f360b3 with --no-tags",
+      "fetch source-01 archive bundle -> f06c0f454536f1af36981163d4d819192e49e814",
+      "fetch source-02 archive bundle -> 503871a36451ddbb5098a9ea010115202bd5ead9",
+      "fetch source-03 archive bundle -> cc7e4540ffc52f624c47cb0b77c308fef86f31b6",
+      "fetch source-04 archive bundle -> f9cce0c74a38129d4ae84a3edc763aeb1f18ed92",
+      "fetch source-05 archive bundle -> 304bb17b9f3df7e877fd9b753301a6e06ce1f767"
+    ],
+    "native07_test_fixture_provenance_and_independent_review_proven": true,
+    "parts_reassembled_byte_identical": true,
+    "prior_archives_01_to_04_rechecked": true,
+    "source_tree_plan_c6_and_current_validator_proven": true,
+    "tags_imported": false
+  }
+}

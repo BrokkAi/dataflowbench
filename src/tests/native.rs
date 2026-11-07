@@ -17,8 +17,10 @@ use crate::modeling::{
     modeling_case, modeling_supported_templates, validate_modeling_cases,
 };
 use crate::native::{
-    BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_13_VERSION,
-    BIFROST_V0_14_0_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_14_0_VERSION, NATIVE_CASE_COUNT,
+    BIFROST_V0_12_0_VERSION, BIFROST_V0_13_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_13_VERSION,
+    BIFROST_V0_14_0_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_14_0_VERSION,
+    BIFROST_V0_14_4_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_14_4_VERSION,
+    BIFROST_V0_15_1_NATIVE_ACTIVATION_IDENTITY, BIFROST_V0_15_1_VERSION, NATIVE_CASE_COUNT,
     NATIVE_MODEL_PROFILE, NATIVE_PARTITION, NATIVE_PARTITION_AMENDMENTS, NATIVE_TEMPLATE_IDS,
     NATIVE_TEMPLATE_PREFIX, benchmark_model_artifacts, native_activation,
     native_anchor_tally_outcome, native_case, native_category, native_configuration_hash,
@@ -388,21 +390,26 @@ pub(crate) fn bifrost_v013_native_amendment_is_exact_and_version_scoped() {
     let v012 = native_activation(
         ModelingTool::Bifrost,
         ModelingLanguage::Python,
-        "bifrost 0.12.0",
+        BIFROST_V0_12_0_VERSION,
     )
     .unwrap();
-    assert_eq!(&v012.identity, "bifrost 0.12.0 built-in policy packs");
+    assert_eq!(
+        &v012.identity,
+        &format!("{BIFROST_V0_12_0_VERSION} built-in policy packs")
+    );
     assert!(v012.configuration_paths.is_empty());
 
-    let near_match = native_activation(
+    let near_match_error = native_activation(
         ModelingTool::Bifrost,
         ModelingLanguage::Python,
         "bifrost 0.13.0-dev",
     )
-    .unwrap();
-    assert_eq!(
-        near_match.identity,
-        "bifrost 0.13.0-dev built-in policy packs"
+    .err()
+    .expect("near-match Bifrost versions must not inherit a registered activation");
+    assert!(
+        near_match_error
+            .to_string()
+            .contains("unregistered tool version")
     );
     assert_ne!(
         native_configuration_hash(&v013).unwrap(),
@@ -471,6 +478,12 @@ pub(crate) fn bifrost_v013_native_amendment_is_exact_and_version_scoped() {
 /// independent activation profile with its original paths and identity.
 #[test]
 pub(crate) fn bifrost_v0140_native_amendment_binds_fresh_evidence_and_env() {
+    assert_eq!(BIFROST_V0_14_0_VERSION, "bifrost 0.14.0");
+    assert_ne!(
+        BIFROST_V0_14_0_VERSION,
+        crate::adapters::pins::BIFROST_VERSION,
+        "the frozen v0.14.0 evidence profile must remain independent of the current pin"
+    );
     let v0140 = native_activation(
         ModelingTool::Bifrost,
         ModelingLanguage::Python,
@@ -515,6 +528,8 @@ pub(crate) fn bifrost_v0140_native_amendment_binds_fresh_evidence_and_env() {
     assert!(
         reason.contains("reports/releases/v0.9.2/qualification/bifrost-v0140-01/acquisition.json")
     );
+    assert!(reason.contains("c11a13ffa03ebea154f587b899954e412b5b871e"));
+    assert!(!reason.contains("ff5cf473f4ad414751911ff93ef79e1df1d35823"));
     assert!(reason.contains("unsupported"));
     assert!(reason.contains("never a clean `not-reached` negative"));
     assert!(!reason.contains("reports/releases/v0.9.1"));
@@ -533,6 +548,157 @@ pub(crate) fn bifrost_v0140_native_amendment_binds_fresh_evidence_and_env() {
         "reports/releases/v0.9.1/acquisition/builtin-policy-catalog.json"
     )));
     assert!(!v0130.identity.contains("BIFROST_OPEN_PACKS_DISABLE"));
+}
+
+/// The v0.14.4 native activation binds its own acquisition and fresh control
+/// outputs. The older v0.14.0 profile remains immutable, and a near-match
+/// identity cannot borrow either version's empty-catalog evidence.
+#[test]
+pub(crate) fn bifrost_v0144_native_amendment_binds_fresh_evidence_and_env() {
+    assert_eq!(BIFROST_V0_14_4_VERSION, "bifrost 0.14.4");
+    assert_ne!(
+        BIFROST_V0_14_4_VERSION,
+        crate::adapters::pins::BIFROST_VERSION,
+        "the historical v0.14.4 native evidence remains version scoped"
+    );
+    let v0144 = native_activation(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        BIFROST_V0_14_4_VERSION,
+    )
+    .unwrap();
+    assert_eq!(
+        v0144.identity,
+        format!(
+            "{BIFROST_V0_14_4_VERSION} — {BIFROST_V0_14_4_NATIVE_ACTIVATION_IDENTITY}; BIFROST_OPEN_PACKS_DISABLE=1"
+        )
+    );
+    assert_eq!(
+        v0144.arguments,
+        vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG.to_string()]
+    );
+    let expected_paths = BTreeSet::from([
+        PathBuf::from(
+            "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/stdout/identity-version.txt",
+        ),
+        PathBuf::from(
+            "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/stdout/identity-build.txt",
+        ),
+        PathBuf::from(
+            "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/stdout/catalog-list-policies.txt",
+        ),
+        PathBuf::from("reports/releases/v0.9.2/acquisition/bifrost-v0144-01/help.stdout.txt"),
+        PathBuf::from(
+            "reports/releases/v0.9.2/acquisition/bifrost-v0144-01/acquisition-receipt.json",
+        ),
+        PathBuf::from("adapters/pins/v0.9.2-bifrost-v0144.json"),
+    ]);
+    assert_eq!(v0144.configuration_paths, expected_paths);
+    assert!(v0144.configuration_paths.iter().all(|path| path.is_file()));
+
+    let reason = native_unsupported_reason(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        "dfb-template-native-source-sink",
+        BIFROST_V0_14_4_VERSION,
+    )
+    .unwrap()
+    .expect("the empty v0.14.4 catalog still declines the native cell");
+    assert!(reason.contains("schema version 2 with `packs: []`"));
+    assert!(reason.contains("BIFROST_OPEN_PACKS_DISABLE=1"));
+    assert!(reason.contains("unsupported"));
+    assert!(reason.contains("never a clean `not-reached` negative"));
+    assert!(reason.contains("bifrost-v0144-01"));
+    assert!(reason.contains("ff5cf473f4ad414751911ff93ef79e1df1d35823"));
+    assert!(!reason.contains("bifrost-v0140-01"));
+
+    let near_miss = "bifrost 0.14.4-dev";
+    for unknown_version in [near_miss, "bifrost 0.15.0"] {
+        let error = native_activation(
+            ModelingTool::Bifrost,
+            ModelingLanguage::Python,
+            unknown_version,
+        )
+        .err()
+        .expect("unknown Bifrost native versions must be rejected");
+        assert!(
+            error.to_string().contains("unregistered tool version"),
+            "unknown native profile {unknown_version} must fail: {error:#}"
+        );
+    }
+    let near_miss_reason = native_unsupported_reason(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        "dfb-template-native-source-sink",
+        near_miss,
+    )
+    .unwrap()
+    .unwrap();
+    assert!(near_miss_reason.contains("Current v0.7.1 evidence"));
+    assert!(!near_miss_reason.contains("bifrost-v0140-01"));
+    assert!(!near_miss_reason.contains("bifrost-v0144-01"));
+}
+
+/// The v0.15.1 native activation is bound to its own acquisition receipt and
+/// fresh controls. v0.14.4 and diagnostic-only v0.15.0 identities cannot
+/// borrow the new pin's evidence.
+#[test]
+pub(crate) fn bifrost_v0151_native_amendment_binds_fresh_evidence_and_env() {
+    assert_eq!(BIFROST_V0_15_1_VERSION, "bifrost 0.15.1");
+    assert_eq!(
+        BIFROST_V0_15_1_VERSION,
+        crate::adapters::pins::BIFROST_VERSION
+    );
+
+    let v0151 = native_activation(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        BIFROST_V0_15_1_VERSION,
+    )
+    .unwrap();
+    assert_eq!(
+        v0151.identity,
+        format!(
+            "{BIFROST_V0_15_1_VERSION} — {BIFROST_V0_15_1_NATIVE_ACTIVATION_IDENTITY}; BIFROST_OPEN_PACKS_DISABLE=1"
+        )
+    );
+    assert_eq!(
+        v0151.arguments,
+        vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG.to_string()]
+    );
+    let expected_paths = BTreeSet::from([
+        PathBuf::from(
+            "reports/releases/v0.9.2/qualification/bifrost-v0151-01/controls-attempt-01/stdout/identity-version.txt",
+        ),
+        PathBuf::from(
+            "reports/releases/v0.9.2/qualification/bifrost-v0151-01/controls-attempt-01/stdout/identity-build.txt",
+        ),
+        PathBuf::from(
+            "reports/releases/v0.9.2/qualification/bifrost-v0151-01/controls-attempt-01/stdout/catalog-list-policies.txt",
+        ),
+        PathBuf::from("reports/releases/v0.9.2/acquisition/bifrost-v0151-01/help.stdout.txt"),
+        PathBuf::from(
+            "reports/releases/v0.9.2/acquisition/bifrost-v0151-01/acquisition-receipt.json",
+        ),
+        PathBuf::from("adapters/pins/v0.9.2-bifrost-v0151.json"),
+    ]);
+    assert_eq!(v0151.configuration_paths, expected_paths);
+    assert!(v0151.configuration_paths.iter().all(|path| path.is_file()));
+
+    let reason = native_unsupported_reason(
+        ModelingTool::Bifrost,
+        ModelingLanguage::Python,
+        "dfb-template-native-source-sink",
+        BIFROST_V0_15_1_VERSION,
+    )
+    .unwrap()
+    .expect("the empty v0.15.1 catalog still declines the native cell");
+    assert!(reason.contains("schema version 2 with `packs: []`"));
+    assert!(reason.contains("BIFROST_OPEN_PACKS_DISABLE=1"));
+    assert!(reason.contains("unsupported"));
+    assert!(reason.contains("bifrost-v0151-01"));
+    assert!(reason.contains("90d820b9ee3b1bcca9e3dd2a049b1b51dc854b69"));
+    assert!(!reason.contains("bifrost-v0144-01"));
 }
 
 /// A declined cell writes its retained decision beside the report without
@@ -839,10 +1005,15 @@ pub(crate) fn the_native_activation_shapes_are_pinned() {
     let bifrost = native_activation(
         ModelingTool::Bifrost,
         ModelingLanguage::Java,
-        WITNESSED_IDENTITY,
+        BIFROST_V0_12_0_VERSION,
     )
     .unwrap();
+    assert_eq!(
+        bifrost.identity,
+        format!("{BIFROST_V0_12_0_VERSION} built-in policy packs")
+    );
     assert_eq!(bifrost.arguments, vec![BIFROST_NATIVE_DEFAULT_PACKS_FLAG]);
+    assert!(bifrost.configuration_paths.is_empty());
     assert!(
         !bifrost.arguments.iter().any(|a| matches!(
             a.as_str(),
@@ -911,6 +1082,11 @@ pub(crate) fn the_native_activation_shapes_are_pinned() {
 #[test]
 pub(crate) fn the_no_benchmark_models_gate_refuses_a_spliced_model_artifact() {
     for tool in ModelingTool::ALL.iter().copied() {
+        let identity = if tool == ModelingTool::Bifrost {
+            BIFROST_V0_12_0_VERSION
+        } else {
+            WITNESSED_IDENTITY
+        };
         for language in [
             ModelingLanguage::Java,
             ModelingLanguage::Javascript,
@@ -929,7 +1105,7 @@ pub(crate) fn the_no_benchmark_models_gate_refuses_a_spliced_model_artifact() {
                 _ => true,
             };
             if !covered {
-                let Err(error) = native_activation(tool, language, WITNESSED_IDENTITY) else {
+                let Err(error) = native_activation(tool, language, identity) else {
                     panic!(
                         "{} × {} must have no native denominator",
                         tool.key(),
@@ -944,7 +1120,7 @@ pub(crate) fn the_no_benchmark_models_gate_refuses_a_spliced_model_artifact() {
                 );
                 continue;
             }
-            let activation = native_activation(tool, language, WITNESSED_IDENTITY).unwrap();
+            let activation = native_activation(tool, language, identity).unwrap();
             require_no_benchmark_models(tool, &activation.arguments).unwrap();
         }
     }

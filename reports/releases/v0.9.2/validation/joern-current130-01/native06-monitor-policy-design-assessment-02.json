@@ -1,0 +1,100 @@
+{
+  "schema": "v092-native06-monitor-policy-design-assessment/v1",
+  "reviewed_at_utc": "2026-11-02T06:43:00Z",
+  "reviewer": "joern_native130_monitor_policy_design_assessment",
+  "review_type": "append-only-independent-read-only-policy-framing-review",
+  "status": "framing-only-approved-with-explicit-scope-choices",
+  "conclusion": {
+    "corrected_proposal_fixes_prior_framing_defects": true,
+    "sufficient_for_human_policy_question_only": true,
+    "policy_approved": false,
+    "implementation_authorized": false,
+    "execution_authorized": false,
+    "current_runtime_disposition": "qualification06-remains-failed-and-consumed; retain strict fail-closed behavior until an explicit human decision and all new gates pass"
+  },
+  "reviewed_evidence": {
+    "corrected_proposal": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-interval-policy-proposal-02.json",
+      "sha256": "fe58d2e10ad192f62d5f67c3cb0f114e12095f84ff5e0a9976e6406207b9048d",
+      "status": "proposal-only-not-approved"
+    },
+    "corrected_handoff": {
+      "path": "reports/releases/v0.9.2/review-handoff/joern-native-snapshot-policy-03.md",
+      "sha256": "ec5c5bedc32137717a0d163f234377f2f4017e35cc5b4a8e3260a8a5c11910e6"
+    },
+    "prior_independent_assessment": {
+      "path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-monitor-policy-design-assessment-01.json",
+      "sha256": "e5fa482a475a4cd2e98df958abf9507d55b17c0319848077ef442f1f1649de3a",
+      "superseded_for_current_proposal_framing": true,
+      "preserved_unchanged": true
+    },
+    "current_evaluator": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-08/process_reconciliation.py",
+      "sha256": "96bdec89dd15e4da35f6a71d08c57510e2c1bbec4857358cb756000b18f84a40",
+      "relevant_lines": {
+        "candidate_detection": "1009-1025",
+        "candidate_presence_fail_closed": "1107-1136",
+        "exact_bracket_and_bridge": "1182-1207",
+        "unbridged_kernel_comm_fail_closed": "1241-1258",
+        "final_status": "1273-1283"
+      },
+      "finding": "ABI4 row retention alone cannot change the current rejection: every unbridged kernel-comm fallback row is still a fresh contender and causes fail-closed evaluation. The proposed evaluator/status change is an acceptance-policy change, not only a provider representation change."
+    },
+    "actual_stop": {
+      "root_stop_path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-root-stop-check-01.json",
+      "root_stop_sha256": "670466ac4e9ee923f462242ab2da0b233daf1d0130986cadd5fa51ade145a941",
+      "independent_stop_review_path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-stop-independent-review-01.json",
+      "independent_stop_review_sha256": "b4f5ce6c0086a9fcc3008c769f695bec471e6aff4c90ec21ce3e17f7f062f2a7",
+      "safe_summary": "ABI3 reconciliation was incomplete and fail-closed after a revalidation PID miss. The qualification was not accepted; no control result or scored attempt was recorded; ledger130 remained unchanged. The recorded owned PIDs were absent at the root stop check, while descendant containment remains unknown.",
+      "privacy": "No PID values, process rows, full process tables, or foreign argv were copied into this assessment."
+    }
+  },
+  "corrected_framing_strengths": [
+    "The actual event is described as an ABI3 first/second kernel-table revalidation miss; workload relevance, ownership, harmlessness and exact exit time remain unknown.",
+    "It explicitly says table counts do not prove that the observed PID was the only difference.",
+    "It distinguishes an intra-ABI4 first-kernel-table-only row from the outer native-before/native-after snapshots.",
+    "It requires evidence of absence from the same observation's second kernel table, the command snapshot and every row of the other native observation, including the final current table.",
+    "It requires a separate durable historical-only collection and evaluation status, rather than folding observations into a no-contender boolean.",
+    "It keeps ABI3 unchanged, makes a new ABI4 and exact pins necessary, preserves existing row/time/resource bounds, and leaves errors, candidate presence, reuse and current ambiguity fail-closed.",
+    "It explicitly treats this as a new acceptance rule, retains the strict-blocked alternative, forbids retroactive acceptance/retry, and keeps publication held."
+  ],
+  "scope_choices_required_in_the_human_question": [
+    {
+      "id": "TRACKED-IDENTITY-01",
+      "issue": "The machine proposal's eligibility scope says non-original-candidate; the handoff adds non-tracked, but does not define that term or how a first-only PID matching the existing exact tracked map is handled. Prohibiting ownership promotion does not by itself specify add/remove/replace/downgrade behavior for a pre-existing tracked entry.",
+      "recommended_default": "Exclude any PID that is an original candidate or is present in the exact tracked map from this exception. Preserve the tracked map byte-for-byte through this rule; any changed-birth/parent interaction fails closed. If a tracked first-only row is to use existing lifecycle semantics instead, define that path explicitly before implementation."
+    },
+    {
+      "id": "FIRST-ONLY-COUNT-02",
+      "issue": "The proposal states existing capacities of 8,192 rows per native observation and 16,384 across both observations, but does not set a smaller maximum number of first-only rows eligible in one pass. The literal capacity-wide rule could therefore admit many rows; the handoff's singular phrasing should not imply only one.",
+      "human_choice": "Explicitly approve a capacity-wide allowance (up to 8,192 per outer native observation and 16,384 across both), choose a smaller numeric maximum such as one distinct row per pass, or retain strict fail-closed behavior. State the selected count in the machine policy and handoff."
+    },
+    {
+      "id": "TRANSIENT-CONTENDER-03",
+      "issue": "The human must understand that an eligible first-only row was present in a provider's first kernel table. It could have been relevant or foreign during the sampled boundary; later absence does not establish that it was harmless, non-overlapping, or outside the workload.",
+      "human_question_requirement": "Ask for explicit acceptance of this uncertainty and the changed continuation rule. Keep current persistent/live rows, original candidates, changed identity, and all incomplete evidence fail-closed."
+    }
+  ],
+  "recommended_human_question": {
+    "decision": "Approve or reject an explicit Joern monitor acceptance exception for valid ABI4 intra-observation first-table-only rows, with ABI3 unchanged.",
+    "required_scope": "Make the tracked-map treatment and maximum eligible first-only row count explicit. Require all original candidates absent, every eligible row absent by PID from the command snapshot and other outer native observation, no changed identity or provider error, and durable typed evidence before continuation.",
+    "uncertainty": "A permitted row may have been a relevant or foreign process during the boundary. Its later absence does not prove harmlessness, ownership/foreignness, exact exit time, no overlap, or uncontended timing.",
+    "alternative": "Keep the current strict fail-closed policy and leave Joern blocked."
+  },
+  "after_human_decision_if_approved": [
+    "Revise/freeze the machine policy and handoff to match the selected tracked-map treatment and numeric first-only count bound.",
+    "Implement only in a separately reviewed ABI4/provider and evaluator change, with exact source/request/contract/manifest pins; retain ABI3 unchanged.",
+    "Test typed durable status, count bounds, tracked-map invariance, original-candidate rejection, all specified absence checks, and all provider/error near misses; independently review source and invocation.",
+    "Use a fresh admission and namespace for any future native qualification. Qualification06 remains failed and immutable; publication hold persists."
+  ],
+  "scope": {
+    "proposal_or_source_modified": false,
+    "tests_run": false,
+    "native_or_joern_invoked": false,
+    "process_query_run": false,
+    "qualification_or_admission_run": false,
+    "git_mutated": false,
+    "private_process_rows_or_pids_copied": false,
+    "statement": "Read-only assessment of proposal02 and handoff03 against the prior policy, current reconciliation evaluator, and immutable qualification06 stop evidence. This assessment approves framing for a human policy choice only; it does not approve the policy, implementation, qualification, retry, scored run, or publication."
+  }
+}

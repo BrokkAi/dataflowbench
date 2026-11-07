@@ -15,6 +15,10 @@ use crate::adapters::codeql::rust_kernel_case;
 use crate::cases::{case_paths, ruby_core_case, scala_core_case, validate_kernel_population_with};
 use crate::evidence::AnchorDialect;
 use crate::freeze::raw_special_outcome;
+use crate::report::{
+    ConfigurationHashState, configuration_hash_state_for_report, current_configuration_paths,
+    hash_paths,
+};
 use crate::templates::{
     CHALLENGE_TEMPLATE_IDS, KERNEL_CASE_COUNT, KERNEL_CASE_COUNT_WITHOUT_EXCEPTION_CATCH,
     KERNEL_TEMPLATE_IDS, expected_core_case_count, expected_core_templates,
@@ -73,12 +77,30 @@ fn fake_bifrost_binary(
 #[test]
 pub(crate) fn bifrost_identity_requires_exact_version_and_catalog_banner() {
     let evidence_path =
-        Path::new("reports/releases/v0.9.2/qualification/bifrost-v0140-01/version.stdout.txt");
-    let evidence = fs::read_to_string(evidence_path).unwrap();
-    let lines: Vec<_> = evidence.lines().collect();
+        Path::new("reports/releases/v0.9.2/acquisition/bifrost-v0151-01/acquisition-receipt.json");
+    let evidence: Value = serde_json::from_slice(&fs::read(evidence_path).unwrap()).unwrap();
+    let version_banner = evidence["binary"]["version_output"].as_str().unwrap();
+    let lines: Vec<_> = version_banner.lines().collect();
     assert_eq!(lines.len(), 2);
     assert_eq!(lines[0], crate::adapters::pins::BIFROST_VERSION);
-    let expected_banner = evidence.trim_end().to_string();
+    assert_eq!(
+        evidence["binary"]["build_identity_output"]
+            .as_str()
+            .unwrap()
+            .trim(),
+        crate::adapters::pins::BIFROST_BUILD_IDENTITY
+    );
+    assert_eq!(
+        evidence["binary"]["sha256"].as_str().unwrap(),
+        crate::adapters::pins::BIFROST_BINARY_SHA256
+    );
+    assert_eq!(
+        lines[1]
+            .strip_prefix("builtin-policy-catalog sha256=")
+            .unwrap(),
+        crate::adapters::pins::BIFROST_CATALOG_SHA256
+    );
+    let expected_banner = version_banner.trim_end().to_string();
     let root = unique_test_dir("dataflowbench-bifrost-version-witness");
 
     let exact_binary = fake_bifrost_binary(
@@ -97,6 +119,8 @@ pub(crate) fn bifrost_identity_requires_exact_version_and_catalog_banner() {
     let near_miss_banners = [
         format!("bifrost 0.13.1\n{}", lines[1]),
         format!("bifrost 0.14.0-dev\n{}", lines[1]),
+        format!("bifrost 0.14.4\n{}", lines[1]),
+        format!("bifrost 0.15.0\n{}", lines[1]),
         format!(
             "{}\nbuiltin-policy-catalog sha256={}",
             lines[0],
@@ -1354,4 +1378,290 @@ pub(crate) fn scala_kernel_materializes_and_hashes_its_dependency_evidence() {
     );
     workspace.remove().unwrap();
     fs::remove_dir_all(&root).unwrap();
+}
+
+/// The v0.9.2 Scala history contains a v0.14.0 run made before PR 298 added
+/// the scala-library POM. Preserve that policy-only closure as historical,
+/// recognize a POM-inclusive v0.14.0 report only by its stamped hash, and
+/// require the POM for the v0.14.4 replacement.
+#[test]
+pub(crate) fn bifrost_scala_configuration_history_is_version_and_hash_bound() {
+    let historical_reports = [
+        ("reports/bifrost-scala-kernel.json", "bifrost 0.11.4"),
+        (
+            "reports/releases/v0.9.0/normal/attempts/bifrost-scala-kernel-attempt-01/bifrost-scala-kernel.json",
+            "bifrost 0.12.0",
+        ),
+        (
+            "reports/releases/v0.9.1/normal/bifrost-scala-kernel.json",
+            "bifrost 0.13.0",
+        ),
+        (
+            "reports/releases/v0.9.2/normal/attempts/bifrost-scala-kernel-attempt-01-series-01/bifrost-scala-kernel.json",
+            "bifrost 0.13.1",
+        ),
+    ];
+    let mut case_scan = None;
+    for (path, expected_version) in historical_reports {
+        let report: Value = serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
+        assert_eq!(report["tool_version"], expected_version, "{path}");
+        assert_eq!(
+            configuration_hash_state_for_report(
+                "bifrost-scala-kernel",
+                expected_version,
+                report["adapter_version"].as_str().unwrap(),
+                report["configuration_hash"].as_str().unwrap(),
+                &mut case_scan,
+            )
+            .unwrap(),
+            ConfigurationHashState::Current,
+            "the {expected_version} policy-only closure remains recognized"
+        );
+    }
+
+    let pre_amendment: Value = serde_json::from_slice(
+        &fs::read(
+            "reports/releases/v0.9.2/normal/attempts/bifrost-scala-kernel-attempt-02-series-02/bifrost-scala-kernel.json",
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(pre_amendment["tool_version"], "bifrost 0.14.0");
+
+    let pom_paths = current_configuration_paths("bifrost-scala-kernel", &mut case_scan)
+        .unwrap()
+        .expect("Scala kernel has a repository-derived configuration");
+    assert!(pom_paths.contains(Path::new(BIFROST_SCALA_DEPENDENCY_EVIDENCE)));
+    let pom_hash = hash_paths(&pom_paths).unwrap();
+    let mut policy_only_paths = pom_paths;
+    policy_only_paths.remove(Path::new(BIFROST_SCALA_DEPENDENCY_EVIDENCE));
+    let policy_only_hash = hash_paths(&policy_only_paths).unwrap();
+    assert_ne!(pom_hash, policy_only_hash);
+    assert_eq!(
+        pre_amendment["configuration_hash"], policy_only_hash,
+        "the existing v0.14.0 attempt predates PR 298"
+    );
+    assert_eq!(
+        configuration_hash_state_for_report(
+            "bifrost-scala-kernel",
+            "bifrost 0.14.0",
+            pre_amendment["adapter_version"].as_str().unwrap(),
+            &policy_only_hash,
+            &mut case_scan,
+        )
+        .unwrap(),
+        ConfigurationHashState::Current
+    );
+    assert_eq!(
+        configuration_hash_state_for_report(
+            "bifrost-scala-kernel",
+            "bifrost 0.14.0",
+            pre_amendment["adapter_version"].as_str().unwrap(),
+            &pom_hash,
+            &mut case_scan,
+        )
+        .unwrap(),
+        ConfigurationHashState::Current,
+        "a post-amendment v0.14.0 report is recognized only with the POM-inclusive hash"
+    );
+    assert_eq!(
+        configuration_hash_state_for_report(
+            "bifrost-scala-kernel",
+            "bifrost 0.14.4",
+            pre_amendment["adapter_version"].as_str().unwrap(),
+            &pom_hash,
+            &mut case_scan,
+        )
+        .unwrap(),
+        ConfigurationHashState::Current
+    );
+    assert_eq!(
+        configuration_hash_state_for_report(
+            "bifrost-scala-kernel",
+            "bifrost 0.14.4",
+            pre_amendment["adapter_version"].as_str().unwrap(),
+            &policy_only_hash,
+            &mut case_scan,
+        )
+        .unwrap(),
+        ConfigurationHashState::Drifted {
+            current: pom_hash.clone()
+        },
+        "the v0.14.4 target cannot reuse the legacy policy-only closure"
+    );
+    for version in ["bifrost 0.15.0", crate::adapters::pins::BIFROST_VERSION] {
+        assert_eq!(
+            configuration_hash_state_for_report(
+                "bifrost-scala-kernel",
+                version,
+                pre_amendment["adapter_version"].as_str().unwrap(),
+                &pom_hash,
+                &mut case_scan,
+            )
+            .unwrap(),
+            ConfigurationHashState::Current,
+            "{version} uses the policy-plus-POM configuration closure"
+        );
+        assert_eq!(
+            configuration_hash_state_for_report(
+                "bifrost-scala-kernel",
+                version,
+                pre_amendment["adapter_version"].as_str().unwrap(),
+                &policy_only_hash,
+                &mut case_scan,
+            )
+            .unwrap(),
+            ConfigurationHashState::Drifted {
+                current: pom_hash.clone()
+            },
+            "{version} cannot borrow an older policy-only closure"
+        );
+    }
+    assert!(
+        configuration_hash_state_for_report(
+            "bifrost-scala-kernel",
+            "bifrost 0.14.3",
+            pre_amendment["adapter_version"].as_str().unwrap(),
+            &policy_only_hash,
+            &mut case_scan,
+        )
+        .is_err(),
+        "an unknown Bifrost version must not inherit the historical fallback"
+    );
+}
+
+/// Historical Scala policy-only reports predate the POM. Derive those
+/// closures in a separate process rooted at a minimal checkout without that
+/// later file, so parallel Rust tests never change the process-wide CWD.
+#[test]
+pub(crate) fn bifrost_scala_legacy_hashes_do_not_require_post_0140_pom() {
+    const CHILD: &str = "DFB_BIFROST_SCALA_LEGACY_WITHOUT_POM_TEST_CHILD";
+    if std::env::var_os(CHILD).is_some() {
+        let policy_path = PathBuf::from(BIFROST_SCALA_POLICY);
+        let policy_hash = hash_paths(&std::collections::BTreeSet::from([policy_path])).unwrap();
+        let mut case_scan = None;
+
+        for version in [
+            "bifrost 0.11.4",
+            "bifrost 0.12.0",
+            "bifrost 0.13.0",
+            "bifrost 0.13.1",
+        ] {
+            assert_eq!(
+                configuration_hash_state_for_report(
+                    "bifrost-scala-kernel",
+                    version,
+                    "bifrost-normal-v092",
+                    &policy_hash,
+                    &mut case_scan,
+                )
+                .unwrap(),
+                ConfigurationHashState::Current,
+                "{version} must retain its exact policy-only closure without the POM"
+            );
+            assert_eq!(
+                configuration_hash_state_for_report(
+                    "bifrost-scala-kernel",
+                    version,
+                    "bifrost-normal-v092",
+                    &"0".repeat(64),
+                    &mut case_scan,
+                )
+                .unwrap(),
+                ConfigurationHashState::Drifted {
+                    current: policy_hash.clone()
+                },
+                "{version} must reject a mismatched policy-only hash"
+            );
+        }
+
+        assert_eq!(
+            configuration_hash_state_for_report(
+                "bifrost-scala-kernel",
+                "bifrost 0.14.0",
+                "bifrost-normal-v092",
+                &policy_hash,
+                &mut case_scan,
+            )
+            .unwrap(),
+            ConfigurationHashState::Current,
+            "the exact pre-PR-298 v0.14.0 hash remains valid without the POM"
+        );
+
+        let modern_error = configuration_hash_state_for_report(
+            "bifrost-scala-kernel",
+            "bifrost 0.14.4",
+            "bifrost-normal-v092",
+            &policy_hash,
+            &mut case_scan,
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(
+            modern_error.contains(BIFROST_SCALA_DEPENDENCY_EVIDENCE),
+            "the v0.14.4 profile must require its POM, got: {modern_error}"
+        );
+
+        for version in ["bifrost 0.15.0", crate::adapters::pins::BIFROST_VERSION] {
+            let modern_error = configuration_hash_state_for_report(
+                "bifrost-scala-kernel",
+                version,
+                "bifrost-normal-v092",
+                &policy_hash,
+                &mut case_scan,
+            )
+            .unwrap_err()
+            .to_string();
+            assert!(
+                modern_error.contains(BIFROST_SCALA_DEPENDENCY_EVIDENCE),
+                "{version} must require its policy-plus-POM closure, got: {modern_error}"
+            );
+        }
+
+        let unknown_error = configuration_hash_state_for_report(
+            "bifrost-scala-kernel",
+            "bifrost 0.14.3",
+            "bifrost-normal-v092",
+            &policy_hash,
+            &mut case_scan,
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(
+            unknown_error.contains("unregistered tool version"),
+            "an unknown version must not inherit a policy-only fallback: {unknown_error}"
+        );
+        return;
+    }
+
+    let root = unique_test_dir("dataflowbench-bifrost-scala-legacy-without-pom");
+    let case_relative = Path::new("cases/taint/scala/local-overwrite-negative/case.json");
+    let case_destination = root.join(case_relative);
+    fs::create_dir_all(case_destination.parent().unwrap()).unwrap();
+    fs::copy(case_relative, &case_destination).unwrap();
+    let policy_destination = root.join(BIFROST_SCALA_POLICY);
+    fs::create_dir_all(policy_destination.parent().unwrap()).unwrap();
+    fs::copy(BIFROST_SCALA_POLICY, &policy_destination).unwrap();
+    assert!(
+        !root.join(BIFROST_SCALA_DEPENDENCY_EVIDENCE).exists(),
+        "the isolated fixture must not contain the post-PR-298 POM"
+    );
+
+    let output = std::process::Command::new(std::env::current_exe().unwrap())
+        .args([
+            "--exact",
+            "tests::adapters::bifrost::bifrost_scala_legacy_hashes_do_not_require_post_0140_pom",
+            "--nocapture",
+        ])
+        .current_dir(&root)
+        .env(CHILD, "1")
+        .output()
+        .unwrap();
+    fs::remove_dir_all(&root).unwrap();
+    assert!(
+        output.status.success(),
+        "isolated historical configuration test failed\nstdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
 }

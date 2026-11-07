@@ -1,0 +1,67 @@
+{
+  "findings": [],
+  "independent_checks": {
+    "all_108_raw_files_rehashed": true,
+    "all_five_source_reports_match_projection_manifest_byte_hashes": true,
+    "all_other_report_fields_byte_value_equivalent_after_json_parse": true,
+    "canonical_report_top_and_row_keys_match_pinned_schema_properties": true,
+    "distinct_case_ids": 108,
+    "distinct_raw_paths": 108,
+    "exactly_three_annotation_types_removed": [
+      "aggregate_resource_qualification",
+      "scored_activation",
+      "results[*].raw_sha256"
+    ],
+    "outcomes": {
+      "inconclusive": 96,
+      "unsupported": 12
+    },
+    "rows": 108,
+    "sidecar_preserves_unavailable_unscored_untimed_boundary": true,
+    "source_case_order_and_raw_path_hash_map_match_projection_manifest": true
+  },
+  "limitations": [
+    "This review does not authorize or claim a canonical Rust validation run.",
+    "No semantic-quality, timing, scoring, qualification, release-readiness, or publication claim is made.",
+    "Root integration review and the separate fresh configurations-04 gate remain outstanding."
+  ],
+  "projected_outputs_sha256": {
+    "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-calibration.json": "3e65d8ac778dd8e3c63d9a27b8d81e8de6a3795b7887a557f3a04b118b7ff4ce",
+    "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-core.json": "7f54cd044efd2ab3681a0f93c2528c8ded528b69ead0b55b78a522845712ceaa",
+    "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-language-extension.json": "1a6538fcb20809d3357de49f9aa53421c79d58cd37d6b93abb60fe072173b267",
+    "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-modeling.json": "a15c837372597b28f7e17e0e8f195e6ba4af796b23ac3f301d47116001f7b3da",
+    "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-native.json": "2e4fde26b20245491859719d2dda508dbf09ec3cdd7550e12907f2fd0ba3f8a5",
+    "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/sidecars/aggregate-metadata-lift.json": "42f4ea66b124357bd341e8d543ecb41d2fdb61116c1a5c5149c65dd5005416cd"
+  },
+  "review_id": "joern-v092-canonical-schema-01-independent-review-01",
+  "reviewed_artifacts_sha256": {
+    "diagnosis.json": "e98fb6442674de87733d087928a5041fdcc20f06098e405cbf9bdeda9ac44e06",
+    "focused-tests-04.stderr": "4cdbacf8da0b4bdb1fb228c7c996cac879cf83182da90824be05602858dabf93",
+    "focused-tests-04.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "manifest.json": "07cfbcbcf1fba81ef00bfa66abda0b10668ff8b63c8ace4ce0bd1f36381428a3",
+    "prepare-projection-03.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "prepare-projection-03.stdout": "4808f27c1b1da2ccfd9c1bde1f9367d135c781497fecd39ba9ee089021b963c2",
+    "prepare_projection.py": "cd79f8ca5dabeea87c7b597f2fc8d43ce6d8ef78732996343e267fb4b8d405c0",
+    "project_joern.py": "13f8312504f641743d050101bb695ede820af90797db66de940ebdd318269f91",
+    "tests/test_project_joern.py": "f89592e7fabe31fd6afe36b9d6369fe71048193e240e83dfd87732570dc6eaac"
+  },
+  "reviewed_at_utc": "2026-11-07T06:25:05.522494+00:00",
+  "reviewer": "independent-review-agent",
+  "schema": "v0.9.2-v0151-joern-schema-projector-independent-review/v1",
+  "source_bindings": {
+    "canonical_schema_failure_receipt_sha256": "ee64f260ca05192a1f0c064905df54e1d9f27687eb549605fad9f31482d7d11b",
+    "completed_attempt_receipt_sha256": "421a261d21d8475d59bc22237bfa1ad3930aad18867acd1919a5e7a0b48de676",
+    "frozen_result_schema_bytes_sha256": "d8fa8aeb9c17a792e858b5168a318794079ff1ae65404699cd96ee886d302217",
+    "original_projection_manifest_sha256": "fbb306636dcd92c22ef296dba9716acd4dae127c617332212f33ebc2bd68a907"
+  },
+  "status": "passed-for-root-integration-review",
+  "validation_evidence": {
+    "focused_test_command": "/opt/homebrew/opt/python@3.13/bin/python3.13 -B reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/tests/test_project_joern.py",
+    "focused_test_exit_code": 0,
+    "focused_test_log_stderr_sha256": "4cdbacf8da0b4bdb1fb228c7c996cac879cf83182da90824be05602858dabf93",
+    "no_canonical_rust_validation_or_analyzer_dispatch": true,
+    "projection_command": "/opt/homebrew/opt/python@3.13/bin/python3.13 -B reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/prepare_projection.py",
+    "projection_exit_code": 0,
+    "projection_stdout_sha256": "4808f27c1b1da2ccfd9c1bde1f9367d135c781497fecd39ba9ee089021b963c2"
+  }
+}

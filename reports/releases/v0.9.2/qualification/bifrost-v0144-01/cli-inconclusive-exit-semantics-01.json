@@ -1,0 +1,39 @@
+{
+  "binary": {
+    "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/bifrost0144/extracted/bifrost-v0.14.4-universal-apple-darwin/bifrost",
+    "sha256": "a3aa17a18be33e1e841c1bf317c6ca35a6aa3aaef452c607fafbb3b83aeec399",
+    "version": "0.14.4"
+  },
+  "captured_policy_invocation": {
+    "default_from_help": "pass",
+    "documented_exit": "exits 0 when no finding gates",
+    "on_inconclusive_flag_absent": true,
+    "required_flag_pair": [
+      "--fail-on",
+      "never"
+    ]
+  },
+  "help_invocation": {
+    "argv": [
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/bifrost0144/extracted/bifrost-v0.14.4-universal-apple-darwin/bifrost",
+      "--help"
+    ],
+    "exit_code": 0,
+    "relevant_excerpt": "--on-inconclusive MODE What a run whose verdict is inconclusive, and whose policy declares\n                           no on-unknown handling, does to the exit status: pass (default)\n                           reports it and exits 0 when no finding gates; unreliable exits 2.\n                           A policy's on-unknown warn-unreliable or fail-closed outranks it",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "a5135752e3c16d8be3f284a43da9e0d4075338d1e75ee4201e514f6d5d1f11f4"
+  },
+  "historical_comparison": {
+    "historical_partial_invocations_exit_code_2_status_failed": true,
+    "path": "reports/releases/v0.9.2/qualification/bifrost-attempt-02/commands.jsonl",
+    "same_fail_on_never_flag": true,
+    "version": "0.13.1"
+  },
+  "observed_target_capture": {
+    "all_44_exit_code_zero_status_completed": true,
+    "inconclusive_controls_still_have_schema6_inconclusive_reports": true,
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01"
+  },
+  "review_rule": "Validate invocation and process status against the exact v0.14.4 captured argv/result (exit 0, completed) independently from schema-6 report completion. The report remains inconclusive when its typed completion is inconclusive; do not infer clean coverage from exit 0.",
+  "schema": "v092-bifrost-v0144-cli-exit-semantics/v1"
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "v092-preexisting-source-preservation/v1",
+  "context": "Two original untracked helpers from the earlier user-authorized v0.9.2 evidence-compression work in this chat remain in scripts/. They are retained byte-identically in SOURCE to keep the complete current-source snapshot explicit, without exclusions or ignoring a freshness failure.",
+  "files": [
+    {
+      "path": "scripts/package-v092-evidence.py",
+      "sha256": "ef215fd1863ed91675bd228fa71147c21f39f0c504d743144f86c6542063db58",
+      "bytes": 11844
+    },
+    {
+      "path": "scripts/test-package-v092-evidence.py",
+      "sha256": "b5f9aee2cd4c439b5b8d566ee68c870f2de8b3550e991648912ca6e7e52d53b1",
+      "bytes": 6183
+    }
+  ],
+  "source_modified": false,
+  "new_automatic_activation": false,
+  "current_packaging_tool_replaced": false,
+  "tests": {
+    "argv": [
+      "python3",
+      "-B",
+      "scripts/test-package-v092-evidence.py"
+    ],
+    "exit_code": 0,
+    "tests_passed": 11,
+    "elapsed_seconds_reported": 0.019,
+    "evidence_kind": "Observed tool result in this conversation; no separate raw-stream-file claim."
+  },
+  "review": "Primary read both complete source files and tests. Packing/restoration only; no benchmark, publication, cleanup or automatic invocation was added."
+}

@@ -1,0 +1,103 @@
+{
+  "schema": "v092-joern-native-controls-09-reconciliation-source-preparation-receipt/v1",
+  "state": "source-only-preparation",
+  "runtime_authority": false,
+  "native_provider_invoked": false,
+  "qualification_performed": false,
+  "joern_invoked": false,
+  "eligible_plan_created": false,
+  "source_refs": {
+    "process_reconciliation": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/process_reconciliation.py",
+      "sha256": "0869d80fc15887e97833b04c1c87ea26238d2d45e9f13d35001ae6c459e3cb9b"
+    },
+    "snapshot_query": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/snapshot_query.py",
+      "sha256": "15016b44157c0bfd446a5032d5014ae8ab239c10ee81b0bfe0dba89bcd852b14"
+    },
+    "reconciliation_tests": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/test_process_reconciliation_abi4_policy.py",
+      "sha256": "389cd0dd820c0f7077a00d298d78d6dcfa4f9a5037d8c965385c880f35a069c6"
+    },
+    "snapshot_query_tests": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/test_snapshot_query_abi4_pins.py",
+      "sha256": "b6eadf484216ec25af8f3e3a685f2ed2916cabb968cf2fdadf495ffff0aa80f0"
+    }
+  },
+  "policy_refs": {
+    "human_decision": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-interval-policy-human-decision-01.json",
+      "sha256": "faaa011902d24bde71cf139d1584ca296586ccdd2c34ab5f9555c8376cad7002"
+    },
+    "proposal": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-interval-policy-proposal-03.json",
+      "sha256": "f4d7cc9f3704407eaa3da25810026d7d73f3c2a18fa9e9579abf0a5ddf56a848"
+    }
+  },
+  "provider_abi4_pins": {
+    "identity": "darwin-sysctl-kern-proc-all-libproc/v4",
+    "abi_version": 4,
+    "module": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.py",
+      "sha256": "b7cd0caf4685c46062ee265801ff1128737796d0cd105a27fb5f0a6ce3f212d7"
+    },
+    "library": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/libdfb_native_provider_abi4.dylib",
+      "sha256": "012a7d599c2942689ca89eff968ffa86e84904be9ad758e4cbf7f4ebf428c30a"
+    },
+    "c_source": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.c",
+      "sha256": "7bc47b26ebbc41a19e2ac6418ae4bd75711ec83ad73761dff87808dcb7c6ec7a"
+    },
+    "header": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/darwin_native_provider.h",
+      "sha256": "d321e366b7ee9dee40d2697c20fdcd411a327dbb377e3534ffb8042e87681307"
+    },
+    "build_receipt": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-09/darwin-provider/build-receipt.json",
+      "sha256": "ffb708c7424d83f84e796ca305abc9b673bc6697b3b1bc04437cc2868a26717f"
+    },
+    "native_row_bytes": 4152,
+    "native_meta_bytes": 96,
+    "max_rows_per_table": 8192,
+    "max_output_rows": 16384
+  },
+  "accepted_history_event": {
+    "evaluation_status": "historical-absence-with-unresolved-intrasnapshot-observations",
+    "entry_pid_type": "integer-positive",
+    "event_status": "unresolved_historical_intrasnapshot_disappearance",
+    "entry_fields": ["pid", "row"],
+    "row_fields": [
+      "status", "origin_snapshot", "provider_identity", "provider_evidence",
+      "source_row", "absence_evidence", "historical_ownership",
+      "historical_foreignness", "workload_relevance", "exact_exit_time",
+      "current_map_eligible", "argv_bridge_allowed"
+    ],
+    "uncertainty_values": {
+      "historical_ownership": "unknown",
+      "historical_foreignness": "unknown",
+      "workload_relevance": "unknown",
+      "exact_exit_time": "unknown"
+    },
+    "false_claims": {
+      "absence_evidence.continuous_absence_claim": false,
+      "absence_evidence.os_global_absence_claim": false,
+      "current_map_eligible": false,
+      "argv_bridge_allowed": false
+    },
+    "acceptance_limits": {
+      "maximum_first_table_only_rows_across_both_native_observations": 1,
+      "original_candidate_pid": "reject",
+      "pretracked_pid_intersection_ignores_birth_identity": "reject-before-descendant-map-update",
+      "command_or_other_native_observation_pid_intersection_ignores_birth_identity": "reject",
+      "fresh_contender_also_present": "retain-fail-closed-status-with-no-accepted-history-row",
+      "rejected_observations": "preserve-all-raw-rows-and-provider-evidence"
+    }
+  },
+  "tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_process_reconciliation_abi4_policy.py test_snapshot_query_abi4_pins.py",
+    "passed": 16,
+    "failed": 0,
+    "scope": "synthetic policy, pin, and historical ABI3 loader fixtures only"
+  }
+}

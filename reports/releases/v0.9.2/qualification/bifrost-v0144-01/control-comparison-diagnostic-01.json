@@ -1,0 +1,251 @@
+[
+  {
+    "name": "policy-javascript-declared-sink-negative-with",
+    "completion": {
+      "type": "inconclusive",
+      "reasons": [
+        "partial_discovery"
+      ],
+      "scope": {
+        "type": "files",
+        "files": [
+          "Audit.js"
+        ],
+        "truncated": false
+      }
+    },
+    "old_completion": {
+      "type": "inconclusive",
+      "reasons": [
+        "partial_discovery"
+      ],
+      "scope": {
+        "type": "files",
+        "files": [
+          "Audit.js"
+        ],
+        "truncated": false
+      }
+    },
+    "findings": 0,
+    "old_findings": 0,
+    "diagnostics": [
+      {
+        "code": {
+          "type": "evaluation_failure"
+        },
+        "severity": "warning",
+        "impact": "run_incomplete",
+        "family": "taint discovery is incomplete: call resolution is unknown",
+        "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model; call `discard` at Audit.js bytes 240..267 has snapshot input status unknown; the resolver left the call incomplete; resolver boundary status: dispatch_status=unproven candidate_coverage=Open uncovered_boundary=true truncated=false arms=[\"Unresolved proof=Unproven(\\\"unknown dynamic-dispatch evidence does not prove the complete target set: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\") completeness=Partial(\\\"dynamic-dispatch target coverage is incomplete: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\")\"] entered_targets=[DeclarationLocator([DeclarationSegment { kind: File, name: Some(\"Audit.js\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 296, line: 13, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Initializer, name: Some(\"<file>\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 296, line: 13, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Function, name: Some(\"discard\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 190, line: 6, byte_column: 11 }, end: SourcePosition { byte_offset: 216, line: 6, byte_column: 37 } }, occurrence: 0 }, sibling_ordinal: 0 }])] binding_coverage=Some([Answered { status: Unproven }]); call semantic gap: unknown: call target requires whole-program dispatch refinement",
+        "family_count": 1,
+        "primary": {
+          "path": "Audit.js",
+          "byte_span": {
+            "start": 240,
+            "end": 267
+          },
+          "region": {
+            "start_line": 11,
+            "start_column": 3,
+            "end_line": 11,
+            "end_column": 30
+          }
+        },
+        "related": []
+      }
+    ],
+    "old_diagnostics": [
+      {
+        "code": {
+          "type": "evaluation_failure"
+        },
+        "severity": "warning",
+        "impact": "run_incomplete",
+        "family": "taint discovery is incomplete: call resolution is unknown",
+        "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+        "family_count": 1,
+        "primary": {
+          "path": "Audit.js",
+          "byte_span": {
+            "start": 240,
+            "end": 267
+          },
+          "region": {
+            "start_line": 11,
+            "start_column": 3,
+            "end_line": 11,
+            "end_column": 30
+          }
+        },
+        "related": []
+      }
+    ]
+  },
+  {
+    "name": "policy-javascript-declared-sink-positive-with",
+    "completion": {
+      "type": "inconclusive",
+      "reasons": [
+        "partial_discovery"
+      ],
+      "scope": {
+        "type": "files",
+        "files": [
+          "Audit.js"
+        ],
+        "truncated": false
+      }
+    },
+    "old_completion": {
+      "type": "inconclusive",
+      "reasons": [
+        "partial_discovery"
+      ],
+      "scope": {
+        "type": "files",
+        "files": [
+          "Audit.js"
+        ],
+        "truncated": false
+      }
+    },
+    "findings": 1,
+    "old_findings": 1,
+    "diagnostics": [
+      {
+        "code": {
+          "type": "evaluation_failure"
+        },
+        "severity": "warning",
+        "impact": "run_incomplete",
+        "family": "taint discovery is incomplete: call resolution is unknown",
+        "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model; call `record` at Audit.js bytes 240..266 has snapshot input status unknown; the resolver left the call incomplete; resolver boundary status: dispatch_status=unproven candidate_coverage=Open uncovered_boundary=true truncated=false arms=[\"Unresolved proof=Unproven(\\\"unknown dynamic-dispatch evidence does not prove the complete target set: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\") completeness=Partial(\\\"dynamic-dispatch target coverage is incomplete: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\")\"] entered_targets=[DeclarationLocator([DeclarationSegment { kind: File, name: Some(\"Audit.js\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 296, line: 13, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Initializer, name: Some(\"<file>\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 296, line: 13, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Function, name: Some(\"record\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 114, line: 5, byte_column: 10 }, end: SourcePosition { byte_offset: 139, line: 5, byte_column: 35 } }, occurrence: 0 }, sibling_ordinal: 0 }])] binding_coverage=Some([Answered { status: Unproven }]); call semantic gap: unknown: call target requires whole-program dispatch refinement",
+        "family_count": 1,
+        "primary": {
+          "path": "Audit.js",
+          "byte_span": {
+            "start": 240,
+            "end": 266
+          },
+          "region": {
+            "start_line": 11,
+            "start_column": 3,
+            "end_line": 11,
+            "end_column": 29
+          }
+        },
+        "related": []
+      }
+    ],
+    "old_diagnostics": [
+      {
+        "code": {
+          "type": "evaluation_failure"
+        },
+        "severity": "warning",
+        "impact": "run_incomplete",
+        "family": "taint discovery is incomplete: call resolution is unknown",
+        "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+        "family_count": 1,
+        "primary": {
+          "path": "Audit.js",
+          "byte_span": {
+            "start": 240,
+            "end": 266
+          },
+          "region": {
+            "start_line": 11,
+            "start_column": 3,
+            "end_line": 11,
+            "end_column": 29
+          }
+        },
+        "related": []
+      }
+    ]
+  },
+  {
+    "name": "policy-javascript-declared-source-positive-with",
+    "completion": {
+      "type": "inconclusive",
+      "reasons": [
+        "partial_discovery"
+      ],
+      "scope": {
+        "type": "files",
+        "files": [
+          "Config.js"
+        ],
+        "truncated": false
+      }
+    },
+    "old_completion": {
+      "type": "inconclusive",
+      "reasons": [
+        "partial_discovery"
+      ],
+      "scope": {
+        "type": "files",
+        "files": [
+          "Config.js"
+        ],
+        "truncated": false
+      }
+    },
+    "findings": 1,
+    "old_findings": 1,
+    "diagnostics": [
+      {
+        "code": {
+          "type": "evaluation_failure"
+        },
+        "severity": "warning",
+        "impact": "run_incomplete",
+        "family": "taint discovery is incomplete: call resolution is unknown",
+        "message": "taint discovery is incomplete: call resolution for Config.js:Config.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model; call `fetchRemote` at Config.js bytes 280..300 has snapshot input status unknown; the resolver left the call incomplete; resolver boundary status: dispatch_status=unproven candidate_coverage=Open uncovered_boundary=true truncated=false arms=[\"Unresolved proof=Unproven(\\\"unknown dynamic-dispatch evidence does not prove the complete target set: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\") completeness=Partial(\\\"dynamic-dispatch target coverage is incomplete: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\")\"] entered_targets=[DeclarationLocator([DeclarationSegment { kind: File, name: Some(\"Config.js\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 305, line: 14, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Initializer, name: Some(\"<file>\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 305, line: 14, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Function, name: Some(\"fetchRemote\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 32, line: 1, byte_column: 15 }, end: SourcePosition { byte_offset: 119, line: 3, byte_column: 3 } }, occurrence: 0 }, sibling_ordinal: 0 }])] binding_coverage=Some([Answered { status: Unproven }]); call semantic gap: unknown: call target requires whole-program dispatch refinement",
+        "family_count": 1,
+        "primary": {
+          "path": "Config.js",
+          "byte_span": {
+            "start": 280,
+            "end": 300
+          },
+          "region": {
+            "start_line": 13,
+            "start_column": 12,
+            "end_line": 13,
+            "end_column": 32
+          }
+        },
+        "related": []
+      }
+    ],
+    "old_diagnostics": [
+      {
+        "code": {
+          "type": "evaluation_failure"
+        },
+        "severity": "warning",
+        "impact": "run_incomplete",
+        "family": "taint discovery is incomplete: call resolution is unknown",
+        "message": "taint discovery is incomplete: call resolution for Config.js:Config.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+        "family_count": 1,
+        "primary": {
+          "path": "Config.js",
+          "byte_span": {
+            "start": 280,
+            "end": 300
+          },
+          "region": {
+            "start_line": 13,
+            "start_column": 12,
+            "end_line": 13,
+            "end_column": 32
+          }
+        },
+        "related": []
+      }
+    ]
+  }
+]

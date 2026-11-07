@@ -1,0 +1,71 @@
+{
+  "schema": "v092-native06-monitor-policy-design-assessment/v1",
+  "reviewed_at_utc": "2026-11-02T06:43:53Z",
+  "reviewer": "joern_native130_monitor_policy_design_assessment",
+  "review_type": "append-only-independent-read-only-policy-framing-review",
+  "status": "approved-for-human-policy-question-only",
+  "conclusion": {
+    "proposal03_resolves_prior_tracked_map_gap": true,
+    "proposal03_resolves_prior_event_count_gap": true,
+    "handoff04_matches_machine_proposal": true,
+    "framing_sufficient_for_human_decision": true,
+    "policy_approved": false,
+    "implementation_authorized": false,
+    "execution_authorized": false,
+    "current_runtime_disposition": "qualification06-remains-failed-and-consumed; current strict fail-closed policy remains until a human decision and all subsequent gates pass"
+  },
+  "reviewed_evidence": {
+    "proposal": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-snapshot-interval-policy-proposal-03.json",
+      "sha256": "f4d7cc9f3704407eaa3da25810026d7d73f3c2a18fa9e9579abf0a5ddf56a848",
+      "status": "proposal-only-not-approved"
+    },
+    "human_handoff": {
+      "path": "reports/releases/v0.9.2/review-handoff/joern-native-snapshot-policy-04.md",
+      "sha256": "4697ed24ae8060c255fb955d92796eebbda2f1247e492919768a1a46e19efb5c"
+    },
+    "prior_framing_assessment": {
+      "path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-monitor-policy-design-assessment-02.json",
+      "sha256": "1b8225798d5b20670402ec452b11885115e7c95d1eef154fd3fd1de6fd7dcc56",
+      "preserved_unchanged": true
+    },
+    "evaluator_reference": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-controls-08/process_reconciliation.py",
+      "sha256": "96bdec89dd15e4da35f6a71d08c57510e2c1bbec4857358cb756000b18f84a40",
+      "finding_from_prior_review": "The current evaluator rejects every unbridged kernel-comm row; ABI4 retention alone cannot satisfy the proposal. A future evaluator change is part of the acceptance-policy change and remains unauthorized."
+    },
+    "immutable_stop_reference": {
+      "path": "reports/releases/v0.9.2/validation/joern-current130-01/native06-root-stop-check-01.json",
+      "sha256": "670466ac4e9ee923f462242ab2da0b233daf1d0130986cadd5fa51ade145a941",
+      "safe_disposition": "No accepted qualification or scored attempt; ledger unchanged; recorded PIDs absent at the root stop check; descendant containment unknown."
+    }
+  },
+  "resolved_scope_gaps": [
+    {
+      "id": "TRACKED-IDENTITY-01",
+      "resolution": "Any first-only PID intersecting the pre-existing exact tracked map is ineligible regardless of birth and fails before ownership update. Historical rows cannot add, remove, replace, downgrade or resurrect tracked entries, enter current maps, or bridge argv. Other rows retain the existing exact-identity descendant algorithm.",
+      "assessment": "The machine proposal and human handoff now state the same rule; no remaining tracked-map ambiguity blocks framing."
+    },
+    {
+      "id": "FIRST-ONLY-COUNT-02",
+      "resolution": "At most one first-only row across both outer native observations per already-permitted bounded reconciliation query. More than one fails closed without selecting, dropping or ignoring rows. No additional query, pass, retry, time or resource allowance is granted; the existing per-original-candidate and phase/run budgets remain.",
+      "assessment": "The one-row maximum is explicit and consistent in the machine proposal and handoff. Existing 8,192-per-observation and 16,384-combined provider row capacities are unchanged and are not the exception count."
+    }
+  ],
+  "human_decision_context": {
+    "acceptance_delta": "A valid ABI4 intra-observation first-table-only row that meets all exact absence and non-candidate/non-tracked conditions may be retained durably as unresolved historical evidence and the existing boundary may continue. This changes acceptance; it is not only a provider bug fix.",
+    "uncertainty": "Historical ownership, workload relevance, foreignness and exact exit time remain unknown. Later absence does not prove harmlessness, no overlap, continuous absence, or uncontended timing.",
+    "strict_alternative": "Reject the exception and retain strict fail-closed behavior, leaving Joern blocked.",
+    "remaining_gates_if_approved": "A separately reviewed ABI4/provider/evaluator, exact source and request bindings, tests, independent invocation review, fresh admission and namespace, then actual 12-arm/36-phase qualification. The 108 scored cases and publication remain held."
+  },
+  "scope": {
+    "proposal_or_source_modified": false,
+    "tests_run": false,
+    "native_or_joern_invoked": false,
+    "process_query_run": false,
+    "qualification_or_admission_run": false,
+    "git_mutated": false,
+    "private_process_rows_or_pids_copied": false,
+    "statement": "Read-only framing assessment of proposal03 and handoff04. This is approval to present the stated policy choice to a human only; it does not decide the policy or authorize implementation, qualification, retry, scored execution, or publication."
+  }
+}

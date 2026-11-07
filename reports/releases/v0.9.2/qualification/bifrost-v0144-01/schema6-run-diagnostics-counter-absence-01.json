@@ -1,0 +1,95 @@
+{
+  "current_capture": {
+    "artifact_manifest_sha256": "d57cdb8353a47b9886621e746f2b6469be5480d920b089ae4e9a3ec14066b683",
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01",
+    "qualification_sha256": "5aaad619ed7b0c6fa7fec7cf7a32b7dbd9763175544eb3f0a45eb5224d8025a4",
+    "schema6_examples": {
+      "policy-python-declared-source-positive-with": {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/reports/policy-python-declared-source-positive-with.json",
+        "run_diagnostics_truncated": false,
+        "run_keys": [
+          "analysis_type",
+          "completion",
+          "diagnostics",
+          "diagnostics_truncated",
+          "engine",
+          "findings",
+          "obligations",
+          "obligations_truncated",
+          "omitted_obligations_lower_bound",
+          "policy_hash",
+          "policy_id",
+          "work"
+        ],
+        "run_omitted_diagnostics_lower_bound_present": false,
+        "sha256": "e32ea8af50581ec281b0df6b958a74ca143ae8bae59eeba99705ebec7efcaea6",
+        "top_level_diagnostics_truncated": false,
+        "top_level_keys": [
+          "diagnostics",
+          "diagnostics_truncated",
+          "evaluation",
+          "execution",
+          "omitted_diagnostics_lower_bound",
+          "packs",
+          "rules",
+          "runs",
+          "schema_version",
+          "scope",
+          "suppressions",
+          "worst_omitted_diagnostic_severity"
+        ],
+        "top_level_omitted_diagnostics_lower_bound": 0
+      },
+      "policy-python-declared-source-positive-without": {
+        "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/reports/policy-python-declared-source-positive-without.json",
+        "run_diagnostics_truncated": false,
+        "run_keys": [
+          "analysis_type",
+          "completion",
+          "diagnostics",
+          "diagnostics_truncated",
+          "findings",
+          "obligations",
+          "obligations_truncated",
+          "omitted_obligations_lower_bound",
+          "policy_hash",
+          "policy_id",
+          "work"
+        ],
+        "run_omitted_diagnostics_lower_bound_present": false,
+        "sha256": "b1802e432c653d027ba6ea2cceabc392c210c088ea5ea9b344b0f664e0543a87",
+        "top_level_diagnostics_truncated": false,
+        "top_level_keys": [
+          "diagnostics",
+          "diagnostics_truncated",
+          "evaluation",
+          "execution",
+          "omitted_diagnostics_lower_bound",
+          "packs",
+          "rules",
+          "runs",
+          "schema_version",
+          "scope",
+          "suppressions",
+          "worst_omitted_diagnostic_severity"
+        ],
+        "top_level_omitted_diagnostics_lower_bound": 0
+      }
+    }
+  },
+  "disposition": "Repair reviewer to require top-level diagnostics_truncated=false and omitted_diagnostics_lower_bound=0 plus run diagnostics_truncated=false; reject a nonzero run-level counter if present, but do not require that undeclared field.",
+  "issue": "The initial schema-6 review rejected a missing run-level diagnostics omission counter that schema 6 does not define.",
+  "observed_failure": {
+    "assertion": "run.get('omitted_diagnostics_lower_bound') == 0",
+    "details": "Both current official v0.14.4 and historical v0.14.0 schema-6 reports have diagnostics_truncated=false on each run and the omission lower-bound counter at report top level only. The run object has no omitted_diagnostics_lower_bound field.",
+    "reported_location": "review-bifrost-v0144-01.py:252",
+    "reviewer_path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/review-bifrost-v0144-01.py",
+    "reviewer_sha256_before_fix": "a0e33314c421d84b8fcf527749acde46dfcabe6b205fdb915c1b2c8293fb5250"
+  },
+  "preserved_source": {
+    "bytes": 27420,
+    "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/prior-review-before-schema-fix-01.py",
+    "sha256": "a0e33314c421d84b8fcf527749acde46dfcabe6b205fdb915c1b2c8293fb5250"
+  },
+  "schema": "v092-bifrost-v0144-review-diagnosis/v1"
+}

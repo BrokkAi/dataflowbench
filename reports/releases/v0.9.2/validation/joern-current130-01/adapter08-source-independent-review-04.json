@@ -1,0 +1,130 @@
+{
+  "schema": "v092-adapter08-source-independent-review/v1",
+  "review_type": "read-only-static-adapter08-source-review",
+  "reviewer": "joern_current130_adapter08_independent_source_review",
+  "reviewed_at_utc": "2026-11-03T07:00:57Z",
+  "status": "passed-source-review-pending-final-bindings",
+  "source_bindings": {
+    "candidate_directory": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08",
+    "source_preparation_receipt": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/source-preparation-receipt-04.json",
+      "sha256": "7bb036c04649c1292f85697e5f1c26e93801ac98cb33be60d20c649578a2f14d"
+    },
+    "predecessor_source_review": {
+      "path": "reports/releases/v0.9.2/validation/joern-current130-01/adapter08-source-independent-review-03.json",
+      "sha256": "f403c9356272c190a7396eeab3aa79957faf8e30b3d884cfe9e9b86222b45498"
+    },
+    "source_files": {
+      "packet.py": "d9ba5c03f6944516d23c492d73b3a6465e6c2aad30970f31e539f01f1404b329",
+      "history.py": "963b113d6b5f2cfcd2c70ecfb4fd9c960d4a30546f3c90e4c2a6cfa351a0f19b",
+      "protocol.py": "69bd861bec1831e9db35dbc2f1bdc1413ca0cfe01e08a9cbbc094d904531913f",
+      "stage_runtime.py": "437275c3fc66efaef4236c1a5d2e59a15c72208c92b199e4656281d1d123240f",
+      "bridge.py": "63e8ce60a1fa414adf83b6c1affcba9ee1435db938e55e13b2ffa4fadca7b3c4",
+      "admission.py": "9aac63808f3af6b174223d7ad5b8450577ba833184895ca15a44f806a404a4bc",
+      "supervisor.py": "95ba8f66d0d4ff5b06792db17f45fd24c37a908cfd924b91c60d9582fb89dcb7",
+      "test_adapter_08.py": "560b49af929c1c723cf6f60fde6958da6a4146ec5d57e4527ad4f381f8027440",
+      "test_runtime_graph_08.py": "0822ea3f63845b4ea6442dbeb117cdfb09e808d5ca2d3b44efc6cc8b87592720",
+      "README.md": "e1ebc94f4b74b9d64faf06f9ad07926e167994606a4c480ae21acbe7025ad281",
+      "run-joern-common-v092.py": "a7a5b600f227db231493a8e7e3ca4dfb85064e4bd89bfab0d9c8044fa5f1836e"
+    },
+    "frozen_executor": {
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    },
+    "history_provider03": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/history-provider-03/history_provider_03.py",
+      "sha256": "06da2c46dbe99f5921c5967a493d23bf86af477614ce7ca0ef5efec14ffb98c0",
+      "annex_sha256": "3390bc38b5b3a8c2889c6654a816681012d578c42e6ac6a59cc6b2e4c8fbded0",
+      "annex_global_attempt_numbers": [
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131
+      ]
+    },
+    "wrapper_observer08": {
+      "path": "reports/releases/v0.9.2/acquisition/joern-native-startup-observer-08.py",
+      "sha256": "5d39a7931cdaa690566b7587142ed9abd2b44ffaf38d51a403028653a40e85b1"
+    },
+    "graph_import_preflight": {
+      "path": "execution-state/v092/recovery-20261102/current95-import-preflight-01.json",
+      "sha256": "ee69d3a569d80b17f26230c558a80e223fff95ee9d4b49c093810c463dfd4af5",
+      "status": "passed-source-import-and-close-only",
+      "graph_sha256": "b7c22186859c7d33b8879315fb97a5d054694e5171f80dfbc357cd2dd738a563",
+      "roles": 95,
+      "dispatches": 0,
+      "execution_authorized": false
+    }
+  },
+  "findings": [],
+  "review_observations": [
+    {
+      "topic": "Exact global attempt provenance and terminal-row preservation",
+      "locations": "history.py:393-419, 464-486, 517-533; protocol.py:67-91, 115-130, 218; stage_runtime.py:641-705",
+      "assessment": "The adapter derives 132 from the exact 21-row C5 annex, then separately requires physical row131 to bind the current Joern attempt and omit the adapter-only field. The real history path pins provider03 and its archived130 identity, checks the immutable suffix digest and 111..131 annex metadata, and requires the live ledger to preserve the exact 130-row byte prefix and row partitions before constructing the tail proof. Protocol and replay paths bind the tail proof to the raw row, physical row131, global132, and incomplete eligibility flags. This keeps the frozen recorder receipt/ledger row schema unchanged and does not promote this group result to full target, configuration, model qualification, or publication completion."
+    },
+    {
+      "topic": "Non-blocking numeric type hardening",
+      "locations": "protocol.py:67-75, 120-129; history.py:468-473",
+      "assessment": "Python equality allows integral floats such as 111.0..131.0 and 132.0 to compare equal to the integer sequence and proof fields; the new synthetic tests do not cover that type-near-miss. The production path binds the exact provider03 source, archived C5 suffix bytes/digest, exact 130-row ledger prefix, and reconstructed annex rows, so there is no caller-controlled runtime authority path that can substitute those values while retaining the pinned proof. This is non-blocking for this exact integration; consider exact-int checks if the derivation is generalized."
+    },
+    {
+      "topic": "Pinned CLI wrapper",
+      "locations": "run-joern-common-v092.py:1-88; test_adapter_08.py:123-161",
+      "assessment": "The new wrapper verifies its adapter location, resolves the repository root from the expected path, reads a bounded regular observer08 file through a no-follow descriptor, checks stable file identity and the pinned SHA, executes those exact bytes, and forwards the complete argument vector in order to the observer's argv-aware CLI. The observer path and digest match the receipt. It remains outside the seven graph roles and must be included as an exact source input in the eventual committed source plan before any dispatch."
+    },
+    {
+      "topic": "Reported tests and boundary",
+      "locations": "test-output-06.txt",
+      "assessment": "The receipt reports 20 passing synthetic tests with no failures. I independently checked the receipt, all 11 candidate source-file hashes, frozen executor, observer08, predecessor receipt, and test-output hash. I did not rerun tests; no provider, analyzer, Joern, admission, or dispatch was invoked. The tests stop at the documented pre-tool boundary and do not prove execution eligibility."
+    }
+  ],
+  "reported_tests": {
+    "command": "/opt/homebrew/bin/python3.13 -B -E -m unittest -v test_adapter_08 test_runtime_graph_08",
+    "status": "passed",
+    "passed": 20,
+    "failed": 0,
+    "test_output_path": "reports/releases/v0.9.2/acquisition/joern-post-bifrost-01/adapter-08/test-output-06.txt",
+    "test_output_sha256": "f07de7c4d2fe281846ee30a7ddef1fe0ebd0dce300a5ce05d62cd350a652b343",
+    "receipt_bound": true,
+    "reviewer_reran_tests": false
+  },
+  "remaining_bindings": [
+    "Commit the exact wrapper bytes and include its path/digest in the final current source inputs before execution.",
+    "Root-owned final current core, manifest, source evidence/S/P, source CAS, and 95-module graph hashes/import edges must bind this receipt's source hashes.",
+    "Native08 request, accepted capture/finalization evidence, decision review, current-source review, and Joern group-contract review remain separate required bindings.",
+    "A fresh exact current ledger131/Joern108 operational run and raw/report/config checks remain required; this review grants no execution or publication authority."
+  ],
+  "scope": {
+    "static_source_review_only": true,
+    "reviewer_reran_tests": false,
+    "native_or_joern_invoked": false,
+    "provider_or_analyzer_query_run": false,
+    "admission_or_dispatch_run": false,
+    "git_mutation_performed": false,
+    "scored_run_or_performance_certification": false,
+    "execution_authorized": false,
+    "publication_authorized": false,
+    "full_model_qualification": false,
+    "scored_activation": false,
+    "publication_hold": true,
+    "statement": "This review accepts candidate04 source behavior for root-owned source integration preparation, with non-blocking numeric type hardening noted. It grants no final current-core/manifest binding, runtime qualification, native or Joern execution, admission, score, performance conclusion, release gate, or publication authority."
+  }
+}

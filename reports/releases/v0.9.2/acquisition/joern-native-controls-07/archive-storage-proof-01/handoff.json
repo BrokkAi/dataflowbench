@@ -1,0 +1,39 @@
+{
+  "schema": "v092-native07-archive-proof-recovery-handoff/v1",
+  "candidate_status": "source-only synthetic-test candidate; not committed or qualified",
+  "scope": "Permit only the exact indexed 96 historical raw capture JSON inputs to be proven through a current-HEAD Git LFS pointer plus the bounded archive payload. All ordinary source refs remain direct current-HEAD blobs.",
+  "source": {
+    "archive_evidence.py": {
+      "path": "archive_evidence.py",
+      "sha256": "de7a8044b71cefb0958108248df7c3e425a0e9bc767bffe2a617b386379725d1"
+    },
+    "native_qualifier.py": {
+      "path": "native_qualifier.py",
+      "sha256": "3e69e03bbfb60491267b35857c74991ce1f75ac07abae0b6943e254f18544457"
+    }
+  },
+  "support": {
+    "fresh_worker_probe.py": "be37fddd4e85f562990863452d628474557b110dc380d7ccb1fad6be50248d22",
+    "process_reconciliation.py": "96bdec89dd15e4da35f6a71d08c57510e2c1bbec4857358cb756000b18f84a40",
+    "retained_resources.py": "ea8fa4268477a4411c55d44c1704f132d8b0b8b4b9bf0f722b4afd404f9bbe08"
+  },
+  "tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=. /opt/homebrew/bin/python3.13 -B -m unittest -v test_archive_evidence test_archive_source_gate test_native_qualifier",
+    "result": "85 tests passed",
+    "duration_seconds": 9.766,
+    "test_archive_evidence.py_sha256": "3104d7a1188e468b3c4929cb7bfe89a283fd6ee8110d70ab3528677dc607fe8f",
+    "test_archive_source_gate.py_sha256": "aecfe9f28ab14c9f7826a22eb39054f49936a4e7f222f0e1f73bbfbafc257fa1",
+    "test_native_qualifier.py_sha256": "708582ebe4d1a81b9151300afbb241af00d1f3f484efd1835f300ad4bde104df",
+    "log": {
+      "path": "test-output.txt",
+      "bytes": 14785,
+      "sha256": "1227771fbcd53dd64cdfbcc4f1f680dcffd2518fbb8f0d62c07b40e760582232"
+    }
+  },
+  "proof_limits": [
+    "Tests use synthetic archive payloads and fake Git command responses; no current-worktree source qualification was run.",
+    "The prepared archive artifact and its current-HEAD LFS pointer were not read or validated in this task.",
+    "No native query, analyzer/archive import, runtime qualification, or dispatch-authority claim was made.",
+    "The index, retained request05, helper, and archive pointer must be committed and independently reviewed before a future request can pass the production gate."
+  ]
+}

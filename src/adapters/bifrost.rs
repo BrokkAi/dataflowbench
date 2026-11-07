@@ -100,10 +100,10 @@ pub(crate) const BIFROST_SCALA_DEPENDENCY_EVIDENCE: &str =
 /// positive without the propagator declaration ever being read. A modeling
 /// policy that kept that default would not be measuring activation.
 pub(crate) const BIFROST_MODELING_CALL_MODELING: &str = "require-model";
-const BIFROST_V0_9_2_VERSION_EVIDENCE: &str =
-    "reports/releases/v0.9.2/qualification/bifrost-v0140-01/version.stdout.txt";
+const BIFROST_V0_9_2_ACQUISITION_EVIDENCE: &str =
+    "reports/releases/v0.9.2/acquisition/bifrost-v0151-01/acquisition-receipt.json";
 
-/// Apply the prospective v0.9.2 process boundary that prevents Bifrost 0.14.0
+/// Apply the prospective v0.9.2 process boundary that prevents Bifrost 0.15.1
 /// from implicitly acquiring host open packs. The benchmark's shipped-catalog
 /// profile is measured with acquisition disabled; explicitly supplied files
 /// and native catalog evidence remain separate inputs.
@@ -124,24 +124,60 @@ pub(crate) fn witness_bifrost_identity(binary: &Path) -> Result<ToolIdentity> {
             binary.display()
         )
     })?;
-    let evidence = fs::read_to_string(BIFROST_V0_9_2_VERSION_EVIDENCE).with_context(|| {
-        format!("read the exact Bifrost v0.9.2 version and catalog witness from {BIFROST_V0_9_2_VERSION_EVIDENCE}")
+    let evidence: Value = serde_json::from_slice(
+        &fs::read(BIFROST_V0_9_2_ACQUISITION_EVIDENCE).with_context(|| {
+            format!("read Bifrost v0.9.2 acquisition evidence from {BIFROST_V0_9_2_ACQUISITION_EVIDENCE}")
+        })?,
+    )
+    .with_context(|| {
+        format!("parse Bifrost v0.9.2 acquisition evidence at {BIFROST_V0_9_2_ACQUISITION_EVIDENCE}")
     })?;
-    let evidence_lines: Vec<_> = evidence.lines().collect();
+    let evidence_version = evidence["binary"]["version_output"]
+        .as_str()
+        .context("Bifrost acquisition evidence lacks its recorded version output")?;
+    let evidence_build_identity = evidence["binary"]["build_identity_output"]
+        .as_str()
+        .context("Bifrost acquisition evidence lacks its recorded build identity")?
+        .trim_end();
+    if evidence_build_identity != pins::BIFROST_BUILD_IDENTITY {
+        bail!(
+            "Bifrost acquisition evidence at {BIFROST_V0_9_2_ACQUISITION_EVIDENCE} records build identity {evidence_build_identity:?}, but profile {} pins {}; refusing to publish a report for another build",
+            pins::PROFILE,
+            pins::BIFROST_BUILD_IDENTITY
+        );
+    }
+    let evidence_binary_sha256 = evidence["binary"]["sha256"]
+        .as_str()
+        .context("Bifrost acquisition evidence lacks its binary SHA-256")?;
+    if evidence_binary_sha256 != pins::BIFROST_BINARY_SHA256 {
+        bail!(
+            "Bifrost acquisition evidence at {BIFROST_V0_9_2_ACQUISITION_EVIDENCE} records binary SHA-256 {evidence_binary_sha256:?}, but profile {} pins {}; refusing to publish a report for another binary",
+            pins::PROFILE,
+            pins::BIFROST_BINARY_SHA256
+        );
+    }
+    let evidence_lines: Vec<_> = evidence_version.lines().collect();
     if evidence_lines.len() != 2 || evidence_lines[0] != pins::BIFROST_VERSION {
         bail!(
-            "Bifrost v0.9.2 version evidence at {BIFROST_V0_9_2_VERSION_EVIDENCE} must contain exactly the pinned version line and one catalog witness"
+            "Bifrost v0.9.2 acquisition evidence at {BIFROST_V0_9_2_ACQUISITION_EVIDENCE} must contain exactly the pinned version line and one catalog witness"
         );
     }
     let Some(catalog_digest) = evidence_lines[1].strip_prefix("builtin-policy-catalog sha256=")
     else {
         bail!(
-            "Bifrost v0.9.2 version evidence at {BIFROST_V0_9_2_VERSION_EVIDENCE} lacks the exact built-in catalog witness"
+            "Bifrost v0.9.2 acquisition evidence at {BIFROST_V0_9_2_ACQUISITION_EVIDENCE} lacks the exact built-in catalog witness"
         );
     };
     if catalog_digest.len() != 64 || !catalog_digest.bytes().all(|byte| byte.is_ascii_hexdigit()) {
         bail!(
-            "Bifrost v0.9.2 version evidence at {BIFROST_V0_9_2_VERSION_EVIDENCE} has a malformed catalog digest"
+            "Bifrost v0.9.2 acquisition evidence at {BIFROST_V0_9_2_ACQUISITION_EVIDENCE} has a malformed catalog digest"
+        );
+    }
+    if catalog_digest != pins::BIFROST_CATALOG_SHA256 {
+        bail!(
+            "Bifrost acquisition evidence at {BIFROST_V0_9_2_ACQUISITION_EVIDENCE} records catalog digest {catalog_digest:?}, but profile {} pins {}; refusing to publish a report for another catalog",
+            pins::PROFILE,
+            pins::BIFROST_CATALOG_SHA256
         );
     }
     let expected_version = format!("{}\n{}", evidence_lines[0], evidence_lines[1]);

@@ -1,0 +1,4664 @@
+{
+  "clean": false,
+  "controls": [
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "8bbacd5bb65c7183c4c089e5d7c7e8bea7f7a81a961266226d8915e6332de193",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "ca02e63ef1a68c5b510fd099a73ae95ea05280041688c62e90861bfbb47434ea",
+      "id": "policy-java-declared-sink-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "complete-no-finding",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "1bbc3fabb9ff294c427937a7e6b40fa41c3aaf8f57a430c7a6063fb5e80f5a85",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "207d01bf7e04303c0527d22fe029175cf0749a568b515ef68259c5264f43582f",
+      "id": "policy-java-declared-sink-negative-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-java` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-java` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "6f099946f172cf0da2fa543e8b570b0e01945424d2aa1ded1d49d504caaaa73a"
+        ],
+        "old": [
+          "6f099946f172cf0da2fa543e8b570b0e01945424d2aa1ded1d49d504caaaa73a"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "0416107b00406574bcc72f99059e1b4f9b691840494916a0decba287ebb94778",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "0c9b96fd448fb884befc5cd4fec03a6452fb651e0acb368980993011a396488b",
+      "id": "policy-java-declared-sink-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "1bbc3fabb9ff294c427937a7e6b40fa41c3aaf8f57a430c7a6063fb5e80f5a85",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "207d01bf7e04303c0527d22fe029175cf0749a568b515ef68259c5264f43582f",
+      "id": "policy-java-declared-sink-positive-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-java` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-java` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "6f099946f172cf0da2fa543e8b570b0e01945424d2aa1ded1d49d504caaaa73a"
+        ],
+        "old": [
+          "6f099946f172cf0da2fa543e8b570b0e01945424d2aa1ded1d49d504caaaa73a"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "45f91033bdfaf7b1a22472a75276a6060be3e03c642a92c8fdf78fb8e5af8eb7",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "81ef030c937e4ccbfa532f0aae9a15836b37fad67c4a7107de5543fb022e1788",
+      "id": "policy-java-declared-source-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-java` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-java` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "5c8af18b033e98a8e10b7268b3591faf1d240ee991626c36d5246f834c968e74"
+        ],
+        "old": [
+          "5c8af18b033e98a8e10b7268b3591faf1d240ee991626c36d5246f834c968e74"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "a099c378a6c43a4bc1630a3e6e37b05209c2d8ac5271b0f7d5a3218a046893a6",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "da42720f2f8afc83f36f99605d57365d25dcb3f6504b1b1d3247ce83bf7b04d3",
+      "id": "policy-java-declared-source-negative-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-java` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-java` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "5c8af18b033e98a8e10b7268b3591faf1d240ee991626c36d5246f834c968e74"
+        ],
+        "old": [
+          "5c8af18b033e98a8e10b7268b3591faf1d240ee991626c36d5246f834c968e74"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "1743538005be5dd9036264c2ea9569b81bc0393a9a1f96b92382ee027fd2008b",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "933e725e97628af9778250072c0d8545a6e4cfa1288b967cbc663d4bfc477d7b",
+      "id": "policy-java-declared-source-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "f9122a0c356604b940f0077e77d9d2a645b2dcb483b39bfc8c4bcff6ee1783c3",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "9cac29a22a374d6852d7be80e864d01bf29b96b3766191323572e719d6e88c5f",
+      "id": "policy-java-declared-source-positive-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-java` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-java` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "5c8af18b033e98a8e10b7268b3591faf1d240ee991626c36d5246f834c968e74"
+        ],
+        "old": [
+          "5c8af18b033e98a8e10b7268b3591faf1d240ee991626c36d5246f834c968e74"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "918555f265efb85a5e76e1cd6f5f9a0e1916e17800eb41310bb62980752b162b",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "164eb573644b6544c6cb8ed427672abd8624e38cefc919fe0757d21fa6491716",
+      "id": "policy-javascript-declared-sink-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "inconclusive",
+      "new": {
+        "completion": {
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "files": [
+              "Audit.js"
+            ],
+            "truncated": false,
+            "type": "files"
+          },
+          "type": "inconclusive"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "family_count": 1,
+            "impact": "run_incomplete",
+            "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model; call `discard` at Audit.js bytes 240..267 has snapshot input status unknown; the resolver left the call incomplete; resolver boundary status: dispatch_status=unproven candidate_coverage=Open uncovered_boundary=true truncated=false arms=[\"Unresolved proof=Unproven(\\\"unknown dynamic-dispatch evidence does not prove the complete target set: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\") completeness=Partial(\\\"dynamic-dispatch target coverage is incomplete: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\")\"] entered_targets=[DeclarationLocator([DeclarationSegment { kind: File, name: Some(\"Audit.js\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 296, line: 13, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Initializer, name: Some(\"<file>\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 296, line: 13, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Function, name: Some(\"discard\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 190, line: 6, byte_column: 11 }, end: SourcePosition { byte_offset: 216, line: 6, byte_column: 37 } }, occurrence: 0 }, sibling_ordinal: 0 }])] binding_coverage=Some([Answered { status: Unproven }]); call semantic gap: unknown: call target requires whole-program dispatch refinement",
+            "primary": {
+              "byte_span": {
+                "end": 267,
+                "start": 240
+              },
+              "path": "Audit.js",
+              "region": {
+                "end_column": 30,
+                "end_line": 11,
+                "start_column": 3,
+                "start_line": 11
+              }
+            },
+            "related": [],
+            "severity": "warning"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "files": [
+              "Audit.js"
+            ],
+            "truncated": false,
+            "type": "files"
+          },
+          "type": "inconclusive"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "family_count": 1,
+            "impact": "run_incomplete",
+            "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+            "primary": {
+              "byte_span": {
+                "end": 267,
+                "start": 240
+              },
+              "path": "Audit.js",
+              "region": {
+                "end_column": 30,
+                "end_line": 11,
+                "start_column": 3,
+                "start_line": 11
+              }
+            },
+            "related": [],
+            "severity": "warning"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "99127b8271a55e7647841cf28bf91b2204d72138ace4759764e10970472cbea7"
+        ],
+        "old": [
+          "e6272eaa6db6198dd1dbac50c4441e8cfea8ccb32d508da349a38e4e8e0a271e"
+        ]
+      },
+      "raw_diagnostics_equal": false
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "2f7a1b4e6a646877de78e4c459ad236da44d36d4547e7d6ebdeae4a47c496d75",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "a1258df6e8a519845618e5b25ba546c827c2fadcbdd2db72e6ef6769be0dff98",
+      "id": "policy-javascript-declared-sink-negative-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-javascript` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-javascript` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "4ffd6f53e91b0ab648f7a065b75652dd22f77492f08d6cf3ce96592045ba5569"
+        ],
+        "old": [
+          "4ffd6f53e91b0ab648f7a065b75652dd22f77492f08d6cf3ce96592045ba5569"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "6b47a9538cb82735833c06bef3d4f5c45e8fb0bbe8a2945ba1db9e9e4ee2a483",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "d39b04a443cc19ed25d962f6837f13da051d888d76b2eac62d9ceb01cb294ded",
+      "id": "policy-javascript-declared-sink-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "inconclusive",
+      "new": {
+        "completion": {
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "files": [
+              "Audit.js"
+            ],
+            "truncated": false,
+            "type": "files"
+          },
+          "type": "inconclusive"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "family_count": 1,
+            "impact": "run_incomplete",
+            "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model; call `record` at Audit.js bytes 240..266 has snapshot input status unknown; the resolver left the call incomplete; resolver boundary status: dispatch_status=unproven candidate_coverage=Open uncovered_boundary=true truncated=false arms=[\"Unresolved proof=Unproven(\\\"unknown dynamic-dispatch evidence does not prove the complete target set: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\") completeness=Partial(\\\"dynamic-dispatch target coverage is incomplete: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\")\"] entered_targets=[DeclarationLocator([DeclarationSegment { kind: File, name: Some(\"Audit.js\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 296, line: 13, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Initializer, name: Some(\"<file>\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 296, line: 13, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Function, name: Some(\"record\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 114, line: 5, byte_column: 10 }, end: SourcePosition { byte_offset: 139, line: 5, byte_column: 35 } }, occurrence: 0 }, sibling_ordinal: 0 }])] binding_coverage=Some([Answered { status: Unproven }]); call semantic gap: unknown: call target requires whole-program dispatch refinement",
+            "primary": {
+              "byte_span": {
+                "end": 266,
+                "start": 240
+              },
+              "path": "Audit.js",
+              "region": {
+                "end_column": 29,
+                "end_line": 11,
+                "start_column": 3,
+                "start_line": 11
+              }
+            },
+            "related": [],
+            "severity": "warning"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "files": [
+              "Audit.js"
+            ],
+            "truncated": false,
+            "type": "files"
+          },
+          "type": "inconclusive"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "family_count": 1,
+            "impact": "run_incomplete",
+            "message": "taint discovery is incomplete: call resolution for Audit.js:Audit.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+            "primary": {
+              "byte_span": {
+                "end": 266,
+                "start": 240
+              },
+              "path": "Audit.js",
+              "region": {
+                "end_column": 29,
+                "end_line": 11,
+                "start_column": 3,
+                "start_line": 11
+              }
+            },
+            "related": [],
+            "severity": "warning"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "64e518770e7e37d0e55d92c9d9214e38fc2a6d04b756ff9bd86398bba1c67417"
+        ],
+        "old": [
+          "e6272eaa6db6198dd1dbac50c4441e8cfea8ccb32d508da349a38e4e8e0a271e"
+        ]
+      },
+      "raw_diagnostics_equal": false
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "2f7a1b4e6a646877de78e4c459ad236da44d36d4547e7d6ebdeae4a47c496d75",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "a1258df6e8a519845618e5b25ba546c827c2fadcbdd2db72e6ef6769be0dff98",
+      "id": "policy-javascript-declared-sink-positive-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-javascript` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-javascript` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "4ffd6f53e91b0ab648f7a065b75652dd22f77492f08d6cf3ce96592045ba5569"
+        ],
+        "old": [
+          "4ffd6f53e91b0ab648f7a065b75652dd22f77492f08d6cf3ce96592045ba5569"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "9c226f476460378b8148ef7c2483f3340a9e0baa0e480088798f9acc9b67d6f3",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "7e2904ccebc621b4560656003b1bc72880339cc26db95ec79747b6c8d6f29814",
+      "id": "policy-javascript-declared-source-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-javascript` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-javascript` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "8a4eb931c07f045b29c4ef23783b60f9261d7ff3b4aa99a9781c878cad3b2587"
+        ],
+        "old": [
+          "8a4eb931c07f045b29c4ef23783b60f9261d7ff3b4aa99a9781c878cad3b2587"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "c202bfe1d3ea48785ebdc2d526b62fa33b9d3c6ea6ee2fc21ea4f5564e48af46",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "f9c84cf6f6f0924384c4adbeb5372b349aacb39400fec3837bab209c457d1854",
+      "id": "policy-javascript-declared-source-negative-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-javascript` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-javascript` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "8a4eb931c07f045b29c4ef23783b60f9261d7ff3b4aa99a9781c878cad3b2587"
+        ],
+        "old": [
+          "8a4eb931c07f045b29c4ef23783b60f9261d7ff3b4aa99a9781c878cad3b2587"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "6666043c2cc2a0ad4f1c7a9a8ae6548f29487b6c30883ea0a7f6bd9edb1148e9",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "0f3ae57b223a4edba0fe901e2944e59e9c7fe7955394c4e02bd321ecae88eca4",
+      "id": "policy-javascript-declared-source-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "inconclusive",
+      "new": {
+        "completion": {
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "files": [
+              "Config.js"
+            ],
+            "truncated": false,
+            "type": "files"
+          },
+          "type": "inconclusive"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "family_count": 1,
+            "impact": "run_incomplete",
+            "message": "taint discovery is incomplete: call resolution for Config.js:Config.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model; call `fetchRemote` at Config.js bytes 280..300 has snapshot input status unknown; the resolver left the call incomplete; resolver boundary status: dispatch_status=unproven candidate_coverage=Open uncovered_boundary=true truncated=false arms=[\"Unresolved proof=Unproven(\\\"unknown dynamic-dispatch evidence does not prove the complete target set: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\") completeness=Partial(\\\"dynamic-dispatch target coverage is incomplete: property dispatch may resolve through a prototype, accessor, proxy, or runtime mutation; complete target coverage requires value and type refinement\\\")\"] entered_targets=[DeclarationLocator([DeclarationSegment { kind: File, name: Some(\"Config.js\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 305, line: 14, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Initializer, name: Some(\"<file>\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 0, line: 0, byte_column: 0 }, end: SourcePosition { byte_offset: 305, line: 14, byte_column: 0 } }, occurrence: 0 }, sibling_ordinal: 0 }, DeclarationSegment { kind: Function, name: Some(\"fetchRemote\"), anchor: SourceAnchor { span: SourceSpan { start: SourcePosition { byte_offset: 32, line: 1, byte_column: 15 }, end: SourcePosition { byte_offset: 119, line: 3, byte_column: 3 } }, occurrence: 0 }, sibling_ordinal: 0 }])] binding_coverage=Some([Answered { status: Unproven }]); call semantic gap: unknown: call target requires whole-program dispatch refinement",
+            "primary": {
+              "byte_span": {
+                "end": 300,
+                "start": 280
+              },
+              "path": "Config.js",
+              "region": {
+                "end_column": 32,
+                "end_line": 13,
+                "start_column": 12,
+                "start_line": 13
+              }
+            },
+            "related": [],
+            "severity": "warning"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "reasons": [
+            "partial_discovery"
+          ],
+          "scope": {
+            "files": [
+              "Config.js"
+            ],
+            "truncated": false,
+            "type": "files"
+          },
+          "type": "inconclusive"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "evaluation_failure"
+            },
+            "family": "taint discovery is incomplete: call resolution is unknown",
+            "family_count": 1,
+            "impact": "run_incomplete",
+            "message": "taint discovery is incomplete: call resolution for Config.js:Config.js.run is unknown; this exact call has neither a completely resolved executable target nor an applicable complete external model",
+            "primary": {
+              "byte_span": {
+                "end": 300,
+                "start": 280
+              },
+              "path": "Config.js",
+              "region": {
+                "end_column": 32,
+                "end_line": 13,
+                "start_column": 12,
+                "start_line": 13
+              }
+            },
+            "related": [],
+            "severity": "warning"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "f13db826913a863f6b34c68643ffa7281863d330540b5da99fc11f87b62c0eaf"
+        ],
+        "old": [
+          "fb969a7bf41c2175b653f1cd3cf6b7be620fb1ca117bbadee7330d22f004f050"
+        ]
+      },
+      "raw_diagnostics_equal": false
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "749769e81f8e2be8f1fc220eaaf2d5dabb737ea48e83893ebaa14204961ed895",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "c0f110a739abbeb8a9f7abf649802d6ec08514d6a7adadeaa3dbd6fd5d894d2f",
+      "id": "policy-javascript-declared-source-positive-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-javascript` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-javascript` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "8a4eb931c07f045b29c4ef23783b60f9261d7ff3b4aa99a9781c878cad3b2587"
+        ],
+        "old": [
+          "8a4eb931c07f045b29c4ef23783b60f9261d7ff3b4aa99a9781c878cad3b2587"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "248483f3a9ca8d343fd6d534667a55a816811b5e11818eaa92f9d9cf2d16f53b",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "cde1710ce29f9a5d93668055287e6a4055c898e3a61ce05c22f7eefa1f6a91bd",
+      "id": "policy-python-declared-sink-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "complete-no-finding",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "021fc11ac0a5963056be7772097bdf179e5cf618bf5a1171ab209562711980ee",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "2595ecaf9d8768f86bfb073390f83344aa27c102484909aeb60386a0f4f6b172",
+      "id": "policy-python-declared-sink-negative-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-python` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-python` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "d199a208b348f8984194ff299a75978865267304191bd783d642c3c7348a06d4"
+        ],
+        "old": [
+          "d199a208b348f8984194ff299a75978865267304191bd783d642c3c7348a06d4"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "af7b2f0acfed1119e127374f2261a0eb51ba00a8a8cf5c5e287dcd8ea02414bb",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "8fd594d007de4cf50d00f9058aa90c7ec51da2290ada0548b863392a18e3209f",
+      "id": "policy-python-declared-sink-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "021fc11ac0a5963056be7772097bdf179e5cf618bf5a1171ab209562711980ee",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "2595ecaf9d8768f86bfb073390f83344aa27c102484909aeb60386a0f4f6b172",
+      "id": "policy-python-declared-sink-positive-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-python` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-python` bound no sink endpoint: its sink selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 0
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "d199a208b348f8984194ff299a75978865267304191bd783d642c3c7348a06d4"
+        ],
+        "old": [
+          "d199a208b348f8984194ff299a75978865267304191bd783d642c3c7348a06d4"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "6f1b85e8c0c6bf686fbbbf71a42c933a89aa3f2148a136a5ded09247ecf78cb7",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "e128a660f9b0ae34e3712bd0cdbc3a324f023ff98d8068dad3cef6f9de5f0932",
+      "id": "policy-python-declared-source-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-python` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-python` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "dd0f74ba0fb24ad7ce6152997beb8173ba788f928f29a7f01754a5b965fdb1f3"
+        ],
+        "old": [
+          "dd0f74ba0fb24ad7ce6152997beb8173ba788f928f29a7f01754a5b965fdb1f3"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "2f38d88d382338eefb608d05028cd3d293434165cc449092321571d6e1216345",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "6cda7e8fd81efee71ccdd5abc1ce4c663c06c6b7ab4e4f014a3d0493341aa948",
+      "id": "policy-python-declared-source-negative-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-python` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-python` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "dd0f74ba0fb24ad7ce6152997beb8173ba788f928f29a7f01754a5b965fdb1f3"
+        ],
+        "old": [
+          "dd0f74ba0fb24ad7ce6152997beb8173ba788f928f29a7f01754a5b965fdb1f3"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "e32ea8af50581ec281b0df6b958a74ca143ae8bae59eeba99705ebec7efcaea6",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "e5bcd40dfa0b1f84a21a708041ea9e307c00ac4e854422ee0eb8e00c523386ee",
+      "id": "policy-python-declared-source-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": false,
+      "current_v0144_report_sha256": "b1802e432c653d027ba6ea2cceabc392c210c088ea5ea9b344b0f664e0543a87",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "106439f7b28692a3a051369202135ee5672a473a2de3f60a6fe05009238bf75d",
+      "id": "policy-python-declared-source-positive-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "unbound-endpoint",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-python` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [
+          {
+            "code": {
+              "type": "empty_selection"
+            },
+            "family": "empty_selection",
+            "family_count": 1,
+            "impact": "advisory",
+            "message": "taint policy `dataflowbench.taint.model-python` bound no source endpoint: its source selectors matched no location in the scanned workspace, so this run reports zero findings vacuously rather than proving that no flow exists",
+            "primary": null,
+            "related": [],
+            "severity": "note"
+          }
+        ],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 0
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [
+          "dd0f74ba0fb24ad7ce6152997beb8173ba788f928f29a7f01754a5b965fdb1f3"
+        ],
+        "old": [
+          "dd0f74ba0fb24ad7ce6152997beb8173ba788f928f29a7f01754a5b965fdb1f3"
+        ]
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "1dd7a2cd43e92f3a1d2bce1ba46a369beddebc208449dfbec219825d3e9fb111",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "0f3cf659a8f73bbcd1ea45e1c3bbbda8bcb255512ca99e8a54f12d926cfc211d",
+      "id": "sanitizer-java-sanitizer-kill-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "complete-no-finding",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "675087c9c253febdf8f1748e5ee45b619049921855b43f7cf266bbad137ea332",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "2ef24cc71484752289b8e4fb162b96a38c31e3d434a0b946715d0777df7740e0",
+      "id": "sanitizer-java-sanitizer-kill-negative-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "795927793c2c789dd9ddfd5a7d27abc64c9bb9ba6399f36b411626a642581e1f",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "9beef70bcb8732d021f87f1b6ff68e635d6fd2f81bb6dfda708593b0910d1a03",
+      "id": "sanitizer-java-sanitizer-kill-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "2d8f88c7490d0f7451ecae9081daf3bb26b14ad4bf3bbf75d2c0a3128a8765d3",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "03435b5b907f3d938bc2c66c70b464d2d248525b28d801897a3f86465be3f810",
+      "id": "sanitizer-java-sanitizer-selectivity-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "complete-no-finding",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "d22a6f92e8371063e7ced96d85b975414b50b25611d2a20d683a4b9f721eb4ab",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "54793ab547a228f3dbe1ca041bd168e08c424422aa3f92e1f6c994b1f787352a",
+      "id": "sanitizer-java-sanitizer-selectivity-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "9ef146aa8dde6f1b3e5ada167ba4ab751e4c880a75049e644d1db413a03c9684",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "fb54d73503c82c0d4c13dea4657556ca65274ceb9683ab237771036c25078298",
+      "id": "sanitizer-javascript-sanitizer-kill-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "complete-no-finding",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "13332def1f673252ea853533392639740eb48aa1df4a5418517a4d034ddf46df",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "6c1d2a0143e1bbf9e56071cfe47792dfe568e1477892f7773414e91b52c509da",
+      "id": "sanitizer-javascript-sanitizer-kill-negative-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "b14bfd48651b14583709644222751d4f3c1a5a70cfdec10a5597bfbdd061373c",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "3df0fe3c3f49793970462d1bfddbfd8b3445ad914ce400d61f4c3aef5e348ba9",
+      "id": "sanitizer-javascript-sanitizer-kill-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "8d67fa62a8761698e69d79e40c69952a07af3f718d4f4a44ba97ac3590178b35",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "ba2b337c6eb70203822cf2441e3b8f3793114ec97f59d7aee400d287bbd58185",
+      "id": "sanitizer-javascript-sanitizer-selectivity-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "complete-no-finding",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "5d4557a7e510107bbf826af847bd6759d7c9b97a9b5c33d31f0176d80cf8cf96",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "53d7c091da8ce59819bce59a5e640688673826040e489d977b404bc0ca221bb0",
+      "id": "sanitizer-javascript-sanitizer-selectivity-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "30e9f3d7bf01f16f5af30c2a5264e002b28f64644714501d1c528595366f1f94",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "28b4e6ff45fdccdbac4bf5acac49a04807c7d71494d3722113760745b7478019",
+      "id": "sanitizer-python-sanitizer-kill-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "complete-no-finding",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "d323d1da6e78399a3c32b1d1b2fcfd891bd52539466414c9abd8f202c0f99fc7",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "5f6641f6dcb18fa29ea99530ff36febb330fdb5c148124555a2816793c23087c",
+      "id": "sanitizer-python-sanitizer-kill-negative-without",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "ec2beff6b337c804ec84a6ffcfcca33bac282f82920722a58b9667a9d9c98138",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "8b1abe5738f10af33fa0793dddd522717aaef0580c9a1c9b36ff5b9a49d78b96",
+      "id": "sanitizer-python-sanitizer-kill-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "f37a07852e46d78eb5541cac12f9048b6e43d3dc255093774982bbe71539021a",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "f3e790a7be198c8d6785f6aa462ebc2f4c2b9480ca44a5a3eb40f534c22b1978",
+      "id": "sanitizer-python-sanitizer-selectivity-negative-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "complete-no-finding",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 0,
+        "findings": [],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    },
+    {
+      "clean": null,
+      "current_v0144_report_sha256": "448f36ff29a9402f621888900d65fcb8b2b07ed75459c9ee8610c52150d1de48",
+      "equivalence": {
+        "completion": true,
+        "diagnostic_semantic_fields": true,
+        "diagnostic_truncation_closure": true,
+        "finding_certainty_proof_completeness": true,
+        "finding_count": true,
+        "obligations_and_closure": true,
+        "source_sink_endpoints": true
+      },
+      "historical_v0140_report_sha256": "72cc14da4ed245b591c65f5d2402a5072976a6d5af47bf734fa8ba4256a407b4",
+      "id": "sanitizer-python-sanitizer-selectivity-positive-with",
+      "interpretation_inherited_from_reviewed_v0140_equivalent": "proven-flow",
+      "new": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "old": {
+        "completion": {
+          "type": "complete"
+        },
+        "diagnostic_closure": {
+          "report_omitted_lower_bound": 0,
+          "report_truncated": false,
+          "run_omitted_lower_bound": null,
+          "run_omitted_lower_bound_present": false,
+          "run_truncated": false
+        },
+        "diagnostics": [],
+        "endpoints": [
+          {
+            "name": "taint.compiled_sink_endpoints",
+            "unit": "count",
+            "value": 1
+          },
+          {
+            "name": "taint.compiled_source_endpoints",
+            "unit": "count",
+            "value": 1
+          }
+        ],
+        "finding_count": 1,
+        "findings": [
+          {
+            "certainty": {
+              "type": "definite"
+            },
+            "completeness": {
+              "type": "complete"
+            },
+            "proof": {
+              "evidence_refs": [],
+              "reasons": [
+                {
+                  "type": "dataflow_witness"
+                }
+              ],
+              "state": "proven"
+            }
+          }
+        ],
+        "obligations": {
+          "items": [],
+          "omitted_lower_bound": 0,
+          "truncated": false
+        }
+      },
+      "raw_diagnostic_message_sha256": {
+        "new": [],
+        "old": []
+      },
+      "raw_diagnostics_equal": true
+    }
+  ],
+  "disposition": "measurement-with-known-limits",
+  "evidence_refs": {
+    "cli_help": {
+      "fail_on_help_line": "--fail-on THRESHOLD    Policy finding threshold: never, finding, note, warning, or error",
+      "observation": "The captured v0.14.4 commands all returned 0, including the three inconclusive runs; the strict qualifier failure is schema-v5 versus schema-v6, not a nonzero CLI invocation.",
+      "path": "reports/releases/v0.9.2/acquisition/bifrost-v0144-01/help.stdout.txt",
+      "sha256": "a5135752e3c16d8be3f284a43da9e0d4075338d1e75ee4201e514f6d5d1f11f4"
+    },
+    "comparison_diagnostic": {
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/control-comparison-diagnostic-01.json",
+      "scope": "inconclusive cases only; this review independently compared all 39 reports",
+      "sha256": "f4302d9eb89535837621145ddd9e028b399744f4e15f58b975b3ef424d2e25e7"
+    },
+    "current_capture_manifest": {
+      "actual_report_count": 39,
+      "all_reports_bound": true,
+      "listed_report_count": 39,
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/artifact-hashes.json",
+      "schema": "bifrost-v013-capture-artifacts/v1",
+      "sha256": "d57cdb8353a47b9886621e746f2b6469be5480d920b089ae4e9a3ec14066b683"
+    },
+    "current_commands": {
+      "all_39_policy_commands_use_fail_on_never": true,
+      "all_44_exit_code_0": true,
+      "all_44_status_completed": true,
+      "command_count": 44,
+      "exit_code_counts": {
+        "0": 44
+      },
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/commands.jsonl",
+      "policy_command_count": 39,
+      "sha256": "99a26f819ca2112b7ccaabe52807db1fdfcaef8fde7b04a4797777ac69e6714a",
+      "status_counts": {
+        "completed": 44
+      }
+    },
+    "current_qualification_receipt": {
+      "failed_invocations": 0,
+      "failure_count": 39,
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0144-01/controls-attempt-01/qualification.json",
+      "qualification": "failed",
+      "schema_v5_report_failures": 39,
+      "sha256": "5aaad619ed7b0c6fa7fec7cf7a32b7dbd9763175544eb3f0a45eb5224d8025a4"
+    },
+    "historical_capture_manifest": {
+      "actual_report_count": 39,
+      "all_reports_bound": true,
+      "listed_report_count": 39,
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-01/controls-attempt-01/artifact-hashes.json",
+      "schema": "bifrost-v013-capture-artifacts/v1",
+      "sha256": "a6977934482cd269dd15ab13ae62bc1306082a72ece21cf2d5448a104cb2964f"
+    },
+    "historical_review": {
+      "full_policy_qualification": false,
+      "path": "reports/releases/v0.9.2/qualification/bifrost-v0140-01/control-review-01.json",
+      "sha256": "ca73ca5ad53d74c4521b68b3395da7297747c0ff8c3e22230a1594243d642a5f",
+      "status": "measurement-with-known-limits"
+    }
+  },
+  "execution_eligible": true,
+  "full_policy_qualification": false,
+  "review_type": "read-only comparison and source review",
+  "reviewed_git_head": "c6bb355915200f97397883a2a10c7f98ed2a8674",
+  "schema": "v092-bifrost-v0144-independent-review/v1",
+  "source_review": {
+    "files": [
+      "src/adapters/pins.rs",
+      "src/adapters/bifrost.rs",
+      "src/adapters/mod.rs",
+      "src/report.rs",
+      "src/native.rs",
+      "src/tests/adapters/bifrost.rs",
+      "src/tests/adapters/pins.rs",
+      "src/tests/batch.rs",
+      "src/tests/native.rs",
+      "docs/releases/v0.9.2-pins.md",
+      "docs/v0.9.2-release-contract.md",
+      "adapters/pins/v0.9.2-bifrost-v0144.json"
+    ],
+    "findings": [],
+    "review_notes": [
+      "The current v0.14.4 profile and runtime pin are bound to build ff5cf473f4ad414751911ff93ef79e1df1d35823 and its acquisition receipt; adapter identity requires exact version/catalog banner plus build identity.",
+      "Scala configuration closure is version-aware: v0.11.4, v0.12.0, v0.13.0, and v0.13.1 remain policy-only; v0.14.0 accepts only the exact known policy-only or POM-inclusive hash; current v0.14.4 requires the POM-inclusive configuration and rejects the old closure; unknown versions fail closed.",
+      "Frozen v0.14.0 native evidence has literal version/build constants and its historic paths; the separate v0.14.4 native profile has distinct fresh controls, acquisition receipt, help, and pin paths. Both empty-catalog states remain unsupported/not-evaluated, not clean.",
+      "This receipt was produced without builds, tests, analyzers, benchmarks, or edits to source/review scripts."
+    ],
+    "validation_performed_by_this_reviewer": "read-only source diff inspection and direct evidence parsing/comparison"
+  },
+  "summary": {
+    "current_completion_counts": {
+      "complete": 36,
+      "inconclusive": 3
+    },
+    "dimension_match_counts": {
+      "completion": 39,
+      "diagnostic_semantic_fields": 39,
+      "diagnostic_truncation_closure": 39,
+      "finding_certainty_proof_completeness": 39,
+      "finding_count": 39,
+      "obligations_and_closure": 39,
+      "source_sink_endpoints": 39
+    },
+    "historical_v0140_roster_equals_current_v0144": true,
+    "inconclusive_ids": [
+      "policy-javascript-declared-sink-negative-with",
+      "policy-javascript-declared-sink-positive-with",
+      "policy-javascript-declared-source-positive-with"
+    ],
+    "native_empty_catalog": {
+      "clean": false,
+      "disposition": "unsupported_not_clean_or_not_reached",
+      "findings": 0,
+      "status": "not-evaluated"
+    },
+    "no_clean_relabel_for_inconclusive_or_unbound_endpoint": true,
+    "raw_diagnostic_text_differences": [
+      "policy-javascript-declared-sink-negative-with",
+      "policy-javascript-declared-sink-positive-with",
+      "policy-javascript-declared-source-positive-with"
+    ],
+    "raw_diagnostic_text_equal_cases": 36,
+    "report_roster": 39,
+    "reviewed_interpretation_counts": {
+      "complete": 36,
+      "complete:complete-no-finding": 8,
+      "complete:proven-flow": 13,
+      "complete:unbound-endpoint": 15,
+      "inconclusive": 3,
+      "inconclusive:inconclusive": 3
+    },
+    "semantic_comparisons_all_match": true
+  }
+}

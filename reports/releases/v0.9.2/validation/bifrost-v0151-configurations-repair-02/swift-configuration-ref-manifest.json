@@ -1,0 +1,1396 @@
+{
+  "approved_c6_contract": {
+    "path": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/contract-01.json",
+    "plan_blob_sha1": "932813cdb3dcb0c004e9e2d3686fd7273c90a7e7",
+    "plan_commit": "515d9941978c12cafa37ba58eecacc0a4182226f",
+    "runtime_runner_canonical_json_sha256": "9dfc1651cb26147777451c85cfcfef9d1907b4ee2071ffd9f5c7dc917ac99a7b",
+    "sha256": "f2c0fe969eb959856c650e8e892a9078342ec63600fc23dd05c3f069c068af65"
+  },
+  "canonical_python_sources": {
+    "checker": {
+      "git_blob_sha1": "f6a6cb185e3e2b2289671c20f8091746a2f22a99",
+      "path": "scripts/check-release-v092.py",
+      "sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+    },
+    "executor": {
+      "git_blob_sha1": "43b52d05be9ed80fd1e9fc2188ff1c24bf101ed7",
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+    },
+    "helper": {
+      "git_blob_sha1": "a0cc6044bbad08df25b76ec8e5848900eb3c4fd6",
+      "path": "scripts/validate-v092-report-configurations.py",
+      "sha256": "2e8e17261f60c0b8aed816e7b3b1df690865a111b5f121079b83b2b47296f515"
+    },
+    "joern_exporter": {
+      "git_blob_sha1": "ed56716746bedc6cd93aa98e434d43f19b4a251b",
+      "path": "scripts/joern_normal_reports_v092_projection.py",
+      "sha256": "255542f2e2b38a30f104c98b4e5846e1b7456bf90669fa83881774f04fe6ab88"
+    },
+    "joern_projection": {
+      "git_blob_sha1": "6af20a1e0f76c2a6c60fd83a8278235073ec25bc",
+      "path": "scripts/joern_v092_publication_projection.py",
+      "sha256": "fc09f912e2c8e15bbb7601e23c0ac5c22bcc3ec622ec734adf818903d7fd13d8"
+    },
+    "selector": {
+      "git_blob_sha1": "39f46d7c5c53edebfacaee8e3b0dc51c4c5aa70b",
+      "path": "scripts/select-v092-publication-evidence.py",
+      "sha256": "2673955b21b6f02e4f84d58d2d14e91354e445f8411da9bdd8f8a7d413c72f6f"
+    },
+    "target_core": {
+      "git_blob_sha1": "ff172c2fb3d49499720cc9cfa2180837debf86a3",
+      "path": "scripts/bifrost_v0144_benchmark.py",
+      "sha256": "ea5a3c5c8cb24c621f76478a46b7738fe767c034ad7600284b70a087b1185952"
+    },
+    "target_wrapper": {
+      "git_blob_sha1": "5bc7edb07da51f26b881a25bb7de48df11f8b444",
+      "path": "scripts/bifrost_v0151_benchmark.py",
+      "sha256": "45083ff44ebbc698e5d7e70d376b28039a6c6648a174e0adc7eac12b55d730dd"
+    }
+  },
+  "constraint": "The original validator script and finite 45-source C6 source_input closure remain byte-for-byte unchanged. This manifest only binds the 119 plan-declared hash inputs; only the exact 22 originally absent inputs may be added to a new validation checkout.",
+  "counts": {
+    "codeql_plan_references": 99,
+    "common_references": 13,
+    "initially_present_references": 97,
+    "joern_plan_references": 33,
+    "supplement_references": 22,
+    "unique_references": 119
+  },
+  "failed_validation": {
+    "checker_summary": {
+      "carried_rows": 0,
+      "fresh_groups": 84,
+      "fresh_reports": 92,
+      "fresh_rows": 4252,
+      "sha256": "a03ab9cdbb51ca718e691ab301db1775bfdf4363bc881a89b031abb820326304",
+      "status": "fresh-evidence-verified"
+    },
+    "checkout_relative": "execution-state/v092/validation/bifrost-v0151-configurations-01",
+    "command": [
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/builds/bifrost0151-01-target/release/dataflowbench",
+      "--population",
+      "v0.9.0",
+      "validate-reports"
+    ],
+    "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/validation/bifrost-v0151-configurations-01",
+    "exit_code": 1,
+    "failure_message": "Error: read v0.9.2 Swift configuration input execution-state/v092/swift-source/patch-application/applied-patch.json\n\nCaused by:\n    No such file or directory (os error 2)\n",
+    "receipt_path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-01/receipt.json",
+    "receipt_sha256": "ae96c6e9c8cd7228a0bfec650d0bb8e817758156391829add9dedf2d6993da94",
+    "runner": {
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/builds/bifrost0151-01-target/release/dataflowbench",
+      "sha256": "99d997b31024ee7ff5edbee381cf2addff5f25d6851cc19980f515142b9508a5"
+    },
+    "source_identity": {
+      "commit": "7f99684668065b8fb1ebc9b2852f058c64430647",
+      "git_tree_sha1": "7af8853a1e2eb7ea7832f7c0bad4d2299c1ab416",
+      "runner_source_sha256": "45083ff44ebbc698e5d7e70d376b28039a6c6648a174e0adc7eac12b55d730dd",
+      "source_input_count": 45,
+      "source_inputs_sha256": "050a91566744a46b3604e4c65afa75601f690a4f70c86b65c16f187f151217d5"
+    },
+    "status": "failed",
+    "stderr": {
+      "bytes": 171,
+      "path": "stderr.bin",
+      "sha256": "7c799b0dee158bf006db027ec025d948c7baf5f60695be53d186d8581a403677",
+      "utf8": "Error: read v0.9.2 Swift configuration input execution-state/v092/swift-source/patch-application/applied-patch.json\n\nCaused by:\n    No such file or directory (os error 2)\n"
+    },
+    "stdout": {
+      "bytes": 0,
+      "path": "stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "utf8": ""
+    }
+  },
+  "plans": {
+    "codeql": {
+      "configuration_key": "patched-codeql",
+      "derived_configuration_hash": "ab028dea2a0c1addd6851b625324e8288b290a6a65d5e8ca58c9092147e4c3b8",
+      "git_blob_sha1": "04e639cd3560f2ff3a97b857c6331941935b2e0d",
+      "identity": {
+        "adapter_version": "swift-normal-v092",
+        "tool": "codeql",
+        "tool_build_identity": "codeql:d7b185e374bfe18c0484dac07a521a810eb9c4fb;swift-extractor:593eb7afe23d63c57d04461bd046e45672555bb0586353edcf27a0313249841f;schema:a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89;packs:fb47dc786441189213937dae9638efe8b0878e04e0be56c3d349ce03d6ceb4bc",
+        "tool_version": "2.27.2"
+      },
+      "matching_projected_reports": {
+        "codeql-swift-calibration.json": "ab028dea2a0c1addd6851b625324e8288b290a6a65d5e8ca58c9092147e4c3b8",
+        "codeql-swift-core.json": "ab028dea2a0c1addd6851b625324e8288b290a6a65d5e8ca58c9092147e4c3b8",
+        "codeql-swift-language-extension.json": "ab028dea2a0c1addd6851b625324e8288b290a6a65d5e8ca58c9092147e4c3b8",
+        "codeql-swift-modeling.json": "ab028dea2a0c1addd6851b625324e8288b290a6a65d5e8ca58c9092147e4c3b8",
+        "codeql-swift-native.json": "ab028dea2a0c1addd6851b625324e8288b290a6a65d5e8ca58c9092147e4c3b8"
+      },
+      "path": "adapters/codeql/swift-common-v2/plan-v092-01/execution-plan.json",
+      "reference_count": 99,
+      "sha256": "aaaa5f20a5ece1aadc472c575c313a4a4c081cb20e498a25dbced32d82ef8293"
+    },
+    "joern": {
+      "configuration_key": "joern-current108",
+      "derived_configuration_hash": "5a546670420814104d2b6a78eeb70bd75399009127da21096d0141b470e2b39e",
+      "git_blob_sha1": "a1ef488a222c8f862a9f4575d565078ee35dfcef",
+      "identity": {
+        "adapter_version": "joern-normal-v092",
+        "tool": "joern",
+        "tool_build_identity": "joern-cli:4.0.660;engine:309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00;frontend:d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+        "tool_version": "4.0.660"
+      },
+      "matching_projected_reports": {
+        "joern-swift-calibration.json": "5a546670420814104d2b6a78eeb70bd75399009127da21096d0141b470e2b39e",
+        "joern-swift-core.json": "5a546670420814104d2b6a78eeb70bd75399009127da21096d0141b470e2b39e",
+        "joern-swift-language-extension.json": "5a546670420814104d2b6a78eeb70bd75399009127da21096d0141b470e2b39e",
+        "joern-swift-modeling.json": "5a546670420814104d2b6a78eeb70bd75399009127da21096d0141b470e2b39e",
+        "joern-swift-native.json": "5a546670420814104d2b6a78eeb70bd75399009127da21096d0141b470e2b39e"
+      },
+      "path": "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json",
+      "reference_count": 33,
+      "sha256": "e5cfd9d5473fd47f54de25d74a6f945c667c086ce471d5f6cdcead797bf9e3ab"
+    }
+  },
+  "prior_repair02_failure": {
+    "canonical_postcheck_absent": true,
+    "checkout_inventory": {
+      "initially_present_refs_verified": 97,
+      "supplement_refs_absent": 22,
+      "supplement_refs_written": 0
+    },
+    "checkout_relative": "execution-state/v092/validation/bifrost-v0151-configurations-02",
+    "classification": "failed before the original canonical Rust runner invocation; full C6 runtime.runner binding did not match repair01 reduced serialized-failure runner binding",
+    "command": [
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/builds/bifrost0151-01-target/release/dataflowbench",
+      "--population",
+      "v0.9.0",
+      "validate-reports"
+    ],
+    "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/validation/bifrost-v0151-configurations-02",
+    "error": "MaterializationError: canonical validation runner differs from the original failed invocation",
+    "exit_code": null,
+    "helper_identities": {
+      "checker": {
+        "path": "scripts/check-release-v092.py",
+        "sha256": "0a9f9df751b7e01443d8bedb09911f13119b36b366f09eeae107df9fcaf0d928"
+      },
+      "executor": {
+        "path": "scripts/execute-release-v092.py",
+        "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8"
+      },
+      "helper": {
+        "path": "scripts/validate-v092-report-configurations.py",
+        "sha256": "2e8e17261f60c0b8aed816e7b3b1df690865a111b5f121079b83b2b47296f515"
+      },
+      "joern_exporter": {
+        "path": "scripts/joern_normal_reports_v092_projection.py",
+        "sha256": "255542f2e2b38a30f104c98b4e5846e1b7456bf90669fa83881774f04fe6ab88"
+      },
+      "joern_projection": {
+        "path": "scripts/joern_v092_publication_projection.py",
+        "sha256": "fc09f912e2c8e15bbb7601e23c0ac5c22bcc3ec622ec734adf818903d7fd13d8"
+      },
+      "selector": {
+        "path": "scripts/select-v092-publication-evidence.py",
+        "sha256": "2673955b21b6f02e4f84d58d2d14e91354e445f8411da9bdd8f8a7d413c72f6f"
+      },
+      "target_core": {
+        "path": "scripts/bifrost_v0144_benchmark.py",
+        "sha256": "ea5a3c5c8cb24c621f76478a46b7738fe767c034ad7600284b70a087b1185952"
+      },
+      "target_wrapper": {
+        "path": "scripts/bifrost_v0151_benchmark.py",
+        "sha256": "45083ff44ebbc698e5d7e70d376b28039a6c6648a174e0adc7eac12b55d730dd"
+      }
+    },
+    "receipt_path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-02/receipt.json",
+    "receipt_sha256": "6f2061c31d672104e30644aa9e4f7ea1706730aaf36f4467102ed946dd25b635",
+    "runner": {
+      "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/builds/bifrost0151-01-target/release/dataflowbench",
+      "sha256": "99d997b31024ee7ff5edbee381cf2addff5f25d6851cc19980f515142b9508a5"
+    },
+    "source_identity": {
+      "commit": "7f99684668065b8fb1ebc9b2852f058c64430647",
+      "git_tree_sha1": "7af8853a1e2eb7ea7832f7c0bad4d2299c1ab416",
+      "runner_source_sha256": "45083ff44ebbc698e5d7e70d376b28039a6c6648a174e0adc7eac12b55d730dd",
+      "source_input_count": 45,
+      "source_inputs_sha256": "050a91566744a46b3604e4c65afa75601f690a4f70c86b65c16f187f151217d5"
+    },
+    "status": "failed",
+    "stderr": {
+      "bytes": 0,
+      "path": "stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "utf8": ""
+    },
+    "stdout": {
+      "bytes": 0,
+      "path": "stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "utf8": ""
+    },
+    "supplement_materialization_receipt_absent": true,
+    "target_contract": {
+      "path": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/contract-01.json",
+      "sha256": "f2c0fe969eb959856c650e8e892a9078342ec63600fc23dd05c3f069c068af65"
+    },
+    "timed_out": false
+  },
+  "purpose": "Postmeasurement source-only checkout hydration for the separate canonical validate-reports gate. No analyzer dispatch, benchmark rerun, score, waiver, or threshold change.",
+  "references": [
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "e5cbb7b9e96e8385d34a6166bc24c8482fb5f2a2",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-common-v2/plan-v090-01/contract.json",
+      "sha256": "0cfab0d72db777a5161cba9376a50281f93d790d5faf5cfc3c06fb96b624b86e"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "dd9920e54e4de45866da6d71ab8133bb125ffb0f",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/README.md",
+      "sha256": "0a7c5f76e9a9c93b9e9969507eb9ea3cfe5dc10ce5d1f7c5a46674bfbbd89fb9"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "d7e60ca2fa32f4463c43b49713cd3d2bc2ddf379",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/UPSTREAM-LICENSE",
+      "sha256": "66056d06b874e3eb6a22f5fff297e1676a23dc43e8c8b81279c1ef33a6a270df"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "9d7b38ebd9b28340f88a0a95cf4b65c645df81e3",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/amendment-02.json",
+      "sha256": "350d5c743637efecbc45364dcb613f8a6cebccdfc76c7ae053fede0561914dbf"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "8a54ec12262bfa71b266f8daae66b9384a934dfc",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/control-manifest.json",
+      "sha256": "35f59d70b2ab2dbf5b43710fe8bef5e956bea9ad14d8c302582bcda8991a2aef"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "8b1cd2849c3eda1ff32f0089a9b98dd90b9c709c",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/array-element-negative/main.swift",
+      "sha256": "2bac3494f1151905b0886af55b3c6434cc3dcfd844cd798f2b3aebc4f69ace14"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "470e0b279094c02d48c904ed0172fbe7e5c8b2e3",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/array-element-positive/main.swift",
+      "sha256": "73227d9a6a655a64db6b79135247db31d4aa3af2a2ec6c160f69a0152c39e150"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "9588cb8516aef374ded3486f2c8dcb21686f083d",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/callback-registration-negative/main.swift",
+      "sha256": "889ac8511a4634d5b6714597ce6922817557e9f91873ec17aaea1a6a6b1d0db1"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "9962fb48f77e42721a376d081c56a7b539504ba3",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/callback-registration-positive/main.swift",
+      "sha256": "044cd307eaa4e792b0092e5a942bf4a1b1ef475895f0c22c925e0fddb1b6ea37"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "c1389785d6e6a01fef8164f0331f9f0751e7929b",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/direct-negative/main.swift",
+      "sha256": "4a3f6f70eb5953f2db6f1687872f1d941ec3140815f5545d23ddf2b047330503"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "ede7f352795fd68dc91f96913fbebc0a465cde9f",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/direct-positive/main.swift",
+      "sha256": "43145c3085d565b4b261ad3c890fbd9bf7c12490444bef3ffda5549844470c51"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "1f061a54423569de10be3fea38c5dec916dd4370",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/local-overwrite-negative/main.swift",
+      "sha256": "de91e3da24312d8a7b1b8628e87de18e2c557ed9c1165d89c8d6ed46465027d2"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "03650552369a0ecd3b983a95bdfcd88e20623c17",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/local-overwrite-positive/main.swift",
+      "sha256": "2b813424673d2f6a006ca85ad0f40c84584713cfff22e79d263116f444aac90b"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "f114479c1492f219d53e261aab43c759a105d3d5",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/wrapped-negative/main.swift",
+      "sha256": "ddf4b895e6e18cb436f4daf24b30da93ecc922be22aae2aca6213b451843c268"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "76d49612d5a0a009d71b99c0377fa45943819d5f",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/controls/wrapped/main.swift",
+      "sha256": "97d7813eee5f1d809a8aab40273c0bec2fcf261441eab72eff6e6c992ea4e61e"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "43aa6d47cbd245fb40aea8f0e18e7f2192a51b35",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/preregistration.json",
+      "sha256": "ec64c0644ee61795314c64bfd109fcb97706c7bb21c4f2b3e05cfa2e747f045e"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "7092fe2218f40b13c55cb8434a5096ce592b9a57",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/queries/SwiftEndpoints.qll",
+      "sha256": "83a2cb2a11a208262ce0b0f11f3f602b585db0a18c84fce65ef23efbd063151f"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "1f3ef76ab51b86c6a03d2c4a1616950f4b7ff947",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/queries/diagnostics.ql",
+      "sha256": "6aaf82e0b3ab2494c90164f60ba9948f0af15a19052481bcc7a468147a2a9eac"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "8a7b954ed269bb3a88f915f0f424c3042e195562",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/queries/entry.ql",
+      "sha256": "6b5183c0e14f0588b54e3d6aa065b8a5945e907dfb4d2f0c2d1694baa672ea1c"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "58e9393c128ce0d85ec69ca3ea86e1ab09b10422",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/queries/kernel-flow.ql",
+      "sha256": "6fa67fdc18913c4035dc267a8e277478dc5e6240529b2ea87b2a60b71e57bf98"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "c3e0d27dbadda2d7808145edd8628c1f5243c0ab",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/queries/qlpack.yml",
+      "sha256": "cc0be4a6785a80256dc010af14fa8152fb854e521fe4e8799df87bb2472e16b3"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "5ff165adaf63c698ffef1f196338cd37e2227003",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/repair.patch",
+      "sha256": "e7da7352a8b3a8e7679760e49e8f8abff05d7fa3e16007c7ed2987f49074f26a"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "b59aabe22c44dbdf16fcfe8a537e200965dd9375",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-entry-extractor-v1/semantics.md",
+      "sha256": "e0111c30a610b26adef2decf2648791b1f5d571dcf81880183cc73422341a906"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "944fa0129a5057201966afbaeab1bfa8312d62dd",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-resolved-native-v1/patches/conversion-identity-v2.patch",
+      "sha256": "094fe2d7c04cb607223784cb2d5aa248c5c3b6e83d0bb086fb6e1fedd525a5e8"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "ef09021715dda0066d86f0fb3295c4d7b8c4b927",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-resolved-native-v1/patches/numeric-scalar-v1.patch",
+      "sha256": "608b1ffa953202a50d4692cce9548efb15c8bf19897188a0eb8f3ce23ce90561"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "1666fbc7b03b4cf85559657ebf242fbf06e0d3be",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-resolved-native-v1/patches/ssa-property-rhs-v1.patch",
+      "sha256": "d61a606ed559388abf83babef9828f3d1d9bebc5549e447077636136b94cd75e"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "88beaf1194e095ed9543a3e8a1f82cba15aee10c",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/swift-resolved-native-v1/patches/user-defaults-suite-state-v4.patch",
+      "sha256": "424a1ad1153c4b24cf444b0488ba332fdeed744ed0a6a3f7d0269d44115dffec"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "1c783caab22b827ee6938e92518472ca21764318",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/controls/modeling-flow-sanitizer-off.patch",
+      "sha256": "05e1dbd451784d6e5e35376d453cb12d9b6966bd1f9d83a81d153b16bf6a0f34"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "c2a0b0f6637b6d7e5216607883a4dcd801e00e4a",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/patches/conversion-identity-v2-6.8.5.patch",
+      "sha256": "c48a5459b438315075f0deec029c169042cebad0ba32945c49e4ef1d70a54a9f"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "b9cbb605b8c018d3b218039ae6a6ac072960a068",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/patches/numeric-scalar-v1-6.8.5.patch",
+      "sha256": "9294130849c34b12795f3b65d199a10161d5ae34d050085ec60744bfc6351020"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "88a34201844da05f0233819be8f72e54f62b0355",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/patches/patch-chain.json",
+      "sha256": "35163ef1cdac52910390c570c8fc02ebe698cdfd1402d4e634c4f1d008698557"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "caee1c46ad9cd7033add2a0f4bea7554ba0ca79e",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/patches/ssa-property-rhs-v1-6.8.5.patch",
+      "sha256": "d7f21fe334237938d655fc07f07806fd4f65a120153021cfc3abcde7bdcfd7ec"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "5a6693c40f698becaadd078ab9bd4a1539986975",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/patches/user-defaults-suite-state-v4-6.8.5.patch",
+      "sha256": "2c281cc9d1737e2ec908ff0ab6156ab30dbec842584ebb69859e90f1a15a53e6"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "74b898472f600cb1039c4c8797e37d051669c8e5",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/AppendIdentity.qll",
+      "sha256": "5534463217a791f87e5cc97567a64b2ab6659fc00728c90aa0f5a4f7c5b74186"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "6a486f76b5774825586d1be76a3277f7cb778245",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/FoundationIdentity.qll",
+      "sha256": "d55b73575e575145329b022105ce96fae6d5fed342ceaa6447c375a694e6e413"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "8180c85344ffdc0ba4ab88bba6acff5131f6162b",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/FoundationSources.qll",
+      "sha256": "5a6703e01eb89a2286fbe492ccbcdd9d1c69692a6d3bffcc02be56338086932a"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "6f16dd9fd28dbefa9d4c34d156fb70fdda50a8af",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/PersistenceCoverage.qll",
+      "sha256": "8cfb14044674c739c2153fb3b8e00ff57c5eb3b442e28465a3ce01c430a5e45d"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "0751eb71a8f0494d26bc108e27cd6b514778e839",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/PersistenceIdentity.qll",
+      "sha256": "7e9e7b33f0783f73f1fd6961b544f7cdf42a0087e47bc3b3e5f7d4625ed4c23e"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "8763f94aa9b462acd02146a9b310d4a9395d6142",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/ResolvedTaint.qll",
+      "sha256": "b0af7862ccc199d9d909ec09928e67177cccda3220698a4d0ca56b54ffcc5690"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "53004274575d2cad07450422a6091a26ce8887dc",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/codeql-pack.lock.yml",
+      "sha256": "5af1ed48732ec612914ce6a4911bf801419883ce72b9e6133a6871131aee696b"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "896405728817d993304ed90db812f7c0a6b1dd9b",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/coverage.ql",
+      "sha256": "faba37d55817332471f65ab774f5af5a855e80b35fcb09d3ffb5d7dbd8afea90"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "521f7fa109e9b02f555e7411e5e1002120494ad7",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/flow.ql",
+      "sha256": "9645e600d5ca57a3e4ac507337be985ca57d4a64f94b46fd39232cbb503a8638"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "092257eb9c3b906053d4ba72d872c00cee28bcc0",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/qlpack.yml",
+      "sha256": "b16489467a0d2067f04b2d5a87a7bc51138836a6c4cf7e7347a4c3c5aee967d9"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "280f2171568dec1f3c791245c9445020fc073f6a",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/roles.ql",
+      "sha256": "b37ad392fbef48d83de25dec65c937b713893060450005797ac409464ca6eb4b"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "c9deaca0cc70b19fccaf343096d65c555f907f73",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/native/scopes.ql",
+      "sha256": "6d4f06912e20de0d24ede1177bc144fc75f7a09006e8faa28ead06ff7e22b0a7"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "71bfe4d28d20cc837077a4b2a0c3472b6555fd4f",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/opaque/OpaqueIdentity.qll",
+      "sha256": "bd1b2772f3ba8332a740d2fbd404d9b85be4efb6d0db80ca599eb8c935851cd8"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "53004274575d2cad07450422a6091a26ce8887dc",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/opaque/codeql-pack.lock.yml",
+      "sha256": "5af1ed48732ec612914ce6a4911bf801419883ce72b9e6133a6871131aee696b"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "b41d7530f85c96fc2a5c8f49047d9fcd5b472d07",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/opaque/flow.ql",
+      "sha256": "df4a4ec23b1c033a3de056fb1ed01195b24e06b7681c3f0e5f2fe24cf0bd04ba"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "4a2acc2a9c105047d8291885770c4b2c9e938241",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/opaque/identity.ql",
+      "sha256": "588171d5448fa4b7cf3ac249c3a710a647a47d3d24ff0ee60680343299f177bb"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "2f0b54b8faf1e1cab6412d5cb0b06b924b447a34",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/opaque/qlpack.yml",
+      "sha256": "e26e931ec5abba090acd193a7bdada91e2ab5eead0c5d55a07ba0fe2f7adde08"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "959e50c87cf25d5a664c0aa1fe19539e1fbeffe6",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/opaque/roles.ql",
+      "sha256": "253364d00459ded4586303e28c51f2a4474bf476c1ad2b84617d51384edc7182"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "7092fe2218f40b13c55cb8434a5096ce592b9a57",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/SwiftEndpoints.qll",
+      "sha256": "83a2cb2a11a208262ce0b0f11f3f602b585db0a18c84fce65ef23efbd063151f"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "9d6bcab18ff08202260e22bf3b72ff287b412a31",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/SwiftModelIdentity.qll",
+      "sha256": "aa9a60f15d5f6e55fec03ee7da19b902b493fcb44d8e376f0073998be3956390"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "66da69d0d4898a86535ced54f058b3a95ed94cc8",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/SwiftModelSteps.qll",
+      "sha256": "13fdcda253d68baa9d6a8e63c502fd4c80ac6e180f4284252da507cb578fe308"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "e69d63818c1c15f8b7c3e3cc0a883c818d4be400",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/calibration-flow.ql",
+      "sha256": "e87156c67f291ec840363183f2ee140934b323c62f9c35582c0ba85a174498d2"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "bad2940aac3c3351ef33f4222a0a8929e11c77e7",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/calibration-roles.ql",
+      "sha256": "74f0ac15ff75e97c3e65764f03aafa2fc6e85a55bc971572f0d51b26edaeccb6"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "53004274575d2cad07450422a6091a26ce8887dc",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/codeql-pack.lock.yml",
+      "sha256": "5af1ed48732ec612914ce6a4911bf801419883ce72b9e6133a6871131aee696b"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "58e9393c128ce0d85ec69ca3ea86e1ab09b10422",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/kernel-flow.ql",
+      "sha256": "6fa67fdc18913c4035dc267a8e277478dc5e6240529b2ea87b2a60b71e57bf98"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "7b0eebf2c9ac8f6bb174cccde55b688b111acce1",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/kernel-roles.ql",
+      "sha256": "9e2d260715739bf6adfaf438394fb2f03f5156e09dba512263ea176304a49934"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "40a74f1b20c743a2c781ce1a4d7ad912c41db0e5",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/modeling-flow-sanitizer-off.ql",
+      "sha256": "3d6654da799aaf4b4d58629a931f2d57be8e3f78261ab9389ff6220828759b90"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "3b0e761e4cc6f3b9dd51909cbfee7f8ffe4d885e",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/modeling-flow.ql",
+      "sha256": "9b7564e7490bb97f4268f27bf2e53fa484aa2490945a1da73bc4411e577426e9"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "df925460173803718ca67b26ec4d2d74f4faf876",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/modeling-roles.ql",
+      "sha256": "55b3f6428d6d908e2de8195a3084617ea388d303859161901b705a68156fb604"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "2b357b8e206e55d3ce0e1bd810dbe631dd438d8a",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/codeql/v0.9.2/swift/queries/standard/qlpack.yml",
+      "sha256": "13cc3b0e09be22b5e8885ea21aebd15579473eb76a576c79a259ea1c36bae27a"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "c15d20b914d35209781148f4ba63946ce8e6a3d3",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/joern/swift-common-v2/plan-v090-01/contract.json",
+      "sha256": "b92e3770547619de78a4c667fe606326abf18b0ec86f32dd9ac308972a35b642"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "896b9c4cc38985c8a6945b6c7261d31dd2b64bdb",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/joern/swift-common-v2/plan-v090-01/plan.json",
+      "sha256": "14dde3a42a90c19d5c4eb696688f19cf31463a9d38bf153c227d0b82097604e6"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "6abeabfb25c5ab606ec681a55332580e1edaacf6",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/joern/swift-common-v2/v0.9.2/models.json",
+      "sha256": "975f672aa46078764f28f4708a74d79508ed0e6e459332d7b32325b729af8ae0"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "cac64e5bddf1efd85f217fcd8d377645768ee9ec",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/joern/swift-common-v2/v0.9.2/query.sc",
+      "sha256": "8f944335630a79f5cbb444c0921d0515e565c9acff022cd1740fbb66371b8f07"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "6abeabfb25c5ab606ec681a55332580e1edaacf6",
+      "initial_failed_checkout_state": "present",
+      "path": "adapters/joern/swift/models.json",
+      "sha256": "975f672aa46078764f28f4708a74d79508ed0e6e459332d7b32325b729af8ae0"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "9dfd9fe9ad15a4d14992f1cab8f0f48dab58bbee",
+      "initial_failed_checkout_state": "supplement",
+      "path": "execution-state/v092/swift-source/patch-application/applied-patch.json",
+      "sha256": "de3b1334bc868dd4037750f82b04e9df1443320540665bb2dbe877e7e121c20f"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "fe1aebf74897bdc7c0252548bae6ad06ec7494b4",
+      "initial_failed_checkout_state": "present",
+      "path": "populations/swift-synthetic-v3.json",
+      "sha256": "8a324597f77a2948920c0471ac6fce6809e202afdc3c3e30c062809b8a863efa"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "a5779d0af3a63262f759dab6391ab418858268ed",
+      "initial_failed_checkout_state": "present",
+      "path": "populations/v0.9.0.json",
+      "sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "96464ccbe5d9b8215d993a0400d7f148d0794ddc",
+      "initial_failed_checkout_state": "present",
+      "path": "reports/releases/v0.9.0/plan.json",
+      "sha256": "540846ca9c0a0bd1c257c51f3e64bb6186cd9d3dd47c52106483fb183636efbf"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "5b24117976df1a493e69345e0888a487bf4e22cf",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-legacy-files.json",
+      "sha256": "6d78ada551622e9f80e7ef2ef0cd50f15db7b82d2921d257e00025d2b296accf"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "94cb4f1b71681e7b19bcd11c8b776347682fb38f",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-legacy-tree.json",
+      "sha256": "ddef999abfc6d5578cc9e3d46c9ebf7f7c2835c11e64a2b1a96cd179888945b8"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "8823f1d3db98ff41cc6a750234ea2b3a8c22bc3b",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-extractor.json",
+      "sha256": "7cd457b417b9586aaa3fc5ef77d3e8a76c98484b578a0787707f7e5a8970de7f"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "4df1b6502db2e5fde90b0c901a632e25ac5ae50a",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-packs-entry2.json",
+      "sha256": "4698d7bdfc4940dcb78ad88a4c58d33e729872713f0890896a10d26c0a3db34b"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "a6097dd1330770b4c82880f8fdb71df9214938d9",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-packs.json",
+      "sha256": "b073381b0e6a60fe7e4d47ef80fd64740820ccb02fd4903744d5126c684a5cbd"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "c320c4ea9a7f0f289ac3d498eb37cad6c58e32fa",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql.json",
+      "sha256": "ec787c6e07dbd4070013c52689c83245176db8494f07329ac68c2a1c3bda4229"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "7544d7c75e8d114bb83d2789fc3d29b4210d306c",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/java-legacy-tree.json",
+      "sha256": "99d42fc866979c9dae8336b3c2ec69ac9237a43bb0205d5297e81cd062ee6fa5"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "0ad964270b6528b5f534c5485d48a4513741bff7",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/java.json",
+      "sha256": "76ddb265fbaeecf1908ea934d2d64b079372e13f1307ff5d2b94957ba40ac1a6"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "af50cffa303a96d20d31a488b43cb0939415c833",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/joern-legacy-tree.json",
+      "sha256": "121273983a7509175023a0921f97972518a0a631944bc948865ef6d35a51c14f"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "5f934a0c86548eb9fac37211bd0ab1a2e15f5d6b",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/joern.json",
+      "sha256": "c848b12fd54138219c3bd5c647071eceab1ae4c9f785967c24274d509554c2fc"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "d3b42eeb972cf85d16aefaa4f3392852ff268378",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-6.3.3-legacy-tree.json",
+      "sha256": "02e538310488d814f027f689d17187d50f005226f8de8ca868d99e27ae36af0d"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "074ce95a4443860419eb0b5b0ac2724f9c879a0c",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-6.3.3.json",
+      "sha256": "f31ae5b23c775e0c69227363a1a0c4e4bf87964f8bcd79b8f9de9d7acd7d4a58"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "2d3b605c58fa4969f042fc0c7eaf25aca1039b37",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5-legacy-tree.json",
+      "sha256": "6ef552967a655ba9949bc9fd0a439f5d1d7a684def20ea89ee5e1e9f0fdb26a5"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "5dedaee149302f916ef3b6632bfb7e35b892f8b1",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5.json",
+      "sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "0bdcb9f9911a0eeaeb540b325842ed97b79692c6",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-extractor/candidate-extractor-files.json",
+      "sha256": "8712dcc19b67dd52ea35a771e4483c0695006ef4c312f3b919158667e40d5132"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "3f18d7f2964bef703952336d2fbbdbb1d3221bd5",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-extractor/candidate-extractor-tree.json",
+      "sha256": "5f96b6498443c509a16889049a1f44f22d5f5680aeda09c6b40bd5d9f08ab5af"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "04fc66b2ec67e1fc7f4cf35c84b698f215d48ef5",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-packs/candidate-packs-files-entry2.json",
+      "sha256": "fb47dc786441189213937dae9638efe8b0878e04e0be56c3d349ce03d6ceb4bc"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "c6017b9af8959690c98dea79e463371e037e1ad2",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-packs/candidate-packs-files.json",
+      "sha256": "7f462dd158af75a1b9a9f31ffbf5779c461fa7708b1d1adffbb527c91a77e6f6"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "8e4c8697a9c538cfe229bbd24a4252e2240f87d3",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-packs/candidate-packs-tree-entry2.json",
+      "sha256": "5b1dca82019e9d47a6aa6a38f1045d69422e4d627b04331205d418344388f431"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "f2ad7e3ffb8f5be7df2057b6055b8a74b667483a",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-packs/candidate-packs-tree.json",
+      "sha256": "c17237936e1ca6d1d9f3e576e00d931859409b9e720d030c870b6c9224bf1417"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "fab68f37dc77fd3776de50284b5ab2b5b11adabb",
+      "initial_failed_checkout_state": "supplement",
+      "path": "reports/releases/v0.9.2/qualification/codeql-swift-packs/pack-install-entry2-01.json",
+      "sha256": "91a349c62b7ca98d25b863bd83298cb6ea49b26de1a2324d44ea66a97352ee67"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "7ddb2f987119acaeca4c6c71e9ee5c3ee695a360",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/capture-codeql-swift-controls-v092.py",
+      "sha256": "5043981d8ba22d9c6f17d618324128c82b0b37872a75434d22d8c30faf5dbbbd"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "4686ddb8787434da9e286b17fde7d48202ce03ea",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/codeql_swift_qualification_v092.py",
+      "sha256": "adaf4ba27f45870ac500f30a7a89f63019efc9429d1377891aea5834bc1b781c"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "0540832a7b6a346025bd322eea789e2c879950c4",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/joern_diagnostic_admission_v092.py",
+      "sha256": "c2faeeb5ef99f539ad8a4bee6fbc85656c0cc142f92196c02f5f26a446140a9e"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "4bfbf3e1192092e397fa183c27652654149c7db4",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/joern_execution_revalidation_v1.py",
+      "sha256": "8b08b9022ac8eac0fd822d53980d0fcc49e352e8736bce9f2e42b0a488612126"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "2a010a2d78aa3212edae3e165546bf6a09b2f3f8",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/joern_normal_controls_v1.py",
+      "sha256": "78123e5f9247aca543f0c841f6adf0040859f1e8d1006d9fb45116535aa4ff21"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "e493ce15d3b090660a4288e3c1c0e1c6fb63ac21",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/joern_normal_execution_v1.py",
+      "sha256": "01caead3c7e86880b9893128a0a65d7175f857b580d161ecbf586514e295577d"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "31fe736bf8986c9b55203316c4e258d0b35e5bc1",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/joern_normal_reports_v092.py",
+      "sha256": "75531186a9091e9e907a2c42388efea0e33d4872787a28fa9fc20b3643131db1"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "74b4aca557bdfade596d80fd442db3533c8bab40",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/joern_normal_reports_v1.py",
+      "sha256": "a3fba23a07317be139a587186f529f3cccc4766a56b0c3d839886e7ce41f0b47"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "8829bf4d2a3de63d97f043ad3003762e10040fd2",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/joern_normal_runner_v092.py",
+      "sha256": "683a1bb22a2ec943d357cd4b86982dd7ee62c22a47c28ee3c32e91d114f977f4"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "990837a50a71e617bf85a8b82e48c83b4ad5c90c",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/joern_normal_runner_v1.py",
+      "sha256": "4103ef8d9d2dc671408389dad57ee934ae01333a2cf5eecc8330ab9feb3be330"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "38ded547c368f675af04ed122800653afe413480",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/joern_swift.py",
+      "sha256": "c0c2322939ee61e39b85a80391192a27cd6323dcb6b234609985dee4fdc85822"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "9b7b602bf820a1f95d18ce78c6c7945fd9c3c30d",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/run-joern-common-v092.py",
+      "sha256": "454a38d2e7a99dd441390d195a8d0756f84cd3d6ac421120fe35e8a0bd208b7b"
+    },
+    {
+      "engines": [
+        "joern"
+      ],
+      "git_blob_sha1": "bbe9db39aa05ef75ea2ff1fb09ba7246285f4372",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/run-joern-swift-case.py",
+      "sha256": "1a033f1c563003e91fe43fb4c4612d67539c9aad420e351d7a45782da7353516"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "f1fce97d5d9e2646428a6e483b0641acddc70fe4",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/run-swift-common-v092.py",
+      "sha256": "e3ac4a6588ccd9b73014e488bca68869d2788ad383c8b43383495c7c0f191191"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "44ef5089320461d446877250272e0833163e903d",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/swift_artifact_closure.py",
+      "sha256": "fe00daf7b75263e7add65675560f8731988333f75af3944e373599a85d7215c3"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "75f4db7457359e84254a28f8eade0b7cfe22ef38",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/swift_common_population_v2.py",
+      "sha256": "3dee12724faf7a3937a3741a086a9858518ed27271644bbb788b458caef6b6c6"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "b0d50e264c6fe7e85d4f3cd7786c20cc5452f9c2",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/swift_entry_observation.py",
+      "sha256": "930b80478e989974a89c4f82ad01cae3c5e3bcdd7df16c4eb7ecdf0363cb6596"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "aaa51d7731c0cdae767f58b5c124e727cbe6f949",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/swift_extraction_integrity.py",
+      "sha256": "06bf474314b6d14f01ebc3c94b06b1ff6a789d861cc54de548498436a5169156"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "af02ffd0ff5ee1e424359cea0a3dd54ab293b055",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/swift_normal_reports_v092.py",
+      "sha256": "fb682d4b48d5c1a2ee32eb2d3d271bc624c28466e98e55318f9582efe8123b8a"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "6e43547557102e97481c0657a19d5e4d82ba3a6e",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/swift_normal_reports_v1.py",
+      "sha256": "4a9ee1c8708ab368452492b87f01d721bb31aa31bd6f526ddb18890f82d01ff3"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "ba9a9498c60ea1751e241006ce63b4ed10b25410",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/swift_normal_runner_v092.py",
+      "sha256": "f70fb98ee9b9073a1a31064c413a9278ad3ac3c8c8e95826190d58ce7fac1bfc"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "5585989b74c90ee664606271783e43ab8c35c50f",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/swift_normal_runner_v1.py",
+      "sha256": "f046c917c5c809199d37956ba950a4267523a74872ee8291ac4a732b7882cafb"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "98b03b23013b95f6a529bbd3910c2f698d4e8df5",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/swift_persistence_coverage.py",
+      "sha256": "62017833ad9e666a405f2650618173b97ab2d1568fb14b13cce8fed722dc4ec3"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "8cee68388a7c0b5d8230be2ce0d29096ecaa304c",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/swift_v2_process.py",
+      "sha256": "40aec2ef3e23def3d961caab709de9e636e9669d305b47bdc7b7c98ccf8a97dd"
+    },
+    {
+      "engines": [
+        "codeql"
+      ],
+      "git_blob_sha1": "5978c0917d204439be1fb2a6b4f430c869cb6310",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/swift_v3_runner.py",
+      "sha256": "454944d5ca461e8ae49361055408daaa9037388a151dcd8e5f3d34c8a3c2b954"
+    },
+    {
+      "engines": [
+        "codeql",
+        "joern"
+      ],
+      "git_blob_sha1": "ff4d15bbc0685e04a9438efbb54871aaf118d394",
+      "initial_failed_checkout_state": "present",
+      "path": "scripts/v092_qualification.py",
+      "sha256": "f673a5b5133c1101e7379fc365a83a47a7525c3daf15efa34a6eed12858e7cb5"
+    }
+  ],
+  "runner": {
+    "build_receipt": {
+      "argv": [
+        "/Users/dave/.rustup/toolchains/1.97.1-aarch64-apple-darwin/bin/cargo",
+        "build",
+        "--release",
+        "--locked"
+      ],
+      "binary": {
+        "bytes": 11021696,
+        "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/builds/bifrost0151-01-target/release/dataflowbench",
+        "sha256": "99d997b31024ee7ff5edbee381cf2addff5f25d6851cc19980f515142b9508a5"
+      },
+      "exit_code": 0,
+      "jobs": 2,
+      "receipt": {
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0151-release-build-01/receipt.json",
+        "sha256": "513e035d700b396fc4b33ede8e481e5888c59406b3f0833e721feccd40af1e48"
+      },
+      "source_archive_bytes": 1770276,
+      "source_inputs": {
+        "count": 56,
+        "git_archive_matches_source_commit": true,
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0151-release-build-01/source-inputs.json",
+        "sha256": "8e5e10e21a0b1b3cd2f2fe330a102252bfe3298c99dbcec02b1b5208ec0abbe3"
+      },
+      "stderr": {
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0151-release-build-01/stderr",
+        "sha256": "f63141cc5b7ef7719ff8da2d320ebdaed2bd3fc532fb41476d3d8a3d32263407"
+      },
+      "stdout": {
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0151-release-build-01/stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "path": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/builds/bifrost0151-01-target/release/dataflowbench",
+    "sha256": "99d997b31024ee7ff5edbee381cf2addff5f25d6851cc19980f515142b9508a5"
+  },
+  "rust_hash_input_runtime": {
+    "hash_algorithm": "SHA-256 over each BTreeSet<PathBuf>-ordered entry: repository-relative path UTF-8 bytes followed immediately by that input file bytes.",
+    "hash_function": "hash_paths",
+    "path_derivation": "swift_v092_configuration_paths(engine) reads the fixed v0.9.2 execution-plan configuration list and validates its schema/profile/tool/adapter identity and every path+sha256 reference.",
+    "report_selection": "configuration_hash_state_for_report selects CodeQL 2.27.2/swift-normal-v092 or Joern 4.0.660/joern-normal-v092; tool-native report stems are not derivable from repository files.",
+    "source_commit": "7f99684668065b8fb1ebc9b2852f058c64430647",
+    "source_path": "src/report.rs",
+    "source_sha256": "9e8c09c3a15f844e0efe2c6fb6e33d9dd7c1c3b1365beb471eb451f08c87db93"
+  },
+  "schema": "v0.9.2-v0151-swift-configuration-ref-manifest/v2",
+  "source_commit": "7f99684668065b8fb1ebc9b2852f058c64430647",
+  "source_tree_sha1": "7af8853a1e2eb7ea7832f7c0bad4d2299c1ab416",
+  "supplement_paths": [
+    "execution-state/v092/swift-source/patch-application/applied-patch.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-legacy-files.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-legacy-tree.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-extractor.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-packs-entry2.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-packs.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/java-legacy-tree.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/java.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/joern-legacy-tree.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/joern.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-6.3.3-legacy-tree.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-6.3.3.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5-legacy-tree.json",
+    "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5.json",
+    "reports/releases/v0.9.2/qualification/codeql-swift-extractor/candidate-extractor-files.json",
+    "reports/releases/v0.9.2/qualification/codeql-swift-extractor/candidate-extractor-tree.json",
+    "reports/releases/v0.9.2/qualification/codeql-swift-packs/candidate-packs-files-entry2.json",
+    "reports/releases/v0.9.2/qualification/codeql-swift-packs/candidate-packs-files.json",
+    "reports/releases/v0.9.2/qualification/codeql-swift-packs/candidate-packs-tree-entry2.json",
+    "reports/releases/v0.9.2/qualification/codeql-swift-packs/candidate-packs-tree.json",
+    "reports/releases/v0.9.2/qualification/codeql-swift-packs/pack-install-entry2-01.json"
+  ]
+}

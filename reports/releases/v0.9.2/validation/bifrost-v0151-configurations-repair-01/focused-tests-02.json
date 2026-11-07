@@ -1,0 +1,44 @@
+{
+  "build_or_benchmark_rerun": false,
+  "canonical_validation_invoked": false,
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 -B reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-01/test_materialize_v0151_swift_configuration_inputs.py -v",
+  "diagnosis": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-01/repair-diagnosis.json",
+    "sha256": "82b36e70f0d6aa41f59e5bbc2bd45c459b1f048eedbca0c805ec842434a9b6aa"
+  },
+  "errors": 0,
+  "failures": 0,
+  "implementation": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-01/materialize_v0151_swift_configuration_inputs.py",
+    "sha256": "5f78534705a136c4fbffc1f8fb87d6698407a4d23b805d6a1ecb92904ec325a9"
+  },
+  "locked_manifest": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-01/swift-configuration-ref-manifest.json",
+    "sha256": "65120d4a6d0fdbc092c57ecae03b1969c733814be12f5a6952600ea408a24781"
+  },
+  "near_miss_cases": [
+    "altered source bytes after commit",
+    "wrong locked Git blob id",
+    "path escape",
+    "destination input symlink",
+    "destination checkout-root symlink",
+    "destination parent symlink",
+    "pre-existing destination collision",
+    "tampered stderr for the original failed validation receipt"
+  ],
+  "positive_cases": [
+    "real locked closure: exactly 22 absent files copied from source commit and all 119 destination refs verified",
+    "synthetic committed Git tree: one exact missing ref hydrated alongside one already-present ref",
+    "read-only inspection verified source commit/tree, every root input and Git blob, all existing destination inputs, and the original failure receipt/stdout/stderr"
+  ],
+  "python_version": "3.9.6",
+  "recorded_at_utc": "2026-11-07T05:27:01.356946+00:00",
+  "runner_or_analyzer_invoked": false,
+  "schema": "v0.9.2-v0151-swift-configuration-repair-focused-tests/v1",
+  "status": "passed",
+  "test_source": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-01/test_materialize_v0151_swift_configuration_inputs.py",
+    "sha256": "a4a87293f07984ee7e6325447cb0a20c31a48266fba4677fa5d88c8d9fb6a849"
+  },
+  "tests_run": 11
+}

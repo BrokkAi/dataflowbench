@@ -1,0 +1,134 @@
+{
+  "schema": "v092-apple-ps-source-semantics/v1",
+  "status": "private source evidence only",
+  "scope": "Pinned source review of ps formatting and record-boundary behavior; no process/API query or implementation.",
+  "pins": {
+    "adv_cmds": {
+      "release": "adv_cmds-199.0.1",
+      "commit": "60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5",
+      "commit_url": "https://github.com/apple-oss-distributions/adv_cmds/commit/60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5"
+    },
+    "Libc": {
+      "release": "Libc-1752.100.10",
+      "commit": "71bbe350ab79eef58113991d817ccc6165061a64",
+      "commit_url": "https://github.com/apple-oss-distributions/Libc/commit/71bbe350ab79eef58113991d817ccc6165061a64"
+    },
+    "XNU": {
+      "release": "xnu-10063.101.15",
+      "commit": "94d3b452840153a99b38a3a9659680b2a006908e",
+      "commit_url": "https://github.com/apple-oss-distributions/xnu/commit/94d3b452840153a99b38a3a9659680b2a006908e",
+      "note": "Pinned release commit identified. Direct fetch of the kern_exec.c blob at this pin was unavailable through the source browser; prior source review captured current official set_proc_name behavior separately."
+    }
+  },
+  "findings": {
+    "fixed_columns": "Apple parsefmt tokenizes custom format on space, tab, comma, newline; unique ASCII header tokens must contain none of those delimiters. sizevars sets width=max(existing default width, strlen(header)). A 64-byte header therefore establishes a 64-byte minimum and complete raw-header validation detects any wider default.",
+    "row_framing": "The printer loop emits exactly one ASCII space between fields and one LF after each row. Use fixed byte offsets for fixed-width fields; never split on arbitrary whitespace.",
+    "ucomm": "ucomm prints the kernel p_comm C string using %-*s. Compare the exact raw fixed-width output to native p_comm bytes plus exact ASCII-space padding; do not trim or normalize. ucomm remains raw, so LF in p_comm breaks framing and must fail closed.",
+    "args": "On Apple, args uses getproclline/KERN_PROCARGS2 rather than the non-Apple fmt_argv path. The command string including fallback (p_comm) passes through strvis(VIS_TAB|VIS_NL|VIS_NOSLASH). Pinned Libc vis implementation inserts tab/newline into its forced-encode set; non-graphic controls are emitted as graphic caret/meta/octal forms. Thus args cannot inject a literal LF row delimiter. args must remain last; stdout pipe makes termwidth unlimited and the last-field path uses fputs of the transformed string.",
+    "args_identity": "PS documentation says arguments may be changed with setproctitle and are inherently unreliable; retain them as existing argv evidence, not as process identity.",
+    "fmt_argv": "The ps.c fmt_argv helper is inside #ifndef __APPLE__; it is not the macOS arguments chain examined here."
+  },
+  "source_excerpts": [
+    {
+      "name": "format token/header parsing",
+      "repository": "apple-oss-distributions/adv_cmds",
+      "revision": "60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5",
+      "file": "ps/keyword.c",
+      "line_range": "249-300,309-360",
+      "url": "https://raw.githubusercontent.com/apple-oss-distributions/adv_cmds/60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5/ps/keyword.c",
+      "excerpt": "#define FMTSEP \" \\t,\\n\"\nhp = strchr(p, '=');\nif (hp)\n    *hp++ = '\\0';\nif (header)\n    *header = hp;",
+      "excerpt_sha256": "b37f851749975e1755d09d22eba28b87351f3434b44dbe097a4184ef6ce60996",
+      "digest_scope": "sha256 of this exact UTF-8 receipt excerpt; not a full upstream-file digest"
+    },
+    {
+      "name": "header forces a minimum field width",
+      "repository": "apple-oss-distributions/adv_cmds",
+      "revision": "60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5",
+      "file": "ps/ps.c",
+      "line_range": "1127-1142",
+      "url": "https://raw.githubusercontent.com/apple-oss-distributions/adv_cmds/60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5/ps/ps.c",
+      "excerpt": "i = strlen(vent->header);\nif (v->width < i)\n    v->width = i;\ntotwidth += v->width + 1; /* +1 for space */\ntotwidth--;",
+      "excerpt_sha256": "79875a8017e00696407a75a3569d16cd2d7d2743037840a3b22c50e7979786ec",
+      "digest_scope": "sha256 of this exact UTF-8 receipt excerpt; not a full upstream-file digest"
+    },
+    {
+      "name": "literal record delimiters",
+      "repository": "apple-oss-distributions/adv_cmds",
+      "revision": "60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5",
+      "file": "ps/ps.c",
+      "line_range": "758-764",
+      "url": "https://raw.githubusercontent.com/apple-oss-distributions/adv_cmds/60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5/ps/ps.c",
+      "excerpt": "(vent->var->oproc)(&kinfo[i], vent);\nif (STAILQ_NEXT(vent, next_ve) != NULL)\n    (void)putchar(' ');\n(void)putchar('\\n');",
+      "excerpt_sha256": "155e20ec22b21e745da611f8d6a8b925a3424f30913a45951f6bce6610d62c3c",
+      "digest_scope": "sha256 of this exact UTF-8 receipt excerpt; not a full upstream-file digest"
+    },
+    {
+      "name": "args field metadata and ucomm printer",
+      "repository": "apple-oss-distributions/adv_cmds",
+      "revision": "60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5",
+      "file": "ps/keyword.c; ps/print.c",
+      "line_range": "keyword.c:85,202; print.c:386-403",
+      "url": "https://github.com/apple-oss-distributions/adv_cmds/tree/60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5/ps",
+      "excerpt": "{\"args\", \"ARGS\", NULL, COMM|LJUST|USER|DSIZ, args, s_args, 64}\n{\"ucomm\", \"UCOMM\", NULL, LJUST, ucomm, NULL, MAXCOMLEN}\n(void)printf(\"%-*s\", v->width, KI_PROC(k)->p_comm);",
+      "excerpt_sha256": "8067dac565cc2fbaa1961a9a5a9a7a18503a8e3675e9e2ceb6e2b1fc4d686283",
+      "digest_scope": "sha256 of this exact UTF-8 receipt excerpt; not a full upstream-file digest"
+    },
+    {
+      "name": "macOS args acquisition, visual encoding, and final-field emission",
+      "repository": "apple-oss-distributions/adv_cmds",
+      "revision": "60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5",
+      "file": "ps/print.c",
+      "line_range": "179-289,290-328,340-368,386-387",
+      "url": "https://raw.githubusercontent.com/apple-oss-distributions/adv_cmds/60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5/ps/print.c",
+      "excerpt": "mib[1] = KERN_PROCARGS2;\nmib[2] = KI_PROC(k)->p_pid;\n...\n*argv0len = *argvlen = asprintf(command_name, \"(%s)\", KI_PROC(k)->p_comm);\n...\ngetproclline(k, &rawcmd, &cmdlen, &argv0len, show_args);\nstrvis(vis_args, cmd, VIS_TAB | VIS_NL | VIS_NOSLASH);\n...\nif (STAILQ_NEXT(ve, next_ve) == NULL) {\n    if (termwidth == UNLIMITED)\n        fputs(s, stdout);\n...\nvoid args(KINFO *k, VARENT *ve) {\n    p_command_and_or_args(k, ve, 1, 1, 1);\n}",
+      "excerpt_sha256": "61da1d8a6931fc2adadaa9264a15e3e0fa2042a3fb40b312af48fbdf0852c4b5",
+      "digest_scope": "sha256 of this exact UTF-8 receipt excerpt; not a full upstream-file digest"
+    },
+    {
+      "name": "VIS transforms tab/newline and controls to graphic output",
+      "repository": "apple-oss-distributions/Libc",
+      "revision": "71bbe350ab79eef58113991d817ccc6165061a64",
+      "file": "gen/FreeBSD/vis.c",
+      "line_range": "238-263,279-295,338-350",
+      "url": "https://raw.githubusercontent.com/apple-oss-distributions/Libc/71bbe350ab79eef58113991d817ccc6165061a64/gen/FreeBSD/vis.c",
+      "excerpt": "if (!iswextra && (ISGRAPH(flags, c) || iswwhite(flags, c) ||\n    ((flags & VIS_SAFE) && iswsafe(c)))) {\n    *dst++ = c;\n    return dst;\n}\n...\nif (flags & VIS_TAB) *d++ = L'\\t';\nif (flags & VIS_NL) *d++ = L'\\n';\n...\nif ((flags & VIS_NOSLASH) == 0)\n    *dst++ = L'\\\\';\nif (iswcntrl(c)) {\n    *dst++ = L'^';\n    ...\n}",
+      "excerpt_sha256": "2007559d51e1b068a8ee3db13d6582c04a6c4ddc81415ee8ea897745d0434834",
+      "digest_scope": "sha256 of this exact UTF-8 receipt excerpt; not a full upstream-file digest"
+    },
+    {
+      "name": "VIS documentation: encoded range and flags",
+      "repository": "apple-oss-distributions/Libc",
+      "revision": "71bbe350ab79eef58113991d817ccc6165061a64",
+      "file": "gen/FreeBSD/vis.3",
+      "line_range": "229-241,276-295,329-350",
+      "url": "https://raw.githubusercontent.com/apple-oss-distributions/Libc/71bbe350ab79eef58113991d817ccc6165061a64/gen/FreeBSD/vis.3",
+      "excerpt": "By default, all non-graphic characters,\nexcept space, tab, and newline are encoded.\nVIS_TAB also encodes tab.\nVIS_NL also encodes newline.\nThe default format uses caret to represent control characters.",
+      "excerpt_sha256": "bd5a301f9660cf2671bdc45a9f6e563253d951dd3879805a52e9020f1773f5cd",
+      "digest_scope": "sha256 of this exact UTF-8 receipt excerpt; not a full upstream-file digest"
+    },
+    {
+      "name": "%s size and width padding use byte length",
+      "repository": "apple-oss-distributions/Libc",
+      "revision": "71bbe350ab79eef58113991d817ccc6165061a64",
+      "file": "stdio/FreeBSD/vfprintf.c",
+      "line_range": "925-935,1313-1355,1394-1396",
+      "url": "https://raw.githubusercontent.com/apple-oss-distributions/Libc/71bbe350ab79eef58113991d817ccc6165061a64/stdio/FreeBSD/vfprintf.c",
+      "excerpt": "size_t cp_len = (prec >= 0) ? strnlen(cp, prec) : strlen(cp);\nsize = cp_len;\n...\nrealsz = dprec > size ? dprec : size;\nprsize = width > realsz ? width : realsz;\n...\nPAD(width - realsz, blanks);\n...\nPRINT(cp, size);\n...\nif (flags & LADJUST)\n    PAD(width - realsz, blanks);",
+      "excerpt_sha256": "25255dc991553513bf3908594514e640095fde22f09a4d698b9c4645a1d9e614",
+      "digest_scope": "sha256 of this exact UTF-8 receipt excerpt; not a full upstream-file digest"
+    },
+    {
+      "name": "PS manual authority distinction",
+      "repository": "apple-oss-distributions/adv_cmds",
+      "revision": "60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5",
+      "file": "ps/ps.1",
+      "line_range": "400-420",
+      "url": "https://raw.githubusercontent.com/apple-oss-distributions/adv_cmds/60bc9ebf1df7e0a3d8500ecd7e4dd1e008765af5/ps/ps.1",
+      "excerpt": "The process can change the arguments shown with\n.Xr setproctitle 3 .\nOtherwise,\n.Nm\nmakes an educated guess as to the file name and arguments given when the process was created by examining memory or the swap area.\nThe method is inherently somewhat unreliable and in any event a process is entitled to destroy this information.\nThe ucomm (accounting) keyword can, however, be depended on.",
+      "excerpt_sha256": "a10a8524ac4bd6bd11e39de1e3537b09ea82021a7b975e9bb17c4e70f082fa5d",
+      "digest_scope": "sha256 of this exact UTF-8 receipt excerpt; not a full upstream-file digest"
+    }
+  ],
+  "digest_note": "Each excerpt has a SHA-256 over its exact UTF-8 text in this receipt. Excerpts may combine selected or noncontiguous source lines as indicated by line_range; digests bind the captured receipt text, not full upstream file bytes. Immutable upstream commit IDs pin source trees.",
+  "runtime_or_live_query": false
+}

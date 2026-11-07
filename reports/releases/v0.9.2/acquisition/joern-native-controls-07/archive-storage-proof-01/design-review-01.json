@@ -1,0 +1,92 @@
+{
+  "schema": "v092-native-miniarchive-design-review/v1",
+  "review_kind": "fresh-read-only-design-review",
+  "reviewed_at_utc": "2026-10-27T10:03:55Z",
+  "repository": {
+    "branch": "dave/v0.9.2-full-refresh",
+    "head_at_review": "498587c5c15d6decc2b87cfa2c7482b8e89be9b6",
+    "request06_state": "The prior request06 preflight remains stopped before engine dispatch. This review does not create or validate its successor input."
+  },
+  "reviewed_candidate": {
+    "index": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native06-archived-evidence-index-02.json",
+      "sha256": "9d4f9b105a0b936873cbd7ca578262b445a9aebeda8501583f56bf0d7bdf2e6e",
+      "schema": "v092-native-evidence-copies/v1"
+    },
+    "archive_part": {
+      "path": "evidence-delivery/v092-native-evidence-96-01/detail/native-evidence.tar.gz.part0000",
+      "bytes": 57839,
+      "sha256": "78b5b2b2a551d2cd666013dd43d2b1fd947a5431d8d742533c06c06f5351cfbd",
+      "declared_tar_bytes": 501760
+    },
+    "retained_request05": {
+      "path": "reports/releases/v0.9.2/qualification/joern-post-bifrost-01/native-control-request-05.json",
+      "sha256": "c5de0f8732a375db15ee7ba1148d227abe6c7ece736ea28a6573105b9a183fe5",
+      "expected_historical_head": "2991bfb897cad98674efc2feb04388174295e885"
+    }
+  },
+  "source_and_manifest_checks": {
+    "index_shape": {
+      "status": "pass-for-candidate-bytes",
+      "details": [
+        "The index declares 96 members, 431729 total payload bytes, exact path+lowercase SHA-256+integer byte-length records, and a single fixed path prefix.",
+        "The 96 paths are unique, sorted, under the declared prefix, and end in raw.json. Their declared byte lengths sum to 431729; lengths range from 3797 to 4817 bytes.",
+        "The scope explicitly calls these lossless copies of historical measurement JSON inputs and says they are not new experiments or direct raw Git blobs. Keep that distinction in the request and downstream receipts."
+      ]
+    },
+    "request05_binding": {
+      "status": "pass-for-candidate-bytes",
+      "details": [
+        "The on-disk request05 bytes hash to the exact retained_request05 SHA-256 in the index; its expected_head equals the index historical_source_commit 2991bfb897cad98674efc2feb04388174295e885.",
+        "All 96 index member paths are present among request05.source_refs and all 96 SHA-256 values match. The comparison was summarized by count; the historical-reference roster is not reproduced here.",
+        "The request05 file is untracked at the reviewed HEAD. If the gate reads it as an authority, it must hash the live file against retained_request05.sha256 before using its source_refs. Its old expected_head remains historical identity and must not be promoted to current HEAD."
+      ]
+    },
+    "compressed_part_bytes": {
+      "status": "pass-for-current-worktree-bytes; committed-lfs-binding-pending",
+      "details": [
+        "The actual local part is 57839 bytes and its SHA-256 matches the index archive entry. The index declares 501760 uncompressed tar bytes and 431729 member payload bytes; the gzip-to-tar ratio is 8.68.",
+        "The committed .gitattributes rule assigns evidence-delivery/**/detail/*.part* to Git LFS. At the reviewed HEAD, however, both the index and archive part are untracked. HEAD has no Git blob for the index or an LFS pointer for this part, so current-source indirect proof is not established yet.",
+        "The part was hashed but not decompressed or extracted. This review did not independently verify that its internal tar contains exactly the indexed 96 members."
+      ]
+    }
+  },
+  "design_assessment": {
+    "decision": "sound bounded design candidate, conditional on current-source commit and implementation review",
+    "why_this_is_lower_risk": [
+      "The candidate packages only the 431729 required payload bytes into one small compressed part rather than loading the multi-hundred-megabyte historical Git archive or creating an archive cache/view.",
+      "The indexed list is exact and reconciles with the retained request05 hashes. A typed archive-member proof for only these 96 entries can preserve direct current-commit checks for all code and ordinary current inputs.",
+      "The historical commit field is explicitly separate from current HEAD; the copy can be reported as indirect archive-backed evidence without a Git ancestry or direct-raw-blob claim."
+    ],
+    "required_gate_properties": [
+      "Before validation, commit the exact reviewed index and an LFS pointer at the indexed archive path. The native request must bind the index by a direct current-HEAD Git blob reference. The committed LFS pointer's canonical oid SHA-256 and size must match the index archive SHA-256/bytes; the available compressed bytes must independently match those values. Missing/unhydrated bytes fail closed without fetching.",
+      "Keep all code/current inputs on direct current-HEAD blob checks. Give historical evidence a separate exact type and resolver limited to the index's exact 96 path+SHA+byte-length tuples. Do not use path_prefix or a missing-file condition as a generic archive fallback; unknown or additional missing refs stop validation.",
+      "Stream-decompress under an explicit cap of at least the declared 501760 tar bytes and a small fixed ceiling (the proposed approximately 1 MiB is ample). Require one complete gzip stream, exact tar length, exactly 96 regular-file members, exact names, no duplicate/unexpected entries, traversal, absolute paths, links, devices, PAX/GNU extension entries, or trailing data. Verify each extracted member's exact integer size and SHA-256 against both the committed index and retained request05.source_refs before accepting it; write no original paths to the worktree.",
+      "Keep request06's expected_head bound to its actual new current source commit. The historical 2991 commit is a source-origin label only. The committed index and LFS content provide current-source indirect storage binding; they do not turn copied bytes into direct Git blobs at 2991 or at the new current HEAD.",
+      "Use the ordinary stable/current-file checks for inputs that still exist as live current files, including the retained request05 file if the gate consults it. For an absent historical raw path, do not claim n.stable read that path; the truthful proof is bounded archive-member bytes matching the exact old request05 digest/length tuple. If another live payload is intended by the n.stable condition, name and pin that exact path separately."
+    ],
+    "remaining_ambiguities": [
+      "At this review point the index and LFS part are untracked, so their stated current-commit binding awaits the planned S2 commit. This is the expected preparation stage, not a defect in the candidate data; do not use them for request06 source validation before commit and exact HEAD read-back.",
+      "The manifest contains expected member names and hashes, but only the future verifier can prove the compressed tar decodes to those exact member bytes. The index alone is not archive-content verification.",
+      "The old request05 file is currently untracked as well. The index's exact retained_request05 hash binds its expected bytes after the index is committed, but any runtime use of that file must independently verify its live bytes and must not treat its old HEAD as current."
+    ]
+  },
+  "workflow_boundary": {
+    "next_source_step_as_supplied": "Commit the index, archive part, isolated helper, and minimal qualifier storage gate at new S2; then bind the successor request06 input to that current source and review its exact refs before admission.",
+    "implementation_review": "pending separate handoff; no helper or qualifier patch was inspected in this design review",
+    "qualification": "not approved",
+    "scoring_or_launch": "not approved"
+  },
+  "actions": {
+    "member_archive_decompressed_or_extracted": false,
+    "historical_git_view_or_cache_created": false,
+    "archive_hydrated_or_lfs_fetched": false,
+    "helper_or_qualifier_imported_or_called": false,
+    "source_files_modified": false,
+    "tests_run": false,
+    "os_or_process_query": false,
+    "analyzer_or_engine_invoked": false,
+    "request06_rewritten_or_validated": false,
+    "qualification_or_launch": false
+  }
+}

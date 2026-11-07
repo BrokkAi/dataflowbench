@@ -1,0 +1,48 @@
+{
+  "branch": "dave/v0.9.2-full-refresh",
+  "checks": [
+    {
+      "command": "cargo fmt --check",
+      "exit_code": 0,
+      "log": "reports/releases/v0.9.2/validation/bifrost-v0144-ci-history-01/cargo-fmt-check.log"
+    },
+    {
+      "classification": "environment-only mbx wrapper permission failure before Cargo invocation",
+      "command": "CARGO_TARGET_DIR=execution-state/v092/builds/v0144-ci-history-unit-01 cargo test --jobs 2 --bin dataflowbench bifrost_scala -- --nocapture",
+      "exit_code": 1,
+      "log": "reports/releases/v0.9.2/validation/bifrost-v0144-ci-history-01/mbx-wrapper-failure.log",
+      "log_sha256": "d65f68d8c11ce879997b414e876c4af51cd23163bfafa54958c2340de7aed9b2"
+    },
+    {
+      "command": "CARGO_TARGET_DIR=execution-state/v092/builds/v0144-ci-history-unit-01 /Users/dave/.cargo/bin/cargo test --jobs 2 --bin dataflowbench bifrost_scala -- --nocapture",
+      "exit_code": 0,
+      "log": "reports/releases/v0.9.2/validation/bifrost-v0144-ci-history-01/cargo-test-bifrost-scala.log",
+      "result": "2 passed; 309 filtered; no ignored tests",
+      "target_directory": "execution-state/v092/builds/v0144-ci-history-unit-01"
+    },
+    {
+      "command": "/opt/homebrew/bin/python3.13 scripts/test_bifrost_v0144_benchmark.py",
+      "exit_code": 0,
+      "interpreter": "Python 3.13.7",
+      "log": "reports/releases/v0.9.2/validation/bifrost-v0144-ci-history-01/c5-offline-tests.log",
+      "result": "19 passed"
+    }
+  ],
+  "head_after_validation": "e97f9119204ec209ff15f7516a96b63ae0651f23",
+  "head_before_validation": "e97f9119204ec209ff15f7516a96b63ae0651f23",
+  "purpose": "Focused historical Scala configuration-hash compatibility fix; not qualification or benchmark evidence.",
+  "schema": "dataflowbench-v092-bifrost-v0144-ci-history-validation/v1",
+  "scope": "No source pins, C5 tests/driver, production benchmark behavior, measured target, analyzer, benchmark, native tool, or qualification evidence changed. The Rust test used a separate task target; target remains at the recorded path.",
+  "source_changes": [
+    {
+      "bytes": 28573,
+      "path": "src/report.rs",
+      "sha256": "f2b3a6be4c30d1ccc5f352e71019179c222fc530cb9c44643b66591581fd455f"
+    },
+    {
+      "bytes": 58471,
+      "path": "src/tests/adapters/bifrost.rs",
+      "sha256": "bc8786792b0982cc0b8d94d27be2a155437133f3a6f2bab526a13aa715a31d39"
+    }
+  ]
+}

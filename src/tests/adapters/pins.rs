@@ -10,7 +10,7 @@ use crate::adapters::pysa::{PYSA_PINNED_PYRE_VERSION, PYSA_PINNED_PYREFLY_VERSIO
 use serde_json::Value;
 use std::{ffi::OsStr, process::Command};
 
-const PROFILE: &str = include_str!("../../../adapters/pins/v0.9.2-bifrost-v0140.json");
+const PROFILE: &str = include_str!("../../../adapters/pins/v0.9.2-bifrost-v0151.json");
 
 #[test]
 pub(crate) fn v092_pin_profile_matches_runtime_guards_and_unchanged_pins() {
@@ -24,6 +24,18 @@ pub(crate) fn v092_pin_profile_matches_runtime_guards_and_unchanged_pins() {
     assert_eq!(
         profile["tools"]["bifrost"]["build_identity"],
         pins::BIFROST_BUILD_IDENTITY
+    );
+    assert_eq!(
+        profile["tools"]["bifrost"]["binary_sha256"],
+        pins::BIFROST_BINARY_SHA256
+    );
+    assert_eq!(
+        profile["tools"]["bifrost"]["catalog_sha256"],
+        pins::BIFROST_CATALOG_SHA256
+    );
+    assert_eq!(
+        profile["tools"]["bifrost"]["native_evidence"],
+        "reports/releases/v0.9.2/qualification/bifrost-v0151-01"
     );
     assert_eq!(profile["tools"]["codeql"]["version"], pins::CODEQL_VERSION);
     assert_eq!(profile["tools"]["joern"]["version"], pins::JOERN_VERSION);
@@ -61,7 +73,7 @@ pub(crate) fn v092_pin_profile_matches_runtime_guards_and_unchanged_pins() {
         "fresh-engine-qualification-required"
     );
     assert_eq!(profile["swift_common_108"]["scored_activation"], false);
-    assert_eq!(ModelingTool::Bifrost.pinned_identity(), "Bifrost v0.14.0");
+    assert_eq!(ModelingTool::Bifrost.pinned_identity(), "Bifrost v0.15.1");
     assert_eq!(ModelingTool::Codeql.pinned_identity(), "CodeQL CLI 2.27.2");
     assert_eq!(ModelingTool::Joern.pinned_identity(), "Joern 4.0.660");
     assert_eq!(

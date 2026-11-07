@@ -1,0 +1,155 @@
+{
+  "schema": "v092-bifrost-v0151-canonical04-independent-terminal-review/v1",
+  "review_id": "bifrost-v0151-final-review-20261107-01-canonical04-independent-terminal-review",
+  "status": "passed-bounded-independent-terminal-review",
+  "findings": [],
+  "reviewed_at_utc": "2026-11-07T06:51:45.150459+00:00",
+  "canonical_validation": {
+    "receipt_path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-04/receipt.json",
+    "receipt_sha256": "694b25c5c62cbed78adb267c1f39478ec5febe1c845487a333afb2c5f4f85366",
+    "status": "canonical-validation-passed",
+    "exit_code": 0,
+    "timed_out": false,
+    "invocation_error": null,
+    "invocation_exception": null,
+    "invocation_matches_pinned_argv_cwd_environment": true,
+    "argv": [
+      "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/builds/bifrost0151-01-target/release/dataflowbench",
+      "--population",
+      "v0.9.0",
+      "validate-reports"
+    ],
+    "cwd": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/validation/bifrost-v0151-configurations-04",
+    "timeout_seconds": 1800,
+    "environment": {
+      "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
+      "HOME": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/validation/bifrost-v0151-configurations-04",
+      "TMPDIR": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/validation/bifrost-v0151-configurations-04",
+      "LANG": "C",
+      "LC_ALL": "C",
+      "NO_COLOR": "1"
+    },
+    "stdout": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-04/stdout.bin",
+      "bytes": 111,
+      "sha256": "8be5503b74287538ab97c18963823344ea754c1d6e83cd24ec64d2829e293c8c"
+    },
+    "stderr": {
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-04/stderr.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "metrics": {
+      "validated_reports": 92,
+      "checked_configuration_hashes": 76,
+      "not_derivable": 16,
+      "known_stale": 0
+    },
+    "post_invocation_inventory_sha256": "4415f8687b724d47b0d90c61a190f21d4c54fb01ed683cca2d459572341856f9"
+  },
+  "verified_artifacts_sha256": {
+    "original_canonical_helper": "f05736416d36dc241adcf29bdfedbcfeccf996676e038b2fab6289f3d70daa6f",
+    "production_schema": "d8fa8aeb9c17a792e858b5168a318794079ff1ae65404699cd96ee886d302217",
+    "original_rust_validator": "2e8e17261f60c0b8aed816e7b3b1df690865a111b5f121079b83b2b47296f515",
+    "release_runner_binary": "99d997b31024ee7ff5edbee381cf2addff5f25d6851cc19980f515142b9508a5",
+    "release_build_receipt": "513e035d700b396fc4b33ede8e481e5888c59406b3f0833e721feccd40af1e48",
+    "c6_contract": "f2c0fe969eb959856c650e8e892a9078342ec63600fc23dd05c3f069c068af65",
+    "prepared_configurations04_diagnosis": "3a8eeec921440b23613e6272415962f9413ba026dd90a5f67fcddb44436c0f1e",
+    "root_publication_selection_with_canonical_validation": "2f3ceb7d1da3b4402cfcab83a59eba6f3d28341ae4433490cab908aba70a2e9d",
+    "canonical04_validation_copy_check": "53ffc583cc18ccf873ce4d61c539c334f7bcc26413c8f5b5c40a2aa83cf4d953",
+    "full_review_bundle_check": "5d50c2c02a5c485f2d0a639ed53283a10eb763574dd110f3854fa3f2907e12c5"
+  },
+  "post_inventory_review": {
+    "recorded_post_inventory_matches_prepared_copy_digest": true,
+    "prepared_copy_inventory_sha256": "4415f8687b724d47b0d90c61a190f21d4c54fb01ed683cca2d459572341856f9",
+    "live_checkout_inventory_rehashed_by_this_review": false,
+    "basis": "The canonical receipt records this post-invocation inventory digest; it equals the preparation diagnosis after-projection inventory digest. The original 8,819-file checkout inventory was not traversed again in this bounded review."
+  },
+  "report_population_review": {
+    "selection_evidence_path": "reports/releases/v0.9.2/review-handoff/bifrost-v0151-final-review-20261107-01/publication-selection-with-canonical-validation.json",
+    "selection_evidence_sha256": "2f3ceb7d1da3b4402cfcab83a59eba6f3d28341ae4433490cab908aba70a2e9d",
+    "current_configurations04_report_files_matched_to_selected_hashes": 92,
+    "rows": 4252,
+    "distinct_case_ids": 1108,
+    "unique_raw_output_paths": 4252,
+    "raw_payload_files_rehashed_by_this_review": false,
+    "raw_payload_scope_note": "This review matched the current 92 configuration-copy report hashes to the root selection evidence and counted rows, IDs, and raw-output references. It did not independently rehash the 4,252 raw payload files; the root's verified review bundle and retained capture evidence remain the byte-integrity record."
+  },
+  "joern_projection_review": {
+    "projection_kind": "schema-compatible-report-metadata-relocation",
+    "reports": [
+      {
+        "path": "reports/joern-swift-calibration.json",
+        "source_sha256": "601a985030e9da91f37da8078ae3fd9fed449ebdf5240e48eff92060224857cb",
+        "projected_sha256": "3e65d8ac778dd8e3c63d9a27b8d81e8de6a3795b7887a557f3a04b118b7ff4ce",
+        "sidecar_sha256": "87f99fbbc9f17e644bfa42d3b6b1744c29b7e33ff48c7530f4080676d7e8f632",
+        "rows": 4
+      },
+      {
+        "path": "reports/joern-swift-core.json",
+        "source_sha256": "fafbe5e7fcc6aa883685b7616c347ea015a7196c948cd0a10babf173c8af9f94",
+        "projected_sha256": "7f54cd044efd2ab3681a0f93c2528c8ded528b69ead0b55b78a522845712ceaa",
+        "sidecar_sha256": "e6a1b11191247972b92982bda24f885f25d10a1d6cdc3b16f74a846d58496d89",
+        "rows": 66
+      },
+      {
+        "path": "reports/joern-swift-language-extension.json",
+        "source_sha256": "66d163d70b3fe5fc850c2cde3a1e49c26b493635585c7ebb81ef0901924b65f3",
+        "projected_sha256": "1a6538fcb20809d3357de49f9aa53421c79d58cd37d6b93abb60fe072173b267",
+        "sidecar_sha256": "d99cd7a26e6981b9fc1e08a4e20e8ba603c425e4817c940f46496c3a1b93cdd0",
+        "rows": 2
+      },
+      {
+        "path": "reports/joern-swift-modeling.json",
+        "source_sha256": "3201d4c639751a08df0070e6014e11a9a336960ed3ea7b4495d8c4abe2056541",
+        "projected_sha256": "a15c837372597b28f7e17e0e8f195e6ba4af796b23ac3f301d47116001f7b3da",
+        "sidecar_sha256": "43439f2e6318d8708ae6877ff0d99dcf73e1224eb50309e5ed5e761b9c926258",
+        "rows": 24
+      },
+      {
+        "path": "reports/joern-swift-native.json",
+        "source_sha256": "477fcc5dc92a84b24440c837ed26a7af941373886a69f416d7f9f5b3807b5c16",
+        "projected_sha256": "2e4fde26b20245491859719d2dda508dbf09ec3cdd7550e12907f2fd0ba3f8a5",
+        "sidecar_sha256": "a93ca3f75fc084c509803400823f5037cc8644ad19fc8ef058c4207f6f1cc00d",
+        "rows": 12
+      }
+    ],
+    "total_rows_reconstructed": 108,
+    "only_moved_fields": {
+      "top_level": [
+        "aggregate_resource_qualification",
+        "scored_activation"
+      ],
+      "per_result": "raw_sha256"
+    },
+    "qualification_boundary": {
+      "evidence_scope": "semantic-only",
+      "semantic_qualification": "unavailable",
+      "aggregate_resource_qualification": "unavailable",
+      "scored_activation": false,
+      "timing_certified": false,
+      "scoring_permitted": false
+    },
+    "source_objects_reconstructed_exactly": true
+  },
+  "ledger_review": {
+    "path": "reports/releases/v0.9.2/ledger-v1.jsonl",
+    "sha256": "5528a3ff7683546a09c03d5791b5283bba3e08428c9380890e3e4cfe5d268679",
+    "line_count": 151,
+    "preserved_prefix_line_count": 131,
+    "preserved_prefix_sha256": "2dd64f7b4ac11ca0bdd46de972a005488f5e4b4da77b29760a1be70f76176199",
+    "worktree_change_reported": false
+  },
+  "scope_and_limits": {
+    "observed_invocation_is_validation_only": true,
+    "analyzer_dispatch_recorded": false,
+    "publication_authorized": false,
+    "full_release_gate_satisfied": false,
+    "semantic_quality_claim": false,
+    "interrupted_preliminary_broad_audit": {
+      "status": "cancelled-before-completion-not-used-as-evidence",
+      "scope": "A duplicate full checkout-inventory and raw-payload traversal was stopped at root direction to avoid repeating the completed bundle and selector verification.",
+      "completed_or_passed": false
+    }
+  }
+}

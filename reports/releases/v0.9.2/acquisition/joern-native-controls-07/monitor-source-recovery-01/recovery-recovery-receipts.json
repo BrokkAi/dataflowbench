@@ -1,0 +1,62 @@
+{
+  "kind": "recovered-private-monitor07-history",
+  "session_log": "/Users/dave/.codex/sessions/2026/10/27/rollout-2026-10-27T08-47-04-01a17c1c-cd7a-7a30-a8f4-1bc80b4c77e7.jsonl",
+  "session_id": "01a17c1c-cd7a-7a30-a8f4-1bc80b4c77e7",
+  "parent_thread_id": "01a1553c-d965-7fc3-87aa-85263b96798b",
+  "source01": {
+    "historical_file_sha256": {
+      "snapshot_query.py": "07af124d7843ccfea3b8d622a58515e8c079dcc0839dbc962598616cfd328b95",
+      "process_reconciliation.py": "a423e03f52c9856ecac61c7a837103999fbd1bd3be2498384a748e2c0f7110bb",
+      "test_reconciliation_policy.py": "f27b86d28b0cf1d1f9fc7c019645b99f46a1cce95eb89a9e70507c1eb1eee397"
+    },
+    "reconstructed_file_sha256": {
+      "snapshot_query.py": "07af124d7843ccfea3b8d622a58515e8c079dcc0839dbc962598616cfd328b95",
+      "process_reconciliation.py": "a423e03f52c9856ecac61c7a837103999fbd1bd3be2498384a748e2c0f7110bb",
+      "test_reconciliation_policy.py": "f27b86d28b0cf1d1f9fc7c019645b99f46a1cce95eb89a9e70507c1eb1eee397"
+    },
+    "matching_historical_hashes": true,
+    "historical_readme_sha256": "c727c4a370f9c4cd6accd6b62b5ca2ac69e95a090581ab89146fdb4a10421787"
+  },
+  "source02": {
+    "historical_file_sha256": {
+      "snapshot_query.py": "c053138322e3dc04ead9417e82980fd67b77c9d6924068b1d9043c43483cdc3f",
+      "process_reconciliation.py": "83a08f225a21fa818ab2decd88f12d043ca1d90d7b9d8059662c164d82ca87f5",
+      "test_reconciliation_policy.py": "e16271f79f14e749cd5f3c45dd0da5ca6bdda92713b7c2526e1c9a17bcbe5ed9"
+    },
+    "reconstructed_file_sha256": {
+      "snapshot_query.py": "c053138322e3dc04ead9417e82980fd67b77c9d6924068b1d9043c43483cdc3f",
+      "process_reconciliation.py": "83a08f225a21fa818ab2decd88f12d043ca1d90d7b9d8059662c164d82ca87f5",
+      "test_reconciliation_policy.py": "e16271f79f14e749cd5f3c45dd0da5ca6bdda92713b7c2526e1c9a17bcbe5ed9"
+    },
+    "matching_historical_hashes": true,
+    "readme_sha256": "54c144dbaadd9f96dfef21a8f89cf995699aa4dd077c3828c87a3a012d7fb832",
+    "handoff_sha256": "c046e33751b5e858cd2c2910a42586d0d25cd98492243b2da6de117e56d1cf1d",
+    "patch_sha256": "6ca1db22238607db68b3c545b30b8b0ab325e2d990801129b1d90278a10e4490",
+    "patch_bytes": 34349,
+    "synthetic_validation": {
+      "result": "48 tests passed",
+      "boundary": "source-only; no C compilation, dylib load, Darwin API query, canonical edit, or monitor invocation",
+      "source": "handoff generator output and final agent handoff in session log"
+    }
+  },
+  "source03": {
+    "reconstructed_latest_recorded_file_sha256": {
+      "snapshot_query.py": "fc8a347337e5c685030f8ea62da1b65a739b054c9c014ad339f69dbaa8400567",
+      "process_reconciliation.py": "c078bde987fd4653d2dd7668bedecef28af85cd98388cfedab683d9b241b23f9",
+      "test_reconciliation_policy.py": "5d79bb09043132b5eb5b7397879d7c5c29c0fb03a9a0f7a713eee55d15812ae6"
+    },
+    "reconstructed_patch": "source-03/reconstructed-source03.patch",
+    "reconstructed_patch_sha256": "12b5d2e0c3bdf4baf53c06f50e0150e9e5a850cb86936643216d5bfd7db311c9",
+    "reconstructed_patch_bytes": 42987,
+    "historical_final_handoff_or_hash": "not present in session log before turn interruption",
+    "historical_test": {
+      "tool_call_ordinal": 3587,
+      "tool_output_ordinal": 3590,
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/Users/dave/.codex/worktrees/9f01/dataflowbench/reports/releases/v0.9.2/acquisition/joern-native-controls-06 /opt/homebrew/bin/python3.13 -B -m unittest -q test_reconciliation_policy.py",
+      "exit_code": 0,
+      "result": "Ran 48 tests in 0.249s; OK",
+      "qualification": "This run preceded the final fixture-helper patch at ordinal 3596. It does not validate the final recovered source03 test file or serve as a source03 final handoff."
+    }
+  },
+  "reconstruction_method": "Replayed recorded apply_patch source strings in order against the native06 base and exact source02 files. A historically failed snapshot patch left partial edits in the original; the replay includes that attempt because the resulting source01 snapshot SHA matches the historical receipt. The source02 change.patch and handoff.json were reconstructed from the recorded generator inputs and checked against their historical SHA-256 values."
+}

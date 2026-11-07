@@ -1,0 +1,79 @@
+{
+  "c6_runner_binding": {
+    "build_receipt_retained_and_checked": true,
+    "contract_blob_sha1": "932813cdb3dcb0c004e9e2d3686fd7273c90a7e7",
+    "contract_path": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/contract-01.json",
+    "contract_sha256": "f2c0fe969eb959856c650e8e892a9078342ec63600fc23dd05c3f069c068af65",
+    "full_runtime_runner_canonical_sha256": "9dfc1651cb26147777451c85cfcfef9d1907b4ee2071ffd9f5c7dc917ac99a7b",
+    "manifest_runner_exactly_equals_contract_runtime_runner": true,
+    "plan_commit": "515d9941978c12cafa37ba58eecacc0a4182226f"
+  },
+  "findings": [],
+  "limitations": [
+    "This independent review does not authorize namespace03 execution.",
+    "No analyzer, build, benchmark, semantic-quality, or publication claim is made.",
+    "Root integration review and any later execution evidence remain separate."
+  ],
+  "review_id": "bifrost-v0151-configurations-repair-02-independent-review-01",
+  "review_scope": [
+    "Exact full C6 runtime.runner producer-consumer binding and build provenance",
+    "Materialization guard behavior and failure postcheck preservation",
+    "Positive and near-miss tests and hash-bound inspection artifacts"
+  ],
+  "reviewed_artifacts_sha256": {
+    "focused-tests-02.json": "9cd76e93069dc7b8366a47895ee3ebcc8f6a9d05efe0ca83a4e2c906a5b93b98",
+    "materialize_v0151_swift_configuration_inputs.py": "b8dc67d70669e112ddf4967edfaebde39fa67807bad681e911610cbd0996ed30",
+    "repair-diagnosis.json": "cb8a558d56b3dd6e5ac03ec127e6b4c6b81f779bb71a6d351f323acca63f4248",
+    "source-inspection-01.json": "d1b4ddff43b55d613c45a81d9a038e711eaf343ed2e77f7efcab5d13ac2be80e",
+    "swift-configuration-ref-manifest.json": "63a2930d12453e02c01f87228c6952a21a2b98e261586cc4338b4d3e2789e74f",
+    "test_materialize_v0151_swift_configuration_inputs.py": "3d33a1d5ed4868e243ec07434ff396aac71ffafec0ddddd3d98aaa0674336c13"
+  },
+  "reviewed_at_utc": "2026-11-07T05:59:14.676582+00:00",
+  "reviewer": "independent-review-agent",
+  "schema": "v0.9.2-v0151-configurations-repair-independent-review/v1",
+  "status": "passed-for-root-integration-review",
+  "verification": {
+    "focused_suite": {
+      "command": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "-B",
+        "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/test_materialize_v0151_swift_configuration_inputs.py"
+      ],
+      "errors": 0,
+      "failed": 0,
+      "passed": 19,
+      "python": "/opt/homebrew/opt/python@3.13/bin/python3.13 -B",
+      "receipt_sha256": "9cd76e93069dc7b8366a47895ee3ebcc8f6a9d05efe0ca83a4e2c906a5b93b98",
+      "streams": {
+        "focused-tests-02.stderr.txt": {
+          "bytes": 3267,
+          "sha256": "da536b34c9c90d0524e611a632328dcf94f6039285d80955ac89371cb55b71fe"
+        },
+        "focused-tests-02.stdout.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "source-inspection-01.stderr.txt": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "source-inspection-01.stdout.json": {
+          "bytes": 5356,
+          "sha256": "b8d47e7bb89406c8802d322f5dc037b233d976e3bb4bc1dbf1d222f61fd270b4"
+        }
+      },
+      "suite_elapsed_seconds": 138.873
+    },
+    "namespace03_receipt_and_checkout_absent_at_review": true,
+    "no_rust_runner_or_analyzer_invoked_by_review_or_focused_suite": true,
+    "pre_materialization_failure_postcheck_test": "passed; preserves canonical failure cause and records no supplement receipt",
+    "producer_consumer_test": "canonical validator _preflight produced the full C6 runtime.runner object; the repair hook binding guard accepted it using a stub consumer; no Rust runner call occurred",
+    "read_only_source_inspection": {
+      "missing": 22,
+      "present": 97,
+      "receipt_sha256": "d1b4ddff43b55d613c45a81d9a038e711eaf343ed2e77f7efcab5d13ac2be80e",
+      "references": 119,
+      "status": "passed"
+    }
+  }
+}
