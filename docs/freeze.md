@@ -75,6 +75,16 @@ order, because later steps consume what earlier ones fix.
    Record the review as a dated table in `docs/adapters.md` before any re-run
    starts, so the declarations move first and the evidence follows. Joern's
    near-daily releases are evaluated here and only here.
+
+   **Immutable review documents (2026-11-07 retention clarification).** If
+   `docs/adapters.md` is itself a digest-bound artifact of an earlier review,
+   preserve its bytes and record the complete dated table in
+   `docs/releases/vX.Y.Z-pin-currency-YYYYMMDD.md` instead, with the official
+   source receipt beside it. Link that exact review from the canonical release
+   notes. This changes the record's storage location only: every adapter,
+   current upstream version, distance and dated hold reason remains mandatory;
+   any changed pin still requires qualification and every slice to rerun.
+   Do not update an earlier review's recorded digest to accommodate new prose.
 3. **Re-runs.** Re-run every freeze-bound report that the release must
    refresh — the bumped adapters from step 2, and any slice deferred by the
    freeze rule since the last release — and commit the evidence.
@@ -177,8 +187,9 @@ the reason for each group.
 
 ## Pin currency at freeze time
 
-The full review is in `docs/adapters.md` under a dated heading; this table
-is its summary and lists every analyzer, held or not.
+The full review is in `docs/adapters.md` under a dated heading, or the linked
+versioned pin-currency review when the earlier document is digest-bound. This
+table is its summary and lists every analyzer, held or not.
 
 | Analyzer | Pin at vX.Y.Z | Upstream latest stable at freeze | Distance | Outcome |
 | --- | --- | --- | --- | --- |
