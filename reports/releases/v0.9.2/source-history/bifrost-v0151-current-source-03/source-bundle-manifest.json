@@ -1,0 +1,144 @@
+{
+  "archive01_binding": {
+    "head": "f06c0f454536f1af36981163d4d819192e49e814",
+    "manifest_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-01/source-bundle-manifest.json",
+    "manifest_sha256": "9fc18f7423660d1d4abe847e15a85b1ce56253b035d1c6252adbe7ad4bfcb641",
+    "raw_bundle_sha256": "0ad200c7ab5b58cf010f05c33de197621493bb83f9184cc18e81fb92a3079d74"
+  },
+  "archive02_binding": {
+    "head": "503871a36451ddbb5098a9ea010115202bd5ead9",
+    "manifest_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-02/source-bundle-manifest.json",
+    "manifest_sha256": "82b73967cb6dfbea2aa86a0be887637b9635889e1cf208f60f4fee66d631d78d",
+    "raw_bundle_sha256": "25cb56642fc2001ea5fffd9019ac9fb05b7e939baea1702c21ea935b88607c21"
+  },
+  "bundle": {
+    "bytes": 63920,
+    "git_bundle_heads_output": "cc7e4540ffc52f624c47cb0b77c308fef86f31b6 refs/heads/dave/v0.9.2-full-refresh\n",
+    "git_bundle_verify_output": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-03/original-source.bundle is okay\nThe bundle contains this ref:\ncc7e4540ffc52f624c47cb0b77c308fef86f31b6 refs/heads/dave/v0.9.2-full-refresh\nThe bundle requires this ref:\n503871a36451ddbb5098a9ea010115202bd5ead9 \nThe bundle uses this hash algorithm: sha1\n",
+    "hash_algorithm": "sha1",
+    "heads": [
+      {
+        "ref": "refs/heads/dave/v0.9.2-full-refresh",
+        "sha": "cc7e4540ffc52f624c47cb0b77c308fef86f31b6"
+      }
+    ],
+    "local_raw_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-03/original-source.bundle",
+    "parts": [
+      {
+        "bytes": 63920,
+        "path": "original-source.bundle.part0000",
+        "sha256": "4bc3a88261a1f7b0048a08df680e0dd8a63beeb85baaded82cd17d84eb06b09a"
+      }
+    ],
+    "prerequisites": [
+      "503871a36451ddbb5098a9ea010115202bd5ead9"
+    ],
+    "reassembly": "concatenate numbered parts in ascending suffix order; output must match raw bundle byte count and SHA-256",
+    "required_base_commit": "503871a36451ddbb5098a9ea010115202bd5ead9",
+    "sha256": "4bc3a88261a1f7b0048a08df680e0dd8a63beeb85baaded82cd17d84eb06b09a",
+    "split_max_bytes": 41943040
+  },
+  "delta": {
+    "base_archive02_head": "503871a36451ddbb5098a9ea010115202bd5ead9",
+    "base_is_ancestor_of_target": true,
+    "baseline_diagnosis_lfs_pointer": {
+      "git_blob_sha1": "6dfd4b6946ae70fc77167842535a8777981aea44",
+      "lfs_object_bytes": 3030460,
+      "lfs_object_sha256": "9886623f4fd3c003a1c2ec105076360a359a95e5a4b8a90012ca84b793b10880",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0151-canonical-schema-01/diagnosis/baseline-diagnosis.json",
+      "pointer_bytes_sha256": "aca3922d6cad514e3997a92261f3dc0f6b8e45d8ff1506b14eef9d98277eb4d7"
+    },
+    "c6_contract_at_plan_commit": {
+      "git_blob": "932813cdb3dcb0c004e9e2d3686fd7273c90a7e7",
+      "path": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/contract-01.json",
+      "sha256": "f2c0fe969eb959856c650e8e892a9078342ec63600fc23dd05c3f069c068af65"
+    },
+    "commits_between_base_and_target": [
+      "24331a4fe6a23356c184db08d8c62efd9d8a4e07",
+      "25d5bd5445bc739cf4f2a62f1fcc94b7df5d8e87",
+      "cc7e4540ffc52f624c47cb0b77c308fef86f31b6"
+    ],
+    "new_canonical_helpers_at_target": {
+      "canonical_runner": {
+        "bytes": 66223,
+        "commit": "cc7e4540ffc52f624c47cb0b77c308fef86f31b6",
+        "git_blob_sha1": "e623d23cb86b06b2629ef9d211044f0346a0cd79",
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0151-canonical-schema-01/run_canonical.py",
+        "sha256": "f05736416d36dc241adcf29bdfedbcfeccf996676e038b2fab6289f3d70daa6f"
+      },
+      "canonical_runner_tests": {
+        "bytes": 6138,
+        "commit": "cc7e4540ffc52f624c47cb0b77c308fef86f31b6",
+        "git_blob_sha1": "d88844f586d6c650d909e1a4bfe13e0b93f712ef",
+        "path": "reports/releases/v0.9.2/validation/bifrost-v0151-canonical-schema-01/tests/test_run_canonical.py",
+        "sha256": "f6923cb4bb23b83b97a30af862e37eca9d3886d750a4c314e67788614dcb79ae"
+      },
+      "joern_projection_preparer": {
+        "bytes": 12855,
+        "commit": "cc7e4540ffc52f624c47cb0b77c308fef86f31b6",
+        "git_blob_sha1": "903c1e6ff6cdfbb05cec4490c40aa55aca881c22",
+        "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/prepare_projection.py",
+        "sha256": "cd79f8ca5dabeea87c7b597f2fc8d43ce6d8ef78732996343e267fb4b8d405c0"
+      },
+      "joern_projector": {
+        "bytes": 15819,
+        "commit": "cc7e4540ffc52f624c47cb0b77c308fef86f31b6",
+        "git_blob_sha1": "53d8c642fe68b13046ed21a0fb1a965c82eedac0",
+        "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/project_joern.py",
+        "sha256": "13f8312504f641743d050101bb695ede820af90797db66de940ebdd318269f91"
+      },
+      "joern_projector_tests": {
+        "bytes": 8044,
+        "commit": "cc7e4540ffc52f624c47cb0b77c308fef86f31b6",
+        "git_blob_sha1": "7a7853a469733d6239d0e02ed30bd64272c92783",
+        "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/tests/test_project_joern.py",
+        "sha256": "f89592e7fabe31fd6afe36b9d6369fe71048193e240e83dfd87732570dc6eaac"
+      }
+    },
+    "plan_commit": "515d9941978c12cafa37ba58eecacc0a4182226f",
+    "plan_commit_parent": "7f99684668065b8fb1ebc9b2852f058c64430647",
+    "repair02_helper_at_archive02": {
+      "bytes": 59211,
+      "commit": "503871a36451ddbb5098a9ea010115202bd5ead9",
+      "git_blob_sha1": "994444dbd53554e32181c21813f021e65a180193",
+      "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/materialize_v0151_swift_configuration_inputs.py",
+      "sha256": "b8dc67d70669e112ddf4967edfaebde39fa67807bad681e911610cbd0996ed30"
+    },
+    "source_commit": "7f99684668065b8fb1ebc9b2852f058c64430647",
+    "source_commit_included": true,
+    "source_tree": "7af8853a1e2eb7ea7832f7c0bad4d2299c1ab416",
+    "target_commit": "cc7e4540ffc52f624c47cb0b77c308fef86f31b6",
+    "target_ref": "refs/heads/dave/v0.9.2-full-refresh"
+  },
+  "excluded_local_only": [
+    "original-source.bundle",
+    ".local-import-proof/"
+  ],
+  "finite_git_selection": [
+    "README.md",
+    "source-bundle-manifest.json",
+    "original-source.bundle.partNNNN"
+  ],
+  "lfs_rule": ".gitattributes line 89: reports/releases/v0.9.2/source-history/**/original-source.bundle.part* filter=lfs diff=lfs merge=lfs -text",
+  "lfs_rule_check_attr_output": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-03/original-source.bundle.part0000: filter: lfs\nreports/releases/v0.9.2/source-history/bifrost-v0151-current-source-03/original-source.bundle.part0000: diff: lfs\nreports/releases/v0.9.2/source-history/bifrost-v0151-current-source-03/original-source.bundle.part0000: merge: lfs\nreports/releases/v0.9.2/source-history/bifrost-v0151-current-source-03/original-source.bundle.part0000: text: unset",
+  "purpose": "Recoverable exact source-history delta after retained current-source-02; archive-01 and archive-02 remain unchanged.",
+  "repository": "BrokkAi/dataflowbench",
+  "schema": "dataflowbench-current-source-bundle-delta-retention/v1",
+  "verification": {
+    "bundle_raw_sha256": "4bc3a88261a1f7b0048a08df680e0dd8a63beeb85baaded82cd17d84eb06b09a",
+    "bundle_verify_passed": true,
+    "isolated_import_passed": true,
+    "isolated_import_proof_path": "reports/releases/v0.9.2/source-history/bifrost-v0151-current-source-03/.local-import-proof/delta-import-verification.json",
+    "isolated_import_proof_sha256": "4291df2e7a8be71e4c10cf13c7dbcc4b7da4f521df093b3af085741b49bead1d",
+    "isolated_import_sequence": [
+      "seed exact main base commit 36d93cc32abc20ff9a0573e755555f4b71f360b3 with --no-tags",
+      "fetch source-01 archive bundle",
+      "fetch source-02 archive bundle",
+      "fetch source-03 archive bundle"
+    ],
+    "new_canonical_runner_and_joern_projector_blobs_proven": true,
+    "parts_reassembled_byte_identical": true,
+    "source_tree_plan_c6_and_repair02_identity_proven": true,
+    "tags_imported": false
+  }
+}
