@@ -1,0 +1,83 @@
+{
+  "schema": "v092-native07-test-only-ci-repair-independent-review/v1",
+  "review_id": "bifrost-v0151-ci-repair-01-independent-review-01",
+  "status": "passed-for-root-integration-review",
+  "findings": [],
+  "reviewed_at_utc": "2026-11-07T07:12:01Z",
+  "reviewed_artifacts_sha256": {
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py": "83a2ad9b9bf6460507c50a9d0840b69f4384de12194fe365bab9034eb73208b7",
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test-fixtures/frozen-configuration-pr03117.py.gz": "c37fbfd763c967e67650c3ff7399be67b1388a188b35e9513842913138b70383",
+    "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test-fixtures/frozen-configuration-pr03117.provenance.json": "1ee0ba8e04704b8dcd7daed1057d5c930de18f2cf983d9b60efe8f83b7fbd798",
+    "reports/releases/v0.9.2/validation/bifrost-v0151-ci-repair-01/failed-ci-receipt.json": "f531d547044b3553691491b2c4862e99974f0f690f34ac91253f87310347381e",
+    "reports/releases/v0.9.2/validation/bifrost-v0151-ci-repair-01/ci-42349015443-failed.log.gz": "4ac71c5620e7d0983bb2198d6f6c4c0cd7e69d5622b47fd16e293f5fbe1d0afe"
+  },
+  "historical_fixture_provenance": {
+    "source_path": "scripts/validate-v092-report-configurations.py",
+    "base_commit": "36d93cc32abc20ff9a0573e755555f4b71f360b3",
+    "green_comparison_commit": "03117b1efc317a02f31ce857f011654b5f91bc50",
+    "git_blob_sha1_in_both_commits": "c210aca4c724c8604069f464a774d821a35d0621",
+    "source_bytes": 34373,
+    "source_sha256_in_both_commits": "21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858",
+    "fixture_decompresses_to_exact_source": true,
+    "fixture_sha256": "c37fbfd763c967e67650c3ff7399be67b1388a188b35e9513842913138b70383",
+    "current_production_validator_sha256": "2e8e17261f60c0b8aed816e7b3b1df690865a111b5f121079b83b2b47296f515"
+  },
+  "test_only_scope": {
+    "modified_tracked_file": "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test_native_qualifier.py",
+    "added_test_fixture_files": [
+      "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test-fixtures/frozen-configuration-pr03117.py.gz",
+      "reports/releases/v0.9.2/acquisition/joern-native-controls-07/test-fixtures/frozen-configuration-pr03117.provenance.json"
+    ],
+    "native_qualifier_sha256_unchanged": "3e69e03bbfb60491267b35857c74991ce1f75ac07abae0b6943e254f18544457",
+    "current_production_validator_sha256_unchanged": "2e8e17261f60c0b8aed816e7b3b1df690865a111b5f121079b83b2b47296f515",
+    "core_manifest_sha256_unchanged": "b1b405d1f28bae9b84632de4830352ae9a27f352f47bbb49a3a046e2567add6d",
+    "current_core_graph_roles": 88,
+    "graph_roles_pinning_historical_configuration": 6,
+    "production_module_configuration_graph_or_hash_updated": false
+  },
+  "review_checks": {
+    "failure_matches_historical_graph_configuration_digest_guard": true,
+    "all_88_graph_roles_are_checked_by_test_materializer": true,
+    "only_historical_configuration_path_uses_retained_bytes": true,
+    "other_graph_inputs_are_read_from_current_pinned_source": true,
+    "exactly_six_historical_configuration_aliases_are_required": true,
+    "fixture_destination_is_new_temporary_test_root": true,
+    "materialized_core_and_all_graph_inputs_are_rehashed": true,
+    "tampered_fixture_near_miss_exercises_frozen_guard": true,
+    "positive_foreign_module_and_cleanup_error_cases_preserved": true,
+    "test_changes_do_not_call_benchmark_or_analyzer": true
+  },
+  "focused_suite": {
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "reports/releases/v0.9.2/acquisition/joern-native-controls-07",
+      "-p",
+      "test_*.py"
+    ],
+    "python": "3.13.7",
+    "exit_code": 0,
+    "tests_passed": 143,
+    "duration_seconds": 11.083,
+    "result_evidence": "Worker's exact local tool result, confirmed in root handoff. No durable local success log was supplied to this independent review; root's separate run/manifest retention remains separate evidence.",
+    "rerun_by_reviewer": false
+  },
+  "original_ci_failure": {
+    "run_id": 42349015443,
+    "head": "d1c3a563008d30cb759045fabccf0c6d3ecde1ef",
+    "failed_step": "Verify v0.9.2 fresh-execution and qualification boundaries",
+    "suite_result": "143 tests; 4 errors and 1 failure at the frozen graph configuration digest guard",
+    "no_benchmark_dispatched": true,
+    "remote_ci_after_fix": "pending root delivery and exact-head rerun"
+  },
+  "limits": {
+    "reviewer_ran_no_tests": true,
+    "reviewer_ran_no_benchmark_build_or_analyzer": true,
+    "review_is_for_root_integration_only": true,
+    "remote_ci_pass_not_claimed": true
+  }
+}

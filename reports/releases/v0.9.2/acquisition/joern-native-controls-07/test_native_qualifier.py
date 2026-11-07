@@ -7,6 +7,8 @@ commands are the only processes launched; their source is explicit below.
 """
 import contextlib
 import copy
+import gzip
+import hashlib
 import importlib.util
 import json
 import os
@@ -25,6 +27,95 @@ import native_qualifier as n
 CHECKOUT_ROOT=Path(__file__).resolve().parents[5]
 REPO=CHECKOUT_ROOT
 PRODUCTION_PYTHON=n.PYTHON
+
+FROZEN_CONFIGURATION_PATH='scripts/validate-v092-report-configurations.py'
+FROZEN_CONFIGURATION_SHA256='21149f4cd75da8be2b6423eaa3ca5f2ed87753aaa7263758133b01ef902a3858'
+FROZEN_CONFIGURATION_BLOB='c210aca4c724c8604069f464a774d821a35d0621'
+FROZEN_CONFIGURATION_BASE='36d93cc32abc20ff9a0573e755555f4b71f360b3'
+FROZEN_CONFIGURATION_GREEN_COMPARISON='03117b1efc317a02f31ce857f011654b5f91bc50'
+FROZEN_CONFIGURATION_FIXTURE=Path(__file__).resolve().parent/'test-fixtures'/'frozen-configuration-pr03117.py.gz'
+FROZEN_CONFIGURATION_PROVENANCE=Path(__file__).resolve().parent/'test-fixtures'/'frozen-configuration-pr03117.provenance.json'
+
+
+def historical_frozen_configuration_bytes():
+    provenance=json.loads(FROZEN_CONFIGURATION_PROVENANCE.read_bytes())
+    expected_source={
+        'base_and_green_tree_blob':FROZEN_CONFIGURATION_BLOB,
+        'base_commit':FROZEN_CONFIGURATION_BASE,
+        'bytes':34373,
+        'green_comparison_commit':FROZEN_CONFIGURATION_GREEN_COMPARISON,
+        'path':FROZEN_CONFIGURATION_PATH,
+        'sha256':FROZEN_CONFIGURATION_SHA256,
+    }
+    if provenance.get('schema')!='v092-native-controls-historical-graph-configuration-fixture/v1' or provenance.get('source')!=expected_source:
+        raise AssertionError('historical configuration provenance differs from the retained base and green-comparison source')
+    compressed=FROZEN_CONFIGURATION_FIXTURE.read_bytes()
+    fixture=provenance.get('fixture',{})
+    if fixture!={'bytes':len(compressed),'compression':'gzip-with-mtime-zero',
+                 'path':FROZEN_CONFIGURATION_FIXTURE.name,
+                 'sha256':hashlib.sha256(compressed).hexdigest()}:
+        raise AssertionError('historical configuration fixture bytes differ from the provenance receipt')
+    raw=gzip.decompress(compressed)
+    git_blob=hashlib.sha1(b'blob '+str(len(raw)).encode('ascii')+b'\0'+raw).hexdigest()
+    if (len(raw)!=expected_source['bytes'] or n.sha(raw)!=FROZEN_CONFIGURATION_SHA256 or
+            git_blob!=FROZEN_CONFIGURATION_BLOB):
+        raise AssertionError('historical configuration is not the recorded Git blob')
+    return raw
+
+
+def materialize_historical_graph_root(source_root, destination):
+    """Copy the exact frozen 88-role inputs, restoring only the older pinned config bytes."""
+    source_root=Path(source_root).resolve(strict=True)
+    destination=Path(destination)
+    if destination.exists() or destination.is_symlink():
+        raise AssertionError('historical graph fixture destination already exists')
+    core_raw=n.stable(source_root,n.CORE)
+    core=json.loads(core_raw)
+    refs=core.get('runtime_module_graph')
+    if not isinstance(refs,dict) or len(refs)!=88:
+        raise AssertionError('historical graph fixture requires the exact 88-role core graph')
+    historic=historical_frozen_configuration_bytes()
+    files={n.CORE['path']:(n.CORE['sha256'],core_raw)}
+    configuration_roles=0
+    for role,ref in refs.items():
+        if not isinstance(ref,dict) or set(ref)!={'path','sha256'}:
+            raise AssertionError('frozen graph reference is malformed: '+str(role))
+        path=ref['path']
+        if path==FROZEN_CONFIGURATION_PATH:
+            configuration_roles+=1
+            if ref['sha256']!=FROZEN_CONFIGURATION_SHA256:
+                raise AssertionError('frozen graph configuration pin changed')
+            raw=historic
+        else:
+            raw=n.stable(source_root,ref)
+        if n.sha(raw)!=ref['sha256']:
+            raise AssertionError('frozen graph source differs for '+str(role))
+        prior=files.get(path)
+        value=(ref['sha256'],raw)
+        if prior is not None and prior!=value:
+            raise AssertionError('frozen graph path has conflicting source bindings: '+path)
+        files[path]=value
+    if configuration_roles!=6:
+        raise AssertionError('expected exactly six aliases for the historical configuration source')
+
+    destination.mkdir(parents=True)
+    for relative,(expected,raw) in files.items():
+        rel=Path(relative)
+        if rel.is_absolute() or rel.as_posix()!=relative or '..' in rel.parts:
+            raise AssertionError('frozen graph path is not canonical relative: '+relative)
+        target=destination/rel
+        target.parent.mkdir(parents=True,exist_ok=True)
+        if target.exists() or target.is_symlink():
+            raise AssertionError('frozen graph path collision: '+relative)
+        target.write_bytes(raw)
+        if n.sha(target.read_bytes())!=expected:
+            raise AssertionError('materialized frozen graph source differs: '+relative)
+    if n.stable(destination,n.CORE)!=core_raw:
+        raise AssertionError('materialized frozen core identity differs')
+    for ref in refs.values():
+        if n.sha(n.stable(destination,ref))!=ref['sha256']:
+            raise AssertionError('materialized frozen graph input differs: '+ref['path'])
+    return destination
 
 
 @contextlib.contextmanager
@@ -956,10 +1047,11 @@ os.close(fd)
 
     def test_actual_modules_scope_cleans_late_resource_process_imports_before_frozen_close(self):
         before=dict(sys.modules)
-        with n.modules(REPO) as (core,graph):
+        graph_root=materialize_historical_graph_root(REPO,self.root/'historical-graph-cleanup')
+        with n.modules(graph_root) as (core,graph):
             resource=n.load(Path(n.__file__).parent,{'path':'retained_resources.py','sha256':n.sha(Path(n.__file__).with_name('retained_resources.py').read_bytes())},'_late_actual_resource')
-            process_path=REPO/'scripts/swift_v2_process.py'
-            process=n.load(REPO,{'path':'scripts/swift_v2_process.py','sha256':n.sha(process_path.read_bytes())},'_late_actual_process')
+            process_path=graph_root/'scripts/swift_v2_process.py'
+            process=n.load(graph_root,{'path':'scripts/swift_v2_process.py','sha256':n.sha(process_path.read_bytes())},'_late_actual_process')
             names=[resource.__name__,process.__name__]
             self.assertTrue(all(sys.modules[name] is module for name,module in zip(names,(resource,process))))
         self.assertTrue(all(name not in sys.modules for name in names))
@@ -968,9 +1060,16 @@ os.close(fd)
     def test_actual_modules_scope_preserves_foreign_entry_and_frozen_rejection(self):
         name='_native_test_foreign_unowned'
         foreign=types.ModuleType(name)
+        tampered_root=materialize_historical_graph_root(REPO,self.root/'historical-graph-tampered')
+        config_path=tampered_root/FROZEN_CONFIGURATION_PATH
+        config_path.write_bytes(config_path.read_bytes()+b'\n')
+        with self.assertRaisesRegex(Exception,'graph configuration digest changed'):
+            with n.modules(tampered_root):
+                pass
+        graph_root=materialize_historical_graph_root(REPO,self.root/'historical-graph-foreign')
         try:
             with self.assertRaisesRegex(Exception,'non-stdlib process-global'):
-                with n.modules(REPO):sys.modules[name]=foreign
+                with n.modules(graph_root):sys.modules[name]=foreign
             self.assertIs(sys.modules[name],foreign)
         finally:sys.modules.pop(name,None)
 
@@ -990,8 +1089,9 @@ os.close(fd)
             if second is not None:sys.modules.pop(second.__name__,None)
 
     def test_actual_module_scope_error_keeps_original_failure_after_clean_teardown(self):
+        graph_root=materialize_historical_graph_root(REPO,self.root/'historical-graph-body-error')
         with self.assertRaisesRegex(RuntimeError,'original worker failure sentinel'):
-            with n.modules(REPO):
+            with n.modules(graph_root):
                 n.load(Path(n.__file__).parent,{'path':'retained_resources.py','sha256':n.sha(Path(n.__file__).with_name('retained_resources.py').read_bytes())},'_late_failure_resource')
                 raise RuntimeError('original worker failure sentinel')
 
@@ -1021,7 +1121,8 @@ assert all(name not in sys.modules for name in names)
 print(json.dumps({'interpreter':identity,'actual_raw_executable':actual[0],
                   'owned_late_modules_removed':True,'frozen_close_passed':True}))
 """
-        result=subprocess.run([sys.executable,'-B','-E','-c',script,str(Path(n.__file__).parent),str(REPO)],
+        graph_root=materialize_historical_graph_root(REPO,self.root/'historical-graph-child')
+        result=subprocess.run([sys.executable,'-B','-E','-c',script,str(Path(n.__file__).parent),str(graph_root)],
             capture_output=True,text=True,timeout=20,check=True)
         proof=json.loads(result.stdout)
         self.assertTrue(proof['owned_late_modules_removed'])
@@ -1031,9 +1132,10 @@ print(json.dumps({'interpreter':identity,'actual_raw_executable':actual[0],
     def test_cleanup_failure_is_recorded_without_masking_original_body_failure(self):
         name='_native_test_foreign_during_failure';foreign=types.ModuleType(name)
         receipt=self.root/'module-cleanup-error.json'
+        graph_root=materialize_historical_graph_root(REPO,self.root/'historical-graph-cleanup-error')
         try:
             with self.assertRaisesRegex(RuntimeError,'original body error') as captured:
-                with n.modules(REPO,cleanup_receipt=receipt):
+                with n.modules(graph_root,cleanup_receipt=receipt):
                     sys.modules[name]=foreign
                     raise RuntimeError('original body error')
             self.assertIs(sys.modules[name],foreign)
