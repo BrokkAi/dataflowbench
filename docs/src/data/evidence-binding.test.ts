@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import test from 'node:test';
 import { boundEvidence } from './evidence-binding.ts';
+import { currentSnapshot, evidenceUrl, hasLatencyEvidence, snapshotByVersion } from './snapshots.ts';
 
 const historical = JSON.parse(fs.readFileSync(new URL('./archive/v0-6-0-latency-auxiliary-evidence.json', import.meta.url), 'utf8'));
 const identity = (value: typeof historical) => ({ release: value.latency_release, revision: value.evidence_ref, schema: value.schema_version });
@@ -90,7 +91,7 @@ test('v0.9.0 timing archives retain recorder paths and the exact release binding
   const read = (path: string) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url), 'utf8'));
   const cold = read('./archive/v0-9-0-latency-evidence.json');
   const aux = read('./archive/v0-9-0-latency-auxiliary-evidence.json');
-  const manifest = fs.readFileSync(new URL('../../../reports/freeze.json', import.meta.url));
+  const manifest = fs.readFileSync(new URL('../../../reports/releases/v0.9.0/freeze.json', import.meta.url));
   assert.equal(cold.manifest_sha256, createHash('sha256').update(manifest).digest('hex'));
   assert.equal(cold.release, 'v0.9.0');
   assert.equal(aux.evidence_ref, cold.evidence_ref);
@@ -100,4 +101,48 @@ test('v0.9.0 timing archives retain recorder paths and the exact release binding
     assert.ok(path.startsWith('reports/releases/v0.9.0/execution-v1/resume-20261007-05/completion-evidence/controls/'));
     assert.deepEqual(artifact, read('../../../' + path));
   }
+});
+
+
+test('v0.9.2 current model binds its own release revision without latency evidence', () => {
+  const archived = snapshotByVersion('v0.9.0');
+  assert.equal(currentSnapshot.version, 'v0.9.2');
+  assert.equal(currentSnapshot.current, true);
+  assert.equal(currentSnapshot.publicationRef, 'v0.9.2');
+  assert.equal(currentSnapshot.results.benchmark.release, 'v0.9.2');
+  assert.ok(evidenceUrl(currentSnapshot, currentSnapshot.results.manifest.path).includes('/blob/v0.9.2/'));
+  assert.ok(evidenceUrl(currentSnapshot, 'docs/releases/v0.9.2-case-variation.md').includes('/blob/v0.9.2/'));
+  assert.equal(currentSnapshot.evidenceRef, currentSnapshot.results.benchmark.revision);
+  assert.equal(hasLatencyEvidence(currentSnapshot), false);
+  const codeqlNative = currentSnapshot.results.scorecards
+    .filter((card) => card.adapter.tool === 'codeql' && card.model_profile === 'tool-native')
+    .flatMap((card) => card.languages.flatMap((language) =>
+      language.score_tiers.flatMap((tier) => tier.cases.map((result) => ({
+        language: language.language,
+        classification: result.classification,
+      }))),
+    ));
+  const nativeRunnerErrors = codeqlNative.filter((result) => result.classification === 'runner-error');
+  assert.equal(nativeRunnerErrors.length, 36);
+  assert.deepEqual(
+    Object.fromEntries(['java', 'javascript', 'python'].map((language) => [
+      language,
+      nativeRunnerErrors.filter((result) => result.language === language).length,
+    ])),
+    { java: 12, javascript: 12, python: 12 },
+  );
+  assert.equal(archived.current, false);
+  assert.equal(archived.results.benchmark.release, 'v0.9.0');
+  assert.equal(archived.evidenceRef, archived.results.benchmark.revision);
+  const archivedFreeze = fs.readFileSync(new URL('../../../reports/releases/v0.9.0/freeze.json', import.meta.url));
+  assert.equal(archived.results.manifest.sha256, createHash('sha256').update(archivedFreeze).digest('hex'));
+  assert.equal(hasLatencyEvidence(archived), true);
+});
+
+test('v0.9.2 raw capture routes encode adapter and filename path segments', () => {
+  const current = snapshotByVersion('v0.9.2');
+  const raw = 'reports/releases/v0.9.2/publication-v1/capture/raw/adapter with spaces/report#1.json';
+  assert.equal(evidenceUrl(current, raw), '/evidence/v0-9-2/adapter%20with%20spaces/report%231.json');
+  assert.ok(evidenceUrl(current, 'reports/raw/legacy-report.json').startsWith('https://github.com/BrokkAi/dataflowbench/blob/'));
+  assert.ok(evidenceUrl(current, 'reports/releases/v0.9.2/publication-v1/capture/raw/../escape.json').startsWith('https://github.com/BrokkAi/dataflowbench/blob/'));
 });

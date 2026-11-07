@@ -1,0 +1,38 @@
+{
+  "schema": "v092-publication-config-reader-repair/v1",
+  "at_utc": "2026-11-07T09:57:13.691211+00:00",
+  "diagnosis": "The isolated sparse clone omitted retained configuration inputs. All119 are ordinary tracked Git blobs already present at merged evidence input M2, and none needed a new capture or engine run.",
+  "manifest": {
+    "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/swift-configuration-ref-manifest.json",
+    "sha256": "63a2930d12453e02c01f87228c6952a21a2b98e261586cc4338b4d3e2789e74f",
+    "references": 119
+  },
+  "source_files": {
+    "scripts/check-release-v092-results.py": "800a4615be197176b9c90eea57a0ad952a809b4e76e5e655c39a2bfb2fc3655d",
+    "scripts/test-release-v092-results.py": "b400f6d6edb30770f38ed8b166ccbb96553173279270d331bf430680045431f9",
+    "scripts/v092_publication_evidence.py": "10ca3e122241fb343d73937eb96020cd8f990ac48cb675d2188aed02f7e3206d",
+    "scripts/historical_evidence.py": "fae3e4e0086700dca4b061d95e1c3c00fc617ca3c7049be8afd6a91514cb5a18"
+  },
+  "review": "Root inspected exact diff and call order. Complete inventory is validated against fixed manifest, exact Git tree/blob IDs, file modes, object sizes and content SHA before any missing file is written. Symlinks and non-identical existing files fail closed. Only required manifest directory joins sparse checkout. Qualification/outcomes/timeouts/ledger remain untouched.",
+  "focused_tests": {
+    "command": [
+      "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "-B",
+      "scripts/test-release-v092-results.py"
+    ],
+    "passed": 18,
+    "elapsed_seconds": 22.06,
+    "evidence": "worker actual tool result, not a separate root execution",
+    "coverage": [
+      "real119ref fake-remote integration",
+      "exact restoration and idempotent existing bytes",
+      "missing blob",
+      "manifest tamper",
+      "blob tamper",
+      "symlink",
+      "nonidentical preexisting file"
+    ]
+  },
+  "analyzers_executed": 0,
+  "new_gate_execution": "pending after reviewed source commit"
+}

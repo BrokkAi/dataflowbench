@@ -2,18 +2,19 @@
 // digest rendered on a page comes from a generated results model produced by
 // `cargo run -- generate-results` from a validated immutable freeze — never
 // from hand-authored prose. CI proves the checked-in model is current.
-import currentResults from '../../../results/results.json';
-import v080Results from './archive/v0-8-0-results.json';
-import v071Results from './archive/v0-7-1-results.json';
-import v070Results from './archive/v0-7-0-results.json';
-import v061Results from './archive/v0-6-1-results.json';
-import v060Results from './archive/v0-6-0-results.json';
-import v050Results from './archive/v0-5-0-results.json';
-import v040Results from './archive/v0-4-0-results.json';
-import v030Results from './archive/v0-3-0-results.json';
-import v020Results from './archive/v0-2-0-results.json';
-import v010Results from './archive/v0-1-0-results.json';
-import { latencyEvidenceRelease } from './latency-sources';
+import currentResults from '../../../results/results.json' with { type: 'json' };
+import v090Results from './archive/v0-9-0-results.json' with { type: 'json' };
+import v080Results from './archive/v0-8-0-results.json' with { type: 'json' };
+import v071Results from './archive/v0-7-1-results.json' with { type: 'json' };
+import v070Results from './archive/v0-7-0-results.json' with { type: 'json' };
+import v061Results from './archive/v0-6-1-results.json' with { type: 'json' };
+import v060Results from './archive/v0-6-0-results.json' with { type: 'json' };
+import v050Results from './archive/v0-5-0-results.json' with { type: 'json' };
+import v040Results from './archive/v0-4-0-results.json' with { type: 'json' };
+import v030Results from './archive/v0-3-0-results.json' with { type: 'json' };
+import v020Results from './archive/v0-2-0-results.json' with { type: 'json' };
+import v010Results from './archive/v0-1-0-results.json' with { type: 'json' };
+import { latencyEvidenceRelease } from './latency-sources.ts';
 
 export interface RateFraction {
   numerator: number;
@@ -140,13 +141,22 @@ export const repository = 'https://github.com/BrokkAi/dataflowbench';
 
 export const snapshots: Snapshot[] = [
   {
+    version: 'v0.9.2',
+    publicationRef: 'v0.9.2',
+    slug: 'v0-9-2',
+    // The evidence ref is taken from the generated, immutable current model.
+    evidenceRef: currentResults.benchmark.revision,
+    current: true,
+    results: currentResults as unknown as ResultsModel,
+  },
+  {
     version: 'v0.9.0',
     publicationRef: 'v0.9.0',
     slug: 'v0-9-0',
-    evidenceRef: '301dd3de146337fdda5fc409c711bf4b133e4d3c',
+    evidenceRef: v090Results.benchmark.revision,
     latencyEvidenceRelease: latencyEvidenceRelease('v0.9.0'),
-    current: true,
-    results: currentResults as unknown as ResultsModel,
+    current: false,
+    results: v090Results as unknown as ResultsModel,
   },
   {
     version: 'v0.8.0',
@@ -258,6 +268,11 @@ export const currentSnapshot: Snapshot = snapshots.find(
   (snapshot) => snapshot.current,
 )!;
 
+/** Whether this immutable snapshot has its own latency corpus. */
+export function hasLatencyEvidence(snapshot: Snapshot): boolean {
+  return snapshot.latencyEvidenceRelease !== undefined;
+}
+
 export function snapshotByVersion(version: string): Snapshot {
   const snapshot = snapshots.find((candidate) => candidate.version === version);
   if (!snapshot) throw new Error(`unknown snapshot ${version}`);
@@ -299,10 +314,24 @@ export function snapshotScale(results: ResultsModel): SnapshotScale {
 
 /** Link into the repository tree that holds this snapshot's frozen evidence. */
 export function evidenceUrl(snapshot: Snapshot, path: string): string {
+  const v092RawPrefix =
+    'reports/releases/v0.9.2/publication-v1/capture/raw/';
+  if (snapshot.version === 'v0.9.2' && path.startsWith(v092RawPrefix)) {
+    const segments = path.slice(v092RawPrefix.length).split('/');
+    if (
+      segments.length === 2 &&
+      segments.every((segment) => segment.length > 0 && segment !== '.' && segment !== '..')
+    ) {
+      return `/evidence/v0-9-2/${segments.map(encodeURIComponent).join('/')}`;
+    }
+  }
+
   const downstream = path === snapshot.results.manifest.path ||
     (path.startsWith('reports/releases/') && path.endsWith('/inventory.json')) ||
     path.startsWith('results/') ||
-    path === `docs/releases/${snapshot.version}.md`;
+    path === `docs/releases/${snapshot.version}.md` ||
+    (snapshot.version === 'v0.9.2' &&
+      path === 'docs/releases/v0.9.2-case-variation.md');
   const ref = downstream && snapshot.publicationRef ? snapshot.publicationRef : snapshot.evidenceRef;
   return `${repository}/blob/${ref}/${path}`;
 }
