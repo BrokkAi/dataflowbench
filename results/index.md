@@ -1,12 +1,10 @@
 # DataFlowBench frozen results
 
-Generated from freeze manifest `reports/freeze.json` (`sha256:e63dcc483d3000c046816c595811bf35ab494544fb6dd6fff2608d43e9bc676d`), benchmark release `v0.9.0` at revision `301dd3de146337fdda5fc409c711bf4b133e4d3c`, fixture revision `sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62`.
+Generated from freeze manifest `reports/freeze.json` (`sha256:750e3b8c1275ee05b027017a1e993e84847e292344224976ca3447257ad15d69`), benchmark release `v0.9.2` at revision `1ae46241bca35fad8979857f6b46a90535c0de88`, fixture revision `sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62`.
 
 Claim scope `release`. Every number on these pages is derived from the immutable freeze evidence above; none are maintained by hand. Tracks, score dimensions, score tiers, and model profiles are separate result populations and are never combined into one leaderboard.
 
-Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator on these pages, so rate columns cover only each population's conclusive subset. In this freeze every `inconclusive` outcome is produced by: `bifrost-c-kernel` (15), `bifrost-cpp-kernel` (38), `bifrost-csharp-kernel` (28), `bifrost-go-kernel` (28), `bifrost-java-kernel` (24), `bifrost-java-modeling` (1), `bifrost-javascript-kernel` (22), `bifrost-javascript-modeling` (4), `bifrost-kotlin-kernel` (38), `bifrost-php-kernel` (36), `bifrost-python-kernel` (28), `bifrost-python-modeling` (1), `bifrost-ruby-kernel` (34), `bifrost-rust-kernel` (22), `bifrost-scala-kernel` (28), `bifrost-typescript-kernel` (24), `codeql-c-kernel` (1), `codeql-cpp-kernel` (1), `codeql-csharp-kernel` (1), `codeql-python-kernel` (1), `codeql-ruby-kernel` (1), `codeql-swift-calibration` (4), `codeql-swift-core` (65), `codeql-swift-language-extension` (2), `codeql-swift-modeling` (24), `codeql-swift-native` (12), `joern-swift-calibration` (4), `joern-swift-core` (66), `joern-swift-language-extension` (2), `joern-swift-modeling` (24). Compare rate columns across adapters with that exclusion in mind.
-
-Caveat: the following result populations were frozen under an adapter configuration that has since changed in this repository: `joern-swift-modeling-taint-taint-benchmark-controlled`, `joern-swift-calibration-taint-taint-benchmark-controlled`, `codeql-swift-modeling-taint-taint-benchmark-controlled`, `codeql-swift-calibration-taint-taint-benchmark-controlled`. Their outcomes predate the current adapter configuration; they stand as frozen evidence for the configuration they were measured under until each population is re-run.
+Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator on these pages, so rate columns cover only each population's conclusive subset. In this freeze every `inconclusive` outcome is produced by: `bifrost-c-kernel` (15), `bifrost-cpp-kernel` (38), `bifrost-csharp-kernel` (26), `bifrost-go-kernel` (26), `bifrost-java-kernel` (24), `bifrost-java-modeling` (1), `bifrost-javascript-kernel` (22), `bifrost-javascript-modeling` (4), `bifrost-kotlin-kernel` (38), `bifrost-php-kernel` (36), `bifrost-python-kernel` (28), `bifrost-python-modeling` (1), `bifrost-ruby-kernel` (34), `bifrost-rust-kernel` (21), `bifrost-scala-kernel` (28), `bifrost-typescript-kernel` (24), `codeql-c-kernel` (1), `codeql-cpp-kernel` (1), `codeql-csharp-kernel` (1), `codeql-go-kernel` (1), `codeql-python-kernel` (1), `codeql-ruby-kernel` (1), `codeql-swift-calibration` (4), `codeql-swift-core` (65), `codeql-swift-language-extension` (2), `codeql-swift-modeling` (24), `codeql-swift-native` (12), `joern-rust-kernel` (62), `joern-swift-calibration` (4), `joern-swift-core` (66), `joern-swift-language-extension` (2), `joern-swift-modeling` (24). Compare rate columns across adapters with that exclusion in mind.
 
 - Tracks: `taint`
 - Score dimensions: `taint`
@@ -19,26 +17,6 @@ None.
 
 ## Scorecards
 
-- [`bifrost-c-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-c-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-cpp-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-cpp-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-csharp-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-csharp-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-go-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-go-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-java-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-java-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-java-modeling-taint-taint-benchmark-controlled`](scorecards/bifrost-java-modeling-taint-taint-benchmark-controlled.md)
-- [`bifrost-java-native-taint-taint-tool-native`](scorecards/bifrost-java-native-taint-taint-tool-native.md)
-- [`bifrost-javascript-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-javascript-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-javascript-modeling-taint-taint-benchmark-controlled`](scorecards/bifrost-javascript-modeling-taint-taint-benchmark-controlled.md)
-- [`bifrost-javascript-native-taint-taint-tool-native`](scorecards/bifrost-javascript-native-taint-taint-tool-native.md)
-- [`bifrost-kotlin-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-kotlin-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-php-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-php-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-python-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-python-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-python-modeling-taint-taint-benchmark-controlled`](scorecards/bifrost-python-modeling-taint-taint-benchmark-controlled.md)
-- [`bifrost-python-native-taint-taint-tool-native`](scorecards/bifrost-python-native-taint-taint-tool-native.md)
-- [`bifrost-ruby-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-ruby-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-rust-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-rust-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-scala-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-scala-kernel-taint-taint-benchmark-controlled.md)
-- [`bifrost-smoke-taint-taint-benchmark-controlled`](scorecards/bifrost-smoke-taint-taint-benchmark-controlled.md)
-- [`bifrost-typescript-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-typescript-kernel-taint-taint-benchmark-controlled.md)
 - [`codeql-c-kernel-taint-taint-benchmark-controlled`](scorecards/codeql-c-kernel-taint-taint-benchmark-controlled.md)
 - [`codeql-cpp-kernel-taint-taint-benchmark-controlled`](scorecards/codeql-cpp-kernel-taint-taint-benchmark-controlled.md)
 - [`codeql-csharp-kernel-taint-taint-benchmark-controlled`](scorecards/codeql-csharp-kernel-taint-taint-benchmark-controlled.md)
@@ -101,13 +79,33 @@ None.
 - [`semgrep-ruby-kernel-taint-taint-benchmark-controlled`](scorecards/semgrep-ruby-kernel-taint-taint-benchmark-controlled.md)
 - [`semgrep-rust-kernel-taint-taint-benchmark-controlled`](scorecards/semgrep-rust-kernel-taint-taint-benchmark-controlled.md)
 - [`semgrep-typescript-kernel-taint-taint-benchmark-controlled`](scorecards/semgrep-typescript-kernel-taint-taint-benchmark-controlled.md)
-- [`joern-swift-core-taint-taint-benchmark-controlled`](scorecards/joern-swift-core-taint-taint-benchmark-controlled.md)
-- [`joern-swift-modeling-taint-taint-benchmark-controlled`](scorecards/joern-swift-modeling-taint-taint-benchmark-controlled.md)
-- [`joern-swift-calibration-taint-taint-benchmark-controlled`](scorecards/joern-swift-calibration-taint-taint-benchmark-controlled.md)
-- [`joern-swift-native-taint-taint-tool-native`](scorecards/joern-swift-native-taint-taint-tool-native.md)
-- [`joern-swift-language-extension-taint-taint-benchmark-controlled`](scorecards/joern-swift-language-extension-taint-taint-benchmark-controlled.md)
 - [`codeql-swift-core-taint-taint-benchmark-controlled`](scorecards/codeql-swift-core-taint-taint-benchmark-controlled.md)
 - [`codeql-swift-modeling-taint-taint-benchmark-controlled`](scorecards/codeql-swift-modeling-taint-taint-benchmark-controlled.md)
 - [`codeql-swift-calibration-taint-taint-benchmark-controlled`](scorecards/codeql-swift-calibration-taint-taint-benchmark-controlled.md)
 - [`codeql-swift-native-taint-taint-tool-native`](scorecards/codeql-swift-native-taint-taint-tool-native.md)
 - [`codeql-swift-language-extension-taint-taint-benchmark-controlled`](scorecards/codeql-swift-language-extension-taint-taint-benchmark-controlled.md)
+- [`joern-swift-core-taint-taint-benchmark-controlled`](scorecards/joern-swift-core-taint-taint-benchmark-controlled.md)
+- [`joern-swift-modeling-taint-taint-benchmark-controlled`](scorecards/joern-swift-modeling-taint-taint-benchmark-controlled.md)
+- [`joern-swift-calibration-taint-taint-benchmark-controlled`](scorecards/joern-swift-calibration-taint-taint-benchmark-controlled.md)
+- [`joern-swift-native-taint-taint-tool-native`](scorecards/joern-swift-native-taint-taint-tool-native.md)
+- [`joern-swift-language-extension-taint-taint-benchmark-controlled`](scorecards/joern-swift-language-extension-taint-taint-benchmark-controlled.md)
+- [`bifrost-c-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-c-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-cpp-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-cpp-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-csharp-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-csharp-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-go-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-go-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-java-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-java-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-java-modeling-taint-taint-benchmark-controlled`](scorecards/bifrost-java-modeling-taint-taint-benchmark-controlled.md)
+- [`bifrost-java-native-taint-taint-tool-native`](scorecards/bifrost-java-native-taint-taint-tool-native.md)
+- [`bifrost-javascript-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-javascript-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-javascript-modeling-taint-taint-benchmark-controlled`](scorecards/bifrost-javascript-modeling-taint-taint-benchmark-controlled.md)
+- [`bifrost-javascript-native-taint-taint-tool-native`](scorecards/bifrost-javascript-native-taint-taint-tool-native.md)
+- [`bifrost-kotlin-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-kotlin-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-php-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-php-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-python-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-python-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-python-modeling-taint-taint-benchmark-controlled`](scorecards/bifrost-python-modeling-taint-taint-benchmark-controlled.md)
+- [`bifrost-python-native-taint-taint-tool-native`](scorecards/bifrost-python-native-taint-taint-tool-native.md)
+- [`bifrost-ruby-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-ruby-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-rust-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-rust-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-scala-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-scala-kernel-taint-taint-benchmark-controlled.md)
+- [`bifrost-smoke-taint-taint-benchmark-controlled`](scorecards/bifrost-smoke-taint-taint-benchmark-controlled.md)
+- [`bifrost-typescript-kernel-taint-taint-benchmark-controlled`](scorecards/bifrost-typescript-kernel-taint-taint-benchmark-controlled.md)

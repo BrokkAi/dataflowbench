@@ -1,0 +1,60 @@
+{
+  "schema": "dataflowbench-v0.9.2-final-integration-review/v1",
+  "review_id": "v092-final-integration-review-01",
+  "status": "static-review-passed",
+  "publication_readiness": "not-asserted",
+  "reviewed_source_head": "befd56c034b0b151e701af606edb3b5c1d1feac5",
+  "artifacts": {
+    "docs/src/components/LandingResults.astro": "641aa0af7b9416406a4011fd91d0fa2deadf00991c8208f2b0ab2b64dd377490",
+    "docs/src/data/snapshots.ts": "8ad37a57af01fad88b38d0a897c73c150c836f772d47e174a2770f844b1a64b8",
+    "docs/src/data/evidence-binding.test.ts": "edba80636d1f52bfddd597afc1324b54ec97fdf0726c2c0d449c52c56f447222",
+    "docs/src/content/docs/snapshots/v0-9-2/index.mdx": "e85a111cfe344af4a5af512ef38f18681389207cb8540e6bcfcc2d06cc71ba41",
+    "docs/src/content/docs/snapshots/v0-9-2/analyzers.mdx": "d33b33b5e1ce17feb1e6f4de43923e35bf9e5d437124e71fc3abd774581f28eb",
+    "docs/src/content/docs/snapshots/v0-9-2/languages.mdx": "355a45465f1e046eb99ea207919ee74eceef397feb97fd4492d88f339d7014fb",
+    "docs/src/content/docs/snapshots/v0-9-2/templates.mdx": "cae05d6df0d6608013cc638e675309278b55dd69dcec8d63bd23931a1190b383",
+    "docs/src/content/docs/snapshots/v0-9-2/evidence.mdx": "061abdabd6e75a64478ba1e61d2ba01eca099342570e5379a74dd209aaeb5dd6",
+    "scripts/check-release-v092-results.py": "800a4615be197176b9c90eea57a0ad952a809b4e76e5e655c39a2bfb2fc3655d",
+    "scripts/test-release-v092-results.py": "b400f6d6edb30770f38ed8b166ccbb96553173279270d331bf430680045431f9",
+    "reports/releases/v0.9.2/publication-v1/manifest.json": "2d4a40a10c79813a4dad8e2b8f7340daa6259da0553762a92c5847ec5d91014c",
+    "/private/tmp/v092-migration-successor-prep-01/scripts/historical_evidence_publication.py": "6ed5331bcf1abf6589635088d95b3b316ad335ac9cb5ac47ae6eb1c35041d723",
+    "/private/tmp/v092-migration-successor-prep-01/scripts/test-historical-evidence-publication.py": "65881b95f2aed31b513f26ad2aca6260a287abc352e0e1d9e062109cfa98ba7a"
+  },
+  "findings": [],
+  "checks": [
+    {
+      "area": "historical-v0.9.0-retention",
+      "result": "pass",
+      "evidence": "The archived v0.9.0 results model and freeze are byte-identical to the pre-change origin/main tree at 1ae46241bca35fad8979857f6b46a90535c0de88. The archived model manifest SHA-256 equals the retained v0.9.0 freeze SHA-256."
+    },
+    {
+      "area": "v0.9.2-report-links",
+      "result": "pass-static",
+      "evidence": "The v0.9.2 freeze revision is 1ae46241bca35fad8979857f6b46a90535c0de88. All 92 published_report paths in the publication manifest exist at that commit and match the manifest byte sizes and SHA-256 values. All 4,252 raw paths use exactly two safe path segments under the fixed capture/raw prefix; evidenceUrl encodes both segments and rejects dot segments from the local route."
+    },
+    {
+      "area": "outcome-separation",
+      "result": "pass-static",
+      "evidence": "LandingResults counts runner-error separately from unsupported and inconclusive; native rows label error-only tiers as runner errors with no answer, and only all-unsupported tiers count as declines. Scorecard summaries retain separate outcome columns and template/evidence pages render per-case outcomes. The three CodeQL native source reports contain 12 runner-error outcomes each for Java, JavaScript, and Python."
+    },
+    {
+      "area": "latency-claims",
+      "result": "pass-static",
+      "evidence": "The v0.9.2 snapshot has no latencyEvidenceRelease. LandingResults and all v0.9.2 page copy state that no current latency corpus/comparison is published and link to the historical v0.9.0 latency page."
+    },
+    {
+      "area": "119-configuration-input-restore",
+      "result": "pass-source-review",
+      "evidence": "The checker pins manifest SHA-256 63a2930d12453e02c01f87228c6952a21a2b98e261586cc4338b4d3e2789e74f, source commit/tree, and 119 unique references. It verifies every Git blob and byte hash before writing, refuses symlinks and non-identical destinations, then runs within the temporary sparse clone before mapper validation and freeze validation. No remote write or analyzer dispatch path was found. Root reports 18 focused tests passed, including the unmocked 119-reference fake-remote materializer test; I did not rerun that suite."
+    },
+    {
+      "area": "historical-wrapper-boundary",
+      "result": "pass",
+      "evidence": "The staged wrapper pins and compiles the exact frozen historical_evidence.py source. v0.9.0 delegates to the original helper; v0.9.2 verifies the archive and tags, checks filtered history at rewritten_base, verifies retained v0.9.0 copies, and labels its result historical-only with current release validation pending and qualification not evaluated. Its 8 synthetic tests passed earlier; no production archive hydration was run."
+    }
+  ],
+  "limitations": [
+    "At review time results/results.json still described v0.9.0 at revision 301dd3de146337fdda5fc409c711bf4b133e4d3c, while reports/freeze.json described v0.9.2 at revision 1ae46241bca35fad8979857f6b46a90535c0de88. The real v0.9.2 results model was still being generated, so no site build or evidence-binding test was run against the v0.9.0 placeholder.",
+    "The v0.9.2 tag was absent in the reviewed checkout. PublicationRef-based links are therefore conditional on the final immutable tag being created with the release tree; no deploy or live-site check was performed."
+  ],
+  "review_boundary": "Read-only source and retained-artifact review. No site build, full Rust/npm suite, archive hydration, analyzer, release-tag creation, deployment, or publication was performed."
+}

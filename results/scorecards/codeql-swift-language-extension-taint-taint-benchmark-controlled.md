@@ -1,10 +1,10 @@
 # Scorecard `codeql-swift-language-extension-taint-taint-benchmark-controlled`
 
-Adapter `codeql-swift-language-extension`: `codeql` `2.27.1` (build `codeql:938af3639d0709b587251e45d9f8d2bdc3505696;swift-extractor:593eb7afe23d63c57d04461bd046e45672555bb0586353edcf27a0313249841f;schema:a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89;packs:580ea3032d6aeb481479cae3e0cfee057ce0f8c58f0f40987269ecc7a779a4ce`, adapter version `swift-normal-v1`, configuration `e4eb8bcfa0c38e952d565142e05ffcea1ebe22c6ad39574395e59d55355ca2ef`).
+Adapter `codeql-swift-language-extension`: `codeql` `2.27.2` (build `codeql:d7b185e374bfe18c0484dac07a521a810eb9c4fb;swift-extractor:593eb7afe23d63c57d04461bd046e45672555bb0586353edcf27a0313249841f;schema:a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89;packs:fb47dc786441189213937dae9638efe8b0878e04e0be56c3d349ce03d6ceb4bc`, adapter version `swift-normal-v092`, configuration `ab028dea2a0c1addd6851b625324e8288b290a6a65d5e8ca58c9092147e4c3b8`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/releases/v0.9.0/normal/attempts/codeql-swift-common108-attempt-01/codeql-swift-language-extension.json` (`sha256:c381ea80275cae026eed8f91708ebe244ce88b8c4680ad84deac073c5fae3bc2`, normalized `sha256:c381ea80275cae026eed8f91708ebe244ce88b8c4680ad84deac073c5fae3bc2`). Generated from freeze manifest `reports/freeze.json` (`sha256:e63dcc483d3000c046816c595811bf35ab494544fb6dd6fff2608d43e9bc676d`).
+Normalized report: `reports/releases/v0.9.2/publication-v1/normal/codeql-swift-language-extension.json` (`sha256:62752757c0f4f74dace296e277c7543a0293976fcf065877150de6e5edb0da19`, normalized `sha256:62752757c0f4f74dace296e277c7543a0293976fcf065877150de6e5edb0da19`). Generated from freeze manifest `reports/freeze.json` (`sha256:750e3b8c1275ee05b027017a1e993e84847e292344224976ca3447257ad15d69`).
 
 ## Language `swift`, tier `language-extension`
 
@@ -25,5 +25,5 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-result-error-propagation` | `dfb-taint-swift-result-error-propagation-negative` | negative | `inconclusive` | inconclusive | `reports/releases/v0.9.0/attempts/codeql-swift-common108-attempt-01/capture/reports/raw/swift-common-v2/current108-v090-01/dfb-taint-swift-result-error-propagation-negative/raw.json` | `d0c6c97193983032e2987e7f2e147888bf7a7e4be250357b9658d1043d14f96e` |
-| `dfb-template-result-error-propagation` | `dfb-taint-swift-result-error-propagation-positive` | positive | `inconclusive` | inconclusive | `reports/releases/v0.9.0/attempts/codeql-swift-common108-attempt-01/capture/reports/raw/swift-common-v2/current108-v090-01/dfb-taint-swift-result-error-propagation-positive/raw.json` | `74ae581918ecff972bda5e0cb6f3a687af8102d3097bc94563c81a4d79d2655b` |
+| `dfb-template-result-error-propagation` | `dfb-taint-swift-result-error-propagation-negative` | negative | `inconclusive` | inconclusive | `reports/releases/v0.9.2/publication-v1/capture/raw/codeql-swift-language-extension/dfb-taint-swift-result-error-propagation-negative.json` | `f2a04e18fb574138362a033008cd3a07d438e250b433693b09e2f5596543ea79` |
+| `dfb-template-result-error-propagation` | `dfb-taint-swift-result-error-propagation-positive` | positive | `inconclusive` | inconclusive | `reports/releases/v0.9.2/publication-v1/capture/raw/codeql-swift-language-extension/dfb-taint-swift-result-error-propagation-positive.json` | `69c460ed4680c4432f0cce64934d9a86674b6560ae053263d03db04a271fb7df` |
