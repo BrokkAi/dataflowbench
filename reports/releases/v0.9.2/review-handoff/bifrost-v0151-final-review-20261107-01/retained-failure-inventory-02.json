@@ -1,0 +1,268 @@
+{
+  "additional_preserved_failures": [
+    {
+      "class": "supervisor/bootstrap failure",
+      "evidence": [
+        {
+          "bytes": 3337,
+          "path": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/supervision-01/root-stop-observation-01.json",
+          "sha256": "10f2c5539b24fb46f023388eecece5f25d4fd182d89e89e0c9882ff1cdee6587"
+        }
+      ],
+      "id": "Bifrost 0.15.1 supervision01",
+      "preservation": "preserved; no terminal invented or retry inferred",
+      "status": "bootstrap exited 0; controller disappeared before started/CLI receipts; actual exit status/cause unknown; no benchmark dispatch evidence observed; no scored dispatch inferred"
+    },
+    {
+      "class": "canonical input materialization failure",
+      "evidence": [
+        {
+          "bytes": 2240965,
+          "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-01/receipt.json",
+          "sha256": "ae96c6e9c8cd7228a0bfec650d0bb8e817758156391829add9dedf2d6993da94"
+        },
+        {
+          "bytes": 171,
+          "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-01/stderr.bin",
+          "sha256": "7c799b0dee158bf006db027ec025d948c7baf5f60695be53d186d8581a403677"
+        }
+      ],
+      "id": "Bifrost 0.15.1 configurations01",
+      "status": "canonical validator exited 1 because staged Swift configuration input `execution-state/v092/swift-source/patch-application/applied-patch.json` was absent; original receipts retained"
+    },
+    {
+      "class": "pre-runner metadata hook binding mismatch",
+      "evidence": [
+        {
+          "bytes": 2240334,
+          "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-02/receipt.json",
+          "sha256": "6f2061c31d672104e30644aa9e4f7ea1706730aaf36f4467102ed946dd25b635"
+        },
+        {
+          "bytes": 1249,
+          "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-01/root-execution-stop.json",
+          "sha256": "856939fd1dfc980a64e28accb169772dd5c66db57e173cdd5f0b2a95a777210d"
+        },
+        {
+          "bytes": 12581,
+          "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-01/independent-review-01.json",
+          "sha256": "f1e30080ee7f06ebdb5fa44832b0c0f741cf25179fb174c20dfe7b72fa136eae"
+        }
+      ],
+      "id": "Bifrost 0.15.1 configurations02 / repair01",
+      "status": "exit_code null, no Rust invocation, no supplements written; repair01 compared full C6 `runtime.runner` against the trimmed receipt runner and rejected the original nested `build_receipt`; retained repair02 fixes the full-object binding and adds production-shaped tests"
+    },
+    {
+      "class": "canonical report validation failure after verified supplement materialization",
+      "evidence": [
+        {
+          "bytes": 2241227,
+          "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-03/receipt.json",
+          "sha256": "ee64f260ca05192a1f0c064905df54e1d9f27687eb549605fad9f31482d7d11b"
+        },
+        {
+          "bytes": 435,
+          "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-03/stderr.bin",
+          "sha256": "11d65e6a0a27148dc70681cd0b4534c5391dcdcf6bd58eb624ede0068af5012e"
+        },
+        {
+          "bytes": 5688,
+          "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/canonical-postcheck.json",
+          "sha256": "57c91ebefbbadd7ebd151ae5553017d99256dbeac88635e29e0a41318c22bc4f"
+        },
+        {
+          "bytes": 8773,
+          "path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/supplement-materialization.json",
+          "sha256": "2636033966e74bfa18b97e3e627c9fd6637a70993f9f62533b8f20d036335456"
+        }
+      ],
+      "id": "Bifrost 0.15.1 configurations03 / canonical strict-schema failure",
+      "status": "Rust canonical validator returned exit 1 (no timeout); selector/checker summary separately verified fresh 84 groups/92 reports/4252 rows; schema rejected Joern raw_sha256 and top-level aggregate_resource_qualification/scored_activation; supplement receipts verified 22 supplements across 119 references"
+    },
+    {
+      "class": "superseded local metadata-projection candidate",
+      "evidence": [
+        {
+          "bytes": 266,
+          "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/prepare-projection-01.stdout",
+          "sha256": "c463cd5ac55d3f62822b52e16c4849d71745b965723d36345df8a04892c66e7b"
+        },
+        {
+          "bytes": 56769,
+          "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-01-provisional/sidecars/aggregate-metadata-lift.json",
+          "sha256": "15e37a69081924874eff4683bee5b51bda8629e5b3466793e685b106b2fd43ed"
+        }
+      ],
+      "id": "Joern schema projection preparation01",
+      "status": "projection completed but preceded exact source-projection-manifest input checks; preserved as provisional, not used as canonical-04 input, not publication evidence"
+    },
+    {
+      "class": "local metadata-projection preparation stop",
+      "evidence": [
+        {
+          "bytes": 640,
+          "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/prepare-projection-02.stderr",
+          "sha256": "3e6279160c9f87d1e2d20ffd3ee55c5616944c9657c6fcb71b0df15380f7e88d"
+        },
+        {
+          "bytes": 3170,
+          "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-02-incomplete/reports/joern-swift-calibration.json",
+          "sha256": "3e65d8ac778dd8e3c63d9a27b8d81e8de6a3795b7887a557f3a04b118b7ff4ce"
+        }
+      ],
+      "id": "Joern schema projection preparation02",
+      "status": "five report objects had been emitted in a provisional directory; aggregate sidecar generation then stopped with NameError before completion; preserved as incomplete and excluded from canonical-04 input"
+    }
+  ],
+  "at_utc": "2026-11-07T06:29:20Z",
+  "current_projector_candidate": {
+    "diagnosis": {
+      "bytes": 10133,
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/diagnosis.json",
+      "sha256": "e98fb6442674de87733d087928a5041fdcc20f06098e405cbf9bdeda9ac44e06"
+    },
+    "final_projection_sidecar": {
+      "bytes": 57331,
+      "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/sidecars/aggregate-metadata-lift.json",
+      "sha256": "42f4ea66b124357bd341e8d543ecb41d2fdb61116c1a5c5149c65dd5005416cd"
+    },
+    "independent_review": {
+      "bytes": 4674,
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/independent-review-01.json",
+      "sha256": "8a919f5e1a81d96dee4cbafa23f88b48f393bd81c288f9c63470f5c1bef66b46"
+    },
+    "manifest": {
+      "bytes": 12018,
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/manifest.json",
+      "sha256": "07cfbcbcf1fba81ef00bfa66abda0b10668ff8b63c8ace4ce0bd1f36381428a3"
+    },
+    "scope": "Only three Joern metadata annotations lifted; all 108 outcomes (96 inconclusive, 12 unsupported), diagnostics and raw evidence retained; no timing certification or score activation.",
+    "status": "independent-source-review-passed; fresh canonical04 pending"
+  },
+  "gate_state": {
+    "canonical03": "failed exit1 on strict frozen schema; receipt remains preserved",
+    "canonical04": "pending; must run only after root integration/commit of reviewed projector",
+    "fresh_selector": "passed: 84 groups, 92 reports, 4252 rows; configuration03 checker summary is fresh-evidence-verified",
+    "full_release_gate_satisfied": false,
+    "publication_approved": false
+  },
+  "ledger_noncompleted": [
+    {
+      "attempt_id": "bifrost-c-kernel-attempt-01-series-01",
+      "capacity_loss": null,
+      "end_utc": "2026-10-20T00:57:38.816557+00:00",
+      "exit_code": 1,
+      "group_id": "bifrost-c-kernel",
+      "ledger_row": 1,
+      "start_utc": "2026-10-20T00:57:00.680937+00:00",
+      "status": "recorder-error",
+      "timed_out": false
+    },
+    {
+      "attempt_id": "codeql-java-modeling-attempt-01-series-01",
+      "capacity_loss": null,
+      "end_utc": "2026-10-20T03:58:09.216162+00:00",
+      "exit_code": 1,
+      "group_id": "codeql-java-modeling",
+      "ledger_row": 27,
+      "start_utc": "2026-10-20T03:53:24.839065+00:00",
+      "status": "failed",
+      "timed_out": false
+    },
+    {
+      "attempt_id": "joern-swift-common108-attempt-01-series-01",
+      "capacity_loss": null,
+      "end_utc": "2026-10-21T16:50:37.030646+00:00",
+      "exit_code": 1,
+      "group_id": "joern-swift-common108",
+      "ledger_row": 85,
+      "start_utc": "2026-10-21T16:49:42.863613+00:00",
+      "status": "recorder-error",
+      "timed_out": false
+    },
+    {
+      "attempt_id": "joern-swift-common108-attempt-02-series-01",
+      "capacity_loss": null,
+      "end_utc": "2026-10-22T21:08:21.924934+00:00",
+      "exit_code": 1,
+      "group_id": "joern-swift-common108",
+      "ledger_row": 86,
+      "start_utc": "2026-10-22T21:07:18.435127+00:00",
+      "status": "failed",
+      "timed_out": false
+    },
+    {
+      "attempt_id": "joern-swift-common108-attempt-03-series-01",
+      "capacity_loss": null,
+      "end_utc": "2026-10-23T08:24:47.542941+00:00",
+      "exit_code": 1,
+      "group_id": "joern-swift-common108",
+      "ledger_row": 87,
+      "start_utc": "2026-10-23T08:23:34.021870+00:00",
+      "status": "recorder-error",
+      "timed_out": false
+    },
+    {
+      "attempt_id": "joern-swift-common108-attempt-04-series-01",
+      "capacity_loss": null,
+      "end_utc": "2026-10-24T09:18:52.891876+00:00",
+      "exit_code": 1,
+      "group_id": "joern-swift-common108",
+      "ledger_row": 88,
+      "start_utc": "2026-10-24T09:11:17.800202+00:00",
+      "status": "failed",
+      "timed_out": false
+    },
+    {
+      "attempt_id": "bifrost-scala-kernel-attempt-03-series-03",
+      "capacity_loss": null,
+      "end_utc": "2026-11-01T16:36:59.300615+00:00",
+      "exit_code": 124,
+      "group_id": "bifrost-scala-kernel",
+      "ledger_row": 127,
+      "start_utc": "2026-11-01T16:19:25.146780+00:00",
+      "status": "recorder-error",
+      "timed_out": true
+    },
+    {
+      "attempt_id": "bifrost-smoke-attempt-04-series-03",
+      "capacity_loss": null,
+      "end_utc": "2026-11-01T16:43:50.294187+00:00",
+      "exit_code": 125,
+      "group_id": "bifrost-smoke",
+      "ledger_row": 128,
+      "start_utc": null,
+      "status": "recorder-error",
+      "timed_out": false
+    }
+  ],
+  "ledger_rows": 151,
+  "ledger_sha256": "5528a3ff7683546a09c03d5791b5283bba3e08428c9380890e3e4cfe5d268679",
+  "non_mutation_note": "This successor copies the prior inventory arrays and appends new records; the prior inventory, official artifacts, source catalog, case audit, and any eventual final bundle were not edited by this inventory update.",
+  "preparation_and_native_qualification_failures": "Separate source-check logs and the complete historical review-handoff/addenda and native/Joern recovery receipts remain retained; qualification, preflight, bootstrap and scored attempts are distinct. This ledger inventory is not an inventory of every pre-dispatch probe.",
+  "prior_inventory": {
+    "ledger_rows": 151,
+    "ledger_sha256": "5528a3ff7683546a09c03d5791b5283bba3e08428c9380890e3e4cfe5d268679",
+    "path": "reports/releases/v0.9.2/review-handoff/bifrost-v0151-final-review-20261107-01/retained-failure-inventory.json",
+    "schema": "v092-ledger-failure-inventory/v1",
+    "sha256": "5a85d2c71fe8a8111c57c09ae648aac78053fcba799e3b73d6c7f21e53aa066e"
+  },
+  "schema": "v092-ledger-failure-inventory/v2",
+  "unledgered_preserved_failures": [
+    {
+      "id": "BF23 Smoke02",
+      "reference": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-23/smoke-timeout-stop-diagnosis-01.json",
+      "status": "consumed-unclosed; no invented terminal"
+    },
+    {
+      "id": "Bifrost0151 supervision01",
+      "reference": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/supervision-01/root-stop-observation-01.json",
+      "status": "bootstrap0; controller vanished before CLI receipts, actual signal/exit unknown; no scored dispatch observed"
+    },
+    {
+      "id": "Bifrost0151 configuration validation01",
+      "reference": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-01/receipt.json",
+      "status": "Rustcheckerexit1 missing staged Swift configuration input; all original evidence retained"
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "schema": "v092-ledger-failure-inventory/v1",
+  "at_utc": "2026-11-07T05:08:05.116599+00:00",
+  "ledger_sha256": "5528a3ff7683546a09c03d5791b5283bba3e08428c9380890e3e4cfe5d268679",
+  "ledger_rows": 151,
+  "ledger_noncompleted": [
+    {
+      "attempt_id": "bifrost-c-kernel-attempt-01-series-01",
+      "group_id": "bifrost-c-kernel",
+      "status": "recorder-error",
+      "exit_code": 1,
+      "timed_out": false,
+      "capacity_loss": null,
+      "start_utc": "2026-10-20T00:57:00.680937+00:00",
+      "end_utc": "2026-10-20T00:57:38.816557+00:00",
+      "ledger_row": 1
+    },
+    {
+      "attempt_id": "codeql-java-modeling-attempt-01-series-01",
+      "group_id": "codeql-java-modeling",
+      "status": "failed",
+      "exit_code": 1,
+      "timed_out": false,
+      "capacity_loss": null,
+      "start_utc": "2026-10-20T03:53:24.839065+00:00",
+      "end_utc": "2026-10-20T03:58:09.216162+00:00",
+      "ledger_row": 27
+    },
+    {
+      "attempt_id": "joern-swift-common108-attempt-01-series-01",
+      "group_id": "joern-swift-common108",
+      "status": "recorder-error",
+      "exit_code": 1,
+      "timed_out": false,
+      "capacity_loss": null,
+      "start_utc": "2026-10-21T16:49:42.863613+00:00",
+      "end_utc": "2026-10-21T16:50:37.030646+00:00",
+      "ledger_row": 85
+    },
+    {
+      "attempt_id": "joern-swift-common108-attempt-02-series-01",
+      "group_id": "joern-swift-common108",
+      "status": "failed",
+      "exit_code": 1,
+      "timed_out": false,
+      "capacity_loss": null,
+      "start_utc": "2026-10-22T21:07:18.435127+00:00",
+      "end_utc": "2026-10-22T21:08:21.924934+00:00",
+      "ledger_row": 86
+    },
+    {
+      "attempt_id": "joern-swift-common108-attempt-03-series-01",
+      "group_id": "joern-swift-common108",
+      "status": "recorder-error",
+      "exit_code": 1,
+      "timed_out": false,
+      "capacity_loss": null,
+      "start_utc": "2026-10-23T08:23:34.021870+00:00",
+      "end_utc": "2026-10-23T08:24:47.542941+00:00",
+      "ledger_row": 87
+    },
+    {
+      "attempt_id": "joern-swift-common108-attempt-04-series-01",
+      "group_id": "joern-swift-common108",
+      "status": "failed",
+      "exit_code": 1,
+      "timed_out": false,
+      "capacity_loss": null,
+      "start_utc": "2026-10-24T09:11:17.800202+00:00",
+      "end_utc": "2026-10-24T09:18:52.891876+00:00",
+      "ledger_row": 88
+    },
+    {
+      "attempt_id": "bifrost-scala-kernel-attempt-03-series-03",
+      "group_id": "bifrost-scala-kernel",
+      "status": "recorder-error",
+      "exit_code": 124,
+      "timed_out": true,
+      "capacity_loss": null,
+      "start_utc": "2026-11-01T16:19:25.146780+00:00",
+      "end_utc": "2026-11-01T16:36:59.300615+00:00",
+      "ledger_row": 127
+    },
+    {
+      "attempt_id": "bifrost-smoke-attempt-04-series-03",
+      "group_id": "bifrost-smoke",
+      "status": "recorder-error",
+      "exit_code": 125,
+      "timed_out": false,
+      "capacity_loss": null,
+      "start_utc": null,
+      "end_utc": "2026-11-01T16:43:50.294187+00:00",
+      "ledger_row": 128
+    }
+  ],
+  "unledgered_preserved_failures": [
+    {
+      "id": "BF23 Smoke02",
+      "status": "consumed-unclosed; no invented terminal",
+      "reference": "reports/releases/v0.9.2/validation/bifrost-v0140-replacement-23/smoke-timeout-stop-diagnosis-01.json"
+    },
+    {
+      "id": "Bifrost0151 supervision01",
+      "status": "bootstrap0; controller vanished before CLI receipts, actual signal/exit unknown; no scored dispatch observed",
+      "reference": "reports/releases/v0.9.2/execution-v6/bifrost-v0151-01/supervision-01/root-stop-observation-01.json"
+    },
+    {
+      "id": "Bifrost0151 configuration validation01",
+      "status": "Rustcheckerexit1 missing staged Swift configuration input; all original evidence retained",
+      "reference": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-01/receipt.json"
+    }
+  ],
+  "preparation_and_native_qualification_failures": "Separate source-check logs and the complete historical review-handoff/addenda and native/Joern recovery receipts remain retained; qualification, preflight, bootstrap and scored attempts are distinct. This ledger inventory is not an inventory of every pre-dispatch probe.",
+  "publication_approved": false
+}
