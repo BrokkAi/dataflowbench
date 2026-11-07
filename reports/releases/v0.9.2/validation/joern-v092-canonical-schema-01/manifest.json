@@ -1,0 +1,234 @@
+{
+  "implementation": {
+    "preparer": {
+      "checks_report_bytes_case_order_raw_map_and_diagnostic_before_writing": true,
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/prepare_projection.py",
+      "sha256": "cd79f8ca5dabeea87c7b597f2fc8d43ce6d8ef78732996343e267fb4b8d405c0",
+      "sha_pins_projection_terminal_schema_and_root_diagnosis": true
+    },
+    "projector": {
+      "api": "project_report(report, raw_root, schema) -> (canonical, sidecar); reconstruct_report(canonical, sidecar)",
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/project_joern.py",
+      "sha256": "13f8312504f641743d050101bb695ede820af90797db66de940ebdd318269f91"
+    },
+    "rejects_unknown_extra_fields_unsupported_identity_missing_fields_invalid_hash_missing_raw_hash_mismatch_symlink_duplicate_case_id": true,
+    "removed_fields_only": [
+      "aggregate_resource_qualification",
+      "scored_activation",
+      "results[*].raw_sha256"
+    ],
+    "tests": {
+      "loads_helper_by_compile_of_exact_source_bytes": true,
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/tests/test_project_joern.py",
+      "sha256": "f89592e7fabe31fd6afe36b9d6369fe71048193e240e83dfd87732570dc6eaac"
+    }
+  },
+  "independent_review": {
+    "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/independent-review-01.json",
+    "reviewer_owns_file": true,
+    "status": "pending"
+  },
+  "output": {
+    "aggregate_resource_qualification": "unavailable",
+    "aggregate_sidecar": {
+      "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/sidecars/aggregate-metadata-lift.json",
+      "sha256": "42f4ea66b124357bd341e8d543ecb41d2fdb61116c1a5c5149c65dd5005416cd"
+    },
+    "all_other_report_fields_exactly_preserved": true,
+    "case_count": 108,
+    "diagnostics_include_AggregateResourceQualificationUnavailable_for_all_108": true,
+    "distinct_raw_output_paths": 108,
+    "five_canonical_reports": [
+      {
+        "case_count": 4,
+        "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-calibration.json",
+        "sha256": "3e65d8ac778dd8e3c63d9a27b8d81e8de6a3795b7887a557f3a04b118b7ff4ce"
+      },
+      {
+        "case_count": 66,
+        "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-core.json",
+        "sha256": "7f54cd044efd2ab3681a0f93c2528c8ded528b69ead0b55b78a522845712ceaa"
+      },
+      {
+        "case_count": 2,
+        "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-language-extension.json",
+        "sha256": "1a6538fcb20809d3357de49f9aa53421c79d58cd37d6b93abb60fe072173b267"
+      },
+      {
+        "case_count": 24,
+        "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-modeling.json",
+        "sha256": "a15c837372597b28f7e17e0e8f195e6ba4af796b23ac3f301d47116001f7b3da"
+      },
+      {
+        "case_count": 12,
+        "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-native.json",
+        "sha256": "2e4fde26b20245491859719d2dda508dbf09ec3cdd7550e12907f2fd0ba3f8a5"
+      }
+    ],
+    "outcomes": {
+      "inconclusive": 96,
+      "unsupported": 12
+    },
+    "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03",
+    "publication_approved": false,
+    "scored_activation": false,
+    "semantic_only": true,
+    "sidecar_contains_all_108_case_id_raw_path_hash_bindings": true,
+    "timing_certified": false
+  },
+  "purpose": "Strict version-scoped lift of exactly three Joern annotations to represent existing 108-case outputs under frozen result schema v1.",
+  "schema": "v092-joern-canonical-schema-metadata-lift-manifest/v1",
+  "sha256_inventory": [
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/project_joern.py",
+      "sha256": "13f8312504f641743d050101bb695ede820af90797db66de940ebdd318269f91"
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/prepare_projection.py",
+      "sha256": "cd79f8ca5dabeea87c7b597f2fc8d43ce6d8ef78732996343e267fb4b8d405c0"
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/tests/test_project_joern.py",
+      "sha256": "f89592e7fabe31fd6afe36b9d6369fe71048193e240e83dfd87732570dc6eaac"
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/focused-tests-04.stderr",
+      "sha256": "4cdbacf8da0b4bdb1fb228c7c996cac879cf83182da90824be05602858dabf93"
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/focused-tests-04.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/prepare-projection-03.stdout",
+      "sha256": "4808f27c1b1da2ccfd9c1bde1f9367d135c781497fecd39ba9ee089021b963c2"
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/prepare-projection-03.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/diagnosis.json",
+      "sha256": "e98fb6442674de87733d087928a5041fdcc20f06098e405cbf9bdeda9ac44e06"
+    },
+    {
+      "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/sidecars/aggregate-metadata-lift.json",
+      "sha256": "42f4ea66b124357bd341e8d543ecb41d2fdb61116c1a5c5149c65dd5005416cd"
+    },
+    {
+      "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-calibration.json",
+      "sha256": "3e65d8ac778dd8e3c63d9a27b8d81e8de6a3795b7887a557f3a04b118b7ff4ce"
+    },
+    {
+      "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-core.json",
+      "sha256": "7f54cd044efd2ab3681a0f93c2528c8ded528b69ead0b55b78a522845712ceaa"
+    },
+    {
+      "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-language-extension.json",
+      "sha256": "1a6538fcb20809d3357de49f9aa53421c79d58cd37d6b93abb60fe072173b267"
+    },
+    {
+      "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-modeling.json",
+      "sha256": "a15c837372597b28f7e17e0e8f195e6ba4af796b23ac3f301d47116001f7b3da"
+    },
+    {
+      "path": "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-03/reports/joern-swift-native.json",
+      "sha256": "2e4fde26b20245491859719d2dda508dbf09ec3cdd7550e12907f2fd0ba3f8a5"
+    }
+  ],
+  "source_bindings": {
+    "canonical03_failure": {
+      "postcheck_path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-repair-02/canonical-postcheck.json",
+      "postcheck_sha256": "57c91ebefbbadd7ebd151ae5553017d99256dbeac88635e29e0a41318c22bc4f",
+      "receipt_path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-03/receipt.json",
+      "receipt_sha256": "ee64f260ca05192a1f0c064905df54e1d9f27687eb549605fad9f31482d7d11b",
+      "stderr_path": "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-03/stderr.bin",
+      "stderr_sha256": "11d65e6a0a27148dc70681cd0b4534c5391dcdcf6bd58eb624ede0068af5012e"
+    },
+    "five_original_reports": [
+      {
+        "case_count": 4,
+        "case_id_count": 4,
+        "path": "execution-state/v092/publication-evidence/joern108-metadata-projection-01/joern-swift-calibration.json",
+        "raw_binding_count": 4,
+        "sha256": "601a985030e9da91f37da8078ae3fd9fed449ebdf5240e48eff92060224857cb"
+      },
+      {
+        "case_count": 66,
+        "case_id_count": 66,
+        "path": "execution-state/v092/publication-evidence/joern108-metadata-projection-01/joern-swift-core.json",
+        "raw_binding_count": 66,
+        "sha256": "fafbe5e7fcc6aa883685b7616c347ea015a7196c948cd0a10babf173c8af9f94"
+      },
+      {
+        "case_count": 2,
+        "case_id_count": 2,
+        "path": "execution-state/v092/publication-evidence/joern108-metadata-projection-01/joern-swift-language-extension.json",
+        "raw_binding_count": 2,
+        "sha256": "66d163d70b3fe5fc850c2cde3a1e49c26b493635585c7ebb81ef0901924b65f3"
+      },
+      {
+        "case_count": 24,
+        "case_id_count": 24,
+        "path": "execution-state/v092/publication-evidence/joern108-metadata-projection-01/joern-swift-modeling.json",
+        "raw_binding_count": 24,
+        "sha256": "3201d4c639751a08df0070e6014e11a9a336960ed3ea7b4495d8c4abe2056541"
+      },
+      {
+        "case_count": 12,
+        "case_id_count": 12,
+        "path": "execution-state/v092/publication-evidence/joern108-metadata-projection-01/joern-swift-native.json",
+        "raw_binding_count": 12,
+        "sha256": "477fcc5dc92a84b24440c837ed26a7af941373886a69f416d7f9f5b3807b5c16"
+      }
+    ],
+    "frozen_schema": {
+      "path": "schemas/result.schema.json",
+      "pinned_sha256": "d8fa8aeb9c17a792e858b5168a318794079ff1ae65404699cd96ee886d302217",
+      "sha256": "d8fa8aeb9c17a792e858b5168a318794079ff1ae65404699cd96ee886d302217",
+      "unchanged": true
+    },
+    "projection_manifest": {
+      "path": "execution-state/v092/publication-evidence/joern108-metadata-projection-01/projection.json",
+      "pinned_sha256": "fbb306636dcd92c22ef296dba9716acd4dae127c617332212f33ebc2bd68a907",
+      "sha256": "fbb306636dcd92c22ef296dba9716acd4dae127c617332212f33ebc2bd68a907"
+    },
+    "root_static_diagnosis": {
+      "path": "reports/releases/v0.9.2/review-handoff/bifrost-v0151-final-review-20261107-01/joern-schema-diagnosis-root.json",
+      "sha256": "2ecd662f2f7c7fd0f2cfe6f68781432301e0b159d3b69babf1ce4311e8cacf00"
+    },
+    "terminal": {
+      "capacity_loss": null,
+      "exit_code": 0,
+      "path": "reports/releases/v0.9.2/attempts/joern-swift-common108-attempt-05-series-02/completed.json",
+      "projection_sha256": "421a261d21d8475d59bc22237bfa1ad3930aad18867acd1919a5e7a0b48de676",
+      "sha256": "421a261d21d8475d59bc22237bfa1ad3930aad18867acd1919a5e7a0b48de676",
+      "status": "completed",
+      "timed_out": false
+    }
+  },
+  "source_commit": "7f99684668065b8fb1ebc9b2852f058c64430647",
+  "source_tree_sha1": "7af8853a1e2eb7ea7832f7c0bad4d2299c1ab416",
+  "status": "source-validation-pass-independent-review-pending",
+  "superseded_candidates_preserved_outside_final_output": [
+    "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-01-provisional/",
+    "execution-state/v092/publication-evidence/joern108-canonical-schema-01/projection-02-incomplete/"
+  ],
+  "validation": {
+    "focused_test_command": "/opt/homebrew/opt/python@3.13/bin/python3.13 -B reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/tests/test_project_joern.py",
+    "focused_test_exit_code": 0,
+    "focused_test_stderr": {
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/focused-tests-04.stderr",
+      "sha256": "4cdbacf8da0b4bdb1fb228c7c996cac879cf83182da90824be05602858dabf93"
+    },
+    "no_Rust_validation_invocation": true,
+    "no_analyzer_dispatch": true,
+    "preparer_command": "/opt/homebrew/opt/python@3.13/bin/python3.13 -B reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/prepare_projection.py",
+    "preparer_exit_code": 0,
+    "preparer_stdout": {
+      "path": "reports/releases/v0.9.2/validation/joern-v092-canonical-schema-01/prepare-projection-03.stdout",
+      "sha256": "4808f27c1b1da2ccfd9c1bde1f9367d135c781497fecd39ba9ee089021b963c2"
+    }
+  },
+  "worktree_head_at_seal": "24331a4fe6a23356c184db08d8c62efd9d8a4e07"
+}
