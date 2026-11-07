@@ -33,6 +33,22 @@ MAPPER = "scripts/v092_publication_evidence.py"
 LEDGER_HYDRATOR = "scripts/v092_ledger_archive.py"
 LEDGER_ARCHIVE_INCLUDE = "reports/releases/v0.9.2/ledger-archives/ledger-151-01/ledger-v1.jsonl.gz"
 CAPTURE_LFS_INCLUDE = f"{PUBLICATION_BUNDLE}/**"
+CONFIGURATION_INPUT_DIR = (
+    "reports/releases/v0.9.2/validation/"
+    "bifrost-v0151-configurations-repair-02"
+)
+CONFIGURATION_INPUT_MANIFEST = (
+    f"{CONFIGURATION_INPUT_DIR}/swift-configuration-ref-manifest.json"
+)
+CONFIGURATION_INPUT_MANIFEST_SHA256 = (
+    "63a2930d12453e02c01f87228c6952a21a2b98e261586cc4338b4d3e2789e74f"
+)
+CONFIGURATION_INPUT_MANIFEST_SCHEMA = (
+    "v0.9.2-v0151-swift-configuration-ref-manifest/v2"
+)
+CONFIGURATION_INPUT_SOURCE_COMMIT = "7f99684668065b8fb1ebc9b2852f058c64430647"
+CONFIGURATION_INPUT_SOURCE_TREE = "7af8853a1e2eb7ea7832f7c0bad4d2299c1ab416"
+CONFIGURATION_INPUT_COUNT = 119
 EXPECTED_COUNTS = {
     "groups": 84,
     "reports": 92,
@@ -121,6 +137,30 @@ def _git(
 
 def _git_output(checkout: Path, args: Sequence[str]) -> str:
     return _git(checkout, args).stdout.strip()
+
+
+def _git_bytes(checkout: Path, args: Sequence[str]) -> bytes:
+    command = ["git", "-C", str(checkout), *args]
+    env = os.environ.copy()
+    env["GIT_LFS_SKIP_SMUDGE"] = "1"
+    try:
+        result = subprocess.run(
+            command,
+            cwd=str(checkout),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+            env=env,
+        )
+    except OSError as exc:
+        raise GateError(f"could not run {_describe(command)}: {exc}") from exc
+    if result.returncode != 0:
+        detail = result.stderr.decode("utf-8", errors="replace").strip()
+        if len(detail) > 2_000:
+            detail = detail[-2_000:]
+        suffix = f": {detail}" if detail else ""
+        raise GateError(f"command failed ({result.returncode}): {_describe(command)}{suffix}")
+    return result.stdout
 
 
 def _read_json(path: Path, description: str) -> dict:
@@ -629,6 +669,7 @@ def _clone_sparse_without_shared_objects(source: Path, clone: Path, current_head
             "scripts",
             "results",
             f"{PUBLICATION_DIR}",
+            CONFIGURATION_INPUT_DIR,
             "reports/releases/v0.9.2/review-handoff/bifrost-v0151-final-review-20261107-01",
             "reports/releases/v0.9.2/validation/bifrost-v0151-terminal-01",
             "reports/releases/v0.9.2/validation/bifrost-v0151-configurations-04",
@@ -655,6 +696,166 @@ def _clone_sparse_without_shared_objects(source: Path, clone: Path, current_head
     ):
         if (clone / excluded).exists():
             raise GateError(f"sparse release clone unexpectedly includes {excluded}")
+
+
+def _check_no_symlink_components(root: Path, relative_path: str, description: str) -> Path:
+    if root.is_symlink():
+        raise GateError(f"{description} root is a symlink: {root}")
+    target = root
+    parts = PurePosixPath(relative_path).parts
+    for index, part in enumerate(parts):
+        target = target / part
+        if target.is_symlink():
+            raise GateError(f"{description} traverses a symlink: {relative_path}")
+        if target.exists() and index < len(parts) - 1 and not target.is_dir():
+            raise GateError(f"{description} parent is not a directory: {relative_path}")
+    return target
+
+
+def _tree_blob_record(checkout: Path, revision: str, path: str) -> tuple[str, str]:
+    raw = _git_bytes(checkout, ["ls-tree", "-z", revision, "--", path])
+    records = [record for record in raw.split(b"\0") if record]
+    if len(records) != 1:
+        raise GateError(f"pinned configuration input is missing or ambiguous at {revision}: {path}")
+    metadata, separator, encoded_path = records[0].partition(b"\t")
+    fields = metadata.decode("ascii", errors="strict").split()
+    if (
+        not separator
+        or encoded_path.decode("utf-8", errors="strict") != path
+        or len(fields) != 3
+    ):
+        raise GateError(f"pinned configuration input has a malformed Git tree record: {path}")
+    mode, object_type, object_id = fields
+    if mode not in {"100644", "100755"} or object_type != "blob":
+        raise GateError(f"pinned configuration input is not a regular Git blob: {path}")
+    if not re.fullmatch(r"[0-9a-f]{40}", object_id):
+        raise GateError(f"pinned configuration input has an invalid Git blob id: {path}")
+    return mode, object_id
+
+
+def _materialize_configuration_inputs(clone: Path, revision: str) -> dict:
+    """Restore only the manifest-pinned config blobs needed by v0.9.2 validation."""
+    manifest_path = _check_no_symlink_components(
+        clone, CONFIGURATION_INPUT_MANIFEST, "configuration input manifest"
+    )
+    try:
+        manifest_bytes = manifest_path.read_bytes()
+    except OSError as exc:
+        raise GateError(f"cannot read pinned configuration input manifest: {exc}") from exc
+    manifest_sha = _sha256(manifest_bytes)
+    if manifest_sha != CONFIGURATION_INPUT_MANIFEST_SHA256:
+        raise GateError("Swift configuration input manifest SHA-256 differs from the pinned manifest")
+    try:
+        manifest = json.loads(manifest_bytes)
+    except json.JSONDecodeError as exc:
+        raise GateError(f"pinned Swift configuration input manifest is invalid JSON: {exc}") from exc
+    if (
+        not isinstance(manifest, dict)
+        or manifest.get("schema") != CONFIGURATION_INPUT_MANIFEST_SCHEMA
+        or manifest.get("source_commit") != CONFIGURATION_INPUT_SOURCE_COMMIT
+        or manifest.get("source_tree_sha1") != CONFIGURATION_INPUT_SOURCE_TREE
+    ):
+        raise GateError("Swift configuration input manifest has an unsupported source identity")
+    counts = manifest.get("counts")
+    expected_counts = {
+        "codeql_plan_references": 99,
+        "common_references": 13,
+        "initially_present_references": 97,
+        "joern_plan_references": 33,
+        "supplement_references": 22,
+        "unique_references": CONFIGURATION_INPUT_COUNT,
+    }
+    if not _same_json_value(counts, expected_counts):
+        raise GateError("Swift configuration input manifest counts differ from the pinned inventory")
+    references = manifest.get("references")
+    if not isinstance(references, list) or len(references) != CONFIGURATION_INPUT_COUNT:
+        raise GateError("Swift configuration input manifest must bind exactly 119 references")
+
+    validated: list[tuple[str, bytes, str]] = []
+    seen_paths: set[str] = set()
+    existing_count = 0
+    total_bytes = 0
+    for index, reference in enumerate(references):
+        if not isinstance(reference, dict) or set(reference) != {
+            "engines",
+            "git_blob_sha1",
+            "initial_failed_checkout_state",
+            "path",
+            "sha256",
+        }:
+            raise GateError(f"Swift configuration reference {index} is malformed")
+        path = _safe_repo_path(reference.get("path"), "configuration reference path")
+        if path in seen_paths:
+            raise GateError(f"Swift configuration manifest repeats a path: {path}")
+        seen_paths.add(path)
+        expected_sha = reference.get("sha256")
+        expected_blob = reference.get("git_blob_sha1")
+        if not isinstance(expected_sha, str) or not HEX_SHA256.fullmatch(expected_sha):
+            raise GateError(f"Swift configuration reference has an invalid SHA-256: {path}")
+        if not isinstance(expected_blob, str) or not re.fullmatch(r"[0-9a-f]{40}", expected_blob):
+            raise GateError(f"Swift configuration reference has an invalid Git blob id: {path}")
+
+        destination = _check_no_symlink_components(clone, path, "configuration input")
+        mode, actual_blob = _tree_blob_record(clone, revision, path)
+        if actual_blob != expected_blob:
+            raise GateError(f"configuration input Git blob differs from its manifest: {path}")
+        try:
+            object_size = int(_git_output(clone, ["cat-file", "-s", actual_blob]))
+        except ValueError as exc:
+            raise GateError(f"configuration input Git blob has an invalid size: {path}") from exc
+        data = _git_bytes(clone, ["cat-file", "blob", actual_blob])
+        if len(data) != object_size or _sha256(data) != expected_sha:
+            raise GateError(f"configuration input bytes differ from their manifest: {path}")
+        total_bytes += len(data)
+
+        if destination.exists():
+            if not destination.is_file():
+                raise GateError(f"existing configuration input is not a regular file: {path}")
+            try:
+                current = destination.read_bytes()
+                current_mode = destination.stat().st_mode
+            except OSError as exc:
+                raise GateError(f"cannot inspect existing configuration input {path}: {exc}") from exc
+            executable = bool(current_mode & 0o111)
+            expected_executable = mode == "100755"
+            if current != data or executable != expected_executable:
+                raise GateError(f"refusing to overwrite non-identical configuration input: {path}")
+            existing_count += 1
+        else:
+            validated.append((path, data, mode))
+
+    if len(seen_paths) != CONFIGURATION_INPUT_COUNT:
+        raise GateError("Swift configuration manifest does not contain 119 unique paths")
+
+    # Validate the complete inventory before writing any missing file. This keeps
+    # a bad or incomplete manifest from leaving a partially restored checkout.
+    for path, data, mode in validated:
+        destination = _check_no_symlink_components(clone, path, "configuration input")
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination = _check_no_symlink_components(clone, path, "configuration input")
+        try:
+            with destination.open("xb") as output:
+                output.write(data)
+            destination.chmod(0o755 if mode == "100755" else 0o644)
+        except FileExistsError:
+            # Another actor may have created the same file after validation;
+            # accept it only when its bytes and executable bit match exactly.
+            if destination.is_symlink() or not destination.is_file():
+                raise GateError(f"configuration input appeared as a non-file: {path}")
+            current = destination.read_bytes()
+            executable = bool(destination.stat().st_mode & 0o111)
+            if current != data or executable != (mode == "100755"):
+                raise GateError(f"refusing to overwrite non-identical configuration input: {path}")
+
+    return {
+        "manifest": CONFIGURATION_INPUT_MANIFEST,
+        "manifest_sha256": manifest_sha,
+        "source_revision": revision,
+        "references": len(seen_paths),
+        "materialized": len(validated),
+        "already_present_identical": existing_count,
+        "bytes_verified": total_bytes,
+    }
 
 
 def _fetch_official_main_and_tags(clone: Path, git_remote: str) -> str:
@@ -846,6 +1047,8 @@ def run_gate(
             check_results = True
             _git(clone, ["checkout", "--detach", tag])
 
+        configuration_revision = _git_output(clone, ["rev-parse", "HEAD^{commit}"])
+        configuration_inputs = _materialize_configuration_inputs(clone, configuration_revision)
         _materialize_publication_capture(clone)
         _hydrate_current_ledger(clone)
         _run_mapper(clone, "hydrate")
@@ -864,6 +1067,7 @@ def run_gate(
         _run_binary(binary, result_args, clone)
         if not check_results and generate_output is not None:
             _copy_generated_results(clone, generate_output)
+    summary["configuration_inputs"] = configuration_inputs
     return summary
 
 

@@ -6,6 +6,7 @@ import {
   coreKernelPopulations,
   currentSnapshot,
   evidenceUrl,
+  hasLatencyEvidence,
   percentCell,
   shortDigest,
   vendorColorClass,
@@ -40,9 +41,10 @@ interface VendorStats {
   falseNegatives: number;
   falsePositives: number;
   trueNegatives: number;
-  /** Coverage outcomes — never folded into the matrix. */
+  /** Inconclusive proof and declared unsupported coverage. */
   inconclusive: number;
   unsupported: number;
+  /** Failed executions, kept separate from coverage classifications. */
   runnerErrors: number;
   total: number;
   correct: number;
@@ -249,9 +251,9 @@ interface TierRow {
   colorClass: string;
   language: string;
   scorecardId: string;
-  /** Assertions in the population, scored and declined together. */
+  /** Assertions in this language tier. */
   total: number;
-  /** Assertions the tool's partition scores at all. */
+  /** Decisive and inconclusive results; runner errors stay separate. */
   scored: number;
   /** Scored assertions that got a definitive answer. */
   decided: number;
@@ -260,6 +262,7 @@ interface TierRow {
   falseNegatives: number;
   inconclusive: number;
   unsupported: number;
+  runnerErrors: number;
 }
 
 function tierRows(profile: string, idFragment: string): TierRow[] {
@@ -269,16 +272,9 @@ function tierRows(profile: string, idFragment: string): TierRow[] {
     if (!card.id.includes(idFragment)) continue;
     for (const language of card.languages) {
       for (const tier of language.score_tiers) {
-        const counts = { tp: 0, tn: 0, fp: 0, fn: 0, inc: 0, uns: 0 };
-        for (const result of tier.cases) {
-          if (result.classification === 'true-positive') counts.tp += 1;
-          else if (result.classification === 'true-negative') counts.tn += 1;
-          else if (result.classification === 'false-positive') counts.fp += 1;
-          else if (result.classification === 'false-negative') counts.fn += 1;
-          else if (result.outcome === 'inconclusive') counts.inc += 1;
-          else counts.uns += 1;
-        }
-        const decided = counts.tp + counts.tn + counts.fp + counts.fn;
+        const stats = statsOf(card, tier);
+        const decided = stats.truePositives + stats.trueNegatives +
+          stats.falsePositives + stats.falseNegatives;
         rows.push({
           tool: card.adapter.tool,
           name: vendorName(card.adapter.tool),
@@ -286,14 +282,15 @@ function tierRows(profile: string, idFragment: string): TierRow[] {
           colorClass: vendorColorClass(card.adapter.tool, 0),
           language: language.language,
           scorecardId: card.id,
-          total: tier.cases.length,
-          scored: decided + counts.inc,
+          total: stats.total,
+          scored: decided + stats.inconclusive,
           decided,
-          correct: counts.tp + counts.tn,
-          falsePositives: counts.fp,
-          falseNegatives: counts.fn,
-          inconclusive: counts.inc,
-          unsupported: counts.uns,
+          correct: stats.truePositives + stats.trueNegatives,
+          falsePositives: stats.falsePositives,
+          falseNegatives: stats.falseNegatives,
+          inconclusive: stats.inconclusive,
+          unsupported: stats.unsupported,
+          runnerErrors: stats.runnerErrors,
         });
       }
     }
@@ -309,10 +306,18 @@ function tierRows(profile: string, idFragment: string): TierRow[] {
 const modelingRows = tierRows('benchmark-controlled', '-modeling-');
 const nativeRows = tierRows('tool-native', '-native-');
 
-/** How a row reads when nothing in it was scored: coverage, not a zero. */
+/** How a row reads when it has no decisive answer: keep errors distinct. */
 function tierVerdict(row: TierRow): string {
-  if (row.scored === 0) return 'declines the tier — declared coverage';
-  if (row.decided === 0) return 'scored, none decided';
+  if (row.decided === 0 && row.runnerErrors > 0) {
+    return `${row.runnerErrors} runner error${row.runnerErrors === 1 ? '' : 's'} — no answer`;
+  }
+  if (row.decided === 0 && row.unsupported === row.total) {
+    return 'declines the tier — declared coverage';
+  }
+  if (row.decided === 0 && row.inconclusive > 0) {
+    return 'inconclusive — no decisive answer';
+  }
+  if (row.decided === 0) return 'no decisive answer';
   return `${row.correct}/${row.decided} decided correctly`;
 }
 
@@ -338,13 +343,20 @@ const barWidth = (part: number, whole: number) =>
  * `unsupported` is named a *decline* rather than folded into "incomplete":
  * it is a declared-capability position taken before the analyzer runs, and it
  * gets its own neutral segment, as it does in the modeling and native cards.
+ * Runner errors remain failed executions and are listed separately.
  */
 function splitLabel(vendor: VendorStats): string {
   const parts = [`${vendor.correct} correct`];
   if (vendor.wrong > 0) parts.push(`${vendor.wrong} wrong`);
-  const unfinished = vendor.inconclusive + vendor.runnerErrors;
-  if (unfinished > 0) parts.push(`${unfinished} incomplete`);
-  if (vendor.unsupported > 0) parts.push(`${vendor.unsupported} declined`);
+  if (vendor.inconclusive > 0) {
+    parts.push(`${vendor.inconclusive} inconclusive`);
+  }
+  if (vendor.unsupported > 0) {
+    parts.push(`${vendor.unsupported} unsupported (declined)`);
+  }
+  if (vendor.runnerErrors > 0) {
+    parts.push(`${vendor.runnerErrors} runner-error execution failures`);
+  }
   return `${parts.join(', ')} of ${vendor.total}`;
 }
 
@@ -353,7 +365,7 @@ function splitLabel(vendor: VendorStats): string {
 // decisive — and never a score: kernels are separate populations and are still
 // never pooled, ranked, or compared with each other.
 const kernelVendorRows = kernels.flatMap((kernel) => kernel.vendors);
-/** Rows with no coverage outcome of any kind: nothing incomplete, none declined. */
+/** Rows without inconclusive results, unsupported outcomes, or runner errors. */
 const decisiveRows = kernelVendorRows.filter(
   (vendor) => vendor.incomplete === 0,
 ).length;
@@ -361,35 +373,8 @@ const allCorrectRows = kernelVendorRows.filter(
   (vendor) => vendor.correct === vendor.total,
 ).length;
 
-// The short answer's own figures. Derived here rather than restated in prose:
-// a headline verdict that hand-copies a count is a verdict that goes stale
-// silently, and this one has been rewritten at every freeze so far.
+// The reference-analyzer count is used only to explain who is in the field.
 const analyzerCount = new Set(scorecards.map((card) => card.adapter.tool)).size;
-const coreAssertions = kernels.reduce((sum, kernel) => sum + kernel.cases, 0);
-/**
- * Analyzers that make no decisive mistake on any kernel they cover, and what
- * that costs them in non-answers. An analyzer covering a single kernel could
- * qualify cheaply, so the count of kernels it covers travels with the claim.
- */
-const spotless = [
-  ...kernelVendorRows
-    .reduce((byTool, vendor) => {
-      const running = byTool.get(vendor.tool) ?? {
-        name: vendor.name,
-        wrong: 0,
-        incomplete: 0,
-        kernels: 0,
-      };
-      running.wrong += vendor.wrong;
-      running.incomplete += vendor.incomplete;
-      running.kernels += 1;
-      byTool.set(vendor.tool, running);
-      return byTool;
-    }, new Map<string, { name: string; wrong: number; incomplete: number; kernels: number }>())
-    .values(),
-]
-  .filter((tool) => tool.wrong === 0)
-  .sort((left, right) => right.kernels - left.kernels);
 
 // The breadth strip: the same rows the breadth table carried, minus the
 // per-assertion outcome columns, which the templates page owns.
@@ -400,9 +385,9 @@ const breadthWrong = breadth.filter(
 // freezes cannot leave a space before the full stop.
 const breadthTail = `${
   breadthIncomplete.length > 0
-    ? `, and analyzes ${breadthIncomplete.length} incompletely (${breadthIncomplete
+    ? `, and has non-decisive coverage or execution-error outcomes in ${breadthIncomplete
         .map((row) => row.language)
-        .join(', ')}) — reported as coverage, never as a wrong answer`
+        .join(', ')} — not wrong answers`
     : ''
 }${breadthWrong > 0 ? `, with ${breadthWrong} answered wrongly` : ''}.`;
 
@@ -458,7 +443,9 @@ function scoredSpan(rows: TierRow[]): {
   };
 }
 const modelingSpan = scoredSpan(modelingRows);
-const nativeDeclinedTiers = nativeRows.filter((row) => row.scored === 0).length;
+const nativeDeclinedTiers = nativeRows.filter((row) => row.unsupported === row.total).length;
+const nativeDecidingTiers = nativeRows.filter((row) => row.decided > 0).length;
+const nativeNoDecisiveTiers = nativeRows.length - nativeDeclinedTiers - nativeDecidingTiers;
 const nativeDecided = nativeRows.reduce((sum, row) => sum + row.decided, 0);
 const nativeDecidingAdapters = [
   ...new Set(
@@ -474,17 +461,10 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     read, and who builds the benchmark and why. A reader meeting the page for
     the first time needs both before the numbers mean anything. */}
 <p class="ds-statement verdict">
-  No analyzer answers a whole core correctly in any of the
-  {kernels.length} languages{spotless.length === 0 ? (
-    <>, and every one of the {analyzerCount} in the field makes at least one
-    decisive mistake.</>
-  ) : (
-    <>, and of the {analyzerCount} in the field only{' '}
-    {spotless.map((tool) => tool.name).join(' and ')} makes no decisive
-    mistake at all — bought by declining{' '}
-    {spotless.reduce((sum, tool) => sum + tool.incomplete, 0)} of the{' '}
-    {coreAssertions} core assertions rather than guessing at them.</>
-  )}
+  Each kernel panel keeps one analyzer within one language's own denominator.
+  Its bar label and confusion-matrix dialog list decisive, inconclusive,
+  unsupported, and runner-error counts separately; unsupported alone is a
+  declared decline.
 </p>
 
 <div class="ds-split lead">
@@ -533,7 +513,18 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
 <h2 id="release">What {snapshot.version} contains</h2>
 <div class="ds-split release">
   <div class="support">
-  {snapshot.version === 'v0.9.0' ? (
+  {snapshot.version === 'v0.9.2' ? (
+    <p>
+      This fixed-configuration snapshot records the v0.9.2 release model and
+      its retained outcomes. Bifrost was measured at v0.15.1. Inconclusive
+      results preserve incomplete proof; unsupported results record declared
+      coverage; runner errors record failed executions. None becomes a negative
+      finding. CodeQL's native Java,
+      JavaScript, and Python profiles include query-pack lookup runner errors,
+      documented in the <a href={evidenceUrl(snapshot, 'docs/releases/v0.9.2-case-variation.md')}>case-variation note</a>.
+      The generated figures beside this text come from this snapshot's model.
+    </p>
+  ) : snapshot.version === 'v0.9.0' ? (
     <p>
       The Swift-inclusive freeze binds 1,108 cases and 92 fresh report partitions,
       producing 4,252 outcomes. Bifrost was measured at v0.12.0; its Swift
@@ -597,16 +588,22 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     <strong>modeling matrix</strong>, which asks whether each tool's own
     model-declaration surface is load-bearing, and the
     <strong>tool-native probes</strong>, which ask what each product decides
-    with nothing supplied by us. Beside them sits the
-    <strong>latency tier</strong> — descriptive per-case timings on a stated
-    machine, kept strictly beside the correctness results.
-    {snapshot.version === 'v0.9.0' || snapshot.version === 'v0.8.0' || snapshot.version === 'v0.7.1' ? (
-      <>These timings were freshly measured on the current pins, with desktop
-      activity, cache state and sandbox/elevated execution contexts retained;
-      no uncontended-host or timing-parity claim is implied.</>
+    with nothing supplied by us.
+    {snapshot.version === 'v0.9.2' ? (
+      <>No latency corpus is published for these pins. Raw durations remain in retained execution evidence, without a certified current timing comparison. The <a href="/snapshots/v0-9-0/latency/">v0.9.0 latency page</a> remains bound to its older pins.</>
     ) : (
-      <>They are carried into this snapshot from v0.6.0 without re-measurement,
-      so the rows retain the older pins they were measured on.</>
+      <>
+        Beside them sits the <strong>latency tier</strong> — descriptive per-case
+        timings on a stated machine, kept strictly beside the correctness results.
+        {snapshot.version === 'v0.9.0' || snapshot.version === 'v0.8.0' || snapshot.version === 'v0.7.1' ? (
+          <>These timings were freshly measured on the current pins, with desktop
+          activity, cache state and sandbox/elevated execution contexts retained;
+          no uncontended-host or timing-parity claim is implied.</>
+        ) : (
+          <>They are carried into this snapshot from v0.6.0 without re-measurement,
+          so the rows retain the older pins they were measured on.</>
+        )}
+      </>
     )}
     All populations have separate denominators. There is no
     combined leaderboard, and benchmark-controlled results are never pooled
@@ -616,7 +613,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     On the direct-flow breadth baseline, Bifrost answered both assertions
     correctly in <strong>{breadthCorrect}&nbsp;of&nbsp;{breadth.length}</strong>
     languages{breadthIncomplete.length > 0
-      ? ` (${breadthIncomplete.map((row) => row.language).join(', ')}: inconclusive, which is reported as coverage — not as a wrong answer).`
+      ? ` (${breadthIncomplete.map((row) => row.language).join(', ')}: non-decisive coverage or execution failure, not a wrong answer).`
       : '.'}
   </p>
   </div>
@@ -654,10 +651,10 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   </div>
   <div class="panel-grid" id="kernel-dialog-panels"></div>
   <p class="caption dialog-foot">
-    Decisive outcomes only. <code>inconclusive</code>,
-    <code>unsupported</code> and <code>runner-error</code> are capability
-    coverage: they are excluded from the matrix and from the rates, and are
-    never converted into clean negatives.
+    Decisive outcomes only. <code>inconclusive</code> preserves incomplete
+    proof, <code>unsupported</code> records a declared capability boundary, and
+    <code>runner-error</code> records a failed execution. All are excluded from
+    the matrix and rates; none becomes a clean negative.
   </p>
 </dialog>
 
@@ -877,12 +874,18 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   its own denominator; language-only constructs are reported in separate
   <code>language-extension</code> tiers on the snapshot pages. It does not
   estimate real-project accuracy or other languages' kernel behavior;
-  performance is characterized separately in the latency tier, on its own
-  terms, and never folded into these scores. The tool-native rows describe shipped coverage on six
+  performance never enters these scores. {snapshot.version === 'v0.9.2' ? (
+    <>Raw durations remain in retained execution evidence, without a published
+    latency corpus or certified current timing comparison.</>
+  ) : (
+    <>Where latency evidence is published, it remains separately characterized
+    and is never folded into these scores.</>
+  )} The tool-native rows describe shipped coverage on six
   probe templates rather than product accuracy at large.
-  <code>inconclusive</code>, <code>unsupported</code>, and
-  <code>runner-error</code> are capability coverage and are never converted
-  into clean negatives.
+  <code>inconclusive</code> preserves incomplete proof,
+  <code>unsupported</code> records declared coverage, and
+  <code>runner-error</code> records failed execution; none becomes a clean
+  negative.
 </p>
 </div>
 
@@ -918,7 +921,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
           <div
             class="bar"
             role="img"
-            aria-label={`${row.language}: ${row.scored} of ${row.total} assertions in ${card.name}'s scored partition, ${row.unsupported} declined by declared coverage`}
+            aria-label={`${row.language}: ${row.scored} scored of ${row.total}; ${row.inconclusive} inconclusive, ${row.runnerErrors} runner errors, ${row.unsupported} unsupported`}
           >
             <span
               class="seg correct"
@@ -928,7 +931,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
               style={`width:${barWidth(row.falsePositives + row.falseNegatives, row.total)}`}></span>
             <span
               class="seg incomplete"
-              style={`width:${barWidth(row.inconclusive, row.total)}`}></span>
+              style={`width:${barWidth(row.inconclusive + row.runnerErrors, row.total)}`}></span>
             <span
               class="seg declined"
               style={`width:${barWidth(row.unsupported, row.total)}`}></span>
@@ -937,9 +940,10 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
             <span class="tier-verdict">
               {tierVerdict(row)}
               {row.inconclusive > 0 ? ` · ${row.inconclusive} inconclusive` : ''}
+              {row.runnerErrors > 0 ? ` · ${row.runnerErrors} runner error${row.runnerErrors === 1 ? '' : 's'}` : ''}
             </span>
             <span class="tier-scored">
-              {row.scored} scored · {row.unsupported} declined of {row.total}
+              {row.scored} scored · {row.unsupported} unsupported · {row.runnerErrors} runner errors of {row.total}
             </span>
           </p>
         </div>
@@ -952,7 +956,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   <li class="key-correct"><span class="swatch" aria-hidden="true"></span>correct</li>
   <li class="key-wrong"><span class="swatch" aria-hidden="true"></span>wrong</li>
   <li class="key-incomplete">
-    <span class="swatch" aria-hidden="true"></span>inconclusive — coverage, not a wrong answer
+    <span class="swatch" aria-hidden="true"></span>incomplete — inconclusive or runner-error; each count is shown per row
   </li>
   <li class="key-declined">
     <span class="swatch" aria-hidden="true"></span>declined — outside this tool's model surface, decided before it runs
@@ -980,9 +984,11 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     Tool-native results are never pooled with the benchmark-controlled kernels
     or the modeling matrix, and never compared number-to-number with them.
   </strong>
-  A row of <code class="incomplete">unsupported</code> is a declared decline —
-  the tool ships no source or sink catalog for this tier — and is never counted
-  as a wrong answer. Those runs still witness the identity of the binary and
+  A tier that is entirely <code class="incomplete">unsupported</code> is a
+  declared decline — the tool ships no source or sink catalog for it — and is
+  never counted as a wrong answer. A <code>runner-error</code> remains a
+  separate failed execution, not a decline or negative finding. Those runs
+  still witness the identity of the binary and
   ruleset that produced them.
 </p>
 
@@ -1000,7 +1006,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
           <div
             class="bar"
             role="img"
-            aria-label={`${row.language}: ${row.scored} of ${row.total} probe assertions scored by what ${card.name} ships, ${row.unsupported} declined by declared coverage`}
+            aria-label={`${row.language}: ${row.scored} scored of ${row.total} probe assertions; ${row.inconclusive} inconclusive, ${row.runnerErrors} runner errors, ${row.unsupported} unsupported`}
           >
             <span
               class="seg correct"
@@ -1010,7 +1016,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
               style={`width:${barWidth(row.falsePositives + row.falseNegatives, row.total)}`}></span>
             <span
               class="seg incomplete"
-              style={`width:${barWidth(row.inconclusive, row.total)}`}></span>
+              style={`width:${barWidth(row.inconclusive + row.runnerErrors, row.total)}`}></span>
             <span
               class="seg declined"
               style={`width:${barWidth(row.unsupported, row.total)}`}></span>
@@ -1022,7 +1028,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
               {row.falseNegatives > 0 ? ` · ${row.falseNegatives} FN` : ''}
             </span>
             <span class="tier-scored">
-              {row.scored} scored · {row.unsupported} declined of {row.total}
+              {row.scored} scored · {row.unsupported} unsupported · {row.runnerErrors} runner errors of {row.total}
             </span>
           </p>
         </div>
@@ -1035,7 +1041,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   <li class="key-correct"><span class="swatch" aria-hidden="true"></span>correct</li>
   <li class="key-wrong"><span class="swatch" aria-hidden="true"></span>wrong</li>
   <li class="key-incomplete">
-    <span class="swatch" aria-hidden="true"></span>inconclusive — coverage, not a wrong answer
+    <span class="swatch" aria-hidden="true"></span>incomplete — inconclusive or runner-error; each count is shown per row
   </li>
   <li class="key-declined">
     <span class="swatch" aria-hidden="true"></span>declined — the product ships no catalog for this tier
@@ -1043,11 +1049,12 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
 </ul>
 
 <p class="takeaway">
-  {nativeDeclinedTiers} of the {nativeRows.length} tiers decline the tier
-  outright — a declared decline drawn as declined coverage, never as
-  0/{nativeRows[0]?.total ?? 0} — and the {nativeRows.length -
-    nativeDeclinedTiers} that do decide answer {nativeDecided} assertions
-  between them ({nativeDecidingAdapters.join(' and ')}). Per-tier coverage is
+  {nativeDeclinedTiers} of the {nativeRows.length} tiers are entirely
+  unsupported — declared declines, never zero scores. {nativeDecidingTiers}
+  tiers produce at least one decisive answer ({nativeDecided} assertions
+  across {nativeDecidingAdapters.join(' and ')}); {nativeNoDecisiveTiers}
+  other tiers have no decisive answer. Runner errors and inconclusive outcomes
+  remain separately counted on each row. Per-tier coverage is
   on the <a href={`${snapshotPage}/analyzers/`}>analyzers</a> page, the
   <code>native-*</code> template outcomes on the
   <a href={`${snapshotPage}/templates/`}>semantic templates</a> page, and every
@@ -1055,23 +1062,34 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   <a href={`${snapshotPage}/evidence/`}>case evidence</a> page.
 </p>
 
-<h2 id="latency">How long an answer takes — beside the answers, never inside them</h2>
+{hasLatencyEvidence(snapshot) ? (
+  <>
+    <h2 id="latency">How long an answer takes — beside the answers, never inside them</h2>
 
-<p>
-  A <strong>descriptive characterization</strong> of per-case analyzer
-  wall-clock, published under the contract preregistered in
-  <a href="https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md"><code>docs/latency-tier.md</code></a>,
-  which merged before a single timestamp was captured — because a latency page
-  assembled after the numbers were known, by the vendor of one of the engines
-  measured, would deserve exactly the skepticism it would get. It is not a
-  score and not a ranking of engines. <strong>Nothing on this site pools it
-  with correctness</strong>: there is no combined number, no
-  efficiency-adjusted rate, and no leaderboard that blends the two, so "correct
-  but slow" and "fast but wrong" stay independently visible. Read this section
-  against the correctness sections above, not through them.
-</p>
+    <p>
+      A <strong>descriptive characterization</strong> of per-case analyzer
+      wall-clock, published under the contract preregistered in
+      <a href="https://github.com/BrokkAi/dataflowbench/blob/main/docs/latency-tier.md"><code>docs/latency-tier.md</code></a>,
+      which merged before a single timestamp was captured — because a latency page
+      assembled after the numbers were known, by the vendor of one of the engines
+      measured, would deserve exactly the skepticism it would get. It is not a
+      score and not a ranking of engines. <strong>Nothing on this site pools it
+      with correctness</strong>: there is no combined number, no
+      efficiency-adjusted rate, and no leaderboard that blends the two, so "correct
+      but slow" and "fast but wrong" stay independently visible. Read this section
+      against the correctness sections above, not through them.
+    </p>
 
-<LatencyRanking kernelViews={false} stamp />
+    <LatencyRanking kernelViews={false} stamp />
+  </>
+) : (
+  <>
+    <h2 id="latency">Current timing evidence</h2>
+    <p>
+      No latency corpus is published for {snapshot.version}. Raw durations remain in retained execution evidence, without a certified current timing comparison. The <a href="/snapshots/v0-9-0/latency/">v0.9.0 latency page</a> documents timings under its older pins and makes no timing claim about {snapshot.version}.
+    </p>
+  </>
+)}
 
 <details class="historical-progress">
   <summary>Progress over time</summary>
@@ -1084,9 +1102,10 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
 <p>
   One bar per analyzer, one panel per kernel. Each bar is that analyzer's own
   core population, split into decisive-correct, decisive-wrong,
-  <em>incomplete</em>, and <em>declined</em> — the last two are capability
-  coverage, each drawn as its own segment so the remainder of a bar is never
-  read as a wrong answer.
+  <em>incomplete</em>, and <em>declined</em>. The incomplete segment combines
+  inconclusive proof and runner-error executions, which the panel labels count
+  separately; declined means <code>unsupported</code> only. The segments ensure
+  the remainder of a bar is never read as a wrong answer.
   Panels are separate populations with separate denominators: compare bars
   <em>inside</em> a panel, never across panels, and never against the modeling
   or tool-native sections above. Every kernel here is on the
@@ -1148,8 +1167,8 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   <li class="key-wrong"><span class="swatch" aria-hidden="true"></span>decisive-wrong</li>
   <li class="key-incomplete">
     <span class="swatch" aria-hidden="true"></span>incomplete —
-    <code>inconclusive</code> or <code>runner-error</code>, coverage rather
-    than a wrong answer
+    <code>inconclusive</code> proof or <code>runner-error</code> execution;
+    separately labeled and neither a wrong answer
   </li>
   <li class="key-declined">
     <span class="swatch" aria-hidden="true"></span>declined —
@@ -1163,7 +1182,8 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   {' '}{kernelVendorRows.length} analyzer rows published across these
   {' '}{kernels.length} kernels answers its whole core correctly, and
   {' '}{decisiveRows} of them answer every assertion in their kernel
-  definitively — nothing incomplete, nothing declined. The
+  definitively — with no inconclusive results, unsupported outcomes, or runner
+  errors. The
   template-by-template outcome for every one of these rows — each balanced
   positive/negative pair, per analyzer — is on the
   <a href={`${snapshotPage}/templates/`}>semantic templates</a> page, with

@@ -18,6 +18,7 @@ GATE_PATH = Path(__file__).with_name("check-release-v092-results.py")
 GATE_SOURCE = GATE_PATH.read_bytes()
 gate = types.ModuleType("check_release_v092_results_tested_source")
 exec(compile(GATE_SOURCE, str(GATE_PATH), "exec"), gate.__dict__)
+SOURCE_ROOT = GATE_PATH.resolve().parents[1]
 
 
 def _json_bytes(value: object) -> bytes:
@@ -42,6 +43,52 @@ def _write_json(root: Path, path: str, value: object) -> tuple[Path, bytes]:
 
 def _record(path: str, data: bytes) -> dict:
     return {"path": path, "sha256": _sha(data), "bytes": len(data)}
+
+
+def _copy_configuration_inventory(root: Path) -> dict:
+    manifest_path = SOURCE_ROOT / gate.CONFIGURATION_INPUT_MANIFEST
+    manifest_bytes = manifest_path.read_bytes()
+    if _sha(manifest_bytes) != gate.CONFIGURATION_INPUT_MANIFEST_SHA256:
+        raise AssertionError("checked-in configuration manifest does not match the release pin")
+    _write(root, gate.CONFIGURATION_INPUT_MANIFEST, manifest_bytes)
+    manifest = json.loads(manifest_bytes)
+    for reference in manifest["references"]:
+        source = SOURCE_ROOT / reference["path"]
+        data = source.read_bytes()
+        if _sha(data) != reference["sha256"]:
+            raise AssertionError(f"checked-in config input changed: {reference['path']}")
+        _write(root, reference["path"], data)
+    return manifest
+
+
+def _git(*args: str, cwd: Path) -> str:
+    return subprocess.check_output(["git", *args], cwd=cwd, text=True).strip()
+
+
+def _configuration_source(root: Path) -> tuple[Path, str, dict]:
+    root.mkdir(parents=True, exist_ok=True)
+    manifest = _copy_configuration_inventory(root)
+    _git("init", "-b", "main", cwd=root)
+    _git("config", "user.name", "Configuration Input Test", cwd=root)
+    _git("config", "user.email", "configuration-input@example.invalid", cwd=root)
+    _git("config", "commit.gpgsign", "false", cwd=root)
+    _git("add", "-A", cwd=root)
+    _git("commit", "-m", "pinned configuration inputs", cwd=root)
+    revision = _git("rev-parse", "HEAD", cwd=root)
+    return root, revision, manifest
+
+
+def _sparse_configuration_clone(source: Path, revision: str, clone: Path) -> Path:
+    subprocess.run(
+        ["git", "clone", "--no-local", "--no-hardlinks", "--no-checkout", str(source), str(clone)],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    _git("sparse-checkout", "init", "--cone", cwd=clone)
+    _git("sparse-checkout", "set", gate.CONFIGURATION_INPUT_DIR, cwd=clone)
+    _git("checkout", "--detach", revision, cwd=clone)
+    return clone
 
 
 def _qualification(root: Path) -> dict:
@@ -330,6 +377,156 @@ class PublicationFreezeTests(unittest.TestCase):
             gate._safe_repo_path("../outside", "test path")
 
 
+class ConfigurationInputMaterializationTests(unittest.TestCase):
+    def setUp(self) -> None:
+        temporary = tempfile.TemporaryDirectory(prefix="v092-config-input-test-")
+        self.addCleanup(temporary.cleanup)
+        self.base = Path(temporary.name)
+        self.source, self.revision, self.manifest = _configuration_source(self.base / "source")
+
+    def sparse_clone(self, label: str = "clone") -> Path:
+        return _sparse_configuration_clone(
+            self.source,
+            self.revision,
+            self.base / label,
+        )
+
+    def test_exact_pinned_blobs_materialize_into_sparse_clone(self) -> None:
+        clone = self.sparse_clone()
+        first_path = self.manifest["references"][0]["path"]
+        self.assertFalse((clone / first_path).exists())
+
+        summary = gate._materialize_configuration_inputs(clone, self.revision)
+        self.assertEqual(summary["manifest_sha256"], gate.CONFIGURATION_INPUT_MANIFEST_SHA256)
+        self.assertEqual(summary["references"], gate.CONFIGURATION_INPUT_COUNT)
+        self.assertEqual(
+            summary["materialized"] + summary["already_present_identical"],
+            gate.CONFIGURATION_INPUT_COUNT,
+        )
+        for reference in self.manifest["references"]:
+            path = clone / reference["path"]
+            data = path.read_bytes()
+            self.assertEqual(_sha(data), reference["sha256"], reference["path"])
+        second = gate._materialize_configuration_inputs(clone, self.revision)
+        self.assertEqual(second["materialized"], 0)
+        self.assertEqual(second["already_present_identical"], gate.CONFIGURATION_INPUT_COUNT)
+
+    def test_missing_git_blob_fails_before_any_materialization(self) -> None:
+        first = self.manifest["references"][0]["path"]
+        second = self.manifest["references"][1]["path"]
+        (self.source / first).unlink()
+        _git("add", "-A", cwd=self.source)
+        _git("commit", "-m", "remove pinned input", cwd=self.source)
+        changed_revision = _git("rev-parse", "HEAD", cwd=self.source)
+        clone = _sparse_configuration_clone(self.source, changed_revision, self.base / "missing")
+
+        with self.assertRaisesRegex(gate.GateError, "missing or ambiguous"):
+            gate._materialize_configuration_inputs(clone, changed_revision)
+        self.assertFalse((clone / second).exists())
+
+    def test_manifest_tamper_is_rejected_before_writing_refs(self) -> None:
+        manifest_path = self.source / gate.CONFIGURATION_INPUT_MANIFEST
+        manifest_path.write_bytes(manifest_path.read_bytes() + b" ")
+        _git("add", gate.CONFIGURATION_INPUT_MANIFEST, cwd=self.source)
+        _git("commit", "-m", "tamper with pinned manifest", cwd=self.source)
+        changed_revision = _git("rev-parse", "HEAD", cwd=self.source)
+        clone = _sparse_configuration_clone(self.source, changed_revision, self.base / "manifest-tamper")
+
+        first = self.manifest["references"][0]["path"]
+        with self.assertRaisesRegex(gate.GateError, "manifest SHA-256 differs"):
+            gate._materialize_configuration_inputs(clone, changed_revision)
+        self.assertFalse((clone / first).exists())
+
+    def test_reference_blob_tamper_is_rejected_before_writing_refs(self) -> None:
+        first = self.manifest["references"][0]["path"]
+        second = self.manifest["references"][1]["path"]
+        (self.source / first).write_bytes((self.source / first).read_bytes() + b"tamper")
+        _git("add", first, cwd=self.source)
+        _git("commit", "-m", "tamper with pinned blob", cwd=self.source)
+        changed_revision = _git("rev-parse", "HEAD", cwd=self.source)
+        clone = _sparse_configuration_clone(self.source, changed_revision, self.base / "blob-tamper")
+
+        with self.assertRaisesRegex(gate.GateError, "Git blob differs from its manifest"):
+            gate._materialize_configuration_inputs(clone, changed_revision)
+        self.assertFalse((clone / second).exists())
+
+    def test_symlink_at_destination_is_rejected_without_following_it(self) -> None:
+        clone = self.sparse_clone("symlink")
+        first = self.manifest["references"][0]["path"]
+        destination = clone / first
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        outside = self.base / "outside.txt"
+        outside.write_bytes(b"keep this file")
+        destination.symlink_to(outside)
+
+        with self.assertRaisesRegex(gate.GateError, "traverses a symlink"):
+            gate._materialize_configuration_inputs(clone, self.revision)
+        self.assertEqual(outside.read_bytes(), b"keep this file")
+        self.assertTrue(destination.is_symlink())
+
+    def test_nonidentical_existing_file_is_never_overwritten(self) -> None:
+        clone = self.sparse_clone("existing-tamper")
+        first = self.manifest["references"][0]["path"]
+        second = self.manifest["references"][1]["path"]
+        destination = clone / first
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(b"preexisting altered content")
+
+        with self.assertRaisesRegex(gate.GateError, "refusing to overwrite non-identical"):
+            gate._materialize_configuration_inputs(clone, self.revision)
+        self.assertEqual(destination.read_bytes(), b"preexisting altered content")
+        self.assertFalse((clone / second).exists())
+
+
+class PublicationLfsSetupTests(unittest.TestCase):
+    def test_local_skip_repo_lfs_setup_precedes_fixed_scope_pulls(self) -> None:
+        clone = Path("synthetic-disposable-clone")
+        calls: list[tuple[list[str], dict]] = []
+
+        def succeed(command: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
+            calls.append((list(command), dict(kwargs)))
+            return subprocess.CompletedProcess(command, 0, "", "")
+
+        with mock.patch.object(gate, "_run", side_effect=succeed):
+            gate._materialize_publication_capture(clone)
+
+        expected_commands = [
+            ["git", "-C", str(clone), "lfs", "install", "--local", "--skip-repo"],
+            [
+                "git", "-C", str(clone), "lfs", "pull", "--include",
+                gate.LEDGER_ARCHIVE_INCLUDE, gate.REMOTE_NAME,
+            ],
+            ["git", "-C", str(clone), "lfs", "checkout", gate.LEDGER_ARCHIVE_INCLUDE],
+            [
+                "git", "-C", str(clone), "lfs", "pull", "--include",
+                gate.CAPTURE_LFS_INCLUDE, gate.REMOTE_NAME,
+            ],
+            ["git", "-C", str(clone), "lfs", "checkout", gate.PUBLICATION_BUNDLE],
+        ]
+        self.assertEqual([command for command, _ in calls], expected_commands)
+        self.assertNotIn("--global", calls[0][0])
+        self.assertNotIn("--force", calls[0][0])
+        self.assertEqual(calls[0][1]["env"]["GIT_LFS_SKIP_SMUDGE"], "1")
+        for _, kwargs in calls[1:]:
+            self.assertNotIn("GIT_LFS_SKIP_SMUDGE", kwargs["env"])
+
+    def test_lfs_local_install_failure_stops_before_any_pull(self) -> None:
+        clone = Path("synthetic-disposable-clone")
+        with mock.patch.object(
+            gate,
+            "_run",
+            side_effect=gate.GateError("local LFS setup failed"),
+        ) as run:
+            with self.assertRaisesRegex(gate.GateError, "local LFS setup failed"):
+                gate._materialize_publication_capture(clone)
+
+        run.assert_called_once()
+        self.assertEqual(
+            run.call_args.args[0],
+            ["git", "-C", str(clone), "lfs", "install", "--local", "--skip-repo"],
+        )
+
+
 class DisposableGateTests(unittest.TestCase):
     @staticmethod
     def _git(*args: str, cwd: Path | None = None) -> str:
@@ -342,6 +539,7 @@ class DisposableGateTests(unittest.TestCase):
         source = base / "source"
         source.mkdir()
         _make_publication(source)
+        _copy_configuration_inventory(source)
         mapper = source / gate.MAPPER
         mapper.parent.mkdir(parents=True, exist_ok=True)
         mapper.write_text("import sys\nsys.exit(0)\n")

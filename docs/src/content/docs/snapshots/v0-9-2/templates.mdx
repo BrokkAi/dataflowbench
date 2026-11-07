@@ -1,0 +1,16 @@
+---
+title: Semantic templates — v0.9.2
+description: Per-template v0.9.2 outcomes from the generated scorecards.
+---
+
+import TemplateMatrix from '../../../../components/TemplateMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.9.2');
+
+Each scored template is a balanced pair: one positive case where flow exists
+and one minimally different negative case where it does not. `inconclusive`
+preserves incomplete proof; `unsupported` records a declared capability
+boundary. Profiles and tiers remain separate populations.
+
+<TemplateMatrix snapshot={snapshot} />

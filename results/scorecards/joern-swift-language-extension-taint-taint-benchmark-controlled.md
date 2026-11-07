@@ -1,10 +1,10 @@
 # Scorecard `joern-swift-language-extension-taint-taint-benchmark-controlled`
 
-Adapter `joern-swift-language-extension`: `joern` `4.0.628` (build `joern-cli:4.0.628;engine:e63635788249ef86d87bb75c9f37929ab2309fd557e7e147765b73dbd0ac077b;frontend:4ff227bc75781d846d1076221032df8b47c0ee7f4fa1687a161c791e59006f19`, adapter version `joern-normal-v1`, configuration `3c6dd3a9fb38496eea9372b20bf2eafa1f85e7f12c35901372dc30072ee01d76`).
+Adapter `joern-swift-language-extension`: `joern` `4.0.660` (build `joern-cli:4.0.660;engine:309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00;frontend:d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07`, adapter version `joern-normal-v092`, configuration `5a546670420814104d2b6a78eeb70bd75399009127da21096d0141b470e2b39e`).
 
 Track `taint`, score dimension `taint`, model profile `benchmark-controlled`. This scorecard is a single result population; it is never pooled with other tracks, dimensions, or model profiles.
 
-Normalized report: `reports/releases/v0.9.0/normal/attempts/joern-swift-common108-attempt-01/joern-swift-language-extension.json` (`sha256:7237eb7e55d85040e2c052f4820146ebd10610d30274fc14f6d3422596077546`, normalized `sha256:7237eb7e55d85040e2c052f4820146ebd10610d30274fc14f6d3422596077546`). Generated from freeze manifest `reports/freeze.json` (`sha256:e63dcc483d3000c046816c595811bf35ab494544fb6dd6fff2608d43e9bc676d`).
+Normalized report: `reports/releases/v0.9.2/publication-v1/normal/joern-swift-language-extension.json` (`sha256:8a3939b797de79ad028f34a76a8afb1fbcb361c223d1aac460befd77796cdfb4`, normalized `sha256:8a3939b797de79ad028f34a76a8afb1fbcb361c223d1aac460befd77796cdfb4`). Generated from freeze manifest `reports/freeze.json` (`sha256:750e3b8c1275ee05b027017a1e993e84847e292344224976ca3447257ad15d69`).
 
 ## Language `swift`, tier `language-extension`
 
@@ -25,5 +25,5 @@ Caveat: `inconclusive` outcomes are excluded from every TPR and FPR denominator 
 
 | Template | Case | Polarity | Outcome | Classification | Raw evidence | Raw SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `dfb-template-result-error-propagation` | `dfb-taint-swift-result-error-propagation-negative` | negative | `inconclusive` | inconclusive | `reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-result-error-propagation-negative/raw.json` | `375651de25f1137eb40600c90fe01e716da4801adc9cc4e97be21c2d7ebf0652` |
-| `dfb-template-result-error-propagation` | `dfb-taint-swift-result-error-propagation-positive` | positive | `inconclusive` | inconclusive | `reports/releases/v0.9.0/attempts/joern-swift-common108-attempt-01/capture/reports/raw/joern-common-v2/current108-v090-01/dfb-taint-swift-result-error-propagation-positive/raw.json` | `0aaf4fddd1428828d9e1df73264c40a5d965d190536bc369b17774d65b9653e8` |
+| `dfb-template-result-error-propagation` | `dfb-taint-swift-result-error-propagation-negative` | negative | `inconclusive` | inconclusive | `reports/releases/v0.9.2/publication-v1/capture/raw/joern-swift-language-extension/dfb-taint-swift-result-error-propagation-negative.json` | `071757dce66cc38b5a5907610594c8ccc069e212122005e17612f08d18733b65` |
+| `dfb-template-result-error-propagation` | `dfb-taint-swift-result-error-propagation-positive` | positive | `inconclusive` | inconclusive | `reports/releases/v0.9.2/publication-v1/capture/raw/joern-swift-language-extension/dfb-taint-swift-result-error-propagation-positive.json` | `6d6a0b6b067927198bef64f8c9f770e1ccca1c4b3730ca7d1494fcf3dd31fee2` |

@@ -1,0 +1,18 @@
+---
+title: Languages — v0.9.2
+description: Per-language v0.9.2 coverage and rates from the generated scorecards.
+---
+
+import LanguageMatrix from '../../../../components/LanguageMatrix.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.9.2');
+
+Rows are `(language, scorecard, tier)` partitions. They share a table for
+navigation, not a denominator. *Definitive* counts `reached` and `not-reached`;
+*Inconclusive* preserves incomplete proof, *unsupported* records a declared
+capability boundary, and *runner-error* records a failed execution. None is
+scored as a negative. Language participation and model profiles remain
+separate in the generated results.
+
+<LanguageMatrix snapshot={snapshot} />

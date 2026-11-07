@@ -1,0 +1,32 @@
+---
+title: Analyzers — v0.9.2
+description: Generated v0.9.2 scorecards and semantic-dimension rates for each analyzer.
+---
+
+import ScorecardSummary from '../../../../components/ScorecardSummary.astro';
+import DimensionRates from '../../../../components/DimensionRates.astro';
+import { snapshots } from '../../../../data/snapshots';
+
+export const snapshot = snapshots.find((s) => s.version === 'v0.9.2');
+
+Each scorecard is one frozen report: one analyzer, one track, one score
+dimension, and one model profile. Scorecards remain independent populations.
+`TPR` and `FPR` are macro-averages over templates and semantic dimensions;
+`inconclusive` preserves incomplete proof, `unsupported` records declared
+coverage, and `runner-error` records failed execution.
+The generated tables are the authority for each analyzer's rates, denominators,
+and capability boundaries.
+
+{snapshot.results.scorecards.map((scorecard) => (
+  <ScorecardSummary snapshot={snapshot} scorecard={scorecard} />
+))}
+
+## Semantic dimension detail
+
+{snapshot.results.scorecards.map((scorecard) =>
+  scorecard.languages.map((language) =>
+    language.score_tiers.filter((tier) => tier.scored).map((tier) => (
+      <><h3><code>{scorecard.id}</code> — <code>{language.language}</code>, {tier.score_tier}</h3><DimensionRates tier={tier} /></>
+    )),
+  ),
+)}
