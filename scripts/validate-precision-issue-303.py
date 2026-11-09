@@ -98,7 +98,7 @@ def metadata_check() -> list[tuple[dict, Path, str]]:
     for lang in APPLICABLE_LANGUAGES:
         for slug in SLUGS:
             for polarity in ("positive", "negative"):
-                case_dir = ROOT / "cases" / "taint" / lang / f"{slug}-{polarity}"
+                case_dir = ROOT / "populations" / "precision-gaps-v1" / "cases" / "taint" / lang / f"{slug}-{polarity}"
                 case_path = case_dir / "case.json"
                 if not case_path.is_file():
                     raise ValidationError(f"missing case file: {case_path.relative_to(ROOT)}")
@@ -250,7 +250,7 @@ def metadata_check() -> list[tuple[dict, Path, str]]:
             f"extra={sorted(actual - expected_keys)}"
         )
     c_issue_cases = [
-        path for path in (ROOT / "cases" / "taint" / "c").glob("*")
+        path for path in (ROOT / "populations" / "precision-gaps-v1" / "cases" / "taint" / "c").glob("*")
         if path.name in {f"{slug}-{polarity}" for slug in SLUGS for polarity in ("positive", "negative")}
     ]
     if c_issue_cases:

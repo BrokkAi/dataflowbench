@@ -67,20 +67,25 @@ never scans for or admits unrelated fixtures.
 
 The inventory is a prospective input registration, not a `freeze/v1` manifest.
 Existing named populations and released manifests retain their exact members,
-bytes, budgets, analyzer pins and results. Historical Swift file-closure checks
-exclude only the exact registered new paths with verified bytes. Unknown paths
-still fail closure; changing a registered file cannot hide it from validation.
-Historical coverage audits continue to describe their original populations.
-The Bifrost smoke selector also excludes these registered identities explicitly,
+bytes, budgets, analyzer pins and results. New fixtures live under
+`populations/precision-gaps-v1/cases/taint/<language>/`, alongside the existing
+precedent of versioned Swift opaque inputs outside the historical case root.
+The canonical corpus loader includes this root; complete digest, schema,
+marker, balance, adapter and denominator checks cover all 188 additions.
+Historical qualification helpers remain byte-identical and continue to inspect
+their original closed input roots. Unknown files in those roots still fail
+historical closure checks.
+
+The Bifrost smoke selector excludes these registered identities explicitly,
 preserving its historical 118-case population even when a new fixture names an
 existing smoke policy.
 
-The two hash-bound Swift validator/adapter source inputs changed by this work
-retain exact [predecessor snapshots](../adapters/precision-predecessor-v1/README.md).
-Legacy reports may match only their original logical-path hash, with every
-other closure input still verified. The validator reports this as a historical
-match and names the source revision; it does not rewrite a stamped hash, extend
-a qualification, or add a stale-report exception.
+The hash-bound Swift Joern module retains an exact
+[predecessor snapshot](../adapters/precision-predecessor-v1/README.md) for its
+historical reports. A legacy report may match only its original logical-path
+hash, with every other closure input still verified. The validator reports this
+as a historical match and names the source revision; it does not rewrite a
+stamped hash, extend a qualification, or add a stale-report exception.
 
 Runtime fixture controls and analyzer evidence remain distinct. Executing a
 positive with two source values checks concrete dependence; a safe negative

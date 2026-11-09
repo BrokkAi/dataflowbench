@@ -90,3 +90,5 @@ return while keeping its required source marker on the endpoint call. A
 positive must print the changed source value; a negative must retain its
 safe-arm value (the string safe or Swift's integer 0). The fixtures in the
 worktree are not modified by validation.
+
+The integration registers these fixtures under the versioned prospective input root. The canonical corpus loader and core denominator checks include them; historical populations retain their original input roots.

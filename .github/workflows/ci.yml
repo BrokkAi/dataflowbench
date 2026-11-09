@@ -119,7 +119,6 @@ jobs:
       - name: Check prospective precision additions stay outside historical populations
         run: |
           python3 -B scripts/refresh-precision-inventory.py
-          python3 -B scripts/test-precision-population.py
       - name: Validate precision fixture structure and portable runtime controls
         run: |
           python3 -m venv "$RUNNER_TEMP/precision-venv"

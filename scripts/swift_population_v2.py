@@ -3,7 +3,6 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path
-from precision_population import historical_paths
 
 ROOT = Path(__file__).resolve().parents[1]
 NATIVE = {f'dfb-template-native-{name}' for name in ('source-sink','propagator','sanitizer','summary','entrypoint','persistence')}
@@ -30,8 +29,7 @@ def audit(root=ROOT):
     require(len(entries) == len(manifest['cases']) == 104, 'v2 must contain 104 unique cases')
     for previous in v1['cases']:
         require(entries.get(previous['id']) == previous, f'v1 member changed: {previous["id"]}')
-    actual = historical_paths(root, (root/'cases/taint/swift').glob('*/case.json'))
-    require({e['path'] for e in entries.values()} == {str(p.relative_to(root)) for p in actual}, 'v2 complete file set')
+    require({e['path'] for e in entries.values()} == {str(p.relative_to(root)) for p in (root/'cases/taint/swift').glob('*/case.json')}, 'v2 complete file set')
     old_ids = {e['id'] for e in v1['cases']}
     new = []
     revision = hashlib.sha256()

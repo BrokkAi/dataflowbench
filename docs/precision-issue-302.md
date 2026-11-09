@@ -16,7 +16,7 @@ Each applicable language gets exactly one positive and one negative case for
 each template. Case IDs follow
 `dfb-taint-<language>-<case-directory-suffix>-<polarity>`. Fixtures are
 authored as a single source file in the matching language's
-`cases/taint/<language>/` directory.
+`populations/precision-gaps-v1/cases/taint/<language>/` directory.
 
 ## Language forms and limits
 
@@ -99,3 +99,5 @@ Use `--metadata-only` to run schema, pair, ID, and marker checks without
 compiling fixtures. `--language <key>` can be repeated to select one or more
 languages; a requested missing toolchain is reported as unavailable and makes
 full-runtime validation fail.
+
+The integration registers these fixtures under the versioned prospective input root. The canonical corpus loader and core denominator checks include them; historical populations retain their original input roots.

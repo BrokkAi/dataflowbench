@@ -4,7 +4,7 @@
 
 - Template: `dfb-template-list-removal-index-shift`
 - Capability: `heap-list-index-shift-taint`
-- Case directories, for each applicable language: `cases/taint/<language>/list-removal-index-shift-positive/` and `...-negative/`
+- Case directories, for each applicable language: `populations/precision-gaps-v1/cases/taint/<language>/list-removal-index-shift-positive/` and `...-negative/`
 - Case IDs: `dfb-taint-<language>-list-removal-index-shift-positive` and `dfb-taint-<language>-list-removal-index-shift-negative`
 - Markers: `DFB-SOURCE: list-removal-index-shift-input`, `DFB-WITNESS: list-removal-index-shift-remove-first`, and `DFB-SINK: list-removal-index-shift-sink`
 
@@ -42,3 +42,5 @@ No language is marked inapplicable. The C row is deliberately the limited array-
 ## Runtime and schema validation
 
 Run `python3 scripts/validate-precision-issue-304.py`. It checks every pair's schema, case balance, anchors and markers, then independently runs each fixture twice with distinct source values. It reports a missing compiler/runtime as unavailable and fails rather than treating that language as validated.
+
+The integration registers these fixtures under the versioned prospective input root. The canonical corpus loader and core denominator checks include them; historical populations retain their original input roots.

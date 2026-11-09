@@ -36,7 +36,7 @@ def inventory(root=ROOT):
         templates.append({"template_id": template, "languages": list(languages)})
         for language in languages:
             for polarity in ("positive", "negative"):
-                path = root / f"cases/taint/{language}/{slug}-{polarity}/case.json"
+                path = root / f"populations/precision-gaps-v1/cases/taint/{language}/{slug}-{polarity}/case.json"
                 case = json.loads(path.read_text())
                 expected = {
                     "template_id": template, "language": language, "polarity": polarity,

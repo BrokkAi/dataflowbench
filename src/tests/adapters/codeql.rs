@@ -48,11 +48,11 @@ pub(crate) fn kotlin_codeql_population_is_the_expanded_balanced_core() {
         .map(|(_, case)| case["template_id"].as_str().unwrap())
         .collect::<BTreeSet<_>>();
     assert_eq!(templates, expected.iter().copied().collect::<BTreeSet<_>>());
-    assert!(
-        selected
-            .iter()
-            .all(|(path, _)| path.starts_with("cases/taint/kotlin"))
-    );
+    assert!(selected.iter().all(|(path, case)| {
+        case["language"] == "kotlin"
+            && (path.starts_with("cases/taint/kotlin")
+                || path.starts_with("populations/precision-gaps-v1/cases/taint/kotlin"))
+    }));
 }
 
 #[test]

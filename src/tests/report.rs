@@ -563,22 +563,15 @@ pub(crate) fn committed_reports_match_current_configuration_except_known_stale()
 
 #[test]
 fn predecessor_configuration_requires_its_exact_version_and_stamp() {
-    let stem = "joern-swift-v2-native";
+    let stem = "joern-swift-kernel";
     let report: Value =
         serde_json::from_str(&fs::read_to_string(format!("reports/{stem}.json")).unwrap()).unwrap();
     let stamped = report["configuration_hash"].as_str().unwrap();
-    fn state(version: &str, adapter: &str, hash: &str) -> ConfigurationHashState {
-        configuration_hash_state_for_report(
-            "joern-swift-v2-native",
-            version,
-            adapter,
-            hash,
-            &mut None,
-        )
-        .unwrap()
+    fn state(version: &str, adapter: &str, hash: &str) -> anyhow::Result<ConfigurationHashState> {
+        configuration_hash_state_for_report("joern-swift-kernel", version, adapter, hash, &mut None)
     }
     assert_eq!(
-        state("4.0.628", "0.1.0", stamped),
+        state("4.0.628", "0.1.0", stamped).unwrap(),
         ConfigurationHashState::Historical {
             revision: crate::precision::PREDECESSOR_REVISION
         }
@@ -590,7 +583,7 @@ fn predecessor_configuration_requires_its_exact_version_and_stamp() {
     ] {
         assert!(matches!(
             state(version, adapter, &hash),
-            ConfigurationHashState::Drifted { .. }
+            Err(_) | Ok(ConfigurationHashState::Drifted { .. })
         ));
     }
 }

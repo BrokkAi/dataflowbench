@@ -73,7 +73,7 @@ def require(condition: bool, message: str) -> None:
 
 
 def selected_case(root: Path, language: str, polarity: str) -> tuple[dict, Path, str]:
-    case_dir = root / "cases" / "taint" / language
+    case_dir = root / "populations" / "precision-gaps-v1" / "cases" / "taint" / language
     case_dir /= f"constant-string-selector-{polarity}"
     case_path = case_dir / "case.json"
     metadata = json.loads(case_path.read_text())

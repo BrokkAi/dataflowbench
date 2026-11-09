@@ -1,8 +1,8 @@
 //! Prospective precision fixtures, kept outside every historical population.
 //!
 //! This inventory registers exact additions to moving main. It is not a release
-//! freeze or evidence of analyzer support. Historical closure checks may remove
-//! only these exact, digest-verified paths from their filesystem comparison.
+//! freeze or evidence of analyzer support. Historical audits retain their
+//! original input roots; the canonical corpus also includes this versioned root.
 
 use crate::freeze::{repository_path, require_digest, validate_fixture_digests};
 use anyhow::{Context, Result, bail};
@@ -13,21 +13,14 @@ use std::{collections::BTreeSet, fs, path::Path, path::PathBuf, sync::OnceLock};
 static INVENTORY: OnceLock<Value> = OnceLock::new();
 
 pub(crate) const PREDECESSOR_REVISION: &str = "86092336d8f9ca32fe9e2c4042c2dced76c1feb1";
-const PREDECESSOR_FILES: [(&str, &str, &str); 2] = [
-    (
-        "scripts/swift_population_v2.py",
-        "adapters/precision-predecessor-v1/swift_population_v2.py.txt",
-        "3ba357b0be10408b3e43b6713b7b161f9fb6676ff8a78f01228191bac64ad899",
-    ),
-    (
-        "src/adapters/joern/swift.rs",
-        "adapters/precision-predecessor-v1/joern_swift.rs.txt",
-        "14ed6b93580b274b73b450fc82b37be4ea4a49f01edbc9efcdf0315fcc4776d7",
-    ),
-];
+const PREDECESSOR_FILES: [(&str, &str, &str); 1] = [(
+    "src/adapters/joern/swift.rs",
+    "adapters/precision-predecessor-v1/joern_swift.rs.txt",
+    "14ed6b93580b274b73b450fc82b37be4ea4a49f01edbc9efcdf0315fcc4776d7",
+)];
 
-/// Replay the same logical path/byte hash with only two explicitly pinned
-/// predecessor inputs. Every other configuration input still uses its actual
+/// Replay the same logical path/byte hash with an explicitly pinned
+/// predecessor input. Every other configuration input still uses its actual
 /// bytes, so this cannot conceal unrelated query, model or evidence drift.
 pub(crate) fn predecessor_configuration_hash(paths: &BTreeSet<PathBuf>) -> Result<Option<String>> {
     let mut hasher = Sha256::new();
@@ -114,23 +107,6 @@ fn verify_case(root: &Path, entry: &Value) -> Result<Value> {
     Ok(case)
 }
 
-/// Historical validators still require their complete original file set.
-/// Additional files qualify only at their registered paths with exact bytes.
-/// A historical-only test checkout need not contain prospective additions.
-pub(crate) fn historical_paths(
-    root: &Path,
-    mut paths: BTreeSet<PathBuf>,
-) -> Result<BTreeSet<PathBuf>> {
-    for entry in inventory()["cases"].as_array().context("precision cases")? {
-        let relative = PathBuf::from(entry["path"].as_str().context("precision path")?);
-        if paths.contains(&relative) {
-            verify_case(root, entry)?;
-            paths.remove(&relative);
-        }
-    }
-    Ok(paths)
-}
-
 /// Require the entire prospective addition, including every registered pair.
 pub(crate) fn validate(root: &Path) -> Result<()> {
     if inventory()["schema_version"] != 1 || inventory()["status"] != "prospective" {
@@ -208,9 +184,14 @@ mod tests {
     #[test]
     fn additions_are_complete_and_historical_inputs_stay_separate() {
         validate(Path::new(".")).unwrap();
-        let paths = crate::cases::all_case_paths().into_iter().collect();
-        let historical = historical_paths(Path::new("."), paths).unwrap();
-        assert_eq!(historical.len(), 1108);
+        let paths = crate::cases::all_case_paths();
+        assert_eq!(
+            paths
+                .iter()
+                .filter(|path| !path.starts_with("populations/precision-gaps-v1"))
+                .count(),
+            1108
+        );
         assert_eq!(crate::cases::all_case_paths().len(), 1108 + case_count());
     }
 
@@ -223,7 +204,7 @@ mod tests {
         let path = root.join(&relative);
         fs::create_dir_all(path.parent().unwrap()).unwrap();
         fs::write(path, b"{}").unwrap();
-        let error = historical_paths(&root, BTreeSet::from([relative])).unwrap_err();
+        let error = verify_case(&root, entry).unwrap_err();
         assert!(error.to_string().contains("digest mismatch"));
         fs::remove_dir_all(root).unwrap();
     }

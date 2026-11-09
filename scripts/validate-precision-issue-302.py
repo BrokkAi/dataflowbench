@@ -114,7 +114,7 @@ def load_and_validate_cases(languages: set[str]) -> list[tuple[Path, dict]]:
     all_cases: list[tuple[Path, dict]] = []
     seen_case_ids: set[str] = set()
 
-    for case_path in sorted((ROOT / "cases" / "taint").glob("*/folded-local-constant-*/case.json")):
+    for case_path in sorted((ROOT / "populations" / "precision-gaps-v1" / "cases" / "taint").glob("*/folded-local-constant-*/case.json")):
         metadata = json.loads(case_path.read_text(encoding="utf-8"))
         if metadata.get("template_id") not in template_to_form:
             continue

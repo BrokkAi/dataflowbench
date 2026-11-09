@@ -231,8 +231,11 @@ pub(crate) fn configuration_hash_state_for_report(
     case_scan: &mut Option<LoadedCases>,
 ) -> Result<ConfigurationHashState> {
     let predecessor_swift = adapter_version == "0.1.0"
-        && ((stem.starts_with("joern-swift-") && tool_version == "4.0.628")
-            || (stem.starts_with("codeql-swift-") && matches!(tool_version, "2.27.0" | "2.27.1")));
+        && tool_version == "4.0.628"
+        && matches!(
+            stem,
+            "joern-swift-kernel" | "joern-swift-modeling" | "joern-swift-calibration"
+        );
     if predecessor_swift {
         let paths = declared_configuration_paths(stem, case_scan)?;
         let state = compare_configuration_paths(paths.clone(), stamped)?;

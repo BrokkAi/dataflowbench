@@ -37,13 +37,17 @@ pub(crate) fn case_paths() -> Vec<PathBuf> {
 }
 
 pub(crate) fn all_case_paths() -> Vec<PathBuf> {
-    let mut paths: Vec<_> = ["cases", "populations/swift-opaque-v3"]
-        .into_iter()
-        .flat_map(WalkDir::new)
-        .filter_map(Result::ok)
-        .filter(|entry| entry.file_type().is_file() && entry.file_name() == "case.json")
-        .map(|entry| entry.into_path())
-        .collect();
+    let mut paths: Vec<_> = [
+        "cases",
+        "populations/swift-opaque-v3",
+        "populations/precision-gaps-v1",
+    ]
+    .into_iter()
+    .flat_map(WalkDir::new)
+    .filter_map(Result::ok)
+    .filter(|entry| entry.file_type().is_file() && entry.file_name() == "case.json")
+    .map(|entry| entry.into_path())
+    .collect();
     paths.sort();
     paths
 }

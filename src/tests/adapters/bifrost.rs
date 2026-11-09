@@ -667,11 +667,11 @@ pub(crate) fn scala_bifrost_population_is_the_expanded_balanced_core() {
     );
     assert_eq!(selected.len(), expected_core_case_count("scala"));
     assert!(selected.len() > KERNEL_CASE_COUNT);
-    assert!(
-        selected
-            .iter()
-            .all(|(path, _)| path.starts_with("cases/taint/scala"))
-    );
+    assert!(selected.iter().all(|(path, case)| {
+        case["language"] == "scala"
+            && (path.starts_with("cases/taint/scala")
+                || path.starts_with("populations/precision-gaps-v1/cases/taint/scala"))
+    }));
     validate_kernel_population_with(&selected, "Bifrost Scala kernel", &expected).unwrap();
     // The classic sixteen alone are no longer a complete Scala core.
     let classic = selected

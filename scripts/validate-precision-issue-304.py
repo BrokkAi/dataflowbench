@@ -109,7 +109,7 @@ def validate_metadata(languages: tuple[str, ...]) -> int:
     for language in languages:
         pair: dict[str, tuple[dict, Path, str]] = {}
         for polarity in ("positive", "negative"):
-            case_dir = ROOT / "cases" / "taint" / language / f"list-removal-index-shift-{polarity}"
+            case_dir = ROOT / "populations" / "precision-gaps-v1" / "cases" / "taint" / language / f"list-removal-index-shift-{polarity}"
             case_path = case_dir / "case.json"
             if not case_path.is_file():
                 raise ValidationError(f"missing case metadata: {case_path.relative_to(ROOT)}")
@@ -338,7 +338,7 @@ def validate_runtime(languages: tuple[str, ...]) -> tuple[int, list[str]]:
 
     for language in languages:
         for polarity in ("positive", "negative"):
-            case_dir = ROOT / "cases" / "taint" / language / f"list-removal-index-shift-{polarity}"
+            case_dir = ROOT / "populations" / "precision-gaps-v1" / "cases" / "taint" / language / f"list-removal-index-shift-{polarity}"
             fixture = case_dir / expected_filename(language, polarity)
             try:
                 with tempfile.TemporaryDirectory(prefix=f"dfb-304-{language}-") as temporary:

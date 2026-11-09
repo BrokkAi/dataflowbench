@@ -188,7 +188,6 @@ pub(crate) fn validate_swift_population(root: &Path) -> Result<()> {
         .filter(|entry| entry.file_type().is_file() && entry.file_name() == "case.json")
         .map(|entry| entry.path().strip_prefix(root).map(Path::to_path_buf))
         .collect::<std::result::Result<_, _>>()?;
-    let actual = crate::precision::historical_paths(root, actual)?;
     let expected: BTreeSet<_> = population.paths().into_iter().collect();
     if actual != expected {
         bail!("Swift prospective population file set differs from manifest");
@@ -216,7 +215,6 @@ pub(crate) fn validate_swift_v3_population(root: &Path) -> Result<()> {
         .filter(|entry| entry.file_type().is_file() && entry.file_name() == "case.json")
         .map(|entry| entry.path().strip_prefix(root).map(Path::to_path_buf))
         .collect::<std::result::Result<_, _>>()?;
-    let actual = crate::precision::historical_paths(root, actual)?;
     if actual != new.paths().into_iter().collect() {
         bail!("Swift v3 canonical file set differs from manifest");
     }

@@ -118,3 +118,5 @@ with the source value; negative sink output must remain clean. It also checks
 computed-key executions with both an aliasing and a nonaliasing key.
 
 No analyzer output is used to establish runtime flow or nonflow.
+
+The integration registers these fixtures under the versioned prospective input root. The canonical corpus loader and core denominator checks include them; historical populations retain their original input roots.
