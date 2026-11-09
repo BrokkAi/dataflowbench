@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-swift-folded-local-constant-conditional-expression-negative",
+  "template_id": "dfb-template-folded-local-constant-conditional-expression",
+  "polarity": "negative",
+  "negative_mechanism": "infeasible-path",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "swift",
+  "semantic_dimensions": [
+    "local-flow",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "main.swift"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: folded-local-constant-source",
+      "file": "main.swift",
+      "line_hint": 13
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: folded-local-constant-sink",
+      "file": "main.swift",
+      "line_hint": 14
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: folded-local-constant-source",
+      "sink": "DFB-SINK: folded-local-constant-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "path-sensitive-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-302-swift",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}
