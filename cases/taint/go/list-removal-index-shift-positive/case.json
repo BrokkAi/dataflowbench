@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-go-list-removal-index-shift-positive",
+  "template_id": "dfb-template-list-removal-index-shift",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "go",
+  "semantic_dimensions": [
+    "heap-field-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "list_removal_index_shift_positive.go"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: list-removal-index-shift-input",
+      "file": "list_removal_index_shift_positive.go",
+      "line_hint": 9
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: list-removal-index-shift-sink",
+      "file": "list_removal_index_shift_positive.go",
+      "line_hint": 14
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: list-removal-index-shift-input",
+      "sink": "DFB-SINK: list-removal-index-shift-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: list-removal-index-shift-input",
+    "DFB-WITNESS: list-removal-index-shift-remove-first",
+    "DFB-SINK: list-removal-index-shift-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "heap-list-index-shift-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-304",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-go-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/go/queries/GoKernel.ql"
+    }
+  }
+}
