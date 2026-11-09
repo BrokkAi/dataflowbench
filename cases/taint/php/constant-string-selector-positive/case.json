@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-php-constant-string-selector-positive",
+  "template_id": "dfb-template-constant-string-selector",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "php",
+  "semantic_dimensions": [
+    "local-flow",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "constant_string_selector_positive.php"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: constant-selector-input",
+      "file": "constant_string_selector_positive.php",
+      "line_hint": 3
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: constant-selector-sink",
+      "file": "constant_string_selector_positive.php",
+      "line_hint": 6
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: constant-selector-input",
+      "sink": "DFB-SINK: constant-selector-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: constant-selector-input",
+    "DFB-WITNESS: constant-selector-source-arm",
+    "DFB-SINK: constant-selector-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "constant-selector-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-305",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-php-kernel.rqlp"
+    }
+  }
+}

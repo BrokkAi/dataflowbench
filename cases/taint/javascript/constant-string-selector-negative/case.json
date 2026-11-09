@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-javascript-constant-string-selector-negative",
+  "template_id": "dfb-template-constant-string-selector",
+  "polarity": "negative",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "javascript",
+  "semantic_dimensions": [
+    "local-flow",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "constant_string_selector_negative.js"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: constant-selector-input",
+      "file": "constant_string_selector_negative.js",
+      "line_hint": 2
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: constant-selector-sink",
+      "file": "constant_string_selector_negative.js",
+      "line_hint": 5
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: constant-selector-input",
+      "sink": "DFB-SINK: constant-selector-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "constant-selector-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-305",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-javascript-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/javascript/queries/JavaScriptKernel.ql"
+    }
+  },
+  "negative_mechanism": "infeasible-path"
+}
