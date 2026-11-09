@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-go-same-map-escaping-callee-positive",
+  "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "go",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "heap-access-path",
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "SameMapEscapingCalleePositive.go"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: issue303-source",
+      "file": "SameMapEscapingCalleePositive.go",
+      "line_hint": 8
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: issue303-sink",
+      "file": "SameMapEscapingCalleePositive.go",
+      "line_hint": 11
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: issue303-source",
+      "sink": "DFB-SINK: issue303-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-WITNESS: issue303-invoke",
+    "DFB-SOURCE: issue303-source",
+    "DFB-WITNESS: issue303-callee-store",
+    "DFB-WITNESS: issue303-read",
+    "DFB-SINK: issue303-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "interprocedural-map-mutation-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-303",
+    "license": "MIT"
+  },
+  "tool_model_references": {}
+}
