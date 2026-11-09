@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-rust-same-map-computed-key-negative",
+  "template_id": "dfb-template-issue-303-same-map-computed-key",
+  "polarity": "negative",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "rust",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path",
+    "computed-access"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "SameMapComputedKeyNegative.rs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: issue303-source",
+      "file": "SameMapComputedKeyNegative.rs",
+      "line_hint": 3
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: issue303-sink",
+      "file": "SameMapComputedKeyNegative.rs",
+      "line_hint": 8
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: issue303-source",
+      "sink": "DFB-SINK: issue303-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "computed-map-key-aliasing-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-303",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-rust-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/rust/queries/RustKernel.ql"
+    }
+  },
+  "negative_mechanism": "unrelated-value"
+}

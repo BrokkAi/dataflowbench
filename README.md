@@ -4,6 +4,11 @@ DataFlowBench is an analyzer-neutral benchmark for value flow, taint tracking,
 typestate, witness quality, and data-flow performance across languages and
 static-analysis tools. It is an experimental first version, not a leaderboard.
 
+The [prospective precision templates](docs/precision-gaps.md) add local constant
+folding, keys in one map, positions after list removal, and constant-string
+branch selection for a future release, likely v0.10.0. They do not change the
+released populations or establish new analyzer results.
+
 Swift fixture participation is tracked separately in the [Swift contract](docs/swift-kernel.md):
 33 core pairs, two calibration pairs, and ten controlled modeling pairs.
 Independent [CodeQL](docs/codeql-swift.md) and [Joern](docs/joern-swift.md)

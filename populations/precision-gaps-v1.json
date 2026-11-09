@@ -1,0 +1,2769 @@
+{
+  "schema_version": 1,
+  "status": "prospective",
+  "templates": [
+    {
+      "template_id": "dfb-template-folded-local-constant-if",
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "javascript",
+        "typescript",
+        "kotlin",
+        "scala",
+        "swift",
+        "rust",
+        "python",
+        "ruby",
+        "php"
+      ]
+    },
+    {
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "java",
+        "javascript",
+        "typescript",
+        "kotlin",
+        "scala",
+        "swift",
+        "rust",
+        "python",
+        "ruby",
+        "php"
+      ]
+    },
+    {
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "languages": [
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "javascript",
+        "typescript",
+        "kotlin",
+        "scala",
+        "swift",
+        "rust",
+        "python",
+        "ruby",
+        "php"
+      ]
+    },
+    {
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "languages": [
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "javascript",
+        "typescript",
+        "kotlin",
+        "scala",
+        "swift",
+        "rust",
+        "python",
+        "ruby",
+        "php"
+      ]
+    },
+    {
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "languages": [
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "javascript",
+        "typescript",
+        "kotlin",
+        "scala",
+        "swift",
+        "rust",
+        "python",
+        "ruby",
+        "php"
+      ]
+    },
+    {
+      "template_id": "dfb-template-list-removal-index-shift",
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "javascript",
+        "typescript",
+        "kotlin",
+        "scala",
+        "swift",
+        "rust",
+        "python",
+        "ruby",
+        "php"
+      ]
+    },
+    {
+      "template_id": "dfb-template-constant-string-selector",
+      "languages": [
+        "c",
+        "cpp",
+        "csharp",
+        "go",
+        "java",
+        "javascript",
+        "typescript",
+        "kotlin",
+        "scala",
+        "swift",
+        "rust",
+        "python",
+        "ruby",
+        "php"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "dfb-taint-c-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "c",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/c/constant-string-selector-negative/case.json",
+      "sha256": "6364268d3c64e8676789b53a6bd16292aeb99b83c110f215fca688affad788b7",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/c/constant-string-selector-negative/constant_string_selector_negative.c",
+          "sha256": "0892aa5d04e124201f333b69b0b479bf088ca3cce93ad4866c83f690a47ef02f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-c-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "c",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/c/constant-string-selector-positive/case.json",
+      "sha256": "14620d50ad221f417947eb1639b077881fecee8e16a9b8972a4c650b2d064e46",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/c/constant-string-selector-positive/constant_string_selector_positive.c",
+          "sha256": "aa4545d42c9b02bc8496e24fd68d17a8217293362fc256c13a31de85cc604d0f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-c-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "c",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/c/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "249557718afc04830fbdf2ad1b7617aa7f9d3bf11f1d0e7fc6fae2fd554bb1cb",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/c/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.c",
+          "sha256": "7b6710b4fd12008f41972a595e50739c79a089bee4f4ddb4ce25b8a513ab96c5"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-c-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "c",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/c/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "bd3133d9d37aedac3e1f288a33115b8c73ec16ba96e8e1bd81db90806d74f1ae",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/c/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.c",
+          "sha256": "685324d77958525b7197a4dda16e4c5eb9766fc1eb62bf5bbdc741c0e7d68089"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-c-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "c",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/c/folded-local-constant-if-negative/case.json",
+      "sha256": "4a383e2c3df0ca1a9917ed331b5605500298c4057faae187d9c25d9f153e6cd1",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/c/folded-local-constant-if-negative/folded_local_constant_if_negative.c",
+          "sha256": "88059f20f6b94a6e468f9edc163f6f2c1705d7c8626fffb14ca7df80a412b603"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-c-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "c",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/c/folded-local-constant-if-positive/case.json",
+      "sha256": "000c4d36acfb6e1802e030079cc38d2ab6d0b303c81386d74a3db7df47ccdf50",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/c/folded-local-constant-if-positive/folded_local_constant_if_positive.c",
+          "sha256": "d30cb0b8ddec3e6d3a2a43f01bd05dacc8cad4586cf7ff1124be736b132cc91f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-c-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "c",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/c/list-removal-index-shift-negative/case.json",
+      "sha256": "7ae09c0cbbea36876cf317eef2f1344a37275549617c81f3a9fe12d669282893",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/c/list-removal-index-shift-negative/list_removal_index_shift_negative.c",
+          "sha256": "53e3431b9dc318446315927b91c82b3c0f443197cdabec9099211d94df7bcf5a"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-c-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "c",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/c/list-removal-index-shift-positive/case.json",
+      "sha256": "2d27d70d7e3fec754e550e72647c4a23a62f85e7596ed7f6d0a28cb16f3bd529",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/c/list-removal-index-shift-positive/list_removal_index_shift_positive.c",
+          "sha256": "f8c73f82927762a953e54262a2312237be928d5fb86ad11908359b2266ab06e5"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "cpp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/constant-string-selector-negative/case.json",
+      "sha256": "7585af5466c433bc97e6f885c28a4e907f4d11489d057dcb7dac2403b10486cc",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/constant-string-selector-negative/constant_string_selector_negative.cpp",
+          "sha256": "9d1cf916705fedf9307f441836e09b06db932fca01e26e4dc4318553d65fcac7"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "cpp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/constant-string-selector-positive/case.json",
+      "sha256": "b60564c232f37b5ce36a8a1ed8b886affc5e63bf0b7c93b7a39b3af7fa0f27d4",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/constant-string-selector-positive/constant_string_selector_positive.cpp",
+          "sha256": "e88283a286daf2de0b5df2fce06686ef250ea4265018609f60f18cd393f0acc1"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "cpp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "17012ac2c91b08e84db40db875882854257e62df00e867022e650d84daed3c1b",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.cpp",
+          "sha256": "566ad996f31cb8a06ea65d615a1bb55917c6baf7f3abd8a57761472dd2b76459"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "cpp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "7e1640216a1243c7083ef44983239af6f328b58a239381641524f2bf90edc42a",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.cpp",
+          "sha256": "562dece1aad758bb69254163770621e8a18d06dc8fff47a0df29004205f1943c"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "cpp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/folded-local-constant-if-negative/case.json",
+      "sha256": "f9baaf88f46a1f8b4d47288feaf0d88b55af1058d7717450eeaa768f3809bb1c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/folded-local-constant-if-negative/folded_local_constant_if_negative.cpp",
+          "sha256": "b7a97e4d68ba2fd67d933dd93ede633e2bf536b99fbf4cd9765ea721f6c9df34"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "cpp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/folded-local-constant-if-positive/case.json",
+      "sha256": "6bd29b50db14c2dbd2dc8da8f09317e572d3e6c1942d41425689186a5d776b8b",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/folded-local-constant-if-positive/folded_local_constant_if_positive.cpp",
+          "sha256": "9f059e60a49526364ecfba174a56d344cbfec4c4f3426b0a6ca72a42eb5d5973"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "cpp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/list-removal-index-shift-negative/case.json",
+      "sha256": "9c83453d9dd047dfb38d5c5c01318dae0a627cab54af8de3c41a55b2c4a150f2",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/list-removal-index-shift-negative/ListRemovalIndexShiftNegative.cpp",
+          "sha256": "77e4e5c1e467707c29e418ff4a84365427357039d5ed6cb844ae35770cc69a68"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "cpp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/list-removal-index-shift-positive/case.json",
+      "sha256": "6375d00abb4df0115a2162db894d7a37b647342ee70e6ab329311e10efb50f0c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/list-removal-index-shift-positive/ListRemovalIndexShiftPositive.cpp",
+          "sha256": "7fe1a8fd701554cfbe959533e7882f879a464899a2dde41426d9b142d6891e04"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "cpp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-computed-key-negative/case.json",
+      "sha256": "b0a333dedf2ccbadc6454f815080192cc87bf221ac3028e2e4a9fca0fa0110e4",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-computed-key-negative/SameMapComputedKeyNegative.cpp",
+          "sha256": "e4ebcfbbcf019365cdca1ee15dca7b64ce81b0b5636379be67ca1e243ee1e74f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "cpp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-computed-key-positive/case.json",
+      "sha256": "34955a77dcd879d28d26f44f096dfc3d49c1409c1595ca6e8fa5a04144c03fd8",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-computed-key-positive/SameMapComputedKeyPositive.cpp",
+          "sha256": "d65ba72ec3e4407ed796a9f5da777405f21a8e47046fa8ab4606251539ae2f8d"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "cpp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-constant-keys-negative/case.json",
+      "sha256": "56476d23e297e272625b38c6a2338b92dcbd047b9f9eebcf1d684cc198ee35e2",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-constant-keys-negative/SameMapConstantKeysNegative.cpp",
+          "sha256": "f91a80b70667be5eecc9dcda0151151e4e936c163d14aa2c7db83daac7c87e49"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "cpp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-constant-keys-positive/case.json",
+      "sha256": "c9b5356b4a3ca89c3848ce9612f645d45101eb6ccea8566e4fa83dc5f09eb881",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-constant-keys-positive/SameMapConstantKeysPositive.cpp",
+          "sha256": "df470bc7a461703c2f267f317f7034842f33c7ba15e710fddd46d5f40bdcd2ab"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "cpp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-escaping-callee-negative/case.json",
+      "sha256": "0ba3f30784553e1392476d7af775e38c532babe3c41cd3ab23d5db18114660e0",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.cpp",
+          "sha256": "e2135feea71360d6d373246f04cb427d8fd9aabbfd0d34c6996c3e4aaf73f8d1"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-cpp-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "cpp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-escaping-callee-positive/case.json",
+      "sha256": "e481b4610c5cea029fcd3e1dd5ad56fb7cd51f4a07796534d8be918cb207214e",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/cpp/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.cpp",
+          "sha256": "cef980cc3b24ad1317b7e9c9d1a419684119d8722d96bdcecb5b814157f31f05"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "csharp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/constant-string-selector-negative/case.json",
+      "sha256": "826d6b4778d224c9e1ed6d94f591204e4bd685708919a7dbbdcb72bcf397e1e7",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/constant-string-selector-negative/constant_string_selector_negative.cs",
+          "sha256": "df5a7db0122d8c2a043e33722a914571bd5b132025c82de90dd22b3918658ad2"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "csharp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/constant-string-selector-positive/case.json",
+      "sha256": "aa46d1dec7bfb609d9eb08a963a5eaa8ac1dca087dce8e14a69f1d9da4acfe9d",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/constant-string-selector-positive/constant_string_selector_positive.cs",
+          "sha256": "a08b3c2a7c556253a211fe96a5d5dee8193fb4812fc8cdacf056d939974a1977"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "csharp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "22da5c35a06362b61f3214e39e54b599c5115e95c79b7158523fb60800576edd",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.cs",
+          "sha256": "67ed7fc875b2f56ef2ad88e08929bf9184cc0008082800c6ecc4998b889de19b"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "csharp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "6d6d1d9eec1a95a0a6113c2d7468f737ce9c4a87ae3723929a1ce614fdbf30a1",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.cs",
+          "sha256": "694f28faba370d9cb6e88147a1c589f64aa1b40328a965dc17c177b5bc6a1fec"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "csharp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/folded-local-constant-if-negative/case.json",
+      "sha256": "f9d6f17a7044de29ee54aa3e46182f3e96971f5ae75fb097bf36b6d7e93c3abe",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/folded-local-constant-if-negative/folded_local_constant_if_negative.cs",
+          "sha256": "32d84473cdabb5bb88f13c5f4716327e8de4afff09b5b4c011a14ac4f8020bfe"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "csharp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/folded-local-constant-if-positive/case.json",
+      "sha256": "7a2191e25996321c4c635c64285fdce72e3b0ee88db8a780782cb35873e68ae2",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/folded-local-constant-if-positive/folded_local_constant_if_positive.cs",
+          "sha256": "029551f165c6d47a9d80deddb894f91dc57ae3b99cba56283ed2f565918a8a55"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "csharp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/list-removal-index-shift-negative/case.json",
+      "sha256": "f061378039dbbf7af4ab701f98af6bd349adff9184d86eac9b3dcf931292cbd4",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/list-removal-index-shift-negative/ListRemovalIndexShiftNegative.cs",
+          "sha256": "c7bd2580b5e31b8804026b702db90524ec0d84e880993cbc38787fc9c476ee84"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "csharp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/list-removal-index-shift-positive/case.json",
+      "sha256": "c9e4824c8059105060c17a1f66266e834ff28b0b0c3a7e2a2dd668140f302c01",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/list-removal-index-shift-positive/ListRemovalIndexShiftPositive.cs",
+          "sha256": "39a71e029aedb7cc25dc11a094f146e934aec3671ac601cce3f8dc88325d7928"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "csharp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-computed-key-negative/case.json",
+      "sha256": "f904a6a0e81c0e8cb702df717234af9ac29055d8cb9db3424be8ad38ffb97ce5",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-computed-key-negative/SameMapComputedKeyNegative.cs",
+          "sha256": "463c2693c0eaf20d64d1109175f845d5fbf033786584e3eaa33a34a1fcb9335e"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "csharp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-computed-key-positive/case.json",
+      "sha256": "4d9aac64b383dee9728edf21a0cc8285be6c7737ebe18575196b9750a2b814f5",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-computed-key-positive/SameMapComputedKeyPositive.cs",
+          "sha256": "3f373c81c7bd680a676ceec3885bf2692584c59c07b87c545761738c777e7827"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "csharp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-constant-keys-negative/case.json",
+      "sha256": "6152e1f766e3f2724097eff75011a555d85bf0f565fb91d8d4eb55c4628b1646",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-constant-keys-negative/SameMapConstantKeysNegative.cs",
+          "sha256": "bec108d7b57d23eb5d96394c646ba26fabc483512a86cf016d92a42cda1cd14f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "csharp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-constant-keys-positive/case.json",
+      "sha256": "9e658ebf095d84981ec91d4299c4cb264e0f0c0c57183d147949b2430da0bd27",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-constant-keys-positive/SameMapConstantKeysPositive.cs",
+          "sha256": "7478d88d2cc08e0bb323f919122f1c014f693462c5b6a2e40710dec43c33c24e"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "csharp",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-escaping-callee-negative/case.json",
+      "sha256": "1a67523ae77699b0d89c928e4332472e5ba6c494ffa599cda4d1cb49b7d0cb76",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.cs",
+          "sha256": "a9898a98e2ae9530f908486db5153eb0e59120f87919a5ccd473bbc0b66e1f4e"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-csharp-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "csharp",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-escaping-callee-positive/case.json",
+      "sha256": "29de7616553908e1d93b288a92a0c17f7eb12627cdcfa7d36702b3c24a6614e5",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/csharp/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.cs",
+          "sha256": "90b30822789f28c379dc222f15c0a95e9d3f6010d87cb0eadae0a7fe2aef2fe4"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "go",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/go/constant-string-selector-negative/case.json",
+      "sha256": "782c318dbe7ebd5f8c9359d84ca9c7db39e3ed8dcbc2a191f3e07e1a6188f9db",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/constant-string-selector-negative/constant_string_selector_negative.go",
+          "sha256": "41f96cf39662050e2a189e90a588e133b0f9b421f6c13e8dd0e85fd133b94a42"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "go",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/go/constant-string-selector-positive/case.json",
+      "sha256": "f9da731fedcf305cd22e0a7e6bfeaefc13b715548c12c85eef2f7ab57b1ea594",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/constant-string-selector-positive/constant_string_selector_positive.go",
+          "sha256": "46e4dd5363229efc31a7356325fe7eeca2b8401814ded537b3715d9c4ebe946d"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "go",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/go/folded-local-constant-if-negative/case.json",
+      "sha256": "d97f3f134b33c2b49e9b686589adf957d029e682ca8dfcd2006b8841fbc0c2a1",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/folded-local-constant-if-negative/folded_local_constant_if_negative.go",
+          "sha256": "55dc0fc8fd403f7337d0ecbb9da0cc0c46bc8375662ea4e39d0f598f2c37209a"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "go",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/go/folded-local-constant-if-positive/case.json",
+      "sha256": "29c06558f2ef2ffe583b83f88d8ae4b7f95db8d84bcf7dce5520b695bc9a5b33",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/folded-local-constant-if-positive/folded_local_constant_if_positive.go",
+          "sha256": "763b1d9cd929fe546345069ff04798a68aaa1570d180d45fcf48d792595752d6"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "go",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/go/list-removal-index-shift-negative/case.json",
+      "sha256": "532f3daa90da6fffe0ecc8376132a3bcaf78279e95c21ced5d987ccc064e96f8",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/list-removal-index-shift-negative/list_removal_index_shift_negative.go",
+          "sha256": "3ab196dd351209f6793d4df0b9b98de53016654d670a6eafcb7b0352260a6d1f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "go",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/go/list-removal-index-shift-positive/case.json",
+      "sha256": "4e5c3ff78ac47db4193d4bf95ffb767945368ee57ba49102949e0da35247f347",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/list-removal-index-shift-positive/list_removal_index_shift_positive.go",
+          "sha256": "728ce20a1a417c5788fbc0e0d978378920a91668e407105b4ad8184b1d81574b"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "go",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/go/same-map-computed-key-negative/case.json",
+      "sha256": "6cf0d9b15c3043386a7c45f1051c894ddf438463050b6a13dae14dc755491d07",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/same-map-computed-key-negative/SameMapComputedKeyNegative.go",
+          "sha256": "361ed6f5798857abb171e9e10a7ac662b5026c859f13db9bd521582164ea6298"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "go",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/go/same-map-computed-key-positive/case.json",
+      "sha256": "129add83fe3b6722614bab1281079da8b62658e884a17d9300d2c1127ddfc1d4",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/same-map-computed-key-positive/SameMapComputedKeyPositive.go",
+          "sha256": "eb3a404bc808b19b1ee0ed6bdd784f87df2391217a49b78124775f631ee30200"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "go",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/go/same-map-constant-keys-negative/case.json",
+      "sha256": "829ce7a03c62d9f1505a16788c2a59a38ec09c4c5a3117a881777f188d8b2505",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/same-map-constant-keys-negative/SameMapConstantKeysNegative.go",
+          "sha256": "4fc2a59e655a17134c0bf3e79da547878ed5426334b43d0f7060ebb194132a97"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "go",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/go/same-map-constant-keys-positive/case.json",
+      "sha256": "6b4fb013255e1e0c18de8c0739d40a1cc3205c7e34a1aec143d3db1a8d7d3306",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/same-map-constant-keys-positive/SameMapConstantKeysPositive.go",
+          "sha256": "6aac6624e8f38bcbcafd7cf7c7f67b17952654ecfb7120f2fad2327db9f3f413"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "go",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/go/same-map-escaping-callee-negative/case.json",
+      "sha256": "f5b5d105be6ec75f8f5185c5ab779a034b210550569571d06aa50f7bc1436fd8",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.go",
+          "sha256": "3aa25a2095129830ded1ec2ee1ae9e2e466f77af242b26cf68b6613837b1ee9f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-go-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "go",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/go/same-map-escaping-callee-positive/case.json",
+      "sha256": "385076893da0991aa7daac2a1b7bb125094485792bbd705a8946f7ad61fc4d56",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/go/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.go",
+          "sha256": "e556a0ca6181e489d5fcca827f79f7faad491a7e7fd8b89cde57ec4a3810b99e"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "java",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/java/constant-string-selector-negative/case.json",
+      "sha256": "5c3dc5f344c016ec6c550dff07e7e207dfd23e7aa726eae9c0d1e3f5441c751f",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/constant-string-selector-negative/constant_string_selector_negative.java",
+          "sha256": "8c7328748098e2cc1799d052d079c37622aaa83406a9077d32da3d50ffd33514"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "java",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/java/constant-string-selector-positive/case.json",
+      "sha256": "0b4baf9b57dfa24d96c5ec0a341b7cdf3c1218f93653825c6d03b582028da58c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/constant-string-selector-positive/constant_string_selector_positive.java",
+          "sha256": "12524bf5e7c8a744178624be9849f80631240df1b8e0c2c6d70df91d3c84ee2e"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "java",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/java/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "9e0cfb906b96545ebf36532e5d378eaa6aa24352ea2916f34c54e949ad3f5edf",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.java",
+          "sha256": "7f460279d8ba23ffd2f0c9257fe44256e15314f4b6f07af0159e0d72c82187af"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "java",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/java/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "66970b8fccc931e8f923cb419ee52a99f1abc4876612216e3d95b50c3a11d34a",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.java",
+          "sha256": "105c58898ab7a3f735290148f5235d3b62c341da00b11968845f8112dfa76d0a"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "java",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/java/folded-local-constant-if-negative/case.json",
+      "sha256": "3ce0cb27b38eeac3ef069fc454b6d1d881b4eaaabd1b2e343c49c8981981bc86",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/folded-local-constant-if-negative/folded_local_constant_if_negative.java",
+          "sha256": "f62daac0b24043389e69990215e2d4a9c0407879fd37ccad8f669eb3b1a27d4a"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "java",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/java/folded-local-constant-if-positive/case.json",
+      "sha256": "d067b154d502f8d0863761913ce0b912209b822c00838255fb5883dd4ba0e634",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/folded-local-constant-if-positive/folded_local_constant_if_positive.java",
+          "sha256": "2826116179b88d60863e80e1bd8838704a5e99ea1f1c800fc2a7e63726e89996"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "java",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/java/list-removal-index-shift-negative/case.json",
+      "sha256": "a54cf7b5e8b890834b1abf44a5f15d305b3dad6588155d50904aa50ffe0fa7a1",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/list-removal-index-shift-negative/ListRemovalIndexShiftNegative.java",
+          "sha256": "dcb54fe1474f6c8b5b7679a43ed4bfe5ed585bf7fd03f59dc41d76f8d5c12af8"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "java",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/java/list-removal-index-shift-positive/case.json",
+      "sha256": "1c4693e912e299e2de24a68676ef684f2fd6f1afecd4a32471012f99dce90d6c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/list-removal-index-shift-positive/ListRemovalIndexShiftPositive.java",
+          "sha256": "574be2a1a8c887c6d0377724363b23cb707eccfa057557edd77cdcf5d638bdf6"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "java",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/java/same-map-computed-key-negative/case.json",
+      "sha256": "d74ba3943430e2728a1be7014de9104e475439916319aa2ec175327682df0ebb",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/same-map-computed-key-negative/SameMapComputedKeyNegative.java",
+          "sha256": "de1b76f25971869b77e778613f5ffc17dd92991a17c0704b412d1cca3ebc635d"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "java",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/java/same-map-computed-key-positive/case.json",
+      "sha256": "9d1036dafbece19afa370e201de8d829475a9afeb026a6f44e7e6ba550def02c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/same-map-computed-key-positive/SameMapComputedKeyPositive.java",
+          "sha256": "5e13e6de3c9269e8bc982722dc08159b6d700f3d29e7dee6f0144564b8265bdd"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "java",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/java/same-map-constant-keys-negative/case.json",
+      "sha256": "c6245b3dc9050b2687d92c0a53c80b6e262aec605ddbe333b7d9262600f3cf36",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/same-map-constant-keys-negative/SameMapConstantKeysNegative.java",
+          "sha256": "05e69454a5abb8e02174404b152b54f9023449e59c896d82d1500c8deed194b9"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "java",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/java/same-map-constant-keys-positive/case.json",
+      "sha256": "7bf22b2e0cf5a118d0db6406a40c2707d254ba9e6fea1edaf0f0fe8ea8ee2b56",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/same-map-constant-keys-positive/SameMapConstantKeysPositive.java",
+          "sha256": "0ca6a1d0bcd80754e0751df47fb221de0cc5aab9d53e560e5a4c99ce841d8f48"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "java",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/java/same-map-escaping-callee-negative/case.json",
+      "sha256": "233f83c21218079de1f7c798bdcc9eeb71bc64f679c0982913f0ff8955ba3c65",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.java",
+          "sha256": "b0f78c9097e20b57c87a2b10982035dbc5347bc2900fc1245e69614815fdcba2"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-java-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "java",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/java/same-map-escaping-callee-positive/case.json",
+      "sha256": "8e4dfc7158f8ca94c8b76efb2595bc5e1194938f5d7e0246de2c1b7a32c74490",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/java/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.java",
+          "sha256": "3c1803493ed44fcb3c6abf6868d85719f49459175f0b661fbf6187fcaae3d2fb"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "javascript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/constant-string-selector-negative/case.json",
+      "sha256": "9c2615bb6b293829bc19f05a45c03db6dd1acd0377181e44cea2d011aacac9dd",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/constant-string-selector-negative/constant_string_selector_negative.js",
+          "sha256": "563f343cc7b019343cb52598caef3be01484904e15514c53df9f893235a994da"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "javascript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/constant-string-selector-positive/case.json",
+      "sha256": "89bb9d84819af73de6e96a1d4a038adf3f5f02ddf48ee8ca84a5ffb684d51d7c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/constant-string-selector-positive/constant_string_selector_positive.js",
+          "sha256": "2fb4bbc1d6f72b0275d6e94a2417f5b79327b44f15cdd33b058b9cd16782d4fd"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "javascript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "62c731e7bdf0b8ab1339047dcfb1d3b767851128213ac02a6dd4eeb7f7d4f8f1",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.js",
+          "sha256": "99bb864e47c9eadd804ff61b3e657e16efb4f2a38601a65a59914b4ea8d587a7"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "javascript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "0ee7e9df7563436b8ee66e05d572c2753ef1992c882eb477539a64d5031a6919",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.js",
+          "sha256": "0e5ff8de3afa78fa57546be42973932948f0d8c917520a947f56fee40797fa2b"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "javascript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/folded-local-constant-if-negative/case.json",
+      "sha256": "924cc3d74651af40efcc28249db6799a52326e86fb4c0775c1cde46f48a7151a",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/folded-local-constant-if-negative/folded_local_constant_if_negative.js",
+          "sha256": "561f8d6161d7c038049a8625b526aea8f104898757f70d4f372cbc635e109245"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "javascript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/folded-local-constant-if-positive/case.json",
+      "sha256": "48b081317a45396643dd29a1a526391227e739c81e0f0c8e2923e74dea1f2fa3",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/folded-local-constant-if-positive/folded_local_constant_if_positive.js",
+          "sha256": "acd2661b03b42a582d98a4988b58d648dac9bc7af25ea6f183b849c4b49a70a8"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "javascript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/list-removal-index-shift-negative/case.json",
+      "sha256": "9ce68dd007698809a02e3248db78f19badf9507b7e0a4b5f4cabd826afffbfac",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/list-removal-index-shift-negative/ListRemovalIndexShiftNegative.js",
+          "sha256": "483a6ecd38e5b5200e5e7303b32ed1c0d18607e63bb31f240f7908c79d1ca02f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "javascript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/list-removal-index-shift-positive/case.json",
+      "sha256": "49ab95e6eb1ef8842f7c80b0ff47fa01f51cedac2f7954ecf9d06d7d7374c555",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/list-removal-index-shift-positive/ListRemovalIndexShiftPositive.js",
+          "sha256": "717a6da8d5a664526282118454759e607a379d0618f6ec968ee1b435f56c850f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "javascript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-computed-key-negative/case.json",
+      "sha256": "e8a83376caadf23426da788ce159ed515186988603d3dfb2aa4957e36e8d1191",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-computed-key-negative/SameMapComputedKeyNegative.js",
+          "sha256": "261eb5340c64c1fd612204ea519263879b7672b782e898d62eebd877dacca86d"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "javascript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-computed-key-positive/case.json",
+      "sha256": "9fdf56a4c9cf673aac1febe6c44d4820bd851c26c6ffd45582bbecdaded33696",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-computed-key-positive/SameMapComputedKeyPositive.js",
+          "sha256": "5f8880ce551e175f8df7a380d462598edbf1c005e9129700da12daa84e53ded5"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "javascript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-constant-keys-negative/case.json",
+      "sha256": "9374c71cb085c56b5f473e6e4b478f3c12590b30700306055ae46691f02edb49",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-constant-keys-negative/SameMapConstantKeysNegative.js",
+          "sha256": "b60cab725a141760108457ed40712ad0e39801106c2cf3393b06e48e7eccbb87"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "javascript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-constant-keys-positive/case.json",
+      "sha256": "833908bf83f8d989e3c099e733090aabc8caccd8be13557a0d02a7200a8b65eb",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-constant-keys-positive/SameMapConstantKeysPositive.js",
+          "sha256": "c979c3c50823474f75e9b866d3b53fc713332535338bf4d9115dbbcbed5124b6"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "javascript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-escaping-callee-negative/case.json",
+      "sha256": "b292e1f3b8cd2c37bd0a51a229e2f613794a1fa62fee91ab69756cff845fddc1",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.js",
+          "sha256": "4c591fd3182a51e025669051b5dbc9876e740480a58c62a9d28f14986917ca67"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-javascript-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "javascript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-escaping-callee-positive/case.json",
+      "sha256": "1be17ebff379a728c9415024bb81e7cf0685481e4f52dbbe0d99e6da6f225025",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/javascript/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.js",
+          "sha256": "563666d98aa7abeadcf9595aeb4970f6f59453bd3f5967fec3fac91f565bc4f3"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "kotlin",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/constant-string-selector-negative/case.json",
+      "sha256": "82c6e6ae9f3bc0220b6f12834696b67ca9a3f7910db669019270b1dde1ed64ca",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/constant-string-selector-negative/constant_string_selector_negative.kt",
+          "sha256": "9d9f59abc6140c50c2b6c187353bb58eafadbf6126a92d39c369feff46a023ac"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "kotlin",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/constant-string-selector-positive/case.json",
+      "sha256": "686ce433e217ff41920cb8917b94f4b64a7f093ef44e4dc8993e6e1bc144116b",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/constant-string-selector-positive/constant_string_selector_positive.kt",
+          "sha256": "f0892f5e3b7663d9b318e49750efa787766fb763cfe95e8f3f818b85534dbead"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "kotlin",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "e451e77d6c2a3ac6d4321cd03f70231aca7a9e5021fb0e8badea5a2fe3b2d626",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.kt",
+          "sha256": "d96822591d81f00162bbe2914835459b3d13d1206d16f80961253ffdc44404e6"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "kotlin",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "a271f2800f98d61c75efc4d23e326965988e6b311e71c2e009de31d9e999c8e5",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.kt",
+          "sha256": "add6ec31cd0176046cd2879685d77d50ea1b4357dd61bf506fa05eb1918e9c14"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "kotlin",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/folded-local-constant-if-negative/case.json",
+      "sha256": "9df21fbe8fadcefba7f6987191eb24a74a90dfc0228317853a8805be79ce082b",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/folded-local-constant-if-negative/folded_local_constant_if_negative.kt",
+          "sha256": "793349349d80f2d653a16c20119051854f87b080ce3f5b171b085fa1d611f055"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "kotlin",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/folded-local-constant-if-positive/case.json",
+      "sha256": "98f16efe5a4e60ea7ed801fd872bf0a89898c7f45c5c62a41cb0227c9b317d36",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/folded-local-constant-if-positive/folded_local_constant_if_positive.kt",
+          "sha256": "3e75a63e212f4650a79cdb6f667f2468557a8399a655eceedcb53ef266a8b3b7"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "kotlin",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/list-removal-index-shift-negative/case.json",
+      "sha256": "7e314114457538a159a9b7cf4d204fae0159712e21c3db5f7564de1328747fd8",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/list-removal-index-shift-negative/ListRemovalIndexShiftNegative.kt",
+          "sha256": "a222c2b0336f04fe43adfd1562f1cf9bc9b408997675f5ef7ccd92eef1799856"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "kotlin",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/list-removal-index-shift-positive/case.json",
+      "sha256": "c7a7339ea220acf1a8d7c0314145cebe1c67e05abd38d36e0929994f67f8667b",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/list-removal-index-shift-positive/ListRemovalIndexShiftPositive.kt",
+          "sha256": "91cb8d6c6c5d1fa2bec7497629bd5157e1aa31855f0be2fc7a7346d0ae4b318d"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "kotlin",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-computed-key-negative/case.json",
+      "sha256": "440405c44d178abd08cb458fe35a8f63f47ba71bf6c31b4148e13f40c473fcf6",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-computed-key-negative/SameMapComputedKeyNegative.kt",
+          "sha256": "cfa33797c2e4904ecde9a48c6e0a73971ddddcd52d869ddca31a9c486b1bc1eb"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "kotlin",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-computed-key-positive/case.json",
+      "sha256": "83b93defd154bfa69ac1266f51ffec45a6d7688f3f4ca4efa625e48266f4da36",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-computed-key-positive/SameMapComputedKeyPositive.kt",
+          "sha256": "9d1241b4b813e18efa73bfe6e9f7fa90028256a9db43b3a0fae04282c13c0b2e"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "kotlin",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-constant-keys-negative/case.json",
+      "sha256": "e94889ca1590c2a95cc777112d7cad46db1e90d6243e23eab9cf32a82dfed9d7",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-constant-keys-negative/SameMapConstantKeysNegative.kt",
+          "sha256": "54bd30686165e8a1c2d8a3bc4fc293344229f989ca2b5dcf0001b83cf1ec79a5"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "kotlin",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-constant-keys-positive/case.json",
+      "sha256": "eea2ac2e81e81ac9685233054b5922ed254e092ce10824d1ae8852385d799496",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-constant-keys-positive/SameMapConstantKeysPositive.kt",
+          "sha256": "7fa10f431e66a50d0e5aff801762be62d169933c3810abe760808ffa3d7fb1a7"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "kotlin",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-escaping-callee-negative/case.json",
+      "sha256": "db2a5337f91d27ba7d5e6f41c649fa83a3e2a1245c82d9e748be3af22870ebfa",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.kt",
+          "sha256": "54b2d850acd36c5f13e46309a09fc4746c8a9a661727746e36341a481af7db86"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-kotlin-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "kotlin",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-escaping-callee-positive/case.json",
+      "sha256": "51a91d5ef9f1fd0508c7e899588415da4ea995b904f5bd421abfb09f02921b4d",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/kotlin/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.kt",
+          "sha256": "4a9fe84762cc2b418f5f3f7cc7d285d90c6daf81ea84c99c845603c8d4080fbe"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "php",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/php/constant-string-selector-negative/case.json",
+      "sha256": "398beca70f429658a77adea2691156053d6fb0e4c9c8dc0179065d9e37698536",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/constant-string-selector-negative/constant_string_selector_negative.php",
+          "sha256": "746e2c0e5bf541f09aefcbc36ea2d58f1a90715d4adbf562fb6433f022878b27"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "php",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/php/constant-string-selector-positive/case.json",
+      "sha256": "a889f3a71dc66871c2bfeff64d3e95b5e96908af39f29782b9b0ca09e03a101a",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/constant-string-selector-positive/constant_string_selector_positive.php",
+          "sha256": "f5f3b211282cce450405755085a09b138d924265b4adb6452c926c42bdc7198c"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "php",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/php/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "3783915109eda7db457bfa53f33cc697cf45328b69b48a76f42d0f1a5e84010a",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.php",
+          "sha256": "31f6a0b49fec5ead5e660eb6ac83e225ac7fb5658e3ee43626abc2060b2fff4a"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "php",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/php/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "424a4996307a9063ba8973692dc6356f4d75def9a8bab8f5a9a78601499a8546",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.php",
+          "sha256": "72f49e7144cfabe2303eb7f946db0b02352d29219382698321b113dfd3e90eb2"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "php",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/php/folded-local-constant-if-negative/case.json",
+      "sha256": "d7adc97de145a2bea8f81e9f08949d8db8a0f73983aa8a3599ba4fd5f6eb17c8",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/folded-local-constant-if-negative/folded_local_constant_if_negative.php",
+          "sha256": "0c079bc104e4a057b00b92b82ffc68a6832475554df140af87dd9d8ac568bfd5"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "php",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/php/folded-local-constant-if-positive/case.json",
+      "sha256": "0c6558aff92873a5a167935b6d129943290e547e1c204a266a5776aae5dca06f",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/folded-local-constant-if-positive/folded_local_constant_if_positive.php",
+          "sha256": "2c165b41321fe31517a6e56049e7bb7149348590d26221c3e523b28776568754"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "php",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/php/list-removal-index-shift-negative/case.json",
+      "sha256": "8cfcd0aee1da65797d869b909d0a850982c5a52c96ae29ee1533473607d18df6",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/list-removal-index-shift-negative/list_removal_index_shift.php",
+          "sha256": "760306ca89d1ed9836a1d68b38eae8f4d855331a1699f1412f3a32140b3e0aa6"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "php",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/php/list-removal-index-shift-positive/case.json",
+      "sha256": "1fc011f7dd949cf175fa2e4058ca83de4696cf72b663beffb486cfca48547cce",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/list-removal-index-shift-positive/list_removal_index_shift.php",
+          "sha256": "3b10f9b08238da60141cb3cd14941e8fafa82924516187fca6fa330f70f3e4ab"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "php",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/php/same-map-computed-key-negative/case.json",
+      "sha256": "30625c899ce68b05e75efc2f613629a9326e620eb69f25bba848f8bb6a2db249",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/same-map-computed-key-negative/SameMapComputedKeyNegative.php",
+          "sha256": "e9660ac7ca35b7b39ecaa5fccb0420a977615c16fd49274e3c9ea2a2c6ce0124"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "php",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/php/same-map-computed-key-positive/case.json",
+      "sha256": "fe4ccf4876d1a0f52afee21e98cff7633a8c79103dde0135a1c04b5c108ce3da",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/same-map-computed-key-positive/SameMapComputedKeyPositive.php",
+          "sha256": "c61a1619c8cde3e8e9cc81725136ab7af7e58d0aeb97b8de0a1dc835c4e481c7"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "php",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/php/same-map-constant-keys-negative/case.json",
+      "sha256": "7c0905ed4f6040bdc116cd56d33caa930bb751ce486ddf34d0980f2bd1519dad",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/same-map-constant-keys-negative/SameMapConstantKeysNegative.php",
+          "sha256": "3a998a36233256d7c6c71e4dee75bc99a7c14c7d6d13f0edae758d7ba4155415"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "php",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/php/same-map-constant-keys-positive/case.json",
+      "sha256": "cd269691afc92ce50cd6ca8d3d5c6e81ec32d0d66e6ae3c1b871d050e2a7a4ed",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/same-map-constant-keys-positive/SameMapConstantKeysPositive.php",
+          "sha256": "601d5c9faf865d3ceb515a8df119d8869e7bc36d0f39335ab864145176fcba94"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "php",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/php/same-map-escaping-callee-negative/case.json",
+      "sha256": "54b333fc5533418021c03707267133ece8388d7023be12850e3657b70c406b93",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.php",
+          "sha256": "651c0029223394de333d85b35cf69fa36542d59a4999393251b2c22f534a83cf"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-php-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "php",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/php/same-map-escaping-callee-positive/case.json",
+      "sha256": "6101638e3a0f2890b2cfd8be63fcf4138c123c4d8ac22b18f10de2bc3e5d3a85",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/php/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.php",
+          "sha256": "63056ca862364dcd6f07bb6b11d5de041dc72175b1b89c92d53a761934c31b62"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "python",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/python/constant-string-selector-negative/case.json",
+      "sha256": "385b3508e22f6b05aa53700e283702c9ad926181c665d6b2e0dfcaa0c062ff56",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/constant-string-selector-negative/constant_string_selector_negative.py",
+          "sha256": "6768a1d68e5392dc5b84114948b39a9722cd301b67b29dfb4309d7b275fb72b7"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "python",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/python/constant-string-selector-positive/case.json",
+      "sha256": "27f5f4076c680a32c41c29a2e0488a529efbedcda11756dc500b6dfd03153d2a",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/constant-string-selector-positive/constant_string_selector_positive.py",
+          "sha256": "af6c098b7bb718d3eb33ce529f811fbfb7d45b67b7b49fcc314ce31567051ea7"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "python",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/python/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "398d42241361d869149567bead640693a96adb7887027242969790a9ea36ed96",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.py",
+          "sha256": "1d736daea8bc0426ed6ec98c5fba6e2654a7bee8b5eb20dc1f84cbb68a8a9dac"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "python",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/python/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "d08a047bebd4a2641bf139306d9cc58007aba52f8475cb57493381f4f1dc5489",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.py",
+          "sha256": "05035c8a693397fbc66c04f3cb14d9506b883ed601a6855687c87997e4726d73"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "python",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/python/folded-local-constant-if-negative/case.json",
+      "sha256": "e0eb783d7c3b43fb3fba7b41b35ea80e3677f73f2c1780b4636dea7b1b36f06c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/folded-local-constant-if-negative/folded_local_constant_if_negative.py",
+          "sha256": "868b02672614fb5485822a31bfd31b1906a18eafc981d28a0880c8b259089cab"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "python",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/python/folded-local-constant-if-positive/case.json",
+      "sha256": "a23d407c6ec37e833ebefd03f44991dd2ba4d174c61d436fe627ec86e4852e2e",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/folded-local-constant-if-positive/folded_local_constant_if_positive.py",
+          "sha256": "7fa604b98a347f91a5f44a5d390332294f927acf67f941eb4fcca994b5c9884a"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "python",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/python/list-removal-index-shift-negative/case.json",
+      "sha256": "eb8309426e936fa90aa407690348283bc858c9760be42ad1918d348fa6c0ff78",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/list-removal-index-shift-negative/list_removal_index_shift.py",
+          "sha256": "4d2f2e63bcf156a919e150203df9d1930e0dc4ffc18993e71dd61730b2aa1623"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "python",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/python/list-removal-index-shift-positive/case.json",
+      "sha256": "36f259737915189a7848e529e688eb8134e19d16221b7019a0f44c11540e0a6c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/list-removal-index-shift-positive/list_removal_index_shift.py",
+          "sha256": "cceeff4153e4a8db1374506795a8a3121bb950cb9d415e639af34e13e4ae2962"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "python",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/python/same-map-computed-key-negative/case.json",
+      "sha256": "af236b43590c42ff0ab38c69c1121f4f2eee3da649f52f5a0654c481bacab533",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/same-map-computed-key-negative/SameMapComputedKeyNegative.py",
+          "sha256": "1aa532c02699e42526cbaf5d53bd47965ca6958aa8a088e2c4258ea2b69780df"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "python",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/python/same-map-computed-key-positive/case.json",
+      "sha256": "4624990a6ef487c4687eb2d39727d07508cf1cd1b89c2bbc626bf78935951cb3",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/same-map-computed-key-positive/SameMapComputedKeyPositive.py",
+          "sha256": "fcd59d67e4d503c9797e6d961cab8f932e929f099693fe61e6c7299609d11e10"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "python",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/python/same-map-constant-keys-negative/case.json",
+      "sha256": "4d18a1d10ec606d8a7ae58e8deb41a2f65be84c24d4035215c4c23d17a20c354",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/same-map-constant-keys-negative/SameMapConstantKeysNegative.py",
+          "sha256": "3c1313e237d63bb456aa1bc1715f94a8e8843acba99381b828fe09c5789d3be8"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "python",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/python/same-map-constant-keys-positive/case.json",
+      "sha256": "153504661f2bcba8e4ca317eb6e7ddb4e7000bc6802fec4079f9e38edaccdf07",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/same-map-constant-keys-positive/SameMapConstantKeysPositive.py",
+          "sha256": "c169ce650acd7aa70d9e5bd54d762bdfb6c16f59f2b98fb1d7c91eff95462585"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "python",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/python/same-map-escaping-callee-negative/case.json",
+      "sha256": "9cc735aacdc5ff70fb7249d90b860fdd8843d7737e471109280b144c97687226",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.py",
+          "sha256": "c97733ed1fd499a68929ec74c242683754a67bebb2c3363966604d0a1c9ca852"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-python-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "python",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/python/same-map-escaping-callee-positive/case.json",
+      "sha256": "f9bb647d4410ef6164290b73bd92e8c39d695889ce9c2022813efef3d3cd8309",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/python/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.py",
+          "sha256": "b9fa061ce7fa66a4afb78d0952ee1169370291342beef67293c41459e78440a0"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "ruby",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/constant-string-selector-negative/case.json",
+      "sha256": "ba92c06aa9e970fece4805286779aa6d13cc2e2308b159a490f72fd37d4f744c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/constant-string-selector-negative/constant_string_selector_negative.rb",
+          "sha256": "2604fc786c608c6066d01f5d2d8f4f7d60578f2c94e135cf7fe3524863adb78c"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "ruby",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/constant-string-selector-positive/case.json",
+      "sha256": "08da2309510a2115b140ec074ba73f0672c54c670a39d477c4db62106a89b593",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/constant-string-selector-positive/constant_string_selector_positive.rb",
+          "sha256": "0e57915943b348456db3fefae00fc29d08a1fd0201c6d9be5c3db62275d961d8"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "ruby",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "105125815ed718e9815247946c43cff48065c7fcc4d0e910af84d4119f70738d",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.rb",
+          "sha256": "2ec12ae5ae958643298e2fe31ec845d18391bd312950de624e6a6648768a0332"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "ruby",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "25ea0122469ce53ec28cde8a211b6f50fedacbd7194e908ea32d2eec7ead5ab0",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.rb",
+          "sha256": "56685ed14da622c8787ee64331fa19883d2e75fe32f6bfd98fd59eb1169ccec4"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "ruby",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/folded-local-constant-if-negative/case.json",
+      "sha256": "826e8f9c4bfb240c73819c19c3006cbb7d1ab567a614c407c85adaa8b2dc36f3",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/folded-local-constant-if-negative/folded_local_constant_if_negative.rb",
+          "sha256": "287b680e1b2442ebf4b0b6e1c2008450430bcaa239da546e0ec6a3d8e4d9a5e4"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "ruby",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/folded-local-constant-if-positive/case.json",
+      "sha256": "07f7b4d166c35ef276f8a5d23a875a7f74fd50fdc93088b076ec8e0489c85ae8",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/folded-local-constant-if-positive/folded_local_constant_if_positive.rb",
+          "sha256": "c7c3687ab780d4aede5159005cdf5601afbea22fef820b05211a5bb4262c6cba"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "ruby",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/list-removal-index-shift-negative/case.json",
+      "sha256": "c059c49dcaf6b9b00f8dcc41806dba99df4654fccf61cf284b76f2b104803cc5",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/list-removal-index-shift-negative/list_removal_index_shift.rb",
+          "sha256": "f21bfd5bde7ae6f6f091985861cfb85dc77804944c1f875383fd6d1358436802"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "ruby",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/list-removal-index-shift-positive/case.json",
+      "sha256": "4032983d228f821f419e9b4ffb393310f6837b861aa575e11367179ae0b09b67",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/list-removal-index-shift-positive/list_removal_index_shift.rb",
+          "sha256": "96948eeb715d9e0164059e643f2ab6b83240d57c4ca3b5e48c56f329af0403b9"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "ruby",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-computed-key-negative/case.json",
+      "sha256": "317102731da18501e0a1e4b9a317ae9a9fd2af59599ac17651f4ac5dd93e6e60",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-computed-key-negative/SameMapComputedKeyNegative.rb",
+          "sha256": "9a3b6e329ff83ce2e467e88f2bbbb722153958e5204df70d3e8ea45b575db110"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "ruby",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-computed-key-positive/case.json",
+      "sha256": "e36274c34177994537a455b77b930cee332ff3748070d038f11db83734f95906",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-computed-key-positive/SameMapComputedKeyPositive.rb",
+          "sha256": "00930dcde034d8e262701fc2e14eef455456e0741066f8340c17556d8f35a719"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "ruby",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-constant-keys-negative/case.json",
+      "sha256": "3fb8693f1a432d68f19f2723968bc0cc856514eb69966ceee6406adfd68b7eb1",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-constant-keys-negative/SameMapConstantKeysNegative.rb",
+          "sha256": "708b41f37a464c81fc6ee90205a5000e7a7fc1a4c3af87799ab71d544db2f98b"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "ruby",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-constant-keys-positive/case.json",
+      "sha256": "eb202586d40e899911a05a703f084636615b16f7c1b255ba45106eb14c7fdd8a",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-constant-keys-positive/SameMapConstantKeysPositive.rb",
+          "sha256": "705ef16db368948d75f93ea57cf7bc5136f2ffd3e87b23cbbcee325039a0a7a7"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "ruby",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-escaping-callee-negative/case.json",
+      "sha256": "4f0bc7e4ecde981cda22369d3299c4bde253b807338b5ca9d24b3d65a8b3291f",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.rb",
+          "sha256": "b996da2f12018586b07303392ebe7241c4d129ad394fd54caba1ed6d2b22bde4"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-ruby-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "ruby",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-escaping-callee-positive/case.json",
+      "sha256": "dae4199d304d2237a5125fd8ac1a38672f15b9e00f40e4e9333f24b186dcc9bb",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/ruby/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.rb",
+          "sha256": "dbc44dc3bb653b859b042c7a8acf7e99390ad294389756028e62b7e4dc2930c2"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "rust",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/constant-string-selector-negative/case.json",
+      "sha256": "eafc12d75a762a4261added520e77feef94cbb841bab4155c6750ebcbb026f26",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/constant-string-selector-negative/constant_string_selector_negative.rs",
+          "sha256": "2d4d331d6c19f2c5532e4476a5977e5c4dff1a3f46d7744da5e7890ce0348b8d"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "rust",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/constant-string-selector-positive/case.json",
+      "sha256": "9a2f964b5624e45d8be4fd030b9bf1d3636767700d0dee5a2439928e9d6d2c82",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/constant-string-selector-positive/constant_string_selector_positive.rs",
+          "sha256": "113e82f81d1e4490d9be416426da2dbbc38015dea5d758b896abe950b76a342f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "rust",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "beb19a4512a811beb86b9830f291412ba743222b15b5c01bf4cdef9fd11e1cfa",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.rs",
+          "sha256": "7ef895dd6965ad3fa437e40ed3dadaf96388eb838da80e921d36c2f6735c9baf"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "rust",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "6e346125af11b6eb5c513c9d6a55cdfbac7f66450a051f4f86fbc0ea166223e7",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.rs",
+          "sha256": "94944bb50be677f6ab8145405a6b47d29a83c9b012ae5f3259b2440d634a39fc"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "rust",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/folded-local-constant-if-negative/case.json",
+      "sha256": "38228ee3adba344a0a1e95b320f4e9c425504f060f47fb5caf778403cff34b2e",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/folded-local-constant-if-negative/folded_local_constant_if_negative.rs",
+          "sha256": "5ca04a14fdcaade997d48049cb5cff439ee5cfce274f1f25dbb6795edf290d41"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "rust",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/folded-local-constant-if-positive/case.json",
+      "sha256": "617210fa8ce8214402403aaa2464aa1ecb0be429c247c6bf68baaa30be9a30e6",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/folded-local-constant-if-positive/folded_local_constant_if_positive.rs",
+          "sha256": "addaffea4e0b6f31b052037e229d1f0e2d524d164db20f6c9f3e872121e1beb8"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "rust",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/list-removal-index-shift-negative/case.json",
+      "sha256": "5eaa2cd93da764fae7e8d299be1cb1daff881fe97af472852d9d39c976d27eed",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/list-removal-index-shift-negative/list_removal_index_shift_negative.rs",
+          "sha256": "896e8ddb81388e7121de4c07b19b498c54db1bbf993cd77e43072de56b05a1a3"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "rust",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/list-removal-index-shift-positive/case.json",
+      "sha256": "891fe843e39229821830a684673cca1530c3fdd04ff8bc99809dc13f8146bd2a",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/list-removal-index-shift-positive/list_removal_index_shift_positive.rs",
+          "sha256": "a8cd89bb7802cb3ac7e81b71daf48f434aeb149aef24fb50bac77ca0a5f21bd3"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "rust",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-computed-key-negative/case.json",
+      "sha256": "0208ae0475e2905c993f2c1bc4617bbadb665a45004851c9afe888ddf4973d72",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-computed-key-negative/SameMapComputedKeyNegative.rs",
+          "sha256": "e3c90a7bdd0882af52752a5bdc18c915f48ed7c96fc42a8bf671cae22a42b6a0"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "rust",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-computed-key-positive/case.json",
+      "sha256": "dc24999fbce52bd727e2a1fc15eeb1450a09b9c31166205bad965fc2ca9ff28b",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-computed-key-positive/SameMapComputedKeyPositive.rs",
+          "sha256": "eefed5b019acb2deacd7f40105a2700be18b006cfcab5ec597ce09f54366124f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "rust",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-constant-keys-negative/case.json",
+      "sha256": "eb034912df4ebeed990d2f538728810375afe48df6a62dce0645dcaa8f17e2c8",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-constant-keys-negative/SameMapConstantKeysNegative.rs",
+          "sha256": "9ef62d6f1ed7e704d5175c2d7cb5b0dd66ee8fc70b8afef5849f8e649a41e9e5"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "rust",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-constant-keys-positive/case.json",
+      "sha256": "24f379c60b0f50158ba9667149abecc8a7822e222617dd3e2354dff80cb9be51",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-constant-keys-positive/SameMapConstantKeysPositive.rs",
+          "sha256": "438c05fb42d03f4c490641909010f0b94f580876ee170acfc4f11b6d6c2e7f6b"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "rust",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-escaping-callee-negative/case.json",
+      "sha256": "2ab4b8f75f067815f52813d49f7699985d717341430d741850748a87c8c01e69",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.rs",
+          "sha256": "869b43e1950ad2722ad115874eae9d0369ca97284893c9bd61089084d3279b08"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-rust-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "rust",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-escaping-callee-positive/case.json",
+      "sha256": "996bbe8a7817cc5aa65c07fa7bfb79b2010f5312beccd3d118ed7d61a7b45e06",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/rust/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.rs",
+          "sha256": "95205454607fdc3117b4a19565798ed8024fd062899c09160ab271ec806d5e74"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "scala",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/constant-string-selector-negative/case.json",
+      "sha256": "140f79cb49a22925cfb31394e0138359eee2f6c65ab44594b09503c5727023e0",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/constant-string-selector-negative/constant_string_selector_negative.scala",
+          "sha256": "840b0f3289654f35b4e56146c11c6a722b38404679ca584465f48fbdcfcd10b2"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "scala",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/constant-string-selector-positive/case.json",
+      "sha256": "eda528f15b9d3b261818ba28b12efef69c5b62adeecb457b3ce9d7e95e32de93",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/constant-string-selector-positive/constant_string_selector_positive.scala",
+          "sha256": "17be4e7c985ee6abd5c22e9d1c59079840a834446eac6746ae7fe3a14f363fea"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "scala",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "e1596c589f363e2e40e34632d95dacdf2ce11c2d5b790552bca7145ccef2c7ba",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.scala",
+          "sha256": "a8769041328056b337710e6a71b6e7c84939b4b878b4770cea1bfcd8bfa00e48"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "scala",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "11b17bb30a672af1047403f977fadb4ae2b6d468f870a1f7d08cc8cfea0986ca",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.scala",
+          "sha256": "abf926477ac36f739d8bf078ad829de491ca1aa48fa2856d3b33a798f39caf41"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "scala",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/folded-local-constant-if-negative/case.json",
+      "sha256": "7ae11f596d90f73763245cd1bf0dc75a30df8b35ace2e3667f5fef3668536b35",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/folded-local-constant-if-negative/folded_local_constant_if_negative.scala",
+          "sha256": "74b396439d4dac898cb32a59e850bb10dd962ec848b0954766f38788242a31b6"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "scala",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/folded-local-constant-if-positive/case.json",
+      "sha256": "6f95ac26bcf5c081fe018563fed5993c6ef449adacf12d83b24dc198065f637c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/folded-local-constant-if-positive/folded_local_constant_if_positive.scala",
+          "sha256": "1df313137211faeb754d4e12c9d7c0299e905e51721bf6da139e66b0b740a036"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "scala",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/list-removal-index-shift-negative/case.json",
+      "sha256": "58e1a8190ef4c978f299ddc9a5270412bdaa18ac64d440e7c2c37f6313f335c1",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/list-removal-index-shift-negative/ListRemovalIndexShiftNegative.scala",
+          "sha256": "4cc593cdad1405925cc19716517ebd66b9ccea623e9c63a12278504b3c6d28ff"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "scala",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/list-removal-index-shift-positive/case.json",
+      "sha256": "9362b36e68ab8dd4b40a3301db513aebd7533713c2d35dc016cd92b85f154564",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/list-removal-index-shift-positive/ListRemovalIndexShiftPositive.scala",
+          "sha256": "ceef3a02c4bda7fac224b18f1b4ee26e64fdc041aac9b79c6c4c87e987c53016"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "scala",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-computed-key-negative/case.json",
+      "sha256": "d3a66a0012511acc233207ad1172e648942564a3c384da4a692a4e7957eff2b1",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-computed-key-negative/SameMapComputedKeyNegative.scala",
+          "sha256": "ff1ad76c3fbd71f24dfd288bf3df64255926a98473f8e6de42dbd3ea4e875652"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "scala",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-computed-key-positive/case.json",
+      "sha256": "af5de8d1cf4ed122318aff2b497c3b0e9de877fcc2b4e0149f7ccaf3dd64a46d",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-computed-key-positive/SameMapComputedKeyPositive.scala",
+          "sha256": "4017e8fbebca13b9d1dd51e2299e5e84fcbb09458ab8577b8bc387de78519e48"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "scala",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-constant-keys-negative/case.json",
+      "sha256": "192037ebd71fc00fa33b7482670680081d34aa103d4854cae80675d1ba3e4ada",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-constant-keys-negative/SameMapConstantKeysNegative.scala",
+          "sha256": "b0b72cd5a9c265e7c03a54619ede1a2698da1bda084161212863748a68698fca"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "scala",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-constant-keys-positive/case.json",
+      "sha256": "fc1322caa5a3a4f21010f81dc030f755284d01071f3252a2ce1b103bec9639cc",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-constant-keys-positive/SameMapConstantKeysPositive.scala",
+          "sha256": "2047a8cb426a4967c0d7b5599e8aaab3fe3a91d4ffcef8dcb433fcb7aaae3029"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "scala",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-escaping-callee-negative/case.json",
+      "sha256": "bcfc9eedf5ff6b5d1b493927020b7be2a1d825307d72bc3015b0da1bad17b421",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.scala",
+          "sha256": "f736d4a7df0622627d7b6f9177a78a6c81326e173c917ac3f60f28ef4e51e60a"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-scala-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "scala",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-escaping-callee-positive/case.json",
+      "sha256": "238d0513519231dbd9cbf22e2bbfb346c49dc7cbe253718e4d7a7d2be5ae5816",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/scala/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.scala",
+          "sha256": "eb76f425faf682d81a87531c9d29e82e19ad1c6efbeee0f2c9a0dced98d579da"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "swift",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/constant-string-selector-negative/case.json",
+      "sha256": "f1cb4a481a5aec5cf587f6b5079e09384cb705afed26ff2645448c983001c932",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/constant-string-selector-negative/main.swift",
+          "sha256": "53bda9c4bac4aabb22fefd46448dcac034f0c1c92412d5e794c3fbcded4ec139"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "swift",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/constant-string-selector-positive/case.json",
+      "sha256": "b086a0b93c551b0073bcec4c47764f407fcd02509b89b6b9467d38b0f870ea1a",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/constant-string-selector-positive/main.swift",
+          "sha256": "0aff9e303efc92f32815004fb0206ceb29bc3bb40a0b28e3052af34f5cb5e4b3"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "swift",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "9a399ee63f9edec7e21bc105aaa35426a6c02a91681e2f70b325b45199e2591d",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/folded-local-constant-conditional-expression-negative/main.swift",
+          "sha256": "8653035bbe3140118bb9d851e0f0881887ddd94cee39de263f86b2dd445c2997"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "swift",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "31f96e12e3b2297aa56b31a2fccc4b2d02e1212b272912f6e38051d89f6eb091",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/folded-local-constant-conditional-expression-positive/main.swift",
+          "sha256": "cd4111f1079bbc96eab41b988f3def44aefe5d6cd58833b97df5efea2229e9ba"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "swift",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/folded-local-constant-if-negative/case.json",
+      "sha256": "6dc6ffb3171137593766bf2bc292bb9d0f8278476b9df9f4819cd5c1dbc69cad",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/folded-local-constant-if-negative/main.swift",
+          "sha256": "8267f771cc88c30f38b8e47a3e2460c8a4fcf5641f719bc0ee44b87ddc18a45a"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "swift",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/folded-local-constant-if-positive/case.json",
+      "sha256": "9467b8866c6e727748c311e526230b0dff0bb7b354f2913aba84d9d6d2d7d831",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/folded-local-constant-if-positive/main.swift",
+          "sha256": "86da2b06530791e1a19d4e582c4a844c745d1bcb68118802544e3d66a0ac844c"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "swift",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/list-removal-index-shift-negative/case.json",
+      "sha256": "e99709318043a6618a1f3a6e01962162a9070b5dba7bf9efc7899782d9f958d8",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/list-removal-index-shift-negative/main.swift",
+          "sha256": "2fbd2637ea4cb59351d4587a497353ce4cd171231376b49c5560a4221d961e80"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "swift",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/list-removal-index-shift-positive/case.json",
+      "sha256": "4fef73ef2cc35c252d858e031ecb665c403d0ffe9cc61daed2b527b5aafe1000",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/list-removal-index-shift-positive/main.swift",
+          "sha256": "9ce3b8ef96cc04a8e492df544820090a03e1cd35e8d6712edece086a5daec0f4"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "swift",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-computed-key-negative/case.json",
+      "sha256": "4091352fc13fb0211b8271eb48ebd84b822f5fe1b36de75b1e1af9ef2242b8bd",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-computed-key-negative/main.swift",
+          "sha256": "1eeb4e62c032906b893519ce57223d1c5a813be05cfc3a56ee425a2aedc0e107"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "swift",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-computed-key-positive/case.json",
+      "sha256": "5fa333b839e5129fc3b82bb0952032655796058071e3fecfbec9297b4d1f5928",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-computed-key-positive/main.swift",
+          "sha256": "363b7b60c8640f07ef625ec9f295db46c4ab42878b0c0f18bb1830c27fc8ba97"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "swift",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-constant-keys-negative/case.json",
+      "sha256": "20829616073da596cc3fac956ebc6c83ea09b26351383b8f68e48ff400936e50",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-constant-keys-negative/main.swift",
+          "sha256": "fa9e50ad5edc740bf7b453596ae03369e9e41c8d52310dd71f846f14bb3e0ca4"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "swift",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-constant-keys-positive/case.json",
+      "sha256": "0e552fe264a092b91f2b6a0d4724bd59cf303deaddc5953ff1ca317d92e94705",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-constant-keys-positive/main.swift",
+          "sha256": "ab42efcad513ed5d38db7c3261a26e5c7a6a718fe2e19b98263816ea881612b5"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "swift",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-escaping-callee-negative/case.json",
+      "sha256": "0f4d6d45d3421393e62134b539666b598f41557a364e9fa96bfe107f18c74c63",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-escaping-callee-negative/main.swift",
+          "sha256": "726eb24ec6cbf0e0ccf14a0a80476314f7f4ae5966fdd1d4a4347f439897e19d"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-swift-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "swift",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-escaping-callee-positive/case.json",
+      "sha256": "8768a6e984a579ae52d899c3dadcdf55fe9423f54ad0a9cbb9cf588327803e4b",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/swift/same-map-escaping-callee-positive/main.swift",
+          "sha256": "7efe3b5145ae3d7cf1ae473fa23be20152a47dd33fe60ca3db1afd31a9c63949"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-constant-string-selector-negative",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "typescript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/constant-string-selector-negative/case.json",
+      "sha256": "08ee5002e166527d1089b9545e443159f4a59081560807e69f937aa4178d380b",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/constant-string-selector-negative/constant_string_selector_negative.ts",
+          "sha256": "975f49b3c703f7345df6903aebfcac22d9973714efd39ef63ee8ef6a46d904d1"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-constant-string-selector-positive",
+      "template_id": "dfb-template-constant-string-selector",
+      "language": "typescript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/constant-string-selector-positive/case.json",
+      "sha256": "68763f6bb62f0a62bb59231b0d16a5a8a3d0dd5cf7804c21eb8148ac11ad4d89",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/constant-string-selector-positive/constant_string_selector_positive.ts",
+          "sha256": "521ed4037ea83e3f4966e7676799f95ccd82afc4c9f6244cdcbeddcedb13be40"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-folded-local-constant-conditional-expression-negative",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "typescript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/folded-local-constant-conditional-expression-negative/case.json",
+      "sha256": "7809bb356e9a0b50de18d35c4623e303ad843a2c585ecfe9257ddaff964da7c8",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/folded-local-constant-conditional-expression-negative/folded_local_constant_conditional_expression_negative.ts",
+          "sha256": "21a4da04d4f96572ad1aa2f321a3676f4dd3880bfe2a549b572f048aa8d65e5b"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-folded-local-constant-conditional-expression-positive",
+      "template_id": "dfb-template-folded-local-constant-conditional-expression",
+      "language": "typescript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/folded-local-constant-conditional-expression-positive/case.json",
+      "sha256": "c795cb7dbf31eaa7328c9efc7d45300540fcb978b563dfab0f66442ff2ea56e2",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/folded-local-constant-conditional-expression-positive/folded_local_constant_conditional_expression_positive.ts",
+          "sha256": "299fc42478a7e139361dd26de78821dd112e4df5aff94f95af701a57614f4a5c"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-folded-local-constant-if-negative",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "typescript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/folded-local-constant-if-negative/case.json",
+      "sha256": "6c3bf4a90100639e328585d7f4e8079c0f318d444e06e89491206bbe40629d0c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/folded-local-constant-if-negative/folded_local_constant_if_negative.ts",
+          "sha256": "3efe676aa4d7980c010414000b25351a402bd31bdceea7c1d9b8d626a913926c"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-folded-local-constant-if-positive",
+      "template_id": "dfb-template-folded-local-constant-if",
+      "language": "typescript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/folded-local-constant-if-positive/case.json",
+      "sha256": "604be1856a5470a83952ace823c715a3459a85359a08e60d0993d0f91f7b4106",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/folded-local-constant-if-positive/folded_local_constant_if_positive.ts",
+          "sha256": "37e6b238998fc6eb0abf1df4fdd4765d410b31ab4f22d7892fa63bf21104d5ac"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-list-removal-index-shift-negative",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "typescript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/list-removal-index-shift-negative/case.json",
+      "sha256": "da716b14498e4d5540adb5397736fc551128c66855a65e85d47df83f43ad5609",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/list-removal-index-shift-negative/ListRemovalIndexShiftNegative.ts",
+          "sha256": "af4a35fa1beb5b4dd7ba29089d68cec7534bba50e7c5e1e08f1cdb757eee1e0f"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-list-removal-index-shift-positive",
+      "template_id": "dfb-template-list-removal-index-shift",
+      "language": "typescript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/list-removal-index-shift-positive/case.json",
+      "sha256": "64f8bb83e02e03366b4985e06b7224863d2e3c8c410595e7132f06ec13b8b86c",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/list-removal-index-shift-positive/ListRemovalIndexShiftPositive.ts",
+          "sha256": "80363905a7ce4eb6dafb6197627c354ab33d1aee03096ae0306bea9efc41d5b0"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-same-map-computed-key-negative",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "typescript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-computed-key-negative/case.json",
+      "sha256": "84c95dc68f1919e206c7f6ae063f9c7f47ea93f8793f81d36dc6d2e1c4ec8ce0",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-computed-key-negative/SameMapComputedKeyNegative.ts",
+          "sha256": "48412265bcbd79583800da54a49156ecc7f79f174bac54230f35b27b70b4bec4"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-same-map-computed-key-positive",
+      "template_id": "dfb-template-issue-303-same-map-computed-key",
+      "language": "typescript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-computed-key-positive/case.json",
+      "sha256": "fd970bfd5ad6b9d80690e8b567ad9ab40f01b300689fc03a6a31d8a9ba60fadf",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-computed-key-positive/SameMapComputedKeyPositive.ts",
+          "sha256": "b22dd882e84449bd444c7dbec83a97d0aaefc0c0a5309a5cf3b367c895b916bf"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-same-map-constant-keys-negative",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "typescript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-constant-keys-negative/case.json",
+      "sha256": "00c8dc55200dde3eb4ea37ed27ba5c808869f72146a3c730fbb97ef8fb0e7215",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-constant-keys-negative/SameMapConstantKeysNegative.ts",
+          "sha256": "620153917fd8d17a7fc8ffd88700cc00b655b386c5c1a5260c378cebd1a53f37"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-same-map-constant-keys-positive",
+      "template_id": "dfb-template-issue-303-same-map-constant-keys",
+      "language": "typescript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-constant-keys-positive/case.json",
+      "sha256": "c0e64c1e3781e9975dde17552d3d1413a2524fcc24116f44870d75378ef792fe",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-constant-keys-positive/SameMapConstantKeysPositive.ts",
+          "sha256": "c17862dce64258e135f8e64793682e0c0649208e89dd25ce0bb891b567ffff64"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-same-map-escaping-callee-negative",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "typescript",
+      "polarity": "negative",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-escaping-callee-negative/case.json",
+      "sha256": "6d8580bcf9886786bd8f27b7cd58d1b10f23847793e73010f7cddba7f65ce629",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-escaping-callee-negative/SameMapEscapingCalleeNegative.ts",
+          "sha256": "6a5c827a3d20c12a9bf58a194cc0760d9f9c3773271df9381ce39e8e5d4e39ef"
+        }
+      ]
+    },
+    {
+      "id": "dfb-taint-typescript-same-map-escaping-callee-positive",
+      "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+      "language": "typescript",
+      "polarity": "positive",
+      "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-escaping-callee-positive/case.json",
+      "sha256": "db8fedfcb7c1b9d0b866a394f47947205540ff53f1ce31e68ea9820419ff758e",
+      "fixture_digests": [
+        {
+          "path": "populations/precision-gaps-v1/cases/taint/typescript/same-map-escaping-callee-positive/SameMapEscapingCalleePositive.ts",
+          "sha256": "e87363d4990acb1f04d55dbafb0f677220e95c1e8268a08e3eb93dd7424ce626"
+        }
+      ]
+    }
+  ]
+}

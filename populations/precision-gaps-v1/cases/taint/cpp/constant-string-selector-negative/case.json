@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-cpp-constant-string-selector-negative",
+  "template_id": "dfb-template-constant-string-selector",
+  "polarity": "negative",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "cpp",
+  "semantic_dimensions": [
+    "local-flow",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "constant_string_selector_negative.cpp"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: constant-selector-input",
+      "file": "constant_string_selector_negative.cpp",
+      "line_hint": 4
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: constant-selector-sink",
+      "file": "constant_string_selector_negative.cpp",
+      "line_hint": 8
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: constant-selector-input",
+      "sink": "DFB-SINK: constant-selector-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "constant-selector-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-305",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-cpp-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/cpp/queries/CppKernel.ql"
+    }
+  },
+  "negative_mechanism": "infeasible-path"
+}

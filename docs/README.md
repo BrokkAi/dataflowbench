@@ -26,6 +26,7 @@ see the glossary entry below.
 | [report-diff.md](report-diff.md) | The population-aware normalized-report comparison contract: stable-case-ID joins, explicit identity changes, and the prohibition on pooled scores across changed populations. |
 | [compact-evidence.md](compact-evidence.md) | Small case/attempt reviews, lossless detail bundles, verified restoration and existing report-reader integration. |
 | [applicability-matrix.md](applicability-matrix.md) | How the propagation templates port across languages: the `direct` / `adapted` / `n/a` classification and each language's core denominator. |
+| [precision-gaps.md](precision-gaps.md) | Prospective constant-folding, same-map key, list-removal and constant-string selector templates; exact additions stay separate from released input populations. |
 | [challenge-tier.md](challenge-tier.md) | Preregistration of the thirteen challenge templates in four strata, the fold-into-core decision, and the amendment procedure. Amendment-bearing. |
 | [modeling-matrix.md](modeling-matrix.md) | Preregistration of the benchmark-controlled taint-modeling matrix, on its own `modeling` tier. Amendment-bearing. |
 | [native-profile.md](native-profile.md) | Preregistration of the tool-native model profile: shipped-model coverage, never pooled with the controlled matrix. Amendment-bearing. |
