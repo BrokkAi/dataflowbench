@@ -105,7 +105,10 @@ maps.
 All authored source files carry DFB-SOURCE and DFB-SINK anchors. Positive
 cases also mark the store and read path with DFB-WITNESS markers. The case
 metadata includes fixture provenance, expected flows or nonflows, and the
-language-neutral capability required by each template.
+language-neutral capability required by each template. Tool model references
+are copied from the same language's infeasible-branch-positive case so existing
+Bifrost and CodeQL partitions can resolve them; Swift stays empty, matching its
+canonical case.
 
 The dedicated validator checks schema shape, marker uniqueness, marker-to-file
 anchors, pair balance, and metadata consistency. It independently compiles or

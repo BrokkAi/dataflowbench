@@ -81,6 +81,12 @@ def metadata_check() -> list[tuple[dict, Path, str]]:
     schema_path = ROOT / "schemas" / "case.schema.json"
     schema = json.loads(schema_path.read_text())
     validator = Draft202012Validator(schema)
+    canonical_tool_references = {
+        lang: json.loads(
+            (ROOT / "cases" / "taint" / lang / "infeasible-branch-positive" / "case.json").read_text()
+        )["tool_model_references"]
+        for lang in APPLICABLE_LANGUAGES
+    }
     records: dict[tuple[str, str, str], tuple[dict, Path, str]] = {}
     expected_keys = {
         (lang, slug, polarity)
@@ -116,6 +122,11 @@ def metadata_check() -> list[tuple[dict, Path, str]]:
                     raise ValidationError(f"{case_path.relative_to(ROOT)}: wrong track or language")
                 if case["model_profile"] != "benchmark-controlled":
                     raise ValidationError(f"{case_path.relative_to(ROOT)}: wrong model profile")
+                if case["tool_model_references"] != canonical_tool_references[lang]:
+                    raise ValidationError(
+                        f"{case_path.relative_to(ROOT)}: tool_model_references must match "
+                        f"the language's infeasible-branch-positive case"
+                    )
                 expected_semantics = {
                     "same-map-constant-keys": (
                         ["heap-field-sensitivity"],
