@@ -78,6 +78,7 @@ pub(crate) fn validate_cases() -> Result<()> {
         cases.push((path.clone(), value));
     }
     validate_swift_metadata(&cases)?;
+    crate::precision::validate(Path::new("."))?;
     crate::population::validate_swift_population(Path::new("."))?;
     crate::population::validate_swift_v3_population(Path::new("."))?;
     validate_balanced_core_pairs(&cases)?;
@@ -157,7 +158,7 @@ pub(crate) fn validate_swift_metadata(cases: &[(PathBuf, Value)]) -> Result<()> 
             + 1);
     if swift.len() != expected_case_count {
         bail!(
-            "Swift population must contain exactly {expected_case_count} assertions (33 core + 2 calibration + 12 controlled modeling + 6 native + 1 extension pairs); found {}",
+            "Swift population must contain exactly {expected_case_count} assertions (registered core, calibration, controlled modeling, native and extension pairs); found {}",
             swift.len()
         );
     }

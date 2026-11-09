@@ -172,7 +172,10 @@ pub(crate) fn the_rollout_table_matches_the_preregistered_denominators() {
         );
         // Every language's denominator is therefore its expanded core:
         // the classic templates plus its applicable challenge templates.
-        let expected = classic + challenge + recursive_composition_templates(row.language).len();
+        let expected = classic
+            + challenge
+            + recursive_composition_templates(row.language).len()
+            + crate::precision::templates(row.language).len();
         assert_eq!(row.expected_templates().len(), expected);
         assert_eq!(expected_core_case_count(row.language), 2 * expected);
     }
@@ -195,16 +198,17 @@ pub(crate) fn the_rollout_table_matches_the_preregistered_denominators() {
     }
 }
 
-/// Swift registers applicability for exactly 33 core templates while keeping
-/// its two calibration identities outside the scored denominator. The two
-/// reflective/anonymous challenge identities remain excluded.
+/// Swift preserves its historical 33 core identities and adds only explicitly
+/// registered precision templates. Its calibration identities remain separate,
+/// and reflective/anonymous challenge identities remain excluded.
 #[test]
 pub(crate) fn swift_registry_has_the_preregistered_core_and_calibration_sets() {
     let row = challenge_rollout("swift").expect("Swift rollout row");
     assert_eq!(row.classic, &KERNEL_TEMPLATE_IDS[..]);
     assert_eq!(row.challenge, &CHALLENGE_TEMPLATE_IDS_SWIFT[..]);
-    assert_eq!(row.expected_templates().len(), 33);
-    assert_eq!(expected_core_case_count("swift"), 66);
+    let precision = crate::precision::templates("swift").len();
+    assert_eq!(row.expected_templates().len(), 33 + precision);
+    assert_eq!(expected_core_case_count("swift"), 66 + 2 * precision);
     assert!(
         !row.challenge
             .contains(&"dfb-template-chal-reflective-invocation")

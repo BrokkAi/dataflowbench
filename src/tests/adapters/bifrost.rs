@@ -1054,6 +1054,28 @@ pub(crate) fn smoke_selection_is_pinned_to_the_frozen_population() {
     assert_eq!(selected, 118, "the smoke population is frozen at 118 cases");
 }
 
+/// Prospective precision identities never enter the historical smoke set.
+#[test]
+pub(crate) fn precision_cases_cannot_widen_the_frozen_smoke_population() {
+    let mut count = 0;
+    for path in case_paths() {
+        let mut case: Value = serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
+        if !crate::precision::template_case(&case) {
+            continue;
+        }
+        count += 1;
+        assert!(!selected_bifrost_case(&case, BifrostRun::Smoke));
+        // An old smoke policy or explicit unsupported declaration must not
+        // turn a new template into a member of the historical population.
+        case["tool_model_references"]["bifrost"] = serde_json::json!({
+            "policy": BIFROST_JAVA_POLICY,
+            "unsupported_reason": "control: prospective identity stays outside smoke"
+        });
+        assert!(!selected_bifrost_case(&case, BifrostRun::Smoke));
+    }
+    assert_eq!(count, crate::precision::case_count());
+}
+
 /// A challenge case is refused by the smoke selector on template identity
 /// alone. The Java, JavaScript, and Python challenge fixtures will name the
 /// *same* kernel policies their classic siblings name, so pinning by policy

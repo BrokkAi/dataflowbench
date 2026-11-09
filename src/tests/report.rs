@@ -560,3 +560,37 @@ pub(crate) fn committed_reports_match_current_configuration_except_known_stale()
         "every KNOWN_STALE_CONFIGURATIONS entry must name a committed report"
     );
 }
+
+#[test]
+fn predecessor_configuration_requires_its_exact_version_and_stamp() {
+    let stem = "joern-swift-v2-native";
+    let report: Value =
+        serde_json::from_str(&fs::read_to_string(format!("reports/{stem}.json")).unwrap()).unwrap();
+    let stamped = report["configuration_hash"].as_str().unwrap();
+    fn state(version: &str, adapter: &str, hash: &str) -> ConfigurationHashState {
+        configuration_hash_state_for_report(
+            "joern-swift-v2-native",
+            version,
+            adapter,
+            hash,
+            &mut None,
+        )
+        .unwrap()
+    }
+    assert_eq!(
+        state("4.0.628", "0.1.0", stamped),
+        ConfigurationHashState::Historical {
+            revision: crate::precision::PREDECESSOR_REVISION
+        }
+    );
+    for (version, adapter, hash) in [
+        ("4.0.628", "0.1.0", "0".repeat(64)),
+        ("4.0.660", "0.1.0", stamped.to_string()),
+        ("4.0.628", "unregistered", stamped.to_string()),
+    ] {
+        assert!(matches!(
+            state(version, adapter, &hash),
+            ConfigurationHashState::Drifted { .. }
+        ));
+    }
+}

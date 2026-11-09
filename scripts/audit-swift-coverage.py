@@ -9,6 +9,7 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path
+from precision_population import historical_paths
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,7 +42,7 @@ def audit(root=ROOT):
         families[identity] = dict(template_id=identity, family=section, decision=status,
                                   contract_detail='; '.join(x for x in (decision, construction) if x),
                                   scope_resolution='unresolved' if status == 'deferred' else 'contract-defined', cases=[])
-    registry = {json.loads(p.read_text())['template_id'] for p in (root / 'cases').rglob('case.json')}
+    registry = {json.loads(p.read_text())['template_id'] for p in historical_paths(root, (root / 'cases').rglob('case.json'))}
     require(set(families) == registry, f'contract/registry mismatch: missing={sorted(registry-set(families))}, extra={sorted(set(families)-registry)}')
     require(len(families) == 58, '58-identity contract changed; review coverage scope prospectively')
     population_path = root / 'populations/swift-synthetic-v1.json'

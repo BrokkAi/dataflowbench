@@ -788,9 +788,10 @@ pub(crate) fn has_bifrost_model_reference(case: &Value) -> bool {
 /// actually distinguishes the tiers — any case whose `template_id` starts with
 /// `dfb-template-chal-` is never smoke-selected, whatever policy it names and
 /// whether or not it declares an `unsupported_reason`. The expanded core is
-/// evaluated by the dedicated per-language kernel runs instead.
+/// evaluated by the dedicated per-language kernel runs instead. Registered
+/// prospective precision identities follow the same exclusion.
 pub(crate) fn smoke_population_case(case: &Value) -> bool {
-    if challenge_template_case(case) {
+    if challenge_template_case(case) || crate::precision::template_case(case) {
         return false;
     }
     // Same reasoning, one tier later: a Java, JavaScript, or Python modeling
