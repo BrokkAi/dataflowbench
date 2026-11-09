@@ -1,5 +1,5 @@
-function dfb_source() {
-    return "source-one"; // DFB-SOURCE: constant-selector-input
+function dfb_source() { // DFB-SOURCE: constant-selector-input
+    return "source-one";
 }
 
 function dfb_sink(value) { // DFB-SINK: constant-selector-sink

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 
-static std::string dfb_source() {
-    return "source-one"; // DFB-SOURCE: constant-selector-input
+static std::string dfb_source() { // DFB-SOURCE: constant-selector-input
+    return "source-one";
 }
 
 static void dfb_sink(const std::string& value) { // DFB-SINK: constant-selector-sink

@@ -1,5 +1,5 @@
-def dfb_source
-  "source-one" # DFB-SOURCE: constant-selector-input
+def dfb_source  # DFB-SOURCE: constant-selector-input
+  "source-one"
 end
 
 def dfb_sink(value) # DFB-SINK: constant-selector-sink

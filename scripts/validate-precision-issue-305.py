@@ -17,6 +17,21 @@ TEMPLATE_ID = "dfb-template-constant-string-selector"
 SOURCE_MARKER = "DFB-SOURCE: constant-selector-input"
 SINK_MARKER = "DFB-SINK: constant-selector-sink"
 WITNESS_MARKER = "DFB-WITNESS: constant-selector-source-arm"
+SOURCE_DECLARATIONS = {
+    "c": "static const char *dfb_source(void)",
+    "cpp": "static std::string dfb_source()",
+    "csharp": "private static string dfb_source()",
+    "go": "func dfb_source() string",
+    "java": "private static String dfb_source()",
+    "javascript": "function dfb_source()",
+    "typescript": "function dfb_source(): string",
+    "kotlin": "private fun dfb_source(): String =",
+    "scala": "def dfb_source(): String =",
+    "rust": "fn dfb_source() -> &'static str",
+    "python": "def dfb_source():",
+    "ruby": "def dfb_source",
+    "php": "function dfb_source(): string",
+}
 LANGUAGES = (
     "c",
     "cpp",
@@ -186,9 +201,16 @@ def validate_metadata(root: Path, languages: list[str]) -> list[tuple[str, dict,
                 require("dfb_source()" in witness_lines[0], f"{fixture_path}: source anchor must mark the endpoint call")
                 require("dfb_sink(value)" in source, f"{fixture_path}: missing Swift sink endpoint call")
             else:
+                source_marker_line = next(
+                    line for line in source.splitlines() if SOURCE_MARKER in line
+                )
                 require(
-                    len([line for line in source.splitlines() if SOURCE_MARKER in line and '"source-one"' in line]) == 1,
-                    f"{fixture_path}: source marker must identify the replaceable source value",
+                    SOURCE_DECLARATIONS[language] in source_marker_line,
+                    f"{fixture_path}: source marker must be on the source declaration",
+                )
+                require(
+                    source.count('"source-one"') == 1,
+                    f"{fixture_path}: expected one replaceable source return literal",
                 )
             pair[polarity] = metadata
             validated.append((language, metadata, fixture_path, fixture_name))
@@ -405,8 +427,10 @@ def validate_runtime(validated: list[tuple[str, dict, Path, str]]) -> None:
             changed = original.replace("return 7", "return 11", 1)
             source_before, source_after, safe_value = "7", "11", "0"
         else:
-            marker_line = next(line for line in original.splitlines() if SOURCE_MARKER in line)
-            require('"source-one"' in marker_line, f"{fixture_path}: source line cannot be varied")
+            require(
+                original.count('"source-one"') == 1,
+                f"{fixture_path}: expected one replaceable source return literal",
+            )
             changed = original.replace('"source-one"', '"source-two"', 1)
             source_before, source_after, safe_value = "source-one", "source-two", "safe"
         require(changed != original, f"{fixture_path}: source substitution did not change the fixture")

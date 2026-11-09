@@ -1,8 +1,8 @@
 using System;
 
 internal static class ConstantStringSelectorPositive {
-    private static string dfb_source() {
-        return "source-one"; // DFB-SOURCE: constant-selector-input
+    private static string dfb_source() { // DFB-SOURCE: constant-selector-input
+        return "source-one";
     }
 
     private static void dfb_sink(string value) { // DFB-SINK: constant-selector-sink

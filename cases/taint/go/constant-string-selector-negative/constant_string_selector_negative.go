@@ -2,8 +2,8 @@ package main
 
 import "fmt"
 
-func dfb_source() string {
-    return "source-one" // DFB-SOURCE: constant-selector-input
+func dfb_source() string { // DFB-SOURCE: constant-selector-input
+    return "source-one"
 }
 
 func dfb_sink(value string) { // DFB-SINK: constant-selector-sink

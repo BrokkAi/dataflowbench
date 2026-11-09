@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-static const char *dfb_source(void) {
-    return "source-one"; /* DFB-SOURCE: constant-selector-input */
+static const char *dfb_source(void) { /* DFB-SOURCE: constant-selector-input */
+    return "source-one";
 }
 
 static void dfb_sink(const char *value) { /* DFB-SINK: constant-selector-sink */

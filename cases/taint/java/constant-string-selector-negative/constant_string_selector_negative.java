@@ -1,6 +1,6 @@
 final class ConstantStringSelectorNegative {
-    private static String dfb_source() {
-        return "source-one"; // DFB-SOURCE: constant-selector-input
+    private static String dfb_source() { // DFB-SOURCE: constant-selector-input
+        return "source-one";
     }
 
     private static void dfb_sink(String value) { // DFB-SINK: constant-selector-sink

@@ -38,6 +38,12 @@ selected B arm never evaluates or assigns the C source arm. No mutable
 selector, external model, heap object, or analyzer-specific behavior is
 needed.
 
+For adapter endpoint discovery, non-Swift source markers sit on the
+dfb_source function declaration. Swift keeps its required call-site source
+marker. In expression-bodied Kotlin and Scala functions, the source literal
+naturally shares the marked declaration line; the fixture validator varies
+the unique source literal without depending on marker-line placement.
+
 ## Language surfaces and constraints
 
 All fourteen target languages have a natural equivalent, so none is marked
