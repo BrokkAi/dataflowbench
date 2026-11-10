@@ -17,9 +17,42 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE = "86092336d8f9ca32fe9e2c4042c2dced76c1feb1"
-REPORT = ROOT / "reports/timing/v0.9.2/20261110-01"
-WORK = ROOT / "execution-state/timing-v092-20261110-01"
+DEFAULT_CAMPAIGN_ID = "20261110-01"
+CAMPAIGN_ID_PATTERN = re.compile(r"(?P<date>\d{8})-(?P<sequence>\d{2})\Z")
+REPORT = ROOT / "reports/timing/v0.9.2" / DEFAULT_CAMPAIGN_ID
+WORK = ROOT / "execution-state" / f"timing-v092-{DEFAULT_CAMPAIGN_ID}"
 GIB = 1024**3
+
+
+def campaign_paths(campaign_id):
+    """Derive the only allowed report/work locations from a dated campaign ID."""
+    if not isinstance(campaign_id, str):
+        raise ValueError("campaign ID must use YYYYMMDD-NN format")
+    match = CAMPAIGN_ID_PATTERN.fullmatch(campaign_id)
+    if match is None or match.group("sequence") == "00":
+        raise ValueError("campaign ID must use YYYYMMDD-NN format with sequence 01..99")
+    try:
+        dt.datetime.strptime(match.group("date"), "%Y%m%d")
+    except ValueError as exc:
+        raise ValueError("campaign ID must contain a valid calendar date") from exc
+
+    report_base = (ROOT / "reports/timing/v0.9.2").resolve()
+    work_base = (ROOT / "execution-state").resolve()
+    report = report_base / campaign_id
+    work = work_base / f"timing-v092-{campaign_id}"
+    # Reject an existing symlinked target or a base redirected outside the repo.
+    repo_root = ROOT.resolve()
+    if (not report_base.is_relative_to(repo_root)
+            or not work_base.is_relative_to(repo_root)
+            or report.is_symlink() or work.is_symlink()):
+        raise ValueError("campaign paths must remain inside the repository")
+    return report, work
+
+
+def select_campaign(campaign_id):
+    global REPORT, WORK
+    REPORT, WORK = campaign_paths(campaign_id)
+    return REPORT, WORK
 
 
 def module(name, path):
@@ -229,6 +262,12 @@ class ObservedGuard:
         self.observer = observer
         self.last = 0.0
         self.observations = 0
+        self.active_observations = 0
+        self.observation_attempts = 0
+        self.observation_failures = 0
+        self.contention_observed = False
+        self.initial_quiet_gate_passed = False
+        self.settle_skipped = False
         self.source = source
 
     def __getattr__(self, name):
@@ -240,19 +279,83 @@ class ObservedGuard:
             raise CampaignStop("per-attempt 12 GiB ceiling exceeded")
         if self.ownership.get("root_pid") and time.monotonic() - self.last >= 30:
             self.last = time.monotonic()
-            try:
-                obs = self.observer.snapshot()
-            except (self.host.HostObservationError, OSError, subprocess.SubprocessError, ValueError) as exc:
-                append(self.evidence, self.host.failure_record(exc))
-                raise CampaignStop(f"host observation unavailable: {exc}") from exc
-            contention = external_contention(obs, self.ownership["root_pid"], self.host)
-            obs["phase"] = "analyzer-active"
-            obs["contention"] = contention
-            append(self.evidence, obs)
-            self.observations += 1
-            if contention["contended"]:
-                raise CampaignStop("external CPU/build/analyzer contention detected; timing withheld")
+            self.observe_background("analyzer-active", self.ownership["root_pid"])
         return result
+
+    def launch_check(self, source):
+        """Preserve the launch floor and working-source ceilings before dispatch."""
+        result = self.guard.check(
+            category="working", paths=[WORK / "sources"],
+            capacity_path=ROOT, phase="launch",
+        )
+        if core._tree_bytes([source]) > 12 * GIB:
+            raise CampaignStop("per-attempt 12 GiB ceiling exceeded before dispatch")
+        return result
+
+    def _record_observation_failure(self, exc, phase):
+        self.observation_failures += 1
+        record = self.host.failure_record(exc)
+        record.update({
+            "record_type": "host_observation_failure",
+            "phase": phase,
+            "observation_available": False,
+            "contention_available": False,
+            "contention_observed": None,
+            "quiet_certification": False,
+        })
+        append(self.evidence, record)
+        return record
+
+    def observe_background(self, phase, root_pid=None):
+        """Append observer telemetry without making background state a stop gate."""
+        self.observation_attempts += 1
+        try:
+            observation = self.observer.snapshot()
+        except Exception as exc:
+            return self._record_observation_failure(exc, phase)
+        try:
+            contention = external_contention(observation, root_pid, self.host)
+        except Exception as exc:
+            self.observation_failures += 1
+            observation.update({
+                "phase": phase,
+                "observation_available": True,
+                "contention_available": False,
+                "contention_observed": None,
+                "contention_error": f"{type(exc).__name__}: {exc}",
+                "quiet_certification": False,
+            })
+            append(self.evidence, observation)
+            return observation
+        observation.update({
+            "phase": phase,
+            "contention": contention,
+            "observation_available": True,
+            "contention_available": True,
+            "contention_observed": contention["contended"],
+            "quiet_certification": False if contention["contended"] else None,
+        })
+        append(self.evidence, observation)
+        self.observations += 1
+        if phase == "analyzer-active":
+            self.active_observations += 1
+        self.contention_observed = self.contention_observed or contention["contended"]
+        return observation
+
+    def quiet_certification(self):
+        certified = (
+            self.initial_quiet_gate_passed
+            and not self.settle_skipped
+            and not self.contention_observed
+            and self.observation_failures == 0
+        )
+        return {
+            "certified": certified,
+            "initial_quiet_gate_passed": self.initial_quiet_gate_passed,
+            "settle_skipped_after_campaign_start": self.settle_skipped,
+            "contention_observed": self.contention_observed,
+            "observation_failures": self.observation_failures,
+        }
 
 
 def wait_quiet(host, observer, destination):
@@ -272,6 +375,19 @@ def wait_quiet(host, observer, destination):
             append(destination, host.failure_record(exc))
             window.reset()
         time.sleep(30)
+
+
+def prelaunch_state(group_index, host, observer, guard, destination, source):
+    """Gate the first dispatch on quiet; later dispatches only log host state."""
+    if group_index == 0:
+        settled = wait_quiet(host, observer, destination)
+        guard.initial_quiet_gate_passed = True
+        guard.launch_check(source)
+        return {"quiet_observation": settled, "host_prelaunch_observation": None}
+    guard.settle_skipped = True
+    guard.launch_check(source)
+    observation = guard.observe_background("prelaunch-after-campaign-start")
+    return {"quiet_observation": None, "host_prelaunch_observation": observation}
 
 
 def reconcile(group, source):
@@ -306,8 +422,9 @@ def execute():
     if plan["release_commit"] != RELEASE:
         raise RuntimeError("unexpected release")
     # Persist the exact committed plan and helper identities before dispatch.
+    plan_relative = plan_path.relative_to(ROOT).as_posix()
     for relative in ["scripts/v092_timing_campaign.py", "scripts/v092_timing_host.py",
-                     "reports/timing/v0.9.2/20261110-01/plan.json"]:
+                     plan_relative]:
         committed = subprocess.check_output(["git", "show", f"HEAD:{relative}"], cwd=ROOT)
         if hashlib.sha256(committed).hexdigest() != sha(ROOT / relative):
             raise RuntimeError(f"uncommitted execution input: {relative}")
@@ -358,7 +475,7 @@ def execute():
                       "scripts/v092_timing_campaign.py", "scripts/v092_timing_host.py",
                       "scripts/execute-release-v092.py", "scripts/swift_v2_scored_process.py"]}})
         consumed = 0.0
-        for group in ready:
+        for group_index, group in enumerate(ready):
             destination = REPORT / "attempts" / group["id"] / "attempt-01"
             destination.mkdir(parents=True, exist_ok=False)
             source = sources / group["id"]
@@ -366,13 +483,15 @@ def execute():
             guard = ObservedGuard(host, observer, ownership, destination / "host.jsonl", source)
             for name in ["runner", group["family"]]:
                 core._check_tool_file(plan["tools"][name], name)
-            settled = wait_quiet(host, observer, destination / "host.jsonl")
+            launch_observations = prelaunch_state(
+                group_index, host, observer, guard, destination / "host.jsonl", source,
+            )
             if consumed >= plan["resources"]["total_execution_budget_seconds"]:
                 raise RuntimeError("campaign execution budget exhausted")
             environment = core._child_environment(group, source, destination, source / "cache")
             write_new(destination / "start.json", {"created_utc": now(), "argv": group["argv"],
                       "environment": environment, "deadline_seconds": group["deadline_seconds"],
-                      "quiet_observation": settled, "plan_sha256": sha(plan_path)})
+                      **launch_observations, "plan_sha256": sha(plan_path)})
             append(REPORT / "progress.jsonl", {"utc": now(), "group": group["id"], "status": "started"})
             print(f"STARTED {group['id']}", flush=True)
             status = "failed"
@@ -387,20 +506,21 @@ def execute():
                 consumed += elapsed
                 record.update(exit_code=code, timed_out=timed_out, elapsed_seconds=elapsed,
                               capacity_loss=capacity, execution_budget_consumed_seconds=consumed)
-                post = observer.snapshot()
-                post["phase"] = "after-analysis"
-                post["contention"] = external_contention(post, None, host)
-                append(destination / "host.jsonl", post)
-                if post["contention"]["contended"]:
+                post = guard.observe_background("after-analysis")
+                if post.get("contention_observed"):
                     record["post_analysis_contention"] = post["contention"]
-                    raise RuntimeError("external activity observed at completion; timing withheld")
+                if not post.get("observation_available"):
+                    record["post_analysis_observation_available"] = False
                 if code == 0 and not timed_out and capacity is None:
                     record["reconciliation"] = reconcile(group, source)
                     status = "completed-candidate-evidence"
             except BaseException as exc:
                 record["error"] = f"{type(exc).__name__}: {exc}"
             record.update(status=status, finished_utc=now(), process_ownership=ownership,
-                          publication_eligible=False, host_active_observations=guard.observations)
+                          publication_eligible=False, host_active_observations=guard.active_observations,
+                          host_observations=guard.observations,
+                          host_observation_attempts=guard.observation_attempts,
+                          quiet_certification=guard.quiet_certification())
             write_new(destination / "terminal.json", record)
             append(REPORT / "progress.jsonl", {"utc": now(), "group": group["id"], "status": status})
             print(f"{status.upper()} {group['id']}", flush=True)
@@ -414,10 +534,23 @@ def execute():
                   "publication_eligible": False})
 
 
-def main():
+def _campaign_id_arg(value):
+    try:
+        campaign_paths(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(str(exc)) from exc
+    return value
+
+
+def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("mode", choices=["prepare", "execute"])
-    args = parser.parse_args()
+    parser.add_argument("--campaign-id", type=_campaign_id_arg, default=DEFAULT_CAMPAIGN_ID,
+                        help="dated campaign identifier in YYYYMMDD-NN form")
+    args = parser.parse_args(argv)
+    if args.mode == "prepare" and args.campaign_id != DEFAULT_CAMPAIGN_ID:
+        parser.error("custom campaign IDs are supported for execute mode only")
+    select_campaign(args.campaign_id)
     if args.mode == "prepare":
         prepare()
     else:

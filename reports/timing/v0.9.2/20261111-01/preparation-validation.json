@@ -1,0 +1,17 @@
+{
+  "schema": "timing-retry-preparation-validation/v1",
+  "recorded_utc": "2026-11-10T06:56:37.915163+00:00",
+  "analyzers_dispatched": false,
+  "focused_campaign_tests_passed": 11,
+  "focused_host_tests_passed": 9,
+  "git_diff_check": "passed",
+  "review": "Primary reviewed all changes, corrected the dispatch-loop index wiring, and verified only first dispatch uses the quiet gate. Contention and missing CPU observations do not abort active or later invocations; resource failures and per-source limits still raise.",
+  "plan_invariants": "Exact group membership, tool bindings, resource budgets, release, population, fixtures and source projection match prior plan.",
+  "sha256": {
+    "scripts/v092_timing_campaign.py": "4c857afdcd279b115b90bf252d92cae9a8c954bfdee9b209208c7b7941506fdf",
+    "scripts/v092_timing_host.py": "06f122c04e22c42fa6df148badb41c4b886f492c4daf9ea44ef1d5a098643415",
+    "scripts/test-v092-timing-campaign.py": "25e47b59323682ad010c01ba6e7f361a825c148b0e7f1eb57c0d022c4f8fcdc1",
+    "scripts/test-v092-timing-host.py": "bdbccfe5bf06044a951bce0f01f10e7d2c1b8b771686d55cf780601bdc90b150",
+    "reports/timing/v0.9.2/20261111-01/plan.json": "f1aef50a0c2bcffa3b03bf6518e5c912949072192a3390e979edeae601581ab8"
+  }
+}

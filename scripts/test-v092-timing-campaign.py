@@ -20,6 +20,11 @@ host = load("host_under_test", "v092_timing_host.py")
 
 
 class CampaignTests(unittest.TestCase):
+    def make_guard(self, directory):
+        observer = Mock()
+        ownership = {"root_pid": 100}
+        return campaign.ObservedGuard(host, observer, ownership, Path(directory) / "host.jsonl", Path(directory))
+
     def observation(self):
         return {"hardware": {"logical_cpus": 10}, "processes": [
             {"pid": 1, "ppid": 0, "comm": "/sbin/launchd", "cpu_percent": 1.0},
@@ -95,6 +100,72 @@ class CampaignTests(unittest.TestCase):
         with patch.object(campaign.subprocess, "check_output", return_value="50 unknown /tmp/bifrost --mcp symbol|extended\n"):
             with self.assertRaisesRegex(ValueError, "CPU time"):
                 observer.snapshot()
+
+    def test_active_cpu_contention_records_without_aborting(self):
+        with tempfile.TemporaryDirectory() as directory:
+            guard = self.make_guard(directory)
+            guard.guard = Mock()
+            observation = self.observation()
+            observation["processes"][0]["cpu_percent"] = 550.0
+            guard.observer.snapshot.return_value = observation
+            with patch.object(campaign.core, "_tree_bytes", return_value=0), \
+                    patch.object(campaign.time, "monotonic", return_value=100.0):
+                guard.check(category="working", paths=[])
+            self.assertTrue(guard.contention_observed)
+            self.assertEqual(guard.active_observations, 1)
+            self.assertFalse(guard.quiet_certification()["certified"])
+            self.assertTrue(json.loads(guard.evidence.read_text())["contention"]["contended"])
+
+    def test_active_and_post_observation_failures_are_nonfatal(self):
+        with tempfile.TemporaryDirectory() as directory:
+            guard = self.make_guard(directory)
+            guard.guard = Mock()
+            guard.observer.snapshot.side_effect = host.HostObservationError("unavailable CPU")
+            with patch.object(campaign.core, "_tree_bytes", return_value=0), \
+                    patch.object(campaign.time, "monotonic", return_value=100.0):
+                guard.check(category="working", paths=[])
+            result = guard.observe_background("after-analysis")
+            self.assertFalse(result["observation_available"])
+            self.assertEqual(guard.observation_failures, 2)
+            self.assertFalse(guard.quiet_certification()["certified"])
+
+    def test_resource_failures_still_stop(self):
+        with tempfile.TemporaryDirectory() as directory:
+            guard = self.make_guard(directory)
+            guard.guard = Mock()
+            guard.guard.check.side_effect = RuntimeError("disk reserve lost")
+            with self.assertRaisesRegex(RuntimeError, "disk reserve"):
+                guard.check(category="working", paths=[])
+            guard.observer.snapshot.assert_not_called()
+            guard.guard.check.side_effect = None
+            with patch.object(campaign.core, "_tree_bytes", return_value=12 * campaign.GIB + 1):
+                with self.assertRaisesRegex(campaign.CampaignStop, "12 GiB"):
+                    guard.check(category="working", paths=[])
+
+    def test_only_first_dispatch_waits_for_quiet(self):
+        with tempfile.TemporaryDirectory() as directory:
+            guard = self.make_guard(directory)
+            guard.launch_check = Mock()
+            guard.observe_background = Mock(return_value={"contention_observed": True})
+            with patch.object(campaign, "wait_quiet", return_value={"cpu_idle_percent": 95}) as wait:
+                first = campaign.prelaunch_state(0, host, guard.observer, guard, guard.evidence, guard.source)
+                self.assertIsNotNone(first["quiet_observation"])
+                self.assertTrue(guard.initial_quiet_gate_passed)
+                wait.assert_called_once()
+                later = campaign.prelaunch_state(1, host, guard.observer, guard, guard.evidence, guard.source)
+                self.assertIsNone(later["quiet_observation"])
+                self.assertTrue(guard.settle_skipped)
+                wait.assert_called_once()
+                self.assertEqual(guard.launch_check.call_count, 2)
+                guard.observe_background.assert_called_once_with("prelaunch-after-campaign-start")
+
+    def test_campaign_ids_are_dated_and_cannot_escape_workspace(self):
+        report, work = campaign.campaign_paths("20261111-01")
+        self.assertEqual(report.name, "20261111-01")
+        self.assertEqual(work.name, "timing-v092-20261111-01")
+        for value in ["../20261111-01", "/tmp/20261111-01", "20260230-01", "20261111-00"]:
+            with self.assertRaises(ValueError, msg=value):
+                campaign.campaign_paths(value)
 
 
 if __name__ == "__main__":

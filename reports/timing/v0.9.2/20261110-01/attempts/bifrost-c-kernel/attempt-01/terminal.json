@@ -1,0 +1,104 @@
+{
+  "argv": [
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/target/release/dataflowbench",
+    "--population",
+    "v0.9.0",
+    "run-bifrost-c-kernel",
+    "--bifrost",
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261110-01/tools/bifrost/bifrost-v0.15.1-universal-apple-darwin/bifrost"
+  ],
+  "capacity_loss": {
+    "code": "capacity_unavailable",
+    "reason": "external CPU/build/analyzer contention detected; timing withheld"
+  },
+  "elapsed_seconds": 34.79481854100004,
+  "error": "RuntimeError: external activity observed at completion; timing withheld",
+  "execution_budget_consumed_seconds": 34.79481854100004,
+  "exit_code": -15,
+  "finished_utc": "2026-11-10T01:07:12.724924+00:00",
+  "group": "bifrost-c-kernel",
+  "host_active_observations": 2,
+  "post_analysis_contention": {
+    "contended": true,
+    "external_cpu_percent": 550.2,
+    "heavy": [],
+    "significant_external_cpu": true
+  },
+  "process_ownership": {
+    "cleanup_status": "tracked-processes-stopped",
+    "descendant_containment": "unproven",
+    "root_pid": 31741,
+    "schema": "invocation-process-ownership/v1",
+    "signals_sent": [
+      {
+        "pid": 32262,
+        "signal": "SIGTERM",
+        "start_identity": "1794272830:808173"
+      },
+      {
+        "pid": 31741,
+        "signal": "SIGTERM",
+        "start_identity": "1794272798:976521"
+      }
+    ],
+    "tracked_processes": [
+      {
+        "pid": 31741,
+        "start_identity": "1794272798:976521"
+      },
+      {
+        "pid": 31745,
+        "start_identity": "1794272800:46140"
+      },
+      {
+        "pid": 31885,
+        "start_identity": "1794272811:21789"
+      },
+      {
+        "pid": 31953,
+        "start_identity": "1794272814:606836"
+      },
+      {
+        "pid": 32022,
+        "start_identity": "1794272818:156093"
+      },
+      {
+        "pid": 32032,
+        "start_identity": "1794272818:304169"
+      },
+      {
+        "pid": 32091,
+        "start_identity": "1794272821:743539"
+      },
+      {
+        "pid": 32101,
+        "start_identity": "1794272821:892204"
+      },
+      {
+        "pid": 32158,
+        "start_identity": "1794272825:323963"
+      },
+      {
+        "pid": 32168,
+        "start_identity": "1794272825:472616"
+      },
+      {
+        "pid": 32227,
+        "start_identity": "1794272828:961758"
+      },
+      {
+        "pid": 32237,
+        "start_identity": "1794272829:111383"
+      },
+      {
+        "pid": 32262,
+        "start_identity": "1794272830:808173"
+      }
+    ],
+    "tracking_interval_seconds": 2.0
+  },
+  "publication_eligible": false,
+  "started_utc": "2026-11-10T01:06:36.365903+00:00",
+  "status": "failed",
+  "timed_out": false
+}
