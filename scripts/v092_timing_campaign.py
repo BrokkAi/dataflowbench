@@ -350,6 +350,7 @@ def execute():
             subprocess.run([group["argv"][0], "--validate-args", *group["argv"][1:]],
                            cwd=source, check=True, capture_output=True)
         write_new(REPORT / "campaign-start.json", {"created_utc": now(), "phase": "waiting-for-quiet",
+                  "supervisor_pid": os.getpid(), "supervisor_start_identity": tracker._start_identity(os.getpid()),
                   "plan_sha256": sha(plan_path), "plan_commit": subprocess.check_output(
                       ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
                   "ready_commands": len(ready), "source_commit": RELEASE,
