@@ -5,37 +5,66 @@ import {
   formatTiming,
 } from '../data/timing-overview-v092.ts';
 
-function description(row: (typeof overview.rows)[number]): string {
+function description(row: (typeof overview.summaryRows)[number]): string {
+  if (row.status === 'not-planned') {
+    return `${row.analyzer} ${row.pin}: no cold groups were planned for this tier.`;
+  }
+  if (row.status === 'untimed') {
+    return `${row.label}: ${row.measuredGroups} captured groups and ${row.reportRows} report rows, with no timed invocations. Timing absence is not zero time.`;
+  }
+  if (row.status === 'not-measured') {
+    return `${row.analyzer} ${row.pin}: Not measured for v0.9.2. ${row.plannedGroups} planned cold groups; runtime blocker: ${row.blocker ?? 'not recorded'}.`;
+  }
+  const blocker = row.blocker ? ` Some planned groups remain blocked: ${row.blocker}` : '';
+  return `${row.label}: ${row.timed} of ${row.reportRows} retained report rows have timing; ${row.measuredGroups} of ${row.plannedGroups} planned groups have captured reports; median ${formatTiming(row.median)}, 90th percentile ${formatTiming(row.p90)}, observed range ${formatTiming(row.min)} to ${formatTiming(row.max)}. Descriptive roll-up only; not certified.${blocker}`;
+}
+
+function sliceDescription(row: (typeof overview.rows)[number]): string {
   if (row.median === null) {
-    return `${row.label}: no timed invocations; ${row.reportRows} unsupported rows.`;
+    return `${row.label}: no timed invocations; ${row.reportRows} captured report rows.`;
   }
   return `${row.label}: ${row.timed} of ${row.reportRows} rows timed; median ${formatTiming(row.median)}, 90th percentile ${formatTiming(row.p90)}, observed range ${formatTiming(row.min)} to ${formatTiming(row.max)}. Uncertified.`;
 }
+
+function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
+  if (pin?.startsWith('rules ')) return `rules ${pin.slice(6, 14)}…`;
+  return pin;
+}
 ---
 
-<section class="timing-overview" data-timing-overview aria-label="Diagnostic v0.9.2 timing observations">
+<section class="timing-overview" data-timing-overview aria-label="Descriptive v0.9.2 timing roll-up">
   <p class="timing-status">
-    <strong>Partial observations. No timing is certified.</strong>
-    Bifrost v0.15.1 and Infer v1.3.0, captured 13 November 2026.
+    <strong>Descriptive roll-up of retained invocation records. No timing is certified.</strong>
+    {overview.totals.capturedGroups} of {overview.totals.plannedGroups} planned cold groups have retained reports; {overview.totals.timedGroups} groups contain timed invocations;
+    {overview.totals.timedRows.toLocaleString('en-US')} of {overview.totals.reportRows.toLocaleString('en-US')} retained report rows have a wall-time observation.
+    The {overview.totals.unsupportedUntimedRows} unsupported rows have no timed invocation;
+    {overview.totals.timedInconclusiveRows} timed rows have inconclusive outcomes. A recorded duration does not certify successful analysis.
+    This is the 13 November 2026 capture. Rows follow the frozen v0.9.2 analyzer order and pins.
   </p>
   <p>
-    Across the captured slices, medians span <strong>{formatTiming(overview.medianRange.min)} to {formatTiming(overview.medianRange.max)}</strong>,
-    with observed cases up to <strong>{formatTiming(overview.observedMax)}</strong>.
-    Each slice has its own case population; these observations establish no
-    performance ranking or comparison with an earlier release.
+    Each analyzer's distribution is computed from its raw per-case observations. It combines mixed languages,
+    tiers, populations and profiles, so it is not a matched comparison, performance ranking or certification.
+    The six analyzers without retained cold reports are shown with their recorded runtime blockers.
   </p>
 
   <div class="timing-controls" data-timing-controls hidden>
+    <label>View
+      <select data-timing-view aria-label="Timing view">
+        <option value="summary" selected>Analyzer summary</option>
+        <option value="slices">Slice detail</option>
+      </select>
+    </label>
     <label>Analyzer
       <select data-timing-analyzer aria-label="Timing analyzer">
         <option value="all">All analyzers</option>
-        <option value="Bifrost">Bifrost</option>
-        <option value="Infer">Infer</option>
+        {overview.analyzers.map((analyzer) => (
+          <option value={analyzer.id}>{analyzer.name}</option>
+        ))}
       </select>
     </label>
-    <label>Slice
-      <select data-timing-tier aria-label="Timing slice">
-        <option value="all">All slices</option>
+    <label>Tier
+      <select data-timing-tier aria-label="Timing tier">
+        <option value="all">All tiers</option>
         <option value="kernel">Kernel</option>
         <option value="smoke">Smoke</option>
         <option value="modeling">Modeling</option>
@@ -45,17 +74,17 @@ function description(row: (typeof overview.rows)[number]): string {
   </div>
 
   <p class="timing-count" data-timing-count role="status" aria-live="polite" aria-atomic="true">
-    {overview.rows.length} slices · {overview.totals.timedRows.toLocaleString('en-US')} timed / {overview.totals.reportRows.toLocaleString('en-US')} report rows
+    {overview.summaryRows.length} analyzers · {overview.totals.capturedGroups} / {overview.totals.plannedGroups} groups captured ·
+    {overview.totals.timedRows.toLocaleString('en-US')} / {overview.totals.reportRows.toLocaleString('en-US')} report rows timed
   </p>
 
   <figure class="timing-figure" aria-describedby="timing-chart-description">
     <figcaption id="timing-chart-description">
-      <strong>Cold invocations, including startup.</strong>
-      Dot: median. Tick: 90th percentile. Line: observed minimum to maximum.
-      Logarithmic time scale, shared by every row and filter.
+      <strong>Cold whole-invocation wall time, including startup.</strong>
+      Dot: median. Tick: 90th percentile. Line: observed minimum to maximum. Logarithmic time scale, shared by every row and filter.
     </figcaption>
     <div class="timing-axis" aria-hidden="true">
-      <span class="axis-label">Slice · timed / reported</span>
+      <span class="axis-label" data-axis-label>Analyzer · timed / report rows · groups captured / planned</span>
       <div class="axis-ticks">
         {overview.axis.ticksSeconds.map((seconds) => (
           <span style={`left:${timingPosition(seconds * 1000)}%`}>{formatTiming(seconds * 1000)}</span>
@@ -63,13 +92,47 @@ function description(row: (typeof overview.rows)[number]): string {
       </div>
       <span class="median-label">Median</span>
     </div>
-    <ul class="timing-rows" aria-label="Cold invocation distributions">
+
+    <ul class="timing-rows" data-summary-list aria-label="Cold case distributions by analyzer">
+      {overview.aggregateRows.map((row) => (
+        <li data-timing-row data-view-row="summary" data-analyzer={row.analyzerId} data-tier={row.tier}
+          data-timed={row.timed} data-reported={row.reportRows} data-measured-groups={row.measuredGroups}
+          data-planned-groups={row.plannedGroups} hidden={row.tier !== 'all'} aria-label={description(row)}>
+          <div class="timing-row-label">
+            <span>{row.analyzer}</span>
+            <small>{row.pin}{row.auxiliaryPin ? ` · ${visibleAuxiliaryPin(row.auxiliaryPin)}` : ''}</small>
+            {row.blocker && <small class="timing-blocker">At capture: {row.blocker}</small>}
+          </div>
+          <div class="timing-plot" aria-hidden="true">
+            {row.status === 'measured' && row.min !== null && row.max !== null && row.median !== null && row.p90 !== null ? (
+              <>
+                <span class="timing-range" style={`left:${timingPosition(row.min)}%;width:${timingPosition(row.max) - timingPosition(row.min)}%`}></span>
+                <span class="timing-p90" style={`left:${timingPosition(row.p90)}%`}></span>
+                <span class="timing-median" style={`left:${timingPosition(row.median)}%`}></span>
+              </>
+            ) : row.status === 'not-planned' ? (
+              <span class="timing-untimed">No groups planned for this tier</span>
+            ) : row.status === 'not-measured' ? (
+              <span class="timing-untimed">Not measured for v0.9.2</span>
+            ) : <span class="timing-untimed">No timed invocations</span>}
+          </div>
+          <span class="timing-value" aria-hidden="true">{formatTiming(row.median)}</span>
+          <small class="timing-row-count">
+            {row.status === 'not-measured'
+              ? `0 / ${row.plannedGroups} groups captured`
+              : `${row.timed.toLocaleString('en-US')} / ${row.reportRows.toLocaleString('en-US')} timed · ${row.measuredGroups} / ${row.plannedGroups} groups`}
+          </small>
+        </li>
+      ))}
+    </ul>
+
+    <ul class="timing-rows" data-slice-list aria-label="Retained cold timing slices" hidden>
       {overview.rows.map((row) => (
-        <li data-timing-row data-analyzer={row.analyzer} data-tier={row.tier}
-          data-timed={row.timed} data-reported={row.reportRows} aria-label={description(row)}>
+        <li data-timing-row data-view-row="slices" data-analyzer={row.analyzerId} data-tier={row.tier}
+          data-timed={row.timed} data-reported={row.reportRows} aria-label={sliceDescription(row)}>
           <div class="timing-row-label">
             <span>{row.label}</span>
-            <small>{row.timed} / {row.reportRows} timed</small>
+            <small>{row.timed.toLocaleString('en-US')} / {row.reportRows.toLocaleString('en-US')} timed</small>
           </div>
           <div class="timing-plot" aria-hidden="true">
             {row.min !== null && row.max !== null && row.median !== null && row.p90 !== null ? (
@@ -84,34 +147,35 @@ function description(row: (typeof overview.rows)[number]): string {
         </li>
       ))}
     </ul>
-    <p class="timing-empty" data-timing-empty hidden>No captured slices match these filters. This is missing coverage, not a zero time.</p>
+    <p class="timing-empty" data-timing-empty hidden>No retained slice records match these filters. This is missing timing coverage, not unsupported analysis.</p>
   </figure>
 
   <p class="timing-caveat">
-    Across the full supplement, {overview.totals.untimedRows} unsupported rows have no timing; {overview.totals.blockedColdGroups} planned cold groups remain blocked.
-    The {overview.totals.timedRows.toLocaleString('en-US')} timings include inconclusive outcomes and describe
-    different cases, not repeated trials or runtime variance. Later contention,
-    unknown observations, absent A24 settling and unproven descendant containment
-    prevent certification. Warm marginal cost remains unmeasured.
+    These values summarize different case invocations, not repeated trials or runtime variance. The Bifrost C cold record
+    retained a passing initial quiet-gate flag; later cold records retained false flags because no renewed per-group quiet
+    checks were made. Contention was observed in Bifrost C and Java cold records, and Bifrost Python overhead only.
+    No CPU observation failures were recorded ({overview.totals.cpuObservationFailures}). A24 inter-adapter settling was
+    omitted for the overhead measurements. Process-descendant containment remains unproven, and every recorded
+    certification flag remains false.
   </p>
   <p class="timing-overhead">
     <strong>Separate invocation-overhead estimates:</strong>
-    Bifrost / Python {formatTiming(overview.overhead[0].range_ms.low)}–{formatTiming(overview.overhead[0].range_ms.high)};
-    Infer / C {formatTiming(overview.overhead[1].range_ms.low)}–{formatTiming(overview.overhead[1].range_ms.high)}.
-    Three repeats each; upper bounds including a no-flow fixture's analysis,
-    not warm marginal cost. Nothing is subtracted from the chart.
+    Bifrost / Python {formatTiming(overview.overhead[0].range_ms.low)}–{formatTiming(overview.overhead[0].range_ms.high)}
+    (contention observed); Infer / C {formatTiming(overview.overhead[1].range_ms.low)}–{formatTiming(overview.overhead[1].range_ms.high)}
+    (no contention observed). Three repeats each; ranges are upper-bound estimates including analysis of no-flow fixtures,
+    not warm marginal cost. Nothing is subtracted from the cold chart.
   </p>
   <p><a href={overview.pageUrl}>Full timing tables, qualification and downloadable evidence</a></p>
 
   <details class="timing-values">
     <summary>Timing values for all {overview.rows.length} captured slices</summary>
-    <p>Rounded for readability. All slices remain in this table regardless of the chart filters. A dash means no timing, never zero; full precision is retained in the downloadable evidence.</p>
+    <p>Rounded for readability. This table always shows the retained per-slice values, regardless of chart filters. A dash means no timing, never zero; full precision is retained in the downloadable evidence.</p>
     <div class="timing-table-scroll" tabindex="0" role="region" aria-label="Cold timing values">
       <table>
         <caption>Uncertified cold-case wall-clock observations</caption>
-        <thead><tr><th scope="col">Slice</th><th scope="col">Timed / reported</th><th scope="col">Minimum</th><th scope="col">Median</th><th scope="col">90th percentile</th><th scope="col">Maximum</th></tr></thead>
+        <thead><tr><th scope="col">Slice</th><th scope="col">Timed / report rows</th><th scope="col">Minimum</th><th scope="col">Median</th><th scope="col">90th percentile</th><th scope="col">Maximum</th></tr></thead>
         <tbody>{overview.rows.map((row) => (
-          <tr><th scope="row">{row.label}</th><td>{row.timed} / {row.reportRows}</td><td>{formatTiming(row.min)}</td><td>{formatTiming(row.median)}</td><td>{formatTiming(row.p90)}</td><td>{formatTiming(row.max)}</td></tr>
+          <tr><th scope="row">{row.label}</th><td>{row.timed.toLocaleString('en-US')} / {row.reportRows.toLocaleString('en-US')}</td><td>{formatTiming(row.min)}</td><td>{formatTiming(row.median)}</td><td>{formatTiming(row.p90)}</td><td>{formatTiming(row.max)}</td></tr>
         ))}</tbody>
       </table>
     </div>
@@ -120,28 +184,46 @@ function description(row: (typeof overview.rows)[number]): string {
 
 <script>
   for (const root of document.querySelectorAll<HTMLElement>('[data-timing-overview]')) {
+    const view = root.querySelector<HTMLSelectElement>('[data-timing-view]');
     const analyzer = root.querySelector<HTMLSelectElement>('[data-timing-analyzer]');
     const tier = root.querySelector<HTMLSelectElement>('[data-timing-tier]');
     const controls = root.querySelector<HTMLElement>('[data-timing-controls]');
     const count = root.querySelector<HTMLElement>('[data-timing-count]');
     const empty = root.querySelector<HTMLElement>('[data-timing-empty]');
+    const summaryList = root.querySelector<HTMLElement>('[data-summary-list]');
+    const sliceList = root.querySelector<HTMLElement>('[data-slice-list]');
+    const axisLabel = root.querySelector<HTMLElement>('[data-axis-label]');
     const rows = [...root.querySelectorAll<HTMLElement>('[data-timing-row]')];
-    if (!analyzer || !tier || !controls || !count || !empty) continue;
+    if (!view || !analyzer || !tier || !controls || !count || !empty || !summaryList || !sliceList || !axisLabel) continue;
+
     const update = () => {
-      let shown = 0;
-      let timed = 0;
-      let reported = 0;
-      for (const row of rows) {
-        row.hidden = (analyzer.value !== 'all' && row.dataset.analyzer !== analyzer.value)
-          || (tier.value !== 'all' && row.dataset.tier !== tier.value);
-        if (row.hidden) continue;
-        shown += 1;
-        timed += Number(row.dataset.timed);
-        reported += Number(row.dataset.reported);
-      }
-      count.textContent = `${shown} ${shown === 1 ? 'slice' : 'slices'} · ${timed.toLocaleString('en-US')} timed / ${reported.toLocaleString('en-US')} report rows`;
-      empty.hidden = shown !== 0;
+      const activeView = view.value;
+      const activeRows = rows.filter((row) => {
+        const matchesView = row.dataset.viewRow === activeView;
+        const matchesAnalyzer = analyzer.value === 'all' || row.dataset.analyzer === analyzer.value;
+        const matchesTier = activeView === 'summary'
+          ? row.dataset.tier === tier.value
+          : tier.value === 'all' || row.dataset.tier === tier.value;
+        row.hidden = !matchesView || !matchesAnalyzer || !matchesTier;
+        return !row.hidden;
+      });
+      const timed = activeRows.reduce((total, row) => total + Number(row.dataset.timed), 0);
+      const reported = activeRows.reduce((total, row) => total + Number(row.dataset.reported), 0);
+      const measuredGroups = activeRows.reduce((total, row) => total + Number(row.dataset.measuredGroups ?? 0), 0);
+      const plannedGroups = activeRows.reduce((total, row) => total + Number(row.dataset.plannedGroups ?? 0), 0);
+      const shown = activeRows.length;
+      summaryList.hidden = activeView !== 'summary';
+      sliceList.hidden = activeView !== 'slices';
+      empty.hidden = shown !== 0 || activeView !== 'slices';
+      axisLabel.textContent = activeView === 'summary'
+        ? 'Analyzer · timed / report rows · groups captured / planned'
+        : 'Slice · timed / report rows';
+      count.textContent = activeView === 'summary'
+        ? `${shown} ${shown === 1 ? 'analyzer' : 'analyzers'} · ${measuredGroups} / ${plannedGroups} groups captured · ${timed.toLocaleString('en-US')} / ${reported.toLocaleString('en-US')} report rows timed`
+        : `${shown} ${shown === 1 ? 'slice' : 'slices'} · ${timed.toLocaleString('en-US')} / ${reported.toLocaleString('en-US')} report rows timed`;
     };
+
+    view.addEventListener('change', update);
     analyzer.addEventListener('change', update);
     tier.addEventListener('change', update);
     update();
@@ -161,17 +243,18 @@ function description(row: (typeof overview.rows)[number]): string {
   .timing-figure { margin: 0; max-width: 70rem; }
   figcaption { max-width: var(--dfb-measure); margin-bottom: 1.75rem; color: var(--ds-text-2); font-size: .875rem; }
   figcaption strong { display: block; color: var(--ds-text); }
-  .timing-axis, .timing-rows li { display: grid; grid-template-columns: minmax(11.5rem, 14rem) minmax(0, 1fr) 5rem; column-gap: 1rem; align-items: center; }
+  .timing-axis, .timing-rows li { display: grid; grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr) 5rem; column-gap: 1rem; align-items: center; }
   .timing-axis { margin-bottom: .5rem; font-size: .75rem; color: var(--ds-text-3); }
   .axis-ticks { position: relative; height: 1.5rem; }
   .axis-ticks span { position: absolute; white-space: nowrap; transform: translateX(-50%); }
   .axis-ticks span:first-child { transform: none; }
   .median-label { text-align: right; }
   .timing-rows { list-style: none; padding: 0; margin: 0; max-width: none; }
-  .timing-rows li { min-height: 3rem; margin: 0; padding-block: .3rem; }
-  .timing-row-label { font-size: .875rem; line-height: 1.3; }
-  .timing-row-label small { display: block; color: var(--ds-text-3); font-size: .75rem; margin-top: .2rem; }
-  .timing-plot { position: relative; height: 1.5rem; }
+  .timing-rows li { min-height: 3.2rem; margin: 0; padding-block: .45rem; }
+  .timing-row-label { min-width: 0; font-size: .875rem; line-height: 1.3; }
+  .timing-row-label small { display: block; color: var(--ds-text-3); font-size: .75rem; margin-top: .2rem; overflow-wrap: anywhere; }
+  .timing-row-label .timing-blocker { color: var(--ds-text-2); }
+  .timing-plot { position: relative; min-width: 0; height: 1.5rem; }
   .timing-range { position: absolute; top: calc(50% - 1px); height: 2px; background: var(--ds-text-3); }
   .timing-range::before, .timing-range::after { content: ''; position: absolute; top: -3px; height: 8px; width: 1px; background: var(--ds-text-3); }
   .timing-range::before { left: 0; }
@@ -179,6 +262,7 @@ function description(row: (typeof overview.rows)[number]): string {
   .timing-p90 { position: absolute; top: calc(50% - 6px); width: 2px; height: 12px; background: var(--ds-text); transform: translateX(-50%); }
   .timing-median { position: absolute; top: calc(50% - 4px); width: 8px; height: 8px; border-radius: 50%; background: var(--ds-accent-text); transform: translateX(-50%); }
   .timing-value { text-align: right; font-family: Georgia, 'Times New Roman', serif; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .timing-row-count { grid-column: 1 / -1; margin: -.2rem 0 .25rem; color: var(--ds-text-3); font-size: .75rem; }
   .timing-untimed { font-size: .8rem; color: var(--ds-text-3); }
   .timing-caveat, .timing-overhead { margin-top: 1.5rem; font-size: .875rem; }
   .timing-values { margin-top: 1.5rem; }
@@ -190,18 +274,21 @@ function description(row: (typeof overview.rows)[number]): string {
   .timing-values caption { text-align: left; color: var(--ds-text-2); }
   .timing-overview [hidden] { display: none; }
   @media (max-width: 640px) {
-    .timing-controls { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .timing-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+    .timing-controls label:first-child { grid-column: 1 / -1; }
     .timing-controls select { width: 100%; min-width: 0; }
     .timing-axis { grid-template-columns: minmax(0, 1fr); padding-top: 1rem; }
     .axis-label, .median-label { display: none; }
-    .timing-rows li { grid-template-columns: minmax(0, 1fr) auto; row-gap: .25rem; margin-bottom: 1rem; }
+    .timing-rows li { grid-template-columns: minmax(0, 1fr) auto; column-gap: .75rem; row-gap: .25rem; margin-bottom: .8rem; }
     .timing-row-label { grid-column: 1; grid-row: 1; }
     .timing-value { grid-column: 2; grid-row: 1; font-size: 1rem; }
     .timing-plot { grid-column: 1 / -1; grid-row: 2; }
-    .timing-row-label small { display: inline; margin-left: .5rem; }
+    .timing-row-count { grid-column: 1 / -1; grid-row: 3; margin: 0; }
+    .timing-row-label small { margin-top: .15rem; }
     .timing-untimed { display: block; }
   }
   @media (max-width: 360px) {
     .axis-ticks span:nth-child(2) { display: none; }
+    .timing-overview { overflow-wrap: anywhere; }
   }
 </style>
