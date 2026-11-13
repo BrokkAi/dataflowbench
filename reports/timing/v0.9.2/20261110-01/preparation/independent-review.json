@@ -1,0 +1,34 @@
+{
+  "schema": "v092-timing-launch-review/v1",
+  "recorded_utc": "2026-11-10T00:24:26.711132+00:00",
+  "reviewer": "/root/timing_contract (Luna xhigh), integrated and verified by root",
+  "scope": [
+    "release timing contract and source equivalence",
+    "new campaign isolation, source projection, resource gates and report reconciliation",
+    "inactive-service observation rule"
+  ],
+  "confirmed_findings_resolved": [
+    "directory source inputs expanded to exact tagged files",
+    "cold reports reconciled using source_path",
+    "pre-existing source directories rejected",
+    "smoke sidecars counted from declared output roots",
+    "source size preflight enforces per-attempt 12 GiB before extraction"
+  ],
+  "service_gate_review": "No fail-open found relative to the stated inactivity criterion. A service is identified by basename/mode and proven PID/start identity, not an independently verified binary digest; its observed inactivity is the contention criterion, not analyzer admission.",
+  "pre_dispatch_validation": {
+    "focused_campaign_tests": {
+      "passed": 6,
+      "failed": 0
+    },
+    "focused_host_tests": {
+      "passed": 9,
+      "failed": 0
+    },
+    "cargo_fmt_check": "passed",
+    "git_diff_check": "passed",
+    "released_population_validate": "passed",
+    "isolated_source_population_validate": "passed"
+  },
+  "analyzer_results_reviewed": false,
+  "performance_or_publication_certified": false
+}

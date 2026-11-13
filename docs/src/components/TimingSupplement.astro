@@ -1,0 +1,231 @@
+---
+import { timingSupplementV092 as supplement } from '../data/timing-supplement-v092.ts';
+
+interface Props {
+  part: 'notice' | 'cold' | 'overhead' | 'provenance' | 'evidence';
+}
+const { part } = Astro.props;
+
+function formatMs(value: number | null): string {
+  if (value === null) return '—';
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
+const sliceLabels: Record<string, string> = {
+  'bifrost-c-kernel': 'Bifrost C kernel',
+  'bifrost-cpp-kernel': 'Bifrost C++ kernel',
+  'bifrost-csharp-kernel': 'Bifrost C# kernel',
+  'bifrost-go-kernel': 'Bifrost Go kernel',
+  'bifrost-java-kernel': 'Bifrost Java kernel',
+  'bifrost-java-modeling': 'Bifrost Java modeling',
+  'bifrost-java-native': 'Bifrost Java native',
+  'bifrost-javascript-kernel': 'Bifrost JavaScript kernel',
+  'bifrost-javascript-modeling': 'Bifrost JavaScript modeling',
+  'bifrost-javascript-native': 'Bifrost JavaScript native',
+  'bifrost-kotlin-kernel': 'Bifrost Kotlin kernel',
+  'bifrost-php-kernel': 'Bifrost PHP kernel',
+  'bifrost-python-kernel': 'Bifrost Python kernel',
+  'bifrost-python-modeling': 'Bifrost Python modeling',
+  'bifrost-python-native': 'Bifrost Python native',
+  'bifrost-ruby-kernel': 'Bifrost Ruby kernel',
+  'bifrost-rust-kernel': 'Bifrost Rust kernel',
+  'bifrost-smoke': 'Bifrost smoke (mixed languages)',
+  'bifrost-typescript-kernel': 'Bifrost TypeScript kernel',
+  'infer-c-kernel': 'Infer C kernel',
+  'infer-cpp-kernel': 'Infer C++ kernel',
+};
+
+function sliceLabel(group: string): string {
+  const label = sliceLabels[group];
+  if (!label) throw new Error(`unknown timing supplement slice: ${group}`);
+  return label;
+}
+
+function overheadLabel(group: string): string {
+  const labels: Record<string, string> = {
+    'overhead-bifrost-python': 'Bifrost / Python no-flow',
+    'overhead-infer-c': 'Infer / C no-flow',
+  };
+  const label = labels[group];
+  if (!label) throw new Error(`unknown overhead estimate: ${group}`);
+  return label;
+}
+
+const inconclusive = supplement.totals.outcomes.inconclusive ?? 0;
+const notReached = supplement.totals.outcomes['not-reached'] ?? 0;
+const reached = supplement.totals.outcomes.reached ?? 0;
+const unsupported = supplement.totals.outcomes.unsupported ?? 0;
+
+const downloads = [
+  ['Supplement manifest', 'manifest.json'],
+  ['Reconciliation summary', 'summary.json'],
+  ['Per-case observations', 'cases.json'],
+  ['Evidence manifest', 'evidence-manifest.json'],
+  ['Lossless bundle manifest', 'evidence-v1/bundle.json'],
+  ['Lossless bundle file index (save as files.jsonl.gz)', 'evidence-v1/files.jsonl.gz.bin'],
+  ['Lossless retained detail', 'evidence-v1/detail.tar.gz.part0000'],
+] satisfies [string, string][];
+---
+
+{part === 'notice' && (
+  <>
+<aside class="qualification" aria-label="Timing qualification">
+  <strong>Diagnostic candidate evidence. No timing is certified.</strong>
+  <p>
+    This separately versioned supplement does not change the frozen v0.9.2
+    results or establish a performance comparison. The retained qualification
+    says this evidence is not eligible for performance publication. Certified
+    groups in the source records: {supplement.totals.certifiedGroups}.
+  </p>
+</aside>
+  </>
+)}
+
+{part === 'cold' && (
+  <>
+<p>
+  The retained reports contain <strong>{supplement.totals.reportRows} rows</strong>:
+  <strong>{supplement.totals.timedRows} timed</strong> and
+  <strong>{supplement.totals.untimedRows} untimed</strong>. Outcome counts are
+  {inconclusive} inconclusive, {notReached} not-reached, {reached} reached, and
+  {unsupported} unsupported. Timing absence for unsupported cases is not zero.
+  Identity differences against the frozen reports: {supplement.totals.identityDifferences};
+  outcome changes: {supplement.totals.outcomeChanges}. These checks do not add
+  analyzer support or alter correctness scores.
+</p>
+
+<p>
+  Each row below summarizes one cold invocation per case. The distributions
+  describe cases within each slice; they are not repeated measurements of one
+  case and do not estimate runtime variance. The denominator counts timing
+  sidecars regardless of outcome. Values are complete adapter-declared
+  invocation wall-clock milliseconds; setup, builds, fixture materialization,
+  normalization, validation, and hashing are outside the timer. Quantiles use
+  linear interpolation over the per-case observations. No overhead is
+  subtracted.
+</p>
+
+<p>On narrow screens, scroll the table horizontally to see every column.</p>
+
+<div class="table-scroll ds-table" tabindex="0" role="region" aria-label="Cold timing distributions">
+  <table>
+    <caption>Cold case distributions, milliseconds</caption>
+    <thead>
+      <tr>
+        <th scope="col">Slice</th>
+        <th scope="col">Rows</th>
+        <th scope="col">Timed n</th>
+        <th scope="col">Min</th>
+        <th scope="col">Median</th>
+        <th scope="col">p90</th>
+        <th scope="col">Max</th>
+      </tr>
+    </thead>
+    <tbody>
+      {supplement.coldSlices.map((slice) => (
+        <tr>
+          <th scope="row">{sliceLabel(slice.group)}</th>
+          <td>{slice.reportRows}</td>
+          <td>{slice.timed}</td>
+          <td>{formatMs(slice.min)}</td>
+          <td>{formatMs(slice.median)}</td>
+          <td>{formatMs(slice.p90)}</td>
+          <td>{formatMs(slice.max)}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+  </>
+)}
+
+{part === 'overhead' && (
+  <>
+<p>
+  These are fixed cold invocations of the existing trivial no-flow
+  fixture. The full min-to-max range is an upper-bound estimate that includes
+  startup and the fixture's own analysis. It is not warm marginal cost and is
+  not subtracted from the cold case values. The groups remain unqualified.
+</p>
+
+<div class="table-scroll ds-table" tabindex="0" role="region" aria-label="Invocation-overhead estimates">
+  <table>
+    <caption>Separate invocation-overhead estimates, milliseconds</caption>
+    <thead>
+      <tr>
+        <th scope="col">Adapter</th>
+        <th scope="col">Three repeats</th>
+        <th scope="col">Min–max range</th>
+      </tr>
+    </thead>
+    <tbody>
+      {supplement.overhead.map((entry) => (
+        <tr>
+          <th scope="row">{overheadLabel(entry.group)}</th>
+          <td>{entry.repeats_ms.map(formatMs).join(', ')}</td>
+          <td>{formatMs(entry.range_ms.low)}–{formatMs(entry.range_ms.high)}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+  </>
+)}
+
+{part === 'provenance' && (
+  <>
+<p>
+  The continuous queue passed its initial quiet-host admission. After dispatch,
+  CPU contention and unavailable observations were retained as telemetry while
+  the queue continued; this does not certify uncontended timing. The original
+  A24 inter-adapter settling qualification was not established, and descendant
+  containment remains unproven. All cold slices and both overhead entries are
+  marked uncertified. {supplement.totals.blockedColdGroups} of the planned cold
+  groups remain blocked. Only Bifrost at v0.15.1 and Infer at v1.3.0 have new
+  cold observations; warm marginal measurements and the other analyzers remain
+  blocked.
+</p>
+
+<p>
+  The mistaken Bifrost PHP overhead arm was rejected before policy analysis or
+  a timed repeat. A separately source-reviewed continuation corrected it to
+  the existing A24 Python definition and ran the still-unstarted Infer C arm.
+  It repeated no cold groups. The rebuilt runner has its own pinned digest and
+  is not byte-identical to the unavailable earlier binary. Tool/runtime
+  identities, source projection, fixtures, configurations, resource limits,
+  and environment qualifications are described in the
+  <a href="https://github.com/BrokkAi/dataflowbench/blob/b29e70b9859135c53f08b0205f0d5cd62b89d8ac/docs/v0.9.2-timing-supplement-20261113.md">
+    immutable reviewed campaign record
+  </a>.
+</p>
+  </>
+)}
+
+{part === 'evidence' && (
+  <>
+<p>
+  There are no accuracy changes and no cross-release comparisons. The candidate
+  observations do not support a speedup claim. The full evidence bundle is
+  separately addressable from the frozen release:
+</p>
+
+<ul>
+  {downloads.map(([label, file]) => (
+    <li><a href={`${supplement.downloadBase}${file}`} download={file.endsWith('.gz.bin') ? 'files.jsonl.gz' : undefined}>{label}</a></li>
+  ))}
+</ul>
+
+<p>
+  Save the three lossless bundle files together before verification or restore.
+  The compressed index is served with an opaque suffix to preserve its bytes;
+  save it as <code>files.jsonl.gz</code>. The bundle's relative paths begin with
+  <code>snapshot/</code>. The reviewed campaign record includes the verification
+  and restore commands.
+</p>
+
+<p>
+  Frozen release commit: <code>{supplement.releaseCommit}</code>.<br />
+  Published report manifest SHA-256: <code>{supplement.frozenManifestSha256}</code>.
+</p>
+  </>
+)}

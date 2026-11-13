@@ -590,7 +590,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
     <strong>tool-native probes</strong>, which ask what each product decides
     with nothing supplied by us.
     {snapshot.version === 'v0.9.2' ? (
-      <>No latency corpus is published for these pins. Raw durations remain in retained execution evidence, without a certified current timing comparison. The <a href="/snapshots/v0-9-0/latency/">v0.9.0 latency page</a> remains bound to its older pins.</>
+      <>No certified latency corpus is published for these pins. A separate <a href="/snapshots/v0-9-2/timing-20261113-v1/">diagnostic timing supplement</a> records candidate observations without changing the frozen results. The <a href="/snapshots/v0-9-0/latency/">v0.9.0 latency page</a> remains bound to its older pins.</>
     ) : (
       <>
         Beside them sits the <strong>latency tier</strong> — descriptive per-case
@@ -1086,7 +1086,7 @@ const snapshotPage = `/snapshots/${snapshot.slug}`;
   <>
     <h2 id="latency">Current timing evidence</h2>
     <p>
-      No latency corpus is published for {snapshot.version}. Raw durations remain in retained execution evidence, without a certified current timing comparison. The <a href="/snapshots/v0-9-0/latency/">v0.9.0 latency page</a> documents timings under its older pins and makes no timing claim about {snapshot.version}.
+      No certified latency corpus is published for {snapshot.version}. The separate <a href="/snapshots/v0-9-2/timing-20261113-v1/">diagnostic timing supplement</a> records candidate observations under its own qualification; it does not make a performance comparison. The <a href="/snapshots/v0-9-0/latency/">v0.9.0 latency page</a> documents timings under its older pins and makes no timing claim about {snapshot.version}.
     </p>
   </>
 )}

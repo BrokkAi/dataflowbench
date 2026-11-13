@@ -27,6 +27,7 @@ const snapshotPages = [
   ['templates', 'Semantic templates'],
   ['evidence', 'Case evidence'],
   ['latency', 'Latency'],
+  ['timing-20261113-v1', 'Timing supplement (13 Nov 2026)'],
   ['profiles', 'Analyzer profiles'],
 ];
 

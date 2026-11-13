@@ -499,8 +499,10 @@ the `--check` mode.
 ## Website
 
 The public site at <https://dataflowbench.slopcop.com> is an Astro
-Starlight package in `docs/`; every number it shows is rendered from the
-generated `results/results.json`, never hand-authored. Develop locally with:
+Starlight package in `docs/`. Correctness numbers are rendered from the
+generated `results/results.json`. Separately versioned timing supplements use
+verified retained reconciliation data and preserve their qualification limits;
+they do not change the frozen scorecards. Develop locally with:
 
 ```bash
 npm --prefix docs install
