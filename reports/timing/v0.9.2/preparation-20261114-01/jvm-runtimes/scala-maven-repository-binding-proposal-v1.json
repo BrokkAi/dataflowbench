@@ -1,0 +1,23 @@
+{
+  "schema": "dataflowbench.scala-maven-repository-binding-proposal.v1",
+  "status": "prospective-source-repository-path-binding-only; no Maven or scalac binary invocation",
+  "source_helper": {
+    "path": "scripts/bifrost_v0144_benchmark.py",
+    "sha256": "ea5a3c5c8cb24c621f76478a46b7738fe767c034ad7600284b70a087b1185952",
+    "frozen_repository_default": "execution-state/v092/tools/scala-maven-2.13.16/repository",
+    "behavior": "The helper validates the acquisition receipt and reads the three pinned artifacts from that repository root. For the bifrost-scala-kernel row it copies those files into the isolated attempt HOME under .m2/repository/org/scala-lang/scala-library/2.13.16; it does not invoke mvn."
+  },
+  "proposed_source_repository_root": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/scala/repository",
+  "prospective_manifest_id": "scala-library-2.13.16",
+  "prospective_manifest_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/scala-library-2.13.16.json",
+  "prospective_manifest_sha256": "f8b42d7b2e9df575c1e4184c2f7392c1cefa1ebd6a9b3436df5d975595121768",
+  "verified_artifacts": {
+    "scala-library-2.13.16.jar": "1ebb2b6f9e4eb4022497c19b1e1e825019c08514f962aaac197145f88ed730f1",
+    "scala-library-2.13.16-sources.jar": "c02edc324e7db59c52115214a6ef36e2d78d0a50dff635eda4dcee5502b1dea5",
+    "scala-library-2.13.16.pom": "b25b72ba96eb30934868d86d307298d24d3ac154d362e7a4eeb37ba51ba86853"
+  },
+  "attempt_local_repository_binding": "<attempt HOME>/.m2/repository/org/scala-lang/scala-library/2.13.16",
+  "MAVEN_HOME": "not used by this runner path; no Maven executable is dispatched",
+  "SCALA_HOME": "not used by this runner path; Scala analyzer is not in the frozen eight-tool set",
+  "identity_boundary": "Only the source-repository input path moves. Scala library 2.13.16 jar/sources/POM bytes and Bifrost/fixture/query/config identity remain unchanged. New campaign code must explicitly bind the prospective repository root; do not rewrite old acquisition receipts or old helper defaults in place."
+}

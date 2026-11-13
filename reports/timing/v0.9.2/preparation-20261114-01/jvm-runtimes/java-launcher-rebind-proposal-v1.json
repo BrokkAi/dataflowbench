@@ -1,0 +1,71 @@
+{
+  "schema": "dataflowbench.jvm-launcher-rebind-proposal.v1",
+  "status": "prospective-only-not-applied-to-any-frozen-contract-or-manifest",
+  "source_contract_path": "reports/releases/v0.9.2/acquisition/resource-recovery-contract-03.json",
+  "source_contract_sha256": "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063",
+  "identity_change": "No JDK vendor/version/content change: both new executable hashes are entries in the frozen Java 21.0.8 full-tree manifest. Only executable path binding changes because frozen /usr/bin launcher hashes do not match on this host.",
+  "old_environment": {
+    "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+    "PATH_prefix": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin"
+  },
+  "new_environment_proposal": {
+    "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+    "PATH_prefix": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin",
+    "clear_explicit_exec_paths": [
+      "/usr/bin/java",
+      "/usr/bin/javac"
+    ]
+  },
+  "consumers": {
+    "flowdroid": [
+      "flowdroid-java-kernel",
+      "flowdroid-kotlin-kernel"
+    ],
+    "opentaint": [
+      "opentaint-java-kernel",
+      "opentaint-kotlin-kernel"
+    ],
+    "infer": [
+      "infer-java-kernel"
+    ],
+    "codeql": [
+      "codeql-java-kernel",
+      "codeql-kotlin-kernel"
+    ],
+    "joern": [
+      "joern-java-kernel"
+    ]
+  },
+  "executables": [
+    {
+      "role": "java",
+      "frozen_path": "/usr/bin/java",
+      "frozen_expected_sha256": "51ec0764f7225b40d5b286b01401aa6b3990d0d171b446d7dc81ca7542b45552",
+      "observed_frozen_path_sha256": "1dddd396385d905cb14fa5cc36a94d84ca760c63b576e754ae4503ec9eb7bb5f",
+      "frozen_path_match": false,
+      "candidate_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin/java",
+      "candidate_sha256": "0045ae168ee132bbf469a26fb17dac6d1dee431c9b7826474f3b6ee574a997c9",
+      "candidate_mode": 493,
+      "candidate_sha256_matches_java_runtime_manifest": true,
+      "explicit_rebind_required": true
+    },
+    {
+      "role": "javac",
+      "frozen_path": "/usr/bin/javac",
+      "frozen_expected_sha256": "51ec0764f7225b40d5b286b01401aa6b3990d0d171b446d7dc81ca7542b45552",
+      "observed_frozen_path_sha256": "1dddd396385d905cb14fa5cc36a94d84ca760c63b576e754ae4503ec9eb7bb5f",
+      "frozen_path_match": false,
+      "candidate_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin/javac",
+      "candidate_sha256": "7be7937fc6bae0ca89f0866f9ce94fc40a935dfb87806d3c701eca3402cfb90a",
+      "candidate_mode": 493,
+      "candidate_sha256_matches_java_runtime_manifest": true,
+      "explicit_rebind_required": true
+    }
+  ],
+  "relocated_full_manifest": {
+    "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/java.json",
+    "sha256": "90665d9258ed311dd8cd4ad4ce7a1e0c33cb534382ff2edfdb4617e2fa6582f4",
+    "root": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem"
+  },
+  "approval_boundary": "New plan/runtime binding must explicitly consume this proposal or a reviewed equivalent. Existing historical identity records retain /usr/bin/java and /usr/bin/javac and remain mismatching; no old record is rewritten."
+}

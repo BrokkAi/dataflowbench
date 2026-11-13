@@ -1047,3 +1047,12 @@ amendment is redescribed by it.
 
 **Freezes invalidated.** None. No normalized report is rewritten, no case is
 added or moved, and `v0.6.0` is byte-identical before and after this amendment.
+
+### A25 — Prospective v0.9.2 timing supplement (14 November 2026)
+
+The [campaign-specific preregistration](latency-v092-20261114.md) defines the
+new runtime bindings, fresh quiet window before each command group, continued
+active invocations during background activity, and descriptive analyzer roll-up.
+It preserves the earlier amendments' measurement boundaries and separate cold,
+warm and overhead quantities. It does not requalify prior observations, alter a
+frozen release, or establish a cross-release performance comparison.

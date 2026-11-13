@@ -1,0 +1,1946 @@
+{
+  "schema": "v092-qualified-runtime-bindings/v1",
+  "release_commit": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1",
+  "campaign_id": "20261114-01",
+  "launch_after_utc": "2026-11-14T00:00:00+00:00",
+  "source_plan": {
+    "path": "reports/timing/v0.9.2/20261113-01/plan.json",
+    "sha256": "cae756c3e1cbf5fad54cef3ad5fbbb9accf95cb5cbe1fe3ee640048236f0b844"
+  },
+  "preregistration": {
+    "path": "docs/latency-v092-20261114.md",
+    "sha256": "9c65f80ad39da9317008423d318ec2a11a4eedf57de2b9fce1e0a7564a5b1c48"
+  },
+  "preparation_receipts": [
+    {
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests-receipt-v2.json",
+      "sha256": "436890ea33810217f06b9446d44e08cdc8178a044d36f1793f6240c165bb7bf4"
+    },
+    {
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/prospective-compiler-distribution-inventories-v1.json",
+      "sha256": "48bd4229bb75c5753c771e6962deabd076acb986c3486cebcacd3ac2d7b2bf9e"
+    },
+    {
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/prospective-host-toolchain-inventories-v1.json",
+      "sha256": "15b4e74587d67c8c4ca0a739fe5f6d80d47242a49a67ea1b5d105e113706860c"
+    },
+    {
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/core-runtime/retention-receipt-v1.json",
+      "sha256": "9a155d8cf184dc56b334f58fa58bb573fb9ebf29ed2419ad4f37d91f3c33de10"
+    },
+    {
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/python-runtimes/runtime-restoration-receipt.json",
+      "sha256": "2eb34eaeb3a167d85893dccdd53d6497ec314f173a8b22f5f2f1181b8aeda8f4"
+    },
+    {
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/python-runtimes/compressed-python-runtime-receipt-index.json",
+      "sha256": "2404907b79cc125afd002448df8fe3fd5871320c2276a0c16254ab64704ea18c"
+    },
+    {
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/warm-population/derivation-v1.json",
+      "sha256": "b2d9b38c381d73ee4fbe1db539dea0752dc1511b3698301ed239ddc51b18208b"
+    }
+  ],
+  "source_projection": {
+    "additional_paths": [
+      "reports/releases/v0.9.2/acquisition/bifrost-v0151-01",
+      "reports/releases/v0.9.2/qualification/bifrost-v0151-01"
+    ],
+    "commit": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1",
+    "core_paths": [
+      "src",
+      "cases",
+      "populations",
+      "adapters",
+      "scripts",
+      "schemas",
+      "corpus",
+      "Cargo.toml",
+      "Cargo.lock",
+      "reports/releases/v0.9.0/plan.json",
+      "docs/v0.9.2-execution.md",
+      "README.md",
+      "LICENSE",
+      "docs/adapters.md",
+      "docs/benchmark-sources.md",
+      "docs/challenge-tier.md",
+      "docs/real-project-preregistration.md",
+      "docs/real-project-r2-preregistration.md",
+      "docs/real-project-review.md"
+    ]
+  },
+  "tools": {
+    "runner": {
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+      "sha256": "934774f0fc21fe2597bc6fbdd827c8cd47a33ad8369d5a3a910e57701fd0e082"
+    },
+    "bifrost": {
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261110-01/tools/bifrost/bifrost-v0.15.1-universal-apple-darwin/bifrost",
+      "sha256": "00b279126297d5e9f7805390799493e915eaf4a2d5940dc3e755138a577a6df9"
+    },
+    "codeql": {
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/codeql/codeql/codeql",
+      "sha256": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413"
+    },
+    "joern": {
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/joern/joern-cli/joern",
+      "sha256": "0df7e8db4282ef2c6fc37998917aca694176e23192de5f0c631511d993e99736"
+    },
+    "semgrep": {
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin/semgrep",
+      "sha256": "2474c6edda70388d78b8f4855c0e788f1a900b923eb4819e0ee646a0319f1902"
+    },
+    "pysa": {
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/pysa/bin/pyre",
+      "sha256": "2ff731fde7e6eba491656e7110ba52cfe78c5c56ac01f74619626d8a00746983"
+    },
+    "infer": {
+      "path": "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer",
+      "sha256": "17ed4818dadda60124e083a1e82124f104092e70c5e6d764551581a375eabf62"
+    },
+    "opentaint": {
+      "path": "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+      "sha256": "2ca93b6c33462bdbc23ceccdc5375e1a900682b33371cd906e5214dc7c48f569"
+    },
+    "flowdroid": {
+      "path": "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+      "sha256": "51dadead47a173c494c2fa4855b1e8bd3b54e702a2c4b5ed58e60153009ae218"
+    }
+  },
+  "runtimes": [
+    {
+      "id": "codeql",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/codeql.json.gz",
+      "sha256": "a425bcf8db69fbb97a40f4f6c13d0aa3973ee0c0bfb219a8e668981af0bb2abb",
+      "uncompressed_sha256": "13436571d3ea8a1eed20dd1629f1a07042662c3b2f5601aa082e76f326c7c00b"
+    },
+    {
+      "id": "codeql-packs",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/codeql-packs.json.gz",
+      "sha256": "41c6d2edb417e5a01f824e7bfd03c24ad48968840625e23484b48a8c7f0adf89",
+      "uncompressed_sha256": "6a1cc2906c5be5b4146c9fad85653de0e3bf9b258ee7e7b44107e07dd96d1dcf"
+    },
+    {
+      "id": "joern",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/joern.json",
+      "sha256": "537bc762bf1cb3d79a250f225d702f7710e1d338c2cfa45650e57f84f474bc37"
+    },
+    {
+      "id": "java",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/java.json",
+      "sha256": "90665d9258ed311dd8cd4ad4ce7a1e0c33cb534382ff2edfdb4617e2fa6582f4"
+    },
+    {
+      "id": "flowdroid",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/flowdroid.json",
+      "sha256": "19a5a347916085f1852a7d04b6d043c61a835de3c8a1a8adffe18cf1234dd9ea"
+    },
+    {
+      "id": "opentaint",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/opentaint.json",
+      "sha256": "d56ebd1c12cbe46be981e8761be89093bcc365411d099100a9bfb1fbff1ed6c6"
+    },
+    {
+      "id": "infer",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/infer.json.gz",
+      "sha256": "577a270eb88355c495cca7493c40af9aa895e348948d9946904a48a00be960b7",
+      "uncompressed_sha256": "b71836d85ddc0188808b0d8d58d8489ed2d9e9242371dc1aa99b9b986aad091a"
+    },
+    {
+      "id": "swift-sdk-26.5",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/swift-sdk-26.5.json.gz",
+      "sha256": "05a98b4c997defb6049f915350b15d572d5dea443ec73132271ec83ddaec74f1",
+      "uncompressed_sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7"
+    },
+    {
+      "id": "scala-library-2.13.16",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/scala-library-2.13.16.json",
+      "sha256": "f8b42d7b2e9df575c1e4184c2f7392c1cefa1ebd6a9b3436df5d975595121768"
+    },
+    {
+      "id": "go-full-distribution-prospective",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/go-full-distribution-prospective.json.gz",
+      "sha256": "bd1c7bede48859962fb85d1d83cec0bfacc5c475c0d81c452be94ed68150704c",
+      "uncompressed_sha256": "e09994915aa86c28a051270ef90c3db47ebfe2081bc35ee2c20b818b399b554f"
+    },
+    {
+      "id": "kotlin-full-distribution-prospective",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/kotlin-full-distribution-prospective.json",
+      "sha256": "6a2f4edf5117fb27eb28e3c511554284cd9eb0fce9f32c209a5dc8f53d67872f"
+    },
+    {
+      "id": "clt27.2-compiler-prospective",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/clt27.2-compiler-prospective.json.gz",
+      "sha256": "f5d99d10417c37bc4b4a9e2de59c7787f448238f1f45dd524d955cc3e4776bb9",
+      "uncompressed_sha256": "345522ccb1abb1f18efb6db3275d7a08783c14df70a5088a9589342e2c839807"
+    },
+    {
+      "id": "rust1.97.1-distribution-prospective",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/rust1.97.1-distribution-prospective.json.gz",
+      "sha256": "19e2866266e83301d82b1148b7e53c2874a6a35e991bfe1b4699591be3f35531",
+      "uncompressed_sha256": "a8581f8b144fc193a66b6a2d42d585681a85fb5cf5b7137950568466748f4b8d"
+    },
+    {
+      "id": "runner",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/core-runtime/runner-runtime-manifest.json",
+      "sha256": "0c0ed8abfa728924486d63d77c7c6cbb8dcbeb0be30b02befd6953a59932e7eb"
+    },
+    {
+      "id": "bifrost",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/core-runtime/bifrost-runtime-manifest.json",
+      "sha256": "16aa1b23ef16d95da091070de3d9105819433b48e6a4823078202993f6fa0d07"
+    },
+    {
+      "id": "pysa",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/python-runtimes/pysa-relocated-runtime-manifest.json.gz",
+      "sha256": "2aac895f73d12365ffb78dea2c90eef46ff15ce0f38e4330c8d71e8f6c159d5b",
+      "uncompressed_sha256": "bdc82da5fc3c0eaa48167cf4ed7a15df09be057e28e83945abfc0f7db24a344e"
+    },
+    {
+      "id": "semgrep",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/python-runtimes/semgrep-relocated-runtime-manifest.json.gz",
+      "sha256": "3e45529ad7583790087201db31f9ccc6cd13127e85e308b83395c11ad6a02193",
+      "uncompressed_sha256": "fbce8c004a19f2f982a2dd2f20c91f9810ce1cc83eb04505967f2837b60986ab"
+    }
+  ],
+  "path_rebindings": {
+    "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/codeql/codeql",
+    "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/codeql/packs",
+    "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/joern/joern-cli": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/joern/joern-cli",
+    "/Users/dave/.sdkman/candidates/java/21.0.8-tem": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+    "execution-state/v092/tools/scala-maven-2.13.16/repository": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/scala/repository",
+    "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/pysa-env": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/pysa",
+    "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep",
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261113-01/bin/dataflowbench": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+    "/usr/bin/java": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin/java",
+    "/usr/bin/javac": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin/javac",
+    "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/bifrost0151/extracted/bifrost-v0.15.1-universal-apple-darwin/bifrost": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261110-01/tools/bifrost/bifrost-v0.15.1-universal-apple-darwin/bifrost"
+  },
+  "group_overrides": {
+    "bifrost-c-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-cpp-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-csharp-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-go-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-java-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-java-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-java-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-javascript-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-javascript-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-javascript-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-kotlin-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-php-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-python-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-python-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-python-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-ruby-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-rust-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-scala-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost",
+        "java",
+        "scala-library-2.13.16"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      },
+      "setup_files": [
+        {
+          "source": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/scala/repository/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16-sources.jar",
+          "path": "home/.m2/repository/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16-sources.jar",
+          "sha256": "c02edc324e7db59c52115214a6ef36e2d78d0a50dff635eda4dcee5502b1dea5",
+          "mode": 420
+        },
+        {
+          "source": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/scala/repository/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16.jar",
+          "path": "home/.m2/repository/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16.jar",
+          "sha256": "1ebb2b6f9e4eb4022497c19b1e1e825019c08514f962aaac197145f88ed730f1",
+          "mode": 420
+        },
+        {
+          "source": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/scala/repository/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16.pom",
+          "path": "home/.m2/repository/org/scala-lang/scala-library/2.13.16/scala-library-2.13.16.pom",
+          "sha256": "b25b72ba96eb30934868d86d307298d24d3ac154d362e7a4eeb37ba51ba86853",
+          "mode": 420
+        }
+      ]
+    },
+    "bifrost-smoke": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "bifrost-typescript-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-c-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs",
+        "clt27.2-compiler-prospective",
+        "swift-sdk-26.5"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Library/Developer/CommandLineTools/usr/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "CC": "/Library/Developer/CommandLineTools/usr/bin/clang",
+        "CXX": "/Library/Developer/CommandLineTools/usr/bin/clang++",
+        "SDKROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk"
+      }
+    },
+    "codeql-cpp-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs",
+        "clt27.2-compiler-prospective",
+        "swift-sdk-26.5"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Library/Developer/CommandLineTools/usr/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "CC": "/Library/Developer/CommandLineTools/usr/bin/clang",
+        "CXX": "/Library/Developer/CommandLineTools/usr/bin/clang++",
+        "SDKROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk"
+      }
+    },
+    "codeql-csharp-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-go-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs",
+        "go-full-distribution-prospective"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "GOTOOLCHAIN": "local"
+      }
+    },
+    "codeql-java-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "java",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-java-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "java",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-java-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "java",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-javascript-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "java",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-javascript-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "java",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-javascript-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "java",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-kotlin-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "java",
+        "codeql-packs",
+        "kotlin-full-distribution-prospective"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-python-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-python-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-python-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-ruby-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "codeql-rust-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs",
+        "rust1.97.1-distribution-prospective"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.rustup/toolchains/1.97.1-aarch64-apple-darwin/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "RUSTUP_TOOLCHAIN": "1.97.1",
+        "CARGO_NET_OFFLINE": "true"
+      }
+    },
+    "codeql-typescript-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "flowdroid-java-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "flowdroid",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "flowdroid-java-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "flowdroid",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "flowdroid-java-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "flowdroid",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "flowdroid-kotlin-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "flowdroid",
+        "java",
+        "kotlin-full-distribution-prospective"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "infer-c-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "infer",
+        "swift-sdk-26.5"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "SDKROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk"
+      }
+    },
+    "infer-cpp-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "infer",
+        "swift-sdk-26.5"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "SDKROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk"
+      }
+    },
+    "infer-java-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "infer",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "infer-java-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "infer",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "infer-java-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "infer",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-java-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-java-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-java-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-javascript-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-javascript-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-javascript-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-php-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-python-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-python-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-python-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-ruby-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-rust-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "opentaint-java-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "opentaint",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "opentaint-java-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "opentaint",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "opentaint-java-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "opentaint",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "opentaint-kotlin-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "opentaint",
+        "java",
+        "kotlin-full-distribution-prospective"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "pysa-python-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "pysa"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "pysa-python-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "pysa"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "pysa-python-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "pysa"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-c-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-cpp-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-go-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-java-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-java-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-java-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-javascript-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-javascript-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-javascript-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-kotlin-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-php-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-python-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-python-modeling": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-python-native": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-ruby-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-rust-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "semgrep-typescript-kernel": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "joern-swift-common108": {
+      "status": "blocked",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      },
+      "blocker": "Exact Swift6.3.3 runtime and Swift-specific custom extractor/query closure remain unavailable; generic runtime recovery does not qualify this group."
+    },
+    "codeql-swift-common108": {
+      "status": "blocked",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      },
+      "blocker": "Exact Swift6.3.3 runtime and Swift-specific custom extractor/query closure remain unavailable; generic runtime recovery does not qualify this group."
+    },
+    "overhead-bifrost-python": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "bifrost"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "overhead-codeql-ruby": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "codeql",
+        "codeql-packs"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "overhead-joern-php": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "overhead-joern-java": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "overhead-semgrep-kotlin": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "overhead-opentaint-kotlin": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "opentaint",
+        "java",
+        "kotlin-full-distribution-prospective"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "overhead-infer-c": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "infer",
+        "swift-sdk-26.5"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "SDKROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk"
+      }
+    },
+    "overhead-flowdroid-java": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "flowdroid",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "overhead-pysa-python": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "pysa"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "warm-joern-java": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "joern",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    },
+    "warm-semgrep-java": {
+      "status": "ready",
+      "runtime_ids": [
+        "runner",
+        "semgrep",
+        "java"
+      ],
+      "environment": {
+        "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+        "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin:/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    }
+  },
+  "auxiliary_groups": [
+    {
+      "id": "overhead-bifrost-python",
+      "family": "bifrost",
+      "tool": "bifrost",
+      "kind": "overhead",
+      "deadline_seconds": 600,
+      "argv": [
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+        "--population",
+        "v0.9.0",
+        "estimate-invocation-overhead",
+        "--tool",
+        "bifrost",
+        "--language",
+        "python",
+        "--bifrost",
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261110-01/tools/bifrost/bifrost-v0.15.1-universal-apple-darwin/bifrost"
+      ],
+      "environment": {
+        "BIFROST_OPEN_PACKS_DISABLE": "1",
+        "HOME": "/Users/dave",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "LANG": "en_US.UTF-8",
+        "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TMPDIR": "/private/tmp"
+      },
+      "output_roots": [
+        "reports/raw/invocation-overhead/bifrost-python"
+      ]
+    },
+    {
+      "id": "overhead-codeql-ruby",
+      "family": "codeql",
+      "tool": "codeql",
+      "kind": "overhead",
+      "deadline_seconds": 600,
+      "argv": [
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+        "--population",
+        "v0.9.0",
+        "estimate-invocation-overhead",
+        "--tool",
+        "codeql",
+        "--language",
+        "ruby",
+        "--codeql",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql/codeql",
+        "--codeql-packs",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs"
+      ],
+      "environment": {
+        "HOME": "/Users/dave",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "LANG": "en_US.UTF-8",
+        "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TMPDIR": "/private/tmp"
+      },
+      "output_roots": [
+        "reports/raw/invocation-overhead/codeql-ruby"
+      ]
+    },
+    {
+      "id": "overhead-joern-php",
+      "family": "joern",
+      "tool": "joern",
+      "kind": "overhead",
+      "deadline_seconds": 600,
+      "argv": [
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+        "--population",
+        "v0.9.0",
+        "estimate-invocation-overhead",
+        "--tool",
+        "joern",
+        "--language",
+        "php",
+        "--joern",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/joern/joern-cli/joern"
+      ],
+      "environment": {
+        "HOME": "/Users/dave",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "LANG": "en_US.UTF-8",
+        "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TMPDIR": "/private/tmp"
+      },
+      "output_roots": [
+        "reports/raw/invocation-overhead/joern-php"
+      ]
+    },
+    {
+      "id": "overhead-joern-java",
+      "family": "joern",
+      "tool": "joern",
+      "kind": "overhead",
+      "deadline_seconds": 600,
+      "argv": [
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+        "--population",
+        "v0.9.0",
+        "estimate-invocation-overhead",
+        "--tool",
+        "joern",
+        "--language",
+        "java",
+        "--joern",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/joern/joern-cli/joern"
+      ],
+      "environment": {
+        "HOME": "/Users/dave",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "LANG": "en_US.UTF-8",
+        "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TMPDIR": "/private/tmp"
+      },
+      "output_roots": [
+        "reports/raw/invocation-overhead/joern-java"
+      ]
+    },
+    {
+      "id": "overhead-semgrep-kotlin",
+      "family": "semgrep",
+      "tool": "semgrep",
+      "kind": "overhead",
+      "deadline_seconds": 600,
+      "argv": [
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+        "--population",
+        "v0.9.0",
+        "estimate-invocation-overhead",
+        "--tool",
+        "semgrep",
+        "--language",
+        "kotlin",
+        "--semgrep",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin/semgrep"
+      ],
+      "environment": {
+        "HOME": "/Users/dave",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "LANG": "en_US.UTF-8",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "TMPDIR": "/private/tmp"
+      },
+      "output_roots": [
+        "reports/raw/invocation-overhead/semgrep-kotlin"
+      ]
+    },
+    {
+      "id": "overhead-opentaint-kotlin",
+      "family": "opentaint",
+      "tool": "opentaint",
+      "kind": "overhead",
+      "deadline_seconds": 600,
+      "argv": [
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+        "--population",
+        "v0.9.0",
+        "estimate-invocation-overhead",
+        "--tool",
+        "opentaint",
+        "--language",
+        "kotlin",
+        "--analyzer-jar",
+        "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+        "--models-archive",
+        "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+        "--java",
+        "/usr/bin/java",
+        "--kotlinc",
+        "/opt/homebrew/Cellar/kotlin/2.4.10/bin/kotlinc",
+        "--kotlin-stdlib",
+        "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar"
+      ],
+      "environment": {
+        "HOME": "/Users/dave",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "LANG": "en_US.UTF-8",
+        "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TMPDIR": "/private/tmp"
+      },
+      "output_roots": [
+        "reports/raw/invocation-overhead/opentaint-kotlin"
+      ]
+    },
+    {
+      "id": "overhead-infer-c",
+      "family": "infer",
+      "tool": "infer",
+      "kind": "overhead",
+      "deadline_seconds": 600,
+      "argv": [
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+        "--population",
+        "v0.9.0",
+        "estimate-invocation-overhead",
+        "--tool",
+        "infer",
+        "--language",
+        "c",
+        "--infer",
+        "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0/lib/infer/infer/bin/infer"
+      ],
+      "environment": {
+        "HOME": "/Users/dave",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "LANG": "en_US.UTF-8",
+        "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TMPDIR": "/private/tmp"
+      },
+      "output_roots": [
+        "reports/raw/invocation-overhead/infer-c"
+      ]
+    },
+    {
+      "id": "overhead-flowdroid-java",
+      "family": "flowdroid",
+      "tool": "flowdroid",
+      "kind": "overhead",
+      "deadline_seconds": 600,
+      "argv": [
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+        "--population",
+        "v0.9.0",
+        "estimate-invocation-overhead",
+        "--tool",
+        "flowdroid",
+        "--language",
+        "java",
+        "--flowdroid-jar",
+        "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+        "--android-platform",
+        "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+        "--d8-jar",
+        "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+        "--java",
+        "/usr/bin/java",
+        "--javac",
+        "/usr/bin/javac"
+      ],
+      "environment": {
+        "HOME": "/Users/dave",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "LANG": "en_US.UTF-8",
+        "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TMPDIR": "/private/tmp"
+      },
+      "output_roots": [
+        "reports/raw/invocation-overhead/flowdroid-java"
+      ]
+    },
+    {
+      "id": "overhead-pysa-python",
+      "family": "pysa",
+      "tool": "pysa",
+      "kind": "overhead",
+      "deadline_seconds": 600,
+      "argv": [
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+        "--population",
+        "v0.9.0",
+        "estimate-invocation-overhead",
+        "--tool",
+        "pysa",
+        "--language",
+        "python",
+        "--pyre",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/pysa-env/bin/pyre",
+        "--pyre-binary",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/pysa-env/bin/pyre.bin",
+        "--pyrefly",
+        "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/pysa-env/bin/pyrefly"
+      ],
+      "environment": {
+        "HOME": "/Users/dave",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "LANG": "en_US.UTF-8",
+        "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TMPDIR": "/private/tmp"
+      },
+      "output_roots": [
+        "reports/raw/invocation-overhead/pysa-python"
+      ]
+    },
+    {
+      "id": "warm-joern-java",
+      "family": "joern",
+      "tool": "joern",
+      "kind": "warm",
+      "deadline_seconds": 600,
+      "argv": [
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+        "--population",
+        "v0.9.0",
+        "measure-warm-latency",
+        "--tool",
+        "joern",
+        "--language",
+        "java",
+        "--batch-sizes",
+        "1,2,4,8,16",
+        "--joern",
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/joern/joern-cli/joern"
+      ],
+      "warm_case_ids": [
+        "dfb-taint-java-alias-propagation-negative",
+        "dfb-taint-java-alias-propagation-positive",
+        "dfb-taint-java-anonymous-implementation-negative",
+        "dfb-taint-java-anonymous-implementation-positive",
+        "dfb-taint-java-argument-position-negative",
+        "dfb-taint-java-argument-position-positive",
+        "dfb-taint-java-array-element-negative",
+        "dfb-taint-java-array-element-positive",
+        "dfb-taint-java-branch-join-negative",
+        "dfb-taint-java-branch-join-positive",
+        "dfb-taint-java-call-context-negative",
+        "dfb-taint-java-call-context-positive",
+        "dfb-taint-java-callback-registration-negative",
+        "dfb-taint-java-callback-registration-positive",
+        "dfb-taint-java-closure-capture-negative",
+        "dfb-taint-java-closure-capture-positive",
+        "dfb-taint-java-computed-property-negative",
+        "dfb-taint-java-computed-property-positive",
+        "dfb-taint-java-context-pair-depth2-negative",
+        "dfb-taint-java-context-pair-depth2-positive",
+        "dfb-taint-java-deep-relay-chain-negative",
+        "dfb-taint-java-deep-relay-chain-positive",
+        "dfb-taint-java-direct-positive",
+        "dfb-taint-java-dispatch-table-negative",
+        "dfb-taint-java-dispatch-table-positive",
+        "dfb-taint-java-element-object-negative",
+        "dfb-taint-java-element-object-positive",
+        "dfb-taint-java-exception-catch-negative",
+        "dfb-taint-java-exception-catch-positive",
+        "dfb-taint-java-explicit-negative",
+        "dfb-taint-java-expression-negative",
+        "dfb-taint-java-expression-positive",
+        "dfb-taint-java-function-field-negative",
+        "dfb-taint-java-function-field-positive",
+        "dfb-taint-java-infeasible-branch-negative",
+        "dfb-taint-java-infeasible-branch-positive",
+        "dfb-taint-java-interprocedural-exception-persistence-negative",
+        "dfb-taint-java-interprocedural-exception-persistence-positive",
+        "dfb-taint-java-local-chain-negative",
+        "dfb-taint-java-local-chain-positive",
+        "dfb-taint-java-local-overwrite-negative",
+        "dfb-taint-java-local-overwrite-positive",
+        "dfb-taint-java-loop-carried-negative",
+        "dfb-taint-java-loop-carried-positive",
+        "dfb-taint-java-map-iteration-negative",
+        "dfb-taint-java-map-iteration-positive",
+        "dfb-taint-java-mutual-recursive-transform-negative",
+        "dfb-taint-java-mutual-recursive-transform-positive",
+        "dfb-taint-java-nested-access-path-negative",
+        "dfb-taint-java-nested-access-path-positive",
+        "dfb-taint-java-object-separation-negative",
+        "dfb-taint-java-object-separation-positive",
+        "dfb-taint-java-recursive-callback-transform-negative",
+        "dfb-taint-java-recursive-callback-transform-positive",
+        "dfb-taint-java-recursive-carry-negative",
+        "dfb-taint-java-recursive-carry-positive",
+        "dfb-taint-java-recursive-exception-persistence-negative",
+        "dfb-taint-java-recursive-exception-persistence-positive",
+        "dfb-taint-java-recursive-heap-unwind-negative",
+        "dfb-taint-java-recursive-heap-unwind-positive",
+        "dfb-taint-java-recursive-payload-transform-negative",
+        "dfb-taint-java-recursive-payload-transform-positive",
+        "dfb-taint-java-reflective-invocation-negative",
+        "dfb-taint-java-reflective-invocation-positive",
+        "dfb-taint-java-return-relay-one-hop-negative",
+        "dfb-taint-java-return-relay-one-hop-positive",
+        "dfb-taint-java-return-relay-two-hop-negative",
+        "dfb-taint-java-return-relay-two-hop-positive",
+        "dfb-taint-java-same-object-field-negative",
+        "dfb-taint-java-same-object-field-positive"
+      ],
+      "warm_batch_sizes": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "environment": {
+        "HOME": "/Users/dave",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "LANG": "en_US.UTF-8",
+        "PATH": "/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TMPDIR": "/private/tmp"
+      },
+      "output_roots": [
+        "reports/raw/warm-latency/joern-java-kernel"
+      ]
+    },
+    {
+      "id": "warm-semgrep-java",
+      "family": "semgrep",
+      "tool": "semgrep",
+      "kind": "warm",
+      "deadline_seconds": 600,
+      "argv": [
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+        "--population",
+        "v0.9.0",
+        "measure-warm-latency",
+        "--tool",
+        "semgrep",
+        "--language",
+        "java",
+        "--batch-sizes",
+        "1,2,4,8,12",
+        "--semgrep",
+        "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin/semgrep"
+      ],
+      "warm_case_ids": [
+        "dfb-taint-java-branch-join-negative",
+        "dfb-taint-java-branch-join-positive",
+        "dfb-taint-java-expression-negative",
+        "dfb-taint-java-expression-positive",
+        "dfb-taint-java-infeasible-branch-negative",
+        "dfb-taint-java-infeasible-branch-positive",
+        "dfb-taint-java-local-chain-negative",
+        "dfb-taint-java-local-chain-positive",
+        "dfb-taint-java-local-overwrite-negative",
+        "dfb-taint-java-local-overwrite-positive",
+        "dfb-taint-java-loop-carried-negative",
+        "dfb-taint-java-loop-carried-positive"
+      ],
+      "warm_batch_sizes": [
+        1,
+        2,
+        4,
+        8,
+        12
+      ],
+      "environment": {
+        "HOME": "/Users/dave",
+        "JAVA_HOME": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+        "LANG": "en_US.UTF-8",
+        "PATH": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/semgrep-env/bin:/Users/dave/.sdkman/candidates/java/21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "SEMGREP_ENABLE_VERSION_CHECK": "0",
+        "TMPDIR": "/private/tmp"
+      },
+      "output_roots": [
+        "reports/raw/warm-latency/semgrep-java-kernel"
+      ]
+    }
+  ],
+  "group_order": [
+    "bifrost-java-kernel",
+    "codeql-java-kernel",
+    "joern-java-kernel",
+    "semgrep-java-kernel",
+    "opentaint-java-kernel",
+    "infer-java-kernel",
+    "flowdroid-java-kernel",
+    "pysa-python-kernel",
+    "bifrost-c-kernel",
+    "bifrost-cpp-kernel",
+    "bifrost-csharp-kernel",
+    "bifrost-go-kernel",
+    "bifrost-java-modeling",
+    "bifrost-java-native",
+    "bifrost-javascript-kernel",
+    "bifrost-javascript-modeling",
+    "bifrost-javascript-native",
+    "bifrost-kotlin-kernel",
+    "bifrost-php-kernel",
+    "bifrost-python-kernel",
+    "bifrost-python-modeling",
+    "bifrost-python-native",
+    "bifrost-ruby-kernel",
+    "bifrost-rust-kernel",
+    "bifrost-scala-kernel",
+    "bifrost-smoke",
+    "bifrost-typescript-kernel",
+    "codeql-c-kernel",
+    "codeql-cpp-kernel",
+    "codeql-csharp-kernel",
+    "codeql-go-kernel",
+    "codeql-java-modeling",
+    "codeql-java-native",
+    "codeql-javascript-kernel",
+    "codeql-javascript-modeling",
+    "codeql-javascript-native",
+    "codeql-kotlin-kernel",
+    "codeql-python-kernel",
+    "codeql-python-modeling",
+    "codeql-python-native",
+    "codeql-ruby-kernel",
+    "codeql-rust-kernel",
+    "codeql-typescript-kernel",
+    "flowdroid-java-modeling",
+    "flowdroid-java-native",
+    "flowdroid-kotlin-kernel",
+    "infer-c-kernel",
+    "infer-cpp-kernel",
+    "infer-java-modeling",
+    "infer-java-native",
+    "joern-java-modeling",
+    "joern-java-native",
+    "joern-javascript-kernel",
+    "joern-javascript-modeling",
+    "joern-javascript-native",
+    "joern-php-kernel",
+    "joern-python-kernel",
+    "joern-python-modeling",
+    "joern-python-native",
+    "joern-ruby-kernel",
+    "joern-rust-kernel",
+    "opentaint-java-modeling",
+    "opentaint-java-native",
+    "opentaint-kotlin-kernel",
+    "pysa-python-modeling",
+    "pysa-python-native",
+    "semgrep-c-kernel",
+    "semgrep-cpp-kernel",
+    "semgrep-go-kernel",
+    "semgrep-java-modeling",
+    "semgrep-java-native",
+    "semgrep-javascript-kernel",
+    "semgrep-javascript-modeling",
+    "semgrep-javascript-native",
+    "semgrep-kotlin-kernel",
+    "semgrep-php-kernel",
+    "semgrep-python-kernel",
+    "semgrep-python-modeling",
+    "semgrep-python-native",
+    "semgrep-ruby-kernel",
+    "semgrep-rust-kernel",
+    "semgrep-typescript-kernel",
+    "joern-swift-common108",
+    "codeql-swift-common108",
+    "overhead-bifrost-python",
+    "overhead-codeql-ruby",
+    "overhead-joern-php",
+    "overhead-joern-java",
+    "overhead-semgrep-kotlin",
+    "overhead-opentaint-kotlin",
+    "overhead-infer-c",
+    "overhead-flowdroid-java",
+    "overhead-pysa-python",
+    "warm-joern-java",
+    "warm-semgrep-java"
+  ],
+  "max_campaign_wall_seconds": 172800,
+  "qualification_note": "Fresh quiet before each group; active contention only telemetry. Frozen analyzer payloads/pins and fixture population retained. Host compiler distribution snapshots and relocated Python launchers/metadata are prospective environment identities, not assertions of historical byte equality. PID/start polling containment remains unproven. Every completed command remains candidate evidence pending independent qualification/publication review."
+}
