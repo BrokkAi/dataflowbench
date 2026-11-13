@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+static const char *dfb_source(void) { /* DFB-SOURCE: constant-selector-input */
+    return "source-one";
+}
+
+static void dfb_sink(const char *value) { /* DFB-SINK: constant-selector-sink */
+    puts(value);
+}
+
+static void run(void) {
+    const char *value;
+    switch ("ABC"[2]) {
+    case 'C':
+        value = dfb_source(); /* DFB-WITNESS: constant-selector-source-arm */
+        break;
+    case 'B':
+        value = "safe";
+        break;
+    default:
+        value = "safe";
+        break;
+    }
+    dfb_sink(value);
+}
+
+int main(void) {
+    run();
+    return 0;
+}

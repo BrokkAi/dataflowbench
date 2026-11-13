@@ -10,6 +10,13 @@ against `schemas/case.schema.json`, use stable `DFB-*` source and sink markers,
 and include fixture provenance. Authored fixtures use MIT; imported fixtures
 keep their original license and must record origin, revision, and license.
 
+Prospective precision-gap fixtures use the versioned input root
+`populations/precision-gaps-v1/cases/<track>/<language>/`. The canonical corpus
+loader includes this root and validates its complete digest-bound registration.
+Keeping it separate preserves the closed historical case roots and byte-bound
+qualification helpers; it does not exclude the new fixtures from core checks.
+See [the precision contract](docs/precision-gaps.md).
+
 The canonical case describes flows and nonflows without naming an analyzer.
 Native rules, models, commands, and documented limitations belong under that
 tool's `adapters/` directory. Do not turn unsupported or inconclusive execution

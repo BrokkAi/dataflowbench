@@ -170,7 +170,9 @@ pub(crate) fn build_result_artifacts(
                 stamped,
                 &mut case_scan,
             )? {
-                ConfigurationHashState::NotDerivable | ConfigurationHashState::Current => None,
+                ConfigurationHashState::NotDerivable
+                | ConfigurationHashState::Current
+                | ConfigurationHashState::Historical { .. } => None,
                 ConfigurationHashState::Drifted { current } => Some(current),
             }
         } else {

@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-ruby-same-map-escaping-callee-negative",
+  "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+  "polarity": "negative",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "ruby",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "heap-access-path",
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "SameMapEscapingCalleeNegative.rb"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: issue303-source",
+      "file": "SameMapEscapingCalleeNegative.rb",
+      "line_hint": 1
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: issue303-sink",
+      "file": "SameMapEscapingCalleeNegative.rb",
+      "line_hint": 4
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: issue303-source",
+      "sink": "DFB-SINK: issue303-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "interprocedural-map-mutation-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-303",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-ruby-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/ruby/queries/RubyKernel.ql"
+    }
+  },
+  "negative_mechanism": "unrelated-value"
+}

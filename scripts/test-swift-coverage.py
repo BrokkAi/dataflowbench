@@ -56,7 +56,9 @@ class CoverageAuditTests(unittest.TestCase):
             module.audit(self.root)
 
     def test_fixture_bytes_are_bound(self):
-        path = next((self.root / 'cases/taint/swift').rglob('main.swift'))
+        population = json.loads((self.root / 'populations/swift-synthetic-v1.json').read_text())
+        fixture = population['cases'][0]['fixture_digests'][0]['path']
+        path = self.root / fixture
         path.write_text(path.read_text() + '\n// changed\n')
         with self.assertRaisesRegex(ValueError, 'fixture digest'):
             module.audit(self.root)

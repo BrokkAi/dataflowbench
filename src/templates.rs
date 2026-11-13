@@ -2,7 +2,8 @@
 //! from: the sixteen kernel templates, the reduced set for languages whose
 //! exception-catch cell is inapplicable, the fourteen challenge templates,
 //! and the per-language rollout rows that decide which of them a language's
-//! core denominator contains.
+//! core denominator contains. Prospective precision additions are registered
+//! separately in `precision` without changing named historical populations.
 
 use serde_json::Value;
 
@@ -256,14 +257,15 @@ pub(crate) struct ChallengeRollout {
 }
 
 impl ChallengeRollout {
-    /// This language's current core denominator: the classic set until its
-    /// fixtures land, the expanded set afterwards.
+    /// This language's current core denominator, including separately
+    /// registered prospective compositions and precision additions.
     pub(crate) fn expected_templates(&self) -> Vec<&'static str> {
         let mut templates = self.classic.to_vec();
         if self.rolled_out {
             templates.extend_from_slice(self.challenge);
         }
         templates.extend(recursive_composition_templates(self.language));
+        templates.extend(crate::precision::templates(self.language));
         templates
     }
 }

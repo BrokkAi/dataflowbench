@@ -271,7 +271,18 @@ fn codeql_213_rerun_evidence_reconciles_with_the_corrected_decoder() {
         )
         .unwrap();
         let results = report["results"].as_array().unwrap();
-        let cases = codeql_c_family_cases(kernel).unwrap();
+        // Replay every member of this retained historical report. Moving main
+        // also has prospective cases for which this old attempt has no rows.
+        let ids = results
+            .iter()
+            .map(|result| result["case_id"].as_str().unwrap())
+            .collect::<std::collections::BTreeSet<_>>();
+        assert_eq!(ids.len(), results.len(), "duplicate historical report case");
+        let cases = codeql_c_family_cases(kernel)
+            .unwrap()
+            .into_iter()
+            .filter(|(_, case)| ids.contains(case["id"].as_str().unwrap()))
+            .collect::<Vec<_>>();
         assert_eq!(results.len(), cases.len());
         for (path, case) in cases {
             let matching: Vec<_> = results

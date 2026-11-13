@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-c-folded-local-constant-if-negative",
+  "template_id": "dfb-template-folded-local-constant-if",
+  "polarity": "negative",
+  "negative_mechanism": "infeasible-path",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "c",
+  "semantic_dimensions": [
+    "local-flow",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "folded_local_constant_if_negative.c"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: folded-local-constant-source",
+      "file": "folded_local_constant_if_negative.c"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: folded-local-constant-sink",
+      "file": "folded_local_constant_if_negative.c"
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: folded-local-constant-source",
+      "sink": "DFB-SINK: folded-local-constant-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "path-sensitive-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-302",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-c-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/cpp/queries/CKernel.ql"
+    }
+  }
+}

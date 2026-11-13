@@ -26,6 +26,7 @@ mod latency;
 mod modeling;
 mod native;
 mod population;
+mod precision;
 mod real_project;
 mod report;
 mod report_diff;

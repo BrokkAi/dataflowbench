@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-csharp-same-map-computed-key-positive",
+  "template_id": "dfb-template-issue-303-same-map-computed-key",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "csharp",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "heap-access-path",
+    "computed-access"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "SameMapComputedKeyPositive.cs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: issue303-source",
+      "file": "SameMapComputedKeyPositive.cs",
+      "line_hint": 4
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: issue303-sink",
+      "file": "SameMapComputedKeyPositive.cs",
+      "line_hint": 7
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: issue303-source",
+      "sink": "DFB-SINK: issue303-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: issue303-source",
+    "DFB-WITNESS: issue303-store",
+    "DFB-WITNESS: issue303-read",
+    "DFB-SINK: issue303-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "computed-map-key-aliasing-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-303",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-csharp-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/csharp/queries/CSharpKernel.ql"
+    }
+  }
+}

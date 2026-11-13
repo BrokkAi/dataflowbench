@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-scala-same-map-escaping-callee-negative",
+  "template_id": "dfb-template-issue-303-same-map-escaping-callee",
+  "polarity": "negative",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "scala",
+  "semantic_dimensions": [
+    "heap-field-sensitivity",
+    "interprocedural-flow"
+  ],
+  "feature_tags": [
+    "heap-access-path",
+    "interprocedural-one-hop"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "SameMapEscapingCalleeNegative.scala"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: issue303-source",
+      "file": "SameMapEscapingCalleeNegative.scala",
+      "line_hint": 3
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: issue303-sink",
+      "file": "SameMapEscapingCalleeNegative.scala",
+      "line_hint": 6
+    }
+  ],
+  "expected_flows": [],
+  "expected_nonflows": [
+    {
+      "source": "DFB-SOURCE: issue303-source",
+      "sink": "DFB-SINK: issue303-sink"
+    }
+  ],
+  "witness_checkpoints": [],
+  "expected_analysis_capability": {
+    "kind": "interprocedural-map-mutation-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-303",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-scala-kernel.rqlp"
+    }
+  },
+  "negative_mechanism": "unrelated-value"
+}

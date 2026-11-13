@@ -116,6 +116,19 @@ jobs:
           python3 -B scripts/test-restore-bifrost-v0144-ci-baseline.py
           python3 -B scripts/restore-bifrost-v0144-ci-baseline.py --root .
       - run: cargo fmt --check
+      - name: Check prospective precision additions stay outside historical populations
+        run: |
+          python3 -B scripts/refresh-precision-inventory.py
+      - name: Validate precision fixture structure and portable runtime controls
+        run: |
+          python3 -m venv "$RUNNER_TEMP/precision-venv"
+          precision_python="$RUNNER_TEMP/precision-venv/bin/python"
+          "$precision_python" -m pip install --disable-pip-version-check jsonschema==4.25.1
+          for issue in 302 303 304 305; do
+            "$precision_python" -B "scripts/validate-precision-issue-$issue.py" --metadata-only
+            "$precision_python" -B "scripts/validate-precision-issue-$issue.py" \
+              --language cpp --language java --language javascript --language python --language rust
+          done
       - run: cargo test
       - run: cargo run -- validate
       - run: cargo run -- validate-reports
@@ -328,6 +341,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Compile, link, and exercise Swift fixtures under witnessed CI profile
         run: python3 scripts/validate-swift-fixtures.py --profile github-xcode27 --output "$RUNNER_TEMP/swift-fixture-evidence"
+      - name: Compile and exercise prospective Swift precision pairs
+        run: |
+          python3 -m venv "$RUNNER_TEMP/precision-venv"
+          precision_python="$RUNNER_TEMP/precision-venv/bin/python"
+          "$precision_python" -m pip install --disable-pip-version-check jsonschema==4.25.1
+          for issue in 302 303 304 305; do
+            "$precision_python" -B "scripts/validate-precision-issue-$issue.py" --language swift
+          done
       - name: Compile Swift v2 additions and exercise only Result controls
         id: swift-v2
         run: python3 scripts/validate-swift-v2.py --profile github-xcode27 --output "$RUNNER_TEMP/swift-v2-evidence"

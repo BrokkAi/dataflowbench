@@ -450,7 +450,10 @@ mod tests {
 
     #[test]
     fn swift_tiers_keep_the_preregistered_denominators() {
-        assert_eq!(SwiftTier::Core.templates().len(), 33);
+        assert_eq!(
+            SwiftTier::Core.templates().len(),
+            33 + crate::precision::templates("swift").len()
+        );
         assert_eq!(SwiftTier::Modeling.templates().len(), 10);
         assert_eq!(SwiftTier::Calibration.templates().len(), 2);
     }

@@ -338,6 +338,11 @@ frozen v0.3.0 evidence built on the sixteen-template denominators stays valid.
 
 ## Invariants
 
+The [prospective precision additions](precision-gaps.md) extend moving main's
+core registration beyond the historical tables above. Their per-language
+applicability and exact input inventory are recorded separately; they do not
+change any released denominator or result.
+
 These restate the [scoring contract](scoring.md) and hold for every language
 in this matrix.
 

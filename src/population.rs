@@ -345,7 +345,10 @@ mod tests {
         }
 
         assert!(active().is_none());
-        assert_eq!(crate::cases::case_paths().len(), 1108);
+        assert_eq!(
+            crate::cases::case_paths().len(),
+            1108 + crate::precision::case_count()
+        );
         assert_eq!(crate::cases::case_paths(), crate::cases::all_case_paths());
 
         initialize(Some("v0.9.0")).unwrap();

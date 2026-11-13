@@ -86,6 +86,7 @@ pub(crate) fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Res
     let mut case_scan = None;
     let mut drifted = Vec::new();
     let mut checked = 0usize;
+    let mut historical = 0usize;
     let mut known_stale = 0usize;
     let mut validated = 0usize;
     for path in &paths {
@@ -116,6 +117,13 @@ pub(crate) fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Res
                 &mut case_scan,
             )? {
                 ConfigurationHashState::NotDerivable => {}
+                ConfigurationHashState::Historical { revision } => {
+                    checked += 1;
+                    historical += 1;
+                    println!(
+                        "verified {stem} against its exact historical configuration at {revision}"
+                    );
+                }
                 ConfigurationHashState::Current => {
                     checked += 1;
                     if KNOWN_STALE_CONFIGURATIONS.contains(&stem) {
@@ -149,7 +157,7 @@ pub(crate) fn validate_reports_in(root: &Path, own_report: Option<&Path>) -> Res
     println!("validated {validated} reports");
     if check_configuration {
         println!(
-            "checked {checked} configuration hashes against the working tree ({known_stale} known-stale under issue #138)"
+            "checked {checked} registered configuration hashes ({historical} exact historical matches; {known_stale} known-stale under issue #138)"
         );
     }
     Ok(())
@@ -186,6 +194,9 @@ pub(crate) enum ConfigurationHashState {
     NotDerivable,
     /// The stamped hash matches the current configuration.
     Current,
+    /// The stamped hash matches an exact, digest-verified predecessor closure,
+    /// rather than the moving working tree. The source revision is retained.
+    Historical { revision: &'static str },
     /// The configuration changed after the report was produced: its outcomes
     /// predate the current adapter configuration.
     Drifted { current: String },
@@ -219,6 +230,25 @@ pub(crate) fn configuration_hash_state_for_report(
     stamped: &str,
     case_scan: &mut Option<LoadedCases>,
 ) -> Result<ConfigurationHashState> {
+    let predecessor_swift = adapter_version == "0.1.0"
+        && tool_version == "4.0.628"
+        && matches!(
+            stem,
+            "joern-swift-kernel" | "joern-swift-modeling" | "joern-swift-calibration"
+        );
+    if predecessor_swift {
+        let paths = declared_configuration_paths(stem, case_scan)?;
+        let state = compare_configuration_paths(paths.clone(), stamped)?;
+        if matches!(state, ConfigurationHashState::Drifted { .. })
+            && let Some(paths) = paths
+            && crate::precision::predecessor_configuration_hash(&paths)?.as_deref() == Some(stamped)
+        {
+            return Ok(ConfigurationHashState::Historical {
+                revision: crate::precision::PREDECESSOR_REVISION,
+            });
+        }
+        return Ok(state);
+    }
     if is_codeql_swift_normal_stem(stem) {
         let paths = match (tool_version, adapter_version) {
             ("2.27.0" | "2.27.1", _) => declared_configuration_paths(stem, case_scan)?,

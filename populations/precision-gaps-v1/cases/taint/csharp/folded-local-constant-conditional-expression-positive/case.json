@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "dfb-taint-csharp-folded-local-constant-conditional-expression-positive",
+  "template_id": "dfb-template-folded-local-constant-conditional-expression",
+  "polarity": "positive",
+  "score_tier": "core",
+  "track": "taint",
+  "language": "csharp",
+  "semantic_dimensions": [
+    "local-flow",
+    "path-sensitivity"
+  ],
+  "feature_tags": [
+    "intraprocedural"
+  ],
+  "model_profile": "benchmark-controlled",
+  "fixture_files": [
+    "folded_local_constant_conditional_expression_positive.cs"
+  ],
+  "source_anchors": [
+    {
+      "marker": "DFB-SOURCE: folded-local-constant-source",
+      "file": "folded_local_constant_conditional_expression_positive.cs"
+    }
+  ],
+  "sink_anchors": [
+    {
+      "marker": "DFB-SINK: folded-local-constant-sink",
+      "file": "folded_local_constant_conditional_expression_positive.cs"
+    }
+  ],
+  "expected_flows": [
+    {
+      "source": "DFB-SOURCE: folded-local-constant-source",
+      "sink": "DFB-SINK: folded-local-constant-sink"
+    }
+  ],
+  "expected_nonflows": [],
+  "witness_checkpoints": [
+    "DFB-SOURCE: folded-local-constant-source",
+    "DFB-WITNESS: folded-local-constant-source-selected",
+    "DFB-SINK: folded-local-constant-sink"
+  ],
+  "expected_analysis_capability": {
+    "kind": "path-sensitive-intraprocedural-taint"
+  },
+  "execution_budget": {
+    "wall_clock_seconds": 60,
+    "peak_memory_mb": 512
+  },
+  "fixture_provenance": {
+    "kind": "authored",
+    "origin": "DataFlowBench",
+    "revision": "issue-302",
+    "license": "MIT"
+  },
+  "tool_model_references": {
+    "bifrost": {
+      "policy": "adapters/bifrost/policies/core-csharp-kernel.rqlp"
+    },
+    "codeql": {
+      "query": "adapters/codeql/csharp/queries/CSharpKernel.ql"
+    }
+  }
+}

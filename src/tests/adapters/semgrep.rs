@@ -40,6 +40,23 @@ pub(crate) const SEMGREP_KERNELS: [SemgrepKernel; 11] = [
     SemgrepKernel::Cpp,
 ];
 
+/// The original seven local templates plus the prospective local control-flow
+/// identities. Map/list cases retain the existing heap-profile exclusion.
+fn expected_local_assertions(kernel: SemgrepKernel) -> usize {
+    let additions = crate::precision::templates(kernel.language())
+        .into_iter()
+        .filter(|template| {
+            matches!(
+                *template,
+                "dfb-template-folded-local-constant-if"
+                    | "dfb-template-folded-local-constant-conditional-expression"
+                    | "dfb-template-constant-string-selector"
+            )
+        })
+        .count();
+    14 + 2 * additions
+}
+
 /// Each Semgrep kernel is its own population: the balanced core assertions
 /// of exactly one language, with no case shared between the eleven and no
 /// case borrowed from a CodeQL, Joern, or Bifrost selection. The bounded
@@ -195,7 +212,12 @@ pub(crate) fn semgrep_new_kernels_resolve_every_scored_endpoint() {
             assert_eq!(endpoints.source_function, "dfb_source", "{}", case["id"]);
             assert_eq!(endpoints.sink_function, "dfb_sink", "{}", case["id"]);
         }
-        assert_eq!(scored, 14, "{} scored partition", kernel.label());
+        assert_eq!(
+            scored,
+            expected_local_assertions(kernel),
+            "{} scored partition",
+            kernel.label()
+        );
     }
     // The Kotlin surface rules the Java arm is being reused for, stated
     // directly rather than only exercised through the fixtures.
@@ -294,17 +316,22 @@ pub(crate) fn semgrep_unsupported_partition_is_metadata_driven() {
                 }
             }
         }
-        // Seven templates are intraprocedural in every language, and the
-        // partition keeps each one's positive/negative pair together, so
-        // the scored subset is 14 assertions everywhere. Only the
+        // Seven classic templates and the registered local precision
+        // additions keep both members of each pair in the scored subset.
+        // Only the
         // `unsupported` remainder differs: C and Rust have no
         // exception-catch pair to exclude, so theirs is 16 rather than 18,
         // and a language whose challenge row is rolled out carries the
         // whole challenge tier in the remainder — every challenge template
         // is outside the CE profile, so none of them moves the scored
-        // subset off 14.
-        assert_eq!(scored, 14, "{} scored partition", kernel.label());
-        let expected_excluded = 2 * kernel.templates().len() - 14;
+        // subset; prospective local control-flow additions extend it.
+        assert_eq!(
+            scored,
+            expected_local_assertions(kernel),
+            "{} scored partition",
+            kernel.label()
+        );
+        let expected_excluded = 2 * kernel.templates().len() - expected_local_assertions(kernel);
         assert_eq!(
             excluded,
             expected_excluded,
