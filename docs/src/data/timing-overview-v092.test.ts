@@ -276,6 +276,7 @@ test('timing labels use milliseconds, seconds and an em dash consistently', () =
 });
 
 test('timed observations retain inconclusive and unsupported outcome context', () => {
+  assert.equal(timingOverviewV092.totals.timedGroups, 18);
   assert.equal(timingOverviewV092.totals.timedInconclusiveRows, 338);
   assert.equal(timingOverviewV092.totals.unsupportedUntimedRows, 85);
 });

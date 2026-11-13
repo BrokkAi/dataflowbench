@@ -295,6 +295,7 @@ export const timingOverviewV092 = {
     timedInconclusiveRows: cases.filter((row) => typeof row.wall_ms === 'number' && row.outcome === 'inconclusive').length,
     unsupportedUntimedRows: cases.filter((row) => row.wall_ms === null && row.outcome === 'unsupported').length,
     capturedGroups: capturedGroupIds.size,
+    timedGroups: new Set(cases.filter((row) => typeof row.wall_ms === 'number').map((row) => row.group)).size,
     plannedGroups: totalPlanGroups,
     blockedColdGroups: timingSupplementV092.totals.blockedColdGroups,
     certifiedGroups: timingSupplementV092.totals.certifiedGroups,

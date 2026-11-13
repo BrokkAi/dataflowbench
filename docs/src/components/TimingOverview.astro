@@ -16,7 +16,7 @@ function description(row: (typeof overview.summaryRows)[number]): string {
     return `${row.analyzer} ${row.pin}: Not measured for v0.9.2. ${row.plannedGroups} planned cold groups; runtime blocker: ${row.blocker ?? 'not recorded'}.`;
   }
   const blocker = row.blocker ? ` Some planned groups remain blocked: ${row.blocker}` : '';
-  return `${row.label}: ${row.timed} of ${row.reportRows} retained report rows have timing across ${row.measuredGroups} of ${row.plannedGroups} planned groups; median ${formatTiming(row.median)}, 90th percentile ${formatTiming(row.p90)}, observed range ${formatTiming(row.min)} to ${formatTiming(row.max)}. Descriptive roll-up only; not certified.${blocker}`;
+  return `${row.label}: ${row.timed} of ${row.reportRows} retained report rows have timing; ${row.measuredGroups} of ${row.plannedGroups} planned groups have captured reports; median ${formatTiming(row.median)}, 90th percentile ${formatTiming(row.p90)}, observed range ${formatTiming(row.min)} to ${formatTiming(row.max)}. Descriptive roll-up only; not certified.${blocker}`;
 }
 
 function sliceDescription(row: (typeof overview.rows)[number]): string {
@@ -35,7 +35,7 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
 <section class="timing-overview" data-timing-overview aria-label="Descriptive v0.9.2 timing roll-up">
   <p class="timing-status">
     <strong>Descriptive roll-up of retained invocation records. No timing is certified.</strong>
-    {overview.totals.capturedGroups} of {overview.totals.plannedGroups} planned cold groups have invocation records;
+    {overview.totals.capturedGroups} of {overview.totals.plannedGroups} planned cold groups have retained reports; {overview.totals.timedGroups} groups contain timed invocations;
     {overview.totals.timedRows.toLocaleString('en-US')} of {overview.totals.reportRows.toLocaleString('en-US')} retained report rows have a wall-time observation.
     The {overview.totals.unsupportedUntimedRows} unsupported rows have no timed invocation;
     {overview.totals.timedInconclusiveRows} timed rows have inconclusive outcomes. A recorded duration does not certify successful analysis.
@@ -44,7 +44,7 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
   <p>
     Each analyzer's distribution is computed from its raw per-case observations. It combines mixed languages,
     tiers, populations and profiles, so it is not a matched comparison, performance ranking or certification.
-    The six analyzers without retained cold invocations are shown with their recorded runtime blockers.
+    The six analyzers without retained cold reports are shown with their recorded runtime blockers.
   </p>
 
   <div class="timing-controls" data-timing-controls hidden>
