@@ -1,0 +1,207 @@
+---
+import {
+  timingOverviewV092 as overview,
+  timingPosition,
+  formatTiming,
+} from '../data/timing-overview-v092.ts';
+
+function description(row: (typeof overview.rows)[number]): string {
+  if (row.median === null) {
+    return `${row.label}: no timed invocations; ${row.reportRows} unsupported rows.`;
+  }
+  return `${row.label}: ${row.timed} of ${row.reportRows} rows timed; median ${formatTiming(row.median)}, 90th percentile ${formatTiming(row.p90)}, observed range ${formatTiming(row.min)} to ${formatTiming(row.max)}. Uncertified.`;
+}
+---
+
+<section class="timing-overview" data-timing-overview aria-label="Diagnostic v0.9.2 timing observations">
+  <p class="timing-status">
+    <strong>Partial observations. No timing is certified.</strong>
+    Bifrost v0.15.1 and Infer v1.3.0, captured 13 November 2026.
+  </p>
+  <p>
+    Across the captured slices, medians span <strong>{formatTiming(overview.medianRange.min)} to {formatTiming(overview.medianRange.max)}</strong>,
+    with observed cases up to <strong>{formatTiming(overview.observedMax)}</strong>.
+    Each slice has its own case population; these observations establish no
+    performance ranking or comparison with an earlier release.
+  </p>
+
+  <div class="timing-controls" data-timing-controls hidden>
+    <label>Analyzer
+      <select data-timing-analyzer aria-label="Timing analyzer">
+        <option value="all">All analyzers</option>
+        <option value="Bifrost">Bifrost</option>
+        <option value="Infer">Infer</option>
+      </select>
+    </label>
+    <label>Slice
+      <select data-timing-tier aria-label="Timing slice">
+        <option value="all">All slices</option>
+        <option value="kernel">Kernel</option>
+        <option value="smoke">Smoke</option>
+        <option value="modeling">Modeling</option>
+        <option value="native">Native</option>
+      </select>
+    </label>
+  </div>
+
+  <p class="timing-count" data-timing-count role="status" aria-live="polite" aria-atomic="true">
+    {overview.rows.length} slices · {overview.totals.timedRows.toLocaleString('en-US')} timed / {overview.totals.reportRows.toLocaleString('en-US')} report rows
+  </p>
+
+  <figure class="timing-figure" aria-describedby="timing-chart-description">
+    <figcaption id="timing-chart-description">
+      <strong>Cold invocations, including startup.</strong>
+      Dot: median. Tick: 90th percentile. Line: observed minimum to maximum.
+      Logarithmic time scale, shared by every row and filter.
+    </figcaption>
+    <div class="timing-axis" aria-hidden="true">
+      <span class="axis-label">Slice · timed / reported</span>
+      <div class="axis-ticks">
+        {overview.axis.ticksSeconds.map((seconds) => (
+          <span style={`left:${timingPosition(seconds * 1000)}%`}>{formatTiming(seconds * 1000)}</span>
+        ))}
+      </div>
+      <span class="median-label">Median</span>
+    </div>
+    <ul class="timing-rows" aria-label="Cold invocation distributions">
+      {overview.rows.map((row) => (
+        <li data-timing-row data-analyzer={row.analyzer} data-tier={row.tier}
+          data-timed={row.timed} data-reported={row.reportRows} aria-label={description(row)}>
+          <div class="timing-row-label">
+            <span>{row.label}</span>
+            <small>{row.timed} / {row.reportRows} timed</small>
+          </div>
+          <div class="timing-plot" aria-hidden="true">
+            {row.min !== null && row.max !== null && row.median !== null && row.p90 !== null ? (
+              <>
+                <span class="timing-range" style={`left:${timingPosition(row.min)}%;width:${timingPosition(row.max) - timingPosition(row.min)}%`}></span>
+                <span class="timing-p90" style={`left:${timingPosition(row.p90)}%`}></span>
+                <span class="timing-median" style={`left:${timingPosition(row.median)}%`}></span>
+              </>
+            ) : <span class="timing-untimed">No timed invocations</span>}
+          </div>
+          <span class="timing-value" aria-hidden="true">{formatTiming(row.median)}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="timing-empty" data-timing-empty hidden>No captured slices match these filters. This is missing coverage, not a zero time.</p>
+  </figure>
+
+  <p class="timing-caveat">
+    Across the full supplement, {overview.totals.untimedRows} unsupported rows have no timing; {overview.totals.blockedColdGroups} planned cold groups remain blocked.
+    The {overview.totals.timedRows.toLocaleString('en-US')} timings include inconclusive outcomes and describe
+    different cases, not repeated trials or runtime variance. Later contention,
+    unknown observations, absent A24 settling and unproven descendant containment
+    prevent certification. Warm marginal cost remains unmeasured.
+  </p>
+  <p class="timing-overhead">
+    <strong>Separate invocation-overhead estimates:</strong>
+    Bifrost / Python {formatTiming(overview.overhead[0].range_ms.low)}–{formatTiming(overview.overhead[0].range_ms.high)};
+    Infer / C {formatTiming(overview.overhead[1].range_ms.low)}–{formatTiming(overview.overhead[1].range_ms.high)}.
+    Three repeats each; upper bounds including a no-flow fixture's analysis,
+    not warm marginal cost. Nothing is subtracted from the chart.
+  </p>
+  <p><a href={overview.pageUrl}>Full timing tables, qualification and downloadable evidence</a></p>
+
+  <details class="timing-values">
+    <summary>Timing values for all {overview.rows.length} captured slices</summary>
+    <p>Rounded for readability. All slices remain in this table regardless of the chart filters. A dash means no timing, never zero; full precision is retained in the downloadable evidence.</p>
+    <div class="timing-table-scroll" tabindex="0" role="region" aria-label="Cold timing values">
+      <table>
+        <caption>Uncertified cold-case wall-clock observations</caption>
+        <thead><tr><th scope="col">Slice</th><th scope="col">Timed / reported</th><th scope="col">Minimum</th><th scope="col">Median</th><th scope="col">90th percentile</th><th scope="col">Maximum</th></tr></thead>
+        <tbody>{overview.rows.map((row) => (
+          <tr><th scope="row">{row.label}</th><td>{row.timed} / {row.reportRows}</td><td>{formatTiming(row.min)}</td><td>{formatTiming(row.median)}</td><td>{formatTiming(row.p90)}</td><td>{formatTiming(row.max)}</td></tr>
+        ))}</tbody>
+      </table>
+    </div>
+  </details>
+</section>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-timing-overview]')) {
+    const analyzer = root.querySelector<HTMLSelectElement>('[data-timing-analyzer]');
+    const tier = root.querySelector<HTMLSelectElement>('[data-timing-tier]');
+    const controls = root.querySelector<HTMLElement>('[data-timing-controls]');
+    const count = root.querySelector<HTMLElement>('[data-timing-count]');
+    const empty = root.querySelector<HTMLElement>('[data-timing-empty]');
+    const rows = [...root.querySelectorAll<HTMLElement>('[data-timing-row]')];
+    if (!analyzer || !tier || !controls || !count || !empty) continue;
+    const update = () => {
+      let shown = 0;
+      let timed = 0;
+      let reported = 0;
+      for (const row of rows) {
+        row.hidden = (analyzer.value !== 'all' && row.dataset.analyzer !== analyzer.value)
+          || (tier.value !== 'all' && row.dataset.tier !== tier.value);
+        if (row.hidden) continue;
+        shown += 1;
+        timed += Number(row.dataset.timed);
+        reported += Number(row.dataset.reported);
+      }
+      count.textContent = `${shown} ${shown === 1 ? 'slice' : 'slices'} · ${timed.toLocaleString('en-US')} timed / ${reported.toLocaleString('en-US')} report rows`;
+      empty.hidden = shown !== 0;
+    };
+    analyzer.addEventListener('change', update);
+    tier.addEventListener('change', update);
+    update();
+    controls.hidden = false;
+  }
+</script>
+
+<style>
+  .timing-overview { margin-block: 1.5rem 3rem; color: var(--ds-text); }
+  .timing-status strong { display: block; color: var(--ds-accent-text); }
+  .timing-status, .timing-caveat, .timing-overhead { color: var(--ds-text-2); }
+  .timing-controls { display: flex; flex-wrap: wrap; gap: 1rem; margin-block: 1.75rem .5rem; }
+  .timing-controls label { display: grid; gap: .35rem; margin: 0; font-size: .875rem; }
+  .timing-controls select { min-height: 44px; min-width: 10rem; margin: 0; padding: .5rem 2rem .5rem .65rem; color: var(--ds-text); background: var(--ds-control); border: 1px solid var(--ds-line-strong); border-radius: 0; font: inherit; }
+  .timing-controls select:focus-visible, .timing-table-scroll:focus-visible { outline: 2px solid var(--ds-accent); outline-offset: 3px; }
+  .timing-count { margin-block: .75rem 1.5rem; color: var(--ds-text-2); font-size: .875rem; }
+  .timing-figure { margin: 0; max-width: 70rem; }
+  figcaption { max-width: var(--dfb-measure); margin-bottom: 1.75rem; color: var(--ds-text-2); font-size: .875rem; }
+  figcaption strong { display: block; color: var(--ds-text); }
+  .timing-axis, .timing-rows li { display: grid; grid-template-columns: minmax(11.5rem, 14rem) minmax(0, 1fr) 5rem; column-gap: 1rem; align-items: center; }
+  .timing-axis { margin-bottom: .5rem; font-size: .75rem; color: var(--ds-text-3); }
+  .axis-ticks { position: relative; height: 1.5rem; }
+  .axis-ticks span { position: absolute; white-space: nowrap; transform: translateX(-50%); }
+  .axis-ticks span:first-child { transform: none; }
+  .median-label { text-align: right; }
+  .timing-rows { list-style: none; padding: 0; margin: 0; max-width: none; }
+  .timing-rows li { min-height: 3rem; margin: 0; padding-block: .3rem; }
+  .timing-row-label { font-size: .875rem; line-height: 1.3; }
+  .timing-row-label small { display: block; color: var(--ds-text-3); font-size: .75rem; margin-top: .2rem; }
+  .timing-plot { position: relative; height: 1.5rem; }
+  .timing-range { position: absolute; top: calc(50% - 1px); height: 2px; background: var(--ds-text-3); }
+  .timing-range::before, .timing-range::after { content: ''; position: absolute; top: -3px; height: 8px; width: 1px; background: var(--ds-text-3); }
+  .timing-range::before { left: 0; }
+  .timing-range::after { right: 0; }
+  .timing-p90 { position: absolute; top: calc(50% - 6px); width: 2px; height: 12px; background: var(--ds-text); transform: translateX(-50%); }
+  .timing-median { position: absolute; top: calc(50% - 4px); width: 8px; height: 8px; border-radius: 50%; background: var(--ds-accent-text); transform: translateX(-50%); }
+  .timing-value { text-align: right; font-family: Georgia, 'Times New Roman', serif; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .timing-untimed { font-size: .8rem; color: var(--ds-text-3); }
+  .timing-caveat, .timing-overhead { margin-top: 1.5rem; font-size: .875rem; }
+  .timing-values { margin-top: 1.5rem; }
+  .timing-values summary { cursor: pointer; min-height: 44px; padding-block: .6rem; }
+  .timing-table-scroll { overflow-x: auto; }
+  .timing-values table { width: 100%; font-variant-numeric: tabular-nums; }
+  .timing-values td { text-align: right; white-space: nowrap; }
+  .timing-values th { text-align: left; }
+  .timing-values caption { text-align: left; color: var(--ds-text-2); }
+  .timing-overview [hidden] { display: none; }
+  @media (max-width: 640px) {
+    .timing-controls { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .timing-controls select { width: 100%; min-width: 0; }
+    .timing-axis { grid-template-columns: minmax(0, 1fr); padding-top: 1rem; }
+    .axis-label, .median-label { display: none; }
+    .timing-rows li { grid-template-columns: minmax(0, 1fr) auto; row-gap: .25rem; margin-bottom: 1rem; }
+    .timing-row-label { grid-column: 1; grid-row: 1; }
+    .timing-value { grid-column: 2; grid-row: 1; font-size: 1rem; }
+    .timing-plot { grid-column: 1 / -1; grid-row: 2; }
+    .timing-row-label small { display: inline; margin-left: .5rem; }
+    .timing-untimed { display: block; }
+  }
+  @media (max-width: 360px) {
+    .axis-ticks span:nth-child(2) { display: none; }
+  }
+</style>
