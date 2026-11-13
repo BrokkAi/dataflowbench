@@ -274,3 +274,8 @@ test('timing labels use milliseconds, seconds and an em dash consistently', () =
   assert.equal(formatTiming(1462.5), '1.46 s');
   assert.equal(formatTiming(8356), '8.36 s');
 });
+
+test('timed observations retain inconclusive and unsupported outcome context', () => {
+  assert.equal(timingOverviewV092.totals.timedInconclusiveRows, 338);
+  assert.equal(timingOverviewV092.totals.unsupportedUntimedRows, 85);
+});

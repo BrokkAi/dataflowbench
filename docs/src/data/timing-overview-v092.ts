@@ -292,6 +292,8 @@ export const timingOverviewV092 = {
     reportRows: cases.length,
     timedRows: cases.filter((row) => typeof row.wall_ms === 'number').length,
     untimedRows: cases.filter((row) => row.wall_ms === null).length,
+    timedInconclusiveRows: cases.filter((row) => typeof row.wall_ms === 'number' && row.outcome === 'inconclusive').length,
+    unsupportedUntimedRows: cases.filter((row) => row.wall_ms === null && row.outcome === 'unsupported').length,
     capturedGroups: capturedGroupIds.size,
     plannedGroups: totalPlanGroups,
     blockedColdGroups: timingSupplementV092.totals.blockedColdGroups,

@@ -16,7 +16,7 @@ function description(row: (typeof overview.summaryRows)[number]): string {
     return `${row.analyzer} ${row.pin}: Not measured for v0.9.2. ${row.plannedGroups} planned cold groups; runtime blocker: ${row.blocker ?? 'not recorded'}.`;
   }
   const blocker = row.blocker ? ` Some planned groups remain blocked: ${row.blocker}` : '';
-  return `${row.label}: ${row.timed} of ${row.reportRows} retained case invocations have timing across ${row.measuredGroups} of ${row.plannedGroups} planned groups; median ${formatTiming(row.median)}, 90th percentile ${formatTiming(row.p90)}, observed range ${formatTiming(row.min)} to ${formatTiming(row.max)}. Descriptive roll-up only; not certified.${blocker}`;
+  return `${row.label}: ${row.timed} of ${row.reportRows} retained report rows have timing across ${row.measuredGroups} of ${row.plannedGroups} planned groups; median ${formatTiming(row.median)}, 90th percentile ${formatTiming(row.p90)}, observed range ${formatTiming(row.min)} to ${formatTiming(row.max)}. Descriptive roll-up only; not certified.${blocker}`;
 }
 
 function sliceDescription(row: (typeof overview.rows)[number]): string {
@@ -36,7 +36,9 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
   <p class="timing-status">
     <strong>Descriptive roll-up of retained invocation records. No timing is certified.</strong>
     {overview.totals.capturedGroups} of {overview.totals.plannedGroups} planned cold groups have invocation records;
-    {overview.totals.timedRows.toLocaleString('en-US')} of {overview.totals.reportRows.toLocaleString('en-US')} captured case invocations have a wall-time observation.
+    {overview.totals.timedRows.toLocaleString('en-US')} of {overview.totals.reportRows.toLocaleString('en-US')} retained report rows have a wall-time observation.
+    The {overview.totals.unsupportedUntimedRows} unsupported rows have no timed invocation;
+    {overview.totals.timedInconclusiveRows} timed rows have inconclusive outcomes. A recorded duration does not certify successful analysis.
     This is the 13 November 2026 capture. Rows follow the frozen v0.9.2 analyzer order and pins.
   </p>
   <p>
@@ -73,7 +75,7 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
 
   <p class="timing-count" data-timing-count role="status" aria-live="polite" aria-atomic="true">
     {overview.summaryRows.length} analyzers · {overview.totals.capturedGroups} / {overview.totals.plannedGroups} groups captured ·
-    {overview.totals.timedRows.toLocaleString('en-US')} / {overview.totals.reportRows.toLocaleString('en-US')} case invocations timed
+    {overview.totals.timedRows.toLocaleString('en-US')} / {overview.totals.reportRows.toLocaleString('en-US')} report rows timed
   </p>
 
   <figure class="timing-figure" aria-describedby="timing-chart-description">
@@ -82,7 +84,7 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
       Dot: median. Tick: 90th percentile. Line: observed minimum to maximum. Logarithmic time scale, shared by every row and filter.
     </figcaption>
     <div class="timing-axis" aria-hidden="true">
-      <span class="axis-label" data-axis-label>Analyzer · timed / captured · groups captured / planned</span>
+      <span class="axis-label" data-axis-label>Analyzer · timed / report rows · groups captured / planned</span>
       <div class="axis-ticks">
         {overview.axis.ticksSeconds.map((seconds) => (
           <span style={`left:${timingPosition(seconds * 1000)}%`}>{formatTiming(seconds * 1000)}</span>
@@ -171,7 +173,7 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
     <div class="timing-table-scroll" tabindex="0" role="region" aria-label="Cold timing values">
       <table>
         <caption>Uncertified cold-case wall-clock observations</caption>
-        <thead><tr><th scope="col">Slice</th><th scope="col">Timed / captured</th><th scope="col">Minimum</th><th scope="col">Median</th><th scope="col">90th percentile</th><th scope="col">Maximum</th></tr></thead>
+        <thead><tr><th scope="col">Slice</th><th scope="col">Timed / report rows</th><th scope="col">Minimum</th><th scope="col">Median</th><th scope="col">90th percentile</th><th scope="col">Maximum</th></tr></thead>
         <tbody>{overview.rows.map((row) => (
           <tr><th scope="row">{row.label}</th><td>{row.timed.toLocaleString('en-US')} / {row.reportRows.toLocaleString('en-US')}</td><td>{formatTiming(row.min)}</td><td>{formatTiming(row.median)}</td><td>{formatTiming(row.p90)}</td><td>{formatTiming(row.max)}</td></tr>
         ))}</tbody>
@@ -214,11 +216,11 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
       sliceList.hidden = activeView !== 'slices';
       empty.hidden = shown !== 0 || activeView !== 'slices';
       axisLabel.textContent = activeView === 'summary'
-        ? 'Analyzer · timed / captured · groups captured / planned'
-        : 'Slice · timed / captured';
+        ? 'Analyzer · timed / report rows · groups captured / planned'
+        : 'Slice · timed / report rows';
       count.textContent = activeView === 'summary'
-        ? `${shown} ${shown === 1 ? 'analyzer' : 'analyzers'} · ${measuredGroups} / ${plannedGroups} groups captured · ${timed.toLocaleString('en-US')} / ${reported.toLocaleString('en-US')} case invocations timed`
-        : `${shown} ${shown === 1 ? 'slice' : 'slices'} · ${timed.toLocaleString('en-US')} / ${reported.toLocaleString('en-US')} case invocations timed`;
+        ? `${shown} ${shown === 1 ? 'analyzer' : 'analyzers'} · ${measuredGroups} / ${plannedGroups} groups captured · ${timed.toLocaleString('en-US')} / ${reported.toLocaleString('en-US')} report rows timed`
+        : `${shown} ${shown === 1 ? 'slice' : 'slices'} · ${timed.toLocaleString('en-US')} / ${reported.toLocaleString('en-US')} report rows timed`;
     };
 
     view.addEventListener('change', update);
