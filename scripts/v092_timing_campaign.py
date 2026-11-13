@@ -8,6 +8,7 @@ import fcntl
 import hashlib
 import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -22,6 +23,11 @@ CAMPAIGN_ID_PATTERN = re.compile(r"(?P<date>\d{8})-(?P<sequence>\d{2})\Z")
 REPORT = ROOT / "reports/timing/v0.9.2" / DEFAULT_CAMPAIGN_ID
 WORK = ROOT / "execution-state" / f"timing-v092-{DEFAULT_CAMPAIGN_ID}"
 GIB = 1024**3
+OVERHEAD_LANGUAGES = {
+    "bifrost": {"python"}, "codeql": {"ruby"}, "flowdroid": {"java"},
+    "infer": {"c"}, "joern": {"php", "java"}, "opentaint": {"kotlin"},
+    "pysa": {"python"}, "semgrep": {"kotlin"},
+}
 
 
 def campaign_paths(campaign_id):
@@ -133,7 +139,7 @@ def prepare():
             group["blocker"] = "Exact v0.9.2 runtime closure was in the removed 9f01 worktree and is not installed at its bound paths. Restoration and verification are pending."
         group["argv"][0] = binary["path"]
         groups.append(group)
-    for tool, language, flag in [("bifrost", "php", "--bifrost"), ("infer", "c", "--infer")]:
+    for tool, language, flag in [("bifrost", "python", "--bifrost"), ("infer", "c", "--infer")]:
         groups.append({"id": f"overhead-{tool}-{language}", "family": tool,
                        "kind": "overhead", "status": "ready", "deadline_seconds": 600,
                        "argv": [binary["path"], "--population", "v0.9.0", "estimate-invocation-overhead",
@@ -189,6 +195,88 @@ def owned_pids(observation, root_pid):
                 result.add(row["pid"])
                 changed = True
     return result
+
+
+def validate_overhead_group(group):
+    if group["kind"] != "overhead":
+        return
+    argv = group["argv"]
+    for flag in ("--tool", "--language"):
+        if argv.count(flag) != 1 or argv.index(flag) + 1 >= len(argv):
+            raise RuntimeError(f"missing or ambiguous overhead argument: {flag}")
+    tool, language = (argv[argv.index(flag) + 1] for flag in ("--tool", "--language"))
+    if tool != group["family"] or language not in OVERHEAD_LANGUAGES.get(tool, set()):
+        raise RuntimeError(f"unregistered overhead tool/language pairing: {tool}/{language}")
+
+
+def admit_auxiliary_continuation(plan):
+    """Admit only the documented, pre-analysis PHP configuration correction."""
+    continuation = plan.get("continuation")
+    if continuation is None:
+        return 0.0, None
+    parent_id = continuation["parent_campaign_id"]
+    parent, parent_work = campaign_paths(parent_id)
+    if parent == REPORT or continuation.get("kind") != "pre-analysis-overhead-language-correction":
+        raise RuntimeError("invalid auxiliary continuation")
+    parent_plan_path = parent / "plan.json"
+    if sha(parent_plan_path) != continuation["parent_plan_sha256"]:
+        raise RuntimeError("continuation parent plan digest differs")
+    original = json.loads(parent_plan_path.read_text())
+    for key in ("release_commit", "population", "fixture_revision", "tools", "resources", "source_projection"):
+        if plan[key] != original[key]:
+            raise RuntimeError(f"continuation changed invariant: {key}")
+    terminal_path = parent / "campaign-terminal.json"
+    if sha(terminal_path) != continuation["parent_terminal_sha256"]:
+        raise RuntimeError("continuation parent terminal digest differs")
+    terminal = json.loads(terminal_path.read_text())
+    bad_id = "overhead-bifrost-php"
+    failed_root = parent / "attempts" / bad_id / "attempt-01"
+    failed = json.loads((failed_root / "terminal.json").read_text())
+    if (terminal.get("status") != "stopped" or terminal.get("group") != bad_id
+            or failed.get("exit_code") != 1 or failed.get("timed_out")
+            or failed.get("capacity_loss") is not None
+            or (failed_root / "stderr.txt").read_text().strip() != "Error: no Bifrost overhead arm for php"):
+        raise RuntimeError("parent failure is not the pre-analysis configuration error")
+    raw = parent_work / "sources" / bad_id / "reports/raw/invocation-overhead/bifrost-php"
+    if (raw / "invocation-overhead.json").exists() or list(raw.rglob("*-timing.json")):
+        raise RuntimeError("parent has measurement evidence; automatic retry is forbidden")
+    ready = [g for g in plan["groups"] if g["status"] == "ready"]
+    if [g["id"] for g in ready] != ["overhead-bifrost-python", "overhead-infer-c"]:
+        raise RuntimeError("continuation may dispatch only the two remaining overhead commands")
+    original_ready = [g for g in original["groups"] if g["status"] == "ready"]
+    expected = json.loads(json.dumps(next(g for g in original_ready if g["id"] == bad_id)))
+    expected["id"] = "overhead-bifrost-python"
+    expected["argv"][expected["argv"].index("--language") + 1] = "python"
+    expected["output_roots"] = ["reports/raw/invocation-overhead/bifrost-python"]
+    if ready[0] != expected or ready[1] != next(g for g in original_ready if g["id"] == "overhead-infer-c"):
+        raise RuntimeError("continuation changed arguments beyond the registered language correction")
+    for group in original_ready:
+        if group["kind"] == "cold":
+            previous = parent / "attempts" / group["id"] / "attempt-01/terminal.json"
+            if json.loads(previous.read_text()).get("status") != "completed-candidate-evidence":
+                raise RuntimeError("parent cold evidence is incomplete")
+    if (parent / "attempts/overhead-infer-c/attempt-01/start.json").exists():
+        raise RuntimeError("Infer overhead was already dispatched")
+    first = parent / "attempts" / original_ready[0]["id"] / "attempt-01/start.json"
+    if sha(first) != continuation["initial_dispatch_sha256"]:
+        raise RuntimeError("initial dispatch digest differs")
+    initial = json.loads(first.read_text())
+    quiet = initial.get("quiet_observation") or {}
+    if (initial.get("plan_sha256") != continuation["parent_plan_sha256"]
+            or quiet.get("quiet_elapsed_seconds", 0) < 300 or quiet.get("cpu_idle_percent", 0) < 90):
+        raise RuntimeError("parent initial quiet gate was not satisfied")
+    durations = [json.loads(p.read_text())["elapsed_seconds"]
+                 for p in (parent / "attempts").glob("*/attempt-*/terminal.json")]
+    if any(type(v) not in (int, float) or not math.isfinite(v) or v < 0 for v in durations):
+        raise RuntimeError("invalid parent execution-budget consumption")
+    consumed = sum(durations)
+    if consumed + sum(g["deadline_seconds"] for g in ready) > plan["resources"]["total_execution_budget_seconds"]:
+        raise RuntimeError("continuation exceeds the original remaining budget")
+    for group in ready:
+        validate_overhead_group(group)
+    return consumed, {"parent_campaign_id": parent_id, "initial_dispatch_sha256": sha(first),
+                      "parent_execution_seconds_charged": consumed,
+                      "cold_groups_not_repeated": True, "prior_failure_retained": True}
 
 
 def external_contention(observation, root_pid, host):
@@ -433,6 +521,9 @@ def execute():
             or not validation.get("infer_runtime_verified")):
         raise RuntimeError("full Infer runtime verification is required")
     ready = [g for g in plan["groups"] if g["status"] == "ready"]
+    for group in ready:
+        validate_overhead_group(group)
+    prior_consumed, inherited_gate = admit_auxiliary_continuation(plan)
     with Path(core.LOCK_PATH).open("a+") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         if (REPORT / "campaign-start.json").exists():
@@ -471,10 +562,11 @@ def execute():
                   "plan_sha256": sha(plan_path), "plan_commit": subprocess.check_output(
                       ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
                   "ready_commands": len(ready), "source_commit": RELEASE,
+                  "continuation": inherited_gate,
                   "helper_sha256": {p: sha(ROOT / p) for p in [
                       "scripts/v092_timing_campaign.py", "scripts/v092_timing_host.py",
                       "scripts/execute-release-v092.py", "scripts/swift_v2_scored_process.py"]}})
-        consumed = 0.0
+        consumed = prior_consumed
         for group_index, group in enumerate(ready):
             destination = REPORT / "attempts" / group["id"] / "attempt-01"
             destination.mkdir(parents=True, exist_ok=False)
@@ -484,7 +576,8 @@ def execute():
             for name in ["runner", group["family"]]:
                 core._check_tool_file(plan["tools"][name], name)
             launch_observations = prelaunch_state(
-                group_index, host, observer, guard, destination / "host.jsonl", source,
+                group_index + (1 if inherited_gate else 0), host, observer, guard,
+                destination / "host.jsonl", source,
             )
             if consumed >= plan["resources"]["total_execution_budget_seconds"]:
                 raise RuntimeError("campaign execution budget exhausted")

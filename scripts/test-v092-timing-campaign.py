@@ -167,6 +167,65 @@ class CampaignTests(unittest.TestCase):
             with self.assertRaises(ValueError, msg=value):
                 campaign.campaign_paths(value)
 
+    def test_overhead_pairing_rejects_php_before_dispatch(self):
+        group = {"kind": "overhead", "family": "bifrost", "argv": [
+            "runner", "estimate-invocation-overhead", "--tool", "bifrost", "--language", "python"]}
+        campaign.validate_overhead_group(group)
+        group["argv"][-1] = "php"
+        with self.assertRaisesRegex(RuntimeError, "unregistered overhead"):
+            campaign.validate_overhead_group(group)
+
+    def test_auxiliary_continuation_preserves_budget_and_rejects_real_failure(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            parent = root / "reports/timing/v0.9.2/20261113-01"
+            current = root / "reports/timing/v0.9.2/20261113-02"
+            def put(path, value):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(json.dumps(value))
+            cold = {"id": "cold", "kind": "cold", "status": "ready"}
+            bad = {"id": "overhead-bifrost-php", "kind": "overhead", "status": "ready",
+                   "family": "bifrost", "deadline_seconds": 600, "argv": [
+                       "runner", "--tool", "bifrost", "--language", "php"],
+                   "output_roots": ["reports/raw/invocation-overhead/bifrost-php"]}
+            infer = {**bad, "id": "overhead-infer-c", "family": "infer", "argv": [
+                "runner", "--tool", "infer", "--language", "c"],
+                "output_roots": ["reports/raw/invocation-overhead/infer-c"]}
+            original = {"release_commit": "release", "population": "population",
+                        "fixture_revision": "fixture", "tools": {}, "source_projection": {},
+                        "resources": {"total_execution_budget_seconds": 2000},
+                        "groups": [cold, bad, infer]}
+            put(parent / "plan.json", original)
+            put(parent / "campaign-terminal.json", {"status": "stopped", "group": bad["id"]})
+            failed_path = parent / "attempts" / bad["id"] / "attempt-01/terminal.json"
+            failed = {"exit_code": 1, "timed_out": False, "capacity_loss": None, "elapsed_seconds": 2}
+            put(failed_path, failed)
+            failed_path.with_name("stderr.txt").write_text("Error: no Bifrost overhead arm for php\n")
+            put(parent / "attempts/cold/attempt-01/terminal.json", {
+                "status": "completed-candidate-evidence", "elapsed_seconds": 1})
+            first = parent / "attempts/cold/attempt-01/start.json"
+            put(first, {"plan_sha256": campaign.sha(parent / "plan.json"),
+                        "quiet_observation": {"quiet_elapsed_seconds": 315, "cpu_idle_percent": 95}})
+            corrected = {**bad, "id": "overhead-bifrost-python", "argv": [
+                "runner", "--tool", "bifrost", "--language", "python"],
+                "output_roots": ["reports/raw/invocation-overhead/bifrost-python"]}
+            plan = {**original, "groups": [corrected, infer], "continuation": {
+                "kind": "pre-analysis-overhead-language-correction", "parent_campaign_id": "20261113-01",
+                "parent_plan_sha256": campaign.sha(parent / "plan.json"),
+                "parent_terminal_sha256": campaign.sha(parent / "campaign-terminal.json"),
+                "initial_dispatch_sha256": campaign.sha(first)}}
+            with patch.object(campaign, "ROOT", root), patch.object(campaign, "REPORT", current):
+                consumed, evidence = campaign.admit_auxiliary_continuation(plan)
+                self.assertEqual(consumed, 3)
+                self.assertTrue(evidence["cold_groups_not_repeated"])
+                put(failed_path, {**failed, "timed_out": True})
+                with self.assertRaisesRegex(RuntimeError, "pre-analysis configuration"):
+                    campaign.admit_auxiliary_continuation(plan)
+                put(failed_path, failed)
+                plan["resources"] = {"total_execution_budget_seconds": 3000}
+                with self.assertRaisesRegex(RuntimeError, "changed invariant"):
+                    campaign.admit_auxiliary_continuation(plan)
+
 
 if __name__ == "__main__":
     unittest.main()
