@@ -1,0 +1,712 @@
+{
+  "schema": "v092-scheduled-launch-preflight/v1",
+  "observed_at_utc": "2026-11-14T00:02:14.839Z",
+  "scheduled_for_utc": "2026-11-14T00:00:00Z",
+  "campaign_id": "20261114-01",
+  "status": "blocked",
+  "controller_invoked": false,
+  "analyzer_dispatches": 0,
+  "completed_cold_groups": 0,
+  "completed_overhead_commands": 0,
+  "completed_warm_commands": 0,
+  "certified_measurements": 0,
+  "plan_path": "reports/timing/v0.9.2/20261114-01/qualified-plan-02.json",
+  "plan_sha256": "aea556af879c9ff3d74e0a846e4a06df712124a2c8ca162e0ed0d30ec0a2eb79",
+  "helper_sha256": "af7301f00e8e6b31ffd7064ebd30b706322a779cec93cc6a3245c4d73dc39aaa",
+  "committed_inputs": {
+    "plan_commit": "58eaaa056d95234c60e02d66100102d38e03e483",
+    "committed_inputs": {
+      "scripts/execute-release-v092.py": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8",
+      "scripts/swift_v2_scored_process.py": "09cc57d0893d3ab17c75f7934aba8ebd9cc736bd118e77163e5c5fd2fbf0456e",
+      "scripts/v092_disk_guard.py": "fa4201b0aa4ae73273c4d6ba9f2dbb4315e6fb9d52c7469c8be3d46f0b570e21",
+      "scripts/v092_timing_campaign.py": "dbc2b78f069b87e3b6e1707a32c3f5c1490ab0bb3debb2881b24e86f0bdb471f",
+      "scripts/v092_timing_host.py": "06f122c04e22c42fa6df148badb41c4b886f492c4daf9ea44ef1d5a098643415",
+      "scripts/v092_timing_qualified_campaign.py": "af7301f00e8e6b31ffd7064ebd30b706322a779cec93cc6a3245c4d73dc39aaa",
+      "reports/timing/v0.9.2/20261114-01/qualified-plan-02.json": "aea556af879c9ff3d74e0a846e4a06df712124a2c8ca162e0ed0d30ec0a2eb79",
+      "reports/timing/v0.9.2/20261113-01/plan.json": "cae756c3e1cbf5fad54cef3ad5fbbb9accf95cb5cbe1fe3ee640048236f0b844",
+      "reports/timing/v0.9.2/preparation-20261114-01/runtime-bindings-v4.json": "a50b571037db1f443c40bbe9dba78c48a140a7d109a7a6c73f622a08c30ec092",
+      "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests-receipt-v2.json": "436890ea33810217f06b9446d44e08cdc8178a044d36f1793f6240c165bb7bf4",
+      "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/prospective-compiler-distribution-inventories-v1.json": "48bd4229bb75c5753c771e6962deabd076acb986c3486cebcacd3ac2d7b2bf9e",
+      "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/prospective-host-toolchain-inventories-v1.json": "15b4e74587d67c8c4ca0a739fe5f6d80d47242a49a67ea1b5d105e113706860c",
+      "reports/timing/v0.9.2/preparation-20261114-01/core-runtime/retention-receipt-v1.json": "9a155d8cf184dc56b334f58fa58bb573fb9ebf29ed2419ad4f37d91f3c33de10",
+      "reports/timing/v0.9.2/preparation-20261114-01/python-runtimes/runtime-restoration-receipt.json": "2eb34eaeb3a167d85893dccdd53d6497ec314f173a8b22f5f2f1181b8aeda8f4",
+      "reports/timing/v0.9.2/preparation-20261114-01/python-runtimes/compressed-python-runtime-receipt-index.json": "2404907b79cc125afd002448df8fe3fd5871320c2276a0c16254ab64704ea18c",
+      "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/core-runtime-tree-check-results-v1.json": "276dc39818a1ed1bee0d8c4d18bbe2eb9b32ca0717dfd63d8ed077b4fc1449ca",
+      "reports/timing/v0.9.2/preparation-20261114-01/qualification/helper-transition-v1.json": "be68dc3d4b328036596078851e3231cf20fb30528f6004b6246094bcce6cbf31",
+      "reports/timing/v0.9.2/preparation-20261114-01/warm-population/derivation-v1.json": "b2d9b38c381d73ee4fbe1db539dea0752dc1511b3698301ed239ddc51b18208b",
+      "docs/latency-v092-20261114.md": "6b5c9d150b28bf50f03969090a3094087e7d1231c908f7cd8ac25fca92e711c6",
+      "reports/releases/v0.9.2/execution-v4/contract.json": "1194072f1bb4970d0909f712ac2ed4e71bcc403409384af513a7adeba3d88eeb"
+    }
+  },
+  "preparation_ancestor_verified": true,
+  "remote_release": {
+    "tag_object": "690fa52c230b96ce6f4eba8480ae58430923a0d7",
+    "peeled_commit": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1",
+    "verified_live": true
+  },
+  "host_snapshot": {
+    "path": "reports/timing/v0.9.2/20261114-01/launch-preflight-01-host.json",
+    "sha256": "dc0c8e5cd9100265328ceb2f5422a6edc2ddffa76465f8002e910fd426488079"
+  },
+  "blockers": [
+    {
+      "code": "launch_disk_floor",
+      "free_bytes": 51301376000,
+      "free_gib": 47.77812957763672,
+      "required_gib": 127
+    },
+    {
+      "code": "host_not_quiet",
+      "observed_idle_percent": 0.0,
+      "required_idle_percent": 90,
+      "required_sustained_seconds": 300,
+      "sustained_window_observed": false,
+      "competing_workload_observed": true,
+      "examples": [
+        {
+          "pid": 49724,
+          "ppid": 15052,
+          "cpu_percent": 361.0,
+          "comm": "/Users/dave/Workspace/BrokkAi/bifrost-dev/.claude/worktrees/rv-m4-g3-head/target/debug/deps/suite_semantic-f7be63bcec7ade87"
+        },
+        {
+          "pid": 64224,
+          "ppid": 44752,
+          "cpu_percent": 74.1,
+          "comm": "/Users/dave/Workspace/BrokkAi/bifrost-dev/.claude/worktrees/pensive-kepler-4ef356/target/debug/deps/brokk_bifrost_store-be3c78a73b3e3ed8"
+        },
+        {
+          "pid": 64217,
+          "ppid": 44752,
+          "cpu_percent": 73.3,
+          "comm": "/Users/dave/Workspace/BrokkAi/bifrost-dev/.claude/worktrees/pensive-kepler-4ef356/target/debug/deps/brokk_bifrost_store-be3c78a73b3e3ed8"
+        },
+        {
+          "pid": 61755,
+          "ppid": 61753,
+          "cpu_percent": 43.2,
+          "comm": "./owasp-bin-fix-0ac2aec"
+        },
+        {
+          "pid": 64211,
+          "ppid": 44752,
+          "cpu_percent": 42.2,
+          "comm": "/Users/dave/Workspace/BrokkAi/bifrost-dev/.claude/worktrees/pensive-kepler-4ef356/target/debug/deps/brokk_bifrost_store-be3c78a73b3e3ed8"
+        },
+        {
+          "pid": 64222,
+          "ppid": 44752,
+          "cpu_percent": 41.7,
+          "comm": "/Users/dave/Workspace/BrokkAi/bifrost-dev/.claude/worktrees/pensive-kepler-4ef356/target/debug/deps/brokk_bifrost_store-be3c78a73b3e3ed8"
+        },
+        {
+          "pid": 64221,
+          "ppid": 44752,
+          "cpu_percent": 40.8,
+          "comm": "/Users/dave/Workspace/BrokkAi/bifrost-dev/.claude/worktrees/pensive-kepler-4ef356/target/debug/deps/brokk_bifrost_store-be3c78a73b3e3ed8"
+        },
+        {
+          "pid": 64173,
+          "ppid": 44752,
+          "cpu_percent": 40.3,
+          "comm": "/Users/dave/Workspace/BrokkAi/bifrost-dev/.claude/worktrees/pensive-kepler-4ef356/target/debug/deps/brokk_bifrost_store-be3c78a73b3e3ed8"
+        },
+        {
+          "pid": 64142,
+          "ppid": 44752,
+          "cpu_percent": 40.2,
+          "comm": "/Users/dave/Workspace/BrokkAi/bifrost-dev/.claude/worktrees/pensive-kepler-4ef356/target/debug/deps/brokk_bifrost_store-be3c78a73b3e3ed8"
+        },
+        {
+          "pid": 64219,
+          "ppid": 44752,
+          "cpu_percent": 39.6,
+          "comm": "/Users/dave/Workspace/BrokkAi/bifrost-dev/.claude/worktrees/pensive-kepler-4ef356/target/debug/deps/brokk_bifrost_store-be3c78a73b3e3ed8"
+        }
+      ]
+    }
+  ],
+  "full_runtime_verification": {
+    "status": "not-run",
+    "reason": "Insufficient launch storage and active unrelated benchmark/test workloads; avoid heavy verification I/O while another benchmark owns the host."
+  },
+  "serial_lock": {
+    "status": "not-attempted",
+    "reason": "Host admission failed before controller invocation."
+  },
+  "not_dispatched_groups": [
+    {
+      "id": "bifrost-java-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-java-kernel",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-java-kernel",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-java-kernel",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "opentaint-java-kernel",
+      "kind": "cold",
+      "family": "opentaint",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "infer-java-kernel",
+      "kind": "cold",
+      "family": "infer",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "flowdroid-java-kernel",
+      "kind": "cold",
+      "family": "flowdroid",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "pysa-python-kernel",
+      "kind": "cold",
+      "family": "pysa",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-c-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-cpp-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-csharp-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-go-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-java-modeling",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-java-native",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-javascript-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-javascript-modeling",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-javascript-native",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-kotlin-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-php-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-python-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-python-modeling",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-python-native",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-ruby-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-rust-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-scala-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-smoke",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "bifrost-typescript-kernel",
+      "kind": "cold",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-c-kernel",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-cpp-kernel",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-csharp-kernel",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-go-kernel",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-java-modeling",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-java-native",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-javascript-kernel",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-javascript-modeling",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-javascript-native",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-kotlin-kernel",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-python-kernel",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-python-modeling",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-python-native",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-ruby-kernel",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-rust-kernel",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "codeql-typescript-kernel",
+      "kind": "cold",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "flowdroid-java-modeling",
+      "kind": "cold",
+      "family": "flowdroid",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "flowdroid-java-native",
+      "kind": "cold",
+      "family": "flowdroid",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "flowdroid-kotlin-kernel",
+      "kind": "cold",
+      "family": "flowdroid",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "infer-c-kernel",
+      "kind": "cold",
+      "family": "infer",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "infer-cpp-kernel",
+      "kind": "cold",
+      "family": "infer",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "infer-java-modeling",
+      "kind": "cold",
+      "family": "infer",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "infer-java-native",
+      "kind": "cold",
+      "family": "infer",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-java-modeling",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-java-native",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-javascript-kernel",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-javascript-modeling",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-javascript-native",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-php-kernel",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-python-kernel",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-python-modeling",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-python-native",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-ruby-kernel",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "joern-rust-kernel",
+      "kind": "cold",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "opentaint-java-modeling",
+      "kind": "cold",
+      "family": "opentaint",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "opentaint-java-native",
+      "kind": "cold",
+      "family": "opentaint",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "opentaint-kotlin-kernel",
+      "kind": "cold",
+      "family": "opentaint",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "pysa-python-modeling",
+      "kind": "cold",
+      "family": "pysa",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "pysa-python-native",
+      "kind": "cold",
+      "family": "pysa",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-c-kernel",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-cpp-kernel",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-go-kernel",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-java-modeling",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-java-native",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-javascript-kernel",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-javascript-modeling",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-javascript-native",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-kotlin-kernel",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-php-kernel",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-python-kernel",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-python-modeling",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-python-native",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-ruby-kernel",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-rust-kernel",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "semgrep-typescript-kernel",
+      "kind": "cold",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "overhead-bifrost-python",
+      "kind": "overhead",
+      "family": "bifrost",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "overhead-codeql-ruby",
+      "kind": "overhead",
+      "family": "codeql",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "overhead-joern-php",
+      "kind": "overhead",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "overhead-joern-java",
+      "kind": "overhead",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "overhead-semgrep-kotlin",
+      "kind": "overhead",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "overhead-opentaint-kotlin",
+      "kind": "overhead",
+      "family": "opentaint",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "overhead-infer-c",
+      "kind": "overhead",
+      "family": "infer",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "overhead-flowdroid-java",
+      "kind": "overhead",
+      "family": "flowdroid",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "overhead-pysa-python",
+      "kind": "overhead",
+      "family": "pysa",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "warm-joern-java",
+      "kind": "warm",
+      "family": "joern",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    },
+    {
+      "id": "warm-semgrep-java",
+      "kind": "warm",
+      "family": "semgrep",
+      "reason": "host admission blocked: disk below 127 GiB; no qualified quiet window"
+    }
+  ],
+  "preexisting_blocked_groups": [
+    {
+      "id": "joern-swift-common108",
+      "reason": "Pinned Swift6.3.3 package recovered but payload is not expanded/full-manifest-verified; Swift driver plan/runtime relocation remains unqualified."
+    },
+    {
+      "id": "codeql-swift-common108",
+      "reason": "Pinned Swift6.3.3 package recovered but payload is not expanded/full-manifest-verified; Swift driver plan/runtime relocation remains unqualified. Three custom CodeQL extractor files and the entry2 custom query pack are not recovered."
+    }
+  ],
+  "automatic_retry": false,
+  "unrelated_workloads_stopped": false,
+  "cleanup_performed": false,
+  "existing_evidence_modified": false,
+  "publication_eligible": false
+}
