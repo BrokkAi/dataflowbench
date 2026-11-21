@@ -1056,3 +1056,12 @@ active invocations during background activity, and descriptive analyzer roll-up.
 It preserves the earlier amendments' measurement boundaries and separate cold,
 warm and overhead quantities. It does not requalify prior observations, alter a
 frozen release, or establish a cross-release performance comparison.
+
+### A26 — Checkpointed v0.9.2 timing continuation (21 November 2026)
+
+The [continuation preregistration](latency-v092-20261121.md) preserves the 55
+completed commands from the user-paused 15 November campaign and authorizes
+only its 38 unfinished commands in a new evidence and source namespace. It
+does not extend the expired parent clock, repeat completed measurements, or
+change analyzer identities, populations, measurement boundaries or acceptance
+rules. All A25 quiet-window and active-invocation continuation rules remain.

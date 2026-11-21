@@ -45,6 +45,7 @@ HELPERS = (
     "scripts/v092_timing_host.py",
     "scripts/v092_timing_qualified_campaign.py",
 )
+CONTINUATION_HELPER = "scripts/v092_timing_checkpoint.py"
 # The retained source plan predates two already-committed fixes in the legacy
 # timing helper. Bind both versions explicitly; no other helper transition is
 # accepted. The active plan always records the helper bytes it will execute.
@@ -826,6 +827,14 @@ def _build_plan(root: Path, bindings: dict, bindings_digest: str,
             "global_resource_or_external_certification": False,
         },
     }
+    if bindings.get("continuation") is not None:
+        plan["continuation"] = _json_copy(bindings["continuation"])
+        plan["execution_helpers"][CONTINUATION_HELPER] = sha(root / CONTINUATION_HELPER)
+        checkpoint = _continuation_checkpoint(plan, root=root, compare_plan=False)
+        carried = set(checkpoint["completed_groups"])
+        plan["resources"]["total_execution_budget_seconds"] = sum(
+            group["deadline_seconds"] for group in ready if group["id"] not in carried)
+        _continuation_checkpoint(plan, root=root)
     return plan
 
 
@@ -955,7 +964,17 @@ def _validate_plan_shape(plan: dict) -> None:
     expected_source_helpers = set(HELPERS) - {"scripts/v092_timing_qualified_campaign.py"}
     if not isinstance(source_helpers, dict) or set(source_helpers) != expected_source_helpers:
         raise RuntimeError("plan must retain the source plan execution helper map")
-    if not isinstance(active_helpers, dict) or set(active_helpers) != set(HELPERS):
+    expected_active_helpers = set(HELPERS)
+    if plan.get("continuation") is not None:
+        expected_active_helpers.add(CONTINUATION_HELPER)
+        reference = plan["continuation"]
+        if (not isinstance(reference, dict) or set(reference) != {"path", "sha256"}
+                or not isinstance(reference["path"], str)
+                or PurePosixPath(reference["path"]).is_absolute()
+                or ".." in PurePosixPath(reference["path"]).parts):
+            raise RuntimeError("continuation must bind a repository-relative checkpoint and SHA-256")
+        _validate_sha(reference["sha256"], "continuation checkpoint SHA-256")
+    if not isinstance(active_helpers, dict) or set(active_helpers) != expected_active_helpers:
         raise RuntimeError("plan must bind every active execution helper")
     for relative, digest in source_helpers.items():
         _validate_sha(digest, f"source helper {relative} sha256")
@@ -1051,6 +1070,48 @@ def _ready_groups(plan: dict) -> list[dict]:
     return [group for group in _groups(plan) if group.get("status") == "ready"]
 
 
+def _continuation_checkpoint(plan: dict, root: Path | None = None, compare_plan: bool = True):
+    if plan.get("continuation") is None:
+        return None
+    root = ROOT if root is None else root
+    module = _load_module("qualified_timing_checkpoint", root / CONTINUATION_HELPER)
+    return module.verify_checkpoint(root, plan["continuation"], plan if compare_plan else None)
+
+
+def _dispatch_groups(plan: dict) -> list[dict]:
+    checkpoint = _continuation_checkpoint(plan)
+    ready = _ready_groups(plan)
+    if checkpoint is None:
+        return ready
+    remaining = checkpoint["remaining_ready_groups"]
+    result = [group for group in ready if group["id"] in set(remaining)]
+    if [group["id"] for group in result] != remaining:
+        raise RuntimeError("continuation dispatch order differs from its bound checkpoint")
+    return result
+
+
+def _inherited_resource_paths(checkpoint: dict | None):
+    if checkpoint is None:
+        return [], [], []
+    report, work = legacy.campaign_paths(checkpoint["parent_campaign_id"])
+    sources = work / "sources"
+    if not sources.is_dir() or sources.is_symlink():
+        raise RuntimeError("continuation parent source namespace is unavailable or redirected")
+    children = list(sources.iterdir())
+    if any(not path.is_dir() or path.is_symlink() for path in children):
+        raise RuntimeError("continuation parent source directory is malformed")
+    start = json.loads((report / "campaign-start.json").read_text())
+    scratch = []
+    for value in start["scratch_roots"]:
+        path = Path(value)
+        if (not path.is_absolute() or ".." in path.parts or path.resolve(strict=False) != path
+                or not (path.is_relative_to(sources)
+                or (path.parent == PYSA_TMP_ROOT and path.name.startswith("dfb-v092-pysa-")))):
+            raise RuntimeError("continuation parent scratch path leaves its registered namespace")
+        scratch.append(path)
+    return [sources], [report, *(path / "reports" for path in children)], scratch
+
+
 def _coverage(plan: dict) -> dict:
     ready_cold = [group for group in _ready_groups(plan) if group.get("kind") == "cold"]
     families = sorted({group["family"] for group in ready_cold})
@@ -1134,6 +1195,7 @@ def verify_plan(plan_path: Path, require_ready: bool = False) -> dict:
         raise RuntimeError(f"plan is missing or not a regular file: {plan_path}")
     plan = json.loads(plan_path.read_text())
     _validate_plan_shape(plan)
+    checkpoint = _continuation_checkpoint(plan)
     report, _ = legacy.campaign_paths(plan["campaign_id"])
     if not plan_path.resolve(strict=False).is_relative_to(report.resolve()):
         raise RuntimeError("plan must be stored inside its new campaign report directory")
@@ -1203,6 +1265,11 @@ def verify_plan(plan_path: Path, require_ready: bool = False) -> dict:
                                  "sha256": compressed_hash, "uncompressed_sha256": uncompressed_hash})
     return {"plan": str(plan_path), "campaign_id": plan["campaign_id"],
             "ready_groups": len(ready), "blocked_groups": len(plan["groups"]) - len(ready),
+            "continuation": None if checkpoint is None else {
+                "parent_campaign_id": checkpoint["parent_campaign_id"],
+                "inherited_candidate_groups": checkpoint["completed_groups"],
+                "dispatch_groups": checkpoint["remaining_ready_groups"],
+            },
             "coverage": coverage, "tools_verified": tool_receipts,
             "runtime_manifests_verified": runtime_receipts,
             "preparation_receipts_verified": preparation_receipts,
@@ -1233,6 +1300,13 @@ def _assert_committed_inputs(root: Path, plan_path: Path, plan: dict) -> dict:
         expected[preregistration["path"]] = preregistration["sha256"]
     contract = plan["frozen_execution_contract"]
     expected[contract["path"]] = contract["sha256"]
+    checkpoint = _continuation_checkpoint(plan)
+    if checkpoint is not None:
+        reference = plan["continuation"]
+        expected[reference["path"]] = reference["sha256"]
+        module = _load_module("qualified_timing_checkpoint_inputs", root / CONTINUATION_HELPER)
+        for item in module.input_references(checkpoint):
+            expected[item["path"]] = item["sha256"]
     for relative, digest in expected.items():
         committed = _committed_bytes(root, relative)
         actual = hashlib.sha256(committed).hexdigest()
@@ -1553,9 +1627,11 @@ def _execute(plan_path: Path) -> dict:
         raise RuntimeError("plan must be stored inside its new campaign report directory")
     _campaign_artifacts_absent(report)
     committed = _assert_committed_inputs(ROOT, plan_path, plan)
-    ready = _ready_groups(plan)
+    ready = _dispatch_groups(plan)
     if not ready:
         raise RuntimeError("no ready commands are bound")
+    checkpoint = _continuation_checkpoint(plan)
+    inherited = [] if checkpoint is None else checkpoint["completed_groups"]
 
     host = _load_module("qualified_timing_host", ROOT / "scripts/v092_timing_host.py")
     observer = legacy.Observer(host)
@@ -1565,6 +1641,8 @@ def _execute(plan_path: Path) -> dict:
     source_guard = legacy.disk.DiskGuard(launch_floor_bytes=127 * GIB, stop_floor_bytes=125 * GIB,
                                          working_ceiling_bytes=30 * GIB)
     sources = work / "sources"
+    inherited_sources, inherited_retained, inherited_scratch = _inherited_resource_paths(checkpoint)
+    working_paths = [sources, *inherited_sources]
     setup_receipts = {}
     prepared_environments = {}
     external_scratch = {}
@@ -1575,6 +1653,13 @@ def _execute(plan_path: Path) -> dict:
     with legacy.core._exclusive_lock():
         verified = verify_plan(plan_path, require_ready=True)
         _campaign_artifacts_absent(report)
+        for parent_sources in inherited_sources:
+            for parent_source in parent_sources.iterdir():
+                if legacy.core._tree_bytes([parent_source]) > 12 * GIB:
+                    raise RuntimeError("inherited source exceeds the 12 GiB per-source ceiling")
+        source_guard.check(category="working", paths=working_paths, capacity_path=ROOT, phase="launch")
+        source_guard.check(category="retention", paths=[report, *inherited_retained], capacity_path=ROOT, phase="launch")
+        source_guard.check(category="scratch", paths=inherited_scratch, capacity_path=ROOT, phase="launch")
         tracker = legacy.core._process_tracker()
         supervisor_identity = tracker._start_identity(os.getpid())
         if supervisor_identity is None:
@@ -1592,12 +1677,12 @@ def _execute(plan_path: Path) -> dict:
                 *source_projection["additional_paths"]], cwd=ROOT, text=True).splitlines()
             projected = legacy.core._materialize_source(
                 ROOT, RELEASE, source, explicit, disk_guard=source_guard,
-                working_paths=[sources], preflight_only=True)
+                working_paths=working_paths, preflight_only=True)
             if projected > 12 * GIB:
                 raise RuntimeError("source projection exceeds the 12 GiB per-source ceiling")
             legacy.core._materialize_source(
                 ROOT, RELEASE, source, explicit, disk_guard=source_guard,
-                working_paths=[sources], expected_projected_bytes=projected)
+                working_paths=working_paths, expected_projected_bytes=projected)
             legacy.core._register_source_snapshot(ROOT, RELEASE, source)
             for directory in ("home", "tmp", "cache"):
                 (source / directory).mkdir(exist_ok=True)
@@ -1609,7 +1694,8 @@ def _execute(plan_path: Path) -> dict:
                 external_scratch[group["id"]] = ownership
             prepared_environments[group["id"]] = environment
 
-        scratch_paths = _campaign_scratch_paths(sources, ready, external_scratch)
+        scratch_paths = [*_campaign_scratch_paths(sources, ready, external_scratch), *inherited_scratch]
+        retained_paths = [report, *inherited_retained, *[path / "reports" for path in sources.iterdir()]]
 
         report.mkdir(parents=True, exist_ok=True)
         legacy.write_new(report / "campaign-start.json", {
@@ -1622,6 +1708,12 @@ def _execute(plan_path: Path) -> dict:
             "plan_commit": committed["plan_commit"],
             "source_commit": RELEASE,
             "ready_commands": len(ready),
+            "planned_ready_commands": len(_ready_groups(plan)),
+            "new_dispatch_cold_groups": sum(group["kind"] == "cold" for group in ready),
+            "inherited_candidate_groups": inherited,
+            "continuation_checkpoint": plan.get("continuation"),
+            "cumulative_resource_scope": {"working": [str(path) for path in working_paths],
+                                          "retained": [str(path) for path in retained_paths]},
             "planned_cold_groups": SOURCE_GROUPS,
             "ready_cold_groups": verified["coverage"]["ready_cold_groups"],
             "blocked_cold_groups": verified["coverage"]["blocked_cold_groups"],
@@ -1657,14 +1749,15 @@ def _execute(plan_path: Path) -> dict:
                 if time.monotonic() >= campaign_deadline:
                     raise CampaignWindowEnded("campaign wall window ended before dispatch")
                 def check_waiting_capacity():
-                    guard.check(category="retention", paths=[report, *[p / "reports" for p in sources.iterdir()]], capacity_path=ROOT)
+                    guard.check(category="retention", paths=retained_paths, capacity_path=ROOT)
                     guard.check(category="scratch", paths=scratch_paths, capacity_path=ROOT)
-                    guard.check(category="working", paths=[sources], capacity_path=ROOT)
+                    guard.check(category="working", paths=working_paths, capacity_path=ROOT)
                 quiet = wait_fresh_quiet(host, observer, destination / "host.jsonl", campaign_deadline,
                                          capacity_check=check_waiting_capacity)
                 guard.initial_quiet_gate_passed = True
                 guard.settle_skipped = False
                 guard.launch_check(source)
+                guard.check(category="working", paths=working_paths, capacity_path=ROOT, phase="launch")
                 if time.monotonic() >= campaign_deadline:
                     raise CampaignWindowEnded("campaign wall window ended before dispatch")
                 environment = dict(prepared_environments[group["id"]])
@@ -1689,10 +1782,10 @@ def _execute(plan_path: Path) -> dict:
                 code, timed_out, elapsed, capacity = legacy.core._run_process(
                     group["argv"], source, environment, destination / "stdout.txt", destination / "stderr.txt",
                     group["deadline_seconds"], disk_guard=guard,
-                    retained_paths=[report, *[path / "reports" for path in sources.iterdir()]],
+                    retained_paths=retained_paths,
                     scratch_paths=scratch_paths,
                     scratch_limit=plan["resources"]["scratch_gib"] * GIB,
-                    working_paths=[sources], ownership=ownership)
+                    working_paths=working_paths, ownership=ownership)
                 consumed_seconds += elapsed
                 command_elapsed_accounted = True
                 record.update(exit_code=code, timed_out=timed_out, elapsed_seconds=elapsed,
@@ -1792,6 +1885,15 @@ def _execute(plan_path: Path) -> dict:
             "execution_status": "stopped" if stopped_group else "completed-ready-frontier",
             "completed_candidate_groups": completed,
             "completed_commands": len(completed),
+            "inherited_candidate_groups": inherited,
+            "inherited_candidate_commands": len(inherited),
+            "combined_completed_candidate_commands": len(inherited) + len(completed),
+            "new_completed_candidate_cold_groups": sum(
+                group["kind"] == "cold" and group["id"] in completed for group in plan["groups"]),
+            "combined_completed_candidate_cold_groups": sum(
+                group["kind"] == "cold" and group["id"] in [*inherited, *completed]
+                for group in plan["groups"]),
+            "continuation_checkpoint": plan.get("continuation"),
             "ready_groups": len(ready),
             "blocked_groups": blocked,
             "planned_cold_groups": SOURCE_GROUPS,
@@ -1840,6 +1942,12 @@ def execute(plan_path: Path) -> dict:
                 for terminal in (report / "attempts").glob("*/attempt-01/terminal.json"):
                     value = json.loads(terminal.read_text())
                     dispatch_proven |= value.get("process_ownership", {}).get("root_pid") is not None
+                try:
+                    frontier = [group["id"] for group in _dispatch_groups(plan)]
+                except Exception:
+                    # Admission failure must remain recordable when the checkpoint
+                    # itself is unavailable or no longer verifies.
+                    frontier = None
                 record = {
                     "utc": dt.datetime.now(dt.timezone.utc).isoformat(),
                     "campaign_id": plan["campaign_id"], "plan_sha256": sha(path),
@@ -1847,7 +1955,9 @@ def execute(plan_path: Path) -> dict:
                     "campaign_start_record_exists": (report / "campaign-start.json").exists(),
                     "analyzer_dispatch_proven": dispatch_proven,
                     "completed_groups": completed, "completed_commands": len(completed),
-                    "remaining_ready_groups": [g["id"] for g in _ready_groups(plan) if g["id"] not in completed],
+                    "remaining_ready_groups": None if frontier is None else [
+                        group_id for group_id in frontier if group_id not in completed],
+                    "continuation_frontier_verified": frontier is not None,
                     "blocked_groups": [{"id": g["id"], "reason": g["blocker"]}
                                        for g in plan["groups"] if g["status"] == "blocked"],
                     "source_namespace": str(work / "sources"),

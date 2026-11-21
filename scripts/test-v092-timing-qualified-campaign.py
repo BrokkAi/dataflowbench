@@ -572,6 +572,81 @@ class QualifiedCampaignTests(unittest.TestCase):
                     campaign.time.monotonic() + 60, capacity_check=exhausted)
         observer.snapshot.assert_not_called()
 
+    def test_continuation_dispatches_only_pending_and_keeps_cumulative_resource_paths(self):
+        with self.using_root("20261121-40") as (plan, path, report):
+            ready = campaign._ready_groups(plan)
+            carried = [group["id"] for group in ready[:3]]
+            pending = [group["id"] for group in ready[3:]]
+            checkpoint = {"parent_campaign_id": "20261115-01",
+                          "completed_groups": carried, "remaining_ready_groups": pending}
+            old_sources = self.root / "inherited-sources"
+            old_sources.mkdir()
+            old_report = self.root / "inherited-reports"
+            old_report.mkdir()
+            old_scratch = self.root / "inherited-scratch"
+            old_scratch.mkdir()
+            stack, _observer, quiet = self._run_context("20261121-40")
+            seen = []
+            def run(_argv, source, _environment, *_args, ownership, **kwargs):
+                seen.append(source.name)
+                self.assertIn(old_sources, kwargs["working_paths"])
+                self.assertIn(old_report, kwargs["retained_paths"])
+                self.assertIn(old_scratch, kwargs["scratch_paths"])
+                ownership["root_pid"] = 123
+                return 0, False, 1.0, None
+            with stack, patch.object(campaign, "_continuation_checkpoint", return_value=checkpoint), \
+                    patch.object(campaign, "_inherited_resource_paths",
+                                 return_value=([old_sources], [old_report], [old_scratch])), \
+                    patch.object(campaign.legacy.core, "_run_process", side_effect=run):
+                campaign.execute(path)
+            self.assertEqual(seen, pending)
+            self.assertEqual(quiet.call_count, len(pending))
+            self.assertFalse(set(seen) & set(carried))
+            terminal = json.loads((report / "campaign-terminal.json").read_text())
+            self.assertEqual(terminal["completed_commands"], len(pending))
+            self.assertEqual(terminal["inherited_candidate_groups"], carried)
+            self.assertEqual(terminal["combined_completed_candidate_commands"], len(ready))
+            self.assertEqual(terminal["new_completed_candidate_cold_groups"], len(pending))
+            self.assertEqual(terminal["combined_completed_candidate_cold_groups"], len(ready))
+            self.assertFalse(terminal["publication_eligible"])
+
+    def test_continuation_pending_order_drift_refuses_dispatch(self):
+        ready = campaign._ready_groups(self.base_plan)
+        checkpoint = {"completed_groups": [ready[0]["id"]],
+                      "remaining_ready_groups": [group["id"] for group in reversed(ready[1:])]}
+        with patch.object(campaign, "_continuation_checkpoint", return_value=checkpoint):
+            with self.assertRaisesRegex(RuntimeError, "dispatch order"):
+                campaign._dispatch_groups(self.base_plan)
+
+    def test_checkpoint_admission_failure_is_durably_recorded(self):
+        with self.using_root("20261121-41") as (_plan, path, report):
+            with patch.object(campaign, "_continuation_checkpoint",
+                              side_effect=RuntimeError("checkpoint changed")), \
+                    patch.object(campaign.legacy.core, "_run_process") as dispatch:
+                with self.assertRaisesRegex(RuntimeError, "checkpoint changed"):
+                    campaign.execute(path)
+            dispatch.assert_not_called()
+            terminal = json.loads((report / "campaign-terminal.json").read_text())
+            self.assertEqual(terminal["status"], "blocked")
+            self.assertIsNone(terminal["remaining_ready_groups"])
+            self.assertFalse(terminal["continuation_frontier_verified"])
+
+    def test_inherited_scratch_must_stay_inside_registered_namespace(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            report, work = root / "reports", root / "work"
+            report.mkdir()
+            (work / "sources" / "old-case").mkdir(parents=True)
+            (report / "campaign-start.json").write_text(json.dumps({"scratch_roots": ["/etc"]}))
+            with patch.object(campaign.legacy, "campaign_paths", return_value=(report, work)):
+                with self.assertRaisesRegex(RuntimeError, "scratch path"):
+                    campaign._inherited_resource_paths({"parent_campaign_id": "20261115-01"})
+                lexical_escape = work / "sources" / "old-case" / "tmp" / ".." / ".." / ".." / "outside"
+                (report / "campaign-start.json").write_text(json.dumps({
+                    "scratch_roots": [str(lexical_escape)]}))
+                with self.assertRaisesRegex(RuntimeError, "scratch path"):
+                    campaign._inherited_resource_paths({"parent_campaign_id": "20261115-01"})
+
 
 if __name__ == "__main__":
     unittest.main()

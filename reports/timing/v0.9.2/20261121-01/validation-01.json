@@ -1,0 +1,29 @@
+{
+  "schema": "v092-continuation-prelaunch-validation/v1",
+  "created_utc": "2026-11-21T21:53:31.874378+00:00",
+  "plan_sha256": "61ff7286f7b6be073aaebe19c077e1ea7779f0e9a4270a1afa472cb4ee76cbfb",
+  "qualified_controller_focused_tests": {
+    "command": "python3 -B scripts/test-v092-timing-qualified-campaign.py",
+    "passed": 23,
+    "executor": "root",
+    "log_sha256": "a492060f6ff68ba05005652e166649af01bb6cb6d292e18236dd0cf6339c2a4f"
+  },
+  "checkpoint_focused_tests": {
+    "command": "python3 scripts/test-v092-timing-checkpoint.py",
+    "passed": 12,
+    "executor": "independent bounded Luna subagent"
+  },
+  "helper_guard_review": "Independent read-only review found no blocker; canonical scratch-path near-miss was addressed and tested. Root inspected checkpoint validation and real checkpoint bytes.",
+  "verified_tool_count": 9,
+  "verified_runtime_manifest_count": 17,
+  "inherited_commands": 55,
+  "new_dispatch_commands": 38,
+  "new_cold_groups": 27,
+  "overhead_commands": 9,
+  "warm_commands": 2,
+  "planned_cold_groups": 84,
+  "blocked_swift_groups": 2,
+  "all_pins_match_current_bytes": true,
+  "analyzers_dispatched": false,
+  "publication_eligible": false
+}
