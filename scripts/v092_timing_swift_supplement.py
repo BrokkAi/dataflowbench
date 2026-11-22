@@ -537,6 +537,16 @@ def _case_disposition_counts(cases: object) -> dict[str, int]:
     return counts
 
 
+def _qualification_publication_state(evidence: dict) -> str:
+    # The v0.9.2 qualification schema authorizes execution, not publication.
+    # Preserve an absent field rather than inventing a statement in its receipt.
+    if "publication_eligible" not in evidence:
+        return "not-declared"
+    if evidence["publication_eligible"] is not False:
+        raise RuntimeError("fresh Joern controls cannot enable publication")
+    return "explicitly-disabled"
+
+
 def _validate_v02_qualification(root: Path) -> tuple[dict, dict, dict, dict]:
     pending_path = _validate_reference(root, {"path": PENDING_PLAN_PATH, "sha256": PENDING_PLAN_SHA256})
     pending = _read_json(pending_path)
@@ -570,8 +580,7 @@ def _validate_v02_qualification(root: Path) -> tuple[dict, dict, dict, dict]:
     _case_disposition_counts(plan["cases"])
     if evidence.get("diagnostic_execution_eligible") is not True or evidence.get("full_model_qualification") is not False:
         raise RuntimeError("fresh Joern controls did not qualify diagnostic execution while retaining uncertainty")
-    if evidence.get("publication_eligible") is not False:
-        raise RuntimeError("fresh Joern controls cannot enable publication")
+    _qualification_publication_state(evidence)
     return plan, evidence, context, {"pending": pending, "runner": runner}
 
 
@@ -1918,7 +1927,8 @@ def _record_runtime_receipts(source: Path, runner, plan_path: str) -> dict:
             "execution_eligible": plan["execution_eligible"],
             "diagnostic_execution_eligible": plan["diagnostic_execution_eligible"],
             "full_model_qualification": plan["full_model_qualification"],
-            "publication_eligible": evidence["publication_eligible"]}
+            "qualification_publication_state": _qualification_publication_state(evidence),
+            "publication_eligible": False}
 
 
 def _validate_outputs(root: Path, source: Path, plan: dict, qualified_plan: dict) -> dict:

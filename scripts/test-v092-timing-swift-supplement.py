@@ -33,6 +33,22 @@ projection_exporter = load("joern_supplement_projection_exporter_test",
                            SCRIPTS / "joern_normal_reports_v092_projection.py")
 
 
+class QualificationPublicationTests(unittest.TestCase):
+    def test_actual_v092_receipt_preserves_undeclared_publication_state(self):
+        receipt = json.loads((SCRIPTS.parent / supplement.QUALIFICATION_ROOT /
+                             "control-attempt-01/qualification-receipt-01.json").read_text())
+        before = json.loads(json.dumps(receipt))
+        self.assertEqual(supplement._qualification_publication_state(receipt), "not-declared")
+        self.assertEqual(receipt, before)
+        self.assertEqual(supplement._qualification_publication_state(
+            dict(receipt, publication_eligible=False)), "explicitly-disabled")
+
+    def test_qualification_cannot_confer_or_flatten_publication_authority(self):
+        for value in (True, None, 0, "false"):
+            with self.subTest(value=value), self.assertRaises(RuntimeError):
+                supplement._qualification_publication_state({"publication_eligible": value})
+
+
 class FakeHost:
     HEAVY = {"semgrep", "codeql", "joern", "swift", "swiftc", "java", "cargo"}
 
