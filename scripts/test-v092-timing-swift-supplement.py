@@ -34,6 +34,19 @@ projection_exporter = load("joern_supplement_projection_exporter_test",
 
 
 class QualificationPublicationTests(unittest.TestCase):
+    def test_actual_plan_keeps_legacy_inventories_separate_from_component_identity(self):
+        root = SCRIPTS.parent
+        plan = json.loads((root / supplement.QUALIFIED_PLAN_PATH).read_text())
+        parent = json.loads((root / supplement.BASE_PLAN_PATH).read_text())
+        group = next(row for row in parent["groups"] if row["id"] == supplement.GROUP_ID)
+        actual = supplement._validate_group_and_command(plan, group)
+        references = supplement._component_manifest_references(root, plan)
+        self.assertEqual(actual["runtime_ids"], sorted(references))
+        self.assertEqual(set(references), {"swift-toolchain", "java-home", "joern-root", "swift-sdk"})
+        self.assertEqual(set(plan["runtime"]["inventories"]), {"compiler_root", "java_home", "joern_root", "sdk"})
+        config_refs = plan["configurations"]["joern-current108"]
+        self.assertTrue(all(ref in config_refs for ref in references.values()))
+
     def test_actual_v092_receipt_preserves_undeclared_publication_state(self):
         receipt = json.loads((SCRIPTS.parent / supplement.QUALIFICATION_ROOT /
                              "control-attempt-01/qualification-receipt-01.json").read_text())

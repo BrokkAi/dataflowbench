@@ -631,7 +631,7 @@ def _validate_group_and_command(plan: dict, base_group: dict) -> dict:
             {**row, "source_path": f"{OUTPUT_RELATIVE}/normal/report-{index}.json"}
             for index, row in enumerate(base_group["reports"])
         ],
-        "runtime_ids": sorted(plan.get("runtime", {}).get("inventories", {})),
+        "runtime_ids": sorted(row["name"] for row in plan["identity_components"]),
         "environment": {
             "HOME": "@SUPPLEMENT_SOURCE@/home",
             "TMPDIR": "@SUPPLEMENT_SOURCE@/tmp",
@@ -1309,6 +1309,23 @@ class QuietAdmissionWindow:
         return 0.0 if self.started is None or self.previous is None else self.previous - self.started
 
 
+def _component_manifest_references(root: Path, plan: dict) -> dict:
+    references = {}
+    for component in plan["identity_components"]:
+        if component.get("kind") != "runtime-tree-manifest" or component["name"] in references:
+            raise RuntimeError("runtime component identity kind or membership changed")
+        try:
+            relative = Path(component["path"]).relative_to(ROOT).as_posix()
+        except ValueError as exc:
+            raise RuntimeError("runtime component manifest escapes its canonical capture repository") from exc
+        reference = {"path": relative, "sha256": component["sha256"]}
+        _validate_reference(root, reference)
+        references[component["name"]] = reference
+    if set(references) != {"swift-toolchain", "java-home", "joern-root", "swift-sdk"}:
+        raise RuntimeError("qualified Joern plan lacks the exact four runtime component manifests")
+    return references
+
+
 def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
                closure: dict[str, str], resource_scope: dict, committed_inputs: dict[str, str],
                configuration_provenance: dict, postprocessing_dependencies: list[dict],
@@ -1338,12 +1355,7 @@ def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
         "normalized_report_match_is_model_certificate": False,
         "publication_eligible": False,
     }
-    runtime_components = final_plan.get("runtime", {}).get("inventories")
-    if not isinstance(runtime_components, dict) or set(runtime_components) != {
-            "swift-toolchain", "java-home", "joern-root", "swift-sdk"}:
-        raise RuntimeError("qualified Joern plan lacks the exact four runtime component manifests")
-    for component, ref in runtime_components.items():
-        _validate_reference(root, ref)
+    runtime_components = _component_manifest_references(root, final_plan)
     group_report_bindings = final_plan.get("frozen_report_bindings")
     # The v02 execution plan may not duplicate old campaign comparison refs;
     # preserve the original frozen comparison bindings as a separate lineage.
@@ -1919,8 +1931,9 @@ def _wait_initial_quiet(host, raw_path: Path, assessment_path: Path,
 
 def _record_runtime_receipts(source: Path, runner, plan_path: str) -> dict:
     plan, evidence, _context = runner.validate_plan(source, plan_path)
-    manifests = plan["runtime"]["inventories"]
+    manifests = _component_manifest_references(source, plan)
     return {"status": evidence["status"], "runtime_component_manifests": manifests,
+            "runtime_legacy_inventories": plan["runtime"]["inventories"],
             "identity_components": plan["identity_components"],
             "identity": plan["identity"], "population_sha256": plan["population_sha256"],
             "fixture_revision": plan["fixture_revision"],

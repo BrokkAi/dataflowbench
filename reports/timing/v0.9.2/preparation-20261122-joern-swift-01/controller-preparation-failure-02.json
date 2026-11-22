@@ -1,0 +1,19 @@
+{
+  "schema": "v092-swift-controller-preparation-failure/v1",
+  "recorded_utc": "2026-11-22T16:35:55.031100+00:00",
+  "controller_commit": "fb0a321562",
+  "command": [
+    "python3",
+    "-B",
+    "scripts/v092_timing_swift_supplement.py",
+    "prepare"
+  ],
+  "exec_session_id": 91203,
+  "exit_code": 1,
+  "stderr": "ERROR: RuntimeError: qualified Joern plan lacks the exact four runtime component manifests",
+  "cause": "Controller confused runtime.inventories legacy field names with separately bound identity_components names. Both immutable inputs remain unchanged.",
+  "analyzer_invocations": 0,
+  "campaign_namespace_created": false,
+  "source_namespace_created": false,
+  "publication_eligible": false
+}
