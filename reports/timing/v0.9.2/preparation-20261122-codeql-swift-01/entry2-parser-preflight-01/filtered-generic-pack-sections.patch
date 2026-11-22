@@ -1,0 +1,432 @@
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/ControlFlowGraphImpl.qll b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/ControlFlowGraphImpl.qll
+index 59d2acb585..425884c12d 100644
+--- a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/ControlFlowGraphImpl.qll
++++ b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/ControlFlowGraphImpl.qll
+@@ -47,6 +47,13 @@ module CfgScope {
+     abstract predicate exit(ControlFlowElement last, Completion c);
+   }
+ 
++  private class ScriptEntryScope extends Range_ instanceof TopLevelEntryPoint {
++    TopLevelEntryTree tree;
++    ScriptEntryScope() { tree.getAst() = this }
++    final override predicate entry(ControlFlowElement first) { first(tree, first) }
++    final override predicate exit(ControlFlowElement last, Completion c) { last(tree, last, c) }
++  }
++
+   private class BodyStmtCallableScope extends Range_ instanceof Function {
+     Decls::FuncDeclTree tree;
+ 
+@@ -89,6 +96,21 @@ module CfgScope {
+   }
+ }
+ 
++/** Sequence bodies using only extracted compiler indices, never locations. */
++private class TopLevelEntryTree extends AstStandardPreOrderTree {
++  override TopLevelEntryPoint ast;
++  override ControlFlowElement getChildNode(int i) {
++    result.asAstNode() = ast.getDeclaration(i)
++  }
++}
++
++private class TopLevelCodeTree extends AstStandardPreOrderTree {
++  override TopLevelCodeDecl ast;
++  override ControlFlowElement getChildNode(int i) {
++    i = 0 and result.asAstNode() = ast.getBody()
++  }
++}
++
+ /** Holds if `first` is first executed when entering `scope`. */
+ pragma[nomagic]
+ predicate succEntry(CfgScope::Range_ scope, ControlFlowElement first) { scope.entry(first) }
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/Scope.qll b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/Scope.qll
+index 43c1adec64..efaae69f3f 100644
+--- a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/Scope.qll
++++ b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/Scope.qll
+@@ -15,7 +15,7 @@ module Callable {
+ }
+ 
+ private module Scope {
+-  class TypeRange = Callable::TypeRange;
++  class TypeRange = Callable::TypeRange or Synth::TTopLevelEntryPoint;
+ 
+   class Range extends AstNode, TypeRange {
+     Range getOuterScope() { result = scopeOfAst(this) }
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements.qll b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements.qll
+index 6a39c46577..125622dc35 100644
+--- a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements.qll
++++ b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements.qll
+@@ -18,6 +18,7 @@ import codeql.swift.elements.KeyPathComponent
+ import codeql.swift.elements.Locatable
+ import codeql.swift.elements.Location
+ import codeql.swift.elements.MacroRole
++import codeql.swift.elements.TopLevelEntryPoint
+ import codeql.swift.elements.UnknownFile
+ import codeql.swift.elements.UnknownLocation
+ import codeql.swift.elements.UnspecifiedElement
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/ParentChild.qll b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/ParentChild.qll
+index 424fd7af75..b5d257f3e3 100644
+--- a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/ParentChild.qll
++++ b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/ParentChild.qll
+@@ -80,6 +80,21 @@ private module Impl {
+     none()
+   }
+ 
++  private Element getImmediateChildOfTopLevelEntryPoint(
++    TopLevelEntryPoint e, int index, string partialPredicateCall
++  ) {
++    exists(int n, int nDeclaration |
++      n = 0 and
++      nDeclaration = n + e.getNumberOfDeclarations() and
++      (
++        none()
++        or
++        result = e.getDeclaration(index - n) and
++        partialPredicateCall = "Declaration(" + (index - n).toString() + ")"
++      )
++    )
++  }
++
+   private Element getImmediateChildOfUnspecifiedElement(
+     UnspecifiedElement e, int index, string partialPredicateCall
+   ) {
+@@ -3218,6 +3233,8 @@ private module Impl {
+     or
+     result = getImmediateChildOfMacroRole(e, index, partialAccessor)
+     or
++    result = getImmediateChildOfTopLevelEntryPoint(e, index, partialAccessor)
++    or
+     result = getImmediateChildOfUnspecifiedElement(e, index, partialAccessor)
+     or
+     result = getImmediateChildOfCapturedDecl(e, index, partialAccessor)
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Raw.qll b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Raw.qll
+index 71858b8854..37177e2437 100644
+--- a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Raw.qll
++++ b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Raw.qll
+@@ -359,6 +359,50 @@ module Raw {
+ 
+   private Element getImmediateChildOfMacroRole(MacroRole e, int index) { none() }
+ 
++  /**
++   * INTERNAL: Do not use.
++   * Executable script statements in compiler-provided source-file order.
++   */
++  class TopLevelEntryPoint extends @top_level_entry_point, AstNode {
++    override string toString() { result = "TopLevelEntryPoint" }
++
++    /**
++     * Gets the source file of this top level entry point.
++     */
++    File getSourceFile() { top_level_entry_points(this, result, _) }
++
++    /**
++     * Gets the module of this top level entry point.
++     */
++    ModuleDecl getModule() { top_level_entry_points(this, _, result) }
++
++    /**
++     * Gets the `index`th declaration of this top level entry point (0-based).
++     */
++    TopLevelCodeDecl getDeclaration(int index) {
++      top_level_entry_point_declarations(this, index, result)
++    }
++
++    /**
++     * Gets the number of declarations of this top level entry point.
++     */
++    int getNumberOfDeclarations() {
++      result = count(int i | top_level_entry_point_declarations(this, i, _))
++    }
++  }
++
++  private Element getImmediateChildOfTopLevelEntryPoint(TopLevelEntryPoint e, int index) {
++    exists(int n, int nDeclaration |
++      n = 0 and
++      nDeclaration = n + e.getNumberOfDeclarations() and
++      (
++        none()
++        or
++        result = e.getDeclaration(index - n)
++      )
++    )
++  }
++
+   /**
+    * INTERNAL: Do not use.
+    */
+@@ -6829,6 +6873,8 @@ module Raw {
+     or
+     result = getImmediateChildOfMacroRole(e, index)
+     or
++    result = getImmediateChildOfTopLevelEntryPoint(e, index)
++    or
+     result = getImmediateChildOfUnspecifiedElement(e, index)
+     or
+     result = getImmediateChildOfCapturedDecl(e, index)
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Synth.qll b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Synth.qll
+index cd847f3e6a..7e01eaf3f5 100644
+--- a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Synth.qll
++++ b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Synth.qll
+@@ -46,6 +46,10 @@ module Synth {
+      * INTERNAL: Do not use.
+      */
+     TMacroRole(Raw::MacroRole id) { constructMacroRole(id) } or
++    /**
++     * INTERNAL: Do not use.
++     */
++    TTopLevelEntryPoint(Raw::TopLevelEntryPoint id) { constructTopLevelEntryPoint(id) } or
+     /**
+      * INTERNAL: Do not use.
+      */
+@@ -1127,7 +1131,7 @@ module Synth {
+   class TAstNode =
+     TAvailabilityInfo or TAvailabilitySpec or TCallable or TCaseLabelItem or TConditionElement or
+         TDecl or TExpr or TKeyPathComponent or TMacroRole or TPattern or TStmt or TStmtCondition or
+-        TTypeRepr;
++        TTopLevelEntryPoint or TTypeRepr;
+ 
+   /**
+    * INTERNAL: Do not use.
+@@ -1519,6 +1523,15 @@ module Synth {
+    */
+   TMacroRole convertMacroRoleFromRaw(Raw::Element e) { result = TMacroRole(e) }
+ 
++  /**
++   * INTERNAL: Do not use.
++   *
++   * Converts a raw element to a synthesized `TTopLevelEntryPoint`, if possible.
++   */
++  TTopLevelEntryPoint convertTopLevelEntryPointFromRaw(Raw::Element e) {
++    result = TTopLevelEntryPoint(e)
++  }
++
+   /**
+    * INTERNAL: Do not use.
+    *
+@@ -3517,6 +3530,8 @@ module Synth {
+     or
+     result = convertStmtConditionFromRaw(e)
+     or
++    result = convertTopLevelEntryPointFromRaw(e)
++    or
+     result = convertTypeReprFromRaw(e)
+   }
+ 
+@@ -4524,6 +4539,14 @@ module Synth {
+    */
+   Raw::Element convertMacroRoleToRaw(TMacroRole e) { e = TMacroRole(result) }
+ 
++  /**
++   * INTERNAL: Do not use.
++   * Converts a synthesized `TTopLevelEntryPoint` to a raw DB element, if possible.
++   */
++  Raw::Element convertTopLevelEntryPointToRaw(TTopLevelEntryPoint e) {
++    e = TTopLevelEntryPoint(result)
++  }
++
+   /**
+    * INTERNAL: Do not use.
+    * Converts a synthesized `TUnknownFile` to a raw DB element, if possible.
+@@ -6271,6 +6294,8 @@ module Synth {
+     or
+     result = convertStmtConditionToRaw(e)
+     or
++    result = convertTopLevelEntryPointToRaw(e)
++    or
+     result = convertTypeReprToRaw(e)
+   }
+ 
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/SynthConstructors.qll b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/SynthConstructors.qll
+index f5bf77b6dc..b643e10501 100644
+--- a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/SynthConstructors.qll
++++ b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/SynthConstructors.qll
+@@ -11,6 +11,7 @@ import codeql.swift.elements.internal.DbLocationConstructor
+ import codeql.swift.elements.internal.DiagnosticsConstructor
+ import codeql.swift.elements.internal.KeyPathComponentConstructor
+ import codeql.swift.elements.internal.MacroRoleConstructor
++import codeql.swift.elements.internal.TopLevelEntryPointConstructor
+ import codeql.swift.elements.internal.UnspecifiedElementConstructor
+ import codeql.swift.elements.decl.internal.AccessorConstructor
+ import codeql.swift.elements.decl.internal.AssociatedTypeDeclConstructor
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/swift.dbscheme b/codeql/swift-all/6.8.5-dfb.entry2/swift.dbscheme
+index 1bb163e31d..0d98a8a4ca 100644
+--- a/codeql/swift-all/6.8.5-dfb.entry2/swift.dbscheme
++++ b/codeql/swift-all/6.8.5-dfb.entry2/swift.dbscheme
+@@ -80,6 +80,7 @@ locations(
+ | @pattern
+ | @stmt
+ | @stmt_condition
++| @top_level_entry_point
+ | @type_repr
+ ;
+ 
+@@ -236,6 +237,19 @@ macro_role_names(
+   string name: string ref
+ );
+ 
++top_level_entry_points(
++  unique int id: @top_level_entry_point,
++  int source_file: @file_or_none ref,
++  int module: @module_decl_or_none ref
++);
++
++#keyset[id, index]
++top_level_entry_point_declarations(
++  int id: @top_level_entry_point ref,
++  int index: int ref,
++  int declaration: @top_level_code_decl_or_none ref
++);
++
+ unspecified_elements(
+   unique int id: @unspecified_element,
+   string property: string ref,
+@@ -2866,6 +2880,11 @@ variadic_sequence_types(  //dir=type
+ | @unspecified_element
+ ;
+ 
++@top_level_code_decl_or_none =
++  @top_level_code_decl
++| @unspecified_element
++;
++
+ @type_or_none =
+   @type
+ | @unspecified_element
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/TopLevelEntryPoint.qll b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/TopLevelEntryPoint.qll
+new file mode 100644
+index 0000000000..b20364d2c2
+--- /dev/null
++++ b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/TopLevelEntryPoint.qll
+@@ -0,0 +1,15 @@
++// generated by codegen/codegen.py, do not edit
++/**
++ * This module provides the public class `TopLevelEntryPoint`.
++ */
++
++private import internal.TopLevelEntryPointImpl
++import codeql.swift.elements.AstNode
++import codeql.swift.elements.File
++import codeql.swift.elements.decl.ModuleDecl
++import codeql.swift.elements.decl.TopLevelCodeDecl
++
++/**
++ * Executable script statements in compiler-provided source-file order.
++ */
++final class TopLevelEntryPoint = Impl::TopLevelEntryPoint;
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/internal/TopLevelEntryPointConstructor.qll b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/internal/TopLevelEntryPointConstructor.qll
+new file mode 100644
+index 0000000000..f20ca435fc
+--- /dev/null
++++ b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/internal/TopLevelEntryPointConstructor.qll
+@@ -0,0 +1,14 @@
++// generated by codegen/codegen.py, remove this comment if you wish to edit this file
++/**
++ *  This module defines the hook used internally to tweak the characteristic predicate of
++ *  `TopLevelEntryPoint` synthesized instances.
++ *  INTERNAL: Do not use.
++ */
++
++private import codeql.swift.generated.Raw
++
++/**
++ *  The characteristic predicate of `TopLevelEntryPoint` synthesized instances.
++ *  INTERNAL: Do not use.
++ */
++predicate constructTopLevelEntryPoint(Raw::TopLevelEntryPoint id) { any() }
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/internal/TopLevelEntryPointImpl.qll b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/internal/TopLevelEntryPointImpl.qll
+new file mode 100644
+index 0000000000..61c10353bb
+--- /dev/null
++++ b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/internal/TopLevelEntryPointImpl.qll
+@@ -0,0 +1,19 @@
++// generated by codegen/codegen.py, remove this comment if you wish to edit this file
++/**
++ * This module provides a hand-modifiable wrapper around the generated class `TopLevelEntryPoint`.
++ *
++ * INTERNAL: Do not use.
++ */
++
++private import codeql.swift.generated.TopLevelEntryPoint
++
++/**
++ * INTERNAL: This module contains the customizable definition of `TopLevelEntryPoint` and should not
++ * be referenced directly.
++ */
++module Impl {
++  /**
++   * Executable script statements in compiler-provided source-file order.
++   */
++  class TopLevelEntryPoint extends Generated::TopLevelEntryPoint { }
++}
+diff --git a/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/TopLevelEntryPoint.qll b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/TopLevelEntryPoint.qll
+new file mode 100644
+index 0000000000..f48972f909
+--- /dev/null
++++ b/codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/TopLevelEntryPoint.qll
+@@ -0,0 +1,67 @@
++// generated by codegen/codegen.py, do not edit
++/**
++ * This module provides the generated definition of `TopLevelEntryPoint`.
++ * INTERNAL: Do not import directly.
++ */
++
++private import codeql.swift.generated.Synth
++private import codeql.swift.generated.Raw
++import codeql.swift.elements.internal.AstNodeImpl::Impl as AstNodeImpl
++import codeql.swift.elements.File
++import codeql.swift.elements.decl.ModuleDecl
++import codeql.swift.elements.decl.TopLevelCodeDecl
++
++/**
++ * INTERNAL: This module contains the fully generated definition of `TopLevelEntryPoint` and should not
++ * be referenced directly.
++ */
++module Generated {
++  /**
++   * Executable script statements in compiler-provided source-file order.
++   * INTERNAL: Do not reference the `Generated::TopLevelEntryPoint` class directly.
++   * Use the subclass `TopLevelEntryPoint`, where the following predicates are available.
++   */
++  class TopLevelEntryPoint extends Synth::TTopLevelEntryPoint, AstNodeImpl::AstNode {
++    override string getAPrimaryQlClass() { result = "TopLevelEntryPoint" }
++
++    /**
++     * Gets the source file of this top level entry point.
++     */
++    File getSourceFile() {
++      result =
++        Synth::convertFileFromRaw(Synth::convertTopLevelEntryPointToRaw(this)
++              .(Raw::TopLevelEntryPoint)
++              .getSourceFile())
++    }
++
++    /**
++     * Gets the module of this top level entry point.
++     */
++    ModuleDecl getModule() {
++      result =
++        Synth::convertModuleDeclFromRaw(Synth::convertTopLevelEntryPointToRaw(this)
++              .(Raw::TopLevelEntryPoint)
++              .getModule())
++    }
++
++    /**
++     * Gets the `index`th declaration of this top level entry point (0-based).
++     */
++    TopLevelCodeDecl getDeclaration(int index) {
++      result =
++        Synth::convertTopLevelCodeDeclFromRaw(Synth::convertTopLevelEntryPointToRaw(this)
++              .(Raw::TopLevelEntryPoint)
++              .getDeclaration(index))
++    }
++
++    /**
++     * Gets any of the declarations of this top level entry point.
++     */
++    final TopLevelCodeDecl getADeclaration() { result = this.getDeclaration(_) }
++
++    /**
++     * Gets the number of declarations of this top level entry point.
++     */
++    final int getNumberOfDeclarations() { result = count(int i | exists(this.getDeclaration(i))) }
++  }
++}

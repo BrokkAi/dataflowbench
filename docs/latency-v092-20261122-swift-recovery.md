@@ -79,6 +79,17 @@ runner-error and unqualified states. A measured failed or incomplete invocation
 does not certify successful analysis. Outcomes that differ from frozen evidence
 remain a semantic mismatch, never a newly blessed baseline.
 
+The released Joern producer's original five reports omit `configuration_hash`;
+the published frozen reports contain that separately derived field. Follow the
+existing `joern_normal_reports_v092_projection.py` procedure after capture into
+a new derived namespace. Preserve the originals and require each derived JSON
+object to equal its original plus only the verified new plan-closure hash.
+Bind source and derived hashes and the projection helper. Every original
+configuration reference must remain unchanged; only the explicitly reviewed
+relocation/helper provenance additions are allowed. Record old and new closure
+hashes and their transition proof rather than asserting identical hashes or
+editing either original report. All other identity and outcome checks remain.
+
 This is a separately versioned diagnostic timing supplement. Its admission
 policy, raw quiet-window observations and contention flags are retained
 separately; it does not assert the original settled A24 qualification. Full

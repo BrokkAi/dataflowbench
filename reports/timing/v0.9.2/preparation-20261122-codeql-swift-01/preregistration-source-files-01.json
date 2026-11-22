@@ -1,0 +1,48 @@
+{
+  "schema": "codeql-swift-source-file-recovery-preregistration/v1",
+  "purpose": "Recover only the three exact pre-patch source files required to verify an existing frozen patch application receipt.",
+  "source_repository": "https://github.com/github/codeql",
+  "source_commit": "a7057b836bf29767461026718b14d20790b9085f",
+  "source_archive_sha256_recorded_in_original_receipt": "c737189f5f9f6a89eefabf2e82e6ecf9a2f866c4de2caf1f6407f69d143eae16",
+  "original_patch_application_receipt_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/v092/swift-source/patch-application/applied-patch.json",
+  "original_patch_application_receipt_sha256": "de3b1334bc868dd4037750f82b04e9df1443320540665bb2dbe877e7e121c20f",
+  "repair_patch_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/adapters/codeql/swift-entry-extractor-v1/repair.patch",
+  "repair_patch_sha256": "e7da7352a8b3a8e7679760e49e8f8abff05d7fa3e16007c7ed2987f49074f26a",
+  "candidate_extractor_relocation_receipt_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-extractor/candidate-extractor-relocation.json",
+  "candidate_extractor_relocation_receipt_sha256": "8abef1afd7022b30f30bbb1a8768855ebb7542f0ffda913e644a80f213498c10",
+  "files": [
+    {
+      "path": "swift/extractor/SwiftExtractor.cpp",
+      "url": "https://raw.githubusercontent.com/github/codeql/a7057b836bf29767461026718b14d20790b9085f/swift/extractor/SwiftExtractor.cpp",
+      "expected_before_patch_sha256": "af2fb204c1b96e6a4b9de3a0e083cd816cb0ffaa1216c232c31f53edc430a98e",
+      "expected_after_patch_sha256": "0665c1c0f439db96208a45ce56632881ea3783bf8511a543e4dc910befde92c1",
+      "destination": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/source-files/swift/extractor/SwiftExtractor.cpp"
+    },
+    {
+      "path": "swift/extractor/infra/SwiftDispatcher.h",
+      "url": "https://raw.githubusercontent.com/github/codeql/a7057b836bf29767461026718b14d20790b9085f/swift/extractor/infra/SwiftDispatcher.h",
+      "expected_before_patch_sha256": "e71917ab9ff4ac157acc1f243c78c6e558597bedf2fc567af0e31b1e71c20487",
+      "expected_after_patch_sha256": "fec68616891ec3c2f46950897d043fa2d384539f4f021ac7158b918bcb920ae9",
+      "destination": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/source-files/swift/extractor/infra/SwiftDispatcher.h"
+    },
+    {
+      "path": "swift/extractor/translators/SwiftVisitor.h",
+      "url": "https://raw.githubusercontent.com/github/codeql/a7057b836bf29767461026718b14d20790b9085f/swift/extractor/translators/SwiftVisitor.h",
+      "expected_before_patch_sha256": "15c70c2cc641d788662984f03485cea8d9b5b988ad114f47459d7ec700866a2a",
+      "expected_after_patch_sha256": "8108eaae7a697a1d7a75a70e6212d0954ade40e062cd53c09c28d74e803ef733",
+      "destination": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/source-files/swift/extractor/translators/SwiftVisitor.h"
+    }
+  ],
+  "allowed_operations": [
+    "raw-file retrieval at exact commit URL",
+    "SHA-256 verification against frozen baseline hashes",
+    "patch dry-run/apply to disposable copies for exact three file applicability only"
+  ],
+  "prohibited_operations": [
+    "latest/default-branch lookup",
+    "source build",
+    "CodeQL analyzer/runtime invocation",
+    "download of full source archive",
+    "mutation of frozen receipts or current runtimes"
+  ]
+}
