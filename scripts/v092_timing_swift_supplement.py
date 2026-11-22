@@ -26,7 +26,7 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CAMPAIGN_ID = "20261122-05"
+CAMPAIGN_ID = "20261122-06"
 FAILED_PREPARATION_REPORT = "reports/timing/v0.9.2/20261122-03"
 FAILED_PREPARATION_SOURCE = "execution-state/timing-v092-20261122-03/sources/joern-swift-common108"
 FAILED_PREPARATION_INVENTORY = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/campaign-03-preparation-failure-inventory-01.json"
@@ -35,7 +35,13 @@ FAILED_PREPARATION_04_REPORT = "reports/timing/v0.9.2/20261122-04"
 FAILED_PREPARATION_04_SOURCE = "execution-state/timing-v092-20261122-04/sources/joern-swift-common108"
 FAILED_PREPARATION_04_INVENTORY = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/campaign-04-preparation-failure-inventory-01.json"
 FAILED_PREPARATION_04_INVENTORY_SHA256 = "bd23d37d473e795a3dc6b71b340488e259901092d74669b86762ca1c6695a40b"
+FAILED_PREPARATION_05_REPORT = "reports/timing/v0.9.2/20261122-05"
+FAILED_PREPARATION_05_SOURCE = "execution-state/timing-v092-20261122-05/sources/joern-swift-common108"
+FAILED_PREPARATION_05_INVENTORY = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/campaign-05-preparation-failure-inventory-01.json"
+FAILED_PREPARATION_05_INVENTORY_SHA256 = "773abdb61d283134552e9ee8adfa0869cb207ed20a8b4df8784bd502b8c3f8bc"
 FAILED_PREPARATION_PROCESS_HELPER = "scripts/v092_closed_process_identity.py"
+DIAGNOSTIC_AUTHORIZATION_PATH = "docs/latency-v092-20261122-diagnostic-continuation.md"
+DIAGNOSTIC_AUTHORIZATION_SHA256 = "2e213648637bf897639a8cab6ee92f3533ba2be2c183c28d599337bc93f2d6a8"
 QUIESCENT_SERVICE_RECOGNITION = (
     "legacy.Observer exact bifrost --mcp/--lsp argv, unchanged PID/birth/argv/cumulative-CPU, "
     "zero sampled CPU and no descendants/v1"
@@ -149,6 +155,35 @@ TOLERATED_COMM_PATHS = (
     "/usr/libexec/spotlightknowledged.updater",
     "/System/Library/Frameworks/Virtualization.framework/Versions/A/XPCServices/com.apple.Virtualization.VirtualMachine.xpc/Contents/MacOS/com.apple.Virtualization.VirtualMachine",
 )
+
+
+def _diagnostic_admission_policy() -> dict:
+    return {
+        "schema": "v092-swift-supplement-diagnostic-background-admission/v1",
+        "mode": "diagnostic-background-admission",
+        "required_seconds": 0,
+        "settled_seconds_minimum_for_certification": QUIET_SECONDS,
+        "aggregate_cpu_idle_percent_minimum_for_certification": QUIET_IDLE_PERCENT,
+        "aggregate_cpu_idle_is_dispatch_gate": False,
+        "dispatch_requires_complete_snapshot": True,
+        "dispatch_rejects_non_tolerated_heavy_processes": True,
+        "dispatch_rejects_significant_external_cpu": True,
+        "significant_external_cpu_rule": "non-tolerated external CPU >= logical CPUs * 10.0 percent",
+        "maximum_sample_gap_seconds": MAX_SAMPLE_GAP_SECONDS,
+        "maximum_final_sample_to_spawn_seconds": MAX_SAMPLE_GAP_SECONDS,
+        "sample_interval_seconds": SAMPLE_INTERVAL_SECONDS,
+        "missing_predispatch_observation_policy": "wait-for-next-complete-snapshot",
+        "tolerated_comm_paths": list(TOLERATED_COMM_PATHS),
+        "matching": "exact-full-comm-path-only",
+        "quiescent_service_recognition": QUIESCENT_SERVICE_RECOGNITION,
+        "aggregate_cpu_adjusted": False,
+        "raw_aggregate_idle_preserved": True,
+        "settled_quiet_window_established": False,
+        "active_cpu_policy": "record-and-continue",
+        "missing_active_observation_policy": "record-and-continue",
+        "original_a24_settled_qualification_eligible": False,
+        "publication_eligible": False,
+    }
 
 IDENTITY_FIELDS = [
     "tool", "tool_version", "tool_build_identity", "configuration_hash",
@@ -600,9 +635,10 @@ def _validate_v02_qualification(root: Path) -> tuple[dict, dict, dict, dict]:
 
 def _input_code_paths(plan: dict) -> list[str]:
     # Runtime manifests and qualification captures are digest-bound, but they
-    # are generated evidence and need not be Git-tracked. Executable helpers
-    # and both exact plan files must be committed and clean at dispatch.
+    # are generated evidence and need not be Git-tracked. Executable helpers,
+    # both exact plan files, and the explicit authorization must be committed.
     return sorted({*HELPER_PATHS, QUALIFIED_PLAN_PATH, PENDING_PLAN_PATH,
+                   DIAGNOSTIC_AUTHORIZATION_PATH,
                    V01_EXECUTION_PLAN_PATH})
 
 
@@ -888,19 +924,29 @@ def _resource_scope(root: Path) -> dict:
 
     preparation_paths = {
         "working": [root / PORTABILITY_SOURCE_PATH, root / QUALIFICATION_WORK_ROOT,
-                    root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE],
+                    root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE,
+                    root / FAILED_PREPARATION_05_SOURCE],
         "retention": [root / PREPARATION_ROOT, root / FAILED_PREPARATION_REPORT,
                       root / FAILED_PREPARATION_04_REPORT,
-                      root / FAILED_PREPARATION_04_SOURCE / "reports"],
+                      root / FAILED_PREPARATION_04_SOURCE / "reports",
+                      root / FAILED_PREPARATION_05_REPORT,
+                      root / FAILED_PREPARATION_05_SOURCE / "reports"],
         "scratch": [root / QUALIFICATION_CONTROL_SCRATCH,
                     *(root / QUALIFICATION_WORK_ROOT / name for name in ("home", "tmp", "cache")),
-                    *(root / FAILED_PREPARATION_04_SOURCE / name for name in ("home", "tmp", "cache"))],
+                    *(root / FAILED_PREPARATION_04_SOURCE / name for name in ("home", "tmp", "cache")),
+                    *(root / FAILED_PREPARATION_05_SOURCE / name for name in ("home", "tmp", "cache"))],
     }
     closed_preparation_paths = {
-        "working": {root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE},
+        "working": {root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE,
+                    root / FAILED_PREPARATION_05_SOURCE},
         "retention": {root / FAILED_PREPARATION_REPORT, root / FAILED_PREPARATION_04_REPORT,
-                      root / FAILED_PREPARATION_04_SOURCE / "reports"},
-        "scratch": {root / FAILED_PREPARATION_04_SOURCE / name for name in ("home", "tmp", "cache")},
+                      root / FAILED_PREPARATION_04_SOURCE / "reports",
+                      root / FAILED_PREPARATION_05_REPORT,
+                      root / FAILED_PREPARATION_05_SOURCE / "reports"},
+        "scratch": {
+            *(root / FAILED_PREPARATION_04_SOURCE / name for name in ("home", "tmp", "cache")),
+            *(root / FAILED_PREPARATION_05_SOURCE / name for name in ("home", "tmp", "cache")),
+        },
     }
     active_paths = {
         "working": [root / SOURCE_RELATIVE],
@@ -1112,12 +1158,17 @@ def validate_campaign_plan(plan: dict) -> None:
     }
     expected_closed_preparation_roots = {
         "working": [f"{ROOT}/{FAILED_PREPARATION_SOURCE}",
-                    f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}"],
+                    f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}",
+                    f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}"],
         "retention": [f"{ROOT}/{FAILED_PREPARATION_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_REPORT}",
-                      f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports"],
-        "scratch": [f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/{name}"
-                    for name in ("home", "tmp", "cache")],
+                      f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports",
+                      f"{ROOT}/{FAILED_PREPARATION_05_REPORT}",
+                      f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/reports"],
+        "scratch": [
+            *(f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/{name}" for name in ("home", "tmp", "cache")),
+            *(f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/{name}" for name in ("home", "tmp", "cache")),
+        ],
     }
     expected_post_profile_additions = [dict(row) for row in POST_PROFILE_RETAINED_ADDITIONS]
     expected_profile_parent_bytes = {"working": 19073573545, "retention": 630366349,
@@ -1161,13 +1212,18 @@ def validate_campaign_plan(plan: dict) -> None:
     active_paths = resource_scope.get("active_paths")
     exact_preparation = {
         "working": [f"{ROOT}/{PORTABILITY_SOURCE_PATH}", f"{ROOT}/{QUALIFICATION_WORK_ROOT}",
-                    f"{ROOT}/{FAILED_PREPARATION_SOURCE}", f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}"],
+                    f"{ROOT}/{FAILED_PREPARATION_SOURCE}", f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}",
+                    f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}"],
         "retention": [f"{ROOT}/{PREPARATION_ROOT}", f"{ROOT}/{FAILED_PREPARATION_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_REPORT}",
-                      f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports"],
+                      f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports",
+                      f"{ROOT}/{FAILED_PREPARATION_05_REPORT}",
+                      f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/reports"],
         "scratch": [f"{ROOT}/{QUALIFICATION_CONTROL_SCRATCH}",
                     *[f"{ROOT}/{QUALIFICATION_WORK_ROOT}/{name}" for name in ("home", "tmp", "cache")],
                     *[f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/{name}"
+                      for name in ("home", "tmp", "cache")],
+                    *[f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")]],
     }
     exact_active = {
@@ -1233,21 +1289,18 @@ def validate_campaign_plan(plan: dict) -> None:
     if plan.get("active_cpu_policy") != "record-and-continue" or plan.get("retry_policy") != "none":
         raise RuntimeError("active CPU telemetry must not abort or retry this invocation")
     admission = plan.get("admission_policy")
-    if (not isinstance(admission, dict)
-            or admission.get("schema") != "v092-swift-supplement-background-admission/v1"
-            or admission.get("required_complete_quiet_seconds") != QUIET_SECONDS
-            or admission.get("aggregate_cpu_idle_percent_minimum") != QUIET_IDLE_PERCENT
-            or admission.get("maximum_sample_gap_seconds") != MAX_SAMPLE_GAP_SECONDS
-            or admission.get("maximum_final_sample_to_spawn_seconds") != MAX_SAMPLE_GAP_SECONDS
-            or admission.get("sample_interval_seconds") != SAMPLE_INTERVAL_SECONDS
-            or admission.get("matching") != "exact-full-comm-path-only"
-            or admission.get("quiescent_service_recognition") != QUIESCENT_SERVICE_RECOGNITION
-            or admission.get("aggregate_cpu_adjusted") is not False
-            or admission.get("active_cpu_policy") != "record-and-continue"
-            or admission.get("missing_active_observation_policy") != "record-and-continue"
-            or admission.get("original_a24_settled_qualification_eligible") is not False
-            or admission.get("tolerated_comm_paths") != list(TOLERATED_COMM_PATHS)):
-        raise RuntimeError("the exact A28 tolerated process identity list changed")
+    if admission != _diagnostic_admission_policy():
+        raise RuntimeError("diagnostic admission policy or its non-certification limits changed")
+    if plan.get("diagnostic_authorization") != {
+            "path": DIAGNOSTIC_AUTHORIZATION_PATH,
+            "sha256": DIAGNOSTIC_AUTHORIZATION_SHA256,
+            "authorization": "user-authorized-diagnostic-continuation",
+    }:
+        raise RuntimeError("diagnostic continuation authorization binding changed")
+    committed_inputs = plan.get("committed_code_inputs")
+    if (not isinstance(committed_inputs, dict)
+            or committed_inputs.get(DIAGNOSTIC_AUTHORIZATION_PATH) != DIAGNOSTIC_AUTHORIZATION_SHA256):
+        raise RuntimeError("diagnostic authorization must remain a committed, hash-bound plan input")
     provenance = plan.get("configuration_provenance")
     if (not isinstance(provenance, dict)
             or provenance.get("schema") != "v092-swift-supplement-configuration-provenance/v1"
@@ -1329,6 +1382,7 @@ def assess_admission(observation: dict, host, *, root_pid: int | None = None) ->
     significant = external_cpu >= logical * 10.0
     aggregate_idle_ok = float(observation["cpu_idle_percent"]) >= QUIET_IDLE_PERCENT
     quiet = aggregate_idle_ok and not heavy and not significant
+    diagnostic_admissible = not heavy and not significant
     return {
         "schema": "v092-swift-supplement-admission-assessment/v1",
         "aggregate_cpu_idle_percent_raw": observation["cpu_idle_percent"],
@@ -1344,6 +1398,8 @@ def assess_admission(observation: dict, host, *, root_pid: int | None = None) ->
         "significant_external_cpu": significant,
         "observation_complete": True,
         "quiet": quiet,
+        "diagnostic_background_admissible": diagnostic_admissible,
+        "settled_quiet_window_established": False,
         "owned_process_ids_excluded": sorted(owned),
         "original_a24_settled_qualification_eligible": False,
         "publication_eligible": False,
@@ -1485,6 +1541,10 @@ def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
         "frozen_report_bindings": frozen_bindings,
         "base_plan": {"path": BASE_PLAN_PATH, "sha256": BASE_PLAN_SHA256},
         "base_terminal": {"path": BASE_TERMINAL_PATH, "sha256": BASE_TERMINAL_SHA256},
+        "diagnostic_authorization": {
+            **_reference(root, DIAGNOSTIC_AUTHORIZATION_PATH),
+            "authorization": "user-authorized-diagnostic-continuation",
+        },
         "capture_inventory": {"path": BASE_INVENTORY_PATH, "sha256": BASE_INVENTORY_SHA256,
                               "file_count": 111},
         "semgrep_retrospective_audit": {"path": BASE_AUDIT_PATH, "sha256": BASE_AUDIT_SHA256,
@@ -1530,25 +1590,11 @@ def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
         },
         "deadline_seconds": GROUP_TIMEOUT_SECONDS,
         "max_campaign_wall_seconds": MAX_CAMPAIGN_WALL_SECONDS,
-        "admission_policy": {
-            "schema": "v092-swift-supplement-background-admission/v1",
-            "required_complete_quiet_seconds": QUIET_SECONDS,
-            "aggregate_cpu_idle_percent_minimum": QUIET_IDLE_PERCENT,
-            "maximum_sample_gap_seconds": MAX_SAMPLE_GAP_SECONDS,
-            "maximum_final_sample_to_spawn_seconds": MAX_SAMPLE_GAP_SECONDS,
-            "sample_interval_seconds": SAMPLE_INTERVAL_SECONDS,
-            "tolerated_comm_paths": list(TOLERATED_COMM_PATHS),
-            "matching": "exact-full-comm-path-only",
-            "quiescent_service_recognition": QUIESCENT_SERVICE_RECOGNITION,
-            "aggregate_cpu_adjusted": False,
-            "active_cpu_policy": "record-and-continue",
-            "missing_active_observation_policy": "record-and-continue",
-            "original_a24_settled_qualification_eligible": False,
-        },
+        "admission_policy": _diagnostic_admission_policy(),
         "active_cpu_policy": "record-and-continue",
         "retry_policy": "none",
         "original_a24_settled_qualification_eligible": False,
-        "timing_status": "prospective supplemental candidate under explicit background tolerance",
+        "timing_status": "diagnostic supplemental candidate; no settled quiet window; unqualified",
         "scored_activation": False,
         "publication_eligible": False,
     }
@@ -1579,8 +1625,9 @@ def _supplement_files_to_copy(root: Path, closure: dict[str, str], legacy_core) 
 def _verify_failed_preparation(root: Path) -> list[dict]:
     bindings = _failed_preparation_bindings()
     for binding, report_root, source_root in zip(
-            bindings, (FAILED_PREPARATION_REPORT, FAILED_PREPARATION_04_REPORT),
-            (FAILED_PREPARATION_SOURCE, FAILED_PREPARATION_04_SOURCE)):
+            bindings,
+            (FAILED_PREPARATION_REPORT, FAILED_PREPARATION_04_REPORT, FAILED_PREPARATION_05_REPORT),
+            (FAILED_PREPARATION_SOURCE, FAILED_PREPARATION_04_SOURCE, FAILED_PREPARATION_05_SOURCE)):
         reference = binding["inventory"]
         inventory = _read_json(_validate_reference(root, reference))
         if (inventory.get("schema") != "v092-swift-preparation-failure-inventory/v1"
@@ -1643,6 +1690,11 @@ def _failed_preparation_bindings() -> list[dict]:
                        "sha256": FAILED_PREPARATION_04_INVENTORY_SHA256},
          "file_count": 4672, "total_bytes": 114774850, "analyzer_invocations": 0,
          "source_error": "KeyboardInterrupt: "},
+        {"campaign_id": "20261122-05",
+         "inventory": {"path": FAILED_PREPARATION_05_INVENTORY,
+                       "sha256": FAILED_PREPARATION_05_INVENTORY_SHA256},
+         "file_count": 4670, "total_bytes": 121883730, "analyzer_invocations": 0,
+         "source_error": "KeyboardInterrupt: "},
     ]
 
 
@@ -1654,7 +1706,7 @@ def _observe_closed_preparation_processes(root: Path, legacy) -> dict:
     observations = []
     for binding, report_root in zip(
             _failed_preparation_bindings(),
-            (FAILED_PREPARATION_REPORT, FAILED_PREPARATION_04_REPORT)):
+            (FAILED_PREPARATION_REPORT, FAILED_PREPARATION_04_REPORT, FAILED_PREPARATION_05_REPORT)):
         start_path = root / report_root / "campaign-start.json"
         start = _read_json(start_path)
         if start.get("campaign_id") != binding["campaign_id"]:
@@ -2030,7 +2082,7 @@ class _AdmissionWindowExpired(RuntimeError):
         self.sample_monotonic_seconds = sample_monotonic_seconds
         self.now_monotonic_seconds = now_monotonic_seconds
         self.age_seconds = now_monotonic_seconds - sample_monotonic_seconds
-        super().__init__("completed quiet admission became stale before child process creation")
+        super().__init__("admission observation became stale before child process creation")
 
 
 def _run_process_with_fresh_admission(process_runner, popen_module, argv: list[str],
@@ -2091,7 +2143,9 @@ def _append_host_sample(host, raw_path: Path, assessment_path: Path,
             "schema": "v092-swift-supplement-admission-assessment/v1",
             "phase": phase, "observation_complete": False,
             "observation_error": f"{type(exc).__name__}: {exc}",
-            "quiet": False, "original_a24_settled_qualification_eligible": False,
+            "quiet": False, "diagnostic_background_admissible": False,
+            "settled_quiet_window_established": False,
+            "original_a24_settled_qualification_eligible": False,
             "publication_eligible": False,
         })
         return None
@@ -2104,6 +2158,8 @@ def _append_host_sample(host, raw_path: Path, assessment_path: Path,
             "observation_complete": False,
             "assessment_error": f"{type(exc).__name__}: {exc}",
             "quiet": False,
+            "diagnostic_background_admissible": False,
+            "settled_quiet_window_established": False,
             "original_a24_settled_qualification_eligible": False,
             "publication_eligible": False,
         }
@@ -2140,6 +2196,46 @@ def _wait_initial_quiet(host, raw_path: Path, assessment_path: Path,
             break
         time.sleep(min(SAMPLE_INTERVAL_SECONDS, remaining))
     raise RuntimeError("bounded campaign wall elapsed before a fresh 300-second quiet admission")
+
+
+def _wait_diagnostic_admission(host, raw_path: Path, assessment_path: Path,
+                               deadline: float, capacity_check) -> dict:
+    """Wait for a complete low-contention snapshot without claiming settled quiet."""
+    while time.monotonic() < deadline:
+        capacity_check(launch=True)
+        observation = _append_host_sample(host, raw_path, assessment_path, "diagnostic-admission")
+        if observation is not None:
+            try:
+                assessment = assess_admission(observation, host)
+            except Exception:
+                assessment = None
+            if assessment is not None and assessment.get("diagnostic_background_admissible") is True:
+                return {
+                    "status": "diagnostic-background-admission",
+                    "required_seconds": 0,
+                    "observed_seconds": 0,
+                    "samples": 1,
+                    "admission_basis": "complete snapshot with no non-tolerated heavy process or significant external CPU",
+                    "last_observation_utc": observation["observed_at_utc"],
+                    "last_observation_monotonic_seconds": float(observation["monotonic_seconds"]),
+                    "aggregate_cpu_idle_percent_raw": observation["cpu_idle_percent"],
+                    "aggregate_cpu_idle_met_certification_threshold": (
+                        float(observation["cpu_idle_percent"]) >= QUIET_IDLE_PERCENT
+                    ),
+                    "non_tolerated_heavy_processes": assessment["non_tolerated_heavy_processes"],
+                    "significant_external_cpu": assessment["significant_external_cpu"],
+                    "non_tolerated_external_cpu_percent": assessment["non_tolerated_external_cpu_percent"],
+                    "quiescent_service_pids": assessment["quiescent_service_pids"],
+                    "service_observations": assessment["service_observations"],
+                    "settled_quiet_window_established": False,
+                    "original_a24_settled_qualification_eligible": False,
+                    "publication_eligible": False,
+                }
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            break
+        time.sleep(min(SAMPLE_INTERVAL_SECONDS, remaining))
+    raise RuntimeError("bounded campaign wall elapsed before a complete diagnostic background admission")
 
 
 def _record_runtime_receipts(source: Path, runner, plan_path: str) -> dict:
@@ -2491,12 +2587,14 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
             "semgrep_retrospective_audit": plan["semgrep_retrospective_audit"],
             "old_argv": plan["old_argv"], "actual_argv": plan["argv"],
             "source_commit": RELEASE, "source": str(source),
+            "diagnostic_authorization": plan["diagnostic_authorization"],
             "resource_scope": plan["resource_scope"],
             "resource_observer_profile": plan["resource_scope"]["observer_profile"],
             "resource_observer_method": RESOURCE_OBSERVER_METHOD,
             "resource_baseline_path": RESOURCE_BASELINE_PATH,
             "resources": plan["resources"], "deadline_seconds": GROUP_TIMEOUT_SECONDS,
             "publication_eligible": False,
+            "settled_quiet_window_established": False,
             "original_a24_settled_qualification_eligible": False,
         }
         try:
@@ -2594,20 +2692,21 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
             admission_sequence = 0
             start_written = False
             while True:
-                admission = _wait_initial_quiet(
+                admission = _wait_diagnostic_admission(
                     host, raw_host, assessments, dispatch_deadline,
                     lambda launch: _check_capacity(disk, retained_paths, working_paths, scratch_paths, launch),
                 )
                 admission_sequence += 1
-                admission_id = f"quiet-window-{admission_sequence:02d}"
+                admission_id = f"diagnostic-admission-{admission_sequence:02d}"
                 _append_jsonl(admission_ledger, {
-                    "event": "complete-quiet-window", "admission_id": admission_id,
-                    "window": admission, "used_for_dispatch": False,
+                    "event": "diagnostic-admission", "admission_id": admission_id,
+                    "admission": admission, "used_for_dispatch": False,
+                    "settled_quiet_window_established": False,
                     "publication_eligible": False,
                 })
                 try:
                     if sha(plan_file) != dispatch_plan_sha256:
-                        raise RuntimeError("supplement plan digest changed after quiet admission")
+                        raise RuntimeError("supplement plan digest changed after diagnostic admission")
                     if tracker._start_identity(os.getpid()) != supervisor_identity:
                         raise RuntimeError("controller process identity changed before dispatch")
                     output = _fresh_output_path(source)
@@ -2620,10 +2719,12 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
                             "argv": plan["argv"], "old_frozen_argv": plan["old_argv"],
                             "cwd": str(source), "environment": environment,
                             "deadline_seconds": GROUP_TIMEOUT_SECONDS,
-                            "initial_admission": admission,
-                            "initial_admission_is_dispatch_authorization": False,
+                            "initial_diagnostic_admission": admission,
+                            "diagnostic_admission_is_sufficient_dispatch_authorization": False,
                             "dispatch_admissions_path": f"{ATTEMPT_RELATIVE}/dispatch-admissions.jsonl",
                             "admission_policy": plan["admission_policy"],
+                            "diagnostic_authorization": plan["diagnostic_authorization"],
+                            "settled_quiet_window_established": False,
                             "original_a24_settled_qualification_eligible": False,
                             "runtime_manifests_before_dispatch": pre_runtime,
                             "source_input_proof_before_dispatch": source_input_proof,
@@ -2668,13 +2769,13 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
                     })
                     _append_jsonl(report / "progress.jsonl", {
                         "utc": dt.datetime.now(dt.timezone.utc).isoformat(),
-                        "group": GROUP_ID, "status": "admission-expired-before-dispatch",
+                        "group": GROUP_ID, "status": "diagnostic-admission-expired-before-dispatch",
                         "admission_id": admission_id, "analyzer_dispatched": False,
                     })
                     continue
                 if ownership.get("root_pid") is not None:
                     dispatch_evidence = {
-                        "admission_id": admission_id, "quiet_window": admission,
+                        "admission_id": admission_id, "diagnostic_admission": admission,
                         "popen": popen_evidence, "process_pid": ownership["root_pid"],
                         "process_created": True,
                     }

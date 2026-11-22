@@ -174,15 +174,20 @@ def plan_fixture():
         "working": [f"{root}/{supplement.PORTABILITY_SOURCE_PATH}",
                     f"{root}/{supplement.QUALIFICATION_WORK_ROOT}",
                     f"{root}/{supplement.FAILED_PREPARATION_SOURCE}",
-                    f"{root}/{supplement.FAILED_PREPARATION_04_SOURCE}"],
+                    f"{root}/{supplement.FAILED_PREPARATION_04_SOURCE}",
+                    f"{root}/{supplement.FAILED_PREPARATION_05_SOURCE}"],
         "retention": [f"{root}/{supplement.PREPARATION_ROOT}",
                       f"{root}/{supplement.FAILED_PREPARATION_REPORT}",
                       f"{root}/{supplement.FAILED_PREPARATION_04_REPORT}",
-                      f"{root}/{supplement.FAILED_PREPARATION_04_SOURCE}/reports"],
+                      f"{root}/{supplement.FAILED_PREPARATION_04_SOURCE}/reports",
+                      f"{root}/{supplement.FAILED_PREPARATION_05_REPORT}",
+                      f"{root}/{supplement.FAILED_PREPARATION_05_SOURCE}/reports"],
         "scratch": [f"{root}/{supplement.QUALIFICATION_CONTROL_SCRATCH}",
                     *[f"{root}/{supplement.QUALIFICATION_WORK_ROOT}/{name}"
                       for name in ("home", "tmp", "cache")],
                     *[f"{root}/{supplement.FAILED_PREPARATION_04_SOURCE}/{name}"
+                      for name in ("home", "tmp", "cache")],
+                    *[f"{root}/{supplement.FAILED_PREPARATION_05_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")]],
     }
     active_paths = {
@@ -255,12 +260,19 @@ def plan_fixture():
             "observer_method": supplement.RESOURCE_OBSERVER_METHOD,
             "closed_preparation_roots": {
                 "working": [f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_SOURCE}",
-                            f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}"],
+                            f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}",
+                            f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_05_SOURCE}"],
                 "retention": [f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_REPORT}",
                               f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_REPORT}",
-                              f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}/reports"],
-                "scratch": [f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}/{name}"
-                            for name in ("home", "tmp", "cache")],
+                              f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}/reports",
+                              f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_05_REPORT}",
+                              f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_05_SOURCE}/reports"],
+                "scratch": [
+                    *(f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}/{name}"
+                      for name in ("home", "tmp", "cache")),
+                    *(f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_05_SOURCE}/{name}"
+                      for name in ("home", "tmp", "cache")),
+                ],
             },
             "profile_expected_parent_baseline_bytes": {
                 "working": 19073573545, "retention": 630366349,
@@ -282,20 +294,14 @@ def plan_fixture():
         "publication_eligible": False, "scored_activation": False,
         "original_a24_settled_qualification_eligible": False,
         "active_cpu_policy": "record-and-continue", "retry_policy": "none",
-        "admission_policy": {
-            "schema": "v092-swift-supplement-background-admission/v1",
-            "required_complete_quiet_seconds": 300,
-            "aggregate_cpu_idle_percent_minimum": 90.0,
-            "maximum_sample_gap_seconds": 45.0,
-            "maximum_final_sample_to_spawn_seconds": 45.0,
-            "sample_interval_seconds": 30.0,
-            "tolerated_comm_paths": list(supplement.TOLERATED_COMM_PATHS),
-            "matching": "exact-full-comm-path-only",
-            "quiescent_service_recognition": supplement.QUIESCENT_SERVICE_RECOGNITION,
-            "aggregate_cpu_adjusted": False,
-            "active_cpu_policy": "record-and-continue",
-            "missing_active_observation_policy": "record-and-continue",
-            "original_a24_settled_qualification_eligible": False,
+        "admission_policy": supplement._diagnostic_admission_policy(),
+        "diagnostic_authorization": {
+            "path": supplement.DIAGNOSTIC_AUTHORIZATION_PATH,
+            "sha256": supplement.DIAGNOSTIC_AUTHORIZATION_SHA256,
+            "authorization": "user-authorized-diagnostic-continuation",
+        },
+        "committed_code_inputs": {
+            supplement.DIAGNOSTIC_AUTHORIZATION_PATH: supplement.DIAGNOSTIC_AUTHORIZATION_SHA256,
         },
         "configuration_provenance": {
             "schema": "v092-swift-supplement-configuration-provenance/v1",
@@ -329,6 +335,12 @@ class SwiftSupplementPlanTests(unittest.TestCase):
         plan = plan_fixture()
         plan["attempts_per_group"][supplement.GROUP_ID] = 2
         with self.assertRaisesRegex(RuntimeError, "exactly one"):
+            supplement.validate_campaign_plan(plan)
+
+    def test_diagnostic_plan_requires_committed_user_authorization_binding(self):
+        plan = plan_fixture()
+        plan["committed_code_inputs"].pop(supplement.DIAGNOSTIC_AUTHORIZATION_PATH)
+        with self.assertRaisesRegex(RuntimeError, "committed, hash-bound"):
             supplement.validate_campaign_plan(plan)
 
     def test_actual_argv_must_use_relocated_wrapper_and_fresh_plan(self):
@@ -517,12 +529,19 @@ class SwiftSupplementResourceScopeTests(unittest.TestCase):
             self.assertEqual(result["expected_parent_baseline_bytes"]["retention"], 630367193)
             self.assertEqual(result["closed_preparation_roots"], {
                 "working": [str(root / supplement.FAILED_PREPARATION_SOURCE),
-                            str(root / supplement.FAILED_PREPARATION_04_SOURCE)],
+                            str(root / supplement.FAILED_PREPARATION_04_SOURCE),
+                            str(root / supplement.FAILED_PREPARATION_05_SOURCE)],
                 "retention": [str(root / supplement.FAILED_PREPARATION_REPORT),
                               str(root / supplement.FAILED_PREPARATION_04_REPORT),
-                              str(root / supplement.FAILED_PREPARATION_04_SOURCE / "reports")],
-                "scratch": [str(root / supplement.FAILED_PREPARATION_04_SOURCE / name)
-                            for name in ("home", "tmp", "cache")],
+                              str(root / supplement.FAILED_PREPARATION_04_SOURCE / "reports"),
+                              str(root / supplement.FAILED_PREPARATION_05_REPORT),
+                              str(root / supplement.FAILED_PREPARATION_05_SOURCE / "reports")],
+                "scratch": [
+                    *(str(root / supplement.FAILED_PREPARATION_04_SOURCE / name)
+                      for name in ("home", "tmp", "cache")),
+                    *(str(root / supplement.FAILED_PREPARATION_05_SOURCE / name)
+                      for name in ("home", "tmp", "cache")),
+                ],
             })
             self.assertEqual(result["closed_process_ownership"]["sha256"], fixture["owner_sha"])
             self.assertEqual(result["closed_process_ownership_state"]["descendant_containment"], "unproven")
@@ -726,6 +745,8 @@ class SwiftSupplementClosedPreparationTests(unittest.TestCase):
              "AttributeError: '_SupplementDiskGuard' object has no attribute 'chunk_bytes'"),
             (supplement.FAILED_PREPARATION_04_REPORT, supplement.FAILED_PREPARATION_04_SOURCE,
              "20261122-04", supplement.FAILED_PREPARATION_04_INVENTORY, "KeyboardInterrupt: "),
+            (supplement.FAILED_PREPARATION_05_REPORT, supplement.FAILED_PREPARATION_05_SOURCE,
+             "20261122-05", supplement.FAILED_PREPARATION_05_INVENTORY, "KeyboardInterrupt: "),
         ]
         bindings = []
         for report_root, source_root, campaign_id, inventory_relative, source_error in specs:
@@ -769,7 +790,7 @@ class SwiftSupplementClosedPreparationTests(unittest.TestCase):
             })
         return bindings
 
-    def test_both_prior_preparation_inventories_and_terminals_are_verified(self):
+    def test_all_three_prior_preparation_inventories_and_terminals_are_verified(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             bindings = self._fixture(root)
@@ -787,7 +808,8 @@ class SwiftSupplementClosedPreparationTests(unittest.TestCase):
             helper_path.write_text("fixture helper binding\n")
             for report_root, campaign_id in (
                     (supplement.FAILED_PREPARATION_REPORT, "20261122-03"),
-                    (supplement.FAILED_PREPARATION_04_REPORT, "20261122-04")):
+                    (supplement.FAILED_PREPARATION_04_REPORT, "20261122-04"),
+                    (supplement.FAILED_PREPARATION_05_REPORT, "20261122-05")):
                 path = root / report_root / "campaign-start.json"
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text(json.dumps({
@@ -821,13 +843,84 @@ class SwiftSupplementClosedPreparationTests(unittest.TestCase):
             self.assertEqual(result["observer_helper"]["path"],
                              supplement.FAILED_PREPARATION_PROCESS_HELPER)
             self.assertEqual([row["campaign_id"] for row in result["observations"]],
-                             ["20261122-03", "20261122-04"])
+                             ["20261122-03", "20261122-04", "20261122-05"])
             self.assertIn("raw_unfiltered_pid_table",
                           result["observations"][1]["observation"])
             self.assertNotIn("closed_preparation_processes", plan_fixture())
 
 
 class SwiftSupplementAdmissionTests(unittest.TestCase):
+    def test_idle_85_is_dispatch_admissible_but_not_settled_certification(self):
+        sample = observation([], idle=85.0, timestamp=15.0)
+        assessment = supplement.assess_admission(sample, FakeHost())
+        self.assertFalse(assessment["quiet"])
+        self.assertTrue(assessment["diagnostic_background_admissible"])
+        self.assertFalse(assessment["settled_quiet_window_established"])
+        self.assertEqual(assessment["aggregate_cpu_idle_percent_raw"], 85.0)
+        policy = supplement._diagnostic_admission_policy()
+        self.assertEqual(policy["required_seconds"], 0)
+        self.assertEqual(policy["settled_seconds_minimum_for_certification"], 300)
+
+        class SequenceHost(FakeHost):
+            def snapshot(self, _root):
+                return sample
+
+            @staticmethod
+            def failure_record(exc):
+                return {"status": "error", "error": str(exc)}
+
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            result = supplement._wait_diagnostic_admission(
+                SequenceHost(), root / "host.jsonl", root / "assessment.jsonl",
+                supplement.time.monotonic() + 5, lambda launch: None,
+            )
+        self.assertEqual(result["status"], "diagnostic-background-admission")
+        self.assertEqual(result["required_seconds"], 0)
+        self.assertEqual(result["observed_seconds"], 0)
+        self.assertEqual(result["aggregate_cpu_idle_percent_raw"], 85.0)
+        self.assertFalse(result["aggregate_cpu_idle_met_certification_threshold"])
+        self.assertFalse(result["settled_quiet_window_established"])
+        self.assertFalse(result["original_a24_settled_qualification_eligible"])
+
+    def test_incomplete_or_heavy_predispatch_samples_wait_for_clean_diagnostic_sample(self):
+        acceptable = observation([], idle=85.0, timestamp=90.0)
+        heavy = observation([process(230, "/opt/tools/semgrep", cpu=0.2)], idle=85.0, timestamp=60.0)
+
+        class SequenceHost(FakeHost):
+            def __init__(self):
+                self.samples = [RuntimeError("host snapshot unavailable"), heavy, acceptable]
+                self.calls = 0
+
+            def snapshot(self, _root):
+                self.calls += 1
+                value = self.samples.pop(0)
+                if isinstance(value, Exception):
+                    raise value
+                return value
+
+            @staticmethod
+            def failure_record(exc):
+                return {"status": "error", "error": str(exc)}
+
+        host = SequenceHost()
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            with patch.object(supplement.time, "sleep", return_value=None):
+                result = supplement._wait_diagnostic_admission(
+                    host, root / "host.jsonl", root / "assessment.jsonl",
+                    supplement.time.monotonic() + 5, lambda launch: None,
+                )
+            raw_rows = [json.loads(line) for line in (root / "host.jsonl").read_text().splitlines()]
+            assessments = [json.loads(line) for line in (root / "assessment.jsonl").read_text().splitlines()]
+        self.assertEqual(host.calls, 3)
+        self.assertFalse(assessments[0]["observation_complete"])
+        self.assertEqual(assessments[1]["non_tolerated_heavy_processes"][0]["comm"],
+                         "/opt/tools/semgrep")
+        self.assertTrue(assessments[2]["diagnostic_background_admissible"])
+        self.assertEqual(raw_rows[1]["cpu_idle_percent"], 85.0)
+        self.assertEqual(result["status"], "diagnostic-background-admission")
+
     def test_exact_tolerated_apple_paths_do_not_adjust_raw_cpu(self):
         path = supplement.TOLERATED_COMM_PATHS[-2]
         sample = observation([process(101, path, cpu=120.0)])
@@ -888,24 +981,28 @@ class SwiftSupplementAdmissionTests(unittest.TestCase):
             assessment_path = Path(temp) / "assessment.jsonl"
             with patch.object(legacy.core, "_process_tracker", return_value=FakeTracker()), \
                     patch.object(legacy.subprocess, "check_output",
-                                 return_value="4242 00:00.02 /opt/bifrost/bin/bifrost --mcp"):
+                                 return_value="4242 00:00.02 /opt/bifrost/bin/bifrost --mcp"), \
+                    patch.object(supplement.time, "sleep", return_value=None):
                 host = supplement._AdmissionHostFacade(raw_host, legacy.Observer(raw_host))
-                first = supplement._append_host_sample(host, raw_path, assessment_path, "initial-admission")
-                second = supplement._append_host_sample(host, raw_path, assessment_path, "initial-admission")
+                admission = supplement._wait_diagnostic_admission(
+                    host, raw_path, assessment_path, supplement.time.monotonic() + 5,
+                    lambda launch: None,
+                )
 
             assessments = [json.loads(line) for line in assessment_path.read_text().splitlines()]
             raw_rows = [json.loads(line) for line in raw_path.read_text().splitlines()]
             self.assertFalse(assessments[0]["quiet"])
-            self.assertTrue(assessments[1]["quiet"])
-            self.assertEqual(first["cpu_idle_percent"], 95.0)
-            self.assertEqual(second["cpu_idle_percent"], 95.0)
+            self.assertFalse(assessments[0]["diagnostic_background_admissible"])
+            self.assertTrue(assessments[1]["diagnostic_background_admissible"])
             self.assertEqual(raw_rows[1]["quiescent_service_pids"], [4242])
             self.assertTrue(raw_rows[1]["service_observations"][0]["unchanged_idle_service"])
             self.assertEqual(assessments[1]["quiescent_service_recognition"],
                              supplement.QUIESCENT_SERVICE_RECOGNITION)
             self.assertEqual(assessments[1]["quiescent_service_pids"], [4242])
             self.assertEqual(assessments[1]["service_observations"], raw_rows[1]["service_observations"])
-            forged = dict(second, quiescent_service_pids=[4243])
+            self.assertEqual(admission["status"], "diagnostic-background-admission")
+            self.assertEqual(admission["quiescent_service_pids"], [4242])
+            forged = dict(raw_rows[1], quiescent_service_pids=[4243])
             with self.assertRaisesRegex(ValueError, "Observer-proven"):
                 supplement.assess_admission(forged, host)
 
