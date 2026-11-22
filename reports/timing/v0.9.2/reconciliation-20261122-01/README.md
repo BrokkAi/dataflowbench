@@ -77,3 +77,13 @@ identities and an available serial lock, with approximately 229 GiB free.
 The two new capture inventories were verified file by file and their 1,881
 files, including the inventories themselves, round-tripped through a compressed
 retention bundle. See [retention-verification-01.json](retention-verification-01.json).
+
+## Subsequent untimed runtime recovery
+
+After these captures, the retained Swift 6.3.3 installer was expanded into a
+fresh runtime directory. The [full manifest check](../preparation-20261122-swift-01/manifest-verification.json)
+verified all 2,877 regular files and 51 symlinks, including their hashes, modes,
+targets and exact membership; the version-only smoke also passed. This resolves
+the missing expanded payload described above. Fresh driver/path qualification
+and the other named Swift prerequisites remain separate, and no Swift timing
+completion is inferred from the runtime recovery.

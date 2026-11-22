@@ -1090,3 +1090,10 @@ validates Semgrep's retained aggregate batch format with exact case/file
 coverage and derives separately labelled audit records. The original failed
 validation receipt and all measured values remain unchanged. This does not
 convert a retrospective diagnostic candidate into settled qualification.
+
+### A30 — 2026-11-22: recovered Swift runtime and separate Joern preparation
+
+[A30](latency-v092-20261122-swift-recovery.md) records the exact Swift payload
+restoration and prospective fresh Joern controls and single-operation timing
+supplement. The old 95-entry campaign remains immutable; no completed command
+is restarted and no Swift timing completion is inferred from setup.
