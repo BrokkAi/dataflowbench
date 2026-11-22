@@ -1129,3 +1129,10 @@ or changing frozen outcomes.
 Joern decisions from the preserved v0.9.2 declared-unsupported partition. It
 requires separately bound current-scope disposition records and complete
 preflight before dispatch, without claiming new analyzer capability proof.
+
+### A35 — 2026-11-22: report projection and genuine-failure boundaries
+
+[A35](latency-v092-20261122-projection-recovery.md) binds a versioned projector
+for the explicit decline provenance and requires the driver to retain a failed
+case before honoring engine or command failure stops. Active CPU telemetry
+continues to be recorded without interrupting invocations.
