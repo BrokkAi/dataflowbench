@@ -86,15 +86,22 @@ def main() -> None:
         if runner.sha(checkpoint_path) != "91da67df63ef979e5436117806811ee9f938c56235395536584cb950d7782f63":
             raise RuntimeError("parent accounting checkpoint changed")
         checkpoint = runner.read(checkpoint_path)
-        sources, retained, scratch = campaign._inherited_resource_paths(checkpoint)
-        sources2, retained2, scratch2 = campaign._inherited_resource_paths({"parent_campaign_id": "20261122-02"})
+        expected_parents = ["20261115-01", "20261121-01", "20261122-01"]
+        if checkpoint.get("resource_campaign_ids") != expected_parents:
+            raise RuntimeError("parent resource namespace membership changed")
+        # Each later start receipt includes its ancestors' scratch roots.
+        # Validate their union against all four exact registered namespaces.
+        sources, retained, scratch = campaign._inherited_resource_paths({
+            "parent_campaign_id": "20261122-02",
+            "resource_campaign_ids": [*expected_parents, "20261122-02"],
+        })
         portability = ROOT / "execution-state/timing-joern-swift-portability-preflight-20261122-01/source"
-        working = [*sources, *sources2, portability, WORK]
-        retained = [*retained, *retained2, REPORT,
+        working = [*sources, portability, WORK]
+        retained = [*retained, REPORT,
                     ROOT / "reports/timing/v0.9.2/reconciliation-20261122-01",
                     ROOT / "reports/timing/v0.9.2/preparation-20261122-swift-01",
                     ROOT / "reports/timing/v0.9.2/preparation-20261122-codeql-swift-01"]
-        scratch = [*scratch, *scratch2, OUTPUT, WORK / "home", WORK / "tmp", WORK / "cache"]
+        scratch = [*scratch, OUTPUT, WORK / "home", WORK / "tmp", WORK / "cache"]
         guard = ControlDiskGuard(
             launch_floor_bytes=127 * campaign.GIB, stop_floor_bytes=125 * campaign.GIB,
             working_ceiling_bytes=30 * campaign.GIB, retention_ceiling_bytes=24 * campaign.GIB,
@@ -103,7 +110,7 @@ def main() -> None:
         for category, paths in (("working", working), ("retention", retained), ("scratch", scratch)):
             launch_resources[category] = guard.check(category=category, paths=paths,
                                                      capacity_path=ROOT, phase="launch")
-        for parent in [*sources, *sources2]:
+        for parent in sources:
             for source in parent.iterdir():
                 if guard.logical_size([source]) > 12 * campaign.GIB:
                     raise RuntimeError("inherited per-source ceiling exceeded")
