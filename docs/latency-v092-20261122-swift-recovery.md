@@ -57,6 +57,25 @@ cumulative source, and 24 GiB each for scratch and retained evidence. Parent
 campaign paths remain included where cumulative accounting requires them.
 There is no automatic retry or unrelated workload termination.
 
+An untimed profile found that repeatedly walking the closed ancestor trees
+cost 25.53 seconds of wall time and 17.49 seconds of coordinator CPU in one
+profiled check. Using the existing disk guard's immutable-byte-count interface
+with the same accounted totals took 0.119 seconds for the active proxy trees.
+These are observer diagnostics, not analyzer performance results or estimates
+of historical timing bias.
+
+Before the new timing window, verify the closed parent ownership and sealed
+inputs, measure their disjoint source/retention/scratch byte counts under the
+shared serial lock, and retain those counts with their exact paths. Each live
+probe must still add the changing fresh source, report and cache sizes and
+check current filesystem free space against the same limits. Do not drop any
+ancestor from accounting. Check the fresh source's 12 GiB limit on the working
+probe and retain the original process-observation cadence. Recheck the closed
+ancestor counts and seals after the command; unexpected changes make the
+attempt unqualified. This changes no analyzer, fixture, command deadline or
+resource ceiling. Earlier raw timing values and flags remain unchanged; no
+time is subtracted from them or retrospectively certified from this profile.
+
 Before the single dispatch, require at least five minutes of complete samples
 with raw aggregate CPU idle at least 90 percent and no non-tolerated competing
 analyzer, build, benchmark or significant workload. Admission may tolerate only
