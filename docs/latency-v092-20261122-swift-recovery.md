@@ -127,3 +127,20 @@ model qualification, cold/warm equivalence, publication acceptance and any
 comparative performance claim remain independent. The CodeQL Swift entry is
 still blocked until its exact missing custom artifacts and qualification are
 recovered; restoring Swift alone does not complete that entry.
+
+## Preparation failure and fresh successor
+
+Campaign `20261122-03` stopped before any analyzer invocation when its resource
+guard wrapper omitted the source copier's `chunk_bytes` interface. Preserve its
+blocked terminal, plan, baseline and partial source under the sealed eight-file
+preparation-failure inventory. The wrapper now delegates the bounded copy size
+and typed error constructor. A real miniature Git archive regression exercises
+the same source materializer and guard interface before another dispatch.
+
+Preregister `20261122-04` as a fresh successor with new source, attempt and
+evidence paths. This is a deliberate controller repair after a zero-analyzer
+preparation failure; it does not retry a failed analyzer or rewrite campaign 03.
+Keep campaign 03's partial source and reports in closed preparation resource
+accounting, verify their sealed membership and bytes, and prove its supervisor
+identity has stopped. All prior identity, qualification, resource, timeout,
+quiet-admission and active-invocation policies above remain in force.

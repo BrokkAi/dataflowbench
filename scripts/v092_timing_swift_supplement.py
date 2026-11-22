@@ -26,7 +26,11 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CAMPAIGN_ID = "20261122-03"
+CAMPAIGN_ID = "20261122-04"
+FAILED_PREPARATION_REPORT = "reports/timing/v0.9.2/20261122-03"
+FAILED_PREPARATION_SOURCE = "execution-state/timing-v092-20261122-03/sources/joern-swift-common108"
+FAILED_PREPARATION_INVENTORY = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/campaign-03-preparation-failure-inventory-01.json"
+FAILED_PREPARATION_INVENTORY_SHA256 = "2674c28d4c25e72b531b94d8434a6a10ec3c0bff2d26ca88e8c9a9b9227d3195"
 GROUP_ID = "joern-swift-common108"
 RELEASE = "86092336d8f9ca32fe9e2c4042c2dced76c1feb1"
 MODEL_LIMIT_DECISION_ID = "joern-swift-common108-endpoint-identity-gap-2026-10-20"
@@ -873,8 +877,9 @@ def _resource_scope(root: Path) -> dict:
             raise RuntimeError("post-profile retained addition is outside the bound retention roots")
 
     preparation_paths = {
-        "working": [root / PORTABILITY_SOURCE_PATH, root / QUALIFICATION_WORK_ROOT],
-        "retention": [root / PREPARATION_ROOT],
+        "working": [root / PORTABILITY_SOURCE_PATH, root / QUALIFICATION_WORK_ROOT,
+                    root / FAILED_PREPARATION_SOURCE],
+        "retention": [root / PREPARATION_ROOT, root / FAILED_PREPARATION_REPORT],
         "scratch": [root / QUALIFICATION_CONTROL_SCRATCH,
                     *(root / QUALIFICATION_WORK_ROOT / name for name in ("home", "tmp", "cache"))],
     }
@@ -892,8 +897,11 @@ def _resource_scope(root: Path) -> dict:
                         for item in profile_static.get(category, [])]
         preparation_proxy = [_validated_accounting_path(root, item, scratch=category == "scratch")
                              for item in profile_preparation.get(category, [])]
+        prior_preparation = [path for path in preparation_paths[category]
+                             if path not in {root / FAILED_PREPARATION_SOURCE,
+                                             root / FAILED_PREPARATION_REPORT}]
         if ({str(path) for path in static_paths} != {str(path) for path in parent_baseline[category]}
-                or {str(path) for path in preparation_proxy} != {str(path) for path in preparation_paths[category]}):
+                or {str(path) for path in preparation_proxy} != {str(path) for path in prior_preparation}):
             raise RuntimeError(f"resource observer profile path partition differs for {category}")
         _assert_disjoint_resource_paths(parent_baseline[category], preparation_paths[category], category)
         _assert_disjoint_resource_paths(parent_baseline[category], active_paths[category], category)
@@ -1116,8 +1124,9 @@ def validate_campaign_plan(plan: dict) -> None:
     preparation_paths = resource_scope.get("preparation_paths")
     active_paths = resource_scope.get("active_paths")
     exact_preparation = {
-        "working": [f"{ROOT}/{PORTABILITY_SOURCE_PATH}", f"{ROOT}/{QUALIFICATION_WORK_ROOT}"],
-        "retention": [f"{ROOT}/{PREPARATION_ROOT}"],
+        "working": [f"{ROOT}/{PORTABILITY_SOURCE_PATH}", f"{ROOT}/{QUALIFICATION_WORK_ROOT}",
+                    f"{ROOT}/{FAILED_PREPARATION_SOURCE}"],
+        "retention": [f"{ROOT}/{PREPARATION_ROOT}", f"{ROOT}/{FAILED_PREPARATION_REPORT}"],
         "scratch": [f"{ROOT}/{QUALIFICATION_CONTROL_SCRATCH}",
                     *[f"{ROOT}/{QUALIFICATION_WORK_ROOT}/{name}" for name in ("home", "tmp", "cache")]],
     }
@@ -1476,7 +1485,44 @@ def _supplement_files_to_copy(root: Path, closure: dict[str, str], legacy_core) 
     return missing_from_release
 
 
+def _verify_failed_preparation(root: Path) -> dict:
+    reference = {"path": FAILED_PREPARATION_INVENTORY,
+                 "sha256": FAILED_PREPARATION_INVENTORY_SHA256}
+    inventory = _read_json(_validate_reference(root, reference))
+    if (inventory.get("schema") != "v092-swift-preparation-failure-inventory/v1"
+            or inventory.get("campaign_id") != "20261122-03"
+            or inventory.get("analyzer_invocations") != 0
+            or inventory.get("file_count") != 8):
+        raise RuntimeError("prior source preparation failure inventory changed")
+    roots = [root / FAILED_PREPARATION_REPORT, root / FAILED_PREPARATION_SOURCE]
+    observed = set()
+    for tree in roots:
+        for path in tree.rglob("*"):
+            if path.is_symlink():
+                raise RuntimeError("prior preparation acquired a symlink")
+            if path.is_file():
+                observed.add(path.relative_to(root).as_posix())
+    rows = inventory["files"]
+    if observed != {row["path"] for row in rows} or sum(row["size_bytes"] for row in rows) != inventory["total_bytes"]:
+        raise RuntimeError("prior preparation membership changed")
+    for row in rows:
+        path = _validate_reference(root, {"path": row["path"], "sha256": row["sha256"]})
+        if path.stat().st_size != row["size_bytes"]:
+            raise RuntimeError("prior preparation byte counts changed")
+    terminal = _read_json(root / FAILED_PREPARATION_REPORT / "campaign-terminal.json")
+    start = _read_json(root / FAILED_PREPARATION_REPORT / "campaign-start.json")
+    if (terminal.get("status") != "blocked" or terminal["failure"].get("process_ownership") != {}
+            or terminal["failure"].get("error") != inventory["source_error"]
+            or (root / FAILED_PREPARATION_REPORT / f"attempts/{GROUP_ID}/attempt-01/start.json").exists()):
+        raise RuntimeError("prior campaign was not a pre-analyzer preparation failure")
+    tracker = _qualified_module(root).legacy.core._process_tracker()
+    if tracker._start_identity(start["supervisor_pid"]) == start["supervisor_start_identity"]:
+        raise RuntimeError("prior preparation supervisor is still alive")
+    return reference
+
+
 def _derive_plan(root: Path, created_utc: str) -> dict:
+    failed_preparation = _verify_failed_preparation(root)
     base_plan, _terminal, _inventory, lineage = _validate_parent_lineage(root)
     qualified, evidence, _context, _runner_data = _validate_v02_qualification(root)
     closure = _reference_closure(root, qualified)
@@ -1487,6 +1533,7 @@ def _derive_plan(root: Path, created_utc: str) -> dict:
     configuration_provenance = _configuration_provenance(root, qualified, base_plan)
     plan = _base_plan(root, lineage["group"], qualified, evidence, closure, resource_scope,
                       committed_inputs, configuration_provenance, postprocessing_dependencies, created_utc)
+    plan["prior_preparation_failure"] = failed_preparation
     legacy_core = _qualified_module(root).legacy.core
     copy_closure = dict(closure)
     copy_closure.update({item["path"]: item["sha256"] for item in postprocessing_dependencies})
@@ -1775,6 +1822,13 @@ class _SupplementDiskGuard:
         self.observation_callback = observation_callback
         self.resource_scope = resource_scope
         self.baseline_record: dict | None = None
+
+    @property
+    def chunk_bytes(self) -> int:
+        return self.delegate.chunk_bytes
+
+    def error(self, code: str, message: str, **metadata):
+        return self.delegate.error(code, message, **metadata)
 
     def bind_baseline(self, record: dict) -> None:
         if (self.baseline_record is not None

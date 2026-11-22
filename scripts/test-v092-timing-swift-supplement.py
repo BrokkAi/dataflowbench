@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import subprocess
 from pathlib import Path
 import sys
 import tempfile
@@ -34,6 +35,39 @@ projection_exporter = load("joern_supplement_projection_exporter_test",
 
 
 class QualificationPublicationTests(unittest.TestCase):
+    def test_guard_supports_the_actual_source_materializer_interface(self):
+        q = supplement._qualified_module(supplement.ROOT)
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            repo, source = root / "repo", root / "source"
+            repo.mkdir()
+            subprocess.run(["git", "init", "-q", str(repo)], check=True)
+            for directory in q.legacy.core.SNAPSHOT_DIRECTORIES:
+                path = repo / directory / "fixture.txt"
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("bounded source fixture\n")
+            for filename in ("Cargo.toml", "Cargo.lock"):
+                (repo / filename).write_text("# source fixture\n")
+            subprocess.run(["git", "add", "."], cwd=repo, check=True)
+            subprocess.run(["git", "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+                            "commit", "--no-gpg-sign", "-qm", "fixture"], cwd=repo, check=True)
+            revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip()
+            delegate = q.legacy.disk.DiskGuard(launch_floor_bytes=0, protected_reserve_bytes=0,
+                stop_margin_bytes=0, stop_floor_bytes=0, working_ceiling_bytes=supplement.GIB,
+                scratch_ceiling_bytes=supplement.GIB, retention_ceiling_bytes=supplement.GIB)
+            scope = {"all": {"working": [source]}, "active": {"working": [source]}}
+            guard = supplement._SupplementDiskGuard(delegate, source, lambda: None, scope)
+            guard.bind_baseline({"schema": "v092-swift-resource-baseline/v1",
+                "initial_full_equals_baseline_plus_live": True,
+                "combined_static_baseline_bytes": {"working": 0}})
+            projected = q.legacy.core._materialize_source(repo, revision, source,
+                disk_guard=guard, working_paths=[source], preflight_only=True)
+            q.legacy.core._materialize_source(repo, revision, source, disk_guard=guard,
+                working_paths=[source], expected_projected_bytes=projected)
+            self.assertEqual((source / "src/fixture.txt").read_bytes(), (repo / "src/fixture.txt").read_bytes())
+            self.assertEqual(guard.chunk_bytes, delegate.chunk_bytes)
+            self.assertEqual(guard.error("fixture", "typed error").code, "fixture")
+
     def test_actual_plan_keeps_legacy_inventories_separate_from_component_identity(self):
         root = SCRIPTS.parent
         plan = json.loads((root / supplement.QUALIFIED_PLAN_PATH).read_text())
@@ -138,8 +172,10 @@ def plan_fixture():
     }
     preparation_paths = {
         "working": [f"{root}/{supplement.PORTABILITY_SOURCE_PATH}",
-                    f"{root}/{supplement.QUALIFICATION_WORK_ROOT}"],
-        "retention": [f"{root}/{supplement.PREPARATION_ROOT}"],
+                    f"{root}/{supplement.QUALIFICATION_WORK_ROOT}",
+                    f"{root}/{supplement.FAILED_PREPARATION_SOURCE}"],
+        "retention": [f"{root}/{supplement.PREPARATION_ROOT}",
+                      f"{root}/{supplement.FAILED_PREPARATION_REPORT}"],
         "scratch": [f"{root}/{supplement.QUALIFICATION_CONTROL_SCRATCH}",
                     *[f"{root}/{supplement.QUALIFICATION_WORK_ROOT}/{name}"
                       for name in ("home", "tmp", "cache")]],
