@@ -5,6 +5,7 @@ from __future__ import annotations
 import datetime as dt
 import hashlib
 import json
+import math
 from pathlib import Path
 import subprocess
 import sys
@@ -48,6 +49,18 @@ def identity_rows(value: object) -> set[tuple[int, str]]:
     return result
 
 
+def bound_reference(ref: object) -> Path:
+    if not isinstance(ref, dict) or set(ref) != {"path", "sha256"}:
+        raise RuntimeError("malformed retained control reference")
+    relative = Path(ref["path"])
+    if relative.is_absolute() or ".." in relative.parts:
+        raise RuntimeError("unsafe retained control reference")
+    path = ROOT / relative
+    if reference(path) != ref or not path.resolve().is_relative_to(OUTPUT):
+        raise RuntimeError("retained control reference changed or escaped its output")
+    return path
+
+
 def main() -> None:
     if RECEIPT.exists() or RECEIPT.is_symlink():
         raise RuntimeError("refusing to replace an ownership audit")
@@ -60,19 +73,44 @@ def main() -> None:
         with campaign.legacy.core._exclusive_lock():
             tracker = campaign.legacy.core._process_tracker()
             start, terminal = read(SUPERVISION / "start.json"), read(SUPERVISION / "terminal.json")
-            if (terminal.get("status") != "captured-needs-replay"
-                    or terminal.get("exit_code") != 0 or terminal.get("timed_out") is not False
-                    or terminal.get("capacity_loss") is not None):
+            elapsed = terminal.get("elapsed_seconds")
+            if (start.get("schema") != "v092-joern-capability-controls-supervision/v1"
+                    or terminal.get("schema") != "v092-joern-capability-controls-supervision-terminal/v1"
+                    or terminal.get("status") != "captured-needs-replay"
+                    or type(terminal.get("exit_code")) is not int or terminal["exit_code"] != 0
+                    or terminal.get("timed_out") is not False
+                    or type(elapsed) not in (int, float) or not math.isfinite(elapsed)
+                    or not 0 <= elapsed <= 900
+                    or "capacity_loss" not in terminal or terminal["capacity_loss"] is not None
+                    or terminal.get("resource_baseline_status") != "unchanged"):
                 raise RuntimeError("qualification supervisor did not complete successfully")
             records = sorted(OUTPUT.rglob("*.command.json"))
-            if len(records) != 37 or read(OUTPUT / "run.json").get("phase_invocation_count") != 36:
+            run = read(OUTPUT / "run.json")
+            if len(records) != 37 or run.get("phase_invocation_count") != 36:
                 raise RuntimeError("expected one version witness and 36 control phases")
+            rows = run.get("records")
+            if not isinstance(rows, list) or len(rows) != 12:
+                raise RuntimeError("expected twelve retained control arms")
+            expected_commands = [reference(OUTPUT / "version.command.json")]
+            for row in rows:
+                raw = read(bound_reference(row.get("raw")))
+                commands = raw.get("commands")
+                if not isinstance(commands, list) or len(commands) != 3:
+                    raise RuntimeError("control arm lacks its three phase command references")
+                for ref in commands:
+                    bound_reference(ref)
+                    expected_commands.append(ref)
+            actual_commands = [reference(path) for path in records]
+            keyed = lambda refs: {(ref["path"], ref["sha256"]) for ref in refs}
+            if len(keyed(expected_commands)) != 37 or keyed(expected_commands) != keyed(actual_commands):
+                raise RuntimeError("command files differ from the exact replayed control/version references")
             identities = identity_rows([{"pid": start.get("supervisor_pid"),
                                          "start_identity": start.get("supervisor_start_identity")}])
             command_refs = []
             for path in records:
                 command = read(path)
-                if (command.get("exit_status") != 0 or command.get("timed_out") is not False
+                if (type(command.get("exit_status")) is not int or command["exit_status"] != 0
+                        or command.get("timed_out") is not False
                         or command.get("cleanup_status") != "tracked-processes-stopped"):
                     raise RuntimeError(f"command lacks successful stopped state: {path}")
                 identities.update(identity_rows(command.get("tracked_descendants")))

@@ -26,7 +26,7 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CAMPAIGN_ID = "20261122-07"
+CAMPAIGN_ID = "20261122-08"
 FAILED_PREPARATION_REPORT = "reports/timing/v0.9.2/20261122-03"
 FAILED_PREPARATION_SOURCE = "execution-state/timing-v092-20261122-03/sources/joern-swift-common108"
 FAILED_PREPARATION_INVENTORY = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/campaign-03-preparation-failure-inventory-01.json"
@@ -59,6 +59,27 @@ LAUNCHER_SMOKE_STDERR_SHA256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934c
 FAILED_WRAPPER_VERSION_DIR = (
     f"{FAILED_WRAPPER_SOURCE}/reports/raw/joern-common-v2/current108-v092-02/identity"
 )
+FAILED_CAPABILITY_REPORT = "reports/timing/v0.9.2/20261122-07"
+FAILED_CAPABILITY_SOURCE = "execution-state/timing-v092-20261122-07/sources/joern-swift-common108"
+FAILED_CAPABILITY_INVENTORY = (
+    "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/"
+    "campaign-07-capability-failure-inventory-01.json"
+)
+FAILED_CAPABILITY_INVENTORY_SHA256 = "fdcd2cbf27491bfce5b4af20f274818fb640112b6e8a4faa57ef2ec0ceb4df08"
+FAILED_CAPABILITY_INVENTORY_FILE_COUNT = 4675
+FAILED_CAPABILITY_INVENTORY_TOTAL_BYTES = 114269184
+FAILED_CAPABILITY_VERSION_DIR = (
+    f"{FAILED_CAPABILITY_SOURCE}/reports/raw/joern-common-v2/current108-v092-02/identity"
+)
+CAPABILITY_RECOVERY_AUTHORIZATION_PATH = "docs/latency-v092-20261122-capability-recovery.md"
+CAPABILITY_RECOVERY_AUTHORIZATION_SHA256 = "eebbd44140a4548b6b67604f74c172fe53baee9a663ff0d3a8388a652440d6dc"
+CAPABILITY_SOURCE_PATH = "adapters/joern/swift-common-v2/plan-v090-01/plan.json"
+CAPABILITY_SOURCE_SHA256 = "14dde3a42a90c19d5c4eb696688f19cf31463a9d38bf153c227d0b82097604e6"
+CAPABILITY_V3_RUNNER_PATH = "scripts/joern_normal_runner_v092_capability.py"
+CAPABILITY_V3_CLI_PATH = "scripts/run-joern-common-v092-capability.py"
+CAPABILITY_V3_QUALIFIER_PATH = "scripts/v092_capability_qualification.py"
+CAPABILITY_V3_ADMISSION_PATH = "scripts/joern_diagnostic_admission_v092_capability.py"
+CAPABILITY_V3_REPORTER_PATH = "scripts/joern_normal_reports_v092_capability.py"
 GNU_READLINK_LOOKUP_PATH = "/opt/homebrew/bin/greadlink"
 GNU_READLINK_REAL_PATH = "/opt/homebrew/Cellar/coreutils/9.8/bin/greadlink"
 GNU_READLINK_SYMLINK_TARGET = "../Cellar/coreutils/9.8/bin/greadlink"
@@ -70,6 +91,10 @@ DIAGNOSTIC_AUTHORIZATION_PATH = "docs/latency-v092-20261122-diagnostic-continuat
 DIAGNOSTIC_AUTHORIZATION_SHA256 = "2e213648637bf897639a8cab6ee92f3533ba2be2c183c28d599337bc93f2d6a8"
 LAUNCHER_RECOVERY_AUTHORIZATION_PATH = "docs/latency-v092-20261122-launcher-recovery.md"
 LAUNCHER_RECOVERY_AUTHORIZATION_SHA256 = "bad56349e0a30903519a2ac165e7fd3bc75ed6749e238b3377d351c55adf3c9a"
+UNSUPPORTED_PROVENANCE_AUTHORIZATION_PATH = "docs/latency-v092-20261122-unsupported-provenance.md"
+UNSUPPORTED_PROVENANCE_AUTHORIZATION_SHA256 = "2d5b8ceef68603a08e33be2f22edd39910bf7a1c1eca30c0e898b075bb62fed1"
+PROJECTION_RECOVERY_AUTHORIZATION_PATH = "docs/latency-v092-20261122-projection-recovery.md"
+PROJECTION_RECOVERY_AUTHORIZATION_SHA256 = "b914e521b198bf1e17b11daf2dd2c77737646722e9dc60ea2a095f8112db8654"
 PARENT_GROUP_PATH = (
     "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/"
     "jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -89,12 +114,15 @@ BASE_INVENTORY_PATH = "reports/timing/v0.9.2/20261122-02/capture-evidence-invent
 BASE_INVENTORY_SHA256 = "31ba9d8691f85e7f5e28f6d92f973a6be4b5df529fb28dac9f793b77e8ff193d"
 BASE_AUDIT_PATH = "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/validation-receipt.json"
 BASE_AUDIT_SHA256 = "14dd96bea7dd8ee228eb2ea29c4c715ab404a1c507ee90300542db5a8512cfd9"
-QUALIFIED_PLAN_PATH = "adapters/joern/swift-common-v2/plan-v092-02/execution-plan-qualified.json"
-PENDING_PLAN_PATH = "adapters/joern/swift-common-v2/plan-v092-02/qualification-pending-plan-05.json"
-PENDING_PLAN_SHA256 = "756c07c9baa08e3cbe33c65890d163e96138c1c15cd7aa20bd0533371de0f50f"
-CONTROL_PLAN_PATH = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/qualification/control-plan-05.json"
-CONTROL_PLAN_SHA256 = "5fdb07c5109587d051024236b84a08e464c93e26ddfc8df7a63d9b28d64cb60c"
-QUALIFICATION_ROOT = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/qualification"
+QUALIFIED_PLAN_PATH = "adapters/joern/swift-common-v2/plan-v092-03/execution-plan-qualified.json"
+PENDING_PLAN_PATH = "adapters/joern/swift-common-v2/plan-v092-03/qualification-pending-plan-04.json"
+PENDING_PLAN_SHA256 = "9ad9bf8429e159dd2bfc0553d03277ba8fe13954ea865d0bc87c6eeadb964959"
+CONTROL_PLAN_PATH = (
+    "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/"
+    "capability-qualification/control-plan-04.json"
+)
+CONTROL_PLAN_SHA256 = "58bd2876c55cdc35c1b3eb32d808339365587444d736b4dbbfa4f39276182535"
+QUALIFICATION_ROOT = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/capability-qualification"
 PREPARATION_ROOT = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01"
 RESOURCE_PROFILE_PATH = f"{PREPARATION_ROOT}/resource-observer-profile-01.json"
 RESOURCE_PROFILE_SHA256 = "3c183f20e8bce13c8ec36f872ce743d7319097c4a562662f0813352c4e0d3076"
@@ -114,6 +142,16 @@ PRIOR_CONTROL_RUN_PATH = "reports/releases/v0.9.2/qualification/joern-swift-comm
 PRIOR_REGISTRATION_ARCHIVE_PATH = "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-02-registration-archive-01/archive.json"
 PRIOR_CONTROL_PLAN_PATH = "reports/releases/v0.9.2/qualification/joern-swift-common108/control-plan-02.json"
 PORTABILITY_SOURCE_PATH = "execution-state/timing-joern-swift-portability-preflight-20261122-01/source"
+CAPABILITY_PORTABILITY_SOURCE = "execution-state/timing-joern-capability-portability-20261122-01/source"
+CAPABILITY_PORTABILITY_REPORT = f"{PREPARATION_ROOT}/capability-portability-preflight-01.json"
+CAPABILITY_QUALIFICATION_WORK_ROOT = "execution-state/timing-joern-capability-qualification-20261122-01"
+CAPABILITY_CONTROL_OUTPUT = f"{QUALIFICATION_ROOT}/control-attempt-03"
+CAPABILITY_CONTROL_SUPERVISION = f"{PREPARATION_ROOT}/capability-control-supervision-03"
+CAPABILITY_POST_CONTROL_OWNERSHIP = f"{PREPARATION_ROOT}/capability-post-control-ownership-01.json"
+CAPABILITY_PREPARED_SOURCE_PROCEDURE = f"{PREPARATION_ROOT}/procedures/capability_check_prepared_source.py"
+CAPABILITY_CONTROL_PROCEDURE = f"{PREPARATION_ROOT}/procedures/capability_run_controls_supervised.py"
+CAPABILITY_FINALIZE_PROCEDURE = f"{PREPARATION_ROOT}/procedures/capability_finalize_qualification.py"
+CAPABILITY_OWNERSHIP_PROCEDURE = f"{PREPARATION_ROOT}/procedures/capability_audit_controls_ownership.py"
 RESOURCE_CAMPAIGN_IDS = ("20261115-01", "20261121-01", "20261122-01", "20261122-02")
 RESOURCE_PARENT_CHECKPOINT_PATH = "reports/timing/v0.9.2/20261122-02/parent-checkpoint-01.json"
 RESOURCE_PARENT_CHECKPOINT_SHA256 = "91da67df63ef979e5436117806811ee9f938c56235395536584cb950d7782f63"
@@ -121,8 +159,9 @@ PLAN_PATH = f"reports/timing/v0.9.2/{CAMPAIGN_ID}/supplement-plan-01.json"
 REPORT_ROOT = f"reports/timing/v0.9.2/{CAMPAIGN_ID}"
 WORK_ROOT = f"execution-state/timing-v092-{CAMPAIGN_ID}"
 SOURCE_RELATIVE = f"{WORK_ROOT}/sources/{GROUP_ID}"
-OUTPUT_RELATIVE = "reports/raw/joern-common-v2/current108-v092-02"
+OUTPUT_RELATIVE = "reports/raw/joern-common-v2/current108-v092-03"
 OUTPUT_ARGUMENT = f"{OUTPUT_RELATIVE}"
+NORMAL_AUDIT_RELATIVE = f"{OUTPUT_RELATIVE}/normal/audit.json"
 DERIVED_RELATIVE = f"{REPORT_ROOT}/derived/{GROUP_ID}"
 ATTEMPT_RELATIVE = f"{REPORT_ROOT}/attempts/{GROUP_ID}/attempt-01"
 RESOURCE_BASELINE_PATH = f"{REPORT_ROOT}/resource-baseline-01.json"
@@ -139,7 +178,7 @@ V01_EXECUTION_PLAN_PATH = "adapters/joern/swift-common-v2/plan-v092-01/execution
 
 # These are additive provenance/runtime bindings only. No old configuration
 # path may be removed or re-bound. The final candidate plan must declare this
-# same exact set after the qualification owner freezes pending-05.
+# same exact set after the qualification owner freezes the v03 plan.
 APPROVED_CONFIGURATION_ADDITIONS: tuple[str, ...] = (
     "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json",
     "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/joern.json",
@@ -148,10 +187,11 @@ APPROVED_CONFIGURATION_ADDITIONS: tuple[str, ...] = (
     "reports/timing/v0.9.2/preparation-20261122-swift-01/runtime-manifests/swift-6.3.3-relocated-receipt.json",
     "reports/timing/v0.9.2/preparation-20261122-swift-01/manifest-verification.json",
     "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests-receipt-v2.json",
-    "scripts/joern_normal_runner_v092_relocated.py",
-    "scripts/run-joern-common-v092-relocated.py",
-    "scripts/v092_relocated_qualification.py",
-    "scripts/joern_diagnostic_admission_v092_relocated.py",
+    CAPABILITY_V3_RUNNER_PATH,
+    CAPABILITY_V3_CLI_PATH,
+    CAPABILITY_V3_QUALIFIER_PATH,
+    CAPABILITY_V3_ADMISSION_PATH,
+    CAPABILITY_V3_REPORTER_PATH,
 )
 
 HELPER_PATHS = (
@@ -159,14 +199,19 @@ HELPER_PATHS = (
     "scripts/v092_timing_campaign.py",
     "scripts/v092_timing_host.py",
     "scripts/v092_timing_qualified_campaign.py",
-    "scripts/joern_normal_runner_v092_relocated.py",
-    "scripts/run-joern-common-v092-relocated.py",
+    CAPABILITY_V3_RUNNER_PATH,
+    CAPABILITY_V3_CLI_PATH,
     "scripts/joern_normal_reports_v092.py",
     "scripts/joern_normal_reports_v092_projection.py",
-    "scripts/v092_relocated_qualification.py",
+    CAPABILITY_V3_QUALIFIER_PATH,
     "scripts/v092_qualification.py",
     "scripts/joern_diagnostic_admission_v092.py",
-    "scripts/joern_diagnostic_admission_v092_relocated.py",
+    CAPABILITY_V3_ADMISSION_PATH,
+    CAPABILITY_V3_REPORTER_PATH,
+    CAPABILITY_PREPARED_SOURCE_PROCEDURE,
+    CAPABILITY_CONTROL_PROCEDURE,
+    CAPABILITY_FINALIZE_PROCEDURE,
+    CAPABILITY_OWNERSHIP_PROCEDURE,
     "scripts/v092_timing_swift_supplement.py",
     "scripts/v092_disk_guard.py",
     "scripts/swift_v2_scored_process.py",
@@ -508,6 +553,41 @@ def _reference_closure(root: Path, plan: dict) -> dict[str, str]:
             if relative in found:
                 _validate_reference(root, {"path": relative, "sha256": found[relative]})
 
+    # The v0.9.2-03 plan carries current-identity unsupported dispositions in
+    # a top-level map while retaining the old v0.9.0 case decisions in cases.
+    # Open each new decision record here so policy and historical provenance
+    # references nested inside it enter the prepared-source closure as well.
+    unsupported_rows = {
+        case_id for case_id, selection in plan.get("cases", {}).items()
+        if isinstance(selection, dict) and selection.get("disposition") == "unsupported"
+    }
+    top_level_unsupported = plan.get("unsupported_decisions")
+    unsupported_decision_paths: set[str] = set()
+    if (not isinstance(top_level_unsupported, dict)
+            or set(top_level_unsupported) != unsupported_rows):
+        raise RuntimeError("plan must bind one current-identity decision for every unsupported case")
+    for case_id, decision_ref in top_level_unsupported.items():
+        decision_path = _validate_reference(root, decision_ref)
+        relative_path = decision_ref["path"]
+        if relative_path in unsupported_decision_paths:
+            raise RuntimeError("two unsupported cases share one decision record")
+        unsupported_decision_paths.add(relative_path)
+        decision = _read_json(decision_path)
+        if decision.get("case_id") != case_id:
+            raise RuntimeError(f"current unsupported decision identity differs for {case_id}")
+        before = set(found)
+        _collect_references(decision, found)
+        for relative in set(found) - before:
+            if relative in found:
+                _validate_reference(root, {"path": relative, "sha256": found[relative]})
+
+    failure_policy_ref = plan.get("failure_policy")
+    expected_failure_policy = {"path": PROJECTION_RECOVERY_AUTHORIZATION_PATH,
+                               "sha256": PROJECTION_RECOVERY_AUTHORIZATION_SHA256}
+    if failure_policy_ref != expected_failure_policy:
+        raise RuntimeError("unsupported disposition failure policy is missing or changed")
+    _validate_reference(root, failure_policy_ref)
+
     control_ref = plan.get("qualification_control_plan")
     control_path = _validate_reference(root, control_ref)
     if control_ref.get("path") != CONTROL_PLAN_PATH:
@@ -542,8 +622,9 @@ def _reference_closure(root: Path, plan: dict) -> dict[str, str]:
     # avoids pulling the unused v0.9.2-01 qualification CPGs through the frozen
     # plan while preserving the exact new control proof chain.
     qualification_prefix = QUALIFICATION_ROOT.rstrip("/") + "/"
+    decision_paths = case_decision_paths | unsupported_decision_paths
     pending = [relative for relative in found
-               if relative.startswith(qualification_prefix) or relative in case_decision_paths]
+               if relative.startswith(qualification_prefix) or relative in decision_paths]
     visited: set[str] = set()
     while pending:
         relative = pending.pop()
@@ -555,7 +636,7 @@ def _reference_closure(root: Path, plan: dict) -> dict[str, str]:
         path = _repo_file(root, relative)
         if sha(path) != found[relative]:
             raise RuntimeError(f"qualified Joern input changed: {relative}")
-        if relative in case_decision_paths:
+        if relative in decision_paths:
             continue
         if path.suffix not in {".json", ".gz"}:
             continue
@@ -583,8 +664,8 @@ def _load_runner(root: Path):
     scripts = root / "scripts"
     module_names = (
         "swift_common_population_v2", "swift_normal_reports_v1", "joern_normal_controls_v1",
-        "v092_qualification", "v092_relocated_qualification",
-        "joern_diagnostic_admission_v092", "joern_diagnostic_admission_v092_relocated",
+        "v092_qualification", "v092_capability_qualification",
+        "joern_diagnostic_admission_v092", "joern_diagnostic_admission_v092_capability",
         "joern_normal_reports_v092", "joern_normal_reports_v092_projection",
     )
     saved = {name: sys.modules.pop(name) for name in module_names if name in sys.modules}
@@ -592,7 +673,7 @@ def _load_runner(root: Path):
     try:
         return _load_module(
             f"joern_runner_supplement_{hashlib.sha256(str(root).encode()).hexdigest()[:8]}",
-            scripts / "joern_normal_runner_v092_relocated.py",
+            scripts / CAPABILITY_V3_RUNNER_PATH.rsplit("/", 1)[-1],
         )
     finally:
         try:
@@ -628,12 +709,12 @@ def _qualification_publication_state(evidence: dict) -> str:
     return "explicitly-disabled"
 
 
-def _validate_v02_qualification(root: Path) -> tuple[dict, dict, dict, dict]:
+def _validate_v03_qualification(root: Path) -> tuple[dict, dict, dict, dict, dict]:
     pending_path = _validate_reference(root, {"path": PENDING_PLAN_PATH, "sha256": PENDING_PLAN_SHA256})
     pending = _read_json(pending_path)
     control_ref = pending.get("qualification_control_plan")
     if control_ref != {"path": CONTROL_PLAN_PATH, "sha256": CONTROL_PLAN_SHA256}:
-        raise RuntimeError("v02 pending plan no longer binds the exact frozen control-plan-05")
+        raise RuntimeError("v03 pending plan no longer binds the exact capability control plan")
     _validate_reference(root, control_ref)
     if (pending.get("schema") != "joern-common-execution-plan/v092"
             or pending.get("release_group_id") != GROUP_ID
@@ -659,10 +740,48 @@ def _validate_v02_qualification(root: Path) -> tuple[dict, dict, dict, dict]:
     if plan.get("cases") != pending.get("cases"):
         raise RuntimeError("qualified Joern plan changed the pending case configuration or disposition roster")
     _case_disposition_counts(plan["cases"])
+    capability_binding = runner.validate_capability_binding(root, plan)
+    attempted_ids = {case_id for case_id, row in plan["cases"].items()
+                     if row.get("disposition") == "attempt"}
+    unsupported_ids = {case_id for case_id, row in plan["cases"].items()
+                       if row.get("disposition") == "unsupported"}
+    pending_unsupported = pending.get("unsupported_decisions")
+    final_unsupported = plan.get("unsupported_decisions")
+    if (not isinstance(pending_unsupported, dict) or len(pending_unsupported) != 12
+            or final_unsupported != pending_unsupported or set(pending_unsupported) != unsupported_ids):
+        raise RuntimeError("v03 pending and qualified plans must preserve the exact 12 unsupported disposition references")
+    for case_id, decision_ref in pending_unsupported.items():
+        expected_path = f"adapters/joern/swift-common-v2/plan-v092-03/unsupported-dispositions-02/{case_id}.json"
+        if (not isinstance(decision_ref, dict) or set(decision_ref) != {"path", "sha256"}
+                or decision_ref.get("path") != expected_path
+                or not isinstance(decision_ref.get("sha256"), str)
+                or len(decision_ref["sha256"]) != 64
+                or any(char not in "0123456789abcdef" for char in decision_ref["sha256"])):
+            raise RuntimeError(f"v03 unsupported decision reference is not exact for {case_id}")
+        _validate_reference(root, decision_ref)
+    expected_capability = {
+        "identity_gate": "exact-native-edges",
+        "model_mode": "off",
+        "model_status": "unqualified",
+    }
+    historical_decisions = capability_binding.get("historical_unsupported_decisions")
+    if (capability_binding.get("schema") != "joern-v092-capability-binding/v2"
+            or capability_binding.get("source") != {
+                "path": CAPABILITY_SOURCE_PATH, "sha256": CAPABILITY_SOURCE_SHA256,
+            }
+            or capability_binding.get("attempt_count") != 96
+            or capability_binding.get("unsupported_count") != 12
+            or not isinstance(capability_binding.get("capabilities"), dict)
+            or set(capability_binding["capabilities"]) != attempted_ids
+            or any(row != expected_capability for row in capability_binding["capabilities"].values())
+            or capability_binding.get("unsupported_decisions") != pending_unsupported
+            or not isinstance(historical_decisions, dict)
+            or set(historical_decisions) != unsupported_ids):
+        raise RuntimeError("v03 plan does not preserve the exact 96 frozen capabilities and 12 unsupported decisions")
     if evidence.get("diagnostic_execution_eligible") is not True or evidence.get("full_model_qualification") is not False:
         raise RuntimeError("fresh Joern controls did not qualify diagnostic execution while retaining uncertainty")
     _qualification_publication_state(evidence)
-    return plan, evidence, context, {"pending": pending, "runner": runner}
+    return plan, evidence, context, {"pending": pending, "runner": runner}, capability_binding
 
 
 def _input_code_paths(plan: dict) -> list[str]:
@@ -672,6 +791,9 @@ def _input_code_paths(plan: dict) -> list[str]:
     return sorted({*HELPER_PATHS, QUALIFIED_PLAN_PATH, PENDING_PLAN_PATH,
                    DIAGNOSTIC_AUTHORIZATION_PATH,
                    LAUNCHER_RECOVERY_AUTHORIZATION_PATH,
+                   CAPABILITY_RECOVERY_AUTHORIZATION_PATH,
+                   UNSUPPORTED_PROVENANCE_AUTHORIZATION_PATH,
+                   PROJECTION_RECOVERY_AUTHORIZATION_PATH,
                    V01_EXECUTION_PLAN_PATH})
 
 
@@ -702,7 +824,7 @@ def _validate_group_and_command(plan: dict, base_group: dict) -> dict:
             or parent_environment.get("PATH") != PARENT_GROUP_PATH):
         raise RuntimeError("frozen parent Joern group PATH differs from the recorded launch environment")
     expected_argv = [
-        "/usr/bin/python3", "scripts/run-joern-common-v092-relocated.py", "execute", "--plan",
+        "/usr/bin/python3", CAPABILITY_V3_CLI_PATH, "execute", "--plan",
         QUALIFIED_PLAN_PATH, "--output", OUTPUT_ARGUMENT,
     ]
     group = json.loads(json.dumps(base_group))
@@ -765,14 +887,14 @@ def _configuration_provenance(root: Path, qualified_plan: dict, base_plan: dict)
     old_rows = old.get("configurations", {}).get("joern-current108")
     new_rows = qualified_plan.get("configurations", {}).get("joern-current108")
     if (not isinstance(old_rows, list) or len(old_rows) != 33
-            or not isinstance(new_rows, list) or len(new_rows) != 44):
-        raise RuntimeError("v02 configuration closure must retain exactly 33 historical and 11 additive rows")
+            or not isinstance(new_rows, list) or len(new_rows) != 45):
+        raise RuntimeError("v03 configuration closure must retain exactly 33 historical and 12 additive rows")
     expected_addition_rows = [
         {"path": relative, "sha256": sha(_repo_file(root, relative))}
         for relative in APPROVED_CONFIGURATION_ADDITIONS
     ]
     if new_rows != old_rows + expected_addition_rows:
-        raise RuntimeError("v02 configuration closure must preserve the exact old 33 rows and append the reviewed 11 in order")
+        raise RuntimeError("v03 configuration closure must preserve the exact old 33 rows and append the reviewed 12 in order")
     old_hash, old_paths = _configuration_hash(root, old)
     new_hash, new_paths = _configuration_hash(root, qualified_plan)
     old_refs = {item["path"]: item["sha256"] for item in old_rows}
@@ -810,8 +932,9 @@ def _configuration_provenance(root: Path, qualified_plan: dict, base_plan: dict)
         ),
         "historical_report_configuration_hashes": sorted(frozen_hashes),
         "report_header_configuration_hash_policy": (
-            "preserve each original normalized report byte-for-byte; the existing projection exporter "
-            "adds exactly one candidate configuration_hash field in a separate derived namespace"
+            "preserve each original normalized report byte-for-byte; the capability-aware projection "
+            "exporter adds exactly one candidate configuration_hash field in a separate derived namespace "
+            "using the separately bound historical hash helper"
         ),
         "publication_eligible": False,
     }
@@ -963,33 +1086,37 @@ def _resource_scope(root: Path) -> dict:
         "working": [root / PORTABILITY_SOURCE_PATH, root / QUALIFICATION_WORK_ROOT,
                     root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE,
                     root / FAILED_PREPARATION_05_SOURCE, root / FAILED_WRAPPER_SOURCE,
-                    root / LAUNCHER_SMOKE_ROOT],
+                    root / FAILED_CAPABILITY_SOURCE, root / LAUNCHER_SMOKE_ROOT],
         "retention": [root / PREPARATION_ROOT, root / FAILED_PREPARATION_REPORT,
                       root / FAILED_PREPARATION_04_REPORT,
                       root / FAILED_PREPARATION_04_SOURCE / "reports",
                       root / FAILED_PREPARATION_05_REPORT,
                       root / FAILED_PREPARATION_05_SOURCE / "reports",
-                      root / FAILED_WRAPPER_REPORT, root / FAILED_WRAPPER_SOURCE / "reports"],
+                      root / FAILED_WRAPPER_REPORT, root / FAILED_WRAPPER_SOURCE / "reports",
+                      root / FAILED_CAPABILITY_REPORT, root / FAILED_CAPABILITY_SOURCE / "reports"],
         "scratch": [root / QUALIFICATION_CONTROL_SCRATCH,
                     *(root / QUALIFICATION_WORK_ROOT / name for name in ("home", "tmp", "cache")),
                     *(root / FAILED_PREPARATION_04_SOURCE / name for name in ("home", "tmp", "cache")),
                     *(root / FAILED_PREPARATION_05_SOURCE / name for name in ("home", "tmp", "cache")),
                     *(root / FAILED_WRAPPER_SOURCE / name for name in ("home", "tmp", "cache")),
+                    *(root / FAILED_CAPABILITY_SOURCE / name for name in ("home", "tmp", "cache")),
                     root / LAUNCHER_SMOKE_ROOT],
     }
     closed_preparation_paths = {
         "working": {root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE,
                     root / FAILED_PREPARATION_05_SOURCE, root / FAILED_WRAPPER_SOURCE,
-                    root / LAUNCHER_SMOKE_ROOT},
+                    root / FAILED_CAPABILITY_SOURCE, root / LAUNCHER_SMOKE_ROOT},
         "retention": {root / FAILED_PREPARATION_REPORT, root / FAILED_PREPARATION_04_REPORT,
                       root / FAILED_PREPARATION_04_SOURCE / "reports",
                       root / FAILED_PREPARATION_05_REPORT,
                       root / FAILED_PREPARATION_05_SOURCE / "reports",
-                      root / FAILED_WRAPPER_REPORT, root / FAILED_WRAPPER_SOURCE / "reports"},
+                      root / FAILED_WRAPPER_REPORT, root / FAILED_WRAPPER_SOURCE / "reports",
+                      root / FAILED_CAPABILITY_REPORT, root / FAILED_CAPABILITY_SOURCE / "reports"},
         "scratch": {
             *(root / FAILED_PREPARATION_04_SOURCE / name for name in ("home", "tmp", "cache")),
             *(root / FAILED_PREPARATION_05_SOURCE / name for name in ("home", "tmp", "cache")),
             *(root / FAILED_WRAPPER_SOURCE / name for name in ("home", "tmp", "cache")),
+            *(root / FAILED_CAPABILITY_SOURCE / name for name in ("home", "tmp", "cache")),
             root / LAUNCHER_SMOKE_ROOT,
         },
     }
@@ -1111,10 +1238,10 @@ def validate_campaign_plan(plan: dict) -> None:
     if plan.get("old_argv") == plan.get("argv") or not isinstance(plan.get("argv"), list):
         raise RuntimeError("historical and actual supplement argv must be distinct and explicit")
     if plan.get("argv") != [
-        "/usr/bin/python3", "scripts/run-joern-common-v092-relocated.py", "execute", "--plan",
+        "/usr/bin/python3", CAPABILITY_V3_CLI_PATH, "execute", "--plan",
         QUALIFIED_PLAN_PATH, "--output", OUTPUT_ARGUMENT,
     ]:
-        raise RuntimeError("supplement actual argv differs from the reviewed v02 wrapper command")
+        raise RuntimeError("supplement actual argv differs from the reviewed v03 capability wrapper command")
     if plan.get("old_argv") != [
         "/usr/bin/python3", "scripts/run-joern-common-v092.py", "execute", "--plan",
         "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json", "--output",
@@ -1131,7 +1258,7 @@ def validate_campaign_plan(plan: dict) -> None:
             or not isinstance(source_projection.get("additional_paths"), list)
             or not set(item["path"] for item in expected_plan_inputs) <= set(source_projection["additional_paths"])
             or not isinstance(source_projection.get("supplement_files_to_copy"), list)):
-        raise RuntimeError("prepared source must bind and include both exact v02 plan files")
+        raise RuntimeError("prepared source must bind and include both exact v03 plan files")
     group = plan.get("group")
     if (not isinstance(group, dict) or group.get("id") != GROUP_ID
             or group.get("family") != "joern" or group.get("kind") != "cold"
@@ -1146,6 +1273,66 @@ def validate_campaign_plan(plan: dict) -> None:
             or len(set(group_ids)) != CASE_COUNT or not isinstance(reports, list)
             or len(reports) != REPORT_PARTITION_COUNT):
         raise RuntimeError("supplement group must preserve 108 unique cases and five report partitions")
+    capability_binding = plan.get("capability_binding")
+    expected_capability = {
+        "identity_gate": "exact-native-edges",
+        "model_mode": "off",
+        "model_status": "unqualified",
+    }
+    capabilities = capability_binding.get("capabilities") if isinstance(capability_binding, dict) else None
+    unsupported_decisions = capability_binding.get("unsupported_decisions") if isinstance(capability_binding, dict) else None
+    historical_unsupported = (capability_binding.get("historical_unsupported_decisions")
+                              if isinstance(capability_binding, dict) else None)
+    if (not isinstance(capability_binding, dict)
+            or set(capability_binding) != {"schema", "source", "capabilities", "unsupported_decisions",
+                                           "historical_unsupported_decisions", "attempt_count",
+                                           "unsupported_count"}
+            or capability_binding.get("schema") != "joern-v092-capability-binding/v2"
+            or capability_binding.get("source") != {
+                "path": CAPABILITY_SOURCE_PATH, "sha256": CAPABILITY_SOURCE_SHA256,
+            }
+            or capability_binding.get("attempt_count") != 96
+            or capability_binding.get("unsupported_count") != 12
+            or not isinstance(capabilities, dict) or len(capabilities) != 96
+            or not isinstance(unsupported_decisions, dict) or len(unsupported_decisions) != 12
+            or not isinstance(historical_unsupported, dict) or len(historical_unsupported) != 12
+            or set(capabilities) & set(unsupported_decisions)
+            or set(capabilities) | set(unsupported_decisions) != set(group_ids)
+            or set(historical_unsupported) != set(unsupported_decisions)
+            or plan.get("unsupported_decisions") != unsupported_decisions
+            or any(not isinstance(case_id, str) or value != expected_capability
+                   for case_id, value in capabilities.items())):
+        raise RuntimeError("supplement must bind all 96 exact capabilities and both provenance sets for 12 declines")
+    for case_id, decision in unsupported_decisions.items():
+        if (not isinstance(case_id, str) or not isinstance(decision, dict)
+                or set(decision) != {"path", "sha256"}
+                or decision.get("path") != (
+                    f"adapters/joern/swift-common-v2/plan-v092-03/unsupported-dispositions-02/{case_id}.json")
+                or not isinstance(decision.get("sha256"), str)
+                or len(decision["sha256"]) != 64
+                or any(char not in "0123456789abcdef" for char in decision["sha256"])):
+            raise RuntimeError("supplement unsupported capability decision references are malformed")
+    for case_id, decision in historical_unsupported.items():
+        if (not isinstance(case_id, str) or not isinstance(decision, dict)
+                or set(decision) != {"path", "sha256"}
+                or not isinstance(decision.get("path"), str)
+                or not decision["path"].startswith("adapters/joern/swift-common-v2/plan-v090-01/")
+                or not isinstance(decision.get("sha256"), str)
+                or len(decision["sha256"]) != 64
+                or any(char not in "0123456789abcdef" for char in decision["sha256"])):
+            raise RuntimeError("supplement historical unsupported decision references are malformed")
+    if plan.get("failure_policy") != {
+            "path": PROJECTION_RECOVERY_AUTHORIZATION_PATH,
+            "sha256": PROJECTION_RECOVERY_AUTHORIZATION_SHA256}:
+        raise RuntimeError("supplement must retain the exact unsupported disposition failure policy")
+    projection_exporter = plan.get("projection_exporter")
+    configuration_hash_helper = plan.get("configuration_hash_helper")
+    if (not isinstance(projection_exporter, dict)
+            or projection_exporter.get("path") != CAPABILITY_V3_REPORTER_PATH
+            or not isinstance(configuration_hash_helper, dict)
+            or configuration_hash_helper.get("path")
+            != "scripts/joern_normal_reports_v092_projection.py"):
+        raise RuntimeError("report projection exporter and delegated configuration hash helper are misidentified")
     report_ids = []
     for index, report in enumerate(reports):
         if (report.get("source_path") != f"{OUTPUT_RELATIVE}/normal/report-{index}.json"
@@ -1205,17 +1392,21 @@ def validate_campaign_plan(plan: dict) -> None:
         "working": [f"{ROOT}/{FAILED_PREPARATION_SOURCE}",
                     f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}",
                     f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}",
-                    f"{ROOT}/{FAILED_WRAPPER_SOURCE}", f"{ROOT}/{LAUNCHER_SMOKE_ROOT}"],
+                    f"{ROOT}/{FAILED_WRAPPER_SOURCE}",
+                    f"{ROOT}/{FAILED_CAPABILITY_SOURCE}", f"{ROOT}/{LAUNCHER_SMOKE_ROOT}"],
         "retention": [f"{ROOT}/{FAILED_PREPARATION_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports",
                       f"{ROOT}/{FAILED_PREPARATION_05_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/reports",
-                      f"{ROOT}/{FAILED_WRAPPER_REPORT}", f"{ROOT}/{FAILED_WRAPPER_SOURCE}/reports"],
+                      f"{ROOT}/{FAILED_WRAPPER_REPORT}", f"{ROOT}/{FAILED_WRAPPER_SOURCE}/reports",
+                      f"{ROOT}/{FAILED_CAPABILITY_REPORT}",
+                      f"{ROOT}/{FAILED_CAPABILITY_SOURCE}/reports"],
         "scratch": [
             *(f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/{name}" for name in ("home", "tmp", "cache")),
             *(f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/{name}" for name in ("home", "tmp", "cache")),
             *(f"{ROOT}/{FAILED_WRAPPER_SOURCE}/{name}" for name in ("home", "tmp", "cache")),
+            *(f"{ROOT}/{FAILED_CAPABILITY_SOURCE}/{name}" for name in ("home", "tmp", "cache")),
             f"{ROOT}/{LAUNCHER_SMOKE_ROOT}",
         ],
     }
@@ -1263,13 +1454,15 @@ def validate_campaign_plan(plan: dict) -> None:
         "working": [f"{ROOT}/{PORTABILITY_SOURCE_PATH}", f"{ROOT}/{QUALIFICATION_WORK_ROOT}",
                     f"{ROOT}/{FAILED_PREPARATION_SOURCE}", f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}",
                     f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}", f"{ROOT}/{FAILED_WRAPPER_SOURCE}",
-                    f"{ROOT}/{LAUNCHER_SMOKE_ROOT}"],
+                    f"{ROOT}/{FAILED_CAPABILITY_SOURCE}", f"{ROOT}/{LAUNCHER_SMOKE_ROOT}"],
         "retention": [f"{ROOT}/{PREPARATION_ROOT}", f"{ROOT}/{FAILED_PREPARATION_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports",
                       f"{ROOT}/{FAILED_PREPARATION_05_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/reports",
-                      f"{ROOT}/{FAILED_WRAPPER_REPORT}", f"{ROOT}/{FAILED_WRAPPER_SOURCE}/reports"],
+                      f"{ROOT}/{FAILED_WRAPPER_REPORT}", f"{ROOT}/{FAILED_WRAPPER_SOURCE}/reports",
+                      f"{ROOT}/{FAILED_CAPABILITY_REPORT}",
+                      f"{ROOT}/{FAILED_CAPABILITY_SOURCE}/reports"],
         "scratch": [f"{ROOT}/{QUALIFICATION_CONTROL_SCRATCH}",
                     *[f"{ROOT}/{QUALIFICATION_WORK_ROOT}/{name}" for name in ("home", "tmp", "cache")],
                     *[f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/{name}"
@@ -1277,6 +1470,8 @@ def validate_campaign_plan(plan: dict) -> None:
                     *[f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")],
                     *[f"{ROOT}/{FAILED_WRAPPER_SOURCE}/{name}"
+                      for name in ("home", "tmp", "cache")],
+                    *[f"{ROOT}/{FAILED_CAPABILITY_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")],
                     f"{ROOT}/{LAUNCHER_SMOKE_ROOT}"],
     }
@@ -1355,7 +1550,13 @@ def validate_campaign_plan(plan: dict) -> None:
     if (not isinstance(committed_inputs, dict)
             or committed_inputs.get(DIAGNOSTIC_AUTHORIZATION_PATH) != DIAGNOSTIC_AUTHORIZATION_SHA256
             or committed_inputs.get(LAUNCHER_RECOVERY_AUTHORIZATION_PATH)
-            != LAUNCHER_RECOVERY_AUTHORIZATION_SHA256):
+            != LAUNCHER_RECOVERY_AUTHORIZATION_SHA256
+            or committed_inputs.get(CAPABILITY_RECOVERY_AUTHORIZATION_PATH)
+            != CAPABILITY_RECOVERY_AUTHORIZATION_SHA256
+            or committed_inputs.get(UNSUPPORTED_PROVENANCE_AUTHORIZATION_PATH)
+            != UNSUPPORTED_PROVENANCE_AUTHORIZATION_SHA256
+            or committed_inputs.get(PROJECTION_RECOVERY_AUTHORIZATION_PATH)
+            != PROJECTION_RECOVERY_AUTHORIZATION_SHA256):
         raise RuntimeError("diagnostic authorization must remain a committed, hash-bound plan input")
     if plan.get("launcher_recovery_authorization") != {
             "path": LAUNCHER_RECOVERY_AUTHORIZATION_PATH,
@@ -1363,6 +1564,24 @@ def validate_campaign_plan(plan: dict) -> None:
             "authorization": "user-authorized-diagnostic-continuation",
     }:
         raise RuntimeError("launcher recovery authorization binding changed")
+    if plan.get("capability_recovery_authorization") != {
+            "path": CAPABILITY_RECOVERY_AUTHORIZATION_PATH,
+            "sha256": CAPABILITY_RECOVERY_AUTHORIZATION_SHA256,
+            "authorization": "user-authorized-diagnostic-continuation",
+    }:
+        raise RuntimeError("capability recovery authorization binding changed")
+    if plan.get("unsupported_provenance_authorization") != {
+            "path": UNSUPPORTED_PROVENANCE_AUTHORIZATION_PATH,
+            "sha256": UNSUPPORTED_PROVENANCE_AUTHORIZATION_SHA256,
+            "authorization": "user-authorized-diagnostic-continuation",
+    }:
+        raise RuntimeError("unsupported-case provenance authorization binding changed")
+    if plan.get("projection_recovery_authorization") != {
+            "path": PROJECTION_RECOVERY_AUTHORIZATION_PATH,
+            "sha256": PROJECTION_RECOVERY_AUTHORIZATION_SHA256,
+            "authorization": "user-authorized-diagnostic-continuation",
+    }:
+        raise RuntimeError("report projection recovery authorization binding changed")
     if plan.get("launcher_prerequisite_preflight") != _launcher_preflight_binding():
         raise RuntimeError("launcher dependency or positive version-only preflight binding changed")
     prior_wrapper_failure = plan.get("prior_wrapper_failure")
@@ -1404,6 +1623,51 @@ def validate_campaign_plan(plan: dict) -> None:
         if (type(prior_wrapper_failure.get(key)) not in {int, float}
                 or not math.isfinite(prior_wrapper_failure[key]) or prior_wrapper_failure[key] <= 0):
             raise RuntimeError("typed campaign 06 wrapper failure lost its execution cost")
+    prior_capability_failure = plan.get("prior_capability_failure")
+    expected_capability_failure = {
+        "schema": "v092-swift-closed-capability-failure/v1",
+        "campaign_id": "20261122-07",
+        "classification": "missing-explicit-capability-before-case-analysis",
+        "inventory": {"path": FAILED_CAPABILITY_INVENTORY,
+                       "sha256": FAILED_CAPABILITY_INVENTORY_SHA256},
+        "wrapper_invocations": 1, "identity_phase_invocations": 1,
+        "analysis_phase_invocations": 0, "benchmark_case_rows": 0,
+        "version_invocations": 1, "exit_code": 1, "timed_out": False,
+        "capacity_loss": None, "run_json_status": "absent", "version_exit_status": 0,
+        "version_cleanup_status": "tracked-processes-stopped",
+        "version_cleanup_signaled": [], "outer_cleanup_status": "tracked-processes-stopped",
+        "outer_signals_sent": [], "inner_cleanup_status": "tracked-processes-stopped",
+        "descendant_containment": "unproven", "automatic_retry": False,
+        "publication_eligible": False,
+    }
+    if not isinstance(prior_capability_failure, dict) or any(
+            prior_capability_failure.get(key) != value
+            for key, value in expected_capability_failure.items()):
+        raise RuntimeError("typed campaign 07 capability failure must retain version success and zero case analysis")
+    expected_capability_refs = {
+        "campaign_start": f"{FAILED_CAPABILITY_REPORT}/campaign-start.json",
+        "campaign_terminal": f"{FAILED_CAPABILITY_REPORT}/campaign-terminal.json",
+        "launch_failure": f"{FAILED_CAPABILITY_REPORT}/launch-failure-001.json",
+        "attempt_start": f"{FAILED_CAPABILITY_REPORT}/attempts/{GROUP_ID}/attempt-01/start.json",
+        "attempt_terminal": f"{FAILED_CAPABILITY_REPORT}/attempts/{GROUP_ID}/attempt-01/terminal.json",
+        "attempt_stdout": f"{FAILED_CAPABILITY_REPORT}/attempts/{GROUP_ID}/attempt-01/stdout.txt",
+        "attempt_stderr": f"{FAILED_CAPABILITY_REPORT}/attempts/{GROUP_ID}/attempt-01/stderr.txt",
+        "version_command": f"{FAILED_CAPABILITY_VERSION_DIR}/version.command.json",
+        "version_stdout": f"{FAILED_CAPABILITY_VERSION_DIR}/version.stdout",
+        "version_stderr": f"{FAILED_CAPABILITY_VERSION_DIR}/version.stderr",
+        "identity": f"{FAILED_CAPABILITY_VERSION_DIR}/identity.json",
+    }
+    for key, relative in expected_capability_refs.items():
+        reference = prior_capability_failure.get(key)
+        if (not isinstance(reference, dict) or reference.get("path") != relative
+                or not isinstance(reference.get("sha256"), str) or len(reference["sha256"]) != 64
+                or any(char not in "0123456789abcdef" for char in reference["sha256"])):
+            raise RuntimeError("typed campaign 07 capability failure lost a retained evidence reference")
+    for key in ("elapsed_seconds", "command_elapsed_seconds", "version_elapsed_seconds"):
+        if (type(prior_capability_failure.get(key)) not in {int, float}
+                or not math.isfinite(prior_capability_failure[key])
+                or prior_capability_failure[key] <= 0):
+            raise RuntimeError("typed campaign 07 capability failure lost its invocation cost")
     provenance = plan.get("configuration_provenance")
     if (not isinstance(provenance, dict)
             or provenance.get("schema") != "v092-swift-supplement-configuration-provenance/v1"
@@ -1586,7 +1850,8 @@ def _component_manifest_references(root: Path, plan: dict) -> dict:
 def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
                closure: dict[str, str], resource_scope: dict, committed_inputs: dict[str, str],
                configuration_provenance: dict, postprocessing_dependencies: list[dict],
-               prior_wrapper_failure: dict,
+               prior_wrapper_failure: dict, prior_capability_failure: dict,
+               capability_binding: dict,
                created_utc: str) -> dict:
     group = _validate_group_and_command(final_plan, base_group)
     helper_refs = {relative: sha(_repo_file(root, relative)) for relative in HELPER_PATHS}
@@ -1653,8 +1918,23 @@ def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
             **_reference(root, LAUNCHER_RECOVERY_AUTHORIZATION_PATH),
             "authorization": "user-authorized-diagnostic-continuation",
         },
+        "capability_recovery_authorization": {
+            **_reference(root, CAPABILITY_RECOVERY_AUTHORIZATION_PATH),
+            "authorization": "user-authorized-diagnostic-continuation",
+        },
+        "unsupported_provenance_authorization": {
+            **_reference(root, UNSUPPORTED_PROVENANCE_AUTHORIZATION_PATH),
+            "authorization": "user-authorized-diagnostic-continuation",
+        },
+        "projection_recovery_authorization": {
+            **_reference(root, PROJECTION_RECOVERY_AUTHORIZATION_PATH),
+            "authorization": "user-authorized-diagnostic-continuation",
+        },
         "launcher_prerequisite_preflight": _verify_launcher_preflight(root),
         "prior_wrapper_failure": prior_wrapper_failure,
+        "prior_capability_failure": prior_capability_failure,
+        "capability_binding": capability_binding,
+        "unsupported_decisions": final_plan["unsupported_decisions"],
         "capture_inventory": {"path": BASE_INVENTORY_PATH, "sha256": BASE_INVENTORY_SHA256,
                               "file_count": 111},
         "semgrep_retrospective_audit": {"path": BASE_AUDIT_PATH, "sha256": BASE_AUDIT_SHA256,
@@ -1665,6 +1945,7 @@ def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
         "fresh_qualification": final_plan["fresh_qualification"],
         "qualification_evidence": evidence,
         "configuration_provenance": configuration_provenance,
+        "failure_policy": final_plan["failure_policy"],
         "population_sha256": final_plan["population_sha256"],
         "case_disposition_counts": _case_disposition_counts(final_plan.get("cases")),
         "attempted_case_count": 96,
@@ -1679,6 +1960,9 @@ def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
         "committed_code_inputs": committed_inputs,
         "execution_helpers": helper_refs,
         "postprocessing_dependencies": postprocessing_dependencies,
+        "projection_exporter": _reference(root, CAPABILITY_V3_REPORTER_PATH),
+        "configuration_hash_helper": _reference(
+            root, "scripts/joern_normal_reports_v092_projection.py"),
         "source_projection": {
             "commit": RELEASE,
             "additional_paths": sorted({*closure, *(item["path"] for item in postprocessing_dependencies),
@@ -1957,6 +2241,181 @@ def _verify_failed_wrapper_attempt(root: Path) -> dict:
     }
 
 
+def _verify_failed_capability_attempt(root: Path) -> dict:
+    """Bind the 07 wrapper failure from the sealed inventory and targeted receipts."""
+    inventory_ref = {"path": FAILED_CAPABILITY_INVENTORY,
+                     "sha256": FAILED_CAPABILITY_INVENTORY_SHA256}
+    inventory_path = _validate_reference(root, inventory_ref)
+    inventory = _read_json(inventory_path)
+    expected_error = "RuntimeError: Joern supplement invocation failed: exit=1, timed_out=False, capacity=None"
+    if (inventory.get("schema") != "v092-swift-capability-invocation-failure-inventory/v1"
+            or inventory.get("campaign_id") != "20261122-07"
+            or inventory.get("file_count") != FAILED_CAPABILITY_INVENTORY_FILE_COUNT
+            or inventory.get("total_bytes") != FAILED_CAPABILITY_INVENTORY_TOTAL_BYTES
+            or inventory.get("source_error") != expected_error
+            or inventory.get("wrapper_invocations") != 1
+            or inventory.get("identity_phase_invocations") != 1
+            or inventory.get("analysis_phase_invocations") != 0
+            or inventory.get("benchmark_case_rows") != 0
+            or inventory.get("publication_eligible") is not False):
+        raise RuntimeError("campaign 07 capability failure inventory changed or hides an analyzer invocation")
+
+    rows = inventory.get("files")
+    if not isinstance(rows, list) or len(rows) != FAILED_CAPABILITY_INVENTORY_FILE_COUNT:
+        raise RuntimeError("campaign 07 capability failure inventory file roster is malformed")
+    indexed_rows: dict[str, dict] = {}
+    total_bytes = 0
+    for row in rows:
+        if (not isinstance(row, dict) or set(row) != {"path", "sha256", "size_bytes"}
+                or not isinstance(row.get("path"), str)
+                or not isinstance(row.get("sha256"), str) or len(row["sha256"]) != 64
+                or any(char not in "0123456789abcdef" for char in row["sha256"])
+                or type(row.get("size_bytes")) is not int or row["size_bytes"] < 0
+                or row["path"] in indexed_rows):
+            raise RuntimeError("campaign 07 capability failure inventory has a malformed or duplicate row")
+        indexed_rows[row["path"]] = row
+        total_bytes += row["size_bytes"]
+    if total_bytes != FAILED_CAPABILITY_INVENTORY_TOTAL_BYTES:
+        raise RuntimeError("campaign 07 capability failure inventory byte total changed")
+
+    attempt_relative = f"{FAILED_CAPABILITY_REPORT}/attempts/{GROUP_ID}/attempt-01"
+    version_relative = FAILED_CAPABILITY_VERSION_DIR
+    expected_paths = {
+        "campaign_start": f"{FAILED_CAPABILITY_REPORT}/campaign-start.json",
+        "campaign_terminal": f"{FAILED_CAPABILITY_REPORT}/campaign-terminal.json",
+        "launch_failure": f"{FAILED_CAPABILITY_REPORT}/launch-failure-001.json",
+        "attempt_start": f"{attempt_relative}/start.json",
+        "attempt_terminal": f"{attempt_relative}/terminal.json",
+        "attempt_stdout": f"{attempt_relative}/stdout.txt",
+        "attempt_stderr": f"{attempt_relative}/stderr.txt",
+        "version_command": f"{version_relative}/version.command.json",
+        "version_stdout": f"{version_relative}/version.stdout",
+        "version_stderr": f"{version_relative}/version.stderr",
+        "identity": f"{version_relative}/identity.json",
+    }
+    references = {}
+    for name, relative in expected_paths.items():
+        row = indexed_rows.get(relative)
+        if row is None:
+            raise RuntimeError(f"campaign 07 sealed inventory omits required {name} evidence")
+        reference = {"path": relative, "sha256": row["sha256"]}
+        path = _validate_reference(root, reference)
+        if path.stat().st_size != row["size_bytes"]:
+            raise RuntimeError(f"campaign 07 {name} byte count differs from its sealed inventory")
+        references[name] = reference
+
+    campaign_start = _read_json(_validate_reference(root, references["campaign_start"]))
+    campaign_terminal = _read_json(_validate_reference(root, references["campaign_terminal"]))
+    attempt_start = _read_json(_validate_reference(root, references["attempt_start"]))
+    attempt_terminal = _read_json(_validate_reference(root, references["attempt_terminal"]))
+    launch_failure = _read_json(_validate_reference(root, references["launch_failure"]))
+    attempt_stdout = _repo_file(root, references["attempt_stdout"]["path"]).read_text()
+    attempt_stderr = _repo_file(root, references["attempt_stderr"]["path"]).read_text()
+    ownership = attempt_terminal.get("process_ownership")
+    if (campaign_start.get("campaign_id") != "20261122-07"
+            or type(campaign_start.get("supervisor_pid")) is not int
+            or campaign_start["supervisor_pid"] <= 0
+            or not isinstance(campaign_start.get("supervisor_start_identity"), str)
+            or campaign_terminal.get("campaign_id") != "20261122-07"
+            or campaign_terminal.get("status") != "unqualified"
+            or campaign_terminal.get("execution_status") != "stopped-fail-closed"
+            or campaign_terminal.get("failed_group") != GROUP_ID
+            or campaign_terminal.get("completed_groups") != []
+            or campaign_terminal.get("automatic_retry") is not False
+            or campaign_terminal.get("publication_eligible") is not False
+            or campaign_terminal.get("descendant_containment") != "unproven"
+            or campaign_terminal.get("attempt_terminal") != references["attempt_terminal"]
+            or campaign_terminal.get("failure") != attempt_terminal
+            or launch_failure != attempt_terminal
+            or attempt_start.get("campaign_id") != "20261122-07"
+            or attempt_start.get("group") != GROUP_ID or attempt_start.get("attempt") != 1
+            or attempt_start.get("automatic_retry") is not False
+            or attempt_start.get("publication_eligible") is not False
+            or attempt_start.get("argv") != [
+                "/usr/bin/python3", "scripts/run-joern-common-v092-relocated.py", "execute", "--plan",
+                "adapters/joern/swift-common-v2/plan-v092-02/execution-plan-qualified.json",
+                "--output", "reports/raw/joern-common-v2/current108-v092-02",
+            ]
+            or attempt_start.get("old_frozen_argv") != [
+                "/usr/bin/python3", "scripts/run-joern-common-v092.py", "execute", "--plan",
+                "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json",
+                "--output", "reports/raw/joern-common-v2/current108-v092-01",
+            ]
+            or attempt_start.get("environment", {}).get("PATH") != PARENT_GROUP_PATH
+            or attempt_terminal.get("group") != GROUP_ID or attempt_terminal.get("attempt") != 1
+            or attempt_terminal.get("status") != "failed"
+            or attempt_terminal.get("error") != expected_error
+            or attempt_terminal.get("exit_code") != 1
+            or attempt_terminal.get("timed_out") is not False
+            or attempt_terminal.get("capacity_loss") is not None
+            or attempt_terminal.get("automatic_retry") is not False
+            or attempt_terminal.get("publication_eligible") is not False
+            or not isinstance(ownership, dict)
+            or ownership.get("cleanup_status") != "tracked-processes-stopped"
+            or ownership.get("signals_sent") != []
+            or ownership.get("descendant_containment") != "unproven"
+            or type(ownership.get("root_pid")) is not int
+            or not isinstance(ownership.get("tracked_processes"), list)
+            or not ownership["tracked_processes"]):
+        raise RuntimeError("campaign 07 wrapper failure, terminal, or outer process ownership changed")
+    if (attempt_stdout != ""
+            or "attempted case lacks explicit capability evidence" not in attempt_stderr
+            or "ValueError: Joern attempted case lacks explicit capability evidence" not in attempt_stderr):
+        raise RuntimeError("campaign 07 failure no longer identifies the missing capability before analysis")
+    for key in ("elapsed_seconds", "command_elapsed_seconds"):
+        if (type(attempt_terminal.get(key)) not in {int, float}
+                or not math.isfinite(attempt_terminal[key]) or attempt_terminal[key] <= 0):
+            raise RuntimeError(f"campaign 07 failure no longer records its {key}")
+
+    version = _read_json(_validate_reference(root, references["version_command"]))
+    version_stdout = _repo_file(root, references["version_stdout"]["path"]).read_text()
+    version_stderr = _repo_file(root, references["version_stderr"]["path"]).read_text()
+    if (version.get("argv") != ["/Users/dave/.codex/worktrees/cb55/dataflowbench/"
+                                 "execution-state/timing-runtime-20261114-01/joern/joern-cli/joern"]
+            or version.get("exit_status") != 0 or version.get("timed_out") is not False
+            or version.get("cleanup_status") != "tracked-processes-stopped"
+            or version.get("cleanup_error") is not None or version.get("cleanup_signaled") != []
+            or version.get("descendant_containment") != "unproven"
+            or version.get("scratch_cleanup_authorized") is not False
+            or version.get("discovery_complete") is not False
+            or version.get("environment", {}).get("PATH") != PARENT_GROUP_PATH
+            or not isinstance(version.get("tracked_descendants"), list)
+            or not version["tracked_descendants"]
+            or type(version.get("elapsed_seconds")) not in {int, float}
+            or not math.isfinite(version["elapsed_seconds"]) or version["elapsed_seconds"] <= 0
+            or "Version: 4.0.660" not in version_stdout
+            or "joern>" not in version_stdout or version_stderr != ""):
+        raise RuntimeError("campaign 07 successful version probe or tracked inner cleanup changed")
+
+    failed_run_path = root / FAILED_CAPABILITY_SOURCE / "reports/raw/joern-common-v2/current108-v092-02/run.json"
+    if failed_run_path.exists() or failed_run_path.is_symlink():
+        raise RuntimeError("campaign 07 unexpectedly retained run.json despite zero case analysis")
+    if failed_run_path.relative_to(root).as_posix() in indexed_rows:
+        raise RuntimeError("campaign 07 inventory claims an analyzer run.json exists")
+
+    return {
+        "schema": "v092-swift-closed-capability-failure/v1",
+        "campaign_id": "20261122-07",
+        "classification": "missing-explicit-capability-before-case-analysis",
+        "inventory": inventory_ref,
+        **references,
+        "wrapper_invocations": 1, "identity_phase_invocations": 1,
+        "analysis_phase_invocations": 0, "benchmark_case_rows": 0,
+        "version_invocations": 1, "exit_code": 1, "timed_out": False,
+        "capacity_loss": None,
+        "elapsed_seconds": attempt_terminal["elapsed_seconds"],
+        "command_elapsed_seconds": attempt_terminal["command_elapsed_seconds"],
+        "version_elapsed_seconds": version["elapsed_seconds"],
+        "run_json_status": "absent", "version_exit_status": 0,
+        "version_cleanup_status": "tracked-processes-stopped",
+        "version_cleanup_signaled": [],
+        "outer_cleanup_status": "tracked-processes-stopped", "outer_signals_sent": [],
+        "inner_cleanup_status": "tracked-processes-stopped",
+        "descendant_containment": "unproven", "automatic_retry": False,
+        "publication_eligible": False,
+    }
+
+
 def _failed_preparation_bindings() -> list[dict]:
     return [
         {"campaign_id": "20261122-03",
@@ -2053,6 +2512,50 @@ def _observe_closed_prior_processes(root: Path, legacy) -> dict:
                       "pid": row["pid"], "start_identity": row["start_identity"],
                       "campaign_start": smoke_ref})
 
+    capability_start_path = f"{FAILED_CAPABILITY_REPORT}/campaign-start.json"
+    capability_start = _read_json(_repo_file(root, capability_start_path))
+    capability_terminal_path = f"{FAILED_CAPABILITY_REPORT}/attempts/{GROUP_ID}/attempt-01/terminal.json"
+    capability_terminal = _read_json(_repo_file(root, capability_terminal_path))
+    capability_owner = capability_terminal.get("process_ownership")
+    if (capability_start.get("campaign_id") != "20261122-07"
+            or type(capability_start.get("supervisor_pid")) is not int
+            or not isinstance(capability_start.get("supervisor_start_identity"), str)
+            or not isinstance(capability_owner, dict)
+            or capability_owner.get("cleanup_status") != "tracked-processes-stopped"
+            or capability_owner.get("signals_sent") != []
+            or capability_owner.get("descendant_containment") != "unproven"):
+        raise RuntimeError("campaign 07 outer process identity evidence is malformed")
+    capability_start_ref = _reference(root, capability_start_path)
+    known.append({"campaign_id": "20261122-07", "role": "campaign-supervisor",
+                  "pid": capability_start["supervisor_pid"],
+                  "start_identity": capability_start["supervisor_start_identity"],
+                  "campaign_start": capability_start_ref})
+    capability_tracked = capability_owner.get("tracked_processes")
+    if not isinstance(capability_tracked, list) or not capability_tracked:
+        raise RuntimeError("campaign 07 did not record its outer process identities")
+    for row in capability_tracked:
+        if (not isinstance(row, dict) or type(row.get("pid")) is not int or row["pid"] <= 0
+                or not isinstance(row.get("start_identity"), str) or not row["start_identity"]):
+            raise RuntimeError("campaign 07 recorded a malformed outer process identity")
+        known.append({"campaign_id": "20261122-07", "role": "invocation-process",
+                      "pid": row["pid"], "start_identity": row["start_identity"],
+                      "campaign_start": capability_start_ref})
+    version = _read_json(_repo_file(root, f"{FAILED_CAPABILITY_VERSION_DIR}/version.command.json"))
+    version_descendants = version.get("tracked_descendants")
+    if (version.get("exit_status") != 0 or version.get("timed_out") is not False
+            or version.get("cleanup_status") != "tracked-processes-stopped"
+            or version.get("cleanup_signaled") != []
+            or version.get("descendant_containment") != "unproven"
+            or not isinstance(version_descendants, list) or not version_descendants):
+        raise RuntimeError("campaign 07 version process identity evidence is malformed")
+    for row in version_descendants:
+        if (not isinstance(row, dict) or type(row.get("pid")) is not int or row["pid"] <= 0
+                or not isinstance(row.get("start_identity"), str) or not row["start_identity"]):
+            raise RuntimeError("campaign 07 version command recorded a malformed descendant identity")
+        known.append({"campaign_id": "20261122-07", "role": "version-process",
+                      "pid": row["pid"], "start_identity": row["start_identity"],
+                      "campaign_start": capability_start_ref})
+
     unique: dict[tuple[int, str], dict] = {}
     pid_birth: dict[int, str] = {}
     for identity in known:
@@ -2080,6 +2583,7 @@ def _observe_closed_prior_processes(root: Path, legacy) -> dict:
             "status": "confirmed-stopped", "observations": observations,
             "observer_helper": helper_ref,
             "campaign06_inner_cleanup_status": "uncertain",
+            "campaign07_inner_cleanup_status": "tracked-processes-stopped",
             "descendant_containment": "unproven",
             "publication_eligible": False}
 
@@ -2227,17 +2731,24 @@ def _launcher_preflight_observation(root: Path, phase: str) -> dict:
 def _derive_plan(root: Path, created_utc: str) -> dict:
     failed_preparation = _verify_failed_preparation(root)
     failed_wrapper = _verify_failed_wrapper_attempt(root)
+    failed_capability = _verify_failed_capability_attempt(root)
     base_plan, _terminal, _inventory, lineage = _validate_parent_lineage(root)
-    qualified, evidence, _context, _runner_data = _validate_v02_qualification(root)
+    qualified, evidence, _context, _runner_data, capability_binding = _validate_v03_qualification(root)
     closure = _reference_closure(root, qualified)
-    projection_exporter = "scripts/joern_normal_reports_v092_projection.py"
-    postprocessing_dependencies = [_reference(root, projection_exporter)]
+    if closure.get(CAPABILITY_SOURCE_PATH) != CAPABILITY_SOURCE_SHA256:
+        raise RuntimeError("the immutable v0.9.0 capability source is absent or changed in the copied input closure")
+    projection_exporter = CAPABILITY_V3_REPORTER_PATH
+    configuration_hash_helper = "scripts/joern_normal_reports_v092_projection.py"
+    postprocessing_dependencies = [
+        _reference(root, projection_exporter),
+        _reference(root, configuration_hash_helper),
+    ]
     committed_inputs = _require_committed_code_inputs(root, qualified)
     resource_scope = _resource_scope(root)
     configuration_provenance = _configuration_provenance(root, qualified, base_plan)
     plan = _base_plan(root, lineage["group"], qualified, evidence, closure, resource_scope,
                       committed_inputs, configuration_provenance, postprocessing_dependencies,
-                      failed_wrapper, created_utc)
+                      failed_wrapper, failed_capability, capability_binding, created_utc)
     plan["prior_preparation_failures"] = failed_preparation
     legacy_core = _qualified_module(root).legacy.core
     copy_closure = dict(closure)
@@ -2747,6 +3258,10 @@ def _record_runtime_receipts(source: Path, runner, plan_path: str) -> dict:
             "publication_eligible": False}
 
 
+def _normal_audit_path(output: Path) -> Path:
+    return output / "normal" / "audit.json"
+
+
 def _validate_outputs(root: Path, source: Path, plan: dict, qualified_plan: dict) -> dict:
     q = _qualified_module(root)
     group = plan["group"]
@@ -2766,15 +3281,32 @@ def _validate_outputs(root: Path, source: Path, plan: dict, qualified_plan: dict
             or run.get("scored_activation") is not False
             or run.get("aggregate_resource_qualification") != "unavailable"):
         raise RuntimeError("Joern raw run identity or 108-case membership is incomplete")
+    capability_replay = _load_runner(source).verify_raw_capability_rows(source, qualified_plan, run)
+    if (capability_replay.get("schema") != "joern-v092-capability-raw-replay/v2"
+            or capability_replay.get("status") != "verified"
+            or capability_replay.get("source") != plan["capability_binding"]["source"]
+            or capability_replay.get("attempt_count") != 96
+            or capability_replay.get("unsupported_count") != 12
+            or capability_replay.get("raw_rows") != CASE_COUNT):
+        raise RuntimeError("measured raw reports do not preserve all 96 source-bound capabilities and 12 unsupported cases")
     original_report_paths = [source / row["source_path"] for row in group["reports"]]
     original_report_hashes = {path: sha(path) for path in original_report_paths}
-    projection_module_path = source / "scripts/joern_normal_reports_v092_projection.py"
-    if (not projection_module_path.is_file() or projection_module_path.is_symlink()
-            or sha(projection_module_path) != plan["execution_helpers"].get(
-                "scripts/joern_normal_reports_v092_projection.py")):
-        raise RuntimeError("bound normalized-report projection helper is missing or changed")
+    configuration_hash_module_path = source / "scripts/joern_normal_reports_v092_projection.py"
+    projection_module_path = source / CAPABILITY_V3_REPORTER_PATH
+    if (not configuration_hash_module_path.is_file() or configuration_hash_module_path.is_symlink()
+            or sha(configuration_hash_module_path) != plan["execution_helpers"].get(
+                "scripts/joern_normal_reports_v092_projection.py")
+            or plan.get("configuration_hash_helper") != {
+                "path": "scripts/joern_normal_reports_v092_projection.py",
+                "sha256": plan["execution_helpers"].get("scripts/joern_normal_reports_v092_projection.py")}
+            or not projection_module_path.is_file() or projection_module_path.is_symlink()
+            or sha(projection_module_path) != plan["execution_helpers"].get(CAPABILITY_V3_REPORTER_PATH)
+            or plan.get("projection_exporter") != {
+                "path": CAPABILITY_V3_REPORTER_PATH,
+                "sha256": plan["execution_helpers"].get(CAPABILITY_V3_REPORTER_PATH)}):
+        raise RuntimeError("bound capability-aware normalized-report projection helper is missing or changed")
     projection_dependencies = (
-        "swift_common_population_v2", "swift_normal_reports_v1",
+        "swift_common_population_v2", "swift_normal_reports_v1", "joern_normal_reports_v092_projection",
     )
     saved_projection_dependencies = {
         name: sys.modules.pop(name) for name in projection_dependencies if name in sys.modules
@@ -2792,7 +3324,7 @@ def _validate_outputs(root: Path, source: Path, plan: dict, qualified_plan: dict
     if derived_output.exists() or derived_output.is_symlink():
         raise RuntimeError("derived report namespace is not fresh")
     derived_output.parent.mkdir(parents=True, exist_ok=True)
-    written = projector.export(source, QUALIFIED_PLAN_PATH, run, derived_output)
+    written = projector.export_projection(source, QUALIFIED_PLAN_PATH, run, derived_output)
     if len(written) != REPORT_PARTITION_COUNT:
         raise RuntimeError("projection exporter did not write exactly five derived reports")
     candidate_configuration_hash = projector.configuration_hash(source, qualified_plan)
@@ -2936,7 +3468,7 @@ def _validate_outputs(root: Path, source: Path, plan: dict, qualified_plan: dict
                         "case_count": len(actual_ids),
                         "configuration_hash": candidate_configuration_hash,
                         "projection_only_field": "configuration_hash"})
-    audit_path = output / "audit.json"
+    audit_path = _normal_audit_path(output)
     audit = _read_json(audit_path)
     audit_rows = audit.get("results")
     if (not isinstance(audit_rows, list) or len(audit_rows) != CASE_COUNT
@@ -2965,11 +3497,12 @@ def _validate_outputs(root: Path, source: Path, plan: dict, qualified_plan: dict
             "full_model_qualification": False,
         },
         "outcome_diagnostic_checkpoint_rows_checked": len(raw_by_id),
+        "capability_source_replay": capability_replay,
         "mismatches": semantic_mismatches,
         "configuration_provenance": plan["configuration_provenance"],
         "semantic_uncertainty": plan["semantic_uncertainty"],
-        "projection_exporter": {"path": "scripts/joern_normal_reports_v092_projection.py",
-                                "sha256": sha(projection_module_path)},
+        "projection_exporter": dict(plan["projection_exporter"]),
+        "configuration_hash_helper": dict(plan["configuration_hash_helper"]),
         "raw_normal_reports_unchanged": True,
         "derived_namespace": str(derived_output),
         "comparison_scope": (
