@@ -1074,3 +1074,11 @@ Outcome-only mismatches remain unqualified and visible; their cases, timings
 and original failures are preserved. Identity, membership, process, timeout,
 resource and provenance failures retain their stop gates. This amendment does
 not change the completed A26 campaign or authorize a new execution window.
+
+### A28 — User background tolerance for the final three commands (22 November 2026)
+
+The [background-policy amendment](latency-v092-20261122-background.md) records
+the user's tolerance for exact Contacts, Spotlight and Apple VM executable
+paths. Raw CPU data and original qualification flags remain unchanged; the
+three new admissions and their diagnostic qualification are separately labelled.
+Other workload, identity, source, process, resource and timeout gates remain.

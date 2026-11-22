@@ -2,8 +2,10 @@
 """Fail-closed controller for the prospective, qualified v0.9.2 timing run.
 
 This is additive to v092_timing_campaign.py.  It creates a new plan from
-reviewed runtime bindings, requires a fresh quiet window before every command,
-and records candidate evidence without upgrading release qualification.
+reviewed runtime bindings and records candidate evidence without upgrading
+release qualification. Default campaigns require a fresh quiet window before
+every command; explicit user background continuations use a separately bound,
+non-certifying admission policy.
 """
 from __future__ import annotations
 
@@ -48,6 +50,38 @@ HELPERS = (
 CONTINUATION_HELPER = "scripts/v092_timing_checkpoint.py"
 SEGMENT_CHECKPOINT_HELPER = "scripts/v092_timing_segment_checkpoint.py"
 SEMANTIC_CONTINUATION_MODE = "semantic-quarantine/v1"
+BACKGROUND_CHECKPOINT_HELPER = "scripts/v092_timing_background_checkpoint.py"
+BACKGROUND_CONTINUATION_MODE = "background-tolerance/v1"
+BACKGROUND_GROUPS = ["overhead-pysa-python", "warm-joern-java", "warm-semgrep-java"]
+DISPATCH_ADMISSION_POLICY = json.loads('''{
+  "schema": "v092-background-tolerance-admission/v1",
+  "scope": "final-three-admissions-only",
+  "process_match": "exact-full-comm-path",
+  "tolerated_comm_paths": [
+    "/System/Library/Frameworks/Contacts.framework/Support/contactsd",
+    "/System/Library/PrivateFrameworks/ContactsDonation.framework/Versions/A/Support/contactsdonationagent",
+    "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/corespotlightd",
+    "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/managedcorespotlightd",
+    "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mds",
+    "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mds_stores",
+    "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mdworker_shared",
+    "/usr/libexec/spotlightknowledged.updater",
+    "/System/Library/Frameworks/Virtualization.framework/Versions/A/XPCServices/com.apple.Virtualization.VirtualMachine.xpc/Contents/MacOS/com.apple.Virtualization.VirtualMachine"
+  ],
+  "aggregate_cpu_idle": "record-only-without-adjustment",
+  "required_settled_seconds": 0,
+  "non_tolerated_heavy_processes": "wait-before-dispatch",
+  "external_cpu_percent_per_logical_cpu": 10,
+  "observation_failure": "wait-before-dispatch",
+  "sample_interval_seconds": 45,
+  "active_invocation_cpu_policy": "record-and-continue",
+  "original_settled_qualification_eligible": false
+}''')
+BACKGROUND_QUALIFICATION = json.loads('''{
+  "evidence_status": "prospective timing evidence under explicit user background tolerance; original settled qualification not asserted",
+  "quiet_window": "fresh complete host sample before each remaining command; exact Contacts, Spotlight and Apple VM paths tolerated; original 300-second settled gate not asserted",
+  "quiet_predicate": "original settled qualification false; raw telemetry and user-policy assessments retained separately"
+}''')
 SEMANTIC_MISMATCH_POLICY = {
     "outcome_only": "quarantine-and-continue",
     "identity_or_membership": "fail-stop",
@@ -839,12 +873,16 @@ def _build_plan(root: Path, bindings: dict, bindings_digest: str,
         plan["continuation"] = _json_copy(bindings["continuation"])
         plan["execution_helpers"][CONTINUATION_HELPER] = sha(root / CONTINUATION_HELPER)
         if bindings.get("continuation_mode") is not None:
-            if bindings["continuation_mode"] != SEMANTIC_CONTINUATION_MODE:
+            if bindings["continuation_mode"] not in {SEMANTIC_CONTINUATION_MODE, BACKGROUND_CONTINUATION_MODE}:
                 raise RuntimeError("unsupported continuation mode")
-            plan["continuation_mode"] = SEMANTIC_CONTINUATION_MODE
+            plan["continuation_mode"] = bindings["continuation_mode"]
             plan["semantic_mismatch_policy"] = _json_copy(bindings.get("semantic_mismatch_policy"))
             plan["execution_authorization"] = _json_copy(bindings.get("execution_authorization"))
             plan["execution_helpers"][SEGMENT_CHECKPOINT_HELPER] = sha(root / SEGMENT_CHECKPOINT_HELPER)
+            if plan["continuation_mode"] == BACKGROUND_CONTINUATION_MODE:
+                plan["dispatch_admission"] = _json_copy(bindings.get("dispatch_admission"))
+                plan["qualification"].update(BACKGROUND_QUALIFICATION)
+                plan["execution_helpers"][BACKGROUND_CHECKPOINT_HELPER] = sha(root / BACKGROUND_CHECKPOINT_HELPER)
         checkpoint = _continuation_checkpoint(plan, root=root, compare_plan=False)
         carried = set(checkpoint["completed_groups"]) | set(checkpoint.get("quarantined_groups", []))
         plan["resources"]["total_execution_budget_seconds"] = sum(
@@ -981,11 +1019,18 @@ def _validate_plan_shape(plan: dict) -> None:
         raise RuntimeError("plan must retain the source plan execution helper map")
     expected_active_helpers = set(HELPERS)
     if plan.get("continuation_mode") is not None:
-        if (plan["continuation_mode"] != SEMANTIC_CONTINUATION_MODE
+        if (plan["continuation_mode"] not in {SEMANTIC_CONTINUATION_MODE, BACKGROUND_CONTINUATION_MODE}
                 or plan.get("semantic_mismatch_policy") != SEMANTIC_MISMATCH_POLICY
                 or plan.get("continuation") is None):
             raise RuntimeError("invalid semantic continuation policy")
         expected_active_helpers.add(SEGMENT_CHECKPOINT_HELPER)
+        if plan["continuation_mode"] == BACKGROUND_CONTINUATION_MODE:
+            expected_active_helpers.add(BACKGROUND_CHECKPOINT_HELPER)
+            if (plan.get("dispatch_admission") != DISPATCH_ADMISSION_POLICY
+                    or any(plan.get("qualification", {}).get(k) != v for k, v in BACKGROUND_QUALIFICATION.items())):
+                raise RuntimeError("background continuation changed its explicit admission or qualification policy")
+        elif "dispatch_admission" in plan:
+            raise RuntimeError("background admission requires its explicit continuation mode")
         authorization = plan.get("execution_authorization")
         if (not isinstance(authorization, dict) or set(authorization) != {"path", "sha256"}
                 or not isinstance(authorization["path"], str)
@@ -993,7 +1038,7 @@ def _validate_plan_shape(plan: dict) -> None:
                 or ".." in PurePosixPath(authorization["path"]).parts):
             raise RuntimeError("execution_authorization must bind a repository-relative receipt")
         _validate_sha(authorization["sha256"], "execution authorization SHA-256")
-    elif "semantic_mismatch_policy" in plan or "execution_authorization" in plan:
+    elif any(key in plan for key in ("semantic_mismatch_policy", "execution_authorization", "dispatch_admission")):
         raise RuntimeError("semantic policy and execution authorization require the explicit continuation mode")
     if plan.get("continuation") is not None:
         expected_active_helpers.add(CONTINUATION_HELPER)
@@ -1110,13 +1155,15 @@ def _continuation_checkpoint(plan: dict, root: Path | None = None, compare_plan:
 
 
 def _checkpoint_helper(plan: dict) -> str:
+    if plan.get("continuation_mode") == BACKGROUND_CONTINUATION_MODE:
+        return BACKGROUND_CHECKPOINT_HELPER
     if plan.get("continuation_mode") == SEMANTIC_CONTINUATION_MODE:
         return SEGMENT_CHECKPOINT_HELPER
     return CONTINUATION_HELPER
 
 
 def _execution_authorization_ok(plan: dict) -> bool:
-    if plan.get("continuation_mode") != SEMANTIC_CONTINUATION_MODE:
+    if plan.get("continuation_mode") not in {SEMANTIC_CONTINUATION_MODE, BACKGROUND_CONTINUATION_MODE}:
         return True
     reference = plan["execution_authorization"]
     path = _path(ROOT, reference["path"])
@@ -1133,7 +1180,7 @@ def _execution_authorization_ok(plan: dict) -> bool:
 
 
 def _outcome_only_quarantine_allowed(plan: dict, group: dict, receipt: dict) -> bool:
-    if (plan.get("continuation_mode") != SEMANTIC_CONTINUATION_MODE
+    if (plan.get("continuation_mode") not in {SEMANTIC_CONTINUATION_MODE, BACKGROUND_CONTINUATION_MODE}
             or plan.get("semantic_mismatch_policy") != SEMANTIC_MISMATCH_POLICY
             or group.get("kind") != "cold" or receipt.get("status") != "mismatch"
             or receipt.get("group") != group["id"]):
@@ -1172,11 +1219,15 @@ def _dispatch_groups(plan: dict) -> list[dict]:
     checkpoint = _continuation_checkpoint(plan)
     ready = _ready_groups(plan)
     if checkpoint is None:
+        if plan.get("continuation_mode") == BACKGROUND_CONTINUATION_MODE:
+            raise RuntimeError("background continuation requires its final-three checkpoint")
         return ready
     remaining = checkpoint["remaining_ready_groups"]
     result = [group for group in ready if group["id"] in set(remaining)]
     if [group["id"] for group in result] != remaining:
         raise RuntimeError("continuation dispatch order differs from its bound checkpoint")
+    if plan.get("continuation_mode") == BACKGROUND_CONTINUATION_MODE and remaining != BACKGROUND_GROUPS:
+        raise RuntimeError("background admission is limited to the exact final three commands")
     return result
 
 
@@ -1186,6 +1237,9 @@ def _inherited_resource_paths(checkpoint: dict | None):
     if (checkpoint.get("schema") == "v092-timing-segment-checkpoint/v1"
             and checkpoint.get("resource_campaign_ids") != ["20261115-01", "20261121-01"]):
         raise RuntimeError("semantic continuation must account for both parent resource namespaces")
+    if (checkpoint.get("schema") == "v092-timing-background-checkpoint/v1"
+            and checkpoint.get("resource_campaign_ids") != ["20261115-01", "20261121-01", "20261122-01"]):
+        raise RuntimeError("background continuation must account for all three parent resource namespaces")
     ids = checkpoint.get("resource_campaign_ids", [checkpoint["parent_campaign_id"]])
     contexts = [legacy.campaign_paths(campaign_id) for campaign_id in ids]
     source_roots = [work / "sources" for _report, work in contexts]
@@ -1440,6 +1494,93 @@ def wait_fresh_quiet(host, observer, destination: Path, deadline: float, capacit
             legacy.append(destination, host.failure_record(exc))
             window.reset()
         time.sleep(min(host.SAMPLE_INTERVAL_SECONDS, max(0.0, deadline - time.monotonic())))
+
+
+def background_policy_assessment(host, observation: dict, root_pid=None) -> dict:
+    """Assess the user's exact-path tolerance without changing raw host data."""
+    if not host._valid_snapshot(observation):
+        raise ValueError("background admission requires a complete fresh host observation")
+    owned = legacy.owned_pids(observation, root_pid)
+    allowed = owned | set(observation.get("quiescent_service_pids", []))
+    paths = set(DISPATCH_ADMISSION_POLICY["tolerated_comm_paths"])
+    tolerated = [dict(p) for p in observation["processes"]
+                 if p["pid"] not in allowed and p["comm"] in paths]
+    tolerated_pids = {p["pid"] for p in tolerated}
+    filtered = dict(observation)
+    filtered["processes"] = [p for p in observation["processes"] if p["pid"] not in tolerated_pids]
+    raw = legacy.external_contention(observation, root_pid, host)
+    other = legacy.external_contention(filtered, root_pid, host)
+    return {"policy_schema": DISPATCH_ADMISSION_POLICY["schema"],
+            "status": "waiting-other-workload" if other["contended"] else "admitted",
+            "tolerated_processes": tolerated, "raw_contention": raw,
+            "non_tolerated_contention": other,
+            "raw_cpu_idle_percent": observation["cpu_idle_percent"],
+            "aggregate_idle_adjusted": False, "original_settled_qualification_eligible": False}
+
+
+def wait_background_policy(host, observer, destination: Path, deadline: float, capacity_check=None) -> dict:
+    """Wait only for other significant work, retaining the campaign wall bound."""
+    while True:
+        if time.monotonic() >= deadline:
+            raise CampaignWindowEnded("campaign wall window ended while waiting for user-policy admission")
+        if capacity_check is not None:
+            capacity_check()
+        try:
+            observation = observer.snapshot()
+            decision = background_policy_assessment(host, observation, os.getpid())
+            if observation["disk_free_bytes"] < 127 * GIB:
+                raise legacy.CampaignStop("launch disk floor lost")
+            observation = dict(observation)
+            observation.update(phase="user-background-admission", dispatch_admission=decision,
+                               original_settled_quiet_qualified=False)
+            legacy.append(destination, observation)
+            if decision["status"] == "admitted":
+                return observation
+        except (host.HostObservationError, OSError, subprocess.SubprocessError, ValueError) as exc:
+            record = host.failure_record(exc)
+            record.update(phase="user-background-admission", original_settled_quiet_qualified=False,
+                          dispatch_admission_policy_schema=DISPATCH_ADMISSION_POLICY["schema"])
+            legacy.append(destination, record)
+        time.sleep(min(DISPATCH_ADMISSION_POLICY["sample_interval_seconds"],
+                       max(0.0, deadline - time.monotonic())))
+
+
+class BackgroundPolicyGuard(legacy.ObservedGuard):
+    """Add user-policy assessments while retaining legacy telemetry and flags."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.policy_observations = 0
+        self.policy_unknown_observations = 0
+        self.tolerated_background_observed = False
+        self.non_tolerated_contention_observed = False
+
+    def observe_background(self, phase, root_pid=None):
+        observation = super().observe_background(phase, root_pid)
+        try:
+            if not observation.get("observation_available") or not observation.get("contention_available"):
+                raise ValueError("raw host or contention observation unavailable")
+            assessment = background_policy_assessment(self.host, observation, root_pid)
+            self.policy_observations += 1
+            self.tolerated_background_observed |= bool(assessment["tolerated_processes"])
+            self.non_tolerated_contention_observed |= assessment["non_tolerated_contention"]["contended"]
+        except Exception as exc:
+            self.policy_unknown_observations += 1
+            assessment = {"policy_schema": DISPATCH_ADMISSION_POLICY["schema"], "status": "unknown",
+                          "error": f"{type(exc).__name__}: {exc}",
+                          "original_settled_qualification_eligible": False}
+        legacy.append(self.evidence, {"record_type": "user_background_policy_assessment",
+                      "phase": phase, "raw_observation_utc": observation.get("observed_at_utc"),
+                      "assessment": assessment, "publication_eligible": False})
+        return observation
+
+    def policy_summary(self):
+        return {"policy": DISPATCH_ADMISSION_POLICY,
+                "observations": self.policy_observations,
+                "unknown_observations": self.policy_unknown_observations,
+                "tolerated_background_observed": self.tolerated_background_observed,
+                "non_tolerated_contention_observed": self.non_tolerated_contention_observed,
+                "original_settled_qualification_eligible": False}
 
 
 def _runtime_receipts(plan: dict, group: dict) -> list[dict]:
@@ -1803,7 +1944,7 @@ def _execute(plan_path: Path) -> dict:
         report.mkdir(parents=True, exist_ok=True)
         legacy.write_new(report / "campaign-start.json", {
             "created_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
-            "phase": "fresh-quiet-before-each-ready-command",
+            "phase": "user-background-tolerance" if plan.get("continuation_mode") == BACKGROUND_CONTINUATION_MODE else "fresh-quiet-before-each-ready-command",
             "campaign_id": plan["campaign_id"],
             "supervisor_pid": os.getpid(),
             "supervisor_start_identity": supervisor_identity,
@@ -1816,6 +1957,7 @@ def _execute(plan_path: Path) -> dict:
             "inherited_candidate_groups": inherited,
             "inherited_quarantined_groups": inherited_quarantined,
             "semantic_mismatch_policy": plan.get("semantic_mismatch_policy"),
+            "dispatch_admission": plan.get("dispatch_admission"),
             "continuation_checkpoint": plan.get("continuation"),
             "cumulative_resource_scope": {"working": [str(path) for path in working_paths],
                                           "retained": [str(path) for path in retained_paths]},
@@ -1841,7 +1983,9 @@ def _execute(plan_path: Path) -> dict:
             destination.mkdir(parents=True, exist_ok=False)
             source = sources / group["id"]
             ownership = {}
-            guard = legacy.ObservedGuard(host, observer, ownership, destination / "host.jsonl", source)
+            background_mode = plan.get("continuation_mode") == BACKGROUND_CONTINUATION_MODE
+            guard_class = BackgroundPolicyGuard if background_mode else legacy.ObservedGuard
+            guard = guard_class(host, observer, ownership, destination / "host.jsonl", source)
             attempt_started = dt.datetime.now(dt.timezone.utc).isoformat()
             command_clock = None
             command_elapsed_accounted = False
@@ -1858,10 +2002,11 @@ def _execute(plan_path: Path) -> dict:
                     guard.check(category="retention", paths=retained_paths, capacity_path=ROOT)
                     guard.check(category="scratch", paths=scratch_paths, capacity_path=ROOT)
                     guard.check(category="working", paths=working_paths, capacity_path=ROOT)
-                quiet = wait_fresh_quiet(host, observer, destination / "host.jsonl", campaign_deadline,
-                                         capacity_check=check_waiting_capacity)
-                guard.initial_quiet_gate_passed = True
-                guard.settle_skipped = False
+                admission_wait = wait_background_policy if background_mode else wait_fresh_quiet
+                admission = admission_wait(host, observer, destination / "host.jsonl", campaign_deadline,
+                                           capacity_check=check_waiting_capacity)
+                guard.initial_quiet_gate_passed = not background_mode
+                guard.settle_skipped = background_mode
                 guard.launch_check(source)
                 guard.check(category="working", paths=working_paths, capacity_path=ROOT, phase="launch")
                 if time.monotonic() >= campaign_deadline:
@@ -1871,9 +2016,11 @@ def _execute(plan_path: Path) -> dict:
                     "created_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
                     "argv": group["argv"], "environment": environment,
                     "deadline_seconds": group["deadline_seconds"],
-                    "quiet_observation": quiet,
-                    "quiet_policy": {"required_seconds": 300, "minimum_idle_percent": 90,
-                                     "maximum_sample_gap_seconds": 60},
+                    "quiet_observation": None if background_mode else admission,
+                    "quiet_policy": None if background_mode else {
+                        "required_seconds": 300, "minimum_idle_percent": 90, "maximum_sample_gap_seconds": 60},
+                    "dispatch_admission_observation": admission if background_mode else None,
+                    "dispatch_admission_policy": plan.get("dispatch_admission"),
                     "tools_verified_before_dispatch": pre_tools,
                     "runtime_manifests_verified_before_dispatch": pre_runtimes,
                     "setup_file_receipts": setup_receipts.get(group["id"], []),
@@ -1933,7 +2080,9 @@ def _execute(plan_path: Path) -> dict:
                 record["publication_eligible"] = False
                 record["timing_qualification"] = (
                     "unqualified: frozen outcome mismatch; not accepted or retried"
-                    if status == "semantic-mismatch-quarantined" else "unqualified pending independent review")
+                    if status == "semantic-mismatch-quarantined" else (
+                        "diagnostic under user background tolerance; original settled qualification not asserted"
+                        if background_mode else "unqualified pending independent review"))
             except CampaignWindowEnded as exc:
                 wall_ended = True
                 stopped_group = group["id"]
@@ -1968,6 +2117,8 @@ def _execute(plan_path: Path) -> dict:
                           host_active_observations=guard.active_observations,
                           host_observations=guard.observations,
                           host_observation_attempts=guard.observation_attempts)
+            if background_mode:
+                record["user_background_policy"] = guard.policy_summary()
             legacy.write_new(destination / "terminal.json", record)
             legacy.append(report / "progress.jsonl", {"utc": dt.datetime.now(dt.timezone.utc).isoformat(),
                           "group": group["id"], "status": status})
@@ -2009,6 +2160,7 @@ def _execute(plan_path: Path) -> dict:
             "quarantined_groups": quarantined,
             "combined_quarantined_groups": [*inherited_quarantined, *quarantined],
             "semantic_mismatch_policy": plan.get("semantic_mismatch_policy"),
+            "dispatch_admission": plan.get("dispatch_admission"),
             "combined_completed_candidate_commands": len(inherited) + len(completed),
             "new_completed_candidate_cold_groups": sum(
                 group["kind"] == "cold" and group["id"] in completed for group in plan["groups"]),

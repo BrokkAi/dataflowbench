@@ -1,0 +1,125 @@
+{
+  "argv": [
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+    "--population",
+    "v0.9.0",
+    "estimate-invocation-overhead",
+    "--tool",
+    "codeql",
+    "--language",
+    "ruby",
+    "--codeql",
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/codeql/codeql/codeql",
+    "--codeql-packs",
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/codeql/packs"
+  ],
+  "attempt": 1,
+  "automatic_retry": false,
+  "capacity_loss": null,
+  "descendant_containment": "unproven",
+  "elapsed_seconds": 97.00704833300006,
+  "execution_budget_consumed_seconds": 1876.9665563750013,
+  "exit_code": 0,
+  "external_scratch_ownership": null,
+  "finished_utc": "2026-11-22T11:50:14.603962+00:00",
+  "group": "overhead-codeql-ruby",
+  "host_active_observations": 3,
+  "host_observation_attempts": 4,
+  "host_observations": 4,
+  "post_analysis_contention": {
+    "contended": true,
+    "external_cpu_percent": 205.1,
+    "heavy": [],
+    "significant_external_cpu": true
+  },
+  "process_ownership": {
+    "cleanup_status": "tracked-processes-stopped",
+    "descendant_containment": "unproven",
+    "root_pid": 61470,
+    "schema": "invocation-process-ownership/v1",
+    "signals_sent": [],
+    "tracked_processes": [
+      {
+        "pid": 61470,
+        "start_identity": "1795348125:721831"
+      },
+      {
+        "pid": 61521,
+        "start_identity": "1795348128:35766"
+      },
+      {
+        "pid": 61528,
+        "start_identity": "1795348128:422635"
+      }
+    ],
+    "tracking_interval_seconds": 2.0
+  },
+  "publication_eligible": false,
+  "quiet_certification": {
+    "certified": false,
+    "contention_observed": true,
+    "initial_quiet_gate_passed": true,
+    "observation_failures": 0,
+    "settle_skipped_after_campaign_start": false
+  },
+  "reconciliation": {
+    "artifact": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-01/sources/overhead-codeql-ruby/reports/raw/invocation-overhead/codeql-ruby/invocation-overhead.json",
+    "environment_identity_verified": true,
+    "fixture_file": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-01/sources/overhead-codeql-ruby/reports/raw/invocation-overhead/codeql-ruby/fixture/dfb_trivial.rb",
+    "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+    "fixture_sha256": "aff8dce380e5b54990302a18e09f1420f11e670f1bc9bc6e06b1895fc966a889",
+    "frozen_family_identity": {
+      "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+      "tool": "codeql",
+      "tool_build_identity": "codeql-cli:d7b185e374bfe18c0484dac07a521a810eb9c4fb",
+      "tool_version": "2.27.2"
+    },
+    "kind": "overhead",
+    "publication_eligible": false,
+    "repeats": 3,
+    "sha256": "9b6c9d7b092af6db3ec5511a938dc109d22a2952bc02d5629dafc6d3fc0ec893",
+    "status": "candidate"
+  },
+  "runtime_manifests_verified_after_observation": [
+    {
+      "id": "runner",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/core-runtime/runner-runtime-manifest.json",
+      "sha256": "0c0ed8abfa728924486d63d77c7c6cbb8dcbeb0be30b02befd6953a59932e7eb",
+      "uncompressed_sha256": null
+    },
+    {
+      "id": "codeql",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/codeql.json.gz",
+      "sha256": "a425bcf8db69fbb97a40f4f6c13d0aa3973ee0c0bfb219a8e668981af0bb2abb",
+      "uncompressed_sha256": "13436571d3ea8a1eed20dd1629f1a07042662c3b2f5601aa082e76f326c7c00b"
+    },
+    {
+      "id": "codeql-packs",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/codeql-packs.json.gz",
+      "sha256": "41c6d2edb417e5a01f824e7bfd03c24ad48968840625e23484b48a8c7f0adf89",
+      "uncompressed_sha256": "6a1cc2906c5be5b4146c9fad85653de0e3bf9b258ee7e7b44107e07dd96d1dcf"
+    }
+  ],
+  "setup_files_verified_after_analysis": [],
+  "source_verified_after_analysis": {
+    "snapshot_git_head": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1",
+    "source_and_fixture_inputs_unchanged": true,
+    "source_commit": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1"
+  },
+  "started_utc": "2026-11-22T11:35:07.165873+00:00",
+  "status": "completed-candidate-evidence",
+  "timed_out": false,
+  "timing_qualification": "unqualified pending independent review",
+  "tools_verified_after_observation": [
+    {
+      "name": "codeql",
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/codeql/codeql/codeql",
+      "sha256": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413"
+    },
+    {
+      "name": "runner",
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+      "sha256": "934774f0fc21fe2597bc6fbdd827c8cd47a33ad8369d5a3a910e57701fd0e082"
+    }
+  ]
+}

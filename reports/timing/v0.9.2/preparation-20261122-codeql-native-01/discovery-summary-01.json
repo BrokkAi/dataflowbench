@@ -1,0 +1,55 @@
+{
+  "schema": "v092-codeql-native-suite-discovery/v1",
+  "utc": "2026-11-22T14:01:29.406573+00:00",
+  "evidence_scope": "untimed metadata resolution only; no database creation, extraction, query compilation, analysis or timing measurement",
+  "suite_discovery": "demonstrated for the three exact pinned native suite specifications",
+  "source_cache_receipt": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-codeql-native-01/cache-preparation-01.json",
+    "sha256": "739ea4c3fe247d78f0394714ab893f8e65ef777d625b2f24b55a7741116a5872"
+  },
+  "commands": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-codeql-native-01/commands.jsonl",
+    "sha256": "92f9f1ac3b3345ccbd175821d42f6e597ad0d021bf3d6863d6c50ee3891139c2",
+    "records": 20
+  },
+  "codeql_sha256": "5010324098d11f9e2d34e0fcf53bb44e40e8e3ffc8aecefe695269b54edaa413",
+  "results": [
+    {
+      "language": "java",
+      "suite_spec": "codeql/java-queries@1.11.12:codeql-suites/java-security-extended.qls",
+      "populated_home_exit_code": 0,
+      "empty_home_exit_code": 2,
+      "query_count": 124,
+      "query_paths_sha256": "9754c799be2fd71500394c40217420c4b44af877ab7c8d20d2ccf425edeb6a17",
+      "environment_keys_changed_between_controls": [
+        "HOME"
+      ]
+    },
+    {
+      "language": "javascript",
+      "suite_spec": "codeql/javascript-queries@2.4.7:codeql-suites/javascript-security-extended.qls",
+      "populated_home_exit_code": 0,
+      "empty_home_exit_code": 2,
+      "query_count": 105,
+      "query_paths_sha256": "9fa117bc78f451011db94388b6f3efa44a57935b72b426f4cdd0ca532951947e",
+      "environment_keys_changed_between_controls": [
+        "HOME"
+      ]
+    },
+    {
+      "language": "python",
+      "suite_spec": "codeql/python-queries@1.8.12:codeql-suites/python-security-extended.qls",
+      "populated_home_exit_code": 0,
+      "empty_home_exit_code": 2,
+      "query_count": 52,
+      "query_paths_sha256": "ab73688db71a34583046547eda0c92725e0197081925e27abe40d2c5eb0a2f73",
+      "environment_keys_changed_between_controls": [
+        "HOME"
+      ]
+    }
+  ],
+  "analysis_qualification": "unproven",
+  "semantic_equivalence_to_frozen_runner_error_reports": "not established",
+  "publication_eligible": false,
+  "original_failed_evidence_unchanged": true
+}

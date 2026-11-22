@@ -1,0 +1,118 @@
+{
+  "argv": [
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+    "--population",
+    "v0.9.0",
+    "estimate-invocation-overhead",
+    "--tool",
+    "flowdroid",
+    "--language",
+    "java",
+    "--flowdroid-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+    "--android-platform",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/android-34.jar",
+    "--d8-jar",
+    "/Users/dave/.cache/dataflowbench-tools/flowdroid/r8-8.5.35.jar",
+    "--java",
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin/java",
+    "--javac",
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin/javac"
+  ],
+  "attempt": 1,
+  "automatic_retry": false,
+  "capacity_loss": null,
+  "descendant_containment": "unproven",
+  "elapsed_seconds": 44.259993790998124,
+  "execution_budget_consumed_seconds": 2167.706605874998,
+  "exit_code": 0,
+  "external_scratch_ownership": null,
+  "finished_utc": "2026-11-22T13:25:47.407261+00:00",
+  "group": "overhead-flowdroid-java",
+  "host_active_observations": 1,
+  "host_observation_attempts": 2,
+  "host_observations": 2,
+  "process_ownership": {
+    "cleanup_status": "tracked-processes-stopped",
+    "descendant_containment": "unproven",
+    "root_pid": 66883,
+    "schema": "invocation-process-ownership/v1",
+    "signals_sent": [],
+    "tracked_processes": [
+      {
+        "pid": 66883,
+        "start_identity": "1795353915:423518"
+      }
+    ],
+    "tracking_interval_seconds": 2.0
+  },
+  "publication_eligible": false,
+  "quiet_certification": {
+    "certified": true,
+    "contention_observed": false,
+    "initial_quiet_gate_passed": true,
+    "observation_failures": 0,
+    "settle_skipped_after_campaign_start": false
+  },
+  "reconciliation": {
+    "artifact": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-01/sources/overhead-flowdroid-java/reports/raw/invocation-overhead/flowdroid-java/invocation-overhead.json",
+    "environment_identity_verified": true,
+    "fixture_file": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-01/sources/overhead-flowdroid-java/reports/raw/invocation-overhead/flowdroid-java/fixture/DfbTrivial.java",
+    "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+    "fixture_sha256": "b1f8f5f67249ca905ca44eb0971d9d40eaf0c588f8765f8c31e8bf6fec9b4e08",
+    "frozen_family_identity": {
+      "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+      "identity_scope": "A24 analyzer/platform witness; D8 is separately runtime-bound",
+      "tool": "flowdroid",
+      "tool_build_identity": "soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar sha256:51dadead47a173c494c2fa4855b1e8bd3b54e702a2c4b5ed58e60153009ae218; android-34 platform android.jar sha256:6cea1df3efb77103ac3e2beb9bf4718964b0e0869ab16d39d29d5cbae1c147ad",
+      "tool_version": "2.15.1"
+    },
+    "kind": "overhead",
+    "publication_eligible": false,
+    "repeats": 3,
+    "sha256": "7aa8757fe8f3d1acbd3c4567915c282e20f14cf27ea0263e99e9cd047e34d04a",
+    "status": "candidate"
+  },
+  "runtime_manifests_verified_after_observation": [
+    {
+      "id": "runner",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/core-runtime/runner-runtime-manifest.json",
+      "sha256": "0c0ed8abfa728924486d63d77c7c6cbb8dcbeb0be30b02befd6953a59932e7eb",
+      "uncompressed_sha256": null
+    },
+    {
+      "id": "flowdroid",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/flowdroid.json",
+      "sha256": "19a5a347916085f1852a7d04b6d043c61a835de3c8a1a8adffe18cf1234dd9ea",
+      "uncompressed_sha256": null
+    },
+    {
+      "id": "java",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/java.json",
+      "sha256": "90665d9258ed311dd8cd4ad4ce7a1e0c33cb534382ff2edfdb4617e2fa6582f4",
+      "uncompressed_sha256": null
+    }
+  ],
+  "setup_files_verified_after_analysis": [],
+  "source_verified_after_analysis": {
+    "snapshot_git_head": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1",
+    "source_and_fixture_inputs_unchanged": true,
+    "source_commit": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1"
+  },
+  "started_utc": "2026-11-22T13:13:10.160188+00:00",
+  "status": "completed-candidate-evidence",
+  "timed_out": false,
+  "timing_qualification": "unqualified pending independent review",
+  "tools_verified_after_observation": [
+    {
+      "name": "flowdroid",
+      "path": "/Users/dave/.cache/dataflowbench-tools/flowdroid/soot-infoflow-cmd-2.15.1-jar-with-dependencies.jar",
+      "sha256": "51dadead47a173c494c2fa4855b1e8bd3b54e702a2c4b5ed58e60153009ae218"
+    },
+    {
+      "name": "runner",
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+      "sha256": "934774f0fc21fe2597bc6fbdd827c8cd47a33ad8369d5a3a910e57701fd0e082"
+    }
+  ]
+}

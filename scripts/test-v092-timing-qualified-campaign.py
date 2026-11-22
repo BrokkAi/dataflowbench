@@ -823,6 +823,170 @@ class QualifiedCampaignTests(unittest.TestCase):
             self.assertEqual(len(terminal["remaining_ready_groups"]), len(ready) - 1)
             self.assertEqual(terminal["completed_commands"], 0)
 
+    @staticmethod
+    def _background_observation():
+        return {"schema_version": 1, "status": "ok", "observed_at_utc": "2026-11-22T00:00:00Z",
+            "monotonic_seconds": 1.0, "cpu_idle_percent": 12.0,
+            "processes": [{"pid": 1, "ppid": 0, "comm": "/sbin/launchd", "cpu_percent": 1.0},
+                {"pid": 2, "ppid": 1, "comm": campaign.DISPATCH_ADMISSION_POLICY["tolerated_comm_paths"][0],
+                 "cpu_percent": 250.0},
+                {"pid": 3, "ppid": 1, "comm": campaign.DISPATCH_ADMISSION_POLICY["tolerated_comm_paths"][-1],
+                 "cpu_percent": 350.0}],
+            "uptime": "fixture", "load_average": [8.0, 8.0, 8.0],
+            "disk_total_bytes": 400 * campaign.GIB, "disk_used_bytes": 200 * campaign.GIB,
+            "disk_free_bytes": 200 * campaign.GIB,
+            "hardware": {"model": "fixture", "logical_cpus": 10, "physical_cpus": 10, "memory_bytes": 100},
+            "quiescent_service_pids": []}
+
+    def test_background_policy_keeps_raw_busy_cpu_and_only_tolerates_exact_paths(self):
+        host = load("background_host_test", ROOT / "scripts/v092_timing_host.py")
+        observation = self._background_observation()
+        before = json.loads(json.dumps(observation))
+        decision = campaign.background_policy_assessment(host, observation)
+        self.assertEqual(decision["status"], "admitted")
+        self.assertTrue(decision["raw_contention"]["contended"])
+        self.assertFalse(decision["non_tolerated_contention"]["contended"])
+        self.assertEqual(decision["raw_cpu_idle_percent"], 12.0)
+        self.assertFalse(decision["aggregate_idle_adjusted"])
+        self.assertFalse(decision["original_settled_qualification_eligible"])
+        self.assertEqual(observation, before)
+        for comm in ("/tmp/contactsd", observation["processes"][1]["comm"] + "-wrapper"):
+            with self.subTest(comm=comm):
+                altered = json.loads(json.dumps(observation))
+                altered["processes"][1]["comm"] = comm
+                self.assertEqual(campaign.background_policy_assessment(host, altered)["status"],
+                                 "waiting-other-workload")
+
+    def test_background_policy_does_not_exempt_analyzer_children_or_other_cpu(self):
+        host = load("background_host_near_miss", ROOT / "scripts/v092_timing_host.py")
+        for comm, cpu in (("/tmp/cargo", 0.0), ("/tmp/worker", 101.0)):
+            with self.subTest(comm=comm):
+                observation = self._background_observation()
+                observation["processes"].append({"pid": 4, "ppid": 3, "comm": comm, "cpu_percent": cpu})
+                self.assertEqual(campaign.background_policy_assessment(host, observation)["status"],
+                                 "waiting-other-workload")
+        with self.assertRaises(ValueError):
+            campaign.background_policy_assessment(host, {"status": "failed"})
+
+    def test_background_admission_is_immediate_bounded_and_keeps_disk_gate(self):
+        host = load("background_host_wait", ROOT / "scripts/v092_timing_host.py")
+        observer = Mock()
+        observer.snapshot.return_value = self._background_observation()
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "host.jsonl"
+            with patch.object(campaign.time, "sleep") as sleep:
+                result = campaign.wait_background_policy(host, observer, path, campaign.time.monotonic() + 1)
+            sleep.assert_not_called()
+            self.assertEqual(result["dispatch_admission"]["status"], "admitted")
+            self.assertFalse(result["original_settled_quiet_qualified"])
+            observer.snapshot.return_value = {"status": "failed"}
+            clock = {"now": 0.0}
+            def sleep(seconds):
+                self.assertLessEqual(seconds, 45)
+                clock["now"] += seconds
+            with patch.object(campaign.time, "monotonic", side_effect=lambda: clock["now"]), \
+                    patch.object(campaign.time, "sleep", side_effect=sleep):
+                with self.assertRaises(campaign.CampaignWindowEnded):
+                    campaign.wait_background_policy(host, observer, path, 1.0)
+            observer.snapshot.return_value = self._background_observation()
+            observer.snapshot.return_value["disk_free_bytes"] = 126 * campaign.GIB
+            with self.assertRaises(campaign.legacy.CampaignStop):
+                campaign.wait_background_policy(host, observer, path, campaign.time.monotonic() + 1)
+
+    def test_background_resource_chain_requires_all_three_parent_namespaces(self):
+        with self.assertRaisesRegex(RuntimeError, "all three parent resource namespaces"):
+            campaign._inherited_resource_paths({"schema": "v092-timing-background-checkpoint/v1",
+                "parent_campaign_id": "20261122-01", "resource_campaign_ids": ["20261122-01"]})
+
+    def test_background_active_assessment_retains_original_contention_and_certification(self):
+        host = load("background_host_active", ROOT / "scripts/v092_timing_host.py")
+        observation = self._background_observation()
+        observer = Mock()
+        observer.snapshot.return_value = observation
+        with tempfile.TemporaryDirectory() as temp:
+            source = Path(temp)
+            evidence = source / "host.jsonl"
+            guard = campaign.BackgroundPolicyGuard(host, observer, {"root_pid": 123}, evidence, source)
+            guard.settle_skipped = True
+            raw = guard.observe_background("analyzer-active", 123)
+            records = [json.loads(x) for x in evidence.read_text().splitlines()]
+            self.assertTrue(raw["contention"]["contended"])
+            self.assertEqual(records[0]["processes"], observation["processes"])
+            self.assertEqual(records[0]["cpu_idle_percent"], 12.0)
+            self.assertEqual(records[1]["assessment"]["status"], "admitted")
+            self.assertTrue(guard.quiet_certification()["contention_observed"])
+            self.assertFalse(guard.quiet_certification()["certified"])
+            self.assertTrue(guard.policy_summary()["tolerated_background_observed"])
+            self.assertFalse(guard.policy_summary()["non_tolerated_contention_observed"])
+
+    def test_background_policy_shape_and_final_three_scope_fail_closed(self):
+        plan = json.loads((ROOT / "reports/timing/v0.9.2/20261122-01/qualified-plan-02.json").read_text())
+        plan.update(continuation_mode=campaign.BACKGROUND_CONTINUATION_MODE,
+                    dispatch_admission=json.loads(json.dumps(campaign.DISPATCH_ADMISSION_POLICY)))
+        plan["qualification"].update(campaign.BACKGROUND_QUALIFICATION)
+        plan["execution_helpers"][campaign.BACKGROUND_CHECKPOINT_HELPER] = "a" * 64
+        campaign._validate_plan_shape(plan)
+        changed = json.loads(json.dumps(plan))
+        changed["dispatch_admission"]["tolerated_comm_paths"].append("/tmp/cargo")
+        with self.assertRaisesRegex(RuntimeError, "explicit admission"):
+            campaign._validate_plan_shape(changed)
+        with patch.object(campaign, "_continuation_checkpoint", return_value={
+                "remaining_ready_groups": campaign.BACKGROUND_GROUPS[:2]}):
+            with self.assertRaisesRegex(RuntimeError, "exact final three"):
+                campaign._dispatch_groups(plan)
+
+    def test_background_dispatch_skips_settled_wait_and_never_claims_its_certification(self):
+        parent = json.loads((ROOT / "reports/timing/v0.9.2/20261122-01/qualified-plan-02.json").read_text())
+        with self.using_root("20261122-70") as (plan, path, report):
+            self._semantic_plan(plan, path, report)
+            plan.update(continuation_mode=campaign.BACKGROUND_CONTINUATION_MODE,
+                        dispatch_admission=json.loads(json.dumps(campaign.DISPATCH_ADMISSION_POLICY)))
+            plan["qualification"].update(campaign.BACKGROUND_QUALIFICATION)
+            by_id = {g["id"]: g for g in parent["groups"]}
+            new_groups = [json.loads(json.dumps(by_id[k])) for k in campaign.BACKGROUND_GROUPS]
+            for group in new_groups:
+                group["runtime_ids"] = ["test-runtime"]
+                group["setup_files"] = []
+            inherited = [g["id"] for g in plan["groups"] if g["status"] == "ready"]
+            plan["groups"].extend(new_groups)
+            plan["group_order"].extend(campaign.BACKGROUND_GROUPS)
+            path.write_text(json.dumps(plan))
+            stack, observer, strict_wait = self._run_context(plan["campaign_id"])
+            checkpoint = {"completed_groups": inherited, "quarantined_groups": ["joern-rust-kernel"],
+                          "remaining_ready_groups": campaign.BACKGROUND_GROUPS}
+            with stack, patch.object(campaign, "_validate_plan_shape"), \
+                    patch.object(campaign, "_continuation_checkpoint", return_value=checkpoint), \
+                    patch.object(campaign, "_inherited_resource_paths", return_value=([], [], [])), \
+                    patch.object(campaign, "verify_plan", return_value={"coverage": campaign._coverage(self.base_plan),
+                        "tools_verified": [], "runtime_manifests_verified": []}), \
+                    patch.object(campaign, "wait_background_policy", return_value={"dispatch_admission": {
+                        "status": "admitted"}}) as tolerant_wait, \
+                    patch.object(campaign, "validate_overhead_artifact", return_value={"publication_eligible": False}), \
+                    patch.object(campaign, "validate_warm_artifact", return_value={"publication_eligible": False}):
+                observer.snapshot.side_effect = OSError("fixture missing CPU observation during invocation")
+                def run(*args, disk_guard, ownership, **kwargs):
+                    ownership["root_pid"] = 123
+                    disk_guard.observe_background("analyzer-active", 123)
+                    return 0, False, 0.2, None
+                with patch.object(campaign.legacy.core, "_run_process", side_effect=run) as dispatch:
+                    result = campaign.execute(path)
+                self.assertEqual(result["completed_commands"], 3)
+                self.assertEqual(dispatch.call_count, 3)
+                self.assertEqual(tolerant_wait.call_count, 3)
+                strict_wait.assert_not_called()
+            for group_id in campaign.BACKGROUND_GROUPS:
+                attempt = report / "attempts" / group_id / "attempt-01"
+                start = json.loads((attempt / "start.json").read_text())
+                terminal = json.loads((attempt / "terminal.json").read_text())
+                self.assertIsNone(start["quiet_observation"])
+                self.assertIsNone(start["quiet_policy"])
+                self.assertEqual(start["dispatch_admission_policy"], campaign.DISPATCH_ADMISSION_POLICY)
+                self.assertFalse(terminal["quiet_certification"]["certified"])
+                self.assertFalse(terminal["quiet_certification"]["initial_quiet_gate_passed"])
+                self.assertTrue(terminal["quiet_certification"]["settle_skipped_after_campaign_start"])
+                self.assertGreater(terminal["user_background_policy"]["unknown_observations"], 0)
+                self.assertFalse(terminal["publication_eligible"])
+
     def test_segment_checkpoint_without_both_parent_resources_is_rejected(self):
         with self.assertRaisesRegex(RuntimeError, "both parent resource namespaces"):
             campaign._inherited_resource_paths({"schema": "v092-timing-segment-checkpoint/v1",

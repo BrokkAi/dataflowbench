@@ -1,0 +1,24 @@
+{
+  "schema": "v092-background-tolerance-admission/v1",
+  "scope": "final-three-admissions-only",
+  "process_match": "exact-full-comm-path",
+  "tolerated_comm_paths": [
+    "/System/Library/Frameworks/Contacts.framework/Support/contactsd",
+    "/System/Library/PrivateFrameworks/ContactsDonation.framework/Versions/A/Support/contactsdonationagent",
+    "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/corespotlightd",
+    "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/managedcorespotlightd",
+    "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mds",
+    "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mds_stores",
+    "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mdworker_shared",
+    "/usr/libexec/spotlightknowledged.updater",
+    "/System/Library/Frameworks/Virtualization.framework/Versions/A/XPCServices/com.apple.Virtualization.VirtualMachine.xpc/Contents/MacOS/com.apple.Virtualization.VirtualMachine"
+  ],
+  "aggregate_cpu_idle": "record-only-without-adjustment",
+  "required_settled_seconds": 0,
+  "non_tolerated_heavy_processes": "wait-before-dispatch",
+  "external_cpu_percent_per_logical_cpu": 10,
+  "observation_failure": "wait-before-dispatch",
+  "sample_interval_seconds": 45,
+  "active_invocation_cpu_policy": "record-and-continue",
+  "original_settled_qualification_eligible": false
+}
