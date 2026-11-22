@@ -1097,3 +1097,12 @@ convert a retrospective diagnostic candidate into settled qualification.
 restoration and prospective fresh Joern controls and single-operation timing
 supplement. The old 95-entry campaign remains immutable; no completed command
 is restarted and no Swift timing completion is inferred from setup.
+
+### A31 — 2026-11-22: authorized recovered Swift diagnostic continuation
+
+[A31](latency-v092-20261122-diagnostic-continuation.md) records the user's
+prospective authorization to dispatch the recovered Joern Swift group after a
+complete host check without a new settled window. It retains contention and
+unknown-state evidence, all genuine failure gates and the three zero-analyzer
+preparations. Settled timing, full model qualification and publication
+acceptance remain unasserted.

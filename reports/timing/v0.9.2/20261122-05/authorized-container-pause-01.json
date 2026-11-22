@@ -1,0 +1,40 @@
+{
+  "schema": "v092-authorized-pre-dispatch-container-pause/v1",
+  "authorization": "User: Pause the restarting worker",
+  "started_utc": "2026-11-22T17:24:11.269253+00:00",
+  "finished_utc": "2026-11-22T17:24:11.310763+00:00",
+  "container_before": {
+    "id": "5f82b95c7635dfe428b807f9abb0d9b474376eb0848f52cdb6319bd9f3500c37",
+    "name": "/slopcop-dogfood-local-worker-1",
+    "status": "restarting",
+    "running": "true",
+    "restarting": "true",
+    "restart_count": "6388",
+    "exit_code": "1"
+  },
+  "command": [
+    "docker",
+    "stop",
+    "--time",
+    "30",
+    "5f82b95c7635dfe428b807f9abb0d9b474376eb0848f52cdb6319bd9f3500c37"
+  ],
+  "exit_code": 0,
+  "stdout": "Flag --time has been deprecated, use --timeout instead\n5f82b95c7635dfe428b807f9abb0d9b474376eb0848f52cdb6319bd9f3500c37\n",
+  "stderr": "",
+  "container_after": {
+    "id": "5f82b95c7635dfe428b807f9abb0d9b474376eb0848f52cdb6319bd9f3500c37",
+    "name": "/slopcop-dogfood-local-worker-1",
+    "status": "exited",
+    "running": "false",
+    "restarting": "false",
+    "restart_count": "6388",
+    "exit_code": "1"
+  },
+  "benchmark_analyzer_started_before_action": false,
+  "quiet_span_before_action_seconds": 0,
+  "database_containers_changed": false,
+  "volumes_changed": false,
+  "other_workloads_signalled": false,
+  "publication_eligible": false
+}
