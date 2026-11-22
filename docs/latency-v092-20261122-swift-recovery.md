@@ -144,3 +144,24 @@ Keep campaign 03's partial source and reports in closed preparation resource
 accounting, verify their sealed membership and bytes, and prove its supervisor
 identity has stopped. All prior identity, qualification, resource, timeout,
 quiet-admission and active-invocation policies above remain in force.
+
+Campaign `20261122-04` completed source/runtime preparation but its new
+controller omitted the repository's existing quiescent MCP/LSP service
+recognition. Its initial gate therefore rejected an idle Bifrost plugin server.
+The owned dispatcher was stopped while waiting, before any analyzer start;
+retain its blocked terminal and complete source/report inventory unchanged.
+
+Fresh campaign `20261122-05` restores the existing
+`v092_timing_campaign.Observer` rule. Only a Bifrost MCP/LSP service with the same
+PID, birth identity, arguments and cumulative CPU time across observations,
+zero reported CPU and no descendants may be recognized as quiescent. Retain
+its service observations and raw aggregate CPU values. This restores existing
+behavior and adds no process-name exemption or CPU adjustment. The full
+five-minute/90-percent initial gate and active record-and-continue policy stay
+in force.
+
+Include both closed preparations' source, reports and scratch paths in the new
+resource accounting. Bind and verify their complete inventories and blocked,
+zero-analyzer states. Confirm stopped supervisors from successful unfiltered
+PID observations or a known different birth identity; unknown identity for a
+present PID must fail closed. Retain the new observations before dispatch.

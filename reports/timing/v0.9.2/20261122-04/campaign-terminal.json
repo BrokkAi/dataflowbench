@@ -1,0 +1,53 @@
+{
+  "schema": "v092-timing-swift-supplement-terminal/v1",
+  "campaign_id": "20261122-04",
+  "status": "blocked",
+  "execution_status": "stopped-fail-closed",
+  "failed_group": "joern-swift-common108",
+  "completed_groups": [],
+  "remaining_ready_groups": [],
+  "failure": {
+    "group": "joern-swift-common108",
+    "attempt": 1,
+    "automatic_retry": false,
+    "old_argv": [
+      "/usr/bin/python3",
+      "scripts/run-joern-common-v092.py",
+      "execute",
+      "--plan",
+      "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json",
+      "--output",
+      "reports/raw/joern-common-v2/current108-v092-01"
+    ],
+    "argv": [
+      "/usr/bin/python3",
+      "scripts/run-joern-common-v092-relocated.py",
+      "execute",
+      "--plan",
+      "adapters/joern/swift-common-v2/plan-v092-02/execution-plan-qualified.json",
+      "--output",
+      "reports/raw/joern-common-v2/current108-v092-02"
+    ],
+    "publication_eligible": false,
+    "resource_baseline": {
+      "path": "reports/timing/v0.9.2/20261122-04/resource-baseline-01.json",
+      "sha256": "02d662310ed74a416f3b3cf58b88e835bb0f89a1803b5da35ccfea68cc8065d4"
+    },
+    "status": "failed",
+    "error": "KeyboardInterrupt: ",
+    "finished_utc": "2026-11-22T16:50:08.276060+00:00",
+    "process_ownership": {},
+    "scored_activation": false,
+    "qualification_status": "unqualified; failure retained without retry",
+    "original_a24_settled_qualification_eligible": false
+  },
+  "attempt_terminal": {
+    "path": "reports/timing/v0.9.2/20261122-04/attempts/joern-swift-common108/attempt-01/terminal.json",
+    "sha256": "db751eebf0358c5f0f2c670c1d92a47f3c904e4aad7aba383065e774ba5add90"
+  },
+  "automatic_retry": false,
+  "publication_eligible": false,
+  "qualification_status": "unqualified",
+  "descendant_containment": "unproven",
+  "original_a24_settled_qualification_eligible": false
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "v092-existing-idle-service-observer-probe/v1",
+  "scope": "untimed existing Observer compatibility check only; not a settled timing gate",
+  "analyzer_invocations": 0,
+  "observations": [
+    {
+      "observed_at_utc": "2026-11-22T16:51:12.117Z",
+      "raw_cpu_idle_percent": 95.69,
+      "quiescent_service_pids": [],
+      "services": [
+        {
+          "pid": 22662,
+          "start_identity": "1795296879:649613",
+          "cpu_time": "0:00.02",
+          "cpu_percent": 0.0,
+          "descendants": [],
+          "unchanged_idle_service": false,
+          "mcp_mode": true,
+          "lsp_mode": false
+        }
+      ]
+    },
+    {
+      "observed_at_utc": "2026-11-22T16:51:14.555Z",
+      "raw_cpu_idle_percent": 95.82,
+      "quiescent_service_pids": [
+        22662
+      ],
+      "services": [
+        {
+          "pid": 22662,
+          "start_identity": "1795296879:649613",
+          "cpu_time": "0:00.02",
+          "cpu_percent": 0.0,
+          "descendants": [],
+          "unchanged_idle_service": true,
+          "mcp_mode": true,
+          "lsp_mode": false
+        }
+      ]
+    }
+  ],
+  "publication_eligible": false
+}
