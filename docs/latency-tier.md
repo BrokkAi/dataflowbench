@@ -1114,3 +1114,11 @@ invocation and preregisters restoration of the controls' exact PATH, an
 explicit GNU readlink pin and an untimed launcher preflight before a fresh
 diagnostic attempt. No failed invocation or uncertain cleanup is promoted to
 successful analysis.
+
+### A33 — 2026-11-22: retained capability records for recovered Swift execution
+
+[A33](latency-v092-20261122-capability-recovery.md) preserves the failed
+pre-case wrapper and requires explicit lookup of all 96 attempted capability
+records from their already-bound immutable source. It preregisters versioned
+helpers, fresh controls and a new diagnostic attempt without activating models
+or changing frozen outcomes.
