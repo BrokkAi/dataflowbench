@@ -242,42 +242,222 @@ class QualifiedCampaignTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "below home/.m2"):
                 campaign._copy_setup_files(group, source)
 
-    def test_warm_validator_requires_prefixes_and_all_retained_case_files(self):
-        root = Path(self.temp.name) / "warm-fixture"
-        root.mkdir(exist_ok=True)
-        ids = [f"case-{index:02d}" for index in range(12)]
+    def _build_semgrep_warm_fixture(self, root: Path):
+        ids = [
+            "dfb-taint-java-branch-join-negative", "dfb-taint-java-branch-join-positive",
+            "dfb-taint-java-expression-negative", "dfb-taint-java-expression-positive",
+            "dfb-taint-java-infeasible-branch-negative", "dfb-taint-java-infeasible-branch-positive",
+            "dfb-taint-java-local-chain-negative", "dfb-taint-java-local-chain-positive",
+            "dfb-taint-java-local-overwrite-negative", "dfb-taint-java-local-overwrite-positive",
+            "dfb-taint-java-loop-carried-negative", "dfb-taint-java-loop-carried-positive",
+        ]
+        source = root / "source"
+        source.mkdir(parents=True)
         group = {"id": "warm-semgrep-java", "kind": "warm", "family": "semgrep", "language": "java",
                  "warm_case_ids": ids, "warm_batch_sizes": [1, 2, 4, 8, 12], "deadline_seconds": 600,
-                 "output_roots": ["reports/raw/warm-latency/semgrep-java-kernel"],
-                 "argv": ["runner", "--population", "v0.9.0", "measure-warm-latency", "--tool", "semgrep",
-                          "--language", "java", "--batch-sizes", "1,2,4,8,12", "--semgrep", "semgrep"]}
-        output = root / group["output_roots"][0]
+                 "output_roots": ["reports/raw/warm-latency/semgrep-java-kernel"]}
+        for case_id in ids:
+            slug = case_id.removeprefix("dfb-taint-java-")
+            case_relative = Path("cases/taint/java") / slug / "case.json"
+            case_source = campaign.ROOT / case_relative
+            case_target = source / case_relative
+            case_target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(case_source, case_target)
+            case_value = json.loads(case_source.read_text())
+            fixture_relative = case_relative.parent / case_value["fixture_files"][0]
+            fixture_target = source / fixture_relative
+            shutil.copyfile(campaign.ROOT / fixture_relative, fixture_target)
+        rule_relative = Path("adapters/semgrep/rules/java.yaml")
+        rule_target = source / rule_relative
+        rule_target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(campaign.ROOT / rule_relative, rule_target)
+        for relative in (Path("src/adapters/semgrep.rs"), Path("src/evidence.rs")):
+            target = source / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(campaign.ROOT / relative, target)
+
+        output = source / group["output_roots"][0]
         output.mkdir(parents=True)
-        sizes = group["warm_batch_sizes"]
+        frozen_binding = self.base_plan["frozen_report_bindings"]["semgrep-java-kernel"][0]
+        frozen_raw = campaign._frozen_report_blob(campaign.ROOT, frozen_binding["contract_path"])[1]
+        frozen_rows = json.loads(frozen_raw)["results"]
+        outcomes = {row["case_id"]: row["outcome"] for row in frozen_rows}
+        identity = campaign._frozen_family_identity(self.base_plan, "semgrep", "java")
         runs = []
+        raw_paths = {}
         for repeat in (1, 2):
             batches = []
-            for size in sizes:
-                batches.append({"k": size, "wall_ms": 1, "case_ids": ids[:size]})
-                evidence_dir = output / f"run-{repeat}-batch-{size}-evidence"
-                evidence_dir.mkdir()
-                for case_id in ids[:size]:
-                    (evidence_dir / f"{case_id}.json").write_text("{}")
+            for size in group["warm_batch_sizes"]:
+                batch_ids = ids[:size]
+                batches.append({"k": size, "wall_ms": 1, "case_ids": batch_ids})
+                scanned = []
+                findings = []
+                for index, case_id in enumerate(batch_ids):
+                    slug = case_id.removeprefix("dfb-taint-java-")
+                    case_value = json.loads((source / "cases/taint/java" / slug / "case.json").read_text())
+                    fixture_name = case_value["fixture_files"][0]
+                    fixture_path = str(source.resolve() / "tmp" / f"dataflowbench-warm-semgrep-{repeat}-{size}"
+                                       / f"source-{index}" / fixture_name)
+                    scanned.append(fixture_path)
+                    if outcomes[case_id] == "reached":
+                        locations = campaign._semgrep_java_sink_locations(
+                            case_value, fixture_name, (source / "cases/taint/java" / slug / fixture_name).read_bytes())
+                        findings.append({"check_id": "dfb-taint-endpoint-contract", "path": fixture_path,
+                                         "start": {"line": locations[0]["callsite_lines"][0]},
+                                         "extra": {"engine_kind": "OSS"}})
+                raw_result = {"engine_requested": "OSS", "errors": [], "paths": {"scanned": sorted(scanned)},
+                              "results": findings, "skipped_rules": [], "time": {"fixpoint_timeouts": []},
+                              "version": identity["tool_version"]}
+                raw_path = output / f"run-{repeat}-batch-{size}-findings.json"
+                raw_path.write_text(json.dumps(raw_result))
+                raw_paths[(repeat, size)] = raw_path
             runs.append({"run": repeat, "batches": batches})
-            identity = campaign._frozen_family_identity(self.base_plan, "semgrep", "java")
         artifact = {"schema_version": 1, "evidence_kind": "retained-warm-marginal-latency",
                     "adapter": "semgrep", "language": "java", "repeats": 2,
                     "population_available": len(ids), "tool_version": identity["tool_version"],
                     "tool_build_identity": identity["tool_build_identity"],
                     "fixture_revision": self.base_plan["fixture_revision"], "runs": runs}
-        (output / "warm-latency.json").write_text(json.dumps(artifact))
-        receipt = campaign.validate_warm_artifact(self.base_plan, group, root)
-        self.assertTrue(receipt["equivalence_pending"])
-        self.assertFalse(receipt["publication_eligible"])
-        artifact["runs"][1]["batches"][2]["case_ids"] = ids[:7]
-        (output / "warm-latency.json").write_text(json.dumps(artifact))
-        with self.assertRaisesRegex(RuntimeError, "not the bound case prefix"):
-            campaign.validate_warm_artifact(self.base_plan, group, root)
+        artifact_path = output / "warm-latency.json"
+        artifact_path.write_text(json.dumps(artifact))
+        return source, group, artifact_path, raw_paths
+
+    def test_joern_warm_validator_requires_prefixes_and_all_sidecars(self):
+        with tempfile.TemporaryDirectory(prefix="dfb-joern-warm-") as directory:
+            root = Path(directory)
+            ids = [f"joern-case-{index:02d}" for index in range(16)]
+            group = {"id": "warm-joern-java", "kind": "warm", "family": "joern", "language": "java",
+                     "warm_case_ids": ids, "warm_batch_sizes": [1, 2, 4, 8, 16], "deadline_seconds": 600,
+                     "output_roots": ["reports/raw/warm-latency/joern-java-kernel"]}
+            output = root / group["output_roots"][0]
+            output.mkdir(parents=True)
+            identity = campaign._frozen_family_identity(self.base_plan, "joern", "java")
+            runs = []
+            for repeat in (1, 2):
+                batches = []
+                for size in group["warm_batch_sizes"]:
+                    batches.append({"k": size, "wall_ms": 1, "case_ids": ids[:size]})
+                    evidence_dir = output / f"run-{repeat}-batch-{size}-evidence"
+                    evidence_dir.mkdir()
+                    for case_id in ids[:size]:
+                        (evidence_dir / f"{case_id}.json").write_text("{}")
+                runs.append({"run": repeat, "batches": batches})
+            artifact = {"schema_version": 1, "evidence_kind": "retained-warm-marginal-latency",
+                        "adapter": "joern", "language": "java", "repeats": 2,
+                        "population_available": len(ids), "tool_version": identity["tool_version"],
+                        "tool_build_identity": identity["tool_build_identity"],
+                        "fixture_revision": self.base_plan["fixture_revision"], "runs": runs}
+            artifact_path = output / "warm-latency.json"
+            artifact_path.write_text(json.dumps(artifact))
+            receipt = campaign.validate_warm_artifact(self.base_plan, group, root)
+            self.assertEqual(receipt["retained_per_case_evidence_files"], 62)
+            self.assertTrue(receipt["equivalence_pending"])
+            self.assertFalse(receipt["publication_eligible"])
+            artifact["runs"][1]["batches"][2]["case_ids"] = ids[:7]
+            artifact_path.write_text(json.dumps(artifact))
+            with self.assertRaisesRegex(RuntimeError, "not the bound case prefix"):
+                campaign.validate_warm_artifact(self.base_plan, group, root)
+
+    def test_semgrep_warm_validator_derives_observations_from_aggregate_batches(self):
+        with tempfile.TemporaryDirectory(prefix="dfb-semgrep-warm-") as directory:
+            source, group, _artifact_path, _raw_paths = self._build_semgrep_warm_fixture(Path(directory))
+            receipt = campaign.validate_warm_artifact(self.base_plan, group, source)
+            self.assertEqual(receipt["raw_batch_file_count"], 10)
+            self.assertEqual(receipt["derived_case_observation_count"], 54)
+            self.assertEqual(receipt["retained_per_case_evidence_files"], 0)
+            self.assertEqual(len(receipt["source_inputs"]), 12)
+            contract = receipt["anchor_reconciliation_contract"]
+            self.assertEqual(contract["release_commit"], campaign.RELEASE)
+            self.assertEqual(len(contract["sources"]), 2)
+            self.assertIn("semgrep_finding_anchor_match", contract["functions"]["src/adapters/semgrep.rs"])
+            self.assertTrue(all(row["outcome_matches_frozen"] for row in receipt["derived_case_observations"]))
+            self.assertTrue(all(row["case_source_sha256"] and row["fixture_source_sha256"]
+                                for row in receipt["derived_case_observations"]))
+            self.assertTrue(receipt["equivalence_pending"])
+            self.assertFalse(receipt["publication_eligible"])
+
+    def test_semgrep_warm_validator_rejects_malformed_aggregate_evidence(self):
+        mutations = (
+            ("wrong scanned path, same count", lambda raw: raw["paths"]["scanned"].__setitem__(0, "/wrong/path.java")),
+            ("duplicate scanned path", lambda raw: raw["paths"]["scanned"].__setitem__(0, raw["paths"]["scanned"][1])),
+            ("stray result path", lambda raw: raw["results"].append({"check_id": "dfb-taint-endpoint-contract",
+                "path": "/outside/batch.java", "extra": {"engine_kind": "OSS"}})),
+            ("analyzer errors", lambda raw: raw.update(errors=[{"type": "error"}])),
+            ("fixpoint timeout", lambda raw: raw["time"].update(fixpoint_timeouts=["timeout"])),
+            ("skipped rules", lambda raw: raw.update(skipped_rules=[{"rule_id": "dfb-taint-endpoint-contract"}])),
+            ("version drift", lambda raw: raw.update(version="1.180.0")),
+            ("engine drift", lambda raw: raw.update(engine_requested="PRO")),
+        )
+        for label, mutate in mutations:
+            with self.subTest(label=label), tempfile.TemporaryDirectory(prefix="dfb-semgrep-warm-") as directory:
+                source, group, _artifact_path, raw_paths = self._build_semgrep_warm_fixture(Path(directory))
+                raw_path = raw_paths[(1, 12)]
+                raw = json.loads(raw_path.read_text())
+                mutate(raw)
+                raw_path.write_text(json.dumps(raw))
+                with self.assertRaises(RuntimeError):
+                    campaign.validate_warm_artifact(self.base_plan, group, source)
+
+    def test_semgrep_warm_validator_rejects_changed_sources_and_outcomes(self):
+        with tempfile.TemporaryDirectory(prefix="dfb-semgrep-warm-") as directory:
+            source, group, _artifact_path, _raw_paths = self._build_semgrep_warm_fixture(Path(directory))
+            fixture = source / "cases/taint/java/branch-join-positive/BranchJoinPositive.java"
+            fixture.write_bytes(fixture.read_bytes() + b"// changed\n")
+            with self.assertRaisesRegex(RuntimeError, "immutable release bytes"):
+                campaign.validate_warm_artifact(self.base_plan, group, source)
+        with tempfile.TemporaryDirectory(prefix="dfb-semgrep-warm-") as directory:
+            source, group, _artifact_path, raw_paths = self._build_semgrep_warm_fixture(Path(directory))
+            raw_path = raw_paths[(1, 2)]
+            raw = json.loads(raw_path.read_text())
+            positive_path = next(item["path"] for item in raw["results"])
+            raw["results"] = [item for item in raw["results"] if item["path"] != positive_path]
+            raw_path.write_text(json.dumps(raw))
+            with self.assertRaisesRegex(RuntimeError, "derived outcome differs from frozen outcome"):
+                campaign.validate_warm_artifact(self.base_plan, group, source)
+
+    def test_semgrep_warm_validator_rejects_wrong_line_missing_start_and_ambiguous_location(self):
+        with tempfile.TemporaryDirectory(prefix="dfb-semgrep-warm-") as directory:
+            source, group, _artifact_path, raw_paths = self._build_semgrep_warm_fixture(Path(directory))
+            raw_path = raw_paths[(1, 12)]
+            raw = json.loads(raw_path.read_text())
+            first = raw["results"][0]
+            fixture_name = Path(first["path"]).name
+            case_relative = next(
+                path for path in (source / "cases/taint/java").glob("*/case.json")
+                if json.loads(path.read_text())["fixture_files"] == [fixture_name])
+            case_value = json.loads(case_relative.read_text())
+            marker_line = case_value["sink_anchors"][0]["line_hint"]
+            first["start"]["line"] = marker_line
+            raw_path.write_text(json.dumps(raw))
+            with self.assertRaisesRegex(RuntimeError, "inconclusive against sink anchor"):
+                campaign.validate_warm_artifact(self.base_plan, group, source)
+        with tempfile.TemporaryDirectory(prefix="dfb-semgrep-warm-") as directory:
+            source, group, _artifact_path, raw_paths = self._build_semgrep_warm_fixture(Path(directory))
+            raw_path = raw_paths[(1, 12)]
+            raw = json.loads(raw_path.read_text())
+            del raw["results"][0]["start"]
+            raw_path.write_text(json.dumps(raw))
+            with self.assertRaisesRegex(RuntimeError, "ambiguous sink-anchor location"):
+                campaign.validate_warm_artifact(self.base_plan, group, source)
+        ambiguous = campaign._warm_semgrep_finding_match(
+            {"path": "/tmp/source-0/Fixture.java", "start": {"line": 7}},
+            "/tmp/source-0/Fixture.java",
+            [{"file": "Fixture.java", "callsite_lines": [7]},
+             {"file": "Fixture.java", "callsite_lines": [7]}])
+        self.assertEqual(ambiguous, "ambiguous")
+
+    def test_semgrep_warm_validator_rejects_missing_raw_or_unsafe_source_paths(self):
+        with tempfile.TemporaryDirectory(prefix="dfb-semgrep-warm-") as directory:
+            source, group, _artifact_path, raw_paths = self._build_semgrep_warm_fixture(Path(directory))
+            raw_paths[(1, 1)].unlink()
+            with self.assertRaisesRegex(RuntimeError, "warm evidence file is missing"):
+                campaign.validate_warm_artifact(self.base_plan, group, source)
+        with tempfile.TemporaryDirectory(prefix="dfb-semgrep-warm-") as directory:
+            source, group, _artifact_path, _raw_paths = self._build_semgrep_warm_fixture(Path(directory))
+            case_path = source / "cases/taint/java/branch-join-positive/case.json"
+            case_path.unlink()
+            case_path.symlink_to(source / "cases/taint/java/branch-join-negative/case.json")
+            with self.assertRaisesRegex(RuntimeError, "symlink"):
+                campaign.validate_warm_artifact(self.base_plan, group, source)
 
     def test_warm_dispatch_sizes_match_each_static_population(self):
         tools = self.base_plan["tools"]

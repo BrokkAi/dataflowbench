@@ -1661,15 +1661,415 @@ def compare_frozen_report_bytes(plan: dict, group: dict, source: Path) -> dict:
             "publication_eligible": False}
 
 
+def _warm_safe_path(source: Path, relative: str, *, directory: bool = False) -> Path:
+    """Resolve a captured-source path while rejecting traversal and symlinks."""
+    if (not isinstance(relative, str) or not relative or "\\" in relative
+            or relative.startswith("/")):
+        raise RuntimeError(f"warm evidence path is unsafe: {relative!r}")
+    parts = relative.split("/")
+    if any(part in {"", ".", ".."} for part in parts):
+        raise RuntimeError(f"warm evidence path is unsafe: {relative!r}")
+    if source.is_symlink() or not source.is_dir():
+        raise RuntimeError(f"warm source root is missing or not a real directory: {source}")
+    path = source
+    for part in parts:
+        path = path / part
+        if path.is_symlink():
+            raise RuntimeError(f"warm evidence path contains a symlink: {path}")
+    if directory:
+        if not path.is_dir():
+            raise RuntimeError(f"warm evidence directory is missing: {path}")
+    elif not path.is_file():
+        raise RuntimeError(f"warm evidence file is missing or not regular: {path}")
+    try:
+        path.resolve(strict=True).relative_to(source.resolve(strict=True))
+    except (OSError, ValueError) as exc:
+        raise RuntimeError(f"warm evidence path escapes its source root: {path}") from exc
+    return path
+
+
+def _semgrep_java_code_without_literals(line: str) -> str:
+    """Mirror the frozen Java anchor scanner's string and // comment removal."""
+    output = []
+    quote = None
+    escaped = False
+    index = 0
+    while index < len(line):
+        character = line[index]
+        if quote is not None:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == quote:
+                quote = None
+            output.append(" ")
+        elif character == "/" and index + 1 < len(line) and line[index + 1] == "/":
+            break
+        elif character in ("'", '"', "`"):
+            quote = character
+            output.append(" ")
+        else:
+            output.append(character)
+        index += 1
+    return "".join(output)
+
+
+def _semgrep_java_callsite(line: str, function_name: str) -> bool:
+    """Mirror AnchorDialect::Java's bare parameter-list callsite predicate."""
+    code = _semgrep_java_code_without_literals(line)
+    search_from = 0
+    while True:
+        start = code.find(function_name, search_from)
+        if start < 0:
+            return False
+        end = start + len(function_name)
+        before = code[start - 1] if start else None
+        after = next((character for character in code[end:] if not character.isspace()), None)
+        is_identifier = before is not None and (
+            before == "_" or before.isascii() and before.isalnum())
+        if not is_identifier and before != "." and after == "(":
+            return True
+        search_from = end
+
+
+def _semgrep_java_sink_locations(case_value: dict, fixture_name: str,
+                                 fixture_bytes: bytes) -> list[dict]:
+    """Resolve the same marker, declaration, and callsite lines as the Rust kernel."""
+    try:
+        fixture_text = fixture_bytes.decode("utf-8")
+    except UnicodeError as exc:
+        raise RuntimeError("Semgrep warm fixture is not valid UTF-8") from exc
+    lines = fixture_text.splitlines()
+    anchors = case_value.get("sink_anchors")
+    if not isinstance(anchors, list) or not anchors:
+        raise RuntimeError("Semgrep warm case has no sink anchors")
+    locations = []
+    seen = set()
+    for anchor in anchors:
+        if not isinstance(anchor, dict):
+            raise RuntimeError("Semgrep warm sink anchor is malformed")
+        file = anchor.get("file")
+        marker = anchor.get("marker")
+        if file != fixture_name or not isinstance(marker, str) or not marker:
+            raise RuntimeError("Semgrep warm sink anchor does not name its bound fixture")
+        marker_lines = [index + 1 for index, line in enumerate(lines) if marker in line]
+        hinted_line = anchor.get("line_hint")
+        if hinted_line is not None:
+            if type(hinted_line) is not int or hinted_line < 1 or hinted_line not in marker_lines:
+                raise RuntimeError(f"Semgrep warm sink marker is absent from hinted line: {marker}")
+            marker_line = hinted_line
+        elif len(marker_lines) == 1:
+            marker_line = marker_lines[0]
+        else:
+            raise RuntimeError(f"Semgrep warm sink marker has {len(marker_lines)} possible lines: {marker}")
+        declaration = lines[marker_line - 1]
+        declaration_prefix = declaration[:declaration.find(marker)].split("//", 1)[0]
+        parameters = declaration_prefix.find("(")
+        if parameters < 0:
+            raise RuntimeError(f"Semgrep warm sink marker is not on a function declaration: {marker}")
+        name_prefix = declaration_prefix[:parameters].rstrip()
+        start = len(name_prefix)
+        while start > 0:
+            character = name_prefix[start - 1]
+            if character == "_" or character.isascii() and character.isalnum():
+                start -= 1
+            else:
+                break
+        function_name = name_prefix[start:]
+        if not function_name or function_name[0].isascii() and function_name[0].isdigit():
+            raise RuntimeError(f"Semgrep warm sink declaration has no function name: {marker}")
+        callsite_lines = sorted(
+            index + 1 for index, line in enumerate(lines)
+            if index + 1 != marker_line and _semgrep_java_callsite(line, function_name))
+        if not callsite_lines:
+            raise RuntimeError(f"Semgrep warm sink function has no callsites: {function_name}")
+        identity = (file, marker_line)
+        if identity in seen:
+            raise RuntimeError("Semgrep warm case contains duplicate sink anchors")
+        seen.add(identity)
+        locations.append({"file": file, "marker": marker, "marker_line": marker_line,
+                          "function_name": function_name, "callsite_lines": callsite_lines})
+    return locations
+
+
+def _warm_semgrep_finding_match(finding: dict, expected_path: str,
+                                sink_locations: list[dict]) -> str:
+    """Mirror Semgrep's path+start.line anchor classification: matched/unmatched/ambiguous."""
+    start = finding.get("start")
+    line = start.get("line") if isinstance(start, dict) else None
+    if type(line) is not int or line < 1:
+        return "ambiguous"
+    fixture_name = Path(expected_path).name
+    matched_anchors = [anchor for anchor in sink_locations
+                       if anchor["file"] == fixture_name and line in anchor["callsite_lines"]]
+    if len(matched_anchors) > 1:
+        return "ambiguous"
+    return "matched" if matched_anchors else "unmatched"
+
+
+def _warm_semgrep_sources(plan: dict, group: dict, source: Path) -> tuple[dict, dict, dict]:
+    """Bind canonical captured case/fixture inputs and frozen outcomes for Semgrep."""
+    case_ids = group.get("warm_case_ids")
+    if (not isinstance(case_ids, list) or not case_ids
+            or any(not isinstance(case_id, str) for case_id in case_ids)
+            or len(set(case_ids)) != len(case_ids)):
+        raise RuntimeError("Semgrep warm case IDs are missing, malformed, or duplicated")
+    sources = {}
+    seen_paths = set()
+    for case_id in case_ids:
+        prefix = "dfb-taint-java-"
+        if not case_id.startswith(prefix):
+            raise RuntimeError(f"Semgrep warm case ID is outside the Java taint population: {case_id}")
+        slug = case_id[len(prefix):]
+        if not slug or any(ch not in "abcdefghijklmnopqrstuvwxyz0123456789-" for ch in slug):
+            raise RuntimeError(f"Semgrep warm case ID has an unsafe fixture slug: {case_id}")
+        case_relative = f"cases/taint/java/{slug}/case.json"
+        case_path = _warm_safe_path(source, case_relative)
+        try:
+            case_raw = case_path.read_bytes()
+            case_value = json.loads(case_raw)
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            raise RuntimeError(f"Semgrep warm case contract is invalid: {case_path}") from exc
+        try:
+            expected_case_raw = legacy.core._git_show(ROOT, RELEASE, case_relative)
+        except Exception as exc:
+            raise RuntimeError(f"cannot bind Semgrep warm case contract to release: {case_relative}") from exc
+        if case_raw != expected_case_raw:
+            raise RuntimeError(f"Semgrep warm case source differs from immutable release bytes: {case_relative}")
+        if (not isinstance(case_value, dict) or case_value.get("id") != case_id
+                or case_value.get("language") != "java"):
+            raise RuntimeError(f"Semgrep warm case contract identity differs: {case_relative}")
+        fixture_files = case_value.get("fixture_files")
+        if not isinstance(fixture_files, list) or len(fixture_files) != 1:
+            raise RuntimeError(f"Semgrep warm case must declare exactly one Java fixture: {case_relative}")
+        fixture_name = fixture_files[0]
+        if (not isinstance(fixture_name, str) or not fixture_name or "/" in fixture_name
+                or "\\" in fixture_name or fixture_name in {".", ".."}):
+            raise RuntimeError(f"Semgrep warm fixture name is unsafe: {case_relative}")
+        fixture_relative = f"cases/taint/java/{slug}/{fixture_name}"
+        fixture_path = _warm_safe_path(source, fixture_relative)
+        try:
+            fixture_raw = fixture_path.read_bytes()
+            expected_fixture_raw = legacy.core._git_show(ROOT, RELEASE, fixture_relative)
+        except Exception as exc:
+            raise RuntimeError(f"cannot read or bind Semgrep warm fixture: {fixture_relative}") from exc
+        if fixture_raw != expected_fixture_raw:
+            raise RuntimeError(f"Semgrep warm fixture differs from immutable release bytes: {fixture_relative}")
+        sink_locations = _semgrep_java_sink_locations(case_value, fixture_name, fixture_raw)
+        for relative in (case_relative, fixture_relative):
+            if relative in seen_paths:
+                raise RuntimeError(f"Semgrep warm source paths are duplicated: {relative}")
+            seen_paths.add(relative)
+        sources[case_id] = {
+            "case_source_path": case_relative,
+            "case_source_sha256": hashlib.sha256(case_raw).hexdigest(),
+            "fixture_source_path": fixture_relative,
+            "fixture_source_sha256": hashlib.sha256(fixture_raw).hexdigest(),
+            "fixture_file": fixture_name,
+            "sink_anchor_locations": sink_locations,
+        }
+
+    rule_relative = "adapters/semgrep/rules/java.yaml"
+    rule_path = _warm_safe_path(source, rule_relative)
+    try:
+        rule_raw = rule_path.read_bytes()
+        expected_rule_raw = legacy.core._git_show(ROOT, RELEASE, rule_relative)
+    except Exception as exc:
+        raise RuntimeError("cannot read or bind the Semgrep warm Java rule to the release") from exc
+    if rule_raw != expected_rule_raw:
+        raise RuntimeError("Semgrep warm Java rule differs from immutable release bytes")
+    rule_text = rule_raw.decode("utf-8")
+    if len(re.findall(r"(?m)^\s*-\s+id:\s*dfb-taint-endpoint-contract\s*$", rule_text)) != 1:
+        raise RuntimeError("Semgrep warm Java rule does not declare the controlled rule exactly once")
+
+    anchor_contract_sources = []
+    for relative in ("src/adapters/semgrep.rs", "src/evidence.rs"):
+        contract_path = _warm_safe_path(source, relative)
+        try:
+            contract_raw = contract_path.read_bytes()
+            expected_contract_raw = legacy.core._git_show(ROOT, RELEASE, relative)
+        except Exception as exc:
+            raise RuntimeError(f"cannot read or bind frozen Semgrep anchor contract source: {relative}") from exc
+        if contract_raw != expected_contract_raw:
+            raise RuntimeError(f"captured Semgrep anchor contract source differs from release bytes: {relative}")
+        anchor_contract_sources.append({"path": relative,
+                                        "sha256": hashlib.sha256(contract_raw).hexdigest()})
+
+    bindings = plan.get("frozen_report_bindings", {}).get("semgrep-java-kernel", [])
+    if len(bindings) != 1 or not isinstance(bindings[0], dict):
+        raise RuntimeError("Semgrep warm validation requires one frozen Java kernel report binding")
+    binding = bindings[0]
+    contract_path = binding.get("contract_path")
+    if not isinstance(contract_path, str):
+        raise RuntimeError("frozen Semgrep Java report path is malformed")
+    frozen_git_path, frozen_raw = _frozen_report_blob(ROOT, contract_path)
+    if (frozen_git_path != binding.get("git_path")
+            or hashlib.sha256(frozen_raw).hexdigest() != binding.get("sha256")):
+        raise RuntimeError("frozen Semgrep Java report no longer matches its plan binding")
+    try:
+        frozen_report = json.loads(frozen_raw)
+    except (UnicodeError, json.JSONDecodeError) as exc:
+        raise RuntimeError("frozen Semgrep Java report is invalid JSON") from exc
+    identity = binding.get("identity")
+    identity_fields = ("tool", "tool_version", "tool_build_identity", "fixture_revision",
+                       "configuration_hash", "cold_or_warm", "adapter_version", "schema_version")
+    if not isinstance(identity, dict) or any(frozen_report.get(field) != identity.get(field)
+                                             for field in identity_fields):
+        raise RuntimeError("frozen Semgrep Java report identity differs from its plan binding")
+    family_identity = _frozen_family_identity(plan, "semgrep", "java")
+    if any(frozen_report.get(field) != family_identity.get(field)
+           for field in ("tool", "tool_version", "tool_build_identity", "fixture_revision")):
+        raise RuntimeError("frozen Semgrep Java report identity differs from the bound family")
+    rows = frozen_report.get("results")
+    if not isinstance(rows, list):
+        raise RuntimeError("frozen Semgrep Java report results are missing")
+    frozen_outcomes = {}
+    for row in rows:
+        if not isinstance(row, dict) or not isinstance(row.get("case_id"), str):
+            raise RuntimeError("frozen Semgrep Java report contains a malformed case row")
+        case_id = row["case_id"]
+        if case_id in frozen_outcomes:
+            raise RuntimeError(f"frozen Semgrep Java report duplicates case {case_id}")
+        frozen_outcomes[case_id] = row.get("outcome")
+    for case_id in case_ids:
+        if frozen_outcomes.get(case_id) not in {"reached", "not-reached"}:
+            raise RuntimeError(f"frozen Semgrep Java outcome is missing or unsupported: {case_id}")
+    return sources, frozen_outcomes, {
+        "rule_source_path": rule_relative,
+        "rule_source_sha256": hashlib.sha256(rule_raw).hexdigest(),
+        "anchor_reconciliation_contract": {
+            "release_commit": RELEASE,
+            "sources": anchor_contract_sources,
+            "functions": {
+                "src/adapters/semgrep.rs": ["semgrep_finding_outcome", "semgrep_finding_anchor_match"],
+                "src/evidence.rs": [
+                    "sink_anchor_locations", "anchor_marker_line", "AnchorDialect::declared_function_name",
+                    "AnchorDialect::is_call", "parameter_list_function_name", "parameter_list_function_call",
+                    "member_prefixed_function_call", "member_prefixed_call_in", "code_without_literals_in",
+                    "evidence_path_matches_file",
+                ],
+            },
+            "port_scope": (
+                "Java sink marker/declaration/callsite resolution and Semgrep finding path+start.line "
+                "classification, including ambiguous and unmatched findings"),
+        },
+        "frozen_report_path": contract_path,
+        "frozen_report_git_path": frozen_git_path,
+        "frozen_report_sha256": hashlib.sha256(frozen_raw).hexdigest(),
+    }
+
+
+def _validate_warm_semgrep_batch(source: Path, raw_root: Path, repeat: int, size: int,
+                                case_ids: list[str], sources: dict, frozen_outcomes: dict,
+                                family_identity: dict) -> tuple[dict, list[dict]]:
+    raw_relative = f"{raw_root.relative_to(source).as_posix()}/run-{repeat}-batch-{size}-findings.json"
+    raw_path = _warm_safe_path(source, raw_relative)
+    try:
+        raw_bytes = raw_path.read_bytes()
+        result = json.loads(raw_bytes)
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise RuntimeError(f"Semgrep warm aggregate batch is invalid: {raw_path}") from exc
+    if not isinstance(result, dict):
+        raise RuntimeError(f"Semgrep warm aggregate batch must be a JSON object: {raw_path}")
+    required = {"engine_requested", "errors", "paths", "results", "skipped_rules", "time", "version"}
+    if not required.issubset(result):
+        raise RuntimeError(f"Semgrep warm aggregate batch omits required fields: {raw_path}")
+    if result.get("version") != family_identity["tool_version"]:
+        raise RuntimeError(f"Semgrep warm raw batch version differs: {raw_path}")
+    if result.get("engine_requested") != "OSS":
+        raise RuntimeError(f"Semgrep warm raw batch engine differs from OSS: {raw_path}")
+    if result.get("errors") != []:
+        raise RuntimeError(f"Semgrep warm raw batch contains analyzer errors: {raw_path}")
+    if result.get("skipped_rules") != []:
+        raise RuntimeError(f"Semgrep warm raw batch contains skipped rules: {raw_path}")
+    timing = result.get("time")
+    if not isinstance(timing, dict) or timing.get("fixpoint_timeouts") != []:
+        raise RuntimeError(f"Semgrep warm raw batch has missing or nonempty fixpoint timeouts: {raw_path}")
+    paths = result.get("paths")
+    scanned = paths.get("scanned") if isinstance(paths, dict) else None
+    if not isinstance(scanned, list) or any(not isinstance(item, str) for item in scanned):
+        raise RuntimeError(f"Semgrep warm raw batch scanned paths are malformed: {raw_path}")
+    expected_paths = {}
+    for index, case_id in enumerate(case_ids):
+        fixture_name = sources[case_id]["fixture_file"]
+        expected_path = str((source.resolve() / "tmp" / f"dataflowbench-warm-semgrep-{repeat}-{size}"
+                             / f"source-{index}" / fixture_name))
+        if expected_path in expected_paths:
+            raise RuntimeError("Semgrep warm expected scanned paths are duplicated")
+        expected_paths[expected_path] = case_id
+    if len(scanned) != len(set(scanned)) or set(scanned) != set(expected_paths):
+        raise RuntimeError(f"Semgrep warm scanned path set differs from ordered batch inputs: {raw_path}")
+    raw_findings = {case_id: [] for case_id in case_ids}
+    finding_matches = {case_id: [] for case_id in case_ids}
+    raw_results = result.get("results")
+    if not isinstance(raw_results, list):
+        raise RuntimeError(f"Semgrep warm raw batch results are malformed: {raw_path}")
+    for finding in raw_results:
+        if not isinstance(finding, dict):
+            raise RuntimeError(f"Semgrep warm raw finding is not an object: {raw_path}")
+        if finding.get("check_id") != "dfb-taint-endpoint-contract":
+            raise RuntimeError(f"Semgrep warm raw finding uses an unexpected controlled rule: {raw_path}")
+        finding_path = finding.get("path")
+        if not isinstance(finding_path, str) or finding_path not in expected_paths:
+            raise RuntimeError(f"Semgrep warm raw finding path is outside the batch: {raw_path}")
+        extra = finding.get("extra")
+        if not isinstance(extra, dict) or extra.get("engine_kind") != "OSS":
+            raise RuntimeError(f"Semgrep warm raw finding lacks OSS engine identity: {raw_path}")
+        case_id = expected_paths[finding_path]
+        match = _warm_semgrep_finding_match(
+            finding, finding_path, sources[case_id]["sink_anchor_locations"])
+        raw_findings[case_id].append(finding)
+        start_value = finding.get("start")
+        start_line = start_value.get("line") if isinstance(start_value, dict) else None
+        finding_matches[case_id].append({"classification": match, "start_line": start_line})
+    observations = []
+    for case_id in case_ids:
+        classifications = [item["classification"] for item in finding_matches[case_id]]
+        if "ambiguous" in classifications:
+            raise RuntimeError(f"Semgrep warm finding has an ambiguous sink-anchor location: {case_id}")
+        if not classifications:
+            derived = "not-reached"
+        elif "matched" in classifications:
+            derived = "reached"
+        else:
+            raise RuntimeError(f"Semgrep warm findings are inconclusive against sink anchor: {case_id}")
+        frozen = frozen_outcomes[case_id]
+        if derived != frozen:
+            raise RuntimeError(f"Semgrep warm derived outcome differs from frozen outcome: {case_id}")
+        observations.append({
+            "repeat": repeat,
+            "batch_size": size,
+            "case_id": case_id,
+            "case_source_path": sources[case_id]["case_source_path"],
+            "case_source_sha256": sources[case_id]["case_source_sha256"],
+            "fixture_source_path": sources[case_id]["fixture_source_path"],
+            "fixture_source_sha256": sources[case_id]["fixture_source_sha256"],
+            "scanned_path": next(path for path, mapped_id in expected_paths.items()
+                                  if mapped_id == case_id),
+            "raw_findings": raw_findings[case_id],
+            "raw_finding_anchor_matches": finding_matches[case_id],
+            "derived_outcome": derived,
+            "frozen_outcome": frozen,
+            "outcome_matches_frozen": True,
+        })
+    return {"path": raw_relative, "sha256": hashlib.sha256(raw_bytes).hexdigest(),
+            "size_bytes": len(raw_bytes), "repeat": repeat, "batch_size": size}, observations
+
+
 def validate_warm_artifact(plan: dict, group: dict, source: Path) -> dict:
-    """Validate every planned warm batch and its retained case evidence."""
+    """Validate each warm family using its retained evidence format."""
     root_relative = group["output_roots"][0]
+    _warm_safe_path(source, root_relative, directory=True)
     raw_root = source / root_relative
-    artifact_path = raw_root / "warm-latency.json"
-    if not artifact_path.is_file():
-        raise RuntimeError(f"warm-latency artifact is missing: {artifact_path}")
+    artifact_path = _warm_safe_path(source, f"{root_relative}/warm-latency.json")
     raw = artifact_path.read_bytes()
-    artifact = json.loads(raw)
+    try:
+        artifact = json.loads(raw)
+    except (UnicodeError, json.JSONDecodeError) as exc:
+        raise RuntimeError(f"warm-latency artifact is invalid: {artifact_path}") from exc
+    if not isinstance(artifact, dict):
+        raise RuntimeError("warm-latency artifact must be a JSON object")
     family = group["family"]
     if artifact.get("schema_version") != 1:
         raise RuntimeError("warm-latency artifact schema_version differs")
@@ -1695,6 +2095,13 @@ def validate_warm_artifact(plan: dict, group: dict, source: Path) -> dict:
     if not isinstance(runs, list) or len(runs) != 2:
         raise RuntimeError("warm-latency artifact must retain two run records")
     retained_files = 0
+    raw_batch_files = []
+    derived_case_observations = []
+    semgrep_sources = frozen_outcomes = semgrep_receipt = None
+    if family == "semgrep":
+        semgrep_sources, frozen_outcomes, semgrep_receipt = _warm_semgrep_sources(plan, group, source)
+    elif family != "joern":
+        raise RuntimeError(f"warm artifact validator is not qualified for family: {family}")
     for repeat, run in enumerate(runs, start=1):
         if not isinstance(run, dict) or run.get("run") != repeat:
             raise RuntimeError("warm-latency run numbering differs")
@@ -1709,32 +2116,52 @@ def validate_warm_artifact(plan: dict, group: dict, source: Path) -> dict:
                 raise RuntimeError(f"warm-latency run {repeat} batch wall_ms is malformed")
             if batch.get("case_ids") != case_ids[:size]:
                 raise RuntimeError(f"warm-latency run {repeat} batch {size} is not the bound case prefix")
-            evidence_dir = raw_root / f"run-{repeat}-batch-{size}-evidence"
-            expected_names = {case_id + ".json" for case_id in case_ids[:size]}
-            if not evidence_dir.is_dir() or evidence_dir.is_symlink():
-                raise RuntimeError(f"warm per-case evidence directory is missing: {evidence_dir}")
-            children = list(evidence_dir.iterdir())
-            if any(path.is_symlink() or not path.is_file() for path in children):
-                raise RuntimeError(f"warm per-case evidence contains a non-regular entry: {evidence_dir}")
-            actual_names = {path.name for path in children}
-            if actual_names != expected_names:
-                raise RuntimeError(f"warm per-case evidence membership differs: {evidence_dir}")
-            for name in sorted(expected_names):
-                path = evidence_dir / name
-                try:
-                    evidence = json.loads(path.read_text())
-                except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-                    raise RuntimeError(f"warm per-case evidence is invalid: {path}") from exc
-                if not isinstance(evidence, dict):
-                    raise RuntimeError(f"warm per-case evidence must be a JSON object: {path}")
-            retained_files += len(expected_names)
-    return {"kind": "warm", "status": "candidate", "artifact": str(artifact_path),
-            "sha256": hashlib.sha256(raw).hexdigest(), "repeats": 2,
-            "batch_sizes": sizes, "case_count": len(case_ids),
-            "retained_per_case_evidence_files": retained_files,
-            "equivalence_pending": True,
-            "equivalence_status": "pending comparison against corresponding cold evidence",
-            "publication_eligible": False}
+            if family == "joern":
+                evidence_dir_relative = f"{root_relative}/run-{repeat}-batch-{size}-evidence"
+                evidence_dir = _warm_safe_path(source, evidence_dir_relative, directory=True)
+                expected_names = {case_id + ".json" for case_id in case_ids[:size]}
+                children = list(evidence_dir.iterdir())
+                if any(path.is_symlink() or not path.is_file() for path in children):
+                    raise RuntimeError(f"warm per-case evidence contains a non-regular entry: {evidence_dir}")
+                actual_names = {path.name for path in children}
+                if actual_names != expected_names:
+                    raise RuntimeError(f"warm per-case evidence membership differs: {evidence_dir}")
+                for name in sorted(expected_names):
+                    path = _warm_safe_path(source, f"{evidence_dir_relative}/{name}")
+                    try:
+                        evidence = json.loads(path.read_text())
+                    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+                        raise RuntimeError(f"warm per-case evidence is invalid: {path}") from exc
+                    if not isinstance(evidence, dict):
+                        raise RuntimeError(f"warm per-case evidence must be a JSON object: {path}")
+                retained_files += len(expected_names)
+            else:
+                batch_file, observations = _validate_warm_semgrep_batch(
+                    source, raw_root, repeat, size, case_ids[:size], semgrep_sources,
+                    frozen_outcomes, family_identity)
+                raw_batch_files.append(batch_file)
+                derived_case_observations.extend(observations)
+    receipt = {"kind": "warm", "status": "candidate", "artifact": str(artifact_path),
+               "sha256": hashlib.sha256(raw).hexdigest(), "repeats": 2,
+               "batch_sizes": sizes, "case_count": len(case_ids),
+               "retained_per_case_evidence_files": retained_files,
+               "equivalence_pending": True,
+               "equivalence_status": "pending comparison against corresponding cold evidence",
+               "publication_eligible": False}
+    if family == "semgrep":
+        receipt.update({
+            "retained_per_case_evidence_files": 0,
+            "raw_batch_files": raw_batch_files,
+            "raw_batch_file_count": len(raw_batch_files),
+            "derived_case_observations": derived_case_observations,
+            "derived_case_observation_count": len(derived_case_observations),
+            "derived_observation_scope": (
+                "raw aggregate findings mapped by the retained ordered source-index recipe to canonical "
+                "release case and fixture bytes; Semgrep scratch copies were removed and are not hash-bound"),
+            "source_inputs": {case_id: semgrep_sources[case_id] for case_id in case_ids},
+            **semgrep_receipt,
+        })
+    return receipt
 
 
 def _frozen_family_identity(plan: dict, family: str, language: str, *, overhead: bool = False) -> dict:

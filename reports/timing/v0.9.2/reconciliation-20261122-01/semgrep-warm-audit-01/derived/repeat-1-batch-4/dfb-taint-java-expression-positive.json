@@ -1,0 +1,50 @@
+{
+  "batch_size": 4,
+  "case_id": "dfb-taint-java-expression-positive",
+  "case_source_path": "cases/taint/java/expression-positive/case.json",
+  "case_source_sha256": "a179647d349f6b8648ec0be875803e1ae68655d32a11f0a39f653a37929170eb",
+  "derived_outcome": "reached",
+  "evidence_kind": "retrospective-derived-observation",
+  "fixture_source_path": "cases/taint/java/expression-positive/ExpressionPositive.java",
+  "fixture_source_sha256": "b3930dcc202039b16b42cdc89b8755439327ba98c7c2552130d5cb49c9d12f61",
+  "frozen_outcome": "reached",
+  "original_batch": {
+    "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-4-findings.json",
+    "sha256": "845748972a056ad5d3a3f555acd58a3a2457d11edf4e28891c6ffa2213722555",
+    "size_bytes": 4330
+  },
+  "outcome_matches_frozen": true,
+  "per_case_wall_time_available": false,
+  "publication_eligible": false,
+  "raw_findings": [
+    {
+      "check_id": "dfb-taint-endpoint-contract",
+      "end": {
+        "col": 27,
+        "line": 13,
+        "offset": 380
+      },
+      "extra": {
+        "engine_kind": "OSS",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+        "metadata": {},
+        "severity": "WARNING",
+        "validation_state": "NO_VALIDATOR"
+      },
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-4/source-3/ExpressionPositive.java",
+      "start": {
+        "col": 9,
+        "line": 13,
+        "offset": 362
+      }
+    }
+  ],
+  "repeat": 1,
+  "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-4/source-3/ExpressionPositive.java",
+  "schema": "v092-semgrep-warm-derived-case/v1",
+  "scratch_copy_bytes_independently_retained": false,
+  "source_index": 3,
+  "warm_artifact_sha256": "670e81957db374f0668d71f3cd917e590742c3faccd5108753080267c6e1a3d5"
+}

@@ -1,0 +1,50 @@
+{
+  "batch_size": 8,
+  "case_id": "dfb-taint-java-infeasible-branch-negative",
+  "case_source_path": "cases/taint/java/infeasible-branch-negative/case.json",
+  "case_source_sha256": "af05319f454eb8df890fafd6ca7eae81743f1c2796730df1078526ab8c3c1a02",
+  "derived_outcome": "reached",
+  "evidence_kind": "retrospective-derived-observation",
+  "fixture_source_path": "cases/taint/java/infeasible-branch-negative/InfeasibleBranchNegative.java",
+  "fixture_source_sha256": "30d83a98cf85b82d0f2c125a28bcee0f57ebf7aea6814793cbb6ca92dd20224d",
+  "frozen_outcome": "reached",
+  "original_batch": {
+    "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-8-findings.json",
+    "sha256": "327af8e8e949318cfe2c2ad4b51a5982d06aa9c3013afcc07ffdfc8d49046e32",
+    "size_bytes": 7378
+  },
+  "outcome_matches_frozen": true,
+  "per_case_wall_time_available": false,
+  "publication_eligible": false,
+  "raw_findings": [
+    {
+      "check_id": "dfb-taint-endpoint-contract",
+      "end": {
+        "col": 24,
+        "line": 15,
+        "offset": 417
+      },
+      "extra": {
+        "engine_kind": "OSS",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+        "metadata": {},
+        "severity": "WARNING",
+        "validation_state": "NO_VALIDATOR"
+      },
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-4/InfeasibleBranchNegative.java",
+      "start": {
+        "col": 9,
+        "line": 15,
+        "offset": 402
+      }
+    }
+  ],
+  "repeat": 2,
+  "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-4/InfeasibleBranchNegative.java",
+  "schema": "v092-semgrep-warm-derived-case/v1",
+  "scratch_copy_bytes_independently_retained": false,
+  "source_index": 4,
+  "warm_artifact_sha256": "670e81957db374f0668d71f3cd917e590742c3faccd5108753080267c6e1a3d5"
+}

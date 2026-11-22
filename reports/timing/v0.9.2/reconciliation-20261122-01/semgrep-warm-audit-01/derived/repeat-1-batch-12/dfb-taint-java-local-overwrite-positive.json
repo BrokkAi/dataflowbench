@@ -1,0 +1,50 @@
+{
+  "batch_size": 12,
+  "case_id": "dfb-taint-java-local-overwrite-positive",
+  "case_source_path": "cases/taint/java/local-overwrite-positive/case.json",
+  "case_source_sha256": "ac35be52c0b00f72352f9a41bcf46e8c236c0d3fb01bbb70b2687c312b3654a3",
+  "derived_outcome": "reached",
+  "evidence_kind": "retrospective-derived-observation",
+  "fixture_source_path": "cases/taint/java/local-overwrite-positive/LocalOverwritePositive.java",
+  "fixture_source_sha256": "25e7e98645bce061c747b4fdae96d1074e9b0376fd83eb3597430c1551e13906",
+  "frozen_outcome": "reached",
+  "original_batch": {
+    "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-12-findings.json",
+    "sha256": "82cba41ccb652c61f7d05346c5aad4615e3e18f924832b0ca3213c1bd5879bd6",
+    "size_bytes": 10439
+  },
+  "outcome_matches_frozen": true,
+  "per_case_wall_time_available": false,
+  "publication_eligible": false,
+  "raw_findings": [
+    {
+      "check_id": "dfb-taint-endpoint-contract",
+      "end": {
+        "col": 24,
+        "line": 13,
+        "offset": 380
+      },
+      "extra": {
+        "engine_kind": "OSS",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+        "metadata": {},
+        "severity": "WARNING",
+        "validation_state": "NO_VALIDATOR"
+      },
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-9/LocalOverwritePositive.java",
+      "start": {
+        "col": 9,
+        "line": 13,
+        "offset": 365
+      }
+    }
+  ],
+  "repeat": 1,
+  "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-9/LocalOverwritePositive.java",
+  "schema": "v092-semgrep-warm-derived-case/v1",
+  "scratch_copy_bytes_independently_retained": false,
+  "source_index": 9,
+  "warm_artifact_sha256": "670e81957db374f0668d71f3cd917e590742c3faccd5108753080267c6e1a3d5"
+}

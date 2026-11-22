@@ -1082,3 +1082,11 @@ the user's tolerance for exact Contacts, Spotlight and Apple VM executable
 paths. Raw CPU data and original qualification flags remain unchanged; the
 three new admissions and their diagnostic qualification are separately labelled.
 Other workload, identity, source, process, resource and timeout gates remain.
+
+### A29 — Retrospective Semgrep warm format correction (22 November 2026)
+
+The [evidence reconciliation](latency-v092-20261122-warm-reconciliation.md)
+validates Semgrep's retained aggregate batch format with exact case/file
+coverage and derives separately labelled audit records. The original failed
+validation receipt and all measured values remain unchanged. This does not
+convert a retrospective diagnostic candidate into settled qualification.

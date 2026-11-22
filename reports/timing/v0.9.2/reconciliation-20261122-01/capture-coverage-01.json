@@ -1,0 +1,2223 @@
+{
+  "schema": "v092-timing-chain-capture-coverage/v1",
+  "utc": "2026-11-22T14:31:01.849589+00:00",
+  "immutable_release": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1",
+  "plan_entries": 95,
+  "planned_cold_groups": 84,
+  "ready_commands": 93,
+  "attempted_unique_commands": 93,
+  "capture_counts": [
+    {
+      "kind": "cold",
+      "controller_status": "completed-candidate-evidence",
+      "commands": 81
+    },
+    {
+      "kind": "cold",
+      "controller_status": "failed",
+      "commands": 1
+    },
+    {
+      "kind": "overhead",
+      "controller_status": "completed-candidate-evidence",
+      "commands": 9
+    },
+    {
+      "kind": "warm",
+      "controller_status": "completed-candidate-evidence",
+      "commands": 1
+    },
+    {
+      "kind": "warm",
+      "controller_status": "failed",
+      "commands": 1
+    }
+  ],
+  "blocked_groups": [
+    "joern-swift-common108",
+    "codeql-swift-common108"
+  ],
+  "families": {
+    "bifrost": {
+      "successful_candidate_groups": 20,
+      "failed_or_quarantined_groups": [],
+      "outcomes": {
+        "not-reached": 330,
+        "reached": 335,
+        "inconclusive": 366,
+        "unsupported": 85
+      },
+      "cold_timing_sidecars": 1031,
+      "planned_cold_groups": 20,
+      "blocked_groups": [],
+      "scope_note": "Own frozen population; unsupported/runner-error/inconclusive remain explicit. Timing sidecars include invocation costs for incomplete/error states and do not certify successful analysis."
+    },
+    "codeql": {
+      "successful_candidate_groups": 17,
+      "failed_or_quarantined_groups": [],
+      "outcomes": {
+        "not-reached": 447,
+        "reached": 369,
+        "inconclusive": 6,
+        "runner-error": 36
+      },
+      "cold_timing_sidecars": 858,
+      "planned_cold_groups": 18,
+      "blocked_groups": [
+        "codeql-swift-common108"
+      ],
+      "scope_note": "Own frozen population; unsupported/runner-error/inconclusive remain explicit. Timing sidecars include invocation costs for incomplete/error states and do not certify successful analysis."
+    },
+    "flowdroid": {
+      "successful_candidate_groups": 4,
+      "failed_or_quarantined_groups": [],
+      "outcomes": {
+        "not-reached": 77,
+        "reached": 77,
+        "unsupported": 22
+      },
+      "cold_timing_sidecars": 154,
+      "planned_cold_groups": 4,
+      "blocked_groups": [],
+      "scope_note": "Own frozen population; unsupported/runner-error/inconclusive remain explicit. Timing sidecars include invocation costs for incomplete/error states and do not certify successful analysis."
+    },
+    "infer": {
+      "successful_candidate_groups": 5,
+      "failed_or_quarantined_groups": [],
+      "outcomes": {
+        "not-reached": 137,
+        "reached": 67,
+        "unsupported": 26
+      },
+      "cold_timing_sidecars": 204,
+      "planned_cold_groups": 5,
+      "blocked_groups": [],
+      "scope_note": "Own frozen population; unsupported/runner-error/inconclusive remain explicit. Timing sidecars include invocation costs for incomplete/error states and do not certify successful analysis."
+    },
+    "joern": {
+      "successful_candidate_groups": 11,
+      "failed_or_quarantined_groups": [
+        "joern-rust-kernel"
+      ],
+      "outcomes": {
+        "not-reached": 221,
+        "reached": 177,
+        "unsupported": 60
+      },
+      "cold_timing_sidecars": 398,
+      "planned_cold_groups": 13,
+      "blocked_groups": [
+        "joern-swift-common108"
+      ],
+      "scope_note": "Own frozen population; unsupported/runner-error/inconclusive remain explicit. Timing sidecars include invocation costs for incomplete/error states and do not certify successful analysis."
+    },
+    "opentaint": {
+      "successful_candidate_groups": 4,
+      "failed_or_quarantined_groups": [],
+      "outcomes": {
+        "not-reached": 73,
+        "reached": 79,
+        "unsupported": 24
+      },
+      "cold_timing_sidecars": 152,
+      "planned_cold_groups": 4,
+      "blocked_groups": [],
+      "scope_note": "Own frozen population; unsupported/runner-error/inconclusive remain explicit. Timing sidecars include invocation costs for incomplete/error states and do not certify successful analysis."
+    },
+    "pysa": {
+      "successful_candidate_groups": 3,
+      "failed_or_quarantined_groups": [],
+      "outcomes": {
+        "not-reached": 69,
+        "reached": 33,
+        "unsupported": 4
+      },
+      "cold_timing_sidecars": 102,
+      "planned_cold_groups": 3,
+      "blocked_groups": [],
+      "scope_note": "Own frozen population; unsupported/runner-error/inconclusive remain explicit. Timing sidecars include invocation costs for incomplete/error states and do not certify successful analysis."
+    },
+    "semgrep": {
+      "successful_candidate_groups": 17,
+      "failed_or_quarantined_groups": [],
+      "outcomes": {
+        "unsupported": 658,
+        "not-reached": 72,
+        "reached": 124
+      },
+      "cold_timing_sidecars": 196,
+      "planned_cold_groups": 17,
+      "blocked_groups": [],
+      "scope_note": "Own frozen population; unsupported/runner-error/inconclusive remain explicit. Timing sidecars include invocation costs for incomplete/error states and do not certify successful analysis."
+    }
+  },
+  "attempts": [
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-c-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-c-kernel/attempt-01/terminal.json",
+        "sha256": "3c64aef3e67db0a9519b5270c003941f5206a0199e3b423ebbb16266d96356bc"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-cpp-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-cpp-kernel/attempt-01/terminal.json",
+        "sha256": "0307bb3ae81484e80c5fa2c59db509d0c229c3616abc1f52c2a2b89307f114fc"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-csharp-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-csharp-kernel/attempt-01/terminal.json",
+        "sha256": "f5e276e58c212efd53eadd04cb07c4c4eb390df2b2c32f05600e3b42e72bbcc9"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-go-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-go-kernel/attempt-01/terminal.json",
+        "sha256": "5fe4715b0d208d95afde4553e87d67309cc56abae2dbdd9a3c84ee379f8a8525"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-java-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-java-kernel/attempt-01/terminal.json",
+        "sha256": "151eb78edda0f77d3101bce80ac1300f563e361789d5485c8b4300d5fd9449bc"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-java-modeling",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-java-modeling/attempt-01/terminal.json",
+        "sha256": "e17624ce75873b072e568ebcae96f721e2341e5b1aeb2a1ca7b07ecd0be9066e"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-java-native",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-java-native/attempt-01/terminal.json",
+        "sha256": "faa9a60da03673d269383704ea28aaf2666988dad7591350fa8a7ddee7cfb584"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-javascript-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-javascript-kernel/attempt-01/terminal.json",
+        "sha256": "e4d5fb903402a7b00809f5a18151b064e4d01bc2855c1122a2ae943037d38c65"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-javascript-modeling",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-javascript-modeling/attempt-01/terminal.json",
+        "sha256": "3e25e73ac1791c3e4f363a12b73bd7b649c1c9fe246f45f95815e2972039e4af"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-javascript-native",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-javascript-native/attempt-01/terminal.json",
+        "sha256": "90307d246eeb69df9cb6e603bb3308c67bcd8653df6a8c88bcd4794503b2c980"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-kotlin-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-kotlin-kernel/attempt-01/terminal.json",
+        "sha256": "6d8e5769c309a0b29cdc27ce72c4986314c6fbc33f8d5d969b5a54df4d668361"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-php-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-php-kernel/attempt-01/terminal.json",
+        "sha256": "a98c7a09340e2d9c45c7021200a184c24af8b92862cae6294ce78105ea1c0f58"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-python-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-python-kernel/attempt-01/terminal.json",
+        "sha256": "8ae55692904abfb7deccd740fcc90b63fd5e6be60b8ce3f507a4db1d9f85330b"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-python-modeling",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-python-modeling/attempt-01/terminal.json",
+        "sha256": "6cd6ca48c827cdec3d9579d5c49a233d2ba69bd80b1c3d451567df9609a9ad4e"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-python-native",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-python-native/attempt-01/terminal.json",
+        "sha256": "7feb09033b8a5624e7b242c1291f0710c1c2c7fd5a1ce04b105958d125a461e7"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-ruby-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-ruby-kernel/attempt-01/terminal.json",
+        "sha256": "2082d509911b56c9a57cf1d84511fa1a78832e52b0477a659839edfec8edaaf1"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-rust-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-rust-kernel/attempt-01/terminal.json",
+        "sha256": "2752cccfad18d783b5f9f544e6dbdf2d735378a9ff514ac34af0522b589107ce"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-scala-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-scala-kernel/attempt-01/terminal.json",
+        "sha256": "23b481e49636114c1d318997fc1ad3a697257019343a30938de919a871fffb33"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-smoke",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-smoke/attempt-01/terminal.json",
+        "sha256": "077bd34ea74ed6582694c74816cb551cab65f6a8b8bab1554f5d5fac7f3acc9a"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "bifrost-typescript-kernel",
+      "family": "bifrost",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/bifrost-typescript-kernel/attempt-01/terminal.json",
+        "sha256": "2b969e8d5daa74d2dabc8e6d8edfff30a5f6c6170678cf871f97dadaa903474d"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-c-kernel",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-c-kernel/attempt-01/terminal.json",
+        "sha256": "dcfcbd69da71d7a7ac37020c806bff2edd1e90f787628b00a85e6a5a3f77f7c5"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-cpp-kernel",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-cpp-kernel/attempt-01/terminal.json",
+        "sha256": "76d668a13a1cd52349e84ceea596d87cc74c5751f21b8de1d2443df9de200cdb"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-csharp-kernel",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-csharp-kernel/attempt-01/terminal.json",
+        "sha256": "be08ff2099c8b4fd8965bfca555e450bafa2999ca4de1f68c848f8b75776fe80"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-go-kernel",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-go-kernel/attempt-01/terminal.json",
+        "sha256": "6735c04aa495b284aac2291a07a08e74fde1a53a81d588d979c577d5e6b90e3d"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-java-kernel",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-java-kernel/attempt-01/terminal.json",
+        "sha256": "fd3d2f9658b48b65d0d736d1f57ed3d1ed0c6b52784ada2bb59b92ea45ed2b12"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-java-modeling",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-java-modeling/attempt-01/terminal.json",
+        "sha256": "573b4de43387db2ca85aa3a413445b220071809ce9b308df12731c3d9684e1dd"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-java-native",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-java-native/attempt-01/terminal.json",
+        "sha256": "58e31fbd4a2e634d41a8e8a2177a3a9081068c6d44913547b470ce9eea32805a"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-javascript-kernel",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-javascript-kernel/attempt-01/terminal.json",
+        "sha256": "049c01ebe02fa52337abb69d1534a8ee590526e312ecd6d84f3cdbf6fadedcdb"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-javascript-modeling",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-javascript-modeling/attempt-01/terminal.json",
+        "sha256": "2b91cd76fd5affaff2be9f3fa15dd239bc9e2df9ba9962e3716bf1c75629f896"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-javascript-native",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-javascript-native/attempt-01/terminal.json",
+        "sha256": "bdaba4d559558b00968cd2bafbb47f1cc5f5bd4e680199beb7419c3e8db4da58"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-kotlin-kernel",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-kotlin-kernel/attempt-01/terminal.json",
+        "sha256": "1f25ad54e187fcc17e2d8ab43eb287af684d38d3a90528d5b6b277bff5862936"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-python-kernel",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-python-kernel/attempt-01/terminal.json",
+        "sha256": "fbbeaad9f7a1f1fa58ad4295f4a3c88e8b2b8b94016cfcda0bae6d928bfd3e9e"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-python-modeling",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-python-modeling/attempt-01/terminal.json",
+        "sha256": "b1f378f448e4a4bafe8486a673d86cfc6851b2039e0148585f81ab278a15cdd5"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-python-native",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-python-native/attempt-01/terminal.json",
+        "sha256": "f94c453fc86cd8b54d9edf931b275811f7ea923cc21b7ba9f16c78c1002aea88"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-ruby-kernel",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-ruby-kernel/attempt-01/terminal.json",
+        "sha256": "a0fdf313b00fdf709ce6be422220819defcdd0b93e7a4a8388d56ed2cc59ad9d"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-rust-kernel",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-rust-kernel/attempt-01/terminal.json",
+        "sha256": "ce6fc73dee4f4e3321ef74dddf01c4f28990320978884db2c210f7b6b1102015"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "codeql-typescript-kernel",
+      "family": "codeql",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/codeql-typescript-kernel/attempt-01/terminal.json",
+        "sha256": "3dacd0d9fccea2f8f6bd5ad13e2e76fb21f0eee15d8adbcae89f1c8d95037cb5"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "flowdroid-java-kernel",
+      "family": "flowdroid",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/flowdroid-java-kernel/attempt-01/terminal.json",
+        "sha256": "d67f240255782f7f2962a88411a632edbaa2c2bf3915230b5b4b85850d787fc2"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "flowdroid-java-modeling",
+      "family": "flowdroid",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/flowdroid-java-modeling/attempt-01/terminal.json",
+        "sha256": "3a45162a8f063d6a14a7f62bbfcf7368c79096ad7e8f5ffaeaebc29f54fe3b44"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "flowdroid-java-native",
+      "family": "flowdroid",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/flowdroid-java-native/attempt-01/terminal.json",
+        "sha256": "b7468c1873b1ea7df5e39d965e850e7fa07d2aa31d1c8e11b9f7b65d75b6791a"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "flowdroid-kotlin-kernel",
+      "family": "flowdroid",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/flowdroid-kotlin-kernel/attempt-01/terminal.json",
+        "sha256": "8ff51fc98656e4904fba2646254c208f4b9968efe190e4063c60c2cca3d42924"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "infer-c-kernel",
+      "family": "infer",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/infer-c-kernel/attempt-01/terminal.json",
+        "sha256": "ff705e66b5a10e2ee73f2db32d27190b8cc70f0169fb9c03a9861e6573682db2"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "infer-cpp-kernel",
+      "family": "infer",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/infer-cpp-kernel/attempt-01/terminal.json",
+        "sha256": "8e89c175b397f0f0f6490faec98a48c967d0936ba6329db759fa4bc0d0f58017"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "infer-java-kernel",
+      "family": "infer",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/infer-java-kernel/attempt-01/terminal.json",
+        "sha256": "963183a83c6ceb08288e209b1c132bddea541b2d4654696961f20f2d3e758fb8"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "infer-java-modeling",
+      "family": "infer",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/infer-java-modeling/attempt-01/terminal.json",
+        "sha256": "2f5584a4fde2d3805b21d4e83ecb3e491baba7bbfb92adc2577eb2536ee65aef"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "infer-java-native",
+      "family": "infer",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/infer-java-native/attempt-01/terminal.json",
+        "sha256": "222b255449eda489ec5b240e228c58c3467766476f9370c906efba2e3f673465"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "joern-java-kernel",
+      "family": "joern",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/joern-java-kernel/attempt-01/terminal.json",
+        "sha256": "8a71090e68dffd45121a5f845af3ab3f32ad78022e9aa6fa3e0a42f53b47b882"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "joern-java-modeling",
+      "family": "joern",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/joern-java-modeling/attempt-01/terminal.json",
+        "sha256": "d5a01f5a73bea9151b0d441ba93afcf0faedbe897c42bd630ca87042289f226f"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "joern-java-native",
+      "family": "joern",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/joern-java-native/attempt-01/terminal.json",
+        "sha256": "c20f54bd3571183612c93bce7b50356ac3afb01cc957477ce478065cf5a8989a"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "joern-javascript-kernel",
+      "family": "joern",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/joern-javascript-kernel/attempt-01/terminal.json",
+        "sha256": "201d680b3c591f8076eb03b839e949ec1651768957c9195f82ae734948dfd720"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "joern-javascript-modeling",
+      "family": "joern",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/joern-javascript-modeling/attempt-01/terminal.json",
+        "sha256": "6deae011f0c8f6e160bc4c1bdae3d82d72f3336c5dc369e1e0547dd29daace10"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "joern-javascript-native",
+      "family": "joern",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/joern-javascript-native/attempt-01/terminal.json",
+        "sha256": "3df0842e33308d2b3f042c1bfd39a2a8abc7a66cae2a8e858ea4f55ada29805b"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "opentaint-java-kernel",
+      "family": "opentaint",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/opentaint-java-kernel/attempt-01/terminal.json",
+        "sha256": "062be931c5147924c81481bbd3642765f0058c46a68d8fe4eee237f2eff0d182"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "pysa-python-kernel",
+      "family": "pysa",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/pysa-python-kernel/attempt-01/terminal.json",
+        "sha256": "1e3033ed5f8c5e3ed07eb00fcf474cf46d77eaf3993a256f26f1f60ef6534142"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261115-01",
+      "group": "semgrep-java-kernel",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261115-01/attempts/semgrep-java-kernel/attempt-01/terminal.json",
+        "sha256": "01787cd5774493fbed6c9a1468a25e52c3fe443ef12b0ef1a3b811e896f65705"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261121-01",
+      "group": "joern-php-kernel",
+      "family": "joern",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261121-01/attempts/joern-php-kernel/attempt-01/terminal.json",
+        "sha256": "95ddc9b2f9a10fa1fa1940d3b76a8cc52fc38ccb10229b849ac19db81af7a831"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261121-01",
+      "group": "joern-python-kernel",
+      "family": "joern",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261121-01/attempts/joern-python-kernel/attempt-01/terminal.json",
+        "sha256": "d68a9c513f0d19773ec26f02928c97f078b624a70580158db5480e41c7aff46d"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261121-01",
+      "group": "joern-python-modeling",
+      "family": "joern",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261121-01/attempts/joern-python-modeling/attempt-01/terminal.json",
+        "sha256": "09cc1b11ad1b01cbd7875e8db18d31fa0011bae8d1afc490fcf0e37c5ac6d9b5"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261121-01",
+      "group": "joern-python-native",
+      "family": "joern",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261121-01/attempts/joern-python-native/attempt-01/terminal.json",
+        "sha256": "e5380aa586d77b0f3140268e805407d1afe0c0458cdcba7440a3152125b79b0b"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261121-01",
+      "group": "joern-ruby-kernel",
+      "family": "joern",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261121-01/attempts/joern-ruby-kernel/attempt-01/terminal.json",
+        "sha256": "6771e79240bf5bd6304c184caea54c499011473c5e9faeacc3d05313458fdf43"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261121-01",
+      "group": "joern-rust-kernel",
+      "family": "joern",
+      "kind": "cold",
+      "status": "failed",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261121-01/attempts/joern-rust-kernel/attempt-01/terminal.json",
+        "sha256": "a6e3be182c26b3bc04402b4511c618ee3e9aab2720eb9b2ef4de532a6af5d50a"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "opentaint-java-modeling",
+      "family": "opentaint",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/opentaint-java-modeling/attempt-01/terminal.json",
+        "sha256": "ecf7004add81c67b58284c8582c2dbd3d34a7287860040d4699e94339f7dc2d2"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "opentaint-java-native",
+      "family": "opentaint",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/opentaint-java-native/attempt-01/terminal.json",
+        "sha256": "1778c74d6287e5e3d4e034d9ee534383b9090b19804f90fc0daae5c84f92729b"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "opentaint-kotlin-kernel",
+      "family": "opentaint",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/opentaint-kotlin-kernel/attempt-01/terminal.json",
+        "sha256": "3d31f41009c47f10a55299bec5f124c58df2830e03a8d30037acab3e21f81fff"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "overhead-bifrost-python",
+      "family": "bifrost",
+      "kind": "overhead",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/overhead-bifrost-python/attempt-01/terminal.json",
+        "sha256": "76f14edb74bbf406401651de1946531ae7c66a32167b5def0ef30a2b63f9487f"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "overhead-codeql-ruby",
+      "family": "codeql",
+      "kind": "overhead",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/overhead-codeql-ruby/attempt-01/terminal.json",
+        "sha256": "c28195efe3a5dc83e80cd9cfe72b26e4a61e57ae965f9bf23c0317fb1c22fa0c"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "overhead-flowdroid-java",
+      "family": "flowdroid",
+      "kind": "overhead",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/overhead-flowdroid-java/attempt-01/terminal.json",
+        "sha256": "ba45537011fa312539273d430b90e833c201aeca1990adde80563c66de55ed66"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "overhead-infer-c",
+      "family": "infer",
+      "kind": "overhead",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/overhead-infer-c/attempt-01/terminal.json",
+        "sha256": "c11046eea1371d81740cfa6cc5ffe249fa1a3cfa9ed7addc828787a9ef69f42d"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "overhead-joern-java",
+      "family": "joern",
+      "kind": "overhead",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/overhead-joern-java/attempt-01/terminal.json",
+        "sha256": "f74c7fa4e6db4724c1f5ce6708dd542d8e10312bd13f48a43b8f0c6712f1fd8b"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "overhead-joern-php",
+      "family": "joern",
+      "kind": "overhead",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/overhead-joern-php/attempt-01/terminal.json",
+        "sha256": "ff152348920dbea97ad626e824378d94f19c783644240995fd2e98ec2f836246"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "overhead-opentaint-kotlin",
+      "family": "opentaint",
+      "kind": "overhead",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/overhead-opentaint-kotlin/attempt-01/terminal.json",
+        "sha256": "0009e28ab2239c8ecfbd574f94bc3aa4ce7b83e211c86c1657b083f70470331b"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "overhead-semgrep-kotlin",
+      "family": "semgrep",
+      "kind": "overhead",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/overhead-semgrep-kotlin/attempt-01/terminal.json",
+        "sha256": "49b7abed0813f06d59bc36baee2a9b20d52ce97c670490796084996680163287"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "pysa-python-modeling",
+      "family": "pysa",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/pysa-python-modeling/attempt-01/terminal.json",
+        "sha256": "804c53a05167aafa2fb37e73de014070ea11c4dc5ec82522a1a4cd1b3e1ff05e"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "pysa-python-native",
+      "family": "pysa",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/pysa-python-native/attempt-01/terminal.json",
+        "sha256": "ab62cffa5bd021efe197c91dd05095fc217f1251ee5c04d934c2ddf23aa0ee95"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-c-kernel",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-c-kernel/attempt-01/terminal.json",
+        "sha256": "0ed1b2d17cc0637f4819a6b43c7b2bfc3d7c1626586185ddce6ecbe23664516e"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-cpp-kernel",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-cpp-kernel/attempt-01/terminal.json",
+        "sha256": "a8a8f08a0204517592bfcc23edd11c5c5d30893696fb6ef1025c28e26fa4b08d"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-go-kernel",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-go-kernel/attempt-01/terminal.json",
+        "sha256": "3e9eebcaa49aebb325a6f4ad1269546fcbe887d509725bd706c898d99914e3c5"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-java-modeling",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-java-modeling/attempt-01/terminal.json",
+        "sha256": "92186c024b63defde9c68dd6bee0739a0e3ca65de240b24f01bcebc4371d89ca"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-java-native",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-java-native/attempt-01/terminal.json",
+        "sha256": "6e9e60a32e7a6ae9dd4bb4265cc0e90ec69e29d2f53caecd58463cf68407754a"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-javascript-kernel",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-javascript-kernel/attempt-01/terminal.json",
+        "sha256": "cb3eb2001d0c75c4bbed0b87ef4bfb8a9afed6e18845b24b69361fb923a77f58"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-javascript-modeling",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-javascript-modeling/attempt-01/terminal.json",
+        "sha256": "0ee82eccafe0e0451572b57569779e8c02a357e783e400bc4a979a1fe5d97710"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-javascript-native",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-javascript-native/attempt-01/terminal.json",
+        "sha256": "d801a39f0c83714b570393757c4cdc7de2608776f3ae90815d1f5be9726b6481"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-kotlin-kernel",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-kotlin-kernel/attempt-01/terminal.json",
+        "sha256": "ff76ead5a5ebb3b4240f925a49c97fb7f835408a466dd442decf1b11df4cf996"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-php-kernel",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-php-kernel/attempt-01/terminal.json",
+        "sha256": "c2a336988db814038b64a259aab4e10c3b3928a7ee828ed17bc25eaf68949e2b"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-python-kernel",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-python-kernel/attempt-01/terminal.json",
+        "sha256": "7b1f5a2c86ebcaeb120095bdf4f9c8d01c97bcc628d6a9ebfdcd5c5a64547828"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-python-modeling",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-python-modeling/attempt-01/terminal.json",
+        "sha256": "757c4c64cdbf7f9eced84fd96ec5a2f3a5f8161589e2392f1e6604195b52d641"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-python-native",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-python-native/attempt-01/terminal.json",
+        "sha256": "bac64c41573ee0252196548bff15e47fbc4eadfd8de031944d9355292a2e63f2"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-ruby-kernel",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-ruby-kernel/attempt-01/terminal.json",
+        "sha256": "c9b2bc5f751a2725235c6d3cd75ff8ebee1bd7527d93947d424faf117acac319"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": true,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-rust-kernel",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-rust-kernel/attempt-01/terminal.json",
+        "sha256": "e16a0904ed8c5be78573e0ff074ddca9255cdb55d5b2b95b3f7f2a4eebb87c88"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-01",
+      "group": "semgrep-typescript-kernel",
+      "family": "semgrep",
+      "kind": "cold",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-01/attempts/semgrep-typescript-kernel/attempt-01/terminal.json",
+        "sha256": "7f6e9e55487d6d1ca3eab06f7afa725af2d3b998c1c0f5273c30aeba2cdb11aa"
+      },
+      "original_quiet_certification": {
+        "certified": true,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": true,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": false
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-02",
+      "group": "overhead-pysa-python",
+      "family": "pysa",
+      "kind": "overhead",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-02/attempts/overhead-pysa-python/attempt-01/terminal.json",
+        "sha256": "43294be5b24caafe258431a45940e583ae637633bbea8f0ed4fd09cbf3b7e2cc"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": false,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": true
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-02",
+      "group": "warm-joern-java",
+      "family": "joern",
+      "kind": "warm",
+      "status": "completed-candidate-evidence",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-02/attempts/warm-joern-java/attempt-01/terminal.json",
+        "sha256": "3f07e87933a7f12229452846736d07daab6065bcdf4d56be9cc4c4f33ce899cc"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": false,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": true
+      },
+      "publication_eligible": false
+    },
+    {
+      "campaign_id": "20261122-02",
+      "group": "warm-semgrep-java",
+      "family": "semgrep",
+      "kind": "warm",
+      "status": "failed",
+      "exit_code": 0,
+      "timed_out": false,
+      "capacity_loss": null,
+      "terminal": {
+        "path": "reports/timing/v0.9.2/20261122-02/attempts/warm-semgrep-java/attempt-01/terminal.json",
+        "sha256": "9ba9f407226417eed85ea4f96fa5439910a8ae66389cbdf1bef887eb115aa7a7"
+      },
+      "original_quiet_certification": {
+        "certified": false,
+        "contention_observed": false,
+        "initial_quiet_gate_passed": false,
+        "observation_failures": 0,
+        "settle_skipped_after_campaign_start": true
+      },
+      "publication_eligible": false
+    }
+  ],
+  "input_plans": [
+    {
+      "path": "reports/timing/v0.9.2/20261115-01/qualified-plan.json",
+      "sha256": "2b1d55c362b895db47d81f5835f31f8dd53db94aa2a6f93fcdf6be19dc0d7b30"
+    },
+    {
+      "path": "reports/timing/v0.9.2/20261121-01/qualified-plan.json",
+      "sha256": "61ff7286f7b6be073aaebe19c077e1ea7779f0e9a4270a1afa472cb4ee76cbfb"
+    },
+    {
+      "path": "reports/timing/v0.9.2/20261122-01/qualified-plan-02.json",
+      "sha256": "56b8d5a1988a3cea999d25a4563a46515ee41794460516a3b85627edf7277b0e"
+    },
+    {
+      "path": "reports/timing/v0.9.2/20261122-02/qualified-plan-02.json",
+      "sha256": "cf703f9cc6abe256a44b82af9fd6ad6a7195e44bf0e6b1972a326d8b479c49d9"
+    }
+  ],
+  "warm_semgrep_postcapture_reconciliation": "pending separately; original failed validation retained",
+  "qualification": "unqualified diagnostic evidence; no complete publication acceptance or performance comparison asserted",
+  "publication_eligible": false
+}
