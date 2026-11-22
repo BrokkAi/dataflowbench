@@ -1,0 +1,140 @@
+{
+  "closed_process_ownership": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/capability-post-control-ownership-01.json",
+    "sha256": "381015e6d38695c2bd6b7ad3d4f6c9ec5d02672a79f65aa4f2869be1f2ba11a0"
+  },
+  "control_run": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/capability-qualification/control-attempt-03/run.json",
+    "sha256": "cc0b3c451f4b8ba956c033c54c3fbfa003b4b24cef7f9f297ef130fdbe5a42a0"
+  },
+  "diagnostic_admission_review": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/capability-qualification/control-attempt-03-diagnostic-admission-review.json",
+    "sha256": "66db72f07d3c54fec102bf2fb967674cbee8db1c1aae1570924915e334570fe0"
+  },
+  "diagnostic_execution_eligible": true,
+  "dimensions": {
+    "common108_controls": {
+      "case_arm_count": 12,
+      "case_count": 6,
+      "control_run": {
+        "path": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/capability-qualification/control-attempt-03/run.json",
+        "sha256": "cc0b3c451f4b8ba956c033c54c3fbfa003b4b24cef7f9f297ef130fdbe5a42a0"
+      },
+      "full_model_qualification": false,
+      "phase_invocation_count": 36,
+      "status": "measurement-with-known-limits",
+      "strict_assessment": {
+        "absence_completeness": "unproven",
+        "failures": [
+          {
+            "arm": "off",
+            "control": "dfb-taint-swift-model-opaque-propagator-positive",
+            "observed": "inconclusive",
+            "required": "not-reached"
+          },
+          {
+            "arm": "on",
+            "control": "dfb-taint-swift-model-opaque-propagator-positive",
+            "observed": "inconclusive",
+            "required": "reached"
+          },
+          {
+            "arm": "off",
+            "control": "dfb-taint-swift-model-opaque-propagator-negative",
+            "observed": "inconclusive",
+            "required": "reached"
+          },
+          {
+            "arm": "on",
+            "control": "dfb-taint-swift-model-opaque-propagator-negative",
+            "observed": "inconclusive",
+            "required": "not-reached"
+          },
+          {
+            "arm": "off",
+            "control": "dfb-taint-swift-model-propagator-position-positive",
+            "observed": "inconclusive",
+            "required": "not-reached"
+          },
+          {
+            "arm": "on",
+            "control": "dfb-taint-swift-model-propagator-position-positive",
+            "observed": "inconclusive",
+            "required": "reached"
+          },
+          {
+            "arm": "off",
+            "control": "dfb-taint-swift-model-propagator-position-negative",
+            "observed": "inconclusive",
+            "required": "not-reached"
+          },
+          {
+            "arm": "on",
+            "control": "dfb-taint-swift-model-propagator-position-negative",
+            "observed": "inconclusive",
+            "required": "not-reached"
+          }
+        ],
+        "partition_registered": false,
+        "scored_activation": false,
+        "status": "incomplete"
+      }
+    },
+    "joern_diagnostic_admission": {
+      "path": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/capability-qualification/control-attempt-03-diagnostic-admission-review.json",
+      "sha256": "66db72f07d3c54fec102bf2fb967674cbee8db1c1aae1570924915e334570fe0"
+    }
+  },
+  "execution_eligible": true,
+  "execution_plan_projection_sha256": "e2fdfc380410688384b84ef803410d1e594afca1d1499a4b4e8b1a08131c83fe",
+  "finalization_procedure": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/procedures/capability_finalize_qualification.py",
+    "sha256": "b5b3da806ca968072fd1c793c2ec26358247741b706cc51dcf42960ac4a1b2d3"
+  },
+  "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+  "full_model_qualification": false,
+  "group_id": "joern-swift-common108",
+  "groups": [
+    "joern-swift-common108"
+  ],
+  "identity": {
+    "adapter_version": "joern-normal-v092",
+    "tool": "joern",
+    "tool_build_identity": "joern-cli:4.0.660;engine:309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00;frontend:d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+    "tool_version": "4.0.660"
+  },
+  "identity_components": [
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "joern-root",
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/joern.json",
+      "sha256": "537bc762bf1cb3d79a250f225d702f7710e1d338c2cfa45650e57f84f474bc37"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "java-home",
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/java.json",
+      "sha256": "90665d9258ed311dd8cd4ad4ce7a1e0c33cb534382ff2edfdb4617e2fa6582f4"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-toolchain",
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-swift-01/runtime-manifests/swift-6.3.3-relocated.json",
+      "sha256": "46612e0ad057bf6e9ae21cfae7fe4a8a87d5e0485420df4f882c8707ffe42186"
+    },
+    {
+      "kind": "runtime-tree-manifest",
+      "name": "swift-sdk",
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5.json",
+      "sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7"
+    }
+  ],
+  "population_sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+  "schema": "analyzer-qualification-receipt/v092",
+  "scored_activation": false,
+  "status": "measurement-with-known-limits",
+  "supervision_terminal": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/capability-control-supervision-03/terminal.json",
+    "sha256": "46d8ffc838eeecf8bb9f473fd601016ace9f8070645745d93ef7df9eb6aef74f"
+  }
+}
