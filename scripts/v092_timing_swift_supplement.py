@@ -137,17 +137,31 @@ RESOURCE_OWNER_RECEIPT_SHA256 = "3633f11344edaff0e7b800648af42a597c418a208e7c11e
 PORTABILITY_RECEIPT_PATH = f"{PREPARATION_ROOT}/root-portability-preflight-02.json"
 PORTABILITY_RECEIPT_SHA256 = "ed7c7e769e577dedbd9a077d593f4475c8c61eb096bfa429a8898cfe0c3877b2"
 QUALIFICATION_WORK_ROOT = "execution-state/timing-joern-swift-qualification-20261122-01"
-QUALIFICATION_CONTROL_SCRATCH = f"{QUALIFICATION_ROOT}/control-attempt-01"
+# Preserve the original v2 qualification scratch root.  The capability control
+# run lives under CAPABILITY_CONTROL_OUTPUT and must not redefine this
+# already-profiled preparation path.
+QUALIFICATION_CONTROL_SCRATCH = f"{PREPARATION_ROOT}/qualification/control-attempt-01"
 PRIOR_CONTROL_RUN_PATH = "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-02/run.json"
 PRIOR_REGISTRATION_ARCHIVE_PATH = "reports/releases/v0.9.2/qualification/joern-swift-common108/control-attempt-02-registration-archive-01/archive.json"
 PRIOR_CONTROL_PLAN_PATH = "reports/releases/v0.9.2/qualification/joern-swift-common108/control-plan-02.json"
 PORTABILITY_SOURCE_PATH = "execution-state/timing-joern-swift-portability-preflight-20261122-01/source"
 CAPABILITY_PORTABILITY_SOURCE = "execution-state/timing-joern-capability-portability-20261122-01/source"
 CAPABILITY_PORTABILITY_REPORT = f"{PREPARATION_ROOT}/capability-portability-preflight-01.json"
+CAPABILITY_PORTABILITY_REPORT_SHA256 = "af957f4a35e23db64ef7bdcdec9ecfe268e0108cda0cc97ecc2a6b0b693450e4"
 CAPABILITY_QUALIFICATION_WORK_ROOT = "execution-state/timing-joern-capability-qualification-20261122-01"
 CAPABILITY_CONTROL_OUTPUT = f"{QUALIFICATION_ROOT}/control-attempt-03"
 CAPABILITY_CONTROL_SUPERVISION = f"{PREPARATION_ROOT}/capability-control-supervision-03"
 CAPABILITY_POST_CONTROL_OWNERSHIP = f"{PREPARATION_ROOT}/capability-post-control-ownership-01.json"
+CAPABILITY_POST_CONTROL_OWNERSHIP_SHA256 = "381015e6d38695c2bd6b7ad3d4f6c9ec5d02672a79f65aa4f2869be1f2ba11a0"
+CAPABILITY_SCRATCH_ACCOUNTING_AUDIT = f"{PREPARATION_ROOT}/capability-control-scratch-accounting-audit-01.json"
+CAPABILITY_SCRATCH_ACCOUNTING_AUDIT_SHA256 = "f1f341d1c5c7926d8253a6144a4e045a667702142ef8f7dd7af8ded854c5b686"
+CAPABILITY_SCRATCH_ACCOUNTING_DOCUMENT = "docs/latency-v092-20261122-scratch-accounting.md"
+CAPABILITY_SCRATCH_ACCOUNTING_DOCUMENT_SHA256 = "f8a44f13670fdb7f9994a221b3a64a0592aa2acf4dadf2ea3adfcfa8d387cca5"
+CAPABILITY_OLD_CONTROL_MANIFEST_SHA256 = "1048bab0c2ab941b844a31626c6bfcd67bee1aa2f2015e1dc5898c1a757645ef"
+CAPABILITY_OLD_CONTROL_SCRATCH_BYTES = 621400636
+CAPABILITY_CORRECTED_SCRATCH_UPPER_BOUND_BYTES = 16705335732
+CAPABILITY_SCRATCH_LIMIT_BYTES = 25769803776
+CAPABILITY_SCRATCH_BOUND_MARGIN_BYTES = 9064468044
 CAPABILITY_PREPARED_SOURCE_PROCEDURE = f"{PREPARATION_ROOT}/procedures/capability_check_prepared_source.py"
 CAPABILITY_CONTROL_PROCEDURE = f"{PREPARATION_ROOT}/procedures/capability_run_controls_supervised.py"
 CAPABILITY_FINALIZE_PROCEDURE = f"{PREPARATION_ROOT}/procedures/capability_finalize_qualification.py"
@@ -1062,6 +1076,156 @@ def _resource_scope(root: Path) -> dict:
                 or sha(_repo_file(root, relative)) != digest):
             raise RuntimeError(f"closed portability preflight input changed: {relative}")
 
+    capability_portability_ref = {
+        "path": CAPABILITY_PORTABILITY_REPORT,
+        "sha256": CAPABILITY_PORTABILITY_REPORT_SHA256,
+    }
+    capability_portability = _read_json(_validate_reference(root, capability_portability_ref))
+    capability_input_refs = capability_portability.get("input_refs")
+    if (capability_portability.get("schema") != "v092-joern-capability-prepared-source-preflight/v1"
+            or capability_portability.get("status") != "passed"
+            or capability_portability.get("exit_code") != 0
+            or type(capability_portability.get("exit_code")) is not int
+            or capability_portability.get("source_commit") != RELEASE
+            or capability_portability.get("source") != str(root / CAPABILITY_PORTABILITY_SOURCE)
+            or capability_portability.get("pending_execution_plan") != {
+                "path": PENDING_PLAN_PATH, "sha256": PENDING_PLAN_SHA256}
+            or capability_portability.get("control_plan") != {
+                "path": CONTROL_PLAN_PATH, "sha256": CONTROL_PLAN_SHA256}
+            or capability_portability.get("input_count") != 113
+            or not isinstance(capability_input_refs, dict)
+            or len(capability_input_refs) != 113
+            or capability_portability.get("analyzer_invocations") != 0
+            or capability_portability.get("case_analysis_invocations") != 0
+            or capability_portability.get("publication_eligible") is not False):
+        raise RuntimeError("capability portability receipt does not bind the exact 113-input analyzer-free source")
+    if (capability_input_refs.get(PENDING_PLAN_PATH) != PENDING_PLAN_SHA256
+            or capability_input_refs.get(CAPABILITY_SOURCE_PATH) != CAPABILITY_SOURCE_SHA256
+            or capability_input_refs.get(CONTROL_PLAN_PATH) != CONTROL_PLAN_SHA256):
+        raise RuntimeError("capability portability input closure lost the frozen plan/control/capability refs")
+    for relative, digest in capability_input_refs.items():
+        if (not isinstance(relative, str) or not isinstance(digest, str) or len(digest) != 64
+                or any(char not in "0123456789abcdef" for char in digest)
+                or sha(_repo_file(root, relative)) != digest):
+            raise RuntimeError(f"closed capability portability input changed: {relative}")
+
+    capability_owner_ref = {
+        "path": CAPABILITY_POST_CONTROL_OWNERSHIP,
+        "sha256": CAPABILITY_POST_CONTROL_OWNERSHIP_SHA256,
+    }
+    capability_owner = _read_json(_validate_reference(root, capability_owner_ref))
+    observations = capability_owner.get("observations")
+    command_refs = capability_owner.get("command_refs")
+    recorded_count = capability_owner.get("recorded_process_identities")
+    if (capability_owner.get("schema") != "v092-joern-capability-post-control-ownership/v1"
+            or capability_owner.get("status") != "passed"
+            or type(recorded_count) is not int or recorded_count <= 0
+            or not isinstance(observations, list) or len(observations) != recorded_count
+            or capability_owner.get("command_records") != 37
+            or not isinstance(command_refs, list) or len(command_refs) != 37
+            or capability_owner.get("same_identities_still_alive") != []
+            or capability_owner.get("serial_lock_available") is not True
+            or capability_owner.get("signals_sent_by_audit") != []
+            or capability_owner.get("descendant_containment") != "unproven"
+            or capability_owner.get("analyzer_invocations") != 0
+            or capability_owner.get("full_model_qualification") is not False
+            or capability_owner.get("publication_eligible") is not False):
+        raise RuntimeError("capability control ownership receipt does not prove closed, unsignaled processes")
+    raw_process_table = capability_owner.get("raw_unfiltered_pid_table")
+    raw_process_table_sha = capability_owner.get("raw_pid_table_sha256")
+    if (not isinstance(raw_process_table, str)
+            or not isinstance(raw_process_table_sha, str)
+            or _sha_bytes(raw_process_table.encode()) != raw_process_table_sha):
+        raise RuntimeError("capability ownership receipt lost its complete raw process table binding")
+    identity_rows = set()
+    for observation in observations:
+        if (not isinstance(observation, dict)
+                or type(observation.get("pid")) is not int or observation["pid"] <= 0
+                or not isinstance(observation.get("expected_start_identity"), str)
+                or observation.get("status") != "confirmed-pid-absent"
+                or observation.get("observed_start_identity") is not None
+                or observation.get("raw_sha256") != raw_process_table_sha
+                or observation.get("signals_sent") != []):
+            raise RuntimeError("capability ownership receipt contains an unproven or signaled identity")
+        identity_rows.add((observation["pid"], observation["expected_start_identity"]))
+    if len(identity_rows) != recorded_count:
+        raise RuntimeError("capability ownership receipt repeats a recorded process identity")
+    expected_owner_refs = {
+        "control_run": f"{CAPABILITY_CONTROL_OUTPUT}/run.json",
+        "supervision_start": f"{CAPABILITY_CONTROL_SUPERVISION}/start.json",
+        "supervision_terminal": f"{CAPABILITY_CONTROL_SUPERVISION}/terminal.json",
+        "procedure": CAPABILITY_OWNERSHIP_PROCEDURE,
+    }
+    for key, relative in expected_owner_refs.items():
+        reference = capability_owner.get(key)
+        if (not isinstance(reference, dict) or set(reference) != {"path", "sha256"}
+                or reference.get("path") != relative):
+            raise RuntimeError(f"capability ownership receipt lost its exact {key} reference")
+        _validate_reference(root, reference)
+    referenced_commands = set()
+    for reference in command_refs:
+        if (not isinstance(reference, dict) or set(reference) != {"path", "sha256"}
+                or not isinstance(reference.get("path"), str)
+                or not reference["path"].startswith(CAPABILITY_CONTROL_OUTPUT + "/")
+                or not reference["path"].endswith(".command.json")
+                or reference["path"] in referenced_commands):
+            raise RuntimeError("capability ownership receipt command references are malformed")
+        referenced_commands.add(reference["path"])
+        _validate_reference(root, reference)
+
+    scratch_audit_ref = {
+        "path": CAPABILITY_SCRATCH_ACCOUNTING_AUDIT,
+        "sha256": CAPABILITY_SCRATCH_ACCOUNTING_AUDIT_SHA256,
+    }
+    scratch_audit = _read_json(_validate_reference(root, scratch_audit_ref))
+    old_manifest_ref = scratch_audit.get("old_control_manifest")
+    supervision_start_ref = scratch_audit.get("original_supervision_start")
+    supervision_terminal_ref = scratch_audit.get("original_supervision_terminal")
+    if (scratch_audit.get("schema") != "v092-retrospective-control-scratch-accounting/v1"
+            or scratch_audit.get("status") != "retrospective-independent-bound-verified"
+            or scratch_audit.get("classification") != "omitted-static-legacy-control-root"
+            or scratch_audit.get("scope_defect") != (
+                "QUALIFICATION_CONTROL_SCRATCH derived from the new qualification root instead of "
+                "retained qualification/control-attempt-01")
+            or scratch_audit.get("original_scope_preserved") is not True
+            or scratch_audit.get("old_control_root") != QUALIFICATION_CONTROL_SCRATCH
+            or scratch_audit.get("old_control_files_verified") != 1034
+            or scratch_audit.get("old_control_sha_mode_membership_verified") is not True
+            or scratch_audit.get("recorded_static_scratch_bytes") != 3199033208
+            or scratch_audit.get("omitted_static_bytes") != CAPABILITY_OLD_CONTROL_SCRATCH_BYTES
+            or scratch_audit.get("corrected_static_scratch_bytes") != 3820433844
+            or scratch_audit.get("independent_fresh_working_cap_bytes") != 12884901888
+            or scratch_audit.get("fresh_scratch_is_subset_of_capped_working_roots") is not True
+            or scratch_audit.get("derived_observed_check_scratch_upper_bound_bytes")
+            != CAPABILITY_CORRECTED_SCRATCH_UPPER_BOUND_BYTES
+            or scratch_audit.get("unchanged_scratch_cap_bytes") != CAPABILITY_SCRATCH_LIMIT_BYTES
+            or scratch_audit.get("bound_margin_bytes") != CAPABILITY_SCRATCH_BOUND_MARGIN_BYTES
+            or scratch_audit.get("limits_unchanged") is not True
+            or scratch_audit.get("retrospective") is not True
+            or scratch_audit.get("original_full_scope_guard_proof") is not False
+            or scratch_audit.get("settled_timing_qualified") is not False
+            or scratch_audit.get("publication_eligible") is not False
+            or scratch_audit.get("new_analyzer_invocations") != 0
+            or not isinstance(old_manifest_ref, dict)
+            or old_manifest_ref.get("path") != f"{PREPARATION_ROOT}/controls-evidence-bundle-01/files.jsonl.gz"
+            or old_manifest_ref.get("sha256") != CAPABILITY_OLD_CONTROL_MANIFEST_SHA256):
+        raise RuntimeError("retrospective scratch correction must retain the original limitation and exact bound")
+    _validate_reference(root, old_manifest_ref)
+    expected_supervision_refs = {
+        "original_supervision_start": f"{CAPABILITY_CONTROL_SUPERVISION}/start.json",
+        "original_supervision_terminal": f"{CAPABILITY_CONTROL_SUPERVISION}/terminal.json",
+    }
+    for key, path in expected_supervision_refs.items():
+        reference = scratch_audit.get(key)
+        if not isinstance(reference, dict) or reference.get("path") != path:
+            raise RuntimeError(f"retrospective scratch correction lost its exact {key} provenance")
+        _validate_reference(root, reference)
+    scratch_document_ref = {
+        "path": CAPABILITY_SCRATCH_ACCOUNTING_DOCUMENT,
+        "sha256": CAPABILITY_SCRATCH_ACCOUNTING_DOCUMENT_SHA256,
+    }
+    _validate_reference(root, scratch_document_ref)
+
     parent_baseline = {
         "working": list(expected_roots),
         "retention": [_validated_accounting_path(root, item, scratch=False)
@@ -1086,7 +1250,9 @@ def _resource_scope(root: Path) -> dict:
         "working": [root / PORTABILITY_SOURCE_PATH, root / QUALIFICATION_WORK_ROOT,
                     root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE,
                     root / FAILED_PREPARATION_05_SOURCE, root / FAILED_WRAPPER_SOURCE,
-                    root / FAILED_CAPABILITY_SOURCE, root / LAUNCHER_SMOKE_ROOT],
+                    root / FAILED_CAPABILITY_SOURCE, root / LAUNCHER_SMOKE_ROOT,
+                    root / CAPABILITY_PORTABILITY_SOURCE, root / CAPABILITY_QUALIFICATION_WORK_ROOT,
+                    root / CAPABILITY_CONTROL_OUTPUT],
         "retention": [root / PREPARATION_ROOT, root / FAILED_PREPARATION_REPORT,
                       root / FAILED_PREPARATION_04_REPORT,
                       root / FAILED_PREPARATION_04_SOURCE / "reports",
@@ -1100,12 +1266,16 @@ def _resource_scope(root: Path) -> dict:
                     *(root / FAILED_PREPARATION_05_SOURCE / name for name in ("home", "tmp", "cache")),
                     *(root / FAILED_WRAPPER_SOURCE / name for name in ("home", "tmp", "cache")),
                     *(root / FAILED_CAPABILITY_SOURCE / name for name in ("home", "tmp", "cache")),
-                    root / LAUNCHER_SMOKE_ROOT],
+                    root / LAUNCHER_SMOKE_ROOT, root / CAPABILITY_CONTROL_OUTPUT,
+                    *(root / CAPABILITY_QUALIFICATION_WORK_ROOT / name
+                      for name in ("home", "tmp", "cache"))],
     }
     closed_preparation_paths = {
         "working": {root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE,
                     root / FAILED_PREPARATION_05_SOURCE, root / FAILED_WRAPPER_SOURCE,
-                    root / FAILED_CAPABILITY_SOURCE, root / LAUNCHER_SMOKE_ROOT},
+                    root / FAILED_CAPABILITY_SOURCE, root / LAUNCHER_SMOKE_ROOT,
+                    root / CAPABILITY_PORTABILITY_SOURCE, root / CAPABILITY_QUALIFICATION_WORK_ROOT,
+                    root / CAPABILITY_CONTROL_OUTPUT},
         "retention": {root / FAILED_PREPARATION_REPORT, root / FAILED_PREPARATION_04_REPORT,
                       root / FAILED_PREPARATION_04_SOURCE / "reports",
                       root / FAILED_PREPARATION_05_REPORT,
@@ -1117,7 +1287,9 @@ def _resource_scope(root: Path) -> dict:
             *(root / FAILED_PREPARATION_05_SOURCE / name for name in ("home", "tmp", "cache")),
             *(root / FAILED_WRAPPER_SOURCE / name for name in ("home", "tmp", "cache")),
             *(root / FAILED_CAPABILITY_SOURCE / name for name in ("home", "tmp", "cache")),
-            root / LAUNCHER_SMOKE_ROOT,
+            root / LAUNCHER_SMOKE_ROOT, root / CAPABILITY_CONTROL_OUTPUT,
+            *(root / CAPABILITY_QUALIFICATION_WORK_ROOT / name
+              for name in ("home", "tmp", "cache")),
         },
     }
     active_paths = {
@@ -1165,6 +1337,26 @@ def _resource_scope(root: Path) -> dict:
             "descendant_containment": "unproven",
         },
         "portability_preflight": portability_ref,
+        "capability_portability_preflight": capability_portability_ref,
+        "capability_control_ownership": capability_owner_ref,
+        "capability_scratch_accounting_audit": scratch_audit_ref,
+        "capability_scratch_accounting_document": scratch_document_ref,
+        "capability_control_ownership_state": {
+            "recorded_process_identities": recorded_count,
+            "same_identities_still_alive": [], "command_records": 37,
+            "serial_lock_available": True, "descendant_containment": "unproven",
+        },
+        "capability_scratch_accounting_correction": {
+            "retrospective": True,
+            "original_full_scope_guard_proof": False,
+            "corrected_static_scratch_bytes": 3820433844,
+            "fresh_working_cap_bytes": 12884901888,
+            "observed_check_upper_bound_bytes": CAPABILITY_CORRECTED_SCRATCH_UPPER_BOUND_BYTES,
+            "unchanged_scratch_cap_bytes": CAPABILITY_SCRATCH_LIMIT_BYTES,
+            "bound_margin_bytes": CAPABILITY_SCRATCH_BOUND_MARGIN_BYTES,
+            "settled_timing_qualified": False,
+            "publication_eligible": False,
+        },
         "observer_method": RESOURCE_OBSERVER_METHOD,
         "closed_preparation_roots": {
             category: [str(path) for path in preparation_paths[category]
@@ -1387,13 +1579,32 @@ def validate_campaign_plan(plan: dict) -> None:
         "portability_preflight": {
             "path": PORTABILITY_RECEIPT_PATH, "sha256": PORTABILITY_RECEIPT_SHA256,
         },
+        "capability_portability_preflight": {
+            "path": CAPABILITY_PORTABILITY_REPORT,
+            "sha256": CAPABILITY_PORTABILITY_REPORT_SHA256,
+        },
+        "capability_control_ownership": {
+            "path": CAPABILITY_POST_CONTROL_OWNERSHIP,
+            "sha256": CAPABILITY_POST_CONTROL_OWNERSHIP_SHA256,
+        },
+        "capability_scratch_accounting_audit": {
+            "path": CAPABILITY_SCRATCH_ACCOUNTING_AUDIT,
+            "sha256": CAPABILITY_SCRATCH_ACCOUNTING_AUDIT_SHA256,
+        },
+        "capability_scratch_accounting_document": {
+            "path": CAPABILITY_SCRATCH_ACCOUNTING_DOCUMENT,
+            "sha256": CAPABILITY_SCRATCH_ACCOUNTING_DOCUMENT_SHA256,
+        },
     }
     expected_closed_preparation_roots = {
         "working": [f"{ROOT}/{FAILED_PREPARATION_SOURCE}",
                     f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}",
                     f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}",
                     f"{ROOT}/{FAILED_WRAPPER_SOURCE}",
-                    f"{ROOT}/{FAILED_CAPABILITY_SOURCE}", f"{ROOT}/{LAUNCHER_SMOKE_ROOT}"],
+                    f"{ROOT}/{FAILED_CAPABILITY_SOURCE}", f"{ROOT}/{LAUNCHER_SMOKE_ROOT}",
+                    f"{ROOT}/{CAPABILITY_PORTABILITY_SOURCE}",
+                    f"{ROOT}/{CAPABILITY_QUALIFICATION_WORK_ROOT}",
+                    f"{ROOT}/{CAPABILITY_CONTROL_OUTPUT}"],
         "retention": [f"{ROOT}/{FAILED_PREPARATION_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports",
@@ -1408,6 +1619,9 @@ def validate_campaign_plan(plan: dict) -> None:
             *(f"{ROOT}/{FAILED_WRAPPER_SOURCE}/{name}" for name in ("home", "tmp", "cache")),
             *(f"{ROOT}/{FAILED_CAPABILITY_SOURCE}/{name}" for name in ("home", "tmp", "cache")),
             f"{ROOT}/{LAUNCHER_SMOKE_ROOT}",
+            f"{ROOT}/{CAPABILITY_CONTROL_OUTPUT}",
+            *(f"{ROOT}/{CAPABILITY_QUALIFICATION_WORK_ROOT}/{name}"
+              for name in ("home", "tmp", "cache")),
         ],
     }
     expected_post_profile_additions = [dict(row) for row in POST_PROFILE_RETAINED_ADDITIONS]
@@ -1416,6 +1630,18 @@ def validate_campaign_plan(plan: dict) -> None:
     expected_current_parent_bytes = dict(expected_profile_parent_bytes)
     expected_current_parent_bytes["retention"] += sum(
         row["size_bytes"] for row in expected_post_profile_additions)
+    capability_owner_state = resource_scope.get("capability_control_ownership_state")
+    expected_scratch_correction = {
+        "retrospective": True,
+        "original_full_scope_guard_proof": False,
+        "corrected_static_scratch_bytes": 3820433844,
+        "fresh_working_cap_bytes": 12884901888,
+        "observed_check_upper_bound_bytes": CAPABILITY_CORRECTED_SCRATCH_UPPER_BOUND_BYTES,
+        "unchanged_scratch_cap_bytes": CAPABILITY_SCRATCH_LIMIT_BYTES,
+        "bound_margin_bytes": CAPABILITY_SCRATCH_BOUND_MARGIN_BYTES,
+        "settled_timing_qualified": False,
+        "publication_eligible": False,
+    }
     if (resource_scope.get("observer_method") != RESOURCE_OBSERVER_METHOD
             or any(resource_scope.get(key) != reference for key, reference in expected_bound_refs.items())
             or resource_scope.get("profile_expected_parent_baseline_bytes") != expected_profile_parent_bytes
@@ -1425,6 +1651,18 @@ def validate_campaign_plan(plan: dict) -> None:
                 "command_records": 37, "serial_lock_available": True,
                 "descendant_containment": "unproven",
             }
+            or not isinstance(capability_owner_state, dict)
+            or set(capability_owner_state) != {
+                "recorded_process_identities", "same_identities_still_alive", "command_records",
+                "serial_lock_available", "descendant_containment"}
+            or type(capability_owner_state.get("recorded_process_identities")) is not int
+            or capability_owner_state["recorded_process_identities"] <= 0
+            or capability_owner_state.get("same_identities_still_alive") != []
+            or capability_owner_state.get("command_records") != 37
+            or capability_owner_state.get("serial_lock_available") is not True
+            or capability_owner_state.get("descendant_containment") != "unproven"
+            or resource_scope.get("capability_scratch_accounting_correction")
+            != expected_scratch_correction
             or resource_scope.get("expected_parent_baseline_bytes") != expected_current_parent_bytes):
         raise RuntimeError("resource observer method or immutable provenance bindings changed")
     if resource_scope.get("closed_preparation_roots") != expected_closed_preparation_roots:
@@ -1454,7 +1692,10 @@ def validate_campaign_plan(plan: dict) -> None:
         "working": [f"{ROOT}/{PORTABILITY_SOURCE_PATH}", f"{ROOT}/{QUALIFICATION_WORK_ROOT}",
                     f"{ROOT}/{FAILED_PREPARATION_SOURCE}", f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}",
                     f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}", f"{ROOT}/{FAILED_WRAPPER_SOURCE}",
-                    f"{ROOT}/{FAILED_CAPABILITY_SOURCE}", f"{ROOT}/{LAUNCHER_SMOKE_ROOT}"],
+                    f"{ROOT}/{FAILED_CAPABILITY_SOURCE}", f"{ROOT}/{LAUNCHER_SMOKE_ROOT}",
+                    f"{ROOT}/{CAPABILITY_PORTABILITY_SOURCE}",
+                    f"{ROOT}/{CAPABILITY_QUALIFICATION_WORK_ROOT}",
+                    f"{ROOT}/{CAPABILITY_CONTROL_OUTPUT}"],
         "retention": [f"{ROOT}/{PREPARATION_ROOT}", f"{ROOT}/{FAILED_PREPARATION_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports",
@@ -1473,7 +1714,9 @@ def validate_campaign_plan(plan: dict) -> None:
                       for name in ("home", "tmp", "cache")],
                     *[f"{ROOT}/{FAILED_CAPABILITY_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")],
-                    f"{ROOT}/{LAUNCHER_SMOKE_ROOT}"],
+                    f"{ROOT}/{LAUNCHER_SMOKE_ROOT}", f"{ROOT}/{CAPABILITY_CONTROL_OUTPUT}",
+                    *[f"{ROOT}/{CAPABILITY_QUALIFICATION_WORK_ROOT}/{name}"
+                      for name in ("home", "tmp", "cache")]],
     }
     exact_active = {
         "working": [f"{ROOT}/{SOURCE_RELATIVE}"],

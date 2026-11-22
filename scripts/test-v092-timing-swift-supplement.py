@@ -7,6 +7,7 @@ import hashlib
 import importlib.util
 import json
 import subprocess
+from contextlib import ExitStack
 from pathlib import Path
 import sys
 import tempfile
@@ -252,7 +253,10 @@ def plan_fixture():
                     f"{root}/{supplement.FAILED_PREPARATION_05_SOURCE}",
                     f"{root}/{supplement.FAILED_WRAPPER_SOURCE}",
                     f"{root}/{supplement.FAILED_CAPABILITY_SOURCE}",
-                    f"{root}/{supplement.LAUNCHER_SMOKE_ROOT}"],
+                    f"{root}/{supplement.LAUNCHER_SMOKE_ROOT}",
+                    f"{root}/{supplement.CAPABILITY_PORTABILITY_SOURCE}",
+                    f"{root}/{supplement.CAPABILITY_QUALIFICATION_WORK_ROOT}",
+                    f"{root}/{supplement.CAPABILITY_CONTROL_OUTPUT}"],
         "retention": [f"{root}/{supplement.PREPARATION_ROOT}",
                       f"{root}/{supplement.FAILED_PREPARATION_REPORT}",
                       f"{root}/{supplement.FAILED_PREPARATION_04_REPORT}",
@@ -274,7 +278,10 @@ def plan_fixture():
                       for name in ("home", "tmp", "cache")],
                     *[f"{root}/{supplement.FAILED_CAPABILITY_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")],
-                    f"{root}/{supplement.LAUNCHER_SMOKE_ROOT}"],
+                    f"{root}/{supplement.LAUNCHER_SMOKE_ROOT}",
+                    f"{root}/{supplement.CAPABILITY_CONTROL_OUTPUT}",
+                    *[f"{root}/{supplement.CAPABILITY_QUALIFICATION_WORK_ROOT}/{name}"
+                      for name in ("home", "tmp", "cache")]],
     }
     active_paths = {
         "working": [f"{root}/{supplement.SOURCE_RELATIVE}"],
@@ -378,6 +385,36 @@ def plan_fixture():
             },
             "portability_preflight": {"path": supplement.PORTABILITY_RECEIPT_PATH,
                                        "sha256": supplement.PORTABILITY_RECEIPT_SHA256},
+            "capability_portability_preflight": {
+                "path": supplement.CAPABILITY_PORTABILITY_REPORT,
+                "sha256": supplement.CAPABILITY_PORTABILITY_REPORT_SHA256,
+            },
+            "capability_control_ownership": {
+                "path": supplement.CAPABILITY_POST_CONTROL_OWNERSHIP,
+                "sha256": supplement.CAPABILITY_POST_CONTROL_OWNERSHIP_SHA256,
+            },
+            "capability_scratch_accounting_audit": {
+                "path": supplement.CAPABILITY_SCRATCH_ACCOUNTING_AUDIT,
+                "sha256": supplement.CAPABILITY_SCRATCH_ACCOUNTING_AUDIT_SHA256,
+            },
+            "capability_scratch_accounting_document": {
+                "path": supplement.CAPABILITY_SCRATCH_ACCOUNTING_DOCUMENT,
+                "sha256": supplement.CAPABILITY_SCRATCH_ACCOUNTING_DOCUMENT_SHA256,
+            },
+            "capability_control_ownership_state": {
+                "recorded_process_identities": 98,
+                "same_identities_still_alive": [], "command_records": 37,
+                "serial_lock_available": True, "descendant_containment": "unproven",
+            },
+            "capability_scratch_accounting_correction": {
+                "retrospective": True, "original_full_scope_guard_proof": False,
+                "corrected_static_scratch_bytes": 3820433844,
+                "fresh_working_cap_bytes": 12884901888,
+                "observed_check_upper_bound_bytes": supplement.CAPABILITY_CORRECTED_SCRATCH_UPPER_BOUND_BYTES,
+                "unchanged_scratch_cap_bytes": supplement.CAPABILITY_SCRATCH_LIMIT_BYTES,
+                "bound_margin_bytes": supplement.CAPABILITY_SCRATCH_BOUND_MARGIN_BYTES,
+                "settled_timing_qualified": False, "publication_eligible": False,
+            },
             "observer_method": supplement.RESOURCE_OBSERVER_METHOD,
             "closed_preparation_roots": {
                 "working": [f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_SOURCE}",
@@ -385,7 +422,10 @@ def plan_fixture():
                             f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_05_SOURCE}",
                             f"{supplement.ROOT}/{supplement.FAILED_WRAPPER_SOURCE}",
                             f"{supplement.ROOT}/{supplement.FAILED_CAPABILITY_SOURCE}",
-                            f"{supplement.ROOT}/{supplement.LAUNCHER_SMOKE_ROOT}"],
+                            f"{supplement.ROOT}/{supplement.LAUNCHER_SMOKE_ROOT}",
+                            f"{supplement.ROOT}/{supplement.CAPABILITY_PORTABILITY_SOURCE}",
+                            f"{supplement.ROOT}/{supplement.CAPABILITY_QUALIFICATION_WORK_ROOT}",
+                            f"{supplement.ROOT}/{supplement.CAPABILITY_CONTROL_OUTPUT}"],
                 "retention": [f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_REPORT}",
                               f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_REPORT}",
                               f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}/reports",
@@ -405,6 +445,9 @@ def plan_fixture():
                     *(f"{supplement.ROOT}/{supplement.FAILED_CAPABILITY_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")),
                     f"{supplement.ROOT}/{supplement.LAUNCHER_SMOKE_ROOT}",
+                    f"{supplement.ROOT}/{supplement.CAPABILITY_CONTROL_OUTPUT}",
+                    *(f"{supplement.ROOT}/{supplement.CAPABILITY_QUALIFICATION_WORK_ROOT}/{name}"
+                      for name in ("home", "tmp", "cache")),
                 ],
             },
             "profile_expected_parent_baseline_bytes": {
@@ -681,6 +724,126 @@ def make_resource_scope_fixture(root: Path, *, omit_parent_scratch=False):
     portability_path = root / supplement.PORTABILITY_RECEIPT_PATH
     portability_path.write_text(json.dumps(portability) + "\n")
 
+    capability_input_refs = {}
+    capability_bindings = (
+        (supplement.PENDING_PLAN_PATH, "pending-plan"),
+        (supplement.CAPABILITY_SOURCE_PATH, "v090-capability-source"),
+        (supplement.CONTROL_PLAN_PATH, "control-plan"),
+    )
+    for relative, label in capability_bindings:
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(f"{label}\n")
+        capability_input_refs[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
+    for index in range(110):
+        relative = f"fixture/capability-input-{index:03d}.json"
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(f"capability-input-{index}\n")
+        capability_input_refs[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
+    capability_portability = {
+        "schema": "v092-joern-capability-prepared-source-preflight/v1",
+        "status": "passed", "exit_code": 0,
+        "source_commit": supplement.RELEASE,
+        "source": str(root / supplement.CAPABILITY_PORTABILITY_SOURCE),
+        "pending_execution_plan": {
+            "path": supplement.PENDING_PLAN_PATH,
+            "sha256": capability_input_refs[supplement.PENDING_PLAN_PATH],
+        },
+        "control_plan": {
+            "path": supplement.CONTROL_PLAN_PATH,
+            "sha256": capability_input_refs[supplement.CONTROL_PLAN_PATH],
+        },
+        "input_count": 113, "input_refs": capability_input_refs,
+        "analyzer_invocations": 0, "case_analysis_invocations": 0,
+        "publication_eligible": False,
+    }
+    capability_portability_path = root / supplement.CAPABILITY_PORTABILITY_REPORT
+    capability_portability_path.parent.mkdir(parents=True, exist_ok=True)
+    capability_portability_path.write_text(json.dumps(capability_portability) + "\n")
+
+    def capability_ref(relative, value):
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(value + "\n")
+        return {"path": relative, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+
+    control_run_ref = capability_ref(
+        f"{supplement.CAPABILITY_CONTROL_OUTPUT}/run.json", "control-run")
+    supervision_start_ref = capability_ref(
+        f"{supplement.CAPABILITY_CONTROL_SUPERVISION}/start.json", "supervision-start")
+    supervision_terminal_ref = capability_ref(
+        f"{supplement.CAPABILITY_CONTROL_SUPERVISION}/terminal.json", "supervision-terminal")
+    procedure_ref = capability_ref(supplement.CAPABILITY_OWNERSHIP_PROCEDURE, "ownership-procedure")
+    command_refs = [capability_ref(
+        f"{supplement.CAPABILITY_CONTROL_OUTPUT}/phase-{index:02d}.command.json",
+        f"command-{index}") for index in range(37)]
+    raw_process_table = "PID START_ID COMMAND\n1001 fixture-process\n"
+    raw_process_table_sha = hashlib.sha256(raw_process_table.encode()).hexdigest()
+    capability_owner = {
+        "schema": "v092-joern-capability-post-control-ownership/v1",
+        "status": "passed", "recorded_process_identities": 98,
+        "command_records": 37, "same_identities_still_alive": [],
+        "serial_lock_available": True, "signals_sent_by_audit": [],
+        "descendant_containment": "unproven", "analyzer_invocations": 0,
+        "full_model_qualification": False, "publication_eligible": False,
+        "raw_unfiltered_pid_table": raw_process_table,
+        "raw_pid_table_sha256": raw_process_table_sha,
+        "observations": [{
+            "pid": 2000 + index, "expected_start_identity": f"birth:{index}",
+            "status": "confirmed-pid-absent", "observed_start_identity": None,
+            "raw_sha256": raw_process_table_sha, "signals_sent": [],
+        } for index in range(98)],
+        "command_refs": command_refs,
+        "control_run": control_run_ref,
+        "supervision_start": supervision_start_ref,
+        "supervision_terminal": supervision_terminal_ref,
+        "procedure": procedure_ref,
+    }
+    capability_owner_path = root / supplement.CAPABILITY_POST_CONTROL_OWNERSHIP
+    capability_owner_path.write_text(json.dumps(capability_owner) + "\n")
+
+    old_manifest = capability_ref(
+        f"{supplement.PREPARATION_ROOT}/controls-evidence-bundle-01/files.jsonl.gz",
+        "old-control-manifest")
+    doc_path = root / supplement.CAPABILITY_SCRATCH_ACCOUNTING_DOCUMENT
+    doc_path.parent.mkdir(parents=True, exist_ok=True)
+    doc_path.write_text("# A36 fixture\n")
+    scratch_audit = {
+        "schema": "v092-retrospective-control-scratch-accounting/v1",
+        "status": "retrospective-independent-bound-verified",
+        "classification": "omitted-static-legacy-control-root",
+        "scope_defect": (
+            "QUALIFICATION_CONTROL_SCRATCH derived from the new qualification root instead of "
+            "retained qualification/control-attempt-01"),
+        "original_scope_preserved": True,
+        "original_supervision_start": supervision_start_ref,
+        "original_supervision_terminal": supervision_terminal_ref,
+        "old_control_manifest": {
+            "path": old_manifest["path"],
+            "sha256": old_manifest["sha256"],
+        },
+        "old_control_root": supplement.QUALIFICATION_CONTROL_SCRATCH,
+        "old_control_files_verified": 1034,
+        "old_control_sha_mode_membership_verified": True,
+        "recorded_static_scratch_bytes": 3199033208,
+        "omitted_static_bytes": supplement.CAPABILITY_OLD_CONTROL_SCRATCH_BYTES,
+        "corrected_static_scratch_bytes": 3820433844,
+        "independent_fresh_working_cap_bytes": 12884901888,
+        "fresh_scratch_is_subset_of_capped_working_roots": True,
+        "derived_observed_check_scratch_upper_bound_bytes": (
+            supplement.CAPABILITY_CORRECTED_SCRATCH_UPPER_BOUND_BYTES),
+        "unchanged_scratch_cap_bytes": supplement.CAPABILITY_SCRATCH_LIMIT_BYTES,
+        "bound_margin_bytes": supplement.CAPABILITY_SCRATCH_BOUND_MARGIN_BYTES,
+        "limits_unchanged": True, "retrospective": True,
+        "original_full_scope_guard_proof": False,
+        "settled_timing_qualified": False, "publication_eligible": False,
+        "new_analyzer_invocations": 0,
+    }
+    scratch_audit_path = root / supplement.CAPABILITY_SCRATCH_ACCOUNTING_AUDIT
+    scratch_audit_path.parent.mkdir(parents=True, exist_ok=True)
+    scratch_audit_path.write_text(json.dumps(scratch_audit) + "\n")
+
     start_refs = []
     for campaign_id in campaign_ids:
         relative = f"reports/timing/v0.9.2/{campaign_id}/campaign-start.json"
@@ -697,6 +860,16 @@ def make_resource_scope_fixture(root: Path, *, omit_parent_scratch=False):
         "post_profile_additions": additions,
         "owner_sha": hashlib.sha256(owner_path.read_bytes()).hexdigest(),
         "portability_sha": hashlib.sha256(portability_path.read_bytes()).hexdigest(),
+        "capability_owner_sha": hashlib.sha256(capability_owner_path.read_bytes()).hexdigest(),
+        "capability_portability_sha": hashlib.sha256(capability_portability_path.read_bytes()).hexdigest(),
+        "capability_scratch_audit_sha": hashlib.sha256(scratch_audit_path.read_bytes()).hexdigest(),
+        "capability_scratch_doc_sha": hashlib.sha256(doc_path.read_bytes()).hexdigest(),
+        "capability_old_manifest_sha": old_manifest["sha256"],
+        "capability_input_hashes": {
+            "pending": capability_input_refs[supplement.PENDING_PLAN_PATH],
+            "source": capability_input_refs[supplement.CAPABILITY_SOURCE_PATH],
+            "control": capability_input_refs[supplement.CONTROL_PLAN_PATH],
+        },
         "fake_q": fake_q,
     }
 
@@ -706,12 +879,25 @@ class SwiftSupplementResourceScopeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve()
             fixture = make_resource_scope_fixture(root)
-            with patch.object(supplement, "_qualified_module", return_value=fixture["fake_q"]), \
-                    patch.object(supplement, "RESOURCE_PARENT_CHECKPOINT_SHA256", fixture["checkpoint_sha"]), \
-                    patch.object(supplement, "POST_PROFILE_RETAINED_ADDITIONS", fixture["post_profile_additions"]), \
-                    patch.object(supplement, "RESOURCE_PROFILE_SHA256", fixture["profile_sha"]), \
-                    patch.object(supplement, "RESOURCE_OWNER_RECEIPT_SHA256", fixture["owner_sha"]), \
-                    patch.object(supplement, "PORTABILITY_RECEIPT_SHA256", fixture["portability_sha"]):
+            with ExitStack() as patches:
+                patches.enter_context(patch.object(
+                    supplement, "_qualified_module", return_value=fixture["fake_q"]))
+                for name, value in {
+                    "RESOURCE_PARENT_CHECKPOINT_SHA256": fixture["checkpoint_sha"],
+                    "POST_PROFILE_RETAINED_ADDITIONS": fixture["post_profile_additions"],
+                    "RESOURCE_PROFILE_SHA256": fixture["profile_sha"],
+                    "RESOURCE_OWNER_RECEIPT_SHA256": fixture["owner_sha"],
+                    "PORTABILITY_RECEIPT_SHA256": fixture["portability_sha"],
+                    "CAPABILITY_PORTABILITY_REPORT_SHA256": fixture["capability_portability_sha"],
+                    "CAPABILITY_POST_CONTROL_OWNERSHIP_SHA256": fixture["capability_owner_sha"],
+                    "CAPABILITY_SCRATCH_ACCOUNTING_AUDIT_SHA256": fixture["capability_scratch_audit_sha"],
+                    "CAPABILITY_SCRATCH_ACCOUNTING_DOCUMENT_SHA256": fixture["capability_scratch_doc_sha"],
+                    "CAPABILITY_OLD_CONTROL_MANIFEST_SHA256": fixture["capability_old_manifest_sha"],
+                    "PENDING_PLAN_SHA256": fixture["capability_input_hashes"]["pending"],
+                    "CAPABILITY_SOURCE_SHA256": fixture["capability_input_hashes"]["source"],
+                    "CONTROL_PLAN_SHA256": fixture["capability_input_hashes"]["control"],
+                }.items():
+                    patches.enter_context(patch.object(supplement, name, value))
                 result = supplement._resource_scope(root)
 
             self.assertEqual(result["resource_campaign_ids"], list(supplement.RESOURCE_CAMPAIGN_IDS))
@@ -728,7 +914,10 @@ class SwiftSupplementResourceScopeTests(unittest.TestCase):
                             str(root / supplement.FAILED_PREPARATION_05_SOURCE),
                             str(root / supplement.FAILED_WRAPPER_SOURCE),
                             str(root / supplement.FAILED_CAPABILITY_SOURCE),
-                            str(root / supplement.LAUNCHER_SMOKE_ROOT)],
+                            str(root / supplement.LAUNCHER_SMOKE_ROOT),
+                            str(root / supplement.CAPABILITY_PORTABILITY_SOURCE),
+                            str(root / supplement.CAPABILITY_QUALIFICATION_WORK_ROOT),
+                            str(root / supplement.CAPABILITY_CONTROL_OUTPUT)],
                 "retention": [str(root / supplement.FAILED_PREPARATION_REPORT),
                               str(root / supplement.FAILED_PREPARATION_04_REPORT),
                               str(root / supplement.FAILED_PREPARATION_04_SOURCE / "reports"),
@@ -748,11 +937,32 @@ class SwiftSupplementResourceScopeTests(unittest.TestCase):
                     *(str(root / supplement.FAILED_CAPABILITY_SOURCE / name)
                       for name in ("home", "tmp", "cache")),
                     str(root / supplement.LAUNCHER_SMOKE_ROOT),
+                    str(root / supplement.CAPABILITY_CONTROL_OUTPUT),
+                    *(str(root / supplement.CAPABILITY_QUALIFICATION_WORK_ROOT / name)
+                      for name in ("home", "tmp", "cache")),
                 ],
             })
             self.assertEqual(result["closed_process_ownership"]["sha256"], fixture["owner_sha"])
             self.assertEqual(result["closed_process_ownership_state"]["descendant_containment"], "unproven")
             self.assertEqual(result["portability_preflight"]["sha256"], fixture["portability_sha"])
+            self.assertEqual(result["capability_portability_preflight"]["sha256"],
+                             fixture["capability_portability_sha"])
+            self.assertEqual(result["capability_control_ownership"]["sha256"],
+                             fixture["capability_owner_sha"])
+            self.assertEqual(result["capability_control_ownership_state"]["recorded_process_identities"], 98)
+            self.assertEqual(result["capability_control_ownership_state"]["same_identities_still_alive"], [])
+            self.assertEqual(result["capability_scratch_accounting_audit"]["sha256"],
+                             fixture["capability_scratch_audit_sha"])
+            self.assertEqual(result["capability_scratch_accounting_correction"][
+                "original_full_scope_guard_proof"], False)
+            self.assertEqual(result["preparation_paths"]["scratch"][0],
+                             str(root / supplement.QUALIFICATION_CONTROL_SCRATCH))
+            self.assertNotEqual(supplement.QUALIFICATION_CONTROL_SCRATCH,
+                                f"{supplement.QUALIFICATION_ROOT}/control-attempt-01")
+            self.assertIn(str(root / supplement.CAPABILITY_CONTROL_OUTPUT),
+                          result["preparation_paths"]["working"])
+            self.assertIn(str(root / supplement.CAPABILITY_CONTROL_OUTPUT),
+                          result["preparation_paths"]["scratch"])
             self.assertEqual(result["active_paths"]["working"], [str(root / supplement.SOURCE_RELATIVE)])
             self.assertTrue(set(str(path) for path in fixture["roots"])
                             <= set(result["baseline_paths"]["working"]))
@@ -761,12 +971,25 @@ class SwiftSupplementResourceScopeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve()
             fixture = make_resource_scope_fixture(root, omit_parent_scratch=True)
-            with patch.object(supplement, "_qualified_module", return_value=fixture["fake_q"]), \
-                    patch.object(supplement, "RESOURCE_PARENT_CHECKPOINT_SHA256", fixture["checkpoint_sha"]), \
-                    patch.object(supplement, "POST_PROFILE_RETAINED_ADDITIONS", fixture["post_profile_additions"]), \
-                    patch.object(supplement, "RESOURCE_PROFILE_SHA256", fixture["profile_sha"]), \
-                    patch.object(supplement, "RESOURCE_OWNER_RECEIPT_SHA256", fixture["owner_sha"]), \
-                    patch.object(supplement, "PORTABILITY_RECEIPT_SHA256", fixture["portability_sha"]):
+            with ExitStack() as patches:
+                patches.enter_context(patch.object(
+                    supplement, "_qualified_module", return_value=fixture["fake_q"]))
+                for name, value in {
+                    "RESOURCE_PARENT_CHECKPOINT_SHA256": fixture["checkpoint_sha"],
+                    "POST_PROFILE_RETAINED_ADDITIONS": fixture["post_profile_additions"],
+                    "RESOURCE_PROFILE_SHA256": fixture["profile_sha"],
+                    "RESOURCE_OWNER_RECEIPT_SHA256": fixture["owner_sha"],
+                    "PORTABILITY_RECEIPT_SHA256": fixture["portability_sha"],
+                    "CAPABILITY_PORTABILITY_REPORT_SHA256": fixture["capability_portability_sha"],
+                    "CAPABILITY_POST_CONTROL_OWNERSHIP_SHA256": fixture["capability_owner_sha"],
+                    "CAPABILITY_SCRATCH_ACCOUNTING_AUDIT_SHA256": fixture["capability_scratch_audit_sha"],
+                    "CAPABILITY_SCRATCH_ACCOUNTING_DOCUMENT_SHA256": fixture["capability_scratch_doc_sha"],
+                    "CAPABILITY_OLD_CONTROL_MANIFEST_SHA256": fixture["capability_old_manifest_sha"],
+                    "PENDING_PLAN_SHA256": fixture["capability_input_hashes"]["pending"],
+                    "CAPABILITY_SOURCE_SHA256": fixture["capability_input_hashes"]["source"],
+                    "CONTROL_PLAN_SHA256": fixture["capability_input_hashes"]["control"],
+                }.items():
+                    patches.enter_context(patch.object(supplement, name, value))
                 with self.assertRaisesRegex(RuntimeError, "scratch scope differs"):
                     supplement._resource_scope(root)
 
