@@ -84,6 +84,17 @@ A28. Retain the raw process and aggregate CPU observations without subtraction
 or adjustment. Missing observations reset admission; waits are bounded to at
 most 45 seconds per interval within the plan's finite wall-time bound.
 
+Complete full runtime, source and qualification hashing before this quiet
+window. At dispatch, check the bound plan digest, controller process identity
+and live capacity without repeating those expensive scans. If the last complete
+quiet sample is more than 45 seconds old, obtain a new full quiet window before
+launching any analyzer.
+
+The public CodeQL artifact lookup receipt was appended after the observer
+profile. Bind that exact 844-byte receipt as an explicit retained addition to
+the profile's parent scope; include it in the fresh baseline and all capacity
+totals. The profile remains unchanged and no retained path is excluded.
+
 Once the operation starts, CPU activity or missing CPU telemetry cannot stop
 an active invocation or introduce waits between its internal serial cases and
 phases. Keep recording contention and unknown observations. Real timeout,
