@@ -1122,3 +1122,10 @@ pre-case wrapper and requires explicit lookup of all 96 attempted capability
 records from their already-bound immutable source. It preregisters versioned
 helpers, fresh controls and a new diagnostic attempt without activating models
 or changing frozen outcomes.
+
+### A34 — 2026-11-22: explicit provenance for unchanged Swift declines
+
+[A34](latency-v092-20261122-unsupported-provenance.md) distinguishes historical
+Joern decisions from the preserved v0.9.2 declared-unsupported partition. It
+requires separately bound current-scope disposition records and complete
+preflight before dispatch, without claiming new analyzer capability proof.
