@@ -173,11 +173,16 @@ def plan_fixture():
     preparation_paths = {
         "working": [f"{root}/{supplement.PORTABILITY_SOURCE_PATH}",
                     f"{root}/{supplement.QUALIFICATION_WORK_ROOT}",
-                    f"{root}/{supplement.FAILED_PREPARATION_SOURCE}"],
+                    f"{root}/{supplement.FAILED_PREPARATION_SOURCE}",
+                    f"{root}/{supplement.FAILED_PREPARATION_04_SOURCE}"],
         "retention": [f"{root}/{supplement.PREPARATION_ROOT}",
-                      f"{root}/{supplement.FAILED_PREPARATION_REPORT}"],
+                      f"{root}/{supplement.FAILED_PREPARATION_REPORT}",
+                      f"{root}/{supplement.FAILED_PREPARATION_04_REPORT}",
+                      f"{root}/{supplement.FAILED_PREPARATION_04_SOURCE}/reports"],
         "scratch": [f"{root}/{supplement.QUALIFICATION_CONTROL_SCRATCH}",
                     *[f"{root}/{supplement.QUALIFICATION_WORK_ROOT}/{name}"
+                      for name in ("home", "tmp", "cache")],
+                    *[f"{root}/{supplement.FAILED_PREPARATION_04_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")]],
     }
     active_paths = {
@@ -200,6 +205,7 @@ def plan_fixture():
         "case_disposition_counts": {"attempt": 96, "unsupported": 12},
         "attempted_case_count": 96, "unsupported_case_count": 12,
         "diagnostic_execution_eligible": True, "full_model_qualification": False,
+        "prior_preparation_failures": supplement._failed_preparation_bindings(),
         "old_argv": [
             "/usr/bin/python3", "scripts/run-joern-common-v092.py", "execute", "--plan",
             "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json", "--output",
@@ -247,6 +253,15 @@ def plan_fixture():
             "portability_preflight": {"path": supplement.PORTABILITY_RECEIPT_PATH,
                                        "sha256": supplement.PORTABILITY_RECEIPT_SHA256},
             "observer_method": supplement.RESOURCE_OBSERVER_METHOD,
+            "closed_preparation_roots": {
+                "working": [f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_SOURCE}",
+                            f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}"],
+                "retention": [f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_REPORT}",
+                              f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_REPORT}",
+                              f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}/reports"],
+                "scratch": [f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}/{name}"
+                            for name in ("home", "tmp", "cache")],
+            },
             "profile_expected_parent_baseline_bytes": {
                 "working": 19073573545, "retention": 630366349,
                 "scratch": 3198936017,
@@ -276,6 +291,7 @@ def plan_fixture():
             "sample_interval_seconds": 30.0,
             "tolerated_comm_paths": list(supplement.TOLERATED_COMM_PATHS),
             "matching": "exact-full-comm-path-only",
+            "quiescent_service_recognition": supplement.QUIESCENT_SERVICE_RECOGNITION,
             "aggregate_cpu_adjusted": False,
             "active_cpu_policy": "record-and-continue",
             "missing_active_observation_policy": "record-and-continue",
@@ -344,6 +360,13 @@ class SwiftSupplementPlanTests(unittest.TestCase):
         plan = plan_fixture()
         plan["resource_scope"]["resource_campaign_ids"].pop()
         with self.assertRaisesRegex(RuntimeError, "all four ancestor"):
+            supplement.validate_campaign_plan(plan)
+
+    def test_resource_scope_requires_all_campaign04_closed_roots(self):
+        plan = plan_fixture()
+        plan["resource_scope"]["preparation_paths"]["retention"].remove(
+            f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}/reports")
+        with self.assertRaisesRegex(RuntimeError, "resource accounting"):
             supplement.validate_campaign_plan(plan)
 
 
@@ -492,6 +515,15 @@ class SwiftSupplementResourceScopeTests(unittest.TestCase):
             self.assertEqual(result["post_profile_retained_additions"],
                              list(fixture["post_profile_additions"]))
             self.assertEqual(result["expected_parent_baseline_bytes"]["retention"], 630367193)
+            self.assertEqual(result["closed_preparation_roots"], {
+                "working": [str(root / supplement.FAILED_PREPARATION_SOURCE),
+                            str(root / supplement.FAILED_PREPARATION_04_SOURCE)],
+                "retention": [str(root / supplement.FAILED_PREPARATION_REPORT),
+                              str(root / supplement.FAILED_PREPARATION_04_REPORT),
+                              str(root / supplement.FAILED_PREPARATION_04_SOURCE / "reports")],
+                "scratch": [str(root / supplement.FAILED_PREPARATION_04_SOURCE / name)
+                            for name in ("home", "tmp", "cache")],
+            })
             self.assertEqual(result["closed_process_ownership"]["sha256"], fixture["owner_sha"])
             self.assertEqual(result["closed_process_ownership_state"]["descendant_containment"], "unproven")
             self.assertEqual(result["portability_preflight"]["sha256"], fixture["portability_sha"])
@@ -686,6 +718,115 @@ class FakeBaselineDisk:
         return {"current_bytes": kwargs.get("additional_current_bytes", 0)}
 
 
+class SwiftSupplementClosedPreparationTests(unittest.TestCase):
+    def _fixture(self, root):
+        specs = [
+            (supplement.FAILED_PREPARATION_REPORT, supplement.FAILED_PREPARATION_SOURCE,
+             "20261122-03", supplement.FAILED_PREPARATION_INVENTORY,
+             "AttributeError: '_SupplementDiskGuard' object has no attribute 'chunk_bytes'"),
+            (supplement.FAILED_PREPARATION_04_REPORT, supplement.FAILED_PREPARATION_04_SOURCE,
+             "20261122-04", supplement.FAILED_PREPARATION_04_INVENTORY, "KeyboardInterrupt: "),
+        ]
+        bindings = []
+        for report_root, source_root, campaign_id, inventory_relative, source_error in specs:
+            report = root / report_root
+            source = root / source_root
+            report.mkdir(parents=True)
+            source.mkdir(parents=True)
+            (report / "campaign-start.json").write_text(json.dumps({
+                "campaign_id": campaign_id, "supervisor_pid": 4242,
+                "supervisor_start_identity": f"birth-{campaign_id}",
+            }) + "\n")
+            (report / "campaign-terminal.json").write_text(json.dumps({
+                "campaign_id": campaign_id, "status": "blocked", "completed_groups": [],
+                "execution_status": "stopped-fail-closed",
+                "failure": {"process_ownership": {}, "error": source_error},
+            }) + "\n")
+            (source / "partial.txt").write_text(f"retained-{campaign_id}\n")
+            rows = []
+            for path in (report / "campaign-start.json", report / "campaign-terminal.json",
+                         source / "partial.txt"):
+                raw = path.read_bytes()
+                rows.append({"path": path.relative_to(root).as_posix(),
+                             "sha256": hashlib.sha256(raw).hexdigest(),
+                             "size_bytes": len(raw)})
+            total_bytes = sum(row["size_bytes"] for row in rows)
+            inventory = {
+                "schema": "v092-swift-preparation-failure-inventory/v1",
+                "campaign_id": campaign_id, "analyzer_invocations": 0,
+                "file_count": len(rows), "total_bytes": total_bytes,
+                "source_error": source_error, "files": rows,
+            }
+            inventory_path = root / inventory_relative
+            inventory_path.parent.mkdir(parents=True, exist_ok=True)
+            inventory_path.write_text(json.dumps(inventory) + "\n")
+            bindings.append({
+                "campaign_id": campaign_id,
+                "inventory": {"path": inventory_relative,
+                              "sha256": hashlib.sha256(inventory_path.read_bytes()).hexdigest()},
+                "file_count": len(rows), "total_bytes": total_bytes,
+                "analyzer_invocations": 0, "source_error": source_error,
+            })
+        return bindings
+
+    def test_both_prior_preparation_inventories_and_terminals_are_verified(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            bindings = self._fixture(root)
+            with patch.object(supplement, "_failed_preparation_bindings", return_value=bindings):
+                self.assertEqual(supplement._verify_failed_preparation(root), bindings)
+                (root / supplement.FAILED_PREPARATION_04_SOURCE / "partial.txt").write_text("changed\n")
+                with self.assertRaisesRegex(RuntimeError, "membership changed|bound repository file changed"):
+                    supplement._verify_failed_preparation(root)
+
+    def test_stopped_supervisor_proofs_are_dynamic_report_evidence(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            helper_path = root / supplement.FAILED_PREPARATION_PROCESS_HELPER
+            helper_path.parent.mkdir(parents=True)
+            helper_path.write_text("fixture helper binding\n")
+            for report_root, campaign_id in (
+                    (supplement.FAILED_PREPARATION_REPORT, "20261122-03"),
+                    (supplement.FAILED_PREPARATION_04_REPORT, "20261122-04")):
+                path = root / report_root / "campaign-start.json"
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(json.dumps({
+                    "campaign_id": campaign_id, "supervisor_pid": 4242,
+                    "supervisor_start_identity": f"birth-{campaign_id}",
+                }) + "\n")
+
+            class FakeTracker:
+                @staticmethod
+                def _start_identity(pid):
+                    return f"replacement-{pid}"
+
+            class FakeHelper:
+                @staticmethod
+                def observe_stopped(pid, expected_identity, _start_identity):
+                    return {
+                        "schema": "v092-closed-process-observation/v1", "pid": pid,
+                        "expected_start_identity": expected_identity,
+                        "observed_start_identity": None, "status": "confirmed-pid-absent",
+                        "raw_unfiltered_pid_table": "1\n4242\n", "signals_sent": [],
+                    }
+
+            legacy = type("Legacy", (), {
+                "core": type("Core", (), {
+                    "_process_tracker": staticmethod(lambda: FakeTracker()),
+                })(),
+            })()
+            with patch.object(supplement, "_load_module", return_value=FakeHelper):
+                result = supplement._observe_closed_preparation_processes(root, legacy)
+            self.assertEqual(result["status"], "confirmed-stopped")
+            self.assertEqual(result["observer_helper"]["path"],
+                             supplement.FAILED_PREPARATION_PROCESS_HELPER)
+            self.assertEqual([row["campaign_id"] for row in result["observations"]],
+                             ["20261122-03", "20261122-04"])
+            self.assertIn("raw_unfiltered_pid_table",
+                          result["observations"][1]["observation"])
+            self.assertNotIn("closed_preparation_processes", plan_fixture())
+
+
 class SwiftSupplementAdmissionTests(unittest.TestCase):
     def test_exact_tolerated_apple_paths_do_not_adjust_raw_cpu(self):
         path = supplement.TOLERATED_COMM_PATHS[-2]
@@ -711,6 +852,62 @@ class SwiftSupplementAdmissionTests(unittest.TestCase):
         assessment = supplement.assess_admission(sample, FakeHost())
         self.assertFalse(assessment["quiet"])
         self.assertEqual(assessment["non_tolerated_heavy_processes"][0]["comm"], "/opt/tools/semgrep")
+
+    def test_legacy_observer_proves_idle_service_only_after_stable_second_sample(self):
+        legacy = supplement._qualified_module(supplement.ROOT).legacy
+
+        class FakeTracker:
+            @staticmethod
+            def _start_identity(pid):
+                return f"birth-{pid}"
+
+        class ServiceHost:
+            _valid_snapshot = staticmethod(FakeHost._valid_snapshot)
+
+            @staticmethod
+            def _is_heavy_process(comm):
+                return Path(comm).name == "bifrost"
+
+            def __init__(self):
+                self.counter = 0
+
+            def snapshot(self, _root):
+                self.counter += 1
+                return observation(
+                    [process(4242, "/opt/bifrost/bin/bifrost", cpu=0.0)],
+                    idle=95.0, timestamp=float(self.counter * 30),
+                )
+
+            @staticmethod
+            def failure_record(exc):
+                return {"status": "error", "error": str(exc)}
+
+        raw_host = ServiceHost()
+        with tempfile.TemporaryDirectory() as temp:
+            raw_path = Path(temp) / "host.jsonl"
+            assessment_path = Path(temp) / "assessment.jsonl"
+            with patch.object(legacy.core, "_process_tracker", return_value=FakeTracker()), \
+                    patch.object(legacy.subprocess, "check_output",
+                                 return_value="4242 00:00.02 /opt/bifrost/bin/bifrost --mcp"):
+                host = supplement._AdmissionHostFacade(raw_host, legacy.Observer(raw_host))
+                first = supplement._append_host_sample(host, raw_path, assessment_path, "initial-admission")
+                second = supplement._append_host_sample(host, raw_path, assessment_path, "initial-admission")
+
+            assessments = [json.loads(line) for line in assessment_path.read_text().splitlines()]
+            raw_rows = [json.loads(line) for line in raw_path.read_text().splitlines()]
+            self.assertFalse(assessments[0]["quiet"])
+            self.assertTrue(assessments[1]["quiet"])
+            self.assertEqual(first["cpu_idle_percent"], 95.0)
+            self.assertEqual(second["cpu_idle_percent"], 95.0)
+            self.assertEqual(raw_rows[1]["quiescent_service_pids"], [4242])
+            self.assertTrue(raw_rows[1]["service_observations"][0]["unchanged_idle_service"])
+            self.assertEqual(assessments[1]["quiescent_service_recognition"],
+                             supplement.QUIESCENT_SERVICE_RECOGNITION)
+            self.assertEqual(assessments[1]["quiescent_service_pids"], [4242])
+            self.assertEqual(assessments[1]["service_observations"], raw_rows[1]["service_observations"])
+            forged = dict(second, quiescent_service_pids=[4243])
+            with self.assertRaisesRegex(ValueError, "Observer-proven"):
+                supplement.assess_admission(forged, host)
 
     def test_settled_window_requires_full_span_and_resets_on_bad_samples(self):
         window = supplement.QuietAdmissionWindow(required_seconds=300, max_gap_seconds=45)
@@ -1125,7 +1322,7 @@ class SwiftReportProjectionTests(unittest.TestCase):
             }
             population = {"fixture_revision": fixture_revision}
             normal_output = root / "reports/raw/joern-common-v2/current108-v092-02/normal"
-            derived_output = root / "reports/timing/v0.9.2/20261122-03/derived/joern-swift-common108"
+            derived_output = root / supplement.DERIVED_RELATIVE
             with patch.object(raw_report_exporter.common, "load_common_population",
                               return_value=(population, [], [], cases, population_sha)), \
                  patch.object(projection_exporter.common, "load_common_population",

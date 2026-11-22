@@ -26,11 +26,20 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CAMPAIGN_ID = "20261122-04"
+CAMPAIGN_ID = "20261122-05"
 FAILED_PREPARATION_REPORT = "reports/timing/v0.9.2/20261122-03"
 FAILED_PREPARATION_SOURCE = "execution-state/timing-v092-20261122-03/sources/joern-swift-common108"
 FAILED_PREPARATION_INVENTORY = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/campaign-03-preparation-failure-inventory-01.json"
 FAILED_PREPARATION_INVENTORY_SHA256 = "2674c28d4c25e72b531b94d8434a6a10ec3c0bff2d26ca88e8c9a9b9227d3195"
+FAILED_PREPARATION_04_REPORT = "reports/timing/v0.9.2/20261122-04"
+FAILED_PREPARATION_04_SOURCE = "execution-state/timing-v092-20261122-04/sources/joern-swift-common108"
+FAILED_PREPARATION_04_INVENTORY = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/campaign-04-preparation-failure-inventory-01.json"
+FAILED_PREPARATION_04_INVENTORY_SHA256 = "bd23d37d473e795a3dc6b71b340488e259901092d74669b86762ca1c6695a40b"
+FAILED_PREPARATION_PROCESS_HELPER = "scripts/v092_closed_process_identity.py"
+QUIESCENT_SERVICE_RECOGNITION = (
+    "legacy.Observer exact bifrost --mcp/--lsp argv, unchanged PID/birth/argv/cumulative-CPU, "
+    "zero sampled CPU and no descendants/v1"
+)
 GROUP_ID = "joern-swift-common108"
 RELEASE = "86092336d8f9ca32fe9e2c4042c2dced76c1feb1"
 MODEL_LIMIT_DECISION_ID = "joern-swift-common108-endpoint-identity-gap-2026-10-20"
@@ -123,6 +132,7 @@ HELPER_PATHS = (
     "scripts/v092_timing_swift_supplement.py",
     "scripts/v092_disk_guard.py",
     "scripts/swift_v2_scored_process.py",
+    FAILED_PREPARATION_PROCESS_HELPER,
 )
 
 # Paths are exact A28 process identities. Only these complete comm paths are
@@ -878,10 +888,19 @@ def _resource_scope(root: Path) -> dict:
 
     preparation_paths = {
         "working": [root / PORTABILITY_SOURCE_PATH, root / QUALIFICATION_WORK_ROOT,
-                    root / FAILED_PREPARATION_SOURCE],
-        "retention": [root / PREPARATION_ROOT, root / FAILED_PREPARATION_REPORT],
+                    root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE],
+        "retention": [root / PREPARATION_ROOT, root / FAILED_PREPARATION_REPORT,
+                      root / FAILED_PREPARATION_04_REPORT,
+                      root / FAILED_PREPARATION_04_SOURCE / "reports"],
         "scratch": [root / QUALIFICATION_CONTROL_SCRATCH,
-                    *(root / QUALIFICATION_WORK_ROOT / name for name in ("home", "tmp", "cache"))],
+                    *(root / QUALIFICATION_WORK_ROOT / name for name in ("home", "tmp", "cache")),
+                    *(root / FAILED_PREPARATION_04_SOURCE / name for name in ("home", "tmp", "cache"))],
+    }
+    closed_preparation_paths = {
+        "working": {root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE},
+        "retention": {root / FAILED_PREPARATION_REPORT, root / FAILED_PREPARATION_04_REPORT,
+                      root / FAILED_PREPARATION_04_SOURCE / "reports"},
+        "scratch": {root / FAILED_PREPARATION_04_SOURCE / name for name in ("home", "tmp", "cache")},
     }
     active_paths = {
         "working": [root / SOURCE_RELATIVE],
@@ -898,8 +917,7 @@ def _resource_scope(root: Path) -> dict:
         preparation_proxy = [_validated_accounting_path(root, item, scratch=category == "scratch")
                              for item in profile_preparation.get(category, [])]
         prior_preparation = [path for path in preparation_paths[category]
-                             if path not in {root / FAILED_PREPARATION_SOURCE,
-                                             root / FAILED_PREPARATION_REPORT}]
+                             if path not in closed_preparation_paths[category]]
         if ({str(path) for path in static_paths} != {str(path) for path in parent_baseline[category]}
                 or {str(path) for path in preparation_proxy} != {str(path) for path in prior_preparation}):
             raise RuntimeError(f"resource observer profile path partition differs for {category}")
@@ -930,6 +948,11 @@ def _resource_scope(root: Path) -> dict:
         },
         "portability_preflight": portability_ref,
         "observer_method": RESOURCE_OBSERVER_METHOD,
+        "closed_preparation_roots": {
+            category: [str(path) for path in preparation_paths[category]
+                       if path in closed_preparation_paths[category]]
+            for category in ("working", "retention", "scratch")
+        },
         "profile_expected_parent_baseline_bytes": profile_parent_bytes,
         "post_profile_retained_additions": post_profile_additions,
         "expected_parent_baseline_bytes": expected_parent_bytes,
@@ -1007,6 +1030,8 @@ def validate_campaign_plan(plan: dict) -> None:
         "reports/raw/joern-common-v2/current108-v092-01",
     ]:
         raise RuntimeError("historical frozen argv was changed")
+    if plan.get("prior_preparation_failures") != _failed_preparation_bindings():
+        raise RuntimeError("both zero-analyzer preparation failure inventories must remain exactly bound")
     source_projection = plan.get("source_projection")
     expected_plan_inputs = [plan.get("qualified_execution_plan"), plan.get("pending_execution_plan")]
     if (not isinstance(source_projection, dict)
@@ -1085,6 +1110,15 @@ def validate_campaign_plan(plan: dict) -> None:
             "path": PORTABILITY_RECEIPT_PATH, "sha256": PORTABILITY_RECEIPT_SHA256,
         },
     }
+    expected_closed_preparation_roots = {
+        "working": [f"{ROOT}/{FAILED_PREPARATION_SOURCE}",
+                    f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}"],
+        "retention": [f"{ROOT}/{FAILED_PREPARATION_REPORT}",
+                      f"{ROOT}/{FAILED_PREPARATION_04_REPORT}",
+                      f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports"],
+        "scratch": [f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/{name}"
+                    for name in ("home", "tmp", "cache")],
+    }
     expected_post_profile_additions = [dict(row) for row in POST_PROFILE_RETAINED_ADDITIONS]
     expected_profile_parent_bytes = {"working": 19073573545, "retention": 630366349,
                                      "scratch": 3198936017}
@@ -1102,6 +1136,8 @@ def validate_campaign_plan(plan: dict) -> None:
             }
             or resource_scope.get("expected_parent_baseline_bytes") != expected_current_parent_bytes):
         raise RuntimeError("resource observer method or immutable provenance bindings changed")
+    if resource_scope.get("closed_preparation_roots") != expected_closed_preparation_roots:
+        raise RuntimeError("both failed preparation source/report/scratch roots must remain fully accounted")
     for reference in [*resource_scope["campaign_start_references"], resource_scope["parent_checkpoint"],
                       *expected_bound_refs.values(),
                       *[{"path": row["path"], "sha256": row["sha256"]}
@@ -1125,10 +1161,14 @@ def validate_campaign_plan(plan: dict) -> None:
     active_paths = resource_scope.get("active_paths")
     exact_preparation = {
         "working": [f"{ROOT}/{PORTABILITY_SOURCE_PATH}", f"{ROOT}/{QUALIFICATION_WORK_ROOT}",
-                    f"{ROOT}/{FAILED_PREPARATION_SOURCE}"],
-        "retention": [f"{ROOT}/{PREPARATION_ROOT}", f"{ROOT}/{FAILED_PREPARATION_REPORT}"],
+                    f"{ROOT}/{FAILED_PREPARATION_SOURCE}", f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}"],
+        "retention": [f"{ROOT}/{PREPARATION_ROOT}", f"{ROOT}/{FAILED_PREPARATION_REPORT}",
+                      f"{ROOT}/{FAILED_PREPARATION_04_REPORT}",
+                      f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports"],
         "scratch": [f"{ROOT}/{QUALIFICATION_CONTROL_SCRATCH}",
-                    *[f"{ROOT}/{QUALIFICATION_WORK_ROOT}/{name}" for name in ("home", "tmp", "cache")]],
+                    *[f"{ROOT}/{QUALIFICATION_WORK_ROOT}/{name}" for name in ("home", "tmp", "cache")],
+                    *[f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/{name}"
+                      for name in ("home", "tmp", "cache")]],
     }
     exact_active = {
         "working": [f"{ROOT}/{SOURCE_RELATIVE}"],
@@ -1201,6 +1241,7 @@ def validate_campaign_plan(plan: dict) -> None:
             or admission.get("maximum_final_sample_to_spawn_seconds") != MAX_SAMPLE_GAP_SECONDS
             or admission.get("sample_interval_seconds") != SAMPLE_INTERVAL_SECONDS
             or admission.get("matching") != "exact-full-comm-path-only"
+            or admission.get("quiescent_service_recognition") != QUIESCENT_SERVICE_RECOGNITION
             or admission.get("aggregate_cpu_adjusted") is not False
             or admission.get("active_cpu_policy") != "record-and-continue"
             or admission.get("missing_active_observation_policy") != "record-and-continue"
@@ -1232,6 +1273,28 @@ def assess_admission(observation: dict, host, *, root_pid: int | None = None) ->
     """Assess one raw observation without changing it or adjusting aggregate CPU."""
     if not host._valid_snapshot(observation):
         raise ValueError("admission requires a complete raw host observation")
+    service_rows = observation.get("service_observations", [])
+    quiescent_service_pids = observation.get("quiescent_service_pids", [])
+    if not isinstance(service_rows, list) or not isinstance(quiescent_service_pids, list):
+        raise ValueError("legacy observer service metadata is malformed")
+    observer_proven = []
+    for row in service_rows:
+        if not isinstance(row, dict) or type(row.get("pid")) is not int:
+            raise ValueError("legacy observer service identity is malformed")
+        if row.get("unchanged_idle_service") is True:
+            argv = row.get("argv")
+            if (not isinstance(argv, list) or not argv or Path(argv[0]).name != "bifrost"
+                    or any(not isinstance(arg, str) for arg in argv)
+                    or not ({"--mcp", "--lsp"} & set(argv[1:]))
+                    or not isinstance(row.get("start_identity"), str) or not row["start_identity"]
+                    or row.get("cpu_percent") != 0.0 or row.get("descendants") != []
+                    or not isinstance(row.get("cpu_time"), str)):
+                raise ValueError("legacy observer marked a service idle without the exact identity proof")
+            observer_proven.append(row["pid"])
+    if (any(type(pid) is not int or pid <= 0 for pid in quiescent_service_pids)
+            or len(set(quiescent_service_pids)) != len(quiescent_service_pids)
+            or quiescent_service_pids != observer_proven):
+        raise ValueError("quiescent service PID list differs from Observer-proven service identities")
     owned: set[int] = set()
     if root_pid is not None:
         owned = set(host.process_tree_pids(observation, root_pid)) if hasattr(host, "process_tree_pids") else set()
@@ -1254,7 +1317,7 @@ def assess_admission(observation: dict, host, *, root_pid: int | None = None) ->
     for process in observation["processes"]:
         pid = int(process["pid"])
         comm = process["comm"]
-        if pid in owned:
+        if pid in owned or pid in quiescent_service_pids:
             continue
         if comm in tolerated:
             tolerated_rows.append({"pid": pid, "comm": comm, "cpu_percent": process["cpu_percent"]})
@@ -1273,6 +1336,9 @@ def assess_admission(observation: dict, host, *, root_pid: int | None = None) ->
         "aggregate_cpu_adjusted": False,
         "tolerated_background": tolerated_rows,
         "tolerated_comm_paths": list(TOLERATED_COMM_PATHS),
+        "quiescent_service_recognition": QUIESCENT_SERVICE_RECOGNITION,
+        "quiescent_service_pids": list(quiescent_service_pids),
+        "service_observations": service_rows,
         "non_tolerated_heavy_processes": heavy,
         "non_tolerated_external_cpu_percent": external_cpu,
         "significant_external_cpu": significant,
@@ -1282,6 +1348,29 @@ def assess_admission(observation: dict, host, *, root_pid: int | None = None) ->
         "original_a24_settled_qualification_eligible": False,
         "publication_eligible": False,
     }
+
+
+class _AdmissionHostFacade:
+    """Use the campaign's existing service observer while preserving host APIs."""
+
+    def __init__(self, host, observer):
+        self.host = host
+        self.observer = observer
+
+    def snapshot(self, root: Path | None = None):
+        if root is not None and Path(root).resolve() != ROOT.resolve():
+            raise RuntimeError("admission observer was asked to sample outside the campaign root")
+        return self.observer.snapshot()
+
+    def __getattr__(self, name):
+        return getattr(self.host, name)
+
+
+def _admission_host(root: Path, host, legacy=None):
+    if legacy is None:
+        legacy = _qualified_module(root).legacy
+    observer = legacy.Observer(host)
+    return _AdmissionHostFacade(host, observer)
 
 
 class QuietAdmissionWindow:
@@ -1450,6 +1539,7 @@ def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
             "sample_interval_seconds": SAMPLE_INTERVAL_SECONDS,
             "tolerated_comm_paths": list(TOLERATED_COMM_PATHS),
             "matching": "exact-full-comm-path-only",
+            "quiescent_service_recognition": QUIESCENT_SERVICE_RECOGNITION,
             "aggregate_cpu_adjusted": False,
             "active_cpu_policy": "record-and-continue",
             "missing_active_observation_policy": "record-and-continue",
@@ -1462,6 +1552,7 @@ def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
         "scored_activation": False,
         "publication_eligible": False,
     }
+    plan["prior_preparation_failures"] = _failed_preparation_bindings()
     validate_campaign_plan(plan)
     return plan
 
@@ -1485,40 +1576,108 @@ def _supplement_files_to_copy(root: Path, closure: dict[str, str], legacy_core) 
     return missing_from_release
 
 
-def _verify_failed_preparation(root: Path) -> dict:
-    reference = {"path": FAILED_PREPARATION_INVENTORY,
-                 "sha256": FAILED_PREPARATION_INVENTORY_SHA256}
-    inventory = _read_json(_validate_reference(root, reference))
-    if (inventory.get("schema") != "v092-swift-preparation-failure-inventory/v1"
-            or inventory.get("campaign_id") != "20261122-03"
-            or inventory.get("analyzer_invocations") != 0
-            or inventory.get("file_count") != 8):
-        raise RuntimeError("prior source preparation failure inventory changed")
-    roots = [root / FAILED_PREPARATION_REPORT, root / FAILED_PREPARATION_SOURCE]
-    observed = set()
-    for tree in roots:
-        for path in tree.rglob("*"):
-            if path.is_symlink():
-                raise RuntimeError("prior preparation acquired a symlink")
-            if path.is_file():
-                observed.add(path.relative_to(root).as_posix())
-    rows = inventory["files"]
-    if observed != {row["path"] for row in rows} or sum(row["size_bytes"] for row in rows) != inventory["total_bytes"]:
-        raise RuntimeError("prior preparation membership changed")
-    for row in rows:
-        path = _validate_reference(root, {"path": row["path"], "sha256": row["sha256"]})
-        if path.stat().st_size != row["size_bytes"]:
-            raise RuntimeError("prior preparation byte counts changed")
-    terminal = _read_json(root / FAILED_PREPARATION_REPORT / "campaign-terminal.json")
-    start = _read_json(root / FAILED_PREPARATION_REPORT / "campaign-start.json")
-    if (terminal.get("status") != "blocked" or terminal["failure"].get("process_ownership") != {}
-            or terminal["failure"].get("error") != inventory["source_error"]
-            or (root / FAILED_PREPARATION_REPORT / f"attempts/{GROUP_ID}/attempt-01/start.json").exists()):
-        raise RuntimeError("prior campaign was not a pre-analyzer preparation failure")
-    tracker = _qualified_module(root).legacy.core._process_tracker()
-    if tracker._start_identity(start["supervisor_pid"]) == start["supervisor_start_identity"]:
-        raise RuntimeError("prior preparation supervisor is still alive")
-    return reference
+def _verify_failed_preparation(root: Path) -> list[dict]:
+    bindings = _failed_preparation_bindings()
+    for binding, report_root, source_root in zip(
+            bindings, (FAILED_PREPARATION_REPORT, FAILED_PREPARATION_04_REPORT),
+            (FAILED_PREPARATION_SOURCE, FAILED_PREPARATION_04_SOURCE)):
+        reference = binding["inventory"]
+        inventory = _read_json(_validate_reference(root, reference))
+        if (inventory.get("schema") != "v092-swift-preparation-failure-inventory/v1"
+                or inventory.get("campaign_id") != binding["campaign_id"]
+                or inventory.get("analyzer_invocations") != 0
+                or inventory.get("file_count") != binding["file_count"]
+                or inventory.get("total_bytes") != binding["total_bytes"]
+                or inventory.get("source_error") != binding["source_error"]
+                or not isinstance(inventory.get("files"), list)
+                or len(inventory["files"]) != binding["file_count"]):
+            raise RuntimeError(f"prior source preparation failure inventory changed: {binding['campaign_id']}")
+        roots = [root / report_root, root / source_root]
+        observed = set()
+        for tree in roots:
+            for path in tree.rglob("*"):
+                if path.is_symlink():
+                    raise RuntimeError("prior preparation acquired a symlink")
+                if path.is_file():
+                    observed.add(path.relative_to(root).as_posix())
+        rows = inventory["files"]
+        if (len({row.get("path") for row in rows if isinstance(row, dict)}) != len(rows)
+                or observed != {row.get("path") for row in rows}
+                or sum(row.get("size_bytes", -1) for row in rows if isinstance(row, dict))
+                != inventory["total_bytes"]):
+            raise RuntimeError(f"prior preparation membership changed: {binding['campaign_id']}")
+        for row in rows:
+            if (not isinstance(row, dict) or type(row.get("size_bytes")) is not int
+                    or row["size_bytes"] < 0):
+                raise RuntimeError("prior preparation inventory has a malformed file row")
+            path = _validate_reference(root, {"path": row.get("path"), "sha256": row.get("sha256")})
+            if path.stat().st_size != row["size_bytes"]:
+                raise RuntimeError("prior preparation byte counts changed")
+        terminal_path = root / report_root / "campaign-terminal.json"
+        start_path = root / report_root / "campaign-start.json"
+        terminal = _read_json(terminal_path)
+        _read_json(start_path)
+        failure = terminal.get("failure")
+        attempt_start = root / report_root / f"attempts/{GROUP_ID}/attempt-01/start.json"
+        if (terminal.get("campaign_id") != binding["campaign_id"]
+                or terminal.get("status") != "blocked"
+                or not isinstance(failure, dict) or failure.get("process_ownership") != {}
+                or failure.get("error") != inventory["source_error"]
+                or terminal.get("completed_groups") != []
+                or terminal.get("execution_status") != "stopped-fail-closed"
+                or inventory["analyzer_invocations"] != 0
+                or attempt_start.exists() or attempt_start.is_symlink()):
+            raise RuntimeError(f"prior campaign was not a zero-analyzer preparation failure: {binding['campaign_id']}")
+    return bindings
+
+
+def _failed_preparation_bindings() -> list[dict]:
+    return [
+        {"campaign_id": "20261122-03",
+         "inventory": {"path": FAILED_PREPARATION_INVENTORY,
+                       "sha256": FAILED_PREPARATION_INVENTORY_SHA256},
+         "file_count": 8, "total_bytes": 721027, "analyzer_invocations": 0,
+         "source_error": "AttributeError: '_SupplementDiskGuard' object has no attribute 'chunk_bytes'"},
+        {"campaign_id": "20261122-04",
+         "inventory": {"path": FAILED_PREPARATION_04_INVENTORY,
+                       "sha256": FAILED_PREPARATION_04_INVENTORY_SHA256},
+         "file_count": 4672, "total_bytes": 114774850, "analyzer_invocations": 0,
+         "source_error": "KeyboardInterrupt: "},
+    ]
+
+
+def _observe_closed_preparation_processes(root: Path, legacy) -> dict:
+    helper = _load_module("swift_supplement_closed_process_identity",
+                          root / FAILED_PREPARATION_PROCESS_HELPER)
+    helper_ref = _reference(root, FAILED_PREPARATION_PROCESS_HELPER)
+    tracker = legacy.core._process_tracker()
+    observations = []
+    for binding, report_root in zip(
+            _failed_preparation_bindings(),
+            (FAILED_PREPARATION_REPORT, FAILED_PREPARATION_04_REPORT)):
+        start_path = root / report_root / "campaign-start.json"
+        start = _read_json(start_path)
+        if start.get("campaign_id") != binding["campaign_id"]:
+            raise RuntimeError(f"closed preparation campaign-start changed: {binding['campaign_id']}")
+        pid = start.get("supervisor_pid")
+        identity = start.get("supervisor_start_identity")
+        if type(pid) is not int or pid <= 0 or not isinstance(identity, str) or not identity:
+            raise RuntimeError(f"closed preparation supervisor identity is malformed: {binding['campaign_id']}")
+        proof = helper.observe_stopped(pid, identity, tracker._start_identity)
+        if (proof.get("schema") != "v092-closed-process-observation/v1"
+                or proof.get("pid") != pid or proof.get("expected_start_identity") != identity
+                or proof.get("status") not in {"confirmed-pid-absent", "confirmed-different-birth-identity"}
+                or proof.get("signals_sent") != []):
+            raise RuntimeError(f"prior preparation supervisor stop is unproven: {binding['campaign_id']}")
+        observations.append({
+            "campaign_id": binding["campaign_id"],
+            "campaign_start": _reference(root, f"{report_root}/campaign-start.json"),
+            "observation": proof,
+        })
+    return {"schema": "v092-closed-preparation-supervisors/v1",
+            "status": "confirmed-stopped", "observations": observations,
+            "observer_helper": helper_ref,
+            "publication_eligible": False}
 
 
 def _derive_plan(root: Path, created_utc: str) -> dict:
@@ -1533,7 +1692,7 @@ def _derive_plan(root: Path, created_utc: str) -> dict:
     configuration_provenance = _configuration_provenance(root, qualified, base_plan)
     plan = _base_plan(root, lineage["group"], qualified, evidence, closure, resource_scope,
                       committed_inputs, configuration_provenance, postprocessing_dependencies, created_utc)
-    plan["prior_preparation_failure"] = failed_preparation
+    plan["prior_preparation_failures"] = failed_preparation
     legacy_core = _qualified_module(root).legacy.core
     copy_closure = dict(closure)
     copy_closure.update({item["path"]: item["sha256"] for item in postprocessing_dependencies})
@@ -2254,7 +2413,7 @@ def _campaign_paths(root: Path, plan: dict) -> tuple[Path, Path, Path, Path]:
 
 def verify_plan(plan_path: str = PLAN_PATH) -> dict:
     if plan_path != PLAN_PATH:
-        raise RuntimeError("only the fixed v0.9.2-03 supplement plan is accepted")
+        raise RuntimeError("only the fixed v0.9.2-05 supplement plan is accepted")
     path = _repo_file(ROOT, plan_path)
     plan = _read_json(path)
     validate_campaign_plan(plan)
@@ -2306,7 +2465,8 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
     q = _qualified_module(ROOT)
     base_plan = _read_json(_repo_file(ROOT, BASE_PLAN_PATH))
     resource_paths = _safe_accounting_scope(ROOT, plan)
-    host = _load_module("swift_supplement_host", ROOT / "scripts/v092_timing_host.py")
+    raw_host = _load_module("swift_supplement_host", ROOT / "scripts/v092_timing_host.py")
+    host = _admission_host(ROOT, raw_host, q.legacy)
     lock = q.legacy.core._exclusive_lock
     dispatch_started = time.monotonic()
     dispatch_deadline = dispatch_started + MAX_CAMPAIGN_WALL_SECONDS
@@ -2365,6 +2525,9 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
             report_start["resource_baseline"] = baseline_ref
             report_start["supervisor_pid"] = os.getpid()
             report_start["supervisor_start_identity"] = supervisor_identity
+            closed_preparation_processes = _observe_closed_preparation_processes(ROOT, q.legacy)
+            report_start["closed_preparation_processes"] = closed_preparation_processes
+            attempt_record["closed_preparation_processes"] = closed_preparation_processes
             _write_new(report / "campaign-start.json", report_start)
             _append_jsonl(report / "progress.jsonl", {"utc": dt.datetime.now(dt.timezone.utc).isoformat(),
                                                        "phase": "source-materialization-starting",
