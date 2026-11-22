@@ -47,3 +47,10 @@ The lossless control bundle is retained separately at
 `../capability-controls-evidence-bundle-01/`; delivery verification does not
 confer analyzer or timing qualification. Actual timing status belongs to the
 separate campaign 08 evidence, never this preparation record.
+
+Subsequent complete-scope validation found the legacy control scratch-path
+omission documented in A36. The original supervision and qualification receipts
+remain unchanged. `../capability-control-scratch-accounting-audit-01.json`
+separately verifies the conservative corrected bound below 24 GiB; this is
+retrospective evidence and does not make the original scope observation complete.
+Campaign 08 must bind that limitation and use the corrected resource scope.

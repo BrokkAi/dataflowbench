@@ -1136,3 +1136,10 @@ preflight before dispatch, without claiming new analyzer capability proof.
 for the explicit decline provenance and requires the driver to retain a failed
 case before honoring engine or command failure stops. Active CPU telemetry
 continues to be recorded without interrupting invocations.
+
+### A36 — 2026-11-22: retained control scratch-accounting limitation
+
+[A36](latency-v092-20261122-scratch-accounting.md) preserves the original
+control scope omission and separately verifies a conservative bound below the
+unchanged scratch limit. The fresh timing plan must use the corrected complete
+scope and retain this retrospective limitation without claiming certification.
