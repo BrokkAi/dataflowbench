@@ -26,7 +26,7 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CAMPAIGN_ID = "20261122-06"
+CAMPAIGN_ID = "20261122-07"
 FAILED_PREPARATION_REPORT = "reports/timing/v0.9.2/20261122-03"
 FAILED_PREPARATION_SOURCE = "execution-state/timing-v092-20261122-03/sources/joern-swift-common108"
 FAILED_PREPARATION_INVENTORY = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/campaign-03-preparation-failure-inventory-01.json"
@@ -39,9 +39,41 @@ FAILED_PREPARATION_05_REPORT = "reports/timing/v0.9.2/20261122-05"
 FAILED_PREPARATION_05_SOURCE = "execution-state/timing-v092-20261122-05/sources/joern-swift-common108"
 FAILED_PREPARATION_05_INVENTORY = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/campaign-05-preparation-failure-inventory-01.json"
 FAILED_PREPARATION_05_INVENTORY_SHA256 = "773abdb61d283134552e9ee8adfa0869cb207ed20a8b4df8784bd502b8c3f8bc"
+FAILED_WRAPPER_REPORT = "reports/timing/v0.9.2/20261122-06"
+FAILED_WRAPPER_SOURCE = "execution-state/timing-v092-20261122-06/sources/joern-swift-common108"
+FAILED_WRAPPER_INVENTORY = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/campaign-06-invocation-failure-inventory-01.json"
+FAILED_WRAPPER_INVENTORY_SHA256 = "70b093fb3356773580560aa9937994e1f3ec5a264684c5b11b6646657ee100a6"
+LAUNCHER_RECOVERY_PATH = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/launcher-path-recovery-01.json"
+LAUNCHER_RECOVERY_SHA256 = "5f425e249985e19b2ebb468c711dbe7e6cd56e4d870941d4ad038823f9d03b07"
+LAUNCHER_CONTROL_VERSION_PATH = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/qualification/control-attempt-01/version.command.json"
+LAUNCHER_CONTROL_VERSION_SHA256 = "f6c8d478e42fda83f5370141458b890f1992842510c17bc15a0fb6cb60c74331"
+LAUNCHER_SMOKE_ROOT = "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/launcher-smoke-01"
+LAUNCHER_SMOKE_TERMINAL_PATH = f"{LAUNCHER_SMOKE_ROOT}/terminal.json"
+LAUNCHER_SMOKE_TERMINAL_SHA256 = "40f1521eac678322a00082689fbe166deb1e674704b16163b1cbc89f6513a296"
+LAUNCHER_SMOKE_START_PATH = f"{LAUNCHER_SMOKE_ROOT}/start.json"
+LAUNCHER_SMOKE_START_SHA256 = "97692d870317a416efa84f69b2f08e3f88afe30de680db0b7c7ec6e39cf2db5d"
+LAUNCHER_SMOKE_STDOUT_PATH = f"{LAUNCHER_SMOKE_ROOT}/stdout.txt"
+LAUNCHER_SMOKE_STDOUT_SHA256 = "a1eeb9de9d8ce7866b0838822371298e1bf2b715c4fabf066bdaab031d8f5cda"
+LAUNCHER_SMOKE_STDERR_PATH = f"{LAUNCHER_SMOKE_ROOT}/stderr.txt"
+LAUNCHER_SMOKE_STDERR_SHA256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+FAILED_WRAPPER_VERSION_DIR = (
+    f"{FAILED_WRAPPER_SOURCE}/reports/raw/joern-common-v2/current108-v092-02/identity"
+)
+GNU_READLINK_LOOKUP_PATH = "/opt/homebrew/bin/greadlink"
+GNU_READLINK_REAL_PATH = "/opt/homebrew/Cellar/coreutils/9.8/bin/greadlink"
+GNU_READLINK_SYMLINK_TARGET = "../Cellar/coreutils/9.8/bin/greadlink"
+GNU_READLINK_SHA256 = "1b0f8ddb83bb76e9dd395be61326d7fe2e45a6093e88ae544f94dd6524a94383"
+GNU_READLINK_SIZE_BYTES = 76680
+GNU_READLINK_MODE = 365
 FAILED_PREPARATION_PROCESS_HELPER = "scripts/v092_closed_process_identity.py"
 DIAGNOSTIC_AUTHORIZATION_PATH = "docs/latency-v092-20261122-diagnostic-continuation.md"
 DIAGNOSTIC_AUTHORIZATION_SHA256 = "2e213648637bf897639a8cab6ee92f3533ba2be2c183c28d599337bc93f2d6a8"
+LAUNCHER_RECOVERY_AUTHORIZATION_PATH = "docs/latency-v092-20261122-launcher-recovery.md"
+LAUNCHER_RECOVERY_AUTHORIZATION_SHA256 = "bad56349e0a30903519a2ac165e7fd3bc75ed6749e238b3377d351c55adf3c9a"
+PARENT_GROUP_PATH = (
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/"
+    "jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+)
 QUIESCENT_SERVICE_RECOGNITION = (
     "legacy.Observer exact bifrost --mcp/--lsp argv, unchanged PID/birth/argv/cumulative-CPU, "
     "zero sampled CPU and no descendants/v1"
@@ -639,6 +671,7 @@ def _input_code_paths(plan: dict) -> list[str]:
     # both exact plan files, and the explicit authorization must be committed.
     return sorted({*HELPER_PATHS, QUALIFIED_PLAN_PATH, PENDING_PLAN_PATH,
                    DIAGNOSTIC_AUTHORIZATION_PATH,
+                   LAUNCHER_RECOVERY_AUTHORIZATION_PATH,
                    V01_EXECUTION_PLAN_PATH})
 
 
@@ -664,6 +697,10 @@ def _validate_group_and_command(plan: dict, base_group: dict) -> dict:
     output = plan.get("output_root")
     if output != "reports/raw/joern-common-v2":
         raise RuntimeError("qualified Joern plan must preserve its exact common output root")
+    parent_environment = base_group.get("environment")
+    if (not isinstance(parent_environment, dict)
+            or parent_environment.get("PATH") != PARENT_GROUP_PATH):
+        raise RuntimeError("frozen parent Joern group PATH differs from the recorded launch environment")
     expected_argv = [
         "/usr/bin/python3", "scripts/run-joern-common-v092-relocated.py", "execute", "--plan",
         QUALIFIED_PLAN_PATH, "--output", OUTPUT_ARGUMENT,
@@ -685,7 +722,7 @@ def _validate_group_and_command(plan: dict, base_group: dict) -> dict:
         "environment": {
             "HOME": "@SUPPLEMENT_SOURCE@/home",
             "TMPDIR": "@SUPPLEMENT_SOURCE@/tmp",
-            "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
+            "PATH": PARENT_GROUP_PATH,
             "LANG": "en_US.UTF-8",
             "PYTHONDONTWRITEBYTECODE": "1",
             "DATAFLOWBENCH_V092_RELEASE_EXECUTION": "1",
@@ -925,27 +962,35 @@ def _resource_scope(root: Path) -> dict:
     preparation_paths = {
         "working": [root / PORTABILITY_SOURCE_PATH, root / QUALIFICATION_WORK_ROOT,
                     root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE,
-                    root / FAILED_PREPARATION_05_SOURCE],
+                    root / FAILED_PREPARATION_05_SOURCE, root / FAILED_WRAPPER_SOURCE,
+                    root / LAUNCHER_SMOKE_ROOT],
         "retention": [root / PREPARATION_ROOT, root / FAILED_PREPARATION_REPORT,
                       root / FAILED_PREPARATION_04_REPORT,
                       root / FAILED_PREPARATION_04_SOURCE / "reports",
                       root / FAILED_PREPARATION_05_REPORT,
-                      root / FAILED_PREPARATION_05_SOURCE / "reports"],
+                      root / FAILED_PREPARATION_05_SOURCE / "reports",
+                      root / FAILED_WRAPPER_REPORT, root / FAILED_WRAPPER_SOURCE / "reports"],
         "scratch": [root / QUALIFICATION_CONTROL_SCRATCH,
                     *(root / QUALIFICATION_WORK_ROOT / name for name in ("home", "tmp", "cache")),
                     *(root / FAILED_PREPARATION_04_SOURCE / name for name in ("home", "tmp", "cache")),
-                    *(root / FAILED_PREPARATION_05_SOURCE / name for name in ("home", "tmp", "cache"))],
+                    *(root / FAILED_PREPARATION_05_SOURCE / name for name in ("home", "tmp", "cache")),
+                    *(root / FAILED_WRAPPER_SOURCE / name for name in ("home", "tmp", "cache")),
+                    root / LAUNCHER_SMOKE_ROOT],
     }
     closed_preparation_paths = {
         "working": {root / FAILED_PREPARATION_SOURCE, root / FAILED_PREPARATION_04_SOURCE,
-                    root / FAILED_PREPARATION_05_SOURCE},
+                    root / FAILED_PREPARATION_05_SOURCE, root / FAILED_WRAPPER_SOURCE,
+                    root / LAUNCHER_SMOKE_ROOT},
         "retention": {root / FAILED_PREPARATION_REPORT, root / FAILED_PREPARATION_04_REPORT,
                       root / FAILED_PREPARATION_04_SOURCE / "reports",
                       root / FAILED_PREPARATION_05_REPORT,
-                      root / FAILED_PREPARATION_05_SOURCE / "reports"},
+                      root / FAILED_PREPARATION_05_SOURCE / "reports",
+                      root / FAILED_WRAPPER_REPORT, root / FAILED_WRAPPER_SOURCE / "reports"},
         "scratch": {
             *(root / FAILED_PREPARATION_04_SOURCE / name for name in ("home", "tmp", "cache")),
             *(root / FAILED_PREPARATION_05_SOURCE / name for name in ("home", "tmp", "cache")),
+            *(root / FAILED_WRAPPER_SOURCE / name for name in ("home", "tmp", "cache")),
+            root / LAUNCHER_SMOKE_ROOT,
         },
     }
     active_paths = {
@@ -1111,7 +1156,7 @@ def validate_campaign_plan(plan: dict) -> None:
         raise RuntimeError("five supplement partitions do not cover the exact 108-case group")
     expected_environment = {
         "HOME": "@SUPPLEMENT_SOURCE@/home", "TMPDIR": "@SUPPLEMENT_SOURCE@/tmp",
-        "PATH": "/usr/bin:/bin:/usr/sbin:/sbin", "LANG": "en_US.UTF-8",
+        "PATH": PARENT_GROUP_PATH, "LANG": "en_US.UTF-8",
         "PYTHONDONTWRITEBYTECODE": "1", "DATAFLOWBENCH_V092_RELEASE_EXECUTION": "1",
         "DATAFLOWBENCH_V092_GROUP_ID": GROUP_ID,
     }
@@ -1159,15 +1204,19 @@ def validate_campaign_plan(plan: dict) -> None:
     expected_closed_preparation_roots = {
         "working": [f"{ROOT}/{FAILED_PREPARATION_SOURCE}",
                     f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}",
-                    f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}"],
+                    f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}",
+                    f"{ROOT}/{FAILED_WRAPPER_SOURCE}", f"{ROOT}/{LAUNCHER_SMOKE_ROOT}"],
         "retention": [f"{ROOT}/{FAILED_PREPARATION_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports",
                       f"{ROOT}/{FAILED_PREPARATION_05_REPORT}",
-                      f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/reports"],
+                      f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/reports",
+                      f"{ROOT}/{FAILED_WRAPPER_REPORT}", f"{ROOT}/{FAILED_WRAPPER_SOURCE}/reports"],
         "scratch": [
             *(f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/{name}" for name in ("home", "tmp", "cache")),
             *(f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/{name}" for name in ("home", "tmp", "cache")),
+            *(f"{ROOT}/{FAILED_WRAPPER_SOURCE}/{name}" for name in ("home", "tmp", "cache")),
+            f"{ROOT}/{LAUNCHER_SMOKE_ROOT}",
         ],
     }
     expected_post_profile_additions = [dict(row) for row in POST_PROFILE_RETAINED_ADDITIONS]
@@ -1213,18 +1262,23 @@ def validate_campaign_plan(plan: dict) -> None:
     exact_preparation = {
         "working": [f"{ROOT}/{PORTABILITY_SOURCE_PATH}", f"{ROOT}/{QUALIFICATION_WORK_ROOT}",
                     f"{ROOT}/{FAILED_PREPARATION_SOURCE}", f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}",
-                    f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}"],
+                    f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}", f"{ROOT}/{FAILED_WRAPPER_SOURCE}",
+                    f"{ROOT}/{LAUNCHER_SMOKE_ROOT}"],
         "retention": [f"{ROOT}/{PREPARATION_ROOT}", f"{ROOT}/{FAILED_PREPARATION_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_REPORT}",
                       f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/reports",
                       f"{ROOT}/{FAILED_PREPARATION_05_REPORT}",
-                      f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/reports"],
+                      f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/reports",
+                      f"{ROOT}/{FAILED_WRAPPER_REPORT}", f"{ROOT}/{FAILED_WRAPPER_SOURCE}/reports"],
         "scratch": [f"{ROOT}/{QUALIFICATION_CONTROL_SCRATCH}",
                     *[f"{ROOT}/{QUALIFICATION_WORK_ROOT}/{name}" for name in ("home", "tmp", "cache")],
                     *[f"{ROOT}/{FAILED_PREPARATION_04_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")],
                     *[f"{ROOT}/{FAILED_PREPARATION_05_SOURCE}/{name}"
-                      for name in ("home", "tmp", "cache")]],
+                      for name in ("home", "tmp", "cache")],
+                    *[f"{ROOT}/{FAILED_WRAPPER_SOURCE}/{name}"
+                      for name in ("home", "tmp", "cache")],
+                    f"{ROOT}/{LAUNCHER_SMOKE_ROOT}"],
     }
     exact_active = {
         "working": [f"{ROOT}/{SOURCE_RELATIVE}"],
@@ -1299,8 +1353,57 @@ def validate_campaign_plan(plan: dict) -> None:
         raise RuntimeError("diagnostic continuation authorization binding changed")
     committed_inputs = plan.get("committed_code_inputs")
     if (not isinstance(committed_inputs, dict)
-            or committed_inputs.get(DIAGNOSTIC_AUTHORIZATION_PATH) != DIAGNOSTIC_AUTHORIZATION_SHA256):
+            or committed_inputs.get(DIAGNOSTIC_AUTHORIZATION_PATH) != DIAGNOSTIC_AUTHORIZATION_SHA256
+            or committed_inputs.get(LAUNCHER_RECOVERY_AUTHORIZATION_PATH)
+            != LAUNCHER_RECOVERY_AUTHORIZATION_SHA256):
         raise RuntimeError("diagnostic authorization must remain a committed, hash-bound plan input")
+    if plan.get("launcher_recovery_authorization") != {
+            "path": LAUNCHER_RECOVERY_AUTHORIZATION_PATH,
+            "sha256": LAUNCHER_RECOVERY_AUTHORIZATION_SHA256,
+            "authorization": "user-authorized-diagnostic-continuation",
+    }:
+        raise RuntimeError("launcher recovery authorization binding changed")
+    if plan.get("launcher_prerequisite_preflight") != _launcher_preflight_binding():
+        raise RuntimeError("launcher dependency or positive version-only preflight binding changed")
+    prior_wrapper_failure = plan.get("prior_wrapper_failure")
+    expected_wrapper_failure = {
+        "schema": "v092-swift-closed-wrapper-failure/v1",
+        "campaign_id": "20261122-06",
+        "classification": "wrapper-launcher-path-dependency-failure",
+        "inventory": {"path": FAILED_WRAPPER_INVENTORY,
+                       "sha256": FAILED_WRAPPER_INVENTORY_SHA256},
+        "wrapper_invocations": 1, "identity_phase_invocations": 1,
+        "analysis_phase_invocations": 0, "benchmark_case_rows": 0,
+        "exit_code": 1, "timed_out": False, "capacity_loss": None,
+        "run_json_status": "absent", "version_discovery_complete": False,
+        "inner_cleanup_status": "uncertain",
+        "inner_cleanup_error": "process tracking failed: invocation root start identity was never captured",
+        "outer_cleanup_status": "tracked-processes-stopped", "outer_signals_sent": [],
+        "descendant_containment": "unproven", "automatic_retry": False,
+        "publication_eligible": False,
+    }
+    if not isinstance(prior_wrapper_failure, dict) or any(
+            prior_wrapper_failure.get(key) != value for key, value in expected_wrapper_failure.items()):
+        raise RuntimeError("typed campaign 06 wrapper failure must retain its invocation and uncertainty")
+    expected_refs = {
+        "campaign_start": f"{FAILED_WRAPPER_REPORT}/campaign-start.json",
+        "campaign_terminal": f"{FAILED_WRAPPER_REPORT}/campaign-terminal.json",
+        "attempt_start": f"{FAILED_WRAPPER_REPORT}/attempts/{GROUP_ID}/attempt-01/start.json",
+        "attempt_terminal": f"{FAILED_WRAPPER_REPORT}/attempts/{GROUP_ID}/attempt-01/terminal.json",
+        "version_command": f"{FAILED_WRAPPER_VERSION_DIR}/version.command.json",
+        "version_stdout": f"{FAILED_WRAPPER_VERSION_DIR}/version.stdout",
+        "version_stderr": f"{FAILED_WRAPPER_VERSION_DIR}/version.stderr",
+    }
+    for key, relative in expected_refs.items():
+        reference = prior_wrapper_failure.get(key)
+        if (not isinstance(reference, dict) or reference.get("path") != relative
+                or not isinstance(reference.get("sha256"), str) or len(reference["sha256"]) != 64
+                or any(char not in "0123456789abcdef" for char in reference["sha256"])):
+            raise RuntimeError("typed campaign 06 wrapper failure lost a retained evidence reference")
+    for key in ("elapsed_seconds", "command_elapsed_seconds", "version_elapsed_seconds"):
+        if (type(prior_wrapper_failure.get(key)) not in {int, float}
+                or not math.isfinite(prior_wrapper_failure[key]) or prior_wrapper_failure[key] <= 0):
+            raise RuntimeError("typed campaign 06 wrapper failure lost its execution cost")
     provenance = plan.get("configuration_provenance")
     if (not isinstance(provenance, dict)
             or provenance.get("schema") != "v092-swift-supplement-configuration-provenance/v1"
@@ -1483,6 +1586,7 @@ def _component_manifest_references(root: Path, plan: dict) -> dict:
 def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
                closure: dict[str, str], resource_scope: dict, committed_inputs: dict[str, str],
                configuration_provenance: dict, postprocessing_dependencies: list[dict],
+               prior_wrapper_failure: dict,
                created_utc: str) -> dict:
     group = _validate_group_and_command(final_plan, base_group)
     helper_refs = {relative: sha(_repo_file(root, relative)) for relative in HELPER_PATHS}
@@ -1545,6 +1649,12 @@ def _base_plan(root: Path, base_group: dict, final_plan: dict, evidence: dict,
             **_reference(root, DIAGNOSTIC_AUTHORIZATION_PATH),
             "authorization": "user-authorized-diagnostic-continuation",
         },
+        "launcher_recovery_authorization": {
+            **_reference(root, LAUNCHER_RECOVERY_AUTHORIZATION_PATH),
+            "authorization": "user-authorized-diagnostic-continuation",
+        },
+        "launcher_prerequisite_preflight": _verify_launcher_preflight(root),
+        "prior_wrapper_failure": prior_wrapper_failure,
         "capture_inventory": {"path": BASE_INVENTORY_PATH, "sha256": BASE_INVENTORY_SHA256,
                               "file_count": 111},
         "semgrep_retrospective_audit": {"path": BASE_AUDIT_PATH, "sha256": BASE_AUDIT_SHA256,
@@ -1678,6 +1788,175 @@ def _verify_failed_preparation(root: Path) -> list[dict]:
     return bindings
 
 
+def _verify_failed_wrapper_attempt(root: Path) -> dict:
+    inventory_ref = {"path": FAILED_WRAPPER_INVENTORY,
+                     "sha256": FAILED_WRAPPER_INVENTORY_SHA256}
+    inventory = _read_json(_validate_reference(root, inventory_ref))
+    expected_error = "RuntimeError: Joern supplement invocation failed: exit=1, timed_out=False, capacity=None"
+    if (inventory.get("schema") != "v092-swift-identity-invocation-failure-inventory/v1"
+            or inventory.get("campaign_id") != "20261122-06"
+            or inventory.get("file_count") != 4674
+            or inventory.get("total_bytes") != 114076071
+            or inventory.get("source_error") != expected_error
+            or inventory.get("wrapper_invocations") != 1
+            or inventory.get("identity_phase_invocations") != 1
+            or inventory.get("analysis_phase_invocations") != 0
+            or inventory.get("benchmark_case_rows") != 0
+            or inventory.get("publication_eligible") is not False
+            or not isinstance(inventory.get("files"), list)
+            or len(inventory["files"]) != 4674):
+        raise RuntimeError("campaign 06 invocation failure inventory changed or was flattened into preparation")
+    roots = [root / FAILED_WRAPPER_REPORT, root / FAILED_WRAPPER_SOURCE]
+    observed = set()
+    for tree in roots:
+        for path in tree.rglob("*"):
+            if path.is_symlink():
+                raise RuntimeError("campaign 06 wrapper failure tree acquired a symlink")
+            if path.is_file():
+                observed.add(path.relative_to(root).as_posix())
+    rows = inventory["files"]
+    listed = {row.get("path") for row in rows if isinstance(row, dict)}
+    if (len(listed) != len(rows) or observed != listed
+            or sum(row.get("size_bytes", -1) for row in rows if isinstance(row, dict))
+            != inventory["total_bytes"]):
+        raise RuntimeError("campaign 06 wrapper failure tree no longer matches its closed inventory")
+    for row in rows:
+        if (not isinstance(row, dict) or type(row.get("size_bytes")) is not int
+                or row["size_bytes"] < 0):
+            raise RuntimeError("campaign 06 wrapper failure inventory has a malformed file row")
+        path = _validate_reference(root, {"path": row.get("path"), "sha256": row.get("sha256")})
+        if path.stat().st_size != row["size_bytes"]:
+            raise RuntimeError("campaign 06 wrapper failure byte counts changed")
+
+    campaign_start_path = f"{FAILED_WRAPPER_REPORT}/campaign-start.json"
+    campaign_terminal_path = f"{FAILED_WRAPPER_REPORT}/campaign-terminal.json"
+    start = _read_json(_repo_file(root, campaign_start_path))
+    terminal = _read_json(_repo_file(root, campaign_terminal_path))
+    if (start.get("campaign_id") != "20261122-06"
+            or type(start.get("supervisor_pid")) is not int
+            or start["supervisor_pid"] <= 0
+            or not isinstance(start.get("supervisor_start_identity"), str)
+            or not start["supervisor_start_identity"]
+            or terminal.get("campaign_id") != "20261122-06"
+            or terminal.get("status") != "unqualified"
+            or terminal.get("execution_status") != "stopped-fail-closed"
+            or terminal.get("failed_group") != GROUP_ID
+            or terminal.get("completed_groups") != []
+            or terminal.get("automatic_retry") is not False
+            or terminal.get("publication_eligible") is not False
+            or terminal.get("descendant_containment") != "unproven"):
+        raise RuntimeError("campaign 06 wrapper failure campaign-level terminal changed")
+
+    attempt_relative = f"{FAILED_WRAPPER_REPORT}/attempts/{GROUP_ID}/attempt-01"
+    attempt_start_path = f"{attempt_relative}/start.json"
+    attempt_terminal_path = f"{attempt_relative}/terminal.json"
+    attempt_start = _read_json(_repo_file(root, attempt_start_path))
+    attempt_terminal_ref = terminal.get("attempt_terminal")
+    expected_attempt_terminal_path = {"path": attempt_terminal_path}
+    if (not isinstance(attempt_terminal_ref, dict)
+            or attempt_terminal_ref.get("path") != expected_attempt_terminal_path["path"]
+            or not isinstance(attempt_terminal_ref.get("sha256"), str)
+            or len(attempt_terminal_ref["sha256"]) != 64):
+        raise RuntimeError("campaign 06 attempt terminal binding changed")
+    attempt_terminal = _read_json(_validate_reference(root, attempt_terminal_ref))
+    attempt_ownership = attempt_terminal.get("process_ownership")
+    if (attempt_start.get("campaign_id") != "20261122-06"
+            or attempt_start.get("group") != GROUP_ID or attempt_start.get("attempt") != 1
+            or attempt_start.get("automatic_retry") is not False
+            or attempt_start.get("publication_eligible") is not False
+            or attempt_terminal.get("group") != GROUP_ID or attempt_terminal.get("attempt") != 1
+            or attempt_terminal.get("status") != "failed"
+            or attempt_terminal.get("error") != expected_error
+            or attempt_terminal.get("exit_code") != 1
+            or attempt_terminal.get("timed_out") is not False
+            or attempt_terminal.get("capacity_loss") is not None
+            or attempt_terminal.get("automatic_retry") is not False
+            or attempt_terminal.get("publication_eligible") is not False
+            or not isinstance(attempt_terminal.get("elapsed_seconds"), (int, float))
+            or attempt_terminal["elapsed_seconds"] <= 0
+            or not isinstance(attempt_terminal.get("command_elapsed_seconds"), (int, float))
+            or attempt_terminal["command_elapsed_seconds"] <= 0
+            or not isinstance(attempt_ownership, dict)
+            or attempt_ownership.get("cleanup_status") != "tracked-processes-stopped"
+            or attempt_ownership.get("signals_sent") != []
+            or attempt_ownership.get("descendant_containment") != "unproven"
+            or not isinstance(attempt_ownership.get("tracked_processes"), list)
+            or not attempt_ownership["tracked_processes"]):
+        raise RuntimeError("campaign 06 outer invocation failure, costs, or cleanup evidence changed")
+    wrapper_failure = terminal.get("failure")
+    if (not isinstance(wrapper_failure, dict)
+            or wrapper_failure.get("status") != "failed"
+            or wrapper_failure.get("error") != expected_error
+            or wrapper_failure.get("exit_code") != 1
+            or wrapper_failure.get("timed_out") is not False
+            or wrapper_failure.get("capacity_loss") is not None
+            or wrapper_failure.get("process_ownership") != attempt_ownership):
+        raise RuntimeError("campaign 06 terminal no longer preserves the exact wrapper failure")
+
+    version_dir = root / FAILED_WRAPPER_VERSION_DIR
+    version_path = f"{FAILED_WRAPPER_VERSION_DIR}/version.command.json"
+    version = _read_json(_repo_file(root, version_path))
+    version_stdout_path = f"{FAILED_WRAPPER_VERSION_DIR}/version.stdout"
+    version_stderr_path = f"{FAILED_WRAPPER_VERSION_DIR}/version.stderr"
+    version_stdout = _repo_file(root, version_stdout_path).read_text()
+    version_stderr = _repo_file(root, version_stderr_path).read_text()
+    if (version.get("argv") != ["/Users/dave/.codex/worktrees/cb55/dataflowbench/"
+                                 "execution-state/timing-runtime-20261114-01/joern/joern-cli/joern"]
+            or version.get("exit_status") != 1 or version.get("timed_out") is not False
+            or version.get("discovery_complete") is not False
+            or version.get("cleanup_status") != "uncertain"
+            or version.get("cleanup_error") != "process tracking failed: invocation root start identity was never captured"
+            or version.get("cleanup_signaled") != []
+            or version.get("tracked_descendants") != []
+            or version.get("descendant_containment") != "unproven"
+            or version.get("memory_compliance") != "unproven"
+            or version.get("scratch_cleanup_authorized") is not False
+            or version.get("environment", {}).get("PATH") != "/usr/bin:/bin:/usr/sbin:/sbin"
+            or not isinstance(version.get("elapsed_seconds"), (int, float))
+            or version["elapsed_seconds"] <= 0
+            or "Unable to find ./bin/repl-bridge" not in version_stdout
+            or "greadlink: command not found" not in version_stderr):
+        raise RuntimeError("campaign 06 version probe failure or uncertain inner cleanup changed")
+    run_path = root / FAILED_WRAPPER_SOURCE / OUTPUT_RELATIVE / "run.json"
+    if run_path.exists() or run_path.is_symlink():
+        raise RuntimeError("campaign 06 unexpectedly created an analyzer run.json after wrapper failure")
+    if version_dir.is_symlink():
+        raise RuntimeError("campaign 06 version evidence directory unexpectedly became a symlink")
+
+    return {
+        "schema": "v092-swift-closed-wrapper-failure/v1",
+        "campaign_id": "20261122-06",
+        "classification": "wrapper-launcher-path-dependency-failure",
+        "inventory": inventory_ref,
+        "campaign_start": _reference(root, campaign_start_path),
+        "campaign_terminal": _reference(root, campaign_terminal_path),
+        "attempt_start": _reference(root, attempt_start_path),
+        "attempt_terminal": attempt_terminal_ref,
+        "version_command": _reference(root, version_path),
+        "version_stdout": _reference(root, version_stdout_path),
+        "version_stderr": _reference(root, version_stderr_path),
+        "wrapper_invocations": 1,
+        "identity_phase_invocations": 1,
+        "analysis_phase_invocations": 0,
+        "benchmark_case_rows": 0,
+        "exit_code": 1,
+        "timed_out": False,
+        "capacity_loss": None,
+        "elapsed_seconds": attempt_terminal["elapsed_seconds"],
+        "command_elapsed_seconds": attempt_terminal["command_elapsed_seconds"],
+        "version_elapsed_seconds": version["elapsed_seconds"],
+        "run_json_status": "absent",
+        "version_discovery_complete": False,
+        "inner_cleanup_status": "uncertain",
+        "inner_cleanup_error": version["cleanup_error"],
+        "outer_cleanup_status": "tracked-processes-stopped",
+        "outer_signals_sent": [],
+        "descendant_containment": "unproven",
+        "automatic_retry": False,
+        "publication_eligible": False,
+    }
+
+
 def _failed_preparation_bindings() -> list[dict]:
     return [
         {"campaign_id": "20261122-03",
@@ -1698,12 +1977,12 @@ def _failed_preparation_bindings() -> list[dict]:
     ]
 
 
-def _observe_closed_preparation_processes(root: Path, legacy) -> dict:
+def _observe_closed_prior_processes(root: Path, legacy) -> dict:
     helper = _load_module("swift_supplement_closed_process_identity",
                           root / FAILED_PREPARATION_PROCESS_HELPER)
     helper_ref = _reference(root, FAILED_PREPARATION_PROCESS_HELPER)
     tracker = legacy.core._process_tracker()
-    observations = []
+    known: list[dict] = []
     for binding, report_root in zip(
             _failed_preparation_bindings(),
             (FAILED_PREPARATION_REPORT, FAILED_PREPARATION_04_REPORT, FAILED_PREPARATION_05_REPORT)):
@@ -1715,25 +1994,239 @@ def _observe_closed_preparation_processes(root: Path, legacy) -> dict:
         identity = start.get("supervisor_start_identity")
         if type(pid) is not int or pid <= 0 or not isinstance(identity, str) or not identity:
             raise RuntimeError(f"closed preparation supervisor identity is malformed: {binding['campaign_id']}")
-        proof = helper.observe_stopped(pid, identity, tracker._start_identity)
+        known.append({"campaign_id": binding["campaign_id"], "role": "campaign-supervisor",
+                      "pid": pid, "start_identity": identity,
+                      "campaign_start": _reference(root, f"{report_root}/campaign-start.json")})
+
+    failure_start = _read_json(_repo_file(root, f"{FAILED_WRAPPER_REPORT}/campaign-start.json"))
+    failure_terminal = _read_json(_repo_file(root, f"{FAILED_WRAPPER_REPORT}/attempts/{GROUP_ID}/attempt-01/terminal.json"))
+    failure_owner = failure_terminal.get("process_ownership")
+    if (failure_start.get("campaign_id") != "20261122-06"
+            or type(failure_start.get("supervisor_pid")) is not int
+            or not isinstance(failure_start.get("supervisor_start_identity"), str)
+            or not isinstance(failure_owner, dict)
+            or failure_owner.get("cleanup_status") != "tracked-processes-stopped"
+            or failure_owner.get("signals_sent") != []
+            or failure_owner.get("descendant_containment") != "unproven"):
+        raise RuntimeError("campaign 06 outer process identity evidence is malformed")
+    failure_start_ref = _reference(root, f"{FAILED_WRAPPER_REPORT}/campaign-start.json")
+    known.append({"campaign_id": "20261122-06", "role": "campaign-supervisor",
+                  "pid": failure_start["supervisor_pid"],
+                  "start_identity": failure_start["supervisor_start_identity"],
+                  "campaign_start": failure_start_ref})
+    tracked = failure_owner.get("tracked_processes")
+    if not isinstance(tracked, list) or not tracked:
+        raise RuntimeError("campaign 06 did not record its outer process identities")
+    for row in tracked:
+        if (not isinstance(row, dict) or type(row.get("pid")) is not int or row["pid"] <= 0
+                or not isinstance(row.get("start_identity"), str) or not row["start_identity"]):
+            raise RuntimeError("campaign 06 recorded a malformed outer process identity")
+        known.append({"campaign_id": "20261122-06", "role": "invocation-process",
+                      "pid": row["pid"], "start_identity": row["start_identity"],
+                      "campaign_start": failure_start_ref})
+
+    smoke_start = _read_json(_validate_reference(
+        root, {"path": LAUNCHER_SMOKE_START_PATH, "sha256": LAUNCHER_SMOKE_START_SHA256}))
+    smoke_terminal = _read_json(_validate_reference(
+        root, {"path": LAUNCHER_SMOKE_TERMINAL_PATH, "sha256": LAUNCHER_SMOKE_TERMINAL_SHA256}))
+    smoke_owner = smoke_terminal.get("process_ownership")
+    if (type(smoke_terminal.get("supervisor_pid")) is not int
+            or not isinstance(smoke_terminal.get("supervisor_start_identity"), str)
+            or not isinstance(smoke_owner, dict)
+            or smoke_owner.get("cleanup_status") != "tracked-processes-stopped"
+            or smoke_owner.get("signals_sent") != []
+            or smoke_owner.get("descendant_containment") != "unproven"):
+        raise RuntimeError("launcher smoke outer process identity evidence is malformed")
+    smoke_ref = _reference(root, LAUNCHER_SMOKE_START_PATH)
+    known.append({"campaign_id": "launcher-smoke-01", "role": "campaign-supervisor",
+                  "pid": smoke_terminal["supervisor_pid"],
+                  "start_identity": smoke_terminal["supervisor_start_identity"],
+                  "campaign_start": smoke_ref})
+    smoke_tracked = smoke_owner.get("tracked_processes")
+    if not isinstance(smoke_tracked, list) or not smoke_tracked:
+        raise RuntimeError("launcher smoke did not record its outer process identities")
+    for row in smoke_tracked:
+        if (not isinstance(row, dict) or type(row.get("pid")) is not int or row["pid"] <= 0
+                or not isinstance(row.get("start_identity"), str) or not row["start_identity"]):
+            raise RuntimeError("launcher smoke recorded a malformed outer process identity")
+        known.append({"campaign_id": "launcher-smoke-01", "role": "version-process",
+                      "pid": row["pid"], "start_identity": row["start_identity"],
+                      "campaign_start": smoke_ref})
+
+    unique: dict[tuple[int, str], dict] = {}
+    pid_birth: dict[int, str] = {}
+    for identity in known:
+        pid = identity["pid"]
+        birth = identity["start_identity"]
+        if pid in pid_birth and pid_birth[pid] != birth:
+            raise RuntimeError(f"prior process PID {pid} has conflicting recorded birth identities")
+        pid_birth[pid] = birth
+        unique.setdefault((pid, birth), identity)
+    observations = []
+    for identity in unique.values():
+        proof = helper.observe_stopped(identity["pid"], identity["start_identity"],
+                                       tracker._start_identity)
         if (proof.get("schema") != "v092-closed-process-observation/v1"
-                or proof.get("pid") != pid or proof.get("expected_start_identity") != identity
+                or proof.get("pid") != identity["pid"]
+                or proof.get("expected_start_identity") != identity["start_identity"]
                 or proof.get("status") not in {"confirmed-pid-absent", "confirmed-different-birth-identity"}
                 or proof.get("signals_sent") != []):
-            raise RuntimeError(f"prior preparation supervisor stop is unproven: {binding['campaign_id']}")
+            raise RuntimeError(f"prior process identity stop is unproven: {identity['campaign_id']}/{identity['pid']}")
         observations.append({
-            "campaign_id": binding["campaign_id"],
-            "campaign_start": _reference(root, f"{report_root}/campaign-start.json"),
+            **identity,
             "observation": proof,
         })
-    return {"schema": "v092-closed-preparation-supervisors/v1",
+    return {"schema": "v092-closed-prior-processes/v1",
             "status": "confirmed-stopped", "observations": observations,
             "observer_helper": helper_ref,
+            "campaign06_inner_cleanup_status": "uncertain",
+            "descendant_containment": "unproven",
             "publication_eligible": False}
+
+
+def _verify_gnu_readlink() -> dict:
+    lookup = Path(GNU_READLINK_LOOKUP_PATH)
+    if not lookup.is_symlink() or os.readlink(lookup) != GNU_READLINK_SYMLINK_TARGET:
+        raise RuntimeError("frozen GNU greadlink lookup symlink changed")
+    real = lookup.resolve(strict=True)
+    if real != Path(GNU_READLINK_REAL_PATH) or not real.is_file() or real.is_symlink():
+        raise RuntimeError("frozen GNU greadlink resolved path or type changed")
+    info = real.stat()
+    if (stat.S_IMODE(info.st_mode) != GNU_READLINK_MODE
+            or info.st_size != GNU_READLINK_SIZE_BYTES
+            or sha(real) != GNU_READLINK_SHA256):
+        raise RuntimeError("frozen GNU greadlink bytes, mode, or size changed")
+    if shutil.which("greadlink", path=PARENT_GROUP_PATH) != GNU_READLINK_LOOKUP_PATH:
+        raise RuntimeError("frozen parent PATH no longer resolves the approved GNU greadlink")
+    return {
+        "name": "greadlink", "lookup_path": GNU_READLINK_LOOKUP_PATH,
+        "real_path": GNU_READLINK_REAL_PATH, "symlink_target": GNU_READLINK_SYMLINK_TARGET,
+        "sha256": GNU_READLINK_SHA256, "size_bytes": GNU_READLINK_SIZE_BYTES,
+        "mode": GNU_READLINK_MODE, "version_banner": "readlink (GNU coreutils) 9.8",
+    }
+
+
+def _launcher_preflight_binding() -> dict:
+    return {
+        "schema": "v092-joern-launcher-prerequisite-proof/v1",
+        "parent_group_path": PARENT_GROUP_PATH,
+        "recovery_receipt": {"path": LAUNCHER_RECOVERY_PATH, "sha256": LAUNCHER_RECOVERY_SHA256},
+        "control_version_command": {"path": LAUNCHER_CONTROL_VERSION_PATH,
+                                    "sha256": LAUNCHER_CONTROL_VERSION_SHA256},
+        "gnu_dependency": {
+            "name": "greadlink", "lookup_path": GNU_READLINK_LOOKUP_PATH,
+            "real_path": GNU_READLINK_REAL_PATH, "symlink_target": GNU_READLINK_SYMLINK_TARGET,
+            "sha256": GNU_READLINK_SHA256, "size_bytes": GNU_READLINK_SIZE_BYTES,
+            "mode": GNU_READLINK_MODE, "version_banner": "readlink (GNU coreutils) 9.8",
+        },
+        "positive_smoke_terminal": {"path": LAUNCHER_SMOKE_TERMINAL_PATH,
+                                     "sha256": LAUNCHER_SMOKE_TERMINAL_SHA256},
+        "positive_smoke_artifacts": {
+            "start": {"path": LAUNCHER_SMOKE_START_PATH, "sha256": LAUNCHER_SMOKE_START_SHA256},
+            "stdout": {"path": LAUNCHER_SMOKE_STDOUT_PATH, "sha256": LAUNCHER_SMOKE_STDOUT_SHA256},
+            "stderr": {"path": LAUNCHER_SMOKE_STDERR_PATH, "sha256": LAUNCHER_SMOKE_STDERR_SHA256},
+        },
+        "analysis_phase_invocations": 0,
+        "benchmark_case_rows": 0,
+        "publication_eligible": False,
+    }
+
+
+def _verify_launcher_preflight(root: Path) -> dict:
+    recovery_ref = {"path": LAUNCHER_RECOVERY_PATH, "sha256": LAUNCHER_RECOVERY_SHA256}
+    recovery = _read_json(_validate_reference(root, recovery_ref))
+    if (recovery.get("schema") != "v092-joern-launcher-path-recovery/v1"
+            or recovery.get("path") != PARENT_GROUP_PATH
+            or recovery.get("parent_plan") != {"path": BASE_PLAN_PATH, "sha256": BASE_PLAN_SHA256}
+            or recovery.get("analysis_phase_invocations") != 0
+            or recovery.get("publication_eligible") is not False
+            or recovery.get("qualification_scope") != (
+                "restore the exact PATH used by retained fresh controls, prospectively pin external "
+                "canonicalization helper, no analyzer/fixture/query changes")):
+        raise RuntimeError("launcher PATH recovery receipt changed or claims broader qualification")
+    expected_dependency = _verify_gnu_readlink()
+    if recovery.get("dependency") != {
+            **expected_dependency,
+            "linked_libraries": [
+                "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+                "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",
+                "/usr/lib/libSystem.B.dylib",
+            ],
+    }:
+        raise RuntimeError("launcher PATH recovery dependency identity differs from the approved GNU helper")
+    if recovery.get("launcher") != {
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/"
+                    "timing-runtime-20261114-01/joern/joern-cli/joern",
+            "canonicalized_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/"
+                                 "timing-runtime-20261114-01/joern/joern-cli/joern",
+            "sha256": "0df7e8db4282ef2c6fc37998917aca694176e23192de5f0c631511d993e99736",
+    }:
+        raise RuntimeError("launcher path recovery no longer identifies the pinned Joern launcher")
+    control_ref = {"path": LAUNCHER_CONTROL_VERSION_PATH,
+                   "sha256": LAUNCHER_CONTROL_VERSION_SHA256}
+    if recovery.get("successful_control_version_command") != control_ref:
+        raise RuntimeError("launcher recovery receipt lost the exact successful control version command")
+    control_command = _read_json(_validate_reference(root, control_ref))
+    if (control_command.get("argv") != [recovery["launcher"]["path"]]
+            or control_command.get("exit_status") != 0
+            or control_command.get("timed_out") is not False
+            or control_command.get("cleanup_status") != "tracked-processes-stopped"
+            or control_command.get("cleanup_signaled") != []
+            or control_command.get("environment", {}).get("PATH") != PARENT_GROUP_PATH):
+        raise RuntimeError("retained fresh-control Joern version command did not verify the exact PATH")
+
+    smoke_ref = {"path": LAUNCHER_SMOKE_TERMINAL_PATH,
+                 "sha256": LAUNCHER_SMOKE_TERMINAL_SHA256}
+    smoke = _read_json(_validate_reference(root, smoke_ref))
+    if (smoke.get("schema") != "v092-joern-launcher-preflight/v1"
+            or smoke.get("status") != "passed" or smoke.get("exit_code") != 0
+            or smoke.get("timed_out") is not False or smoke.get("capacity_loss") is not None
+            or smoke.get("banner_4_0_660") is not True
+            or smoke.get("analysis_phase_invocations") != 0
+            or smoke.get("benchmark_case_rows") != 0 or smoke.get("version_invocations") != 1
+            or smoke.get("dependency_unchanged") is not True
+            or smoke.get("static_counts_unchanged") is not True
+            or smoke.get("publication_eligible") is not False):
+        raise RuntimeError("positive launcher preflight did not remain version-only and successful")
+    smoke_artifact_refs = {
+        "start": {"path": LAUNCHER_SMOKE_START_PATH, "sha256": LAUNCHER_SMOKE_START_SHA256},
+        "stdout": {"path": LAUNCHER_SMOKE_STDOUT_PATH, "sha256": LAUNCHER_SMOKE_STDOUT_SHA256},
+        "stderr": {"path": LAUNCHER_SMOKE_STDERR_PATH, "sha256": LAUNCHER_SMOKE_STDERR_SHA256},
+    }
+    for key, expected in smoke_artifact_refs.items():
+        if smoke.get(key) != expected:
+            raise RuntimeError(f"positive launcher preflight {key} binding changed")
+        _validate_reference(root, expected)
+    start = _read_json(_validate_reference(root, smoke_artifact_refs["start"]))
+    environment = start.get("environment")
+    control_environment = control_command.get("environment")
+    if (start.get("schema") != "v092-joern-launcher-preflight-start/v1"
+            or start.get("dependency_receipt") != recovery_ref
+            or not isinstance(environment, dict)
+            or environment.get("PATH") != PARENT_GROUP_PATH
+            or environment.get("JAVA_HOME") != control_environment.get("JAVA_HOME")
+            or environment.get("SWIFTASTGEN_BIN") != control_environment.get("SWIFTASTGEN_BIN")
+            or environment.get("HOME") != str(root / LAUNCHER_SMOKE_ROOT / "home")
+            or environment.get("TMPDIR") != str(root / LAUNCHER_SMOKE_ROOT / "tmp")
+            or start.get("live_paths", {}).get("working") != [str(root / LAUNCHER_SMOKE_ROOT)]
+            or start.get("live_paths", {}).get("scratch") != [str(root / LAUNCHER_SMOKE_ROOT)]
+            or start.get("live_paths", {}).get("retention") != [str(root / PREPARATION_ROOT)]):
+        raise RuntimeError("positive launcher smoke used a different toolchain, PATH, or accounted workspace")
+    for name in ("home", "tmp", "cache"):
+        if not (root / LAUNCHER_SMOKE_ROOT / name).is_dir():
+            raise RuntimeError(f"positive launcher smoke scratch directory is missing: {name}")
+    return _launcher_preflight_binding()
+
+
+def _launcher_preflight_observation(root: Path, phase: str) -> dict:
+    proof = _verify_launcher_preflight(root)
+    return {**proof, "phase": phase,
+            "verified_utc": dt.datetime.now(dt.timezone.utc).isoformat()}
 
 
 def _derive_plan(root: Path, created_utc: str) -> dict:
     failed_preparation = _verify_failed_preparation(root)
+    failed_wrapper = _verify_failed_wrapper_attempt(root)
     base_plan, _terminal, _inventory, lineage = _validate_parent_lineage(root)
     qualified, evidence, _context, _runner_data = _validate_v02_qualification(root)
     closure = _reference_closure(root, qualified)
@@ -1743,7 +2236,8 @@ def _derive_plan(root: Path, created_utc: str) -> dict:
     resource_scope = _resource_scope(root)
     configuration_provenance = _configuration_provenance(root, qualified, base_plan)
     plan = _base_plan(root, lineage["group"], qualified, evidence, closure, resource_scope,
-                      committed_inputs, configuration_provenance, postprocessing_dependencies, created_utc)
+                      committed_inputs, configuration_provenance, postprocessing_dependencies,
+                      failed_wrapper, created_utc)
     plan["prior_preparation_failures"] = failed_preparation
     legacy_core = _qualified_module(root).legacy.core
     copy_closure = dict(closure)
@@ -2509,7 +3003,7 @@ def _campaign_paths(root: Path, plan: dict) -> tuple[Path, Path, Path, Path]:
 
 def verify_plan(plan_path: str = PLAN_PATH) -> dict:
     if plan_path != PLAN_PATH:
-        raise RuntimeError("only the fixed v0.9.2-05 supplement plan is accepted")
+        raise RuntimeError("only the fixed v0.9.2-07 supplement plan is accepted")
     path = _repo_file(ROOT, plan_path)
     plan = _read_json(path)
     validate_campaign_plan(plan)
@@ -2570,6 +3064,7 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
     attempt_record: dict = {"group": GROUP_ID, "attempt": 1, "automatic_retry": False,
                             "old_argv": plan["old_argv"], "argv": plan["argv"],
                             "publication_eligible": False}
+    launcher_dependency_proofs: dict[str, dict] = {}
     with lock():
         # Revalidate all bound inputs after acquiring the analyzer-wide lock.
         verify_plan(plan_path)
@@ -2586,6 +3081,7 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
             "capture_inventory": plan["capture_inventory"],
             "semgrep_retrospective_audit": plan["semgrep_retrospective_audit"],
             "old_argv": plan["old_argv"], "actual_argv": plan["argv"],
+            "launcher_prerequisite_preflight": plan["launcher_prerequisite_preflight"],
             "source_commit": RELEASE, "source": str(source),
             "diagnostic_authorization": plan["diagnostic_authorization"],
             "resource_scope": plan["resource_scope"],
@@ -2623,9 +3119,9 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
             report_start["resource_baseline"] = baseline_ref
             report_start["supervisor_pid"] = os.getpid()
             report_start["supervisor_start_identity"] = supervisor_identity
-            closed_preparation_processes = _observe_closed_preparation_processes(ROOT, q.legacy)
-            report_start["closed_preparation_processes"] = closed_preparation_processes
-            attempt_record["closed_preparation_processes"] = closed_preparation_processes
+            closed_prior_processes = _observe_closed_prior_processes(ROOT, q.legacy)
+            report_start["closed_prior_processes"] = closed_prior_processes
+            attempt_record["closed_prior_processes"] = closed_prior_processes
             _write_new(report / "campaign-start.json", report_start)
             _append_jsonl(report / "progress.jsonl", {"utc": dt.datetime.now(dt.timezone.utc).isoformat(),
                                                        "phase": "source-materialization-starting",
@@ -2724,6 +3220,7 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
                             "dispatch_admissions_path": f"{ATTEMPT_RELATIVE}/dispatch-admissions.jsonl",
                             "admission_policy": plan["admission_policy"],
                             "diagnostic_authorization": plan["diagnostic_authorization"],
+                            "launcher_prerequisite_preflight": plan["launcher_prerequisite_preflight"],
                             "settled_quiet_window_established": False,
                             "original_a24_settled_qualification_eligible": False,
                             "runtime_manifests_before_dispatch": pre_runtime,
@@ -2743,13 +3240,17 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
                     command_started = time.monotonic()
 
                     def run_one_process():
-                        return q.legacy.core._run_process(
-                            plan["argv"], source, environment, attempt / "stdout.txt",
-                            attempt / "stderr.txt", GROUP_TIMEOUT_SECONDS, disk_guard=disk,
-                            retained_paths=retained_paths, retention_limit=24 * GIB,
-                            scratch_paths=scratch_paths, scratch_limit=24 * GIB,
-                            working_paths=working_paths, ownership=ownership,
-                        )
+                        launcher_dependency_proofs["before_dispatch"] = _verify_gnu_readlink()
+                        try:
+                            return q.legacy.core._run_process(
+                                plan["argv"], source, environment, attempt / "stdout.txt",
+                                attempt / "stderr.txt", GROUP_TIMEOUT_SECONDS, disk_guard=disk,
+                                retained_paths=retained_paths, retention_limit=24 * GIB,
+                                scratch_paths=scratch_paths, scratch_limit=24 * GIB,
+                                working_paths=working_paths, ownership=ownership,
+                            )
+                        finally:
+                            launcher_dependency_proofs["after_dispatch"] = _verify_gnu_readlink()
 
                     (code, timed_out, elapsed, capacity_loss), popen_evidence = (
                         _run_process_with_fresh_admission(
@@ -2805,6 +3306,7 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
                 "process_ownership": ownership, "runtime_manifests_before_dispatch": pre_runtime,
                 "runtime_manifests_after_dispatch": post_runtime,
                 "source_input_proof_after_dispatch": source_after,
+                "launcher_dependency_identity": launcher_dependency_proofs,
                 "resource_baseline_after_dispatch": resource_recheck,
                 "parent_capture_inventory_after_dispatch": parent_inventory_after,
             })
@@ -2856,6 +3358,7 @@ def execute(plan_path: str = PLAN_PATH) -> dict:
                 "status": "failed", "error": f"{type(exc).__name__}: {exc}",
                 "finished_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
                 "process_ownership": ownership, "automatic_retry": False,
+                "launcher_dependency_identity": launcher_dependency_proofs,
                 "publication_eligible": False, "scored_activation": False,
                 "qualification_status": "unqualified; failure retained without retry",
                 "original_a24_settled_qualification_eligible": False,

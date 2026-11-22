@@ -80,6 +80,17 @@ class QualificationPublicationTests(unittest.TestCase):
         self.assertEqual(set(plan["runtime"]["inventories"]), {"compiler_root", "java_home", "joern_root", "sdk"})
         config_refs = plan["configurations"]["joern-current108"]
         self.assertTrue(all(ref in config_refs for ref in references.values()))
+        self.assertEqual(actual["environment"]["PATH"], group["environment"]["PATH"])
+        self.assertIn("/opt/homebrew/bin", actual["environment"]["PATH"].split(":"))
+
+    def test_launcher_preflight_binds_fixed_path_gnu_dependency_and_version_only_smoke(self):
+        proof = supplement._verify_launcher_preflight(supplement.ROOT)
+        self.assertEqual(proof["parent_group_path"], supplement.PARENT_GROUP_PATH)
+        self.assertEqual(proof["gnu_dependency"]["sha256"], supplement.GNU_READLINK_SHA256)
+        self.assertEqual(proof["analysis_phase_invocations"], 0)
+        self.assertEqual(proof["benchmark_case_rows"], 0)
+        self.assertEqual(proof["positive_smoke_terminal"]["sha256"],
+                         supplement.LAUNCHER_SMOKE_TERMINAL_SHA256)
 
     def test_actual_v092_receipt_preserves_undeclared_publication_state(self):
         receipt = json.loads((SCRIPTS.parent / supplement.QUALIFICATION_ROOT /
@@ -151,7 +162,7 @@ def plan_fixture():
     ]
     env = {
         "HOME": "@SUPPLEMENT_SOURCE@/home", "TMPDIR": "@SUPPLEMENT_SOURCE@/tmp",
-        "PATH": "/usr/bin:/bin:/usr/sbin:/sbin", "LANG": "en_US.UTF-8",
+        "PATH": supplement.PARENT_GROUP_PATH, "LANG": "en_US.UTF-8",
         "PYTHONDONTWRITEBYTECODE": "1", "DATAFLOWBENCH_V092_RELEASE_EXECUTION": "1",
         "DATAFLOWBENCH_V092_GROUP_ID": supplement.GROUP_ID,
     }
@@ -163,6 +174,34 @@ def plan_fixture():
         "case_ids": ids, "reports": reports, "environment": env,
     }
     root = str(supplement.ROOT)
+    prior_wrapper_failure = {
+        "schema": "v092-swift-closed-wrapper-failure/v1",
+        "campaign_id": "20261122-06",
+        "classification": "wrapper-launcher-path-dependency-failure",
+        "inventory": {"path": supplement.FAILED_WRAPPER_INVENTORY,
+                       "sha256": supplement.FAILED_WRAPPER_INVENTORY_SHA256},
+        "wrapper_invocations": 1, "identity_phase_invocations": 1,
+        "analysis_phase_invocations": 0, "benchmark_case_rows": 0,
+        "exit_code": 1, "timed_out": False, "capacity_loss": None,
+        "elapsed_seconds": 7.19149625, "command_elapsed_seconds": 7.191734541999978,
+        "version_elapsed_seconds": 0.08456, "run_json_status": "absent",
+        "version_discovery_complete": False, "inner_cleanup_status": "uncertain",
+        "inner_cleanup_error": "process tracking failed: invocation root start identity was never captured",
+        "outer_cleanup_status": "tracked-processes-stopped", "outer_signals_sent": [],
+        "descendant_containment": "unproven", "automatic_retry": False,
+        "publication_eligible": False,
+    }
+    wrapper_refs = {
+        "campaign_start": f"{supplement.FAILED_WRAPPER_REPORT}/campaign-start.json",
+        "campaign_terminal": f"{supplement.FAILED_WRAPPER_REPORT}/campaign-terminal.json",
+        "attempt_start": f"{supplement.FAILED_WRAPPER_REPORT}/attempts/{supplement.GROUP_ID}/attempt-01/start.json",
+        "attempt_terminal": f"{supplement.FAILED_WRAPPER_REPORT}/attempts/{supplement.GROUP_ID}/attempt-01/terminal.json",
+        "version_command": f"{supplement.FAILED_WRAPPER_VERSION_DIR}/version.command.json",
+        "version_stdout": f"{supplement.FAILED_WRAPPER_VERSION_DIR}/version.stdout",
+        "version_stderr": f"{supplement.FAILED_WRAPPER_VERSION_DIR}/version.stderr",
+    }
+    prior_wrapper_failure.update({key: {"path": path, "sha256": "a" * 64}
+                                  for key, path in wrapper_refs.items()})
     baseline_paths = {
         "working": [f"{root}/execution-state/timing-v092-{campaign_id}/sources"
                     for campaign_id in supplement.RESOURCE_CAMPAIGN_IDS],
@@ -175,20 +214,27 @@ def plan_fixture():
                     f"{root}/{supplement.QUALIFICATION_WORK_ROOT}",
                     f"{root}/{supplement.FAILED_PREPARATION_SOURCE}",
                     f"{root}/{supplement.FAILED_PREPARATION_04_SOURCE}",
-                    f"{root}/{supplement.FAILED_PREPARATION_05_SOURCE}"],
+                    f"{root}/{supplement.FAILED_PREPARATION_05_SOURCE}",
+                    f"{root}/{supplement.FAILED_WRAPPER_SOURCE}",
+                    f"{root}/{supplement.LAUNCHER_SMOKE_ROOT}"],
         "retention": [f"{root}/{supplement.PREPARATION_ROOT}",
                       f"{root}/{supplement.FAILED_PREPARATION_REPORT}",
                       f"{root}/{supplement.FAILED_PREPARATION_04_REPORT}",
                       f"{root}/{supplement.FAILED_PREPARATION_04_SOURCE}/reports",
                       f"{root}/{supplement.FAILED_PREPARATION_05_REPORT}",
-                      f"{root}/{supplement.FAILED_PREPARATION_05_SOURCE}/reports"],
+                      f"{root}/{supplement.FAILED_PREPARATION_05_SOURCE}/reports",
+                      f"{root}/{supplement.FAILED_WRAPPER_REPORT}",
+                      f"{root}/{supplement.FAILED_WRAPPER_SOURCE}/reports"],
         "scratch": [f"{root}/{supplement.QUALIFICATION_CONTROL_SCRATCH}",
                     *[f"{root}/{supplement.QUALIFICATION_WORK_ROOT}/{name}"
                       for name in ("home", "tmp", "cache")],
                     *[f"{root}/{supplement.FAILED_PREPARATION_04_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")],
                     *[f"{root}/{supplement.FAILED_PREPARATION_05_SOURCE}/{name}"
-                      for name in ("home", "tmp", "cache")]],
+                      for name in ("home", "tmp", "cache")],
+                    *[f"{root}/{supplement.FAILED_WRAPPER_SOURCE}/{name}"
+                      for name in ("home", "tmp", "cache")],
+                    f"{root}/{supplement.LAUNCHER_SMOKE_ROOT}"],
     }
     active_paths = {
         "working": [f"{root}/{supplement.SOURCE_RELATIVE}"],
@@ -211,6 +257,7 @@ def plan_fixture():
         "attempted_case_count": 96, "unsupported_case_count": 12,
         "diagnostic_execution_eligible": True, "full_model_qualification": False,
         "prior_preparation_failures": supplement._failed_preparation_bindings(),
+        "prior_wrapper_failure": prior_wrapper_failure,
         "old_argv": [
             "/usr/bin/python3", "scripts/run-joern-common-v092.py", "execute", "--plan",
             "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json", "--output",
@@ -261,17 +308,24 @@ def plan_fixture():
             "closed_preparation_roots": {
                 "working": [f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_SOURCE}",
                             f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}",
-                            f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_05_SOURCE}"],
+                            f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_05_SOURCE}",
+                            f"{supplement.ROOT}/{supplement.FAILED_WRAPPER_SOURCE}",
+                            f"{supplement.ROOT}/{supplement.LAUNCHER_SMOKE_ROOT}"],
                 "retention": [f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_REPORT}",
                               f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_REPORT}",
                               f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}/reports",
                               f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_05_REPORT}",
-                              f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_05_SOURCE}/reports"],
+                              f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_05_SOURCE}/reports",
+                              f"{supplement.ROOT}/{supplement.FAILED_WRAPPER_REPORT}",
+                              f"{supplement.ROOT}/{supplement.FAILED_WRAPPER_SOURCE}/reports"],
                 "scratch": [
                     *(f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")),
                     *(f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_05_SOURCE}/{name}"
                       for name in ("home", "tmp", "cache")),
+                    *(f"{supplement.ROOT}/{supplement.FAILED_WRAPPER_SOURCE}/{name}"
+                      for name in ("home", "tmp", "cache")),
+                    f"{supplement.ROOT}/{supplement.LAUNCHER_SMOKE_ROOT}",
                 ],
             },
             "profile_expected_parent_baseline_bytes": {
@@ -300,8 +354,15 @@ def plan_fixture():
             "sha256": supplement.DIAGNOSTIC_AUTHORIZATION_SHA256,
             "authorization": "user-authorized-diagnostic-continuation",
         },
+        "launcher_recovery_authorization": {
+            "path": supplement.LAUNCHER_RECOVERY_AUTHORIZATION_PATH,
+            "sha256": supplement.LAUNCHER_RECOVERY_AUTHORIZATION_SHA256,
+            "authorization": "user-authorized-diagnostic-continuation",
+        },
+        "launcher_prerequisite_preflight": supplement._launcher_preflight_binding(),
         "committed_code_inputs": {
             supplement.DIAGNOSTIC_AUTHORIZATION_PATH: supplement.DIAGNOSTIC_AUTHORIZATION_SHA256,
+            supplement.LAUNCHER_RECOVERY_AUTHORIZATION_PATH: supplement.LAUNCHER_RECOVERY_AUTHORIZATION_SHA256,
         },
         "configuration_provenance": {
             "schema": "v092-swift-supplement-configuration-provenance/v1",
@@ -343,11 +404,26 @@ class SwiftSupplementPlanTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "committed, hash-bound"):
             supplement.validate_campaign_plan(plan)
 
+    def test_campaign06_wrapper_failure_cannot_be_flattened_to_zero_invocations(self):
+        plan = plan_fixture()
+        plan["prior_wrapper_failure"]["wrapper_invocations"] = 0
+        with self.assertRaisesRegex(RuntimeError, "typed campaign 06 wrapper failure"):
+            supplement.validate_campaign_plan(plan)
+
     def test_actual_argv_must_use_relocated_wrapper_and_fresh_plan(self):
         plan = plan_fixture()
         plan["argv"][1] = "scripts/run-joern-common-v092.py"
         plan["group"]["argv"] = list(plan["argv"])
         with self.assertRaisesRegex(RuntimeError, "actual argv"):
+            supplement.validate_campaign_plan(plan)
+
+    def test_child_path_preserves_the_hash_bound_parent_tool_search_path(self):
+        plan = plan_fixture()
+        self.assertEqual(plan["environment"]["PATH"], supplement.PARENT_GROUP_PATH)
+        self.assertIn("/opt/homebrew/bin", plan["environment"]["PATH"].split(":"))
+        plan["environment"]["PATH"] = "/usr/bin:/bin:/usr/sbin:/sbin"
+        plan["group"]["environment"] = dict(plan["environment"])
+        with self.assertRaisesRegex(RuntimeError, "environment is not isolated"):
             supplement.validate_campaign_plan(plan)
 
     def test_report_partition_near_miss_is_rejected(self):
@@ -374,10 +450,17 @@ class SwiftSupplementPlanTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "all four ancestor"):
             supplement.validate_campaign_plan(plan)
 
-    def test_resource_scope_requires_all_campaign04_closed_roots(self):
+    def test_resource_scope_requires_all_campaign06_closed_roots(self):
         plan = plan_fixture()
         plan["resource_scope"]["preparation_paths"]["retention"].remove(
-            f"{supplement.ROOT}/{supplement.FAILED_PREPARATION_04_SOURCE}/reports")
+            f"{supplement.ROOT}/{supplement.FAILED_WRAPPER_SOURCE}/reports")
+        with self.assertRaisesRegex(RuntimeError, "resource accounting"):
+            supplement.validate_campaign_plan(plan)
+
+    def test_resource_scope_requires_positive_smoke_working_root(self):
+        plan = plan_fixture()
+        plan["resource_scope"]["preparation_paths"]["working"].remove(
+            f"{supplement.ROOT}/{supplement.LAUNCHER_SMOKE_ROOT}")
         with self.assertRaisesRegex(RuntimeError, "resource accounting"):
             supplement.validate_campaign_plan(plan)
 
@@ -530,17 +613,24 @@ class SwiftSupplementResourceScopeTests(unittest.TestCase):
             self.assertEqual(result["closed_preparation_roots"], {
                 "working": [str(root / supplement.FAILED_PREPARATION_SOURCE),
                             str(root / supplement.FAILED_PREPARATION_04_SOURCE),
-                            str(root / supplement.FAILED_PREPARATION_05_SOURCE)],
+                            str(root / supplement.FAILED_PREPARATION_05_SOURCE),
+                            str(root / supplement.FAILED_WRAPPER_SOURCE),
+                            str(root / supplement.LAUNCHER_SMOKE_ROOT)],
                 "retention": [str(root / supplement.FAILED_PREPARATION_REPORT),
                               str(root / supplement.FAILED_PREPARATION_04_REPORT),
                               str(root / supplement.FAILED_PREPARATION_04_SOURCE / "reports"),
                               str(root / supplement.FAILED_PREPARATION_05_REPORT),
-                              str(root / supplement.FAILED_PREPARATION_05_SOURCE / "reports")],
+                              str(root / supplement.FAILED_PREPARATION_05_SOURCE / "reports"),
+                              str(root / supplement.FAILED_WRAPPER_REPORT),
+                              str(root / supplement.FAILED_WRAPPER_SOURCE / "reports")],
                 "scratch": [
                     *(str(root / supplement.FAILED_PREPARATION_04_SOURCE / name)
                       for name in ("home", "tmp", "cache")),
                     *(str(root / supplement.FAILED_PREPARATION_05_SOURCE / name)
                       for name in ("home", "tmp", "cache")),
+                    *(str(root / supplement.FAILED_WRAPPER_SOURCE / name)
+                      for name in ("home", "tmp", "cache")),
+                    str(root / supplement.LAUNCHER_SMOKE_ROOT),
                 ],
             })
             self.assertEqual(result["closed_process_ownership"]["sha256"], fixture["owner_sha"])
@@ -800,22 +890,50 @@ class SwiftSupplementClosedPreparationTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "membership changed|bound repository file changed"):
                     supplement._verify_failed_preparation(root)
 
-    def test_stopped_supervisor_proofs_are_dynamic_report_evidence(self):
+    def test_stopped_prior_supervisor_and_launcher_proofs_are_dynamic_report_evidence(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             helper_path = root / supplement.FAILED_PREPARATION_PROCESS_HELPER
             helper_path.parent.mkdir(parents=True)
             helper_path.write_text("fixture helper binding\n")
-            for report_root, campaign_id in (
+            for index, (report_root, campaign_id) in enumerate((
                     (supplement.FAILED_PREPARATION_REPORT, "20261122-03"),
                     (supplement.FAILED_PREPARATION_04_REPORT, "20261122-04"),
-                    (supplement.FAILED_PREPARATION_05_REPORT, "20261122-05")):
+                    (supplement.FAILED_PREPARATION_05_REPORT, "20261122-05"))):
                 path = root / report_root / "campaign-start.json"
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text(json.dumps({
-                    "campaign_id": campaign_id, "supervisor_pid": 4242,
+                    "campaign_id": campaign_id, "supervisor_pid": 4242 + index,
                     "supervisor_start_identity": f"birth-{campaign_id}",
                 }) + "\n")
+
+            failure_start_path = root / supplement.FAILED_WRAPPER_REPORT / "campaign-start.json"
+            failure_start_path.parent.mkdir(parents=True, exist_ok=True)
+            failure_start_path.write_text(json.dumps({
+                "campaign_id": "20261122-06", "supervisor_pid": 4250,
+                "supervisor_start_identity": "birth-20261122-06",
+            }) + "\n")
+            failure_terminal_path = (root / supplement.FAILED_WRAPPER_REPORT / "attempts" /
+                                     supplement.GROUP_ID / "attempt-01/terminal.json")
+            failure_terminal_path.parent.mkdir(parents=True, exist_ok=True)
+            failure_terminal_path.write_text(json.dumps({"process_ownership": {
+                "cleanup_status": "tracked-processes-stopped", "signals_sent": [],
+                "descendant_containment": "unproven",
+                "tracked_processes": [{"pid": 4251, "start_identity": "birth-4251"}],
+            }}) + "\n")
+
+            smoke_start = root / supplement.LAUNCHER_SMOKE_START_PATH
+            smoke_start.parent.mkdir(parents=True, exist_ok=True)
+            smoke_start.write_text(json.dumps({"schema": "v092-joern-launcher-preflight-start/v1"}) + "\n")
+            smoke_terminal = root / supplement.LAUNCHER_SMOKE_TERMINAL_PATH
+            smoke_terminal.write_text(json.dumps({
+                "supervisor_pid": 4260, "supervisor_start_identity": "birth-smoke-supervisor",
+                "process_ownership": {
+                    "cleanup_status": "tracked-processes-stopped", "signals_sent": [],
+                    "descendant_containment": "unproven",
+                    "tracked_processes": [{"pid": 4261, "start_identity": "birth-smoke-child"}],
+                },
+            }) + "\n")
 
             class FakeTracker:
                 @staticmethod
@@ -837,15 +955,22 @@ class SwiftSupplementClosedPreparationTests(unittest.TestCase):
                     "_process_tracker": staticmethod(lambda: FakeTracker()),
                 })(),
             })()
-            with patch.object(supplement, "_load_module", return_value=FakeHelper):
-                result = supplement._observe_closed_preparation_processes(root, legacy)
+            with patch.object(supplement, "_load_module", return_value=FakeHelper), \
+                    patch.object(supplement, "LAUNCHER_SMOKE_START_SHA256",
+                                 hashlib.sha256(smoke_start.read_bytes()).hexdigest()), \
+                    patch.object(supplement, "LAUNCHER_SMOKE_TERMINAL_SHA256",
+                                 hashlib.sha256(smoke_terminal.read_bytes()).hexdigest()):
+                result = supplement._observe_closed_prior_processes(root, legacy)
             self.assertEqual(result["status"], "confirmed-stopped")
             self.assertEqual(result["observer_helper"]["path"],
                              supplement.FAILED_PREPARATION_PROCESS_HELPER)
             self.assertEqual([row["campaign_id"] for row in result["observations"]],
-                             ["20261122-03", "20261122-04", "20261122-05"])
+                             ["20261122-03", "20261122-04", "20261122-05", "20261122-06",
+                              "20261122-06", "launcher-smoke-01", "launcher-smoke-01"])
             self.assertIn("raw_unfiltered_pid_table",
                           result["observations"][1]["observation"])
+            self.assertEqual(result["campaign06_inner_cleanup_status"], "uncertain")
+            self.assertEqual(result["descendant_containment"], "unproven")
             self.assertNotIn("closed_preparation_processes", plan_fixture())
 
 
