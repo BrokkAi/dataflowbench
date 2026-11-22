@@ -1065,3 +1065,12 @@ only its 38 unfinished commands in a new evidence and source namespace. It
 does not extend the expired parent clock, repeat completed measurements, or
 change analyzer identities, populations, measurement boundaries or acceptance
 rules. All A25 quiet-window and active-invocation continuation rules remain.
+
+### A27 — Isolating outcome mismatches without retrying them (22 November 2026)
+
+The [prepared continuation protocol](latency-v092-20261122.md) separates rejection
+of a group's timing equivalence from dispatch of unrelated, untouched groups.
+Outcome-only mismatches remain unqualified and visible; their cases, timings
+and original failures are preserved. Identity, membership, process, timeout,
+resource and provenance failures retain their stop gates. This amendment does
+not change the completed A26 campaign or authorize a new execution window.

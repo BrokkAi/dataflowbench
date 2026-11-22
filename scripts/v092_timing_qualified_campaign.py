@@ -46,6 +46,14 @@ HELPERS = (
     "scripts/v092_timing_qualified_campaign.py",
 )
 CONTINUATION_HELPER = "scripts/v092_timing_checkpoint.py"
+SEGMENT_CHECKPOINT_HELPER = "scripts/v092_timing_segment_checkpoint.py"
+SEMANTIC_CONTINUATION_MODE = "semantic-quarantine/v1"
+SEMANTIC_MISMATCH_POLICY = {
+    "outcome_only": "quarantine-and-continue",
+    "identity_or_membership": "fail-stop",
+    "command_timeout_resource_or_provenance": "fail-stop",
+    "retry": False,
+}
 # The retained source plan predates two already-committed fixes in the legacy
 # timing helper. Bind both versions explicitly; no other helper transition is
 # accepted. The active plan always records the helper bytes it will execute.
@@ -830,8 +838,15 @@ def _build_plan(root: Path, bindings: dict, bindings_digest: str,
     if bindings.get("continuation") is not None:
         plan["continuation"] = _json_copy(bindings["continuation"])
         plan["execution_helpers"][CONTINUATION_HELPER] = sha(root / CONTINUATION_HELPER)
+        if bindings.get("continuation_mode") is not None:
+            if bindings["continuation_mode"] != SEMANTIC_CONTINUATION_MODE:
+                raise RuntimeError("unsupported continuation mode")
+            plan["continuation_mode"] = SEMANTIC_CONTINUATION_MODE
+            plan["semantic_mismatch_policy"] = _json_copy(bindings.get("semantic_mismatch_policy"))
+            plan["execution_authorization"] = _json_copy(bindings.get("execution_authorization"))
+            plan["execution_helpers"][SEGMENT_CHECKPOINT_HELPER] = sha(root / SEGMENT_CHECKPOINT_HELPER)
         checkpoint = _continuation_checkpoint(plan, root=root, compare_plan=False)
-        carried = set(checkpoint["completed_groups"])
+        carried = set(checkpoint["completed_groups"]) | set(checkpoint.get("quarantined_groups", []))
         plan["resources"]["total_execution_budget_seconds"] = sum(
             group["deadline_seconds"] for group in ready if group["id"] not in carried)
         _continuation_checkpoint(plan, root=root)
@@ -965,6 +980,21 @@ def _validate_plan_shape(plan: dict) -> None:
     if not isinstance(source_helpers, dict) or set(source_helpers) != expected_source_helpers:
         raise RuntimeError("plan must retain the source plan execution helper map")
     expected_active_helpers = set(HELPERS)
+    if plan.get("continuation_mode") is not None:
+        if (plan["continuation_mode"] != SEMANTIC_CONTINUATION_MODE
+                or plan.get("semantic_mismatch_policy") != SEMANTIC_MISMATCH_POLICY
+                or plan.get("continuation") is None):
+            raise RuntimeError("invalid semantic continuation policy")
+        expected_active_helpers.add(SEGMENT_CHECKPOINT_HELPER)
+        authorization = plan.get("execution_authorization")
+        if (not isinstance(authorization, dict) or set(authorization) != {"path", "sha256"}
+                or not isinstance(authorization["path"], str)
+                or PurePosixPath(authorization["path"]).is_absolute()
+                or ".." in PurePosixPath(authorization["path"]).parts):
+            raise RuntimeError("execution_authorization must bind a repository-relative receipt")
+        _validate_sha(authorization["sha256"], "execution authorization SHA-256")
+    elif "semantic_mismatch_policy" in plan or "execution_authorization" in plan:
+        raise RuntimeError("semantic policy and execution authorization require the explicit continuation mode")
     if plan.get("continuation") is not None:
         expected_active_helpers.add(CONTINUATION_HELPER)
         reference = plan["continuation"]
@@ -1074,8 +1104,68 @@ def _continuation_checkpoint(plan: dict, root: Path | None = None, compare_plan:
     if plan.get("continuation") is None:
         return None
     root = ROOT if root is None else root
-    module = _load_module("qualified_timing_checkpoint", root / CONTINUATION_HELPER)
+    helper = _checkpoint_helper(plan)
+    module = _load_module("qualified_timing_checkpoint", root / helper)
     return module.verify_checkpoint(root, plan["continuation"], plan if compare_plan else None)
+
+
+def _checkpoint_helper(plan: dict) -> str:
+    if plan.get("continuation_mode") == SEMANTIC_CONTINUATION_MODE:
+        return SEGMENT_CHECKPOINT_HELPER
+    return CONTINUATION_HELPER
+
+
+def _execution_authorization_ok(plan: dict) -> bool:
+    if plan.get("continuation_mode") != SEMANTIC_CONTINUATION_MODE:
+        return True
+    reference = plan["execution_authorization"]
+    path = _path(ROOT, reference["path"])
+    if not path.is_file() or path.is_symlink() or sha(path) != reference["sha256"]:
+        raise RuntimeError("execution authorization receipt is missing or changed")
+    value = json.loads(path.read_text())
+    authorized = value.get("authorized")
+    if (value.get("schema") != "v092-continuation-execution-authorization/v1"
+            or value.get("campaign_id") != plan["campaign_id"]
+            or type(authorized) is not bool
+            or value.get("status") != ("authorized" if authorized else "pending")):
+        raise RuntimeError("execution authorization receipt is malformed or belongs to another campaign")
+    return authorized
+
+
+def _outcome_only_quarantine_allowed(plan: dict, group: dict, receipt: dict) -> bool:
+    if (plan.get("continuation_mode") != SEMANTIC_CONTINUATION_MODE
+            or plan.get("semantic_mismatch_policy") != SEMANTIC_MISMATCH_POLICY
+            or group.get("kind") != "cold" or receipt.get("status") != "mismatch"
+            or receipt.get("group") != group["id"]):
+        return False
+    # The comparator stops at its first mismatching report. Multiple-report
+    # groups therefore cannot prove the remaining report identities here.
+    reports = receipt.get("reports", [])
+    descriptors = group.get("reports", [])
+    bindings = plan.get("frozen_report_bindings", {}).get(group["id"], [])
+    if len(reports) != 1 or len(descriptors) != 1 or len(bindings) != 1:
+        return False
+    observed, descriptor, binding = reports[0], descriptors[0], bindings[0]
+    identity_fields = ["tool", "tool_version", "tool_build_identity", "configuration_hash",
+                       "fixture_revision", "cold_or_warm", "adapter_version", "schema_version"]
+    if (observed.get("contract_path") != descriptor["path"]
+            or observed.get("release_git_path") != binding["git_path"]
+            or observed.get("frozen_sha256") != binding["sha256"]
+            or not isinstance(observed.get("measured_sha256"), str)
+            or SHA256_PATTERN.fullmatch(observed["measured_sha256"]) is None
+            or observed.get("identity_fields_compared") != identity_fields
+            or type(observed.get("case_outcomes_compared")) is not int
+            or observed.get("case_outcomes_compared") != len(descriptor["case_ids"])):
+        return False
+    mismatches = observed.get("mismatches")
+    outcomes = {"reached", "not-reached", "inconclusive", "unsupported", "runner-error"}
+    return isinstance(mismatches, list) and bool(mismatches) and all(
+        isinstance(item, dict) and item.get("field") == "outcome"
+        and item.get("classification") == "mismatch"
+        and item.get("case_id") in descriptor["case_ids"]
+        and isinstance(item.get("expected"), str) and item["expected"] in outcomes
+        and isinstance(item.get("actual"), str) and item["actual"] in outcomes
+        and item["expected"] != item["actual"] for item in mismatches)
 
 
 def _dispatch_groups(plan: dict) -> list[dict]:
@@ -1093,23 +1183,28 @@ def _dispatch_groups(plan: dict) -> list[dict]:
 def _inherited_resource_paths(checkpoint: dict | None):
     if checkpoint is None:
         return [], [], []
-    report, work = legacy.campaign_paths(checkpoint["parent_campaign_id"])
-    sources = work / "sources"
-    if not sources.is_dir() or sources.is_symlink():
-        raise RuntimeError("continuation parent source namespace is unavailable or redirected")
-    children = list(sources.iterdir())
-    if any(not path.is_dir() or path.is_symlink() for path in children):
-        raise RuntimeError("continuation parent source directory is malformed")
-    start = json.loads((report / "campaign-start.json").read_text())
-    scratch = []
-    for value in start["scratch_roots"]:
-        path = Path(value)
+    if (checkpoint.get("schema") == "v092-timing-segment-checkpoint/v1"
+            and checkpoint.get("resource_campaign_ids") != ["20261115-01", "20261121-01"]):
+        raise RuntimeError("semantic continuation must account for both parent resource namespaces")
+    ids = checkpoint.get("resource_campaign_ids", [checkpoint["parent_campaign_id"]])
+    contexts = [legacy.campaign_paths(campaign_id) for campaign_id in ids]
+    source_roots = [work / "sources" for _report, work in contexts]
+    retained, scratch = [], []
+    for (report, _work), sources in zip(contexts, source_roots):
+        if not sources.is_dir() or sources.is_symlink():
+            raise RuntimeError("continuation parent source namespace is unavailable or redirected")
+        children = list(sources.iterdir())
+        if any(not path.is_dir() or path.is_symlink() for path in children):
+            raise RuntimeError("continuation parent source directory is malformed")
+        retained.extend([report, *(path / "reports" for path in children)])
+        start = json.loads((report / "campaign-start.json").read_text())
+        scratch.extend(Path(value) for value in start["scratch_roots"])
+    for path in scratch:
         if (not path.is_absolute() or ".." in path.parts or path.resolve(strict=False) != path
-                or not (path.is_relative_to(sources)
+                or not (any(path.is_relative_to(sources) for sources in source_roots)
                 or (path.parent == PYSA_TMP_ROOT and path.name.startswith("dfb-v092-pysa-")))):
             raise RuntimeError("continuation parent scratch path leaves its registered namespace")
-        scratch.append(path)
-    return [sources], [report, *(path / "reports" for path in children)], scratch
+    return source_roots, list(dict.fromkeys(retained)), list(dict.fromkeys(scratch))
 
 
 def _coverage(plan: dict) -> dict:
@@ -1196,6 +1291,7 @@ def verify_plan(plan_path: Path, require_ready: bool = False) -> dict:
     plan = json.loads(plan_path.read_text())
     _validate_plan_shape(plan)
     checkpoint = _continuation_checkpoint(plan)
+    execution_authorized = _execution_authorization_ok(plan)
     report, _ = legacy.campaign_paths(plan["campaign_id"])
     if not plan_path.resolve(strict=False).is_relative_to(report.resolve()):
         raise RuntimeError("plan must be stored inside its new campaign report directory")
@@ -1264,6 +1360,7 @@ def verify_plan(plan_path: Path, require_ready: bool = False) -> dict:
         runtime_receipts.append({"id": runtime_id, "path": runtimes_by_id[runtime_id]["path"],
                                  "sha256": compressed_hash, "uncompressed_sha256": uncompressed_hash})
     return {"plan": str(plan_path), "campaign_id": plan["campaign_id"],
+            "execution_authorized": execution_authorized,
             "ready_groups": len(ready), "blocked_groups": len(plan["groups"]) - len(ready),
             "continuation": None if checkpoint is None else {
                 "parent_campaign_id": checkpoint["parent_campaign_id"],
@@ -1304,9 +1401,12 @@ def _assert_committed_inputs(root: Path, plan_path: Path, plan: dict) -> dict:
     if checkpoint is not None:
         reference = plan["continuation"]
         expected[reference["path"]] = reference["sha256"]
-        module = _load_module("qualified_timing_checkpoint_inputs", root / CONTINUATION_HELPER)
+        module = _load_module("qualified_timing_checkpoint_inputs", root / _checkpoint_helper(plan))
         for item in module.input_references(checkpoint):
             expected[item["path"]] = item["sha256"]
+    if plan.get("execution_authorization") is not None:
+        reference = plan["execution_authorization"]
+        expected[reference["path"]] = reference["sha256"]
     for relative, digest in expected.items():
         committed = _committed_bytes(root, relative)
         actual = hashlib.sha256(committed).hexdigest()
@@ -1622,6 +1722,8 @@ def _execute(plan_path: Path) -> dict:
     current = dt.datetime.now(dt.timezone.utc)
     if current < launch_after:
         raise RuntimeError(f"launch is not authorized before {launch_after.isoformat()}")
+    if not _execution_authorization_ok(plan):
+        raise RuntimeError("execution window has not been authorized; preparation only")
     report, work = legacy.select_campaign(plan["campaign_id"])
     if not plan_path.resolve(strict=False).is_relative_to(report.resolve()):
         raise RuntimeError("plan must be stored inside its new campaign report directory")
@@ -1632,6 +1734,7 @@ def _execute(plan_path: Path) -> dict:
         raise RuntimeError("no ready commands are bound")
     checkpoint = _continuation_checkpoint(plan)
     inherited = [] if checkpoint is None else checkpoint["completed_groups"]
+    inherited_quarantined = [] if checkpoint is None else checkpoint.get("quarantined_groups", [])
 
     host = _load_module("qualified_timing_host", ROOT / "scripts/v092_timing_host.py")
     observer = legacy.Observer(host)
@@ -1711,6 +1814,8 @@ def _execute(plan_path: Path) -> dict:
             "planned_ready_commands": len(_ready_groups(plan)),
             "new_dispatch_cold_groups": sum(group["kind"] == "cold" for group in ready),
             "inherited_candidate_groups": inherited,
+            "inherited_quarantined_groups": inherited_quarantined,
+            "semantic_mismatch_policy": plan.get("semantic_mismatch_policy"),
             "continuation_checkpoint": plan.get("continuation"),
             "cumulative_resource_scope": {"working": [str(path) for path in working_paths],
                                           "retained": [str(path) for path in retained_paths]},
@@ -1727,6 +1832,7 @@ def _execute(plan_path: Path) -> dict:
             "descendant_containment": "unproven",
         })
         completed = []
+        quarantined = []
         consumed_seconds = 0.0
         stopped_group = None
         wall_ended = False
@@ -1802,18 +1908,22 @@ def _execute(plan_path: Path) -> dict:
                 record["tools_verified_after_observation"] = post_tools
                 record["runtime_manifests_verified_after_observation"] = post_runtimes
                 if code == 0 and not timed_out and capacity is None:
+                    status = "completed-candidate-evidence"
                     if group.get("kind") == "cold":
                         record["reconciliation"] = legacy.reconcile(group, source)
                         try:
                             record["frozen_report_comparison"] = compare_frozen_report_bytes(plan, group, source)
                         except FrozenComparisonError as exc:
                             record["frozen_report_comparison"] = exc.receipt
-                            raise
+                            if not _outcome_only_quarantine_allowed(plan, group, exc.receipt):
+                                raise
+                            status = "semantic-mismatch-quarantined"
+                            record["error"] = f"{type(exc).__name__}: {exc}"
+                            record["acceptance_blocked"] = True
                     elif group.get("kind") == "warm":
                         record["reconciliation"] = validate_warm_artifact(plan, group, source)
                     else:
                         record["reconciliation"] = validate_overhead_artifact(plan, group, source)
-                    status = "completed-candidate-evidence"
                 else:
                     status = "failed"
                 record["quiet_certification"] = guard.quiet_certification()
@@ -1821,7 +1931,9 @@ def _execute(plan_path: Path) -> dict:
                 record["external_scratch_ownership"] = external_scratch.get(group["id"])
                 record["descendant_containment"] = ownership.get("descendant_containment", "unproven")
                 record["publication_eligible"] = False
-                record["timing_qualification"] = "unqualified pending independent review"
+                record["timing_qualification"] = (
+                    "unqualified: frozen outcome mismatch; not accepted or retried"
+                    if status == "semantic-mismatch-quarantined" else "unqualified pending independent review")
             except CampaignWindowEnded as exc:
                 wall_ended = True
                 stopped_group = group["id"]
@@ -1860,18 +1972,24 @@ def _execute(plan_path: Path) -> dict:
             legacy.append(report / "progress.jsonl", {"utc": dt.datetime.now(dt.timezone.utc).isoformat(),
                           "group": group["id"], "status": status})
             print(f"{status.upper()} {group['id']}", flush=True)
+            if status == "semantic-mismatch-quarantined":
+                quarantined.append(group["id"])
+                continue
             if status != "completed-candidate-evidence":
                 stopped_group = group["id"]
                 break
             completed.append(group["id"])
 
         blocked = [group["id"] for group in plan["groups"] if group.get("status") == "blocked"]
-        remaining_ready = [group["id"] for group in ready if group["id"] not in completed
+        remaining_ready = [group["id"] for group in ready
+                           if group["id"] not in [*completed, *quarantined]
                            and (wall_ended or group["id"] != stopped_group)]
         all_plan_groups_ready = not blocked
         if wall_ended:
             terminal_status = "wall-window-ended"
         elif stopped_group is not None:
+            terminal_status = "unqualified"
+        elif quarantined or inherited_quarantined:
             terminal_status = "unqualified"
         elif not completed:
             terminal_status = "blocked"
@@ -1887,6 +2005,10 @@ def _execute(plan_path: Path) -> dict:
             "completed_commands": len(completed),
             "inherited_candidate_groups": inherited,
             "inherited_candidate_commands": len(inherited),
+            "inherited_quarantined_groups": inherited_quarantined,
+            "quarantined_groups": quarantined,
+            "combined_quarantined_groups": [*inherited_quarantined, *quarantined],
+            "semantic_mismatch_policy": plan.get("semantic_mismatch_policy"),
             "combined_completed_candidate_commands": len(inherited) + len(completed),
             "new_completed_candidate_cold_groups": sum(
                 group["kind"] == "cold" and group["id"] in completed for group in plan["groups"]),
@@ -1929,19 +2051,41 @@ def execute(plan_path: Path) -> dict:
             plan = json.loads(path.read_text())
             _validate_plan_shape(plan)
             report, work = legacy.campaign_paths(plan["campaign_id"])
-            authorized = dt.datetime.now(dt.timezone.utc) >= _utc(plan["launch_after_utc"], "launch_after_utc")
+            authorized = (dt.datetime.now(dt.timezone.utc) >= _utc(plan["launch_after_utc"], "launch_after_utc")
+                          and _execution_authorization_ok(plan))
             if authorized and path.resolve().is_relative_to(report.resolve()):
                 completed = []
+                quarantined = []
+                started = set()
                 progress = report / "progress.jsonl"
                 if progress.is_file():
                     for line in progress.read_text().splitlines():
                         row = json.loads(line)
                         if row.get("status") == "completed-candidate-evidence":
                             completed.append(row["group"])
+                        elif row.get("status") == "semantic-mismatch-quarantined":
+                            quarantined.append(row["group"])
+                        elif row.get("status") == "started":
+                            started.add(row["group"])
                 dispatch_proven = False
+                retained_terminals = {}
+                by_id = {group["id"]: group for group in _groups(plan)}
                 for terminal in (report / "attempts").glob("*/attempt-01/terminal.json"):
                     value = json.loads(terminal.read_text())
                     dispatch_proven |= value.get("process_ownership", {}).get("root_pid") is not None
+                    group_id = value.get("group")
+                    if group_id not in by_id or group_id != terminal.parent.parent.name:
+                        continue
+                    retained_terminals[group_id] = value.get("status")
+                    if value.get("status") == "completed-candidate-evidence":
+                        completed.append(group_id)
+                    elif (value.get("status") == "semantic-mismatch-quarantined"
+                          and _outcome_only_quarantine_allowed(
+                              plan, by_id[group_id], value.get("frozen_report_comparison", {}))):
+                        quarantined.append(group_id)
+                order = {group["id"]: index for index, group in enumerate(plan["groups"])}
+                completed = sorted(set(completed) - set(quarantined), key=lambda key: order[key])
+                quarantined = sorted(set(quarantined), key=lambda key: order[key])
                 try:
                     frontier = [group["id"] for group in _dispatch_groups(plan)]
                 except Exception:
@@ -1955,8 +2099,12 @@ def execute(plan_path: Path) -> dict:
                     "campaign_start_record_exists": (report / "campaign-start.json").exists(),
                     "analyzer_dispatch_proven": dispatch_proven,
                     "completed_groups": completed, "completed_commands": len(completed),
+                    "quarantined_groups": quarantined,
+                    "retained_terminal_statuses": retained_terminals,
+                    "started_without_terminal": sorted(started - set(retained_terminals)),
                     "remaining_ready_groups": None if frontier is None else [
-                        group_id for group_id in frontier if group_id not in completed],
+                        group_id for group_id in frontier
+                        if group_id not in set(completed) | set(quarantined) | started | set(retained_terminals)],
                     "continuation_frontier_verified": frontier is not None,
                     "blocked_groups": [{"id": g["id"], "reason": g["blocker"]}
                                        for g in plan["groups"] if g["status"] == "blocked"],

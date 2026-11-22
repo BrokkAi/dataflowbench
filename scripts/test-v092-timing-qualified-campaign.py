@@ -641,11 +641,192 @@ class QualifiedCampaignTests(unittest.TestCase):
             with patch.object(campaign.legacy, "campaign_paths", return_value=(report, work)):
                 with self.assertRaisesRegex(RuntimeError, "scratch path"):
                     campaign._inherited_resource_paths({"parent_campaign_id": "20261115-01"})
+
                 lexical_escape = work / "sources" / "old-case" / "tmp" / ".." / ".." / ".." / "outside"
                 (report / "campaign-start.json").write_text(json.dumps({
                     "scratch_roots": [str(lexical_escape)]}))
                 with self.assertRaisesRegex(RuntimeError, "scratch path"):
                     campaign._inherited_resource_paths({"parent_campaign_id": "20261115-01"})
+
+    def _semantic_plan(self, plan, path, report, *, authorized=True):
+        plan["continuation_mode"] = campaign.SEMANTIC_CONTINUATION_MODE
+        plan["semantic_mismatch_policy"] = dict(campaign.SEMANTIC_MISMATCH_POLICY)
+        plan["continuation"] = {"path": "fixture-checkpoint.json", "sha256": "a" * 64}
+        authorization = report / "execution-authorization.json"
+        authorization.write_text(json.dumps({
+            "schema": "v092-continuation-execution-authorization/v1",
+            "campaign_id": plan["campaign_id"], "authorized": authorized,
+            "status": "authorized" if authorized else "pending"}))
+        plan["execution_authorization"] = {
+            "path": authorization.relative_to(self.root.resolve()).as_posix(), "sha256": campaign.sha(authorization)}
+        for relative in (campaign.CONTINUATION_HELPER, campaign.SEGMENT_CHECKPOINT_HELPER):
+            shutil.copyfile(ROOT / relative, self.root / relative)
+            plan["execution_helpers"][relative] = campaign.sha(self.root / relative)
+        path.write_text(json.dumps(plan))
+
+    @staticmethod
+    def _outcome_receipt(plan, group):
+        descriptor = group["reports"][0]
+        binding = plan["frozen_report_bindings"][group["id"]][0]
+        return {"status": "mismatch", "group": group["id"], "reports": [{
+            "contract_path": descriptor["path"], "release_git_path": binding["git_path"],
+            "frozen_sha256": binding["sha256"], "measured_sha256": "a" * 64,
+            "identity_fields_compared": ["tool", "tool_version", "tool_build_identity", "configuration_hash",
+                                         "fixture_revision", "cold_or_warm", "adapter_version", "schema_version"],
+            "case_outcomes_compared": len(descriptor["case_ids"]),
+            "mismatches": [{"field": "outcome", "classification": "mismatch",
+                            "case_id": descriptor["case_ids"][0],
+                            "expected": "inconclusive", "actual": "reached"}]}]}
+
+    def test_outcome_quarantine_requires_complete_identity_and_population_comparison(self):
+        plan = json.loads(json.dumps(self.base_plan))
+        group = campaign._ready_groups(plan)[0]
+        receipt = self._outcome_receipt(plan, group)
+        self.assertFalse(campaign._outcome_only_quarantine_allowed(plan, group, receipt))
+        plan["continuation_mode"] = campaign.SEMANTIC_CONTINUATION_MODE
+        plan["semantic_mismatch_policy"] = dict(campaign.SEMANTIC_MISMATCH_POLICY)
+        self.assertTrue(campaign._outcome_only_quarantine_allowed(plan, group, receipt))
+        mutations = [
+            lambda x: x["reports"][0]["mismatches"][0].update(field="configuration_hash"),
+            lambda x: x["reports"][0]["mismatches"][0].update(classification="incomplete"),
+            lambda x: x["reports"][0].update(case_outcomes_compared=0),
+            lambda x: x["reports"][0].update(identity_fields_compared=[]),
+            lambda x: x.update(status="incomplete"),
+            lambda x: x["reports"][0]["mismatches"][0].update(actual="unknown-state"),
+        ]
+        for index, mutate in enumerate(mutations):
+            with self.subTest(index=index):
+                changed = json.loads(json.dumps(receipt)); mutate(changed)
+                self.assertFalse(campaign._outcome_only_quarantine_allowed(plan, group, changed))
+
+    def test_outcome_mismatch_is_retained_unqualified_and_does_not_retry_or_stop_other_groups(self):
+        with self.using_root("20261122-40") as (plan, path, report):
+            self._semantic_plan(plan, path, report)
+            ready = campaign._ready_groups(plan)
+            first = ready[0]
+            checkpoint = {"parent_campaign_id": "20261121-01", "completed_groups": [],
+                          "quarantined_groups": ["prior-rust"],
+                          "remaining_ready_groups": [group["id"] for group in ready]}
+            stack, _observer, quiet = self._run_context("20261122-40")
+            def compare(_plan, group, _source):
+                if group["id"] == first["id"]:
+                    raise campaign.FrozenComparisonError("fixture semantic drift", self._outcome_receipt(plan, group))
+                return {"status": "matched", "publication_eligible": False}
+            def run(*_args, ownership, **_kwargs):
+                ownership["root_pid"] = 123
+                return 0, False, 1.0, None
+            with stack, patch.object(campaign, "_continuation_checkpoint", return_value=checkpoint), \
+                    patch.object(campaign, "_inherited_resource_paths", return_value=([], [], [])), \
+                    patch.object(campaign, "compare_frozen_report_bytes", side_effect=compare), \
+                    patch.object(campaign.legacy.core, "_run_process", side_effect=run) as dispatch:
+                campaign.execute(path)
+            self.assertEqual(dispatch.call_count, len(ready))
+            self.assertEqual(quiet.call_count, len(ready))
+            terminal = json.loads((report / "campaign-terminal.json").read_text())
+            self.assertEqual(terminal["completed_commands"], len(ready) - 1)
+            self.assertEqual(terminal["quarantined_groups"], [first["id"]])
+            self.assertEqual(terminal["combined_quarantined_groups"], ["prior-rust", first["id"]])
+            self.assertEqual(terminal["remaining_ready_groups"], [])
+            self.assertIsNone(terminal["stopped_group"])
+            self.assertEqual(terminal["status"], "unqualified")
+            self.assertFalse(terminal["publication_eligible"])
+
+    def test_pending_execution_authorization_never_materializes_or_dispatches(self):
+        with self.using_root("20261122-41") as (plan, path, report):
+            self._semantic_plan(plan, path, report, authorized=False)
+            with patch.object(campaign.legacy.core, "_run_process") as dispatch, \
+                    patch.object(campaign.legacy.core, "_materialize_source") as materialize:
+                with self.assertRaisesRegex(RuntimeError, "execution window has not been authorized"):
+                    campaign.execute(path)
+            dispatch.assert_not_called(); materialize.assert_not_called()
+            self.assertFalse((report / "campaign-start.json").exists())
+            self.assertFalse((report / "campaign-terminal.json").exists())
+
+    def test_semantic_policy_still_fail_stops_identity_command_timeout_and_resource_failures(self):
+        for index, failure in enumerate(("identity", "exit", "timeout", "capacity"), 42):
+            with self.subTest(failure=failure), self.using_root(f"20261122-{index}") as (plan, path, report):
+                self._semantic_plan(plan, path, report)
+                ready = campaign._ready_groups(plan)
+                checkpoint = {"parent_campaign_id": "20261121-01", "completed_groups": [],
+                              "remaining_ready_groups": [group["id"] for group in ready]}
+                stack, _observer, _quiet = self._run_context(f"20261122-{index}")
+                def compare(_plan, group, _source):
+                    receipt = self._outcome_receipt(plan, group)
+                    receipt["reports"][0]["mismatches"][0]["field"] = "configuration_hash"
+                    raise campaign.FrozenComparisonError("fixture identity drift", receipt)
+                def run(*_args, ownership, **_kwargs):
+                    ownership["root_pid"] = 123
+                    return (2 if failure == "exit" else 0,
+                            failure == "timeout", 1.0,
+                            {"code": "capacity_lost"} if failure == "capacity" else None)
+                with stack, patch.object(campaign, "_continuation_checkpoint", return_value=checkpoint), \
+                        patch.object(campaign, "_inherited_resource_paths", return_value=([], [], [])), \
+                        patch.object(campaign, "compare_frozen_report_bytes", side_effect=compare), \
+                        patch.object(campaign.legacy.core, "_run_process", side_effect=run) as dispatch:
+                    campaign.execute(path)
+                self.assertEqual(dispatch.call_count, 1)
+                terminal = json.loads((report / "campaign-terminal.json").read_text())
+                self.assertEqual(terminal["completed_commands"], 0)
+                self.assertEqual(terminal["quarantined_groups"], [])
+                self.assertEqual(terminal["stopped_group"], ready[0]["id"])
+                self.assertEqual(len(terminal["remaining_ready_groups"]), len(ready) - 1)
+
+    def test_resource_chain_counts_both_source_trees_and_deduplicates_prior_scratch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            contexts = {}
+            for name in ("first", "second"):
+                report, work = root / name / "reports", root / name / "work"
+                report.mkdir(parents=True)
+                (work / "sources" / "case" / "home").mkdir(parents=True)
+                contexts[name] = (report, work)
+            first_home = contexts["first"][1] / "sources/case/home"
+            second_home = contexts["second"][1] / "sources/case/home"
+            (contexts["first"][0] / "campaign-start.json").write_text(json.dumps({
+                "scratch_roots": [str(first_home)]}))
+            (contexts["second"][0] / "campaign-start.json").write_text(json.dumps({
+                "scratch_roots": [str(second_home), str(first_home)]}))
+            with patch.object(campaign.legacy, "campaign_paths", side_effect=lambda key: contexts[key]):
+                sources, _retained, scratch = campaign._inherited_resource_paths({
+                    "parent_campaign_id": "second", "resource_campaign_ids": ["first", "second"]})
+            self.assertEqual(sources, [contexts["first"][1] / "sources", contexts["second"][1] / "sources"])
+            self.assertEqual(scratch, [first_home, second_home])
+
+    def test_quarantined_terminal_survives_progress_append_failure_without_becoming_ready_again(self):
+        with self.using_root("20261122-46") as (plan, path, report):
+            self._semantic_plan(plan, path, report)
+            ready = campaign._ready_groups(plan)
+            checkpoint = {"parent_campaign_id": "20261121-01", "completed_groups": [],
+                          "remaining_ready_groups": [group["id"] for group in ready]}
+            stack, _observer, _quiet = self._run_context("20261122-46")
+            append = campaign.legacy.append
+            def failing_append(target, value):
+                if target == report / "progress.jsonl" and value.get("status") == "semantic-mismatch-quarantined":
+                    raise OSError("fixture progress append failure")
+                return append(target, value)
+            def compare(_plan, group, _source):
+                raise campaign.FrozenComparisonError("fixture semantic drift", self._outcome_receipt(plan, group))
+            def run(*_args, ownership, **_kwargs):
+                ownership["root_pid"] = 123
+                return 0, False, 1.0, None
+            with stack, patch.object(campaign, "_continuation_checkpoint", return_value=checkpoint), \
+                    patch.object(campaign, "_inherited_resource_paths", return_value=([], [], [])), \
+                    patch.object(campaign, "compare_frozen_report_bytes", side_effect=compare), \
+                    patch.object(campaign.legacy, "append", side_effect=failing_append), \
+                    patch.object(campaign.legacy.core, "_run_process", side_effect=run) as dispatch:
+                with self.assertRaisesRegex(OSError, "progress append failure"):
+                    campaign.execute(path)
+            self.assertEqual(dispatch.call_count, 1)
+            terminal = json.loads((report / "campaign-terminal.json").read_text())
+            self.assertEqual(terminal["quarantined_groups"], [ready[0]["id"]])
+            self.assertNotIn(ready[0]["id"], terminal["remaining_ready_groups"])
+            self.assertEqual(len(terminal["remaining_ready_groups"]), len(ready) - 1)
+            self.assertEqual(terminal["completed_commands"], 0)
+
+    def test_segment_checkpoint_without_both_parent_resources_is_rejected(self):
+        with self.assertRaisesRegex(RuntimeError, "both parent resource namespaces"):
+            campaign._inherited_resource_paths({"schema": "v092-timing-segment-checkpoint/v1",
+                "parent_campaign_id": "20261121-01"})
 
 
 if __name__ == "__main__":
