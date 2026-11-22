@@ -1106,3 +1106,11 @@ complete host check without a new settled window. It retains contention and
 unknown-state evidence, all genuine failure gates and the three zero-analyzer
 preparations. Settled timing, full model qualification and publication
 acceptance remain unasserted.
+
+### A32 — 2026-11-22: Joern launcher PATH dependency recovery
+
+[A32](latency-v092-20261122-launcher-recovery.md) retains the failed version
+invocation and preregisters restoration of the controls' exact PATH, an
+explicit GNU readlink pin and an untimed launcher preflight before a fresh
+diagnostic attempt. No failed invocation or uncertain cleanup is promoted to
+successful analysis.
