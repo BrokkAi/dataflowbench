@@ -3,6 +3,7 @@ import {
   timingOverviewV092 as overview,
   timingPosition,
   formatTiming,
+  formatAxisTick,
 } from '../data/timing-overview-v092.ts';
 
 function description(row: (typeof overview.summaryRows)[number]): string {
@@ -10,20 +11,30 @@ function description(row: (typeof overview.summaryRows)[number]): string {
     return `${row.analyzer} ${row.pin}: no cold groups were planned for this tier.`;
   }
   if (row.status === 'untimed') {
-    return `${row.label}: ${row.measuredGroups} captured groups and ${row.reportRows} report rows, with no timed invocations. Timing absence is not zero time.`;
+    return `${row.label}: ${row.measuredGroups} accepted groups and ${row.reportRows} report rows, with no timed invocations. Timing absence is not zero time.`;
   }
   if (row.status === 'not-measured') {
     return `${row.analyzer} ${row.pin}: Not measured for v0.9.2. ${row.plannedGroups} planned cold groups; runtime blocker: ${row.blocker ?? 'not recorded'}.`;
   }
-  const blocker = row.blocker ? ` Some planned groups remain blocked: ${row.blocker}` : '';
-  return `${row.label}: ${row.timed} of ${row.reportRows} retained report rows have timing; ${row.measuredGroups} of ${row.plannedGroups} planned groups have captured reports; median ${formatTiming(row.median)}, 90th percentile ${formatTiming(row.p90)}, observed range ${formatTiming(row.min)} to ${formatTiming(row.max)}. Descriptive roll-up only; not certified.${blocker}`;
+  const blocker = row.blocker ? ` Missing coverage: ${row.blocker}` : '';
+  const limits = ` ${row.blockedGroups} blocked groups, ${row.quarantinedGroups} quarantined groups; ${row.partialTimedRows} partial invocation costs.`;
+  return `${row.label}: ${row.timed} of ${row.reportRows} retained report rows have accepted invocation costs; ${row.measuredGroups} of ${row.plannedGroups} planned groups have accepted diagnostic reports; median ${formatTiming(row.median)}, 90th percentile ${formatTiming(row.p90)}, observed range ${formatTiming(row.min)} to ${formatTiming(row.max)}. Descriptive roll-up only; not certified.${limits}${blocker}`;
 }
 
 function sliceDescription(row: (typeof overview.rows)[number]): string {
   if (row.median === null) {
-    return `${row.label}: no timed invocations; ${row.reportRows} captured report rows.`;
+    return `${row.label}: ${disposition(row.status)}; no accepted invocation costs; ${row.reportRows} retained report rows.`;
   }
   return `${row.label}: ${row.timed} of ${row.reportRows} rows timed; median ${formatTiming(row.median)}, 90th percentile ${formatTiming(row.p90)}, observed range ${formatTiming(row.min)} to ${formatTiming(row.max)}. Uncertified.`;
+}
+
+function disposition(status: string): string {
+  return ({
+    'accepted-candidate': 'Diagnostic candidate',
+    'diagnostic-costs-accepted': 'Accepted diagnostic costs',
+    quarantined: 'Quarantined; excluded',
+    blocked: 'Blocked; paused',
+  } as Record<string, string>)[status] ?? status;
 }
 
 function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
@@ -34,17 +45,14 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
 
 <section class="timing-overview" data-timing-overview aria-label="Descriptive v0.9.2 timing roll-up">
   <p class="timing-status">
-    <strong>Descriptive roll-up of retained invocation records. No timing is certified.</strong>
-    {overview.totals.capturedGroups} of {overview.totals.plannedGroups} planned cold groups have retained reports; {overview.totals.timedGroups} groups contain timed invocations;
-    {overview.totals.timedRows.toLocaleString('en-US')} of {overview.totals.reportRows.toLocaleString('en-US')} retained report rows have a wall-time observation.
-    The {overview.totals.unsupportedUntimedRows} unsupported rows have no timed invocation;
-    {overview.totals.timedInconclusiveRows} timed rows have inconclusive outcomes. A recorded duration does not certify successful analysis.
-    This is the 13 November 2026 capture. Rows follow the frozen v0.9.2 analyzer order and pins.
+    <strong>Accepted diagnostic invocation costs. No timing is certified.</strong>
+    {overview.totals.acceptedGroups} of {overview.totals.plannedGroups} cold groups accepted ·
+    {overview.totals.timedRows.toLocaleString('en-US')} cost observations · all eight analyzer families.
+    Each row uses that analyzer's own cases; mixed populations and profiles prevent a matched performance comparison.
   </p>
   <p>
-    Each analyzer's distribution is computed from its raw per-case observations. It combines mixed languages,
-    tiers, populations and profiles, so it is not a matched comparison, performance ranking or certification.
-    The six analyzers without retained cold reports are shown with their recorded runtime blockers.
+    CodeQL Swift remains blocked and paused. Joern Rust remains quarantined and excluded.
+    This 23 November 2026 publication preserves the frozen analyzer order and pins.
   </p>
 
   <div class="timing-controls" data-timing-controls hidden>
@@ -69,31 +77,33 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
         <option value="smoke">Smoke</option>
         <option value="modeling">Modeling</option>
         <option value="native">Native</option>
+        <option value="mixed">Mixed tiers</option>
       </select>
     </label>
   </div>
 
   <p class="timing-count" data-timing-count role="status" aria-live="polite" aria-atomic="true">
-    {overview.summaryRows.length} analyzers · {overview.totals.capturedGroups} / {overview.totals.plannedGroups} groups captured ·
-    {overview.totals.timedRows.toLocaleString('en-US')} / {overview.totals.reportRows.toLocaleString('en-US')} report rows timed
+    {overview.summaryRows.length} analyzers · {overview.totals.acceptedGroups} / {overview.totals.plannedGroups} groups accepted ·
+    {overview.totals.timedRows.toLocaleString('en-US')} / {overview.totals.reportRows.toLocaleString('en-US')} report rows with accepted costs
   </p>
 
   <figure class="timing-figure" aria-describedby="timing-chart-description">
     <figcaption id="timing-chart-description">
-      <strong>Cold whole-invocation wall time, including startup.</strong>
+      <strong>Cold diagnostic invocation cost, including startup and any partial calls.</strong>
+      Retained producer totals follow the declared adapter phase boundaries. FlowDroid modeling excludes APK materialization.
       Dot: median. Tick: 90th percentile. Line: observed minimum to maximum. Logarithmic time scale, shared by every row and filter.
     </figcaption>
     <div class="timing-axis" aria-hidden="true">
-      <span class="axis-label" data-axis-label>Analyzer · timed / report rows · groups captured / planned</span>
+      <span class="axis-label" data-axis-label>Analyzer · timed / report rows · groups accepted / planned</span>
       <div class="axis-ticks">
         {overview.axis.ticksSeconds.map((seconds) => (
-          <span style={`left:${timingPosition(seconds * 1000)}%`}>{formatTiming(seconds * 1000)}</span>
+          <span style={`left:${timingPosition(seconds * 1000)}%`}>{formatAxisTick(seconds)}</span>
         ))}
       </div>
       <span class="median-label">Median</span>
     </div>
 
-    <ul class="timing-rows" data-summary-list aria-label="Cold case distributions by analyzer">
+    <ul class="timing-rows" data-summary-list aria-label="Cold invocation-cost distributions by analyzer">
       {overview.aggregateRows.map((row) => (
         <li data-timing-row data-view-row="summary" data-analyzer={row.analyzerId} data-tier={row.tier}
           data-timed={row.timed} data-reported={row.reportRows} data-measured-groups={row.measuredGroups}
@@ -104,7 +114,7 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
             {row.blocker && <small class="timing-blocker">At capture: {row.blocker}</small>}
           </div>
           <div class="timing-plot" aria-hidden="true">
-            {row.status === 'measured' && row.min !== null && row.max !== null && row.median !== null && row.p90 !== null ? (
+            {row.timed > 0 && row.min !== null && row.max !== null && row.median !== null && row.p90 !== null ? (
               <>
                 <span class="timing-range" style={`left:${timingPosition(row.min)}%;width:${timingPosition(row.max) - timingPosition(row.min)}%`}></span>
                 <span class="timing-p90" style={`left:${timingPosition(row.p90)}%`}></span>
@@ -119,8 +129,11 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
           <span class="timing-value" aria-hidden="true">{formatTiming(row.median)}</span>
           <small class="timing-row-count">
             {row.status === 'not-measured'
-              ? `0 / ${row.plannedGroups} groups captured`
-              : `${row.timed.toLocaleString('en-US')} / ${row.reportRows.toLocaleString('en-US')} timed · ${row.measuredGroups} / ${row.plannedGroups} groups`}
+              ? `0 / ${row.plannedGroups} groups accepted`
+              : `${row.timed.toLocaleString('en-US')} / ${row.reportRows.toLocaleString('en-US')} costs · ${row.measuredGroups} / ${row.plannedGroups} groups accepted`}
+            {row.blockedGroups > 0 && ` · ${row.blockedGroups} blocked`}
+            {row.quarantinedGroups > 0 && ` · ${row.quarantinedGroups} quarantined`}
+            {row.partialTimedRows > 0 && ` · ${row.partialTimedRows} partial`}
           </small>
         </li>
       ))}
@@ -132,7 +145,7 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
           data-timed={row.timed} data-reported={row.reportRows} aria-label={sliceDescription(row)}>
           <div class="timing-row-label">
             <span>{row.label}</span>
-            <small>{row.timed.toLocaleString('en-US')} / {row.reportRows.toLocaleString('en-US')} timed</small>
+            <small>{disposition(row.status)} · {row.timed.toLocaleString('en-US')} / {row.reportRows.toLocaleString('en-US')} timed</small>
           </div>
           <div class="timing-plot" aria-hidden="true">
             {row.min !== null && row.max !== null && row.median !== null && row.p90 !== null ? (
@@ -141,7 +154,7 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
                 <span class="timing-p90" style={`left:${timingPosition(row.p90)}%`}></span>
                 <span class="timing-median" style={`left:${timingPosition(row.median)}%`}></span>
               </>
-            ) : <span class="timing-untimed">No timed invocations</span>}
+            ) : <span class="timing-untimed">{row.status === 'quarantined' ? 'Quarantined · excluded' : row.status === 'blocked' ? 'Blocked · not run' : 'No timed invocations'}</span>}
           </div>
           <span class="timing-value" aria-hidden="true">{formatTiming(row.median)}</span>
         </li>
@@ -151,31 +164,34 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
   </figure>
 
   <p class="timing-caveat">
-    These values summarize different case invocations, not repeated trials or runtime variance. The Bifrost C cold record
-    retained a passing initial quiet-gate flag; later cold records retained false flags because no renewed per-group quiet
-    checks were made. Contention was observed in Bifrost C and Java cold records, and Bifrost Python overhead only.
-    No CPU observation failures were recorded ({overview.totals.cpuObservationFailures}). A24 inter-adapter settling was
-    omitted for the overhead measurements. Process-descendant containment remains unproven, and every recorded
-    certification flag remains false.
+    {overview.totals.timedGroups} groups contain timed invocations across {overview.totals.reportRows.toLocaleString('en-US')} retained report rows.
+    The {overview.totals.unsupportedUntimedRows} unsupported rows have no invocation; {overview.totals.timedInconclusiveRows} timed rows remain inconclusive and
+    {overview.totals.outcomes['runner-error'] ?? 0} report rows retain runner errors. The {overview.totals.rawQuarantinedTimedRows} quarantined raw timings remain excluded.
+    These distributions describe different case invocations, not repeated trials or runtime variance. The campaigns used
+    separately recorded quiet-host and continuous diagnostic policies; contention and unknown observations remain in the evidence.
+    They do not satisfy the original settled-timing qualification. Timed runner errors and inconclusive outcomes remain invocation costs.
+    Joern Swift contributes 96 accepted diagnostic costs: 92 full invocations and four partial invocations without a query phase;
+    none qualifies as successful-analysis latency. Its 12 unsupported cases have no timed invocation.
+    Retrospective wording and scratch-accounting reconciliations preserve the original failed controller records.
+    Every timing certification flag remains false.
   </p>
   <p class="timing-overhead">
     <strong>Separate invocation-overhead estimates:</strong>
-    Bifrost / Python {formatTiming(overview.overhead[0].range_ms.low)}–{formatTiming(overview.overhead[0].range_ms.high)}
-    (contention observed); Infer / C {formatTiming(overview.overhead[1].range_ms.low)}–{formatTiming(overview.overhead[1].range_ms.high)}
-    (no contention observed). Three repeats each; ranges are upper-bound estimates including analysis of no-flow fixtures,
-    not warm marginal cost. Nothing is subtracted from the cold chart.
+    {overview.overhead.length} groups, with three repeats each, are listed in the supplement. These are upper-bound estimates
+    including analysis of no-flow fixtures, not warm marginal cost. Nothing is subtracted from the cold chart.
+    Warm batch measurements and their offline reconciliations are reported separately.
   </p>
   <p><a href={overview.pageUrl}>Full timing tables, qualification and downloadable evidence</a></p>
 
   <details class="timing-values">
-    <summary>Timing values for all {overview.rows.length} captured slices</summary>
-    <p>Rounded for readability. This table always shows the retained per-slice values, regardless of chart filters. A dash means no timing, never zero; full precision is retained in the downloadable evidence.</p>
+    <summary>Timing values for all {overview.rows.length} planned slices</summary>
+    <p>Rounded for readability. This table always shows the per-slice values and missing coverage, regardless of chart filters. A dash means no timing, never zero; full precision is retained in the downloadable evidence.</p>
     <div class="timing-table-scroll" tabindex="0" role="region" aria-label="Cold timing values">
       <table>
-        <caption>Uncertified cold-case wall-clock observations</caption>
-        <thead><tr><th scope="col">Slice</th><th scope="col">Timed / report rows</th><th scope="col">Minimum</th><th scope="col">Median</th><th scope="col">90th percentile</th><th scope="col">Maximum</th></tr></thead>
+        <caption>Diagnostic cold invocation costs; quarantined values excluded</caption>
+        <thead><tr><th scope="col">Slice / disposition</th><th scope="col">Timed / report rows</th><th scope="col">Minimum</th><th scope="col">Median</th><th scope="col">90th percentile</th><th scope="col">Maximum</th></tr></thead>
         <tbody>{overview.rows.map((row) => (
-          <tr><th scope="row">{row.label}</th><td>{row.timed.toLocaleString('en-US')} / {row.reportRows.toLocaleString('en-US')}</td><td>{formatTiming(row.min)}</td><td>{formatTiming(row.median)}</td><td>{formatTiming(row.p90)}</td><td>{formatTiming(row.max)}</td></tr>
+          <tr><th scope="row">{row.label}<br /><small>{disposition(row.status)}</small></th><td>{row.timed.toLocaleString('en-US')} / {row.reportRows.toLocaleString('en-US')}</td><td>{formatTiming(row.min)}</td><td>{formatTiming(row.median)}</td><td>{formatTiming(row.p90)}</td><td>{formatTiming(row.max)}</td></tr>
         ))}</tbody>
       </table>
     </div>
@@ -216,11 +232,11 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
       sliceList.hidden = activeView !== 'slices';
       empty.hidden = shown !== 0 || activeView !== 'slices';
       axisLabel.textContent = activeView === 'summary'
-        ? 'Analyzer · timed / report rows · groups captured / planned'
+        ? 'Analyzer · timed / report rows · groups accepted / planned'
         : 'Slice · timed / report rows';
       count.textContent = activeView === 'summary'
-        ? `${shown} ${shown === 1 ? 'analyzer' : 'analyzers'} · ${measuredGroups} / ${plannedGroups} groups captured · ${timed.toLocaleString('en-US')} / ${reported.toLocaleString('en-US')} report rows timed`
-        : `${shown} ${shown === 1 ? 'slice' : 'slices'} · ${timed.toLocaleString('en-US')} / ${reported.toLocaleString('en-US')} report rows timed`;
+        ? `${shown} ${shown === 1 ? 'analyzer' : 'analyzers'} · ${measuredGroups} / ${plannedGroups} groups accepted · ${timed.toLocaleString('en-US')} / ${reported.toLocaleString('en-US')} report rows with accepted costs`
+        : `${shown} ${shown === 1 ? 'slice' : 'slices'} · ${timed.toLocaleString('en-US')} / ${reported.toLocaleString('en-US')} report rows with accepted costs`;
     };
 
     view.addEventListener('change', update);
@@ -248,6 +264,7 @@ function visibleAuxiliaryPin(pin: string | undefined): string | undefined {
   .axis-ticks { position: relative; height: 1.5rem; }
   .axis-ticks span { position: absolute; white-space: nowrap; transform: translateX(-50%); }
   .axis-ticks span:first-child { transform: none; }
+  .axis-ticks span:last-child { transform: translateX(-100%); }
   .median-label { text-align: right; }
   .timing-rows { list-style: none; padding: 0; margin: 0; max-width: none; }
   .timing-rows li { min-height: 3.2rem; margin: 0; padding-block: .45rem; }
