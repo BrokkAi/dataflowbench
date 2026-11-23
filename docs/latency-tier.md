@@ -1143,3 +1143,11 @@ continues to be recorded without interrupting invocations.
 control scope omission and separately verifies a conservative bound below the
 unchanged scratch limit. The fresh timing plan must use the corrected complete
 scope and retain this retrospective limitation without claiming certification.
+
+### A37 — 2026-11-23: wording-only diagnostic timing reconciliation
+
+[A37](latency-v092-20261123-decline-wording.md) records the user's authorization
+to align twelve unexecuted declines with the exact frozen release scope records
+and accept the unchanged invocation costs through a separate retrospective
+receipt. All 108 rows are rechecked; the original failed capture and every
+certification limitation remain intact. No analyzer is rerun.
