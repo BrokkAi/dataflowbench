@@ -1151,3 +1151,8 @@ to align twelve unexecuted declines with the exact frozen release scope records
 and accept the unchanged invocation costs through a separate retrospective
 receipt. All 108 rows are rechecked; the original failed capture and every
 certification limitation remain intact. No analyzer is rerun.
+
+The [accepted diagnostic costs](../reports/timing/v0.9.2/reconciliation-20261123-01/README.md)
+and separate receipt now retain 96 unchanged invocation-cost rows after all
+108 corrected report rows passed the frozen comparison. Certification remains
+false, and the four partial invocations remain explicit.
